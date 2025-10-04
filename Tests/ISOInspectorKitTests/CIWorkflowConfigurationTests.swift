@@ -12,9 +12,9 @@ final class CIWorkflowConfigurationTests: XCTestCase {
 
     func testCIWorkflowFileExistsWithSwiftBuildAndTestSteps() throws {
         let workflowURL = repositoryRoot
-            .appending(path: ".github")
-            .appending(path: "workflows")
-            .appending(path: "ci.yml")
+            .appendingPathComponent(".github", isDirectory: true)
+            .appendingPathComponent("workflows", isDirectory: true)
+            .appendingPathComponent("ci.yml", isDirectory: false)
         let workflowData = try Data(contentsOf: workflowURL)
         let workflowContents = String(decoding: workflowData, as: UTF8.self)
 
