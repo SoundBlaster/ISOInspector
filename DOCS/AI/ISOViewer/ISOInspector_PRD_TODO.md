@@ -198,7 +198,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] H4. Performance tests: parse time & memory cap (<100 MB for 20 GB file).
 
 ### Phase I — Packaging & Release
-- [ ] I1. SwiftPM product definitions (library + app).
+- [x] I1. SwiftPM product definitions (library + app).
 - [ ] I2. App entitlements for file access; sandbox.
 - [ ] I3. App theming (icon, light/dark).
 - [ ] I4. README with feature matrix, supported boxes, screenshots.
