@@ -1,0 +1,1 @@
+ISOInspectorCLIRunner.run()
