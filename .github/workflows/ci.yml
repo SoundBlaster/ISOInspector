@@ -11,13 +11,13 @@ on:
 jobs:
   build-and-test:
     name: Build and Test (Ubuntu)
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Swift
-        uses: swift-actions/setup-swift@v1
+        uses: swift-actions/setup-swift@v2.3.0
         with:
           swift-version: '5.9'
 
