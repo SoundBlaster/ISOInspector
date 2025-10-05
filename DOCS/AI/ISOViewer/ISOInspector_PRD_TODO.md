@@ -132,7 +132,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] B1. Define `BoxHeader`: `type: FourCC`, `size32`, `largesize64?`, `headerSize`, `payloadRange`, `startOffset`, `endOffset`, `uuid?`.
 - [ ] B2. Define `BoxNode`: `header`, `children: [BoxNode]`, `payload: Payload?`, `warnings: [Warning]`.
 - [ ] B3. Implement `readBoxHeader(at:)` supporting: size==0 (to EOF/parent end), size==1 (largesize), `uuid` type.
-- [ ] B4. Implement container iteration (`parseContainer(parentRange:)`) with forward-progress guard and max-depth limit.
+- [x] B4. Implement container iteration (`parseContainer(parentRange:)`) with forward-progress guard and max-depth limit.
 - [ ] B5. Introduce `FullBoxReader` for (version,flags) extraction.
 - [ ] B6. Create `BoxParserRegistry`: map fourcc → parser; default: container? or leaf; unknown: opaque leaf.
 
