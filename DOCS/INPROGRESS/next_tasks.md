@@ -1,6 +1,5 @@
 # Next Tasks
 
-- [x] B2 — Header decoder implemented per `B2_Box_Header_Decoder.md` scope.
-- [ ] B2+: Explore AsyncSequence exposure for streaming scenarios once parser layers demand it.
+- [ ] B2+: Evaluate exposing async streaming interfaces once higher parser layers require progressive reads.
 
-Extracted from the archived B1 progress summary.
+Carried forward from B2_Box_Header_Decoder_Summary.md.
