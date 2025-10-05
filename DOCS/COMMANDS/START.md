@@ -2,18 +2,13 @@
 
 ## 🧩 PURPOSE
 
-Begin active implementation of tasks defined in the [`DOCS/INPROGRESS`](../INPROGRESS) folder, following all established
-development rules, methodologies, and documentation dependencies.
+Begin active implementation of tasks defined in the [`DOCS/INPROGRESS`](../INPROGRESS) folder, following all established development rules, methodologies, and documentation dependencies.
 
 ---
 
 ## 🎯 GOAL
 
-Execute one or more tasks currently stored in [`DOCS/INPROGRESS`](../INPROGRESS), fully adhering to the engineering
-standards and methodologies defined in [`DOCS/RULES`](../RULES) — particularly the **TDD (Test-Driven Development)** and
-**XP (Extreme Programming)** principles.
-Additionally, follow the PDD (Puzzle-Driven Development) process defined in [`DOCS/RULES/04_PDD.md`
-](../RULES/04_PDD.md).
+Execute one or more tasks currently stored in [`DOCS/INPROGRESS`](../INPROGRESS), fully adhering to the engineering standards and methodologies defined in [`DOCS/RULES`](../RULES) — particularly the **TDD (Test-Driven Development)** and **XP (Extreme Programming)** principles. Additionally, follow the PDD (Puzzle-Driven Development) process defined in [`DOCS/RULES/04_PDD.md`](../RULES/04_PDD.md).
 
 ---
 
@@ -30,21 +25,17 @@ Additionally, follow the PDD (Puzzle-Driven Development) process defined in [`DO
 - Open the folder [`DOCS/RULES/`](../RULES).
 - Pay special attention to:
 
-  - [`DOCS/RULES/02_TDD_XP_Workflow.md`](../RULES/02_TDD_XP_Workflow.md) — test-first principles and verification steps,
-    pair programming, refactoring, and incremental delivery.
-  - [`DOCS/RULES/04_PDD.md`](../RULES/04_PDD.md) — workflow for Puzzle-Driven Development.
+  - [`02_TDD_XP_Workflow.md`](../RULES/02_TDD_XP_Workflow.md) — TDD flow, pairing, refactoring, incremental delivery.
+  - [`04_PDD.md`](../RULES/04_PDD.md) — puzzle-driven development workflow.
 
 - Keep these rules in mind during all implementation actions.
 
 ### Step 3. Gather Additional References
 
 - If needed, consult files in other subfolders under `DOCS/`:
-
-  - [`DOCS/AI/ISOViewer`](../AI/ISOViewer) – main product requirements (e.g., [`ISOInspector_Master_PRD.md`
-    ](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)).
-  - [`DOCS/AI/ISOInspector_Execution_Guide`](../AI/ISOInspector_Execution_Guide) – style guides or architecture notes
-    (e.g., [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)).
-  - [`DOCS/MP4_Specs`](../MP4_Specs) – interface or API specifications.
+  - [`ISOInspector_Master_PRD.md`](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md) — product scope.
+  - [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md) — style and architecture notes.
+  - [`DOCS/MP4_Specs`](../MP4_Specs) — interface or API specifications.
 
 - Use them to clarify edge cases or functional expectations.
 
@@ -70,9 +61,7 @@ Additionally, follow the PDD (Puzzle-Driven Development) process defined in [`DO
 ### Step 5. Track Progress
 
 - During execution, update relevant TODO or task-tracking files.
-- When a puzzle or task is completed, **mark it as done** in the corresponding todo list in [`DOCS/AI/ISOViewer`
-  ](../AI/ISOViewer) (such as [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)) and in any other
-  status list.
+- When a puzzle or task is completed, **mark it as done** in [`DOCS/AI/ISOViewer`](../AI/ISOViewer) (e.g., [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)) and in any other status list.
 
 ### Step 6. Write Summary
 
@@ -106,8 +95,7 @@ Additionally, follow the PDD (Puzzle-Driven Development) process defined in [`DO
 
 - All designated tasks from [`DOCS/INPROGRESS`](../INPROGRESS) have been implemented.
 - Corresponding entries in [`todo.md`](../../todo.md) and related files are marked as completed.
-- A new file [`Summary_of_Work.md`](../INPROGRESS/Summary_of_Work.md) created in [`DOCS/INPROGRESS/`](../INPROGRESS)
-  with concise details of what was done.
+- A new file [`Summary_of_Work.md`](../INPROGRESS/Summary_of_Work.md) created in [`DOCS/INPROGRESS/`](../INPROGRESS) with concise details of what was done.
 - No untracked changes remain.
 
 ---
