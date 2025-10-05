@@ -19,7 +19,7 @@ Applies to all `.md` files in:
 2. **Lists** (bulleted and ordered) are surrounded by blank lines above and below. (**MD032**)
 3. **Fenced code blocks**:
    - Have a blank line before and after. (**MD031**)
-   - Must specify a language after opening backticks (for example: `md`, `bash`, `json`). (**MD040**)
+   - Must specify a language after opening backticks (for example: `md`; `bash`; `json`). (**MD040**)
 4. **Line length**:
    - Max 120 characters for normal text and list bodies. (**MD013**)
    - URLs and inline code may remain unwrapped (prefer keeping links intact).
