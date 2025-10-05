@@ -14,6 +14,7 @@ context stack so downstream consumers (UI, CLI, validation) can react incrementa
 ## ✅ Success Criteria
 
 - Parsing sample fixtures yields ordered parse events containing headers, offsets, and context metadata per
+
   specification.
 
 - Event stream maintains parent/child context via explicit stack without recursion depth issues.
@@ -27,12 +28,15 @@ context stack so downstream consumers (UI, CLI, validation) can react incrementa
 - Define `ParsePipeline` (or similar) that produces `AsyncStream<ParseEvent>` or Combine publisher for consumers; ensure thread safety with Swift concurrency primitives.
 
 - Maintain an explicit context stack/iterator to traverse container boxes without recursion, enforcing declared payload
+
   boundaries.
 
 - Integrate validation hooks for VR-001/VR-002, capturing issues in emitted events but allowing parsing to continue when
+
   possible.
 
 - Provide smoke fixtures (small MP4 samples, malformed headers) to validate pipeline behavior; reuse or extend existing
+
   test utilities.
 
 ## 🧠 Source References
