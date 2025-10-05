@@ -14,58 +14,79 @@ Additionally, follow the PDD (Puzzle-Driven Development) process defined in [`DO
 ## ⚙️ EXECUTION STEPS
 
 ### Step 1. Identify Active Tasks
+
 - Scan all Markdown files inside [`DOCS/INPROGRESS/`](../INPROGRESS).
-- Each file corresponds to a pending task.  
+- Each file corresponds to a pending task.
 - Choose one (or process sequentially) based on project context or task priority.
 
 ### Step 2. Load Methodology Rules
+
 - Open the folder [`DOCS/RULES/`](../RULES).
 - Pay special attention to:
+
   - [`DOCS/RULES/02_TDD_XP_Workflow.md`](../RULES/02_TDD_XP_Workflow.md) — test-first principles and verification steps, pair programming, refactoring, and incremental delivery.
   - [`DOCS/RULES/04_PDD.md`](../RULES/04_PDD.md) — workflow for Puzzle-Driven Development.
+
 - Keep these rules in mind during all implementation actions.
 
 ### Step 3. Gather Additional References
+
 - If needed, consult files in other subfolders under `DOCS/`:
+
   - [`DOCS/AI/ISOViewer`](../AI/ISOViewer) – main product requirements (e.g., [`ISOInspector_Master_PRD.md`](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)).
   - [`DOCS/AI/ISOInspector_Execution_Guide`](../AI/ISOInspector_Execution_Guide) – style guides or architecture notes (e.g., [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)).
   - [`DOCS/MP4_Specs`](../MP4_Specs) – interface or API specifications.
+
 - Use them to clarify edge cases or functional expectations.
 
 ### Step 4. Implement According to TDD + XP + PDD
+
 - Follow **TDD cycle**:
+
   1. Write a failing test.
-  2. Implement the minimal code to make it pass.
-  3. Refactor and repeat.
+  1. Implement the minimal code to make it pass.
+  1. Refactor and repeat.
+
 - Apply **XP principles**:
+
   - Keep iterations small.
   - Refactor continuously.
   - Maintain test coverage.
+
 - Respect **PDD**, try to:
+
   - Treat each file in [`DOCS/INPROGRESS`](../INPROGRESS) as a “puzzle.”
   - Commit after each solved puzzle (atomic unit of work).
 
 ### Step 5. Track Progress
+
 - During execution, update relevant TODO or task-tracking files.
 - When a puzzle or task is completed, **mark it as done** in the corresponding todo list in [`DOCS/AI/ISOViewer`](../AI/ISOViewer) (such as [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)) and in any other status list.
 
 ### Step 6. Write Summary
+
 - After all current tasks are implemented:
+
   - Create a new summary document inside [`DOCS/INPROGRESS/`](../INPROGRESS):
-    ```
+
+    ```text
     DOCS/INPROGRESS/Summary_of_Work.md
     ```
+
   - Include:
-    - Completed task names.  
-    - Short description of implementation results.  
-    - References to commits, tests, or updated specs.  
+
+    - Completed task names.
+    - Short description of implementation results.
+    - References to commits, tests, or updated specs.
     - Any pending follow-up actions (if applicable).
 
 ### Step 7. Finalize
+
 - Ensure all unit tests pass.
 - Ensure the documentation and task markers are consistent.
 - Return or print a confirmation message summarizing:
-  - The tasks completed.  
+
+  - The tasks completed.
   - The location of the summary file.
 
 ---
@@ -82,7 +103,8 @@ Additionally, follow the PDD (Puzzle-Driven Development) process defined in [`DO
 ## 🧠 EXAMPLE
 
 **Before:**
-```
+
+```text
 DOCS/
  ├── INPROGRESS/
  │    ├── 03_Add_Logging.md
@@ -97,7 +119,8 @@ DOCS/
 ```
 
 **After:**
-```
+
+```text
 DOCS/
  ├── INPROGRESS/
  │    ├── Summary_of_Work.md
@@ -115,11 +138,12 @@ DOCS/
 ---
 
 ## 🧾 NOTES
+
 - Never skip the analysis of [`DOCS/RULES`](../RULES) — these define coding discipline.
 - Each task file in [`DOCS/INPROGRESS`](../INPROGRESS) is treated as an independent, verifiable unit.
-- Maintain atomic commits, small iterations, and constant refactoring.  
+- Maintain atomic commits, small iterations, and constant refactoring.
 - Summaries and todo updates close the PDD loop.
 
 ---
 
-# END OF SYSTEM PROMPT
+## END OF SYSTEM PROMPT
