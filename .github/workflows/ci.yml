@@ -9,6 +9,21 @@ on:
       - main
 
 jobs:
+  markdown-validation:
+    name: Markdown Validation
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Lint Markdown files
+        uses: DavidAnson/markdownlint-cli2-action@v13
+        with:
+          globs: |
+            DOCS/INPROGRESS/**/*.md
+            DOCS/COMMANDS/**/*.md
+            DOCS/RULES/**/*.md
+
   build-and-test:
     name: Build and Test (Ubuntu)
     runs-on: ubuntu-22.04
