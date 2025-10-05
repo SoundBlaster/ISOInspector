@@ -5,8 +5,7 @@ You are an **AI Coding Agent** working strictly by the principles of
 ([PDD in Action](https://www.yegor256.com/2017/04/05/pdd-in-action.html),  
 [Puzzle Driven Development](https://www.yegor256.com/2010/03/04/pdd.html)).
 
-Your workflow must ensure that **the code is the single source of truth**  
-and that `todo.md` is automatically synchronized from `@todo` comments.
+Your workflow must ensure that **the code is the single source of truth** and that `todo.md` is automatically synchronized from `@todo` comments.
 
 ## ✅ Rules
 
@@ -18,9 +17,11 @@ and that `todo.md` is automatically synchronized from `@todo` comments.
 ### 2. Puzzle Format in Code
 
 - Use the format:
+
   ```java
   // @todo #123 Short description of missing work
   ```
+
 - Keep puzzles small, actionable, and located exactly where the missing logic belongs.
 - Include enough context for another developer (or agent) to implement the task later.
 
@@ -33,16 +34,21 @@ and that `todo.md` is automatically synchronized from `@todo` comments.
 
 - Treat code as the only source of truth for tasks.
 - After each iteration:
-1. Parse all @todo comments in the code.
-2. Generate or update a single todo.md file at the repository root.
-3. In todo.md, represent each puzzle as a task with a checkbox:
-```markdown
-- [ ] #123 Short description
-```
-4. When a puzzle is removed from code, it must be marked as done in todo.md:
-```markdown
-- [x] #123 Short description
-```
+
+  1. Parse all @todo comments in the code.
+  1. Generate or update a single todo.md file at the repository root.
+  1. In todo.md, represent each puzzle as a task with a checkbox:
+
+     ```markdown
+     - [ ] #123 Short description
+     ```
+
+  1. When a puzzle is removed from code, it must be marked as done in todo.md:
+
+     ```markdown
+     - [x] #123 Short description
+     ```
+
 - Never update todo.md directly without checking the code first.
 
 ### 5. Workflow with todo.md
@@ -54,25 +60,30 @@ and that `todo.md` is automatically synchronized from `@todo` comments.
 #### 🔧 Example Workflow
 
 1. Developer assigns: Implement basic login feature.
-2. Agent writes:
-```
-class LoginService {
-    // minimal stub
-    boolean authenticate(String user, String pass) {
-        // @todo #101 Implement real authentication with DB
-        return true;
-    }
-}
-```
-3. Agent commits the code.
-4. Agent updates todo.md:
-  ```markdown
-- [ ] #101 Implement real authentication with DB
-  ```
-5. Later, when puzzle #101 is implemented and @todo removed, the agent updates todo.md:
-  ```markdown
-- [x] #101 Implement real authentication with DB
-```
+1. Agent writes:
+
+   ```java
+   class LoginService {
+       // minimal stub
+       boolean authenticate(String user, String pass) {
+           // @todo #101 Implement real authentication with DB
+           return true;
+       }
+   }
+   ```
+
+1. Agent commits the code.
+1. Agent updates todo.md:
+
+   ```markdown
+   - [ ] #101 Implement real authentication with DB
+   ```
+
+1. Later, when puzzle #101 is implemented and @todo removed, the agent updates todo.md:
+
+   ```markdown
+   - [x] #101 Implement real authentication with DB
+   ```
 
 ## 🎯 Principles
 

@@ -11,6 +11,7 @@ Safely move all active task files from [`DOCS/INPROGRESS`](../INPROGRESS) into a
 ---
 
 ## 🔗 REFERENCE MATERIALS
+
 - [Root TODO list (`todo.md`)](../../todo.md)
 - [Execution workplan (`DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md`)](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
 - [Task selection rules (`DOCS/RULES/03_Next_Task_Selection.md`)](../RULES/03_Next_Task_Selection.md)
@@ -21,7 +22,7 @@ Safely move all active task files from [`DOCS/INPROGRESS`](../INPROGRESS) into a
 
 ## 📁 DIRECTORY STRUCTURE
 
-```
+```text
 DOCS/
  ├── INPROGRESS/
  │    ├── ...
@@ -37,20 +38,25 @@ DOCS/
 ## ⚙️ EXECUTION STEPS
 
 ### Step 1. Inspect Current Work Folder
+
 - Look inside [`DOCS/INPROGRESS`](../INPROGRESS) (e.g., the current task docs `B3_Streaming_Parse_Pipeline.md` and `F1_Test_Fixtures.md`).
 - Detect any file whose name **contains “Summary”** (such as a `Summary_of_Work.md`) or is exactly **`next_tasks.md`**.
 - If found, open and read the content to capture context that must persist after archiving.
 
 ### Step 2. Extract Mentions of Upcoming Tasks
+
 - Search the text for mentions of **pending**, **next**, or **upcoming** tasks. Prioritize any checklists in [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md) and cross-check against the broader backlog in [`DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md) and [`DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md).
 - If found, temporarily store this information to recreate it later.
 
 ### Step 3. Determine the Next Archive Folder Name
+
 - Target base path: [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE).
 - Folder naming pattern:
-  ```
+
+  ```text
   {NN}_{TASK_NAME}
   ```
+
   Example: `02_Setup_Swift_SPM`
 - Find the highest existing prefix `{NN}`, increment it by one to define the new folder name, e.g. `03_New_Task_Name`.
 
@@ -58,19 +64,25 @@ DOCS/
 - Then create the new subfolder for the current task using the name from Step 3.
 
 ### Step 5. Move Files to Archive
+
 - Move **all files and subfolders** from [`DOCS/INPROGRESS`](../INPROGRESS) to the new archive folder.
 - Preserve structure and file integrity.
 - Update [`DOCS/TASK_ARCHIVE/ARCHIVE_SUMMARY.md`](../TASK_ARCHIVE/ARCHIVE_SUMMARY.md) if it requires a new entry for the archived task set.
 
 ### Step 6. Recreate `next_tasks.md` (if applicable)
+
 - If Step 2 found mentions of next tasks:
+
   - Create a new file:
-    ```
+
+    ```text
     DOCS/INPROGRESS/next_tasks.md
     ```
+
   - Write the extracted list or short summary of those next tasks into it, ensuring they align with the backlog items tracked in [`DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md) and [`DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md).
 
 ### Step 7. Report Result
+
 - Output the **path of the new archive folder**.
 - Indicate whether a **new `next_tasks.md`** file was created.
 - Reference any updates made to [`ARCHIVE_SUMMARY.md`](../TASK_ARCHIVE/ARCHIVE_SUMMARY.md) or outstanding todos in [`todo.md`](../../todo.md).
@@ -89,7 +101,7 @@ DOCS/
 ## 🧠 EXAMPLE
 
 **Before:**
-```
+```text
 DOCS/
  ├── INPROGRESS/
  │    ├── README.md
@@ -100,7 +112,7 @@ DOCS/
 ```
 
 **After:**
-```
+```text
 DOCS/
  ├── INPROGRESS/
  │    └── next_tasks.md
@@ -113,6 +125,7 @@ DOCS/
 ---
 
 ## 🧾 NOTES
+
 - Always analyze the content before moving files.
 - Maintain numeric order continuity.
 - Never overwrite existing archive folders.
@@ -120,4 +133,4 @@ DOCS/
 
 ---
 
-# END OF SYSTEM PROMPT
+## END OF SYSTEM PROMPT
