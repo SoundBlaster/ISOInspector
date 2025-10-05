@@ -16,10 +16,12 @@ structures so the parser, validators, and exporters can be regression-tested aut
 
 ## ✅ Success Criteria
 
-- Fixture corpus includes at least: standard MP4, fragmented MP4, MOV variant, DASH init/media segments, large `mdat`, and intentionally malformed headers.
+- Fixture corpus includes at least: standard MP4, fragmented MP4, MOV variant, DASH init/media segments, large `mdat`,
+  and intentionally malformed headers.
 - Each fixture ships with machine-readable metadata (box inventory, expected warnings/errors, licensing notes) stored
   alongside the files for automated validation.
-- `swift test` suites load fixtures without exceeding memory/time budgets and assert expected parse/validation outcomes for both success and failure cases.
+- `swift test` suites load fixtures without exceeding memory/time budgets and assert expected parse/validation outcomes
+  for both success and failure cases.
 - Documentation explains sourcing/licensing for every file and the process to refresh or regenerate fixtures.
 
 ## 🔧 Implementation Notes
@@ -28,8 +30,10 @@ structures so the parser, validators, and exporters can be regression-tested aut
   files when licensing permits.
 - Where real samples are unavailable, generate synthetic MP4 structures using Bento4 or FFmpeg tooling scripted in
   Python as outlined in the AI Source Guide toolchain.
-- Store fixtures under `Tests/ISOInspectorKitTests/Fixtures/` with checksum tracking so CI can verify integrity and detect drift.
-- Define helper utilities (e.g., `FixtureCatalog`) that expose fixture metadata to tests and future benchmarks (F2) without hard-coding paths.
+- Store fixtures under `Tests/ISOInspectorKitTests/Fixtures/` with checksum tracking so CI can verify integrity and
+  detect drift.
+- Define helper utilities (e.g., `FixtureCatalog`) that expose fixture metadata to tests and future benchmarks (F2)
+  without hard-coding paths.
 - Anticipate reuse by CLI/UI teams by documenting fixture semantics in DocC or Guides for cross-team visibility.
 
 ## 🧠 Source References
