@@ -54,7 +54,8 @@ Read and apply the selection rules from [`DOCS/RULES/03_Next_Task_Selection.md`]
   DOCS/INPROGRESS/03_Implement_New_Feature.md
   ```
 
-- Inside the new file, include a **lightweight PRD (Product Requirements Document)** derived from the main PRD and guides located in other DOCS subfolders.
+- Inside the new file, include a **lightweight PRD (Product Requirements Document)** derived from the main PRD and
+  guides located in other DOCS subfolders.
 
 ### Step 5. PRD Content Template
 
