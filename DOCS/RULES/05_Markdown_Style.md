@@ -2,11 +2,13 @@
 
 ## 🧩 Purpose
 
-Uniform Markdown style for all project docs and strict post-generation validation. The goal is for every `DOCS/**` file to pass **markdownlint** checks.
+Uniform Markdown style for project docs and strict post-generation validation.
+The goal is for every `DOCS/**` file to pass **markdownlint** checks.
 
 ## 🔧 Enforcement Scope
 
 Applies to all `.md` files in:
+
 - `DOCS/INPROGRESS/**`
 - `DOCS/COMMANDS/**`
 - `DOCS/RULES/**`
@@ -17,12 +19,12 @@ Applies to all `.md` files in:
 2. **Lists** (bulleted and ordered) are surrounded by blank lines above and below. (**MD032**)
 3. **Fenced code blocks**:
    - Have a blank line before and after. (**MD031**)
-   - Must specify a language after opening backticks (e.g., ```md, ```bash, ```json). (**MD040**)
+   - Must specify a language after opening backticks (for example: `md`, `bash`, `json`). (**MD040**)
 4. **Line length**:
    - Max 120 characters for normal text and list bodies. (**MD013**)
    - URLs and inline code may remain unwrapped (prefer keeping links intact).
 5. **Single top-level heading (H1)** per file when a title is present. (**MD025**)
-6. **Single trailing newline** at end of file—exactly one. (**MD047**)
+6. **Single trailing newline** at end of file — exactly one. (**MD047**)
 7. **Ordered lists** may consistently use the `1.` style for all items. (**MD029**)
 
 ## ⚙️ Linter Configuration
@@ -32,7 +34,6 @@ Create or update `.markdownlint.jsonc` at the repo root:
 ```jsonc
 {
   "default": true,
-
   "MD013": {
     "line_length": 120,
     "heading_line_length": 120,
@@ -41,7 +42,6 @@ Create or update `.markdownlint.jsonc` at the repo root:
     "strict": false,
     "ignore_urls": true
   },
-
   "MD025": { "level": 1 },
   "MD040": true,
   "MD022": true,
@@ -54,9 +54,9 @@ Create or update `.markdownlint.jsonc` at the repo root:
 
 ## 🤖 Agent Behavior (required sequence)
 
-**Triggers:** Creating or modifying any `*.md` under the enforced paths.
+**Triggers:** creating or modifying any `*.md` under the enforced paths.
 
-**Agent must:**
+**The agent must:**
 
 1. **Auto-fix style (idempotent):**
    - Normalize newlines to `\n` and ensure exactly one trailing newline.
@@ -64,14 +64,14 @@ Create or update `.markdownlint.jsonc` at the repo root:
    - Insert blank lines around lists.
    - Insert blank lines around fenced code blocks.
    - Ensure fenced code blocks specify a language (use `text` if unknown).
-   - Soft-wrap long lines at 120 characters for paragraphs and list bodies; do **not** break URLs/inline code/tables/quotes.
+   - Soft-wrap long lines at 120 characters for paragraphs and list bodies.
+     Do **not** break URLs, inline code, tables, or quotes.
    - Normalize ordered lists to the `1.` style.
-
 2. **Run markdownlint locally** on the three DOCS paths.
-
 3. **Validate result:**
    - If any errors remain, attempt auto-fix again (up to 2 passes).
-   - If errors still remain, **reject** the change (or mark task as “blocked”) and record a failure report with rule+line numbers.
+   - If errors still remain, reject the change (or mark task as “blocked”)
+     and record a failure report with rule and line numbers.
    - If clean, proceed (commit/PR).
 
 ## 🧪 Local Check Command
@@ -83,20 +83,22 @@ npx markdownlint-cli2 "DOCS/INPROGRESS/**/*.md" "DOCS/COMMANDS/**/*.md" "DOCS/RU
 ## 🛠 Recommended Auto-fix Script (reference)
 
 Call an idempotent fixer before lint:
-- Normalize trailing newline (MD047)
-- Add blank lines for headings/lists/fences (MD022/MD032/MD031)
-- Add language for code fences (MD040)
-- Wrap long lines to 120, ignoring URLs/inline code/tables/quotes (MD013)
-- Use `1.` for ordered lists (MD029)
 
-*(If you already have a similar fixer, you can reuse it.)*
+- Normalize trailing newline (MD047).
+- Add blank lines for headings, lists, and fenced blocks (MD022, MD032, MD031).
+- Add language for code fences (MD040).
+- Wrap long lines to 120, ignoring URLs, inline code, tables, and quotes (MD013).
+- Use `1.` for ordered lists (MD029).
+
+Note: if you already have a similar fixer, you can reuse it.
 
 ## ✅ Definition of Done
 
 - All touched `.md` files comply with `.markdownlint.jsonc`.
 - `markdownlint-cli2` returns **0 errors** on the enforced paths.
-- PR includes a successful linter log.
-- If MD013 remains due to unavoidable long URLs/tables, provide a short justification or rephrase text accordingly.
+- The PR includes a successful linter log.
+- If MD013 remains due to unavoidable long URLs or tables, provide a short justification
+  or rephrase the text accordingly.
 
 ## 🚦 Optional GitHub Actions Snippet
 
