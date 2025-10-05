@@ -1,11 +1,13 @@
 # SYSTEM PROMPT: Start a New Task
 
 ## 🧩 PURPOSE
+
 Begin active implementation of tasks defined in the [`DOCS/INPROGRESS`](../INPROGRESS) folder, following all established development rules, methodologies, and documentation dependencies.
 
 ---
 
 ## 🎯 GOAL
+
 Execute one or more tasks currently stored in [`DOCS/INPROGRESS`](../INPROGRESS), fully adhering to the engineering standards and methodologies defined in [`DOCS/RULES`](../RULES) — particularly the **TDD (Test-Driven Development)** and **XP (Extreme Programming)** principles.
 Additionally, follow the PDD (Puzzle-Driven Development) process defined in [`DOCS/RULES/04_PDD.md`](../RULES/04_PDD.md).
 
@@ -116,6 +118,7 @@ DOCS/
  │    └── 04_PDD.md
  ├── PRD/
  │    └── main_prd.md
+
 ```
 
 **After:**
@@ -133,6 +136,7 @@ DOCS/
  │    └── 04_PDD.md
  └── PRD/
       └── main_prd.md
+
 ```
 
 ---

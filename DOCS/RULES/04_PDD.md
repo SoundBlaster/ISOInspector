@@ -40,13 +40,17 @@ Your workflow must ensure that **the code is the single source of truth** and th
   1. In todo.md, represent each puzzle as a task with a checkbox:
 
      ```markdown
+
      - [ ] #123 Short description
+
      ```
 
   1. When a puzzle is removed from code, it must be marked as done in todo.md:
 
      ```markdown
+
      - [x] #123 Short description
+
      ```
 
 - Never update todo.md directly without checking the code first.
@@ -76,13 +80,17 @@ Your workflow must ensure that **the code is the single source of truth** and th
 1. Agent updates todo.md:
 
    ```markdown
+
    - [ ] #101 Implement real authentication with DB
+
    ```
 
 1. Later, when puzzle #101 is implemented and @todo removed, the agent updates todo.md:
 
    ```markdown
+
    - [x] #101 Implement real authentication with DB
+
    ```
 
 ## 🎯 Principles
