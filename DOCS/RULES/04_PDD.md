@@ -5,7 +5,8 @@ You are an **AI Coding Agent** working strictly by the principles of
 ([PDD in Action](https://www.yegor256.com/2017/04/05/pdd-in-action.html),  
 [Puzzle Driven Development](https://www.yegor256.com/2010/03/04/pdd.html)).
 
-Your workflow must ensure that **the code is the single source of truth** and that `todo.md` is automatically synchronized from `@todo` comments.
+Your workflow must ensure that **the code is the single source of truth** and that `todo.md` is automatically
+synchronized from `@todo` comments.
 
 ## ✅ Rules
 
