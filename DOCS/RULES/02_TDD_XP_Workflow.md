@@ -1,22 +1,31 @@
 # XP-Inspired TDD Workflow (Outside-In)
 
 ## Mission Statement
-You are an autonomous engineering agent practicing Extreme Programming with full test-driven development. Your task is to grow the codebase from an initially empty scaffold to a production-ready system by iterating from the largest architectural concerns toward the smallest implementation details. Maintain continuous delivery readiness at all times.
+
+You are an autonomous engineering agent practicing Extreme Programming with full test-driven development. Your task is
+to grow the codebase from an initially empty scaffold to a production-ready system by iterating from the largest
+architectural concerns toward the smallest implementation details. Maintain continuous delivery readiness at all times.
 
 ## Guiding Principles
 
-- **Outside-In Evolution:** Always start with the highest-level system behavior and refine toward lower-level components only when driven by failing tests at the current level.
-- **Always Green Main Branch:** Ensure the default branch can be released at any time. Every commit must keep the build, tests, and deployment pipeline passing.
-- **Test-First Mindset:** Do not write production code without a preceding failing test. Empty or pending tests are acceptable only as placeholders that immediately fail and motivate implementation.
-- **Incremental Learning:** Treat each iteration as an opportunity to refine architecture, improve clarity, and simplify design while keeping feedback loops tight.
-- **Automated Delivery:** Maintain automated build, test, artifact publishing, and release workflows from the earliest iterations.
+- **Outside-In Evolution:** Always start with the highest-level system behavior and refine toward lower-level components
+  only when driven by failing tests at the current level.
+- **Always Green Main Branch:** Ensure the default branch can be released at any time. Every commit must keep the build,
+  tests, and deployment pipeline passing.
+- **Test-First Mindset:** Do not write production code without a preceding failing test. Empty or pending tests are
+  acceptable only as placeholders that immediately fail and motivate implementation.
+- **Incremental Learning:** Treat each iteration as an opportunity to refine architecture, improve clarity, and simplify
+  design while keeping feedback loops tight.
+- **Automated Delivery:** Maintain automated build, test, artifact publishing, and release workflows from the earliest
+  iterations.
 
 ## Phase Overview
 
 1. **Initialize the Delivery Skeleton**
    - Create repository structure, build configuration, package metadata, and dependency management files.
    - Add continuous integration workflow (e.g., GitHub Actions) that runs the build, static checks, and the test suite.
-   - Configure automated release tasks (e.g., packaging binaries, attaching artifacts, publishing release notes), even if artifacts are placeholders.
+   - Configure automated release tasks (e.g., packaging binaries, attaching artifacts, publishing release notes), even
+     if artifacts are placeholders.
    - Commit minimal executable code that compiles and runs without performing business logic.
 
 1. **Author High-Level Acceptance Tests**
@@ -25,10 +34,13 @@ You are an autonomous engineering agent practicing Extreme Programming with full
    - Acceptance tests should currently fail, documenting the desired capabilities before implementation.
 
 1. **Drive Implementation Outside-In**
-   - Choose one failing acceptance test and implement just enough high-level scaffolding to make it pass, stubbing deeper collaborators.
-   - When a stub prevents progress, write a new failing test at the next layer (e.g., integration or component test) to describe the required collaboration.
+   - Choose one failing acceptance test and implement just enough high-level scaffolding to make it pass, stubbing
+     deeper collaborators.
+   - When a stub prevents progress, write a new failing test at the next layer (e.g., integration or component test) to
+     describe the required collaboration.
    - Repeat recursively: move downward only when higher-level expectations demand concrete behavior.
-   - Keep production code minimal, duplicating logic only when necessary until refactoring is justified by passing tests.
+   - Keep production code minimal, duplicating logic only when necessary until refactoring is justified by passing
+     tests.
 
 1. **Refinement and Refactoring Cycle**
    - After each green build, refactor to remove duplication, clarify intent, and improve design.
@@ -37,7 +49,8 @@ You are an autonomous engineering agent practicing Extreme Programming with full
 
 1. **Deployment and Release Readiness**
    - Ensure CI pipelines produce deployable artifacts on every run.
-   - Maintain versioning and changelog automation so that each merged change can be released without manual intervention.
+   - Maintain versioning and changelog automation so that each merged change can be released without manual
+     intervention.
    - Periodically execute a dry-run deployment to validate scripts and infrastructure.
 
 ## Iteration Template
@@ -63,7 +76,8 @@ You are an autonomous engineering agent practicing Extreme Programming with full
 
 ## Communication and Collaboration Norms
 
-- Pairing and mobbing are encouraged; when operating solo, document rationale for significant decisions to aid asynchronous collaborators.
+- Pairing and mobbing are encouraged; when operating solo, document rationale for significant decisions to aid
+  asynchronous collaborators.
 - Use feature flags or configuration toggles when partially implementing features to keep the main branch deployable.
 - Prefer small, frequent commits and pull requests aligned with single acceptance scenarios.
 

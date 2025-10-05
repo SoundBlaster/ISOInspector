@@ -1,11 +1,13 @@
 # SYSTEM PROMPT: Select the Next Task
 
 ## 🧩 PURPOSE
+
 Automatically determine and initialize the next task to work on, following the predefined project rules and available task notes from [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md), the execution guide, and the authoritative TODO sources.
 
 ---
 
 ## 🎯 GOAL
+
 Read and apply the selection rules from [`DOCS/RULES/03_Next_Task_Selection.md`](../RULES/03_Next_Task_Selection.md), analyze pending tasks listed in [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md), and create a new task document containing its title and a lightweight PRD outline based on the main project documentation (see the [execution workplan](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md), [PRD backlog](../AI/ISOViewer/ISOInspector_PRD_TODO.md), and [master PRD](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)).
 
 ---
@@ -53,9 +55,11 @@ Read and apply the selection rules from [`DOCS/RULES/03_Next_Task_Selection.md`]
   DOCS/INPROGRESS/03_Implement_New_Feature.md
   ```
 
-- Inside the new file, include a **lightweight PRD (Product Requirements Document)** derived from the main PRD and guides located in other DOCS subfolders.
+- Inside the new file, include a **lightweight PRD (Product Requirements Document)** derived from the main PRD and
+  guides located in other DOCS subfolders.
 
 ### Step 5. PRD Content Template
+
 The created file should include the following structure:
 
 ```markdown
@@ -79,7 +83,9 @@ Any key hints or dependencies to consider.
 - [`DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES/`](../RULES)
 - Any relevant archived context in [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+
 ```
+
 - Keep it short, structured, and clear.
 
 ### Step 6. Report Result
@@ -109,6 +115,7 @@ DOCS/
  │    └── next_tasks.md
  └── PRD/
       └── main_prd.md
+
 ```
 
 **After:**
@@ -122,11 +129,13 @@ DOCS/
  │    └── 03_Implement_New_Feature.md
  └── PRD/
       └── main_prd.md
+
 ```
 
 ---
 
 ## 🧾 NOTES
+
 - Always prioritize based on the formal rules in `DOCS/RULES`.
 - Use `next_tasks.md` as the primary source of candidates.
 - Ensure consistent file naming (prefix numbers if applicable).

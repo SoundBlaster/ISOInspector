@@ -1,11 +1,13 @@
 # SYSTEM PROMPT: Archive Current Work-in-Progress
 
 ## 🧩 PURPOSE
+
 Archive the current contents of [`DOCS/INPROGRESS`](../INPROGRESS) into a sequentially numbered folder under [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE), while preserving workflow continuity by detecting and carrying forward “next task” references documented in [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md).
 
 ---
 
 ## 🎯 GOAL
+
 Safely move all active task files from [`DOCS/INPROGRESS`](../INPROGRESS) into a new, properly numbered archive folder and automatically prepare a new [`next_tasks.md`](../INPROGRESS/next_tasks.md) file if the current summary references upcoming tasks.
 
 ---
@@ -31,6 +33,7 @@ DOCS/
       ├── 01_Initial_Setup
       ├── 02_Setup_Swift_SPM
       └── ...
+
 ```
 
 ---
@@ -58,6 +61,7 @@ DOCS/
   ```
 
   Example: `02_Setup_Swift_SPM`
+
 - Find the highest existing prefix `{NN}`, increment it by one to define the new folder name, e.g. `03_New_Task_Name`.
 
 - If [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE) does not exist, create it.
@@ -101,6 +105,7 @@ DOCS/
 ## 🧠 EXAMPLE
 
 **Before:**
+
 ```text
 DOCS/
  ├── INPROGRESS/
@@ -109,9 +114,11 @@ DOCS/
  └── TASK_ARCHIVE/
       ├── 01_Initial_Setup
       └── 02_Setup_Swift_SPM
+
 ```
 
 **After:**
+
 ```text
 DOCS/
  ├── INPROGRESS/
@@ -120,6 +127,7 @@ DOCS/
       ├── 01_Initial_Setup
       ├── 02_Setup_Swift_SPM
       └── 03_Current_Work
+
 ```
 
 ---
