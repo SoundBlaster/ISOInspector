@@ -2,7 +2,8 @@
 
 ## Purpose
 
-Ensure each new work item advances the product backlog in a controlled, dependency-aware order aligned with the master PRD and execution guides.
+Ensure each new work item advances the product backlog in a controlled, dependency-aware order aligned with the master
+PRD and execution guides.
 
 ## Required Inputs
 
@@ -19,7 +20,8 @@ Ensure each new work item advances the product backlog in a controlled, dependen
 
 1. **Prioritize.** From the remaining tasks, choose the one with the highest priority value (`High` > `Medium` > `Low`). When priorities match, prefer the task from the earliest phase (alphabetical) and then the lowest task ID number.
 
-1. **Sanity check.** Confirm no blocking risks are noted in the PRD/Guides for the candidate (licensing, tooling gaps, etc.). If blockers exist, return to step 3 with the next candidate.
+1. **Sanity check.** Confirm no blocking risks are noted in the PRD/Guides for the candidate (licensing, tooling gaps,
+   etc.). If blockers exist, return to step 3 with the next candidate.
 
 1. **Record the decision.** Create/update an `INPROGRESS` document named after the chosen task. Summarize objective, scope, dependencies, and immediate next steps in light PRD format so future agents understand the current focus.
 

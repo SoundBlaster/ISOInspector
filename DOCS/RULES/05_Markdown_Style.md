@@ -66,6 +66,7 @@ Create or update `.markdownlint.jsonc` at the repo root (line-length rule disabl
 1. **Validate result:**
    - If any errors remain, attempt auto-fix again (up to 2 passes).
    - If errors still remain, **reject** the change (or mark task as “blocked”) and record a failure report with
+
      rule+line numbers.
 
    - If clean, proceed (commit/PR).
