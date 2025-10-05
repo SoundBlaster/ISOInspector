@@ -5,7 +5,7 @@ public enum FourCharCodeError: Swift.Error, Equatable {
     case invalidASCII(Data)
 }
 
-public struct FourCharCode: Equatable, Hashable, CustomStringConvertible {
+public struct FourCharCode: Equatable, Hashable, CustomStringConvertible, Sendable {
     public let rawValue: String
 
     public init(_ value: String) throws {

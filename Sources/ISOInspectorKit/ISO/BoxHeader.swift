@@ -1,6 +1,6 @@
 import Foundation
 
-public struct BoxHeader: Equatable {
+public struct BoxHeader: Equatable, Sendable {
     public let type: FourCharCode
     public let totalSize: Int64
     public let headerSize: Int64
