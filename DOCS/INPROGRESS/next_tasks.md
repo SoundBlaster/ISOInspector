@@ -1,3 +1,5 @@
 # Next Tasks
 
-- [x] Complete Puzzle #1 by wiring `ParsePipeline.live()` to the real streaming walker so the async pipeline runs against concrete parsing logic.
+- [ ] Kick off Task B4 by integrating the MP4RA metadata catalog so the streaming pipeline can resolve box definitions
+  during live parsing.
+- [ ] Outline additional downstream parser follow-ups unlocked now that `ParsePipeline.live()` emits real streaming events (e.g., catalog integration test coverage and fallback handling).

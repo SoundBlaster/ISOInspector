@@ -18,3 +18,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/04_B3_ParsePipeline_Live_Streaming/`
 - **Highlights:** Documents completion of the streaming `ParsePipeline.live()` implementation, including validation of nested box traversal, offset accounting, and regression coverage through targeted unit tests.
 - **Next steps carried forward:** Continue Puzzle #1 by connecting the live pipeline to the production streaming walker so concrete parsing logic runs end-to-end.
+
+## 05_B3_Puzzle1_ParsePipeline_Live_Integration
+- **Archived files:** `05_B3_Puzzle1_ParsePipeline_Live_Integration.md`, `Summary_of_Work.md`, and the completed `next_tasks.md` checklist.
+- **Archived location:** `DOCS/TASK_ARCHIVE/05_B3_Puzzle1_ParsePipeline_Live_Integration/`
+- **Highlights:** Captures the implementation details for wiring `ParsePipeline.live()` to the production `StreamingBoxWalker`, including validation of nested traversal, cancellation propagation, and concrete streaming integration tests.
+- **Next steps carried forward:** Follow Puzzle #1 with Task B4 by integrating the MP4RA metadata catalog and related downstream parser work; these items now live in `DOCS/INPROGRESS/next_tasks.md`.
