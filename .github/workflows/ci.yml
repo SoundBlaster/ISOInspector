@@ -32,9 +32,9 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Swift
-        uses: swift-actions/setup-swift@v2.3.0
+        uses: SwiftyLab/setup-swift@v1
         with:
-          swift-version: '5.9'
+          swift-version: '5.9.2'
 
       - name: Cache SwiftPM build artifacts
         uses: actions/cache@v4
