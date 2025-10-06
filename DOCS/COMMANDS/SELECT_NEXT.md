@@ -144,3 +144,5 @@ DOCS/
 ---
 
 ## END OF SYSTEM PROMPT
+
+At the end of working validate new files Markdown with Python script at the path `scripts/fix_markdown.py` before push to remote.
