@@ -12,3 +12,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/03_B2_Plus_Streaming_Interface_Evaluation/`
 - **Purpose:** Capture the investigation and documentation around introducing an asynchronous `ParsePipeline`, follow-on parser implementation notes, and fixture planning to support streaming validation.
 - **Key outcomes:** Established the `ParsePipeline` event model, recorded parser integration guidance, and documented fixture needs while rolling follow-up implementation into Puzzle #1.
+
+## 04_B3_ParsePipeline_Live_Streaming
+- **Archived files:** `B3_ParsePipeline_Live_Streaming.md`, `Summary_of_Work.md`, and the in-progress `next_tasks.md` checklist.
+- **Archived location:** `DOCS/TASK_ARCHIVE/04_B3_ParsePipeline_Live_Streaming/`
+- **Highlights:** Documents completion of the streaming `ParsePipeline.live()` implementation, including validation of nested box traversal, offset accounting, and regression coverage through targeted unit tests.
+- **Next steps carried forward:** Continue Puzzle #1 by connecting the live pipeline to the production streaming walker so concrete parsing logic runs end-to-end.
