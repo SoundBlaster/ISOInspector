@@ -24,3 +24,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/05_B3_Puzzle1_ParsePipeline_Live_Integration/`
 - **Highlights:** Captures the implementation details for wiring `ParsePipeline.live()` to the production `StreamingBoxWalker`, including validation of nested traversal, cancellation propagation, and concrete streaming integration tests.
 - **Next steps carried forward:** Follow Puzzle #1 with Task B4 by integrating the MP4RA metadata catalog and related downstream parser work; these items now live in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 06_B4_MP4RA_Metadata_Integration
+- **Archived files:** `B4_MP4RA_Metadata_Integration.md`, `Summary_of_Work.md`, and the prior `next_tasks.md` checklist captured during Task B4.
+- **Archived location:** `DOCS/TASK_ARCHIVE/06_B4_MP4RA_Metadata_Integration/`
+- **Highlights:** Records integration of the MP4RA-backed `BoxCatalog` into the streaming pipeline, inclusion of the bundled metadata fixture, and expanded diagnostics plus coverage for standard and UUID-based boxes.
+- **Next steps carried forward:** Track automation for refreshing `MP4RABoxes.json`, extend downstream validation/reporting that consumes enriched metadata, and outline the new parser follow-ups enabled by real-time streaming events.
