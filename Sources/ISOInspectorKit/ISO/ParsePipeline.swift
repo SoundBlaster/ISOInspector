@@ -8,10 +8,12 @@ public struct ParseEvent: Equatable, Sendable {
 
     public let kind: Kind
     public let offset: Int64
+    public let metadata: BoxDescriptor?
 
-    public init(kind: Kind, offset: Int64) {
+    public init(kind: Kind, offset: Int64, metadata: BoxDescriptor? = nil) {
         self.kind = kind
         self.offset = offset
+        self.metadata = metadata
     }
 }
 
@@ -35,17 +37,36 @@ public struct ParsePipeline: Sendable {
 }
 
 public extension ParsePipeline {
-    static func live() -> ParsePipeline {
+    static func live(catalog: BoxCatalog = .shared) -> ParsePipeline {
         ParsePipeline(buildStream: { reader in
             AsyncThrowingStream { continuation in
                 let task = Task {
                     let walker = StreamingBoxWalker()
+                    var metadataStack: [BoxDescriptor?] = []
+                    let logger = DiagnosticsLogger(subsystem: "ISOInspectorKit", category: "ParsePipeline")
+                    var loggedUnknownTypes: Set<String> = []
                     do {
                         try walker.walk(
                             reader: reader,
                             cancellationCheck: { try Task.checkCancellation() },
                             onEvent: { event in
-                                continuation.yield(event)
+                                let enriched: ParseEvent
+                                switch event.kind {
+                                case let .willStartBox(header, _):
+                                    let descriptor = catalog.descriptor(for: header)
+                                    metadataStack.append(descriptor)
+                                    if descriptor == nil {
+                                        let key = headerIdentifier(for: header)
+                                        if loggedUnknownTypes.insert(key).inserted {
+                                            logger.info("Unknown box encountered: \(key)")
+                                        }
+                                    }
+                                    enriched = ParseEvent(kind: event.kind, offset: event.offset, metadata: descriptor)
+                                case let .didFinishBox(header, _):
+                                    let descriptor = metadataStack.popLast() ?? catalog.descriptor(for: header)
+                                    enriched = ParseEvent(kind: event.kind, offset: event.offset, metadata: descriptor)
+                                }
+                                continuation.yield(enriched)
                             },
                             onFinish: {
                                 continuation.finish()
@@ -62,4 +83,11 @@ public extension ParsePipeline {
             }
         })
     }
+}
+
+private func headerIdentifier(for header: BoxHeader) -> String {
+    if let uuid = header.uuid {
+        return "uuid::\(uuid.uuidString.lowercased())"
+    }
+    return header.type.rawValue
 }

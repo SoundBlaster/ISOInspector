@@ -60,6 +60,26 @@ final class ParsePipelineLiveTests: XCTestCase {
         }
     }
 
+    func testLivePipelineAttachesMetadataForKnownBoxes() async throws {
+        let known = makeBox(type: "ftyp", payload: Data(count: 20))
+        let unknown = makeBox(type: "zzzz", payload: Data())
+        let data = known + unknown
+
+        let reader = InMemoryRandomAccessReader(data: data)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+
+        let startEvents = events.compactMap { event -> ParseEvent? in
+            if case .willStartBox = event.kind { return event }
+            return nil
+        }
+        XCTAssertEqual(startEvents.count, 2)
+
+        XCTAssertEqual(startEvents[0].metadata?.name, "File Type Box")
+        XCTAssertNil(startEvents[1].metadata)
+    }
+
     private func collectEvents(from stream: ParsePipeline.EventStream) async throws -> [ParseEvent] {
         var result: [ParseEvent] = []
         for try await event in stream {
