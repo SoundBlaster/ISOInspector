@@ -1,0 +1,53 @@
+{
+  "boxes": [
+    {
+      "type": "ftyp",
+      "name": "File Type Box",
+      "summary": "Identifies the file type and compatibility brands for the bitstream.",
+      "specification": "ISO/IEC 14496-12",
+      "version": null,
+      "flags": null
+    },
+    {
+      "type": "moov",
+      "name": "Movie Box",
+      "summary": "Top-level container for movie metadata including tracks and timing information.",
+      "specification": "ISO/IEC 14496-12",
+      "version": null,
+      "flags": null
+    },
+    {
+      "type": "trak",
+      "name": "Track Box",
+      "summary": "Container describing a single track within the presentation.",
+      "specification": "ISO/IEC 14496-12",
+      "version": null,
+      "flags": null
+    },
+    {
+      "type": "tkhd",
+      "name": "Track Header Box",
+      "summary": "Defines the characteristics of a track, including ID, duration, and display parameters.",
+      "specification": "ISO/IEC 14496-12",
+      "version": 0,
+      "flags": "000007"
+    },
+    {
+      "type": "mdat",
+      "name": "Media Data Box",
+      "summary": "Holds the raw media samples referenced by the track sample tables.",
+      "specification": "ISO/IEC 14496-12",
+      "version": null,
+      "flags": null
+    },
+    {
+      "type": "uuid",
+      "uuid": "D4807EF2-CA39-4695-8E54-26CB9E46A79F",
+      "name": "KLV Sample Entry",
+      "summary": "Carries SMPTE KLV sample metadata using a registered UUID container.",
+      "specification": "SMPTE ST 336",
+      "version": null,
+      "flags": null
+    }
+  ]
+}
