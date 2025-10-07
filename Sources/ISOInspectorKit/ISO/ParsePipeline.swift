@@ -9,11 +9,18 @@ public struct ParseEvent: Equatable, Sendable {
     public let kind: Kind
     public let offset: Int64
     public let metadata: BoxDescriptor?
+    public let validationIssues: [ValidationIssue]
 
-    public init(kind: Kind, offset: Int64, metadata: BoxDescriptor? = nil) {
+    public init(
+        kind: Kind,
+        offset: Int64,
+        metadata: BoxDescriptor? = nil,
+        validationIssues: [ValidationIssue] = []
+    ) {
         self.kind = kind
         self.offset = offset
         self.metadata = metadata
+        self.validationIssues = validationIssues
     }
 }
 
@@ -45,6 +52,7 @@ public extension ParsePipeline {
                     var metadataStack: [BoxDescriptor?] = []
                     let logger = DiagnosticsLogger(subsystem: "ISOInspectorKit", category: "ParsePipeline")
                     var loggedUnknownTypes: Set<String> = []
+                    let validator = BoxValidator()
                     do {
                         try walker.walk(
                             reader: reader,
@@ -56,7 +64,7 @@ public extension ParsePipeline {
                                     let descriptor = catalog.descriptor(for: header)
                                     metadataStack.append(descriptor)
                                     if descriptor == nil {
-                                        let key = headerIdentifier(for: header)
+                                        let key = header.identifierString
                                         if loggedUnknownTypes.insert(key).inserted {
                                             logger.info("Unknown box encountered: \(key)")
                                         }
@@ -66,7 +74,8 @@ public extension ParsePipeline {
                                     let descriptor = metadataStack.popLast() ?? catalog.descriptor(for: header)
                                     enriched = ParseEvent(kind: event.kind, offset: event.offset, metadata: descriptor)
                                 }
-                                continuation.yield(enriched)
+                                let validated = validator.annotate(event: enriched, reader: reader)
+                                continuation.yield(validated)
                             },
                             onFinish: {
                                 continuation.finish()
@@ -83,11 +92,4 @@ public extension ParsePipeline {
             }
         })
     }
-}
-
-private func headerIdentifier(for header: BoxHeader) -> String {
-    if let uuid = header.uuid {
-        return "uuid::\(uuid.uuidString.lowercased())"
-    }
-    return header.type.rawValue
 }
