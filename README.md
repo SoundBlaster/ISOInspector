@@ -21,5 +21,19 @@ Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (M
    swift test
    ```
 
+## MP4RA Catalog Maintenance
+The repository maintains a pinned snapshot of the MP4 Registration Authority box catalog in `MP4RABoxes.json`. To update the
+snapshot and keep CI green:
+
+1. Download the latest catalog JSON from the MP4RA source and overwrite `MP4RABoxes.json`.
+2. Run the minimal validator locally before committing:
+   ```sh
+   python scripts/validate_mp4ra_minimal.py MP4RABoxes.json
+   ```
+   A `Validation OK` message indicates the file matches the required structure and formatting (two-space indentation, LF
+   newlines, valid identifiers, etc.).
+3. Commit the refreshed snapshot together with any fixes required by the validator. The GitHub Actions workflow
+   (`validate-mp4ra-minimal.yml`) executes the same script on pull requests and pushes to `main` to enforce consistency.
+
 ## Next Steps
 Consult `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md` for feature-level deliverables and `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md` for task sequencing. Begin by enhancing the IO foundations described in Phase A.
