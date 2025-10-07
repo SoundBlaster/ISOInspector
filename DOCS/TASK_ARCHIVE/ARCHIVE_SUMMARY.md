@@ -36,3 +36,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/07_R1_MP4RA_Catalog_Refresh/`
 - **Highlights:** Documents automation for regenerating `MP4RABoxes.json`, the supporting CLI plumbing, and the refreshed metadata assets that keep the catalog aligned with the upstream registry.
 - **Next steps carried forward:** Extend downstream validation/reporting to consume the enriched MP4RA metadata and outline additional parser follow-ups enabled by the live streaming pipeline.
+
+## 08_Metadata_Driven_Validation_and_Reporting
+- **Archived files:** `08_Metadata_Driven_Validation_and_Reporting.md`, `Summary_of_Work.md`, and the carried-forward `next_tasks.md` checklist.
+- **Archived location:** `DOCS/TASK_ARCHIVE/08_Metadata_Driven_Validation_and_Reporting/`
+- **Highlights:** Documents extension of the MP4RA metadata-aware validation layer, integration of the `EventConsoleFormatter`, and reporting updates that expose catalog-backed context for each streaming parse event.
+- **Next steps carried forward:** Capture downstream parser follow-ups unlocked by streaming events and wire the console formatter into the forthcoming `inspect` CLI command.
