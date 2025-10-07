@@ -30,6 +30,8 @@ private extension BoxValidator {
         [
             StructuralSizeRule(),
             ContainerBoundaryRule(),
+            FileTypeOrderingRule(),
+            MovieDataOrderingRule(),
             VersionFlagsRule(),
             UnknownBoxRule()
         ]
@@ -202,7 +204,60 @@ private struct UnknownBoxRule: BoxValidationRule {
     }
 }
 
-// @todo #3 Implement remaining validation rules (VR-001, VR-002, VR-004, VR-005) using streaming context and metadata stack.
+private final class FileTypeOrderingRule: BoxValidationRule, @unchecked Sendable {
+    private var hasSeenFileType = false
+
+    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
+        guard case let .willStartBox(header, _) = event.kind else { return [] }
+
+        let type = header.type.rawValue
+        if type == "ftyp" {
+            hasSeenFileType = true
+            return []
+        }
+
+        guard !hasSeenFileType, Self.mediaBoxTypes.contains(type) else {
+            return []
+        }
+
+        let message = "Encountered \(header.identifierString) before required file type box (ftyp)."
+        return [ValidationIssue(ruleID: "VR-004", message: message, severity: .error)]
+    }
+
+    private static let mediaBoxTypes: Set<String> = [
+        "moov", "mdat", "trak", "mdia", "minf", "stbl", "moof", "traf", "mvex", "sidx", "styp"
+    ]
+}
+
+private final class MovieDataOrderingRule: BoxValidationRule, @unchecked Sendable {
+    private var hasSeenMovieBox = false
+    private var hasStreamingIndicator = false
+
+    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
+        guard case let .willStartBox(header, _) = event.kind else { return [] }
+
+        let type = header.type.rawValue
+
+        if Self.streamingIndicatorTypes.contains(type) {
+            hasStreamingIndicator = true
+        }
+
+        if type == "moov" {
+            hasSeenMovieBox = true
+            return []
+        }
+
+        guard type == "mdat" else { return [] }
+        guard !hasSeenMovieBox, !hasStreamingIndicator else { return [] }
+
+        let message = "Movie data box (mdat) encountered before movie box (moov); ensure initialization metadata precedes media."
+        return [ValidationIssue(ruleID: "VR-005", message: message, severity: .warning)]
+    }
+
+    private static let streamingIndicatorTypes: Set<String> = [
+        "moof", "mvex", "sidx", "styp", "ssix", "prft"
+    ]
+}
 
 private extension Range where Bound == Int64 {
     var count: Int { Int(upperBound - lowerBound) }
