@@ -28,6 +28,13 @@ ISOInspectorKit now exposes a `FourCharContainerCode` enum that centralises the 
 provides helpers such as `isContainer(_:)` for `FourCharCode`, `String`, and `BoxHeader` values and powers traversal logic in
 `StreamingBoxWalker`. Adding new containers only requires extending the enum in `Sources/ISOInspectorKit/ISO/FourCharContainerCode.swift`.
 
+## Media & Index Box Enumeration
+
+Companion enum `MediaAndIndexBoxCode` tracks frequently referenced structural boxes such as `mdat`, `sidx`, and `styp`. The type
+offers the same conversion helpers as the container enum, plus convenience sets for streaming indicators and media payloads.
+Ordering rules and streaming heuristics rely on these helpers to avoid scattered string literals; extend
+`Sources/ISOInspectorKit/ISO/MediaAndIndexBoxCode.swift` when additional structural boxes gain first-class support.
+
 ## MP4RA Catalog Maintenance
 The repository maintains a pinned snapshot of the MP4 Registration Authority box catalog in `Sources/ISOInspectorKit/Resources/MP4RABoxes.json`.
 To update the snapshot and keep CI green:

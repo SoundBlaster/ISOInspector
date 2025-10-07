@@ -28,7 +28,8 @@ final class ParsePipelineLiveTests: XCTestCase {
 
     func testLivePipelineHandlesLargeSizeBoxes() async throws {
         let payload = Data(repeating: 0xFF, count: 12)
-        let largeBox = makeBox(type: "mdat", payload: payload, useLargeSize: true)
+        let mediaType = MediaAndIndexBoxCode.mediaData.rawValue
+        let largeBox = makeBox(type: mediaType, payload: payload, useLargeSize: true)
         let data = largeBox
         let reader = InMemoryRandomAccessReader(data: data)
         let pipeline = ParsePipeline.live()
@@ -36,8 +37,8 @@ final class ParsePipelineLiveTests: XCTestCase {
         let events = try await collectEvents(from: pipeline.events(for: reader))
 
         XCTAssertEqual(events.count, 2)
-        try assertEvent(events[0], kind: .willStart, type: "mdat", depth: 0, offset: 0)
-        try assertEvent(events[1], kind: .didFinish, type: "mdat", depth: 0, offset: Int64(largeBox.count))
+        try assertEvent(events[0], kind: .willStart, type: mediaType, depth: 0, offset: 0)
+        try assertEvent(events[1], kind: .didFinish, type: mediaType, depth: 0, offset: Int64(largeBox.count))
     }
 
     func testLivePipelinePropagatesHeaderErrors() async {
@@ -151,7 +152,7 @@ final class ParsePipelineLiveTests: XCTestCase {
 
     func testLivePipelineReportsErrorWhenMediaAppearsBeforeFileType() async throws {
         let moov = makeBox(type: ContainerTypes.movie, payload: Data())
-        let mdat = makeBox(type: "mdat", payload: Data(count: 8))
+        let mdat = makeBox(type: MediaAndIndexBoxCode.mediaData.rawValue, payload: Data(count: 8))
         let reader = InMemoryRandomAccessReader(data: moov + mdat)
         let pipeline = ParsePipeline.live()
 
@@ -172,7 +173,7 @@ final class ParsePipelineLiveTests: XCTestCase {
 
     func testLivePipelineWarnsWhenMovieDataPrecedesMovieBox() async throws {
         let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
-        let mdat = makeBox(type: "mdat", payload: Data(count: 8))
+        let mdat = makeBox(type: MediaAndIndexBoxCode.mediaData.rawValue, payload: Data(count: 8))
         let moov = makeBox(type: ContainerTypes.movie, payload: Data())
         let reader = InMemoryRandomAccessReader(data: ftyp + mdat + moov)
         let pipeline = ParsePipeline.live()
@@ -180,7 +181,7 @@ final class ParsePipelineLiveTests: XCTestCase {
         let events = try await collectEvents(from: pipeline.events(for: reader))
         let mdatEvent = try XCTUnwrap(events.first(where: { event in
             if case let .willStartBox(header, _) = event.kind {
-                return header.type.rawValue == "mdat"
+                return MediaAndIndexBoxCode.isMediaPayload(header)
             }
             return false
         }))
@@ -194,7 +195,7 @@ final class ParsePipelineLiveTests: XCTestCase {
     func testLivePipelineAllowsEarlyMovieDataWhenStreamingLayoutDetected() async throws {
         let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
         let moof = makeBox(type: ContainerTypes.movieFragment, payload: Data())
-        let mdat = makeBox(type: "mdat", payload: Data(count: 8))
+        let mdat = makeBox(type: MediaAndIndexBoxCode.mediaData.rawValue, payload: Data(count: 8))
         let moov = makeBox(type: ContainerTypes.movie, payload: Data())
         let reader = InMemoryRandomAccessReader(data: ftyp + moof + mdat + moov)
         let pipeline = ParsePipeline.live()
@@ -202,7 +203,7 @@ final class ParsePipelineLiveTests: XCTestCase {
         let events = try await collectEvents(from: pipeline.events(for: reader))
         let mdatEvent = try XCTUnwrap(events.first(where: { event in
             if case let .willStartBox(header, _) = event.kind {
-                return header.type.rawValue == "mdat"
+                return MediaAndIndexBoxCode.isMediaPayload(header)
             }
             return false
         }))
