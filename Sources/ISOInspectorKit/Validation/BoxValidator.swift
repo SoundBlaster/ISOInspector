@@ -224,9 +224,19 @@ private final class FileTypeOrderingRule: BoxValidationRule, @unchecked Sendable
         return [ValidationIssue(ruleID: "VR-004", message: message, severity: .error)]
     }
 
-    private static let mediaBoxTypes: Set<String> = [
-        "moov", "mdat", "trak", "mdia", "minf", "stbl", "moof", "traf", "mvex", "sidx", "styp"
-    ]
+    private static let mediaBoxTypes: Set<String> = Set([
+        FourCharContainerCode.moov.rawValue,
+        "mdat",
+        FourCharContainerCode.trak.rawValue,
+        FourCharContainerCode.mdia.rawValue,
+        FourCharContainerCode.minf.rawValue,
+        FourCharContainerCode.stbl.rawValue,
+        FourCharContainerCode.moof.rawValue,
+        FourCharContainerCode.traf.rawValue,
+        FourCharContainerCode.mvex.rawValue,
+        "sidx",
+        "styp"
+    ])
 }
 
 private final class MovieDataOrderingRule: BoxValidationRule, @unchecked Sendable {
@@ -242,7 +252,7 @@ private final class MovieDataOrderingRule: BoxValidationRule, @unchecked Sendabl
             hasStreamingIndicator = true
         }
 
-        if type == "moov" {
+        if type == FourCharContainerCode.moov.rawValue {
             hasSeenMovieBox = true
             return []
         }
@@ -254,9 +264,14 @@ private final class MovieDataOrderingRule: BoxValidationRule, @unchecked Sendabl
         return [ValidationIssue(ruleID: "VR-005", message: message, severity: .warning)]
     }
 
-    private static let streamingIndicatorTypes: Set<String> = [
-        "moof", "mvex", "sidx", "styp", "ssix", "prft"
-    ]
+    private static let streamingIndicatorTypes: Set<String> = Set([
+        FourCharContainerCode.moof.rawValue,
+        FourCharContainerCode.mvex.rawValue,
+        "sidx",
+        "styp",
+        "ssix",
+        "prft"
+    ])
 }
 
 private extension Range where Bound == Int64 {

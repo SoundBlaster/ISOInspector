@@ -21,6 +21,13 @@ Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (M
    swift test
    ```
 
+## Container Code Enumeration
+
+ISOInspectorKit now exposes a `FourCharContainerCode` enum that centralises the set of four-character container box identifiers
+(`moov`, `trak`, `mdia`, and others). Use the enum when checking for child-bearing boxes instead of hard-coded string literals; it
+provides helpers such as `isContainer(_:)` for `FourCharCode`, `String`, and `BoxHeader` values and powers traversal logic in
+`StreamingBoxWalker`. Adding new containers only requires extending the enum in `Sources/ISOInspectorKit/ISO/FourCharContainerCode.swift`.
+
 ## MP4RA Catalog Maintenance
 The repository maintains a pinned snapshot of the MP4 Registration Authority box catalog in `Sources/ISOInspectorKit/Resources/MP4RABoxes.json`.
 To update the snapshot and keep CI green:
