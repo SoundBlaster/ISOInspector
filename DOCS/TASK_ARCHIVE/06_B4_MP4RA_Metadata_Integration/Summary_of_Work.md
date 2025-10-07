@@ -17,5 +17,5 @@
 
 ## Follow-Ups
 
-- Implement automation for refreshing `MP4RABoxes.json` from the upstream registry and document the maintenance workflow (`@todo #2`).
+- ✅ Implement automation for refreshing `MP4RABoxes.json` from the upstream registry and document the maintenance workflow (`@todo #2`) via R1 (`DOCS/INPROGRESS/07_R1_MP4RA_Catalog_Refresh.md`).
 - Extend downstream validation and reporting to consume the enriched metadata (future task planning).

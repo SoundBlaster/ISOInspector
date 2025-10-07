@@ -8,7 +8,7 @@ final class BoxCatalogTests: XCTestCase {
 
         let descriptor = catalog.descriptor(for: header)
 
-        XCTAssertEqual(descriptor?.name, "File Type Box")
+        XCTAssertEqual(descriptor?.name, "File Type And Compatibility")
         XCTAssertTrue(descriptor?.summary.contains("compatibility") ?? false)
     }
 
