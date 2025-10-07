@@ -1,5 +1,4 @@
 # Next Tasks
 
-- [ ] Extend downstream validation and reporting to consume the enriched MP4RA metadata emitted by `ParsePipeline.live()`.
 - [ ] Outline the additional downstream parser follow-ups now unlocked by real-time streaming events (e.g., catalog
   integration test coverage and fallback handling).
