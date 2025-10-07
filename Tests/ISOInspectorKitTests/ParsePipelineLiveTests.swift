@@ -149,6 +149,68 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertTrue(researchIssues.first?.message.contains("zzzz") ?? false)
     }
 
+    func testLivePipelineReportsErrorWhenMediaAppearsBeforeFileType() async throws {
+        let moov = makeBox(type: "moov", payload: Data())
+        let mdat = makeBox(type: "mdat", payload: Data(count: 8))
+        let reader = InMemoryRandomAccessReader(data: moov + mdat)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+
+        let offendingEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "moov"
+            }
+            return false
+        }))
+
+        let vr004Issues = offendingEvent.validationIssues.filter { $0.ruleID == "VR-004" }
+        XCTAssertEqual(vr004Issues.count, 1)
+        XCTAssertEqual(vr004Issues.first?.severity, .error)
+        XCTAssertTrue(vr004Issues.first?.message.contains("ftyp") ?? false)
+    }
+
+    func testLivePipelineWarnsWhenMovieDataPrecedesMovieBox() async throws {
+        let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
+        let mdat = makeBox(type: "mdat", payload: Data(count: 8))
+        let moov = makeBox(type: "moov", payload: Data())
+        let reader = InMemoryRandomAccessReader(data: ftyp + mdat + moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let mdatEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "mdat"
+            }
+            return false
+        }))
+
+        let vr005Issues = mdatEvent.validationIssues.filter { $0.ruleID == "VR-005" }
+        XCTAssertEqual(vr005Issues.count, 1)
+        XCTAssertEqual(vr005Issues.first?.severity, .warning)
+        XCTAssertTrue(vr005Issues.first?.message.contains("moov") ?? false)
+    }
+
+    func testLivePipelineAllowsEarlyMovieDataWhenStreamingLayoutDetected() async throws {
+        let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
+        let moof = makeBox(type: "moof", payload: Data())
+        let mdat = makeBox(type: "mdat", payload: Data(count: 8))
+        let moov = makeBox(type: "moov", payload: Data())
+        let reader = InMemoryRandomAccessReader(data: ftyp + moof + mdat + moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let mdatEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "mdat"
+            }
+            return false
+        }))
+
+        let vr005Issues = mdatEvent.validationIssues.filter { $0.ruleID == "VR-005" }
+        XCTAssertTrue(vr005Issues.isEmpty)
+    }
+
     private func collectEvents(from stream: ParsePipeline.EventStream) async throws -> [ParseEvent] {
         var result: [ParseEvent] = []
         for try await event in stream {
