@@ -42,3 +42,11 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/08_Metadata_Driven_Validation_and_Reporting/`
 - **Highlights:** Documents extension of the MP4RA metadata-aware validation layer, integration of the `EventConsoleFormatter`, and reporting updates that expose catalog-backed context for each streaming parse event.
 - **Next steps carried forward:** Capture downstream parser follow-ups unlocked by streaming events and wire the console formatter into the forthcoming `inspect` CLI command.
+
+## 09_B4_Metadata_Follow_Up_Planning
+- **Archived files:** `09_B4_Metadata_Follow_Up_Planning.md`, `Summary_of_Work.md`, and the in-progress `next_tasks.md` checklist.
+- **Archived location:** `DOCS/TASK_ARCHIVE/09_B4_Metadata_Follow_Up_Planning/`
+- **Highlights:** Captures the downstream planning for catalog-enabled metadata coverage, including prioritized validation tasks,
+  fixture strategies, and consumer integration notes building on the streaming parse pipeline.
+- **Next steps carried forward:** Implement VR-003 metadata comparison warnings and kick off VR-006 research logging alongside the
+  CLI/UI metadata consumption work.
