@@ -224,19 +224,20 @@ private final class FileTypeOrderingRule: BoxValidationRule, @unchecked Sendable
         return [ValidationIssue(ruleID: "VR-004", message: message, severity: .error)]
     }
 
-    private static let mediaBoxTypes: Set<String> = Set([
-        FourCharContainerCode.moov.rawValue,
-        "mdat",
-        FourCharContainerCode.trak.rawValue,
-        FourCharContainerCode.mdia.rawValue,
-        FourCharContainerCode.minf.rawValue,
-        FourCharContainerCode.stbl.rawValue,
-        FourCharContainerCode.moof.rawValue,
-        FourCharContainerCode.traf.rawValue,
-        FourCharContainerCode.mvex.rawValue,
-        "sidx",
-        "styp"
-    ])
+    private static let mediaBoxTypes: Set<String> = {
+        var values: Set<String> = [
+            FourCharContainerCode.moov.rawValue,
+            FourCharContainerCode.trak.rawValue,
+            FourCharContainerCode.mdia.rawValue,
+            FourCharContainerCode.minf.rawValue,
+            FourCharContainerCode.stbl.rawValue,
+            FourCharContainerCode.moof.rawValue,
+            FourCharContainerCode.traf.rawValue,
+            FourCharContainerCode.mvex.rawValue
+        ]
+        values.formUnion(MediaAndIndexBoxCode.rawValueSet)
+        return values
+    }()
 }
 
 private final class MovieDataOrderingRule: BoxValidationRule, @unchecked Sendable {
@@ -257,21 +258,23 @@ private final class MovieDataOrderingRule: BoxValidationRule, @unchecked Sendabl
             return []
         }
 
-        guard type == "mdat" else { return [] }
+        guard MediaAndIndexBoxCode.isMediaPayload(type) else { return [] }
         guard !hasSeenMovieBox, !hasStreamingIndicator else { return [] }
 
         let message = "Movie data box (mdat) encountered before movie box (moov); ensure initialization metadata precedes media."
         return [ValidationIssue(ruleID: "VR-005", message: message, severity: .warning)]
     }
 
-    private static let streamingIndicatorTypes: Set<String> = Set([
-        FourCharContainerCode.moof.rawValue,
-        FourCharContainerCode.mvex.rawValue,
-        "sidx",
-        "styp",
-        "ssix",
-        "prft"
-    ])
+    private static let streamingIndicatorTypes: Set<String> = {
+        var values: Set<String> = [
+            FourCharContainerCode.moof.rawValue,
+            FourCharContainerCode.mvex.rawValue,
+            "ssix",
+            "prft"
+        ]
+        values.formUnion(MediaAndIndexBoxCode.streamingIndicators.map(\.rawValue))
+        return values
+    }()
 }
 
 private extension Range where Bound == Int64 {

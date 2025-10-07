@@ -27,7 +27,7 @@ final class FourCharContainerCodeTests: XCTestCase {
     func testContainerLookupFromString() {
         XCTAssertTrue(FourCharContainerCode.isContainer("moov"))
         XCTAssertTrue(FourCharContainerCode.isContainer("trak"))
-        XCTAssertFalse(FourCharContainerCode.isContainer("mdat"))
+        XCTAssertFalse(FourCharContainerCode.isContainer(MediaAndIndexBoxCode.mediaData.rawValue))
     }
 
     func testContainerLookupFromFourCharCode() throws {

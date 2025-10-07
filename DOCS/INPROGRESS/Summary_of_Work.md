@@ -33,3 +33,17 @@
 **Verification**
 
 - `swift test`
+
+---
+
+## Media & Index Box Enumeration
+
+**Completed tasks**
+
+- Added `MediaAndIndexBoxCode` to strongly type `mdat`, `sidx`, and `styp` along with conversion helpers and category sets.
+- Refactored ordering and streaming validators to rely on enum-driven checks instead of raw strings.
+- Updated integration/unit tests and README guidance to describe the new enum-centric workflow.
+
+**Verification**
+
+- `swift test`

@@ -42,7 +42,8 @@ final class StreamingBoxWalkerTests: XCTestCase {
 
     func testWalkerHandlesLargeSizeBoxes() throws {
         let payload = Data(repeating: 0xFF, count: 12)
-        let largeBox = makeBox(type: "mdat", payload: payload, useLargeSize: true)
+        let mediaType = MediaAndIndexBoxCode.mediaData.rawValue
+        let largeBox = makeBox(type: mediaType, payload: payload, useLargeSize: true)
         let reader = InMemoryRandomAccessReader(data: largeBox)
         let walker = StreamingBoxWalker()
 
@@ -61,8 +62,8 @@ final class StreamingBoxWalkerTests: XCTestCase {
 
         XCTAssertTrue(finished)
         XCTAssertEqual(events.count, 2)
-        try assertEvent(events[0], kind: .willStart, type: "mdat", depth: 0, offset: 0)
-        try assertEvent(events[1], kind: .didFinish, type: "mdat", depth: 0, offset: Int64(largeBox.count))
+        try assertEvent(events[0], kind: .willStart, type: mediaType, depth: 0, offset: 0)
+        try assertEvent(events[1], kind: .didFinish, type: mediaType, depth: 0, offset: Int64(largeBox.count))
     }
 
     func testWalkerPropagatesHeaderErrors() {
