@@ -121,6 +121,9 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 ## 5) Detailed TODO (execution-ready, без кода)
 
+> Update (2025-10-07): VR-006 research logging now persists unknown boxes to a shared JSON research log exposed through the CLI `--research-log` option and UI consumers.
+
+
 ### Phase A — IO Foundations
 - [ ] A1. Define `RandomAccessReader` protocol: `length`, `read(at:count:)`, endian helpers (`readU32BE`, `readU64BE`, `readFourCC`).
 - [ ] A2. Implement `MappedReader` using `Data(contentsOf:options:.mappedIfSafe)`; provide bounds-checked slices.

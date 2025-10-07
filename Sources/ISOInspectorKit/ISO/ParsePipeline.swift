@@ -25,8 +25,18 @@ public struct ParseEvent: Equatable, Sendable {
 }
 
 public struct ParsePipeline: Sendable {
+    public struct Context: Sendable {
+        public var source: URL?
+        public var researchLog: (any ResearchLogRecording)?
+
+        public init(source: URL? = nil, researchLog: (any ResearchLogRecording)? = nil) {
+            self.source = source
+            self.researchLog = researchLog
+        }
+    }
+
     public typealias EventStream = AsyncThrowingStream<ParseEvent, Error>
-    public typealias Builder = @Sendable (_ reader: RandomAccessReader) -> EventStream
+    public typealias Builder = @Sendable (_ reader: RandomAccessReader, _ context: Context) -> EventStream
 
     private let buildStream: Builder
 
@@ -38,20 +48,29 @@ public struct ParsePipeline: Sendable {
         self.buildStream = buildStream
     }
 
-    public func events(for reader: RandomAccessReader) -> EventStream {
-        buildStream(reader)
+    public init(buildStream: @escaping (_ reader: RandomAccessReader) -> EventStream) {
+        self.buildStream = { reader, _ in buildStream(reader) }
+    }
+
+    public func events(for reader: RandomAccessReader, context: Context = .init()) -> EventStream {
+        buildStream(reader, context)
     }
 }
 
 public extension ParsePipeline {
-    static func live(catalog: BoxCatalog = .shared) -> ParsePipeline {
-        ParsePipeline(buildStream: { reader in
+    static func live(
+        catalog: BoxCatalog = .shared,
+        researchLog: (any ResearchLogRecording)? = nil
+    ) -> ParsePipeline {
+        ParsePipeline(buildStream: { reader, context in
             AsyncThrowingStream { continuation in
                 let task = Task {
                     let walker = StreamingBoxWalker()
                     var metadataStack: [BoxDescriptor?] = []
                     let logger = DiagnosticsLogger(subsystem: "ISOInspectorKit", category: "ParsePipeline")
                     var loggedUnknownTypes: Set<String> = []
+                    var recordedResearchEntries: Set<ResearchLogEntry> = []
+                    let activeResearchLog = context.researchLog ?? researchLog
                     let validator = BoxValidator()
                     do {
                         try walker.walk(
@@ -67,6 +86,18 @@ public extension ParsePipeline {
                                         let key = header.identifierString
                                         if loggedUnknownTypes.insert(key).inserted {
                                             logger.info("Unknown box encountered: \(key)")
+                                        }
+                                        if let researchLog = activeResearchLog {
+                                            let filePath = context.source?.path ?? ""
+                                            let entry = ResearchLogEntry(
+                                                boxType: key,
+                                                filePath: filePath,
+                                                startOffset: header.startOffset,
+                                                endOffset: header.endOffset
+                                            )
+                                            if recordedResearchEntries.insert(entry).inserted {
+                                                researchLog.record(entry)
+                                            }
                                         }
                                     }
                                     enriched = ParseEvent(kind: event.kind, offset: event.offset, metadata: descriptor)

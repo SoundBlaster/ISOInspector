@@ -66,6 +66,10 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             metadata: descriptor,
             validationIssues: [issue]
         )
+        final class Recorder: ResearchLogRecording, @unchecked Sendable {
+            func record(_ entry: ResearchLogEntry) {}
+        }
+
         var printed: [String] = []
         let environment = ISOInspectorCLIEnvironment(
             refreshCatalog: { _, _ in },
@@ -78,7 +82,12 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             }),
             formatter: EventConsoleFormatter(),
             print: { printed.append($0) },
-            printError: { _ in }
+            printError: { _ in },
+            makeResearchLogWriter: { url in
+                XCTAssertEqual(url.path, "/tmp/research-log.json")
+                return Recorder()
+            },
+            defaultResearchLogURL: { URL(fileURLWithPath: "/tmp/research-log.json") }
         )
 
         ISOInspectorCLIRunner.run(
@@ -90,10 +99,74 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             environment: environment
         )
 
-        let output = try XCTUnwrap(printed.first)
+        XCTAssertTrue(printed.first?.contains("Research log") ?? false)
+        let output = try XCTUnwrap(printed.dropFirst().first)
         XCTAssertTrue(output.contains(descriptor.name))
         XCTAssertTrue(output.contains(descriptor.summary))
         XCTAssertTrue(output.contains(issue.message))
+    }
+
+    func testRunInspectAppendsResearchLogEntries() throws {
+        final class Recorder: ResearchLogRecording, @unchecked Sendable {
+            var entries: [ResearchLogEntry] = []
+
+            func record(_ entry: ResearchLogEntry) {
+                entries.append(entry)
+            }
+        }
+
+        let recorder = Recorder()
+        let header = try makeHeader(type: "zzzz", size: 16)
+        let issue = ValidationIssue(ruleID: "VR-006", message: "Unknown", severity: .info)
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: 0,
+            metadata: nil,
+            validationIssues: [issue]
+        )
+
+        var printed: [String] = []
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { _ in StubReader() },
+            parsePipeline: ParsePipeline(buildStream: { _, context in
+                context.researchLog?.record(ResearchLogEntry(
+                    boxType: header.identifierString,
+                    filePath: context.source?.path ?? "",
+                    startOffset: header.startOffset,
+                    endOffset: header.endOffset
+                ))
+                return AsyncThrowingStream { continuation in
+                    continuation.yield(event)
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.append($0) },
+            printError: { _ in },
+            makeResearchLogWriter: { url in
+                XCTAssertEqual(url.path, "/tmp/research-log.json")
+                return recorder
+            },
+            defaultResearchLogURL: { URL(fileURLWithPath: "/tmp/research-log.json") }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "inspect",
+                "/tmp/sample.mp4"
+            ],
+            environment: environment
+        )
+
+        XCTAssertTrue(printed.contains(where: { $0.contains("/tmp/research-log.json") }))
+        XCTAssertEqual(recorder.entries.count, 1)
+        let entry = try XCTUnwrap(recorder.entries.first)
+        XCTAssertEqual(entry.boxType, "zzzz")
+        XCTAssertEqual(entry.filePath, "/tmp/sample.mp4")
+        XCTAssertEqual(entry.startOffset, header.startOffset)
+        XCTAssertEqual(entry.endOffset, header.endOffset)
     }
 
     func testRunInspectRequiresFilePath() {
