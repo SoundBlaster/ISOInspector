@@ -7,3 +7,4 @@
     - [x] VR-002 Container boxes must close exactly at their declared payload size.
     - [x] VR-004 `ftyp` must appear before any media box.
     - [x] VR-005 `moov` must precede `mdat` unless flagged streaming.
+    - [x] VR-006 Research log persists unknown boxes for follow-up analysis.

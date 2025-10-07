@@ -9,6 +9,8 @@ public struct ISOInspectorCLIEnvironment {
     public var formatter: EventConsoleFormatter
     public var print: (String) -> Void
     public var printError: (String) -> Void
+    public var makeResearchLogWriter: (_ location: URL) throws -> any ResearchLogRecording
+    public var defaultResearchLogURL: () -> URL
 
     public init(
         refreshCatalog: @escaping (_ source: URL, _ output: URL) throws -> Void,
@@ -18,7 +20,13 @@ public struct ISOInspectorCLIEnvironment {
         parsePipeline: ParsePipeline = .live(),
         formatter: EventConsoleFormatter = EventConsoleFormatter(),
         print: @escaping (String) -> Void = { Swift.print($0) },
-        printError: @escaping (String) -> Void = { message in fputs(message + "\n", stderr) }
+        printError: @escaping (String) -> Void = { message in fputs(message + "\n", stderr) },
+        makeResearchLogWriter: @escaping (_ location: URL) throws -> any ResearchLogRecording = { url in
+            try ResearchLogWriter(fileURL: url)
+        },
+        defaultResearchLogURL: @escaping () -> URL = {
+            ResearchLogWriter.defaultLogURL()
+        }
     ) {
         self.refreshCatalog = refreshCatalog
         self.makeReader = makeReader
@@ -26,6 +34,8 @@ public struct ISOInspectorCLIEnvironment {
         self.formatter = formatter
         self.print = print
         self.printError = printError
+        self.makeResearchLogWriter = makeResearchLogWriter
+        self.defaultResearchLogURL = defaultResearchLogURL
     }
 
     public static let live = ISOInspectorCLIEnvironment { source, output in
@@ -65,7 +75,8 @@ public enum ISOInspectorCLIRunner {
     public static func helpText() -> String {
         "isoinspect — ISO BMFF (MP4/QuickTime) inspector CLI\n" +
             "  --help, -h    Show this help message.\n" +
-            "  inspect <file> Stream parse events with metadata and validation summaries.\n" +
+            "  inspect <file> [--research-log <path>]\n" +
+            "                Stream parse events with metadata, validation summaries, and VR-006 research log entries.\n" +
             "  mp4ra refresh [--output <path>] [--source <url>]\n" +
             "                Refresh the bundled MP4RABoxes.json using the latest registry export."
     }
@@ -123,34 +134,94 @@ public enum ISOInspectorCLIRunner {
         _ arguments: [String],
         environment: ISOInspectorCLIEnvironment
     ) {
-        guard let path = arguments.first else {
-            environment.printError("inspect requires a file path.")
-            return
-        }
-
         let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-        let fileURL = URL(fileURLWithPath: path, relativeTo: cwd).standardizedFileURL
+        let defaultLogURL = environment.defaultResearchLogURL()
 
-        do {
-            let reader = try environment.makeReader(fileURL)
-            let events = environment.parsePipeline.events(for: reader)
-            let semaphore = DispatchSemaphore(value: 0)
+        switch parseInspectOptions(arguments, cwd: cwd, defaultResearchLogURL: defaultLogURL) {
+        case .failure(let error):
+            environment.printError(error.message)
+        case .success(let options):
+            do {
+                let reader = try environment.makeReader(options.fileURL)
+                let researchLog = try environment.makeResearchLogWriter(options.researchLogURL)
+                environment.print("Research log → \(options.researchLogURL.path)")
+                let events = environment.parsePipeline.events(
+                    for: reader,
+                    context: .init(source: options.fileURL, researchLog: researchLog)
+                )
+                let semaphore = DispatchSemaphore(value: 0)
 
-            Task {
-                do {
-                    for try await event in events {
-                        environment.print(environment.formatter.format(event))
+                Task {
+                    do {
+                        for try await event in events {
+                            environment.print(environment.formatter.format(event))
+                        }
+                    } catch {
+                        environment.printError("Failed to inspect file: \(error)")
                     }
-                } catch {
-                    environment.printError("Failed to inspect file: \(error)")
+                    semaphore.signal()
                 }
-                semaphore.signal()
-            }
 
-            semaphore.wait()
-        } catch {
-            environment.printError("Failed to inspect file: \(error)")
+                semaphore.wait()
+            } catch {
+                environment.printError("Failed to inspect file: \(error)")
+            }
         }
+    }
+
+    private struct InspectOptions {
+        let fileURL: URL
+        let researchLogURL: URL
+    }
+
+    private enum InspectParseError: Swift.Error {
+        case missingFilePath
+        case missingResearchLogPath
+        case unknownOption(String)
+
+        var message: String {
+            switch self {
+            case .missingFilePath:
+                return "inspect requires a file path."
+            case .missingResearchLogPath:
+                return "Missing value for --research-log."
+            case .unknownOption(let value):
+                return "Unknown option for inspect: \(value)"
+            }
+        }
+    }
+
+    private static func parseInspectOptions(
+        _ arguments: [String],
+        cwd: URL,
+        defaultResearchLogURL: URL
+    ) -> Result<InspectOptions, InspectParseError> {
+        var iterator = arguments.makeIterator()
+        var researchLogURL = defaultResearchLogURL
+        var filePath: String?
+
+        while let argument = iterator.next() {
+            switch argument {
+            case "--research-log":
+                guard let value = iterator.next() else {
+                    return .failure(.missingResearchLogPath)
+                }
+                let resolved = URL(fileURLWithPath: value, relativeTo: cwd)
+                researchLogURL = resolved.standardizedFileURL
+            default:
+                if argument.hasPrefix("-") {
+                    return .failure(.unknownOption(argument))
+                }
+                filePath = argument
+            }
+        }
+
+        guard let filePath else {
+            return .failure(.missingFilePath)
+        }
+
+        let fileURL = URL(fileURLWithPath: filePath, relativeTo: cwd).standardizedFileURL
+        return .success(InspectOptions(fileURL: fileURL, researchLogURL: researchLogURL))
     }
 
     private static func parseRefreshOptions(

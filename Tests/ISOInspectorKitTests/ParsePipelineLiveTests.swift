@@ -1,3 +1,4 @@
+import Foundation
 import XCTest
 @testable import ISOInspectorKit
 
@@ -148,6 +149,27 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertEqual(researchIssues.count, 1)
         XCTAssertEqual(researchIssues.first?.severity, .info)
         XCTAssertTrue(researchIssues.first?.message.contains("zzzz") ?? false)
+    }
+
+    func testLivePipelineAppendsUnknownBoxesToResearchLog() async throws {
+        let unknown = makeBox(type: "zzzz", payload: Data(count: 8))
+        let reader = InMemoryRandomAccessReader(data: unknown)
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        let logURL = directory.appendingPathComponent("research-log.json")
+        let log = try ResearchLogWriter(fileURL: logURL)
+        let pipeline = ParsePipeline.live(researchLog: log)
+
+        _ = try await collectEvents(from: pipeline.events(for: reader, context: .init(source: URL(fileURLWithPath: "/tmp/sample.mp4"))))
+
+        let entries = log.loadEntries()
+        XCTAssertEqual(entries.count, 1)
+        let entry = try XCTUnwrap(entries.first)
+        XCTAssertEqual(entry.boxType, "zzzz")
+        XCTAssertEqual(entry.filePath, "/tmp/sample.mp4")
+        XCTAssertEqual(entry.startOffset, 0)
+        XCTAssertEqual(entry.endOffset, Int64(unknown.count))
     }
 
     func testLivePipelineReportsErrorWhenMediaAppearsBeforeFileType() async throws {

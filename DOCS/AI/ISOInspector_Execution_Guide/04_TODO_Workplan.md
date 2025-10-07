@@ -16,7 +16,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | B2 | Build box header decoder supporting 32-bit, 64-bit, and `uuid` boxes. | High | 2 | B1 | Swift, XCTest | Unit tests for standard and extended headers; handles malformed sizes gracefully. (Completed ✅) |
 | B3 | Implement streaming parse pipeline with event emission and context stack. | High | 3 | B2 | Swift Concurrency, XCTest | Parsing sample files emits ordered events with correct offsets. (Completed ✅) |
 | B4 | Integrate MP4RA metadata catalog and fallback for unknown boxes. | High | 2 | B3 | Swift, JSON parsing | Catalog loads from bundled JSON; unknown types logged for research. |
-| B5 | Implement validation rules VR-001 to VR-006 with test coverage. | High | 2 | B3 | XCTest | Malformed fixtures trigger expected validation outcomes. |
+| B5 | Implement validation rules VR-001 to VR-006 with test coverage. | High | 2 | B3 | XCTest | Malformed fixtures trigger expected validation outcomes. (Completed ✅ — VR-006 research logging now persists unknown boxes to a shared research log for CLI/UI analysis.) |
 | B6 | Add JSON and binary export modules with regression tests. | Medium | 1.5 | B3 | Swift Codable | Exported files re-import successfully; CLI smoke tests pass. |
 
 ## Phase C — User Interface Package
