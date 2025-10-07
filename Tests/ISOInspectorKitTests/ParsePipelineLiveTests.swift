@@ -78,6 +78,53 @@ final class ParsePipelineLiveTests: XCTestCase {
 
         XCTAssertEqual(startEvents[0].metadata?.name, "File Type And Compatibility")
         XCTAssertNil(startEvents[1].metadata)
+        XCTAssertTrue(startEvents[0].validationIssues.isEmpty)
+        XCTAssertEqual(startEvents[1].validationIssues.count, 1)
+        XCTAssertEqual(startEvents[1].validationIssues.first?.ruleID, "VR-006")
+    }
+
+    func testLivePipelineReportsVersionAndFlagMismatchWarnings() async throws {
+        let mismatchTkhd = makeBox(
+            type: "tkhd",
+            payload: Data([0x01, 0x00, 0x00, 0x00]) + Data(repeating: 0, count: 28)
+        )
+        let trak = makeBox(type: "trak", payload: mismatchTkhd)
+        let moov = makeBox(type: "moov", payload: trak)
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let tkhdEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "tkhd"
+            }
+            return false
+        }))
+
+        let mismatches = tkhdEvent.validationIssues.filter { $0.ruleID == "VR-003" }
+        XCTAssertEqual(mismatches.count, 2)
+        XCTAssertTrue(mismatches.allSatisfy { $0.severity == .warning })
+        XCTAssertTrue(mismatches.contains(where: { $0.message.contains("version") }))
+        XCTAssertTrue(mismatches.contains(where: { $0.message.contains("flags") }))
+    }
+
+    func testLivePipelineEmitsResearchIssueForUnknownBoxes() async throws {
+        let unknown = makeBox(type: "zzzz", payload: Data(count: 4))
+        let reader = InMemoryRandomAccessReader(data: unknown)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let unknownEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "zzzz"
+            }
+            return false
+        }))
+
+        let researchIssues = unknownEvent.validationIssues.filter { $0.ruleID == "VR-006" }
+        XCTAssertEqual(researchIssues.count, 1)
+        XCTAssertEqual(researchIssues.first?.severity, .info)
+        XCTAssertTrue(researchIssues.first?.message.contains("zzzz") ?? false)
     }
 
     private func collectEvents(from stream: ParsePipeline.EventStream) async throws -> [ParseEvent] {
