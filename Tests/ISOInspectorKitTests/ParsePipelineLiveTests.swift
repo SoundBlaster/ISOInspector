@@ -108,6 +108,28 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertTrue(mismatches.contains(where: { $0.message.contains("flags") }))
     }
 
+    func testLivePipelineLeavesMatchingVersionAndFlagsUnchanged() async throws {
+        let matchingTkhd = makeBox(
+            type: "tkhd",
+            payload: Data([0x00, 0x00, 0x00, 0x07]) + Data(repeating: 0, count: 28)
+        )
+        let trak = makeBox(type: "trak", payload: matchingTkhd)
+        let moov = makeBox(type: "moov", payload: trak)
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let tkhdEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "tkhd"
+            }
+            return false
+        }))
+
+        let vr003Issues = tkhdEvent.validationIssues.filter { $0.ruleID == "VR-003" }
+        XCTAssertTrue(vr003Issues.isEmpty)
+    }
+
     func testLivePipelineEmitsResearchIssueForUnknownBoxes() async throws {
         let unknown = makeBox(type: "zzzz", payload: Data(count: 4))
         let reader = InMemoryRandomAccessReader(data: unknown)

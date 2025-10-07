@@ -48,5 +48,4 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/09_B4_Metadata_Follow_Up_Planning/`
 - **Highlights:** Captures the downstream planning for catalog-enabled metadata coverage, including prioritized validation tasks,
   fixture strategies, and consumer integration notes building on the streaming parse pipeline.
-- **Next steps carried forward:** Implement VR-003 metadata comparison warnings and kick off VR-006 research logging alongside the
-  CLI/UI metadata consumption work.
+- **Next steps carried forward:** Kick off VR-006 research logging alongside the CLI/UI metadata consumption work now that VR-003 catalog warnings are live.
