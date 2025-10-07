@@ -1,17 +1,29 @@
+import Dispatch
 import Foundation
 import ISOInspectorKit
 
 public struct ISOInspectorCLIEnvironment {
     public var refreshCatalog: (_ source: URL, _ output: URL) throws -> Void
+    public var makeReader: (_ url: URL) throws -> RandomAccessReader
+    public var parsePipeline: ParsePipeline
+    public var formatter: EventConsoleFormatter
     public var print: (String) -> Void
     public var printError: (String) -> Void
 
     public init(
         refreshCatalog: @escaping (_ source: URL, _ output: URL) throws -> Void,
+        makeReader: @escaping (_ url: URL) throws -> RandomAccessReader = { url in
+            try ChunkedFileReader(fileURL: url)
+        },
+        parsePipeline: ParsePipeline = .live(),
+        formatter: EventConsoleFormatter = EventConsoleFormatter(),
         print: @escaping (String) -> Void = { Swift.print($0) },
         printError: @escaping (String) -> Void = { message in fputs(message + "\n", stderr) }
     ) {
         self.refreshCatalog = refreshCatalog
+        self.makeReader = makeReader
+        self.parsePipeline = parsePipeline
+        self.formatter = formatter
         self.print = print
         self.printError = printError
     }
@@ -43,6 +55,8 @@ public enum ISOInspectorCLIRunner {
         switch first {
         case "mp4ra":
             handleMP4RACommand(Array(args.dropFirst()), environment: environment)
+        case "inspect":
+            handleInspectCommand(Array(args.dropFirst()), environment: environment)
         default:
             ISOInspectorCLIIO.printWelcome()
         }
@@ -51,6 +65,7 @@ public enum ISOInspectorCLIRunner {
     public static func helpText() -> String {
         "isoinspect — ISO BMFF (MP4/QuickTime) inspector CLI\n" +
             "  --help, -h    Show this help message.\n" +
+            "  inspect <file> Stream parse events with metadata and validation summaries.\n" +
             "  mp4ra refresh [--output <path>] [--source <url>]\n" +
             "                Refresh the bundled MP4RABoxes.json using the latest registry export."
     }
@@ -101,6 +116,45 @@ public enum ISOInspectorCLIRunner {
             case .unknownOption(let option):
                 return "Unknown option for mp4ra refresh: \(option)"
             }
+        }
+    }
+
+    private static func handleInspectCommand(
+        _ arguments: [String],
+        environment: ISOInspectorCLIEnvironment
+    ) {
+        guard let path = arguments.first else {
+            environment.printError("inspect requires a file path.")
+            return
+        }
+
+        let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+        let fileURL = URL(fileURLWithPath: path, relativeTo: cwd).standardizedFileURL
+
+        do {
+            let reader = try environment.makeReader(fileURL)
+            let events = environment.parsePipeline.events(for: reader)
+            let semaphore = DispatchSemaphore(value: 0)
+            var streamError: Error?
+
+            Task {
+                do {
+                    for try await event in events {
+                        environment.print(environment.formatter.format(event))
+                    }
+                } catch {
+                    streamError = error
+                }
+                semaphore.signal()
+            }
+
+            semaphore.wait()
+
+            if let error = streamError {
+                environment.printError("Failed to inspect file: \(error)")
+            }
+        } catch {
+            environment.printError("Failed to inspect file: \(error)")
         }
     }
 
