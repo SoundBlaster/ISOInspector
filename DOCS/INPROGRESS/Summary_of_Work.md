@@ -17,3 +17,17 @@
 ## Follow-Up Actions
 
 - Execute VR-006 research logging alongside CLI and UI metadata consumption per the remaining backlog item.
+
+---
+
+# Summary of Work — Four-Character Container Enum
+
+## Completed Tasks
+
+- Centralised MP4 container box detection through the new `FourCharContainerCode` enum and updated traversal logic.
+- Refactored validators and integration tests to use the enum instead of duplicated string literals.
+- Documented the enum workflow in the repository README.
+
+## Verification
+
+- `swift test`

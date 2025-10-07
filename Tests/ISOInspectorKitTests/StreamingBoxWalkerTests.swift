@@ -4,8 +4,10 @@ import XCTest
 final class StreamingBoxWalkerTests: XCTestCase {
     func testWalkerEmitsEventsForNestedBoxes() throws {
         let tkhd = makeBox(type: "tkhd", payload: Data())
-        let trak = makeBox(type: "trak", payload: tkhd)
-        let moov = makeBox(type: "moov", payload: trak)
+        let trakType = FourCharContainerCode.track.rawValue
+        let moovType = FourCharContainerCode.movie.rawValue
+        let trak = makeBox(type: trakType, payload: tkhd)
+        let moov = makeBox(type: moovType, payload: trak)
         let ftypPayload = Data(repeating: 0, count: 16)
         let ftyp = makeBox(type: "ftyp", payload: ftypPayload)
         let data = ftyp + moov
@@ -30,12 +32,12 @@ final class StreamingBoxWalkerTests: XCTestCase {
         XCTAssertEqual(events.count, 8)
         try assertEvent(events[0], kind: .willStart, type: "ftyp", depth: 0, offset: 0)
         try assertEvent(events[1], kind: .didFinish, type: "ftyp", depth: 0, offset: Int64(ftyp.count))
-        try assertEvent(events[2], kind: .willStart, type: "moov", depth: 0, offset: Int64(ftyp.count))
-        try assertEvent(events[3], kind: .willStart, type: "trak", depth: 1, offset: Int64(ftyp.count + 8))
+        try assertEvent(events[2], kind: .willStart, type: moovType, depth: 0, offset: Int64(ftyp.count))
+        try assertEvent(events[3], kind: .willStart, type: trakType, depth: 1, offset: Int64(ftyp.count + 8))
         try assertEvent(events[4], kind: .willStart, type: "tkhd", depth: 2, offset: Int64(ftyp.count + 16))
         try assertEvent(events[5], kind: .didFinish, type: "tkhd", depth: 2, offset: Int64(ftyp.count + moov.count))
-        try assertEvent(events[6], kind: .didFinish, type: "trak", depth: 1, offset: Int64(ftyp.count + moov.count))
-        try assertEvent(events[7], kind: .didFinish, type: "moov", depth: 0, offset: Int64(ftyp.count + moov.count))
+        try assertEvent(events[6], kind: .didFinish, type: trakType, depth: 1, offset: Int64(ftyp.count + moov.count))
+        try assertEvent(events[7], kind: .didFinish, type: moovType, depth: 0, offset: Int64(ftyp.count + moov.count))
     }
 
     func testWalkerHandlesLargeSizeBoxes() throws {
