@@ -7,7 +7,7 @@ protocol BoxValidationRule: Sendable {
 struct BoxValidator: Sendable {
     private let rules: [any BoxValidationRule]
 
-    init(rules: [any BoxValidationRule] = [VersionFlagsRule(), UnknownBoxRule()]) {
+    init(rules: [any BoxValidationRule] = BoxValidator.defaultRules) {
         self.rules = rules
     }
 
@@ -22,6 +22,115 @@ struct BoxValidator: Sendable {
             metadata: event.metadata,
             validationIssues: issues
         )
+    }
+}
+
+private extension BoxValidator {
+    static var defaultRules: [any BoxValidationRule] {
+        [
+            StructuralSizeRule(),
+            ContainerBoundaryRule(),
+            VersionFlagsRule(),
+            UnknownBoxRule()
+        ]
+    }
+}
+
+private struct StructuralSizeRule: BoxValidationRule {
+    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
+        guard case let .willStartBox(header, _) = event.kind else { return [] }
+
+        var issues: [ValidationIssue] = []
+        if header.totalSize < header.headerSize {
+            let message = "Box \(header.identifierString) declares total size \(header.totalSize) smaller than header length \(header.headerSize)."
+            issues.append(ValidationIssue(ruleID: "VR-001", message: message, severity: .error))
+        }
+
+        if header.endOffset > reader.length {
+            let message = "Box \(header.identifierString) extends beyond file length (declared end \(header.endOffset), file length \(reader.length))."
+            issues.append(ValidationIssue(ruleID: "VR-001", message: message, severity: .error))
+        }
+
+        return issues
+    }
+}
+
+private final class ContainerBoundaryRule: BoxValidationRule, @unchecked Sendable {
+    private struct State {
+        let header: BoxHeader
+        var nextChildOffset: Int64
+        var hasChildren: Bool
+    }
+
+    private var stack: [State] = []
+
+    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
+        var issues: [ValidationIssue] = []
+
+        switch event.kind {
+        case let .willStartBox(header, depth):
+            if stack.count > depth {
+                stack.removeLast(stack.count - depth)
+            }
+            if stack.count < depth {
+                let message = "Start event for \(header.identifierString) arrived at depth \(depth) without a matching parent context."
+                issues.append(ValidationIssue(ruleID: "VR-002", message: message, severity: .error))
+                stack.removeAll()
+            }
+
+            if let parentIndex = stack.indices.last {
+                var parent = stack[parentIndex]
+                if parent.nextChildOffset != header.startOffset {
+                    let message = "Container \(parent.header.identifierString) expected child to start at offset \(parent.nextChildOffset) but found \(header.startOffset)."
+                    issues.append(ValidationIssue(ruleID: "VR-002", message: message, severity: .error))
+                    parent.nextChildOffset = header.startOffset
+                }
+                parent.nextChildOffset = header.endOffset
+                parent.hasChildren = true
+                stack[parentIndex] = parent
+            }
+
+            let childState = State(
+                header: header,
+                nextChildOffset: header.payloadRange.lowerBound,
+                hasChildren: false
+            )
+            stack.append(childState)
+
+        case let .didFinishBox(header, depth):
+            if stack.count > depth + 1 {
+                stack.removeLast(stack.count - (depth + 1))
+            }
+            guard stack.count >= depth + 1 else {
+                let message = "Finish event for \(header.identifierString) arrived at depth \(depth) without an opening start event."
+                issues.append(ValidationIssue(ruleID: "VR-002", message: message, severity: .error))
+                stack.removeAll()
+                return issues
+            }
+
+            let state = stack.removeLast()
+            if state.header != header {
+                let message = "Container stack mismatch: expected to finish \(state.header.identifierString) but received \(header.identifierString)."
+                issues.append(ValidationIssue(ruleID: "VR-002", message: message, severity: .error))
+            }
+
+            if state.hasChildren {
+                let expectedEnd = state.header.payloadRange.upperBound
+                if state.nextChildOffset != expectedEnd {
+                    let message = "Container \(state.header.identifierString) expected to close at offset \(expectedEnd) but consumed \(state.nextChildOffset)."
+                    issues.append(ValidationIssue(ruleID: "VR-002", message: message, severity: .error))
+                }
+            }
+
+            if let parentIndex = stack.indices.last {
+                var parent = stack[parentIndex]
+                parent.nextChildOffset = header.endOffset
+                parent.hasChildren = true
+                stack[parentIndex] = parent
+            }
+        }
+
+        return issues
     }
 }
 
