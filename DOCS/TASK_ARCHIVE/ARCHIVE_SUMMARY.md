@@ -29,4 +29,4 @@
 - **Archived files:** `B4_MP4RA_Metadata_Integration.md`, `Summary_of_Work.md`, and the prior `next_tasks.md` checklist captured during Task B4.
 - **Archived location:** `DOCS/TASK_ARCHIVE/06_B4_MP4RA_Metadata_Integration/`
 - **Highlights:** Records integration of the MP4RA-backed `BoxCatalog` into the streaming pipeline, inclusion of the bundled metadata fixture, and expanded diagnostics plus coverage for standard and UUID-based boxes.
-- **Next steps carried forward:** Track automation for refreshing `MP4RABoxes.json`, extend downstream validation/reporting that consumes enriched metadata, and outline the new parser follow-ups enabled by real-time streaming events.
+- **Next steps carried forward:** ✅ Automation for refreshing `MP4RABoxes.json` now ships via R1 (`DOCS/INPROGRESS/07_R1_MP4RA_Catalog_Refresh.md`). Continue extending downstream validation/reporting that consumes enriched metadata and outline the parser follow-ups enabled by real-time streaming events.

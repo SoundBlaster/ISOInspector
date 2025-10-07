@@ -76,7 +76,7 @@ final class ParsePipelineLiveTests: XCTestCase {
         }
         XCTAssertEqual(startEvents.count, 2)
 
-        XCTAssertEqual(startEvents[0].metadata?.name, "File Type Box")
+        XCTAssertEqual(startEvents[0].metadata?.name, "File Type And Compatibility")
         XCTAssertNil(startEvents[1].metadata)
     }
 

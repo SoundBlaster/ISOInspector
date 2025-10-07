@@ -54,7 +54,6 @@ public struct BoxCatalog: Sendable {
 }
 
 extension BoxCatalog {
-    // @todo #2 Automate refreshing MP4RABoxes.json from the upstream registry and document the update workflow.
     static func loadBundledCatalog(logger: DiagnosticsLogger = DiagnosticsLogger(subsystem: "ISOInspectorKit", category: "BoxCatalog")) throws -> BoxCatalog {
         let loader = CatalogLoader(logger: logger)
         let entries = try loader.loadEntries()
