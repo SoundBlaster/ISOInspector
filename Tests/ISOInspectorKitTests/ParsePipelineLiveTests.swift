@@ -4,8 +4,8 @@ import XCTest
 final class ParsePipelineLiveTests: XCTestCase {
     func testLivePipelineEmitsEventsForNestedBoxes() async throws {
         let tkhd = makeBox(type: "tkhd", payload: Data())
-        let trak = makeBox(type: "trak", payload: tkhd)
-        let moov = makeBox(type: "moov", payload: trak)
+        let trak = makeBox(type: ContainerTypes.track, payload: tkhd)
+        let moov = makeBox(type: ContainerTypes.movie, payload: trak)
         let ftypPayload = Data(repeating: 0, count: 16)
         let ftyp = makeBox(type: "ftyp", payload: ftypPayload)
         let data = ftyp + moov
@@ -18,12 +18,12 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertEqual(events.count, 8)
         try assertEvent(events[0], kind: .willStart, type: "ftyp", depth: 0, offset: 0)
         try assertEvent(events[1], kind: .didFinish, type: "ftyp", depth: 0, offset: Int64(ftyp.count))
-        try assertEvent(events[2], kind: .willStart, type: "moov", depth: 0, offset: Int64(ftyp.count))
-        try assertEvent(events[3], kind: .willStart, type: "trak", depth: 1, offset: Int64(ftyp.count + 8))
+        try assertEvent(events[2], kind: .willStart, type: ContainerTypes.movie, depth: 0, offset: Int64(ftyp.count))
+        try assertEvent(events[3], kind: .willStart, type: ContainerTypes.track, depth: 1, offset: Int64(ftyp.count + 8))
         try assertEvent(events[4], kind: .willStart, type: "tkhd", depth: 2, offset: Int64(ftyp.count + 16))
         try assertEvent(events[5], kind: .didFinish, type: "tkhd", depth: 2, offset: Int64(ftyp.count + moov.count))
-        try assertEvent(events[6], kind: .didFinish, type: "trak", depth: 1, offset: Int64(ftyp.count + moov.count))
-        try assertEvent(events[7], kind: .didFinish, type: "moov", depth: 0, offset: Int64(ftyp.count + moov.count))
+        try assertEvent(events[6], kind: .didFinish, type: ContainerTypes.track, depth: 1, offset: Int64(ftyp.count + moov.count))
+        try assertEvent(events[7], kind: .didFinish, type: ContainerTypes.movie, depth: 0, offset: Int64(ftyp.count + moov.count))
     }
 
     func testLivePipelineHandlesLargeSizeBoxes() async throws {
@@ -88,8 +88,8 @@ final class ParsePipelineLiveTests: XCTestCase {
             type: "tkhd",
             payload: Data([0x01, 0x00, 0x00, 0x00]) + Data(repeating: 0, count: 28)
         )
-        let trak = makeBox(type: "trak", payload: mismatchTkhd)
-        let moov = makeBox(type: "moov", payload: trak)
+        let trak = makeBox(type: ContainerTypes.track, payload: mismatchTkhd)
+        let moov = makeBox(type: ContainerTypes.movie, payload: trak)
         let reader = InMemoryRandomAccessReader(data: moov)
         let pipeline = ParsePipeline.live()
 
@@ -113,8 +113,8 @@ final class ParsePipelineLiveTests: XCTestCase {
             type: "tkhd",
             payload: Data([0x00, 0x00, 0x00, 0x07]) + Data(repeating: 0, count: 28)
         )
-        let trak = makeBox(type: "trak", payload: matchingTkhd)
-        let moov = makeBox(type: "moov", payload: trak)
+        let trak = makeBox(type: ContainerTypes.track, payload: matchingTkhd)
+        let moov = makeBox(type: ContainerTypes.movie, payload: trak)
         let reader = InMemoryRandomAccessReader(data: moov)
         let pipeline = ParsePipeline.live()
 
@@ -150,7 +150,7 @@ final class ParsePipelineLiveTests: XCTestCase {
     }
 
     func testLivePipelineReportsErrorWhenMediaAppearsBeforeFileType() async throws {
-        let moov = makeBox(type: "moov", payload: Data())
+        let moov = makeBox(type: ContainerTypes.movie, payload: Data())
         let mdat = makeBox(type: "mdat", payload: Data(count: 8))
         let reader = InMemoryRandomAccessReader(data: moov + mdat)
         let pipeline = ParsePipeline.live()
@@ -159,7 +159,7 @@ final class ParsePipelineLiveTests: XCTestCase {
 
         let offendingEvent = try XCTUnwrap(events.first(where: { event in
             if case let .willStartBox(header, _) = event.kind {
-                return header.type.rawValue == "moov"
+                return header.type.rawValue == ContainerTypes.movie
             }
             return false
         }))
@@ -173,7 +173,7 @@ final class ParsePipelineLiveTests: XCTestCase {
     func testLivePipelineWarnsWhenMovieDataPrecedesMovieBox() async throws {
         let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
         let mdat = makeBox(type: "mdat", payload: Data(count: 8))
-        let moov = makeBox(type: "moov", payload: Data())
+        let moov = makeBox(type: ContainerTypes.movie, payload: Data())
         let reader = InMemoryRandomAccessReader(data: ftyp + mdat + moov)
         let pipeline = ParsePipeline.live()
 
@@ -188,14 +188,14 @@ final class ParsePipelineLiveTests: XCTestCase {
         let vr005Issues = mdatEvent.validationIssues.filter { $0.ruleID == "VR-005" }
         XCTAssertEqual(vr005Issues.count, 1)
         XCTAssertEqual(vr005Issues.first?.severity, .warning)
-        XCTAssertTrue(vr005Issues.first?.message.contains("moov") ?? false)
+        XCTAssertTrue(vr005Issues.first?.message.contains(ContainerTypes.movie) ?? false)
     }
 
     func testLivePipelineAllowsEarlyMovieDataWhenStreamingLayoutDetected() async throws {
         let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
-        let moof = makeBox(type: "moof", payload: Data())
+        let moof = makeBox(type: ContainerTypes.movieFragment, payload: Data())
         let mdat = makeBox(type: "mdat", payload: Data(count: 8))
-        let moov = makeBox(type: "moov", payload: Data())
+        let moov = makeBox(type: ContainerTypes.movie, payload: Data())
         let reader = InMemoryRandomAccessReader(data: ftyp + moof + mdat + moov)
         let pipeline = ParsePipeline.live()
 
@@ -264,6 +264,12 @@ final class ParsePipelineLiveTests: XCTestCase {
         data.append(payload)
         return data
     }
+}
+
+private enum ContainerTypes {
+    static let movie = FourCharContainerCode.moov.rawValue
+    static let track = FourCharContainerCode.trak.rawValue
+    static let movieFragment = FourCharContainerCode.moof.rawValue
 }
 
 private extension FixedWidthInteger {
