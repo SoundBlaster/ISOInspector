@@ -87,7 +87,7 @@ final class BoxValidatorTests: XCTestCase {
     }
 
     func testStructuralRuleReportsHeaderExtendingBeyondReaderLength() throws {
-        let header = try makeHeader(type: "moov", totalSize: 32, headerSize: 8, offset: 0)
+        let header = try makeHeader(type: ContainerTypes.movie, totalSize: 32, headerSize: 8, offset: 0)
         let event = ParseEvent(
             kind: .willStartBox(header: header, depth: 0),
             offset: header.startOffset,
@@ -106,8 +106,8 @@ final class BoxValidatorTests: XCTestCase {
 
     func testContainerRuleReportsUnderflowWhenClosingContainerEarly() throws {
         let reader = InMemoryRandomAccessReader(data: Data(count: 64))
-        let moov = try makeHeader(type: "moov", totalSize: 28, headerSize: 8, offset: 0)
-        let trak = try makeHeader(type: "trak", totalSize: 12, headerSize: 8, offset: 8)
+        let moov = try makeHeader(type: ContainerTypes.movie, totalSize: 28, headerSize: 8, offset: 0)
+        let trak = try makeHeader(type: ContainerTypes.track, totalSize: 12, headerSize: 8, offset: 8)
 
         let validator = BoxValidator()
 
@@ -136,8 +136,8 @@ final class BoxValidatorTests: XCTestCase {
 
     func testContainerRuleReportsChildOffsetMismatch() throws {
         let reader = InMemoryRandomAccessReader(data: Data(count: 64))
-        let moov = try makeHeader(type: "moov", totalSize: 32, headerSize: 8, offset: 0)
-        let misalignedChild = try makeHeader(type: "trak", totalSize: 12, headerSize: 8, offset: 10)
+        let moov = try makeHeader(type: ContainerTypes.movie, totalSize: 32, headerSize: 8, offset: 0)
+        let misalignedChild = try makeHeader(type: ContainerTypes.track, totalSize: 12, headerSize: 8, offset: 10)
 
         let validator = BoxValidator()
 
@@ -158,8 +158,8 @@ final class BoxValidatorTests: XCTestCase {
 
     func testContainerRuleAllowsPerfectlyConsumedContainer() throws {
         let reader = InMemoryRandomAccessReader(data: Data(count: 64))
-        let moov = try makeHeader(type: "moov", totalSize: 28, headerSize: 8, offset: 0)
-        let trak = try makeHeader(type: "trak", totalSize: 20, headerSize: 8, offset: 8)
+        let moov = try makeHeader(type: ContainerTypes.movie, totalSize: 28, headerSize: 8, offset: 0)
+        let trak = try makeHeader(type: ContainerTypes.track, totalSize: 20, headerSize: 8, offset: 8)
         let tkhd = try makeHeader(type: "tkhd", totalSize: 12, headerSize: 8, offset: 16)
 
         let validator = BoxValidator()
@@ -234,4 +234,9 @@ final class BoxValidatorTests: XCTestCase {
             flags: flags
         )
     }
+}
+
+private enum ContainerTypes {
+    static let movie = FourCharContainerCode.moov.rawValue
+    static let track = FourCharContainerCode.trak.rawValue
 }

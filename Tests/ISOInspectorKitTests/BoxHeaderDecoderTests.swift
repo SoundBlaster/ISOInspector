@@ -36,7 +36,7 @@ final class BoxHeaderDecoderTests: XCTestCase {
             inParentRange: 0..<Int64(data.count)
         )
 
-        XCTAssertEqual(header.type.rawValue, "moov")
+        XCTAssertEqual(header.type.rawValue, FourCharContainerCode.moov.rawValue)
         XCTAssertEqual(header.totalSize, 64)
         XCTAssertEqual(header.headerSize, 16)
         XCTAssertEqual(header.payloadRange, 16..<64)

@@ -82,11 +82,6 @@ private extension StreamingBoxWalker {
         guard payloadRange.lowerBound < payloadRange.upperBound else {
             return false
         }
-        return containerTypes.contains(header.type.rawValue)
+        return FourCharContainerCode.isContainer(header)
     }
-
-    static let containerTypes: Set<String> = [
-        "moov", "trak", "mdia", "minf", "dinf", "stbl", "edts", "mvex", "moof", "traf",
-        "mfra", "tref", "udta", "strk", "strd", "sinf", "schi", "stsd", "meta", "ilst"
-    ]
 }

@@ -14,7 +14,7 @@ final class ParsePipelineInterfaceTests: XCTestCase {
                 uuid: nil
             ),
             BoxHeader(
-                type: FourCharCode("moov"),
+                type: FourCharContainerCode.moov.fourCharCode,
                 totalSize: Int64(104),
                 headerSize: Int64(8),
                 payloadRange: Int64(8)..<Int64(104),
