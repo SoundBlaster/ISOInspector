@@ -49,3 +49,15 @@
 - **Highlights:** Captures the downstream planning for catalog-enabled metadata coverage, including prioritized validation tasks,
   fixture strategies, and consumer integration notes building on the streaming parse pipeline.
 - **Next steps carried forward:** Kick off VR-006 research logging alongside the CLI/UI metadata consumption work now that VR-003 catalog warnings are live.
+
+## 10_B5_VR003_Metadata_Comparison_Rule
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/10_B5_VR003_Metadata_Comparison_Rule/`.
+- **Highlights:** Captures completion of the VR-003 metadata comparison rule, including CLI and validation pipeline warning flows aligned with catalog data and expanded coverage for truncated or undersized payloads.
+- **Next steps carried forward:** Launch VR-006 research logging to complement the new warnings and continue the VR-001 through VR-005 implementation threads outlined in `todo.md`.
+
+## 11_B5_VR003_Metadata_Validation
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/11_B5_VR003_Metadata_Validation/`.
+- **Highlights:** Documents verification of VR-003 metadata comparison behavior via focused unit coverage and live parse integration tests ensuring catalog-aligned boxes remain warning-free.
+- **Next steps carried forward:** Execute VR-006 research logging in tandem with CLI/UI metadata consumers and continue driving VR-001, VR-002, VR-004, and VR-005 feature work per the active backlog.
