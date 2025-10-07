@@ -61,3 +61,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/11_B5_VR003_Metadata_Validation/`.
 - **Highlights:** Documents verification of VR-003 metadata comparison behavior via focused unit coverage and live parse integration tests ensuring catalog-aligned boxes remain warning-free.
 - **Next steps carried forward:** Execute VR-006 research logging in tandem with CLI/UI metadata consumers and continue driving VR-001, VR-002, VR-004, and VR-005 feature work per the active backlog.
+
+## 12_B5_VR001_VR002_Structural_Validation
+- **Archived files:** `12_B5_VR001_VR002_Structural_Validation.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/12_B5_VR001_VR002_Structural_Validation/`.
+- **Highlights:** Captures completion of VR-001 and VR-002 structural validation, including streaming safeguards for impossible box sizes, boundary drift detection, and expanded regression coverage in `BoxValidatorTests`.
+- **Next steps carried forward:** Continue VR-006 research logging efforts and drive VR-001, VR-002, VR-004, and VR-005 feature work tracked under `todo.md #3`.
