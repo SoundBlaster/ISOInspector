@@ -1,5 +1,5 @@
 # Next Tasks
 
-- [x] Kick off **C2** — Tree view rendering using the new `ParseTreeStore` snapshots (outline UI, search, filters).
 - [ ] Draft **C3** detail/hex stores that subscribe to the Combine bridge for payload slices and metadata panels.
-- [ ] Integrate the outline explorer with real file ingestion so parsing drives live snapshot updates.
+- [ ] Integrate the outline explorer with real file ingestion so streaming parse sessions drive live snapshots.
+- [ ] Extend outline filters to cover box categories and streaming metadata (tracked via `@todo #6`).
