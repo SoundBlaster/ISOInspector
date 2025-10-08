@@ -12,7 +12,7 @@ public final class ParseTreeStore: ObservableObject {
     private let bridge: ParsePipelineEventBridge
     private var connection: ParsePipelineEventBridge.Connection?
     private var cancellable: AnyCancellable?
-    private var builder = ParseTreeBuilder()
+    private var builder = Builder()
 
     public init(
         bridge: ParsePipelineEventBridge = ParsePipelineEventBridge(),
@@ -35,7 +35,7 @@ public final class ParseTreeStore: ObservableObject {
 
     public func bind(to connection: ParsePipelineEventBridge.Connection) {
         disconnect()
-        builder = ParseTreeBuilder()
+        builder = Builder()
         snapshot = .empty
         state = .parsing
         self.connection = connection
@@ -73,114 +73,82 @@ public final class ParseTreeStore: ObservableObject {
     }
 }
 
-public struct ParseTreeSnapshot: Equatable {
-    public var nodes: [ParseTreeNode]
-    public var validationIssues: [ValidationIssue]
-    public var lastUpdatedAt: Date
+extension ParseTreeStore {
+    fileprivate struct Builder {
+        private var rootNodes: [MutableNode] = []
+        private var stack: [MutableNode] = []
+        private var aggregatedIssues: [ValidationIssue] = []
+        private var lastUpdatedAt: Date = .distantPast
 
-    public init(
-        nodes: [ParseTreeNode],
-        validationIssues: [ValidationIssue],
-        lastUpdatedAt: Date = .distantPast
-    ) {
-        self.nodes = nodes
-        self.validationIssues = validationIssues
-        self.lastUpdatedAt = lastUpdatedAt
-    }
-
-    public static let empty = ParseTreeSnapshot(nodes: [], validationIssues: [], lastUpdatedAt: .distantPast)
-}
-
-public enum ParseTreeStoreState: Equatable {
-    case idle
-    case parsing
-    case finished
-    case failed(String)
-}
-
-public struct ParseTreeNode: Equatable, Identifiable {
-    public let header: BoxHeader
-    public var metadata: BoxDescriptor?
-    public var validationIssues: [ValidationIssue]
-    public var children: [ParseTreeNode]
-
-    public var id: Int64 { header.startOffset }
-}
-
-private struct ParseTreeBuilder {
-    private var rootNodes: [MutableParseTreeNode] = []
-    private var stack: [MutableParseTreeNode] = []
-    private var aggregatedIssues: [ValidationIssue] = []
-    private var lastUpdatedAt: Date = .distantPast
-
-    mutating func consume(_ event: ParseEvent) {
-        aggregatedIssues.append(contentsOf: event.validationIssues)
-        lastUpdatedAt = Date()
-        switch event.kind {
-        case let .willStartBox(header, _):
-            let node = MutableParseTreeNode(
-                header: header,
-                metadata: event.metadata,
-                validationIssues: event.validationIssues
-            )
-            if let parent = stack.last {
-                parent.children.append(node)
-            } else {
-                rootNodes.append(node)
-            }
-            stack.append(node)
-        case let .didFinishBox(header, _):
-            guard let current = stack.last else {
-                return
-            }
-            if current.header != header {
-                while let candidate = stack.last, candidate.header != header {
-                    _ = stack.popLast()
+        mutating func consume(_ event: ParseEvent) {
+            aggregatedIssues.append(contentsOf: event.validationIssues)
+            lastUpdatedAt = Date()
+            switch event.kind {
+            case let .willStartBox(header, _):
+                let node = MutableNode(
+                    header: header,
+                    metadata: event.metadata,
+                    validationIssues: event.validationIssues
+                )
+                if let parent = stack.last {
+                    parent.children.append(node)
+                } else {
+                    rootNodes.append(node)
                 }
-            }
-            guard let node = stack.popLast() else {
-                return
-            }
-            if node.header == header {
-                node.metadata = node.metadata ?? event.metadata
-                if !event.validationIssues.isEmpty {
-                    node.validationIssues.append(contentsOf: event.validationIssues)
-                }
-            } else {
                 stack.append(node)
+            case let .didFinishBox(header, _):
+                guard let current = stack.last else {
+                    return
+                }
+                if current.header != header {
+                    while let candidate = stack.last, candidate.header != header {
+                        _ = stack.popLast()
+                    }
+                }
+                guard let node = stack.popLast() else {
+                    return
+                }
+                if node.header == header {
+                    node.metadata = node.metadata ?? event.metadata
+                    if !event.validationIssues.isEmpty {
+                        node.validationIssues.append(contentsOf: event.validationIssues)
+                    }
+                } else {
+                    stack.append(node)
+                }
             }
+        }
+
+        func snapshot() -> ParseTreeSnapshot {
+            ParseTreeSnapshot(
+                nodes: rootNodes.map { $0.snapshot() },
+                validationIssues: aggregatedIssues,
+                lastUpdatedAt: lastUpdatedAt
+            )
         }
     }
 
-    func snapshot() -> ParseTreeSnapshot {
-        ParseTreeSnapshot(
-            nodes: rootNodes.map { $0.snapshot() },
-            validationIssues: aggregatedIssues,
-            lastUpdatedAt: lastUpdatedAt
-        )
-    }
-}
+    fileprivate final class MutableNode {
+        let header: BoxHeader
+        var metadata: BoxDescriptor?
+        var validationIssues: [ValidationIssue]
+        var children: [MutableNode]
 
-private final class MutableParseTreeNode {
-    let header: BoxHeader
-    var metadata: BoxDescriptor?
-    var validationIssues: [ValidationIssue]
-    var children: [MutableParseTreeNode]
+        init(header: BoxHeader, metadata: BoxDescriptor?, validationIssues: [ValidationIssue]) {
+            self.header = header
+            self.metadata = metadata
+            self.validationIssues = validationIssues
+            self.children = []
+        }
 
-    init(header: BoxHeader, metadata: BoxDescriptor?, validationIssues: [ValidationIssue]) {
-        self.header = header
-        self.metadata = metadata
-        self.validationIssues = validationIssues
-        self.children = []
-    }
-
-    func snapshot() -> ParseTreeNode {
-        ParseTreeNode(
-            header: header,
-            metadata: metadata,
-            validationIssues: validationIssues,
-            children: children.map { $0.snapshot() }
-        )
+        func snapshot() -> ParseTreeNode {
+            ParseTreeNode(
+                header: header,
+                metadata: metadata,
+                validationIssues: validationIssues,
+                children: children.map { $0.snapshot() }
+            )
+        }
     }
 }
 #endif
