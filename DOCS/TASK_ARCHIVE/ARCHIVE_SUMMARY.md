@@ -73,3 +73,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/13_B5_VR004_VR005_Ordering_Validation/`.
 - **Highlights:** Documents the ordering safeguards for VR-004 and VR-005, including validator state tracking for `ftyp` precedence, streaming-aware exceptions for fragmented layouts, and refreshed unit plus integration coverage.
 - **Next steps carried forward:** Execute VR-006 research logging alongside CLI and UI metadata consumers so the new ordering signals feed downstream analysis per `todo.md #3`.
+
+## 14_B5_VR006_Research_Logging
+- **Archived files:** `14_B5_VR006_Research_Logging.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/14_B5_VR006_Research_Logging/`.
+- **Highlights:** Documents delivery of persistent VR-006 research logging shared by CLI and UI consumers, including configurable log handling and expanded streaming pipeline coverage.
+- **Next steps carried forward:** Monitor research log schema usage as UI components mature so downstream CLI/UI metadata consumers surface consistent insights per `todo.md #3`.
