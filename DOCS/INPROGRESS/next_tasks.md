@@ -1,3 +1,3 @@
 # Next Tasks
 
-- [ ] Extend telemetry once UI smoke tests exist to monitor for missing VR-006 research log entries across CLI and UI consumers, aligning with `todo.md #5`.
+_No queued follow-ups. Active work is tracked in `17_Extend_VR006_Telemetry_UI_Smoke_Tests.md`._
