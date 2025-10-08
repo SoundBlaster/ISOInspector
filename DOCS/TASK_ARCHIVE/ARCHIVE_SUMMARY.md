@@ -121,3 +121,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/21_C2_Integrate_Outline_Explorer_With_Streaming/`.
 - **Highlights:** Captures the streaming-bound outline explorer that consumes live `ParseTreeStore` snapshots, introduces latency instrumentation via `Logger` signposts, and removes preview-only sample data wiring.
 - **Next steps carried forward:** Draft C3 detail and hex inspectors on the Combine bridge and expand outline filters to surface box categories plus streaming metadata (`@todo #6`).
+
+## 22_C2_Extend_Outline_Filters
+- **Archived files:** `C2_Extend_Outline_Filters.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/22_C2_Extend_Outline_Filters/`.
+- **Highlights:** Documents the addition of reusable box classification helpers and streaming metadata toggles that extend the outline explorer filters while keeping severity filtering and virtualization performance intact.
+- **Next steps carried forward:** Draft task C3 detail and hex inspectors that subscribe to the Combine bridge for payload slices and metadata panes.
