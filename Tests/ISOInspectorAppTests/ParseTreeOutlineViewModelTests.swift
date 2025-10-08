@@ -1,4 +1,5 @@
 #if canImport(Combine)
+import Combine
 import XCTest
 @testable import ISOInspectorApp
 import ISOInspectorKit
@@ -92,6 +93,30 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.rows.first?.isExpanded ?? false)
         XCTAssertEqual(viewModel.rows.last?.hasValidationIssues, true)
         XCTAssertEqual(viewModel.rows.last?.isSearchMatch, false)
+    }
+
+    @MainActor
+    func testBindingToSnapshotPublisherStreamsUpdates() async throws {
+        let viewModel = ParseTreeOutlineViewModel()
+        let subject = PassthroughSubject<ParseTreeSnapshot, Never>()
+
+        viewModel.bind(to: subject.eraseToAnyPublisher())
+
+        let root = makeNode(identifier: 1, type: "moov")
+        let initial = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        subject.send(initial)
+        await Task.yield()
+
+        XCTAssertEqual(viewModel.rows.map(\.id), [1])
+
+        let child = makeNode(identifier: 2, type: "trak")
+        let updatedRoot = makeNode(identifier: 1, type: "moov", children: [child])
+        let updated = ParseTreeSnapshot(nodes: [updatedRoot], validationIssues: [])
+        subject.send(updated)
+        await Task.yield()
+
+        XCTAssertEqual(viewModel.rows.map(\.id), [1, 2])
+        XCTAssertTrue(viewModel.rows.first?.isExpanded ?? false)
     }
 
     // MARK: - Helpers

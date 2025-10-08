@@ -1,5 +1,6 @@
 #if canImport(Combine)
 import Combine
+import Foundation
 import XCTest
 @testable import ISOInspectorApp
 @testable import ISOInspectorKit
@@ -87,6 +88,7 @@ final class ParseTreeStoreTests: XCTestCase {
 
         XCTAssertEqual(store.state, .finished)
         XCTAssertEqual(store.snapshot.validationIssues.count, 2)
+        XCTAssertGreaterThan(store.snapshot.lastUpdatedAt.timeIntervalSince1970, Date.distantPast.timeIntervalSince1970)
         guard let root = store.snapshot.nodes.first else {
             XCTFail("Missing root node")
             return

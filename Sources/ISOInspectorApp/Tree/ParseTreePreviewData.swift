@@ -25,7 +25,7 @@ enum ParseTreePreviewData {
         let free = makeNode(type: "free", start: 2000)
         let nodes = [ftyp, moov, mdat, free]
         let issues = nodes.flatMap { collectIssues(from: $0) }
-        return ParseTreeSnapshot(nodes: nodes, validationIssues: issues)
+        return ParseTreeSnapshot(nodes: nodes, validationIssues: issues, lastUpdatedAt: Date())
     }()
 
     private static func makeNode(
