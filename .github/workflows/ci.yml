@@ -16,6 +16,23 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Markdown format (markdownlint --fix)
+        uses: DavidAnson/markdownlint-cli2-action@v13
+        with:
+          globs: |
+            DOCS/INPROGRESS/**/*.md
+            DOCS/COMMANDS/**/*.md
+            DOCS/RULES/**/*.md
+          fix: true
+
+      - name: Fail if formatting changed files
+        run: |
+          if ! git diff --quiet --exit-code; then
+            echo "::error::Markdown is not formatted. Run locally:"
+            echo "  npx markdownlint-cli2-fix 'DOCS/INPROGRESS/**/*.md' 'DOCS/COMMANDS/**/*.md' 'DOCS/RULES/**/*.md'"
+            exit 1
+          fi
+
       - name: Lint Markdown files
         uses: DavidAnson/markdownlint-cli2-action@v13
         with:
