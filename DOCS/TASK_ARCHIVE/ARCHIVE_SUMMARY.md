@@ -103,3 +103,15 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/18_C1_Combine_Bridge_and_State_Stores/`.
 - **Highlights:** Documents the Combine-based bridge that fans out `ParseEvent` streams and the `@MainActor` parse tree store that aggregates validation issues for SwiftUI consumers, along with coverage capturing bridge fan-out, aggregation, and failure propagation.
 - **Next steps carried forward:** Focus next on C2 tree view rendering and C3 detail/hex stores that subscribe to the shared Combine bridge.
+
+## 19_C2_Tree_View_Virtualization
+- **Archived files:** `19_C2_Tree_View_Virtualization.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/19_C2_Tree_View_Virtualization/`.
+- **Highlights:** Captures the initial SwiftUI outline explorer powered by the new `ParseTreeStore`, including severity filtering, search, and preview data seeding for virtualization experiments.
+- **Next steps carried forward:** Continue wiring the explorer to live parse sessions and begin planning C3 detail and hex inspectors driven by the Combine bridge.
+
+## 20_C2_Tree_View_Virtualization_Follow_Up
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/20_C2_Tree_View_Virtualization_Follow_Up/`.
+- **Highlights:** Documents closure of the virtualization spike, verification via `swift test`, and outlines follow-ups for connecting the explorer to real imports plus expanding filter coverage.
+- **Next steps carried forward:** Draft C3 detail/hex stores, integrate streaming snapshots from user-selected MP4s, and extend outline filters to surface catalog-driven categories per `@todo #6`.
