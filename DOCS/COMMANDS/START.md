@@ -27,6 +27,7 @@ Execute one or more tasks currently stored in [`DOCS/INPROGRESS`](../INPROGRESS)
 
   - [`02_TDD_XP_Workflow.md`](../RULES/02_TDD_XP_Workflow.md) — TDD flow, pairing, refactoring, incremental delivery.
   - [`04_PDD.md`](../RULES/04_PDD.md) — puzzle-driven development workflow.
+  - [`07_AI_Code_Structure_Principles.md`](../RULES/07_AI_Code_Structure_Principles.md) — source file organization and size limits.
 
 - Keep these rules in mind during all implementation actions.
 
