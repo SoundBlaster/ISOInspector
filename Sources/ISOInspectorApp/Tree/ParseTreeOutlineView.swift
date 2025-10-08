@@ -1,4 +1,5 @@
 #if canImport(SwiftUI) && canImport(Combine)
+import Combine
 import SwiftUI
 import ISOInspectorKit
 
@@ -12,13 +13,8 @@ struct ParseTreeExplorerView: View {
             ParseTreeOutlineView(viewModel: outlineViewModel)
         }
         .padding()
-        .onReceive(store.$snapshot) { snapshot in
-            outlineViewModel.apply(snapshot: snapshot)
-        }
-        .task {
-            if store.snapshot.nodes.isEmpty {
-                outlineViewModel.apply(snapshot: ParseTreePreviewData.sampleSnapshot)
-            }
+        .onAppear {
+            outlineViewModel.bind(to: store.$snapshot.eraseToAnyPublisher())
         }
     }
 

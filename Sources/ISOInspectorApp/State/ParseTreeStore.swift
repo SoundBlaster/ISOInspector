@@ -76,13 +76,19 @@ public final class ParseTreeStore: ObservableObject {
 public struct ParseTreeSnapshot: Equatable {
     public var nodes: [ParseTreeNode]
     public var validationIssues: [ValidationIssue]
+    public var lastUpdatedAt: Date
 
-    public init(nodes: [ParseTreeNode], validationIssues: [ValidationIssue]) {
+    public init(
+        nodes: [ParseTreeNode],
+        validationIssues: [ValidationIssue],
+        lastUpdatedAt: Date = .distantPast
+    ) {
         self.nodes = nodes
         self.validationIssues = validationIssues
+        self.lastUpdatedAt = lastUpdatedAt
     }
 
-    public static let empty = ParseTreeSnapshot(nodes: [], validationIssues: [])
+    public static let empty = ParseTreeSnapshot(nodes: [], validationIssues: [], lastUpdatedAt: .distantPast)
 }
 
 public enum ParseTreeStoreState: Equatable {
@@ -105,9 +111,11 @@ private struct ParseTreeBuilder {
     private var rootNodes: [MutableParseTreeNode] = []
     private var stack: [MutableParseTreeNode] = []
     private var aggregatedIssues: [ValidationIssue] = []
+    private var lastUpdatedAt: Date = .distantPast
 
     mutating func consume(_ event: ParseEvent) {
         aggregatedIssues.append(contentsOf: event.validationIssues)
+        lastUpdatedAt = Date()
         switch event.kind {
         case let .willStartBox(header, _):
             let node = MutableParseTreeNode(
@@ -145,7 +153,11 @@ private struct ParseTreeBuilder {
     }
 
     func snapshot() -> ParseTreeSnapshot {
-        ParseTreeSnapshot(nodes: rootNodes.map { $0.snapshot() }, validationIssues: aggregatedIssues)
+        ParseTreeSnapshot(
+            nodes: rootNodes.map { $0.snapshot() },
+            validationIssues: aggregatedIssues,
+            lastUpdatedAt: lastUpdatedAt
+        )
     }
 }
 

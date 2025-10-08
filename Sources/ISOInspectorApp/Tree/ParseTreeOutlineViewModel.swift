@@ -2,6 +2,9 @@
 import Combine
 import Foundation
 import ISOInspectorKit
+#if canImport(os)
+import os
+#endif
 
 @MainActor
 final class ParseTreeOutlineViewModel: ObservableObject {
@@ -15,9 +18,24 @@ final class ParseTreeOutlineViewModel: ObservableObject {
 
     private var snapshot: ParseTreeSnapshot = .empty
     private var expandedIdentifiers: Set<ParseTreeNode.ID> = []
+    private var cancellables: Set<AnyCancellable> = []
+    private var latencyProbe = OutlineLatencyProbe()
 
     init(snapshot: ParseTreeSnapshot = .empty) {
         apply(snapshot: snapshot)
+    }
+
+    func bind<P: Publisher>(to publisher: P) where P.Output == ParseTreeSnapshot, P.Failure == Never {
+        cancellables.forEach { $0.cancel() }
+        cancellables.removeAll()
+        publisher
+            .sink { [weak self] snapshot in
+                guard let self else { return }
+                Task { @MainActor [weak self] in
+                    self?.apply(snapshot: snapshot)
+                }
+            }
+            .store(in: &cancellables)
     }
 
     func apply(snapshot: ParseTreeSnapshot) {
@@ -72,6 +90,7 @@ final class ParseTreeOutlineViewModel: ObservableObject {
         }
 
         rows = aggregatedRows
+        latencyProbe.recordLatency(for: snapshot, rowCount: rows.count)
     }
 
     private func collectRows(
@@ -236,4 +255,21 @@ private extension ValidationIssue.Severity {
 extension ValidationIssue.Severity: CaseIterable {}
 
 // @todo #6 Add box category and streaming metadata filters once corresponding models are available.
+
+private struct OutlineLatencyProbe {
+#if canImport(os)
+    private let logger = Logger(subsystem: "ISOInspectorApp", category: "ParseTreeOutlineLatency")
+#endif
+
+    mutating func recordLatency(for snapshot: ParseTreeSnapshot, rowCount: Int) {
+        let timestamp = snapshot.lastUpdatedAt
+        guard timestamp > .distantPast else { return }
+        let now = Date()
+        let latency = now.timeIntervalSince(timestamp)
+        guard latency >= 0 else { return }
+#if canImport(os)
+        logger.debug("Applied snapshot with \(rowCount) rows in \(latency, format: .fixed(precision: 4))s latency")
+#endif
+    }
+}
 #endif
