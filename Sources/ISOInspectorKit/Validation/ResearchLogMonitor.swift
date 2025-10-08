@@ -26,7 +26,7 @@ public struct ResearchLogAudit: Equatable {
 
 public enum ResearchLogMonitor {
     // @todo #4 Integrate this audit with SwiftUI previews once UI surfaces consume VR-006 entries.
-    // @todo #5 Emit telemetry during UI smoke tests to flag missing VR-006 research log events.
+    // Telemetry for UI smoke tests is exercised by ResearchLogTelemetryProbe (todo.md #5).
     public enum Error: Swift.Error, Equatable {
         case schemaMismatch(expected: [String], actual: [String])
     }
