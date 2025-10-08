@@ -91,3 +91,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/16_Integrate_ResearchLogMonitor_SwiftUI_Previews/`.
 - **Highlights:** Captures integration of `ResearchLogMonitor.audit(logURL:)` with SwiftUI previews, including deterministic VR-006 fixtures, preview diagnostics views, and regression coverage that keeps UI bindings aligned with the CLI audit helper.
 - **Next steps carried forward:** ✅ Completed by UI smoke telemetry coverage ensuring CLI and SwiftUI consumers surface VR-006 research log diagnostics (todo.md #5).
+
+## 17_Extend_VR006_Telemetry_UI_Smoke_Tests
+- **Archived files:** `17_Extend_VR006_Telemetry_UI_Smoke_Tests.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/17_Extend_VR006_Telemetry_UI_Smoke_Tests/`.
+- **Highlights:** Captures the telemetry smoke test suite that exercises `ResearchLogTelemetryProbe` and `ResearchLogTelemetrySnapshot` across CLI and SwiftUI entry points, including success, missing log, empty log, and schema mismatch scenarios driven by the ParsePipeline.
+- **Next steps carried forward:** None — VR-006 telemetry instrumentation is now fully covered by automated smoke tests and documentation.
