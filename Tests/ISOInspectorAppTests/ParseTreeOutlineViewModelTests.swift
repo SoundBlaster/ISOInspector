@@ -119,6 +119,37 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         XCTAssertTrue(viewModel.rows.first?.isExpanded ?? false)
     }
 
+    func testCategoryFilterFocusesOnSelectedCategories() throws {
+        let metadataNode = makeNode(identifier: 2, type: "meta")
+        let mediaNode = makeNode(identifier: 3, type: "mdat")
+        let indexNode = makeNode(identifier: 4, type: "sidx")
+        let root = makeNode(identifier: 1, type: "moov", children: [metadataNode, mediaNode, indexNode])
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+        viewModel.apply(snapshot: snapshot)
+
+        viewModel.filter = ParseTreeOutlineFilter(focusedCategories: [.metadata, .media])
+
+        XCTAssertEqual(viewModel.rows.map(\.id), [1, 2, 3])
+        XCTAssertTrue(viewModel.rows.contains { $0.id == 2 })
+        XCTAssertTrue(viewModel.rows.contains { $0.id == 3 })
+        XCTAssertFalse(viewModel.rows.contains { $0.id == 4 })
+    }
+
+    func testStreamingFilterHidesIndicatorBoxesWhenDisabled() throws {
+        let streamingNode = makeNode(identifier: 2, type: "sidx")
+        let otherNode = makeNode(identifier: 3, type: "free")
+        let root = makeNode(identifier: 1, type: "moov", children: [streamingNode, otherNode])
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+        viewModel.apply(snapshot: snapshot)
+
+        viewModel.filter = ParseTreeOutlineFilter(showsStreamingIndicators: false)
+
+        XCTAssertEqual(viewModel.rows.map(\.id), [1, 3])
+        XCTAssertFalse(viewModel.rows.contains { $0.id == 2 })
+    }
+
     // MARK: - Helpers
 
     private func makeNode(

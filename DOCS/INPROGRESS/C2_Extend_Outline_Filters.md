@@ -12,6 +12,7 @@ streaming metadata indicators alongside the existing validation-severity control
   See [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md).
 
 - The root repo TODO list tracks "Add box category and streaming metadata filters once corresponding models are
+
   available."\
 
   See [`todo.md`](../../todo.md).
@@ -23,10 +24,14 @@ streaming metadata indicators alongside the existing validation-severity control
 ## ✅ Success Criteria
 
 - Outline filter UI exposes switches/chips for at least the defined box categories (e.g., metadata, media, index) and
+
   streaming-specific markers, allowing combinations with severity filters.
+
 - Filtering operates on the current `ParseTreeSnapshot` without breaking virtualization performance targets (10k+ nodes) and keeps latency instrumentation within acceptable bounds.
 - Filter state persists during live streaming updates from the Combine bridge and survives snapshot refreshes without
+
   resetting user selections.
+
 - Unit or UI tests cover category/streaming filtering logic, ensuring boxes enter/exit the visible set as expected.
 
 ## 🔧 Implementation Notes
@@ -34,7 +39,9 @@ streaming metadata indicators alongside the existing validation-severity control
 - Inspect `ParseTreeNode` metadata and associated catalog descriptors to determine available category or streaming flags; extend models if needed to expose structured attributes instead of summary-string parsing.
 - Update `ParseTreeOutlineFilter` to model category and streaming toggles, ensuring backward compatibility with severity filters and search matching.
 - Coordinate with any Combine snapshot publishers so filter recalculations remain responsive; reuse or extend existing
+
   latency probes for regression detection.
+
 - Review archived C2 task summaries for prior design intent on filter controls (see `DOCS/TASK_ARCHIVE/19_C2_Tree_View_Virtualization` and follow-ups).
 
 ## 🧠 Source References

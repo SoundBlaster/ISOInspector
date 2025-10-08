@@ -71,6 +71,22 @@ final class ParseTreeOutlineViewModel: ObservableObject {
         filter = updated
     }
 
+    func setCategory(_ category: BoxCategory, isEnabled: Bool) {
+        var updated = filter
+        if isEnabled {
+            updated.focusedCategories.insert(category)
+        } else {
+            updated.focusedCategories.remove(category)
+        }
+        filter = updated
+    }
+
+    func setShowsStreamingIndicators(_ isVisible: Bool) {
+        var updated = filter
+        updated.showsStreamingIndicators = isVisible
+        filter = updated
+    }
+
     // MARK: - Private helpers
 
     private func rebuildRows() {
@@ -169,107 +185,58 @@ final class ParseTreeOutlineViewModel: ObservableObject {
         }
         return identifiers
     }
-}
-
-struct ParseTreeOutlineRow: Identifiable, Equatable {
-    let node: ParseTreeNode
-    let depth: Int
-    let isExpanded: Bool
-    let isSearchMatch: Bool
-    let hasMatchingDescendant: Bool
-    let hasValidationIssues: Bool
-
-    var id: ParseTreeNode.ID { node.id }
-    var typeDescription: String { node.header.type.description }
-    var displayName: String { node.metadata?.name ?? typeDescription }
-    var summary: String? { node.metadata?.summary }
-    var dominantSeverity: ValidationIssue.Severity? {
-        node.validationIssues.map(\.severity).max(by: { $0.priority < $1.priority })
-    }
-}
-
-struct ParseTreeOutlineFilter: Equatable {
-    var focusedSeverities: Set<ValidationIssue.Severity>
-
-    init(focusedSeverities: Set<ValidationIssue.Severity> = []) {
-        self.focusedSeverities = focusedSeverities
+    private struct FlattenResult {
+        let rows: [ParseTreeOutlineRow]
+        let identifiers: Set<ParseTreeNode.ID>
+        let isVisible: Bool
+        let matchesSearch: Bool
     }
 
-    static let all = ParseTreeOutlineFilter()
+    private struct SearchMatcher {
+        private let tokens: [String]
 
-    var isFocused: Bool { !focusedSeverities.isEmpty }
-
-    func matches(node: ParseTreeNode) -> Bool {
-        guard !focusedSeverities.isEmpty else { return true }
-        return node.validationIssues.contains { focusedSeverities.contains($0.severity) }
-    }
-}
-
-private struct FlattenResult {
-    let rows: [ParseTreeOutlineRow]
-    let identifiers: Set<ParseTreeNode.ID>
-    let isVisible: Bool
-    let matchesSearch: Bool
-}
-
-private struct SearchMatcher {
-    private let tokens: [String]
-
-    init(searchText: String) {
-        let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
-        tokens = trimmed.split { $0.isWhitespace }.map { $0.lowercased() }
-    }
-
-    var isActive: Bool { !tokens.isEmpty }
-
-    func matches(node: ParseTreeNode) -> Bool {
-        guard isActive else { return false }
-        let haystacks: [String] = makeHaystacks(from: node)
-        return tokens.allSatisfy { token in
-            haystacks.contains { $0.contains(token) }
+        init(searchText: String) {
+            let trimmed = searchText.trimmingCharacters(in: .whitespacesAndNewlines)
+            tokens = trimmed.split { $0.isWhitespace }.map { $0.lowercased() }
         }
-    }
 
-    private func makeHaystacks(from node: ParseTreeNode) -> [String] {
-        var values: [String] = [node.header.type.description.lowercased()]
-        if let metadata = node.metadata {
-            values.append(metadata.name.lowercased())
-            if let summary = metadata.summary {
-                values.append(summary.lowercased())
+        var isActive: Bool { !tokens.isEmpty }
+
+        func matches(node: ParseTreeNode) -> Bool {
+            guard isActive else { return false }
+            let haystacks: [String] = makeHaystacks(from: node)
+            return tokens.allSatisfy { token in
+                haystacks.contains { $0.contains(token) }
             }
         }
-        return values
-    }
-}
 
-private extension ValidationIssue.Severity {
-    var priority: Int {
-        switch self {
-        case .info: return 0
-        case .warning: return 1
-        case .error: return 2
+        private func makeHaystacks(from node: ParseTreeNode) -> [String] {
+            var values: [String] = [node.header.type.description.lowercased()]
+            if let metadata = node.metadata {
+                values.append(metadata.name.lowercased())
+                if let summary = metadata.summary {
+                    values.append(summary.lowercased())
+                }
+            }
+            return values
         }
     }
-}
 
-extension ValidationIssue.Severity: CaseIterable {}
-
-// @todo #6 Add box category and streaming metadata filters once corresponding models are available.
-
-private struct OutlineLatencyProbe {
+    private struct OutlineLatencyProbe {
 #if canImport(os)
-    private let logger = Logger(subsystem: "ISOInspectorApp", category: "ParseTreeOutlineLatency")
+        private let logger = Logger(subsystem: "ISOInspectorApp", category: "ParseTreeOutlineLatency")
 #endif
 
-    mutating func recordLatency(for snapshot: ParseTreeSnapshot, rowCount: Int) {
-        let timestamp = snapshot.lastUpdatedAt
-        guard timestamp > .distantPast else { return }
-        let now = Date()
-        let latency = now.timeIntervalSince(timestamp)
-        guard latency >= 0 else { return }
+        mutating func recordLatency(for snapshot: ParseTreeSnapshot, rowCount: Int) {
+            let timestamp = snapshot.lastUpdatedAt
+            guard timestamp > .distantPast else { return }
+            let now = Date()
+            let latency = now.timeIntervalSince(timestamp)
+            guard latency >= 0 else { return }
 #if canImport(os)
-        logger.debug("Applied snapshot with \(rowCount) rows in \(latency, format: .fixed(precision: 4))s latency")
+            logger.debug("Applied snapshot with \(rowCount) rows in \(latency, format: .fixed(precision: 4))s latency")
 #endif
+        }
     }
 }
 #endif
