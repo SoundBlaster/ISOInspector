@@ -14,4 +14,5 @@
 ## Follow-up Notes
 
 - Additional outline filters for box categories and streaming metadata remain tracked under `@todo #6`.
-- Detail and hex panes (task C3) should share snapshot timestamps so latency diagnostics stay aligned once implemented.
+- Detail and hex panes (task C3) should share snapshot timestamps so latency diagnostics stay aligned once
+ implemented.
