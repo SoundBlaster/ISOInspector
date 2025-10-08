@@ -13,21 +13,11 @@ struct ISOInspectorApp: App {
 }
 
 private struct ContentView: View {
-    private let focusAreas = ISOInspectorKit.initialFocusAreas
+    @StateObject private var store = ParseTreeStore()
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text(ISOInspectorKit.projectName)
-                .font(.largeTitle)
-                .bold()
-            Text("Initial focus areas")
-                .font(.headline)
-            ForEach(focusAreas, id: \.self) { focus in
-                Text(focus)
-                    .font(.body)
-            }
-        }
-        .padding()
+        ParseTreeExplorerView(store: store)
+            .frame(minWidth: 480, minHeight: 480)
     }
 }
 #else

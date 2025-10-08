@@ -10,3 +10,4 @@
     - [x] VR-006 Research log persists unknown boxes for follow-up analysis.
 - [x] #4 Integrate ResearchLogMonitor with SwiftUI previews once VR-006 UI surfaces consume research entries.
 - [x] #5 Emit telemetry during UI smoke tests to flag missing VR-006 research log events.
+- [ ] #6 Add box category and streaming metadata filters once corresponding models are available.
