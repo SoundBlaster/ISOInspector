@@ -22,7 +22,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 ## Phase C — User Interface Package
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
-| C1 | Create Combine bridge and state stores for parse events. | High | 1.5 | B3 | Combine, SwiftUI | Store receives events and updates snapshot without race conditions. |
+| C1 | Create Combine bridge and state stores for parse events. | High | 1.5 | B3 | Combine, SwiftUI | Store receives events and updates snapshot without race conditions. (Completed ✅ — Combine-backed session bridge fan-outs parse events to SwiftUI `@MainActor` tree store with validation aggregation.) |
 | C2 | Implement tree view with virtualization, search, and filters. | High | 2.5 | C1 | SwiftUI | UI renders >10k nodes smoothly; search reduces nodes instantly. |
 | C3 | Build detail pane with metadata, validation list, and hex viewer. | High | 3 | C1 | SwiftUI | Selecting node shows metadata; hex viewer displays payload windows. |
 | C4 | Add annotation and bookmark management with persistence hooks. | Medium | 2 | C1 | CoreData/JSON | Notes persist across app relaunch; tests validate storage schema. |
