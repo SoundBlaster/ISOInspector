@@ -16,4 +16,4 @@
 
 ## Follow-up Actions
 
-- Extend telemetry for VR-006 once UI smoke tests exist, per backlog item `todo.md #5`.
+- ✅ `todo.md #5` completed by UI smoke telemetry coverage in `ResearchLogTelemetrySmokeTests`.

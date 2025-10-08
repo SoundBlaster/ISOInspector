@@ -65,6 +65,14 @@ research log entries for both CLI and SwiftUI consumers, satisfying `todo.md #5`
 
   CI dashboards when VR-006 coverage regresses.
 
+---
+
+## ✅ Completion Notes (2025-10-08)
+
+- Added `ResearchLogTelemetryProbe` and `ResearchLogTelemetrySnapshot` to translate audits into CLI/SwiftUI smoke telemetry diagnostics.
+- Implemented `ResearchLogTelemetrySmokeTests` covering missing, empty, schema mismatch, and healthy VR-006 scenarios via `ParsePipeline.live`, satisfying `todo.md #5`.
+- Updated `todo.md` and archived monitoring summaries to reflect completed UI telemetry coverage.
+
 ## 🧠 Source References
 
 - [`ISOInspector_Master_PRD.md`](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)

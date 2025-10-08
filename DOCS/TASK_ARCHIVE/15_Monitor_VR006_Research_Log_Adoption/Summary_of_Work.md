@@ -24,10 +24,6 @@
 
 ## Follow-Ups
 
-- Integrate the audit helper with forthcoming SwiftUI previews to guarantee UI
+- ✅ SwiftUI previews now integrate the audit helper via `ResearchLogPreviewProvider`.
 
-  bindings respect the schema.
-
-- Extend telemetry once UI smoke tests exist to watch for missing VR-006
-
-  entries.
+- ✅ UI smoke telemetry (`ResearchLogTelemetrySmokeTests`) watches for missing VR-006 entries.
