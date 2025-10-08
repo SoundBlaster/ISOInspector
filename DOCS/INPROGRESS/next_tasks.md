@@ -1,3 +1,3 @@
 # Next Tasks
 
-- [x] Execute VR-006 research logging alongside the CLI and UI metadata consumption work tracked in `todo.md #3`, ensuring ordering insights flow into downstream consumers.
+- [ ] Monitor VR-006 research log schema adoption as UI components evolve so CLI and UI consumers surface consistent insights (see `todo.md #3`).
