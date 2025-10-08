@@ -115,3 +115,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/20_C2_Tree_View_Virtualization_Follow_Up/`.
 - **Highlights:** Documents closure of the virtualization spike, verification via `swift test`, and outlines follow-ups for connecting the explorer to real imports plus expanding filter coverage.
 - **Next steps carried forward:** Draft C3 detail/hex stores, integrate streaming snapshots from user-selected MP4s, and extend outline filters to surface catalog-driven categories per `@todo #6`.
+
+## 21_C2_Integrate_Outline_Explorer_With_Streaming
+- **Archived files:** `C2_Integrate_Outline_Explorer_With_Streaming.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/21_C2_Integrate_Outline_Explorer_With_Streaming/`.
+- **Highlights:** Captures the streaming-bound outline explorer that consumes live `ParseTreeStore` snapshots, introduces latency instrumentation via `Logger` signposts, and removes preview-only sample data wiring.
+- **Next steps carried forward:** Draft C3 detail and hex inspectors on the Combine bridge and expand outline filters to surface box categories plus streaming metadata (`@todo #6`).
