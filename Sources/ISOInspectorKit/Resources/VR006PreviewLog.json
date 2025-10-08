@@ -1,0 +1,14 @@
+[
+  {
+    "boxType": "zzzz",
+    "filePath": "/ResearchLogs/unknown_box.mp4",
+    "startOffset": 512,
+    "endOffset": 768
+  },
+  {
+    "boxType": "abcd",
+    "filePath": "/ResearchLogs/another_unknown.mp4",
+    "startOffset": 1024,
+    "endOffset": 1536
+  }
+]
