@@ -85,3 +85,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/15_Monitor_VR006_Research_Log_Adoption/`.
 - **Highlights:** Captures the VR-006 monitoring audit work, including the shared schema banner, CLI audit helper, and the monitoring checklist detailing integration checkpoints.
 - **Next steps carried forward:** Integrate the audit helper with SwiftUI previews and expand telemetry once UI smoke tests are in place to flag missing VR-006 research log entries.
+
+## 16_Integrate_ResearchLogMonitor_SwiftUI_Previews
+- **Archived files:** `04_Integrate_ResearchLogMonitor_SwiftUI_Previews.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/16_Integrate_ResearchLogMonitor_SwiftUI_Previews/`.
+- **Highlights:** Captures integration of `ResearchLogMonitor.audit(logURL:)` with SwiftUI previews, including deterministic VR-006 fixtures, preview diagnostics views, and regression coverage that keeps UI bindings aligned with the CLI audit helper.
+- **Next steps carried forward:** Extend VR-006 telemetry after UI smoke tests land so CLI and SwiftUI consumers surface missing research log entries per `todo.md #5`.
