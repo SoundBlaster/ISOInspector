@@ -100,7 +100,8 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
         )
 
         XCTAssertTrue(printed.first?.contains("Research log") ?? false)
-        let output = try XCTUnwrap(printed.dropFirst().first)
+        XCTAssertTrue(printed.dropFirst().first?.contains("VR-006 schema v") ?? false)
+        let output = try XCTUnwrap(printed.dropFirst(2).first)
         XCTAssertTrue(output.contains(descriptor.name))
         XCTAssertTrue(output.contains(descriptor.summary))
         XCTAssertTrue(output.contains(issue.message))
@@ -161,6 +162,7 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
         )
 
         XCTAssertTrue(printed.contains(where: { $0.contains("/tmp/research-log.json") }))
+        XCTAssertTrue(printed.contains(where: { $0.contains("VR-006 schema v") }))
         XCTAssertEqual(recorder.entries.count, 1)
         let entry = try XCTUnwrap(recorder.entries.first)
         XCTAssertEqual(entry.boxType, "zzzz")
