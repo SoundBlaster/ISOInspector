@@ -79,3 +79,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/14_B5_VR006_Research_Logging/`.
 - **Highlights:** Documents delivery of persistent VR-006 research logging shared by CLI and UI consumers, including configurable log handling and expanded streaming pipeline coverage.
 - **Next steps carried forward:** Monitor research log schema usage as UI components mature so downstream CLI/UI metadata consumers surface consistent insights per `todo.md #3`.
+
+## 15_Monitor_VR006_Research_Log_Adoption
+- **Archived files:** `15_Monitor_VR006_Research_Log_Adoption.md`, `Summary_of_Work.md`, `VR006_Monitoring_Checklist.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/15_Monitor_VR006_Research_Log_Adoption/`.
+- **Highlights:** Captures the VR-006 monitoring audit work, including the shared schema banner, CLI audit helper, and the monitoring checklist detailing integration checkpoints.
+- **Next steps carried forward:** Integrate the audit helper with SwiftUI previews and expand telemetry once UI smoke tests are in place to flag missing VR-006 research log entries.
