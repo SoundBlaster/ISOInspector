@@ -8,3 +8,5 @@
     - [x] VR-004 `ftyp` must appear before any media box.
     - [x] VR-005 `moov` must precede `mdat` unless flagged streaming.
     - [x] VR-006 Research log persists unknown boxes for follow-up analysis.
+- [ ] #4 Integrate ResearchLogMonitor with SwiftUI previews once VR-006 UI surfaces consume research entries.
+- [ ] #5 Emit telemetry during UI smoke tests to flag missing VR-006 research log events.

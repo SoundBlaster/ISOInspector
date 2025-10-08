@@ -145,6 +145,9 @@ public enum ISOInspectorCLIRunner {
                 let reader = try environment.makeReader(options.fileURL)
                 let researchLog = try environment.makeResearchLogWriter(options.researchLogURL)
                 environment.print("Research log → \(options.researchLogURL.path)")
+                environment.print(
+                    "VR-006 schema v\(ResearchLogSchema.version): \(ResearchLogSchema.fieldNames.joined(separator: ", "))"
+                )
                 let events = environment.parsePipeline.events(
                     for: reader,
                     context: .init(source: options.fileURL, researchLog: researchLog)
