@@ -81,6 +81,11 @@ extension ParseTreeStore {
         guard let reader else { return nil }
         return RandomAccessHexSliceProvider(reader: reader)
     }
+
+    func makePayloadAnnotationProvider() -> PayloadAnnotationProvider? {
+        guard let reader else { return nil }
+        return RandomAccessPayloadAnnotationProvider(reader: reader)
+    }
 }
 
 extension ParseTreeStore {

@@ -11,4 +11,4 @@
 - [x] #4 Integrate ResearchLogMonitor with SwiftUI previews once VR-006 UI surfaces consume research entries.
 - [x] #5 Emit telemetry during UI smoke tests to flag missing VR-006 research log events.
 - [x] #6 Add box category and streaming metadata filters once corresponding models are available.
-- [ ] #7 Highlight field subranges and support selection syncing once payload annotations are available.
+- [x] #7 Highlight field subranges and support selection syncing once payload annotations are available.
