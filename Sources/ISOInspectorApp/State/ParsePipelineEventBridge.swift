@@ -20,7 +20,8 @@ public struct ParsePipelineEventBridge {
     }
 
     public final class Connection {
-        private let subject = PassthroughSubject<ParseEvent, Error>()
+        private let subject: PassthroughSubject<ParseEvent, Error>
+        private let relay: SubjectRelay
         private var stream: ParsePipeline.EventStream?
         private var streamingTask: Task<Void, Never>?
         private var hasStarted = false
@@ -28,6 +29,9 @@ public struct ParsePipelineEventBridge {
 
         init(stream: ParsePipeline.EventStream) {
             self.stream = stream
+            let subject = PassthroughSubject<ParseEvent, Error>()
+            self.subject = subject
+            self.relay = SubjectRelay(subject: subject)
         }
 
         deinit {
@@ -55,7 +59,7 @@ public struct ParsePipelineEventBridge {
             let shouldFinishImmediately = task == nil
             task?.cancel()
             if shouldFinishImmediately {
-                subject.send(completion: .finished)
+                Task { await relay.finish() }
             }
         }
 
@@ -72,17 +76,18 @@ public struct ParsePipelineEventBridge {
             stream = self.stream
             self.stream = nil
             if let stream {
+                let relay = self.relay
                 task = Task {
                     do {
                         for try await event in stream {
-                            subject.send(event)
+                            await relay.send(event)
                         }
-                        subject.send(completion: .finished)
+                        await relay.finish()
                     } catch {
                         if error is CancellationError {
-                            subject.send(completion: .finished)
+                            await relay.finish()
                         } else {
-                            subject.send(completion: .failure(error))
+                            await relay.fail(error)
                         }
                     }
                 }
@@ -93,9 +98,29 @@ public struct ParsePipelineEventBridge {
             lock.unlock()
 
             if stream == nil {
-                subject.send(completion: .finished)
+                Task { await relay.finish() }
             }
         }
+    }
+}
+
+private actor SubjectRelay {
+    private let subject: PassthroughSubject<ParseEvent, Error>
+
+    init(subject: PassthroughSubject<ParseEvent, Error>) {
+        self.subject = subject
+    }
+
+    func send(_ event: ParseEvent) {
+        subject.send(event)
+    }
+
+    func finish() {
+        subject.send(completion: .finished)
+    }
+
+    func fail(_ error: Error) {
+        subject.send(completion: .failure(error))
     }
 }
 #endif

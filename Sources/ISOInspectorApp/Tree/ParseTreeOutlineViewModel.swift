@@ -214,7 +214,8 @@ final class ParseTreeOutlineViewModel: ObservableObject {
             var values: [String] = [node.header.type.description.lowercased()]
             if let metadata = node.metadata {
                 values.append(metadata.name.lowercased())
-                if let summary = metadata.summary {
+                let summary = metadata.summary
+                if !summary.isEmpty {
                     values.append(summary.lowercased())
                 }
             }

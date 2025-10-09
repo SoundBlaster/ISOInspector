@@ -10,10 +10,8 @@ public final class ParseTreeStore: ObservableObject {
     @Published public private(set) var state: ParseTreeStoreState
 
     private let bridge: ParsePipelineEventBridge
-    private var connection: ParsePipelineEventBridge.Connection?
-    private var cancellable: AnyCancellable?
+    private let resources = ResourceBag()
     private var builder = Builder()
-    private var reader: RandomAccessReader?
 
     public init(
         bridge: ParsePipelineEventBridge = ParsePipelineEventBridge(),
@@ -30,7 +28,7 @@ public final class ParseTreeStore: ObservableObject {
         reader: RandomAccessReader,
         context: ParsePipeline.Context = .init()
     ) {
-        self.reader = reader
+        resources.reader = reader
         let connection = bridge.makeConnection(pipeline: pipeline, reader: reader, context: context)
         bind(to: connection)
     }
@@ -40,8 +38,8 @@ public final class ParseTreeStore: ObservableObject {
         builder = Builder()
         snapshot = .empty
         state = .parsing
-        self.connection = connection
-        cancellable = connection.events
+        resources.connection = connection
+        resources.cancellable = connection.events
             .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { [weak self] completion in
                 guard let self else { return }
@@ -59,32 +57,49 @@ public final class ParseTreeStore: ObservableObject {
     }
 
     public func cancel() {
-        connection?.cancel()
+        resources.connection?.cancel()
         disconnect()
         state = .finished
     }
 
-    deinit {
-        disconnect()
-    }
-
     private func disconnect() {
-        cancellable?.cancel()
-        cancellable = nil
-        connection = nil
-        reader = nil
+        resources.reset()
     }
 }
 
 extension ParseTreeStore {
     func makeHexSliceProvider() -> HexSliceProvider? {
-        guard let reader else { return nil }
+        guard let reader = resources.reader else { return nil }
         return RandomAccessHexSliceProvider(reader: reader)
     }
 
     func makePayloadAnnotationProvider() -> PayloadAnnotationProvider? {
-        guard let reader else { return nil }
+        guard let reader = resources.reader else { return nil }
         return RandomAccessPayloadAnnotationProvider(reader: reader)
+    }
+}
+
+@MainActor
+private final class ResourceBag {
+    var connection: ParsePipelineEventBridge.Connection? {
+        didSet { oldValue?.cancel() }
+    }
+
+    var cancellable: AnyCancellable? {
+        didSet { oldValue?.cancel() }
+    }
+
+    var reader: RandomAccessReader?
+
+    deinit {
+        connection?.cancel()
+        cancellable?.cancel()
+    }
+
+    func reset() {
+        cancellable = nil
+        connection = nil
+        reader = nil
     }
 }
 
