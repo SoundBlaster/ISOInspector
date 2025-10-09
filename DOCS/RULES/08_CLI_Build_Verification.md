@@ -6,7 +6,8 @@ Maintainers must ensure the command-line interface target `ISOInspectorCLI` buil
 
 - Run the CLI verification script before cutting releases or merging changes that affect the CLI.
 - The script must complete without failures, confirming the CLI target and its `isoinspect` executable product compile with warnings treated as errors.
-- Prefer the Docker-backed execution mode to reproduce the canonical Linux build unless you are already on Linux with a compatible Swift toolchain.
+- Prefer the Docker-backed execution mode to reproduce the canonical Linux build unless you are already on Linux with a
+  compatible Swift toolchain.
 
 ## ▶️ Verification Script
 
@@ -14,6 +15,7 @@ Execute the helper from the repository root:
 
 ```bash
 ./scripts/check_cli_linux.sh
+
 ```
 
 ### Options
@@ -30,9 +32,9 @@ When Docker is enabled, the script mounts the repository into the container and 
 ## 📋 What the Script Checks
 
 1. Resolves package dependencies.
-2. Builds the full package in release mode with warnings treated as errors.
-3. Runs the test suite in parallel.
-4. Builds the `ISOInspectorCLI` target in release mode with warnings as errors.
-5. Builds the distributable `isoinspect` executable and prints the binary path.
+1. Builds the full package in release mode with warnings treated as errors.
+1. Runs the test suite in parallel.
+1. Builds the `ISOInspectorCLI` target in release mode with warnings as errors.
+1. Builds the distributable `isoinspect` executable and prints the binary path.
 
 If any of these steps fail, the CLI is not considered Linux-ready and the issue must be resolved before proceeding.
