@@ -32,10 +32,10 @@ struct ParseTreeExplorerView: View {
                 annotationProvider: store.makePayloadAnnotationProvider()
             )
         }
-        .onChange(of: selectedNodeID) { newValue in
+        .onChange(of: selectedNodeID) { _, newValue in
             detailViewModel.select(nodeID: newValue)
         }
-        .onChange(of: store.state) { _ in
+        .onChange(of: store.state) { _, _ in
             detailViewModel.update(
                 hexSliceProvider: store.makeHexSliceProvider(),
                 annotationProvider: store.makePayloadAnnotationProvider()

@@ -64,6 +64,7 @@ public final class ParseTreeStore: ObservableObject {
         state = .finished
     }
 
+    @MainActor
     deinit {
         disconnect()
     }

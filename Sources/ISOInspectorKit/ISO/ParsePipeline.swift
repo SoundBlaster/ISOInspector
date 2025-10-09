@@ -24,6 +24,10 @@ public struct ParseEvent: Equatable, Sendable {
     }
 }
 
+private struct UnsafeSendable<Value>: @unchecked Sendable {
+    let value: Value
+}
+
 public struct ParsePipeline: Sendable {
     public struct Context: Sendable {
         public var source: URL?
@@ -48,7 +52,7 @@ public struct ParsePipeline: Sendable {
         self.buildStream = buildStream
     }
 
-    public init(buildStream: @escaping (_ reader: RandomAccessReader) -> EventStream) {
+    public init(buildStream: @escaping @Sendable (_ reader: RandomAccessReader) -> EventStream) {
         self.buildStream = { reader, _ in buildStream(reader) }
     }
 
@@ -63,8 +67,13 @@ public extension ParsePipeline {
         researchLog: (any ResearchLogRecording)? = nil
     ) -> ParsePipeline {
         ParsePipeline(buildStream: { reader, context in
-            AsyncThrowingStream { continuation in
+            let readerBox = UnsafeSendable(value: reader)
+            let contextBox = UnsafeSendable(value: context)
+
+            return AsyncThrowingStream { continuation in
                 let task = Task {
+                    let reader = readerBox.value
+                    let context = contextBox.value
                     let walker = StreamingBoxWalker()
                     var metadataStack: [BoxDescriptor?] = []
                     let logger = DiagnosticsLogger(subsystem: "ISOInspectorKit", category: "ParsePipeline")

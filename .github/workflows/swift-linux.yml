@@ -1,0 +1,73 @@
+name: Swift (Linux)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint-build-test:
+    name: SwiftLint, Build, Test & Coverage (Linux)
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Swift 6.0.1
+        uses: SwiftyLab/setup-swift@v1
+        with:
+          swift-version: '6.0.1'
+
+      - name: SwiftLint autocorrect check
+        run: |
+          set -euo pipefail
+          docker run --rm \
+            -v "$PWD":"$PWD" \
+            -w "$PWD" \
+            ghcr.io/realm/swiftlint:0.53.0 \
+            swiftlint lint --autocorrect --strict
+          if ! git diff --quiet; then
+            echo "::error::SwiftLint autocorrect produced changes. Run scripts/swiftlint-format.sh locally and commit the results."
+            git --no-pager diff
+            exit 1
+          fi
+
+      - name: SwiftLint
+        run: |
+          docker run --rm \
+            -v "$PWD":"$PWD" \
+            -w "$PWD" \
+            ghcr.io/realm/swiftlint:0.53.0 \
+            swiftlint lint --strict
+
+      - name: Cache SwiftPM build artifacts
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('Package.swift', 'Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Build (debug with tests)
+        run: swift build --build-tests
+
+      - name: Test with coverage
+        run: swift test --enable-code-coverage
+
+      - name: Coverage summary
+        run: |
+          set -euo pipefail
+          profile=".build/debug/codecov/default.profdata"
+          if [ ! -f "$profile" ]; then
+            echo "::error::Coverage profile not found at $profile"
+            exit 1
+          fi
+          mapfile -t binaries < <(find .build -type f -name '*.xctest')
+          if [ "${#binaries[@]}" -eq 0 ]; then
+            echo "::error::No test binaries found for coverage reporting"
+            exit 1
+          fi
+          llvm-cov report --ignore-filename-regex='Tests/' --instr-profile="$profile" "${binaries[@]}"

@@ -1,6 +1,9 @@
 #if canImport(SwiftUI)
 import SwiftUI
 import ISOInspectorKit
+#if os(macOS)
+import AppKit
+#endif
 
 struct ResearchLogAuditPreview: View {
     let snapshot: ResearchLogPreviewSnapshot
@@ -25,7 +28,7 @@ struct ResearchLogAuditPreview: View {
         .padding(16)
         .background(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
-                .fill(Color(.secondarySystemBackground))
+                .fill(containerBackgroundColor)
         )
         .overlay(
             RoundedRectangle(cornerRadius: 16, style: .continuous)
@@ -135,20 +138,25 @@ struct ResearchLogAuditPreview: View {
             return .red.opacity(0.65)
         }
     }
+
+    private var containerBackgroundColor: Color {
+#if os(macOS)
+        Color(nsColor: .secondarySystemBackground)
+#else
+        Color(.secondarySystemBackground)
+#endif
+    }
 }
 
-#Preview("VR-006 Fixture Ready") {
+#Preview("VR-006 Fixture Ready", traits: .sizeThatFitsLayout) {
     ResearchLogAuditPreview(snapshot: ResearchLogPreviewProvider.validFixture())
-        .previewLayout(.sizeThatFits)
 }
 
-#Preview("VR-006 Fixture Missing") {
+#Preview("VR-006 Fixture Missing", traits: .sizeThatFitsLayout) {
     ResearchLogAuditPreview(snapshot: ResearchLogPreviewProvider.missingFixture())
-        .previewLayout(.sizeThatFits)
 }
 
-#Preview("VR-006 Schema Drift") {
+#Preview("VR-006 Schema Drift", traits: .sizeThatFitsLayout) {
     ResearchLogAuditPreview(snapshot: ResearchLogPreviewProvider.schemaMismatchFixture())
-        .previewLayout(.sizeThatFits)
 }
 #endif
