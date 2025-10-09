@@ -1,0 +1,59 @@
+name: macOS Build
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  macos-builds:
+    name: macOS Archive & CLI Binary
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select latest stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 'latest-stable'
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Archive ISOInspectorApp (unsigned)
+        run: |
+          set -eo pipefail
+          xcodebuild archive \
+            -scheme ISOInspectorApp \
+            -destination 'generic/platform=macOS' \
+            -archivePath build/ISOInspectorApp \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO
+
+      - name: Build ISOInspectorCLI release binary
+        run: swift build --product isoinspect --configuration release
+
+      - name: Prepare artifacts
+        run: |
+          set -eo pipefail
+          mkdir -p artifacts
+          cp -R build/ISOInspectorApp.xcarchive artifacts/
+          cli_path=$(swift build --product isoinspect --configuration release --show-bin-path)
+          cp "$cli_path/isoinspect" artifacts/isoinspect
+
+      - name: Upload ISOInspectorApp archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: ISOInspectorApp-unsigned-archive
+          path: artifacts/ISOInspectorApp.xcarchive
+
+      - name: Upload isoinspect binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: isoinspect-macos-release
+          path: artifacts/isoinspect
