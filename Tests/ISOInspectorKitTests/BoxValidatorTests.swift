@@ -229,6 +229,7 @@ final class BoxValidatorTests: XCTestCase {
             identifier: identifier,
             name: "Test",
             summary: "Test descriptor",
+            category: nil,
             specification: nil,
             version: version,
             flags: flags

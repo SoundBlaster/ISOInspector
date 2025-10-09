@@ -38,6 +38,7 @@ final class MP4RACatalogRefresherTests: XCTestCase {
         XCTAssertEqual(catalog.boxes[1].type, "aud ")
         XCTAssertEqual(catalog.boxes[1].name, "Access Unit Delimiter")
         XCTAssertEqual(catalog.boxes[1].summary, "Access unit delimiter (category: sample group)")
+        XCTAssertEqual(catalog.boxes[1].category, "sample group")
 
         XCTAssertEqual(catalog.boxes[2].summary, "audio handler entry (handler: Audio, objectType: 0xAF)")
         XCTAssertEqual(catalog.boxes[2].name, "Audio Handler Entry")
@@ -65,6 +66,7 @@ final class MP4RACatalogRefresherTests: XCTestCase {
                     uuid: nil,
                     name: "File Type Box",
                     summary: "Identifies the file type and compatibility brands for the bitstream.",
+                    category: nil,
                     specification: "ISO/IEC 14496-12",
                     version: 0,
                     flags: "000001"
@@ -74,6 +76,7 @@ final class MP4RACatalogRefresherTests: XCTestCase {
                     uuid: "11111111-1111-1111-1111-111111111111",
                     name: "KLV Sample Entry",
                     summary: "Carries SMPTE KLV sample metadata using a registered UUID container.",
+                    category: nil,
                     specification: "SMPTE ST 336",
                     version: nil,
                     flags: nil
@@ -115,6 +118,7 @@ final class MP4RACatalogRefresherTests: XCTestCase {
                 let uuid: String?
                 let name: String
                 let summary: String
+                let category: String?
                 let specification: String?
                 let version: Int?
                 let flags: String?

@@ -114,6 +114,11 @@ def validate_structure(data: object, errors: List[str]) -> None:
                 if not isinstance(value, str) or not value.strip():
                     errors.append(f"{context} {field} must be a non-empty string when present")
 
+        if "category" in entry:
+            value = entry["category"]
+            if not isinstance(value, str) or not value.strip():
+                errors.append(f"{context} category must be a non-empty string when present")
+
         if "flags" in entry and not isinstance(entry["flags"], str):
             errors.append(f"{context} flags must be stored as a string")
 

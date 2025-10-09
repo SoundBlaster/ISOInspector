@@ -29,6 +29,15 @@ final class BoxCatalogTests: XCTestCase {
         XCTAssertNil(catalog.descriptor(for: header))
     }
 
+    func testLookupExtractsCategoryFromSummary() throws {
+        let catalog = try BoxCatalog.loadBundledCatalog()
+        let header = try makeHeader(type: "GRAP")
+
+        let descriptor = try XCTUnwrap(catalog.descriptor(for: header))
+
+        XCTAssertEqual(descriptor.category, "handler")
+    }
+
     private func makeHeader(type: String, uuid: UUID? = nil) throws -> BoxHeader {
         let code = try FourCharCode(type)
         return BoxHeader(
