@@ -1,8 +1,8 @@
 # TODO: Integrate Minimal MP4RA JSON Validator
 
-- [ ] Add the validator script to the repo at `scripts/validate_mp4ra_minimal.py`.
-- [ ] Make the script executable: `chmod +x scripts/validate_mp4ra_minimal.py` (optional on Windows).
-- [ ] Create a GitHub Actions workflow `.github/workflows/validate-mp4ra-minimal.yml`:
+- [x] Add the validator script to the repo at `scripts/validate_mp4ra_minimal.py`.
+- [x] Make the script executable: `chmod +x scripts/validate_mp4ra_minimal.py` (optional on Windows).
+- [x] Create a GitHub Actions workflow `.github/workflows/validate-mp4ra-minimal.yml`:
 
   ```yaml
   name: Validate MP4RA Catalog (Minimal)
@@ -31,7 +31,7 @@
   ```
 
 - [ ] (Optional) Add a pre-commit hook to run the validator locally before commits.
-- [ ] Document the maintenance flow in `README.md` (how to update MP4RA snapshot and run the validator).
+- [x] Document the maintenance flow in `README.md` (how to update MP4RA snapshot and run the validator).
 - [ ] (Optional) Add a `make validate` target to ease local usage:
 
   ```makefile
