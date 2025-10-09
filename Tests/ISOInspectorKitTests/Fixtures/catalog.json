@@ -1,0 +1,23 @@
+{
+  "fixtures": [
+    {
+      "id": "baseline-sample",
+      "title": "Baseline QuickTime sample",
+      "description": "Apple sample MP4 containing baseline H.264 video and AAC audio, used for parser smoke tests.",
+      "format": "mp4",
+      "tags": ["baseline", "reference"],
+      "resource": {
+        "name": "bear-1280x720",
+        "extension": "mp4",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "https://developer.apple.com/streaming/example-files/"
+      },
+      "expectations": {
+        "warnings": [],
+        "errors": []
+      }
+    }
+  ]
+}
