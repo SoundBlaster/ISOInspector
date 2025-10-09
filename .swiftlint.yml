@@ -1,0 +1,25 @@
+disabled_rules:
+  - line_length
+  - todo
+  - type_name
+  - force_try
+  - function_body_length
+  - file_length
+  - type_body_length
+  - nesting
+  - cyclomatic_complexity
+  - redundant_string_enum_value
+  - unneeded_synthesized_initializer
+  - optional_data_string_conversion
+
+excluded:
+  - .build
+  - DOCS
+
+line_length:
+  ignores_comments: true
+  ignores_urls: true
+
+identifier_name:
+  excluded:
+    - id
