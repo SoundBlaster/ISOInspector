@@ -36,6 +36,7 @@ For every task/iteration:
      - Compile callers and repair breakages in CLI/App.
      - Add or update *integration tests* that exercise the changed API from CLI/App level.
    - If you add new Kit feature, create a **minimal usage** in CLI and, when relevant, a thin UI/flow in App (even
+
      behind a dev flag).
 
 1. **Design the smallest PR**
