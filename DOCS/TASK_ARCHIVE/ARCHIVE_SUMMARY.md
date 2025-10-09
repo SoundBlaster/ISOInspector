@@ -145,3 +145,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/25_B4_C2_Category_Filtering/`.
 - **Highlights:** Documents the MP4RA catalog enrichment that adds category metadata to streaming parse events alongside the SwiftUI outline explorer updates that surface category chips and streaming toggles without regressing virtualization performance.
 - **Next steps carried forward:** None — all noted follow-ups were resolved, so backlog selection can resume from `todo.md` and the execution workplan.
+
+## 26_F1_Fixtures_and_B4_MP4RA
+- **Archived files:** `B4_Integrate_MP4RA_Metadata_Catalog.md`, `F1_Develop_Automated_Test_Fixtures.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/26_F1_Fixtures_and_B4_MP4RA/`.
+- **Highlights:** Captures the MP4RA catalog integration plan alongside the automated fixture corpus roadmap, including streamed metadata enrichment goals and the newly added regression fixtures and tests outlined in the work summary.
+- **Next steps carried forward:** Expand the fixture catalog with fragmented, DASH, and malformed assets plus validation expectations (`@todo #8`), now tracked in `DOCS/INPROGRESS/next_tasks.md`.
