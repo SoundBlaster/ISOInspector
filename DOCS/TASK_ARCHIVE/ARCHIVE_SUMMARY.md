@@ -133,3 +133,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/`.
 - **Highlights:** Documents the SwiftUI detail and hex inspectors bound to `ParseTreeSnapshot` updates, including metadata panes, validation issue listings, and synchronized hex slices powered by asynchronous providers.
 - **Next steps carried forward:** #7 Highlight field subranges and sync selections once payload annotations are available so detail panes and hex viewers stay aligned.
+
+## 24_C3_Highlight_Field_Subranges
+- **Archived files:** `07_Highlight_Field_Subranges.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/`.
+- **Highlights:** Captures the SwiftUI detail pane updates that surface selectable annotations, synchronized hex highlighting, and the random-access payload annotation provider backing the new interaction model.
+- **Next steps carried forward:** None — the follow-up checklist has been cleared, so future backlog selection can proceed from `todo.md` and the execution workplan.
