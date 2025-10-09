@@ -12,3 +12,4 @@
 - [x] #5 Emit telemetry during UI smoke tests to flag missing VR-006 research log events.
 - [x] #6 Add box category and streaming metadata filters once corresponding models are available.
 - [x] #7 Highlight field subranges and support selection syncing once payload annotations are available.
+- [ ] #8 Expand fixture catalog with fragmented, DASH, and malformed samples plus expected validation notes.
