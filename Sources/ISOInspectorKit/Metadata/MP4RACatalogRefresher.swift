@@ -92,6 +92,7 @@ public struct MP4RACatalogRefresher {
             public let uuid: String?
             public let name: String
             public let summary: String
+            public let category: String?
             public let specification: String?
             public let version: Int?
             public let flags: String?
@@ -142,11 +143,13 @@ public struct MP4RACatalogRefresher {
             let name = makeName(from: record.description)
             let summary = makeSummary(from: record)
             let specification = sanitized(record.specification)
+            let category = sanitized(record.category)
             let entry = Catalog.Entry(
                 type: code,
                 uuid: nil,
                 name: name,
                 summary: summary,
+                category: category,
                 specification: specification,
                 version: nil,
                 flags: nil
@@ -202,6 +205,7 @@ public struct MP4RACatalogRefresher {
                         uuid: entry.uuid,
                         name: entry.name,
                         summary: entry.summary,
+                        category: nil,
                         specification: entry.specification,
                         version: entry.version,
                         flags: entry.flags
@@ -312,6 +316,7 @@ public struct MP4RACatalogRefresher {
             uuid: uuid,
             name: preferBaselineDetails ? baseline.name : preferredName(remote.name, baseline.name),
             summary: preferBaselineDetails ? baseline.summary : preferredSummary(remote.summary, baseline.summary),
+            category: remote.category ?? baseline.category,
             specification: preferBaselineDetails ? baseline.specification : preferredSpecification(remote.specification, baseline.specification),
             version: remote.version ?? baseline.version,
             flags: remote.flags ?? baseline.flags

@@ -9,14 +9,24 @@ public struct BoxDescriptor: Equatable, Sendable {
     public let identifier: Identifier
     public let name: String
     public let summary: String
+    public let category: String?
     public let specification: String?
     public let version: Int?
     public let flags: UInt32?
 
-    init(identifier: Identifier, name: String, summary: String, specification: String?, version: Int?, flags: UInt32?) {
+    init(
+        identifier: Identifier,
+        name: String,
+        summary: String,
+        category: String?,
+        specification: String?,
+        version: Int?,
+        flags: UInt32?
+    ) {
         self.identifier = identifier
         self.name = name
         self.summary = summary
+        self.category = category
         self.specification = specification
         self.version = version
         self.flags = flags
@@ -81,6 +91,7 @@ private struct CatalogLoader {
             let uuid: String?
             let name: String
             let summary: String
+            let category: String?
             let specification: String?
             let version: Int?
             let flags: String?
@@ -127,14 +138,38 @@ private struct CatalogLoader {
             }
             return value
         }
+        let category = sanitize(entry.category) ?? extractCategory(from: entry.summary)
         return BoxDescriptor(
             identifier: identifier,
             name: entry.name,
             summary: entry.summary,
+            category: category,
             specification: entry.specification,
             version: entry.version,
             flags: flags
         )
+    }
+
+    private func extractCategory(from summary: String) -> String? {
+        guard let categoryRange = summary.range(of: "category:", options: [.caseInsensitive]) else {
+            return nil
+        }
+
+        var value = summary[categoryRange.upperBound...]
+        if let closingIndex = value.firstIndex(where: { $0 == ")" }) {
+            value = value[..<closingIndex]
+        }
+        if let commaIndex = value.firstIndex(of: ",") {
+            value = value[..<commaIndex]
+        }
+        let trimmed = value.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? nil : trimmed
+    }
+
+    private func sanitize(_ text: String?) -> String? {
+        guard let text else { return nil }
+        let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+        return trimmed.isEmpty ? nil : trimmed
     }
 }
 
