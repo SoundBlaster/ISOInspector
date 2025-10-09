@@ -6,7 +6,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
 | A1 | Initialize SwiftPM workspace with core, UI, CLI targets and shared test utilities. | High | 1 | None | SwiftPM, Xcode | Repository builds successfully; targets link with placeholder implementations. |
-| A2 | Configure CI pipeline (GitHub Actions or similar) for build, test, lint. | High | 1.5 | A1 | GitHub Actions, swiftlint | CI runs on pull requests; failing tests block merge. |
+| A2 | Configure CI pipeline (GitHub Actions or similar) for build, test, lint. | High | 1.5 | A1 | GitHub Actions, swiftlint | CI runs on pull requests; failing tests block merge. (Completed ✅ — archived in `DOCS/ARCHIVE/01_A2_Configure_CI_Pipeline/`.) |
 | A3 | Set up DocC catalog and documentation publishing workflow. | Medium | 1 | A1 | DocC, SwiftPM | `docc` build succeeds; docs published artifact accessible. |
 
 ## Phase B — Core Parsing Engine
@@ -15,7 +15,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | B1 | Implement chunked file reader with configurable buffer size and tests. | High | 1.5 | A1 | Swift, XCTest | Reader streams 1 MB chunks; tests cover EOF, seek, and error paths. (Completed ✅) |
 | B2 | Build box header decoder supporting 32-bit, 64-bit, and `uuid` boxes. | High | 2 | B1 | Swift, XCTest | Unit tests for standard and extended headers; handles malformed sizes gracefully. (Completed ✅) |
 | B3 | Implement streaming parse pipeline with event emission and context stack. | High | 3 | B2 | Swift Concurrency, XCTest | Parsing sample files emits ordered events with correct offsets. (Completed ✅) |
-| B4 | Integrate MP4RA metadata catalog and fallback for unknown boxes. | High | 2 | B3 | Swift, JSON parsing | Catalog loads from bundled JSON; unknown types logged for research. |
+| B4 | Integrate MP4RA metadata catalog and fallback for unknown boxes. | High | 2 | B3 | Swift, JSON parsing | Catalog loads from bundled JSON; unknown types logged for research. (Completed ✅ — see `DOCS/TASK_ARCHIVE/25_B4_C2_Category_Filtering/`.) |
 | B5 | Implement validation rules VR-001 to VR-006 with test coverage. | High | 2 | B3 | XCTest | Malformed fixtures trigger expected validation outcomes. (Completed ✅ — VR-006 research logging now persists unknown boxes to a shared research log for CLI/UI analysis.) |
 | B6 | Add JSON and binary export modules with regression tests. | Medium | 1.5 | B3 | Swift Codable | Exported files re-import successfully; CLI smoke tests pass. |
 
@@ -23,8 +23,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
 | C1 | Create Combine bridge and state stores for parse events. | High | 1.5 | B3 | Combine, SwiftUI | Store receives events and updates snapshot without race conditions. (Completed ✅ — Combine-backed session bridge fan-outs parse events to SwiftUI `@MainActor` tree store with validation aggregation.) |
-| C2 | Implement tree view with virtualization, search, and filters. | High | 2.5 | C1 | SwiftUI | UI renders >10k nodes smoothly; search reduces nodes instantly. |
-| C3 | Build detail pane with metadata, validation list, and hex viewer. | High | 3 | C1 | SwiftUI | Selecting node shows metadata; hex viewer displays payload windows. |
+| C2 | Implement tree view with virtualization, search, and filters. | High | 2.5 | C1 | SwiftUI | UI renders >10k nodes smoothly; search reduces nodes instantly. (Completed ✅ — captured across `DOCS/TASK_ARCHIVE/19_C2_Tree_View_Virtualization/` through `22_C2_Extend_Outline_Filters/`.) |
+| C3 | Build detail pane with metadata, validation list, and hex viewer. | High | 3 | C1 | SwiftUI | Selecting node shows metadata; hex viewer displays payload windows. (Completed ✅ — documented in `DOCS/TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/` and `24_C3_Highlight_Field_Subranges/`.) |
 | C4 | Add annotation and bookmark management with persistence hooks. | Medium | 2 | C1 | CoreData/JSON | Notes persist across app relaunch; tests validate storage schema. |
 | C5 | Implement accessibility features (VoiceOver labels, keyboard navigation). | Medium | 1.5 | C2, C3 | Accessibility Inspector | Accessibility audit passes; UI tests confirm focus order. |
 

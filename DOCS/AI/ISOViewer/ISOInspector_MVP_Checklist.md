@@ -2,6 +2,33 @@
 
 > Scope: Minimal streaming parser + validators + JSON export (no UI yet), aligned to PRD.
 
+## ✅ Archived Delivery Log
+- [x] [01_B1_Chunked_File_Reader](../../TASK_ARCHIVE/01_B1_Chunked_File_Reader)
+- [x] [02_B2_Box_Header_Decoder](../../TASK_ARCHIVE/02_B2_Box_Header_Decoder)
+- [x] [03_B2_Plus_Streaming_Interface_Evaluation](../../TASK_ARCHIVE/03_B2_Plus_Streaming_Interface_Evaluation)
+- [x] [04_B3_ParsePipeline_Live_Streaming](../../TASK_ARCHIVE/04_B3_ParsePipeline_Live_Streaming)
+- [x] [05_B3_Puzzle1_ParsePipeline_Live_Integration](../../TASK_ARCHIVE/05_B3_Puzzle1_ParsePipeline_Live_Integration)
+- [x] [06_B4_MP4RA_Metadata_Integration](../../TASK_ARCHIVE/06_B4_MP4RA_Metadata_Integration)
+- [x] [07_R1_MP4RA_Catalog_Refresh](../../TASK_ARCHIVE/07_R1_MP4RA_Catalog_Refresh)
+- [x] [08_Metadata_Driven_Validation_and_Reporting](../../TASK_ARCHIVE/08_Metadata_Driven_Validation_and_Reporting)
+- [x] [09_B4_Metadata_Follow_Up_Planning](../../TASK_ARCHIVE/09_B4_Metadata_Follow_Up_Planning)
+- [x] [10_B5_VR003_Metadata_Comparison_Rule](../../TASK_ARCHIVE/10_B5_VR003_Metadata_Comparison_Rule)
+- [x] [11_B5_VR003_Metadata_Validation](../../TASK_ARCHIVE/11_B5_VR003_Metadata_Validation)
+- [x] [12_B5_VR001_VR002_Structural_Validation](../../TASK_ARCHIVE/12_B5_VR001_VR002_Structural_Validation)
+- [x] [13_B5_VR004_VR005_Ordering_Validation](../../TASK_ARCHIVE/13_B5_VR004_VR005_Ordering_Validation)
+- [x] [14_B5_VR006_Research_Logging](../../TASK_ARCHIVE/14_B5_VR006_Research_Logging)
+- [x] [15_Monitor_VR006_Research_Log_Adoption](../../TASK_ARCHIVE/15_Monitor_VR006_Research_Log_Adoption)
+- [x] [16_Integrate_ResearchLogMonitor_SwiftUI_Previews](../../TASK_ARCHIVE/16_Integrate_ResearchLogMonitor_SwiftUI_Previews)
+- [x] [17_Extend_VR006_Telemetry_UI_Smoke_Tests](../../TASK_ARCHIVE/17_Extend_VR006_Telemetry_UI_Smoke_Tests)
+- [x] [18_C1_Combine_Bridge_and_State_Stores](../../TASK_ARCHIVE/18_C1_Combine_Bridge_and_State_Stores)
+- [x] [19_C2_Tree_View_Virtualization](../../TASK_ARCHIVE/19_C2_Tree_View_Virtualization)
+- [x] [20_C2_Tree_View_Virtualization_Follow_Up](../../TASK_ARCHIVE/20_C2_Tree_View_Virtualization_Follow_Up)
+- [x] [21_C2_Integrate_Outline_Explorer_With_Streaming](../../TASK_ARCHIVE/21_C2_Integrate_Outline_Explorer_With_Streaming)
+- [x] [22_C2_Extend_Outline_Filters](../../TASK_ARCHIVE/22_C2_Extend_Outline_Filters)
+- [x] [23_C3_Detail_and_Hex_Inspectors](../../TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors)
+- [x] [24_C3_Highlight_Field_Subranges](../../TASK_ARCHIVE/24_C3_Highlight_Field_Subranges)
+- [x] [25_B4_C2_Category_Filtering](../../TASK_ARCHIVE/25_B4_C2_Category_Filtering)
+
 ## Phase A — IO Foundations
 - [ ] A1. Define `RandomAccessReader` protocol (`length`, `read(at:count:)`, BE helpers stubs)
 - [ ] A2. Implement `MappedReader` (Data.mappedIfSafe) — placeholder file with TODOs
