@@ -21,6 +21,26 @@ Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (M
    swift test
    ```
 
+## Continuous Integration
+
+The repository ships with two GitHub Actions workflows that cover the primary
+targets:
+
+- **Swift (Linux)** runs SwiftLint, builds all products, executes the test
+  suite with coverage enabled, and prints a summary report.
+- **macOS Build** selects the latest stable Xcode toolchain, archives the
+  unsigned `ISOInspectorApp`, and publishes a release `isoinspect` CLI binary.
+
+Reproduce the automated checks locally with:
+
+```sh
+# Lint (requires SwiftLint; the Docker image used in CI also works locally)
+docker run --rm -v "$(pwd)":/workspace ghcr.io/realm/swiftlint:0.53.0 lint --strict
+
+# Build and test with coverage
+swift test --enable-code-coverage
+```
+
 ## Container Code Enumeration
 
 ISOInspectorKit now exposes a `FourCharContainerCode` enum that centralises the set of four-character container box identifiers
