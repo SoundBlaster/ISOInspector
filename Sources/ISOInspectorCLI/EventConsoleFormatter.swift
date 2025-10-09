@@ -1,7 +1,7 @@
 import Foundation
 import ISOInspectorKit
 
-public struct EventConsoleFormatter {
+public struct EventConsoleFormatter: Sendable {
     public init() {}
 
     public func format(_ event: ParseEvent) -> String {
