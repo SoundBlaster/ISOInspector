@@ -150,6 +150,41 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.rows.contains { $0.id == 2 })
     }
 
+    func testAvailableCategoriesReflectsSnapshotContents() throws {
+        let metadataNode = makeNode(identifier: 2, type: "meta")
+        let mediaNode = makeNode(identifier: 3, type: "mdat")
+        let indexNode = makeNode(identifier: 4, type: "sidx")
+        let otherNode = makeNode(identifier: 5, type: "free")
+        let root = makeNode(identifier: 1, type: "moov", children: [metadataNode, mediaNode, indexNode, otherNode])
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+
+        viewModel.apply(snapshot: snapshot)
+
+        XCTAssertEqual(viewModel.availableCategories, [.metadata, .media, .index, .container, .other])
+    }
+
+    func testContainsStreamingIndicatorsIsTrueWhenNodesPresent() throws {
+        let streamingNode = makeNode(identifier: 2, type: "sidx")
+        let root = makeNode(identifier: 1, type: "moov", children: [streamingNode])
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+
+        viewModel.apply(snapshot: snapshot)
+
+        XCTAssertTrue(viewModel.containsStreamingIndicators)
+    }
+
+    func testContainsStreamingIndicatorsIsFalseWhenAbsent() throws {
+        let root = makeNode(identifier: 1, type: "moov")
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+
+        viewModel.apply(snapshot: snapshot)
+
+        XCTAssertFalse(viewModel.containsStreamingIndicators)
+    }
+
     // MARK: - Helpers
 
     private func makeNode(
