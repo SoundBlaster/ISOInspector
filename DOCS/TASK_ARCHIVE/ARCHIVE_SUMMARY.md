@@ -139,3 +139,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/`.
 - **Highlights:** Captures the SwiftUI detail pane updates that surface selectable annotations, synchronized hex highlighting, and the random-access payload annotation provider backing the new interaction model.
 - **Next steps carried forward:** None — the follow-up checklist has been cleared, so future backlog selection can proceed from `todo.md` and the execution workplan.
+
+## 25_B4_MP4RA_Category_Integration
+- **Archived files:** `2025-10-09-mp4ra-category-integration.md`, `B4_Integrate_MP4RA_Metadata_Catalog.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/25_B4_MP4RA_Category_Integration/`.
+- **Highlights:** Captures the catalog category enrichment work, including `BoxDescriptor` updates, the refresher pipeline preservation of category metadata, and validator adjustments that keep workspace tests green.
+- **Next steps carried forward:** None — pending follow-ups were cleared during this task.
