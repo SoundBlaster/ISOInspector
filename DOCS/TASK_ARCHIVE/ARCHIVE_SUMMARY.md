@@ -139,3 +139,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/`.
 - **Highlights:** Captures the SwiftUI detail pane updates that surface selectable annotations, synchronized hex highlighting, and the random-access payload annotation provider backing the new interaction model.
 - **Next steps carried forward:** None — the follow-up checklist has been cleared, so future backlog selection can proceed from `todo.md` and the execution workplan.
+
+## 25_B4_C2_Category_Filtering
+- **Archived files:** `2025-10-09-mp4ra-category-integration.md`, `B4_Integrate_MP4RA_Metadata_Catalog.md`, `C2_Tree_View_Virtualization.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/25_B4_C2_Category_Filtering/`.
+- **Highlights:** Documents the MP4RA catalog enrichment that adds category metadata to streaming parse events alongside the SwiftUI outline explorer updates that surface category chips and streaming toggles without regressing virtualization performance.
+- **Next steps carried forward:** None — all noted follow-ups were resolved, so backlog selection can resume from `todo.md` and the execution workplan.
