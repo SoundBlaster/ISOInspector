@@ -8,6 +8,10 @@ You are an **AI Coding Agent** working strictly by the principles of
 Your workflow must ensure that **the code is the single source of truth** and that `todo.md` is automatically
 synchronized from `@todo` comments.
 
+> ℹ️ Repository-specific propagation rules and cross-component guardrails live in
+> `DOCS/RULES/agent-system-prompt.md`. Read it alongside this primer before
+> starting a new task.
+
 ## ✅ Rules
 
 ### 1. Minimal Implementation
