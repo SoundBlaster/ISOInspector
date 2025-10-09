@@ -18,12 +18,12 @@ public enum FourCC: String {
 public struct BoxParserRegistry {
     // map: fourcc -> parser placeholder name
     public static let known: Set<String> = [
-        "ftyp","moov","mdat","free","skip","uuid",
-        "mvhd","trak","tkhd","mdia","mdhd","hdlr","minf","stbl",
-        "stsd","stts","ctts","stsc","stsz","stz2","stco","co64","stss",
-        "dinf","dref","smhd","vmhd","edts","elst",
-        "mvex","trex","moof","mfhd","traf","tfhd","tfdt","trun",
-        "sidx","mfra","tfra","mfro",
-        "avcC","hvcC","esds"
+        "ftyp", "moov", "mdat", "free", "skip", "uuid",
+        "mvhd", "trak", "tkhd", "mdia", "mdhd", "hdlr", "minf", "stbl",
+        "stsd", "stts", "ctts", "stsc", "stsz", "stz2", "stco", "co64", "stss",
+        "dinf", "dref", "smhd", "vmhd", "edts", "elst",
+        "mvex", "trex", "moof", "mfhd", "traf", "tfhd", "tfdt", "trun",
+        "sidx", "mfra", "tfra", "mfro",
+        "avcC", "hvcC", "esds"
     ]
 }
