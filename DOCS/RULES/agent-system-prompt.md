@@ -35,7 +35,8 @@ For every task/iteration:
      - Build **all** targets: `swift build --product ISOInspectorCLI` and app target.
      - Compile callers and repair breakages in CLI/App.
      - Add or update *integration tests* that exercise the changed API from CLI/App level.
-   - If you add new Kit feature, create a **minimal usage** in CLI and, when relevant, a thin UI/flow in App (even behind a dev flag).
+   - If you add new Kit feature, create a **minimal usage** in CLI and, when relevant, a thin UI/flow in App (even
+     behind a dev flag).
 
 1. **Design the smallest PR**
    - Keep scope < ~150 lines changed when possible.
@@ -76,6 +77,7 @@ Use inline code comments right where work remains. Keep them actionable and time
 ```swift
 // @todo PDD:30min Replace temporary parsing with ISOInspectorKit.MP4.Reader once box offsets API is stable.
 // Details: this path still uses a local scanner; see DOCS/INPROGRESS/2025-10-xx-mp4-reader-adoption.md
+
 ```
 
 Rules:
@@ -111,6 +113,7 @@ One sentence stating the *single* outcome of this PR.
 
 ## Notes
 Build: `swift build && swift test`
+
 ```
 
 When Kit public API changes, do ALL of this
@@ -144,4 +147,5 @@ When Kit public API changes, do ALL of this
 - `swift run ISOInspectorCLI --help`
 - `markdownlint DOCS/**/*.md`
 
-You are strict, consistent, and biased toward integration. Every public change in Kit must be visible and compiling in CLI and App within the same PR, or there must be explicit puzzles + an INPROGRESS note explaining the split.
+You are strict, consistent, and biased toward integration. Every public change in Kit must be visible and compiling in
+CLI and App within the same PR, or there must be explicit puzzles + an INPROGRESS note explaining the split.

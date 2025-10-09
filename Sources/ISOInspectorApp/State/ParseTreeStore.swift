@@ -13,6 +13,7 @@ public final class ParseTreeStore: ObservableObject {
     private var connection: ParsePipelineEventBridge.Connection?
     private var cancellable: AnyCancellable?
     private var builder = Builder()
+    private var reader: RandomAccessReader?
 
     public init(
         bridge: ParsePipelineEventBridge = ParsePipelineEventBridge(),
@@ -29,6 +30,7 @@ public final class ParseTreeStore: ObservableObject {
         reader: RandomAccessReader,
         context: ParsePipeline.Context = .init()
     ) {
+        self.reader = reader
         let connection = bridge.makeConnection(pipeline: pipeline, reader: reader, context: context)
         bind(to: connection)
     }
@@ -70,6 +72,14 @@ public final class ParseTreeStore: ObservableObject {
         cancellable?.cancel()
         cancellable = nil
         connection = nil
+        reader = nil
+    }
+}
+
+extension ParseTreeStore {
+    func makeHexSliceProvider() -> HexSliceProvider? {
+        guard let reader else { return nil }
+        return RandomAccessHexSliceProvider(reader: reader)
     }
 }
 

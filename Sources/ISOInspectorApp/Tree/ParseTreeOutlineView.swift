@@ -6,15 +6,34 @@ import ISOInspectorKit
 struct ParseTreeExplorerView: View {
     @ObservedObject var store: ParseTreeStore
     @StateObject private var outlineViewModel = ParseTreeOutlineViewModel()
+    @StateObject private var detailViewModel = ParseTreeDetailViewModel(hexSliceProvider: nil)
+    @State private var selectedNodeID: ParseTreeNode.ID?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             header
-            ParseTreeOutlineView(viewModel: outlineViewModel)
+            HStack(alignment: .top, spacing: 16) {
+                ParseTreeOutlineView(
+                    viewModel: outlineViewModel,
+                    selectedNodeID: $selectedNodeID
+                )
+                .frame(minWidth: 320)
+
+                ParseTreeDetailView(viewModel: detailViewModel)
+                    .frame(minWidth: 360)
+            }
         }
         .padding()
         .onAppear {
             outlineViewModel.bind(to: store.$snapshot.eraseToAnyPublisher())
+            detailViewModel.bind(to: store.$snapshot.eraseToAnyPublisher())
+            detailViewModel.update(hexSliceProvider: store.makeHexSliceProvider())
+        }
+        .onChange(of: selectedNodeID) { newValue in
+            detailViewModel.select(nodeID: newValue)
+        }
+        .onChange(of: store.state) { _ in
+            detailViewModel.update(hexSliceProvider: store.makeHexSliceProvider())
         }
     }
 
@@ -36,6 +55,7 @@ struct ParseTreeExplorerView: View {
 
 struct ParseTreeOutlineView: View {
     @ObservedObject var viewModel: ParseTreeOutlineViewModel
+    @Binding var selectedNodeID: ParseTreeNode.ID?
 
     var body: some View {
         VStack(spacing: 12) {
@@ -87,7 +107,11 @@ struct ParseTreeOutlineView: View {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 0) {
                     ForEach(viewModel.rows) { row in
-                        ParseTreeOutlineRowView(row: row) {
+                        ParseTreeOutlineRowView(
+                            row: row,
+                            isSelected: selectedNodeID == row.id
+                        ) {
+                            selectedNodeID = row.id
                             if !row.node.children.isEmpty {
                                 viewModel.toggleExpansion(for: row.id)
                             }
@@ -119,6 +143,7 @@ struct ParseTreeOutlineView: View {
 
 private struct ParseTreeOutlineRowView: View {
     let row: ParseTreeOutlineRow
+    let isSelected: Bool
     let toggleExpansion: () -> Void
 
     var body: some View {
@@ -171,7 +196,17 @@ private struct ParseTreeOutlineRowView: View {
 
     private var background: some View {
         RoundedRectangle(cornerRadius: 6, style: .continuous)
-            .fill(row.isSearchMatch ? Color.accentColor.opacity(0.12) : Color.clear)
+            .fill(backgroundColor)
+    }
+
+    private var backgroundColor: Color {
+        if isSelected {
+            return Color.accentColor.opacity(0.18)
+        }
+        if row.isSearchMatch {
+            return Color.accentColor.opacity(0.12)
+        }
+        return Color.clear
     }
 }
 
@@ -245,7 +280,7 @@ private extension ValidationIssue.Severity {
         let model = ParseTreeOutlineViewModel()
         model.apply(snapshot: ParseTreePreviewData.sampleSnapshot)
         return model
-    }())
+    }(), selectedNodeID: .constant(ParseTreePreviewData.sampleSnapshot.nodes.first?.id))
     .frame(width: 420, height: 480)
 }
 
