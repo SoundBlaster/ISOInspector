@@ -11,7 +11,7 @@ Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (M
 - `Documentation/ISOInspector.docc` — DocC catalog placeholder for API and user manuals.
 
 ## Getting Started
-1. Install Swift 5.9 or newer.
+1. Install Swift 6.0.1 or newer.
 2. Build all targets:
    ```sh
    swift build
@@ -20,6 +20,29 @@ Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (M
    ```sh
    swift test
    ```
+
+## Continuous Integration
+
+The repository ships with two GitHub Actions workflows that cover the primary
+targets:
+
+- **Swift (Linux)** runs SwiftLint, builds all products, executes the test
+  suite with coverage enabled, and prints a summary report.
+- **macOS Build** selects the latest stable Xcode toolchain, archives the
+  unsigned `ISOInspectorApp`, and publishes a release `isoinspect` CLI binary.
+
+Reproduce the automated checks locally with:
+
+```sh
+# Apply SwiftLint autocorrections via the same container image used in CI
+scripts/swiftlint-format.sh
+
+# Lint (requires SwiftLint; the Docker image used in CI also works locally)
+docker run --rm -v "$(pwd)":/workspace ghcr.io/realm/swiftlint:0.53.0 lint --strict
+
+# Build and test with coverage
+swift test --enable-code-coverage
+```
 
 ## Container Code Enumeration
 

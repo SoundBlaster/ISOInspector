@@ -65,12 +65,16 @@ public final class ParseTreeStore: ObservableObject {
     }
 
     deinit {
-        disconnect()
+        cancellable?.cancel()
+        connection?.cancel()
+        connection = nil
+        reader = nil
     }
 
     private func disconnect() {
         cancellable?.cancel()
         cancellable = nil
+        connection?.cancel()
         connection = nil
         reader = nil
     }

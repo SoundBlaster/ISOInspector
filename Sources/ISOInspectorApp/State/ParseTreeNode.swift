@@ -2,7 +2,7 @@
 import Foundation
 import ISOInspectorKit
 
-public struct ParseTreeNode: Equatable, Identifiable {
+public struct ParseTreeNode: Equatable, Identifiable, Sendable {
     public let header: BoxHeader
     public var metadata: BoxDescriptor?
     public var validationIssues: [ValidationIssue]

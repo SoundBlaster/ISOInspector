@@ -2,7 +2,7 @@
 import Foundation
 import ISOInspectorKit
 
-public struct ParseTreeSnapshot: Equatable {
+public struct ParseTreeSnapshot: Equatable, Sendable {
     public var nodes: [ParseTreeNode]
     public var validationIssues: [ValidationIssue]
     public var lastUpdatedAt: Date
