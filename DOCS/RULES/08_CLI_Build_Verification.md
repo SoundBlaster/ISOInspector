@@ -7,6 +7,7 @@ Maintainers must ensure the command-line interface target `ISOInspectorCLI` buil
 - Run the CLI verification script before cutting releases or merging changes that affect the CLI.
 - The script must complete without failures, confirming the CLI target and its `isoinspect` executable product compile with warnings treated as errors.
 - Prefer the Docker-backed execution mode to reproduce the canonical Linux build unless you are already on Linux with a
+
   compatible Swift toolchain.
 
 ## ▶️ Verification Script

@@ -9,6 +9,8 @@ import os
 @MainActor
 final class ParseTreeOutlineViewModel: ObservableObject {
     @Published private(set) var rows: [ParseTreeOutlineRow] = []
+    @Published private(set) var availableCategories: [BoxCategory] = []
+    @Published private(set) var containsStreamingIndicators: Bool = false
     @Published var searchText: String = "" {
         didSet { rebuildRows() }
     }
@@ -49,6 +51,7 @@ final class ParseTreeOutlineViewModel: ObservableObject {
                 expandedIdentifiers.formUnion(snapshot.nodes.map(\.id))
             }
         }
+        refreshFilterMetadata()
         rebuildRows()
     }
 
@@ -184,6 +187,23 @@ final class ParseTreeOutlineViewModel: ObservableObject {
             stack.append(contentsOf: node.children)
         }
         return identifiers
+    }
+
+    private func refreshFilterMetadata() {
+        var categories: Set<BoxCategory> = []
+        var hasStreamingIndicators = false
+        var stack: [ParseTreeNode] = snapshot.nodes
+
+        while let node = stack.popLast() {
+            categories.insert(node.category)
+            if node.isStreamingIndicator {
+                hasStreamingIndicators = true
+            }
+            stack.append(contentsOf: node.children)
+        }
+
+        availableCategories = BoxCategory.allCases.filter { categories.contains($0) }
+        containsStreamingIndicators = hasStreamingIndicators
     }
     private struct FlattenResult {
         let rows: [ParseTreeOutlineRow]

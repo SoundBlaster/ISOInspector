@@ -67,6 +67,12 @@ struct ParseTreeOutlineView: View {
         VStack(spacing: 12) {
             searchBar
             severityFilterBar
+            if !viewModel.availableCategories.isEmpty {
+                categoryFilterBar
+            }
+            if viewModel.containsStreamingIndicators {
+                streamingToggle
+            }
             outlineList
         }
     }
@@ -98,6 +104,33 @@ struct ParseTreeOutlineView: View {
                 .font(.caption)
             }
         }
+    }
+
+    private var categoryFilterBar: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(viewModel.availableCategories, id: \.self) { category in
+                    Toggle(isOn: binding(for: category)) {
+                        Text(category.label)
+                            .font(.caption)
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .background(categoryBackground(for: category))
+                            .foregroundStyle(categoryForeground(for: category))
+                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    }
+                    .toggleStyle(.button)
+                }
+            }
+        }
+    }
+
+    private var streamingToggle: some View {
+        Toggle(isOn: bindingForStreamingIndicators) {
+            Label("Show streaming markers", systemImage: "dot.radiowaves.left.and.right")
+                .font(.caption)
+        }
+        .toggleStyle(.switch)
     }
 
     @ViewBuilder
@@ -136,6 +169,20 @@ struct ParseTreeOutlineView: View {
         )
     }
 
+    private func binding(for category: BoxCategory) -> Binding<Bool> {
+        Binding(
+            get: { viewModel.filter.focusedCategories.contains(category) },
+            set: { viewModel.setCategory(category, isEnabled: $0) }
+        )
+    }
+
+    private var bindingForStreamingIndicators: Binding<Bool> {
+        Binding(
+            get: { viewModel.filter.showsStreamingIndicators },
+            set: { viewModel.setShowsStreamingIndicators($0) }
+        )
+    }
+
     private func filterBackground(for severity: ValidationIssue.Severity) -> Color {
         let isActive = viewModel.filter.focusedSeverities.contains(severity)
         return severity.color.opacity(isActive ? 0.25 : 0.08)
@@ -144,6 +191,16 @@ struct ParseTreeOutlineView: View {
     private func filterForeground(for severity: ValidationIssue.Severity) -> Color {
         let isActive = viewModel.filter.focusedSeverities.contains(severity)
         return isActive ? severity.color : .secondary
+    }
+
+    private func categoryBackground(for category: BoxCategory) -> Color {
+        let isActive = viewModel.filter.focusedCategories.contains(category)
+        return category.color.opacity(isActive ? 0.25 : 0.08)
+    }
+
+    private func categoryForeground(for category: BoxCategory) -> Color {
+        let isActive = viewModel.filter.focusedCategories.contains(category)
+        return isActive ? category.color : .secondary
     }
 }
 
@@ -277,6 +334,28 @@ private extension ValidationIssue.Severity {
         case .info: return .blue
         case .warning: return .orange
         case .error: return .red
+        }
+    }
+}
+
+private extension BoxCategory {
+    var label: String {
+        switch self {
+        case .metadata: return "Metadata"
+        case .media: return "Media"
+        case .index: return "Index"
+        case .container: return "Container"
+        case .other: return "Other"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .metadata: return .purple
+        case .media: return .green
+        case .index: return .blue
+        case .container: return .teal
+        case .other: return .gray
         }
     }
 }
