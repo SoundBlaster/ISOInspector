@@ -13,11 +13,20 @@ struct ISOInspectorApp: App {
 }
 
 private struct ContentView: View {
+    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var store = ParseTreeStore()
 
     var body: some View {
         ParseTreeExplorerView(store: store)
             .frame(minWidth: 480, minHeight: 480)
+            .onDisappear {
+                store.shutdown()
+            }
+            .onChange(of: scenePhase) { _, phase in
+                if phase == .background || phase == .inactive {
+                    store.shutdown()
+                }
+            }
     }
 }
 #else
