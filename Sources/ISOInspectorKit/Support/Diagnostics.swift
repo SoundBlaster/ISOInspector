@@ -31,7 +31,8 @@ struct DiagnosticsLogger {
         #if canImport(os)
         wrapped.error("\(message, privacy: .public)")
         #else
-        fputs("ERROR \(label): \(message)\n", stderr)
+        let line = "ERROR \(label): \(message)\n"
+        FileHandle.standardError.write(Data(line.utf8))
         #endif
     }
 }

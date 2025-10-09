@@ -2,29 +2,32 @@ import Dispatch
 import Foundation
 import ISOInspectorKit
 
-public struct ISOInspectorCLIEnvironment {
-    public var refreshCatalog: (_ source: URL, _ output: URL) throws -> Void
-    public var makeReader: (_ url: URL) throws -> RandomAccessReader
+public struct ISOInspectorCLIEnvironment: Sendable {
+    public var refreshCatalog: @Sendable (_ source: URL, _ output: URL) throws -> Void
+    public var makeReader: @Sendable (_ url: URL) throws -> RandomAccessReader
     public var parsePipeline: ParsePipeline
     public var formatter: EventConsoleFormatter
-    public var print: (String) -> Void
-    public var printError: (String) -> Void
-    public var makeResearchLogWriter: (_ location: URL) throws -> any ResearchLogRecording
-    public var defaultResearchLogURL: () -> URL
+    public var print: @Sendable (String) -> Void
+    public var printError: @Sendable (String) -> Void
+    public var makeResearchLogWriter: @Sendable (_ location: URL) throws -> any ResearchLogRecording
+    public var defaultResearchLogURL: @Sendable () -> URL
 
     public init(
-        refreshCatalog: @escaping (_ source: URL, _ output: URL) throws -> Void,
-        makeReader: @escaping (_ url: URL) throws -> RandomAccessReader = { url in
+        refreshCatalog: @escaping @Sendable (_ source: URL, _ output: URL) throws -> Void,
+        makeReader: @escaping @Sendable (_ url: URL) throws -> RandomAccessReader = { url in
             try ChunkedFileReader(fileURL: url)
         },
         parsePipeline: ParsePipeline = .live(),
         formatter: EventConsoleFormatter = EventConsoleFormatter(),
-        print: @escaping (String) -> Void = { Swift.print($0) },
-        printError: @escaping (String) -> Void = { message in fputs(message + "\n", stderr) },
-        makeResearchLogWriter: @escaping (_ location: URL) throws -> any ResearchLogRecording = { url in
+        print: @escaping @Sendable (String) -> Void = { Swift.print($0) },
+        printError: @escaping @Sendable (String) -> Void = { message in
+            let data = Data((message + "\n").utf8)
+            FileHandle.standardError.write(data)
+        },
+        makeResearchLogWriter: @escaping @Sendable (_ location: URL) throws -> any ResearchLogRecording = { url in
             try ResearchLogWriter(fileURL: url)
         },
-        defaultResearchLogURL: @escaping () -> URL = {
+        defaultResearchLogURL: @escaping @Sendable () -> URL = {
             ResearchLogWriter.defaultLogURL()
         }
     ) {
