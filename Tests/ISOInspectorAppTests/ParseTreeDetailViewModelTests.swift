@@ -24,7 +24,9 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         )
         let subject = PassthroughSubject<ParseTreeSnapshot, Never>()
         let provider = HexSliceProviderStub(result: HexSlice(offset: node.header.payloadRange.lowerBound, bytes: Data([0xAA, 0xBB, 0xCC])))
-        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: provider, windowSize: 16)
+        let annotation = PayloadAnnotation(label: "major_brand", value: "isom", byteRange: node.header.payloadRange.lowerBound..<(node.header.payloadRange.lowerBound + 4))
+        let annotations = PayloadAnnotationProviderStub(result: [annotation])
+        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: provider, annotationProvider: annotations, windowSize: 16)
 
         viewModel.bind(to: subject.eraseToAnyPublisher())
 
@@ -45,6 +47,9 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         XCTAssertEqual(detail.snapshotTimestamp, snapshot.lastUpdatedAt)
         XCTAssertEqual(detail.hexSlice, provider.result)
         XCTAssertNil(viewModel.hexError)
+        XCTAssertEqual(viewModel.annotations, [annotation])
+        XCTAssertEqual(viewModel.selectedAnnotationID, annotation.id)
+        XCTAssertEqual(viewModel.highlightedRange, annotation.byteRange)
     }
 
     func testHexSliceRequestsPayloadWindow() async throws {
@@ -61,7 +66,7 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         )
         let subject = PassthroughSubject<ParseTreeSnapshot, Never>()
         let provider = HexSliceProviderStub(result: HexSlice(offset: node.header.payloadRange.lowerBound, bytes: Data([0x00])))
-        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: provider, windowSize: 64)
+        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: provider, annotationProvider: nil, windowSize: 64)
 
         viewModel.bind(to: subject.eraseToAnyPublisher())
         subject.send(snapshot)
@@ -86,7 +91,7 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [])
         let subject = PassthroughSubject<ParseTreeSnapshot, Never>()
         let provider = HexSliceProviderStub(result: HexSlice(offset: node.header.payloadRange.lowerBound, bytes: Data([0x00])))
-        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: provider, windowSize: 32)
+        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: provider, annotationProvider: nil, windowSize: 32)
 
         viewModel.bind(to: subject.eraseToAnyPublisher())
         subject.send(snapshot)
@@ -100,6 +105,65 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
 
         XCTAssertNil(viewModel.detail)
         XCTAssertNil(viewModel.hexError)
+        XCTAssertTrue(viewModel.annotations.isEmpty)
+        XCTAssertNil(viewModel.selectedAnnotationID)
+        XCTAssertNil(viewModel.highlightedRange)
+    }
+
+    func testSelectingAnnotationUpdatesHighlight() async throws {
+        let node = ParseTreeNode(
+            header: makeHeader(identifier: 1, type: "ftyp", payloadLength: 16),
+            metadata: nil,
+            validationIssues: [],
+            children: []
+        )
+        let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [], lastUpdatedAt: Date())
+        let subject = PassthroughSubject<ParseTreeSnapshot, Never>()
+        let provider = HexSliceProviderStub(result: HexSlice(offset: node.header.payloadRange.lowerBound, bytes: Data(repeating: 0x00, count: 16)))
+        let annotationA = PayloadAnnotation(label: "fieldA", value: "value", byteRange: node.header.payloadRange.lowerBound..<(node.header.payloadRange.lowerBound + 2))
+        let annotationB = PayloadAnnotation(label: "fieldB", value: "value", byteRange: (node.header.payloadRange.lowerBound + 2)..<(node.header.payloadRange.lowerBound + 4))
+        let annotations = PayloadAnnotationProviderStub(result: [annotationA, annotationB])
+        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: provider, annotationProvider: annotations, windowSize: 32)
+
+        viewModel.bind(to: subject.eraseToAnyPublisher())
+        subject.send(snapshot)
+        await Task.yield()
+
+        viewModel.select(nodeID: node.id)
+        try await Task.sleep(nanoseconds: 30_000_000)
+
+        viewModel.select(annotationID: annotationB.id)
+
+        XCTAssertEqual(viewModel.selectedAnnotationID, annotationB.id)
+        XCTAssertEqual(viewModel.highlightedRange, annotationB.byteRange)
+    }
+
+    func testSelectingByteUpdatesAnnotationSelection() async throws {
+        let node = ParseTreeNode(
+            header: makeHeader(identifier: 1, type: "ftyp", payloadLength: 16),
+            metadata: nil,
+            validationIssues: [],
+            children: []
+        )
+        let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [], lastUpdatedAt: Date())
+        let subject = PassthroughSubject<ParseTreeSnapshot, Never>()
+        let provider = HexSliceProviderStub(result: HexSlice(offset: node.header.payloadRange.lowerBound, bytes: Data(repeating: 0x11, count: 16)))
+        let annotationA = PayloadAnnotation(label: "fieldA", value: "value", byteRange: node.header.payloadRange.lowerBound..<(node.header.payloadRange.lowerBound + 2))
+        let annotationB = PayloadAnnotation(label: "fieldB", value: "value", byteRange: (node.header.payloadRange.lowerBound + 2)..<(node.header.payloadRange.lowerBound + 4))
+        let annotations = PayloadAnnotationProviderStub(result: [annotationA, annotationB])
+        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: provider, annotationProvider: annotations, windowSize: 32)
+
+        viewModel.bind(to: subject.eraseToAnyPublisher())
+        subject.send(snapshot)
+        await Task.yield()
+
+        viewModel.select(nodeID: node.id)
+        try await Task.sleep(nanoseconds: 30_000_000)
+
+        viewModel.selectByte(at: annotationB.byteRange.lowerBound)
+
+        XCTAssertEqual(viewModel.selectedAnnotationID, annotationB.id)
+        XCTAssertEqual(viewModel.highlightedRange, annotationB.byteRange)
     }
 
     // MARK: - Helpers
@@ -129,6 +193,18 @@ private final class HexSliceProviderStub: HexSliceProvider {
     func loadSlice(for request: HexSliceRequest) async throws -> HexSlice {
         requests.append(request)
         return result
+    }
+}
+
+private final class PayloadAnnotationProviderStub: PayloadAnnotationProvider {
+    let result: [PayloadAnnotation]
+
+    init(result: [PayloadAnnotation]) {
+        self.result = result
+    }
+
+    func annotations(for header: BoxHeader) async throws -> [PayloadAnnotation] {
+        result
     }
 }
 #endif

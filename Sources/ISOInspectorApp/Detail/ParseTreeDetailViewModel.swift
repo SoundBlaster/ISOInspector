@@ -7,22 +7,30 @@ import ISOInspectorKit
 final class ParseTreeDetailViewModel: ObservableObject {
     @Published private(set) var detail: ParseTreeNodeDetail?
     @Published private(set) var hexError: String?
+    @Published private(set) var annotations: [PayloadAnnotation] = []
+    @Published private(set) var annotationError: String?
+    @Published private(set) var selectedAnnotationID: PayloadAnnotation.ID?
+    @Published private(set) var highlightedRange: Range<Int64>?
 
     private var snapshot: ParseTreeSnapshot = .empty
     private var selectedID: ParseTreeNode.ID?
     private var cancellables: Set<AnyCancellable> = []
     private var hexTask: Task<Void, Never>?
+    private var annotationTask: Task<Void, Never>?
 
     private var hexSliceProvider: HexSliceProvider?
+    private var annotationProvider: PayloadAnnotationProvider?
     private let windowSize: Int
 
-    init(hexSliceProvider: HexSliceProvider?, windowSize: Int = 256) {
+    init(hexSliceProvider: HexSliceProvider?, annotationProvider: PayloadAnnotationProvider?, windowSize: Int = 256) {
         self.hexSliceProvider = hexSliceProvider
+        self.annotationProvider = annotationProvider
         self.windowSize = windowSize
     }
 
-    func update(hexSliceProvider: HexSliceProvider?) {
+    func update(hexSliceProvider: HexSliceProvider?, annotationProvider: PayloadAnnotationProvider?) {
         self.hexSliceProvider = hexSliceProvider
+        self.annotationProvider = annotationProvider
         rebuildDetail()
     }
 
@@ -45,6 +53,19 @@ final class ParseTreeDetailViewModel: ObservableObject {
         rebuildDetail()
     }
 
+    func select(annotationID: PayloadAnnotation.ID?) {
+        guard selectedAnnotationID != annotationID else { return }
+        selectedAnnotationID = annotationID
+        updateHighlightedRange()
+    }
+
+    func selectByte(at offset: Int64) {
+        guard let annotation = annotations.first(where: { $0.byteRange.contains(offset) }) else {
+            return
+        }
+        select(annotationID: annotation.id)
+    }
+
     func apply(snapshot: ParseTreeSnapshot) {
         self.snapshot = snapshot
         rebuildDetail()
@@ -53,9 +74,16 @@ final class ParseTreeDetailViewModel: ObservableObject {
     private func rebuildDetail() {
         hexTask?.cancel()
         hexTask = nil
+        annotationTask?.cancel()
+        annotationTask = nil
+
         guard let selectedID, let node = findNode(with: selectedID, in: snapshot.nodes) else {
             detail = nil
             hexError = nil
+            annotations = []
+            annotationError = nil
+            selectedAnnotationID = nil
+            highlightedRange = nil
             return
         }
 
@@ -70,6 +98,17 @@ final class ParseTreeDetailViewModel: ObservableObject {
         self.detail = detail
         hexError = nil
 
+        let preservedAnnotationID = selectedAnnotationID
+        annotations = []
+        selectedAnnotationID = nil
+        highlightedRange = nil
+        annotationError = nil
+
+        loadAnnotations(for: node, preserving: preservedAnnotationID)
+        loadHexSlice(for: node, detail: detail)
+    }
+
+    private func loadHexSlice(for node: ParseTreeNode, detail: ParseTreeNodeDetail) {
         guard let provider = hexSliceProvider else {
             return
         }
@@ -100,6 +139,48 @@ final class ParseTreeDetailViewModel: ObservableObject {
         }
     }
 
+    private func loadAnnotations(for node: ParseTreeNode, preserving preservedID: PayloadAnnotation.ID?) {
+        guard let provider = annotationProvider else {
+            return
+        }
+
+        let currentSelection = selectedID
+        annotationTask = Task { [weak self] in
+            do {
+                let annotations = try await provider.annotations(for: node.header)
+                await MainActor.run {
+                    guard let self, self.selectedID == currentSelection else { return }
+                    self.annotationError = nil
+                    let sorted = annotations.sorted { $0.byteRange.lowerBound < $1.byteRange.lowerBound }
+                    self.annotations = sorted
+                    if let preservedID, sorted.contains(where: { $0.id == preservedID }) {
+                        self.selectedAnnotationID = preservedID
+                    } else {
+                        self.selectedAnnotationID = sorted.first?.id
+                    }
+                    self.updateHighlightedRange()
+                }
+            } catch {
+                await MainActor.run {
+                    guard let self, self.selectedID == currentSelection else { return }
+                    self.annotationError = error.localizedDescription
+                    self.annotations = []
+                    self.selectedAnnotationID = nil
+                    self.highlightedRange = nil
+                }
+            }
+        }
+    }
+
+    private func updateHighlightedRange() {
+        if let selectedAnnotationID,
+           let annotation = annotations.first(where: { $0.id == selectedAnnotationID }) {
+            highlightedRange = annotation.byteRange
+        } else {
+            highlightedRange = nil
+        }
+    }
+
     private func makeWindow(for header: BoxHeader) -> HexSliceRequest.Window {
         let payloadStart = header.payloadRange.lowerBound
         let payloadLength64 = max(0, header.payloadRange.upperBound - header.payloadRange.lowerBound)
@@ -123,6 +204,11 @@ final class ParseTreeDetailViewModel: ObservableObject {
         if value <= 0 { return 0 }
         if value >= Int64(Int.max) { return Int.max }
         return Int(value)
+    }
+
+    deinit {
+        hexTask?.cancel()
+        annotationTask?.cancel()
     }
 }
 #endif

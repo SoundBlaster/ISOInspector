@@ -183,7 +183,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] F1. JSON export: encode tree with offsets/sizes/parsed fields.
 - [ ] F2. (Phase 2) CSV flat export (offset,size,fourcc,parentPath).
 - [ ] F3. Hex slice provider: bounded reads for selected node; window sizing and caching.
-- [ ] F4. Field-to-hex mapping metadata for details highlighting.
+- [x] F4. Field-to-hex mapping metadata for details highlighting.
 
 ### Phase G — SwiftUI App
 - [ ] G1. File open: `.fileImporter` (iOS/iPadOS), `NSOpenPanel` (macOS); UTTypes: movie/mp4/quicktime.

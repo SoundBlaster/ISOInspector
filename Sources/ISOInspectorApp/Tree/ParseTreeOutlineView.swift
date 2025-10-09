@@ -6,7 +6,7 @@ import ISOInspectorKit
 struct ParseTreeExplorerView: View {
     @ObservedObject var store: ParseTreeStore
     @StateObject private var outlineViewModel = ParseTreeOutlineViewModel()
-    @StateObject private var detailViewModel = ParseTreeDetailViewModel(hexSliceProvider: nil)
+    @StateObject private var detailViewModel = ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
     @State private var selectedNodeID: ParseTreeNode.ID?
 
     var body: some View {
@@ -27,13 +27,19 @@ struct ParseTreeExplorerView: View {
         .onAppear {
             outlineViewModel.bind(to: store.$snapshot.eraseToAnyPublisher())
             detailViewModel.bind(to: store.$snapshot.eraseToAnyPublisher())
-            detailViewModel.update(hexSliceProvider: store.makeHexSliceProvider())
+            detailViewModel.update(
+                hexSliceProvider: store.makeHexSliceProvider(),
+                annotationProvider: store.makePayloadAnnotationProvider()
+            )
         }
         .onChange(of: selectedNodeID) { newValue in
             detailViewModel.select(nodeID: newValue)
         }
         .onChange(of: store.state) { _ in
-            detailViewModel.update(hexSliceProvider: store.makeHexSliceProvider())
+            detailViewModel.update(
+                hexSliceProvider: store.makeHexSliceProvider(),
+                annotationProvider: store.makePayloadAnnotationProvider()
+            )
         }
     }
 
