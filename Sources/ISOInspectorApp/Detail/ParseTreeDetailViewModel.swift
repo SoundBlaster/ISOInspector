@@ -88,7 +88,7 @@ final class ParseTreeDetailViewModel: ObservableObject {
         }
 
         let metadata = node.metadata ?? BoxCatalog.shared.descriptor(for: node.header)
-        var detail = ParseTreeNodeDetail(
+        let detail = ParseTreeNodeDetail(
             header: node.header,
             metadata: metadata,
             validationIssues: node.validationIssues,

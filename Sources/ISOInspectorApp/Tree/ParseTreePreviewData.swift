@@ -3,6 +3,7 @@ import Foundation
 import ISOInspectorKit
 
 enum ParseTreePreviewData {
+    @MainActor
     static let sampleSnapshot: ParseTreeSnapshot = {
         let ftyp = makeNode(type: "ftyp", start: 0)
         let moov = makeNode(type: "moov", start: 200, issues: [

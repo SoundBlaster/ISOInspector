@@ -21,12 +21,12 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
     }
 
     func testRunExecutesMP4RARefreshWithParsedArguments() throws {
-        var capturedSource: URL?
-        var capturedOutput: URL?
+        let capturedSource = MutableBox<URL?>(nil)
+        let capturedOutput = MutableBox<URL?>(nil)
         let environment = ISOInspectorCLIEnvironment(
             refreshCatalog: { source, output in
-                capturedSource = source
-                capturedOutput = output
+                capturedSource.value = source
+                capturedOutput.value = output
             },
             makeReader: { _ in StubReader() },
             parsePipeline: ParsePipeline(buildStream: { _ in AsyncThrowingStream { $0.finish() } }),
@@ -48,8 +48,8 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             environment: environment
         )
 
-        XCTAssertEqual(capturedSource, URL(string: "https://example.com/custom.json"))
-        XCTAssertEqual(capturedOutput?.path, "/tmp/catalog.json")
+        XCTAssertEqual(capturedSource.value, URL(string: "https://example.com/custom.json"))
+        XCTAssertEqual(capturedOutput.value?.path, "/tmp/catalog.json")
     }
 
     func testRunInspectPrintsFormattedEvents() throws {
@@ -70,7 +70,7 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             func record(_ entry: ResearchLogEntry) {}
         }
 
-        var printed: [String] = []
+        let printed = MutableBox<[String]>([])
         let environment = ISOInspectorCLIEnvironment(
             refreshCatalog: { _, _ in },
             makeReader: { _ in StubReader() },
@@ -81,7 +81,7 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
                 }
             }),
             formatter: EventConsoleFormatter(),
-            print: { printed.append($0) },
+            print: { printed.value.append($0) },
             printError: { _ in },
             makeResearchLogWriter: { url in
                 XCTAssertEqual(url.path, "/tmp/research-log.json")
@@ -99,9 +99,9 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             environment: environment
         )
 
-        XCTAssertTrue(printed.first?.contains("Research log") ?? false)
-        XCTAssertTrue(printed.dropFirst().first?.contains("VR-006 schema v") ?? false)
-        let output = try XCTUnwrap(printed.dropFirst(2).first)
+        XCTAssertTrue(printed.value.first?.contains("Research log") ?? false)
+        XCTAssertTrue(printed.value.dropFirst().first?.contains("VR-006 schema v") ?? false)
+        let output = try XCTUnwrap(printed.value.dropFirst(2).first)
         XCTAssertTrue(output.contains(descriptor.name))
         XCTAssertTrue(output.contains(descriptor.summary))
         XCTAssertTrue(output.contains(issue.message))
@@ -126,7 +126,7 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             validationIssues: [issue]
         )
 
-        var printed: [String] = []
+        let printed = MutableBox<[String]>([])
         let environment = ISOInspectorCLIEnvironment(
             refreshCatalog: { _, _ in },
             makeReader: { _ in StubReader() },
@@ -143,7 +143,7 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
                 }
             }),
             formatter: EventConsoleFormatter(),
-            print: { printed.append($0) },
+            print: { printed.value.append($0) },
             printError: { _ in },
             makeResearchLogWriter: { url in
                 XCTAssertEqual(url.path, "/tmp/research-log.json")
@@ -161,8 +161,8 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             environment: environment
         )
 
-        XCTAssertTrue(printed.contains(where: { $0.contains("/tmp/research-log.json") }))
-        XCTAssertTrue(printed.contains(where: { $0.contains("VR-006 schema v") }))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("/tmp/research-log.json") }))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("VR-006 schema v") }))
         XCTAssertEqual(recorder.entries.count, 1)
         let entry = try XCTUnwrap(recorder.entries.first)
         XCTAssertEqual(entry.boxType, "zzzz")
@@ -172,14 +172,14 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
     }
 
     func testRunInspectRequiresFilePath() {
-        var errors: [String] = []
+        let errors = MutableBox<[String]>([])
         let environment = ISOInspectorCLIEnvironment(
             refreshCatalog: { _, _ in },
             makeReader: { _ in StubReader() },
             parsePipeline: ParsePipeline(buildStream: { _ in AsyncThrowingStream { $0.finish() } }),
             formatter: EventConsoleFormatter(),
             print: { _ in },
-            printError: { errors.append($0) }
+            printError: { errors.value.append($0) }
         )
 
         ISOInspectorCLIRunner.run(
@@ -190,7 +190,7 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             environment: environment
         )
 
-        XCTAssertEqual(errors.last, "inspect requires a file path.")
+        XCTAssertEqual(errors.value.last, "inspect requires a file path.")
     }
 
     private struct StubReader: RandomAccessReader {
@@ -211,5 +211,13 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             range: range,
             uuid: nil
         )
+    }
+}
+
+private final class MutableBox<Value>: @unchecked Sendable {
+    var value: Value
+
+    init(_ value: Value) {
+        self.value = value
     }
 }

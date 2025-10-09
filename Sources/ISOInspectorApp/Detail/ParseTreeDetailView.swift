@@ -278,8 +278,8 @@ private struct HexSliceView: View {
             }
             .frame(minHeight: 200, idealHeight: 240, maxHeight: 320)
             .background(Color.gray.opacity(0.05), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .onChange(of: highlightedRange) { range in
-                guard let range, let id = rowID(for: range) else { return }
+            .onChange(of: highlightedRange) { _, newValue in
+                guard let range = newValue, let id = rowID(for: range) else { return }
                 DispatchQueue.main.async {
                     proxy.scrollTo(id, anchor: .center)
                 }
