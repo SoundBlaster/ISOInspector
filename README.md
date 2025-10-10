@@ -8,7 +8,7 @@ Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (M
 - `Sources/ISOInspectorApp` — SwiftUI application shell for macOS/iPadOS/iOS.
 - `Tests/*` — XCTest suites for the library, CLI surface, and app composition.
 - `Docs` — Living documentation (architecture notes, guides, manuals).
-- `Documentation/ISOInspector.docc` — DocC catalog placeholder for API and user manuals.
+- `Sources/*/*.docc` — DocC catalogs for the kit, CLI, and SwiftUI app.
 
 ## Getting Started
 1. Install Swift 6.0.1 or newer.
@@ -20,6 +20,17 @@ Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (M
    ```sh
    swift test
    ```
+
+## Documentation
+
+Generate browsable DocC archives for every target with:
+
+```sh
+scripts/generate_documentation.sh
+```
+
+The script produces static-hostable archives under `Documentation/DocC/<Target>` and can be
+shared via GitHub Pages or other artifact storage.
 
 ## Continuous Integration
 
