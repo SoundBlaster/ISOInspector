@@ -5,6 +5,9 @@ The ISOInspector SwiftUI application will provide interactive MP4/QuickTime insp
 ## Current State
 - SwiftUI entry point renders a placeholder welcome view listing the initial focus areas from `ISOInspectorKit`.
 - Linux-compatible fallback prints the same welcome summary for developers without SwiftUI.
+- CoreData-backed annotation and bookmark persistence is available through
+  `CoreDataAnnotationBookmarkStore`. UI entry points still need to surface
+  creation/editing flows, but the storage layer is tested and ready for injection.
 
 ## Planned Features
 1. Document browser and recent files list (E1).
