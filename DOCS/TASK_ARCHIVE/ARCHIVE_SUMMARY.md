@@ -157,3 +157,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/27_F1_Expand_Fixture_Catalog/`.
 - **Highlights:** Captures the expanded fixture catalog documentation, regression notes, and verification summary covering fragmented MP4, DASH, large payload, and malformed sample scenarios.
 - **Next steps carried forward:** None — the refreshed `DOCS/INPROGRESS/next_tasks.md` notes that no follow-up items are currently queued.
+
+## 28_B6_JSON_and_Binary_Export_Modules
+- **Archived files:** `28_B6_JSON_and_Binary_Export_Modules.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/28_B6_JSON_and_Binary_Export_Modules/`.
+- **Highlights:** Captures introduction of the reusable parse tree builder plus JSON and binary exporters in ISOInspectorKit and the accompanying CLI smoke coverage for the new APIs.
+- **Next steps carried forward:** Implement dedicated CLI export commands that wrap the new exporters (`@todo #9`).
