@@ -227,6 +227,10 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
     }
 }
 
+#if canImport(Combine)
+extension CoreDataAnnotationBookmarkStore: AnnotationBookmarkStoring {}
+#endif
+
 // MARK: - CoreData Model
 
 private extension CoreDataAnnotationBookmarkStore {

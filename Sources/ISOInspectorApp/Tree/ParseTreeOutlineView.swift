@@ -5,6 +5,7 @@ import ISOInspectorKit
 
 struct ParseTreeExplorerView: View {
     @ObservedObject var store: ParseTreeStore
+    @ObservedObject var annotations: AnnotationBookmarkSession
     @StateObject private var outlineViewModel = ParseTreeOutlineViewModel()
     @StateObject private var detailViewModel = ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
     @State private var selectedNodeID: ParseTreeNode.ID?
@@ -15,11 +16,16 @@ struct ParseTreeExplorerView: View {
             HStack(alignment: .top, spacing: 16) {
                 ParseTreeOutlineView(
                     viewModel: outlineViewModel,
-                    selectedNodeID: $selectedNodeID
+                    selectedNodeID: $selectedNodeID,
+                    annotationSession: annotations
                 )
                 .frame(minWidth: 320)
 
-                ParseTreeDetailView(viewModel: detailViewModel)
+                ParseTreeDetailView(
+                    viewModel: detailViewModel,
+                    annotationSession: annotations,
+                    selectedNodeID: $selectedNodeID
+                )
                     .frame(minWidth: 360)
             }
         }
@@ -31,15 +37,21 @@ struct ParseTreeExplorerView: View {
                 hexSliceProvider: store.makeHexSliceProvider(),
                 annotationProvider: store.makePayloadAnnotationProvider()
             )
+            annotations.setFileURL(store.fileURL)
+            annotations.setSelectedNode(selectedNodeID)
         }
         .onChange(of: selectedNodeID) { _, newValue in
             detailViewModel.select(nodeID: newValue)
+            annotations.setSelectedNode(newValue)
         }
         .onChange(of: store.state) { _, _ in
             detailViewModel.update(
                 hexSliceProvider: store.makeHexSliceProvider(),
                 annotationProvider: store.makePayloadAnnotationProvider()
             )
+        }
+        .onChange(of: store.fileURL) { _, newValue in
+            annotations.setFileURL(newValue)
         }
     }
 
@@ -62,6 +74,7 @@ struct ParseTreeExplorerView: View {
 struct ParseTreeOutlineView: View {
     @ObservedObject var viewModel: ParseTreeOutlineViewModel
     @Binding var selectedNodeID: ParseTreeNode.ID?
+    @ObservedObject var annotationSession: AnnotationBookmarkSession
 
     var body: some View {
         VStack(spacing: 12) {
@@ -148,13 +161,21 @@ struct ParseTreeOutlineView: View {
                     ForEach(viewModel.rows) { row in
                         ParseTreeOutlineRowView(
                             row: row,
-                            isSelected: selectedNodeID == row.id
-                        ) {
-                            selectedNodeID = row.id
-                            if !row.node.children.isEmpty {
-                                viewModel.toggleExpansion(for: row.id)
+                            isSelected: selectedNodeID == row.id,
+                            isBookmarked: annotationSession.isBookmarked(nodeID: row.id),
+                            isBookmarkingEnabled: annotationSession.isEnabled,
+                            onSelect: {
+                                selectedNodeID = row.id
+                                if !row.node.children.isEmpty {
+                                    viewModel.toggleExpansion(for: row.id)
+                                }
+                            },
+                            onToggleBookmark: {
+                                selectedNodeID = row.id
+                                annotationSession.setSelectedNode(row.id)
+                                annotationSession.toggleBookmark()
                             }
-                        }
+                        )
                         .id(row.id)
                     }
                 }
@@ -207,41 +228,44 @@ struct ParseTreeOutlineView: View {
 private struct ParseTreeOutlineRowView: View {
     let row: ParseTreeOutlineRow
     let isSelected: Bool
-    let toggleExpansion: () -> Void
+    let isBookmarked: Bool
+    let isBookmarkingEnabled: Bool
+    let onSelect: () -> Void
+    let onToggleBookmark: () -> Void
 
     var body: some View {
-        Button(action: toggleExpansion) {
-            HStack(spacing: 8) {
-                icon
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(row.displayName)
-                        .font(.body)
-                        .fontWeight(row.isSearchMatch ? .semibold : .regular)
-                        .foregroundStyle(row.isSearchMatch ? Color.accentColor : Color.primary)
-                    Text(row.typeDescription)
-                        .font(.caption)
+        HStack(spacing: 8) {
+            icon
+            VStack(alignment: .leading, spacing: 2) {
+                Text(row.displayName)
+                    .font(.body)
+                    .fontWeight(row.isSearchMatch ? .semibold : .regular)
+                    .foregroundStyle(row.isSearchMatch ? Color.accentColor : Color.primary)
+                Text(row.typeDescription)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                if let summary = row.summary, !summary.isEmpty {
+                    Text(summary)
+                        .font(.caption2)
                         .foregroundStyle(.secondary)
-                    if let summary = row.summary, !summary.isEmpty {
-                        Text(summary)
-                            .font(.caption2)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(2)
-                    }
-                }
-                Spacer()
-                if let severity = row.dominantSeverity {
-                    SeverityBadge(severity: severity)
-                } else if row.hasValidationIssues {
-                    SeverityBadge(severity: .info)
+                        .lineLimit(2)
                 }
             }
-            .padding(.vertical, 6)
-            .padding(.leading, CGFloat(row.depth) * 16 + 4)
-            .padding(.trailing, 8)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(background)
+            Spacer()
+            if let severity = row.dominantSeverity {
+                SeverityBadge(severity: severity)
+            } else if row.hasValidationIssues {
+                SeverityBadge(severity: .info)
+            }
+            bookmarkButton
         }
-        .buttonStyle(.plain)
+        .padding(.vertical, 6)
+        .padding(.leading, CGFloat(row.depth) * 16 + 4)
+        .padding(.trailing, 8)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(background)
+        .contentShape(Rectangle())
+        .onTapGesture(perform: onSelect)
     }
 
     private var icon: some View {
@@ -255,6 +279,17 @@ private struct ParseTreeOutlineRowView: View {
             }
         }
         .frame(width: 12)
+    }
+
+    private var bookmarkButton: some View {
+        Button(action: onToggleBookmark) {
+            Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
+                .foregroundStyle(isBookmarked ? Color.accentColor : Color.secondary)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(isBookmarked ? "Remove bookmark" : "Add bookmark")
+        .disabled(!isBookmarkingEnabled)
+        .opacity(isBookmarkingEnabled ? 1 : 0.35)
     }
 
     private var background: some View {
@@ -365,12 +400,15 @@ private extension BoxCategory {
         let model = ParseTreeOutlineViewModel()
         model.apply(snapshot: ParseTreePreviewData.sampleSnapshot)
         return model
-    }(), selectedNodeID: .constant(ParseTreePreviewData.sampleSnapshot.nodes.first?.id))
+    }(), selectedNodeID: .constant(ParseTreePreviewData.sampleSnapshot.nodes.first?.id), annotationSession: AnnotationBookmarkSession(store: nil))
     .frame(width: 420, height: 480)
 }
 
 #Preview("Explorer") {
-    ParseTreeExplorerView(store: ParseTreeStore())
+    ParseTreeExplorerView(
+        store: ParseTreeStore(),
+        annotations: AnnotationBookmarkSession(store: nil)
+    )
         .frame(width: 520, height: 520)
 }
 #endif
