@@ -20,7 +20,7 @@ notes across sessions.
 
 ## Next puzzles
 
-- [ ] Surface annotation/bookmark editing UI that uses the new store and updates view models live.
+- [x] Surface annotation/bookmark editing UI that uses the new store and updates view models live.
 - [ ] Evaluate CoreData schema migrations once session persistence (E3) introduces additional entities.
 
 ## Notes

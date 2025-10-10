@@ -8,6 +8,7 @@ import ISOInspectorKit
 public final class ParseTreeStore: ObservableObject {
     @Published public private(set) var snapshot: ParseTreeSnapshot
     @Published public private(set) var state: ParseTreeStoreState
+    @Published public private(set) var fileURL: URL?
 
     private let bridge: ParsePipelineEventBridge
     private let resources = ResourceBag()
@@ -21,6 +22,7 @@ public final class ParseTreeStore: ObservableObject {
         self.bridge = bridge
         self.snapshot = initialSnapshot
         self.state = initialState
+        self.fileURL = nil
     }
 
     public func start(
@@ -29,6 +31,7 @@ public final class ParseTreeStore: ObservableObject {
         context: ParsePipeline.Context = .init()
     ) {
         resources.reader = reader
+        fileURL = context.source?.standardizedFileURL
         let connection = bridge.makeConnection(pipeline: pipeline, reader: reader, context: context)
         bind(to: connection)
     }
@@ -66,6 +69,7 @@ public final class ParseTreeStore: ObservableObject {
         builder = Builder()
         snapshot = .empty
         state = .idle
+        fileURL = nil
     }
 
     private func disconnect() {
