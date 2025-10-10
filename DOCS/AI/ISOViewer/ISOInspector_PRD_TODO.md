@@ -150,20 +150,24 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] [23_C3_Detail_and_Hex_Inspectors](../../TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors)
 - [x] [24_C3_Highlight_Field_Subranges](../../TASK_ARCHIVE/24_C3_Highlight_Field_Subranges)
 - [x] [25_B4_C2_Category_Filtering](../../TASK_ARCHIVE/25_B4_C2_Category_Filtering)
+- [x] [26_F1_Fixtures_and_B4_MP4RA](../../TASK_ARCHIVE/26_F1_Fixtures_and_B4_MP4RA)
+- [x] [27_F1_Expand_Fixture_Catalog](../../TASK_ARCHIVE/27_F1_Expand_Fixture_Catalog)
+- [x] [28_B6_JSON_and_Binary_Export_Modules](../../TASK_ARCHIVE/28_B6_JSON_and_Binary_Export_Modules)
+- [x] [29_D3_CLI_Export_Commands](../../TASK_ARCHIVE/29_D3_CLI_Export_Commands)
+- [x] [30_Summary_of_Work_2025-10-10](../../TASK_ARCHIVE/30_Summary_of_Work_2025-10-10)
+- [x] [31_A3_DocC_Catalog_Setup](../../TASK_ARCHIVE/31_A3_DocC_Catalog_Setup)
 
 
-### Phase A — IO Foundations
-- [ ] A1. Define `RandomAccessReader` protocol: `length`, `read(at:count:)`, endian helpers (`readU32BE`, `readU64BE`, `readFourCC`).
+- [x] A1. Define `RandomAccessReader` protocol: `length`, `read(at:count:)`, endian helpers (`readU32BE`, `readU64BE`, `readFourCC`). _(Completed in [Task B1 — Chunked File Reader](../../TASK_ARCHIVE/01_B1_Chunked_File_Reader/B1_Chunked_File_Reader.md))._
 - [ ] A2. Implement `MappedReader` using `Data(contentsOf:options:.mappedIfSafe)`; provide bounds-checked slices.
-- [ ] A3. Implement `FileHandleReader` using `FileHandle` seek+read; ensure thread-safety (serial queue).
+- [x] A3. Implement `FileHandleReader` using `FileHandle` seek+read; ensure thread-safety (serial queue). _(Delivered with the chunked reader implementation in [Task B1](../../TASK_ARCHIVE/01_B1_Chunked_File_Reader/B1_Chunked_File_Reader.md))._
 - [ ] A4. Add error types: `IOError`, `BoundsError`, `OverflowError`.
 - [ ] A5. Micro-benchmarks: random slice reads on large files, compare mapped vs handle.
 
-### Phase B — Core Box Model & Parser
-- [ ] B1. Define `BoxHeader`: `type: FourCC`, `size32`, `largesize64?`, `headerSize`, `payloadRange`, `startOffset`, `endOffset`, `uuid?`.
+- [x] B1. Define `BoxHeader`: `type: FourCC`, `size32`, `largesize64?`, `headerSize`, `payloadRange`, `startOffset`, `endOffset`, `uuid?`. _(Delivered via [02_B2_Box_Header_Decoder](../../TASK_ARCHIVE/02_B2_Box_Header_Decoder/B2_Box_Header_Decoder.md))._
 - [ ] B2. Define `BoxNode`: `header`, `children: [BoxNode]`, `payload: Payload?`, `warnings: [Warning]`.
-- [ ] B3. Implement `readBoxHeader(at:)` supporting: size==0 (to EOF/parent end), size==1 (largesize), `uuid` type.
-- [x] B4. Implement container iteration (`parseContainer(parentRange:)`) with forward-progress guard and max-depth limit.
+- [x] B3. Implement `readBoxHeader(at:)` supporting: size==0 (to EOF/parent end), size==1 (largesize), `uuid` type. _(Covered by [02_B2_Box_Header_Decoder](../../TASK_ARCHIVE/02_B2_Box_Header_Decoder/B2_Box_Header_Decoder.md) and validated in downstream streaming integration tasks.)_
+- [x] B4. Implement container iteration (`parseContainer(parentRange:)`) with forward-progress guard and max-depth limit. _(Shipped with [05_B3_Puzzle1_ParsePipeline_Live_Integration](../../TASK_ARCHIVE/05_B3_Puzzle1_ParsePipeline_Live_Integration/05_B3_Puzzle1_ParsePipeline_Live_Integration.md))._
 - [ ] B5. Introduce `FullBoxReader` for (version,flags) extraction.
 - [ ] B6. Create `BoxParserRegistry`: map fourcc → parser; default: container? or leaf; unknown: opaque leaf.
 
@@ -191,7 +195,6 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] C17. `mdat`: record offset/size (skip payload).
 - [ ] C18. `free/skip`: opaque pass-through.
 
-### Phase D — Fragmentation & Indexes
 - [ ] D1. `mvex/trex`: defaults.
 - [ ] D2. `moof/mfhd`: sequence number.
 - [ ] D3. `traf/tfhd/tfdt/trun`: parse via flags; sample_count; optional data_offset; sizes.
@@ -208,17 +211,16 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] E6. Add streaming structural validation rules VR-001 (header sizing) and VR-002 (container closure).
 
 ### Phase F — Export & Hex
-- [ ] F1. JSON export: encode tree with offsets/sizes/parsed fields.
+- [x] F1. JSON export: encode tree with offsets/sizes/parsed fields. _(Implemented by [28_B6_JSON_and_Binary_Export_Modules](../../TASK_ARCHIVE/28_B6_JSON_and_Binary_Export_Modules/28_B6_JSON_and_Binary_Export_Modules.md))._
 - [ ] F2. (Phase 2) CSV flat export (offset,size,fourcc,parentPath).
-- [ ] F3. Hex slice provider: bounded reads for selected node; window sizing and caching.
-- [x] F4. Field-to-hex mapping metadata for details highlighting.
+- [x] F3. Hex slice provider: bounded reads for selected node; window sizing and caching. _(Delivered via [23_C3_Detail_and_Hex_Inspectors](../../TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/23_C3_Detail_and_Hex_Inspectors.md) and refined in [24_C3_Highlight_Field_Subranges](../../TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/Summary_of_Work.md))._
+- [x] F4. Field-to-hex mapping metadata for details highlighting. _(See [24_C3_Highlight_Field_Subranges](../../TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/Summary_of_Work.md))._
 
-### Phase G — SwiftUI App
 - [ ] G1. File open: `.fileImporter` (iOS/iPadOS), `NSOpenPanel` (macOS); UTTypes: movie/mp4/quicktime.
-- [ ] G2. Tree view (Outline) with badges for warnings/errors.
-- [ ] G3. Details view: sectioned fields; copy actions (fourcc/offset/size).
-- [ ] G4. Hex view: offset gutter, ASCII column, selection; fetch via `HexSliceProvider`.
-- [ ] G5. Search & filters; quick toggles (containers/codec/meta/frag).
+- [x] G2. Tree view (Outline) with badges for warnings/errors. _(Implemented in [19_C2_Tree_View_Virtualization](../../TASK_ARCHIVE/19_C2_Tree_View_Virtualization/19_C2_Tree_View_Virtualization.md) and its follow-ups.)_
+- [x] G3. Details view: sectioned fields; copy actions (fourcc/offset/size). _(Delivered in [23_C3_Detail_and_Hex_Inspectors](../../TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/23_C3_Detail_and_Hex_Inspectors.md))._
+- [x] G4. Hex view: offset gutter, ASCII column, selection; fetch via `HexSliceProvider`. _(Refined through [24_C3_Highlight_Field_Subranges](../../TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/Summary_of_Work.md))._
+- [x] G5. Search & filters; quick toggles (containers/codec/meta/frag). _(Expanded in [22_C2_Extend_Outline_Filters](../../TASK_ARCHIVE/22_C2_Extend_Outline_Filters/C2_Extend_Outline_Filters.md))._
 - [ ] G6. Export actions (JSON subtree/full).
 - [ ] G7. State management: `DocumentVM` holds root; `NodeVM` for selection; `HexVM` for slice & highlight.
 - [ ] G8. Accessibility & keyboard shortcuts (macOS/iPadOS).
