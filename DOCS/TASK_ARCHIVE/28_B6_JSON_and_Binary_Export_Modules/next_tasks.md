@@ -1,3 +1,3 @@
 # Next Tasks
 
-- Implement CLI export commands for JSON and binary captures once kit exporters are ready (`@todo #9`).
+- Completed by `29_D3_CLI_Export_Commands` — follow-up puzzle #9 is resolved.

@@ -20,6 +20,210 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
         XCTAssertTrue(help.contains("inspect"))
     }
 
+    func testHelpTextMentionsExportCommands() {
+        let help = ISOInspectorCLIRunner.helpText()
+        XCTAssertTrue(help.contains("export-json"))
+        XCTAssertTrue(help.contains("export-capture"))
+    }
+
+    func testRunExportJSONWritesExpectedFile() throws {
+        let header = try makeHeader(type: "ftyp", size: 24)
+        let descriptor = try XCTUnwrap(BoxCatalog.shared.descriptor(for: header))
+        let events = [
+            ParseEvent(
+                kind: .willStartBox(header: header, depth: 0),
+                offset: header.startOffset,
+                metadata: descriptor
+            ),
+            ParseEvent(
+                kind: .didFinishBox(header: header, depth: 0),
+                offset: header.endOffset,
+                metadata: descriptor
+            )
+        ]
+
+        let outputDirectory = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
+
+        let input = outputDirectory.appendingPathComponent("sample.mp4")
+        XCTAssertTrue(FileManager.default.createFile(atPath: input.path, contents: Data()))
+        let output = outputDirectory.appendingPathComponent("tree.json")
+
+        let printed = MutableBox<[String]>([])
+        let errors = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                XCTAssertEqual(url, input)
+                return StubReader()
+            },
+            parsePipeline: ParsePipeline(buildStream: { _, _ in
+                AsyncThrowingStream { continuation in
+                    for event in events {
+                        continuation.yield(event)
+                    }
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { errors.value.append($0) }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "export-json",
+                input.path,
+                "--output",
+                output.path
+            ],
+            environment: environment
+        )
+
+        XCTAssertTrue(errors.value.isEmpty)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: output.path))
+        let data = try Data(contentsOf: output)
+        var builder = ParseTreeBuilder()
+        for event in events {
+            builder.consume(event)
+        }
+        let expected = try JSONParseTreeExporter().export(tree: builder.makeTree())
+        XCTAssertEqual(data, expected)
+        XCTAssertTrue(printed.value.contains(where: { $0.contains(output.path) }))
+    }
+
+    func testRunExportCaptureWritesBinaryCapture() throws {
+        let header = try makeHeader(type: "ftyp", size: 24)
+        let descriptor = try XCTUnwrap(BoxCatalog.shared.descriptor(for: header))
+        let events = [
+            ParseEvent(
+                kind: .willStartBox(header: header, depth: 0),
+                offset: header.startOffset,
+                metadata: descriptor
+            ),
+            ParseEvent(
+                kind: .didFinishBox(header: header, depth: 0),
+                offset: header.endOffset,
+                metadata: descriptor
+            )
+        ]
+
+        let outputDirectory = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
+
+        let input = outputDirectory.appendingPathComponent("sample.mp4")
+        XCTAssertTrue(FileManager.default.createFile(atPath: input.path, contents: Data()))
+        let output = outputDirectory.appendingPathComponent("capture.bin")
+
+        let printed = MutableBox<[String]>([])
+        let errors = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                XCTAssertEqual(url, input)
+                return StubReader()
+            },
+            parsePipeline: ParsePipeline(buildStream: { _, _ in
+                AsyncThrowingStream { continuation in
+                    for event in events {
+                        continuation.yield(event)
+                    }
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { errors.value.append($0) }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "export-capture",
+                input.path,
+                "--output",
+                output.path
+            ],
+            environment: environment
+        )
+
+        XCTAssertTrue(errors.value.isEmpty)
+        XCTAssertTrue(FileManager.default.fileExists(atPath: output.path))
+        let data = try Data(contentsOf: output)
+        let decoded = try ParseEventCaptureDecoder().decode(data: data)
+        XCTAssertEqual(decoded, events)
+        XCTAssertTrue(printed.value.contains(where: { $0.contains(output.path) }))
+    }
+
+    func testExportCommandsDefaultOutputPathWhenNotProvided() throws {
+        let header = try makeHeader(type: "ftyp", size: 24)
+        let descriptor = try XCTUnwrap(BoxCatalog.shared.descriptor(for: header))
+        let events = [
+            ParseEvent(
+                kind: .willStartBox(header: header, depth: 0),
+                offset: header.startOffset,
+                metadata: descriptor
+            ),
+            ParseEvent(
+                kind: .didFinishBox(header: header, depth: 0),
+                offset: header.endOffset,
+                metadata: descriptor
+            )
+        ]
+
+        let outputDirectory = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
+
+        let input = outputDirectory.appendingPathComponent("sample.mp4")
+        XCTAssertTrue(FileManager.default.createFile(atPath: input.path, contents: Data()))
+        let expectedJSON = input
+            .appendingPathExtension("isoinspector")
+            .appendingPathExtension("json")
+        let expectedCapture = input
+            .appendingPathExtension("capture")
+
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { _ in StubReader() },
+            parsePipeline: ParsePipeline(buildStream: { _, _ in
+                AsyncThrowingStream { continuation in
+                    for event in events {
+                        continuation.yield(event)
+                    }
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { _ in },
+            printError: { _ in }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "export-json",
+                input.path
+            ],
+            environment: environment
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "export-capture",
+                input.path
+            ],
+            environment: environment
+        )
+
+        XCTAssertTrue(FileManager.default.fileExists(atPath: expectedJSON.path))
+        XCTAssertTrue(FileManager.default.fileExists(atPath: expectedCapture.path))
+    }
+
     func testRunExecutesMP4RARefreshWithParsedArguments() throws {
         let capturedSource = MutableBox<URL?>(nil)
         let capturedOutput = MutableBox<URL?>(nil)

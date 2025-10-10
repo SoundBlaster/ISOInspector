@@ -12,7 +12,7 @@ Implement dedicated `export-json` and binary capture commands in ISOInspectorCLI
 - Functional requirement **FR-CLI-001** mandates that the CLI provide `export-json` and `export-report` commands alongside inspect/validate with documented help output.【F:DOCS/AI/ISOInspector_Execution_Guide/02_Product_Requirements.md†L6-L18】
 - ISOInspectorKit already exposes JSON and binary exporters from completed task **B6**, which smoke tests exercised in
   preparation for this CLI wiring.【F:DOCS/TASK_ARCHIVE/28_B6_JSON_and_Binary_Export_Modules/Summary_of_Work.md†L3-L21】
-- The CLI runner still carries `@todo #9` where the export subcommands should be routed, confirming no overlapping work is in progress.【F:Sources/ISOInspectorCLI/CLI.swift†L51-L76】
+- The CLI runner now routes `export-json` and `export-capture` alongside `inspect`/`mp4ra`, replacing the earlier `@todo #9` placeholder with concrete command handling and help text.【F:Sources/ISOInspectorCLI/CLI.swift†L68-L101】
 
 ## ✅ Success Criteria
 

@@ -70,7 +70,18 @@ public enum ISOInspectorCLIRunner {
             handleMP4RACommand(Array(args.dropFirst()), environment: environment)
         case "inspect":
             handleInspectCommand(Array(args.dropFirst()), environment: environment)
-        // @todo #9 Add export-json and export-capture commands that stream through ParseTreeBuilder and capture encoders.
+        case "export-json":
+            handleExportCommand(
+                Array(args.dropFirst()),
+                environment: environment,
+                mode: .json
+            )
+        case "export-capture":
+            handleExportCommand(
+                Array(args.dropFirst()),
+                environment: environment,
+                mode: .capture
+            )
         default:
             ISOInspectorCLIIO.printWelcome()
         }
@@ -81,6 +92,10 @@ public enum ISOInspectorCLIRunner {
             "  --help, -h    Show this help message.\n" +
             "  inspect <file> [--research-log <path>]\n" +
             "                Stream parse events with metadata, validation summaries, and VR-006 research log entries.\n" +
+            "  export-json <file> [--output <path>]\n" +
+            "                Persist a JSON parse tree exported from streaming parse events.\n" +
+            "  export-capture <file> [--output <path>]\n" +
+            "                Save a binary capture of parse events for later replay.\n" +
             "  mp4ra refresh [--output <path>] [--source <url>]\n" +
             "                Refresh the bundled MP4RABoxes.json using the latest registry export."
     }
@@ -263,6 +278,192 @@ public enum ISOInspectorCLIRunner {
         }
 
         return .success(RefreshOptions(source: source, output: output))
+    }
+
+    private enum ExportMode {
+        case json
+        case capture
+
+        var successMessage: String {
+            switch self {
+            case .json:
+                return "Exported JSON parse tree → "
+            case .capture:
+                return "Exported parse event capture → "
+            }
+        }
+
+        var failurePrefix: String {
+            switch self {
+            case .json:
+                return "Failed to export JSON parse tree: "
+            case .capture:
+                return "Failed to export parse event capture: "
+            }
+        }
+    }
+
+    private struct ExportOptions {
+        let fileURL: URL
+        let outputURL: URL
+    }
+
+    private enum ExportParseError: Swift.Error {
+        case missingFilePath
+        case missingOutput
+        case unexpectedArgument(String)
+        case unknownOption(String)
+
+        var message: String {
+            switch self {
+            case .missingFilePath:
+                return "export commands require a file path."
+            case .missingOutput:
+                return "Missing value for --output."
+            case .unexpectedArgument(let argument):
+                return "Unexpected argument for export command: \(argument)"
+            case .unknownOption(let option):
+                return "Unknown option for export command: \(option)"
+            }
+        }
+    }
+
+    private enum ExportExecutionError: Swift.Error {
+        case unwritableDestination(String)
+
+        var message: String {
+            switch self {
+            case .unwritableDestination(let path):
+                return "Destination is not writable: \(path)"
+            }
+        }
+    }
+
+    private static func handleExportCommand(
+        _ arguments: [String],
+        environment: ISOInspectorCLIEnvironment,
+        mode: ExportMode
+    ) {
+        let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+        let defaultOutput: (URL) -> URL
+        switch mode {
+        case .json:
+            defaultOutput = { fileURL in
+                fileURL
+                    .appendingPathExtension("isoinspector")
+                    .appendingPathExtension("json")
+            }
+        case .capture:
+            defaultOutput = { fileURL in
+                fileURL.appendingPathExtension("capture")
+            }
+        }
+
+        switch parseExportOptions(
+            arguments,
+            cwd: cwd,
+            defaultOutput: defaultOutput
+        ) {
+        case .failure(let error):
+            environment.printError(error.message)
+        case .success(let options):
+            do {
+                try validateOutputPath(options.outputURL)
+            } catch let validationError as ExportExecutionError {
+                environment.printError(validationError.message)
+                return
+            } catch {
+                environment.printError(mode.failurePrefix + "\(error)")
+                return
+            }
+
+            let semaphore = DispatchSemaphore(value: 0)
+            Task {
+                do {
+                    let reader = try environment.makeReader(options.fileURL)
+                    let stream = environment.parsePipeline.events(
+                        for: reader,
+                        context: .init(source: options.fileURL)
+                    )
+                    var builder = ParseTreeBuilder()
+                    var captured: [ParseEvent] = []
+
+                    for try await event in stream {
+                        builder.consume(event)
+                        captured.append(event)
+                    }
+
+                    let data: Data
+                    switch mode {
+                    case .json:
+                        let tree = builder.makeTree()
+                        data = try JSONParseTreeExporter().export(tree: tree)
+                    case .capture:
+                        data = try ParseEventCaptureEncoder().encode(events: captured)
+                    }
+
+                    try data.write(to: options.outputURL, options: .atomic)
+                    environment.print(mode.successMessage + options.outputURL.path)
+                } catch {
+                    environment.printError(mode.failurePrefix + "\(error)")
+                }
+                semaphore.signal()
+            }
+
+            semaphore.wait()
+        }
+    }
+
+    private static func parseExportOptions(
+        _ arguments: [String],
+        cwd: URL,
+        defaultOutput: (URL) -> URL
+    ) -> Result<ExportOptions, ExportParseError> {
+        var iterator = arguments.makeIterator()
+        var filePath: String?
+        var outputPath: URL?
+
+        while let argument = iterator.next() {
+            switch argument {
+            case "--output", "-o":
+                guard let value = iterator.next() else {
+                    return .failure(.missingOutput)
+                }
+                let resolved = URL(fileURLWithPath: value, relativeTo: cwd)
+                outputPath = resolved.standardizedFileURL
+            default:
+                if argument.hasPrefix("-") {
+                    return .failure(.unknownOption(argument))
+                }
+
+                if filePath == nil {
+                    filePath = argument
+                } else {
+                    return .failure(.unexpectedArgument(argument))
+                }
+            }
+        }
+
+        guard let filePath else {
+            return .failure(.missingFilePath)
+        }
+
+        let fileURL = URL(fileURLWithPath: filePath, relativeTo: cwd).standardizedFileURL
+        let outputURL = outputPath ?? defaultOutput(fileURL)
+        return .success(ExportOptions(fileURL: fileURL, outputURL: outputURL))
+    }
+
+    private static func validateOutputPath(_ url: URL) throws {
+        let parent = url.deletingLastPathComponent()
+        var isDirectory: ObjCBool = false
+        guard FileManager.default.fileExists(atPath: parent.path, isDirectory: &isDirectory),
+              isDirectory.boolValue else {
+            throw ExportExecutionError.unwritableDestination(parent.path)
+        }
+
+        guard FileManager.default.isWritableFile(atPath: parent.path) else {
+            throw ExportExecutionError.unwritableDestination(parent.path)
+        }
     }
 }
 

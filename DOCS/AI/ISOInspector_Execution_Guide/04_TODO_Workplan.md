@@ -33,7 +33,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
 | D1 | Scaffold CLI using `swift-argument-parser` with base command. | Medium | 1 | B3 | Swift ArgumentParser | `isoinspector --help` displays subcommands. |
 | D2 | Implement `inspect` and `validate` commands with streaming output. | High | 2 | D1 | Swift, XCTest | Commands process sample files; exit codes match specification. |
-| D3 | Add `export-json` and `export-report` commands with file output. | Medium | 1.5 | D2, B6 | Swift | Generated files validated via schema tests. |
+| D3 | Add `export-json` and `export-report` commands with file output. | Medium | 1.5 | D2, B6 | Swift | Generated files validated via schema tests. (Completed ✅ — documented in `DOCS/TASK_ARCHIVE/29_D3_CLI_Export_Commands/` with CLI tests covering round-trips.) |
 | D4 | Create batch mode processing with aggregated summary + CSV export. | Medium | 1.5 | D2 | Swift, CSV writer | CLI handles multiple files; CSV contains expected rows and metrics. |
 
 ## Phase E — Application Shell
