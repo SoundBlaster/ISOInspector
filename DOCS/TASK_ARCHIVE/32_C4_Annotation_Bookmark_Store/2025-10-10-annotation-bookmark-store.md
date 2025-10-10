@@ -2,7 +2,8 @@
 
 ## Intent
 
-Persist user-authored annotations and bookmarks between runs using a lightweight JSON store to unblock C4 groundwork.
+Persist user-authored annotations and bookmarks between runs using a lightweight JSON store to unblock C4 groundwork. (Superseded
+by the CoreData implementation documented in `DOCS/INPROGRESS/C4_CoreData_Annotation_Persistence.md`.)
 
 ## Scope
 
@@ -19,7 +20,7 @@ Persist user-authored annotations and bookmarks between runs using a lightweight
 
 ## Next puzzles
 
-- [ ] #10 Replace JSON persistence with the selected CoreData schema once R6 finalizes annotation storage requirements.
+- [x] #10 Replace JSON persistence with the selected CoreData schema once R6 finalizes annotation storage requirements.
 
 ## Notes
 
