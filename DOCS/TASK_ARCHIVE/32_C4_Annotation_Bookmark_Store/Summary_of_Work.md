@@ -17,4 +17,5 @@
 
 ## Pending follow-ups
 
-- Implement CoreData storage and wire the store into SwiftUI view models once persistence strategy is settled.
+- (Resolved 2025-10-10) Implement CoreData storage and wire the store into SwiftUI view models once persistence strategy is
+  settled. See `DOCS/INPROGRESS/C4_CoreData_Annotation_Persistence.md` for the CoreData migration summary and remaining UI work.
