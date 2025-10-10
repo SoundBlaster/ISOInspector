@@ -58,6 +58,18 @@ offers the same conversion helpers as the container enum, plus convenience sets 
 Ordering rules and streaming heuristics rely on these helpers to avoid scattered string literals; extend
 `Sources/ISOInspectorKit/ISO/MediaAndIndexBoxCode.swift` when additional structural boxes gain first-class support.
 
+## Fixture Catalog & Deterministic Samples
+
+Regression coverage now includes a deterministic fixture catalog stored in
+`Tests/ISOInspectorKitTests/Fixtures`. Synthetic streaming, malformed, and
+large-payload MP4 assets are generated locally via
+`Tests/ISOInspectorKitTests/Fixtures/generate_fixtures.py` and committed as
+base64-encoded `.txt` files to keep provenance auditable while avoiding binary
+artifacts in git history. Tests in
+`Tests/ISOInspectorKitTests/FixtureCatalogExpandedCoverageTests.swift` validate
+expected box layouts and documented warnings so future fixture refreshes stay in
+sync with the catalog metadata.
+
 ## MP4RA Catalog Maintenance
 The repository maintains a pinned snapshot of the MP4 Registration Authority box catalog in `Sources/ISOInspectorKit/Resources/MP4RABoxes.json`.
 To update the snapshot and keep CI green:

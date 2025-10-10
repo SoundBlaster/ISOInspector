@@ -2,7 +2,6 @@ import Foundation
 @testable import ISOInspectorKit
 
 struct FixtureCatalog: Decodable {
-// @todo #8 Expand fixture catalog with fragmented, DASH, and malformed media samples plus expected validation notes once automation lands.
     struct Fixture: Decodable, Equatable {
         struct Resource: Decodable, Equatable {
             let name: String
@@ -53,6 +52,18 @@ struct FixtureCatalog: Decodable {
             }
             throw FixtureCatalogError.missingResource(name: resource.name, extension: resource.extension, subdirectory: resource.subdirectory)
         }
+
+        func data(in bundle: Bundle) throws -> Data {
+            let url = try url(in: bundle)
+            if url.pathExtension == "txt" {
+                let encoded = try String(contentsOf: url, encoding: .utf8)
+                guard let decoded = Data(base64Encoded: encoded, options: [.ignoreUnknownCharacters]) else {
+                    throw FixtureCatalogError.invalidEncoding(name: resource.name)
+                }
+                return decoded
+            }
+            return try Data(contentsOf: url)
+        }
     }
 
     private static let fixturesDirectory: URL = URL(fileURLWithPath: #filePath)
@@ -78,4 +89,5 @@ struct FixtureCatalog: Decodable {
 enum FixtureCatalogError: Swift.Error, Equatable {
     case catalogNotFound
     case missingResource(name: String, extension: String, subdirectory: String?)
+    case invalidEncoding(name: String)
 }
