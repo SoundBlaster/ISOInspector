@@ -14,6 +14,18 @@ export results stay consistent across experiences. SwiftUI previews and telemetr
 hooks keep the research log surfaces aligned with VR-006 requirements described in
 the execution guide.
 
+## Annotation & Bookmark Persistence
+
+- User-authored annotations and bookmark selections persist between launches via
+  a CoreData-backed store (`CoreDataAnnotationBookmarkStore`). Records are keyed
+  to the canonical file URL so multiple sessions on the same asset share notes.
+- The persistence layer is synchronous and designed for SwiftUI previews and
+  unit tests. It performs all writes on a private queue context and exposes
+  plain `AnnotationRecord` / `BookmarkRecord` values for view models.
+- Future work will surface editing controls in SwiftUI; the store is ready for
+  injection into those flows and supports conflict detection when records are
+  missing.
+
 ## Extending the app
 
 - Add new filters or inspectors only after the necessary parsing support exists
