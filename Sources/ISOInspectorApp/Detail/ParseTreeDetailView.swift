@@ -11,12 +11,18 @@ import UIKit
 
 struct ParseTreeDetailView: View {
     @ObservedObject var viewModel: ParseTreeDetailViewModel
+    @ObservedObject var annotationSession: AnnotationBookmarkSession
+    @Binding var selectedNodeID: ParseTreeNode.ID?
+    @State private var draftNote: String = ""
     private let bytesPerRow = 16
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             header
             content
+        }
+        .onChange(of: selectedNodeID) { _, _ in
+            draftNote = ""
         }
     }
 
@@ -37,6 +43,8 @@ struct ParseTreeDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     metadataSection(detail: detail)
+                    userNotesSection()
+                    fieldAnnotationSection()
                     validationSection(detail: detail)
                     hexSection(detail: detail)
                 }
@@ -54,9 +62,12 @@ struct ParseTreeDetailView: View {
 
     private func metadataSection(detail: ParseTreeNodeDetail) -> some View {
         VStack(alignment: .leading, spacing: 12) {
-            sectionHeader(title: "Metadata", icon: "info.circle")
+            HStack(alignment: .firstTextBaseline) {
+                sectionHeader(title: "Metadata", icon: "info.circle")
+                Spacer()
+                bookmarkControl()
+            }
             metadataGrid(detail: detail)
-            annotationSection()
             Text("Snapshot updated ") + Text(detail.snapshotTimestamp, style: .relative)
                 .font(.footnote)
                 .foregroundStyle(.secondary)
@@ -98,8 +109,22 @@ struct ParseTreeDetailView: View {
         }
     }
 
+    private func bookmarkControl() -> some View {
+        Button {
+            annotationSession.toggleBookmark()
+        } label: {
+            Label(
+                annotationSession.isSelectedNodeBookmarked ? "Bookmarked" : "Bookmark",
+                systemImage: annotationSession.isSelectedNodeBookmarked ? "bookmark.fill" : "bookmark"
+            )
+        }
+        .buttonStyle(.bordered)
+        .disabled(!annotationSession.isEnabled || selectedNodeID == nil)
+        .accessibilityLabel(annotationSession.isSelectedNodeBookmarked ? "Remove bookmark" : "Add bookmark")
+    }
+
     @ViewBuilder
-    private func annotationSection() -> some View {
+    private func fieldAnnotationSection() -> some View {
         VStack(alignment: .leading, spacing: 8) {
             sectionHeader(title: "Fields", icon: "list.bullet.rectangle")
             if let error = viewModel.annotationError {
@@ -119,6 +144,77 @@ struct ParseTreeDetailView: View {
                 }
             }
         }
+    }
+
+    @ViewBuilder
+    private func userNotesSection() -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            sectionHeader(title: "Notes", icon: "note.text")
+            if !annotationSession.isStoreAvailable {
+                Text("Notes are unavailable on this platform.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else if !annotationSession.isEnabled || selectedNodeID == nil {
+                Text("Select a box in a parsed file to add notes and bookmarks.")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            } else {
+                if let message = annotationSession.lastErrorMessage {
+                    Text(message)
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                }
+                if annotationSession.activeAnnotations.isEmpty {
+                    Text("No notes yet. Add your first note below.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                } else {
+                    VStack(alignment: .leading, spacing: 8) {
+                        ForEach(annotationSession.activeAnnotations) { record in
+                            AnnotationNoteRow(
+                                record: record,
+                                onUpdate: { updated in
+                                    annotationSession.updateAnnotation(id: record.id, note: updated)
+                                },
+                                onDelete: {
+                                    annotationSession.deleteAnnotation(id: record.id)
+                                }
+                            )
+                        }
+                    }
+                }
+                noteComposer
+            }
+        }
+    }
+
+    private var noteComposer: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("Add note")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            TextEditor(text: $draftNote)
+                .frame(minHeight: 72)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 8, style: .continuous)
+                        .stroke(Color.gray.opacity(0.2))
+                }
+            HStack {
+                Spacer()
+                Button("Save") {
+                    submitNote()
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(draftNote.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            }
+        }
+    }
+
+    private func submitNote() {
+        let trimmed = draftNote.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmed.isEmpty else { return }
+        annotationSession.addAnnotation(note: trimmed)
+        draftNote = ""
     }
 
     private func annotationRow(_ annotation: PayloadAnnotation) -> some View {
@@ -418,6 +514,81 @@ private struct HexByteCell: View {
         }
         .contentShape(Rectangle())
         .accessibilityAddTraits(isHighlighted ? .isSelected : [])
+    }
+}
+
+private struct AnnotationNoteRow: View {
+    let record: AnnotationRecord
+    let onUpdate: (String) -> Void
+    let onDelete: () -> Void
+
+    @State private var isEditing = false
+    @State private var draft: String = ""
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            HStack(alignment: .firstTextBaseline) {
+                Text("Updated " + record.updatedAt.formatted(.relative(presentation: .named)))
+                    .font(.caption2)
+                    .foregroundStyle(.secondary)
+                Spacer()
+                if isEditing {
+                    Button("Cancel") {
+                        isEditing = false
+                        draft = record.note
+                    }
+                    .font(.caption)
+                    Button("Save") {
+                        let trimmed = draft.trimmingCharacters(in: .whitespacesAndNewlines)
+                        guard !trimmed.isEmpty else { return }
+                        onUpdate(trimmed)
+                        isEditing = false
+                    }
+                    .font(.caption)
+                    .buttonStyle(.borderedProminent)
+                    .disabled(draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                } else {
+                    Button("Edit") {
+                        draft = record.note
+                        isEditing = true
+                    }
+                    .font(.caption)
+                    Button(role: .destructive) {
+                        onDelete()
+                    } label: {
+                        Image(systemName: "trash")
+                    }
+                    .buttonStyle(.borderless)
+                    .font(.caption)
+                    .accessibilityLabel("Delete note")
+                }
+            }
+            if isEditing {
+                TextEditor(text: $draft)
+                    .frame(minHeight: 60)
+                    .overlay {
+                        RoundedRectangle(cornerRadius: 6, style: .continuous)
+                            .stroke(Color.gray.opacity(0.2))
+                    }
+            } else {
+                Text(record.note)
+                    .font(.body)
+                    .textSelection(.enabled)
+            }
+        }
+        .padding(8)
+        .background {
+            RoundedRectangle(cornerRadius: 8, style: .continuous)
+                .fill(Color.gray.opacity(0.08))
+        }
+        .onAppear {
+            draft = record.note
+        }
+        .onChange(of: record.note) { newValue in
+            if !isEditing {
+                draft = newValue
+            }
+        }
     }
 }
 
