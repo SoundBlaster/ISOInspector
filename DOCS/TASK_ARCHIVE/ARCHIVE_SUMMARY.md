@@ -162,4 +162,10 @@
 - **Archived files:** `28_B6_JSON_and_Binary_Export_Modules.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/28_B6_JSON_and_Binary_Export_Modules/`.
 - **Highlights:** Captures introduction of the reusable parse tree builder plus JSON and binary exporters in ISOInspectorKit and the accompanying CLI smoke coverage for the new APIs.
-- **Next steps carried forward:** Implement dedicated CLI export commands that wrap the new exporters (`@todo #9`).
+- **Next steps carried forward:** Resolved by `29_D3_CLI_Export_Commands`.
+
+## 29_D3_CLI_Export_Commands
+- **Archived files:** `29_D3_CLI_Export_Commands.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/29_D3_CLI_Export_Commands/`.
+- **Highlights:** Documents the implementation of CLI `export-json` and `export-capture` commands, including option parsing, output validation, and integration with ISOInspectorKit exporters plus new CLI regression tests.
+- **Next steps carried forward:** None — future CLI work continues with D4 batch processing.

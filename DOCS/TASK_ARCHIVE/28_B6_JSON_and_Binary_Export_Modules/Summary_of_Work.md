@@ -18,4 +18,5 @@
 
 ## Follow-Up
 
-- [ ] #9 Add CLI export commands for JSON and binary captures using the new ISOInspectorKit exporters.
+- [x] #9 Add CLI export commands for JSON and binary captures using the new ISOInspectorKit exporters. (Completed in
+  `DOCS/TASK_ARCHIVE/29_D3_CLI_Export_Commands/`.)
