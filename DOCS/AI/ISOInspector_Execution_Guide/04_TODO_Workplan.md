@@ -7,7 +7,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
 | A1 | Initialize SwiftPM workspace with core, UI, CLI targets and shared test utilities. | High | 1 | None | SwiftPM, Xcode | Repository builds successfully; targets link with placeholder implementations. |
 | A2 | Configure CI pipeline (GitHub Actions or similar) for build, test, lint. | High | 1.5 | A1 | GitHub Actions, swiftlint | CI runs on pull requests; failing tests block merge. (Completed ✅ — archived in `DOCS/ARCHIVE/01_A2_Configure_CI_Pipeline/`.) |
-| A3 | Set up DocC catalog and documentation publishing workflow. | Medium | 1 | A1 | DocC, SwiftPM | `docc` build succeeds; docs published artifact accessible. |
+| A3 | Set up DocC catalog and documentation publishing workflow. | Medium | 1 | A1 | DocC, SwiftPM | `docc` build succeeds; docs published artifact accessible. (Completed ✅ — generates archives via `scripts/generate_documentation.sh` and DocC catalogs live under `Sources/*/*.docc`.) |
 
 ## Phase B — Core Parsing Engine
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
