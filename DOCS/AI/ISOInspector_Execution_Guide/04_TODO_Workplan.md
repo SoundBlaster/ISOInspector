@@ -47,7 +47,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 ## Phase F — Quality Assurance & Documentation
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
-| F1 | Develop automated test fixtures, including malformed MP4 samples. | High | 2 | B2 | Python (fixture generation), Swift | Fixtures stored with metadata; tests cover each failure mode. |
+| F1 | Develop automated test fixtures, including malformed MP4 samples. | High | 2 | B2 | Python (fixture generation), Swift | Fixtures stored with metadata; tests cover each failure mode. (Completed ✅ — catalog growth and generation scripts archived in `DOCS/TASK_ARCHIVE/27_F1_Expand_Fixture_Catalog/`.) |
 | F2 | Configure performance benchmarks for large files. | Medium | 1.5 | B3 | XCTest Metrics | Benchmark thresholds recorded; CI fails when regressions occur. |
 | F3 | Author developer onboarding guide and API reference. | Medium | 2 | A3, B6, C3 | DocC, Markdown | Guides published; includes setup, architecture, and extension instructions. |
 | F4 | Produce user manual covering CLI and App workflows. | Medium | 1.5 | D3, E2 | Markdown | Manual includes screenshots, command examples, troubleshooting. |
