@@ -175,3 +175,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/30_Summary_of_Work_2025-10-10/`.
 - **Highlights:** Summarizes the October 10, 2025 work session wrapping CLI export command delivery, verification details, and notes on awaiting new assignments.
 - **Next steps carried forward:** None — current planning awaits assignment of D4 CLI batch mode tasks.
+
+## 31_A3_DocC_Catalog_Setup
+- **Archived files:** `31_A3_DocC_Catalog_Setup.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/31_A3_DocC_Catalog_Setup/`.
+- **Highlights:** Captures the DocC catalog scaffolding for ISOInspectorKit, CLI, and App targets alongside the automation scripts and Swift-DocC dependency wiring that enable repeatable documentation builds.
+- **Next steps carried forward:** Expand CLI and App DocC catalogs with tutorials plus screenshots and layer DocC publishing into CI after validating storage and hosting requirements (tracked in `DOCS/INPROGRESS/next_tasks.md`).
