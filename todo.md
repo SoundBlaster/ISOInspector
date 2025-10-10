@@ -13,3 +13,4 @@
 - [x] #6 Add box category and streaming metadata filters once corresponding models are available.
 - [x] #7 Highlight field subranges and support selection syncing once payload annotations are available.
 - [x] #8 Expand fixture catalog with fragmented, DASH, and malformed samples plus expected validation notes.
+- [ ] #9 Add CLI export commands for JSON and binary captures using the new ISOInspectorKit exporters.

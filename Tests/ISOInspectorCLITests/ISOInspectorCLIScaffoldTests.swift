@@ -193,6 +193,55 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
         XCTAssertEqual(errors.value.last, "inspect requires a file path.")
     }
 
+    func testEnvironmentSupportsParseExporters() async throws {
+        let header = try makeHeader(type: "ftyp", size: 24)
+        let descriptor = try XCTUnwrap(BoxCatalog.shared.descriptor(for: header))
+        let events = [
+            ParseEvent(
+                kind: .willStartBox(header: header, depth: 0),
+                offset: header.startOffset,
+                metadata: descriptor
+            ),
+            ParseEvent(
+                kind: .didFinishBox(header: header, depth: 0),
+                offset: header.endOffset,
+                metadata: descriptor
+            )
+        ]
+
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { _ in StubReader() },
+            parsePipeline: ParsePipeline(buildStream: { _, _ in
+                AsyncThrowingStream { continuation in
+                    for event in events {
+                        continuation.yield(event)
+                    }
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { _ in },
+            printError: { _ in }
+        )
+
+        let reader = try environment.makeReader(URL(fileURLWithPath: "/tmp/sample.mp4"))
+        var builder = ParseTreeBuilder()
+        var captured: [ParseEvent] = []
+        for try await event in environment.parsePipeline.events(for: reader) {
+            captured.append(event)
+            builder.consume(event)
+        }
+
+        let tree = builder.makeTree()
+        let jsonData = try JSONParseTreeExporter().export(tree: tree)
+        XCTAssertFalse(jsonData.isEmpty)
+
+        let binary = try ParseEventCaptureEncoder().encode(events: captured)
+        let roundTripped = try ParseEventCaptureDecoder().decode(data: binary)
+        XCTAssertEqual(roundTripped, captured)
+    }
+
     private struct StubReader: RandomAccessReader {
         let length: Int64 = 0
 

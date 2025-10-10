@@ -70,6 +70,7 @@ public enum ISOInspectorCLIRunner {
             handleMP4RACommand(Array(args.dropFirst()), environment: environment)
         case "inspect":
             handleInspectCommand(Array(args.dropFirst()), environment: environment)
+        // @todo #9 Add export-json and export-capture commands that stream through ParseTreeBuilder and capture encoders.
         default:
             ISOInspectorCLIIO.printWelcome()
         }
