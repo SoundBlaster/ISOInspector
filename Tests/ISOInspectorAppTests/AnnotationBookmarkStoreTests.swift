@@ -1,3 +1,5 @@
+#if canImport(CoreData)
+import Foundation
 import XCTest
 @testable import ISOInspectorApp
 
@@ -6,7 +8,7 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
 
     func testCreateAnnotationPersistsRecord() throws {
         let directory = try makeTemporaryDirectory()
-        let store = makeStore(directory: directory)
+        let store = try makeStore(directory: directory)
         let file = URL(fileURLWithPath: "/tmp/sample.mp4")
 
         let annotation = try store.createAnnotation(for: file, nodeID: 42, note: "Check major brand")
@@ -18,14 +20,14 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
 
         XCTAssertEqual(try store.annotations(for: file), [annotation])
 
-        let reloaded = makeStore(directory: directory)
+        let reloaded = try makeStore(directory: directory)
         XCTAssertEqual(try reloaded.annotations(for: file), [annotation])
     }
 
     func testUpdateAnnotationChangesNoteAndTimestamp() throws {
         let directory = try makeTemporaryDirectory()
         let now = DateBox(referenceDate)
-        let store = makeStore(directory: directory) { now.value }
+        let store = try makeStore(directory: directory) { now.value }
         let file = URL(fileURLWithPath: "/tmp/sample.mp4")
 
         let annotation = try store.createAnnotation(for: file, nodeID: 7, note: "Initial")
@@ -42,7 +44,7 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
 
     func testDeleteAnnotationRemovesRecord() throws {
         let directory = try makeTemporaryDirectory()
-        let store = makeStore(directory: directory)
+        let store = try makeStore(directory: directory)
         let file = URL(fileURLWithPath: "/tmp/sample.mp4")
 
         let annotation = try store.createAnnotation(for: file, nodeID: 1, note: "Remove me")
@@ -53,7 +55,7 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
 
     func testToggleBookmarkPersistsState() throws {
         let directory = try makeTemporaryDirectory()
-        let store = makeStore(directory: directory)
+        let store = try makeStore(directory: directory)
         let file = URL(fileURLWithPath: "/tmp/sample.mp4")
 
         try store.setBookmark(for: file, nodeID: 256, isBookmarked: true)
@@ -63,15 +65,44 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
         XCTAssertTrue(try store.bookmarks(for: file).isEmpty)
     }
 
-    // MARK: - Helpers
+    func testUpdateMissingAnnotationThrows() throws {
+        let directory = try makeTemporaryDirectory()
+        let store = try makeStore(directory: directory)
+        let file = URL(fileURLWithPath: "/tmp/sample.mp4")
 
-    private func makeStore(directory: URL, now: @escaping @Sendable () -> Date) -> FileBackedAnnotationBookmarkStore {
-        FileBackedAnnotationBookmarkStore(directory: directory, makeDate: now)
+        XCTAssertThrowsError(
+            try store.updateAnnotation(for: file, annotationID: UUID(), note: "Does not exist")
+        ) { error in
+            XCTAssertEqual(error as? AnnotationBookmarkStoreError, .annotationNotFound)
+        }
     }
 
-    private func makeStore(directory: URL) -> FileBackedAnnotationBookmarkStore {
+    func testSeparateFilesMaintainIndependentRecords() throws {
+        let directory = try makeTemporaryDirectory()
+        let store = try makeStore(directory: directory)
+        let fileA = URL(fileURLWithPath: "/tmp/a.mp4")
+        let fileB = URL(fileURLWithPath: "/tmp/b.mp4")
+
+        let annotationA = try store.createAnnotation(for: fileA, nodeID: 1, note: "A")
+        let annotationB = try store.createAnnotation(for: fileB, nodeID: 2, note: "B")
+
+        try store.setBookmark(for: fileA, nodeID: 10, isBookmarked: true)
+
+        XCTAssertEqual(try store.annotations(for: fileA), [annotationA])
+        XCTAssertEqual(try store.annotations(for: fileB), [annotationB])
+        XCTAssertEqual(try store.bookmarks(for: fileA).map(\.nodeID), [10])
+        XCTAssertTrue(try store.bookmarks(for: fileB).isEmpty)
+    }
+
+    // MARK: - Helpers
+
+    private func makeStore(directory: URL, now: @escaping @Sendable () -> Date) throws -> CoreDataAnnotationBookmarkStore {
+        try CoreDataAnnotationBookmarkStore(directory: directory, makeDate: now)
+    }
+
+    private func makeStore(directory: URL) throws -> CoreDataAnnotationBookmarkStore {
         let date = referenceDate
-        return makeStore(directory: directory) { date }
+        return try makeStore(directory: directory) { date }
     }
 
     private func makeTemporaryDirectory() throws -> URL {
@@ -88,3 +119,4 @@ private final class DateBox: @unchecked Sendable {
         self.value = value
     }
 }
+#endif
