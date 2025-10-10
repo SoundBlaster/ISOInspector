@@ -21,10 +21,9 @@ the execution guide.
   to the canonical file URL so multiple sessions on the same asset share notes.
 - The persistence layer is synchronous and designed for SwiftUI previews and
   unit tests. It performs all writes on a private queue context and exposes
-  plain `AnnotationRecord` / `BookmarkRecord` values for view models.
-- Future work will surface editing controls in SwiftUI; the store is ready for
-  injection into those flows and supports conflict detection when records are
-  missing.
+  plain `AnnotationRecord` / `BookmarkRecord` values for view models. The SwiftUI
+  detail pane now surfaces bookmark toggles and a note editor backed by this
+  store, keeping UI state synchronized with persisted records.
 
 ## Extending the app
 
