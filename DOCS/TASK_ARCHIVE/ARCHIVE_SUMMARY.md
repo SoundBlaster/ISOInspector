@@ -181,3 +181,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/31_A3_DocC_Catalog_Setup/`.
 - **Highlights:** Captures the DocC catalog scaffolding for ISOInspectorKit, CLI, and App targets alongside the automation scripts and Swift-DocC dependency wiring that enable repeatable documentation builds.
 - **Next steps carried forward:** Expand CLI and App DocC catalogs with tutorials plus screenshots and layer DocC publishing into CI after validating storage and hosting requirements (tracked in `DOCS/INPROGRESS/next_tasks.md`).
+
+## 32_C4_Annotation_Bookmark_Store
+- **Archived files:** `2025-10-10-annotation-bookmark-store.md`, `C4_Annotation_and_Bookmark_Management.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/32_C4_Annotation_Bookmark_Store/`.
+- **Highlights:** Captures the file-backed annotation and bookmark persistence spike, accompanying management notes, and the work summary covering regression tests and the CoreData migration follow-up.
+- **Next steps carried forward:** Implement the CoreData-backed store, expand DocC catalogs with tutorials and screenshots, and automate DocC publishing in CI (tracked in `DOCS/INPROGRESS/next_tasks.md`).
