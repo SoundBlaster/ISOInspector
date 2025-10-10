@@ -17,4 +17,11 @@ final class FixtureCatalogTests: XCTestCase {
         XCTAssertEqual(fixture.expectations.errors, [])
         XCTAssertTrue(fixture.tags.contains("baseline"))
     }
+
+    func testDecodesBase64MediaPayload() throws {
+        let catalog = try FixtureCatalog.load()
+        let fixture = try XCTUnwrap(catalog.fixture(withID: "fragmented-stream-init"))
+        let data = try fixture.data(in: .module)
+        XCTAssertGreaterThan(data.count, 0)
+    }
 }

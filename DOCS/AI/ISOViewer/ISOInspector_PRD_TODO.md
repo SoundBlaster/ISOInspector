@@ -224,7 +224,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] G8. Accessibility & keyboard shortcuts (macOS/iPadOS).
 
 ### Phase H — Fixtures & Tests
-- [ ] H1. Fixture corpus: MP4 (non-frag), MOV, fMP4 segment, DASH init+media, huge `mdat`, malformed cases.
+- [x] H1. Fixture corpus: MP4 (non-frag), MOV, fMP4 segment, DASH init+media, huge `mdat`, malformed cases.
 - [ ] H2. Unit tests: headers, container boundaries, specific box field extraction.
 - [ ] H3. Snapshot tests: JSON exports of small fixtures.
 - [ ] H4. Performance tests: parse time & memory cap (<100 MB for 20 GB file).

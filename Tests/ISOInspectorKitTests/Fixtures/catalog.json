@@ -5,10 +5,13 @@
       "title": "Baseline QuickTime sample",
       "description": "Apple sample MP4 containing baseline H.264 video and AAC audio, used for parser smoke tests.",
       "format": "mp4",
-      "tags": ["baseline", "reference"],
+      "tags": [
+        "baseline",
+        "reference"
+      ],
       "resource": {
         "name": "bear-1280x720",
-        "extension": "mp4",
+        "extension": "txt",
         "subdirectory": "Media"
       },
       "provenance": {
@@ -17,6 +20,108 @@
       "expectations": {
         "warnings": [],
         "errors": []
+      }
+    },
+    {
+      "id": "fragmented-stream-init",
+      "title": "Fragmented stream initialization segment",
+      "description": "Synthetic init segment carrying ftyp/moov boxes to drive fragmented playback flows.",
+      "format": "mp4",
+      "tags": [
+        "fragmented",
+        "init",
+        "mp4"
+      ],
+      "resource": {
+        "name": "fragmented_stream_init",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [
+          "Expected streaming markers present"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "id": "dash-segment-1",
+      "title": "DASH media segment sample",
+      "description": "Synthetic DASH media segment carrying styp/sidx/moof/mdat for streaming validation.",
+      "format": "m4s",
+      "tags": [
+        "dash",
+        "segment",
+        "fragmented"
+      ],
+      "resource": {
+        "name": "dash_segment_1",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [
+          "Contains streaming media segment"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "id": "large-mdat",
+      "title": "Large mdat stress sample",
+      "description": "Synthetic MP4 with 8 KiB media payload to exercise large mdat handling and large-size headers.",
+      "format": "mp4",
+      "tags": [
+        "stress",
+        "large-mdat",
+        "mp4"
+      ],
+      "resource": {
+        "name": "large_mdat_placeholder",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [
+          "Large mdat payload"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "id": "malformed-truncated",
+      "title": "Malformed truncated moov sample",
+      "description": "MP4 stub where the declared moov size exceeds available payload to trigger truncation handling.",
+      "format": "mp4",
+      "tags": [
+        "malformed",
+        "negative",
+        "mp4"
+      ],
+      "resource": {
+        "name": "malformed_truncated",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [
+          "Intentionally truncated box hierarchy"
+        ],
+        "errors": [
+          "Truncated box payload"
+        ]
       }
     }
   ]
