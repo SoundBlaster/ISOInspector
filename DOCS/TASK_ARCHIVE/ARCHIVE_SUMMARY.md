@@ -162,7 +162,7 @@
 - **Archived files:** `2025-10-10-coredata-annotation-bookmark-store.md`, `C4_CoreData_Annotation_Persistence.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/33_C4_CoreData_Annotation_Persistence/`.
 - **Highlights:** Documents the CoreData-backed annotation and bookmark store, updated DocC/manual guidance, and SwiftUI integration that keeps notes and bookmarks in sync with the persistence layer.
-- **Next steps carried forward:** Expand DocC tutorials and screenshots, add DocC publishing to CI, and plan CoreData schema migrations alongside E3 session persistence.
+- **Next steps carried forward:** DocC tutorial coverage now lives in `DOCS/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/`; continue adding DocC publishing to CI and planning CoreData schema migrations alongside Task E3 session persistence.
 
 ## 28_B6_JSON_and_Binary_Export_Modules
 - **Archived files:** `28_B6_JSON_and_Binary_Export_Modules.md`, `Summary_of_Work.md`, `next_tasks.md`.
@@ -186,16 +186,22 @@
 - **Archived files:** `31_A3_DocC_Catalog_Setup.md`, `Summary_of_Work.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/31_A3_DocC_Catalog_Setup/`.
 - **Highlights:** Captures the DocC catalog scaffolding for ISOInspectorKit, CLI, and App targets alongside the automation scripts and Swift-DocC dependency wiring that enable repeatable documentation builds.
-- **Next steps carried forward:** Expand CLI and App DocC catalogs with tutorials plus screenshots and layer DocC publishing into CI after validating storage and hosting requirements (tracked in `DOCS/INPROGRESS/next_tasks.md`).
+- **Next steps carried forward:** DocC tutorial expansion is now archived in `DOCS/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/`; remaining follow-up is layering DocC publishing into CI once storage and hosting requirements are validated (tracked in `DOCS/INPROGRESS/next_tasks.md`).
 
 ## 32_C4_Annotation_Bookmark_Store
 - **Archived files:** `2025-10-10-annotation-bookmark-store.md`, `C4_Annotation_and_Bookmark_Management.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/32_C4_Annotation_Bookmark_Store/`.
 - **Highlights:** Captures the file-backed annotation and bookmark persistence spike, accompanying management notes, and the work summary covering regression tests and the CoreData migration follow-up.
-- **Next steps carried forward:** Implement the CoreData-backed store, expand DocC catalogs with tutorials and screenshots, and automate DocC publishing in CI (tracked in `DOCS/INPROGRESS/next_tasks.md`).
+- **Next steps carried forward:** The CoreData-backed store landed in `DOCS/TASK_ARCHIVE/33_C4_CoreData_Annotation_Persistence/`, DocC tutorial expansion followed in `DOCS/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/`, and the outstanding item is automating DocC publishing in CI (tracked in `DOCS/INPROGRESS/next_tasks.md`).
 
 ## 34_E3_CoreData_Migration_Planning
 - **Archived files:** `34_E3_CoreData_Migration_Planning.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/34_E3_CoreData_Migration_Planning/`.
 - **Highlights:** Documents the CoreData migration strategy for session persistence, including schema evolution paths, lightweight migration safeguards, and testing plus tooling implications for Task E3.
 - **Next steps carried forward:** Implement Task E3 with versioned model loading, migration coverage, and updated DocC articles describing session restoration workflows.
+
+## 35_A3_DocC_Tutorial_Expansion
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/`.
+- **Highlights:** Records the DocC tutorial updates for both CLI and app catalogs, including new screenshots, cross-linked workflows, and verification of documentation builds.
+- **Next steps carried forward:** Automate DocC publishing via CI artifacts after confirming storage and hosting requirements; the outstanding checklist is tracked in `DOCS/INPROGRESS/next_tasks.md`.
