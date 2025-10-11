@@ -18,6 +18,13 @@ final class ParseTreeOutlineViewModel: ObservableObject {
         didSet { rebuildRows() }
     }
 
+    enum NavigationDirection {
+        case up
+        case down
+        case parent
+        case child
+    }
+
     private var snapshot: ParseTreeSnapshot = .empty
     private var expandedIdentifiers: Set<ParseTreeNode.ID> = []
     private var cancellables: Set<AnyCancellable> = []
@@ -88,6 +95,44 @@ final class ParseTreeOutlineViewModel: ObservableObject {
         var updated = filter
         updated.showsStreamingIndicators = isVisible
         filter = updated
+    }
+
+    func rowID(after current: ParseTreeNode.ID?, direction: NavigationDirection) -> ParseTreeNode.ID? {
+        guard !rows.isEmpty else { return nil }
+        let targetID = current ?? rows.first?.id
+        guard let targetID, let index = rows.firstIndex(where: { $0.id == targetID }) else {
+            return rows.first?.id
+        }
+
+        switch direction {
+        case .down:
+            let nextIndex = rows.index(after: index)
+            return nextIndex < rows.endIndex ? rows[nextIndex].id : rows.last?.id
+        case .up:
+            if index == rows.startIndex {
+                return rows.first?.id
+            }
+            let previousIndex = rows.index(before: index)
+            return rows[previousIndex].id
+        case .child:
+            let row = rows[index]
+            guard row.isExpanded else { return nil }
+            let nextIndex = rows.index(after: index)
+            guard nextIndex < rows.endIndex else { return nil }
+            let nextRow = rows[nextIndex]
+            return nextRow.depth > row.depth ? nextRow.id : nil
+        case .parent:
+            let currentDepth = rows[index].depth
+            guard currentDepth > 0 else { return nil }
+            var searchIndex = index
+            while searchIndex > rows.startIndex {
+                searchIndex = rows.index(before: searchIndex)
+                if rows[searchIndex].depth < currentDepth {
+                    return rows[searchIndex].id
+                }
+            }
+            return nil
+        }
     }
 
     // MARK: - Private helpers
