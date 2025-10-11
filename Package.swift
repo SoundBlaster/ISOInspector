@@ -23,7 +23,8 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0")
+        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0"),
+        .package(url: "https://github.com/SoundBlaster/NestedA11yIDs", from: "1.0.0")
     ],
     targets: [
         .target(
@@ -41,7 +42,12 @@ let package = Package(
         .executableTarget(
             name: "ISOInspectorApp",
             dependencies: [
-                "ISOInspectorKit"
+                "ISOInspectorKit",
+                .product(
+                    name: "NestedA11yIDs",
+                    package: "NestedA11yIDs",
+                    condition: .when(platforms: [.iOS, .macOS])
+                )
             ],
             resources: [
                 .process("Resources")
