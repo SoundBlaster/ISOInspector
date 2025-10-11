@@ -44,6 +44,7 @@ Read and apply the selection rules from [`DOCS/RULES/03_Next_Task_Selection.md`]
   - [`DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md) for the authoritative workplan.
   - [`DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md) — especially the "## 5) Detailed TODO (execution-ready, без кода)" section.
   - The root [`todo.md`](../../todo.md) for any repo-level quick wins.
+- Once the task is selected, mark it as **In Progress** in each source where it appears—update the relevant entries in `next_tasks.md`, the workplan, and the backlog TODO documents so stakeholders know it is actively being worked.
 
 ### Step 4. Create a New Task Document
 
