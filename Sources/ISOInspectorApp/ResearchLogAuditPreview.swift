@@ -8,6 +8,7 @@ import AppKit
 struct ResearchLogAuditPreview: View {
     let snapshot: ResearchLogPreviewSnapshot
 
+    // @todo PDD:45m Apply NestedA11yIDs identifiers to the research log preview once the previewed UI ships to production screens. See DOCS/INPROGRESS/2025-10-11-nested-a11y-integration.md for scope.
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             header

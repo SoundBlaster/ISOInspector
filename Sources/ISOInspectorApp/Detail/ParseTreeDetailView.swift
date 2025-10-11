@@ -1,6 +1,7 @@
 #if canImport(SwiftUI) && canImport(Combine)
 import SwiftUI
 import ISOInspectorKit
+import NestedA11yIDs
 
 #if canImport(AppKit)
 import AppKit
@@ -76,6 +77,7 @@ struct ParseTreeDetailView: View {
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(detail.accessibilitySummary)
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.metadata)
     }
 
     private func metadataGrid(detail: ParseTreeNodeDetail) -> some View {
@@ -125,6 +127,7 @@ struct ParseTreeDetailView: View {
         .buttonStyle(.bordered)
         .disabled(!annotationSession.isEnabled || selectedNodeID == nil)
         .accessibilityLabel(annotationSession.isSelectedNodeBookmarked ? "Remove bookmark" : "Add bookmark")
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.bookmarkButton)
     }
 
     @ViewBuilder
@@ -148,6 +151,7 @@ struct ParseTreeDetailView: View {
                 }
             }
         }
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.fieldAnnotations)
     }
 
     @ViewBuilder
@@ -190,6 +194,7 @@ struct ParseTreeDetailView: View {
                 noteComposer
             }
         }
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.notes)
     }
 
     private var noteComposer: some View {
@@ -286,6 +291,7 @@ struct ParseTreeDetailView: View {
                 }
             }
         }
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.validation)
     }
 
     private func validationRow(issue: ValidationIssue) -> some View {
@@ -341,6 +347,7 @@ struct ParseTreeDetailView: View {
                     .foregroundStyle(.secondary)
             }
         }
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.hexView)
     }
 
     private func sectionHeader(title: String, icon: String) -> some View {
@@ -611,6 +618,7 @@ private struct AnnotationNoteRow: View {
     @State private var isEditing = false
     @State private var draft: String = ""
 
+    // @todo PDD:30m Add NestedA11yIDs identifiers for annotation note controls if QA automation relies on targeting edit/save/delete actions.
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline) {
