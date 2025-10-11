@@ -73,7 +73,13 @@ DOCS/
 - Preserve structure and file integrity.
 - Update [`DOCS/TASK_ARCHIVE/ARCHIVE_SUMMARY.md`](../TASK_ARCHIVE/ARCHIVE_SUMMARY.md) if a new entry is needed.
 
-### Step 6. Recreate `next_tasks.md` (if applicable)
+### Step 6. Mark Archived Tasks as Complete
+
+- Review the todo references listed in the **Reference Materials** (e.g., [`todo.md`](../../todo.md), [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md), and [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)).
+- Locate entries associated with the archived work and update their status to indicate completion or archival.
+- Ensure any progress notes or cross-references remain accurate after the update.
+
+### Step 7. Recreate `next_tasks.md` (if applicable)
 
 - If Step 2 found mentions of next tasks:
 
@@ -85,7 +91,7 @@ DOCS/
 
   - Write the extracted list or short summary of those next tasks into it, ensuring they align with the backlog items tracked in [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md) and [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md).
 
-### Step 7. Report Result
+### Step 8. Report Result
 
 - Output the **path of the new archive folder**.
 - Indicate whether a **new `next_tasks.md`** file was created.
