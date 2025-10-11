@@ -205,3 +205,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/`.
 - **Highlights:** Records the DocC tutorial updates for both CLI and app catalogs, including new screenshots, cross-linked workflows, and verification of documentation builds.
 - **Next steps carried forward:** DocC publishing now executes in CI through the `docc-archives` job; the outstanding checklist item has been closed in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 36_A3_DocC_Publishing_CI
+- **Archived files:** `12_Add_DocC_Publishing_to_CI.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/36_A3_DocC_Publishing_CI/`.
+- **Highlights:** Documents automation for publishing DocC archives via the `docc-archives` GitHub Actions job, including updated planning notes and validation that CI artifact uploads fail when documentation output is missing.
+- **Next steps carried forward:** None — DocC catalog enhancements remain tracked in prior archive entries, and no additional CI follow-up was noted in `next_tasks.md`.
