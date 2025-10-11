@@ -2,6 +2,7 @@
 import Combine
 import SwiftUI
 import ISOInspectorKit
+import NestedA11yIDs
 
 struct ParseTreeExplorerView: View {
     @ObservedObject var store: ParseTreeStore
@@ -23,6 +24,7 @@ struct ParseTreeExplorerView: View {
                 )
                 .frame(minWidth: 320)
                 .focused($focusTarget, equals: .outline)
+                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
 
                 ParseTreeDetailView(
                     viewModel: detailViewModel,
@@ -32,6 +34,7 @@ struct ParseTreeExplorerView: View {
                 )
                     .frame(minWidth: 360)
                     .focused($focusTarget, equals: .detail)
+                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.root)
             }
         }
         .padding()
@@ -70,13 +73,17 @@ struct ParseTreeExplorerView: View {
                 Text("Box Hierarchy")
                     .font(.title2)
                     .bold()
+                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.title)
                 Text("Search, filter, and expand ISO BMFF boxes")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
+                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.subtitle)
             }
             Spacer()
             ParseStateBadge(state: store.state)
+                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.parseState)
         }
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.root)
     }
 
     private var focusCommands: some View {
@@ -130,6 +137,7 @@ struct ParseTreeOutlineView: View {
         TextField("Search boxes, names, or summaries", text: $viewModel.searchText)
             .textFieldStyle(.roundedBorder)
             .focused(focusTarget, equals: .outline)
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.Filters.searchField)
     }
 
     private var severityFilterBar: some View {
@@ -145,6 +153,7 @@ struct ParseTreeOutlineView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 }
                 .toggleStyle(.button)
+                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.Filters.severityToggle(severity))
             }
             Spacer()
             if viewModel.filter.isFocused {
@@ -152,6 +161,7 @@ struct ParseTreeOutlineView: View {
                     viewModel.filter = .all
                 }
                 .font(.caption)
+                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.Filters.clearButton)
             }
         }
     }
@@ -170,6 +180,7 @@ struct ParseTreeOutlineView: View {
                             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                     }
                     .toggleStyle(.button)
+                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.Filters.categoryToggle(category))
                 }
             }
         }
@@ -181,6 +192,7 @@ struct ParseTreeOutlineView: View {
                 .font(.caption)
         }
         .toggleStyle(.switch)
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.Filters.streamingToggle)
     }
 
     @ViewBuilder
@@ -192,6 +204,7 @@ struct ParseTreeOutlineView: View {
                 description: Text("Run a parse to populate the hierarchy or adjust filters.")
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.emptyState)
         } else {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 0) {
@@ -217,6 +230,7 @@ struct ParseTreeOutlineView: View {
                         .id(row.id)
                         .focused($focusedRowID, equals: row.id)
                         .focusable(true)
+                        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.row(row.id))
                         .onTapGesture {
                             focusTarget.wrappedValue = .outline
                             focusedRowID = row.id
@@ -224,6 +238,7 @@ struct ParseTreeOutlineView: View {
                     }
                 }
             }
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.root)
             .onMoveCommand { direction in
                 guard focusTarget.wrappedValue == .outline else { return }
                 guard let nextID = nextRowID(for: direction) else { return }
@@ -378,6 +393,7 @@ private struct ParseTreeOutlineRowView: View {
         .accessibilityLabel(isBookmarked ? "Remove bookmark" : "Add bookmark")
         .disabled(!isBookmarkingEnabled)
         .opacity(isBookmarkingEnabled ? 1 : 0.35)
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.rowBookmark(row.id))
     }
 
     private var background: some View {
