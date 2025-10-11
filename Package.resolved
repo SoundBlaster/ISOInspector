@@ -1,6 +1,15 @@
 {
-  "originHash" : "0e27b7020bdba63897841765c5f3dd22cbdbb8eb39e55097d134bc4c29230ede",
+  "originHash" : "48f00c1c3fc298a15ef80f7e5dcf867924e2ed7e65fc1dea984ec718d30debc2",
   "pins" : [
+    {
+      "identity" : "nesteda11yids",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SoundBlaster/NestedA11yIDs",
+      "state" : {
+        "revision" : "ad123fbc8dda58f20de1e6fbd21120bcfbaabf85",
+        "version" : "1.0.0"
+      }
+    },
     {
       "identity" : "swift-docc-plugin",
       "kind" : "remoteSourceControl",
