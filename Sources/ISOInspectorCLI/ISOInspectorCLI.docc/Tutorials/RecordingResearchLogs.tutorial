@@ -1,0 +1,56 @@
+@Tutorial(time: 10) {
+    @Intro(title: "Capture Research Logs for Annotation Reviews") {
+        Text("Use the CLI to stream parse MP4 files, persist research logs, and hand them off to ISOInspectorApp for annotation work.")
+        Text("Terminal output illustrates progress, validation events, and the path to the persisted research log even without bundled screenshots.")
+    }
+
+    @Section(title: "Run the inspect command with logging enabled") {
+        @ContentAndMedia {
+            Text("Invoke `isoinspect inspect` with the target file path. Pass `--research-log` when you need the log in a custom location; otherwise, the CLI writes to the default location returned by `ISOInspectorCLIEnvironment.defaultResearchLogURL()`.")
+            Text("Command: `isoinspect inspect SampleVideo.mp4 --research-log ./Logs/SampleVideo.vrlog`")
+        }
+
+        @Steps {
+            @Step(title: "Stream parse events") {
+                @StepContent {
+                    Text("The CLI prints validation events, MP4 box summaries, and VR-006 research log entries as they stream from `ParsePipeline.live()`. Capture this transcript if you need to share quick findings with collaborators.")
+                }
+            }
+            @Step(title: "Persist the research log") {
+                @StepContent {
+                    Text("The writer referenced by `--research-log` receives every research entry. When the command completes, the log is ready to import into ISOInspectorApp or archive alongside CI artifacts.")
+                }
+            }
+        }
+    }
+
+    @Section(title: "Export supporting artifacts") {
+        @ContentAndMedia {
+            Text("Follow up with an export if reviewers need deeper reproduction material. The JSON export feeds downstream diffing tools, while the capture stream replays UI sessions.")
+            Text("Use the `export-json` and `export-capture` commands to produce the supporting artifacts directly from the CLI.")
+        }
+
+        @Steps {
+            @Step(title: "Export a JSON parse tree") {
+                @StepContent {
+                    Text("Run `isoinspect export-json` to serialize the parsed hierarchy. Pair the JSON with research logs so reviewers can trace annotations back to concrete offsets and boxes.")
+                }
+            }
+            @Step(title: "Capture replayable parse events") {
+                @StepContent {
+                    Text("Use `isoinspect export-capture` to create a `.capture` file. ISOInspectorApp replays these events for offline demos without needing the original asset.")
+                }
+            }
+        }
+    }
+
+    @Section(title: "Next steps") {
+        @ContentAndMedia {
+            Text("Bring the generated research log and capture into ISOInspectorApp to annotate findings, pin bookmarks, and share triage notes with your team.")
+        }
+
+        @CallToAction(destination: "doc:AnnotationAndBookmarkWalkthrough") {
+            Text("Annotate research logs in ISOInspectorApp")
+        }
+    }
+}

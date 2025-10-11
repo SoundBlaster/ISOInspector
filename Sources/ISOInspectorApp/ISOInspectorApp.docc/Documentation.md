@@ -7,6 +7,11 @@ streaming events to document-based scenes that operate across macOS and iPadOS.
 ## Overview
 
 - <doc:InterfaceOverview>
+- <doc:AnnotationAndBookmarkWalkthrough>
+
+## Tutorials
+
+- <doc:AnnotationAndBookmarkWalkthrough>
 
 ## Related Catalogs
 
@@ -18,3 +23,7 @@ streaming events to document-based scenes that operate across macOS and iPadOS.
 ### User Interface
 
 - <doc:InterfaceOverview>
+
+### Workflows
+
+- <doc:AnnotationAndBookmarkWalkthrough>

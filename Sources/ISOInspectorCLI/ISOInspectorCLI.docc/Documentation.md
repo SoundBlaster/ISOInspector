@@ -7,6 +7,11 @@ workflows in CI pipelines and local tooling.
 ## Overview
 
 - <doc:CommandReference>
+- <doc:RecordingResearchLogs>
+
+## Tutorials
+
+- <doc:RecordingResearchLogs>
 
 ## Related Catalogs
 
@@ -18,3 +23,7 @@ workflows in CI pipelines and local tooling.
 ### Commands
 
 - <doc:CommandReference>
+
+### Workflows
+
+- <doc:RecordingResearchLogs>
