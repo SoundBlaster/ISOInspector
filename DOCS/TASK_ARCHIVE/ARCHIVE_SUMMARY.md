@@ -158,6 +158,12 @@
 - **Highlights:** Captures the expanded fixture catalog documentation, regression notes, and verification summary covering fragmented MP4, DASH, large payload, and malformed sample scenarios.
 - **Next steps carried forward:** None — the refreshed `DOCS/INPROGRESS/next_tasks.md` notes that no follow-up items are currently queued.
 
+## 33_C4_CoreData_Annotation_Persistence
+- **Archived files:** `2025-10-10-coredata-annotation-bookmark-store.md`, `C4_CoreData_Annotation_Persistence.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/33_C4_CoreData_Annotation_Persistence/`.
+- **Highlights:** Documents the CoreData-backed annotation and bookmark store, updated DocC/manual guidance, and SwiftUI integration that keeps notes and bookmarks in sync with the persistence layer.
+- **Next steps carried forward:** Expand DocC tutorials and screenshots, add DocC publishing to CI, and plan CoreData schema migrations alongside E3 session persistence.
+
 ## 28_B6_JSON_and_Binary_Export_Modules
 - **Archived files:** `28_B6_JSON_and_Binary_Export_Modules.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/28_B6_JSON_and_Binary_Export_Modules/`.

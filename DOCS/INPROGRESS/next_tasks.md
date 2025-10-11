@@ -1,8 +1,8 @@
-# Next Tasks — C4 Annotation/Bookmark Follow-ups
+# Next Tasks — Post-CoreData Annotation Persistence
 
-- [x] Implement CoreData-backed annotation and bookmark storage following the R6 decision record.
-- [x] Wire the CoreData store into SwiftUI editing surfaces so annotations and bookmarks update live in the UI.
-- [ ] Expand CLI and App DocC catalogs with tutorials and screenshots as new UI and command features land.
+- [ ] Expand CLI and app DocC catalogs with tutorials and screenshots as the new annotation and bookmark workflows
+  mature.
 - [ ] Add DocC publishing to CI (e.g., GitHub Actions artifact uploads) after storage and hosting requirements are
-
   validated.
+- [ ] Evaluate and plan CoreData schema migrations in tandem with upcoming session persistence (E3) work so additional
+  entities integrate smoothly.
