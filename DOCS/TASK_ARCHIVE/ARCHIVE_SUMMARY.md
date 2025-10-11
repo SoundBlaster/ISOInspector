@@ -193,3 +193,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/32_C4_Annotation_Bookmark_Store/`.
 - **Highlights:** Captures the file-backed annotation and bookmark persistence spike, accompanying management notes, and the work summary covering regression tests and the CoreData migration follow-up.
 - **Next steps carried forward:** Implement the CoreData-backed store, expand DocC catalogs with tutorials and screenshots, and automate DocC publishing in CI (tracked in `DOCS/INPROGRESS/next_tasks.md`).
+
+## 34_E3_CoreData_Migration_Planning
+- **Archived files:** `34_E3_CoreData_Migration_Planning.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/34_E3_CoreData_Migration_Planning/`.
+- **Highlights:** Documents the CoreData migration strategy for session persistence, including schema evolution paths, lightweight migration safeguards, and testing plus tooling implications for Task E3.
+- **Next steps carried forward:** Implement Task E3 with versioned model loading, migration coverage, and updated DocC articles describing session restoration workflows.
