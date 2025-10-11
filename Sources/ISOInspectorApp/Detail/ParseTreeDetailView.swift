@@ -15,6 +15,7 @@ struct ParseTreeDetailView: View {
     @Binding var selectedNodeID: ParseTreeNode.ID?
     @State private var draftNote: String = ""
     private let bytesPerRow = 16
+    let focusTarget: FocusState<InspectorFocusTarget?>.Binding
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -50,6 +51,7 @@ struct ParseTreeDetailView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
+            .dynamicTypeSize(.medium ... .accessibility5)
         } else {
             ContentUnavailableView(
                 "No selection",
@@ -72,6 +74,8 @@ struct ParseTreeDetailView: View {
                 .font(.footnote)
                 .foregroundStyle(.secondary)
         }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(detail.accessibilitySummary)
     }
 
     private func metadataGrid(detail: ParseTreeNodeDetail) -> some View {
@@ -199,6 +203,7 @@ struct ParseTreeDetailView: View {
                     RoundedRectangle(cornerRadius: 8, style: .continuous)
                         .stroke(Color.gray.opacity(0.2))
                 }
+                .focused(focusTarget, equals: .notes)
             HStack {
                 Spacer()
                 Button("Save") {
@@ -254,7 +259,16 @@ struct ParseTreeDetailView: View {
                 .stroke(isSelected ? Color.accentColor : Color.gray.opacity(0.2), lineWidth: isSelected ? 1 : 0.5)
         }
         .accessibilityElement(children: .combine)
+        .accessibilityLabel(annotationAccessibilityLabel(for: annotation))
         .accessibilityAddTraits(isSelected ? .isSelected : [])
+    }
+
+    private func annotationAccessibilityLabel(for annotation: PayloadAnnotation) -> String {
+        var components: [String] = [annotation.label, annotation.formattedRange, annotation.value]
+        if let summary = annotation.summary, !summary.isEmpty {
+            components.append(summary)
+        }
+        return components.joined(separator: ". ")
     }
 
     private func validationSection(detail: ParseTreeNodeDetail) -> some View {
@@ -296,6 +310,8 @@ struct ParseTreeDetailView: View {
         }
         .padding(8)
         .background(Color.gray.opacity(0.08), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(issue.ruleID). \(issue.severity.accessibilityDescription). \(issue.message)")
     }
 
     private func hexSection(detail: ParseTreeNodeDetail) -> some View {
@@ -315,6 +331,7 @@ struct ParseTreeDetailView: View {
                         slice: slice,
                         highlightedRange: viewModel.highlightedRange,
                         bytesPerRow: bytesPerRow,
+                        focusTarget: focusTarget,
                         onSelectOffset: { viewModel.selectByte(at: $0) }
                     )
                 }
@@ -354,7 +371,10 @@ private struct HexSliceView: View {
     let slice: HexSlice
     let highlightedRange: Range<Int64>?
     let bytesPerRow: Int
+    let focusTarget: FocusState<InspectorFocusTarget?>.Binding
     let onSelectOffset: (Int64) -> Void
+
+    @State private var focusedOffset: Int64?
 
     var body: some View {
         ScrollViewReader { proxy in
@@ -365,7 +385,8 @@ private struct HexSliceView: View {
                             row: row,
                             bytesPerRow: bytesPerRow,
                             highlightedRange: highlightedRange,
-                            onSelectOffset: onSelectOffset
+                            focusTarget: focusTarget,
+                            onSelectOffset: { select(offset: $0) }
                         )
                         .id(row.index)
                     }
@@ -379,6 +400,21 @@ private struct HexSliceView: View {
                 DispatchQueue.main.async {
                     proxy.scrollTo(id, anchor: .center)
                 }
+            }
+            .focused(focusTarget, equals: .hex)
+            .focusable(true)
+            .onAppear {
+                focusedOffset = highlightedRange?.lowerBound
+            }
+            .onChange(of: highlightedRange) { _, newValue in
+                focusedOffset = newValue?.lowerBound
+            }
+            .onMoveCommand { direction in
+                guard focusTarget.wrappedValue == .hex else { return }
+                guard let offset = focusedOffset ?? highlightedRange?.lowerBound else { return }
+                guard let nextOffset = nextOffset(from: offset, direction: direction) else { return }
+                select(offset: nextOffset)
+                scrollToOffset(nextOffset, proxy: proxy)
             }
         }
     }
@@ -402,6 +438,39 @@ private struct HexSliceView: View {
         let row = Int(relative) / bytesPerRow
         return min(max(row, 0), rows.count - 1)
     }
+
+    private func select(offset: Int64) {
+        focusTarget.wrappedValue = .hex
+        focusedOffset = offset
+        onSelectOffset(offset)
+    }
+
+    private func nextOffset(from offset: Int64, direction: MoveCommandDirection) -> Int64? {
+        switch direction {
+        case .left:
+            let target = offset - 1
+            return target >= slice.offset ? target : nil
+        case .right:
+            let target = offset + 1
+            return target < slice.endOffset ? target : nil
+        case .up:
+            let target = offset - Int64(bytesPerRow)
+            return target >= slice.offset ? target : nil
+        case .down:
+            let target = offset + Int64(bytesPerRow)
+            return target < slice.endOffset ? target : nil
+        default:
+            return nil
+        }
+    }
+
+    private func scrollToOffset(_ offset: Int64, proxy: ScrollViewProxy) {
+        if let id = rowID(for: offset..<(offset + 1)) {
+            DispatchQueue.main.async {
+                proxy.scrollTo(id, anchor: .center)
+            }
+        }
+    }
 }
 
 private struct HexSliceRow: Identifiable {
@@ -416,11 +485,14 @@ private struct HexSliceRowView: View {
     let row: HexSliceRow
     let bytesPerRow: Int
     let highlightedRange: Range<Int64>?
+    let focusTarget: FocusState<InspectorFocusTarget?>.Binding
     let onSelectOffset: (Int64) -> Void
 
     private var hexColumns: [GridItem] {
         Array(repeating: GridItem(.fixed(28), spacing: 4), count: bytesPerRow)
     }
+
+    private let accessibilityFormatter = HexByteAccessibilityFormatter()
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
@@ -433,14 +505,20 @@ private struct HexSliceRowView: View {
                 ForEach(0..<bytesPerRow, id: \.self) { index in
                     if index < row.bytes.count {
                         let globalOffset = row.offset + Int64(index)
+                        let label = accessibilityFormatter.label(
+                            for: row.bytes[index],
+                            at: globalOffset,
+                            highlighted: isHighlighted(globalOffset)
+                        )
                         HexByteCell(
                             text: String(format: "%02X", row.bytes[index]),
                             isHighlighted: isHighlighted(globalOffset),
-                            width: 28
+                            width: 28,
+                            accessibilityLabel: label
                         ) {
+                            focusTarget.wrappedValue = .hex
                             onSelectOffset(globalOffset)
                         }
-                        .accessibilityLabel("Byte 0x\(String(format: "%02X", row.bytes[index])) at offset \(globalOffset)")
                     } else {
                         Spacer().frame(width: 28, height: 24)
                     }
@@ -457,7 +535,12 @@ private struct HexSliceRowView: View {
                         HexByteCell(
                             text: asciiCharacter(for: row.bytes[index]),
                             isHighlighted: isHighlighted(globalOffset),
-                            width: 16
+                            width: 16,
+                            accessibilityLabel: accessibilityFormatter.label(
+                                for: row.bytes[index],
+                                at: globalOffset,
+                                highlighted: isHighlighted(globalOffset)
+                            )
                         ) {
                             onSelectOffset(globalOffset)
                         }
@@ -488,12 +571,14 @@ private struct HexByteCell: View {
     let text: String
     let isHighlighted: Bool
     let width: CGFloat
+    let accessibilityLabel: String
     let onTap: () -> Void
 
-    init(text: String, isHighlighted: Bool, width: CGFloat, onTap: @escaping () -> Void) {
+    init(text: String, isHighlighted: Bool, width: CGFloat, accessibilityLabel: String, onTap: @escaping () -> Void) {
         self.text = text
         self.isHighlighted = isHighlighted
         self.width = width
+        self.accessibilityLabel = accessibilityLabel
         self.onTap = onTap
     }
 
@@ -514,6 +599,7 @@ private struct HexByteCell: View {
         }
         .contentShape(Rectangle())
         .accessibilityAddTraits(isHighlighted ? .isSelected : [])
+        .accessibilityLabel(accessibilityLabel)
     }
 }
 
@@ -584,7 +670,7 @@ private struct AnnotationNoteRow: View {
         .onAppear {
             draft = record.note
         }
-        .onChange(of: record.note) { newValue in
+        .onChange(of: record.note) { _, newValue in
             if !isEditing {
                 draft = newValue
             }
