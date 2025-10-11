@@ -16,3 +16,4 @@
 - [x] #9 Add CLI export commands for JSON and binary captures using the new ISOInspectorKit exporters.
 - [x] #10 Replace JSON persistence with the selected CoreData schema once R6 finalizes annotation storage requirements.
 - [ ] #11 Implement session persistence (Task E3) following the archived CoreData migration plan.
+- [ ] #12 Add DocC publishing to CI once storage and hosting requirements are validated.
