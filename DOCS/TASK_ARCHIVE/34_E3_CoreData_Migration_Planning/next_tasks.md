@@ -4,6 +4,6 @@
 
   mature.
 
-- [ ] Add DocC publishing to CI (e.g., GitHub Actions artifact uploads) after storage and hosting requirements are
+- [x] Add DocC publishing to CI (e.g., GitHub Actions artifact uploads) after storage and hosting requirements are
 
-  validated.
+  validated. (Handled by the GitHub Actions `docc-archives` job that ships DocC bundles as downloadable artifacts.)
