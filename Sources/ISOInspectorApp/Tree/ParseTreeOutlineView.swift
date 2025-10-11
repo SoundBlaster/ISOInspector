@@ -9,6 +9,7 @@ struct ParseTreeExplorerView: View {
     @StateObject private var outlineViewModel = ParseTreeOutlineViewModel()
     @StateObject private var detailViewModel = ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
     @State private var selectedNodeID: ParseTreeNode.ID?
+    @FocusState private var focusTarget: InspectorFocusTarget?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -17,16 +18,20 @@ struct ParseTreeExplorerView: View {
                 ParseTreeOutlineView(
                     viewModel: outlineViewModel,
                     selectedNodeID: $selectedNodeID,
-                    annotationSession: annotations
+                    annotationSession: annotations,
+                    focusTarget: $focusTarget
                 )
                 .frame(minWidth: 320)
+                .focused($focusTarget, equals: .outline)
 
                 ParseTreeDetailView(
                     viewModel: detailViewModel,
                     annotationSession: annotations,
-                    selectedNodeID: $selectedNodeID
+                    selectedNodeID: $selectedNodeID,
+                    focusTarget: $focusTarget
                 )
                     .frame(minWidth: 360)
+                    .focused($focusTarget, equals: .detail)
             }
         }
         .padding()
@@ -53,6 +58,10 @@ struct ParseTreeExplorerView: View {
         .onChange(of: store.fileURL) { _, newValue in
             annotations.setFileURL(newValue)
         }
+        .onAppear {
+            focusTarget = .outline
+        }
+        .background(focusCommands)
     }
 
     private var header: some View {
@@ -69,12 +78,31 @@ struct ParseTreeExplorerView: View {
             ParseStateBadge(state: store.state)
         }
     }
+
+    private var focusCommands: some View {
+        HStack(spacing: 0) {
+            Button("Focus outline") { focusTarget = .outline }
+                .keyboardShortcut("1", modifiers: [.command, .option])
+            Button("Focus detail") { focusTarget = .detail }
+                .keyboardShortcut("2", modifiers: [.command, .option])
+            Button("Focus notes") { focusTarget = .notes }
+                .keyboardShortcut("3", modifiers: [.command, .option])
+            Button("Focus hex") { focusTarget = .hex }
+                .keyboardShortcut("4", modifiers: [.command, .option])
+        }
+        .frame(width: 0, height: 0)
+        .allowsHitTesting(false)
+        .accessibilityHidden(true)
+    }
 }
 
 struct ParseTreeOutlineView: View {
     @ObservedObject var viewModel: ParseTreeOutlineViewModel
     @Binding var selectedNodeID: ParseTreeNode.ID?
     @ObservedObject var annotationSession: AnnotationBookmarkSession
+    @FocusState private var focusedRowID: ParseTreeNode.ID?
+    let focusTarget: FocusState<InspectorFocusTarget?>.Binding
+    @State private var keyboardSelectionID: ParseTreeNode.ID?
 
     var body: some View {
         VStack(spacing: 12) {
@@ -88,11 +116,20 @@ struct ParseTreeOutlineView: View {
             }
             outlineList
         }
+        .onAppear {
+            keyboardSelectionID = selectedNodeID
+            focusedRowID = selectedNodeID
+        }
+        .onChange(of: selectedNodeID) { _, newValue in
+            keyboardSelectionID = newValue
+            focusedRowID = newValue
+        }
     }
 
     private var searchBar: some View {
         TextField("Search boxes, names, or summaries", text: $viewModel.searchText)
             .textFieldStyle(.roundedBorder)
+            .focused(focusTarget, equals: .outline)
     }
 
     private var severityFilterBar: some View {
@@ -169,6 +206,7 @@ struct ParseTreeOutlineView: View {
                                 if !row.node.children.isEmpty {
                                     viewModel.toggleExpansion(for: row.id)
                                 }
+                                keyboardSelectionID = row.id
                             },
                             onToggleBookmark: {
                                 selectedNodeID = row.id
@@ -177,8 +215,23 @@ struct ParseTreeOutlineView: View {
                             }
                         )
                         .id(row.id)
+                        .focused($focusedRowID, equals: row.id)
+                        .focusable(true)
+                        .onTapGesture {
+                            focusTarget.wrappedValue = .outline
+                            focusedRowID = row.id
+                        }
                     }
                 }
+            }
+            .onMoveCommand { direction in
+                guard focusTarget.wrappedValue == .outline else { return }
+                guard let nextID = nextRowID(for: direction) else { return }
+                if nextID != selectedNodeID {
+                    selectedNodeID = nextID
+                }
+                keyboardSelectionID = nextID
+                focusedRowID = nextID
             }
         }
     }
@@ -223,6 +276,37 @@ struct ParseTreeOutlineView: View {
         let isActive = viewModel.filter.focusedCategories.contains(category)
         return isActive ? category.color : .secondary
     }
+
+    private func nextRowID(for direction: MoveCommandDirection) -> ParseTreeNode.ID? {
+        let activeID = keyboardSelectionID ?? selectedNodeID
+        switch direction {
+        case .down:
+            return viewModel.rowID(after: activeID, direction: .down)
+        case .up:
+            return viewModel.rowID(after: activeID, direction: .up)
+        case .left:
+            guard let activeID else { return nil }
+            if let row = viewModel.rows.first(where: { $0.id == activeID }), row.isExpanded {
+                viewModel.toggleExpansion(for: activeID)
+                return activeID
+            }
+            return viewModel.rowID(after: activeID, direction: .parent) ?? activeID
+        case .right:
+            guard let activeID else { return nil }
+            guard let row = viewModel.rows.first(where: { $0.id == activeID }) else {
+                return activeID
+            }
+            if row.node.children.isEmpty {
+                return activeID
+            }
+            if !row.isExpanded {
+                viewModel.toggleExpansion(for: activeID)
+            }
+            return viewModel.rowID(after: activeID, direction: .child) ?? activeID
+        default:
+            return activeID
+        }
+    }
 }
 
 private struct ParseTreeOutlineRowView: View {
@@ -266,6 +350,10 @@ private struct ParseTreeOutlineRowView: View {
         .background(background)
         .contentShape(Rectangle())
         .onTapGesture(perform: onSelect)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(accessibilityDescriptor.label)
+        .accessibilityValue(accessibilityDescriptor.value)
+        .accessibilityHint(accessibilityDescriptor.hint)
     }
 
     private var icon: some View {
@@ -305,6 +393,10 @@ private struct ParseTreeOutlineRowView: View {
             return Color.accentColor.opacity(0.12)
         }
         return Color.clear
+    }
+
+    private var accessibilityDescriptor: AccessibilityDescriptor {
+        row.accessibilityDescriptor(isBookmarked: isBookmarked)
     }
 }
 
@@ -400,7 +492,11 @@ private extension BoxCategory {
         let model = ParseTreeOutlineViewModel()
         model.apply(snapshot: ParseTreePreviewData.sampleSnapshot)
         return model
-    }(), selectedNodeID: .constant(ParseTreePreviewData.sampleSnapshot.nodes.first?.id), annotationSession: AnnotationBookmarkSession(store: nil))
+    }(),
+    selectedNodeID: .constant(ParseTreePreviewData.sampleSnapshot.nodes.first?.id),
+    annotationSession: AnnotationBookmarkSession(store: nil),
+    focusTarget: .constant(nil)
+    )
     .frame(width: 420, height: 480)
 }
 

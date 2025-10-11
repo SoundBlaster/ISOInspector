@@ -26,7 +26,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | C2 | Implement tree view with virtualization, search, and filters. | High | 2.5 | C1 | SwiftUI | UI renders >10k nodes smoothly; search reduces nodes instantly. (Completed ✅ — captured across `DOCS/TASK_ARCHIVE/19_C2_Tree_View_Virtualization/` through `22_C2_Extend_Outline_Filters/`.) |
 | C3 | Build detail pane with metadata, validation list, and hex viewer. | High | 3 | C1 | SwiftUI | Selecting node shows metadata; hex viewer displays payload windows. (Completed ✅ — documented in `DOCS/TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/` and `24_C3_Highlight_Field_Subranges/`.) |
 | C4 | Add annotation and bookmark management with persistence hooks. | Medium | 2 | C1 | CoreData/JSON | Notes persist across app relaunch; tests validate storage schema. (Completed ✅ — CoreData-backed store archived in `DOCS/TASK_ARCHIVE/33_C4_CoreData_Annotation_Persistence/`.) |
-| C5 | Implement accessibility features (VoiceOver labels, keyboard navigation). | Medium | 1.5 | C2, C3 | Accessibility Inspector | Accessibility audit passes; UI tests confirm focus order. |
+| C5 | Implement accessibility features (VoiceOver labels, keyboard navigation). | Medium | 1.5 | C2, C3 | Accessibility Inspector | Accessibility audit passes; UI tests confirm focus order. (Completed ✅ — VoiceOver labels derive from metadata, keyboard focus is shared across tree/detail/hex panes, and accessibility formatters are covered by new XCTest cases.) |
 
 ## Phase D — CLI Interface
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |

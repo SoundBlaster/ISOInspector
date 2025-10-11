@@ -185,6 +185,46 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.containsStreamingIndicators)
     }
 
+    func testNavigationMovesBetweenVisibleRows() throws {
+        let root = makeNode(identifier: 1, type: "root", children: [
+            makeNode(identifier: 2, type: "trak"),
+            makeNode(identifier: 3, type: "mdia"),
+            makeNode(identifier: 4, type: "minf")
+        ])
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+
+        viewModel.apply(snapshot: snapshot)
+
+        let first = viewModel.rows[0].id
+        let second = viewModel.rows[1].id
+        let third = viewModel.rows[2].id
+
+        XCTAssertEqual(viewModel.rowID(after: first, direction: .down), second)
+        XCTAssertEqual(viewModel.rowID(after: second, direction: .down), third)
+        XCTAssertEqual(viewModel.rowID(after: second, direction: .up), first)
+    }
+
+    func testNavigationMovesToParentOrChildRows() throws {
+        let child = makeNode(identifier: 2, type: "trak", children: [
+            makeNode(identifier: 3, type: "mdia")
+        ])
+        let root = makeNode(identifier: 1, type: "root", children: [child])
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+
+        viewModel.apply(snapshot: snapshot)
+
+        let rootID = viewModel.rows[0].id
+        let childID = viewModel.rows[1].id
+        let grandchildID = viewModel.rows[2].id
+
+        XCTAssertEqual(viewModel.rowID(after: rootID, direction: .child), childID)
+        XCTAssertEqual(viewModel.rowID(after: childID, direction: .child), grandchildID)
+        XCTAssertEqual(viewModel.rowID(after: childID, direction: .parent), rootID)
+        XCTAssertEqual(viewModel.rowID(after: grandchildID, direction: .parent), childID)
+    }
+
     // MARK: - Helpers
 
     private func makeNode(
