@@ -8,7 +8,9 @@ can download the latest documentation from each build.
 ## 🧩 Context
 
 - Task F6 in the execution workplan targets CI automation for DocC artifacts once the catalog setup (A3) is complete and
+
   CI basics are configured.
+
 - Root TODO item #12 tracks enabling DocC publishing after storage and hosting requirements are validated.
 - Prior DocC catalog and tutorial work is archived under the A3 tasks, so this effort builds on those assets.
 
@@ -23,6 +25,7 @@ can download the latest documentation from each build.
 - Reuse `scripts/generate_documentation.sh` for consistent builds; ensure caching or cleanup keeps runs performant.
 - Validate storage limits or retention policies for artifact hosting to meet project distribution expectations.
 - Coordinate with documentation owners to confirm artifact naming, retention duration, and any additional publishing
+
   hooks.
 
 ## 🧠 Source References

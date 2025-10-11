@@ -7,7 +7,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
 | A1 | Initialize SwiftPM workspace with core, UI, CLI targets and shared test utilities. | High | 1 | None | SwiftPM, Xcode | Repository builds successfully; targets link with placeholder implementations. |
 | A2 | Configure CI pipeline (GitHub Actions or similar) for build, test, lint. | High | 1.5 | A1 | GitHub Actions, swiftlint | CI runs on pull requests; failing tests block merge. (Completed ✅ — archived in `DOCS/ARCHIVE/01_A2_Configure_CI_Pipeline/`.) |
-| A3 | Set up DocC catalog and documentation publishing workflow. | Medium | 1 | A1 | DocC, SwiftPM | `docc` build succeeds; docs published artifact accessible. (Completed ✅ — generates archives via `scripts/generate_documentation.sh`, DocC catalogs live under `Sources/*/*.docc`, tutorials expanded in `DOCS/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/`, and CI publishing tracked by TODO #12.) |
+| A3 | Set up DocC catalog and documentation publishing workflow. | Medium | 1 | A1 | DocC, SwiftPM | `docc` build succeeds; docs published artifact accessible. (Completed ✅ — generates archives via `scripts/generate_documentation.sh`, DocC catalogs live under `Sources/*/*.docc`, tutorials expanded in `DOCS/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/`, and CI publishing now delivered by the TODO #12-backed `docc-archives` job.) |
 
 ## Phase B — Core Parsing Engine
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
@@ -52,7 +52,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | F3 | Author developer onboarding guide and API reference. | Medium | 2 | A3, B6, C3 | DocC, Markdown | Guides published; includes setup, architecture, and extension instructions. |
 | F4 | Produce user manual covering CLI and App workflows. | Medium | 1.5 | D3, E2 | Markdown | Manual includes screenshots, command examples, troubleshooting. |
 | F5 | Finalize release checklist and go-live runbook. | Medium | 1 | E4, F2 | Markdown | Checklist covers QA sign-off, documentation updates, release packaging. |
-| F6 | Automate DocC publishing via CI artifacts. | Medium | 1 | A3 | GitHub Actions, DocC | DocC archives uploaded on CI and accessible as artifacts. (Tracked by TODO #12.) |
+| F6 | Automate DocC publishing via CI artifacts. | Medium | 1 | A3 | GitHub Actions, DocC | DocC archives uploaded on CI and accessible as artifacts. (Completed ✅ — delivered by the `docc-archives` GitHub Actions job tracked under TODO #12.) |
 
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.

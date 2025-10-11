@@ -29,6 +29,6 @@
 
   surfaces gain additional features.
 
-- Layer DocC publishing into CI (e.g., GitHub Actions artifact upload) after validating storage and
+- DocC publishing now runs in CI via the `docc-archives` GitHub Actions job, which generates and uploads
 
-  hosting requirements.
+  DocC bundles on every pipeline execution.
