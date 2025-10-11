@@ -41,7 +41,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
 | E1 | Build SwiftUI app shell with document browser and recent files list. | Medium | 2 | C1 | SwiftUI, UniformTypeIdentifiers | Users can open local files; recents persist. |
 | E2 | Integrate parser event pipeline with UI components in app context. | High | 2 | E1, C2, C3 | SwiftUI | Opening file updates tree and detail views in real time. |
-| E3 | Implement session persistence (open files, annotations, layout). | Medium | 2 | E2, C4 | CoreData/JSON | Relaunch restores previous workspace state. |
+| E3 | Implement session persistence (open files, annotations, layout). | Medium | 2 | E2, C4 | CoreData/JSON | Relaunch restores previous workspace state. (Planning ✅ — migration strategy archived in `DOCS/TASK_ARCHIVE/34_E3_CoreData_Migration_Planning/`.) |
 | E4 | Prepare app distribution configuration (bundle ID, entitlements, notarization). | Medium | 1.5 | E2 | Xcode, Notarytool | App builds and notarizes successfully; entitlements validated. |
 
 ## Phase F — Quality Assurance & Documentation
