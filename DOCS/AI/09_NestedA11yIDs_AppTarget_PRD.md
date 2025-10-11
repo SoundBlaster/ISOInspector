@@ -101,3 +101,17 @@ _Effort unit legend: 1 = ~0.5 day, 2 = 1 day, 3 = 1.5 days, 5 = 2+ days._
 - Should the dependency also be exposed to preview/test helper targets for snapshot testing?
 - Do we need a custom lint rule to enforce `.a11yRoot` usage on every top-level screen?
 - Are there analytics or logging impacts when altering accessibility identifiers that require coordination with telemetry teams?
+
+## 15. Integration Status — 2025-10-11
+- **Compatibility review:** NestedA11yIDs 1.0.0 builds cleanly with Swift 6.0 toolchain used by ISOInspector.
+- **App wiring:** `ISOInspectorApp` applies `.a11yRoot(parseTree)` at the window root and propagates nested identifiers through `ParseTreeExplorerView`, outline filters, and detail panels.
+- **Testing:** Added `ParseTreeAccessibilityIdentifierTests` that host the explorer view and assert composed identifiers (root + search field) resolve.
+- **Documentation:** See `Docs/Guides/NestedA11yIDsIntegration.md` for usage conventions, naming, and testing tips.
+
+### Baseline Adoption Plan
+| View / Feature | Owner | Identifier Scope | Target Release |
+| --- | --- | --- | --- |
+| Parse tree explorer outline + detail | App Core | Complete (`parseTree` hierarchy) | R12 |
+| Research log preview flows | QA Tools | Root + research log list | R13 |
+| Annotation editors (notes list + editor) | App Core | Bookmark + notes actions | R13 |
+| Future inspectors (timeline/payload analyzers) | Product UX | TBD | Roadmap |

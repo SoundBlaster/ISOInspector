@@ -1,7 +1,8 @@
 import ISOInspectorKit
 
-#if canImport(SwiftUI)
+#if canImport(SwiftUI) && canImport(Combine)
 import SwiftUI
+import NestedA11yIDs
 #if canImport(CoreData)
 import CoreData
 #endif
@@ -11,6 +12,7 @@ struct ISOInspectorApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .a11yRoot(ParseTreeAccessibilityID.root)
         }
     }
 }
