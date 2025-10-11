@@ -1,6 +1,6 @@
 # Next Tasks — Post-CoreData Annotation Persistence
 
-- [ ] Expand CLI and app DocC catalogs with tutorials and screenshots as the new annotation and bookmark workflows
+- [x] Expand CLI and app DocC catalogs with tutorials and screenshots as the new annotation and bookmark workflows
 
   mature.
 
