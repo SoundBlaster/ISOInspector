@@ -5,6 +5,14 @@ import Foundation
 /// Persists annotations and bookmarks to a CoreData SQLite store keyed by the
 /// canonical URL for an inspected media file.
 public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
+    public enum ModelVersion: CaseIterable, Sendable {
+        case v1
+
+        public static var latest: Self { .v1 }
+    }
+
+    private static let containerName = "AnnotationBookmarks"
+
     private let container: NSPersistentContainer
     private let context: NSManagedObjectContext
     private let makeDate: @Sendable () -> Date
@@ -17,13 +25,14 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
     ///     tests for deterministic timestamps.
     public init(
         directory: URL,
+        modelVersion: ModelVersion = .latest,
         makeDate: @escaping @Sendable () -> Date = Date.init
     ) throws {
         self.makeDate = makeDate
-        let model = Self.makeModel()
-        container = NSPersistentContainer(name: "AnnotationBookmarks", managedObjectModel: model)
+        let model = Self.makeModel(for: modelVersion)
+        container = NSPersistentContainer(name: Self.containerName, managedObjectModel: model)
 
-        let storeURL = directory.appendingPathComponent("AnnotationBookmarks.sqlite")
+        let storeURL = directory.appendingPathComponent("\(Self.containerName).sqlite")
         let description = NSPersistentStoreDescription(url: storeURL)
         description.shouldAddStoreAsynchronously = false
         description.shouldMigrateStoreAutomatically = true
@@ -234,7 +243,14 @@ extension CoreDataAnnotationBookmarkStore: AnnotationBookmarkStoring {}
 // MARK: - CoreData Model
 
 private extension CoreDataAnnotationBookmarkStore {
-    static func makeModel() -> NSManagedObjectModel {
+    static func makeModel(for version: ModelVersion) -> NSManagedObjectModel {
+        switch version {
+        case .v1:
+            return makeV1Model()
+        }
+    }
+
+    static func makeV1Model() -> NSManagedObjectModel {
         let model = NSManagedObjectModel()
 
         let fileEntity = NSEntityDescription()
@@ -397,10 +413,18 @@ import Foundation
 /// (e.g., Linux CI environments). The concrete CoreData-backed implementation
 /// is only available when the framework is present.
 public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
+    public enum ModelVersion: CaseIterable, Sendable {
+        case v1
+
+        public static var latest: Self { .v1 }
+    }
+
     public init(
         directory: URL,
+        modelVersion: ModelVersion = .latest,
         makeDate: @escaping @Sendable () -> Date = Date.init
     ) throws {
+        _ = (directory, modelVersion, makeDate)
         throw CocoaError(.featureUnsupported)
     }
 
