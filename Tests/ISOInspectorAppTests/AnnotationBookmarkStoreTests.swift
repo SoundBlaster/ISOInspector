@@ -94,15 +94,30 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
         XCTAssertTrue(try store.bookmarks(for: fileB).isEmpty)
     }
 
+    func testInitializingWithExplicitModelVersionUsesSchema() throws {
+        let directory = try makeTemporaryDirectory()
+        let store = try makeStore(directory: directory, modelVersion: .v1)
+        let file = URL(fileURLWithPath: "/tmp/version-check.mp4")
+
+        let annotation = try store.createAnnotation(for: file, nodeID: 99, note: "Ensure schema loads")
+
+        XCTAssertEqual(annotation.nodeID, 99)
+        XCTAssertEqual(try store.annotations(for: file), [annotation])
+    }
+
     // MARK: - Helpers
 
-    private func makeStore(directory: URL, now: @escaping @Sendable () -> Date) throws -> CoreDataAnnotationBookmarkStore {
-        try CoreDataAnnotationBookmarkStore(directory: directory, makeDate: now)
+    private func makeStore(
+        directory: URL,
+        modelVersion: CoreDataAnnotationBookmarkStore.ModelVersion = .latest,
+        now: @escaping @Sendable () -> Date
+    ) throws -> CoreDataAnnotationBookmarkStore {
+        try CoreDataAnnotationBookmarkStore(directory: directory, modelVersion: modelVersion, makeDate: now)
     }
 
     private func makeStore(directory: URL) throws -> CoreDataAnnotationBookmarkStore {
         let date = referenceDate
-        return try makeStore(directory: directory) { date }
+        return try makeStore(directory: directory, modelVersion: .latest) { date }
     }
 
     private func makeTemporaryDirectory() throws -> URL {
