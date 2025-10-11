@@ -25,7 +25,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | C1 | Create Combine bridge and state stores for parse events. | High | 1.5 | B3 | Combine, SwiftUI | Store receives events and updates snapshot without race conditions. (Completed ✅ — Combine-backed session bridge fan-outs parse events to SwiftUI `@MainActor` tree store with validation aggregation.) |
 | C2 | Implement tree view with virtualization, search, and filters. | High | 2.5 | C1 | SwiftUI | UI renders >10k nodes smoothly; search reduces nodes instantly. (Completed ✅ — captured across `DOCS/TASK_ARCHIVE/19_C2_Tree_View_Virtualization/` through `22_C2_Extend_Outline_Filters/`.) |
 | C3 | Build detail pane with metadata, validation list, and hex viewer. | High | 3 | C1 | SwiftUI | Selecting node shows metadata; hex viewer displays payload windows. (Completed ✅ — documented in `DOCS/TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/` and `24_C3_Highlight_Field_Subranges/`.) |
-| C4 | Add annotation and bookmark management with persistence hooks. | Medium | 2 | C1 | CoreData/JSON | Notes persist across app relaunch; tests validate storage schema. |
+| C4 | Add annotation and bookmark management with persistence hooks. | Medium | 2 | C1 | CoreData/JSON | Notes persist across app relaunch; tests validate storage schema. (Completed ✅ — CoreData-backed store archived in `DOCS/TASK_ARCHIVE/33_C4_CoreData_Annotation_Persistence/`.) |
 | C5 | Implement accessibility features (VoiceOver labels, keyboard navigation). | Medium | 1.5 | C2, C3 | Accessibility Inspector | Accessibility audit passes; UI tests confirm focus order. |
 
 ## Phase D — CLI Interface

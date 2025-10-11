@@ -156,6 +156,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] [29_D3_CLI_Export_Commands](../../TASK_ARCHIVE/29_D3_CLI_Export_Commands)
 - [x] [30_Summary_of_Work_2025-10-10](../../TASK_ARCHIVE/30_Summary_of_Work_2025-10-10)
 - [x] [31_A3_DocC_Catalog_Setup](../../TASK_ARCHIVE/31_A3_DocC_Catalog_Setup)
+- [x] [33_C4_CoreData_Annotation_Persistence](../../TASK_ARCHIVE/33_C4_CoreData_Annotation_Persistence)
 
 
 - [x] A1. Define `RandomAccessReader` protocol: `length`, `read(at:count:)`, endian helpers (`readU32BE`, `readU64BE`, `readFourCC`). _(Completed in [Task B1 — Chunked File Reader](../../TASK_ARCHIVE/01_B1_Chunked_File_Reader/B1_Chunked_File_Reader.md))._
