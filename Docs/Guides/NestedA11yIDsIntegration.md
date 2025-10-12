@@ -25,6 +25,7 @@ future development and UI test automation.
 | Outline filters | `ParseTreeAccessibilityID.Outline.Filters.searchField` | `parseTree.outline.filters.searchField` |
 | Outline row bookmark | `ParseTreeAccessibilityID.Outline.List.rowBookmark(42)` | `parseTree.outline.list.row.42.bookmark` |
 | Detail sections | `ParseTreeAccessibilityID.Detail.metadata` | `parseTree.detail.metadata` |
+| Research log diagnostics | `ResearchLogAccessibilityID.Diagnostics.row(0)` | `researchLogPreview.diagnostics.row.0` |
 
 Guidelines:
 - Use lowercase English slugs separated by dots.
@@ -38,8 +39,9 @@ Guidelines:
 
 ## Migration roadmap
 - Parse tree explorer and detail panes now emit rooted identifiers.
+- Research log preview flows (`ResearchLogAuditPreview.swift`) expose the `researchLogPreview` hierarchy for headers, metadata,
+  and diagnostics.
 - Remaining candidates:
-  - Research log preview flows (`ResearchLogAuditPreview.swift`).
   - Annotation editors beyond bookmark controls.
   - Future inspectors (e.g., timeline, payload analyzers).
 - Track follow-ups as `@todo` entries in code and `todo.md`.

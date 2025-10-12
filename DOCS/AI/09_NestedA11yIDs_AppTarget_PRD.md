@@ -112,6 +112,6 @@ _Effort unit legend: 1 = ~0.5 day, 2 = 1 day, 3 = 1.5 days, 5 = 2+ days._
 | View / Feature | Owner | Identifier Scope | Target Release |
 | --- | --- | --- | --- |
 | Parse tree explorer outline + detail | App Core | Complete (`parseTree` hierarchy) | R12 |
-| Research log preview flows | QA Tools | Root + research log list | R13 — **In Progress** (see `DOCS/INPROGRESS/13_Apply_NestedA11yIDs_Research_Log_Preview.md`) |
+| Research log preview flows | QA Tools | Complete (`researchLogPreview` hierarchy) | R13 |
 | Annotation editors (notes list + editor) | App Core | Bookmark + notes actions | R13 |
 | Future inspectors (timeline/payload analyzers) | Product UX | TBD | Roadmap |
