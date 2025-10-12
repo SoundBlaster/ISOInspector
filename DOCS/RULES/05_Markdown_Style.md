@@ -23,7 +23,9 @@ Applies to all `.md` files in:
 1. **Single top-level heading (H1)** per file when a title is present. (**MD025**)
 1. **Single trailing newline** at end of file—exactly one. (**MD047**)
 1. **Ordered lists** may consistently use the `1.` style for all items. (**MD029**)
-1. **Never simulate headings with emphasis.** Full-line italics/bold that read like a heading should be rewritten as real
+1. **Never simulate headings with emphasis.** Full-line italics/bold that read like a heading should be rewritten as
+   real
+
    headings or plain sentences. (**MD036**)
 
 > ℹ️ While line length is no longer lint-enforced, prefer natural sentence wrapping for readability. Leave list items unwrapped when longer context improves clarity.

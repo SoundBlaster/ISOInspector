@@ -255,3 +255,9 @@
   and `DocumentSessionController` coordination across streaming pipeline integrations, validated by `swift test`.
 - **Next steps carried forward:** Continue CoreData session persistence wiring for Task E1 and pursue F2 performance benchmarking,
   with CLI logging/telemetry toggles and streaming export routing tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 44_F2_Configure_Performance_Benchmarks
+- **Archived files:** `44_F2_Configure_Performance_Benchmarks.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/44_F2_Configure_Performance_Benchmarks/`.
+- **Highlights:** Documents the performance benchmark harnesses that tune payload sizes, iteration counts, and slack multipliers from the non-functional throughput targets, covering both CLI validation throughput and Combine-backed UI latency metrics.
+- **Next steps carried forward:** Execute the Combine-backed UI benchmark on macOS to capture latency metrics and continue tracking CLI logging/telemetry toggles plus streaming export routing via the refreshed `DOCS/INPROGRESS/next_tasks.md` checklist.
