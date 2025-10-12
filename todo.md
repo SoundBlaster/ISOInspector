@@ -23,3 +23,5 @@
 - [x] PDD:1h Execute streaming inspection by consuming ParsePipeline events when Task D2 builds the streaming command.
 - [x] PDD:1h Produce validation reports with streaming pipeline once Task D2 defines the CLI output contract.
 - [ ] PDD:45m Route export operations to streaming capture utilities as they migrate from ISOInspectorCLIRunner.
+- [ ] PDD:30m Surface document load failures in the app shell UI once design for error banners lands.
+- [ ] PDD:30m Surface recents persistence failures in diagnostics once logging pipeline is available.
