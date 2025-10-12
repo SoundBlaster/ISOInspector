@@ -13,4 +13,5 @@
 
 ## Follow-up
 
-- Execute the Combine-backed UI benchmark on macOS to capture latency metrics on a platform that ships Combine.
+- Execute the Combine-backed UI benchmark on macOS to capture latency metrics on a platform that ships Combine. **(In Progress
+  — see `DOCS/INPROGRESS/47_Combine_UI_Benchmark_macOS.md`)**
