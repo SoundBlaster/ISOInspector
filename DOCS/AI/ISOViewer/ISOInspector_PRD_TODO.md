@@ -233,8 +233,10 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] H2. Unit tests: headers, container boundaries, specific box field extraction.
 - [ ] H3. Snapshot tests: JSON exports of small fixtures.
 - [ ] H4. Performance tests: parse time & memory cap (<100 MB for 20 GB file).
-- [ ] H5. macOS SwiftUI automation covering streaming default selection and synchronized detail updates. **(In Progress — see
-  `DOCS/INPROGRESS/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md`.)**
+- [x] H5. macOS SwiftUI automation covering streaming default selection and synchronized detail updates. Implemented via
+  `ParseTreeStreamingSelectionAutomationTests`, which hosts the app view hierarchy on macOS and asserts outline/detail state
+  during a streaming parse. See `DOCS/INPROGRESS/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md` for the execution
+  note.
 
 ### Phase I — Packaging & Release
 - [x] I1. SwiftPM product definitions (library + app).
