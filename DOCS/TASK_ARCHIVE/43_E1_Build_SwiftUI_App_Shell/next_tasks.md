@@ -5,8 +5,7 @@
 - **E1 — Build SwiftUI app shell with document browser and recents list**: Wiring the CoreData-backed session
 
   persistence into the app shell is underway now that CLI scaffolding is stable and C1/C2 foundations remain green. See
-  [E1_Build_SwiftUI_App_Shell.md](../TASK_ARCHIVE/43_E1_Build_SwiftUI_App_Shell/E1_Build_SwiftUI_App_Shell.md) for the
-archived PRD context.
+  [E1_Build_SwiftUI_App_Shell.md](./E1_Build_SwiftUI_App_Shell.md) for the active PRD.
 
 ## 📋 Ready Queue
 

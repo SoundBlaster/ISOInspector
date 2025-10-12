@@ -247,3 +247,11 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/42_D2_Streaming_CLI_Commands/`.
 - **Highlights:** Documents completion of the streaming `inspect` and `validate` CLI commands, including asynchronous environment wiring, streaming parse event logging, and validation aggregation validated via `swift test`.
 - **Next steps carried forward:** Surface global logging and telemetry toggles for the CLI and route export operations through the shared streaming capture utilities, as tracked in `DOCS/INPROGRESS/next_tasks.md` and `todo.md` PDD items.
+
+## 43_E1_Build_SwiftUI_App_Shell
+- **Archived files:** `2025-10-12-app-shell.md`, `E1_Build_SwiftUI_App_Shell.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/43_E1_Build_SwiftUI_App_Shell/`.
+- **Highlights:** Captures the SwiftUI navigation shell work including the new `AppShellView`, persisted `DocumentRecentsStore`,
+  and `DocumentSessionController` coordination across streaming pipeline integrations, validated by `swift test`.
+- **Next steps carried forward:** Continue CoreData session persistence wiring for Task E1 and pursue F2 performance benchmarking,
+  with CLI logging/telemetry toggles and streaming export routing tracked in `DOCS/INPROGRESS/next_tasks.md`.
