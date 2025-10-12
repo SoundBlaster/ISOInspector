@@ -183,6 +183,197 @@ final class ISOInspectorCommandTests: XCTestCase {
             ISOInspectorCommandContextStore.reset()
         }
     }
+
+    func testExportJSONCommandStreamsEventsAndWritesDefaultOutput() async throws {
+        let temporaryDirectory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: temporaryDirectory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: temporaryDirectory) }
+
+        let fileURL = temporaryDirectory.appendingPathComponent("sample.mp4")
+        let expectedOutputURL = fileURL
+            .appendingPathExtension("isoinspector")
+            .appendingPathExtension("json")
+
+        let header = try makeHeader(type: "ftyp", size: 24)
+        let descriptor = try XCTUnwrap(BoxCatalog.shared.descriptor(for: header))
+        let events = [
+            ParseEvent(
+                kind: .willStartBox(header: header, depth: 0),
+                offset: header.startOffset,
+                metadata: descriptor
+            ),
+            ParseEvent(
+                kind: .didFinishBox(header: header, depth: 0),
+                offset: header.endOffset,
+                metadata: descriptor
+            )
+        ]
+
+        let printed = MutableBox<[String]>([])
+        let errors = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                XCTAssertEqual(url, fileURL)
+                return StubReader()
+            },
+            parsePipeline: ParsePipeline(buildStream: { _, context in
+                XCTAssertEqual(context.source, fileURL)
+                return AsyncThrowingStream { continuation in
+                    for event in events {
+                        continuation.yield(event)
+                    }
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { errors.value.append($0) }
+        )
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.bootstrap(with: .init(environment: environment))
+        }
+
+        var command = try ISOInspectorCommand.Commands.Export.JSON.parse([fileURL.path])
+        try await command.run()
+
+        let data = try Data(contentsOf: expectedOutputURL)
+        XCTAssertFalse(data.isEmpty)
+        let jsonObject = try JSONSerialization.jsonObject(with: data, options: [])
+        guard let json = jsonObject as? [String: Any] else {
+            let payload = String(data: data, encoding: .utf8) ?? "<invalid>"
+            XCTFail("Unexpected JSON shape: \(payload)")
+            return
+        }
+        let nodes = json["nodes"] as? [[String: Any]]
+        let node = nodes?.first
+        XCTAssertEqual(node?["fourcc"] as? String, header.identifierString)
+        XCTAssertTrue(errors.value.isEmpty)
+        XCTAssertTrue(printed.value.contains(where: { $0.contains(expectedOutputURL.path) }))
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+        }
+    }
+
+    func testExportCaptureCommandStreamsEventsAndRespectsOutputOption() async throws {
+        let temporaryDirectory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: temporaryDirectory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: temporaryDirectory) }
+
+        let fileURL = temporaryDirectory.appendingPathComponent("sample.mp4")
+        let outputURL = temporaryDirectory.appendingPathComponent("capture.isoinspect")
+
+        let header = try makeHeader(type: "moov", size: 32)
+        let descriptor = try XCTUnwrap(BoxCatalog.shared.descriptor(for: header))
+        let events = [
+            ParseEvent(
+                kind: .willStartBox(header: header, depth: 0),
+                offset: header.startOffset,
+                metadata: descriptor
+            ),
+            ParseEvent(
+                kind: .didFinishBox(header: header, depth: 0),
+                offset: header.endOffset,
+                metadata: descriptor
+            )
+        ]
+
+        let printed = MutableBox<[String]>([])
+        let errors = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                XCTAssertEqual(url, fileURL)
+                return StubReader()
+            },
+            parsePipeline: ParsePipeline(buildStream: { _, context in
+                XCTAssertEqual(context.source, fileURL)
+                return AsyncThrowingStream { continuation in
+                    for event in events {
+                        continuation.yield(event)
+                    }
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { errors.value.append($0) }
+        )
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.bootstrap(with: .init(environment: environment))
+        }
+
+        var command = try ISOInspectorCommand.Commands.Export.Capture.parse([
+            fileURL.path,
+            "--output",
+            outputURL.path
+        ])
+
+        try await command.run()
+
+        let data = try Data(contentsOf: outputURL)
+        let decoded = try ParseEventCaptureDecoder().decode(data: data)
+        XCTAssertEqual(decoded, events)
+        XCTAssertTrue(errors.value.isEmpty)
+        XCTAssertTrue(printed.value.contains(where: { $0.contains(outputURL.path) }))
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+        }
+    }
+
+    func testExportCommandThrowsExitCodeWhenOutputDirectoryMissing() async throws {
+        let temporaryDirectory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: temporaryDirectory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: temporaryDirectory) }
+
+        let fileURL = temporaryDirectory.appendingPathComponent("sample.mp4")
+        let invalidOutput = temporaryDirectory
+            .appendingPathComponent("missing")
+            .appendingPathComponent("tree.json")
+
+        let printed = MutableBox<[String]>([])
+        let errors = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { _ in StubReader() },
+            parsePipeline: ParsePipeline(buildStream: { _, _ in
+                AsyncThrowingStream { continuation in
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { errors.value.append($0) }
+        )
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.bootstrap(with: .init(environment: environment))
+        }
+
+        var command = try ISOInspectorCommand.Commands.Export.JSON.parse([
+            fileURL.path,
+            "--output",
+            invalidOutput.path
+        ])
+
+        do {
+            try await command.run()
+            XCTFail("Expected ExitCode to be thrown")
+        } catch let exit as ExitCode {
+            XCTAssertEqual(exit.rawValue, 3)
+        }
+
+        XCTAssertTrue(printed.value.isEmpty)
+        XCTAssertEqual(errors.value.last, "Destination is not writable: \(invalidOutput.deletingLastPathComponent().path)")
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+        }
+    }
 }
 
 private final class MutableBox<Value>: @unchecked Sendable {

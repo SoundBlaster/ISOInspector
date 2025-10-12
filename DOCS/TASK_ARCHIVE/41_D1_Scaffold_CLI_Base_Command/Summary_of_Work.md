@@ -19,4 +19,4 @@
 - [ ] PDD:45m Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI.
 - [ ] PDD:1h Execute streaming inspection by consuming ParsePipeline events when Task D2 builds the streaming command.
 - [ ] PDD:1h Produce validation reports with streaming pipeline once Task D2 defines the CLI output contract.
-- [ ] PDD:45m Route export operations to streaming capture utilities as they migrate from ISOInspectorCLIRunner.
+- [x] PDD:45m Route export operations to streaming capture utilities as they migrate from ISOInspectorCLIRunner.

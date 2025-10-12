@@ -168,16 +168,176 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
             }
         }
 
-        public struct Export: ParsableCommand {
+        public struct Export: AsyncParsableCommand {
             public static let configuration = CommandConfiguration(
-                abstract: "Export parse artifacts such as JSON trees or binary captures."
+                abstract: "Export parse artifacts such as JSON trees or binary captures.",
+                subcommands: [JSON.self, Capture.self]
             )
 
             public init() {}
 
-            public mutating func run() throws {
-                // @todo PDD:45m Route export operations to streaming capture utilities as they migrate from ISOInspectorCLIRunner.
-                throw CleanExit.message("Export functionality will be migrated from the legacy runner in Task D3 follow-ups.")
+            public mutating func run() async throws {
+                throw CleanExit.helpRequest(Self.self)
+            }
+
+            public struct JSON: AsyncParsableCommand {
+                public static let configuration = CommandConfiguration(
+                    commandName: "json",
+                    abstract: "Export a JSON representation of the parsed ISO BMFF tree."
+                )
+
+                @OptionGroup
+                public var options: Export.Options
+
+                public init() {}
+
+                public mutating func run() async throws {
+                    try await Export.execute(mode: .json, with: options)
+                }
+            }
+
+            public struct Capture: AsyncParsableCommand {
+                public static let configuration = CommandConfiguration(
+                    commandName: "capture",
+                    abstract: "Export a binary capture of parse events for replay."
+                )
+
+                @OptionGroup
+                public var options: Export.Options
+
+                public init() {}
+
+                public mutating func run() async throws {
+                    try await Export.execute(mode: .capture, with: options)
+                }
+            }
+
+            public struct Options: ParsableArguments, Sendable {
+                @Argument(help: "Path to the media file to export.")
+                var file: String
+
+                @Option(
+                    name: [.customLong("output"), .short],
+                    help: "Optional output location for the exported artifact."
+                )
+                var output: String?
+
+                public init() {}
+            }
+
+            enum Mode {
+                case json
+                case capture
+
+                func defaultOutput(for fileURL: URL) -> URL {
+                    switch self {
+                    case .json:
+                        return fileURL
+                            .appendingPathExtension("isoinspector")
+                            .appendingPathExtension("json")
+                    case .capture:
+                        return fileURL.appendingPathExtension("capture")
+                    }
+                }
+
+                var successMessage: String {
+                    switch self {
+                    case .json:
+                        return "Exported JSON parse tree → "
+                    case .capture:
+                        return "Exported parse event capture → "
+                    }
+                }
+
+                var failurePrefix: String {
+                    switch self {
+                    case .json:
+                        return "Failed to export JSON parse tree: "
+                    case .capture:
+                        return "Failed to export parse event capture: "
+                    }
+                }
+            }
+
+            enum ExecutionError: Swift.Error {
+                case unwritableDestination(String)
+
+                var message: String {
+                    switch self {
+                    case .unwritableDestination(let path):
+                        return "Destination is not writable: \(path)"
+                    }
+                }
+            }
+
+            static func execute(mode: Mode, with options: Options) async throws {
+                let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+                let fileURL = URL(fileURLWithPath: options.file, relativeTo: cwd).standardizedFileURL
+                let outputURL: URL
+                if let output = options.output {
+                    outputURL = URL(fileURLWithPath: output, relativeTo: cwd).standardizedFileURL
+                } else {
+                    outputURL = mode.defaultOutput(for: fileURL)
+                }
+
+                let context = await MainActor.run { ISOInspectorCommandContextStore.current }
+                let environment = context.environment
+
+                do {
+                    try validateOutputPath(outputURL)
+
+                    let reader = try environment.makeReader(fileURL)
+                    let events = environment.parsePipeline.events(
+                        for: reader,
+                        context: .init(source: fileURL)
+                    )
+
+                    var builder = ParseTreeBuilder()
+                    var captured: [ParseEvent] = []
+
+                    do {
+                        for try await event in events {
+                            builder.consume(event)
+                            captured.append(event)
+                        }
+                    } catch {
+                        environment.printError(mode.failurePrefix + "\(error)")
+                        throw ExitCode(3)
+                    }
+
+                    let data: Data
+                    switch mode {
+                    case .json:
+                        let tree = builder.makeTree()
+                        data = try JSONParseTreeExporter().export(tree: tree)
+                    case .capture:
+                        data = try ParseEventCaptureEncoder().encode(events: captured)
+                    }
+
+                    try data.write(to: outputURL, options: .atomic)
+                    environment.print(mode.successMessage + outputURL.path)
+                } catch let executionError as ExecutionError {
+                    environment.printError(executionError.message)
+                    throw ExitCode(3)
+                } catch let exit as ExitCode {
+                    throw exit
+                } catch {
+                    environment.printError(mode.failurePrefix + "\(error)")
+                    throw ExitCode(3)
+                }
+            }
+
+            static func validateOutputPath(_ url: URL) throws {
+                let parent = url.deletingLastPathComponent()
+                var isDirectory: ObjCBool = false
+                guard FileManager.default.fileExists(atPath: parent.path, isDirectory: &isDirectory),
+                      isDirectory.boolValue else {
+                    throw ExecutionError.unwritableDestination(parent.path)
+                }
+
+                guard FileManager.default.isWritableFile(atPath: parent.path) else {
+                    throw ExecutionError.unwritableDestination(parent.path)
+                }
             }
         }
     }

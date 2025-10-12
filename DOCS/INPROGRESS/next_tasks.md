@@ -15,4 +15,4 @@
 ## 🔭 CLI Streaming Follow-Ups
 
 - [ ] Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI.
-- [ ] **In Progress** — Route export operations to streaming capture utilities as they migrate from `ISOInspectorCLIRunner`.
+- [x] Route export operations to streaming capture utilities as they migrate from `ISOInspectorCLIRunner`.

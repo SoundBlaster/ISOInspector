@@ -13,4 +13,4 @@
 ## Follow-Ups
 
 - Surface global logging and telemetry toggles once streaming metrics are exposed via the CLI.
-- Route export operations to the shared streaming capture utilities as part of the remaining CLI migration work.
+- [x] Route export operations to the shared streaming capture utilities as part of the remaining CLI migration work. _(Closed by DOCS/INPROGRESS/Route_Streaming_Export_Operations.md)_
