@@ -14,4 +14,4 @@
 ## 🔭 Follow-Ups From D2 Archive
 
 - [ ] PDD:45m Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI.
-- [ ] PDD:45m Route export operations to streaming capture utilities as they migrate from `ISOInspectorCLIRunner`.
+- [x] PDD:45m Route export operations to streaming capture utilities as they migrate from `ISOInspectorCLIRunner`.
