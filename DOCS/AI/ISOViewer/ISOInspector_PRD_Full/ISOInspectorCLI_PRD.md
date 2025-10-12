@@ -7,7 +7,7 @@ Implement macOS CLI `isoinspect` with commands: inspect, validate, export, strea
 ## Tasks
 | Phase | Task | Priority | Effort |
 |-------|------|-----------|--------|
-| Cmd | Argument parser setup | High | 1d |
+| Cmd | Argument parser setup (**In Progress — establishing base `isoinspector` command per Workplan Task D1.**) | High | 1d |
 | Inspect | Parse + print JSON | High | 2d |
 | Validate | Run validation report | High | 2d |
 | Export | Save JSON/CSV | Medium | 1d |
