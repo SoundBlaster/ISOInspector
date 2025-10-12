@@ -8,11 +8,14 @@
   [E1_Build_SwiftUI_App_Shell.md](../TASK_ARCHIVE/43_E1_Build_SwiftUI_App_Shell/E1_Build_SwiftUI_App_Shell.md) for the
 archived PRD context.
 
+- **F2 — Configure performance benchmarks for large files**: Benchmark harness implementation has started to validate
+
+  CLI and app throughput for streaming MP4 analysis. Tracking against performance NFRs called out in the execution
+  guide and PRD while instrumentation hooks land.
+
 ## 📋 Ready Queue
 
-- **F2 — Configure performance benchmarks for large files**: Stand up benchmarking harnesses using the streaming
-
-  fixtures to measure CLI and app throughput for large MP4 payloads.
+_(empty — select from backlog sources when new capacity opens)_
 
 ## 🔭 Follow-Ups From D2 Archive
 
