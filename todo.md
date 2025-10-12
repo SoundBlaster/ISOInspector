@@ -18,4 +18,4 @@
 - [ ] #11 Implement session persistence (Task E3) following the archived CoreData migration plan.
 - [x] #12 Add DocC publishing to CI once storage and hosting requirements are validated.
 - [x] #13 Apply NestedA11yIDs identifiers to research log preview flows when promoted to production UI screens.
-- [ ] #14 Add NestedA11yIDs coverage for annotation note edit/save/delete controls once QA automation scenarios are defined.
+- [ ] #14 (In Progress) Add NestedA11yIDs coverage for annotation note edit/save/delete controls once QA automation scenarios are defined.
