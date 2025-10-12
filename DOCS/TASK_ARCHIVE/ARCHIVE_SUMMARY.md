@@ -261,3 +261,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/44_F2_Configure_Performance_Benchmarks/`.
 - **Highlights:** Documents the performance benchmark harnesses that tune payload sizes, iteration counts, and slack multipliers from the non-functional throughput targets, covering both CLI validation throughput and Combine-backed UI latency metrics.
 - **Next steps carried forward:** Execute the Combine-backed UI benchmark on macOS to capture latency metrics and continue tracking CLI logging/telemetry toggles plus streaming export routing via the refreshed `DOCS/INPROGRESS/next_tasks.md` checklist.
+
+## 45_E2_Integrate_Parser_Event_Pipeline
+- **Archived files:** `2025-10-12-parser-selection-bridging.md`, `E2_Integrate_Parser_Event_Pipeline.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/45_E2_Integrate_Parser_Event_Pipeline/`.
+- **Highlights:** Captures the SwiftUI integration work that wires the streaming parser bridge into the application shell, automatically selects the first parsed node, and refreshes the detail pane via updated view model identifiers with accompanying unit coverage.
+- **Next steps carried forward:** Recreate UI automation for macOS streaming selection coverage plus the macOS Combine benchmark and CLI telemetry/export follow-ups now tracked in `DOCS/INPROGRESS/next_tasks.md` and `todo.md` PDD items.
