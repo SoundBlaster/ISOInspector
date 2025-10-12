@@ -15,7 +15,7 @@ future development and UI test automation.
 - Wrap top-level screens with `.a11yRoot("<screen>")`.
 - Apply `.nestedAccessibilityIdentifier("component")` to subsections and control groups.
 - Prefer centralized constants (see `ParseTreeAccessibilityID`).
-- Compose identifiers using dotted paths (e.g., `parseTree.outline.filters.searchField`).
+- Compose identifiers by defining dot-free segments that the library joins into dotted paths (e.g., root `parseTree`, child `outline`, leaf `filters`, etc.).
 - Avoid localized strings or dynamic data in identifiers.
 
 ## Naming conventions
@@ -25,10 +25,11 @@ future development and UI test automation.
 | Outline filters | `ParseTreeAccessibilityID.Outline.Filters.searchField` | `parseTree.outline.filters.searchField` |
 | Outline row bookmark | `ParseTreeAccessibilityID.Outline.List.rowBookmark(42)` | `parseTree.outline.list.row.42.bookmark` |
 | Detail sections | `ParseTreeAccessibilityID.Detail.metadata` | `parseTree.detail.metadata` |
+| Research log diagnostics | `ResearchLogAccessibilityID.Diagnostics.row(0)` | `researchLogPreview.diagnostics.row.0` |
 
 Guidelines:
-- Use lowercase English slugs separated by dots.
-- Prefer semantic names (`filters.searchField`) over visual positions.
+- Use lowercase English slugs for each segment (no literal dots inside the segment values).
+- Prefer semantic names (`filters` + `searchField`) over visual positions.
 - Keep identifiers stable when views re-order.
 
 ## Testing identifiers
@@ -38,8 +39,9 @@ Guidelines:
 
 ## Migration roadmap
 - Parse tree explorer and detail panes now emit rooted identifiers.
+- Research log preview flows (`ResearchLogAuditPreview.swift`) expose the `researchLogPreview` hierarchy for headers, metadata,
+  and diagnostics.
 - Remaining candidates:
-  - Research log preview flows (`ResearchLogAuditPreview.swift`).
   - Annotation editors beyond bookmark controls.
   - Future inspectors (e.g., timeline, payload analyzers).
 - Track follow-ups as `@todo` entries in code and `todo.md`.

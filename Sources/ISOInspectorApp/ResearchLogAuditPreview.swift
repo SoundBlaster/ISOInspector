@@ -1,6 +1,7 @@
 #if canImport(SwiftUI)
 import SwiftUI
 import ISOInspectorKit
+import NestedA11yIDs
 #if os(macOS)
 import AppKit
 #endif
@@ -8,23 +9,11 @@ import AppKit
 struct ResearchLogAuditPreview: View {
     let snapshot: ResearchLogPreviewSnapshot
 
-    // @todo PDD:45m Apply NestedA11yIDs identifiers to the research log preview once the previewed UI ships to production screens. See DOCS/INPROGRESS/2025-10-11-nested-a11y-integration.md for scope.
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             header
             Divider()
-            VStack(alignment: .leading, spacing: 6) {
-                ForEach(snapshot.diagnostics, id: \.self) { diagnostic in
-                    Label {
-                        Text(diagnostic)
-                            .font(.footnote)
-                            .foregroundStyle(.secondary)
-                    } icon: {
-                        Image(systemName: "checkmark.seal")
-                            .foregroundStyle(.secondary)
-                    }
-                }
-            }
+            diagnosticsList
         }
         .padding(16)
         .background(
@@ -36,6 +25,7 @@ struct ResearchLogAuditPreview: View {
                 .strokeBorder(borderColor, lineWidth: 1)
         )
         .padding()
+        .a11yRoot(ResearchLogAccessibilityID.root)
     }
 
     @ViewBuilder
@@ -44,16 +34,28 @@ struct ResearchLogAuditPreview: View {
             Text("VR-006 Research Log Audit")
                 .font(.title2)
                 .fontWeight(.semibold)
-            switch snapshot.state {
-            case let .ready(audit):
-                readyHeader(for: audit)
-            case let .missingFixture(audit):
-                missingHeader(for: audit)
-            case let .schemaMismatch(expected, actual):
-                schemaMismatchHeader(expected: expected, actual: actual)
-            case let .loadFailure(message):
-                loadFailureHeader(message: message)
-            }
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.title)
+            statusContent
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.Status.root)
+        }
+        .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.root)
+    }
+
+    @ViewBuilder
+    private var statusContent: some View {
+        switch snapshot.state {
+        case let .ready(audit):
+            readyHeader(for: audit)
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.Status.ready)
+        case let .missingFixture(audit):
+            missingHeader(for: audit)
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.Status.missingFixture)
+        case let .schemaMismatch(expected, actual):
+            schemaMismatchHeader(expected: expected, actual: actual)
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.Status.schemaMismatch)
+        case let .loadFailure(message):
+            loadFailureHeader(message: message)
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.Status.loadFailure)
         }
     }
 
@@ -72,6 +74,7 @@ struct ResearchLogAuditPreview: View {
                     Text("v\(audit.schemaVersion)")
                         .font(.subheadline)
                 }
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.Metadata.schemaVersion)
                 GridRow {
                     Text("Entries")
                         .font(.subheadline)
@@ -79,6 +82,7 @@ struct ResearchLogAuditPreview: View {
                     Text("\(audit.entryCount)")
                         .font(.subheadline.weight(.medium))
                 }
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.Metadata.entryCount)
                 GridRow {
                     Text("Fields")
                         .font(.subheadline)
@@ -86,7 +90,9 @@ struct ResearchLogAuditPreview: View {
                     Text(audit.fieldNames.joined(separator: ", "))
                         .font(.subheadline)
                 }
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.Metadata.fieldNames)
             }
+            .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.Metadata.root)
         }
     }
 
@@ -99,6 +105,7 @@ struct ResearchLogAuditPreview: View {
             Text("The shared VR-006 schema v\(audit.schemaVersion) expects fields: \(audit.fieldNames.joined(separator: ", ")).")
                 .font(.callout)
                 .foregroundStyle(.secondary)
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.MissingFixture.details)
         }
     }
 
@@ -111,9 +118,11 @@ struct ResearchLogAuditPreview: View {
             Text("Expected: \(expected.joined(separator: ", "))")
                 .font(.callout)
                 .foregroundStyle(.secondary)
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.SchemaMismatch.expected)
             Text("Actual: \(actual.joined(separator: ", "))")
                 .font(.callout)
                 .foregroundStyle(.red)
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.SchemaMismatch.actual)
         }
     }
 
@@ -126,7 +135,26 @@ struct ResearchLogAuditPreview: View {
             Text(message)
                 .font(.callout)
                 .foregroundStyle(.secondary)
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.LoadFailure.message)
         }
+    }
+
+    @ViewBuilder
+    private var diagnosticsList: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            ForEach(Array(snapshot.diagnostics.enumerated()), id: \.offset) { element in
+                Label {
+                    Text(element.element)
+                        .font(.footnote)
+                        .foregroundStyle(.secondary)
+                } icon: {
+                    Image(systemName: "checkmark.seal")
+                        .foregroundStyle(.secondary)
+                }
+                .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Diagnostics.row(element.offset))
+            }
+        }
+        .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Diagnostics.root)
     }
 
     private var borderColor: Color {

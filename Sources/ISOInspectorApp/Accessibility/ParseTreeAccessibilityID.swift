@@ -19,11 +19,11 @@ enum ParseTreeAccessibilityID {
             static let root = "filters"
             static let searchField = "searchField"
             static func severityToggle(_ severity: ValidationIssue.Severity) -> String {
-                "severity.\(severity.rawValue)"
+                ParseTreeAccessibilityID.path("severity", severity.rawValue)
             }
 
             static func categoryToggle(_ category: BoxCategory) -> String {
-                "category.\(category.rawValue)"
+                ParseTreeAccessibilityID.path("category", category.rawValue)
             }
 
             static let streamingToggle = "streaming"
@@ -35,11 +35,11 @@ enum ParseTreeAccessibilityID {
             static let emptyState = "empty"
 
             static func row(_ nodeID: ParseTreeNode.ID) -> String {
-                "row.\(nodeID)"
+                ParseTreeAccessibilityID.path("row", String(describing: nodeID))
             }
 
             static func rowBookmark(_ nodeID: ParseTreeNode.ID) -> String {
-                "row.\(nodeID).bookmark"
+                ParseTreeAccessibilityID.path("row", String(describing: nodeID), "bookmark")
             }
         }
     }
