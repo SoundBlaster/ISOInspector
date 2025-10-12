@@ -1,0 +1,3 @@
+import ISOInspectorCLI
+
+ISOInspectorCommand.main()

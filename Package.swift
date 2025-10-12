@@ -15,7 +15,7 @@ let package = Package(
         ),
         .executable(
             name: "isoinspect",
-            targets: ["ISOInspectorCLI"]
+            targets: ["ISOInspectorCLIRunner"]
         ),
         .executable(
             name: "ISOInspectorApp",
@@ -34,7 +34,7 @@ let package = Package(
                 .process("Resources")
             ]
         ),
-        .executableTarget(
+        .target(
             name: "ISOInspectorCLI",
             dependencies: [
                 "ISOInspectorKit",
@@ -43,6 +43,10 @@ let package = Package(
                     package: "swift-argument-parser"
                 )
             ]
+        ),
+        .executableTarget(
+            name: "ISOInspectorCLIRunner",
+            dependencies: ["ISOInspectorCLI"]
         ),
         .executableTarget(
             name: "ISOInspectorApp",
