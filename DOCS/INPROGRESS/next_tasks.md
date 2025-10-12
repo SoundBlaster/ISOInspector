@@ -15,7 +15,7 @@ archived PRD context.
 
 ## 📋 Ready Queue
 
-_(empty — select from backlog sources when new capacity opens)_
+Empty — select from backlog sources when new capacity opens.
 
 ## 🔭 Follow-Ups From D2 Archive
 
