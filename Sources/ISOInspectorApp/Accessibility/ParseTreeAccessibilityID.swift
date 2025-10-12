@@ -52,6 +52,20 @@ enum ParseTreeAccessibilityID {
         static let validation = "validation"
         static let hexView = "hexView"
         static let bookmarkButton = "bookmarkButton"
+
+        enum Notes {
+            static func row(_ annotationID: UUID) -> String {
+                ParseTreeAccessibilityID.path("row", annotationID.uuidString.lowercased())
+            }
+
+            enum Controls {
+                static let root = "controls"
+                static let edit = "edit"
+                static let save = "save"
+                static let cancel = "cancel"
+                static let delete = "delete"
+            }
+        }
     }
 
     static func path(_ components: String...) -> String {

@@ -618,7 +618,6 @@ private struct AnnotationNoteRow: View {
     @State private var isEditing = false
     @State private var draft: String = ""
 
-    // @todo PDD:30m Add NestedA11yIDs identifiers for annotation note controls if QA automation relies on targeting edit/save/delete actions.
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             HStack(alignment: .firstTextBaseline) {
@@ -632,6 +631,7 @@ private struct AnnotationNoteRow: View {
                         draft = record.note
                     }
                     .font(.caption)
+                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.cancel)
                     Button("Save") {
                         let trimmed = draft.trimmingCharacters(in: .whitespacesAndNewlines)
                         guard !trimmed.isEmpty else { return }
@@ -641,12 +641,14 @@ private struct AnnotationNoteRow: View {
                     .font(.caption)
                     .buttonStyle(.borderedProminent)
                     .disabled(draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.save)
                 } else {
                     Button("Edit") {
                         draft = record.note
                         isEditing = true
                     }
                     .font(.caption)
+                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.edit)
                     Button(role: .destructive) {
                         onDelete()
                     } label: {
@@ -655,8 +657,10 @@ private struct AnnotationNoteRow: View {
                     .buttonStyle(.borderless)
                     .font(.caption)
                     .accessibilityLabel("Delete note")
+                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.delete)
                 }
             }
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.root)
             if isEditing {
                 TextEditor(text: $draft)
                     .frame(minHeight: 60)
@@ -675,6 +679,7 @@ private struct AnnotationNoteRow: View {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(Color.gray.opacity(0.08))
         }
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.row(record.id))
         .onAppear {
             draft = record.note
         }

@@ -25,6 +25,10 @@ future development and UI test automation.
 | Outline filters | `ParseTreeAccessibilityID.Outline.Filters.searchField` | `parseTree.outline.filters.searchField` |
 | Outline row bookmark | `ParseTreeAccessibilityID.Outline.List.rowBookmark(42)` | `parseTree.outline.list.row.42.bookmark` |
 | Detail sections | `ParseTreeAccessibilityID.Detail.metadata` | `parseTree.detail.metadata` |
+| Annotation note edit control | `ParseTreeAccessibilityID.Detail.Notes.Controls.edit` | `parseTree.detail.notes.row.<annotation-id>.controls.edit` |
+| Annotation note save control | `ParseTreeAccessibilityID.Detail.Notes.Controls.save` | `parseTree.detail.notes.row.<annotation-id>.controls.save` |
+| Annotation note cancel control | `ParseTreeAccessibilityID.Detail.Notes.Controls.cancel` | `parseTree.detail.notes.row.<annotation-id>.controls.cancel` |
+| Annotation note delete control | `ParseTreeAccessibilityID.Detail.Notes.Controls.delete` | `parseTree.detail.notes.row.<annotation-id>.controls.delete` |
 | Research log diagnostics | `ResearchLogAccessibilityID.Diagnostics.row(0)` | `researchLogPreview.diagnostics.row.0` |
 
 Guidelines:
