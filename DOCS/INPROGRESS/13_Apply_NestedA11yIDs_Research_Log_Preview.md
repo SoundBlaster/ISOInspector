@@ -10,6 +10,7 @@ audit components without relying on localized strings or layout heuristics.
 - Baseline adoption plan for NestedA11yIDs flags research log previews as the next migration step after the parse tree explorer. See the table in `DOCS/AI/09_NestedA11yIDs_AppTarget_PRD.md`.
 - `ResearchLogAuditPreview.swift` currently exposes preview-only UI without nested identifiers, guarded by a `@todo` comment referencing this follow-up.
 - QA teams plan to surface the research log audit inside production screens as part of release R13; identifiers must be
+
   ready when the preview is promoted.
 
 ## ✅ Success Criteria
@@ -21,9 +22,13 @@ audit components without relying on localized strings or layout heuristics.
 ## 🔧 Implementation Notes
 
 - Validate whether the preview has been promoted into the production navigation flow; if not, coordinate rollout so
+
   identifiers land before QA automation depends on them.
+
 - Reuse conventions introduced for the parse tree explorer (e.g., lowercase slug segments) to keep identifier schemes
+
   consistent.
+
 - Extend `ParseTreeAccessibilityIdentifierTests` or add focused SwiftUI preview tests to assert presence of the new identifiers.
 - Cross-check with QA automation owners to ensure naming matches their planned selectors and update `Docs/Guides/NestedA11yIDsIntegration.md` if additional patterns emerge.
 

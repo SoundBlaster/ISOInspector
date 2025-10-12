@@ -66,7 +66,10 @@ let package = Package(
         ),
         .testTarget(
             name: "ISOInspectorAppTests",
-            dependencies: ["ISOInspectorApp"]
+            dependencies: [
+                "ISOInspectorApp",
+                "ISOInspectorKit"
+            ]
         )
     ]
 )

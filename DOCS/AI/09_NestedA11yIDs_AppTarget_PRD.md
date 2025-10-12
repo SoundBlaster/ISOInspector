@@ -47,7 +47,7 @@ _Effort unit legend: 1 = ~0.5 day, 2 = 1 day, 3 = 1.5 days, 5 = 2+ days._
 
 ## 6. Functional Requirements
 1. The App target must link NestedA11yIDs without affecting other targets.
-2. SwiftUI views that adopt NestedA11yIDs must expose accessibility identifiers following the pattern `<root>.<child>[.<grandchild>...]`.
+2. SwiftUI views that adopt NestedA11yIDs must assign dot-free segment identifiers that compose hierarchically through the library (e.g., root `parseTree` + child `outline` -> `parseTree.outline`).
 3. `.a11yRoot()` modifiers must automatically enforce `.accessibilityElement(children: .contain)` on containers.
 4. Integration must not introduce duplicate accessibility identifiers when combined with existing `.accessibilityIdentifier` usage (fallback required).
 5. Build tooling (SPM, CI) must resolve the package without manual interventions.
@@ -112,6 +112,6 @@ _Effort unit legend: 1 = ~0.5 day, 2 = 1 day, 3 = 1.5 days, 5 = 2+ days._
 | View / Feature | Owner | Identifier Scope | Target Release |
 | --- | --- | --- | --- |
 | Parse tree explorer outline + detail | App Core | Complete (`parseTree` hierarchy) | R12 |
-| Research log preview flows | QA Tools | Root + research log list | R13 — **In Progress** (see `DOCS/INPROGRESS/13_Apply_NestedA11yIDs_Research_Log_Preview.md`) |
+| Research log preview flows | QA Tools | Complete (`researchLogPreview` hierarchy) | R13 |
 | Annotation editors (notes list + editor) | App Core | Bookmark + notes actions | R13 |
 | Future inspectors (timeline/payload analyzers) | Product UX | TBD | Roadmap |

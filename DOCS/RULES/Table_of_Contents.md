@@ -29,6 +29,7 @@ its scope.
   emphasizing one entity per file and related practices.
 
 - [08_CLI_Build_Verification.md](./08_CLI_Build_Verification.md) — verification steps for building `ISOInspectorCLI` on Linux and using the helper script.
+- [09_AccessibilityIdentifiers.md](./09_AccessibilityIdentifiers.md) — accessibility identifier conventions for supplying segment-based names without dots inside the app target.
 - [agent-system-prompt.md](./agent-system-prompt.md) — system prompt for AI agents that reflects repository components
 
   and the PDD approach.
