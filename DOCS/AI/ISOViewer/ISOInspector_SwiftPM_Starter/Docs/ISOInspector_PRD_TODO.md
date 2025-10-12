@@ -204,7 +204,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 ### Phase F — Export & Hex
 - [ ] F1. JSON export: encode tree with offsets/sizes/parsed fields.
-- [ ] F2. Configure performance benchmarks for large files. **(In Progress — building automated throughput metrics for CLI/app streaming workflows.)**
+- [x] F2. Configure performance benchmarks for large files. **CLI validation and app bridge benchmarks enforce scaled latency budgets with XCTest metrics harnesses.**
 - [ ] F3. Hex slice provider: bounded reads for selected node; window sizing and caching.
 - [ ] F4. Field-to-hex mapping metadata for details highlighting.
 
