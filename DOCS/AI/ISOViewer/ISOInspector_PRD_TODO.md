@@ -215,7 +215,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 ### Phase F — Export & Hex
 - [x] F1. JSON export: encode tree with offsets/sizes/parsed fields. _(Implemented by [28_B6_JSON_and_Binary_Export_Modules](../../TASK_ARCHIVE/28_B6_JSON_and_Binary_Export_Modules/28_B6_JSON_and_Binary_Export_Modules.md))._
-- [ ] F2. (Phase 2) CSV flat export (offset,size,fourcc,parentPath).
+- [ ] F2. Configure performance benchmarks for large files. **(In Progress — building automated throughput metrics for CLI/app streaming workflows.)**
 - [x] F3. Hex slice provider: bounded reads for selected node; window sizing and caching. _(Delivered via [23_C3_Detail_and_Hex_Inspectors](../../TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/23_C3_Detail_and_Hex_Inspectors.md) and refined in [24_C3_Highlight_Field_Subranges](../../TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/Summary_of_Work.md))._
 - [x] F4. Field-to-hex mapping metadata for details highlighting. _(See [24_C3_Highlight_Field_Subranges](../../TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/Summary_of_Work.md))._
 
