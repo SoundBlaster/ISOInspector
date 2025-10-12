@@ -12,6 +12,7 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         let node = ParseTreeNode(
             header: header,
             metadata: metadata,
+            payload: nil,
             validationIssues: [
                 ValidationIssue(ruleID: "VR-001", message: "problem", severity: .warning)
             ],
@@ -52,10 +53,50 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.highlightedRange, annotation.byteRange)
     }
 
+    func testAnnotationsDeriveFromPayloadWhenAvailable() async throws {
+        let header = makeHeader(identifier: 2, type: "ftyp", payloadLength: 16)
+        let payload = ParsedBoxPayload(fields: [
+            ParsedBoxPayload.Field(
+                name: "major_brand",
+                value: "isom",
+                description: "Primary brand",
+                byteRange: header.payloadRange.lowerBound..<(header.payloadRange.lowerBound + 4)
+            )
+        ])
+        let node = ParseTreeNode(
+            header: header,
+            metadata: nil,
+            payload: payload,
+            validationIssues: [],
+            children: []
+        )
+        let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [], lastUpdatedAt: Date())
+        let subject = PassthroughSubject<ParseTreeSnapshot, Never>()
+        let provider = HexSliceProviderStub(result: HexSlice(offset: header.payloadRange.lowerBound, bytes: Data()))
+        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: provider, annotationProvider: nil, windowSize: 16)
+
+        viewModel.bind(to: subject.eraseToAnyPublisher())
+        subject.send(snapshot)
+        await Task.yield()
+
+        viewModel.select(nodeID: node.id)
+        try await Task.sleep(nanoseconds: 20_000_000)
+
+        XCTAssertEqual(viewModel.annotations.count, 1)
+        let derived = try XCTUnwrap(viewModel.annotations.first)
+        XCTAssertEqual(derived.label, "major_brand")
+        XCTAssertEqual(derived.value, "isom")
+        XCTAssertEqual(derived.byteRange, payload.fields.first?.byteRange)
+        XCTAssertNil(viewModel.annotationError)
+        XCTAssertEqual(viewModel.selectedAnnotationID, derived.id)
+        XCTAssertEqual(viewModel.highlightedRange, derived.byteRange)
+    }
+
     func testHexSliceRequestsPayloadWindow() async throws {
         let node = ParseTreeNode(
             header: makeHeader(identifier: 1, type: "mdat", payloadLength: 512),
             metadata: nil,
+            payload: nil,
             validationIssues: [],
             children: []
         )
@@ -85,6 +126,7 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         let node = ParseTreeNode(
             header: makeHeader(identifier: 1, type: "trak", payloadLength: 40),
             metadata: nil,
+            payload: nil,
             validationIssues: [],
             children: []
         )
@@ -114,6 +156,7 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         let node = ParseTreeNode(
             header: makeHeader(identifier: 1, type: "ftyp", payloadLength: 16),
             metadata: nil,
+            payload: nil,
             validationIssues: [],
             children: []
         )
@@ -142,6 +185,7 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         let node = ParseTreeNode(
             header: makeHeader(identifier: 1, type: "ftyp", payloadLength: 16),
             metadata: nil,
+            payload: nil,
             validationIssues: [],
             children: []
         )

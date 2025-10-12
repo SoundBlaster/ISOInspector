@@ -123,6 +123,7 @@ extension ParseTreeStore {
                 let node = MutableNode(
                     header: header,
                     metadata: event.metadata,
+                    payload: event.payload,
                     validationIssues: event.validationIssues
                 )
                 if let parent = stack.last {
@@ -145,6 +146,9 @@ extension ParseTreeStore {
                 }
                 if node.header == header {
                     node.metadata = node.metadata ?? event.metadata
+                    if node.payload == nil || event.payload != nil {
+                        node.payload = event.payload ?? node.payload
+                    }
                     if !event.validationIssues.isEmpty {
                         node.validationIssues.append(contentsOf: event.validationIssues)
                     }
@@ -166,12 +170,14 @@ extension ParseTreeStore {
     fileprivate final class MutableNode {
         let header: BoxHeader
         var metadata: BoxDescriptor?
+        var payload: ParsedBoxPayload?
         var validationIssues: [ValidationIssue]
         var children: [MutableNode]
 
-        init(header: BoxHeader, metadata: BoxDescriptor?, validationIssues: [ValidationIssue]) {
+        init(header: BoxHeader, metadata: BoxDescriptor?, payload: ParsedBoxPayload?, validationIssues: [ValidationIssue]) {
             self.header = header
             self.metadata = metadata
+            self.payload = payload
             self.validationIssues = validationIssues
             self.children = []
         }
@@ -180,6 +186,7 @@ extension ParseTreeStore {
             ParseTreeNode(
                 header: header,
                 metadata: metadata,
+                payload: payload,
                 validationIssues: validationIssues,
                 children: children.map { $0.snapshot() }
             )

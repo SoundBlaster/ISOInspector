@@ -31,6 +31,7 @@ private struct Node: Encodable {
     let offsets: Offsets
     let sizes: Sizes
     let metadata: Metadata?
+    let payload: [PayloadField]?
     let validationIssues: [Issue]
     let children: [Node]
 
@@ -40,6 +41,12 @@ private struct Node: Encodable {
         self.offsets = Offsets(header: node.header)
         self.sizes = Sizes(header: node.header)
         self.metadata = node.metadata.map(Metadata.init)
+        if let payload = node.payload {
+            let fields = payload.fields.map(PayloadField.init)
+            self.payload = fields.isEmpty ? nil : fields
+        } else {
+            self.payload = nil
+        }
         self.validationIssues = node.validationIssues.map(Issue.init)
         self.children = node.children.map(Node.init)
     }
@@ -86,6 +93,34 @@ private struct Metadata: Encodable {
         self.specification = descriptor.specification
         self.version = descriptor.version
         self.flags = descriptor.flags
+    }
+}
+
+private struct PayloadField: Encodable {
+    let name: String
+    let value: String
+    let summary: String?
+    let byteRange: ByteRange?
+
+    init(field: ParsedBoxPayload.Field) {
+        self.name = field.name
+        self.value = field.value
+        self.summary = field.description
+        if let range = field.byteRange {
+            self.byteRange = ByteRange(range: range)
+        } else {
+            self.byteRange = nil
+        }
+    }
+}
+
+private struct ByteRange: Encodable {
+    let start: Int
+    let end: Int
+
+    init(range: Range<Int64>) {
+        self.start = Int(range.lowerBound)
+        self.end = Int(range.upperBound)
     }
 }
 

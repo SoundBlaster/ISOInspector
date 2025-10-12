@@ -247,6 +247,7 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         return ParseTreeNode(
             header: header,
             metadata: nil,
+            payload: nil,
             validationIssues: issues,
             children: children
         )

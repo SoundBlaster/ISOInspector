@@ -91,6 +91,7 @@ final class ParseTreeDetailViewModel: ObservableObject {
         let detail = ParseTreeNodeDetail(
             header: node.header,
             metadata: metadata,
+            payload: node.payload,
             validationIssues: node.validationIssues,
             snapshotTimestamp: snapshot.lastUpdatedAt,
             hexSlice: nil
@@ -99,12 +100,23 @@ final class ParseTreeDetailViewModel: ObservableObject {
         hexError = nil
 
         let preservedAnnotationID = selectedAnnotationID
-        annotations = []
-        selectedAnnotationID = nil
-        highlightedRange = nil
         annotationError = nil
 
-        loadAnnotations(for: node, preserving: preservedAnnotationID)
+        if let payload = node.payload, let derived = annotations(from: payload), !derived.isEmpty {
+            annotations = derived
+            if let preservedAnnotationID,
+               let preserved = derived.first(where: { $0.id == preservedAnnotationID }) {
+                selectedAnnotationID = preserved.id
+            } else {
+                selectedAnnotationID = derived.first?.id
+            }
+            updateHighlightedRange()
+        } else {
+            annotations = []
+            selectedAnnotationID = nil
+            highlightedRange = nil
+            loadAnnotations(for: node, preserving: preservedAnnotationID)
+        }
         loadHexSlice(for: node, detail: detail)
     }
 
@@ -179,6 +191,19 @@ final class ParseTreeDetailViewModel: ObservableObject {
         } else {
             highlightedRange = nil
         }
+    }
+
+    private func annotations(from payload: ParsedBoxPayload) -> [PayloadAnnotation]? {
+        let mapped = payload.fields.compactMap { field -> PayloadAnnotation? in
+            guard let range = field.byteRange else { return nil }
+            return PayloadAnnotation(
+                label: field.name,
+                value: field.value,
+                byteRange: range,
+                summary: field.description
+            )
+        }
+        return mapped.isEmpty ? nil : mapped
     }
 
     private func makeWindow(for header: BoxHeader) -> HexSliceRequest.Window {

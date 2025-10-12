@@ -14,6 +14,11 @@ final class RandomAccessPayloadAnnotationProvider: PayloadAnnotationProvider {
         let payloadEnd = header.payloadRange.upperBound
         guard payloadEnd > payloadStart else { return [] }
 
+        if let payload = try BoxParserRegistry.shared.parse(header: header, reader: reader),
+           let derived = annotations(from: payload) {
+            return derived
+        }
+
         var annotations: [PayloadAnnotation] = []
 
         switch header.type.rawValue {
@@ -32,6 +37,19 @@ final class RandomAccessPayloadAnnotationProvider: PayloadAnnotationProvider {
 }
 
 private extension RandomAccessPayloadAnnotationProvider {
+    func annotations(from payload: ParsedBoxPayload) -> [PayloadAnnotation]? {
+        let mapped = payload.fields.compactMap { field -> PayloadAnnotation? in
+            guard let range = field.byteRange else { return nil }
+            return PayloadAnnotation(
+                label: field.name,
+                value: field.value,
+                byteRange: range,
+                summary: field.description
+            )
+        }
+        return mapped.isEmpty ? nil : mapped
+    }
+
     func parseFileTypeBox(header: BoxHeader, start: Int64, end: Int64) throws -> [PayloadAnnotation] {
         var results: [PayloadAnnotation] = []
         guard end - start >= 8 else { return results }

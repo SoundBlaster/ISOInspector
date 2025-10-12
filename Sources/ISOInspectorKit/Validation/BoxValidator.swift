@@ -20,6 +20,7 @@ struct BoxValidator: Sendable {
             kind: event.kind,
             offset: event.offset,
             metadata: event.metadata,
+            payload: event.payload,
             validationIssues: issues
         )
     }

@@ -17,12 +17,22 @@ final class ParseExportTests: XCTestCase {
         )
         let issue = ValidationIssue(ruleID: "VR-001", message: "Test", severity: .error)
 
+        let parsedPayload = ParsedBoxPayload(fields: [
+            ParsedBoxPayload.Field(
+                name: "major_brand",
+                value: "isom",
+                description: "Primary brand identifying the file",
+                byteRange: 8..<12
+            )
+        ])
+
         var builder = ParseTreeBuilder()
         builder.consume(
             ParseEvent(
                 kind: .willStartBox(header: header, depth: 0),
                 offset: header.startOffset,
                 metadata: metadata,
+                payload: parsedPayload,
                 validationIssues: [issue]
             )
         )
@@ -51,11 +61,13 @@ final class ParseExportTests: XCTestCase {
         let root = try XCTUnwrap(tree.nodes.first)
         XCTAssertEqual(root.header, header)
         XCTAssertEqual(root.metadata, metadata)
+        XCTAssertEqual(root.payload, parsedPayload)
         XCTAssertEqual(root.validationIssues, [issue])
         XCTAssertEqual(root.children.count, 1)
         let child = try XCTUnwrap(root.children.first)
         XCTAssertEqual(child.header, childHeader)
         XCTAssertNil(child.metadata)
+        XCTAssertNil(child.payload)
         XCTAssertTrue(child.validationIssues.isEmpty)
         XCTAssertTrue(child.children.isEmpty)
     }
@@ -67,7 +79,15 @@ final class ParseExportTests: XCTestCase {
             ParseEvent(
                 kind: .willStartBox(header: header, depth: 0),
                 offset: header.startOffset,
-                metadata: BoxCatalog.shared.descriptor(for: header)
+                metadata: BoxCatalog.shared.descriptor(for: header),
+                payload: ParsedBoxPayload(fields: [
+                    ParsedBoxPayload.Field(
+                        name: "major_brand",
+                        value: "isom",
+                        description: nil,
+                        byteRange: 8..<12
+                    )
+                ])
             )
         )
         builder.consume(
@@ -94,6 +114,14 @@ final class ParseExportTests: XCTestCase {
         XCTAssertEqual(sizes["header"] as? Int, Int(header.headerSize))
         let metadata = try XCTUnwrap(node["metadata"] as? [String: Any])
         XCTAssertEqual(metadata["name"] as? String, "File Type And Compatibility")
+        let payloadFields = try XCTUnwrap(node["payload"] as? [[String: Any]])
+        XCTAssertEqual(payloadFields.count, 1)
+        let field = try XCTUnwrap(payloadFields.first)
+        XCTAssertEqual(field["name"] as? String, "major_brand")
+        XCTAssertEqual(field["value"] as? String, "isom")
+        let range = try XCTUnwrap(field["byteRange"] as? [String: Any])
+        XCTAssertEqual(range["start"] as? Int, 8)
+        XCTAssertEqual(range["end"] as? Int, 12)
         let issues = try XCTUnwrap(json["validationIssues"] as? [[String: Any]])
         XCTAssertTrue(issues.isEmpty)
     }
@@ -110,17 +138,27 @@ final class ParseExportTests: XCTestCase {
             flags: nil
         )
         let issue = ValidationIssue(ruleID: "VR-002", message: "Mismatch", severity: .warning)
+        let payload = ParsedBoxPayload(fields: [
+            ParsedBoxPayload.Field(
+                name: "dummy",
+                value: "value",
+                description: nil,
+                byteRange: header.payloadRange
+            )
+        ])
         let events = [
             ParseEvent(
                 kind: .willStartBox(header: header, depth: 0),
                 offset: header.startOffset,
                 metadata: metadata,
+                payload: payload,
                 validationIssues: [issue]
             ),
             ParseEvent(
                 kind: .didFinishBox(header: header, depth: 0),
                 offset: header.endOffset,
                 metadata: metadata,
+                payload: payload,
                 validationIssues: []
             )
         ]

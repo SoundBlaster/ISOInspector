@@ -24,6 +24,7 @@ struct ParseEventCapturePayload: Codable {
         let depth: Int
         let offset: Int64
         let metadata: Metadata?
+        let payload: Payload?
         let validationIssues: [Issue]
 
         init(event: ParseEvent) {
@@ -39,12 +40,14 @@ struct ParseEventCapturePayload: Codable {
             }
             self.offset = event.offset
             self.metadata = event.metadata.map(Metadata.init)
+            self.payload = event.payload.map(Payload.init)
             self.validationIssues = event.validationIssues.map(Issue.init)
         }
 
         func makeEvent() throws -> ParseEvent {
             let header = try self.header.makeHeader()
             let metadata = try self.metadata?.makeDescriptor()
+            let payload = self.payload?.makePayload()
             let issues = validationIssues.map { $0.makeIssue() }
             switch kind {
             case .willStart:
@@ -52,6 +55,7 @@ struct ParseEventCapturePayload: Codable {
                     kind: .willStartBox(header: header, depth: depth),
                     offset: offset,
                     metadata: metadata,
+                    payload: payload,
                     validationIssues: issues
                 )
             case .didFinish:
@@ -59,6 +63,7 @@ struct ParseEventCapturePayload: Codable {
                     kind: .didFinishBox(header: header, depth: depth),
                     offset: offset,
                     metadata: metadata,
+                    payload: payload,
                     validationIssues: issues
                 )
             }
@@ -140,6 +145,49 @@ struct ParseEventCapturePayload: Codable {
             } catch {
                 throw ParseEventCaptureDecodingError.invalidFourCharCode(type)
             }
+        }
+    }
+
+    struct Payload: Codable {
+        let fields: [Field]
+
+        init(payload: ParsedBoxPayload) {
+            self.fields = payload.fields.map(Field.init)
+        }
+
+        func makePayload() -> ParsedBoxPayload {
+            ParsedBoxPayload(fields: fields.map { $0.makeField() })
+        }
+    }
+
+    struct Field: Codable {
+        let name: String
+        let value: String
+        let summary: String?
+        let start: Int64?
+        let end: Int64?
+
+        init(field: ParsedBoxPayload.Field) {
+            self.name = field.name
+            self.value = field.value
+            self.summary = field.description
+            self.start = field.byteRange?.lowerBound
+            self.end = field.byteRange?.upperBound
+        }
+
+        func makeField() -> ParsedBoxPayload.Field {
+            let range: Range<Int64>?
+            if let start, let end {
+                range = start..<end
+            } else {
+                range = nil
+            }
+            return ParsedBoxPayload.Field(
+                name: name,
+                value: value,
+                description: summary,
+                byteRange: range
+            )
         }
     }
 
