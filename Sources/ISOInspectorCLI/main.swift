@@ -1,1 +1,1 @@
-ISOInspectorCLIRunner.run()
+ISOInspectorCommand.main()
