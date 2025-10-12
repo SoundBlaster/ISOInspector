@@ -101,19 +101,20 @@ struct ParseTreeExplorerView: View {
     }
 
     private var focusCommands: some View {
-        HStack(spacing: 0) {
-            Button("Focus outline") { focusTarget = .outline }
-                .keyboardShortcut("1", modifiers: [.command, .option])
-            Button("Focus detail") { focusTarget = .detail }
-                .keyboardShortcut("2", modifiers: [.command, .option])
-            Button("Focus notes") { focusTarget = .notes }
-                .keyboardShortcut("3", modifiers: [.command, .option])
-            Button("Focus hex") { focusTarget = .hex }
-                .keyboardShortcut("4", modifiers: [.command, .option])
+        Group {
+            HiddenKeyboardShortcutButton(title: "Focus outline", key: "1", modifiers: [.command, .option]) {
+                focusTarget = .outline
+            }
+            HiddenKeyboardShortcutButton(title: "Focus detail", key: "2", modifiers: [.command, .option]) {
+                focusTarget = .detail
+            }
+            HiddenKeyboardShortcutButton(title: "Focus notes", key: "3", modifiers: [.command, .option]) {
+                focusTarget = .notes
+            }
+            HiddenKeyboardShortcutButton(title: "Focus hex", key: "4", modifiers: [.command, .option]) {
+                focusTarget = .hex
+            }
         }
-        .frame(width: 0, height: 0)
-        .allowsHitTesting(false)
-        .accessibilityHidden(true)
     }
 
     private func containsNode(withID id: ParseTreeNode.ID, in nodes: [ParseTreeNode]) -> Bool {
@@ -587,6 +588,23 @@ private extension View {
         } else {
             self
         }
+    }
+}
+
+private struct HiddenKeyboardShortcutButton: View {
+    let title: LocalizedStringKey
+    let key: KeyEquivalent
+    let modifiers: EventModifiers
+    let action: () -> Void
+
+    var body: some View {
+        Button(title) { action() }
+            .keyboardShortcut(key, modifiers: modifiers)
+            .buttonStyle(.plain)
+            .frame(width: 0, height: 0)
+            .opacity(0.001)
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
     }
 }
 #endif
