@@ -223,3 +223,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/38_NestedA11yIDs_Integration/`.
 - **Highlights:** Captures integration of NestedA11yIDs across the ISOInspector App parse tree explorer, linked documentation updates, and B6 Box Parser Registry planning notes gathered during the October 11, 2025 work session.
 - **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now tracks applying NestedA11yIDs identifiers to research log previews and annotation note controls, aligned with `todo.md` items #13 and #14 before resuming B6 exporter work.
+
+## 39_Apply_NestedA11yIDs_Research_Log_Preview
+- **Archived files:** `13_Apply_NestedA11yIDs_Research_Log_Preview.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/39_Apply_NestedA11yIDs_Research_Log_Preview/`.
+- **Highlights:** Captures the completion of NestedA11yIDs adoption for the research log preview, documenting identifier coverage across preview metadata, diagnostic rows, and supporting QA automation references.
+- **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now tracks the remaining annotation editor control coverage aligned with `todo.md` item #14.
