@@ -207,7 +207,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 ### Phase E — Validation
 - [ ] E1. Enforce parent containment and non-overlap.
-- [ ] E2. Detect zero/negative progress loops; cap nesting depth.
+- [ ] E2. Detect zero/negative progress loops; cap nesting depth. _(In Progress — alignment with app shell wiring to surface live parser progress.)_
 - [ ] E3. Warn on unusual top-level ordering (advisory).
 - [ ] E4. Verify `avcC/hvcC` invariants; flag inconsistencies.
 - [ ] E5. Basic `stbl` coherence checks (counts nonzero, arrays parse).
