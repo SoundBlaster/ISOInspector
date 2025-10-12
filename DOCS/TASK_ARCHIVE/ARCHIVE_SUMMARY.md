@@ -235,3 +235,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/40_14_Add_NestedA11yIDs_Annotation_Note_Controls/`.
 - **Highlights:** Documents completion of NestedA11yIDs coverage for annotation note edit, save, cancel, and delete controls, aligning identifier constants, guides, and verification notes for QA automation.
 - **Next steps carried forward:** None — the follow-up checklist is cleared, so future backlog selection can resume from the primary planning documents.
+
+## 41_D1_Scaffold_CLI_Base_Command
+- **Archived files:** `D1_Scaffold_CLI_Base_Command.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/41_D1_Scaffold_CLI_Base_Command/`.
+- **Highlights:** Captures the new `isoinspector` root command built on `swift-argument-parser`, shared CLI context plumbing, and verification via `swift test` that the executable now dispatches placeholder `inspect`, `validate`, and `export` subcommands.
+- **Next steps carried forward:** Implement the streaming `inspect`/`validate` commands, surface CLI logging and telemetry toggles, and route export flows through the new command infrastructure as tracked in `DOCS/INPROGRESS/next_tasks.md` and `todo.md` PDD items.
