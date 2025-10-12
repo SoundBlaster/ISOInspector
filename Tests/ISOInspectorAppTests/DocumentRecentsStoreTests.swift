@@ -38,7 +38,7 @@ final class DocumentRecentsStoreTests: XCTestCase {
                 bookmarkData: nil,
                 displayName: "Other",
                 lastOpened: Date(timeIntervalSince1970: 67890)
-            ),
+            )
         ]
 
         try store.save(entries)
