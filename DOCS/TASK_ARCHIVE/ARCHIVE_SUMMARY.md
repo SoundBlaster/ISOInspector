@@ -241,3 +241,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/41_D1_Scaffold_CLI_Base_Command/`.
 - **Highlights:** Captures the new `isoinspector` root command built on `swift-argument-parser`, shared CLI context plumbing, and verification via `swift test` that the executable now dispatches placeholder `inspect`, `validate`, and `export` subcommands.
 - **Next steps carried forward:** Implement the streaming `inspect`/`validate` commands, surface CLI logging and telemetry toggles, and route export flows through the new command infrastructure as tracked in `DOCS/INPROGRESS/next_tasks.md` and `todo.md` PDD items.
+
+## 42_D2_Streaming_CLI_Commands
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/42_D2_Streaming_CLI_Commands/`.
+- **Highlights:** Documents completion of the streaming `inspect` and `validate` CLI commands, including asynchronous environment wiring, streaming parse event logging, and validation aggregation validated via `swift test`.
+- **Next steps carried forward:** Surface global logging and telemetry toggles for the CLI and route export operations through the shared streaming capture utilities, as tracked in `DOCS/INPROGRESS/next_tasks.md` and `todo.md` PDD items.
