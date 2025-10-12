@@ -235,7 +235,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] H4. Performance tests: parse time & memory cap (<100 MB for 20 GB file).
 - [x] H5. macOS SwiftUI automation covering streaming default selection and synchronized detail updates. Implemented via
   `ParseTreeStreamingSelectionAutomationTests`, which hosts the app view hierarchy on macOS and asserts outline/detail state
-  during a streaming parse. See `DOCS/INPROGRESS/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md` for the execution
+  during a streaming parse. See `DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md` for the execution
   note.
 
 ### Phase I — Packaging & Release

@@ -4,8 +4,9 @@
 
 - [x] Add macOS SwiftUI automation for streaming selection defaults once the XCTest UI hooks land, ensuring the
 
-  tree/detail panes update end-to-end during live parses. (Follow-up from archived E2 work.) **(Completed in
-  `DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md`)**
+  tree/detail panes update end-to-end during live parses. Covered by `ParseTreeStreamingSelectionAutomationTests` in
+  the app test suite, which hosts `ParseTreeExplorerView` and verifies default selection + detail synchronization during
+  a streaming parse run. **(Completed in `DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md`)**
 
 ## 🔬 Benchmark Follow-Up
 

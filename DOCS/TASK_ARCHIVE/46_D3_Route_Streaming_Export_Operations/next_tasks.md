@@ -2,10 +2,10 @@
 
 ## 🧪 Streaming UI Coverage
 
-- [ ] Add macOS SwiftUI automation for streaming selection defaults once the XCTest UI hooks land, ensuring the
+- [x] Add macOS SwiftUI automation for streaming selection defaults once the XCTest UI hooks land, ensuring the
 
-  tree/detail panes update end-to-end during live parses. (Follow-up from archived E2 work.) **(In Progress — see
-  `DOCS/INPROGRESS/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md`)**
+  tree/detail panes update end-to-end during live parses. (Follow-up from archived E2 work.) **(Completed in
+  `DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md`)**
 
 ## 🔬 Benchmark Follow-Up
 
