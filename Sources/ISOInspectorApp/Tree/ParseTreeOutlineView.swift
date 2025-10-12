@@ -7,10 +7,22 @@ import NestedA11yIDs
 struct ParseTreeExplorerView: View {
     @ObservedObject var store: ParseTreeStore
     @ObservedObject var annotations: AnnotationBookmarkSession
-    @StateObject private var outlineViewModel = ParseTreeOutlineViewModel()
-    @StateObject private var detailViewModel = ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
+    @StateObject private var outlineViewModel: ParseTreeOutlineViewModel
+    @StateObject private var detailViewModel: ParseTreeDetailViewModel
     @State private var selectedNodeID: ParseTreeNode.ID?
     @FocusState private var focusTarget: InspectorFocusTarget?
+
+    init(
+        store: ParseTreeStore,
+        annotations: AnnotationBookmarkSession,
+        outlineViewModel: ParseTreeOutlineViewModel = ParseTreeOutlineViewModel(),
+        detailViewModel: ParseTreeDetailViewModel = ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
+    ) {
+        self._store = ObservedObject(wrappedValue: store)
+        self._annotations = ObservedObject(wrappedValue: annotations)
+        self._outlineViewModel = StateObject(wrappedValue: outlineViewModel)
+        self._detailViewModel = StateObject(wrappedValue: detailViewModel)
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
