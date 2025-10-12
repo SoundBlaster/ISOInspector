@@ -2,7 +2,7 @@
 
 ## Completed / Attempted Tasks
 
-- **Task:** Execute the Combine-backed UI benchmark on macOS (`DOCS/INPROGRESS/47_Combine_UI_Benchmark_macOS.md`).
+- **Task:** Execute the Combine-backed UI benchmark on macOS (`DOCS/TASK_ARCHIVE/47_Combine_UI_Benchmark_macOS/47_Combine_UI_Benchmark_macOS.md`).
 - **Status:** Blocked in the Linux CI container — XCTest skips the scenario because `Combine` is unavailable on this platform.
 
 ## Evidence

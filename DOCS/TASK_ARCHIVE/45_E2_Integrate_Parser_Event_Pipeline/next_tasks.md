@@ -9,7 +9,7 @@
 
 - [ ] Execute the Combine-backed UI benchmark on macOS to capture latency metrics on a platform that ships Combine,
 
-  keeping throughput parity with the CLI harness. **(In Progress — see `DOCS/INPROGRESS/47_Combine_UI_Benchmark_macOS.md`)**
+  keeping throughput parity with the CLI harness. **(In Progress — see `DOCS/TASK_ARCHIVE/47_Combine_UI_Benchmark_macOS/47_Combine_UI_Benchmark_macOS.md`)**
 
 ## 🔭 Follow-Ups From D2 Archive
 

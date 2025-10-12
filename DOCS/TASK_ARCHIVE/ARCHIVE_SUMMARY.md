@@ -260,7 +260,7 @@
 - **Archived files:** `44_F2_Configure_Performance_Benchmarks.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/44_F2_Configure_Performance_Benchmarks/`.
 - **Highlights:** Documents the performance benchmark harnesses that tune payload sizes, iteration counts, and slack multipliers from the non-functional throughput targets, covering both CLI validation throughput and Combine-backed UI latency metrics.
-- **Next steps carried forward:** Execute the Combine-backed UI benchmark on macOS to capture latency metrics and continue tracking CLI logging/telemetry toggles plus streaming export routing via the refreshed `DOCS/INPROGRESS/next_tasks.md` checklist. **(In Progress — see `DOCS/INPROGRESS/47_Combine_UI_Benchmark_macOS.md`)**
+- **Next steps carried forward:** Execute the Combine-backed UI benchmark on macOS to capture latency metrics and continue tracking CLI logging/telemetry toggles plus streaming export routing via the refreshed `DOCS/INPROGRESS/next_tasks.md` checklist. **(In Progress — see `DOCS/TASK_ARCHIVE/47_Combine_UI_Benchmark_macOS/47_Combine_UI_Benchmark_macOS.md`)**
 
 ## 45_E2_Integrate_Parser_Event_Pipeline
 - **Archived files:** `2025-10-12-parser-selection-bridging.md`, `E2_Integrate_Parser_Event_Pipeline.md`, `Summary_of_Work.md`, `next_tasks.md`.
@@ -272,4 +272,13 @@
 - **Archived files:** `Route_Streaming_Export_Operations.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/46_D3_Route_Streaming_Export_Operations/`.
 - **Highlights:** Captures routing the `isoinspector export` JSON and binary flows through the shared streaming capture utilities, aligning CLI behaviors with the modern pipeline and documenting verification via `swift test`.
-- **Next steps carried forward:** Track macOS SwiftUI automation for streaming selection defaults, execute the Combine-backed UI benchmark on macOS, and surface global logging plus telemetry toggles for the CLI — all preserved in `DOCS/INPROGRESS/next_tasks.md` and `todo.md` PDD items. **(Benchmark In Progress — see `DOCS/INPROGRESS/47_Combine_UI_Benchmark_macOS.md`)**
+- **Next steps carried forward:** Track macOS SwiftUI automation for streaming selection defaults, execute the Combine-backed UI benchmark on macOS, and surface global logging plus telemetry toggles for the CLI — all preserved in `DOCS/INPROGRESS/next_tasks.md` and `todo.md` PDD items. **(Benchmark In Progress — see `DOCS/TASK_ARCHIVE/47_Combine_UI_Benchmark_macOS/47_Combine_UI_Benchmark_macOS.md`)**
+
+## 47_Combine_UI_Benchmark_macOS
+- **Archived files:** `47_Combine_UI_Benchmark_macOS.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/47_Combine_UI_Benchmark_macOS/`.
+- **Highlights:** Captures the Combine-backed UI benchmark plan, Linux container skip logs, and macOS follow-up requirements for
+  gathering latency, CPU, and memory metrics that align with the CLI performance baselines.
+- **Next steps carried forward:** Re-run the benchmark on macOS hardware, archive the resulting measurements beside the CLI
+  throughput baselines, and continue tracking UI automation plus CLI telemetry toggles in `DOCS/INPROGRESS/next_tasks.md` and
+  related backlog entries.
