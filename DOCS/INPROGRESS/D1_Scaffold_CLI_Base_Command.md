@@ -8,6 +8,7 @@ Create the initial `isoinspector` executable with a root command that prints hel
 
 - Follows the Phase D roadmap for ISOInspectorCLI, where the argument parser setup is the first required capability before implementing `inspect` and `validate` streaming commands.【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L32-L36】【F:DOCS/AI/ISOViewer/ISOInspector_PRD_Full/ISOInspectorCLI_PRD.md†L8-L13】
 - Depends on the completed streaming engine from Phase B to expose reusable services when the CLI invokes
+
   inspections.【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L15-L24】
 
 ## ✅ Success Criteria
@@ -20,9 +21,12 @@ Create the initial `isoinspector` executable with a root command that prints hel
 
 - Add a `swift-argument-parser` dependency if not already declared and register the root `ParsableCommand` for `isoinspector`.
 - Structure the command hierarchy to accept global options (e.g., verbosity, output format) that downstream subcommands
+
   can extend.
+
 - Introduce smoke tests or fixtures that execute the command with `--help` to guard the interface contract.
 - Update documentation and planning artifacts once scaffolding is merged so Task D2 can focus solely on streaming
+
   behavior.
 
 ## 🧠 Source References
