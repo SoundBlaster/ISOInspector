@@ -2,7 +2,7 @@
 
 ## 🚧 In Progress
 
-- **E1 — Build SwiftUI app shell with document browser and recents list**: Continue wiring the CoreData-backed session persistence into the shell now that CLI scaffolding is stable. Reference context in `DOCS/TASK_ARCHIVE/43_E1_Build_SwiftUI_App_Shell/`.
+- **E2 — Integrate parser event pipeline with UI components in app context**: Focus on bridging the streaming parser feed into the SwiftUI shell so opening a file drives live tree/detail refreshes using the existing Combine bridge.
 
 ## 🔬 Benchmark Follow-Up
 
