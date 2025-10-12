@@ -267,3 +267,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/45_E2_Integrate_Parser_Event_Pipeline/`.
 - **Highlights:** Captures the SwiftUI integration work that wires the streaming parser bridge into the application shell, automatically selects the first parsed node, and refreshes the detail pane via updated view model identifiers with accompanying unit coverage.
 - **Next steps carried forward:** Recreate UI automation for macOS streaming selection coverage plus the macOS Combine benchmark and CLI telemetry/export follow-ups now tracked in `DOCS/INPROGRESS/next_tasks.md` and `todo.md` PDD items.
+
+## 46_D3_Route_Streaming_Export_Operations
+- **Archived files:** `Route_Streaming_Export_Operations.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/46_D3_Route_Streaming_Export_Operations/`.
+- **Highlights:** Captures routing the `isoinspector export` JSON and binary flows through the shared streaming capture utilities, aligning CLI behaviors with the modern pipeline and documenting verification via `swift test`.
+- **Next steps carried forward:** Track macOS SwiftUI automation for streaming selection defaults, execute the Combine-backed UI benchmark on macOS, and surface global logging plus telemetry toggles for the CLI — all preserved in `DOCS/INPROGRESS/next_tasks.md` and `todo.md` PDD items.
