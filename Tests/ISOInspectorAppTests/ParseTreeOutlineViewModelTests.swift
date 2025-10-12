@@ -185,6 +185,38 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.containsStreamingIndicators)
     }
 
+    func testFirstVisibleNodeIDDefaultsToRoot() throws {
+        let child = makeNode(identifier: 2, type: "trak")
+        let root = makeNode(identifier: 1, type: "moov", children: [child])
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+
+        viewModel.apply(snapshot: snapshot)
+
+        XCTAssertEqual(viewModel.firstVisibleNodeID(), root.id)
+    }
+
+    func testContainsNodeReflectsLatestSnapshot() throws {
+        let rootWithChild = makeNode(identifier: 1, type: "moov", children: [
+            makeNode(identifier: 2, type: "trak")
+        ])
+        let initial = ParseTreeSnapshot(nodes: [rootWithChild], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+
+        viewModel.apply(snapshot: initial)
+
+        XCTAssertTrue(viewModel.containsNode(with: rootWithChild.id))
+        let childID = try XCTUnwrap(viewModel.rows.last?.id)
+        XCTAssertTrue(viewModel.containsNode(with: childID))
+
+        let updatedRoot = makeNode(identifier: 1, type: "moov")
+        let updated = ParseTreeSnapshot(nodes: [updatedRoot], validationIssues: [])
+        viewModel.apply(snapshot: updated)
+
+        XCTAssertTrue(viewModel.containsNode(with: updatedRoot.id))
+        XCTAssertFalse(viewModel.containsNode(with: childID))
+    }
+
     func testNavigationMovesBetweenVisibleRows() throws {
         let root = makeNode(identifier: 1, type: "root", children: [
             makeNode(identifier: 2, type: "trak"),

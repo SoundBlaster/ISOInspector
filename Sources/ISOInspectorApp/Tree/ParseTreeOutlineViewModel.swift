@@ -29,6 +29,7 @@ final class ParseTreeOutlineViewModel: ObservableObject {
     private var expandedIdentifiers: Set<ParseTreeNode.ID> = []
     private var cancellables: Set<AnyCancellable> = []
     private var latencyProbe = OutlineLatencyProbe()
+    private var allIdentifiers: Set<ParseTreeNode.ID> = []
 
     init(snapshot: ParseTreeSnapshot = .empty) {
         apply(snapshot: snapshot)
@@ -49,7 +50,7 @@ final class ParseTreeOutlineViewModel: ObservableObject {
 
     func apply(snapshot: ParseTreeSnapshot) {
         self.snapshot = snapshot
-        let allIdentifiers = collectIdentifiers(from: snapshot.nodes)
+        allIdentifiers = collectIdentifiers(from: snapshot.nodes)
         if expandedIdentifiers.isEmpty {
             expandedIdentifiers.formUnion(snapshot.nodes.map(\.id))
         } else {
@@ -60,6 +61,14 @@ final class ParseTreeOutlineViewModel: ObservableObject {
         }
         refreshFilterMetadata()
         rebuildRows()
+    }
+
+    func firstVisibleNodeID() -> ParseTreeNode.ID? {
+        rows.first?.id ?? snapshot.nodes.first?.id
+    }
+
+    func containsNode(with id: ParseTreeNode.ID) -> Bool {
+        allIdentifiers.contains(id)
     }
 
     func toggleExpansion(for identifier: ParseTreeNode.ID) {
