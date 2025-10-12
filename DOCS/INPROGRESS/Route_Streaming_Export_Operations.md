@@ -7,10 +7,13 @@ Enable the `isoinspector export` subcommand to stream parse events through the s
 ## 🧩 Context
 
 - The CLI PRD calls for export functionality that saves parse results in structured formats alongside inspect/validate
+
   behaviors.【F:DOCS/AI/ISOViewer/ISOInspector_PRD_Full/ISOInspectorCLI_PRD.md†L4-L15】
+
 - Legacy exports already stream parse events, build parse trees, and write JSON or capture files inside `CLI.handleExportCommand`, demonstrating the expected flow for the new command surface.【F:Sources/ISOInspectorCLI/CLI.swift†L342-L414】
 - The modern Swift ArgumentParser command set implements `inspect` and `validate`, but the `export` command still throws a placeholder exit pending migration to the shared streaming capture utilities.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L49-L183】
 - Prior streaming command work (Task D2) identified routing export operations through the shared utilities as the
+
   remaining follow-up for completing the CLI
   migration.【F:DOCS/TASK_ARCHIVE/42_D2_Streaming_CLI_Commands/Summary_of_Work.md†L5-L16】
 
@@ -25,6 +28,7 @@ Enable the `isoinspector export` subcommand to stream parse events through the s
 - Lift option parsing and default-path logic from the legacy runner into reusable helpers or directly into `Commands.Export`, adapting them to async execution while avoiding duplicated semaphore patterns.【F:Sources/ISOInspectorCLI/CLI.swift†L342-L414】
 - Reuse `ParseTreeBuilder`, `JSONParseTreeExporter`, and `ParseEventCaptureEncoder` to build outputs, wiring them through `ISOInspectorCommandContext` so the environment remains swappable for tests.【F:Sources/ISOInspectorCLI/CLI.swift†L383-L405】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L20-L183】
 - Update CLI help text and DocC command reference once the export subcommand is functional, aligning documentation with
+
   the PRD requirements.【F:DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md†L216-L227】
 
 ## 🧠 Source References
