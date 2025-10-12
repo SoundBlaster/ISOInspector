@@ -217,3 +217,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/37_C5_Accessibility_Features/`.
 - **Highlights:** Captures the accessibility rollout covering shared VoiceOver descriptors, keyboard focus management across outline/detail/hex panes, Dynamic Type validation, and extended XCTest coverage for the new behaviors.
 - **Next steps carried forward:** None — the summary recorded no follow-ups, so future planning resumes from the main backlog.
+
+## 38_NestedA11yIDs_Integration
+- **Archived files:** `2025-10-11-nested-a11y-integration.md`, `B6_BoxParserRegistry.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/38_NestedA11yIDs_Integration/`.
+- **Highlights:** Captures integration of NestedA11yIDs across the ISOInspector App parse tree explorer, linked documentation updates, and B6 Box Parser Registry planning notes gathered during the October 11, 2025 work session.
+- **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now tracks applying NestedA11yIDs identifiers to research log previews and annotation note controls, aligned with `todo.md` items #13 and #14 before resuming B6 exporter work.
