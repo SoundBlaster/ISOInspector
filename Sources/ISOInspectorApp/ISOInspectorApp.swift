@@ -9,37 +9,40 @@ import CoreData
 
 @main
 struct ISOInspectorApp: App {
+    @StateObject private var controller = ISOInspectorApp.makeDocumentSessionController()
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            AppShellView(controller: controller)
                 .a11yRoot(ParseTreeAccessibilityID.root)
         }
     }
-}
 
-private struct ContentView: View {
-    @Environment(\.scenePhase) private var scenePhase
-    @StateObject private var store = ParseTreeStore()
-    #if canImport(CoreData)
-    @StateObject private var annotations = ContentView.makeAnnotationSession()
-    #else
-    @StateObject private var annotations = AnnotationBookmarkSession(store: nil)
-    #endif
+    @MainActor
+    private static func makeDocumentSessionController() -> DocumentSessionController {
+        let recentsStore = DocumentRecentsStore(directory: recentsDirectory())
+        #if canImport(CoreData)
+        let annotations = makeAnnotationSession()
+        #else
+        let annotations = AnnotationBookmarkSession(store: nil)
+        #endif
+        return DocumentSessionController(
+            parseTreeStore: ParseTreeStore(),
+            annotations: annotations,
+            recentsStore: recentsStore
+        )
+    }
 
-    var body: some View {
-        ParseTreeExplorerView(store: store, annotations: annotations)
-            .frame(minWidth: 480, minHeight: 480)
-            .onDisappear {
-                store.shutdown()
-            }
-            .onChange(of: scenePhase) { _, phase in
-                if phase == .background || phase == .inactive {
-                    store.shutdown()
-                }
-            }
+    private static func recentsDirectory() -> URL {
+        let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+            ?? FileManager.default.temporaryDirectory
+        let directory = base.appendingPathComponent("DocumentRecents", isDirectory: true)
+        try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        return directory
     }
 
     #if canImport(CoreData)
+    @MainActor
     private static func makeAnnotationSession() -> AnnotationBookmarkSession {
         let directory = annotationStoreDirectory()
         let store = try? CoreDataAnnotationBookmarkStore(directory: directory)
