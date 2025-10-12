@@ -1,6 +1,8 @@
 #if canImport(SwiftUI) && canImport(UIKit)
 import SwiftUI
 import XCTest
+import ISOInspectorKit
+import NestedA11yIDs
 @testable import ISOInspectorApp
 
 @MainActor
@@ -47,6 +49,94 @@ final class ParseTreeAccessibilityIdentifierTests: XCTestCase {
         XCTAssertNotNil(searchField, "Expected to find search field with identifier \(identifier)")
     }
 
+    func testAnnotationNoteControlsExposeNestedIdentifiers() throws {
+        let recordID = UUID(uuidString: "00000000-0000-0000-0000-000000000001")!
+        let now = Date()
+        let record = AnnotationRecord(
+            id: recordID,
+            nodeID: 0,
+            note: "Existing note",
+            createdAt: now,
+            updatedAt: now
+        )
+        let store = MockAnnotationStore(annotations: [record])
+        let session = AnnotationBookmarkSession(store: store)
+        let fileURL = URL(fileURLWithPath: "/tmp/example.mp4")
+        session.setFileURL(fileURL)
+        session.setSelectedNode(record.nodeID)
+
+        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
+        let header = BoxHeader(
+            type: try FourCharCode("test"),
+            totalSize: 32,
+            headerSize: 8,
+            payloadRange: 8..<32,
+            range: 0..<32,
+            uuid: nil
+        )
+        let node = ParseTreeNode(header: header, metadata: nil, payload: nil, validationIssues: [], children: [])
+        let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [], lastUpdatedAt: now)
+        viewModel.apply(snapshot: snapshot)
+        viewModel.select(nodeID: node.id)
+
+        let host = DetailHostView(viewModel: viewModel, session: session, selectedNodeID: node.id)
+            .a11yRoot(ParseTreeAccessibilityID.root)
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.root)
+        let controller = UIHostingController(rootView: host)
+        let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 800, height: 600))
+        window.rootViewController = controller
+        window.makeKeyAndVisible()
+        controller.view.setNeedsLayout()
+        controller.view.layoutIfNeeded()
+        RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.1))
+
+        let editIdentifier = ParseTreeAccessibilityID.path(
+            ParseTreeAccessibilityID.root,
+            ParseTreeAccessibilityID.Detail.root,
+            ParseTreeAccessibilityID.Detail.notes,
+            ParseTreeAccessibilityID.Detail.Notes.row(record.id),
+            ParseTreeAccessibilityID.Detail.Notes.Controls.root,
+            ParseTreeAccessibilityID.Detail.Notes.Controls.edit
+        )
+        let deleteIdentifier = ParseTreeAccessibilityID.path(
+            ParseTreeAccessibilityID.root,
+            ParseTreeAccessibilityID.Detail.root,
+            ParseTreeAccessibilityID.Detail.notes,
+            ParseTreeAccessibilityID.Detail.Notes.row(record.id),
+            ParseTreeAccessibilityID.Detail.Notes.Controls.root,
+            ParseTreeAccessibilityID.Detail.Notes.Controls.delete
+        )
+
+        guard let editButton = findView(in: controller.view, withIdentifier: editIdentifier) as? UIControl else {
+            XCTFail("Expected Edit button with identifier \(editIdentifier)")
+            return
+        }
+        XCTAssertNotNil(findView(in: controller.view, withIdentifier: deleteIdentifier), "Expected Delete control with identifier \(deleteIdentifier)")
+
+        editButton.sendActions(for: .touchUpInside)
+        RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.1))
+
+        let saveIdentifier = ParseTreeAccessibilityID.path(
+            ParseTreeAccessibilityID.root,
+            ParseTreeAccessibilityID.Detail.root,
+            ParseTreeAccessibilityID.Detail.notes,
+            ParseTreeAccessibilityID.Detail.Notes.row(record.id),
+            ParseTreeAccessibilityID.Detail.Notes.Controls.root,
+            ParseTreeAccessibilityID.Detail.Notes.Controls.save
+        )
+        let cancelIdentifier = ParseTreeAccessibilityID.path(
+            ParseTreeAccessibilityID.root,
+            ParseTreeAccessibilityID.Detail.root,
+            ParseTreeAccessibilityID.Detail.notes,
+            ParseTreeAccessibilityID.Detail.Notes.row(record.id),
+            ParseTreeAccessibilityID.Detail.Notes.Controls.root,
+            ParseTreeAccessibilityID.Detail.Notes.Controls.cancel
+        )
+
+        XCTAssertNotNil(findView(in: controller.view, withIdentifier: saveIdentifier), "Expected Save control with identifier \(saveIdentifier)")
+        XCTAssertNotNil(findView(in: controller.view, withIdentifier: cancelIdentifier), "Expected Cancel control with identifier \(cancelIdentifier)")
+    }
+
     // MARK: - Helpers
 
     private func findView(in root: UIView, withIdentifier identifier: String) -> UIView? {
@@ -63,6 +153,82 @@ final class ParseTreeAccessibilityIdentifierTests: XCTestCase {
             }
         }
         return nil
+    }
+}
+
+private struct DetailHostView: View {
+    let viewModel: ParseTreeDetailViewModel
+    @ObservedObject private var session: AnnotationBookmarkSession
+    @State private var selectedNodeID: ParseTreeNode.ID?
+    @FocusState private var focus: InspectorFocusTarget?
+
+    init(viewModel: ParseTreeDetailViewModel, session: AnnotationBookmarkSession, selectedNodeID: ParseTreeNode.ID?) {
+        self.viewModel = viewModel
+        self._session = ObservedObject(wrappedValue: session)
+        self._selectedNodeID = State(initialValue: selectedNodeID)
+    }
+
+    var body: some View {
+        ParseTreeDetailView(
+            viewModel: viewModel,
+            annotationSession: session,
+            selectedNodeID: $selectedNodeID,
+            focusTarget: $focus
+        )
+    }
+}
+
+private final class MockAnnotationStore: AnnotationBookmarkStoring {
+    var annotations: [AnnotationRecord]
+    var bookmarks: [BookmarkRecord]
+
+    init(annotations: [AnnotationRecord], bookmarks: [BookmarkRecord] = []) {
+        self.annotations = annotations
+        self.bookmarks = bookmarks
+    }
+
+    func annotations(for file: URL) throws -> [AnnotationRecord] {
+        annotations
+    }
+
+    func bookmarks(for file: URL) throws -> [BookmarkRecord] {
+        bookmarks
+    }
+
+    func createAnnotation(for file: URL, nodeID: Int64, note: String) throws -> AnnotationRecord {
+        let record = AnnotationRecord(
+            nodeID: nodeID,
+            note: note,
+            createdAt: Date(),
+            updatedAt: Date()
+        )
+        annotations.append(record)
+        return record
+    }
+
+    func updateAnnotation(for file: URL, annotationID: UUID, note: String) throws -> AnnotationRecord {
+        guard let index = annotations.firstIndex(where: { $0.id == annotationID }) else {
+            throw NSError(domain: "MockAnnotationStore", code: 1)
+        }
+        var updated = annotations[index]
+        updated.note = note
+        updated.updatedAt = Date()
+        annotations[index] = updated
+        return updated
+    }
+
+    func deleteAnnotation(for file: URL, annotationID: UUID) throws {
+        annotations.removeAll { $0.id == annotationID }
+    }
+
+    func setBookmark(for file: URL, nodeID: Int64, isBookmarked: Bool) throws {
+        if isBookmarked {
+            if !bookmarks.contains(where: { $0.nodeID == nodeID }) {
+                bookmarks.append(BookmarkRecord(nodeID: nodeID, createdAt: Date()))
+            }
+        } else {
+            bookmarks.removeAll { $0.nodeID == nodeID }
+        }
     }
 }
 #endif
