@@ -8,8 +8,11 @@ so we can confirm the UI meets the PRD latency budget and matches the CLI benchm
 ## 🧩 Context
 
 - The master PRD requires streaming UI updates to land under 200 ms while handling large MP4 inputs, so we need
+
   platform-accurate numbers rather than Linux skips.
+
 - Task F2 introduced automated performance harnesses, leaving this macOS-only Combine benchmark as the outstanding
+
   follow-up to validate the UI event bridge end-to-end.
 
 ## ✅ Success Criteria
@@ -17,6 +20,7 @@ so we can confirm the UI meets the PRD latency budget and matches the CLI benchm
 - Run `LargeFileBenchmarkTests.testAppEventBridgeDeliversUpdatesWithinLatencyBudget` on a macOS host with Combine available and record measured latency/CPU/memory samples.
 - Document the captured measurements alongside the CLI benchmark results, highlighting whether they satisfy `PerformanceBenchmarkConfiguration` budgets.
 - File issues or TODO updates if the benchmark exceeds limits; otherwise, publish the findings in the performance
+
   tracking log.
 
 ## 🔧 Implementation Notes
@@ -32,3 +36,27 @@ so we can confirm the UI meets the PRD latency budget and matches the CLI benchm
 - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES`](../RULES)
 - [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+
+---
+
+## 📊 Attempt Log (Linux Container)
+
+- `2025-10-12` — Ran `swift test --filter LargeFileBenchmarkTests/testAppEventBridgeDeliversUpdatesWithinLatencyBudget` inside
+
+  the project container to validate whether the Combine-backed benchmark can execute in CI.
+
+- Result: XCTest skipped the scenario because `Combine` is unavailable on the Linux toolchain. The log confirms the test body
+
+  exits early with `XCTSkip("Combine unavailable on this platform")`.
+
+- Impact: No latency, CPU, or memory metrics were produced. A macOS runner with a Combine-capable SDK is still required
+  to
+
+  capture the baseline numbers demanded by the PRD.
+
+- Next step: Re-run the benchmark on macOS hardware (Xcode 14+ recommended) and archive the collected metrics alongside
+  the CLI
+
+  throughput baselines. Consider adding automation hooks to surface the skip condition in CI dashboards so the missing
+coverage
+  remains visible.
