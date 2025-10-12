@@ -32,7 +32,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
 | D1 | Scaffold CLI using `swift-argument-parser` with base command. | Medium | 1 | B3 | Swift ArgumentParser | `isoinspector --help` displays subcommands. (Completed ✅ — archived in `DOCS/TASK_ARCHIVE/41_D1_Scaffold_CLI_Base_Command/` and now unblocks Task D2 streaming commands.) |
-| D2 | Implement `inspect` and `validate` commands with streaming output. | High | 2 | D1 | Swift, XCTest | Commands process sample files; exit codes match specification. |
+| D2 | Implement `inspect` and `validate` commands with streaming output. | High | 2 | D1 | Swift, XCTest | Commands process sample files; exit codes match specification. (🚧 In Progress — see `DOCS/INPROGRESS/D2_Implement_Inspect_and_Validate_Commands.md`.) |
 | D3 | Add `export-json` and `export-report` commands with file output. | Medium | 1.5 | D2, B6 | Swift | Generated files validated via schema tests. (Completed ✅ — documented in `DOCS/TASK_ARCHIVE/29_D3_CLI_Export_Commands/` with CLI tests covering round-trips.) |
 | D4 | Create batch mode processing with aggregated summary + CSV export. | Medium | 1.5 | D2 | Swift, CSV writer | CLI handles multiple files; CSV contains expected rows and metrics. |
 
