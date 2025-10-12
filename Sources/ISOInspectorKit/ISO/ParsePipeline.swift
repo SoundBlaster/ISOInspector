@@ -9,18 +9,37 @@ public struct ParseEvent: Equatable, Sendable {
     public let kind: Kind
     public let offset: Int64
     public let metadata: BoxDescriptor?
+    public let payload: ParsedBoxPayload?
     public let validationIssues: [ValidationIssue]
 
     public init(
         kind: Kind,
         offset: Int64,
         metadata: BoxDescriptor? = nil,
+        payload: ParsedBoxPayload? = nil,
         validationIssues: [ValidationIssue] = []
     ) {
         self.kind = kind
         self.offset = offset
         self.metadata = metadata
+        self.payload = payload
         self.validationIssues = validationIssues
+    }
+}
+
+private extension ParsePipeline {
+    static func parsePayload(
+        header: BoxHeader,
+        reader: RandomAccessReader,
+        registry: BoxParserRegistry,
+        logger: DiagnosticsLogger
+    ) -> ParsedBoxPayload? {
+        do {
+            return try registry.parse(header: header, reader: reader)
+        } catch {
+            logger.error("Failed to parse payload for \(header.identifierString): \(String(describing: error))")
+            return nil
+        }
     }
 }
 
@@ -66,7 +85,8 @@ extension AsyncThrowingStream: @unchecked Sendable where Element: Sendable {}
 public extension ParsePipeline {
     static func live(
         catalog: BoxCatalog = .shared,
-        researchLog: (any ResearchLogRecording)? = nil
+        researchLog: (any ResearchLogRecording)? = nil,
+        registry: BoxParserRegistry = .shared
     ) -> ParsePipeline {
         ParsePipeline(buildStream: { reader, context in
             let readerBox = UnsafeSendable(value: reader)
@@ -93,6 +113,12 @@ public extension ParsePipeline {
                                 case let .willStartBox(header, _):
                                     let descriptor = catalog.descriptor(for: header)
                                     metadataStack.append(descriptor)
+                                    let payload = ParsePipeline.parsePayload(
+                                        header: header,
+                                        reader: reader,
+                                        registry: registry,
+                                        logger: logger
+                                    )
                                     if descriptor == nil {
                                         let key = header.identifierString
                                         if loggedUnknownTypes.insert(key).inserted {
@@ -111,7 +137,12 @@ public extension ParsePipeline {
                                             }
                                         }
                                     }
-                                    enriched = ParseEvent(kind: event.kind, offset: event.offset, metadata: descriptor)
+                                    enriched = ParseEvent(
+                                        kind: event.kind,
+                                        offset: event.offset,
+                                        metadata: descriptor,
+                                        payload: payload
+                                    )
                                 case let .didFinishBox(header, _):
                                     let descriptor = metadataStack.popLast() ?? catalog.descriptor(for: header)
                                     enriched = ParseEvent(kind: event.kind, offset: event.offset, metadata: descriptor)

@@ -17,6 +17,7 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
         let node = ParseTreeNode(
             header: header,
             metadata: metadata,
+            payload: nil,
             validationIssues: [ValidationIssue(ruleID: "VR-002", message: "Track missing language", severity: .warning)],
             children: [
                 ParseTreeNode(
@@ -29,6 +30,7 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
                         uuid: nil
                     ),
                     metadata: nil,
+                    payload: nil,
                     validationIssues: [],
                     children: []
                 )
@@ -66,6 +68,7 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
         let detail = ParseTreeNodeDetail(
             header: header,
             metadata: metadata,
+            payload: nil,
             validationIssues: [
                 ValidationIssue(ruleID: "VR-101", message: "Duration missing", severity: .error)
             ],

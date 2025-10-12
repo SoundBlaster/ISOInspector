@@ -5,6 +5,7 @@ import ISOInspectorKit
 public struct ParseTreeNode: Equatable, Identifiable, Sendable {
     public let header: BoxHeader
     public var metadata: BoxDescriptor?
+    public var payload: ParsedBoxPayload?
     public var validationIssues: [ValidationIssue]
     public var children: [ParseTreeNode]
 

@@ -85,6 +85,25 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertEqual(startEvents[1].validationIssues.first?.ruleID, "VR-006")
     }
 
+    func testLivePipelineAttachesParsedPayloadFromRegistry() async throws {
+        let payload = Data("isom".utf8) + Data([0x00, 0x00, 0x00, 0x00])
+        let box = makeBox(type: "ftyp", payload: payload)
+        let reader = InMemoryRandomAccessReader(data: box)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let ftypEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "ftyp"
+            }
+            return false
+        }))
+
+        let parsedPayload = try XCTUnwrap(ftypEvent.payload)
+        XCTAssertEqual(parsedPayload.fields.first?.name, "major_brand")
+        XCTAssertEqual(parsedPayload.fields.first?.value, "isom")
+    }
+
     func testLivePipelineReportsVersionAndFlagMismatchWarnings() async throws {
         let mismatchTkhd = makeBox(
             type: "tkhd",

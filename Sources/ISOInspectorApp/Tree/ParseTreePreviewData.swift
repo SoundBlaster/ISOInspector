@@ -40,6 +40,7 @@ enum ParseTreePreviewData {
         return ParseTreeNode(
             header: header,
             metadata: metadata,
+            payload: nil,
             validationIssues: issues,
             children: children
         )
