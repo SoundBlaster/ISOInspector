@@ -61,6 +61,20 @@ struct ParseTreeExplorerView: View {
         .onChange(of: store.fileURL) { _, newValue in
             annotations.setFileURL(newValue)
         }
+        .onReceive(store.$snapshot.removeDuplicates()) { snapshot in
+            if let current = selectedNodeID,
+               containsNode(withID: current, in: snapshot.nodes) {
+                return
+            }
+
+            if let next = outlineViewModel.firstVisibleNodeID() ?? snapshot.nodes.first?.id {
+                if selectedNodeID != next {
+                    selectedNodeID = next
+                }
+            } else if selectedNodeID != nil {
+                selectedNodeID = nil
+            }
+        }
         .onAppear {
             focusTarget = .outline
         }
@@ -100,6 +114,14 @@ struct ParseTreeExplorerView: View {
         .frame(width: 0, height: 0)
         .allowsHitTesting(false)
         .accessibilityHidden(true)
+    }
+
+    private func containsNode(withID id: ParseTreeNode.ID, in nodes: [ParseTreeNode]) -> Bool {
+        for node in nodes {
+            if node.id == id { return true }
+            if containsNode(withID: id, in: node.children) { return true }
+        }
+        return false
     }
 }
 
