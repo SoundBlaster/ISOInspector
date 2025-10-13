@@ -2,13 +2,9 @@
 import Foundation
 import ISOInspectorKit
 
-public struct ParseTreeNode: Equatable, Identifiable, Sendable {
-    public let header: BoxHeader
-    public var metadata: BoxDescriptor?
-    public var payload: ParsedBoxPayload?
-    public var validationIssues: [ValidationIssue]
-    public var children: [ParseTreeNode]
+public typealias ParseTreeNode = ISOInspectorKit.ParseTreeNode
 
+extension ISOInspectorKit.ParseTreeNode: Identifiable {
     public var id: Int64 { header.startOffset }
 
     public var category: BoxCategory {

@@ -24,6 +24,9 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
+      - name: Run Swift tests
+        run: swift test
+
       - name: Archive ISOInspectorApp (unsigned)
         run: |
           set -eo pipefail
