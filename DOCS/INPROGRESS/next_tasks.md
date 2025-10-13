@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🚧 Currently In Progress
+
+- [ ] **F3 — Developer Onboarding Guide & API Reference** *(In Progress; see `DOCS/INPROGRESS/F3_Developer_Onboarding_Guide.md` for active scope.)*
+
 ## 🧪 Streaming UI Coverage
 
 - [ ] Run `ParseTreeStreamingSelectionAutomationTests` on macOS hardware with XCTest UI support to validate the end-to-end SwiftUI automation flow introduced in `DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md`. **(Blocked — macOS UI testing entitlements unavailable in container; see `DOCS/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/51_ParseTreeStreamingSelectionAutomation_macOS_Run.md`)**
