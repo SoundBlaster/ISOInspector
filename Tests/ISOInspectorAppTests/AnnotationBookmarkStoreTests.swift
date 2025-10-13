@@ -111,6 +111,86 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
         XCTAssertEqual(annotations, [annotation])
     }
 
+    func testSessionPersistenceRoundTrip() throws {
+        let directory = try makeTemporaryDirectory()
+        let store = try makeStore(directory: directory)
+
+        let focusURL = URL(fileURLWithPath: "/tmp/focus.mp4")
+        let otherURL = URL(fileURLWithPath: "/tmp/other.mp4")
+
+        let focusRecent = DocumentRecent(
+            url: focusURL,
+            bookmarkData: Data([0x01]),
+            displayName: "Focus",
+            lastOpened: referenceDate
+        )
+        let otherRecent = DocumentRecent(
+            url: otherURL,
+            bookmarkData: nil,
+            displayName: "Other",
+            lastOpened: referenceDate.addingTimeInterval(-60)
+        )
+
+        let snapshot = WorkspaceSessionSnapshot(
+            id: UUID(uuidString: "00000000-0000-0000-0000-000000000021")!,
+            createdAt: referenceDate,
+            updatedAt: referenceDate.addingTimeInterval(120),
+            appVersion: "1.0",
+            files: [
+                WorkspaceSessionFileSnapshot(
+                    id: UUID(uuidString: "00000000-0000-0000-0000-000000000022")!,
+                    recent: focusRecent,
+                    orderIndex: 0,
+                    lastSelectionNodeID: 77,
+                    isPinned: false,
+                    scrollOffset: WorkspaceSessionScrollOffset(x: 1, y: 2),
+                    bookmarkDiffs: []
+                ),
+                WorkspaceSessionFileSnapshot(
+                    id: UUID(uuidString: "00000000-0000-0000-0000-000000000023")!,
+                    recent: otherRecent,
+                    orderIndex: 1,
+                    lastSelectionNodeID: nil,
+                    isPinned: false,
+                    scrollOffset: nil,
+                    bookmarkDiffs: []
+                )
+            ],
+            focusedFileURL: focusURL,
+            lastSceneIdentifier: nil,
+            windowLayouts: []
+        )
+
+        try store.saveCurrentSession(snapshot)
+        let loaded = try store.loadCurrentSession()
+
+        XCTAssertEqual(loaded?.id, snapshot.id)
+        XCTAssertEqual(loaded?.files.count, 2)
+        XCTAssertEqual(loaded?.files.first?.lastSelectionNodeID, 77)
+        XCTAssertEqual(loaded?.files.first?.recent.url.standardizedFileURL, focusURL.standardizedFileURL)
+    }
+
+    func testClearingCurrentSessionRemovesSnapshot() throws {
+        let directory = try makeTemporaryDirectory()
+        let store = try makeStore(directory: directory)
+
+        let snapshot = WorkspaceSessionSnapshot(
+            id: UUID(),
+            createdAt: referenceDate,
+            updatedAt: referenceDate,
+            appVersion: nil,
+            files: [],
+            focusedFileURL: nil,
+            lastSceneIdentifier: nil,
+            windowLayouts: []
+        )
+
+        try store.saveCurrentSession(snapshot)
+        try store.clearCurrentSession()
+
+        XCTAssertNil(try store.loadCurrentSession())
+    }
+
     // MARK: - Helpers
 
     private func makeStore(

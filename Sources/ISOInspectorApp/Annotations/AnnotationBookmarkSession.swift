@@ -18,22 +18,25 @@ final class AnnotationBookmarkSession: ObservableObject {
     @Published private(set) var isSelectedNodeBookmarked: Bool = false
     @Published private(set) var bookmarks: Set<Int64> = []
     @Published private(set) var lastErrorMessage: String?
+    @Published private(set) var currentFileURL: URL?
+    @Published private(set) var currentSelectedNodeID: Int64?
 
     private let store: AnnotationBookmarkStoring?
     let isStoreAvailable: Bool
-    private var fileURL: URL?
     private var annotationsByNode: [Int64: [AnnotationRecord]] = [:]
-    private var selectedNodeID: Int64?
 
     init(store: AnnotationBookmarkStoring?) {
         self.store = store
         self.isStoreAvailable = store != nil
         self.isEnabled = store != nil
+        self.currentFileURL = nil
+        self.currentSelectedNodeID = nil
     }
 
     func setFileURL(_ file: URL?) {
-        if fileURL == file { return }
-        fileURL = file?.standardizedFileURL
+        let standardized = file?.standardizedFileURL
+        if currentFileURL == standardized { return }
+        currentFileURL = standardized
 
         guard let store else {
             isEnabled = false
@@ -41,17 +44,18 @@ final class AnnotationBookmarkSession: ObservableObject {
             bookmarks = []
             activeAnnotations = []
             isSelectedNodeBookmarked = false
+            currentSelectedNodeID = nil
             lastErrorMessage = nil
             return
         }
 
-        guard let fileURL else {
+        guard let fileURL = currentFileURL else {
             isEnabled = false
             annotationsByNode = [:]
             bookmarks = []
             activeAnnotations = []
             isSelectedNodeBookmarked = false
-            selectedNodeID = nil
+            currentSelectedNodeID = nil
             lastErrorMessage = nil
             return
         }
@@ -76,12 +80,12 @@ final class AnnotationBookmarkSession: ObservableObject {
     }
 
     func setSelectedNode(_ nodeID: Int64?) {
-        selectedNodeID = nodeID
+        currentSelectedNodeID = nodeID
         refreshActiveState()
     }
 
     func addAnnotation(note: String) {
-        guard let store, let fileURL, let nodeID = selectedNodeID else { return }
+        guard let store, let fileURL = currentFileURL, let nodeID = currentSelectedNodeID else { return }
 
         do {
             let record = try store.createAnnotation(for: fileURL, nodeID: nodeID, note: note)
@@ -95,7 +99,7 @@ final class AnnotationBookmarkSession: ObservableObject {
     }
 
     func updateAnnotation(id: UUID, note: String) {
-        guard let store, let fileURL, let nodeID = selectedNodeID else { return }
+        guard let store, let fileURL = currentFileURL, let nodeID = currentSelectedNodeID else { return }
         do {
             let record = try store.updateAnnotation(for: fileURL, annotationID: id, note: note)
             if var records = annotationsByNode[nodeID], let index = records.firstIndex(where: { $0.id == id }) {
@@ -114,7 +118,7 @@ final class AnnotationBookmarkSession: ObservableObject {
     }
 
     func deleteAnnotation(id: UUID) {
-        guard let store, let fileURL, let nodeID = selectedNodeID else { return }
+        guard let store, let fileURL = currentFileURL, let nodeID = currentSelectedNodeID else { return }
         do {
             try store.deleteAnnotation(for: fileURL, annotationID: id)
             if var records = annotationsByNode[nodeID] {
@@ -129,7 +133,7 @@ final class AnnotationBookmarkSession: ObservableObject {
     }
 
     func toggleBookmark() {
-        guard let store, let fileURL, let nodeID = selectedNodeID else { return }
+        guard let store, let fileURL = currentFileURL, let nodeID = currentSelectedNodeID else { return }
         let shouldBookmark = !bookmarks.contains(nodeID)
         do {
             try store.setBookmark(for: fileURL, nodeID: nodeID, isBookmarked: shouldBookmark)
@@ -150,7 +154,7 @@ final class AnnotationBookmarkSession: ObservableObject {
     }
 
     private func refreshActiveState() {
-        if let nodeID = selectedNodeID {
+        if let nodeID = currentSelectedNodeID {
             activeAnnotations = annotationsByNode[nodeID] ?? []
             isSelectedNodeBookmarked = bookmarks.contains(nodeID)
         } else {
