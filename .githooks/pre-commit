@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! command -v npx >/dev/null 2>&1; then
+  echo "pre-commit markdownlint skipped: npx is required but was not found." >&2
+  exit 1
+fi
+
+echo "Running markdownlint-cli2 autofix for documentation..."
+npx markdownlint-cli2 --fix 'DOCS/INPROGRESS/**/*.md' 'DOCS/COMMANDS/**/*.md' 'DOCS/RULES/**/*.md'
