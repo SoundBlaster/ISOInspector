@@ -201,7 +201,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] D1. `mvex/trex`: defaults.
 - [ ] D2. `moof/mfhd`: sequence number.
 - [ ] D3. `traf/tfhd/tfdt/trun`: parse via flags; sample_count; optional data_offset; sizes.
-- [ ] D4. `sidx`: refs (sizes/durations), earliest_presentation_time, timescale. _(In Progress — see `DOCS/INPROGRESS/51_D4_CLI_Batch_Mode.md`.)_
+- [x] D4. `sidx`: refs (sizes/durations), earliest_presentation_time, timescale. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
 - [ ] D5. `mfra/tfra/mfro`: random access table.
 - [ ] D6. Recognize `senc/saio/saiz` (CENC placeholders), capture sizes/offsets only.
 

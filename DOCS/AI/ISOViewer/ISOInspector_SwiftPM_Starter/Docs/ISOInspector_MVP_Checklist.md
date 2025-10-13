@@ -55,7 +55,7 @@
 - [ ] D1. Stubs: `mvex/trex`
 - [ ] D2. Stubs: `moof/mfhd`
 - [ ] D3. Stubs: `traf/tfhd/tfdt/trun` (flags map only)
-- [ ] D4. Stubs: `sidx`. _(In Progress — see `DOCS/INPROGRESS/51_D4_CLI_Batch_Mode.md`.)_
+- [x] D4. Stubs: `sidx`. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
 - [ ] D5. Stubs: `mfra/tfra/mfro`
 - [ ] D6. Stubs: `senc/saio/saiz` placeholders
 
