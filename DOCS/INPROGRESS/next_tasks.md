@@ -2,7 +2,7 @@
 
 ## 🚧 Currently In Progress
 
-- [ ] **F3 — Developer Onboarding Guide & API Reference** *(In Progress; see `DOCS/INPROGRESS/F3_Developer_Onboarding_Guide.md` for active scope.)*
+- [x] **F3 — Developer Onboarding Guide & API Reference** *(Completed — onboarding guide published at `Docs/Guides/DeveloperOnboarding.md`; task archived in `DOCS/TASK_ARCHIVE/53_F3_Developer_Onboarding_Guide/`.)*
 
 ## 🧪 Streaming UI Coverage
 
