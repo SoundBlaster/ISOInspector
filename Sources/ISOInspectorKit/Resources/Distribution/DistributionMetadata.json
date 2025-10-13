@@ -1,0 +1,25 @@
+{
+  "marketingVersion": "0.1.0",
+  "buildNumber": "1",
+  "teamIdentifier": "DEVELOPMENT_TEAM",
+  "targets": [
+    {
+      "platform": "macOS",
+      "productName": "ISOInspector",
+      "bundleIdentifier": "com.isoinspector.app.mac",
+      "entitlementsPath": "Distribution/Entitlements/ISOInspectorApp.macOS.entitlements"
+    },
+    {
+      "platform": "iOS",
+      "productName": "ISOInspector",
+      "bundleIdentifier": "com.isoinspector.app.ios",
+      "entitlementsPath": "Distribution/Entitlements/ISOInspectorApp.iOS.entitlements"
+    },
+    {
+      "platform": "iPadOS",
+      "productName": "ISOInspector",
+      "bundleIdentifier": "com.isoinspector.app.ipados",
+      "entitlementsPath": "Distribution/Entitlements/ISOInspectorApp.iPadOS.entitlements"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 ## 🚧 Currently In Progress
 
 - [x] **F3 — Developer Onboarding Guide & API Reference** *(Completed — onboarding guide published at `Docs/Guides/DeveloperOnboarding.md`; task archived in `DOCS/TASK_ARCHIVE/53_F3_Developer_Onboarding_Guide/`.)*
-- [ ] **E4 — Prepare App Distribution Configuration (bundle ID, entitlements, notarization)** *(In Progress — task document `DOCS/INPROGRESS/54_E4_Prepare_App_Distribution_Configuration.md` initiated to capture objectives, scope, and implementation notes.)*
+- [x] **E4 — Prepare App Distribution Configuration (bundle ID, entitlements, notarization)** *(Completed — bundle identifiers, entitlements, Tuist project, and notarization tooling recorded in `DOCS/INPROGRESS/54_E4_Prepare_App_Distribution_Configuration.md`.)*
 
 ## 🧪 Streaming UI Coverage
 

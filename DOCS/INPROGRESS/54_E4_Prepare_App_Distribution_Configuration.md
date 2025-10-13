@@ -37,6 +37,33 @@ entitlements, and validating notarization tooling so macOS builds are ready for 
 
 - Documentation updates summarizing distribution settings and prerequisites for future automation tasks.
 
+## 🚀 Implementation Progress — 2025-10-13
+
+- Added a versioned `DistributionMetadata.json` resource that records bundle identifiers, marketing version `0.1.0`, build
+
+  number `1`, and the active development team placeholder used by automation scripts. The metadata is exercised by
+  `DistributionMetadataTests` to ensure SwiftPM targets can decode it during CI runs.【F:Sources/ISOInspectorKit/Resources/Distribution/DistributionMetadata.json†L1-L21】【F:Tests/ISOInspectorKitTests/DistributionMetadataTests.swift†L1-L30】
+
+- Introduced `DistributionMetadataLoader` in ISOInspectorKit so Swift-based tooling can load the canonical metadata from
+
+  `Bundle.module`, keeping distribution settings versioned alongside the package code.【F:Sources/ISOInspectorKit/Distribution/DistributionMetadata.swift†L1-L44】
+
+- Created platform-specific entitlement plists for macOS, iOS, and iPadOS builds under `Distribution/Entitlements`. The
+
+  macOS definition enables the App Sandbox plus security-scoped bookmarks for persisted file access and documents the
+  outstanding Apple Events review as a tracked
+puzzle.【F:Distribution/Entitlements/ISOInspectorApp.macOS.entitlements†L1-L13】【F:Distribution/Entitlements/ISOInspectorApp.iOS.entitlements†L1-L7】【F:Distribution/Entitlements/ISOInspectorApp.iPadOS.entitlements†L1-L7】
+
+- Authored `scripts/notarize_app.sh` to standardize notarization submissions. The script reads the team identifier from
+
+  the shared metadata resource, supports dry-run execution for Linux containers, and documents the `notarytool`
+  credential workflow.【F:scripts/notarize_app.sh†L1-L75】
+
+- Added a Tuist `Project.swift` that imports the shared distribution metadata, applies marketing/build versions, and
+
+  sets platform-specific bundle identifiers plus entitlements for generated Xcode
+projects.【F:Tuist/Project.swift†L1-L111】
+
 ## 🔧 Implementation Notes
 
 - Inventory existing Xcode project settings (targets, provisioning profiles) and align them with SwiftPM package
