@@ -245,7 +245,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 ### Phase I — Packaging & Release
 - [x] I1. SwiftPM product definitions (library + app).
-- [ ] I2. App entitlements for file access; sandbox.
+- [ ] I2. App entitlements for file access; sandbox. *(In Progress — distribution configuration planning captured in `DOCS/INPROGRESS/54_E4_Prepare_App_Distribution_Configuration.md` while E4 executes bundle ID, entitlement, and notarization setup.)*
 - [ ] I3. App theming (icon, light/dark).
 - [ ] I4. README with feature matrix, supported boxes, screenshots.
 - [ ] I5. v0.1.0 Release notes; distribution (TestFlight/DMG notarization).
