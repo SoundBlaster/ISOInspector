@@ -13,11 +13,13 @@ with the default selection when live events arrive.
   for default selection checks. This follow-up ensures the UI wiring from Task E2 has end-to-end coverage.
 
 - XCTest-based UI hooks for SwiftUI are available, allowing macOS UI automation to drive selection assertions during
+
   live
 
   parses.
 
 - Prior archive notes for the parser event pipeline highlight this automation gap as the remaining risk for ensuring
+
   streaming UI
 
   behavior stays stable.
@@ -25,13 +27,17 @@ with the default selection when live events arrive.
 ## ✅ Success Criteria
 
 - A macOS-only XCTest UI scenario exercises opening a representative media file and confirms the outline view selects
+
   and
 
   displays the first node without manual interaction when streaming events flow in.
 
 - The detail pane reflects the selected node’s metadata, demonstrating tree/detail synchronization during the automated
+
   run.
+
 - The test is integrated into the existing test suite and is conditionally compiled or skipped on platforms without
+
   SwiftUI UI
 
   automation support.
@@ -47,16 +53,19 @@ with the default selection when live events arrive.
   via the new XCTest interfaces.
 
 - Coordinate with accessibility identifier conventions (NestedA11yIDs) to reliably locate tree rows and detail views
+
   during
 
   automation.
 
 - Ensure the automation gracefully handles asynchronous event delivery by waiting on published snapshots or
+
   notifications before
 
   asserting selection state.
 
 - Capture any platform constraints (e.g., requiring macOS 13+ or skipping on Linux) in test annotations and
+
   documentation.
 
 ## 📦 Outcome
