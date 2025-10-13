@@ -294,3 +294,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/49_CLI_Global_Logging_and_Telemetry_Toggles/`.
 - **Highlights:** Captures delivery of the macOS SwiftUI automation suite that validates default selection during streaming updates alongside the CLI-wide logging and telemetry toggles, including dependency-injectable view wiring, command context plumbing, and supporting test coverage.
 - **Next steps carried forward:** Execute the new automation run on macOS hardware with XCTest UI support and collect macOS Combine benchmark metrics, as outlined in `DOCS/INPROGRESS/next_tasks.md` and the related backlog trackers.
+
+## 50_Summary_of_Work_2025-02-16
+- **Archived files:** `50_Combine_UI_Benchmark_macOS_Run.md`, `51_ParseTreeStreamingSelectionAutomation_macOS_Run.md`, `Summary_of_Work.md`, `task_summary.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/`.
+- **Highlights:** Preserves the February 16, 2025 checkpoint summarizing macOS-bound follow-ups for the Combine UI benchmark and SwiftUI automation runs, along with the latest task summary and blocked status documentation gathered while hardware access was unavailable in the Linux container.
+- **Next steps carried forward:** Secure macOS hardware or CI capacity to execute the benchmark and automation suites, archive resulting metrics or `xcresult` bundles, and update backlog trackers — see the refreshed `DOCS/INPROGRESS/next_tasks.md` checklist for the active blockers.
