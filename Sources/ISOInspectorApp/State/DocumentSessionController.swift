@@ -136,6 +136,7 @@ final class DocumentSessionController: ObservableObject {
         }
     }
 
+    // swiftlint:disable:next function_parameter_count
     private func startSession(
         url: URL,
         bookmark: Data?,

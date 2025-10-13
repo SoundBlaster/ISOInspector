@@ -306,3 +306,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/`.
 - **Highlights:** Captures delivery of the `isoinspect batch` workflow, including aggregated status tables, CSV summary export, and expanded regression coverage that verifies CI-friendly exit codes for multi-file validation runs.
 - **Next steps carried forward:** Continue tracking macOS-only automation and benchmark follow-ups via `DOCS/INPROGRESS/next_tasks.md` and the related backlog entries until hardware access becomes available.
+
+## 52_E3_Session_Persistence
+- **Archived files:** `E3_Session_Persistence.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/`.
+- **Highlights:** Chronicles delivering workspace session persistence across CoreData and JSON fallback stores, wiring restoration through the document session controller, and extending regression coverage for migrations, snapshot storage, and controller recovery flows.
+- **Next steps carried forward:** Surface session persistence diagnostics and reconcile CoreData bookmark diffs when logging and reconciliation rules land, while macOS automation and benchmark runs remain tracked in `DOCS/INPROGRESS/next_tasks.md`.

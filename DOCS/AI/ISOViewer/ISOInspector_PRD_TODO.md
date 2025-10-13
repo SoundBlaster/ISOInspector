@@ -227,7 +227,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] G6. Export actions (JSON subtree/full).
 - [ ] G7. State management: `DocumentVM` holds root; `NodeVM` for selection; `HexVM` for slice & highlight.
 - [ ] G8. Accessibility & keyboard shortcuts (macOS/iPadOS).
-- [ ] Task E3. Implement session persistence so the app restores open files, annotations, and window layouts on relaunch. **(In Progress — see `DOCS/INPROGRESS/E3_Session_Persistence.md` for active scope.)**
+- [x] Task E3. Implement session persistence so the app restores open files, annotations, and window layouts on relaunch. **(Completed — see `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/`.)**
 
 ### Phase H — Fixtures & Tests
 - [x] H1. Fixture corpus: MP4 (non-frag), MOV, fMP4 segment, DASH init+media, huge `mdat`, malformed cases.
