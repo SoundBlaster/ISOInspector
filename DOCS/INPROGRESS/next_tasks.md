@@ -11,4 +11,4 @@
 
 ## 🔭 CLI Streaming Follow-Ups
 
-- [ ] Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI. **(In Progress — see `DOCS/INPROGRESS/49_CLI_Global_Logging_and_Telemetry_Toggles.md`.)**
+- [x] Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI. Completed in `DOCS/INPROGRESS/49_CLI_Global_Logging_and_Telemetry_Toggles.md`.

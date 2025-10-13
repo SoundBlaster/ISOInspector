@@ -54,6 +54,127 @@ final class ISOInspectorCommandTests: XCTestCase {
         }
     }
 
+    func testBootstrapAppliesQuietVerbosityAndSuppressesStandardOutput() async throws {
+        let printed = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            parsePipeline: .live(),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { _ in }
+        )
+
+        await MainActor.run {
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
+        }
+
+        let options = try ISOInspectorCommand.GlobalOptions.parse(["--quiet"])
+
+        await ISOInspectorCommand.bootstrap(with: options)
+
+        let context = await MainActor.run { ISOInspectorCommandContextStore.current }
+        context.environment.print("Hidden")
+
+        XCTAssertTrue(printed.value.isEmpty)
+        XCTAssertEqual(context.verbosity, .quiet)
+        XCTAssertTrue(context.environment.logVerbosity.isQuiet)
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
+        }
+    }
+
+    func testBootstrapAppliesVerboseVerbosityAndPrefixesOutput() async throws {
+        let printed = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            parsePipeline: .live(),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { _ in }
+        )
+
+        await MainActor.run {
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
+        }
+
+        let options = try ISOInspectorCommand.GlobalOptions.parse(["--verbose"])
+
+        await ISOInspectorCommand.bootstrap(with: options)
+
+        let context = await MainActor.run { ISOInspectorCommandContextStore.current }
+        context.environment.print("Loud")
+
+        XCTAssertEqual(printed.value, ["[verbose] Loud"])
+        XCTAssertEqual(context.verbosity, .verbose)
+        XCTAssertTrue(context.environment.logVerbosity.isVerbose)
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
+        }
+    }
+
+    func testBootstrapDisablesTelemetryWhenRequested() async throws {
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in }
+        )
+
+        await MainActor.run {
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
+        }
+
+        let options = try ISOInspectorCommand.GlobalOptions.parse(["--disable-telemetry"])
+
+        await ISOInspectorCommand.bootstrap(with: options)
+
+        let context = await MainActor.run { ISOInspectorCommandContextStore.current }
+        XCTAssertFalse(context.environment.telemetryEnabled)
+        XCTAssertEqual(context.telemetryMode, .disabled)
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
+        }
+    }
+
+    func testBootstrapReEnablesTelemetryWhenEnvironmentDefaultsDisabled() async throws {
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            telemetryEnabled: false
+        )
+
+        await MainActor.run {
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
+        }
+
+        let options = try ISOInspectorCommand.GlobalOptions.parse(["--enable-telemetry"])
+
+        await ISOInspectorCommand.bootstrap(with: options)
+
+        let context = await MainActor.run { ISOInspectorCommandContextStore.current }
+        XCTAssertTrue(context.environment.telemetryEnabled)
+        XCTAssertEqual(context.telemetryMode, .enabled)
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
+        }
+    }
+
     func testInspectCommandStreamsEventsAndRespectsResearchLogOption() async throws {
         final class Recorder: ResearchLogRecording, @unchecked Sendable {
             var entries: [ResearchLogEntry] = []
@@ -182,6 +303,14 @@ final class ISOInspectorCommandTests: XCTestCase {
         await MainActor.run {
             ISOInspectorCommandContextStore.reset()
         }
+    }
+
+    func testGlobalOptionsRejectMutuallyExclusiveVerbosityFlags() {
+        XCTAssertThrowsError(try ISOInspectorCommand.GlobalOptions.parse(["--quiet", "--verbose"]))
+    }
+
+    func testGlobalOptionsRejectMutuallyExclusiveTelemetryFlags() {
+        XCTAssertThrowsError(try ISOInspectorCommand.GlobalOptions.parse(["--enable-telemetry", "--disable-telemetry"]))
     }
 
     func testExportJSONCommandStreamsEventsAndWritesDefaultOutput() async throws {

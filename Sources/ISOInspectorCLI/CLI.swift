@@ -11,6 +11,8 @@ public struct ISOInspectorCLIEnvironment: Sendable {
     public var printError: @Sendable (String) -> Void
     public var makeResearchLogWriter: @Sendable (_ location: URL) throws -> any ResearchLogRecording
     public var defaultResearchLogURL: @Sendable () -> URL
+    public var logVerbosity: LogVerbosity
+    public var telemetryEnabled: Bool
 
     public init(
         refreshCatalog: @escaping @Sendable (_ source: URL, _ output: URL) throws -> Void,
@@ -29,7 +31,9 @@ public struct ISOInspectorCLIEnvironment: Sendable {
         },
         defaultResearchLogURL: @escaping @Sendable () -> URL = {
             ResearchLogWriter.defaultLogURL()
-        }
+        },
+        logVerbosity: LogVerbosity = .standard,
+        telemetryEnabled: Bool = true
     ) {
         self.refreshCatalog = refreshCatalog
         self.makeReader = makeReader
@@ -39,12 +43,30 @@ public struct ISOInspectorCLIEnvironment: Sendable {
         self.printError = printError
         self.makeResearchLogWriter = makeResearchLogWriter
         self.defaultResearchLogURL = defaultResearchLogURL
+        self.logVerbosity = logVerbosity
+        self.telemetryEnabled = telemetryEnabled
     }
 
     public static let live = ISOInspectorCLIEnvironment { source, output in
         let provider = HTTPMP4RARegistryDataProvider(sourceURL: source)
         let refresher = MP4RACatalogRefresher(dataProvider: provider)
         _ = try refresher.writeCatalog(to: output)
+    }
+
+    public enum LogVerbosity: Sendable {
+        case quiet
+        case standard
+        case verbose
+
+        public var isQuiet: Bool {
+            if case .quiet = self { return true }
+            return false
+        }
+
+        public var isVerbose: Bool {
+            if case .verbose = self { return true }
+            return false
+        }
     }
 }
 
