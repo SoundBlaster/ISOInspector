@@ -237,6 +237,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
   `ParseTreeStreamingSelectionAutomationTests`, which hosts the app view hierarchy on macOS and asserts outline/detail state
   during a streaming parse. See `DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md` for the execution
   note.
+  - Hardware validation run **In Progress** — tracked in `DOCS/INPROGRESS/51_ParseTreeStreamingSelectionAutomation_macOS_Run.md`.
 
 ### Phase I — Packaging & Release
 - [x] I1. SwiftPM product definitions (library + app).
