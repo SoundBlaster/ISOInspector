@@ -249,6 +249,8 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
 
         let rootID = viewModel.rows[0].id
         let childID = viewModel.rows[1].id
+        viewModel.toggleExpansion(for: childID)
+        XCTAssertGreaterThanOrEqual(viewModel.rows.count, 3)
         let grandchildID = viewModel.rows[2].id
 
         XCTAssertEqual(viewModel.rowID(after: rootID, direction: .child), childID)
@@ -265,7 +267,7 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         issues: [ValidationIssue] = [],
         children: [ParseTreeNode] = []
     ) -> ParseTreeNode {
-        let start = identifier * 100
+        let start = identifier
         let totalSize: Int64 = 32
         let headerSize: Int64 = 8
         let header = BoxHeader(

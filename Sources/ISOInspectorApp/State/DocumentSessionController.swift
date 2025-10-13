@@ -46,8 +46,12 @@ final class DocumentSessionController: ObservableObject {
             do {
                 let reader = try self.readerFactory(standardized)
                 let pipeline = self.pipelineFactory()
-                Task { @MainActor in
+                if Thread.isMainThread {
                     self.startSession(url: standardized, bookmark: bookmark, reader: reader, pipeline: pipeline)
+                } else {
+                    Task { @MainActor in
+                        self.startSession(url: standardized, bookmark: bookmark, reader: reader, pipeline: pipeline)
+                    }
                 }
             } catch {
                 // @todo PDD:30m Surface document load failures in the app shell UI once design for error banners lands.

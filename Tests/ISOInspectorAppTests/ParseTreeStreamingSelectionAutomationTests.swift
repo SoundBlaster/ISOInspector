@@ -30,7 +30,7 @@ final class ParseTreeStreamingSelectionAutomationTests: XCTestCase {
             ParseEvent(kind: .willStartBox(header: header, depth: 0), offset: 0, metadata: descriptor),
             ParseEvent(kind: .didFinishBox(header: header, depth: 0), offset: 24, metadata: descriptor)
         ]
-        let pipeline = ParsePipeline { _, _ in
+        let pipeline = ParsePipeline(buildStream: { _, _ in
             AsyncThrowingStream { continuation in
                 let task = Task {
                     for event in events {
@@ -43,7 +43,7 @@ final class ParseTreeStreamingSelectionAutomationTests: XCTestCase {
                     task.cancel()
                 }
             }
-        }
+        })
 
         let store = ParseTreeStore()
         let annotations = AnnotationBookmarkSession(store: nil)
@@ -82,9 +82,10 @@ final class ParseTreeStreamingSelectionAutomationTests: XCTestCase {
 
         let detailExpectation = expectation(description: "Detail updates for default selection")
         detailViewModel.$detail
-            .dropFirst()
-            .sink { detail in
-                if let detail, detail.header == header {
+            .compactMap { $0?.header }
+            .removeDuplicates()
+            .sink { emittedHeader in
+                if emittedHeader == header {
                     detailExpectation.fulfill()
                 }
             }

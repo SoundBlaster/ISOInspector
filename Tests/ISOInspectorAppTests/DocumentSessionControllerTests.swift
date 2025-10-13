@@ -17,8 +17,20 @@ final class DocumentSessionControllerTests: XCTestCase {
         let store = DocumentRecentsStoreStub(initialRecents: [])
         let controller = makeController(store: store)
         let url = URL(fileURLWithPath: "/tmp/example.mp4")
+        var cancellables: Set<AnyCancellable> = []
+        let finished = expectation(description: "Parsing finished")
+
+        controller.parseTreeStore.$state
+            .dropFirst()
+            .sink { state in
+                if state == .finished {
+                    finished.fulfill()
+                }
+            }
+            .store(in: &cancellables)
 
         controller.openDocument(at: url)
+        wait(for: [finished], timeout: 1.0)
 
         XCTAssertEqual(controller.recents.first?.url.standardizedFileURL, url.standardizedFileURL)
         XCTAssertEqual(store.savedRecents?.first?.url.standardizedFileURL, url.standardizedFileURL)
@@ -32,7 +44,7 @@ final class DocumentSessionControllerTests: XCTestCase {
             parseTreeStore: ParseTreeStore(bridge: ParsePipelineEventBridge()),
             annotations: AnnotationBookmarkSession(store: nil),
             recentsStore: store,
-            pipelineFactory: { .init { _, _ in .finishedStream } },
+            pipelineFactory: { ParsePipeline(buildStream: { _, _ in .finishedStream }) },
             readerFactory: { _ in StubRandomAccessReader() },
             workQueue: ImmediateWorkQueue()
         )

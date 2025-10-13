@@ -18,10 +18,12 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
         XCTAssertEqual(annotation.createdAt, referenceDate)
         XCTAssertEqual(annotation.updatedAt, referenceDate)
 
-        XCTAssertEqual(try store.annotations(for: file), [annotation])
+        let storedAnnotations: [AnnotationRecord] = try store.annotations(for: file)
+        XCTAssertEqual(storedAnnotations, [annotation])
 
         let reloaded = try makeStore(directory: directory)
-        XCTAssertEqual(try reloaded.annotations(for: file), [annotation])
+        let reloadedAnnotations: [AnnotationRecord] = try reloaded.annotations(for: file)
+        XCTAssertEqual(reloadedAnnotations, [annotation])
     }
 
     func testUpdateAnnotationChangesNoteAndTimestamp() throws {
@@ -39,7 +41,8 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
         XCTAssertEqual(updated.createdAt, referenceDate)
         XCTAssertEqual(updated.updatedAt, referenceDate + 60)
         XCTAssertEqual(updated.note, "Revised note")
-        XCTAssertEqual(try store.annotations(for: file), [updated])
+        let updatedAnnotations: [AnnotationRecord] = try store.annotations(for: file)
+        XCTAssertEqual(updatedAnnotations, [updated])
     }
 
     func testDeleteAnnotationRemovesRecord() throws {
@@ -88,8 +91,10 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
 
         try store.setBookmark(for: fileA, nodeID: 10, isBookmarked: true)
 
-        XCTAssertEqual(try store.annotations(for: fileA), [annotationA])
-        XCTAssertEqual(try store.annotations(for: fileB), [annotationB])
+        let annotationsA: [AnnotationRecord] = try store.annotations(for: fileA)
+        let annotationsB: [AnnotationRecord] = try store.annotations(for: fileB)
+        XCTAssertEqual(annotationsA, [annotationA])
+        XCTAssertEqual(annotationsB, [annotationB])
         XCTAssertEqual(try store.bookmarks(for: fileA).map(\.nodeID), [10])
         XCTAssertTrue(try store.bookmarks(for: fileB).isEmpty)
     }
@@ -102,7 +107,8 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
         let annotation = try store.createAnnotation(for: file, nodeID: 99, note: "Ensure schema loads")
 
         XCTAssertEqual(annotation.nodeID, 99)
-        XCTAssertEqual(try store.annotations(for: file), [annotation])
+        let annotations: [AnnotationRecord] = try store.annotations(for: file)
+        XCTAssertEqual(annotations, [annotation])
     }
 
     // MARK: - Helpers
@@ -113,6 +119,14 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
         now: @escaping @Sendable () -> Date
     ) throws -> CoreDataAnnotationBookmarkStore {
         try CoreDataAnnotationBookmarkStore(directory: directory, modelVersion: modelVersion, makeDate: now)
+    }
+
+    private func makeStore(
+        directory: URL,
+        modelVersion: CoreDataAnnotationBookmarkStore.ModelVersion
+    ) throws -> CoreDataAnnotationBookmarkStore {
+        let date = referenceDate
+        return try makeStore(directory: directory, modelVersion: modelVersion) { date }
     }
 
     private func makeStore(directory: URL) throws -> CoreDataAnnotationBookmarkStore {

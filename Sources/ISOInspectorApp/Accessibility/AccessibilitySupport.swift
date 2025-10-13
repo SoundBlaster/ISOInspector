@@ -99,11 +99,11 @@ extension ValidationIssue.Severity {
     var accessibilityDescription: String {
         switch self {
         case .info:
-            return "Informational issue"
+            return "informational issue"
         case .warning:
-            return "Warning issue"
+            return "warning issue"
         case .error:
-            return "Error issue"
+            return "error issue"
         }
     }
 }
