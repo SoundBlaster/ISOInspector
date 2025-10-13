@@ -287,4 +287,10 @@
 - **Archived files:** `48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/`.
 - **Highlights:** Documents the macOS UI automation harness that hosts `ParseTreeExplorerView`, streams parse events, and asserts outline/detail panes stay synchronized around the default selection during live updates.
-- **Next steps carried forward:** Run the new automation suite on macOS hardware with XCTest UI support, continue the macOS Combine benchmark measurements, and surface CLI logging plus telemetry toggles via the refreshed `DOCS/INPROGRESS/next_tasks.md` checklist.
+- **Next steps carried forward:** Run the new automation suite on macOS hardware with XCTest UI support and continue the macOS Combine benchmark measurements as tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 49_CLI_Global_Logging_and_Telemetry_Toggles
+- **Archived files:** `48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md`, `49_CLI_Global_Logging_and_Telemetry_Toggles.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/49_CLI_Global_Logging_and_Telemetry_Toggles/`.
+- **Highlights:** Captures delivery of the macOS SwiftUI automation suite that validates default selection during streaming updates alongside the CLI-wide logging and telemetry toggles, including dependency-injectable view wiring, command context plumbing, and supporting test coverage.
+- **Next steps carried forward:** Execute the new automation run on macOS hardware with XCTest UI support and collect macOS Combine benchmark metrics, as outlined in `DOCS/INPROGRESS/next_tasks.md` and the related backlog trackers.
