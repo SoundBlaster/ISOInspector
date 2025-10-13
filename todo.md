@@ -15,7 +15,7 @@
 - [x] #8 Expand fixture catalog with fragmented, DASH, and malformed samples plus expected validation notes.
 - [x] #9 Add CLI export commands for JSON and binary captures using the new ISOInspectorKit exporters.
 - [x] #10 Replace JSON persistence with the selected CoreData schema once R6 finalizes annotation storage requirements.
-- [ ] #11 Implement session persistence (Task E3) following the archived CoreData migration plan. **(In Progress — active notes in `DOCS/INPROGRESS/E3_Session_Persistence.md`.)**
+- [x] #11 Implement session persistence (Task E3) following the archived CoreData migration plan. **(Completed — see `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/`.)**
 - [x] #12 Add DocC publishing to CI once storage and hosting requirements are validated.
 - [x] #13 Apply NestedA11yIDs identifiers to research log preview flows when promoted to production UI screens.
 - [x] #14 Add NestedA11yIDs coverage for annotation note edit/save/delete controls once QA automation scenarios are defined.
