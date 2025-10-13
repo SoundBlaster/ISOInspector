@@ -19,7 +19,7 @@
 - [x] #12 Add DocC publishing to CI once storage and hosting requirements are validated.
 - [x] #13 Apply NestedA11yIDs identifiers to research log preview flows when promoted to production UI screens.
 - [x] #14 Add NestedA11yIDs coverage for annotation note edit/save/delete controls once QA automation scenarios are defined.
-- [ ] PDD:45m Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI.
+- [ ] PDD:45m Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI. **(In Progress — see `DOCS/INPROGRESS/49_CLI_Global_Logging_and_Telemetry_Toggles.md`.)**
 - [x] PDD:1h Execute streaming inspection by consuming ParsePipeline events when Task D2 builds the streaming command.
 - [x] PDD:1h Produce validation reports with streaming pipeline once Task D2 defines the CLI output contract.
 - [x] PDD:45m Route export operations to streaming capture utilities as they migrate from ISOInspectorCLIRunner.

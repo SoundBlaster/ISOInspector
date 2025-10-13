@@ -21,4 +21,5 @@
 ## Follow-Ups
 
 - Run the new automation on a macOS host with XCTest UI support to validate the end-to-end flow against real SwiftUI
+
   runtime.
