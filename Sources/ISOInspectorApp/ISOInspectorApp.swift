@@ -22,14 +22,16 @@ struct ISOInspectorApp: App {
     private static func makeDocumentSessionController() -> DocumentSessionController {
         let recentsStore = DocumentRecentsStore(directory: recentsDirectory())
         #if canImport(CoreData)
-        let annotations = makeAnnotationSession()
+        let (annotations, sessionStore) = makeAnnotationSession()
         #else
         let annotations = AnnotationBookmarkSession(store: nil)
+        let sessionStore: WorkspaceSessionStoring? = FileBackedWorkspaceSessionStore(directory: sessionStoreDirectory())
         #endif
         return DocumentSessionController(
             parseTreeStore: ParseTreeStore(),
             annotations: annotations,
-            recentsStore: recentsStore
+            recentsStore: recentsStore,
+            sessionStore: sessionStore
         )
     }
 
@@ -43,10 +45,10 @@ struct ISOInspectorApp: App {
 
     #if canImport(CoreData)
     @MainActor
-    private static func makeAnnotationSession() -> AnnotationBookmarkSession {
+    private static func makeAnnotationSession() -> (AnnotationBookmarkSession, CoreDataAnnotationBookmarkStore?) {
         let directory = annotationStoreDirectory()
         let store = try? CoreDataAnnotationBookmarkStore(directory: directory)
-        return AnnotationBookmarkSession(store: store)
+        return (AnnotationBookmarkSession(store: store), store)
     }
 
     private static func annotationStoreDirectory() -> URL {
@@ -57,6 +59,14 @@ struct ISOInspectorApp: App {
         return directory
     }
     #endif
+
+    private static func sessionStoreDirectory() -> URL {
+        let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+            ?? FileManager.default.temporaryDirectory
+        let directory = base.appendingPathComponent("WorkspaceSession", isDirectory: true)
+        try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        return directory
+    }
 }
 #else
 import Foundation

@@ -18,11 +18,19 @@ final class DocumentSessionController: ObservableObject {
     private let readerFactory: (URL) throws -> RandomAccessReader
     private let workQueue: DocumentSessionWorkQueue
     private let recentLimit: Int
+    private let sessionStore: WorkspaceSessionStoring?
+
+    private var currentSessionID: UUID?
+    private var currentSessionCreatedAt: Date?
+    private var sessionFileIDs: [String: UUID] = [:]
+    private var pendingSessionSnapshot: WorkspaceSessionSnapshot?
+    private var annotationsSelectionCancellable: AnyCancellable?
 
     init(
         parseTreeStore: ParseTreeStore = ParseTreeStore(),
         annotations: AnnotationBookmarkSession = AnnotationBookmarkSession(store: nil),
         recentsStore: DocumentRecentsStoring,
+        sessionStore: WorkspaceSessionStoring? = nil,
         pipelineFactory: @escaping () -> ParsePipeline = { .live() },
         readerFactory: @escaping (URL) throws -> RandomAccessReader = { try ChunkedFileReader(fileURL: $0) },
         workQueue: DocumentSessionWorkQueue = DocumentSessionBackgroundQueue(),
@@ -31,32 +39,38 @@ final class DocumentSessionController: ObservableObject {
         self.parseTreeStore = parseTreeStore
         self.annotations = annotations
         self.recentsStore = recentsStore
+        self.sessionStore = sessionStore
         self.pipelineFactory = pipelineFactory
         self.readerFactory = readerFactory
         self.workQueue = workQueue
         self.recentLimit = recentLimit
         self.recents = (try? recentsStore.load()) ?? []
+
+        annotationsSelectionCancellable = annotations.$currentSelectedNodeID
+            .dropFirst()
+            .sink { [weak self] _ in
+                guard let self, !self.recents.isEmpty else { return }
+                self.persistSession()
+            }
+
+        if let sessionStore, let snapshot = try? sessionStore.loadCurrentSession() {
+            currentSessionID = snapshot.id
+            currentSessionCreatedAt = snapshot.createdAt
+            applySessionSnapshot(snapshot)
+            pendingSessionSnapshot = snapshot
+            restoreSessionIfNeeded()
+        }
     }
 
     func openDocument(at url: URL) {
-        let standardized = url.standardizedFileURL
-        let bookmark = makeBookmarkData(for: standardized)
-        workQueue.execute { [weak self] in
-            guard let self else { return }
-            do {
-                let reader = try self.readerFactory(standardized)
-                let pipeline = self.pipelineFactory()
-                if Thread.isMainThread {
-                    self.startSession(url: standardized, bookmark: bookmark, reader: reader, pipeline: pipeline)
-                } else {
-                    Task { @MainActor in
-                        self.startSession(url: standardized, bookmark: bookmark, reader: reader, pipeline: pipeline)
-                    }
-                }
-            } catch {
-                // @todo PDD:30m Surface document load failures in the app shell UI once design for error banners lands.
-            }
-        }
+        var recent = DocumentRecent(
+            url: url.standardizedFileURL,
+            bookmarkData: nil,
+            displayName: url.lastPathComponent,
+            lastOpened: Date()
+        )
+        recent.bookmarkData = makeBookmarkData(for: recent.url)
+        openDocument(recent: recent)
     }
 
     func openRecent(_ recent: DocumentRecent) {
@@ -64,7 +78,9 @@ final class DocumentSessionController: ObservableObject {
             removeRecent(with: recent.url)
             return
         }
-        openDocument(at: resolvedURL)
+        var normalized = recent
+        normalized.url = resolvedURL.standardizedFileURL
+        openDocument(recent: normalized)
     }
 
     func removeRecent(at offsets: IndexSet) {
@@ -81,22 +97,66 @@ final class DocumentSessionController: ObservableObject {
         [.mpeg4Movie, .quickTimeMovie]
     }
 
+    private func openDocument(recent: DocumentRecent, restoredSelection: Int64? = nil) {
+        workQueue.execute { [weak self] in
+            guard let self else { return }
+            do {
+                let standardized = recent.url.standardizedFileURL
+                let bookmark = recent.bookmarkData ?? self.makeBookmarkData(for: standardized)
+                let reader = try self.readerFactory(standardized)
+                let pipeline = self.pipelineFactory()
+                var preparedRecent = recent
+                preparedRecent.url = standardized
+                preparedRecent.bookmarkData = preparedRecent.bookmarkData ?? bookmark
+                preparedRecent.displayName = preparedRecent.displayName.isEmpty ? standardized.lastPathComponent : preparedRecent.displayName
+                if Thread.isMainThread {
+                    self.startSession(
+                        url: standardized,
+                        bookmark: bookmark,
+                        reader: reader,
+                        pipeline: pipeline,
+                        recent: preparedRecent,
+                        restoredSelection: restoredSelection
+                    )
+                } else {
+                    Task { @MainActor in
+                        self.startSession(
+                            url: standardized,
+                            bookmark: bookmark,
+                            reader: reader,
+                            pipeline: pipeline,
+                            recent: preparedRecent,
+                            restoredSelection: restoredSelection
+                        )
+                    }
+                }
+            } catch {
+                // @todo PDD:30m Surface document load failures in the app shell UI once design for error banners lands.
+            }
+        }
+    }
+
     private func startSession(
         url: URL,
         bookmark: Data?,
         reader: RandomAccessReader,
-        pipeline: ParsePipeline
+        pipeline: ParsePipeline,
+        recent: DocumentRecent,
+        restoredSelection: Int64?
     ) {
         parseTreeStore.start(pipeline: pipeline, reader: reader, context: .init(source: url))
         annotations.setFileURL(url)
-        let recent = DocumentRecent(
-            url: url,
-            bookmarkData: bookmark,
-            displayName: url.lastPathComponent,
-            lastOpened: Date()
-        )
-        currentDocument = recent
-        insertRecent(recent)
+        if let restoredSelection {
+            annotations.setSelectedNode(restoredSelection)
+        } else {
+            annotations.setSelectedNode(nil)
+        }
+        var updatedRecent = recent
+        updatedRecent.bookmarkData = bookmark ?? recent.bookmarkData
+        updatedRecent.lastOpened = Date()
+        updatedRecent.displayName = updatedRecent.displayName.isEmpty ? url.lastPathComponent : updatedRecent.displayName
+        currentDocument = updatedRecent
+        insertRecent(updatedRecent)
     }
 
     private func insertRecent(_ recent: DocumentRecent) {
@@ -106,11 +166,13 @@ final class DocumentSessionController: ObservableObject {
             recents = Array(recents.prefix(recentLimit))
         }
         persistRecents()
+        persistSession()
     }
 
     private func removeRecent(with url: URL) {
         recents.removeAll { $0.url.standardizedFileURL == url.standardizedFileURL }
         persistRecents()
+        persistSession()
     }
 
     private func persistRecents() {
@@ -150,6 +212,117 @@ final class DocumentSessionController: ObservableObject {
         }
         recents[index].bookmarkData = data
         persistRecents()
+        persistSession()
+    }
+
+    private func applySessionSnapshot(_ snapshot: WorkspaceSessionSnapshot) {
+        let sortedFiles = snapshot.files.sorted { lhs, rhs in
+            if lhs.orderIndex == rhs.orderIndex {
+                return lhs.id.uuidString < rhs.id.uuidString
+            }
+            return lhs.orderIndex < rhs.orderIndex
+        }
+        if !sortedFiles.isEmpty {
+            recents = sortedFiles.map(\.recent)
+            let focusURL = snapshot.focusedFileURL?.standardizedFileURL
+            if let focusURL,
+               let focused = sortedFiles.first(where: { $0.recent.url.standardizedFileURL == focusURL }) {
+                currentDocument = focused.recent
+            } else {
+                currentDocument = sortedFiles.first?.recent
+            }
+        }
+        sessionFileIDs = Dictionary(uniqueKeysWithValues: sortedFiles.map { file in
+            (canonicalIdentifier(for: file.recent.url), file.id)
+        })
+    }
+
+    private func restoreSessionIfNeeded() {
+        guard let snapshot = pendingSessionSnapshot else { return }
+        pendingSessionSnapshot = nil
+        let sortedFiles = snapshot.files.sorted { lhs, rhs in
+            if lhs.orderIndex == rhs.orderIndex {
+                return lhs.id.uuidString < rhs.id.uuidString
+            }
+            return lhs.orderIndex < rhs.orderIndex
+        }
+        guard !sortedFiles.isEmpty else { return }
+        let focusURL = snapshot.focusedFileURL?.standardizedFileURL ?? sortedFiles.first?.recent.url.standardizedFileURL
+        guard let focusURL,
+              let focused = sortedFiles.first(where: { $0.recent.url.standardizedFileURL == focusURL }) else {
+            return
+        }
+        openDocument(recent: focused.recent, restoredSelection: focused.lastSelectionNodeID)
+    }
+
+    private func persistSession() {
+        guard let sessionStore else { return }
+        if recents.isEmpty {
+            do {
+                try sessionStore.clearCurrentSession()
+                currentSessionID = nil
+                currentSessionCreatedAt = nil
+                sessionFileIDs.removeAll()
+            } catch {
+                // @todo PDD:30m Surface session persistence failures once diagnostics pipeline is available.
+            }
+            return
+        }
+
+        let now = Date()
+        if currentSessionCreatedAt == nil {
+            currentSessionCreatedAt = now
+        }
+        let sessionID = currentSessionID ?? UUID()
+        currentSessionID = sessionID
+
+        var snapshots: [WorkspaceSessionFileSnapshot] = []
+        snapshots.reserveCapacity(recents.count)
+
+        for (index, recent) in recents.enumerated() {
+            let canonical = canonicalIdentifier(for: recent.url)
+            let fileID = sessionFileIDs[canonical] ?? UUID()
+            sessionFileIDs[canonical] = fileID
+            let selection: Int64?
+            if let currentURL = annotations.currentFileURL,
+               currentURL.standardizedFileURL == recent.url.standardizedFileURL {
+                selection = annotations.currentSelectedNodeID
+            } else {
+                selection = nil
+            }
+            snapshots.append(
+                WorkspaceSessionFileSnapshot(
+                    id: fileID,
+                    recent: recent,
+                    orderIndex: index,
+                    lastSelectionNodeID: selection,
+                    isPinned: false,
+                    scrollOffset: nil,
+                    bookmarkDiffs: []
+                )
+            )
+        }
+
+        let snapshot = WorkspaceSessionSnapshot(
+            id: sessionID,
+            createdAt: currentSessionCreatedAt ?? now,
+            updatedAt: now,
+            appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+            files: snapshots,
+            focusedFileURL: currentDocument?.url,
+            lastSceneIdentifier: nil,
+            windowLayouts: []
+        )
+
+        do {
+            try sessionStore.saveCurrentSession(snapshot)
+        } catch {
+            // @todo PDD:30m Surface session persistence failures once diagnostics pipeline is available.
+        }
+    }
+
+    private func canonicalIdentifier(for url: URL) -> String {
+        url.standardizedFileURL.resolvingSymlinksInPath().absoluteString
     }
 }
 

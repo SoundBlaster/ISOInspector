@@ -7,8 +7,9 @@ import Foundation
 public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
     public enum ModelVersion: CaseIterable, Sendable {
         case v1
+        case v2
 
-        public static var latest: Self { .v1 }
+        public static var latest: Self { .v2 }
     }
 
     private static let containerName = "AnnotationBookmarks"
@@ -158,6 +159,66 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
         }
     }
 
+    // MARK: - Session Persistence
+
+    public func loadCurrentSession() throws -> WorkspaceSessionSnapshot? {
+        try perform { context in
+            guard let session = try self.fetchCurrentSession(in: context) else {
+                return nil
+            }
+            return session.makeSnapshot()
+        }
+    }
+
+    public func saveCurrentSession(_ snapshot: WorkspaceSessionSnapshot) throws {
+        try perform { context in
+            let workspace = try self.fetchOrCreateWorkspace(in: context)
+            if let appVersion = snapshot.appVersion {
+                workspace.appVersion = appVersion
+            }
+            workspace.lastOpened = snapshot.updatedAt
+            workspace.schemaVersion = 2
+
+            let session = try self.fetchOrCreateSession(id: snapshot.id, in: context, workspace: workspace)
+            session.createdAt = snapshot.createdAt
+            session.updatedAt = snapshot.updatedAt
+            session.lastSceneIdentifier = snapshot.lastSceneIdentifier
+            session.isCurrent = true
+            session.focusedFileURL = snapshot.focusedFileURL?.absoluteString
+
+            try self.markOtherSessionsInactive(excluding: session, in: context)
+            try self.replaceSessionFiles(for: session, with: snapshot.files, in: context)
+            try self.replaceWindowLayouts(for: session, with: snapshot.windowLayouts, in: context)
+
+            try context.saveIfNeeded()
+        }
+    }
+
+    public func clearCurrentSession() throws {
+        try perform { context in
+            let request = NSFetchRequest<SessionEntity>(entityName: "Session")
+            request.predicate = NSPredicate(format: "isCurrent == YES")
+            let sessions = try context.fetch(request)
+            guard !sessions.isEmpty else { return }
+            for session in sessions {
+                session.isCurrent = false
+                session.focusedFileURL = nil
+                session.lastSceneIdentifier = nil
+                if let files = session.files as? Set<SessionFileEntity> {
+                    for file in files {
+                        context.delete(file)
+                    }
+                }
+                if let layouts = session.layouts as? Set<WindowLayoutEntity> {
+                    for layout in layouts {
+                        context.delete(layout)
+                    }
+                }
+            }
+            try context.saveIfNeeded()
+        }
+    }
+
     // MARK: - Private helpers
 
     private func perform<T>(_ block: @escaping (NSManagedObjectContext) throws -> T) throws -> T {
@@ -234,11 +295,154 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
     private func canonicalIdentifier(for file: URL) -> String {
         file.standardizedFileURL.resolvingSymlinksInPath().absoluteString
     }
+
+    private func fetchCurrentSession(in context: NSManagedObjectContext) throws -> SessionEntity? {
+        let request = NSFetchRequest<SessionEntity>(entityName: "Session")
+        request.fetchLimit = 1
+        request.predicate = NSPredicate(format: "isCurrent == YES")
+        request.relationshipKeyPathsForPrefetching = [
+            "workspace",
+            "files",
+            "files.file",
+            "files.bookmarkDiffs",
+            "layouts"
+        ]
+        return try context.fetch(request).first
+    }
+
+    private func fetchOrCreateWorkspace(in context: NSManagedObjectContext) throws -> WorkspaceEntity {
+        let request = NSFetchRequest<WorkspaceEntity>(entityName: "Workspace")
+        request.fetchLimit = 1
+        if let existing = try context.fetch(request).first {
+            return existing
+        }
+        let workspace = WorkspaceEntity(context: context)
+        workspace.id = UUID()
+        workspace.appVersion = ""
+        workspace.lastOpened = makeDate()
+        workspace.schemaVersion = 2
+        return workspace
+    }
+
+    private func fetchOrCreateSession(
+        id: UUID,
+        in context: NSManagedObjectContext,
+        workspace: WorkspaceEntity
+    ) throws -> SessionEntity {
+        let request = NSFetchRequest<SessionEntity>(entityName: "Session")
+        request.fetchLimit = 1
+        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        if let existing = try context.fetch(request).first {
+            existing.workspace = workspace
+            return existing
+        }
+        let session = SessionEntity(context: context)
+        session.id = id
+        session.createdAt = makeDate()
+        session.updatedAt = makeDate()
+        session.workspace = workspace
+        return session
+    }
+
+    private func markOtherSessionsInactive(
+        excluding activeSession: SessionEntity,
+        in context: NSManagedObjectContext
+    ) throws {
+        let request = NSFetchRequest<SessionEntity>(entityName: "Session")
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+            NSPredicate(format: "isCurrent == YES"),
+            NSPredicate(format: "self != %@", activeSession)
+        ])
+        let sessions = try context.fetch(request)
+        for session in sessions {
+            session.isCurrent = false
+        }
+    }
+
+    private func replaceSessionFiles(
+        for session: SessionEntity,
+        with snapshots: [WorkspaceSessionFileSnapshot],
+        in context: NSManagedObjectContext
+    ) throws {
+        if let existing = session.files as? Set<SessionFileEntity> {
+            for file in existing {
+                context.delete(file)
+            }
+        }
+
+        let orderedSnapshots = snapshots.sorted { lhs, rhs in
+            if lhs.orderIndex == rhs.orderIndex {
+                return lhs.id.uuidString < rhs.id.uuidString
+            }
+            return lhs.orderIndex < rhs.orderIndex
+        }
+
+        for snapshot in orderedSnapshots {
+            guard let fileEntity = try fetchFile(for: snapshot.recent.url, createIfMissing: true, in: context) else {
+                continue
+            }
+
+            let sessionFile = SessionFileEntity(context: context)
+            sessionFile.id = snapshot.id
+            sessionFile.orderIndex = Int64(snapshot.orderIndex)
+            if let selection = snapshot.lastSelectionNodeID {
+                sessionFile.lastSelectionNodeID = NSNumber(value: selection)
+            } else {
+                sessionFile.lastSelectionNodeID = nil
+            }
+            if let offset = snapshot.scrollOffset {
+                sessionFile.scrollOffsetX = NSNumber(value: offset.x)
+                sessionFile.scrollOffsetY = NSNumber(value: offset.y)
+            } else {
+                sessionFile.scrollOffsetX = nil
+                sessionFile.scrollOffsetY = nil
+            }
+            sessionFile.isPinned = snapshot.isPinned
+            sessionFile.displayName = snapshot.recent.displayName
+            sessionFile.lastOpened = snapshot.recent.lastOpened
+            sessionFile.bookmarkData = snapshot.recent.bookmarkData
+            sessionFile.session = session
+            sessionFile.file = fileEntity
+
+            for diff in snapshot.bookmarkDiffs {
+                let diffEntity = SessionBookmarkDiffEntity(context: context)
+                diffEntity.id = diff.id
+                diffEntity.bookmarkID = diff.bookmarkID
+                diffEntity.isRemoved = diff.isRemoved
+                diffEntity.noteDelta = diff.noteDelta
+                diffEntity.sessionFile = sessionFile
+                // @todo PDD:1h Connect bookmark diff entities to resolved Bookmark records once reconciliation rules are defined.
+            }
+        }
+    }
+
+    private func replaceWindowLayouts(
+        for session: SessionEntity,
+        with layouts: [WorkspaceWindowLayoutSnapshot],
+        in context: NSManagedObjectContext
+    ) {
+        if let existing = session.layouts as? Set<WindowLayoutEntity> {
+            for layout in existing {
+                context.delete(layout)
+            }
+        }
+
+        for snapshot in layouts {
+            let layout = WindowLayoutEntity(context: context)
+            layout.id = snapshot.id
+            layout.sceneIdentifier = snapshot.sceneIdentifier
+            layout.serializedLayout = snapshot.serializedLayout
+            layout.isFloatingInspector = snapshot.isFloatingInspector
+            layout.session = session
+        }
+    }
 }
 
 #if canImport(Combine)
 extension CoreDataAnnotationBookmarkStore: AnnotationBookmarkStoring {}
 #endif
+
+extension CoreDataAnnotationBookmarkStore: WorkspaceSessionStoring {}
 
 // MARK: - CoreData Model
 
@@ -247,12 +451,18 @@ private extension CoreDataAnnotationBookmarkStore {
         switch version {
         case .v1:
             return makeV1Model()
+        case .v2:
+            return makeV2Model()
         }
     }
 
-    static func makeV1Model() -> NSManagedObjectModel {
-        let model = NSManagedObjectModel()
+    struct BaseEntities {
+        let file: NSEntityDescription
+        let annotation: NSEntityDescription
+        let bookmark: NSEntityDescription
+    }
 
+    static func makeBaseEntities() -> BaseEntities {
         let fileEntity = NSEntityDescription()
         fileEntity.name = "File"
         fileEntity.managedObjectClassName = NSStringFromClass(FileEntity.self)
@@ -322,38 +532,315 @@ private extension CoreDataAnnotationBookmarkStore {
         annotationEntity.properties = [annotationID, annotationNodeID, annotationNote, annotationCreated, annotationUpdated, annotationsToFile]
         bookmarkEntity.properties = [bookmarkID, bookmarkNodeID, bookmarkCreated, bookmarksToFile]
 
-        model.entities = [fileEntity, annotationEntity, bookmarkEntity]
+        return BaseEntities(file: fileEntity, annotation: annotationEntity, bookmark: bookmarkEntity)
+    }
+
+    static func makeV1Model() -> NSManagedObjectModel {
+        let base = makeBaseEntities()
+        let model = NSManagedObjectModel()
+        model.entities = [base.file, base.annotation, base.bookmark]
         return model
     }
 
-    static func uuidAttribute(named name: String) -> NSAttributeDescription {
+    static func makeV2Model() -> NSManagedObjectModel {
+        let base = makeBaseEntities()
+        let fileEntity = base.file
+        let annotationEntity = base.annotation
+        let bookmarkEntity = base.bookmark
+
+        let workspaceEntity = NSEntityDescription()
+        workspaceEntity.name = "Workspace"
+        workspaceEntity.managedObjectClassName = NSStringFromClass(WorkspaceEntity.self)
+
+        let sessionEntity = NSEntityDescription()
+        sessionEntity.name = "Session"
+        sessionEntity.managedObjectClassName = NSStringFromClass(SessionEntity.self)
+
+        let sessionFileEntity = NSEntityDescription()
+        sessionFileEntity.name = "SessionFile"
+        sessionFileEntity.managedObjectClassName = NSStringFromClass(SessionFileEntity.self)
+
+        let windowLayoutEntity = NSEntityDescription()
+        windowLayoutEntity.name = "WindowLayout"
+        windowLayoutEntity.managedObjectClassName = NSStringFromClass(WindowLayoutEntity.self)
+
+        let sessionBookmarkDiffEntity = NSEntityDescription()
+        sessionBookmarkDiffEntity.name = "SessionBookmarkDiff"
+        sessionBookmarkDiffEntity.managedObjectClassName = NSStringFromClass(SessionBookmarkDiffEntity.self)
+
+        // Workspace attributes
+        let workspaceID = uuidAttribute(named: "id")
+        let workspaceAppVersion = stringAttribute(named: "appVersion", isOptional: true)
+        let workspaceLastOpened = dateAttribute(named: "lastOpened")
+        let workspaceSchemaVersion = int64Attribute(named: "schemaVersion")
+
+        // Session attributes
+        let sessionID = uuidAttribute(named: "id")
+        let sessionCreatedAt = dateAttribute(named: "createdAt")
+        let sessionUpdatedAt = dateAttribute(named: "updatedAt")
+        let sessionLastSceneIdentifier = stringAttribute(named: "lastSceneIdentifier", isOptional: true)
+        let sessionIsCurrent = boolAttribute(named: "isCurrent")
+        let sessionFocusedFileURL = stringAttribute(named: "focusedFileURL", isOptional: true)
+
+        // SessionFile attributes
+        let sessionFileID = uuidAttribute(named: "id")
+        let sessionFileOrderIndex = int64Attribute(named: "orderIndex")
+        let sessionFileLastSelectionNodeID = int64Attribute(named: "lastSelectionNodeID", isOptional: true)
+        let sessionFileScrollOffsetX = doubleAttribute(named: "scrollOffsetX", isOptional: true)
+        let sessionFileScrollOffsetY = doubleAttribute(named: "scrollOffsetY", isOptional: true)
+        let sessionFileIsPinned = boolAttribute(named: "isPinned")
+        let sessionFileDisplayName = stringAttribute(named: "displayName")
+        let sessionFileLastOpened = dateAttribute(named: "lastOpened")
+        let sessionFileBookmarkData = binaryAttribute(named: "bookmarkData", isOptional: true)
+
+        // WindowLayout attributes
+        let windowLayoutID = uuidAttribute(named: "id")
+        let windowLayoutSceneIdentifier = stringAttribute(named: "sceneIdentifier")
+        let windowLayoutSerializedLayout = binaryAttribute(named: "serializedLayout")
+        let windowLayoutIsFloatingInspector = boolAttribute(named: "isFloatingInspector")
+
+        // SessionBookmarkDiff attributes
+        let sessionBookmarkDiffID = uuidAttribute(named: "id")
+        let sessionBookmarkDiffBookmarkID = uuidAttribute(named: "bookmarkID", isOptional: true)
+        let sessionBookmarkDiffIsRemoved = boolAttribute(named: "isRemoved")
+        let sessionBookmarkDiffNoteDelta = stringAttribute(named: "noteDelta", isOptional: true)
+
+        // Relationships
+        let workspaceToSessions = NSRelationshipDescription()
+        workspaceToSessions.name = "sessions"
+        workspaceToSessions.destinationEntity = sessionEntity
+        workspaceToSessions.minCount = 0
+        workspaceToSessions.maxCount = 0
+        workspaceToSessions.deleteRule = .cascadeDeleteRule
+        workspaceToSessions.isOrdered = false
+
+        let sessionsToWorkspace = NSRelationshipDescription()
+        sessionsToWorkspace.name = "workspace"
+        sessionsToWorkspace.destinationEntity = workspaceEntity
+        sessionsToWorkspace.minCount = 1
+        sessionsToWorkspace.maxCount = 1
+        sessionsToWorkspace.deleteRule = .nullifyDeleteRule
+        sessionsToWorkspace.isOrdered = false
+
+        let sessionToFiles = NSRelationshipDescription()
+        sessionToFiles.name = "files"
+        sessionToFiles.destinationEntity = sessionFileEntity
+        sessionToFiles.minCount = 0
+        sessionToFiles.maxCount = 0
+        sessionToFiles.deleteRule = .cascadeDeleteRule
+        sessionToFiles.isOrdered = false
+
+        let sessionFileToSession = NSRelationshipDescription()
+        sessionFileToSession.name = "session"
+        sessionFileToSession.destinationEntity = sessionEntity
+        sessionFileToSession.minCount = 1
+        sessionFileToSession.maxCount = 1
+        sessionFileToSession.deleteRule = .nullifyDeleteRule
+        sessionFileToSession.isOrdered = false
+
+        let sessionToLayouts = NSRelationshipDescription()
+        sessionToLayouts.name = "layouts"
+        sessionToLayouts.destinationEntity = windowLayoutEntity
+        sessionToLayouts.minCount = 0
+        sessionToLayouts.maxCount = 0
+        sessionToLayouts.deleteRule = .cascadeDeleteRule
+        sessionToLayouts.isOrdered = false
+
+        let windowLayoutToSession = NSRelationshipDescription()
+        windowLayoutToSession.name = "session"
+        windowLayoutToSession.destinationEntity = sessionEntity
+        windowLayoutToSession.minCount = 1
+        windowLayoutToSession.maxCount = 1
+        windowLayoutToSession.deleteRule = .nullifyDeleteRule
+        windowLayoutToSession.isOrdered = false
+
+        let sessionFileToBookmarkDiffs = NSRelationshipDescription()
+        sessionFileToBookmarkDiffs.name = "bookmarkDiffs"
+        sessionFileToBookmarkDiffs.destinationEntity = sessionBookmarkDiffEntity
+        sessionFileToBookmarkDiffs.minCount = 0
+        sessionFileToBookmarkDiffs.maxCount = 0
+        sessionFileToBookmarkDiffs.deleteRule = .cascadeDeleteRule
+        sessionFileToBookmarkDiffs.isOrdered = false
+
+        let sessionBookmarkDiffToSessionFile = NSRelationshipDescription()
+        sessionBookmarkDiffToSessionFile.name = "sessionFile"
+        sessionBookmarkDiffToSessionFile.destinationEntity = sessionFileEntity
+        sessionBookmarkDiffToSessionFile.minCount = 1
+        sessionBookmarkDiffToSessionFile.maxCount = 1
+        sessionBookmarkDiffToSessionFile.deleteRule = .nullifyDeleteRule
+        sessionBookmarkDiffToSessionFile.isOrdered = false
+
+        let sessionBookmarkDiffToBookmark = NSRelationshipDescription()
+        sessionBookmarkDiffToBookmark.name = "bookmark"
+        sessionBookmarkDiffToBookmark.destinationEntity = bookmarkEntity
+        sessionBookmarkDiffToBookmark.minCount = 0
+        sessionBookmarkDiffToBookmark.maxCount = 1
+        sessionBookmarkDiffToBookmark.deleteRule = .nullifyDeleteRule
+        sessionBookmarkDiffToBookmark.isOrdered = false
+
+        let bookmarkToDiffs = NSRelationshipDescription()
+        bookmarkToDiffs.name = "sessionDiffs"
+        bookmarkToDiffs.destinationEntity = sessionBookmarkDiffEntity
+        bookmarkToDiffs.minCount = 0
+        bookmarkToDiffs.maxCount = 0
+        bookmarkToDiffs.deleteRule = .nullifyDeleteRule
+        bookmarkToDiffs.isOrdered = false
+
+        let sessionFileToFile = NSRelationshipDescription()
+        sessionFileToFile.name = "file"
+        sessionFileToFile.destinationEntity = fileEntity
+        sessionFileToFile.minCount = 1
+        sessionFileToFile.maxCount = 1
+        sessionFileToFile.deleteRule = .nullifyDeleteRule
+        sessionFileToFile.isOrdered = false
+
+        let fileToSessionFiles = NSRelationshipDescription()
+        fileToSessionFiles.name = "sessionFiles"
+        fileToSessionFiles.destinationEntity = sessionFileEntity
+        fileToSessionFiles.minCount = 0
+        fileToSessionFiles.maxCount = 0
+        fileToSessionFiles.deleteRule = .cascadeDeleteRule
+        fileToSessionFiles.isOrdered = false
+
+        // Inverses
+        workspaceToSessions.inverseRelationship = sessionsToWorkspace
+        sessionsToWorkspace.inverseRelationship = workspaceToSessions
+
+        sessionToFiles.inverseRelationship = sessionFileToSession
+        sessionFileToSession.inverseRelationship = sessionToFiles
+
+        sessionToLayouts.inverseRelationship = windowLayoutToSession
+        windowLayoutToSession.inverseRelationship = sessionToLayouts
+
+        sessionFileToBookmarkDiffs.inverseRelationship = sessionBookmarkDiffToSessionFile
+        sessionBookmarkDiffToSessionFile.inverseRelationship = sessionFileToBookmarkDiffs
+
+        sessionBookmarkDiffToBookmark.inverseRelationship = bookmarkToDiffs
+        bookmarkToDiffs.inverseRelationship = sessionBookmarkDiffToBookmark
+
+        fileToSessionFiles.inverseRelationship = sessionFileToFile
+        sessionFileToFile.inverseRelationship = fileToSessionFiles
+
+        workspaceEntity.properties = [workspaceID, workspaceAppVersion, workspaceLastOpened, workspaceSchemaVersion, workspaceToSessions]
+
+        sessionEntity.properties = [
+            sessionID,
+            sessionCreatedAt,
+            sessionUpdatedAt,
+            sessionLastSceneIdentifier,
+            sessionIsCurrent,
+            sessionFocusedFileURL,
+            sessionsToWorkspace,
+            sessionToFiles,
+            sessionToLayouts
+        ]
+
+        var fileProperties = fileEntity.properties
+        fileProperties.append(fileToSessionFiles)
+        fileEntity.properties = fileProperties
+
+        var bookmarkProperties = bookmarkEntity.properties
+        bookmarkProperties.append(bookmarkToDiffs)
+        bookmarkEntity.properties = bookmarkProperties
+
+        sessionFileEntity.properties = [
+            sessionFileID,
+            sessionFileOrderIndex,
+            sessionFileLastSelectionNodeID,
+            sessionFileScrollOffsetX,
+            sessionFileScrollOffsetY,
+            sessionFileIsPinned,
+            sessionFileDisplayName,
+            sessionFileLastOpened,
+            sessionFileBookmarkData,
+            sessionFileToSession,
+            sessionFileToFile,
+            sessionFileToBookmarkDiffs
+        ]
+
+        windowLayoutEntity.properties = [
+            windowLayoutID,
+            windowLayoutSceneIdentifier,
+            windowLayoutSerializedLayout,
+            windowLayoutIsFloatingInspector,
+            windowLayoutToSession
+        ]
+
+        sessionBookmarkDiffEntity.properties = [
+            sessionBookmarkDiffID,
+            sessionBookmarkDiffBookmarkID,
+            sessionBookmarkDiffIsRemoved,
+            sessionBookmarkDiffNoteDelta,
+            sessionBookmarkDiffToSessionFile,
+            sessionBookmarkDiffToBookmark
+        ]
+
+        let model = NSManagedObjectModel()
+        model.entities = [
+            fileEntity,
+            annotationEntity,
+            bookmarkEntity,
+            workspaceEntity,
+            sessionEntity,
+            sessionFileEntity,
+            windowLayoutEntity,
+            sessionBookmarkDiffEntity
+        ]
+        return model
+    }
+
+    static func uuidAttribute(named name: String, isOptional: Bool = false) -> NSAttributeDescription {
         let attribute = NSAttributeDescription()
         attribute.name = name
         attribute.attributeType = .UUIDAttributeType
-        attribute.isOptional = false
+        attribute.isOptional = isOptional
         return attribute
     }
 
-    static func stringAttribute(named name: String) -> NSAttributeDescription {
+    static func stringAttribute(named name: String, isOptional: Bool = false) -> NSAttributeDescription {
         let attribute = NSAttributeDescription()
         attribute.name = name
         attribute.attributeType = .stringAttributeType
-        attribute.isOptional = false
+        attribute.isOptional = isOptional
         return attribute
     }
 
-    static func dateAttribute(named name: String) -> NSAttributeDescription {
+    static func dateAttribute(named name: String, isOptional: Bool = false) -> NSAttributeDescription {
         let attribute = NSAttributeDescription()
         attribute.name = name
         attribute.attributeType = .dateAttributeType
-        attribute.isOptional = false
+        attribute.isOptional = isOptional
         return attribute
     }
 
-    static func int64Attribute(named name: String) -> NSAttributeDescription {
+    static func int64Attribute(named name: String, isOptional: Bool = false) -> NSAttributeDescription {
         let attribute = NSAttributeDescription()
         attribute.name = name
         attribute.attributeType = .integer64AttributeType
+        attribute.isOptional = isOptional
+        return attribute
+    }
+
+    static func doubleAttribute(named name: String, isOptional: Bool = false) -> NSAttributeDescription {
+        let attribute = NSAttributeDescription()
+        attribute.name = name
+        attribute.attributeType = .doubleAttributeType
+        attribute.isOptional = isOptional
+        return attribute
+    }
+
+    static func binaryAttribute(named name: String, isOptional: Bool = false) -> NSAttributeDescription {
+        let attribute = NSAttributeDescription()
+        attribute.name = name
+        attribute.attributeType = .binaryDataAttributeType
+        attribute.isOptional = isOptional
+        return attribute
+    }
+
+    static func boolAttribute(named name: String) -> NSAttributeDescription {
+        let attribute = NSAttributeDescription()
+        attribute.name = name
+        attribute.attributeType = .booleanAttributeType
         attribute.isOptional = false
         return attribute
     }
@@ -367,6 +854,7 @@ private final class FileEntity: NSManagedObject {
     @NSManaged var url: String
     @NSManaged var createdAt: Date
     @NSManaged var updatedAt: Date
+    @NSManaged var sessionFiles: NSSet?
 
     func touch(at date: Date) {
         updatedAt = date
@@ -393,9 +881,154 @@ private final class BookmarkEntity: NSManagedObject {
     @NSManaged var nodeID: Int64
     @NSManaged var createdAt: Date
     @NSManaged var file: FileEntity
+    @NSManaged var sessionDiffs: NSSet?
 
     var record: BookmarkRecord {
         BookmarkRecord(nodeID: nodeID, createdAt: createdAt)
+    }
+}
+
+@objc(WorkspaceEntity)
+private final class WorkspaceEntity: NSManagedObject {
+    @NSManaged var id: UUID
+    @NSManaged var appVersion: String
+    @NSManaged var lastOpened: Date
+    @NSManaged var schemaVersion: Int64
+    @NSManaged var sessions: NSSet?
+}
+
+@objc(SessionEntity)
+private final class SessionEntity: NSManagedObject {
+    @NSManaged var id: UUID
+    @NSManaged var createdAt: Date
+    @NSManaged var updatedAt: Date
+    @NSManaged var lastSceneIdentifier: String?
+    @NSManaged var isCurrent: Bool
+    @NSManaged var focusedFileURL: String?
+    @NSManaged var workspace: WorkspaceEntity
+    @NSManaged var files: NSSet?
+    @NSManaged var layouts: NSSet?
+}
+
+@objc(SessionFileEntity)
+private final class SessionFileEntity: NSManagedObject {
+    @NSManaged var id: UUID
+    @NSManaged var orderIndex: Int64
+    @NSManaged var lastSelectionNodeID: NSNumber?
+    @NSManaged var scrollOffsetX: NSNumber?
+    @NSManaged var scrollOffsetY: NSNumber?
+    @NSManaged var isPinned: Bool
+    @NSManaged var displayName: String
+    @NSManaged var lastOpened: Date
+    @NSManaged var bookmarkData: Data?
+    @NSManaged var session: SessionEntity
+    @NSManaged var file: FileEntity
+    @NSManaged var bookmarkDiffs: NSSet?
+}
+
+@objc(WindowLayoutEntity)
+private final class WindowLayoutEntity: NSManagedObject {
+    @NSManaged var id: UUID
+    @NSManaged var sceneIdentifier: String
+    @NSManaged var serializedLayout: Data
+    @NSManaged var isFloatingInspector: Bool
+    @NSManaged var session: SessionEntity
+}
+
+@objc(SessionBookmarkDiffEntity)
+private final class SessionBookmarkDiffEntity: NSManagedObject {
+    @NSManaged var id: UUID
+    @NSManaged var bookmarkID: UUID?
+    @NSManaged var isRemoved: Bool
+    @NSManaged var noteDelta: String?
+    @NSManaged var sessionFile: SessionFileEntity
+    @NSManaged var bookmark: BookmarkEntity?
+}
+
+private extension SessionEntity {
+    func makeSnapshot() -> WorkspaceSessionSnapshot {
+        let fileSnapshots = (files as? Set<SessionFileEntity>)?
+            .compactMap { $0.makeSnapshot() }
+            .sorted { lhs, rhs in
+                if lhs.orderIndex == rhs.orderIndex {
+                    return lhs.id.uuidString < rhs.id.uuidString
+                }
+                return lhs.orderIndex < rhs.orderIndex
+            } ?? []
+
+        let layoutSnapshots = (layouts as? Set<WindowLayoutEntity>)?
+            .map { $0.makeSnapshot() }
+            .sorted { lhs, rhs in lhs.sceneIdentifier < rhs.sceneIdentifier } ?? []
+
+        let focusedURL = focusedFileURL.flatMap { URL(string: $0) }
+        let version = workspace.appVersion.isEmpty ? nil : workspace.appVersion
+
+        return WorkspaceSessionSnapshot(
+            id: id,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+            appVersion: version,
+            files: fileSnapshots,
+            focusedFileURL: focusedURL,
+            lastSceneIdentifier: lastSceneIdentifier,
+            windowLayouts: layoutSnapshots
+        )
+    }
+}
+
+private extension SessionFileEntity {
+    func makeSnapshot() -> WorkspaceSessionFileSnapshot? {
+        guard let url = URL(string: file.url) else { return nil }
+        let recent = DocumentRecent(
+            url: url,
+            bookmarkData: bookmarkData,
+            displayName: displayName,
+            lastOpened: lastOpened
+        )
+
+        let selection = lastSelectionNodeID?.int64Value
+        let scrollOffset: WorkspaceSessionScrollOffset?
+        if let x = scrollOffsetX?.doubleValue, let y = scrollOffsetY?.doubleValue {
+            scrollOffset = WorkspaceSessionScrollOffset(x: x, y: y)
+        } else {
+            scrollOffset = nil
+        }
+
+        let diffs = (bookmarkDiffs as? Set<SessionBookmarkDiffEntity>)?
+            .map { $0.makeSnapshot() }
+            .sorted { $0.id.uuidString < $1.id.uuidString } ?? []
+
+        return WorkspaceSessionFileSnapshot(
+            id: id,
+            recent: recent,
+            orderIndex: Int(orderIndex),
+            lastSelectionNodeID: selection,
+            isPinned: isPinned,
+            scrollOffset: scrollOffset,
+            bookmarkDiffs: diffs
+        )
+    }
+}
+
+private extension SessionBookmarkDiffEntity {
+    func makeSnapshot() -> WorkspaceSessionBookmarkDiff {
+        WorkspaceSessionBookmarkDiff(
+            id: id,
+            bookmarkID: bookmarkID,
+            isRemoved: isRemoved,
+            noteDelta: noteDelta
+        )
+    }
+}
+
+private extension WindowLayoutEntity {
+    func makeSnapshot() -> WorkspaceWindowLayoutSnapshot {
+        WorkspaceWindowLayoutSnapshot(
+            id: id,
+            sceneIdentifier: sceneIdentifier,
+            serializedLayout: serializedLayout,
+            isFloatingInspector: isFloatingInspector
+        )
     }
 }
 
@@ -415,8 +1048,9 @@ import Foundation
 public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
     public enum ModelVersion: CaseIterable, Sendable {
         case v1
+        case v2
 
-        public static var latest: Self { .v1 }
+        public static var latest: Self { .v2 }
     }
 
     public init(
@@ -453,6 +1087,19 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
     }
 
     public func setBookmark(for file: URL, nodeID: Int64, isBookmarked: Bool) throws {
+        throw CocoaError(.featureUnsupported)
+    }
+
+    public func loadCurrentSession() throws -> WorkspaceSessionSnapshot? {
+        return nil
+    }
+
+    public func saveCurrentSession(_ snapshot: WorkspaceSessionSnapshot) throws {
+        _ = snapshot
+        throw CocoaError(.featureUnsupported)
+    }
+
+    public func clearCurrentSession() throws {
         throw CocoaError(.featureUnsupported)
     }
 }

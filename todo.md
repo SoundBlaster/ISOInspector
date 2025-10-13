@@ -25,3 +25,5 @@
 - [x] PDD:45m Route export operations to streaming capture utilities as they migrate from ISOInspectorCLIRunner.
 - [ ] PDD:30m Surface document load failures in the app shell UI once design for error banners lands.
 - [ ] PDD:30m Surface recents persistence failures in diagnostics once logging pipeline is available.
+- [ ] PDD:30m Surface session persistence failures in diagnostics once logging pipeline is available.
+- [ ] PDD:1h Connect CoreData session bookmark diffs to persisted bookmark entities once reconciliation rules are defined.
