@@ -1,5 +1,21 @@
 import XCTest
 import Foundation
+import _Concurrency
+
+private final class LockedValueBox<Value>: @unchecked Sendable {
+    private let lock = NSLock()
+    private var value: Value
+
+    init(_ value: Value) {
+        self.value = value
+    }
+
+    func withValue<T>(_ update: (inout Value) -> T) -> T {
+        lock.lock()
+        defer { lock.unlock() }
+        return update(&value)
+    }
+}
 @testable import ISOInspectorCLI
 @testable import ISOInspectorApp
 @testable import ISOInspectorKit
@@ -127,7 +143,7 @@ private extension LargeFileBenchmarkTests {
         environment: ISOInspectorCLIEnvironment
     ) throws {
         let expectation = expectation(description: "validate command completed")
-        var capturedError: Error?
+        let capturedError = LockedValueBox<Error?>(nil)
 
         Task {
             await MainActor.run {
@@ -138,7 +154,7 @@ private extension LargeFileBenchmarkTests {
             do {
                 try await command.run()
             } catch {
-                capturedError = error
+                capturedError.withValue { $0 = error }
             }
             await MainActor.run {
                 ISOInspectorCommandContextStore.reset()
@@ -151,8 +167,8 @@ private extension LargeFileBenchmarkTests {
             timeout: max(configuration.cliDurationBudgetSeconds() * 4, 1)
         )
 
-        if let capturedError {
-            throw capturedError
+        if let error = capturedError.withValue({ $0 }) {
+            throw error
         }
     }
 }
@@ -164,25 +180,25 @@ private func drainEvents(
     let reader = try ChunkedFileReader(fileURL: fileURL)
     let stream = pipeline.events(for: reader)
     let semaphore = DispatchSemaphore(value: 0)
-    var count = 0
-    var capturedError: Error?
+    let count = LockedValueBox(0)
+    let capturedError = LockedValueBox<Error?>(nil)
 
     Task {
         do {
             for try await _ in stream {
-                count += 1
+                count.withValue { $0 += 1 }
             }
         } catch {
-            capturedError = error
+            capturedError.withValue { $0 = error }
         }
         semaphore.signal()
     }
 
     semaphore.wait()
-    if let capturedError {
-        throw capturedError
+    if let error = capturedError.withValue({ $0 }) {
+        throw error
     }
-    return count
+    return count.withValue { $0 }
 }
 
 private struct LargeFileBenchmarkFixture {

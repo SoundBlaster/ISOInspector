@@ -50,7 +50,7 @@ public final class ParseTreeStore: ObservableObject {
                 case .finished:
                     self.state = .finished
                 case let .failure(error):
-                    self.state = .failed(error.localizedDescription)
+                    self.state = .failed(self.makeErrorMessage(from: error))
                 }
             }, receiveValue: { [weak self] event in
                 guard let self else { return }
@@ -74,6 +74,29 @@ public final class ParseTreeStore: ObservableObject {
 
     private func disconnect() {
         resources.stop()
+    }
+
+    private func makeErrorMessage(from error: Error) -> String {
+        let localizedDescription = (error as NSError).localizedDescription
+        let description = String(describing: error)
+
+        var components: [String] = []
+
+        if !localizedDescription.isEmpty {
+            components.append(localizedDescription)
+        }
+
+        if !description.isEmpty,
+           description != localizedDescription,
+           !localizedDescription.contains(description) {
+            components.append(description)
+        }
+
+        if components.isEmpty {
+            return String(reflecting: error)
+        }
+
+        return components.joined(separator: " - ")
     }
 }
 

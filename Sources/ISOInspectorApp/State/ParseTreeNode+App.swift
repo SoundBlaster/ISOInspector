@@ -2,9 +2,7 @@
 import Foundation
 import ISOInspectorKit
 
-public typealias ParseTreeNode = ISOInspectorKit.ParseTreeNode
-
-extension ISOInspectorKit.ParseTreeNode: Identifiable {
+extension ParseTreeNode: Identifiable {
     public var id: Int64 { header.startOffset }
 
     public var category: BoxCategory {

@@ -158,9 +158,6 @@ final class ParseTreeOutlineViewModel: ObservableObject {
         }
 
         expandedIdentifiers.formIntersection(identifiers)
-        if expandedIdentifiers.isEmpty {
-            expandedIdentifiers.formUnion(snapshot.nodes.map(\.id))
-        }
 
         rows = aggregatedRows
         latencyProbe.recordLatency(for: snapshot, rowCount: rows.count)
@@ -259,6 +256,7 @@ final class ParseTreeOutlineViewModel: ObservableObject {
         availableCategories = BoxCategory.allCases.filter { categories.contains($0) }
         containsStreamingIndicators = hasStreamingIndicators
     }
+
     private struct FlattenResult {
         let rows: [ParseTreeOutlineRow]
         let identifiers: Set<ParseTreeNode.ID>

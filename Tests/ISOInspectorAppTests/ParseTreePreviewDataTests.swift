@@ -4,6 +4,7 @@ import XCTest
 import ISOInspectorKit
 
 final class ParseTreePreviewDataTests: XCTestCase {
+    @MainActor
     func testSampleSnapshotProvidesBoxHeaders() throws {
         let snapshot = ParseTreePreviewData.sampleSnapshot
         let headers = snapshot.nodes.map(\.header)

@@ -10,13 +10,17 @@ public struct ParseTreeSnapshot: Equatable, Sendable {
     public init(
         nodes: [ParseTreeNode],
         validationIssues: [ValidationIssue],
-        lastUpdatedAt: Date = .distantPast
+        lastUpdatedAt: Date = Date.distantPast
     ) {
         self.nodes = nodes
         self.validationIssues = validationIssues
         self.lastUpdatedAt = lastUpdatedAt
     }
 
-    public static let empty = ParseTreeSnapshot(nodes: [], validationIssues: [], lastUpdatedAt: .distantPast)
+    public static let empty = ParseTreeSnapshot(
+        nodes: [],
+        validationIssues: [],
+        lastUpdatedAt: Date.distantPast
+    )
 }
 #endif
