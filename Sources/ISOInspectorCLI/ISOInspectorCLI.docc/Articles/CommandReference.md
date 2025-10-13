@@ -14,6 +14,27 @@ Runs the streaming parser, printing validation issues, research log notes, and a
 summary of the MP4 structure. This command is ideal for quick verification or as
 a CI gate.
 
+## Validate
+
+```
+$ isoinspect validate <file.mp4>
+```
+
+Streams validation issues for a single file and exits non-zero when warnings or
+errors are encountered. Use this command when integrating into lightweight CI
+jobs that operate on individual samples.
+
+## Batch Validate
+
+```
+$ isoinspect batch <inputs...> [--csv summary.csv]
+```
+
+Processes multiple files in one run, expanding directories or glob patterns and
+emitting an aggregated summary table. When `--csv` is provided the CLI writes a
+machine-readable report that mirrors the console output, making it ideal for CI
+pipelines that need to archive validation results.
+
 ## Export JSON
 
 ```

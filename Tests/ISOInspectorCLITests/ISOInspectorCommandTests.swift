@@ -10,6 +10,7 @@ final class ISOInspectorCommandTests: XCTestCase {
         XCTAssertTrue(help.localizedCaseInsensitiveContains("inspect"))
         XCTAssertTrue(help.localizedCaseInsensitiveContains("validate"))
         XCTAssertTrue(help.localizedCaseInsensitiveContains("export"))
+        XCTAssertTrue(help.localizedCaseInsensitiveContains("batch"))
 
         var command = try ISOInspectorCommand.parse([])
 
@@ -305,6 +306,107 @@ final class ISOInspectorCommandTests: XCTestCase {
         }
     }
 
+    func testBatchCommandAggregatesResultsAndWritesCSV() async throws {
+        let temporaryDirectory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: temporaryDirectory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: temporaryDirectory) }
+
+        let firstFile = temporaryDirectory.appendingPathComponent("alpha.mp4")
+        let secondFile = temporaryDirectory.appendingPathComponent("beta.mp4")
+        _ = FileManager.default.createFile(atPath: firstFile.path, contents: Data(repeating: 0, count: 16))
+        _ = FileManager.default.createFile(atPath: secondFile.path, contents: Data(repeating: 1, count: 24))
+
+        let header = try makeHeader(type: "ftyp", size: 24)
+        let descriptor = try XCTUnwrap(BoxCatalog.shared.descriptor(for: header))
+        let infoIssue = ValidationIssue(ruleID: "VR-006", message: "Research detail", severity: .info)
+        let warningIssue = ValidationIssue(ruleID: "VR-003", message: "Flags mismatch", severity: .warning)
+        let errorIssue = ValidationIssue(ruleID: "VR-001", message: "Size mismatch", severity: .error)
+
+        let eventsByFile: [URL: [ParseEvent]] = [
+            firstFile: [
+                ParseEvent(
+                    kind: .willStartBox(header: header, depth: 0),
+                    offset: header.startOffset,
+                    metadata: descriptor,
+                    validationIssues: [infoIssue]
+                )
+            ],
+            secondFile: [
+                ParseEvent(
+                    kind: .willStartBox(header: header, depth: 0),
+                    offset: header.startOffset,
+                    metadata: descriptor,
+                    validationIssues: [warningIssue, errorIssue]
+                )
+            ]
+        ]
+
+        let lengths: [URL: Int64] = [firstFile: 1024, secondFile: 4096]
+        let printed = MutableBox<[String]>([])
+        let errors = MutableBox<[String]>([])
+
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                guard let length = lengths[url] else {
+                    XCTFail("Unexpected reader request for \(url)")
+                    throw CocoaError(.fileReadUnknown)
+                }
+                return StubReader(length: length)
+            },
+            parsePipeline: ParsePipeline(buildStream: { _, context in
+                AsyncThrowingStream { continuation in
+                    guard let source = context.source else {
+                        continuation.finish()
+                        return
+                    }
+                    for event in eventsByFile[source, default: []] {
+                        continuation.yield(event)
+                    }
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { errors.value.append($0) }
+        )
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.bootstrap(with: .init(environment: environment))
+        }
+
+        let csvURL = temporaryDirectory.appendingPathComponent("summary.csv")
+        let globPattern = temporaryDirectory.appendingPathComponent("*.mp4").path
+
+        var command = try ISOInspectorCommand.Commands.Batch.parse([
+            globPattern,
+            "--csv",
+            csvURL.path
+        ])
+
+        do {
+            try await command.run()
+            XCTFail("Expected ExitCode to be thrown")
+        } catch let exit as ExitCode {
+            XCTAssertEqual(exit.rawValue, 2)
+        }
+
+        XCTAssertTrue(errors.value.isEmpty)
+        XCTAssertEqual(printed.value.first, "Batch validation summary")
+        XCTAssertTrue(printed.value.contains(where: { $0.contains(firstFile.lastPathComponent) }))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains(secondFile.lastPathComponent) }))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("Totals") }))
+
+        let csv = try String(contentsOf: csvURL, encoding: .utf8)
+        XCTAssertTrue(csv.contains("file,size_bytes,boxes,errors,warnings,info,status,notes"))
+        XCTAssertTrue(csv.contains(firstFile.lastPathComponent))
+        XCTAssertTrue(csv.contains(secondFile.lastPathComponent))
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+        }
+    }
+
     func testGlobalOptionsRejectMutuallyExclusiveVerbosityFlags() {
         XCTAssertThrowsError(try ISOInspectorCommand.GlobalOptions.parse(["--quiet", "--verbose"]))
     }
@@ -514,7 +616,11 @@ private final class MutableBox<Value>: @unchecked Sendable {
 }
 
 private struct StubReader: RandomAccessReader {
-    let length: Int64 = 0
+    let length: Int64
+
+    init(length: Int64 = 0) {
+        self.length = length
+    }
 
     func read(at offset: Int64, count: Int) throws -> Data { Data() }
 }
