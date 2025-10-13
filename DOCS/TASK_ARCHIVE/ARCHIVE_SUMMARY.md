@@ -312,3 +312,15 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/`.
 - **Highlights:** Chronicles delivering workspace session persistence across CoreData and JSON fallback stores, wiring restoration through the document session controller, and extending regression coverage for migrations, snapshot storage, and controller recovery flows.
 - **Next steps carried forward:** Surface session persistence diagnostics and reconcile CoreData bookmark diffs when logging and reconciliation rules land, while macOS automation and benchmark runs remain tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 53_F3_Developer_Onboarding_Guide
+- **Archived files:** `F3_Developer_Onboarding_Guide.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/53_F3_Developer_Onboarding_Guide/`.
+- **Highlights:** Documents completion of the end-to-end developer onboarding guide and API reference refresh, covering setup, architecture walkthroughs, automation hooks, and cross-linking to DocC plus CLI resources.
+- **Next steps carried forward:** Keep the onboarding guide synchronized with future API or DocC updates and link new tutorials or automation flows as they ship, as noted in the follow-up summary.
+
+## 54_Summary_of_Work_2025-10-13
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/54_Summary_of_Work_2025-10-13/`.
+- **Highlights:** Captures the October 13, 2025 work checkpoint summarizing completion of the F3 documentation task, including links to published guides and reminders about keeping onboarding materials current.
+- **Next steps carried forward:** Continue tracking macOS-only automation, benchmarking, and session persistence diagnostics via the recreated `DOCS/INPROGRESS/next_tasks.md` checklist until required hardware and logging plumbing are available.
