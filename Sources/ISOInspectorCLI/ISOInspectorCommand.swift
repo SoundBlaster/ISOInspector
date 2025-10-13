@@ -35,7 +35,33 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
 
     static func bootstrap(with options: GlobalOptions) async {
         await MainActor.run {
-            let context = contextFactory(options)
+            var context = contextFactory(options)
+            var environment = context.environment
+
+            switch options.resolvedVerbosity {
+            case .quiet:
+                environment.logVerbosity = .quiet
+                environment.print = { _ in }
+            case .verbose:
+                let basePrint = environment.print
+                environment.logVerbosity = .verbose
+                environment.print = { message in
+                    basePrint("[verbose] \(message)")
+                }
+            case .standard:
+                environment.logVerbosity = .standard
+            }
+
+            switch options.resolvedTelemetryMode {
+            case .enabled:
+                environment.telemetryEnabled = true
+            case .disabled:
+                environment.telemetryEnabled = false
+            }
+
+            context.environment = environment
+            context.verbosity = options.resolvedVerbosity
+            context.telemetryMode = options.resolvedTelemetryMode
             ISOInspectorCommandContextStore.bootstrap(with: context)
         }
     }
@@ -43,7 +69,74 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
     public struct GlobalOptions: ParsableArguments, Sendable {
         public init() {}
 
-        // @todo PDD:45m Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI.
+        public enum Verbosity: Sendable {
+            case quiet
+            case standard
+            case verbose
+        }
+
+        public enum TelemetryMode: Sendable {
+            case enabled
+            case disabled
+        }
+
+        @Flag(
+            name: [.customShort("q"), .long],
+            help: "Suppress standard CLI output, emitting only errors and critical summaries."
+        )
+        public var quiet: Bool = false
+
+        @Flag(
+            name: .long,
+            help: "Print additional diagnostics while streaming parse events."
+        )
+        public var verbose: Bool = false
+
+        @Flag(
+            name: .long,
+            help: "Enable streaming telemetry metrics even if disabled by defaults."
+        )
+        public var enableTelemetry: Bool = false
+
+        @Flag(
+            name: .long,
+            help: "Disable streaming telemetry metrics for this invocation."
+        )
+        public var disableTelemetry: Bool = false
+
+        public mutating func validate() throws {
+            if quiet && verbose {
+                throw ValidationError("Specify at most one of --quiet or --verbose.")
+            }
+
+            if enableTelemetry && disableTelemetry {
+                throw ValidationError("Specify at most one telemetry toggle flag.")
+            }
+        }
+
+        public var resolvedVerbosity: Verbosity {
+            if quiet {
+                return .quiet
+            }
+
+            if verbose {
+                return .verbose
+            }
+
+            return .standard
+        }
+
+        public var resolvedTelemetryMode: TelemetryMode {
+            if disableTelemetry {
+                return .disabled
+            }
+
+            if enableTelemetry {
+                return .enabled
+            }
+
+            return .enabled
+        }
     }
 
     public enum Commands {
