@@ -21,6 +21,22 @@ Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (M
    swift test
    ```
 
+## Git Hooks
+
+Enable the repository-managed hooks to automatically format Markdown documentation before each commit:
+
+```sh
+git config core.hooksPath .githooks
+```
+
+The pre-commit hook requires `npx` and runs:
+
+```sh
+npx markdownlint-cli2 --fix 'DOCS/INPROGRESS/**/*.md' 'DOCS/COMMANDS/**/*.md' 'DOCS/RULES/**/*.md'
+```
+
+Re-run the command if your local configuration resets `core.hooksPath`.
+
 ## Documentation
 
 Generate browsable DocC archives for every target with:
