@@ -2,6 +2,12 @@ import ArgumentParser
 import Foundation
 import ISOInspectorKit
 
+#if canImport(Darwin)
+import Darwin
+#elseif canImport(Glibc)
+import Glibc
+#endif
+
 public struct ISOInspectorCommand: AsyncParsableCommand {
     public init() {}
 
@@ -12,7 +18,8 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
         subcommands: [
             Commands.Inspect.self,
             Commands.Validate.self,
-            Commands.Export.self
+            Commands.Export.self,
+            Commands.Batch.self
         ],
         helpNames: [.short, .long]
     )
@@ -430,6 +437,299 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
 
                 guard FileManager.default.isWritableFile(atPath: parent.path) else {
                     throw ExecutionError.unwritableDestination(parent.path)
+                }
+            }
+        }
+
+        public struct Batch: AsyncParsableCommand {
+            public static let configuration = CommandConfiguration(
+                abstract: "Validate multiple ISO BMFF files and emit an aggregated summary."
+            )
+
+            @Argument(help: "File paths, directory globs, or directories to validate.")
+            public var inputs: [String] = []
+
+            @Option(
+                name: .long,
+                help: "Optional CSV output path for the aggregated summary table."
+            )
+            public var csv: String?
+
+            public init() {}
+
+            public mutating func validate() throws {
+                if inputs.isEmpty {
+                    throw ValidationError("Specify at least one input path or glob pattern.")
+                }
+            }
+
+            public mutating func run() async throws {
+                let context = await MainActor.run { ISOInspectorCommandContextStore.current }
+                let environment = context.environment
+                let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
+                let resolver = InputResolver(fileManager: .default)
+                let resolution = resolver.resolve(inputs: inputs, relativeTo: cwd)
+
+                switch resolution {
+                case .failure(let error):
+                    environment.printError(error.message)
+                    throw ExitCode(3)
+                case .success(let resolved):
+                    for pattern in resolved.unmatchedPatterns {
+                        environment.printError("No files matched pattern: \(pattern)")
+                    }
+
+                    var builder = BatchValidationSummary.Builder()
+                    let fileManager = FileManager.default
+
+                    for fileURL in resolved.files {
+                        let fallbackSize: Int64?
+                        if let attributes = try? fileManager.attributesOfItem(atPath: fileURL.path),
+                           let number = attributes[.size] as? NSNumber {
+                            fallbackSize = number.int64Value
+                        } else {
+                            fallbackSize = nil
+                        }
+
+                        do {
+                            let reader = try environment.makeReader(fileURL)
+                            var boxCount = 0
+                            var severityCounts: [ValidationIssue.Severity: Int] = [:]
+                            let events = environment.parsePipeline.events(
+                                for: reader,
+                                context: .init(source: fileURL)
+                            )
+
+                            do {
+                                for try await event in events {
+                                    if case .willStartBox = event.kind {
+                                        boxCount += 1
+                                    }
+
+                                    for issue in event.validationIssues {
+                                        severityCounts[issue.severity, default: 0] += 1
+                                    }
+                                }
+                            } catch {
+                                environment.printError("Failed to process \(fileURL.path): \(error)")
+                                builder.appendParseFailure(
+                                    fileURL: fileURL,
+                                    size: reader.length,
+                                    reason: String(describing: error)
+                                )
+                                continue
+                            }
+
+                            let errorCount = severityCounts[.error, default: 0]
+                            let warningCount = severityCounts[.warning, default: 0]
+                            let infoCount = severityCounts[.info, default: 0]
+
+                            let status: BatchValidationSummary.Status
+                            if errorCount > 0 {
+                                status = .validationFailed
+                            } else if warningCount > 0 {
+                                status = .warnings
+                            } else {
+                                status = .success
+                            }
+
+                            builder.append(
+                                fileURL: fileURL,
+                                size: reader.length,
+                                boxCount: boxCount,
+                                errorCount: errorCount,
+                                warningCount: warningCount,
+                                infoCount: infoCount,
+                                status: status
+                            )
+                        } catch let exit as ExitCode {
+                            throw exit
+                        } catch {
+                            environment.printError("Failed to open \(fileURL.path): \(error)")
+                            builder.appendParseFailure(
+                                fileURL: fileURL,
+                                size: fallbackSize,
+                                reason: String(describing: error)
+                            )
+                        }
+                    }
+
+                    let summary = builder.build()
+                    environment.print("Batch validation summary")
+                    for line in summary.formattedLines() {
+                        environment.print(line)
+                    }
+
+                    if let csv {
+                        let csvURL = URL(fileURLWithPath: csv, relativeTo: cwd).standardizedFileURL
+                        do {
+                            try Export.validateOutputPath(csvURL)
+                            try summary.csvData().write(to: csvURL, options: .atomic)
+                            environment.print("CSV summary → \(csvURL.path)")
+                        } catch let executionError as Export.ExecutionError {
+                            environment.printError(executionError.message)
+                            throw ExitCode(3)
+                        } catch let exit as ExitCode {
+                            throw exit
+                        } catch {
+                            environment.printError("Failed to write CSV summary: \(error)")
+                            throw ExitCode(3)
+                        }
+                    }
+
+                    if summary.hasParseFailures {
+                        throw ExitCode(3)
+                    }
+
+                    if summary.hasValidationFailures {
+                        throw ExitCode(2)
+                    }
+
+                    if summary.hasWarnings {
+                        throw ExitCode(1)
+                    }
+                }
+            }
+
+            struct ResolvedInputs {
+                let files: [URL]
+                let unmatchedPatterns: [String]
+            }
+
+            struct ResolutionError: Swift.Error {
+                let message: String
+            }
+
+            struct InputResolver {
+                let fileManager: FileManager
+
+                func resolve(inputs: [String], relativeTo cwd: URL) -> Result<ResolvedInputs, ResolutionError> {
+                    var collected: [URL] = []
+                    var unmatched: [String] = []
+                    var seen: Set<String> = []
+
+                    for input in inputs {
+                        let expanded = (input as NSString).expandingTildeInPath
+
+                        if Self.containsGlob(in: expanded) {
+                            let matches = Self.expandGlob(expanded, relativeTo: cwd)
+                            if matches.isEmpty {
+                                unmatched.append(input)
+                            } else {
+                                for url in matches {
+                                    let standardized = url.standardizedFileURL
+                                    if seen.insert(standardized.path).inserted {
+                                        collected.append(standardized)
+                                    }
+                                }
+                            }
+                            continue
+                        }
+
+                        let resolved = URL(fileURLWithPath: expanded, relativeTo: cwd).standardizedFileURL
+                        var isDirectory: ObjCBool = false
+                        if fileManager.fileExists(atPath: resolved.path, isDirectory: &isDirectory) {
+                            if isDirectory.boolValue {
+                                let files = collectFiles(in: resolved)
+                                if files.isEmpty {
+                                    unmatched.append(input)
+                                } else {
+                                    for file in files {
+                                        let standardized = file.standardizedFileURL
+                                        if seen.insert(standardized.path).inserted {
+                                            collected.append(standardized)
+                                        }
+                                    }
+                                }
+                            } else {
+                                if seen.insert(resolved.path).inserted {
+                                    collected.append(resolved)
+                                }
+                            }
+                        } else {
+                            unmatched.append(input)
+                        }
+                    }
+
+                    if collected.isEmpty {
+                        if unmatched.isEmpty {
+                            return .failure(.init(message: "No files matched the provided inputs."))
+                        }
+
+                        return .failure(
+                            .init(message: "No files matched the provided inputs: \(unmatched.joined(separator: ", "))")
+                        )
+                    }
+
+                    collected.sort { $0.path < $1.path }
+                    return .success(.init(files: collected, unmatchedPatterns: unmatched))
+                }
+
+                private func collectFiles(in directory: URL) -> [URL] {
+                    guard let enumerator = fileManager.enumerator(
+                        at: directory,
+                        includingPropertiesForKeys: [.isRegularFileKey],
+                        options: [.skipsPackageDescendants, .skipsHiddenFiles]
+                    ) else {
+                        return []
+                    }
+
+                    var results: [URL] = []
+                    for case let fileURL as URL in enumerator {
+                        do {
+                            let values = try fileURL.resourceValues(forKeys: [.isRegularFileKey])
+                            if values.isRegularFile == true {
+                                results.append(fileURL)
+                            }
+                        } catch {
+                            continue
+                        }
+                    }
+                    return results
+                }
+
+                private static func containsGlob(in input: String) -> Bool {
+                    input.contains { character in
+                        character == "*" || character == "?" || character == "["
+                    }
+                }
+
+                private static func expandGlob(_ pattern: String, relativeTo cwd: URL) -> [URL] {
+                    let resolvedPattern: String
+                    if pattern.hasPrefix("/") {
+                        resolvedPattern = pattern
+                    } else {
+                        resolvedPattern = cwd.appendingPathComponent(pattern).path
+                    }
+
+#if os(Windows)
+                    _ = cwd
+                    return []
+#else
+                    return resolvedPattern.withCString { pointer in
+                        var globResult = glob_t()
+                        defer { globfree(&globResult) }
+                        let flags: Int32
+#if canImport(Darwin)
+                        flags = GLOB_TILDE
+#elseif canImport(Glibc)
+                        flags = GLOB_TILDE
+#else
+                        flags = 0
+#endif
+                        let status = glob(pointer, flags, nil, &globResult)
+                        guard status == 0, let pathVector = globResult.gl_pathv else { return [] }
+                        let count = Int(globResult.gl_pathc)
+                        var matches: [URL] = []
+                        for index in 0..<count {
+                            if let cString = pathVector[index] {
+                                let path = String(cString: cString)
+                                matches.append(URL(fileURLWithPath: path).standardizedFileURL)
+                            }
+                        }
+                        return matches
+                    }
+#endif
                 }
             }
         }

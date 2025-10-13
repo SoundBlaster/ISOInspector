@@ -2,7 +2,7 @@
 
 ## 🚧 In Progress
 
-- [ ] **Task D4 — CLI batch mode and CSV summary export.** Tracked via `DOCS/INPROGRESS/51_D4_CLI_Batch_Mode.md`. (Dependencies: Task D2 completed; ready for batch orchestration work.)
+- [x] **Task D4 — CLI batch mode and CSV summary export.** Tracked via `DOCS/INPROGRESS/51_D4_CLI_Batch_Mode.md`. (Dependencies: Task D2 completed; ready for batch orchestration work.)
 
 ## 🧪 Streaming UI Coverage
 
