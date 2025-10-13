@@ -27,3 +27,4 @@
 - [ ] PDD:30m Surface recents persistence failures in diagnostics once logging pipeline is available.
 - [ ] PDD:30m Surface session persistence failures in diagnostics once logging pipeline is available.
 - [ ] PDD:1h Connect CoreData session bookmark diffs to persisted bookmark entities once reconciliation rules are defined.
+- [ ] PDD:30m Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely.

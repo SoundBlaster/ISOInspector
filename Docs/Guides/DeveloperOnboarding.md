@@ -118,7 +118,18 @@ Before opening a pull request:
 - [ ] Synchronize `todo.md` with any added or removed `@todo` comments to keep puzzles accurate.【F:DOCS/RULES/04_PDD.md†L17-L74】
 - [ ] Capture outstanding follow-ups as `@todo PDD:` comments and, if needed, add entries to `DOCS/INPROGRESS/` per the micro-PRD template.【F:DOCS/RULES/04_PDD.md†L17-L74】【F:DOCS/RULES/agent-system-prompt.md†L49-L120】
 
-## 9. Further Reading
+## 9. Distribution & Notarization Checklist
+
+- Use the shared distribution metadata at `Sources/ISOInspectorKit/Resources/Distribution/DistributionMetadata.json` when
+  updating bundle identifiers, marketing version, or build number so CI tooling and documentation stay synchronized.【F:Sources/ISOInspectorKit/Resources/Distribution/DistributionMetadata.json†L1-L21】
+- Reference `Distribution/Entitlements/` when configuring Xcode or Tuist targets; macOS builds require the App Sandbox and
+  bookmark entitlements for persisted file access.【F:Distribution/Entitlements/ISOInspectorApp.macOS.entitlements†L1-L13】
+- Submit notarization requests with `scripts/notarize_app.sh`. Run with `--dry-run` in Linux containers to confirm arguments
+  before executing on macOS builders with configured `notarytool` credentials.【F:scripts/notarize_app.sh†L1-L75】
+- Generate Xcode projects with Tuist by running `tuist generate`; the template in `Tuist/Project.swift` reads the shared
+  distribution metadata so bundle identifiers and build numbers stay in sync.【F:Tuist/Project.swift†L1-L111】
+
+## 10. Further Reading
 
 - DocC archives generated via task A3 cover API tutorials for ISOInspectorKit, CLI usage, and SwiftUI state stores (`Sources/*/*.docc`).【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L8-L24】
 - Task archive summaries provide historical context for major systems (see `DOCS/TASK_ARCHIVE/`).
