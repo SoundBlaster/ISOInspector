@@ -96,7 +96,6 @@ final class AnnotationBookmarkSessionTests: XCTestCase {
 
 // MARK: - Test doubles
 
-@MainActor
 private final class AnnotationBookmarkStoreStub: AnnotationBookmarkStoring {
     var annotationsStorage: [URL: [AnnotationRecord]] = [:]
     var bookmarksStorage: [URL: Set<Int64>] = [:]
@@ -162,4 +161,6 @@ private final class AnnotationBookmarkStoreStub: AnnotationBookmarkStoring {
         case failed
     }
 }
+
+extension AnnotationBookmarkStoreStub: @unchecked Sendable {}
 #endif
