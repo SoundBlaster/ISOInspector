@@ -82,15 +82,12 @@ jobs:
         run: xcodebuild -version
 
       - name: Validate Tuist project definition
-        working-directory: Tuist
         run: tuist dump project > /dev/null
 
       - name: Install Tuist dependencies
-        working-directory: Tuist
         run: tuist install
 
       - name: Generate Xcode project with Tuist
-        working-directory: Tuist
         run: tuist generate --no-open
 
       - name: Archive ISOInspectorApp (unsigned)
