@@ -187,15 +187,22 @@ struct ResearchLogAuditPreview: View {
     }
 }
 
+#if compiler(>=5.9) && (os(iOS) || os(macOS) || os(tvOS))
+
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
 #Preview("VR-006 Fixture Ready", traits: .sizeThatFitsLayout) {
     ResearchLogAuditPreview(snapshot: ResearchLogPreviewProvider.validFixture())
 }
 
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
 #Preview("VR-006 Fixture Missing", traits: .sizeThatFitsLayout) {
     ResearchLogAuditPreview(snapshot: ResearchLogPreviewProvider.missingFixture())
 }
 
+@available(iOS 17.0, macOS 14.0, tvOS 17.0, *)
 #Preview("VR-006 Schema Drift", traits: .sizeThatFitsLayout) {
     ResearchLogAuditPreview(snapshot: ResearchLogPreviewProvider.schemaMismatchFixture())
 }
+#endif
+
 #endif
