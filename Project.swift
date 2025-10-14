@@ -39,7 +39,7 @@ func projectDirectory() -> URL {
     let candidates = [
         URL(fileURLWithPath: fileManager.currentDirectoryPath),
         URL(fileURLWithPath: #filePath)
-            .deletingLastPathComponent(),
+            .deletingLastPathComponent()
     ]
 
     // Tuist compiles manifests in a cache directory, so fall back to the process
@@ -65,7 +65,7 @@ let metadata = loadDistributionMetadata()
 
 let baseSettings: SettingsDictionary = [
     "MARKETING_VERSION": .string(metadata.marketingVersion),
-    "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber),
+    "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber)
 ]
 
 func destinations(for platform: DistributionPlatform) -> Destinations {
@@ -119,7 +119,7 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     }
     let dependencies: [TargetDependency] = [
         .target(name: platform == .macOS ? "ISOInspectorKit-macOS" : "ISOInspectorKit-iOS"),
-        .external(name: "NestedA11yIDs"),
+        .external(name: "NestedA11yIDs")
     ]
     return Target.target(
         name: targetName,
@@ -146,7 +146,7 @@ func cliLibraryTarget() -> Target {
         sources: ["Sources/ISOInspectorCLI/**"],
         dependencies: [
             .target(name: "ISOInspectorKit-macOS"),
-            .external(name: "ArgumentParser"),
+            .external(name: "ArgumentParser")
         ],
         settings: .settings(base: baseSettings)
     )
@@ -163,7 +163,7 @@ func cliRunnerTarget() -> Target {
         sources: ["Sources/ISOInspectorCLIRunner/**"],
         dependencies: [
             .target(name: "ISOInspectorCLI"),
-            .external(name: "ArgumentParser"),
+            .external(name: "ArgumentParser")
         ],
         settings: .settings(base: baseSettings)
     )
@@ -179,7 +179,7 @@ let project = Project(
             requirement: .upToNextMajor(from: "1.0.0")),
         .remote(
             url: "https://github.com/apple/swift-argument-parser",
-            requirement: .upToNextMajor(from: "1.3.0")),
+            requirement: .upToNextMajor(from: "1.3.0"))
     ],
     targets: [
         kitTarget(for: .macOS),
@@ -188,6 +188,6 @@ let project = Project(
         appTarget(for: .iOS),
         appTarget(for: .iPadOS),
         cliLibraryTarget(),
-        cliRunnerTarget(),
+        cliRunnerTarget()
     ]
 )
