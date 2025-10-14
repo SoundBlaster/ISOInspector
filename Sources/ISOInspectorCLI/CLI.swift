@@ -1,6 +1,14 @@
 import Dispatch
 import Foundation
-import ISOInspectorKit
+#if canImport(ISOInspectorKit_iOS)
+import ISOInspectorKit_iOS
+#endif
+#if canImport(ISOInspectorKit_macOS)
+import ISOInspectorKit_macOS
+#endif
+#if canImport(ISOInspectorKit_ipadOS)
+import ISOInspectorKit_ipadOS
+#endif
 
 public struct ISOInspectorCLIEnvironment: Sendable {
     public var refreshCatalog: @Sendable (_ source: URL, _ output: URL) throws -> Void
