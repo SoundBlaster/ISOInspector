@@ -14,6 +14,14 @@ import ISOInspectorKit_ipadOS
 #endif
 import UniformTypeIdentifiers
 
+#if os(macOS)
+private let bookmarkCreationOptions: URL.BookmarkCreationOptions = [.withSecurityScope]
+private let bookmarkResolutionOptions: URL.BookmarkResolutionOptions = [.withSecurityScope]
+#else
+private let bookmarkCreationOptions: URL.BookmarkCreationOptions = []
+private let bookmarkResolutionOptions: URL.BookmarkResolutionOptions = []
+#endif
+
 @MainActor
 final class DocumentSessionController: ObservableObject {
     @Published private(set) var recents: [DocumentRecent]
@@ -198,7 +206,7 @@ final class DocumentSessionController: ObservableObject {
 
     private func makeBookmarkData(for url: URL) -> Data? {
         #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-        return try? url.bookmarkData(options: [.withSecurityScope], includingResourceValuesForKeys: nil, relativeTo: nil)
+        return try? url.bookmarkData(options: bookmarkCreationOptions, includingResourceValuesForKeys: nil, relativeTo: nil)
         #else
         return nil
         #endif
@@ -208,8 +216,18 @@ final class DocumentSessionController: ObservableObject {
         #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
         if let bookmark = recent.bookmarkData {
             var isStale = false
-            if let url = try? URL(resolvingBookmarkData: bookmark, options: [.withSecurityScope], relativeTo: nil, bookmarkDataIsStale: &isStale) {
-                if isStale, let refreshed = try? url.bookmarkData(options: [.withSecurityScope], includingResourceValuesForKeys: nil, relativeTo: nil) {
+            if let url = try? URL(
+                resolvingBookmarkData: bookmark,
+                options: bookmarkResolutionOptions,
+                relativeTo: nil,
+                bookmarkDataIsStale: &isStale
+            ) {
+                if isStale,
+                   let refreshed = try? url.bookmarkData(
+                       options: bookmarkCreationOptions,
+                       includingResourceValuesForKeys: nil,
+                       relativeTo: nil
+                   ) {
                     replaceBookmark(for: url, data: refreshed)
                 }
                 return url
