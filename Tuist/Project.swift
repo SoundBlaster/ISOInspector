@@ -78,8 +78,8 @@ func kitTarget(for platform: DistributionPlatform) -> Target {
         bundleId: "com.isoinspector.kit.\(platform.rawValue.lowercased())",
         deploymentTargets: deploymentTargets(for: platform),
         infoPlist: .default,
-        sources: ["Sources/ISOInspectorKit/**"],
-        resources: ["Sources/ISOInspectorKit/Resources/**"],
+        sources: ["../Sources/ISOInspectorKit/**"],
+        resources: ["../Sources/ISOInspectorKit/Resources/**"],
         settings: .settings(base: baseSettings)
     )
 }
@@ -107,8 +107,8 @@ func appTarget(for platform: DistributionPlatform) -> Target {
         bundleId: metadata.bundleIdentifier(for: platform),
         deploymentTargets: deploymentTargets(for: platform),
         infoPlist: .default,
-        sources: ["Sources/ISOInspectorApp/**"],
-        resources: ["Sources/ISOInspectorApp/Resources/**"],
+        sources: ["../Sources/ISOInspectorApp/**"],
+        resources: ["../Sources/ISOInspectorApp/Resources/**"],
         entitlements: entitlements,
         dependencies: dependencies,
         settings: .settings(base: baseSettings)
@@ -122,7 +122,7 @@ let cliTarget = Target.target(
     bundleId: "com.isoinspector.cli",
     deploymentTargets: .macOS("14.0"),
     infoPlist: .default,
-    sources: ["Sources/ISOInspectorCLI/**", "Sources/ISOInspectorCLIRunner/**"],
+    sources: ["../Sources/ISOInspectorCLI/**", "../Sources/ISOInspectorCLIRunner/**"],
     dependencies: [
         .target(name: "ISOInspectorKit-macOS"),
         .external(name: "ArgumentParser")
