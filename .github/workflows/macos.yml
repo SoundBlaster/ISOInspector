@@ -1,10 +1,11 @@
 name: macOS Build
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch: {}
   pull_request:
+    branches:
+      - '**'
+  push:
     branches:
       - main
 
@@ -20,16 +21,11 @@ jobs:
         id: tuist-version
         run: |
           set -euo pipefail
-          TUIST_VERSION=$(python3 - <<'PY'
-import json
-import urllib.request
-
-with urllib.request.urlopen("https://api.github.com/repos/tuist/tuist/releases/latest") as response:
-    data = json.load(response)
-print(data["tag_name"])
-PY
-          )
-          echo "Resolved Tuist version: ${TUIST_VERSION}"
+          TUIST_VERSION=$(curl -fsSL "https://api.github.com/repos/tuist/tuist/releases/latest" | jq -r '.tag_name')
+          if [ -z "${TUIST_VERSION}" ] || [ "${TUIST_VERSION}" = "null" ]; then
+            echo "Failed to determine Tuist release" >&2
+            exit 1
+          fi
           echo "tuist_version=${TUIST_VERSION}" >> "$GITHUB_OUTPUT"
 
       - name: Cache Tuist binary
@@ -49,7 +45,7 @@ PY
           if [ ! -x "${INSTALL_DIR}/tuist" ]; then
             echo "Downloading Tuist ${TUIST_VERSION}"
             tmpdir=$(mktemp -d)
-            curl -L -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
+            curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
             unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
             install -m 0755 "${tmpdir}/tuist" "${INSTALL_DIR}/tuist"
             rm -rf "${tmpdir}"
@@ -68,16 +64,13 @@ PY
         run: xcodebuild -version
 
       - name: Validate Tuist project definition
-        run: tuist lint project
+        run: tuist project lint
 
       - name: Fetch Tuist dependencies
         run: tuist fetch
 
       - name: Generate Xcode project with Tuist
         run: tuist generate --no-open
-
-      - name: Run Swift tests
-        run: echo "Swift tests disabled in macOS build workflow"
 
       - name: Archive ISOInspectorApp (unsigned)
         run: |
