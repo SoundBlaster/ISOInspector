@@ -425,6 +425,7 @@ private struct HexSliceView: View {
             .onChange(of: highlightedRange) { _, newValue in
                 focusedOffset = newValue?.lowerBound
             }
+            #if canImport(AppKit)
             .onMoveCommand { direction in
                 guard focusTarget.wrappedValue == .hex else { return }
                 guard let offset = focusedOffset ?? highlightedRange?.lowerBound else { return }
@@ -432,6 +433,7 @@ private struct HexSliceView: View {
                 select(offset: nextOffset)
                 scrollToOffset(nextOffset, proxy: proxy)
             }
+            #endif
         }
     }
 
@@ -461,6 +463,7 @@ private struct HexSliceView: View {
         onSelectOffset(offset)
     }
 
+    #if canImport(AppKit)
     private func nextOffset(from offset: Int64, direction: MoveCommandDirection) -> Int64? {
         switch direction {
         case .left:
@@ -479,6 +482,7 @@ private struct HexSliceView: View {
             return nil
         }
     }
+    #endif
 
     private func scrollToOffset(_ offset: Int64, proxy: ScrollViewProxy) {
         if let id = rowID(for: offset..<(offset + 1)) {
@@ -733,3 +737,4 @@ private extension ValidationIssue.Severity {
     }
 }
 #endif
+
