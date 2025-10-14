@@ -283,6 +283,7 @@ struct ParseTreeOutlineView: View {
                 }
             }
             .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.root)
+#if !os(iOS)
             .onMoveCommand { direction in
                 guard focusTarget.wrappedValue == .outline else { return }
                 guard let nextID = nextRowID(for: direction) else { return }
@@ -291,7 +292,8 @@ struct ParseTreeOutlineView: View {
                 }
                 keyboardSelectionID = nextID
                 focusedRowID = nextID
-            }
+            }            
+#endif
         }
     }
 
@@ -336,6 +338,7 @@ struct ParseTreeOutlineView: View {
         return isActive ? category.color : .secondary
     }
 
+#if !os(iOS)
     private func nextRowID(for direction: MoveCommandDirection) -> ParseTreeNode.ID? {
         let activeID = keyboardSelectionID ?? selectedNodeID
         switch direction {
@@ -366,6 +369,7 @@ struct ParseTreeOutlineView: View {
             return activeID
         }
     }
+#endif
 }
 
 private struct ParseTreeOutlineRowView: View {
