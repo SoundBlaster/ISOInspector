@@ -85,8 +85,13 @@ struct AppShellView: View {
     private var detail: some View {
         Group {
             if controller.currentDocument != nil {
-                ParseTreeExplorerView(store: controller.parseTreeStore, annotations: controller.annotations)
-                    .frame(minWidth: 640, minHeight: 480)
+                ParseTreeExplorerView(
+                    store: controller.parseTreeStore,
+                    annotations: controller.annotations,
+                    outlineViewModel: ParseTreeOutlineViewModel(),
+                    detailViewModel: ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
+                )
+                .frame(minWidth: 640, minHeight: 480)
             } else {
                 OnboardingView(openAction: { isImporterPresented = true })
             }

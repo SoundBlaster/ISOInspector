@@ -24,8 +24,8 @@ struct ParseTreeExplorerView: View {
     init(
         store: ParseTreeStore,
         annotations: AnnotationBookmarkSession,
-        outlineViewModel: ParseTreeOutlineViewModel = ParseTreeOutlineViewModel(),
-        detailViewModel: ParseTreeDetailViewModel = ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
+        outlineViewModel: ParseTreeOutlineViewModel,
+        detailViewModel: ParseTreeDetailViewModel
     ) {
         self._store = ObservedObject(wrappedValue: store)
         self._annotations = ObservedObject(wrappedValue: annotations)
@@ -586,7 +586,9 @@ private struct ParseTreeExplorerPreview: View {
     var body: some View {
         ParseTreeExplorerView(
             store: store,
-            annotations: annotations
+            annotations: annotations,
+            outlineViewModel: ParseTreeOutlineViewModel(),
+            detailViewModel: ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
         )
         .frame(width: 520, height: 520)
     }

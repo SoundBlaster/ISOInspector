@@ -36,8 +36,8 @@ final class DocumentSessionController: ObservableObject {
     private var annotationsSelectionCancellable: AnyCancellable?
 
     init(
-        parseTreeStore: ParseTreeStore = ParseTreeStore(),
-        annotations: AnnotationBookmarkSession = AnnotationBookmarkSession(store: nil),
+        parseTreeStore: ParseTreeStore? = nil,
+        annotations: AnnotationBookmarkSession? = nil,
         recentsStore: DocumentRecentsStoring,
         sessionStore: WorkspaceSessionStoring? = nil,
         pipelineFactory: @escaping () -> ParsePipeline = { .live() },
@@ -45,8 +45,11 @@ final class DocumentSessionController: ObservableObject {
         workQueue: DocumentSessionWorkQueue = DocumentSessionBackgroundQueue(),
         recentLimit: Int = 10
     ) {
-        self.parseTreeStore = parseTreeStore
-        self.annotations = annotations
+        let resolvedParseTreeStore = parseTreeStore ?? ParseTreeStore()
+        let resolvedAnnotations = annotations ?? AnnotationBookmarkSession(store: nil)
+
+        self.parseTreeStore = resolvedParseTreeStore
+        self.annotations = resolvedAnnotations
         self.recentsStore = recentsStore
         self.sessionStore = sessionStore
         self.pipelineFactory = pipelineFactory
@@ -55,7 +58,7 @@ final class DocumentSessionController: ObservableObject {
         self.recentLimit = recentLimit
         self.recents = (try? recentsStore.load()) ?? []
 
-        annotationsSelectionCancellable = annotations.$currentSelectedNodeID
+        annotationsSelectionCancellable = resolvedAnnotations.$currentSelectedNodeID
             .dropFirst()
             .sink { [weak self] _ in
                 guard let self, !self.recents.isEmpty else { return }
