@@ -53,8 +53,13 @@ public final class ResearchLogWriter: ResearchLogRecording, @unchecked Sendable 
     }
 
     public static func defaultLogURL(fileManager: FileManager = .default) -> URL {
-        let base = fileManager.homeDirectoryForCurrentUser
-            .appendingPathComponent(".isoinspector", isDirectory: true)
+        #if os(macOS)
+        let baseDirectory = fileManager.homeDirectoryForCurrentUser
+        #else
+        let baseDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+            ?? fileManager.temporaryDirectory
+        #endif
+        let base = baseDirectory.appendingPathComponent(".isoinspector", isDirectory: true)
         return base.appendingPathComponent("research-log.json", isDirectory: false)
     }
 
