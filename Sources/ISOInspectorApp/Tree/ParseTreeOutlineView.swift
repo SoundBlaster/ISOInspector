@@ -1,8 +1,17 @@
 #if canImport(SwiftUI) && canImport(Combine)
 import Combine
 import SwiftUI
-import ISOInspectorKit
 import NestedA11yIDs
+
+#if canImport(ISOInspectorKit_iOS)
+import ISOInspectorKit_iOS
+#endif
+#if canImport(ISOInspectorKit_macOS)
+import ISOInspectorKit_macOS
+#endif
+#if canImport(ISOInspectorKit_ipadOS)
+import ISOInspectorKit_ipadOS
+#endif
 
 struct ParseTreeExplorerView: View {
     @ObservedObject var store: ParseTreeStore
