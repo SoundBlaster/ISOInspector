@@ -4,6 +4,22 @@ ISOInspectorKit provides the shared parsing and validation foundation for the IS
 
 ## Topics
 
+### Getting Started
+- <doc:GettingStarted>
+- <doc:DeveloperOnboarding>
+
+### Guides
+- <doc:TuistConfiguration>
+- <doc:NestedA11yIDsIntegration>
+- <doc:MP4RARefreshGuide>
+
+### Manuals
+- <doc:App>
+- <doc:CLI>
+
+### Architecture
+- <doc:Architecture>
+
 ### Bootstrapping
 - ``ISOInspectorKit/projectName``
 - ``ISOInspectorKit/initialFocusAreas``
