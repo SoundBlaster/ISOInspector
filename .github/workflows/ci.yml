@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
     branches:
-      - main
+      - '**'
   push:
     branches:
       - main
@@ -102,3 +102,4 @@ jobs:
           path: docc-archives.tar.gz
           if-no-files-found: error
           retention-days: 14
+
