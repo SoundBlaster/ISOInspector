@@ -1,6 +1,6 @@
 # Getting Started
 
-Follow the XP-inspired outside-in workflow described in `DOCS/RULES/02_TDD_XP_Workflow.md` when contributing to ISOInspector.【F:DOCS/RULES/02_TDD_XP_Workflow.md†L1-L112】 For the complete onboarding playbook, read `Docs/Guides/DeveloperOnboarding.md` before picking up a task.【F:Docs/Guides/DeveloperOnboarding.md†L1-L126】
+Follow the XP-inspired outside-in workflow described in `DOCS/RULES/02_TDD_XP_Workflow.md` when contributing to ISOInspector.【F:DOCS/RULES/02_TDD_XP_Workflow.md†L1-L112】 For the complete onboarding playbook, read <doc:DeveloperOnboarding> before picking up a task.【F:Documentation/ISOInspector.docc/Guides/DeveloperOnboarding.md†L1-L126】
 
 ## 1. Prerequisites
 - Swift 6.0.1 or newer.【F:README.md†L17-L24】
@@ -15,6 +15,6 @@ swift test
 Run these commands early to keep the workspace green and validate all targets.【F:README.md†L17-L32】
 
 ## 3. Next Steps
-- Review the Developer Onboarding guide for architecture and API references.【F:Docs/Guides/DeveloperOnboarding.md†L1-L126】
-- Capture design decisions in `Docs/Architecture/README.md` and DocC catalogs as you implement features.【F:README.md†L5-L41】
-- Document new workflows in `Docs/Manuals` or task-specific notes under `DOCS/TASK_ARCHIVE/`.【F:README.md†L5-L41】
+- Review the Developer Onboarding guide for architecture and API references.【F:Documentation/ISOInspector.docc/Guides/DeveloperOnboarding.md†L1-L126】
+- Capture design decisions in <doc:Architecture> and DocC catalogs as you implement features.【F:README.md†L5-L41】
+- Document new workflows in the manuals under `Documentation/ISOInspector.docc/Manuals` or task-specific notes within `DOCS/TASK_ARCHIVE/`.【F:README.md†L5-L41】

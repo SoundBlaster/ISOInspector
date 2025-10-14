@@ -5,7 +5,7 @@ This guide explains how ISOInspector encodes its multi-platform targets, shared 
 ## Manifest overview
 - `Project.swift` is the canonical Tuist manifest. It loads distribution metadata, defines helper functions for locating the repository, and exposes shared constants used by every target.【F:Project.swift†L4-L69】
 - The manifest models each supported platform through the `DistributionPlatform` enum and helper methods that resolve destinations and deployment targets for macOS, iOS, and iPadOS builds.【F:Project.swift†L29-L89】
-- `tuist generate` should be run from the repository root to materialize an Xcode project backed by these manifests and metadata.【F:Docs/Guides/DeveloperOnboarding.md†L121-L130】
+- `tuist generate` should be run from the repository root to materialize an Xcode project backed by these manifests and metadata.【F:Documentation/ISOInspector.docc/Guides/DeveloperOnboarding.md†L121-L130】
 
 ## Distribution metadata inputs
 - Marketing version, build number, team identifier, and bundle identifiers live in `Sources/ISOInspectorKit/Resources/Distribution/DistributionMetadata.json`. Keep these values authoritative so the manifest, documentation, and CI builds stay synchronized.【F:Sources/ISOInspectorKit/Resources/Distribution/DistributionMetadata.json†L1-L21】
