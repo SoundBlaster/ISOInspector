@@ -16,6 +16,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Cache Tuist
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.tuist
+            ~/Library/Caches/org.tuist
+          key: ${{ runner.os }}-tuist-${{ hashFiles('Tuist/Project.swift', 'Tuist/Config.swift', 'Tuist/Dependencies.swift') }}
+
+      - name: Install Tuist
+        run: |
+          curl -Ls https://install.tuist.io | bash
+          echo "$HOME/.tuist/bin" >> $GITHUB_PATH
+
       - name: Select latest stable Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
@@ -24,6 +37,15 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
+      - name: Validate Tuist project definition
+        run: tuist lint project
+
+      - name: Fetch Tuist dependencies
+        run: tuist fetch
+
+      - name: Generate Xcode project with Tuist
+        run: tuist generate --no-open
+
       - name: Run Swift tests
         run: echo "Swift tests disabled in macOS build workflow"
 
@@ -31,7 +53,8 @@ jobs:
         run: |
           set -eo pipefail
           xcodebuild archive \
-            -scheme ISOInspectorApp \
+            -workspace ISOInspector.xcworkspace \
+            -scheme ISOInspectorApp-macOS \
             -destination 'generic/platform=macOS' \
             -archivePath build/ISOInspectorApp \
             CODE_SIGN_IDENTITY="" \
