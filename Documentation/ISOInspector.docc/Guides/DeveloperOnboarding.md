@@ -132,6 +132,6 @@ Before opening a pull request:
 ## 10. Further Reading
 
 - DocC archives generated via task A3 cover API tutorials for ISOInspectorKit, CLI usage, and SwiftUI state stores (`Sources/*/*.docc`).【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L8-L24】
-- `Docs/Guides/TuistConfiguration.md` documents how Tuist reads distribution metadata, configures targets, and manages platform-specific entitlements before generating the Xcode workspace.【F:Docs/Guides/TuistConfiguration.md†L1-L27】
+- <doc:TuistConfiguration> documents how Tuist reads distribution metadata, configures targets, and manages platform-specific entitlements before generating the Xcode workspace.【F:Documentation/ISOInspector.docc/Guides/TuistConfiguration.md†L1-L27】
 - Task archive summaries provide historical context for major systems (see `DOCS/TASK_ARCHIVE/`).
 - `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md` tracks remaining backlog items and highlights blocked scenarios (e.g., macOS automation and Combine benchmarks).【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L1-L160】
