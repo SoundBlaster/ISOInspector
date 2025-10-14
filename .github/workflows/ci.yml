@@ -102,3 +102,101 @@ jobs:
           path: docc-archives.tar.gz
           if-no-files-found: error
           retention-days: 14
+
+  macos-builds:
+    name: macOS Archive & CLI Binary
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Determine Tuist release
+        id: tuist-version
+        run: |
+          set -euo pipefail
+          TUIST_VERSION=$(python3 - <<'PY'
+import json, urllib.request
+with urllib.request.urlopen("https://api.github.com/repos/tuist/tuist/releases/latest") as r:
+    print(json.load(r)["tag_name"])
+PY
+          )
+          echo "tuist_version=${TUIST_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Tuist binary
+        id: cache-tuist
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/tuist/${{ steps.tuist-version.outputs.tuist_version }}
+          key: ${{ runner.os }}-tuist-${{ steps.tuist-version.outputs.tuist_version }}
+
+      - name: Install Tuist
+        env:
+          TUIST_VERSION: ${{ steps.tuist-version.outputs.tuist_version }}
+        run: |
+          set -euo pipefail
+          INSTALL_DIR="${RUNNER_TEMP}/tuist/${TUIST_VERSION}"
+          mkdir -p "${INSTALL_DIR}"
+          if [ ! -x "${INSTALL_DIR}/tuist" ]; then
+            echo "Downloading Tuist ${TUIST_VERSION}"
+            tmpdir=$(mktemp -d)
+            curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
+            unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
+            install -m 0755 "${tmpdir}/tuist" "${INSTALL_DIR}/tuist"
+            rm -rf "${tmpdir}"
+          fi
+          echo "${INSTALL_DIR}" >> "$GITHUB_PATH"
+
+      - name: Show Tuist version
+        run: tuist version
+
+      - name: Select latest stable Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 'latest-stable'
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Validate Tuist project definition
+        run: tuist lint project
+
+      - name: Fetch Tuist dependencies
+        run: tuist fetch
+
+      - name: Generate Xcode project with Tuist
+        run: tuist generate --no-open
+
+      - name: Archive ISOInspectorApp (unsigned)
+        run: |
+          set -eo pipefail
+          xcodebuild archive \
+            -workspace ISOInspector.xcworkspace \
+            -scheme ISOInspectorApp-macOS \
+            -destination 'generic/platform=macOS' \
+            -archivePath build/ISOInspectorApp \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO
+
+      - name: Build ISOInspectorCLI release binary
+        run: swift build --product isoinspect --configuration release
+
+      - name: Prepare artifacts
+        run: |
+          set -eo pipefail
+          mkdir -p artifacts
+          cp -R build/ISOInspectorApp.xcarchive artifacts/
+          cli_path=$(swift build --product isoinspect --configuration release --show-bin-path)
+          cp "$cli_path/isoinspect" artifacts/isoinspect
+
+      - name: Upload ISOInspectorApp archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: ISOInspectorApp-unsigned-archive
+          path: artifacts/ISOInspectorApp.xcarchive
+
+      - name: Upload isoinspect binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: isoinspect-macos-release
+          path: artifacts/isoinspect
