@@ -2,7 +2,7 @@ import ProjectDescription
 import Foundation
 
 struct DistributionMetadata: Decodable {
-    struct Target: Decodable {
+    struct DistributionTarget: Decodable {
         let platform: String
         let productName: String
         let bundleIdentifier: String
@@ -12,7 +12,7 @@ struct DistributionMetadata: Decodable {
     let marketingVersion: String
     let buildNumber: String
     let teamIdentifier: String
-    let targets: [Target]
+    let targets: [DistributionTarget]
 
     func bundleIdentifier(for platform: DistributionPlatform) -> String {
         guard let match = targets.first(where: { $0.platform == platform.rawValue }) else {
