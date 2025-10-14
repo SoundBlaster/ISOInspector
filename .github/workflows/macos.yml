@@ -1,10 +1,11 @@
 name: macOS Build
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch: {}
   pull_request:
+    branches:
+      - '**'
+  push:
     branches:
       - main
 
@@ -18,18 +19,30 @@ jobs:
 
       - name: Determine Tuist release
         id: tuist-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -euo pipefail
-          TUIST_VERSION=$(python3 - <<'PY'
-import json
-import urllib.request
-
-with urllib.request.urlopen("https://api.github.com/repos/tuist/tuist/releases/latest") as response:
-    data = json.load(response)
-print(data["tag_name"])
-PY
-          )
-          echo "Resolved Tuist version: ${TUIST_VERSION}"
+          TOKEN="${GITHUB_TOKEN:-}" # populated automatically in GitHub Actions
+          AUTH_HEADER=""
+          if [ -n "${TOKEN}" ]; then
+            AUTH_HEADER="Authorization: Bearer ${TOKEN}"
+          fi
+          RESPONSE=$(curl -fsSL \
+            --retry 5 \
+            --retry-delay 2 \
+            --retry-all-errors \
+            ${AUTH_HEADER:+-H "$AUTH_HEADER"} \
+            -H "Accept: application/vnd.github+json" \
+            -H "User-Agent: isoinspector-ci" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/tuist/tuist/releases/latest")
+          TUIST_VERSION=$(jq -r '.tag_name // empty' <<<"${RESPONSE}")
+          if [ -z "${TUIST_VERSION}" ]; then
+            echo "Failed to determine Tuist release" >&2
+            jq -r '.message // empty' <<<"${RESPONSE}" >&2 || true
+            exit 1
+          fi
           echo "tuist_version=${TUIST_VERSION}" >> "$GITHUB_OUTPUT"
 
       - name: Cache Tuist binary
@@ -49,9 +62,10 @@ PY
           if [ ! -x "${INSTALL_DIR}/tuist" ]; then
             echo "Downloading Tuist ${TUIST_VERSION}"
             tmpdir=$(mktemp -d)
-            curl -L -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
+            curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
             unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
-            install -m 0755 "${tmpdir}/tuist" "${INSTALL_DIR}/tuist"
+            rsync -a "${tmpdir}/" "${INSTALL_DIR}/"
+            chmod +x "${INSTALL_DIR}/tuist"
             rm -rf "${tmpdir}"
           fi
           echo "${INSTALL_DIR}" >> "$GITHUB_PATH"
@@ -68,16 +82,13 @@ PY
         run: xcodebuild -version
 
       - name: Validate Tuist project definition
-        run: tuist lint project
+        run: tuist dump project --path Tuist > /dev/null
 
       - name: Fetch Tuist dependencies
-        run: tuist fetch
+        run: tuist fetch --path Tuist
 
       - name: Generate Xcode project with Tuist
-        run: tuist generate --no-open
-
-      - name: Run Swift tests
-        run: echo "Swift tests disabled in macOS build workflow"
+        run: tuist generate --path Tuist --no-open
 
       - name: Archive ISOInspectorApp (unsigned)
         run: |
