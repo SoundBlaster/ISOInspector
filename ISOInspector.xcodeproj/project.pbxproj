@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -449,7 +449,7 @@
 		EF72F404258F572CBAD3A295 /* MP4RABoxes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MP4RABoxes.json; sourceTree = "<group>"; };
 		F3D46B4A9337E7419A8670AE /* AnnotationRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationRecord.swift; sourceTree = "<group>"; };
 		F46E4B36BBCA953B1DB84BF5 /* HexSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexSlice.swift; sourceTree = "<group>"; };
-		F48D51087E731C7AEA0D60E4 /* ISOInspectorCLIRunner */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = text; path = ISOInspectorCLIRunner; sourceTree = BUILT_PRODUCTS_DIR; };
+		F48D51087E731C7AEA0D60E4 /* ISOInspectorCLIRunner */ = {isa = PBXFileReference; includeInIndex = 0; path = ISOInspectorCLIRunner; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8AA489AF11B9824A5F1D67A /* AnnotationBookmarkSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationBookmarkSession.swift; sourceTree = "<group>"; };
 		F9A1238EA7514747C4429703 /* ISOInspectorKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISOInspectorKit.swift; sourceTree = "<group>"; };
 		F9FD9A51B1B9119CD5622C62 /* DocumentSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentSessionController.swift; sourceTree = "<group>"; };
@@ -1007,6 +1007,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = ISOInspector;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 875EF0FB2020C34388A0DC8D /* Build configuration list for PBXProject "ISOInspector" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -1431,7 +1433,10 @@
 				PRODUCT_NAME = ISOInspectorKit_macOS;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1448,7 +1453,6 @@
 				CODE_SIGN_ENTITLEMENTS = Distribution/Entitlements/ISOInspectorApp.iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P8T2366K8X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorApp-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1463,7 +1467,10 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1513,7 +1520,6 @@
 				CODE_SIGN_ENTITLEMENTS = Distribution/Entitlements/ISOInspectorApp.iPadOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P8T2366K8X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorApp-iPadOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1546,7 +1552,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector.cli.runner;
 				PRODUCT_NAME = ISOInspectorCLIRunner;
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1620,7 +1629,6 @@
 				CODE_SIGN_ENTITLEMENTS = Distribution/Entitlements/ISOInspectorApp.iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P8T2366K8X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorApp-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1684,7 +1692,10 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1702,7 +1713,6 @@
 				CODE_SIGN_ENTITLEMENTS = Distribution/Entitlements/ISOInspectorApp.iPadOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P8T2366K8X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorApp-iPadOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1717,7 +1727,10 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1753,7 +1766,10 @@
 				PRODUCT_NAME = ISOInspectorCLI;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1819,11 +1835,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Distribution/Entitlements/ISOInspectorApp.macOS.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P8T2366K8X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorApp-macOS-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1834,9 +1848,11 @@
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector.app.mac;
 				PRODUCT_NAME = ISOInspectorApp_macOS;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1849,11 +1865,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Distribution/Entitlements/ISOInspectorApp.macOS.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P8T2366K8X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorApp-macOS-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1864,7 +1878,6 @@
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector.app.mac;
 				PRODUCT_NAME = ISOInspectorApp_macOS;
-				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
