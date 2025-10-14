@@ -49,6 +49,25 @@ let baseSettings: SettingsDictionary = [
     "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber)
 ]
 
+let defaultConfigurations: [Configuration] = [
+    .debug(name: .debug),
+    .release(name: .release)
+]
+
+let projectSettings = Settings.settings(
+    base: baseSettings,
+    configurations: defaultConfigurations,
+    defaultSettings: .recommended,
+    defaultConfiguration: "Debug"
+)
+
+let targetSettings = Settings.settings(
+    base: baseSettings,
+    configurations: defaultConfigurations,
+    defaultSettings: .recommended,
+    defaultConfiguration: "Debug"
+)
+
 func destinations(for platform: DistributionPlatform) -> Destinations {
     switch platform {
     case .macOS:
@@ -78,9 +97,9 @@ func kitTarget(for platform: DistributionPlatform) -> Target {
         bundleId: "com.isoinspector.kit.\(platform.rawValue.lowercased())",
         deploymentTargets: deploymentTargets(for: platform),
         infoPlist: .default,
-        sources: ["Sources/ISOInspectorKit/**"],
-        resources: ["Sources/ISOInspectorKit/Resources/**"],
-        settings: .settings(base: baseSettings)
+        sources: ["../Sources/ISOInspectorKit/**"],
+        resources: ["../Sources/ISOInspectorKit/Resources/**"],
+        settings: targetSettings
     )
 }
 
@@ -107,11 +126,11 @@ func appTarget(for platform: DistributionPlatform) -> Target {
         bundleId: metadata.bundleIdentifier(for: platform),
         deploymentTargets: deploymentTargets(for: platform),
         infoPlist: .default,
-        sources: ["Sources/ISOInspectorApp/**"],
-        resources: ["Sources/ISOInspectorApp/Resources/**"],
+        sources: ["../Sources/ISOInspectorApp/**"],
+        resources: ["../Sources/ISOInspectorApp/Resources/**"],
         entitlements: entitlements,
         dependencies: dependencies,
-        settings: .settings(base: baseSettings)
+        settings: targetSettings
     )
 }
 
@@ -122,12 +141,12 @@ let cliTarget = Target.target(
     bundleId: "com.isoinspector.cli",
     deploymentTargets: .macOS("14.0"),
     infoPlist: .default,
-    sources: ["Sources/ISOInspectorCLI/**", "Sources/ISOInspectorCLIRunner/**"],
+    sources: ["../Sources/ISOInspectorCLI/**", "../Sources/ISOInspectorCLIRunner/**"],
     dependencies: [
         .target(name: "ISOInspectorKit-macOS"),
         .external(name: "ArgumentParser")
     ],
-    settings: .settings(base: baseSettings)
+    settings: targetSettings
 )
 
 let project = Project(
@@ -138,6 +157,7 @@ let project = Project(
         .remote(url: "https://github.com/SoundBlaster/NestedA11yIDs", requirement: .upToNextMajor(from: "1.0.0")),
         .remote(url: "https://github.com/apple/swift-argument-parser", requirement: .upToNextMajor(from: "1.3.0"))
     ],
+    settings: projectSettings,
     targets: [
         kitTarget(for: .macOS),
         kitTarget(for: .iOS),
