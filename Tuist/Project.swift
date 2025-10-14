@@ -2,7 +2,7 @@ import ProjectDescription
 import Foundation
 
 struct DistributionMetadata: Decodable {
-    struct Target: Decodable {
+    struct DistributionTarget: Decodable {
         let platform: String
         let productName: String
         let bundleIdentifier: String
@@ -12,7 +12,7 @@ struct DistributionMetadata: Decodable {
     let marketingVersion: String
     let buildNumber: String
     let teamIdentifier: String
-    let targets: [Target]
+    let targets: [DistributionTarget]
 
     func bundleIdentifier(for platform: DistributionPlatform) -> String {
         guard let match = targets.first(where: { $0.platform == platform.rawValue }) else {
@@ -49,18 +49,34 @@ let baseSettings: SettingsDictionary = [
     "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber)
 ]
 
+func destinations(for platform: DistributionPlatform) -> Destinations {
+    switch platform {
+    case .macOS:
+        return [.mac]
+    case .iPadOS:
+        return [.ipad]
+    case .iOS:
+        return [.iphone, .ipad]
+    }
+}
+
+func deploymentTargets(for platform: DistributionPlatform) -> DeploymentTargets {
+    switch platform {
+    case .macOS:
+        return .macOS("14.0")
+    case .iPadOS, .iOS:
+        return .iOS("16.0")
+    }
+}
+
 func kitTarget(for platform: DistributionPlatform) -> Target {
     let name = platform == .macOS ? "ISOInspectorKit-macOS" : "ISOInspectorKit-iOS"
-    let platformValue: Platform = platform == .macOS ? .macOS : .iOS
-    let deploymentTarget: DeploymentTarget = platform == .macOS
-        ? .macOS(targetVersion: "14.0")
-        : .iOS(targetVersion: "16.0", devices: [.iphone, .ipad])
-    return Target(
+    return Target.target(
         name: name,
-        platform: platformValue,
+        destinations: destinations(for: platform),
         product: .framework,
         bundleId: "com.isoinspector.kit.\(platform.rawValue.lowercased())",
-        deploymentTarget: deploymentTarget,
+        deploymentTargets: deploymentTargets(for: platform),
         infoPlist: .default,
         sources: ["Sources/ISOInspectorKit/**"],
         resources: ["Sources/ISOInspectorKit/Resources/**"],
@@ -79,29 +95,17 @@ func appTarget(for platform: DistributionPlatform) -> Target {
         targetName = "ISOInspectorApp-iOS"
     }
 
-    let platformValue: Platform = platform == .macOS ? .macOS : .iOS
-
-    let deploymentTarget: DeploymentTarget
-    switch platform {
-    case .macOS:
-        deploymentTarget = .macOS(targetVersion: "14.0")
-    case .iPadOS:
-        deploymentTarget = .iOS(targetVersion: "16.0", devices: [.ipad])
-    case .iOS:
-        deploymentTarget = .iOS(targetVersion: "16.0", devices: [.iphone, .ipad])
-    }
-
     let entitlements = metadata.entitlementsPath(for: platform).map { Path.relativeToRoot($0) }
     let dependencies: [TargetDependency] = [
         .target(name: platform == .macOS ? "ISOInspectorKit-macOS" : "ISOInspectorKit-iOS"),
-        .product(name: "NestedA11yIDs", package: "NestedA11yIDs")
+        .external(name: "NestedA11yIDs")
     ]
-    return Target(
+    return Target.target(
         name: targetName,
-        platform: platformValue,
+        destinations: destinations(for: platform),
         product: .app,
         bundleId: metadata.bundleIdentifier(for: platform),
-        deploymentTarget: deploymentTarget,
+        deploymentTargets: deploymentTargets(for: platform),
         infoPlist: .default,
         sources: ["Sources/ISOInspectorApp/**"],
         resources: ["Sources/ISOInspectorApp/Resources/**"],
@@ -111,17 +115,18 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     )
 }
 
-let cliTarget = Target(
+let cliTarget = Target.target(
     name: "ISOInspectorCLI",
-    platform: .macOS,
+    destinations: [.mac],
     product: .commandLineTool,
     bundleId: "com.isoinspector.cli",
+    deploymentTargets: .macOS("14.0"),
     infoPlist: .default,
     sources: ["Sources/ISOInspectorCLI/**", "Sources/ISOInspectorCLIRunner/**"],
     settings: .settings(base: baseSettings),
     dependencies: [
         .target(name: "ISOInspectorKit-macOS"),
-        .product(name: "ArgumentParser", package: "swift-argument-parser")
+        .external(name: "ArgumentParser")
     ]
 )
 
