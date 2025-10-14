@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:ISOInspector.xcodeproj">
+   </FileRef>
+   <Group
+      location = "container:"
+      name = "Dependencies">
+      <FileRef
+         location = "group:.build/tuist-derived/NestedA11yIDs/NestedA11yIDs.xcodeproj">
+      </FileRef>
+      <FileRef
+         location = "group:.build/tuist-derived/swift-argument-parser/swift-argument-parser.xcodeproj">
+      </FileRef>
+   </Group>
+</Workspace>

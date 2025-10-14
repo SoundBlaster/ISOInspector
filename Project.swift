@@ -1,5 +1,5 @@
-import ProjectDescription
 import Foundation
+import ProjectDescription
 
 struct DistributionMetadata: Decodable {
     struct DistributionTarget: Decodable {
@@ -16,7 +16,7 @@ struct DistributionMetadata: Decodable {
 
     func bundleIdentifier(for platform: DistributionPlatform) -> String {
         guard let match = targets.first(where: { $0.platform == platform.rawValue }) else {
-            return "com.isoinspector.app"
+            return "ru.egormerkushev.isoinspector.app"
         }
         return match.bundleIdentifier
     }
@@ -32,12 +32,31 @@ enum DistributionPlatform: String {
     case iPadOS
 }
 
+func projectDirectory() -> URL {
+    let fileManager = FileManager.default
+    let metadataRelativePath =
+        "Sources/ISOInspectorKit/Resources/Distribution/DistributionMetadata.json"
+    let candidates = [
+        URL(fileURLWithPath: fileManager.currentDirectoryPath),
+        URL(fileURLWithPath: #filePath)
+            .deletingLastPathComponent(),
+    ]
+
+    // Tuist compiles manifests in a cache directory, so fall back to the process
+    // working directory if #filePath no longer lives at the repository root.
+    if let match = candidates.first(where: {
+        fileManager.fileExists(atPath: $0.appendingPathComponent(metadataRelativePath).path)
+    }) {
+        return match
+    }
+
+    fatalError("Unable to locate project directory containing \(metadataRelativePath)")
+}
+
 func loadDistributionMetadata() -> DistributionMetadata {
-    let projectDirectory = URL(fileURLWithPath: #filePath)
-        .deletingLastPathComponent()
-        .deletingLastPathComponent()
-    let metadataURL = projectDirectory
-        .appendingPathComponent("Sources/ISOInspectorKit/Resources/Distribution/DistributionMetadata.json")
+    let metadataURL = projectDirectory()
+        .appendingPathComponent(
+            "Sources/ISOInspectorKit/Resources/Distribution/DistributionMetadata.json")
     let data = try! Data(contentsOf: metadataURL)
     return try! JSONDecoder().decode(DistributionMetadata.self, from: data)
 }
@@ -46,7 +65,7 @@ let metadata = loadDistributionMetadata()
 
 let baseSettings: SettingsDictionary = [
     "MARKETING_VERSION": .string(metadata.marketingVersion),
-    "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber)
+    "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber),
 ]
 
 func destinations(for platform: DistributionPlatform) -> Destinations {
@@ -75,7 +94,7 @@ func kitTarget(for platform: DistributionPlatform) -> Target {
         name: name,
         destinations: destinations(for: platform),
         product: .framework,
-        bundleId: "com.isoinspector.kit.\(platform.rawValue.lowercased())",
+        bundleId: "ru.egormerkushev.isoinspector.kit.\(platform.rawValue.lowercased())",
         deploymentTargets: deploymentTargets(for: platform),
         infoPlist: .default,
         sources: ["Sources/ISOInspectorKit/**"],
@@ -95,10 +114,12 @@ func appTarget(for platform: DistributionPlatform) -> Target {
         targetName = "ISOInspectorApp-iOS"
     }
 
-    let entitlements = metadata.entitlementsPath(for: platform).map { Entitlements.file(path: .relativeToRoot($0)) }
+    let entitlements = metadata.entitlementsPath(for: platform).map {
+        Entitlements.file(path: .relativeToRoot($0))
+    }
     let dependencies: [TargetDependency] = [
         .target(name: platform == .macOS ? "ISOInspectorKit-macOS" : "ISOInspectorKit-iOS"),
-        .external(name: "NestedA11yIDs")
+        .external(name: "NestedA11yIDs"),
     ]
     return Target.target(
         name: targetName,
@@ -115,28 +136,50 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     )
 }
 
-let cliTarget = Target.target(
-    name: "ISOInspectorCLI",
-    destinations: [.mac],
-    product: .commandLineTool,
-    bundleId: "com.isoinspector.cli",
-    deploymentTargets: .macOS("14.0"),
-    infoPlist: .default,
-    sources: ["Sources/ISOInspectorCLI/**", "Sources/ISOInspectorCLIRunner/**"],
-    dependencies: [
-        .target(name: "ISOInspectorKit-macOS"),
-        .external(name: "ArgumentParser")
-    ],
-    settings: .settings(base: baseSettings)
-)
+func cliLibraryTarget() -> Target {
+    Target.target(
+        name: "ISOInspectorCLI",
+        destinations: [.mac],
+        product: .staticLibrary,
+        bundleId: "ru.egormerkushev.isoinspector.cli.library",
+        infoPlist: .default,
+        sources: ["Sources/ISOInspectorCLI/**"],
+        dependencies: [
+            .target(name: "ISOInspectorKit-macOS"),
+            .external(name: "ArgumentParser"),
+        ],
+        settings: .settings(base: baseSettings)
+    )
+}
+
+func cliRunnerTarget() -> Target {
+    Target.target(
+        name: "ISOInspectorCLIRunner",
+        destinations: [.mac],
+        product: .commandLineTool,
+        bundleId: "ru.egormerkushev.isoinspector.cli.runner",
+        deploymentTargets: .macOS("14.0"),
+        infoPlist: .default,
+        sources: ["Sources/ISOInspectorCLIRunner/**"],
+        dependencies: [
+            .target(name: "ISOInspectorCLI"),
+            .external(name: "ArgumentParser"),
+        ],
+        settings: .settings(base: baseSettings)
+    )
+}
 
 let project = Project(
     name: "ISOInspector",
     organizationName: "ISOInspector",
     options: .options(),
     packages: [
-        .remote(url: "https://github.com/SoundBlaster/NestedA11yIDs", requirement: .upToNextMajor(from: "1.0.0")),
-        .remote(url: "https://github.com/apple/swift-argument-parser", requirement: .upToNextMajor(from: "1.3.0"))
+        .remote(
+            url: "https://github.com/SoundBlaster/NestedA11yIDs",
+            requirement: .upToNextMajor(from: "1.0.0")),
+        .remote(
+            url: "https://github.com/apple/swift-argument-parser",
+            requirement: .upToNextMajor(from: "1.3.0")),
     ],
     targets: [
         kitTarget(for: .macOS),
@@ -144,6 +187,7 @@ let project = Project(
         appTarget(for: .macOS),
         appTarget(for: .iOS),
         appTarget(for: .iPadOS),
-        cliTarget
+        cliLibraryTarget(),
+        cliRunnerTarget(),
     ]
 )

@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import ISOInspectorKit
 
 final class DistributionMetadataTests: XCTestCase {
@@ -15,7 +16,7 @@ final class DistributionMetadataTests: XCTestCase {
             DistributionMetadata.Target(
                 platform: .macOS,
                 productName: "ISOInspector",
-                bundleIdentifier: "com.isoinspector.app.mac",
+                bundleIdentifier: "ru.egormerkushev.isoinspector.app.mac",
                 entitlementsPath: "Distribution/Entitlements/ISOInspectorApp.macOS.entitlements"
             )
         )
@@ -24,7 +25,7 @@ final class DistributionMetadataTests: XCTestCase {
             DistributionMetadata.Target(
                 platform: .iOS,
                 productName: "ISOInspector",
-                bundleIdentifier: "com.isoinspector.app.ios",
+                bundleIdentifier: "ru.egormerkushev.isoinspector.app.ios",
                 entitlementsPath: "Distribution/Entitlements/ISOInspectorApp.iOS.entitlements"
             )
         )
@@ -33,7 +34,7 @@ final class DistributionMetadataTests: XCTestCase {
             DistributionMetadata.Target(
                 platform: .iPadOS,
                 productName: "ISOInspector",
-                bundleIdentifier: "com.isoinspector.app.ipados",
+                bundleIdentifier: "ru.egormerkushev.isoinspector.app.ipados",
                 entitlementsPath: "Distribution/Entitlements/ISOInspectorApp.iPadOS.entitlements"
             )
         )

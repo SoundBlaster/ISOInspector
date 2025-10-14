@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "1010"
+   version = "1.3">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "58F03507C5B6CD516035BFDC"
+               BuildableName = "ArgumentParser.framework"
+               BlueprintName = "ArgumentParser"
+               ReferencedContainer = "container:.build/tuist-derived/swift-argument-parser/swift-argument-parser.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "736556825EB4A1BB54DB95F9"
+               BuildableName = "ArgumentParserToolInfo.framework"
+               BlueprintName = "ArgumentParserToolInfo"
+               ReferencedContainer = "container:.build/tuist-derived/swift-argument-parser/swift-argument-parser.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "97336DB0E111BB9614B2D9DF"
+               BuildableName = "ISOInspectorApp_iOS.app"
+               BlueprintName = "ISOInspectorApp-iOS"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "69BB95BE78583C259FCB7544"
+               BuildableName = "ISOInspectorApp_iPadOS.app"
+               BlueprintName = "ISOInspectorApp-iPadOS"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "CDDCE6E9DE3EBF91EA1F7A6D"
+               BuildableName = "ISOInspectorApp_macOS.app"
+               BlueprintName = "ISOInspectorApp-macOS"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7D8DF2DD0271A860A9899A7F"
+               BuildableName = "libISOInspectorCLI.a"
+               BlueprintName = "ISOInspectorCLI"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "79DEDB2A7B055D4D855681C9"
+               BuildableName = "ISOInspectorCLIRunner"
+               BlueprintName = "ISOInspectorCLIRunner"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "92ECF39A7B428BE64A4FA61A"
+               BuildableName = "ISOInspectorKit_iOS.framework"
+               BlueprintName = "ISOInspectorKit-iOS"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DDD20152950989E9F1CA96C8"
+               BuildableName = "ISOInspectorKit_macOS.framework"
+               BlueprintName = "ISOInspectorKit-macOS"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "E4273F9CE4CA9DDBC5C62729"
+               BuildableName = "NestedA11yIDs.framework"
+               BlueprintName = "NestedA11yIDs"
+               ReferencedContainer = "container:.build/tuist-derived/NestedA11yIDs/NestedA11yIDs.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES">
+      <Testables>
+      </Testables>
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      launchStyle = "0"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "58F03507C5B6CD516035BFDC"
+            BuildableName = "ArgumentParser.framework"
+            BlueprintName = "ArgumentParser"
+            ReferencedContainer = "container:.build/tuist-derived/swift-argument-parser/swift-argument-parser.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "58F03507C5B6CD516035BFDC"
+            BuildableName = "ArgumentParser.framework"
+            BlueprintName = "ArgumentParser"
+            ReferencedContainer = "container:.build/tuist-derived/swift-argument-parser/swift-argument-parser.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>

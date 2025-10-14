@@ -62,7 +62,7 @@ puzzle.【F:Distribution/Entitlements/ISOInspectorApp.macOS.entitlements†L1-L1
 - Added a Tuist `Project.swift` that imports the shared distribution metadata, applies marketing/build versions, and
 
   sets platform-specific bundle identifiers plus entitlements for generated Xcode
-projects.【F:Tuist/Project.swift†L1-L111】
+projects.【F:Project.swift†L1-L183】
 
 ## 🔧 Implementation Notes
 

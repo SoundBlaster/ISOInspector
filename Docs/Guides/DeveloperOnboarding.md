@@ -126,12 +126,11 @@ Before opening a pull request:
   bookmark entitlements for persisted file access.【F:Distribution/Entitlements/ISOInspectorApp.macOS.entitlements†L1-L13】
 - Submit notarization requests with `scripts/notarize_app.sh`. Run with `--dry-run` in Linux containers to confirm arguments
   before executing on macOS builders with configured `notarytool` credentials.【F:scripts/notarize_app.sh†L1-L75】
-- Generate Xcode projects with Tuist by running `tuist generate`; the template in `Tuist/Project.swift` reads the shared
-  distribution metadata so bundle identifiers and build numbers stay in sync.【F:Tuist/Project.swift†L1-L111】
+- Generate Xcode projects with Tuist by running `tuist generate`; the manifest in `Project.swift` reads the shared
+  distribution metadata so bundle identifiers and build numbers stay in sync.【F:Project.swift†L1-L183】
 
 ## 10. Further Reading
 
 - DocC archives generated via task A3 cover API tutorials for ISOInspectorKit, CLI usage, and SwiftUI state stores (`Sources/*/*.docc`).【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L8-L24】
 - Task archive summaries provide historical context for major systems (see `DOCS/TASK_ARCHIVE/`).
 - `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md` tracks remaining backlog items and highlights blocked scenarios (e.g., macOS automation and Combine benchmarks).【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L1-L160】
-

@@ -15,9 +15,9 @@ control.【F:Sources/ISOInspectorKit/Resources/Distribution/DistributionMetadata
     metadata, enabling dry-run submissions in Linux
 CI.【F:Distribution/Entitlements/ISOInspectorApp.macOS.entitlements†L1-L13】【F:Distribution/Entitlements/ISOInspectorApp.iOS.entitlements†L1-L7】【F:Distribution/Entitlements/ISOInspectorApp.iPadOS.entitlements†L1-L7】【F:scripts/notarize_app.sh†L1-L75】
 
-  - Codified distribution settings in `Tuist/Project.swift` so generated Xcode projects inherit bundle identifiers, versioning,
+  - Codified distribution settings in `Project.swift` so generated Xcode projects inherit bundle identifiers, versioning,
 
-    and entitlements without manual edits.【F:Tuist/Project.swift†L1-L111】
+    and entitlements without manual edits.【F:Project.swift†L1-L183】
 
 ## Documentation Updates
 
