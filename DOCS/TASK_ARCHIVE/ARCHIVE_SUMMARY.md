@@ -330,3 +330,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/55_E4_Prepare_App_Distribution_Configuration/`.
 - **Highlights:** Documents the shared distribution metadata manifest, Swift helper API, and XCTest coverage for versioned bundle identifiers plus the new platform entitlement sets and notarization helper script that enable dry-run submissions from CI. The Tuist configuration updates keep generated projects aligned with the source-controlled bundle IDs, versions, and entitlements.
 - **Next steps carried forward:** Run the macOS-only streaming UI automation and Combine benchmark suites, surface session persistence diagnostics, and decide whether notarization requires Apple Events automation once macOS hardware and diagnostics plumbing are available; see the refreshed `DOCS/INPROGRESS/next_tasks.md` for tracking.
+
+## 57_Distribution_Apple_Events_Notarization_Assessment
+- **Archived files:** `56_Distribution_Apple_Events_Notarization_Assessment.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/`.
+- **Highlights:** Captures the notarization entitlement audit confirming Apple Events automation is unnecessary for the current `notarytool` workflow while documenting how to extend entitlements if Finder or Archive Utility scripting becomes required.
+- **Next steps carried forward:** Continue tracking macOS-only automation, benchmarking, and session persistence diagnostics via `DOCS/INPROGRESS/next_tasks.md`; revisit distribution entitlements if future tooling introduces Apple Events dependencies.

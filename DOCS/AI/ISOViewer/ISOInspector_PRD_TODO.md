@@ -246,7 +246,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 ### Phase I — Packaging & Release
 - [x] I1. SwiftPM product definitions (library + app).
 - [x] I2. App entitlements for file access; sandbox. *(Completed by E4 distribution scaffolding — see `Distribution/Entitlements/` and `scripts/notarize_app.sh` for notarization tooling.)*
-- [ ] I2.a Evaluate whether Apple Events automation is required for notarized builds and extend entitlements safely. *(In Progress — see `DOCS/INPROGRESS/56_Distribution_Apple_Events_Notarization_Assessment.md`.)*
+- [x] I2.a Evaluate whether Apple Events automation is required for notarized builds and extend entitlements safely. *(Archived — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/56_Distribution_Apple_Events_Notarization_Assessment.md`.)*
 - [ ] I3. App theming (icon, light/dark).
 - [ ] I4. README with feature matrix, supported boxes, screenshots.
 - [ ] I5. v0.1.0 Release notes; distribution (TestFlight/DMG notarization).
