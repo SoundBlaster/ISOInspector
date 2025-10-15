@@ -10,6 +10,9 @@ import ISOInspectorKit_macOS
 #if canImport(ISOInspectorKit_ipadOS)
 import ISOInspectorKit_ipadOS
 #endif
+#if canImport(ISOInspectorKit)
+import ISOInspectorKit
+#endif
 
 #if canImport(Darwin)
 import Darwin
