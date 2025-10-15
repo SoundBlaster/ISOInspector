@@ -40,7 +40,7 @@ Deliver a memory-mapped `RandomAccessReader` implementation that provides bounde
 
 - Added `MappedReader` in `Sources/ISOInspectorKit/IO/MappedReader.swift`, providing bounds-checked random access backed by `Data(contentsOf:options:.mappedIfSafe)` with an eager-loading fallback for platforms that cannot memory-map the file.
 - Extended the ISOInspectorKit test suite with `MappedReaderTests` to cover slice reads, zero-length requests, out-of-bounds protection, and missing file handling (`Tests/ISOInspectorKitTests/MappedReaderTests.swift`).
-- Updated work tracking documents to mark Task A2 as complete and captured the delivery record in `DOCS/INPROGRESS/Summary_of_Work.md`.
+- Updated work tracking documents to mark Task A2 as complete and captured the delivery record in `DOCS/TASK_ARCHIVE/61_A2_Implement_MappedReader/Summary_of_Work.md`.
 
 ## 🔬 Verification
 

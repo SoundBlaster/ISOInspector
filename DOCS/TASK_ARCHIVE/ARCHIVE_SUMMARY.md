@@ -348,3 +348,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/60_Summary_of_Work_2025-10-13_Release_Runbook/`.
 - **Highlights:** Captures the release readiness checklist finalization, go-live runbook publication, and supporting distribution metadata plus notarization tooling references that now live under `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md`.
 - **Next steps carried forward:** Hardware-dependent macOS UI automation runs, Combine-backed UI benchmark execution on macOS, session persistence diagnostics surfacing, and notarization Apple Events automation evaluation remain tracked in `DOCS/INPROGRESS/next_tasks.md` and `todo.md`.
+
+## 61_A2_Implement_MappedReader
+- **Archived files:** `A2_Implement_MappedReader.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/61_A2_Implement_MappedReader/`.
+- **Highlights:** Records the delivery of a memory-mapped `RandomAccessReader` that wraps `Data(contentsOf:options:.mappedIfSafe)`, ensures safe slice extraction, and falls back gracefully when mapping is unavailable. Includes accompanying unit coverage for boundary enforcement and failure handling.
+- **Next steps carried forward:** Revisit IO roadmap items A4–A5 to introduce explicit reader error types and benchmarking, and continue tracking macOS automation, benchmark runs, and persistence diagnostics in the refreshed `DOCS/INPROGRESS/next_tasks.md` checklist.
