@@ -88,14 +88,13 @@ func deploymentTargets(for platform: DistributionPlatform) -> DeploymentTargets 
     }
 }
 
-func kitTarget(for platform: DistributionPlatform) -> Target {
-    let name = platform == .macOS ? "ISOInspectorKit-macOS" : "ISOInspectorKit-iOS"
-    return Target.target(
-        name: name,
-        destinations: destinations(for: platform),
+func kitTarget() -> Target {
+    Target.target(
+        name: "ISOInspectorKit",
+        destinations: [.mac, .iPad, .iPhone],
         product: .framework,
-        bundleId: "ru.egormerkushev.isoinspector.kit.\(platform.rawValue.lowercased())",
-        deploymentTargets: deploymentTargets(for: platform),
+        bundleId: "ru.egormerkushev.isoinspector.kit",
+        deploymentTargets: DeploymentTargets(iOS: "16.0", macOS: "14.0"),
         infoPlist: .default,
         sources: ["Sources/ISOInspectorKit/**"],
         resources: ["Sources/ISOInspectorKit/Resources/**"],
@@ -118,7 +117,7 @@ func appTarget(for platform: DistributionPlatform) -> Target {
         Entitlements.file(path: .relativeToRoot($0))
     }
     let dependencies: [TargetDependency] = [
-        .target(name: platform == .macOS ? "ISOInspectorKit-macOS" : "ISOInspectorKit-iOS"),
+        .target(name: "ISOInspectorKit"),
         .external(name: "NestedA11yIDs")
     ]
     return Target.target(
@@ -145,7 +144,7 @@ func cliLibraryTarget() -> Target {
         infoPlist: .default,
         sources: ["Sources/ISOInspectorCLI/**"],
         dependencies: [
-            .target(name: "ISOInspectorKit-macOS"),
+            .target(name: "ISOInspectorKit"),
             .external(name: "ArgumentParser")
         ],
         settings: .settings(base: baseSettings)
@@ -182,8 +181,7 @@ let project = Project(
             requirement: .upToNextMajor(from: "1.3.0"))
     ],
     targets: [
-        kitTarget(for: .macOS),
-        kitTarget(for: .iOS),
+        kitTarget(),
         appTarget(for: .macOS),
         appTarget(for: .iOS),
         appTarget(for: .iPadOS),
