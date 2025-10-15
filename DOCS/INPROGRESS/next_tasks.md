@@ -2,7 +2,7 @@
 
 ## 🚧 In Progress
 
-- [ ] **A2 — Implement `MappedReader` using `Data(..., .mappedIfSafe)` with bounds-checked slices.** In progress via `DOCS/INPROGRESS/A2_Implement_MappedReader.md` (owner: current agent).
+- [x] **A2 — Implement `MappedReader` using `Data(..., .mappedIfSafe)` with bounds-checked slices.** Completed — see `DOCS/INPROGRESS/Summary_of_Work.md` for the delivery record.
 
 ## 🧪 Streaming UI Coverage
 

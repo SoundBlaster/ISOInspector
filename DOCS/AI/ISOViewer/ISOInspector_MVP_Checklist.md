@@ -31,7 +31,7 @@
 
 ## Phase A — IO Foundations
 - [ ] A1. Define `RandomAccessReader` protocol (`length`, `read(at:count:)`, BE helpers stubs)
-- [ ] A2. Implement `MappedReader` (Data.mappedIfSafe) — placeholder file with TODOs
+- [x] A2. Implement `MappedReader` (Data.mappedIfSafe) — placeholder file with TODOs
 - [ ] A3. Implement `FileHandleReader` (seek + read) — placeholder file with TODOs
 - [ ] A4. Define error model: `IOError`, `ParseError`, `ValidationError` (cases only, no logic)
 - [ ] A5. Draft micro-benchmark plan (README section)

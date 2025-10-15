@@ -16,6 +16,7 @@ Deliver a memory-mapped `RandomAccessReader` implementation that provides bounde
 - Reader initialisation validates the URL, captures the mapped `Data`, and releases resources deterministically when deallocated.
 - Unit tests cover full-file reads, partial slices, zero-length requests, and out-of-bounds failures alongside parity checks with `ChunkedFileReader` fixtures.
 - Documentation in the IO module explains when to prefer the mapped versus chunked reader and how they interoperate with
+
   parser components.
 
 ## 🔧 Implementation Notes
@@ -24,6 +25,7 @@ Deliver a memory-mapped `RandomAccessReader` implementation that provides bounde
 - Consider platform differences: guard `mappedIfSafe` availability and provide graceful degradation (e.g., fallback to chunked reader) when mapping is unsupported.
 - Ensure thread safety by treating the mapped `Data` as immutable and documenting concurrency expectations.
 - Update factory closures (CLI, app) once implementation lands so callers can opt into mapped IO for large files when
+
   the environment allows it.
 
 ## 🧠 Source References
@@ -33,3 +35,13 @@ Deliver a memory-mapped `RandomAccessReader` implementation that provides bounde
 - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES`](../RULES)
 - [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+
+## ✅ Outcome
+
+- Added `MappedReader` in `Sources/ISOInspectorKit/IO/MappedReader.swift`, providing bounds-checked random access backed by `Data(contentsOf:options:.mappedIfSafe)` with an eager-loading fallback for platforms that cannot memory-map the file.
+- Extended the ISOInspectorKit test suite with `MappedReaderTests` to cover slice reads, zero-length requests, out-of-bounds protection, and missing file handling (`Tests/ISOInspectorKitTests/MappedReaderTests.swift`).
+- Updated work tracking documents to mark Task A2 as complete and captured the delivery record in `DOCS/INPROGRESS/Summary_of_Work.md`.
+
+## 🔬 Verification
+
+- `swift test`
