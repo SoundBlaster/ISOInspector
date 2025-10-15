@@ -141,6 +141,7 @@ func cliLibraryTarget() -> Target {
         destinations: [.mac],
         product: .staticLibrary,
         bundleId: "ru.egormerkushev.isoinspector.cli.library",
+        deploymentTargets: .macOS("14.0"),
         infoPlist: .default,
         sources: ["Sources/ISOInspectorCLI/**"],
         dependencies: [
