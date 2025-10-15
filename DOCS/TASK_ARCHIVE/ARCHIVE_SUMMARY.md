@@ -342,3 +342,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/58_F4_User_Manual/`.
 - **Highlights:** Documents delivery of the ISOInspector user manuals for the SwiftUI app and CLI, covering onboarding flows, navigation, persistence behaviour, and automation-oriented command usage validated by Markdown linting.
 - **Next steps carried forward:** Capture platform-specific screenshots and document diagnostics-driven persistence troubleshooting once logging signals surface, alongside macOS-only automation and benchmark runs tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 60_Summary_of_Work_2025-10-13_Release_Runbook
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/60_Summary_of_Work_2025-10-13_Release_Runbook/`.
+- **Highlights:** Captures the release readiness checklist finalization, go-live runbook publication, and supporting distribution metadata plus notarization tooling references that now live under `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md`.
+- **Next steps carried forward:** Hardware-dependent macOS UI automation runs, Combine-backed UI benchmark execution on macOS, session persistence diagnostics surfacing, and notarization Apple Events automation evaluation remain tracked in `DOCS/INPROGRESS/next_tasks.md` and `todo.md`.
