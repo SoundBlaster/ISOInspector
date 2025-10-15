@@ -150,7 +150,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 ### Phase A — IO Foundations
 - [ ] A1. Define `RandomAccessReader` protocol: `length`, `read(at:count:)`, endian helpers (`readU32BE`, `readU64BE`, `readFourCC`).
-- [ ] A2. Implement `MappedReader` using `Data(contentsOf:options:.mappedIfSafe)`; provide bounds-checked slices.
+- [x] A2. Implement `MappedReader` using `Data(contentsOf:options:.mappedIfSafe)`; provide bounds-checked slices.
 - [ ] A3. Implement `FileHandleReader` using `FileHandle` seek+read; ensure thread-safety (serial queue).
 - [ ] A4. Add error types: `IOError`, `BoundsError`, `OverflowError`.
 - [ ] A5. Micro-benchmarks: random slice reads on large files, compare mapped vs handle.

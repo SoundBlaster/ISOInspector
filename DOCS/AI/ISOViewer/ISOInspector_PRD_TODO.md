@@ -162,7 +162,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 
 - [x] A1. Define `RandomAccessReader` protocol: `length`, `read(at:count:)`, endian helpers (`readU32BE`, `readU64BE`, `readFourCC`). _(Completed in [Task B1 — Chunked File Reader](../../TASK_ARCHIVE/01_B1_Chunked_File_Reader/B1_Chunked_File_Reader.md))._
-- [ ] A2. Implement `MappedReader` using `Data(contentsOf:options:.mappedIfSafe)`; provide bounds-checked slices. *(In Progress — see `DOCS/INPROGRESS/A2_Implement_MappedReader.md`.)*
+- [x] A2. Implement `MappedReader` using `Data(contentsOf:options:.mappedIfSafe)`; provide bounds-checked slices. *(Delivered — see `DOCS/INPROGRESS/Summary_of_Work.md`.)*
 - [x] A3. Implement `FileHandleReader` using `FileHandle` seek+read; ensure thread-safety (serial queue). _(Delivered with the chunked reader implementation in [Task B1](../../TASK_ARCHIVE/01_B1_Chunked_File_Reader/B1_Chunked_File_Reader.md))._
 - [ ] A4. Add error types: `IOError`, `BoundsError`, `OverflowError`.
 - [ ] A5. Micro-benchmarks: random slice reads on large files, compare mapped vs handle.
