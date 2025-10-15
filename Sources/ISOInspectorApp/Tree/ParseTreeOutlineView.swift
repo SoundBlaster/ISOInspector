@@ -61,17 +61,17 @@ struct ParseTreeExplorerView: View {
             annotations.setFileURL(store.fileURL)
             annotations.setSelectedNode(selectedNodeID)
         }
-        .onChange(of: selectedNodeID) { _, newValue in
+        .onChangeCompatibility(of: selectedNodeID) { newValue in
             detailViewModel.select(nodeID: newValue)
             annotations.setSelectedNode(newValue)
         }
-        .onChange(of: store.state) { _, _ in
+        .onChangeCompatibility(of: store.state) { _ in
             detailViewModel.update(
                 hexSliceProvider: store.makeHexSliceProvider(),
                 annotationProvider: store.makePayloadAnnotationProvider()
             )
         }
-        .onChange(of: store.fileURL) { _, newValue in
+        .onChangeCompatibility(of: store.fileURL) { newValue in
             annotations.setFileURL(newValue)
         }
         .onReceive(store.$snapshot.removeDuplicates()) { snapshot in
@@ -103,7 +103,7 @@ struct ParseTreeExplorerView: View {
                     .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.title)
                 Text("Search, filter, and expand ISO BMFF boxes")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
                     .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.subtitle)
             }
             Spacer()
@@ -163,7 +163,7 @@ struct ParseTreeOutlineView: View {
             keyboardSelectionID = selectedNodeID
             focusedRowID = selectedNodeID
         }
-        .onChange(of: selectedNodeID) { _, newValue in
+        .onChangeCompatibility(of: selectedNodeID) { newValue in
             keyboardSelectionID = newValue
             focusedRowID = newValue
         }
@@ -185,7 +185,7 @@ struct ParseTreeOutlineView: View {
                         .padding(.horizontal, 8)
                         .padding(.vertical, 4)
                         .background(filterBackground(for: severity))
-                        .foregroundStyle(filterForeground(for: severity))
+                        .foregroundColor(filterForeground(for: severity))
                         .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                 }
                 .toggleStyle(.button)
@@ -212,7 +212,7 @@ struct ParseTreeOutlineView: View {
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .background(categoryBackground(for: category))
-                            .foregroundStyle(categoryForeground(for: category))
+                            .foregroundColor(categoryForeground(for: category))
                             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
                     }
                     .toggleStyle(.button)
@@ -234,13 +234,7 @@ struct ParseTreeOutlineView: View {
     @ViewBuilder
     private var outlineList: some View {
         if viewModel.rows.isEmpty {
-            ContentUnavailableView(
-                "No boxes",
-                systemImage: "tray",
-                description: Text("Run a parse to populate the hierarchy or adjust filters.")
-            )
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.emptyState)
+            emptyStateView
         } else {
             ScrollView {
                 LazyVStack(alignment: .leading, spacing: 0) {
@@ -265,8 +259,8 @@ struct ParseTreeOutlineView: View {
                         )
                         .id(row.id)
                         .focused($focusedRowID, equals: row.id)
-                        .focusable(true)
                         .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.row(row.id))
+                        .compatibilityFocusable()
                         .onTapGesture {
                             focusTarget.wrappedValue = .outline
                             focusedRowID = row.id
@@ -286,6 +280,33 @@ struct ParseTreeOutlineView: View {
                 focusedRowID = nextID
             }            
 #endif
+        }
+    }
+
+    @ViewBuilder
+    private var emptyStateView: some View {
+        if #available(iOS 17, macOS 14, *) {
+            ContentUnavailableView(
+                "No boxes",
+                systemImage: "tray",
+                description: Text("Run a parse to populate the hierarchy or adjust filters.")
+            )
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.emptyState)
+        } else {
+            VStack(spacing: 12) {
+                Image(systemName: "tray")
+                    .font(.system(size: 44))
+                    .foregroundColor(.secondary)
+                Text("No boxes")
+                    .font(.headline)
+                Text("Run a parse to populate the hierarchy or adjust filters.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.emptyState)
         }
     }
 
@@ -379,14 +400,14 @@ private struct ParseTreeOutlineRowView: View {
                 Text(row.displayName)
                     .font(.body)
                     .fontWeight(row.isSearchMatch ? .semibold : .regular)
-                    .foregroundStyle(row.isSearchMatch ? Color.accentColor : Color.primary)
+                    .foregroundColor(row.isSearchMatch ? Color.accentColor : Color.primary)
                 Text(row.typeDescription)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
                 if let summary = row.summary, !summary.isEmpty {
                     Text(summary)
                         .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                         .lineLimit(2)
                 }
             }
@@ -415,10 +436,10 @@ private struct ParseTreeOutlineRowView: View {
         Group {
             if row.node.children.isEmpty {
                 Image(systemName: "square")
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             } else {
                 Image(systemName: row.isExpanded ? "chevron.down" : "chevron.right")
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             }
         }
         .frame(width: 12)
@@ -427,7 +448,7 @@ private struct ParseTreeOutlineRowView: View {
     private var bookmarkButton: some View {
         Button(action: onToggleBookmark) {
             Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
-                .foregroundStyle(isBookmarked ? Color.accentColor : Color.secondary)
+                .foregroundColor(isBookmarked ? Color.accentColor : Color.secondary)
         }
         .buttonStyle(.plain)
         .accessibilityLabel(isBookmarked ? "Remove bookmark" : "Add bookmark")
@@ -466,7 +487,7 @@ private struct SeverityBadge: View {
             .padding(.horizontal, 6)
             .padding(.vertical, 3)
             .background(severity.color.opacity(0.2))
-            .foregroundStyle(severity.color)
+            .foregroundColor(severity.color)
             .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
     }
 }
@@ -480,7 +501,7 @@ private struct ParseStateBadge: View {
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
             .background(stateColor.opacity(0.15))
-            .foregroundStyle(stateColor)
+            .foregroundColor(stateColor)
             .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
     }
 
@@ -606,6 +627,34 @@ private extension View {
             accessibilityHint(hint)
         } else {
             self
+        }
+    }
+
+    @ViewBuilder
+    func compatibilityFocusable() -> some View {
+#if os(iOS)
+        if #available(iOS 17, *) {
+            focusable(true)
+        } else {
+            self
+        }
+#else
+        focusable(true)
+#endif
+    }
+
+    @ViewBuilder
+    func onChangeCompatibility<Value: Equatable>(
+        of value: Value,
+        initial: Bool = false,
+        perform: @escaping (Value) -> Void
+    ) -> some View {
+        if #available(iOS 17, macOS 14, *) {
+            onChange(of: value, initial: initial) { _, newValue in
+                perform(newValue)
+            }
+        } else {
+            onChange(of: value, perform: perform)
         }
     }
 }

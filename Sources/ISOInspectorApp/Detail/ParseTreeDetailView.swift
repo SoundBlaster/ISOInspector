@@ -24,7 +24,7 @@ struct ParseTreeDetailView: View {
             header
             content
         }
-        .onChange(of: selectedNodeID) { _, _ in
+        .onChangeCompatibility(of: selectedNodeID) { _ in
             draftNote = ""
         }
     }
@@ -36,7 +36,7 @@ struct ParseTreeDetailView: View {
                 .bold()
             Text("View metadata, validation issues, and payload bytes for the selected box.")
                 .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
         }
     }
 
@@ -55,11 +55,31 @@ struct ParseTreeDetailView: View {
             }
             .dynamicTypeSize(.medium ... .accessibility5)
         } else {
+            noSelectionView
+        }
+    }
+
+    @ViewBuilder
+    private var noSelectionView: some View {
+        if #available(iOS 17, macOS 14, *) {
             ContentUnavailableView(
                 "No selection",
                 systemImage: "square.dashed",
                 description: Text("Choose a box in the hierarchy to inspect its details.")
             )
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        } else {
+            VStack(spacing: 12) {
+                Image(systemName: "square.dashed")
+                    .font(.system(size: 44))
+                    .foregroundColor(.secondary)
+                Text("No selection")
+                    .font(.headline)
+                Text("Choose a box in the hierarchy to inspect its details.")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+            }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
@@ -74,7 +94,7 @@ struct ParseTreeDetailView: View {
             metadataGrid(detail: detail)
             Text("Snapshot updated ") + Text(detail.snapshotTimestamp, style: .relative)
                 .font(.footnote)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
         }
         .accessibilityElement(children: .combine)
         .accessibilityLabel(detail.accessibilitySummary)
@@ -109,7 +129,7 @@ struct ParseTreeDetailView: View {
             Text(label)
                 .font(.caption)
                 .fontWeight(.semibold)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
             Text(value)
                 .font(.caption)
                 .textSelection(.enabled)
@@ -138,12 +158,12 @@ struct ParseTreeDetailView: View {
             if let error = viewModel.annotationError {
                 Text(error)
                     .font(.caption)
-                    .foregroundStyle(.red)
+                    .foregroundColor(.red)
             }
             if viewModel.annotations.isEmpty && viewModel.annotationError == nil {
                 Text("No field annotations available for this selection.")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             } else {
                 VStack(alignment: .leading, spacing: 6) {
                     ForEach(viewModel.annotations) { annotation in
@@ -162,21 +182,21 @@ struct ParseTreeDetailView: View {
             if !annotationSession.isStoreAvailable {
                 Text("Notes are unavailable on this platform.")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             } else if !annotationSession.isEnabled || selectedNodeID == nil {
                 Text("Select a box in a parsed file to add notes and bookmarks.")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             } else {
                 if let message = annotationSession.lastErrorMessage {
                     Text(message)
                         .font(.caption)
-                        .foregroundStyle(.red)
+                        .foregroundColor(.red)
                 }
                 if annotationSession.activeAnnotations.isEmpty {
                     Text("No notes yet. Add your first note below.")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                 } else {
                     VStack(alignment: .leading, spacing: 8) {
                         ForEach(annotationSession.activeAnnotations) { record in
@@ -202,7 +222,7 @@ struct ParseTreeDetailView: View {
         VStack(alignment: .leading, spacing: 6) {
             Text("Add note")
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
             TextEditor(text: $draftNote)
                 .frame(minHeight: 72)
                 .overlay {
@@ -241,7 +261,7 @@ struct ParseTreeDetailView: View {
                     Spacer()
                     Text(annotation.formattedRange)
                         .font(.caption2)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                 }
                 Text(annotation.value)
                     .font(.system(.body, design: .monospaced))
@@ -249,7 +269,7 @@ struct ParseTreeDetailView: View {
                 if let summary = annotation.summary, !summary.isEmpty {
                     Text(summary)
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -283,7 +303,7 @@ struct ParseTreeDetailView: View {
             if detail.validationIssues.isEmpty {
                 Text("No validation issues detected.")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             } else {
                 VStack(alignment: .leading, spacing: 8) {
                     ForEach(Array(detail.validationIssues.enumerated()), id: \.offset) { _, issue in
@@ -301,7 +321,7 @@ struct ParseTreeDetailView: View {
                 SeverityBadge(severity: issue.severity)
                 Text(issue.ruleID)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
                 Spacer()
                 Button {
                     copyToClipboard(issue.message)
@@ -327,13 +347,13 @@ struct ParseTreeDetailView: View {
             if let error = viewModel.hexError {
                 Text(error)
                     .font(.caption)
-                    .foregroundStyle(.red)
+                    .foregroundColor(.red)
             }
             if let slice = detail.hexSlice, !slice.isEmpty {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Offsets \(slice.offset) – \(slice.endOffset)")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                     HexSliceView(
                         slice: slice,
                         highlightedRange: viewModel.highlightedRange,
@@ -345,7 +365,7 @@ struct ParseTreeDetailView: View {
             } else {
                 Text("No payload bytes available for this selection.")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             }
         }
         .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.hexView)
@@ -354,7 +374,7 @@ struct ParseTreeDetailView: View {
     private func sectionHeader(title: String, icon: String) -> some View {
         HStack(spacing: 6) {
             Image(systemName: icon)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
             Text(title)
                 .font(.headline)
         }
@@ -403,18 +423,18 @@ private struct HexSliceView: View {
             }
             .frame(minHeight: 200, idealHeight: 240, maxHeight: 320)
             .background(Color.gray.opacity(0.05), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-            .onChange(of: highlightedRange) { _, newValue in
+            .onChangeCompatibility(of: highlightedRange) { newValue in
                 guard let range = newValue, let id = rowID(for: range) else { return }
                 DispatchQueue.main.async {
                     proxy.scrollTo(id, anchor: .center)
                 }
             }
             .focused(focusTarget, equals: .hex)
-            .focusable(true)
+            .compatibilityFocusable()
             .onAppear {
                 focusedOffset = highlightedRange?.lowerBound
             }
-            .onChange(of: highlightedRange) { _, newValue in
+            .onChangeCompatibility(of: highlightedRange) { newValue in
                 focusedOffset = newValue?.lowerBound
             }
             #if canImport(AppKit)
@@ -510,7 +530,7 @@ private struct HexSliceRowView: View {
         HStack(alignment: .top, spacing: 12) {
             Text(String(format: "%08llX", UInt64(max(0, row.offset))))
                 .font(.system(.footnote, design: .monospaced))
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
                 .frame(width: 80, alignment: .leading)
 
             LazyVGrid(columns: hexColumns, spacing: 4) {
@@ -628,7 +648,7 @@ private struct AnnotationNoteRow: View {
             HStack(alignment: .firstTextBaseline) {
                 Text("Updated " + record.updatedAt.formatted(.relative(presentation: .named)))
                     .font(.caption2)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
                 Spacer()
                 if isEditing {
                     Button("Cancel") {
@@ -688,7 +708,7 @@ private struct AnnotationNoteRow: View {
         .onAppear {
             draft = record.note
         }
-        .onChange(of: record.note) { _, newValue in
+        .onChangeCompatibility(of: record.note) { newValue in
             if !isEditing {
                 draft = newValue
             }
@@ -706,7 +726,7 @@ private struct SeverityBadge: View {
             .padding(.horizontal, 6)
             .padding(.vertical, 3)
             .background(severity.color.opacity(0.2))
-            .foregroundStyle(severity.color)
+            .foregroundColor(severity.color)
             .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
     }
 }
@@ -725,6 +745,36 @@ private extension ValidationIssue.Severity {
         case .info: return .blue
         case .warning: return .orange
         case .error: return .red
+        }
+    }
+}
+
+private extension View {
+    @ViewBuilder
+    func compatibilityFocusable() -> some View {
+#if os(iOS)
+        if #available(iOS 17, *) {
+            focusable(true)
+        } else {
+            self
+        }
+#else
+        focusable(true)
+#endif
+    }
+
+    @ViewBuilder
+    func onChangeCompatibility<Value: Equatable>(
+        of value: Value,
+        initial: Bool = false,
+        perform: @escaping (Value) -> Void
+    ) -> some View {
+        if #available(iOS 17, macOS 14, *) {
+            onChange(of: value, initial: initial) { _, newValue in
+                perform(newValue)
+            }
+        } else {
+            onChange(of: value, perform: perform)
         }
     }
 }

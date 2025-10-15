@@ -66,13 +66,13 @@ struct ResearchLogAuditPreview: View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Fixture \(snapshot.fixtureName) matches ResearchLogSchema.fieldNames.")
                 .font(.callout)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
             Grid(alignment: .leading, horizontalSpacing: 16, verticalSpacing: 4) {
                 GridRow {
                     Text("Schema")
                         .gridColumnAlignment(.leading)
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                     Text("v\(audit.schemaVersion)")
                         .font(.subheadline)
                 }
@@ -80,7 +80,7 @@ struct ResearchLogAuditPreview: View {
                 GridRow {
                     Text("Entries")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                     Text("\(audit.entryCount)")
                         .font(.subheadline.weight(.medium))
                 }
@@ -88,7 +88,7 @@ struct ResearchLogAuditPreview: View {
                 GridRow {
                     Text("Fields")
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                     Text(audit.fieldNames.joined(separator: ", "))
                         .font(.subheadline)
                 }
@@ -103,10 +103,10 @@ struct ResearchLogAuditPreview: View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Missing preview fixture \(snapshot.fixtureName)")
                 .font(.headline)
-                .foregroundStyle(.orange)
+                .foregroundColor(.orange)
             Text("The shared VR-006 schema v\(audit.schemaVersion) expects fields: \(audit.fieldNames.joined(separator: ", ")).")
                 .font(.callout)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
                 .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.MissingFixture.details)
         }
     }
@@ -116,14 +116,14 @@ struct ResearchLogAuditPreview: View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Schema mismatch detected")
                 .font(.headline)
-                .foregroundStyle(.red)
+                .foregroundColor(.red)
             Text("Expected: \(expected.joined(separator: ", "))")
                 .font(.callout)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
                 .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.SchemaMismatch.expected)
             Text("Actual: \(actual.joined(separator: ", "))")
                 .font(.callout)
-                .foregroundStyle(.red)
+                .foregroundColor(.red)
                 .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.SchemaMismatch.actual)
         }
     }
@@ -133,10 +133,10 @@ struct ResearchLogAuditPreview: View {
         VStack(alignment: .leading, spacing: 4) {
             Text("Failed to load \(snapshot.fixtureName)")
                 .font(.headline)
-                .foregroundStyle(.red)
+                .foregroundColor(.red)
             Text(message)
                 .font(.callout)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
                 .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Header.LoadFailure.message)
         }
     }
@@ -148,10 +148,10 @@ struct ResearchLogAuditPreview: View {
                 Label {
                     Text(element.element)
                         .font(.footnote)
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                 } icon: {
                     Image(systemName: "checkmark.seal")
-                        .foregroundStyle(.secondary)
+                        .foregroundColor(.secondary)
                 }
                 .nestedAccessibilityIdentifier(ResearchLogAccessibilityID.Diagnostics.row(element.offset))
             }

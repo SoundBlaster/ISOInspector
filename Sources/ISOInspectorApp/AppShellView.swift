@@ -62,7 +62,7 @@ struct AppShellView: View {
                     .bold()
                 Text("Inspect MP4 and QuickTime files")
                     .font(.subheadline)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
             }
             Button {
                 isImporterPresented = true
@@ -76,7 +76,7 @@ struct AppShellView: View {
                 Section("Recents") {
                     if controller.recents.isEmpty {
                         Text("Choose a file to start building your recents list.")
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.secondary)
                     } else {
                         ForEach(controller.recents) { recent in
                             Button {
@@ -150,10 +150,10 @@ private struct RecentRow: View {
                 .font(.headline)
             Text(formattedDate())
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
             Text(recent.url.path)
                 .font(.caption2)
-                .foregroundStyle(.tertiary)
+                .foregroundColor(.secondary.opacity(0.7))
                 .lineLimit(1)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -171,7 +171,7 @@ private struct OnboardingView: View {
         VStack(spacing: 24) {
             Image(systemName: "film")
                 .font(.system(size: 48))
-                .foregroundStyle(.secondary)
+                .foregroundColor(.secondary)
             VStack(spacing: 8) {
                 Text("Open an MP4 or QuickTime file to begin")
                     .font(.title2)
@@ -179,7 +179,7 @@ private struct OnboardingView: View {
                 Text("Use the Open File button to select a document. Recently opened files will appear in the sidebar for quick access.")
                     .font(.body)
                     .multilineTextAlignment(.center)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(.secondary)
                     .padding(.horizontal)
             }
             Button(action: openAction) {
