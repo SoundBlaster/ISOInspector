@@ -2,7 +2,7 @@
 
 ## ✅ Completed Tasks
 
-- **A2 — Implement `MappedReader`**: Added a memory-mapped `RandomAccessReader` implementation in `Sources/ISOInspectorKit/IO/MappedReader.swift` with bounds-checked slicing and graceful fallback when mapping is unavailable. Updated documentation trackers to mark the task complete and recorded verification notes in `DOCS/INPROGRESS/A2_Implement_MappedReader.md`.
+- **A2 — Implement `MappedReader`**: Added a memory-mapped `RandomAccessReader` implementation in `Sources/ISOInspectorKit/IO/MappedReader.swift` with bounds-checked slicing and graceful fallback when mapping is unavailable. Updated documentation trackers to mark the task complete and recorded verification notes in `DOCS/TASK_ARCHIVE/61_A2_Implement_MappedReader/A2_Implement_MappedReader.md`.
 
 ## 🛠 Implementation Highlights
 
