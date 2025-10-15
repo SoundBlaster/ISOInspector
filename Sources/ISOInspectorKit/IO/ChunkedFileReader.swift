@@ -6,9 +6,6 @@ public final class ChunkedFileReader: RandomAccessReader {
     public static let defaultChunkSize = 1_048_576
 
     public enum Error: Swift.Error {
-        case invalidOffset(Int64)
-        case invalidCount(Int)
-        case requestedRangeOutOfBounds
         case ioError(underlying: Swift.Error)
     }
 
@@ -50,12 +47,31 @@ public final class ChunkedFileReader: RandomAccessReader {
     }
 
     public func read(at offset: Int64, count: Int) throws -> Data {
-        guard offset >= 0 else { throw Error.invalidOffset(offset) }
-        guard count >= 0 else { throw Error.invalidCount(count) }
+        guard offset >= 0 else {
+            throw RandomAccessReaderError.boundsError(.invalidOffset(offset))
+        }
+        guard count >= 0 else {
+            throw RandomAccessReaderError.boundsError(.invalidCount(count))
+        }
         guard count > 0 else { return Data() }
-        guard offset < length else { throw Error.requestedRangeOutOfBounds }
-        let upperBound = offset + Int64(count)
-        guard upperBound <= length else { throw Error.requestedRangeOutOfBounds }
+        guard let count64 = Int64(exactly: count) else {
+            throw RandomAccessReaderError.overflowError
+        }
+        let upperResult = offset.addingReportingOverflow(count64)
+        guard upperResult.overflow == false else {
+            throw RandomAccessReaderError.overflowError
+        }
+        let upperBound = upperResult.partialValue
+        guard offset < length else {
+            throw RandomAccessReaderError.boundsError(
+                .requestedRangeOutOfBounds(offset: offset, count: count)
+            )
+        }
+        guard upperBound <= length else {
+            throw RandomAccessReaderError.boundsError(
+                .requestedRangeOutOfBounds(offset: offset, count: count)
+            )
+        }
 
         var remaining = count
         var currentOffset = offset
@@ -67,7 +83,7 @@ public final class ChunkedFileReader: RandomAccessReader {
             let startIndex = Int(currentOffset - chunkOffset)
             let available = chunk.count - startIndex
             guard available > 0 else {
-                throw Error.ioError(underlying: CocoaError(.fileReadUnknown))
+                throw RandomAccessReaderError.ioError(underlying: CocoaError(.fileReadUnknown))
             }
             let portion = min(available, remaining)
             result.append(chunk[startIndex..<(startIndex + portion)])
@@ -98,7 +114,7 @@ public final class ChunkedFileReader: RandomAccessReader {
             cachedChunkData = buffer.prefix(readCount)
             return cachedChunkData
         } catch {
-            throw Error.ioError(underlying: error)
+            throw RandomAccessReaderError.ioError(underlying: error)
         }
     }
 }

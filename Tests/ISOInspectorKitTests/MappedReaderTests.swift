@@ -48,12 +48,69 @@ final class MappedReaderTests: XCTestCase {
         let reader = try MappedReader(fileURL: temporaryURL)
 
         XCTAssertThrowsError(try reader.read(at: 1024, count: 1)) { error in
-            guard let mappedError = error as? MappedReader.Error else {
+            guard let mappedError = error as? RandomAccessReaderError else {
                 XCTFail("Unexpected error: \(error)")
                 return
             }
-            guard case .requestedRangeOutOfBounds = mappedError else {
+            guard case let .boundsError(bounds) = mappedError else {
+                XCTFail("Unexpected error: \(mappedError)")
+                return
+            }
+            XCTAssertEqual(bounds, .requestedRangeOutOfBounds(offset: 1024, count: 1))
+        }
+    }
+
+    func testNegativeOffsetThrowsBoundsError() throws {
+        let payload = Data((0..<32).map { UInt8($0) })
+        try payload.write(to: temporaryURL)
+
+        let reader = try MappedReader(fileURL: temporaryURL)
+
+        XCTAssertThrowsError(try reader.read(at: -1, count: 1)) { error in
+            guard let mappedError = error as? RandomAccessReaderError else {
                 XCTFail("Unexpected error: \(error)")
+                return
+            }
+            guard case let .boundsError(bounds) = mappedError else {
+                XCTFail("Unexpected error: \(mappedError)")
+                return
+            }
+            XCTAssertEqual(bounds, .invalidOffset(-1))
+        }
+    }
+
+    func testNegativeCountThrowsBoundsError() throws {
+        let payload = Data((0..<32).map { UInt8($0) })
+        try payload.write(to: temporaryURL)
+
+        let reader = try MappedReader(fileURL: temporaryURL)
+
+        XCTAssertThrowsError(try reader.read(at: 0, count: -1)) { error in
+            guard let mappedError = error as? RandomAccessReaderError else {
+                XCTFail("Unexpected error: \(error)")
+                return
+            }
+            guard case let .boundsError(bounds) = mappedError else {
+                XCTFail("Unexpected error: \(error)")
+                return
+            }
+            XCTAssertEqual(bounds, .invalidCount(-1))
+        }
+    }
+
+    func testOverflowingRangeThrowsOverflowError() throws {
+        let payload = Data((0..<32).map { UInt8($0) })
+        try payload.write(to: temporaryURL)
+
+        let reader = try MappedReader(fileURL: temporaryURL)
+
+        XCTAssertThrowsError(try reader.read(at: Int64.max - 4, count: 10)) { error in
+            guard let mappedError = error as? RandomAccessReaderError else {
+                XCTFail("Unexpected error: \(error)")
+                return
+            }
+            guard case .overflowError = mappedError else {
+                XCTFail("Unexpected error: \(mappedError)")
                 return
             }
         }
@@ -66,14 +123,15 @@ final class MappedReaderTests: XCTestCase {
         let reader = try MappedReader(fileURL: temporaryURL)
 
         XCTAssertThrowsError(try reader.read(at: 200, count: 100)) { error in
-            guard let mappedError = error as? MappedReader.Error else {
+            guard let mappedError = error as? RandomAccessReaderError else {
                 XCTFail("Unexpected error: \(error)")
                 return
             }
-            guard case .requestedRangeOutOfBounds = mappedError else {
-                XCTFail("Unexpected error: \(error)")
+            guard case let .boundsError(bounds) = mappedError else {
+                XCTFail("Unexpected error: \(mappedError)")
                 return
             }
+            XCTAssertEqual(bounds, .requestedRangeOutOfBounds(offset: 200, count: 100))
         }
     }
 

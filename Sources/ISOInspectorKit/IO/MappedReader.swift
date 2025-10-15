@@ -10,9 +10,6 @@ public final class MappedReader: RandomAccessReader {
     public enum Error: Swift.Error {
         case fileNotFound
         case mappingFailed(underlying: Swift.Error)
-        case invalidOffset(Int64)
-        case invalidCount(Int)
-        case requestedRangeOutOfBounds
     }
 
     public let length: Int64
@@ -44,13 +41,34 @@ public final class MappedReader: RandomAccessReader {
     }
 
     public func read(at offset: Int64, count: Int) throws -> Data {
-        guard offset >= 0 else { throw Error.invalidOffset(offset) }
-        guard count >= 0 else { throw Error.invalidCount(count) }
+        guard offset >= 0 else {
+            throw RandomAccessReaderError.boundsError(.invalidOffset(offset))
+        }
+        guard count >= 0 else {
+            throw RandomAccessReaderError.boundsError(.invalidCount(count))
+        }
         guard count > 0 else { return Data() }
-        guard offset < length else { throw Error.requestedRangeOutOfBounds }
 
-        let endOffset = offset + Int64(count)
-        guard endOffset <= length else { throw Error.requestedRangeOutOfBounds }
+        guard let count64 = Int64(exactly: count) else {
+            throw RandomAccessReaderError.overflowError
+        }
+
+        let endResult = offset.addingReportingOverflow(count64)
+        guard endResult.overflow == false else {
+            throw RandomAccessReaderError.overflowError
+        }
+
+        let endOffset = endResult.partialValue
+        guard offset < length else {
+            throw RandomAccessReaderError.boundsError(
+                .requestedRangeOutOfBounds(offset: offset, count: count)
+            )
+        }
+        guard endOffset <= length else {
+            throw RandomAccessReaderError.boundsError(
+                .requestedRangeOutOfBounds(offset: offset, count: count)
+            )
+        }
 
         let start = Int(offset)
         let end = start + count

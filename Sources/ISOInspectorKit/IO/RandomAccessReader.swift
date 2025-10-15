@@ -15,6 +15,33 @@ public protocol RandomAccessReader {
     func read(at offset: Int64, count: Int) throws -> Data
 }
 
+/// Shared error type surfaced by `RandomAccessReader` conformers.
+public enum RandomAccessReaderError: Swift.Error, Equatable, Sendable {
+    case ioError(underlying: Swift.Error)
+    case boundsError(RandomAccessReaderBoundsError)
+    case overflowError
+
+    public static func == (lhs: RandomAccessReaderError, rhs: RandomAccessReaderError) -> Bool {
+        switch (lhs, rhs) {
+        case (.overflowError, .overflowError):
+            return true
+        case let (.boundsError(lhsError), .boundsError(rhsError)):
+            return lhsError == rhsError
+        case (.ioError, .ioError):
+            return true
+        default:
+            return false
+        }
+    }
+}
+
+/// Bounds validation errors thrown by `RandomAccessReader` conformers.
+public enum RandomAccessReaderBoundsError: Equatable, Sendable {
+    case invalidOffset(Int64)
+    case invalidCount(Int)
+    case requestedRangeOutOfBounds(offset: Int64, count: Int)
+}
+
 /// Errors thrown by helper decoding routines built on top of `RandomAccessReader`.
 public enum RandomAccessReaderValueDecodingError: Swift.Error, Equatable {
     case truncatedRead(expected: Int, actual: Int)
