@@ -29,6 +29,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | C3 | Build detail pane with metadata, validation list, and hex viewer. | High | 3 | C1 | SwiftUI | Selecting node shows metadata; hex viewer displays payload windows. (Completed ✅ — documented in `DOCS/TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/` and `24_C3_Highlight_Field_Subranges/`.) |
 | C4 | Add annotation and bookmark management with persistence hooks. | Medium | 2 | C1 | CoreData/JSON | Notes persist across app relaunch; tests validate storage schema. (Completed ✅ — CoreData-backed store archived in `DOCS/TASK_ARCHIVE/33_C4_CoreData_Annotation_Persistence/`.) |
 | C5 | Implement accessibility features (VoiceOver labels, keyboard navigation). | Medium | 1.5 | C2, C3 | Accessibility Inspector | Accessibility audit passes; UI tests confirm focus order. (Completed ✅ — VoiceOver labels derive from metadata, keyboard focus is shared across tree/detail/hex panes, and accessibility formatters are covered by new XCTest cases.) |
+| C6 | Integrate ResearchLogMonitor audit results into SwiftUI previews that display VR-006 research log entries. | Medium | 1 | C3, B5 | SwiftUI Previews, DocC | Previews render VR-006 entries with audit context; mismatched schema cases surface actionable errors. |
+| C7 | Connect persisted bookmark diff entities to resolved bookmark records once reconciliation rules are finalized. | Medium | 0.5 | C4 | CoreData, Swift | Bookmark diff persistence reconciles with bookmark entities; unit tests cover add/update/remove flows. |
 
 ## Phase D — CLI Interface
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
@@ -46,6 +48,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | E3 | Implement session persistence (open files, annotations, layout). | Medium | 2 | E2, C4 | CoreData/JSON | Relaunch restores previous workspace state. (Completed ✅ — implementation archived in `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/` with CoreData and JSON fallback coverage.) |
 | E4 | Prepare app distribution configuration (bundle ID, entitlements, notarization). | Medium | 1.5 | E2 | Xcode, Notarytool | App builds and notarizes successfully; entitlements validated. *(Completed ✅ — see `DOCS/TASK_ARCHIVE/55_E4_Prepare_App_Distribution_Configuration/Summary_of_Work.md`.)* |
 | E4a | Evaluate Apple Events automation requirement for notarized builds. | Medium | 0.5 | E4 | Xcode, Notarytool, AppleScript | Determine whether Apple Events automation is required, adjust entitlements/notarization tooling, and document the decision. *(Archived — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/56_Distribution_Apple_Events_Notarization_Assessment.md`.)* |
+| E5 | Surface document load failures in the app shell UI with the forthcoming error banner design. | Medium | 0.5 | E1 | SwiftUI | Opening an unreadable file shows the designed error banner; automated tests cover failure presentation. |
+| E6 | Emit diagnostics for recents and session persistence failures once the logging pipeline is available. | Medium | 0.5 | E3 | Swift Logging | Persistence errors write structured diagnostics and surface in QA tools; regression tests assert logging hooks. |
 
 ## Phase F — Quality Assurance & Documentation
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
