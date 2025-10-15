@@ -23,19 +23,26 @@ Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (M
 
 ## Git Hooks
 
-Enable the repository-managed hooks to automatically format Markdown documentation before each commit:
+Enable the repository-managed hooks to automatically format Markdown documentation and validate YAML files before each commit:
 
 ```sh
 git config core.hooksPath .githooks
 ```
 
-The pre-commit hook requires `npx` and runs:
+The pre-commit hook requires `npx`, `python3`, and [`PyYAML`](https://pyyaml.org/) and runs:
 
 ```sh
 npx markdownlint-cli2 --fix 'DOCS/INPROGRESS/**/*.md' 'DOCS/COMMANDS/**/*.md' 'DOCS/RULES/**/*.md'
+scripts/check_yaml.py
 ```
 
 Re-run the command if your local configuration resets `core.hooksPath`.
+
+Validate YAML files ad-hoc with:
+
+```sh
+scripts/check_yaml.py path/to/workflow.yml another/config.yaml
+```
 
 ## Documentation
 
