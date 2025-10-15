@@ -18,6 +18,10 @@
 
 - [ ] Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely. *Archived — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/56_Distribution_Apple_Events_Notarization_Assessment.md`.* Track progress alongside `todo.md` entry “PDD:30m Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely.”
 
+## 🧾 Release Readiness
+
+- [ ] Finalize release checklist and go-live runbook covering QA sign-off, documentation updates, and packaging logistics. **(In Progress — see `DOCS/INPROGRESS/F5_Finalize_Release_Checklist_and_Go_Live_Runbook.md`.)**
+
 ## 📘 Documentation
 
 - [x] Produce user manual covering CLI and app workflows. **(Completed — see `Documentation/ISOInspector.docc/Manuals/App.md` and `Documentation/ISOInspector.docc/Manuals/CLI.md`.)**
