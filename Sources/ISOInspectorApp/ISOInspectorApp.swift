@@ -1,4 +1,3 @@
-
 #if canImport(SwiftUI) && canImport(Combine)
 import SwiftUI
 import NestedA11yIDs
@@ -70,6 +69,7 @@ struct ISOInspectorApp: App {
 }
 #else
 import Foundation
+import ISOInspectorKit
 
 @main
 struct ISOInspectorAppFallback {

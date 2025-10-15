@@ -4,7 +4,6 @@ import Dispatch
 import Foundation
 import ISOInspectorKit
 
-
 @MainActor
 public final class ParseTreeStore: ObservableObject {
     @Published public private(set) var snapshot: ParseTreeSnapshot

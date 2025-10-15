@@ -2,7 +2,6 @@
 import Foundation
 import ISOInspectorKit
 
-
 struct ParseTreeOutlineRow: Identifiable, Equatable {
     let node: ParseTreeNode
     let depth: Int

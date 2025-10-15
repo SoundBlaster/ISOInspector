@@ -1,7 +1,6 @@
 import Foundation
 import ISOInspectorKit
 
-
 public struct EventConsoleFormatter: Sendable {
     public init() {}
 

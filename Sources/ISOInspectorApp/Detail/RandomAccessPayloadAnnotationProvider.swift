@@ -1,7 +1,6 @@
 import Foundation
 import ISOInspectorKit
 
-
 final class RandomAccessPayloadAnnotationProvider: PayloadAnnotationProvider {
     private let reader: RandomAccessReader
 

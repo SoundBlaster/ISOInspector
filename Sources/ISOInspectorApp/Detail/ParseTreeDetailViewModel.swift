@@ -3,7 +3,6 @@ import Combine
 import Foundation
 import ISOInspectorKit
 
-
 @MainActor
 final class ParseTreeDetailViewModel: ObservableObject {
     @Published private(set) var detail: ParseTreeNodeDetail?

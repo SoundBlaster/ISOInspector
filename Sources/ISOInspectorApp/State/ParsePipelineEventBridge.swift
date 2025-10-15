@@ -3,7 +3,6 @@ import Combine
 import Foundation
 import ISOInspectorKit
 
-
 public struct ParsePipelineEventBridge {
     public init() {}
 

@@ -2,7 +2,6 @@
 import Foundation
 import ISOInspectorKit
 
-
 struct ParseTreeOutlineFilter: Equatable {
     var focusedSeverities: Set<ValidationIssue.Severity>
     var focusedCategories: Set<BoxCategory>
