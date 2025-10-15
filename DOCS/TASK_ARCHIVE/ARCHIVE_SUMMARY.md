@@ -336,3 +336,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/`.
 - **Highlights:** Captures the notarization entitlement audit confirming Apple Events automation is unnecessary for the current `notarytool` workflow while documenting how to extend entitlements if Finder or Archive Utility scripting becomes required.
 - **Next steps carried forward:** Continue tracking macOS-only automation, benchmarking, and session persistence diagnostics via `DOCS/INPROGRESS/next_tasks.md`; revisit distribution entitlements if future tooling introduces Apple Events dependencies.
+
+## 58_F4_User_Manual
+- **Archived files:** `F4_User_Manual.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/58_F4_User_Manual/`.
+- **Highlights:** Documents delivery of the ISOInspector user manuals for the SwiftUI app and CLI, covering onboarding flows, navigation, persistence behaviour, and automation-oriented command usage validated by Markdown linting.
+- **Next steps carried forward:** Capture platform-specific screenshots and document diagnostics-driven persistence troubleshooting once logging signals surface, alongside macOS-only automation and benchmark runs tracked in `DOCS/INPROGRESS/next_tasks.md`.
