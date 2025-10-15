@@ -70,6 +70,7 @@ struct ISOInspectorApp: App {
 }
 #else
 import Foundation
+import ISOInspectorKit
 
 @main
 struct ISOInspectorAppFallback {

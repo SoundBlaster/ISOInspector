@@ -2,7 +2,6 @@
 import Foundation
 import ISOInspectorKit
 
-
 struct AccessibilityDescriptor: Equatable {
     let label: String
     let value: String?
