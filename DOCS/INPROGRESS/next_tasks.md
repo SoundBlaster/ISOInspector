@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🚧 In Progress
+
+- [ ] **A2 — Implement `MappedReader` using `Data(..., .mappedIfSafe)` with bounds-checked slices.** In progress via `DOCS/INPROGRESS/A2_Implement_MappedReader.md` (owner: current agent).
+
 ## 🧪 Streaming UI Coverage
 
 - [ ] Run `ParseTreeStreamingSelectionAutomationTests` on macOS hardware with XCTest UI support to validate the end-to-end SwiftUI automation flow introduced in `DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md`. **(Blocked — macOS UI testing entitlements unavailable in container; see `DOCS/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/51_ParseTreeStreamingSelectionAutomation_macOS_Run.md`)**
