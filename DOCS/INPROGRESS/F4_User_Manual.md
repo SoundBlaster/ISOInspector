@@ -1,31 +1,39 @@
-# F4 — User Manual for CLI and App Workflows
+# 2025-10-13-user-manual — micro PRD
 
-## 🎯 Objective
+## Intent
 
-Explain ISOInspector use in SwiftUI and CLI so users review media and export reports without the source docs.
+Deliver end-user documentation for the ISOInspector app
+workflows.【F:Documentation/ISOInspector.docc/Manuals/App.md†L1-L78】
+Document CLI usage, streaming exports, and validation flows for automation
+scenarios.【F:Documentation/ISOInspector.docc/Manuals
+/CLI.md†L1-L76】
 
-## 🧩 Context
+## Scope
 
-- Execution workplan task **F4** assigns the user manual now that streaming UI and CLI features are complete.
-- The master PRD lists documentation alongside the core library, app, and CLI deliverables.
-- Backlog notes show the app shell, streaming integration, and CLI commands are stable and ready to document.
+- Kit: Documented research log defaults and MP4RA refresh flow; no code changes required.
+- CLI: Described global options plus `inspect`, `validate`, `export`, and `batch` commands with usage guidance.【F:Documentation/
 
-## ✅ Success Criteria
+ISOInspector.docc/Manuals/CLI.md†L11-L99】
 
-- Manual covers launching the app, opening files, using tree/detail/hex panes, search, filters, and persistence cues.
-- Manual documents CLI `inspect`, `validate`, and export commands with arguments, usage samples, and output guidance.
-- Troubleshooting highlights validation warnings, benchmark limits, and platform needs like macOS-only Combine metrics.
+- App: Captured onboarding, search/filter controls, detail pane, and persistence behaviour for the SwiftUI
+  shell.【F:Documentati
 
-## 🔧 Implementation Notes
+on/ISOInspector.docc/Manuals/App.md†L9-L76】
 
-- Review archived notes for D2, D3, E2, and E3 to extract confirmed workflows and capture updated screenshots.
-- Cross-link DocC tutorials and the developer onboarding guide to avoid duplicating shared explanations.
-- Flag blocked follow-ups (macOS UI automation and Combine benchmarks) so readers know when hardware is required.
+## Integration contract
 
-## 🧠 Source References
+- Public Kit API added/changed: None — docs reference existing behaviour only.
+- Call sites updated: N/A (documentation-only iteration).
+- Backward compat: No runtime changes.
+- Tests: No new tests; documentation validated with `scripts/fix_markdown.py` and Markdownlint.
 
-- [`ISOInspector_Master_PRD.md`](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
-- [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
-- [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
-- [`DOCS/RULES`](../RULES)
-- [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+## Next puzzles
+
+- [ ] Capture annotated screenshots for macOS and iPadOS layouts once CI artifacts or manual captures are available.
+- [ ] Publish troubleshooting recipes for session persistence once diagnostics surfacing lands (blocked by existing
+  @todo items).
+
+## Notes
+
+Build & lint: `python3 scripts/fix_markdown.py` then `npx markdownlint-cli2 "DOCS/INPROGRESS/**/*.md" "DOCS/COMMANDS/**/*.md" "D
+OCS/RULES/**/*.md"`

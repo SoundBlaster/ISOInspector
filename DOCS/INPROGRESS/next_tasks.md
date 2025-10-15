@@ -20,4 +20,4 @@
 
 ## 📘 Documentation
 
-- [ ] Produce user manual covering CLI and app workflows. **(In Progress — outline tracked in `DOCS/INPROGRESS/F4_User_Manual.md`.)**
+- [x] Produce user manual covering CLI and app workflows. **(Completed — see `Documentation/ISOInspector.docc/Manuals/App.md` and `Documentation/ISOInspector.docc/Manuals/CLI.md`.)**
