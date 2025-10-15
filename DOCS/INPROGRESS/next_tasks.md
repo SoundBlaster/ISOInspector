@@ -20,7 +20,7 @@
 
 ## 🧾 Release Readiness
 
-- [ ] Finalize release checklist and go-live runbook covering QA sign-off, documentation updates, and packaging logistics. **(In Progress — see `DOCS/INPROGRESS/F5_Finalize_Release_Checklist_and_Go_Live_Runbook.md`.)**
+- [x] Finalize release checklist and go-live runbook covering QA sign-off, documentation updates, and packaging logistics. **(Completed — see `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md` and `DOCS/TASK_ARCHIVE/59_F5_Finalize_Release_Checklist_and_Go_Live_Runbook/`.)**
 
 ## 📘 Documentation
 

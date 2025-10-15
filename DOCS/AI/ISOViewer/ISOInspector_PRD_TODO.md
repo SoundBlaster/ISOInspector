@@ -222,7 +222,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 ### Phase F — Documentation & Onboarding
 - [x] F3. Author developer onboarding guide and API reference. *(Completed — see `Docs/Guides/DeveloperOnboarding.md` and `DOCS/TASK_ARCHIVE/53_F3_Developer_Onboarding_Guide/`.)*
 - [x] F4. Produce user manual covering CLI and app workflows. _(Completed — manuals live in `Documentation/ISOInspector.docc/Manuals/App.md` and `Documentation/ISOInspector.docc/Manuals/CLI.md`.)_
-- [ ] F5. Finalize release checklist and go-live runbook covering QA sign-off, documentation updates, and packaging logistics. **(In Progress — see `DOCS/INPROGRESS/F5_Finalize_Release_Checklist_and_Go_Live_Runbook.md`.)**
+- [x] F5. Finalize release checklist and go-live runbook covering QA sign-off, documentation updates, and packaging logistics. _(Completed — see `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md` and archive notes in `DOCS/TASK_ARCHIVE/59_F5_Finalize_Release_Checklist_and_Go_Live_Runbook/`.)_
 
 - [x] G1. File open: `.fileImporter` (iOS/iPadOS), `NSOpenPanel` (macOS); UTTypes: movie/mp4/quicktime. _(Completed via [E1_Build_SwiftUI_App_Shell](../../TASK_ARCHIVE/43_E1_Build_SwiftUI_App_Shell/E1_Build_SwiftUI_App_Shell.md))._
 - [x] G2. Tree view (Outline) with badges for warnings/errors. _(Implemented in [19_C2_Tree_View_Virtualization](../../TASK_ARCHIVE/19_C2_Tree_View_Virtualization/19_C2_Tree_View_Virtualization.md) and its follow-ups.)_
