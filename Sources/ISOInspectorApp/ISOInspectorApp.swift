@@ -1,19 +1,8 @@
-#if canImport(ISOInspectorKit_iOS)
-import ISOInspectorKit_iOS
-#endif
-#if canImport(ISOInspectorKit_macOS)
-import ISOInspectorKit_macOS
-#endif
-#if canImport(ISOInspectorKit_ipadOS)
-import ISOInspectorKit_ipadOS
-#endif
-#if canImport(ISOInspectorKit)
-import ISOInspectorKit
-#endif
 
 #if canImport(SwiftUI) && canImport(Combine)
 import SwiftUI
 import NestedA11yIDs
+import ISOInspectorKit
 #if canImport(CoreData)
 import CoreData
 #endif
@@ -81,9 +70,6 @@ struct ISOInspectorApp: App {
 }
 #else
 import Foundation
-#if canImport(ISOInspectorKit)
-import ISOInspectorKit
-#endif
 
 @main
 struct ISOInspectorAppFallback {

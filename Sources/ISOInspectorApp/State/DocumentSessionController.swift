@@ -2,16 +2,8 @@
 import Combine
 import Dispatch
 import Foundation
+import ISOInspectorKit
 
-#if canImport(ISOInspectorKit_iOS)
-import ISOInspectorKit_iOS
-#endif
-#if canImport(ISOInspectorKit_macOS)
-import ISOInspectorKit_macOS
-#endif
-#if canImport(ISOInspectorKit_ipadOS)
-import ISOInspectorKit_ipadOS
-#endif
 import UniformTypeIdentifiers
 
 #if os(macOS)
