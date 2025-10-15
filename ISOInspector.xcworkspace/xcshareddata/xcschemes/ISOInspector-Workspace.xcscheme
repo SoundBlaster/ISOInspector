@@ -14,34 +14,6 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "58F03507C5B6CD516035BFDC"
-               BuildableName = "ArgumentParser.framework"
-               BlueprintName = "ArgumentParser"
-               ReferencedContainer = "container:.build/tuist-derived/swift-argument-parser/swift-argument-parser.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "736556825EB4A1BB54DB95F9"
-               BuildableName = "ArgumentParserToolInfo.framework"
-               BlueprintName = "ArgumentParserToolInfo"
-               ReferencedContainer = "container:.build/tuist-derived/swift-argument-parser/swift-argument-parser.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "97336DB0E111BB9614B2D9DF"
                BuildableName = "ISOInspectorApp_iOS.app"
                BlueprintName = "ISOInspectorApp-iOS"
@@ -112,38 +84,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "92ECF39A7B428BE64A4FA61A"
-               BuildableName = "ISOInspectorKit_iOS.framework"
-               BlueprintName = "ISOInspectorKit-iOS"
+               BlueprintIdentifier = "76A111F6270B25091FDBFE2B"
+               BuildableName = "ISOInspectorKit.framework"
+               BlueprintName = "ISOInspectorKit"
                ReferencedContainer = "container:ISOInspector.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "DDD20152950989E9F1CA96C8"
-               BuildableName = "ISOInspectorKit_macOS.framework"
-               BlueprintName = "ISOInspectorKit-macOS"
-               ReferencedContainer = "container:ISOInspector.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "E4273F9CE4CA9DDBC5C62729"
-               BuildableName = "NestedA11yIDs.framework"
-               BlueprintName = "NestedA11yIDs"
-               ReferencedContainer = "container:.build/tuist-derived/NestedA11yIDs/NestedA11yIDs.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -166,15 +110,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "58F03507C5B6CD516035BFDC"
-            BuildableName = "ArgumentParser.framework"
-            BlueprintName = "ArgumentParser"
-            ReferencedContainer = "container:.build/tuist-derived/swift-argument-parser/swift-argument-parser.xcodeproj">
+            BlueprintIdentifier = "97336DB0E111BB9614B2D9DF"
+            BuildableName = "ISOInspectorApp_iOS.app"
+            BlueprintName = "ISOInspectorApp-iOS"
+            ReferencedContainer = "container:ISOInspector.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -182,15 +127,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "58F03507C5B6CD516035BFDC"
-            BuildableName = "ArgumentParser.framework"
-            BlueprintName = "ArgumentParser"
-            ReferencedContainer = "container:.build/tuist-derived/swift-argument-parser/swift-argument-parser.xcodeproj">
+            BlueprintIdentifier = "97336DB0E111BB9614B2D9DF"
+            BuildableName = "ISOInspectorApp_iOS.app"
+            BlueprintName = "ISOInspectorApp-iOS"
+            ReferencedContainer = "container:ISOInspector.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

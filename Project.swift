@@ -94,7 +94,7 @@ func kitTarget() -> Target {
         destinations: [.mac, .iPad, .iPhone],
         product: .framework,
         bundleId: "ru.egormerkushev.isoinspector.kit",
-        deploymentTargets: DeploymentTargets(iOS: "16.0", macOS: "14.0"),
+        deploymentTargets: DeploymentTargets.multiplatform(iOS: "16.0", macOS: "14.0"),
         infoPlist: .default,
         sources: ["Sources/ISOInspectorKit/**"],
         resources: ["Sources/ISOInspectorKit/Resources/**"],
@@ -118,7 +118,7 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     }
     let dependencies: [TargetDependency] = [
         .target(name: "ISOInspectorKit"),
-        .external(name: "NestedA11yIDs")
+        .package(product: "NestedA11yIDs")
     ]
     return Target.target(
         name: targetName,
@@ -145,7 +145,7 @@ func cliLibraryTarget() -> Target {
         sources: ["Sources/ISOInspectorCLI/**"],
         dependencies: [
             .target(name: "ISOInspectorKit"),
-            .external(name: "ArgumentParser")
+            .package(product: "ArgumentParser")
         ],
         settings: .settings(base: baseSettings)
     )
@@ -162,7 +162,7 @@ func cliRunnerTarget() -> Target {
         sources: ["Sources/ISOInspectorCLIRunner/**"],
         dependencies: [
             .target(name: "ISOInspectorCLI"),
-            .external(name: "ArgumentParser")
+            .package(product: "ArgumentParser")
         ],
         settings: .settings(base: baseSettings)
     )
