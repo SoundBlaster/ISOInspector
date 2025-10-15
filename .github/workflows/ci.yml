@@ -9,6 +9,27 @@ on:
       - main
 
 jobs:
+  changes:
+    name: Detect build-impacting changes
+    runs-on: ubuntu-22.04
+    outputs:
+      swift: ${{ steps.filter.outputs.swift }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            swift:
+              - 'Sources/**'
+              - 'Tests/**'
+              - 'scripts/**'
+              - '**/*.swift'
+
   markdown-validation:
     name: Markdown Validation
     runs-on: ubuntu-22.04
@@ -44,6 +65,8 @@ jobs:
   build-and-test:
     name: Build and Test (Ubuntu)
     runs-on: ubuntu-22.04
+    needs: changes
+    if: needs.changes.outputs.swift == 'true'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -70,7 +93,10 @@ jobs:
   docc-archives:
     name: Generate DocC Archives
     runs-on: ubuntu-22.04
-    needs: build-and-test
+    needs:
+      - changes
+      - build-and-test
+    if: needs.changes.outputs.swift == 'true' && needs.build-and-test.result == 'success'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
