@@ -10,6 +10,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | A3 | Set up DocC catalog and documentation publishing workflow. | Medium | 1 | A1 | DocC, SwiftPM | `docc` build succeeds; docs published artifact accessible. (Completed ✅ — generates archives via `scripts/generate_documentation.sh`, DocC catalogs live under `Sources/*/*.docc`, tutorials expanded in `DOCS/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/`, and CI publishing now delivered by the TODO #12-backed `docc-archives` job.) |
 
 > **Current focus:** _Task A5 — Wire up random-slice benchmarking harnesses leveraging the unified `RandomAccessReaderError` taxonomy._ See `DOCS/TASK_ARCHIVE/63_Summary_of_Work_2025-10-15/Summary_of_Work.md` for the Task A4 wrap-up and refer to `DOCS/INPROGRESS/next_tasks.md` for outstanding hardware-dependent follow-ups.
+>
+> **Status:** _In Progress_ — benchmarking harness design and metric capture planning have started for mapped vs. chunked readers.
 
 ## Phase B — Core Parsing Engine
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |

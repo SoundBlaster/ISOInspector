@@ -165,7 +165,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] A2. Implement `MappedReader` using `Data(contentsOf:options:.mappedIfSafe)`; provide bounds-checked slices. *(Delivered — see `DOCS/TASK_ARCHIVE/61_A2_Implement_MappedReader/Summary_of_Work.md`.)*
 - [x] A3. Implement `FileHandleReader` using `FileHandle` seek+read; ensure thread-safety (serial queue). _(Delivered with the chunked reader implementation in [Task B1](../../TASK_ARCHIVE/01_B1_Chunked_File_Reader/B1_Chunked_File_Reader.md))._
 - [x] A4. Add error types: `IOError`, `BoundsError`, `OverflowError`. _(Completed — see `DOCS/TASK_ARCHIVE/62_A4_RandomAccessReader_Error_Types/Summary_of_Work.md`.)_
-- [ ] A5. Micro-benchmarks: random slice reads on large files, compare mapped vs handle.
+- [ ] A5. Micro-benchmarks: random slice reads on large files, compare mapped vs handle. **(In Progress)**
 
 - [x] B1. Define `BoxHeader`: `type: FourCC`, `size32`, `largesize64?`, `headerSize`, `payloadRange`, `startOffset`, `endOffset`, `uuid?`. _(Delivered via [02_B2_Box_Header_Decoder](../../TASK_ARCHIVE/02_B2_Box_Header_Decoder/B2_Box_Header_Decoder.md))._
 - [ ] B2. Define `BoxNode`: `header`, `children: [BoxNode]`, `payload: Payload?`, `warnings: [Warning]`.
