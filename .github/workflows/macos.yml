@@ -52,27 +52,6 @@ jobs:
           path: ${{ runner.temp }}/tuist/${{ steps.tuist-version.outputs.tuist_version }}
           key: ${{ runner.os }}-tuist-${{ steps.tuist-version.outputs.tuist_version }}
 
-      - name: Install Tuist
-        env:
-          TUIST_VERSION: ${{ steps.tuist-version.outputs.tuist_version }}
-        run: |
-          set -euo pipefail
-          INSTALL_DIR="${RUNNER_TEMP}/tuist/${TUIST_VERSION}"
-          mkdir -p "${INSTALL_DIR}"
-          if [ ! -x "${INSTALL_DIR}/tuist" ]; then
-            echo "Downloading Tuist ${TUIST_VERSION}"
-            tmpdir=$(mktemp -d)
-            curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
-            unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
-            rsync -a "${tmpdir}/" "${INSTALL_DIR}/"
-            chmod +x "${INSTALL_DIR}/tuist"
-            rm -rf "${tmpdir}"
-          fi
-          echo "${INSTALL_DIR}" >> "$GITHUB_PATH"
-
-      - name: Show Tuist version
-        run: tuist version
-
       - name: Select latest stable Xcode
         uses: maxim-lobanov/setup-xcode@v1
         with:
@@ -80,6 +59,64 @@ jobs:
 
       - name: Show Xcode version
         run: xcodebuild -version
+
+      - name: Install Tuist
+        env:
+          TUIST_VERSION: ${{ steps.tuist-version.outputs.tuist_version }}
+        run: |
+          set -euo pipefail
+
+          INSTALL_DIR="${RUNNER_TEMP}/tuist/${TUIST_VERSION}"
+          mkdir -p "${INSTALL_DIR}"
+
+          build_from_source() {
+            echo "Building Tuist ${TUIST_VERSION} from source"
+            rm -rf "${INSTALL_DIR}"
+            mkdir -p "${INSTALL_DIR}"
+
+            local source_dir="${INSTALL_DIR}/source"
+            git clone --depth 1 --branch "${TUIST_VERSION}" https://github.com/tuist/tuist.git "${source_dir}"
+
+            pushd "${source_dir}" >/dev/null
+            swift build --configuration release --build-path "${source_dir}/.build" --product ProjectDescription
+            swift build --configuration release --build-path "${source_dir}/.build" --product tuist
+            popd >/dev/null
+
+            ln -sfn "${source_dir}/Templates" "${INSTALL_DIR}/Templates"
+
+            printf '%s\n' \
+              '#!/usr/bin/env bash' \
+              'set -euo pipefail' \
+              'SCRIPT_DIR="$(cd -- "$(dirname "${BASH_SOURCE[0]}")" && pwd)"' \
+              'SOURCE_DIR="${SCRIPT_DIR}/source"' \
+              'BUILD_PATH="${SOURCE_DIR}/.build"' \
+              'exec swift run --package-path "${SOURCE_DIR}" --configuration release --build-path "${BUILD_PATH}" --skip-build tuist "$@"' \
+              > "${INSTALL_DIR}/tuist"
+            chmod +x "${INSTALL_DIR}/tuist"
+          }
+
+          if [ ! -x "${INSTALL_DIR}/tuist" ]; then
+            echo "Downloading Tuist ${TUIST_VERSION}"
+            tmpdir=$(mktemp -d)
+            if curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"; then
+              unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
+              rsync -a "${tmpdir}/" "${INSTALL_DIR}/"
+              chmod +x "${INSTALL_DIR}/tuist"
+              if ! "${INSTALL_DIR}/tuist" version >/dev/null 2>&1; then
+                echo "Prebuilt Tuist binary is not compatible with this runner"
+                build_from_source
+              fi
+            else
+              echo "Failed to download prebuilt Tuist ${TUIST_VERSION}"
+              build_from_source
+            fi
+            rm -rf "${tmpdir}"
+          fi
+
+          echo "${INSTALL_DIR}" >> "$GITHUB_PATH"
+
+      - name: Show Tuist version
+        run: tuist version
 
       - name: Validate Tuist project definition
         run: tuist dump project > /dev/null
