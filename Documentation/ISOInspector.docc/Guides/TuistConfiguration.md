@@ -13,7 +13,7 @@ This guide explains how ISOInspector encodes its multi-platform targets, shared 
 
 ## Target definitions
 - Shared base build settings (marketing version and build number) are applied to every target via the `baseSettings` dictionary.【F:Project.swift†L64-L69】
-- Framework targets (`ISOInspectorKit-macOS` and `ISOInspectorKit-iOS`) reuse the same source and resource globs while differing only in destinations and bundle identifiers.【F:Project.swift†L91-L104】
+- The universal framework target (`ISOInspectorKit`) shares source and resource globs across macOS, iPhone, and iPad destinations, exposing a single bundle identifier for every platform.【F:Project.swift†L91-L104】
 - Application targets wrap the framework, attach platform-specific entitlements, and depend on the `NestedA11yIDs` package for accessibility tooling.【F:Project.swift†L106-L135】
 - CLI targets (`ISOInspectorCLI` and `ISOInspectorCLIRunner`) expose command-line functionality and pull in `swift-argument-parser` alongside the macOS framework.【F:Project.swift†L139-L169】
 - Remote Swift Package dependencies for accessibility IDs and ArgumentParser are declared at the project level so Tuist resolves them consistently during generation.【F:Project.swift†L172-L191】
