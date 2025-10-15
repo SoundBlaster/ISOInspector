@@ -354,3 +354,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/61_A2_Implement_MappedReader/`.
 - **Highlights:** Records the delivery of a memory-mapped `RandomAccessReader` that wraps `Data(contentsOf:options:.mappedIfSafe)`, ensures safe slice extraction, and falls back gracefully when mapping is unavailable. Includes accompanying unit coverage for boundary enforcement and failure handling.
 - **Next steps carried forward:** Revisit IO roadmap items A4–A5 to introduce explicit reader error types and benchmarking, and continue tracking macOS automation, benchmark runs, and persistence diagnostics in the refreshed `DOCS/INPROGRESS/next_tasks.md` checklist.
+
+## 63_Summary_of_Work_2025-10-15
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/63_Summary_of_Work_2025-10-15/`.
+- **Highlights:** Captures the October 15, 2025 checkpoint closing Task A4 with the unified `RandomAccessReaderError` taxonomy, aligned error reporting across mapped, chunked, and in-memory readers, and extended regression coverage for bounds, overflow, and IO propagation.
+- **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` tracks IO roadmap Task A5 benchmarking work along with macOS-only automation, Combine UI benchmarking, session persistence diagnostics, and notarization follow-ups until required hardware and diagnostics plumbing land.
