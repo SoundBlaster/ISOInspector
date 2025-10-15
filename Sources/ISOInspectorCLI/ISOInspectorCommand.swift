@@ -2,7 +2,6 @@ import ArgumentParser
 import Foundation
 import ISOInspectorKit
 
-
 #if canImport(Darwin)
 import Darwin
 #elseif canImport(Glibc)

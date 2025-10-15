@@ -2,7 +2,6 @@
 import Foundation
 import ISOInspectorKit
 
-
 enum ParseTreePreviewData {
     @MainActor
     static let sampleSnapshot: ParseTreeSnapshot = {

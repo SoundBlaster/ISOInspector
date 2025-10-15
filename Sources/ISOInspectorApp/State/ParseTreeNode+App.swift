@@ -2,7 +2,6 @@
 import Foundation
 import ISOInspectorKit
 
-
 extension ParseTreeNode: Identifiable {
     public var id: Int64 { header.startOffset }
 

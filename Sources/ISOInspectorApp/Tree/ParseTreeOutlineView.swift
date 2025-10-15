@@ -4,7 +4,6 @@ import SwiftUI
 import NestedA11yIDs
 import ISOInspectorKit
 
-
 struct ParseTreeExplorerView: View {
     @ObservedObject var store: ParseTreeStore
     @ObservedObject var annotations: AnnotationBookmarkSession
@@ -278,7 +277,7 @@ struct ParseTreeOutlineView: View {
                 }
                 keyboardSelectionID = nextID
                 focusedRowID = nextID
-            }            
+            }
 #endif
         }
     }

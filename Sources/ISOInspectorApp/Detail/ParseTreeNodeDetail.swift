@@ -1,7 +1,6 @@
 import Foundation
 import ISOInspectorKit
 
-
 struct ParseTreeNodeDetail: Equatable {
     let header: BoxHeader
     let metadata: BoxDescriptor?

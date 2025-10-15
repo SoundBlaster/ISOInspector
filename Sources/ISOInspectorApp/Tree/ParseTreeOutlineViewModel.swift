@@ -6,7 +6,6 @@ import ISOInspectorKit
 import os
 #endif
 
-
 @MainActor
 final class ParseTreeOutlineViewModel: ObservableObject {
     @Published private(set) var rows: [ParseTreeOutlineRow] = []

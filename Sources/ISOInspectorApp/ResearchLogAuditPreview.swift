@@ -3,7 +3,6 @@ import SwiftUI
 import NestedA11yIDs
 import ISOInspectorKit
 
-
 #if os(macOS)
 import AppKit
 #endif
