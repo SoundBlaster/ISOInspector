@@ -8,7 +8,22 @@ struct AppShellView: View {
     @State private var isImporterPresented = false
     @State private var importError: ImportError?
 
+    @ViewBuilder
     var body: some View {
+        if #available(iOS 17, macOS 14, *) {
+            content
+                .onChange(of: scenePhase, initial: false) { _, phase in
+                    handleScenePhaseChange(phase)
+                }
+        } else {
+            content
+                .onChange(of: scenePhase) { phase in
+                    handleScenePhaseChange(phase)
+                }
+        }
+    }
+
+    private var content: some View {
         NavigationSplitView {
             sidebar
         } detail: {
@@ -31,10 +46,11 @@ struct AppShellView: View {
         .onOpenURL { url in
             controller.openDocument(at: url)
         }
-        .onChange(of: scenePhase) { _, phase in
-            if phase == .background || phase == .inactive {
-                controller.parseTreeStore.shutdown()
-            }
+    }
+
+    private func handleScenePhaseChange(_ phase: ScenePhase) {
+        if phase == .background || phase == .inactive {
+            controller.parseTreeStore.shutdown()
         }
     }
 

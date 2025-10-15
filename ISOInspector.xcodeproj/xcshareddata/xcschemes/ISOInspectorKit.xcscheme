@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "92ECF39A7B428BE64A4FA61A"
-               BuildableName = "ISOInspectorKit_iOS.framework"
-               BlueprintName = "ISOInspectorKit-iOS"
+               BlueprintIdentifier = "76A111F6270B25091FDBFE2B"
+               BuildableName = "ISOInspectorKit.framework"
+               BlueprintName = "ISOInspectorKit"
                ReferencedContainer = "container:ISOInspector.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,9 +44,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "92ECF39A7B428BE64A4FA61A"
-            BuildableName = "ISOInspectorKit_iOS.framework"
-            BlueprintName = "ISOInspectorKit-iOS"
+            BlueprintIdentifier = "76A111F6270B25091FDBFE2B"
+            BuildableName = "ISOInspectorKit.framework"
+            BlueprintName = "ISOInspectorKit"
             ReferencedContainer = "container:ISOInspector.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -60,9 +60,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "92ECF39A7B428BE64A4FA61A"
-            BuildableName = "ISOInspectorKit_iOS.framework"
-            BlueprintName = "ISOInspectorKit-iOS"
+            BlueprintIdentifier = "76A111F6270B25091FDBFE2B"
+            BuildableName = "ISOInspectorKit.framework"
+            BlueprintName = "ISOInspectorKit"
             ReferencedContainer = "container:ISOInspector.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
