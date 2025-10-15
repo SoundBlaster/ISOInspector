@@ -2,7 +2,7 @@
 
 ## 🔭 IO Roadmap Priorities
 
-- [ ] Evaluate Tasks A4 and A5 from the IO roadmap to extend the random-access reader surface with explicit error types and benchmarking. **(In Progress — focusing on Task A4 error type surfacing; see `DOCS/INPROGRESS/62_A4_RandomAccessReader_Error_Types.md`.)** See backlog details in `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md` (items A4–A5) and `todo.md` for remaining platform diagnostics work.
+- [ ] Advance Task A5 from the IO roadmap by wiring up the random-slice benchmarking harness now that Task A4’s error taxonomy is complete (see `DOCS/TASK_ARCHIVE/62_A4_RandomAccessReader_Error_Types/Summary_of_Work.md`). Backlog details live in `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md` (items A5+) and `todo.md` for remaining platform diagnostics work.
 
 ## 🧪 Streaming UI Coverage
 

@@ -77,8 +77,70 @@ final class ChunkedFileReaderTests: XCTestCase {
         let reader = try ChunkedFileReader(fileURL: temporaryURL, chunkSize: 128)
 
         XCTAssertThrowsError(try reader.read(at: 390, count: 32)) { error in
-            guard case ChunkedFileReader.Error.requestedRangeOutOfBounds? = error as? ChunkedFileReader.Error else {
+            guard let readerError = error as? RandomAccessReaderError else {
                 XCTFail("Unexpected error: \(error)")
+                return
+            }
+            guard case let .boundsError(bounds) = readerError else {
+                XCTFail("Unexpected error: \(readerError)")
+                return
+            }
+            XCTAssertEqual(bounds, .requestedRangeOutOfBounds(offset: 390, count: 32))
+        }
+    }
+
+    func testNegativeOffsetThrowsBoundsError() throws {
+        let bytes = Data((0..<64).map { UInt8($0) })
+        try bytes.write(to: temporaryURL)
+
+        let reader = try ChunkedFileReader(fileURL: temporaryURL, chunkSize: 32)
+
+        XCTAssertThrowsError(try reader.read(at: -1, count: 4)) { error in
+            guard let readerError = error as? RandomAccessReaderError else {
+                XCTFail("Unexpected error: \(error)")
+                return
+            }
+            guard case let .boundsError(bounds) = readerError else {
+                XCTFail("Unexpected error: \(readerError)")
+                return
+            }
+            XCTAssertEqual(bounds, .invalidOffset(-1))
+        }
+    }
+
+    func testNegativeCountThrowsBoundsError() throws {
+        let bytes = Data((0..<64).map { UInt8($0) })
+        try bytes.write(to: temporaryURL)
+
+        let reader = try ChunkedFileReader(fileURL: temporaryURL, chunkSize: 32)
+
+        XCTAssertThrowsError(try reader.read(at: 0, count: -4)) { error in
+            guard let readerError = error as? RandomAccessReaderError else {
+                XCTFail("Unexpected error: \(error)")
+                return
+            }
+            guard case let .boundsError(bounds) = readerError else {
+                XCTFail("Unexpected error: \(readerError)")
+                return
+            }
+            XCTAssertEqual(bounds, .invalidCount(-4))
+        }
+    }
+
+    func testOverflowingRangeThrowsOverflowError() throws {
+        let reader = ChunkedFileReader(
+            length: Int64(128),
+            chunkSize: 64,
+            file: TestFileHandle(readHandler: { _ in Data(repeating: 0, count: 64) })
+        )
+
+        XCTAssertThrowsError(try reader.read(at: Int64.max - 4, count: 10)) { error in
+            guard let readerError = error as? RandomAccessReaderError else {
+                XCTFail("Unexpected error: \(error)")
+                return
+            }
+            guard case .overflowError = readerError else {
+                XCTFail("Unexpected error: \(readerError)")
                 return
             }
         }
@@ -101,11 +163,37 @@ final class ChunkedFileReaderTests: XCTestCase {
         )
 
         XCTAssertThrowsError(try reader.read(at: 0, count: 16)) { error in
-            guard case let ChunkedFileReader.Error.ioError(underlying)? = error as? ChunkedFileReader.Error else {
+            guard let readerError = error as? RandomAccessReaderError else {
                 XCTFail("Unexpected error: \(error)")
+                return
+            }
+            guard case let .ioError(underlying) = readerError else {
+                XCTFail("Unexpected error: \(readerError)")
                 return
             }
             XCTAssertTrue(underlying is TestError)
         }
+    }
+}
+
+private final class TestFileHandle: ChunkedFileReaderRandomAccessFile {
+    private let readHandler: (Int) throws -> Data
+    private var position: UInt64 = 0
+
+    init(readHandler: @escaping (Int) throws -> Data) {
+        self.readHandler = readHandler
+    }
+
+    func seek(toOffset offset: UInt64) throws {
+        position = offset
+    }
+
+    func read(into buffer: UnsafeMutableRawBufferPointer, requestedCount: Int) throws -> Int {
+        let data = try readHandler(requestedCount)
+        position += UInt64(min(requestedCount, data.count))
+        if let baseAddress = buffer.baseAddress, !data.isEmpty {
+            data.copyBytes(to: baseAddress.assumingMemoryBound(to: UInt8.self), count: data.count)
+        }
+        return data.count
     }
 }
