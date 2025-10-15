@@ -9,6 +9,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | A2 | Configure CI pipeline (GitHub Actions or similar) for build, test, lint. | High | 1.5 | A1 | GitHub Actions, swiftlint | CI runs on pull requests; failing tests block merge. (Completed ✅ — archived in `DOCS/ARCHIVE/01_A2_Configure_CI_Pipeline/`.) |
 | A3 | Set up DocC catalog and documentation publishing workflow. | Medium | 1 | A1 | DocC, SwiftPM | `docc` build succeeds; docs published artifact accessible. (Completed ✅ — generates archives via `scripts/generate_documentation.sh`, DocC catalogs live under `Sources/*/*.docc`, tutorials expanded in `DOCS/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/`, and CI publishing now delivered by the TODO #12-backed `docc-archives` job.) |
 
+> **Current focus:** Detailed TODO entry **A2 — Implement `MappedReader` using `Data(contentsOf:options:.mappedIfSafe)`; provide bounds-checked slices.** See `DOCS/INPROGRESS/A2_Implement_MappedReader.md` for the active work record.
+
 ## Phase B — Core Parsing Engine
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
