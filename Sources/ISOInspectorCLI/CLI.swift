@@ -9,6 +9,9 @@ import ISOInspectorKit_macOS
 #if canImport(ISOInspectorKit_ipadOS)
 import ISOInspectorKit_ipadOS
 #endif
+#if canImport(ISOInspectorKit)
+import ISOInspectorKit
+#endif
 
 public struct ISOInspectorCLIEnvironment: Sendable {
     public var refreshCatalog: @Sendable (_ source: URL, _ output: URL) throws -> Void
