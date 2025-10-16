@@ -2,7 +2,7 @@
 
 ## Completed Tasks
 
-- **G4 — Zero-Trust Logging & Audit Trail:** Implemented hashed, timestamped logging for FilesystemAccessKit and documented the audit schema. Tracking artifacts updated in `DOCS/INPROGRESS/G4_Zero_Trust_Logging.md`, `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md`, and `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md`.
+- **G4 — Zero-Trust Logging & Audit Trail:** Implemented hashed, timestamped logging for FilesystemAccessKit and documented the audit schema. Tracking artifacts preserved in `DOCS/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/G4_Zero_Trust_Logging.md`, `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md`, and `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md`.
 
 ## Implementation Highlights
 
