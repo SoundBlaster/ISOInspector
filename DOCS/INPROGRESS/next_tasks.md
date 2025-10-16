@@ -6,7 +6,7 @@
 
   integrate without data loss. *(Completed — see `DOCS/TASK_ARCHIVE/70_Bookmark_Persistence_Schema/2025-10-16-bookmark-persistence-schema.md`.)*
 
-- [ ] **In Progress — Persist FilesystemAccessKit bookmarks alongside recents/session storage controllers.** This wires the shared `BookmarkPersistenceStore` into CoreData and JSON recents/session flows so security-scoped bookmarks survive relaunch. *(See `DOCS/INPROGRESS/G2_Persist_FilesystemAccessKit_Bookmarks.md` for active plan.)*
+- [x] **Completed — Persist FilesystemAccessKit bookmarks alongside recents/session storage controllers.** This wires the shared `BookmarkPersistenceStore` into CoreData and JSON recents/session flows so security-scoped bookmarks survive relaunch. *(Implementation summary: see `DOCS/INPROGRESS/Summary_of_Work.md`.)*
 
 - [ ] Draft CLI sandbox profile guidance covering `com.apple.security.files.user-selected.read-write` and automation workflows for headless usage. Reference the newly archived task summary in `DOCS/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/` for current API behavior.
 

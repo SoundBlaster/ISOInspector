@@ -5,8 +5,6 @@ import Foundation
 /// The schema stores one record per canonical file URL so UI layers can reference
 /// a stable identifier without duplicating bookmark blobs across multiple models.
 public struct BookmarkPersistenceStore: Sendable {
-    // @todo PDD:45m Wire BookmarkPersistenceStore into recents and session controllers so bookmark identifiers are persisted and
-    // restored from a single source. See DOCS/INPROGRESS/2025-10-16-bookmark-persistence-schema.md for integration notes.
     public struct Record: Codable, Equatable, Identifiable, Sendable {
         public enum ResolutionState: String, Codable, Equatable, Sendable {
             case unknown
