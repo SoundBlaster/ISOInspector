@@ -24,6 +24,11 @@ pectorCommand.swift†L48-L134】
 - `--enable-telemetry` and `--disable-telemetry` override the default streaming telemetry behaviour. The command validates that
 mutually exclusive flags are not combined.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L76-L146】
 
+## Sandbox automation
+
+- Pair the CLI with a signed sandbox profile and FilesystemAccessKit bookmarks to run without interactive prompts. Follow the `ISOInspector CLI Sandbox Automation Guide` for provisioning steps, including the `--open` bookmark capture flow and `--authorize` headless execution path.【F:Documentation/ISOInspector.docc/Guides/CLISandboxProfileGuide.md†L1-L124】
+- Invoke automation jobs with `sandbox-exec -f <profile>` so the CLI inherits the same entitlements as the notarized app build, preventing accidental unsandboxed runs.
+
 ## `inspect` — stream parse events
 
 ```
