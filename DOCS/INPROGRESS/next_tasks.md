@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🚧 In Progress
+
+- [ ] Surface document load failures in the app shell UI once the error banner design is ready. **(In Progress — see `DOCS/INPROGRESS/E5_Surface_Document_Load_Failures.md`.)**
+
 ## 🔭 Benchmark Validation
 
 - [ ] Execute the random slice benchmark suite on macOS hardware once Combine support is available so we can compare mapped vs. chunked readers under identical workloads. **(Blocked — requires macOS runner with Combine; see `DOCS/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/2025-10-15-random-slice-benchmark.md`.)**
