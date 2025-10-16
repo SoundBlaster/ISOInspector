@@ -71,6 +71,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | G3 | Expose CLI flags and sandbox profile guidance for headless access. | Medium | 1 | G1 | Swift ArgumentParser, sandbox profiles | CLI accepts `--open`/`--authorize` inputs mapped to FilesystemAccessKit; documentation updated with sandbox profile steps. |
 | G4 | Implement zero-trust logging and audit trail for file access events. | Medium | 1 | G1 | Swift Logging | Access logs omit absolute paths, include hashed identifiers, and pass diagnostics tests. |
 
+> **In Progress:** Task G1 – Implement FilesystemAccessKit core API. Tracking details in `DOCS/INPROGRESS/G1_FilesystemAccessKit_Core_API.md`.
+
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
 - Within Phase B, tasks B1–B3 and B4–B6 follow sequential order; B4 can start once B3 has event emission stubs.
