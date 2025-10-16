@@ -414,3 +414,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/`.
 - **Highlights:** Captures completion of Task G4 zero-trust logging by recording hashed path identifiers, timestamped audit entries, and bounded rotation diagnostics across FilesystemAccessKit along with the supporting design narrative.
 - **Next steps carried forward:** Follow-up CLI bookmark wiring for the audit trail remains on `todo.md`, while macOS benchmark and automation runs continue in the refreshed `DOCS/INPROGRESS/next_tasks.md` alongside other hardware-dependent work.
+
+## 75_PDD1h_Provide_UIDocumentPicker_Integration
+- **Archived files:** `PDD1h_Provide_UIDocumentPicker_Integration.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/75_PDD1h_Provide_UIDocumentPicker_Integration/`.
+- **Highlights:** Documents delivery of the UIKit-backed `FilesystemDocumentPickerPresenter`, the platform-specific wiring inside `FilesystemAccess.live`, and the accompanying verification notes confirming Linux CI coverage via injectable presenters.
+- **Next steps carried forward:** Hardware-dependent macOS benchmark, UI automation, session reconciliation, and notarization follow-ups remain tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md` alongside the backlog entries in `todo.md` and the execution workplan.
