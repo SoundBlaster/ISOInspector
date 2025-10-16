@@ -67,7 +67,7 @@ jobs:
     name: Build and Test (Ubuntu)
     runs-on: ubuntu-22.04
     needs: changes
-    if: needs.changes.outputs.swift == 'true'
+    if: needs.changes.outputs.swift != 'false'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -97,7 +97,7 @@ jobs:
     needs:
       - changes
       - build-and-test
-    if: needs.changes.outputs.swift == 'true' && needs.build-and-test.result == 'success'
+    if: needs.changes.outputs.swift != 'false' && needs.build-and-test.result == 'success'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
