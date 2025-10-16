@@ -23,5 +23,6 @@
 
 ## 📱 Filesystem Access Integration
 
-- [ ] Provide UIDocumentPicker integration for iOS/iPadOS once UIKit adapters are introduced. **(In Progress —
-  FilesystemAccessKit adapters are being implemented now.)**
+- [x] Provide UIDocumentPicker integration for iOS/iPadOS once UIKit adapters are introduced. **(Completed —
+
+  FilesystemAccess.live now routes to the UIKit adapter.)**
