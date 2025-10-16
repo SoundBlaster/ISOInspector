@@ -2,7 +2,7 @@
 
 ## 🔐 Zero-Trust Logging
 
-- [ ] **In Progress** — Implement Task G4 zero-trust logging so FilesystemAccessKit access events emit hashed identifiers and auditable metrics aligned with CLI sandbox guidance. Coordinate log schemas with existing persistence diagnostics before extending telemetry coverage. (See `DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md`.)
+- [x] **Completed — 2025-10-16.** Implemented Task G4 zero-trust logging so FilesystemAccessKit access events emit hashed identifiers, timestamped audit entries, and rotation-aware diagnostics aligned with CLI sandbox guidance. Details in `DOCS/INPROGRESS/Summary_of_Work.md`.
 
 ## 🔭 Benchmark Validation
 

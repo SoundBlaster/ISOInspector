@@ -2,13 +2,23 @@ import Foundation
 import XCTest
 @testable import ISOInspectorKit
 
+#if canImport(CryptoKit)
+import CryptoKit
+#endif
+
 final class FilesystemAccessTests: XCTestCase {
     func testOpenFileStartsSecurityScopeAndLogs() async throws {
         let expectedURL = URL(fileURLWithPath: "/tmp/example.mp4")
         let openDialog = FilesystemAccessTestDialog(result: expectedURL)
         let scopeManager = FilesystemAccessTestSecurityScope()
         let bookmarkManager = FilesystemAccessTestBookmarkManager()
-        let logger = FilesystemAccessTestLogger()
+        let diagnosticsLogger = FilesystemAccessTestLogger()
+        let auditTrail = FilesystemAccessAuditTrail(limit: 5)
+        let accessLogger = FilesystemAccessLogger(
+            diagnosticsLogger,
+            auditTrail: auditTrail,
+            makeDate: { Date(timeIntervalSinceReferenceDate: 1) }
+        )
 
         let access = FilesystemAccess(
             openFileHandler: openDialog.open,
@@ -16,24 +26,37 @@ final class FilesystemAccessTests: XCTestCase {
             bookmarkCreator: bookmarkManager.createBookmark(for:),
             bookmarkResolver: bookmarkManager.resolveBookmark(data:),
             securityScopeManager: scopeManager,
-            logger: .init(logger)
+            logger: accessLogger
         )
 
         let scopedURL = try await access.openFile()
 
         XCTAssertEqual(scopedURL.url, expectedURL)
         XCTAssertEqual(scopeManager.startedURLs, [expectedURL])
-        XCTAssertTrue(logger.infoMessages.contains { $0.contains("access_granted") })
+        XCTAssertTrue(diagnosticsLogger.infoMessages.contains { $0.contains("access_granted") })
 
         scopedURL.revoke()
         XCTAssertEqual(scopeManager.stoppedURLs, [expectedURL])
+
+        let events = auditTrail.snapshot()
+        XCTAssertEqual(events.count, 1)
+        XCTAssertEqual(events.first?.category, .openFile)
+        XCTAssertEqual(events.first?.outcome, .accessGranted)
+        XCTAssertEqual(events.first?.pathHash, expectedHash(for: expectedURL))
+        XCTAssertFalse(events.contains { $0.message.contains(expectedURL.path) })
     }
 
     func testCreateBookmarkLogsSuccess() throws {
         let expectedURL = URL(fileURLWithPath: "/tmp/example.mp4")
         let scopeManager = FilesystemAccessTestSecurityScope()
         let bookmarkManager = FilesystemAccessTestBookmarkManager()
-        let logger = FilesystemAccessTestLogger()
+        let diagnosticsLogger = FilesystemAccessTestLogger()
+        let auditTrail = FilesystemAccessAuditTrail(limit: 5)
+        let accessLogger = FilesystemAccessLogger(
+            diagnosticsLogger,
+            auditTrail: auditTrail,
+            makeDate: { Date(timeIntervalSinceReferenceDate: 2) }
+        )
 
         let access = FilesystemAccess(
             openFileHandler: { _ in expectedURL },
@@ -41,7 +64,7 @@ final class FilesystemAccessTests: XCTestCase {
             bookmarkCreator: bookmarkManager.createBookmark(for:),
             bookmarkResolver: bookmarkManager.resolveBookmark(data:),
             securityScopeManager: scopeManager,
-            logger: .init(logger)
+            logger: accessLogger
         )
 
         let scoped = SecurityScopedURL(url: expectedURL, manager: scopeManager)
@@ -49,7 +72,13 @@ final class FilesystemAccessTests: XCTestCase {
 
         XCTAssertEqual(bookmark, bookmarkManager.bookmarkData)
         XCTAssertEqual(bookmarkManager.createdURLs, [expectedURL])
-        XCTAssertTrue(logger.infoMessages.contains { $0.contains("bookmark.create.success") })
+        XCTAssertTrue(diagnosticsLogger.infoMessages.contains { $0.contains("bookmark.create.success") })
+
+        let events = auditTrail.snapshot()
+        XCTAssertEqual(events.count, 1)
+        XCTAssertEqual(events.first?.category, .bookmarkCreate)
+        XCTAssertEqual(events.first?.outcome, .success)
+        XCTAssertEqual(events.first?.pathHash, expectedHash(for: expectedURL))
     }
 
     func testResolveBookmarkDataReturnsStaleState() throws {
@@ -57,7 +86,13 @@ final class FilesystemAccessTests: XCTestCase {
         let scopeManager = FilesystemAccessTestSecurityScope()
         let bookmarkManager = FilesystemAccessTestBookmarkManager()
         bookmarkManager.nextResolution = BookmarkResolution(url: expectedURL, isStale: true)
-        let logger = FilesystemAccessTestLogger()
+        let diagnosticsLogger = FilesystemAccessTestLogger()
+        let auditTrail = FilesystemAccessAuditTrail(limit: 5)
+        let accessLogger = FilesystemAccessLogger(
+            diagnosticsLogger,
+            auditTrail: auditTrail,
+            makeDate: { Date(timeIntervalSinceReferenceDate: 3) }
+        )
 
         let access = FilesystemAccess(
             openFileHandler: { _ in expectedURL },
@@ -65,7 +100,7 @@ final class FilesystemAccessTests: XCTestCase {
             bookmarkCreator: bookmarkManager.createBookmark(for:),
             bookmarkResolver: bookmarkManager.resolveBookmark(data:),
             securityScopeManager: scopeManager,
-            logger: .init(logger)
+            logger: accessLogger
         )
 
         let resolved = try access.resolveBookmarkData(Data("bookmark".utf8))
@@ -73,7 +108,14 @@ final class FilesystemAccessTests: XCTestCase {
         XCTAssertEqual(resolved.url.url, expectedURL)
         XCTAssertTrue(resolved.isStale)
         XCTAssertEqual(scopeManager.startedURLs, [expectedURL])
-        XCTAssertTrue(logger.errorMessages.contains { $0.contains("bookmark.resolve.stale") })
+        XCTAssertTrue(diagnosticsLogger.errorMessages.contains { $0.contains("bookmark.resolve.stale") })
+
+        let events = auditTrail.snapshot()
+        XCTAssertEqual(events.count, 2)
+        XCTAssertEqual(events.first?.category, .bookmarkResolve)
+        XCTAssertEqual(events.first?.outcome, .accessGranted)
+        XCTAssertEqual(events.last?.outcome, .stale)
+        XCTAssertEqual(events.last?.pathHash, expectedHash(for: expectedURL))
     }
 
     func testResolveBookmarkDataPropagatesErrors() {
@@ -83,7 +125,13 @@ final class FilesystemAccessTests: XCTestCase {
         let scopeManager = FilesystemAccessTestSecurityScope()
         let bookmarkManager = FilesystemAccessTestBookmarkManager()
         bookmarkManager.resolveError = SampleError()
-        let logger = FilesystemAccessTestLogger()
+        let diagnosticsLogger = FilesystemAccessTestLogger()
+        let auditTrail = FilesystemAccessAuditTrail(limit: 5)
+        let accessLogger = FilesystemAccessLogger(
+            diagnosticsLogger,
+            auditTrail: auditTrail,
+            makeDate: { Date(timeIntervalSinceReferenceDate: 4) }
+        )
 
         let access = FilesystemAccess(
             openFileHandler: { _ in expectedURL },
@@ -91,7 +139,7 @@ final class FilesystemAccessTests: XCTestCase {
             bookmarkCreator: bookmarkManager.createBookmark(for:),
             bookmarkResolver: bookmarkManager.resolveBookmark(data:),
             securityScopeManager: scopeManager,
-            logger: .init(logger)
+            logger: accessLogger
         )
 
         XCTAssertThrowsError(try access.resolveBookmarkData(Data())) { error in
@@ -100,7 +148,14 @@ final class FilesystemAccessTests: XCTestCase {
             }
             XCTAssertTrue(underlying is SampleError)
         }
-        XCTAssertTrue(logger.errorMessages.contains { $0.contains("bookmark.resolve.failure") })
+        XCTAssertTrue(diagnosticsLogger.errorMessages.contains { $0.contains("bookmark.resolve.failure") })
+
+        let events = auditTrail.snapshot()
+        XCTAssertEqual(events.count, 1)
+        XCTAssertEqual(events.first?.category, .bookmarkResolve)
+        XCTAssertEqual(events.first?.outcome, .failure)
+        XCTAssertNil(events.first?.pathHash)
+        XCTAssertEqual(events.first?.errorDescription, "SampleError()")
     }
 
     func testOpenFileAuthorizationFailureThrows() async {
@@ -109,7 +164,13 @@ final class FilesystemAccessTests: XCTestCase {
         let scopeManager = FilesystemAccessTestSecurityScope()
         scopeManager.allowAccess = false
         let bookmarkManager = FilesystemAccessTestBookmarkManager()
-        let logger = FilesystemAccessTestLogger()
+        let diagnosticsLogger = FilesystemAccessTestLogger()
+        let auditTrail = FilesystemAccessAuditTrail(limit: 5)
+        let accessLogger = FilesystemAccessLogger(
+            diagnosticsLogger,
+            auditTrail: auditTrail,
+            makeDate: { Date(timeIntervalSinceReferenceDate: 5) }
+        )
 
         let access = FilesystemAccess(
             openFileHandler: openDialog.open,
@@ -117,7 +178,7 @@ final class FilesystemAccessTests: XCTestCase {
             bookmarkCreator: bookmarkManager.createBookmark(for:),
             bookmarkResolver: bookmarkManager.resolveBookmark(data:),
             securityScopeManager: scopeManager,
-            logger: .init(logger)
+            logger: accessLogger
         )
 
         do {
@@ -128,7 +189,25 @@ final class FilesystemAccessTests: XCTestCase {
         } catch {
             XCTFail("Unexpected error: \(error)")
         }
-        XCTAssertTrue(logger.errorMessages.contains { $0.contains("authorization_denied") })
+        XCTAssertTrue(diagnosticsLogger.errorMessages.contains { $0.contains("authorization_denied") })
+
+        let events = auditTrail.snapshot()
+        XCTAssertEqual(events.count, 1)
+        XCTAssertEqual(events.first?.category, .openFile)
+        XCTAssertEqual(events.first?.outcome, .authorizationDenied)
+        XCTAssertEqual(events.first?.pathHash, expectedHash(for: expectedURL))
+    }
+
+    private func expectedHash(for url: URL) -> String {
+        let path = url.standardizedFileURL.path
+        #if canImport(CryptoKit)
+        let digest = SHA256.hash(data: Data(path.utf8))
+        return digest.map { String(format: "%02x", $0) }.joined()
+        #else
+        var hasher = Hasher()
+        hasher.combine(path)
+        return String(hasher.finalize())
+        #endif
     }
 }
 

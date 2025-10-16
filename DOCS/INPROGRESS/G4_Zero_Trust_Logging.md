@@ -8,10 +8,15 @@ paths, and expose an auditable trail for sandbox compliance.
 ## 🧩 Context
 
 - Workplan Task G4 calls for hashed identifiers and diagnostics coverage now that FilesystemAccessKit core APIs (Task
+
   G1) are complete.
+
 - The FilesystemAccessKit PRD identifies FS-OBJ-04 and Phase P5 as the logging deliverable, emphasizing minimal path
+
   exposure and audit readiness.
+
 - CLI sandbox documentation requires telemetry parity with bookmark persistence diagnostics to keep headless automation
+
   compliant.
 
 ## ✅ Success Criteria
@@ -27,6 +32,7 @@ paths, and expose an auditable trail for sandbox compliance.
 - Reuse existing diagnostics infrastructure from session persistence work to attach hashed bookmark IDs.
 - Update documentation to describe the hashed logging format and how auditors correlate events with bookmark metadata.
 - Coordinate with sandbox profile guidance to document any new environment variables or flags required for audit
+
   exports.
 
 ## 🧠 Source References
@@ -37,3 +43,16 @@ paths, and expose an auditable trail for sandbox compliance.
 - [`DOCS/RULES`](../RULES)
 - [`09_FilesystemAccessKit_PRD.md`](../AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md)
 - [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+
+---
+
+## ✅ Status — 2025-10-16
+
+- Added `FilesystemAccessAuditTrail` and `FilesystemAccessAuditEvent` so every FilesystemAccessKit operation records timestamped, hashed audit entries with bounded rotation.
+- Updated logging adapters to emit ISO 8601 timestamps, redact error details, and expose sanitized diagnostics for
+  bookmark creation, resolution, and authorization flows.
+- Expanded unit coverage (`FilesystemAccessAuditTrailTests`, `FilesystemAccessLoggerTests`, and enhanced `FilesystemAccessTests`) to verify hashing, rotation limits, and failure handling.
+
+## 📌 Follow-Ups
+
+- Integrate the shared audit trail with future CLI bookmark commands once they migrate from `ISOInspectorCLIRunner`. <!-- @todo PDD:30m Wire CLI bookmark flows to consume FilesystemAccessAuditTrail events once dedicated zero-trust telemetry flags land. -->
