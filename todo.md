@@ -28,6 +28,6 @@
 - [x] PDD:30m Surface session persistence failures in diagnostics once logging pipeline is available. **(Completed — see `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/Summary_of_Work.md`.)**
 - [ ] PDD:1h Connect CoreData session bookmark diffs to persisted bookmark entities once reconciliation rules are defined.
 - [x] PDD:30m Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely. *(Archived — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/56_Distribution_Apple_Events_Notarization_Assessment.md`.)*
-- [ ] PDD:1h Provide UIDocumentPicker integration for iOS/iPadOS once UIKit adapters are introduced. **(In Progress — implementing UIKit adapters.)**
+- [x] PDD:1h Provide UIDocumentPicker integration for iOS/iPadOS once UIKit adapters are introduced. **(Completed — FilesystemAccess.live now bridges to UIDocumentPicker on UIKit platforms.)**
 - [x] **Completed:** PDD:45m Wire BookmarkPersistenceStore into recents and session controllers so bookmark identifiers persist from a single source. See `DOCS/TASK_ARCHIVE/70_Bookmark_Persistence_Schema/2025-10-16-bookmark-persistence-schema.md` and the archived implementation notes in `DOCS/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/Summary_of_Work.md`.
 - [ ] PDD:30m Wire CLI bookmark flows to consume FilesystemAccessAuditTrail events once dedicated zero-trust telemetry flags land.

@@ -11,25 +11,43 @@ extension FilesystemAccess {
     public static func live(
         bookmarkManager: BookmarkDataManaging = FoundationBookmarkDataManager(),
         securityScopeManager: any SecurityScopedAccessManaging = FoundationSecurityScopedAccessManager(),
-        logger: FilesystemAccessLogger = .disabled
+        logger: FilesystemAccessLogger = .disabled,
+        documentPickerPresenter: FilesystemDocumentPickerPresenter? = nil
     ) -> FilesystemAccess {
-        FilesystemAccess(
-            openFileHandler: { configuration in
-                #if canImport(AppKit)
-                return try await presentOpenPanel(configuration: configuration)
-                #else
-                // @todo PDD:1h Provide UIDocumentPicker integration for iOS/iPadOS once UIKit adapters are introduced.
-                throw FilesystemAccessError.dialogUnavailable(dialog: .open)
-                #endif
-            },
-            saveFileHandler: { configuration in
-                #if canImport(AppKit)
-                return try await presentSavePanel(configuration: configuration)
-                #else
-                // @todo PDD:1h Provide UIDocumentPicker integration for iOS/iPadOS once UIKit adapters are introduced.
-                throw FilesystemAccessError.dialogUnavailable(dialog: .save)
-                #endif
-            },
+        #if canImport(AppKit)
+        let openHandler: OpenFileHandler = { configuration in
+            try await presentOpenPanel(configuration: configuration)
+        }
+        let saveHandler: SaveFileHandler = { configuration in
+            try await presentSavePanel(configuration: configuration)
+        }
+        #elseif canImport(UIKit)
+        let presenter = documentPickerPresenter ?? FilesystemDocumentPickerPresenter.uikit()
+        let openHandler: OpenFileHandler = { configuration in
+            try await presenter.open(configuration)
+        }
+        let saveHandler: SaveFileHandler = { configuration in
+            try await presenter.save(configuration)
+        }
+        #else
+        let openHandler: OpenFileHandler
+        let saveHandler: SaveFileHandler
+        if let presenter = documentPickerPresenter {
+            openHandler = { configuration in
+                try await presenter.open(configuration)
+            }
+            saveHandler = { configuration in
+                try await presenter.save(configuration)
+            }
+        } else {
+            openHandler = { _ in throw FilesystemAccessError.dialogUnavailable(dialog: .open) }
+            saveHandler = { _ in throw FilesystemAccessError.dialogUnavailable(dialog: .save) }
+        }
+        #endif
+
+        return FilesystemAccess(
+            openFileHandler: openHandler,
+            saveFileHandler: saveHandler,
             bookmarkCreator: bookmarkManager.createBookmark(for:),
             bookmarkResolver: bookmarkManager.resolveBookmark(data:),
             securityScopeManager: securityScopeManager,
