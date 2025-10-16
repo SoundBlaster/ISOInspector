@@ -401,6 +401,7 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
             sessionFile.displayName = snapshot.recent.displayName
             sessionFile.lastOpened = snapshot.recent.lastOpened
             sessionFile.bookmarkData = snapshot.recent.bookmarkData
+            sessionFile.bookmarkIdentifier = snapshot.bookmarkIdentifier ?? snapshot.recent.bookmarkIdentifier
             sessionFile.session = session
             sessionFile.file = fileEntity
 
@@ -592,6 +593,7 @@ private extension CoreDataAnnotationBookmarkStore {
         let sessionFileDisplayName = stringAttribute(named: "displayName")
         let sessionFileLastOpened = dateAttribute(named: "lastOpened")
         let sessionFileBookmarkData = binaryAttribute(named: "bookmarkData", isOptional: true)
+        let sessionFileBookmarkIdentifier = uuidAttribute(named: "bookmarkIdentifier", isOptional: true)
 
         // WindowLayout attributes
         let windowLayoutID = uuidAttribute(named: "id")
@@ -753,6 +755,7 @@ private extension CoreDataAnnotationBookmarkStore {
             sessionFileDisplayName,
             sessionFileLastOpened,
             sessionFileBookmarkData,
+            sessionFileBookmarkIdentifier,
             sessionFileToSession,
             sessionFileToFile,
             sessionFileToBookmarkDiffs
@@ -921,6 +924,7 @@ private final class SessionFileEntity: NSManagedObject {
     @NSManaged var displayName: String
     @NSManaged var lastOpened: Date
     @NSManaged var bookmarkData: Data?
+    @NSManaged var bookmarkIdentifier: UUID?
     @NSManaged var session: SessionEntity
     @NSManaged var file: FileEntity
     @NSManaged var bookmarkDiffs: NSSet?
@@ -981,6 +985,7 @@ private extension SessionFileEntity {
         guard let url = URL(string: file.url) else { return nil }
         let recent = DocumentRecent(
             url: url,
+            bookmarkIdentifier: bookmarkIdentifier,
             bookmarkData: bookmarkData,
             displayName: displayName,
             lastOpened: lastOpened
@@ -1005,6 +1010,7 @@ private extension SessionFileEntity {
             lastSelectionNodeID: selection,
             isPinned: isPinned,
             scrollOffset: scrollOffset,
+            bookmarkIdentifier: bookmarkIdentifier ?? recent.bookmarkIdentifier,
             bookmarkDiffs: diffs
         )
     }

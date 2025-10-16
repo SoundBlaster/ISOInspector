@@ -365,6 +365,7 @@ final class DocumentSessionController: ObservableObject {
                     lastSelectionNodeID: selection,
                     isPinned: false,
                     scrollOffset: nil,
+                    bookmarkIdentifier: recent.bookmarkIdentifier,
                     bookmarkDiffs: []
                 )
             )

@@ -73,6 +73,7 @@ final class DocumentSessionControllerTests: XCTestCase {
                     lastSelectionNodeID: 99,
                     isPinned: false,
                     scrollOffset: nil,
+                    bookmarkIdentifier: focusRecent.bookmarkIdentifier,
                     bookmarkDiffs: []
                 ),
                 WorkspaceSessionFileSnapshot(
@@ -82,6 +83,7 @@ final class DocumentSessionControllerTests: XCTestCase {
                     lastSelectionNodeID: nil,
                     isPinned: false,
                     scrollOffset: nil,
+                    bookmarkIdentifier: otherRecent.bookmarkIdentifier,
                     bookmarkDiffs: []
                 )
             ],
