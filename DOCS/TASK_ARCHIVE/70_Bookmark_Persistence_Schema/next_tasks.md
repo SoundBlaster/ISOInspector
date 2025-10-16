@@ -4,7 +4,7 @@
 
 - [x] Design bookmark persistence schema aligned with existing recents/session storage so Phase G (Workplan) can
 
-  integrate without data loss. *(Completed — see `DOCS/TASK_ARCHIVE/70_Bookmark_Persistence_Schema/2025-10-16-bookmark-persistence-schema.md`.)*
+  integrate without data loss. *(Completed — see `./2025-10-16-bookmark-persistence-schema.md`.)*
 
 - [ ] Draft CLI sandbox profile guidance covering `com.apple.security.files.user-selected.read-write` and automation workflows for headless usage. Reference the newly archived task summary in `DOCS/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/` for current API behavior.
 

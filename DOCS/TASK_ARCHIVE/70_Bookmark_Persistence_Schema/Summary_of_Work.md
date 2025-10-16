@@ -2,7 +2,7 @@
 
 ## Completed tasks
 
-- Designed the bookmark persistence schema and created `BookmarkPersistenceStore` so recents/session snapshots can reference canonical security-scoped bookmarks. See `DOCS/INPROGRESS/2025-10-16-bookmark-persistence-schema.md` for design notes.
+- Designed the bookmark persistence schema and created `BookmarkPersistenceStore` so recents/session snapshots can reference canonical security-scoped bookmarks. See `DOCS/TASK_ARCHIVE/70_Bookmark_Persistence_Schema/2025-10-16-bookmark-persistence-schema.md` for design notes.
 - Updated the macOS CI workflow to pin Tuist installation to the newest CLI release, avoiding 404 errors when
   server-only tags are published.
 
