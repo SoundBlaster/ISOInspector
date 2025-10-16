@@ -256,7 +256,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] I5. v0.1.0 Release notes; distribution (TestFlight/DMG notarization).
 
 ### Phase J — Secure Filesystem Access
-- [ ] J1. Ship FilesystemAccessKit core API with async open/save/bookmark helpers shared by all targets. *(See `DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md`.)*
+- [ ] J1. Ship FilesystemAccessKit core API with async open/save/bookmark helpers shared by all targets. *(In Progress — see `DOCS/INPROGRESS/G1_FilesystemAccessKit_Core_API.md` and `DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md`.)*
 - [ ] J2. Persist security-scoped bookmarks and integrate with recents/session restoration flows. *(Depends on `ISOInspectorApp` session store — reference `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md#phase-g-secure-filesystem-access`.)*
 - [ ] J3. Document CLI sandbox usage, including `--open` automation hook and sample sandbox profile snippets.
 - [ ] J4. Add zero-trust logging policies ensuring file paths are hashed or redacted in diagnostics outputs.
