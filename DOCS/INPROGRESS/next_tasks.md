@@ -1,5 +1,11 @@
 # Next Tasks
 
+## 🔐 Filesystem Access Enablement
+
+- [ ] Prototype FilesystemAccessKit core APIs (`openFile`, `saveFile`, `createBookmark`, `resolveBookmarkData`) following `DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md` and wire initial tests.
+- [ ] Design bookmark persistence schema aligned with existing recents/session storage so Phase G (Workplan) can integrate without data loss.
+- [ ] Draft CLI sandbox profile guidance covering `com.apple.security.files.user-selected.read-write` and automation workflows for headless usage.
+
 ## 🔭 Benchmark Validation
 
 - [ ] Execute the random slice benchmark suite on macOS hardware once Combine support is available so we can compare mapped vs. chunked readers under identical workloads. **(Blocked — requires macOS runner with Combine; see `DOCS/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/2025-10-15-random-slice-benchmark.md`.)**

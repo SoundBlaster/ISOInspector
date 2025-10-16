@@ -6,13 +6,14 @@ The system is organized into layered Swift packages with clear separation of con
 - **ISOInspectorUI** — SwiftUI components consuming core events via Combine publishers; provides visualization and user interactions.
 - **ISOInspectorCLI** — Command-line executable leveraging core parsing APIs and shared reporting utilities.
 - **ISOInspectorApp** — SwiftUI lifecycle application bundling core and UI modules with platform integrations (document browser, persistence).
+- **FilesystemAccessKit** — Security-scoped filesystem mediator providing unified open/save/bookmark APIs for sandboxed targets.
 
 Components communicate through typed event streams and shared domain models to keep concurrency boundaries explicit and testable.
 
 ## Module Responsibilities
 | Module | Responsibilities | Key Types | External References |
 |--------|------------------|-----------|---------------------|
-| Core.IO | Chunked file reader using `FileHandle.AsyncBytes` with configurable buffer size. | `ChunkReader`, `FileSlice`, `ReadContext` | Foundation | 
+| Core.IO | Chunked file reader using `FileHandle.AsyncBytes` with configurable buffer size. | `ChunkReader`, `FileSlice`, `ReadContext` | Foundation |
 | Core.Parser | Decode MP4 atom headers, dispatch to box-specific decoders, and emit events. | `BoxHeader`, `BoxDecoder`, `ParseEvent`, `ParsePipeline` | ISO/IEC 14496-12 | 
 | Core.Validation | Validate structural rules, track context stack, report warnings/errors. | `ValidationRule`, `ValidationIssue`, `ContextStack` | ISO/IEC 14496-12 | 
 | Core.Metadata | Maintain registry of known boxes referencing MP4RA data; provide descriptive metadata. | `BoxCatalog`, `BoxDescriptor` | MP4RA registry | 
@@ -21,8 +22,9 @@ Components communicate through typed event streams and shared domain models to k
 | UI.Detail | Present metadata, hex viewer, annotations. | `BoxDetailView`, `HexView`, `AnnotationStore` | SwiftUI | 
 | UI.Session | Manage multi-file sessions, bookmarks, persistence via CoreData or JSON. | `SessionStore`, `Bookmark` | FileManager, CoreData | 
 | CLI.Commands | Command definitions for `inspect`, `validate`, `export`. | `InspectCommand`, `ValidateCommand` | ArgumentParser | 
-| CLI.Reporting | Format console output, CSV summary, exit codes. | `ReportFormatter`, `CSVWriter` | Foundation | 
+| CLI.Reporting | Format console output, CSV summary, exit codes. | `ReportFormatter`, `CSVWriter` | Foundation |
 | App.Shell | SwiftUI App entry, window scenes, document importers. | `ISOInspectorApp`, `DocumentController` | SwiftUI, UniformTypeIdentifiers |
+| Sandbox.FilesystemAccess | Request, persist, and resolve security-scoped bookmarks for user-selected files. | `FilesystemAccess`, `SecurityScopedBookmark`, `FilesystemAccessError` | App Sandbox design guide, UIDocumentPicker docs |
 
 ## Data Flow
 1. **File ingestion** — CLI/UI passes file URLs to `ChunkReader` which reads sequential slices (default 1 MB) asynchronously.

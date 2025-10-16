@@ -135,3 +135,8 @@
 
 ### 5.2 Tracking & Reporting
 - **Поддерживайте связь с Workplan** через таблицу прогресса и используйте Summary источников для фиксирования в итоговой документации.【F:DOCS/AI/ISOInspector_Execution_Guide/05_Research_Gaps.md†L16-L19】【F:DOCS/AI/02_ISOInspector_AI_Source_Guide.md†L111-L118】
+
+## 6. `09_FilesystemAccessKit_PRD.md`
+- **FilesystemAccessKit Objectives FS-OBJ-01…04** ↔ Apple App Sandbox Design Guide и Security-Scoped Bookmark документация для реализации open/save/bookmark API с единой абстракцией.【F:DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md†L5-L24】【F:DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md†L33-L45】
+- **Dependencies & Research** ↔ Task E4 архив (entitlements) и Apple UIDocumentPicker руководства для платформенных адаптеров.【F:DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md†L33-L45】【F:DOCS/TASK_ARCHIVE/55_E4_Prepare_App_Distribution_Configuration/54_E4_Prepare_App_Distribution_Configuration.md†L1-L47】
+- **Implementation Plan P1–P5** ↔ Workplan Phase G задачам (G1–G4) и CLI sandbox профилям; следите за соответствием в `DOCS/INPROGRESS/next_tasks.md`.【F:DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md†L47-L70】【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L75-L92】
