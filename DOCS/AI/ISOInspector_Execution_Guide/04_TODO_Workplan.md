@@ -53,6 +53,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | E5 | Surface document load failures in the app shell UI with the forthcoming error banner design. | Medium | 0.5 | E1 | SwiftUI | Opening an unreadable file shows the designed error banner; automated tests cover failure presentation. |
 | E6 | Emit diagnostics for recents and session persistence failures once the logging pipeline is available. | Medium | 0.5 | E3 | Swift Logging | Persistence errors write structured diagnostics and surface in QA tools; regression tests assert logging hooks. |
 
+> **In Progress:** Task E5 — see `DOCS/INPROGRESS/E5_Surface_Document_Load_Failures.md` for the active PRD outline.
+
 ## Phase F — Quality Assurance & Documentation
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
