@@ -38,7 +38,7 @@ public struct FilesystemAccess: Sendable {
         configuration: FilesystemOpenConfiguration = FilesystemOpenConfiguration()
     ) async throws -> SecurityScopedURL {
         let selectedURL = try await openFileHandler(configuration)
-        return try activateSecurityScope(for: selectedURL, operation: "open_file")
+        return try activateSecurityScope(for: selectedURL, category: .openFile)
     }
 
     /// Presents a save-file dialog and returns a security-scoped URL for the destination.
@@ -46,17 +46,26 @@ public struct FilesystemAccess: Sendable {
         configuration: FilesystemSaveConfiguration
     ) async throws -> SecurityScopedURL {
         let destination = try await saveFileHandler(configuration)
-        return try activateSecurityScope(for: destination, operation: "save_file")
+        return try activateSecurityScope(for: destination, category: .saveFile)
     }
 
     /// Creates bookmark data for the provided security-scoped URL.
     public func createBookmark(for scopedURL: SecurityScopedURL) throws -> Data {
         do {
             let data = try bookmarkCreator(scopedURL.url)
-            logger.info("bookmark.create.success path_hash=\(hashIdentifier(for: scopedURL.url))")
+            let pathHash = hashIdentifier(for: scopedURL.url)
+            logger.log(
+                category: .bookmarkCreate,
+                outcome: .success,
+                pathHash: pathHash
+            )
             return data
         } catch {
-            logger.error("bookmark.create.failure error=\(sanitisedDescription(for: error))")
+            logger.log(
+                category: .bookmarkCreate,
+                outcome: .failure,
+                errorDescription: sanitisedDescription(for: error)
+            )
             throw FilesystemAccessError.bookmarkCreationFailed(underlying: error)
         }
     }
@@ -65,26 +74,50 @@ public struct FilesystemAccess: Sendable {
     public func resolveBookmarkData(_ data: Data) throws -> ResolvedSecurityScopedURL {
         do {
             let resolution = try bookmarkResolver(data)
-            let scoped = try activateSecurityScope(for: resolution.url, operation: "resolve_bookmark")
+            let scoped = try activateSecurityScope(for: resolution.url, category: .bookmarkResolve)
             if resolution.isStale {
-                logger.error("bookmark.resolve.stale path_hash=\(hashIdentifier(for: resolution.url))")
+                logger.log(
+                    category: .bookmarkResolve,
+                    outcome: .stale,
+                    pathHash: hashIdentifier(for: resolution.url)
+                )
             } else {
-                logger.info("bookmark.resolve.success path_hash=\(hashIdentifier(for: resolution.url))")
+                logger.log(
+                    category: .bookmarkResolve,
+                    outcome: .success,
+                    pathHash: hashIdentifier(for: resolution.url)
+                )
             }
             return ResolvedSecurityScopedURL(url: scoped, isStale: resolution.isStale)
         } catch {
-            logger.error("bookmark.resolve.failure error=\(sanitisedDescription(for: error))")
+            logger.log(
+                category: .bookmarkResolve,
+                outcome: .failure,
+                errorDescription: sanitisedDescription(for: error)
+            )
             throw FilesystemAccessError.bookmarkResolutionFailed(underlying: error)
         }
     }
 
-    private func activateSecurityScope(for url: URL, operation: String) throws -> SecurityScopedURL {
+    private func activateSecurityScope(
+        for url: URL,
+        category: FilesystemAccessAuditEvent.Category
+    ) throws -> SecurityScopedURL {
         let standardized = url.standardizedFileURL
+        let pathHash = hashIdentifier(for: standardized)
         guard securityScopeManager.startAccessing(standardized) else {
-            logger.error("\(operation).authorization_denied path_hash=\(hashIdentifier(for: standardized))")
+            logger.log(
+                category: category,
+                outcome: .authorizationDenied,
+                pathHash: pathHash
+            )
             throw FilesystemAccessError.authorizationDenied(url: standardized)
         }
-        logger.info("\(operation).access_granted path_hash=\(hashIdentifier(for: standardized))")
+        logger.log(
+            category: category,
+            outcome: .accessGranted,
+            pathHash: pathHash
+        )
         return SecurityScopedURL(url: standardized, manager: securityScopeManager)
     }
 
