@@ -7,6 +7,20 @@ import OSLog
 
 import UniformTypeIdentifiers
 
+typealias BookmarkResolutionState = BookmarkPersistenceStore.Record.ResolutionState
+
+protocol BookmarkPersistenceManaging: Sendable {
+    func record(for file: URL) throws -> BookmarkPersistenceStore.Record?
+    func record(withID id: UUID) throws -> BookmarkPersistenceStore.Record?
+    @discardableResult
+    func upsertBookmark(for file: URL, bookmarkData: Data) throws -> BookmarkPersistenceStore.Record
+    @discardableResult
+    func markResolution(for file: URL, state: BookmarkResolutionState) throws -> BookmarkPersistenceStore.Record?
+    func removeBookmark(for file: URL) throws
+}
+
+extension BookmarkPersistenceStore: BookmarkPersistenceManaging {}
+
 #if os(macOS)
 private let bookmarkCreationOptions: URL.BookmarkCreationOptions = [.withSecurityScope]
 private let bookmarkResolutionOptions: URL.BookmarkResolutionOptions = [.withSecurityScope]
@@ -31,6 +45,8 @@ final class DocumentSessionController: ObservableObject {
     private let recentLimit: Int
     private let sessionStore: WorkspaceSessionStoring?
     private let diagnostics: any DiagnosticsLogging
+    private let bookmarkStore: BookmarkPersistenceManaging?
+    private let bookmarkDataProvider: (URL) -> Data?
 
     private let logger = Logger(subsystem: "ISOInspectorApp", category: "DocumentSession")
 
@@ -50,7 +66,9 @@ final class DocumentSessionController: ObservableObject {
         readerFactory: @escaping (URL) throws -> RandomAccessReader = { try ChunkedFileReader(fileURL: $0) },
         workQueue: DocumentSessionWorkQueue = DocumentSessionBackgroundQueue(),
         diagnostics: (any DiagnosticsLogging)? = nil,
-        recentLimit: Int = 10
+        recentLimit: Int = 10,
+        bookmarkStore: BookmarkPersistenceManaging? = nil,
+        bookmarkDataProvider: ((URL) -> Data?)? = nil
     ) {
         let resolvedParseTreeStore = parseTreeStore ?? ParseTreeStore()
         let resolvedAnnotations = annotations ?? AnnotationBookmarkSession(store: nil)
@@ -67,7 +85,24 @@ final class DocumentSessionController: ObservableObject {
             subsystem: "ISOInspectorApp",
             category: "DocumentSessionPersistence"
         )
+        self.bookmarkStore = bookmarkStore
+        if let bookmarkDataProvider {
+            self.bookmarkDataProvider = bookmarkDataProvider
+        } else {
+            self.bookmarkDataProvider = { url in
+                #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+                return try? url.bookmarkData(
+                    options: bookmarkCreationOptions,
+                    includingResourceValuesForKeys: nil,
+                    relativeTo: nil
+                )
+                #else
+                return nil
+                #endif
+            }
+        }
         self.recents = (try? recentsStore.load()) ?? []
+        migrateRecentsForBookmarkStore()
 
         annotationsSelectionCancellable = resolvedAnnotations.$currentSelectedNodeID
             .dropFirst()
@@ -136,17 +171,23 @@ final class DocumentSessionController: ObservableObject {
             guard let self else { return }
             do {
                 let standardized = recent.url.standardizedFileURL
-                let bookmark = recent.bookmarkData ?? self.makeBookmarkData(for: standardized)
+                let record = self.resolveBookmarkRecord(for: recent, url: standardized, allowCreation: true)
+                let bookmark = record?.bookmarkData ?? recent.bookmarkData ?? self.makeBookmarkData(for: standardized)
                 let reader = try self.readerFactory(standardized)
                 let pipeline = self.pipelineFactory()
                 var preparedRecent = recent
                 preparedRecent.url = standardized
-                preparedRecent.bookmarkData = preparedRecent.bookmarkData ?? bookmark
+                if let record {
+                    preparedRecent = self.applyBookmarkRecord(record, to: preparedRecent)
+                } else {
+                    preparedRecent.bookmarkData = preparedRecent.bookmarkData ?? bookmark
+                }
                 preparedRecent.displayName = preparedRecent.displayName.isEmpty ? standardized.lastPathComponent : preparedRecent.displayName
                 if Thread.isMainThread {
                     self.startSession(
                         url: standardized,
                         bookmark: bookmark,
+                        bookmarkRecord: record,
                         reader: reader,
                         pipeline: pipeline,
                         recent: preparedRecent,
@@ -157,6 +198,7 @@ final class DocumentSessionController: ObservableObject {
                         self.startSession(
                             url: standardized,
                             bookmark: bookmark,
+                            bookmarkRecord: record,
                             reader: reader,
                             pipeline: pipeline,
                             recent: preparedRecent,
@@ -182,6 +224,7 @@ final class DocumentSessionController: ObservableObject {
     private func startSession(
         url: URL,
         bookmark: Data?,
+        bookmarkRecord: BookmarkPersistenceStore.Record?,
         reader: RandomAccessReader,
         pipeline: ParsePipeline,
         recent: DocumentRecent,
@@ -195,7 +238,11 @@ final class DocumentSessionController: ObservableObject {
             annotations.setSelectedNode(nil)
         }
         var updatedRecent = recent
-        updatedRecent.bookmarkData = bookmark ?? recent.bookmarkData
+        if let bookmarkRecord {
+            updatedRecent = applyBookmarkRecord(bookmarkRecord, to: updatedRecent)
+        } else {
+            updatedRecent.bookmarkData = bookmark ?? recent.bookmarkData
+        }
         updatedRecent.lastOpened = Date()
         updatedRecent.displayName = updatedRecent.displayName.isEmpty ? url.lastPathComponent : updatedRecent.displayName
         loadFailure = nil
@@ -222,7 +269,8 @@ final class DocumentSessionController: ObservableObject {
 
     private func persistRecents() {
         do {
-            try recentsStore.save(recents)
+            let payload = sanitizeRecentsForPersistence(recents)
+            try recentsStore.save(payload)
         } catch {
             let errorDescription = String(describing: error)
             let focusedPath = currentDocument?.url.standardizedFileURL.path ?? "none"
@@ -237,16 +285,15 @@ final class DocumentSessionController: ObservableObject {
     }
 
     private func makeBookmarkData(for url: URL) -> Data? {
-        #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-        return try? url.bookmarkData(options: bookmarkCreationOptions, includingResourceValuesForKeys: nil, relativeTo: nil)
-        #else
-        return nil
-        #endif
+        bookmarkDataProvider(url)
     }
 
     private func resolveURL(for recent: DocumentRecent) -> URL? {
         #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-        if let bookmark = recent.bookmarkData {
+        let standardized = recent.url.standardizedFileURL
+        let record = resolveBookmarkRecord(for: recent, url: standardized, allowCreation: false)
+        let bookmark = record?.bookmarkData ?? recent.bookmarkData
+        if let bookmark {
             var isStale = false
             if let url = try? URL(
                 resolvingBookmarkData: bookmark,
@@ -255,17 +302,28 @@ final class DocumentSessionController: ObservableObject {
                 bookmarkDataIsStale: &isStale
             ) {
                 if isStale,
-                   let refreshed = try? url.bookmarkData(
-                       options: bookmarkCreationOptions,
-                       includingResourceValuesForKeys: nil,
-                       relativeTo: nil
-                   ) {
+                   let refreshed = makeBookmarkData(for: url) {
                     replaceBookmark(for: url, data: refreshed)
+                }
+                if let record {
+                    updateRecent(with: record, for: standardized)
+                    if let bookmarkStore {
+                        _ = try? bookmarkStore.markResolution(
+                            for: url,
+                            state: isStale ? .stale : .succeeded
+                        )
+                    }
                 }
                 return url
             }
         }
-        #endif
+        if let record {
+            updateRecent(with: record, for: standardized)
+            if let bookmarkStore {
+                _ = try? bookmarkStore.markResolution(for: standardized, state: .failed)
+            }
+        }
+#endif
         return recent.url
     }
 
@@ -273,7 +331,11 @@ final class DocumentSessionController: ObservableObject {
         guard let index = recents.firstIndex(where: { $0.url.standardizedFileURL == url.standardizedFileURL }) else {
             return
         }
-        recents[index].bookmarkData = data
+        if let bookmarkStore, let record = try? bookmarkStore.upsertBookmark(for: url, bookmarkData: data) {
+            recents[index] = applyBookmarkRecord(record, to: recents[index])
+        } else {
+            recents[index].bookmarkData = data
+        }
         persistRecents()
         persistSession()
     }
@@ -286,13 +348,15 @@ final class DocumentSessionController: ObservableObject {
             return lhs.orderIndex < rhs.orderIndex
         }
         if !sortedFiles.isEmpty {
-            recents = sortedFiles.map(\.recent)
+            let loadedRecents = sortedFiles.map(\.recent)
+            let migratedRecents = bookmarkStore != nil ? loadedRecents.map(migrateRecentBookmark) : loadedRecents
+            recents = migratedRecents
             let focusURL = snapshot.focusedFileURL?.standardizedFileURL
             if let focusURL,
-               let focused = sortedFiles.first(where: { $0.recent.url.standardizedFileURL == focusURL }) {
-                currentDocument = focused.recent
+               let focusedIndex = migratedRecents.firstIndex(where: { $0.url.standardizedFileURL == focusURL }) {
+                currentDocument = migratedRecents[focusedIndex]
             } else {
-                currentDocument = sortedFiles.first?.recent
+                currentDocument = migratedRecents.first
             }
         }
         sessionFileIDs = Dictionary(uniqueKeysWithValues: sortedFiles.map { file in
@@ -357,10 +421,11 @@ final class DocumentSessionController: ObservableObject {
             } else {
                 selection = nil
             }
+            let persistedRecent = sanitizeRecentsForPersistence([recent]).first ?? recent
             snapshots.append(
                 WorkspaceSessionFileSnapshot(
                     id: fileID,
-                    recent: recent,
+                    recent: persistedRecent,
                     orderIndex: index,
                     lastSelectionNodeID: selection,
                     isPinned: false,
@@ -395,6 +460,83 @@ final class DocumentSessionController: ObservableObject {
 
     private func canonicalIdentifier(for url: URL) -> String {
         url.standardizedFileURL.resolvingSymlinksInPath().absoluteString
+    }
+
+    private func migrateRecentsForBookmarkStore() {
+        guard bookmarkStore != nil, !recents.isEmpty else { return }
+        let migrated = recents.map(migrateRecentBookmark)
+        if migrated != recents {
+            recents = migrated
+            persistRecents()
+        }
+    }
+
+    private func migrateRecentBookmark(_ recent: DocumentRecent) -> DocumentRecent {
+        guard let bookmarkStore else { return recent }
+        let standardized = recent.url.standardizedFileURL
+        if let identifier = recent.bookmarkIdentifier,
+           let record = try? bookmarkStore.record(withID: identifier) {
+            return applyBookmarkRecord(record, to: recent)
+        }
+        if let record = try? bookmarkStore.record(for: standardized) {
+            return applyBookmarkRecord(record, to: recent)
+        }
+        if let data = recent.bookmarkData,
+           let record = try? bookmarkStore.upsertBookmark(for: standardized, bookmarkData: data) {
+            return applyBookmarkRecord(record, to: recent)
+        }
+        return recent
+    }
+
+    private func sanitizeRecentsForPersistence(_ recents: [DocumentRecent]) -> [DocumentRecent] {
+        guard bookmarkStore != nil else { return recents }
+        return recents.map { recent in
+            var sanitized = recent
+            if sanitized.bookmarkIdentifier != nil {
+                sanitized.bookmarkData = nil
+            }
+            return sanitized
+        }
+    }
+
+    private func applyBookmarkRecord(_ record: BookmarkPersistenceStore.Record, to recent: DocumentRecent) -> DocumentRecent {
+        var updated = recent
+        updated.bookmarkIdentifier = record.id
+        updated.bookmarkData = nil
+        return updated
+    }
+
+    private func updateRecent(with record: BookmarkPersistenceStore.Record, for url: URL) {
+        let standardized = url.standardizedFileURL
+        if let index = recents.firstIndex(where: { $0.url.standardizedFileURL == standardized }) {
+            recents[index] = applyBookmarkRecord(record, to: recents[index])
+        }
+        if let current = currentDocument, current.url.standardizedFileURL == standardized {
+            currentDocument = applyBookmarkRecord(record, to: current)
+        }
+    }
+
+    private func resolveBookmarkRecord(
+        for recent: DocumentRecent,
+        url: URL,
+        allowCreation: Bool
+    ) -> BookmarkPersistenceStore.Record? {
+        guard let bookmarkStore else { return nil }
+        if let identifier = recent.bookmarkIdentifier,
+           let record = try? bookmarkStore.record(withID: identifier) {
+            return record
+        }
+        if let record = try? bookmarkStore.record(for: url) {
+            return record
+        }
+        if let data = recent.bookmarkData,
+           let record = try? bookmarkStore.upsertBookmark(for: url, bookmarkData: data) {
+            return record
+        }
+        if allowCreation, let data = makeBookmarkData(for: url) {
+            return try? bookmarkStore.upsertBookmark(for: url, bookmarkData: data)
+        }
+        return nil
     }
 
     private func normalizeRecent(_ recent: DocumentRecent) -> Result<DocumentRecent, DocumentAccessError> {

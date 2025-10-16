@@ -20,6 +20,7 @@ struct ISOInspectorApp: App {
     @MainActor
     private static func makeDocumentSessionController() -> DocumentSessionController {
         let recentsStore = DocumentRecentsStore(directory: recentsDirectory())
+        let bookmarkStore = BookmarkPersistenceStore(directory: recentsDirectory())
         #if canImport(CoreData)
         let (annotations, sessionStore) = makeAnnotationSession()
         #else
@@ -30,7 +31,8 @@ struct ISOInspectorApp: App {
             parseTreeStore: ParseTreeStore(),
             annotations: annotations,
             recentsStore: recentsStore,
-            sessionStore: sessionStore
+            sessionStore: sessionStore,
+            bookmarkStore: bookmarkStore
         )
     }
 

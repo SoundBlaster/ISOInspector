@@ -13,6 +13,47 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertEqual(controller.recents, expected)
     }
 
+    func testInitializerMigratesBookmarkDataToPersistenceStore() throws {
+        let bookmarkStore = BookmarkPersistenceStoreStub()
+        let data = Data("bookmark".utf8)
+        let recent = DocumentRecent(
+            url: URL(fileURLWithPath: "/tmp/migrate.mp4"),
+            bookmarkData: data,
+            displayName: "Migrate",
+            lastOpened: Date(timeIntervalSince1970: 1)
+        )
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [recent])
+
+        let controller = makeController(
+            store: recentsStore,
+            bookmarkStore: bookmarkStore
+        )
+
+        XCTAssertEqual(bookmarkStore.upsertedURLs.map { $0.standardizedFileURL }, [recent.url.standardizedFileURL])
+        XCTAssertEqual(controller.recents.first?.bookmarkData, nil)
+        XCTAssertNotNil(controller.recents.first?.bookmarkIdentifier)
+        XCTAssertEqual(recentsStore.savedRecents?.first?.bookmarkIdentifier, controller.recents.first?.bookmarkIdentifier)
+        XCTAssertNil(recentsStore.savedRecents?.first?.bookmarkData)
+    }
+
+    func testOpenDocumentUpsertsBookmarkRecord() throws {
+        let bookmarkStore = BookmarkPersistenceStoreStub()
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
+        let controller = makeController(
+            store: recentsStore,
+            bookmarkStore: bookmarkStore,
+            bookmarkDataProvider: { _ in Data("bookmark".utf8) }
+        )
+
+        let url = URL(fileURLWithPath: "/tmp/upsert.mp4")
+        controller.openDocument(at: url)
+
+        XCTAssertEqual(bookmarkStore.upsertedURLs.map { $0.standardizedFileURL }, [url.standardizedFileURL])
+        let saved = try XCTUnwrap(recentsStore.savedRecents?.first)
+        XCTAssertNotNil(saved.bookmarkIdentifier)
+        XCTAssertNil(saved.bookmarkData)
+    }
+
     func testOpeningDocumentStartsParsingAndUpdatesRecents() throws {
         let store = DocumentRecentsStoreStub(initialRecents: [])
         let controller = makeController(store: store)
@@ -43,6 +84,7 @@ final class DocumentSessionControllerTests: XCTestCase {
         let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
         let sessionStore = WorkspaceSessionStoreStub()
         let annotationStore = AnnotationBookmarkStoreStub()
+        let bookmarkStore = BookmarkPersistenceStoreStub()
 
         let focusURL = URL(fileURLWithPath: "/tmp/focus.mp4")
         let otherURL = URL(fileURLWithPath: "/tmp/other.mp4")
@@ -95,7 +137,8 @@ final class DocumentSessionControllerTests: XCTestCase {
         let controller = makeController(
             store: recentsStore,
             sessionStore: sessionStore,
-            annotationsStore: annotationStore
+            annotationsStore: annotationStore,
+            bookmarkStore: bookmarkStore
         )
 
         XCTAssertEqual(controller.recents.count, 2)
@@ -126,6 +169,26 @@ final class DocumentSessionControllerTests: XCTestCase {
 
         XCTAssertEqual(sessionStore.savedSnapshots.count, 2)
         XCTAssertEqual(sessionStore.savedSnapshots.last?.files.first?.lastSelectionNodeID, 123)
+    }
+
+    func testPersistSessionIncludesBookmarkIdentifiers() throws {
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
+        let sessionStore = WorkspaceSessionStoreStub()
+        let bookmarkStore = BookmarkPersistenceStoreStub()
+        let controller = makeController(
+            store: recentsStore,
+            sessionStore: sessionStore,
+            bookmarkStore: bookmarkStore,
+            bookmarkDataProvider: { _ in Data("bookmark".utf8) }
+        )
+
+        let url = URL(fileURLWithPath: "/tmp/session-bookmark.mp4")
+        controller.openDocument(at: url)
+
+        let snapshot = try XCTUnwrap(sessionStore.savedSnapshots.last)
+        let file = try XCTUnwrap(snapshot.files.first)
+        XCTAssertNotNil(file.bookmarkIdentifier)
+        XCTAssertNil(file.recent.bookmarkData)
     }
 
     func testOpenDocumentFailurePublishesLoadFailureUntilDismissed() throws {
@@ -287,7 +350,9 @@ final class DocumentSessionControllerTests: XCTestCase {
         pipeline: ParsePipeline? = nil,
         readerFactory: ((URL) throws -> RandomAccessReader)? = nil,
         workQueue: DocumentSessionWorkQueue = ImmediateWorkQueue(),
-        diagnostics: DiagnosticsLogging? = nil
+        diagnostics: DiagnosticsLogging? = nil,
+        bookmarkStore: BookmarkPersistenceManaging? = nil,
+        bookmarkDataProvider: ((URL) -> Data?)? = nil
     ) -> DocumentSessionController {
         let resolvedPipeline = pipeline ?? ParsePipeline(buildStream: { _, _ in .finishedStream })
         let resolvedDiagnostics: (any DiagnosticsLogging)? = diagnostics
@@ -299,7 +364,9 @@ final class DocumentSessionControllerTests: XCTestCase {
             pipelineFactory: { resolvedPipeline },
             readerFactory: readerFactory ?? { _ in StubRandomAccessReader() },
             workQueue: workQueue,
-            diagnostics: resolvedDiagnostics
+            diagnostics: resolvedDiagnostics,
+            bookmarkStore: bookmarkStore,
+            bookmarkDataProvider: bookmarkDataProvider
         )
     }
 

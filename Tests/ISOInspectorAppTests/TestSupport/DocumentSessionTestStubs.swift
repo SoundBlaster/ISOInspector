@@ -1,8 +1,10 @@
 #if canImport(Combine) && canImport(SwiftUI)
 import Combine
 import Foundation
-import ISOInspectorApp
 import ISOInspectorKit
+@testable import ISOInspectorApp
+
+typealias BookmarkResolutionState = BookmarkPersistenceStore.Record.ResolutionState
 
 final class DocumentRecentsStoreStub: DocumentRecentsStoring {
     var initialRecents: [DocumentRecent]
@@ -22,6 +24,73 @@ final class DocumentRecentsStoreStub: DocumentRecentsStoring {
         if let saveHandler {
             try saveHandler(recents)
         }
+    }
+}
+
+final class BookmarkPersistenceStoreStub: BookmarkPersistenceManaging {
+    private struct StoredRecord {
+        var record: BookmarkPersistenceStore.Record
+    }
+
+    private(set) var upsertedURLs: [URL] = []
+    private(set) var markedResolutions: [(URL, BookmarkResolutionState)] = []
+    private(set) var removedURLs: [URL] = []
+
+    var canonicalize: (URL) -> String = { url in
+        url.standardizedFileURL.resolvingSymlinksInPath().absoluteString
+    }
+
+    var dateProvider: () -> Date = Date.init
+
+    private var storage: [String: StoredRecord] = [:]
+
+    func record(for file: URL) throws -> BookmarkPersistenceStore.Record? {
+        storage[canonicalize(file)]?.record
+    }
+
+    func record(withID id: UUID) throws -> BookmarkPersistenceStore.Record? {
+        storage.values.first { $0.record.id == id }?.record
+    }
+
+    @discardableResult
+    func upsertBookmark(for file: URL, bookmarkData: Data) throws -> BookmarkPersistenceStore.Record {
+        let canonical = canonicalize(file)
+        upsertedURLs.append(file)
+        if var existing = storage[canonical]?.record {
+            existing.bookmarkData = bookmarkData
+            existing.updatedAt = dateProvider()
+            storage[canonical] = StoredRecord(record: existing)
+            return existing
+        }
+        let record = BookmarkPersistenceStore.Record(
+            id: UUID(),
+            canonicalURL: canonical,
+            bookmarkData: bookmarkData,
+            createdAt: dateProvider(),
+            updatedAt: dateProvider(),
+            lastResolvedAt: nil,
+            lastResolutionState: .unknown
+        )
+        storage[canonical] = StoredRecord(record: record)
+        return record
+    }
+
+    @discardableResult
+    func markResolution(for file: URL, state: BookmarkResolutionState) throws -> BookmarkPersistenceStore.Record? {
+        let canonical = canonicalize(file)
+        markedResolutions.append((file, state))
+        guard var stored = storage[canonical]?.record else {
+            return nil
+        }
+        stored.lastResolutionState = state
+        stored.lastResolvedAt = dateProvider()
+        storage[canonical] = StoredRecord(record: stored)
+        return stored
+    }
+
+    func removeBookmark(for file: URL) throws {
+        removedURLs.append(file)
+        storage.removeValue(forKey: canonicalize(file))
     }
 }
 
