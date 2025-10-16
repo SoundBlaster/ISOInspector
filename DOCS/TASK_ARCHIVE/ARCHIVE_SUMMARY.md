@@ -408,3 +408,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/73_Sandbox_Profile_Guidance_Sprint/`.
 - **Highlights:** Wraps the sandbox profile guidance sprint that finalized Task G3 documentation updates, refreshed the CLI manual, and recorded cross-references into the workplan and PRD backlog.
 - **Next steps carried forward:** Renewed `DOCS/INPROGRESS/next_tasks.md` continues to track macOS hardware-dependent benchmarks and automation coverage, session bookmark reconciliation, and notarization Apple Events follow-up items until platform access is available.
+
+## 74_G4_Zero_Trust_Logging
+- **Archived files:** `G4_Zero_Trust_Logging.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/`.
+- **Highlights:** Captures completion of Task G4 zero-trust logging by recording hashed path identifiers, timestamped audit entries, and bounded rotation diagnostics across FilesystemAccessKit along with the supporting design narrative.
+- **Next steps carried forward:** Follow-up CLI bookmark wiring for the audit trail remains on `todo.md`, while macOS benchmark and automation runs continue in the refreshed `DOCS/INPROGRESS/next_tasks.md` alongside other hardware-dependent work.

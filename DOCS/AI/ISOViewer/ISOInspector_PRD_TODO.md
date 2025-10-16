@@ -259,7 +259,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] J1. Ship FilesystemAccessKit core API with async open/save/bookmark helpers shared by all targets. *(Completed — archived in `DOCS/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/`; ongoing bookmark persistence and sandbox profile planning remain in `DOCS/INPROGRESS/next_tasks.md` and the Phase G workplan.)*
 - [ ] J2. Persist security-scoped bookmarks and integrate with recents/session restoration flows. *(Depends on `ISOInspectorApp` session store — reference `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md#phase-g-secure-filesystem-access`.)*
 - [x] J3. Document CLI sandbox usage, including `--open` automation hook and sample sandbox profile snippets. _(Completed — see `Documentation/ISOInspector.docc/Guides/CLISandboxProfileGuide.md` and the archive at `DOCS/TASK_ARCHIVE/72_G3_Expose_CLI_Sandbox_Profile_Guidance/`.)_
-- [x] J4. Add zero-trust logging policies ensuring file paths are hashed or redacted in diagnostics outputs. **(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md` and updated logging notes in `DOCS/INPROGRESS/G4_Zero_Trust_Logging.md`.)**
+- [x] J4. Add zero-trust logging policies ensuring file paths are hashed or redacted in diagnostics outputs. **(Completed — see `DOCS/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/Summary_of_Work.md` and updated logging notes in `DOCS/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/G4_Zero_Trust_Logging.md`.)**
 
 ---
 
