@@ -30,6 +30,20 @@ struct AppShellView: View {
             detail
         }
         .navigationSplitViewStyle(.balanced)
+        .overlay(alignment: .top) {
+            if let failure = controller.loadFailure {
+                DocumentLoadFailureBanner(
+                    failure: failure,
+                    retryAction: controller.retryLastFailure,
+                    dismissAction: controller.dismissLoadFailure,
+                    openFileAction: { isImporterPresented = true }
+                )
+                .padding(.horizontal)
+                .padding(.top)
+                .transition(.move(edge: .top).combined(with: .opacity))
+            }
+        }
+        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: controller.loadFailure?.id)
         .fileImporter(
             isPresented: $isImporterPresented,
             allowedContentTypes: controller.allowedContentTypes,
@@ -133,6 +147,68 @@ struct AppShellView: View {
                 }
             }
         )
+    }
+}
+
+private struct DocumentLoadFailureBanner: View {
+    let failure: DocumentSessionController.DocumentLoadFailure
+    let retryAction: () -> Void
+    let dismissAction: () -> Void
+    let openFileAction: () -> Void
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack(alignment: .top, spacing: 12) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                    .font(.title3)
+                    .foregroundColor(.orange)
+                    .accessibilityHidden(true)
+
+                VStack(alignment: .leading, spacing: 6) {
+                    Text(failure.title)
+                        .font(.headline)
+                    Text(failure.message)
+                        .font(.subheadline)
+                    if let details = failure.details, !details.isEmpty {
+                        Text(details)
+                            .font(.footnote)
+                            .foregroundColor(.secondary)
+                    }
+                    Text(failure.recoverySuggestion)
+                        .font(.footnote)
+                        .foregroundColor(.secondary)
+                }
+
+                Spacer()
+
+                Button(action: dismissAction) {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 12, weight: .bold))
+                        .padding(6)
+                }
+                .buttonStyle(.plain)
+                .accessibilityLabel("Dismiss error")
+            }
+
+            HStack(spacing: 12) {
+                Button("Try Again", action: retryAction)
+                    .buttonStyle(.borderedProminent)
+                Button("Open File…", action: openFileAction)
+                    .buttonStyle(.bordered)
+                Spacer()
+            }
+        }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .fill(.ultraThinMaterial)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+                .stroke(Color.red.opacity(0.35), lineWidth: 1)
+        )
+        .shadow(color: Color.black.opacity(0.08), radius: 14, y: 6)
+        .accessibilityIdentifier("document-load-failure-banner")
     }
 }
 
