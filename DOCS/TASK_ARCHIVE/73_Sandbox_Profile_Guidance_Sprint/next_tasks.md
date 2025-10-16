@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🔐 Filesystem Access Enablement
+
+- [x] Draft CLI sandbox profile guidance covering `com.apple.security.files.user-selected.read-write` and automation workflows for headless usage. Reference the archived FilesystemAccessKit baseline in `DOCS/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/` and the persistence summary in `DOCS/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/Summary_of_Work.md`. **(Completed — guidance published in `Documentation/ISOInspector.docc/Guides/CLISandboxProfileGuide.md` and archived under `DOCS/TASK_ARCHIVE/72_G3_Expose_CLI_Sandbox_Profile_Guidance/`.)**
+
 ## 🔭 Benchmark Validation
 
 - [ ] Execute the random slice benchmark suite on macOS hardware once Combine support is available so we can compare mapped vs. chunked readers under identical workloads. **(Blocked — requires macOS runner with Combine; see `DOCS/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/2025-10-15-random-slice-benchmark.md`.)**
