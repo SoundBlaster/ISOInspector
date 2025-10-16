@@ -390,3 +390,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/70_Bookmark_Persistence_Schema/`.
 - **Highlights:** Captures the shared `BookmarkPersistenceStore` design, schema notes, and verification details covering JSON/CoreData consumers plus the macOS CI workflow fix that pins Tuist CLI downloads to the latest release tag.
 - **Next steps carried forward:** Wire the shared bookmark store into recents and session controllers (see `todo.md` PDD:45m) and continue tracking sandbox automation plus macOS benchmark follow-ups in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 71_G2_Persist_FilesystemAccessKit_Bookmarks
+- **Archived files:** `G2_Persist_FilesystemAccessKit_Bookmarks.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/`.
+- **Highlights:** Captures the integration pass that wires `BookmarkPersistenceStore` through recents JSON storage and workspace session controllers, introduces dependency-injected bookmark management for UI flows, and documents verification via updated tests and `swift test --disable-sandbox`.
+- **Next steps carried forward:** Renewed `DOCS/INPROGRESS/next_tasks.md` tracks sandbox profile guidance for the CLI along with macOS-dependent benchmark, UI automation, session reconciliation, and notarization follow-ups pending hardware and entitlement access.

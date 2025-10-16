@@ -2,7 +2,7 @@
 
 ## Completed Tasks
 
-- **G2 Persist FilesystemAccessKit Bookmarks** (`DOCS/INPROGRESS/G2_Persist_FilesystemAccessKit_Bookmarks.md`)
+- **G2 Persist FilesystemAccessKit Bookmarks** (`DOCS/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/G2_Persist_FilesystemAccessKit_Bookmarks.md`)
   - Unified bookmark identifier persistence across the recents JSON store and workspace session snapshots by wiring `BookmarkPersistenceStore` into `DocumentSessionController`.
     - Normalized persisted payloads to strip raw bookmark blobs once identifiers are established. Ensured existing
       bookmark data migrates through the shared store on load.
