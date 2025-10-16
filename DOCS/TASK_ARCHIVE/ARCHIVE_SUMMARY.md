@@ -402,3 +402,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/72_G3_Expose_CLI_Sandbox_Profile_Guidance/`.
 - **Highlights:** Publishes the CLI sandbox automation runbook with sample `.sb` profiles, bookmark capture and authorization flows, troubleshooting tips, and verification steps that align with FilesystemAccessKit entitlements.
 - **Next steps carried forward:** Continue Task G4 zero-trust logging work, add automated coverage for the `--open`/`--authorize` flags, and bundle signed sandbox profiles with notarized distributions per the archived next-task checklist.
+
+## 73_Sandbox_Profile_Guidance_Sprint
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/73_Sandbox_Profile_Guidance_Sprint/`.
+- **Highlights:** Wraps the sandbox profile guidance sprint that finalized Task G3 documentation updates, refreshed the CLI manual, and recorded cross-references into the workplan and PRD backlog.
+- **Next steps carried forward:** Renewed `DOCS/INPROGRESS/next_tasks.md` continues to track macOS hardware-dependent benchmarks and automation coverage, session bookmark reconciliation, and notarization Apple Events follow-up items until platform access is available.
