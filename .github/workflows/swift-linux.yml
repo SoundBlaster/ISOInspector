@@ -9,33 +9,9 @@ on:
       - '**'
 
 jobs:
-  changes:
-    name: Detect build-impacting changes
-    runs-on: ubuntu-22.04
-    outputs:
-      swift: ${{ steps.filter.outputs.swift }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - id: filter
-        uses: dorny/paths-filter@v3
-        with:
-          filters: |
-            swift:
-              - 'Sources/**'
-              - 'Tests/**'
-              - 'scripts/**'
-              - '**/*.swift'
-              - '.github/workflows/**'
-
   lint-build-test:
     name: SwiftLint, Build, Test & Coverage (Linux)
     runs-on: ubuntu-22.04
-    needs: changes
-    if: needs.changes.outputs.swift != 'false'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

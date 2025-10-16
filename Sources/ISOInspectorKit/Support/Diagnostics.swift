@@ -4,7 +4,7 @@ import Foundation
 import os
 #endif
 
-public protocol DiagnosticsLogging {
+public protocol DiagnosticsLogging: Sendable {
     func info(_ message: String)
     func error(_ message: String)
 }
