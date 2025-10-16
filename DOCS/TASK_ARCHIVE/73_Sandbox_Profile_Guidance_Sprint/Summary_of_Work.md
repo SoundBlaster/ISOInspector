@@ -15,4 +15,4 @@
 
 ## Follow-Up
 
-- Execute Task G4 (zero-trust logging) and automate tests around the `--open`/`--authorize` CLI flow per the archived `next_tasks.md`.
+- Execute Task G4 (zero-trust logging) and automate tests around the `--open`/`--authorize` CLI flow per the archived `next_tasks.md`. *(Now in progress — see `DOCS/INPROGRESS/G4_Zero_Trust_Logging.md`.)*

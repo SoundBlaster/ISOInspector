@@ -401,7 +401,7 @@
 - **Archived files:** `G3_Expose_CLI_Sandbox_Profile_Guidance.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/72_G3_Expose_CLI_Sandbox_Profile_Guidance/`.
 - **Highlights:** Publishes the CLI sandbox automation runbook with sample `.sb` profiles, bookmark capture and authorization flows, troubleshooting tips, and verification steps that align with FilesystemAccessKit entitlements.
-- **Next steps carried forward:** Continue Task G4 zero-trust logging work, add automated coverage for the `--open`/`--authorize` flags, and bundle signed sandbox profiles with notarized distributions per the archived next-task checklist.
+- **Next steps carried forward:** Continue Task G4 zero-trust logging work *(now in progress — see `DOCS/INPROGRESS/G4_Zero_Trust_Logging.md`)*, add automated coverage for the `--open`/`--authorize` flags, and bundle signed sandbox profiles with notarized distributions per the archived next-task checklist.
 
 ## 73_Sandbox_Profile_Guidance_Sprint
 - **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
