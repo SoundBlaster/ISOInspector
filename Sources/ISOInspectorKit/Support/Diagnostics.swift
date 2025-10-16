@@ -4,6 +4,11 @@ import Foundation
 import os
 #endif
 
+public protocol DiagnosticsLogging {
+    func info(_ message: String)
+    func error(_ message: String)
+}
+
 public struct DiagnosticsLogger: DiagnosticsLogging {
     #if canImport(os)
     private let wrapped: Logger

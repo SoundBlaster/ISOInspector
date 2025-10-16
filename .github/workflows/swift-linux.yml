@@ -35,7 +35,7 @@ jobs:
     name: SwiftLint, Build, Test & Coverage (Linux)
     runs-on: ubuntu-22.04
     needs: changes
-    if: needs.changes.outputs.swift == 'true'
+    if: needs.changes.outputs.swift != 'false'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
