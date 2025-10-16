@@ -126,19 +126,97 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertEqual(sessionStore.savedSnapshots.last?.files.first?.lastSelectionNodeID, 123)
     }
 
+    func testOpenDocumentFailurePublishesLoadFailureUntilDismissed() throws {
+        let store = DocumentRecentsStoreStub(initialRecents: [])
+        enum SampleError: LocalizedError {
+            case failed
+
+            var errorDescription: String? { "Simulated failure" }
+        }
+        var shouldFail = true
+        let controller = makeController(
+            store: store,
+            readerFactory: { _ in
+                if shouldFail {
+                    shouldFail = false
+                    throw SampleError.failed
+                }
+                return StubRandomAccessReader()
+            },
+            workQueue: ImmediateWorkQueue()
+        )
+
+        let url = URL(fileURLWithPath: "/tmp/missing.mp4")
+        controller.openDocument(at: url)
+
+        let failure = try XCTUnwrap(controller.loadFailure)
+        XCTAssertEqual(failure.fileDisplayName, "missing.mp4")
+        XCTAssertEqual(failure.message, "Simulated failure")
+        XCTAssertFalse(failure.recoverySuggestion.isEmpty)
+        XCTAssertNil(controller.currentDocument)
+
+        controller.dismissLoadFailure()
+        XCTAssertNil(controller.loadFailure)
+    }
+
+    func testRetryingFailureClearsBannerAfterSuccessfulOpen() throws {
+        let store = DocumentRecentsStoreStub(initialRecents: [])
+        var shouldFail = true
+        let controller = makeController(
+            store: store,
+            readerFactory: { _ in
+                if shouldFail {
+                    shouldFail = false
+                    struct SampleError: LocalizedError {
+                        var errorDescription: String? { "Simulated failure" }
+                    }
+                    throw SampleError()
+                }
+                return StubRandomAccessReader()
+            },
+            workQueue: ImmediateWorkQueue()
+        )
+
+        let url = URL(fileURLWithPath: "/tmp/retry.mp4")
+        var cancellables: Set<AnyCancellable> = []
+        let finished = expectation(description: "Parsing finished")
+
+        controller.parseTreeStore.$state
+            .dropFirst()
+            .sink { state in
+                if state == .finished {
+                    finished.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        controller.openDocument(at: url)
+        XCTAssertNotNil(controller.loadFailure)
+
+        controller.retryLastFailure()
+        wait(for: [finished], timeout: 1.0)
+
+        XCTAssertNil(controller.loadFailure)
+        XCTAssertEqual(controller.currentDocument?.url.standardizedFileURL, url.standardizedFileURL)
+    }
+
     private func makeController(
         store: DocumentRecentsStoring,
         sessionStore: WorkspaceSessionStoring? = nil,
-        annotationsStore: AnnotationBookmarkStoring? = nil
+        annotationsStore: AnnotationBookmarkStoring? = nil,
+        pipeline: ParsePipeline? = nil,
+        readerFactory: ((URL) throws -> RandomAccessReader)? = nil,
+        workQueue: DocumentSessionWorkQueue = ImmediateWorkQueue()
     ) -> DocumentSessionController {
-        DocumentSessionController(
+        let resolvedPipeline = pipeline ?? ParsePipeline(buildStream: { _, _ in .finishedStream })
+        return DocumentSessionController(
             parseTreeStore: ParseTreeStore(bridge: ParsePipelineEventBridge()),
             annotations: AnnotationBookmarkSession(store: annotationsStore),
             recentsStore: store,
             sessionStore: sessionStore,
-            pipelineFactory: { ParsePipeline(buildStream: { _, _ in .finishedStream }) },
-            readerFactory: { _ in StubRandomAccessReader() },
-            workQueue: ImmediateWorkQueue()
+            pipelineFactory: { resolvedPipeline },
+            readerFactory: readerFactory ?? { _ in StubRandomAccessReader() },
+            workQueue: workQueue
         )
     }
 
@@ -149,83 +227,6 @@ final class DocumentSessionControllerTests: XCTestCase {
             displayName: "Sample \(index)",
             lastOpened: Date(timeIntervalSince1970: TimeInterval(index))
         )
-    }
-}
-
-private extension ParsePipeline.EventStream {
-    static var finishedStream: ParsePipeline.EventStream {
-        AsyncThrowingStream { continuation in
-            continuation.finish()
-        }
-    }
-}
-
-private final class StubRandomAccessReader: RandomAccessReader {
-    let length: Int64 = 0
-
-    func read(at offset: Int64, count: Int) throws -> Data {
-        Data(count: count)
-    }
-}
-
-private final class DocumentRecentsStoreStub: DocumentRecentsStoring {
-    var initialRecents: [DocumentRecent]
-    private(set) var savedRecents: [DocumentRecent]?
-
-    init(initialRecents: [DocumentRecent]) {
-        self.initialRecents = initialRecents
-    }
-
-    func load() throws -> [DocumentRecent] {
-        initialRecents
-    }
-
-    func save(_ recents: [DocumentRecent]) throws {
-        savedRecents = recents
-    }
-}
-
-private final class WorkspaceSessionStoreStub: WorkspaceSessionStoring {
-    var loadedSnapshot: WorkspaceSessionSnapshot?
-    private(set) var savedSnapshots: [WorkspaceSessionSnapshot] = []
-    private(set) var clearCallCount = 0
-
-    func loadCurrentSession() throws -> WorkspaceSessionSnapshot? {
-        loadedSnapshot
-    }
-
-    func saveCurrentSession(_ snapshot: WorkspaceSessionSnapshot) throws {
-        savedSnapshots.append(snapshot)
-    }
-
-    func clearCurrentSession() throws {
-        clearCallCount += 1
-    }
-}
-
-private final class AnnotationBookmarkStoreStub: AnnotationBookmarkStoring {
-    func annotations(for file: URL) throws -> [AnnotationRecord] { [] }
-
-    func bookmarks(for file: URL) throws -> [BookmarkRecord] { [] }
-
-    func createAnnotation(for file: URL, nodeID: Int64, note: String) throws -> AnnotationRecord {
-        AnnotationRecord(id: UUID(), nodeID: nodeID, note: note, createdAt: Date(), updatedAt: Date())
-    }
-
-    func updateAnnotation(for file: URL, annotationID: UUID, note: String) throws -> AnnotationRecord {
-        AnnotationRecord(id: annotationID, nodeID: nodeIDPlaceholder, note: note, createdAt: Date(), updatedAt: Date())
-    }
-
-    func deleteAnnotation(for file: URL, annotationID: UUID) throws {}
-
-    func setBookmark(for file: URL, nodeID: Int64, isBookmarked: Bool) throws {}
-
-    private var nodeIDPlaceholder: Int64 { 0 }
-}
-
-private struct ImmediateWorkQueue: DocumentSessionWorkQueue {
-    func execute(_ work: @escaping () -> Void) {
-        work()
     }
 }
 #endif

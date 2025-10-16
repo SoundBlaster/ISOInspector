@@ -50,10 +50,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | E3 | Implement session persistence (open files, annotations, layout). | Medium | 2 | E2, C4 | CoreData/JSON | Relaunch restores previous workspace state. (Completed ✅ — implementation archived in `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/` with CoreData and JSON fallback coverage.) |
 | E4 | Prepare app distribution configuration (bundle ID, entitlements, notarization). | Medium | 1.5 | E2 | Xcode, Notarytool | App builds and notarizes successfully; entitlements validated. *(Completed ✅ — see `DOCS/TASK_ARCHIVE/55_E4_Prepare_App_Distribution_Configuration/Summary_of_Work.md`.)* |
 | E4a | Evaluate Apple Events automation requirement for notarized builds. | Medium | 0.5 | E4 | Xcode, Notarytool, AppleScript | Determine whether Apple Events automation is required, adjust entitlements/notarization tooling, and document the decision. *(Archived — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/56_Distribution_Apple_Events_Notarization_Assessment.md`.)* |
-| E5 | Surface document load failures in the app shell UI with the forthcoming error banner design. | Medium | 0.5 | E1 | SwiftUI | Opening an unreadable file shows the designed error banner; automated tests cover failure presentation. |
+| E5 | Surface document load failures in the app shell UI with the forthcoming error banner design. | Medium | 0.5 | E1 | SwiftUI | Opening an unreadable file shows the designed error banner; automated tests cover failure presentation. (Completed ✅ — see `DOCS/TASK_ARCHIVE/66_E5_Surface_Document_Load_Failures/Summary_of_Work.md`.) |
 | E6 | Emit diagnostics for recents and session persistence failures once the logging pipeline is available. | Medium | 0.5 | E3 | Swift Logging | Persistence errors write structured diagnostics and surface in QA tools; regression tests assert logging hooks. |
-
-> **In Progress:** Task E5 — see `DOCS/INPROGRESS/E5_Surface_Document_Load_Failures.md` for the active PRD outline.
 
 ## Phase F — Quality Assurance & Documentation
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |

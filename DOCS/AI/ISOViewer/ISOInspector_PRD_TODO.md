@@ -71,6 +71,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
    - **Search**: by fourcc/name/offset; **filters** (containers, metadata, fragments, codecs).
    - **Actions**: copy fourcc/offset/size; export JSON of node/subtree/full tree.
    - **Navigation**: jump to referenced boxes (e.g., from `stsd` entry to `avcC`).
+   - **Error handling**: surface document load failures with retry/dismiss controls via the app shell banner. *(Completed ✅ — see `DOCS/TASK_ARCHIVE/66_E5_Surface_Document_Load_Failures/Summary_of_Work.md`.)*
 
 6. **Export**
    - JSON export with `fourcc`, `offset`, `size`, `version`, `flags`, and parsed fields; recursive `children`.

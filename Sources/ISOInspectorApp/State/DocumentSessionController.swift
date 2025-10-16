@@ -3,6 +3,7 @@ import Combine
 import Dispatch
 import Foundation
 import ISOInspectorKit
+import OSLog
 
 import UniformTypeIdentifiers
 
@@ -18,6 +19,7 @@ private let bookmarkResolutionOptions: URL.BookmarkResolutionOptions = []
 final class DocumentSessionController: ObservableObject {
     @Published private(set) var recents: [DocumentRecent]
     @Published private(set) var currentDocument: DocumentRecent?
+    @Published private(set) var loadFailure: DocumentLoadFailure?
 
     let parseTreeStore: ParseTreeStore
     let annotations: AnnotationBookmarkSession
@@ -29,11 +31,14 @@ final class DocumentSessionController: ObservableObject {
     private let recentLimit: Int
     private let sessionStore: WorkspaceSessionStoring?
 
+    private let logger = Logger(subsystem: "ISOInspectorApp", category: "DocumentSession")
+
     private var currentSessionID: UUID?
     private var currentSessionCreatedAt: Date?
     private var sessionFileIDs: [String: UUID] = [:]
     private var pendingSessionSnapshot: WorkspaceSessionSnapshot?
     private var annotationsSelectionCancellable: AnyCancellable?
+    private var lastFailedRecent: DocumentRecent?
 
     init(
         parseTreeStore: ParseTreeStore? = nil,
@@ -86,13 +91,14 @@ final class DocumentSessionController: ObservableObject {
     }
 
     func openRecent(_ recent: DocumentRecent) {
-        guard let resolvedURL = resolveURL(for: recent) else {
-            removeRecent(with: recent.url)
-            return
+        switch normalizeRecent(recent) {
+        case let .success(normalized):
+            openDocument(recent: normalized)
+        case let .failure(error):
+            var failedRecent = recent
+            failedRecent.url = recent.url.standardizedFileURL
+            handleRecentAccessFailure(failedRecent, error: error)
         }
-        var normalized = recent
-        normalized.url = resolvedURL.standardizedFileURL
-        openDocument(recent: normalized)
     }
 
     func removeRecent(at offsets: IndexSet) {
@@ -103,6 +109,16 @@ final class DocumentSessionController: ObservableObject {
         for url in urls {
             removeRecent(with: url)
         }
+    }
+
+    func dismissLoadFailure() {
+        loadFailure = nil
+        lastFailedRecent = nil
+    }
+
+    func retryLastFailure() {
+        guard let recent = lastFailedRecent else { return }
+        openDocument(recent: recent)
     }
 
     var allowedContentTypes: [UTType] {
@@ -143,7 +159,15 @@ final class DocumentSessionController: ObservableObject {
                     }
                 }
             } catch {
-                // @todo PDD:30m Surface document load failures in the app shell UI once design for error banners lands.
+                var failedRecent = recent
+                failedRecent.url = recent.url.standardizedFileURL
+                if Thread.isMainThread {
+                    self.emitLoadFailure(for: failedRecent, error: error)
+                } else {
+                    Task { @MainActor in
+                        self.emitLoadFailure(for: failedRecent, error: error)
+                    }
+                }
             }
         }
     }
@@ -168,6 +192,8 @@ final class DocumentSessionController: ObservableObject {
         updatedRecent.bookmarkData = bookmark ?? recent.bookmarkData
         updatedRecent.lastOpened = Date()
         updatedRecent.displayName = updatedRecent.displayName.isEmpty ? url.lastPathComponent : updatedRecent.displayName
+        loadFailure = nil
+        lastFailedRecent = nil
         currentDocument = updatedRecent
         insertRecent(updatedRecent)
     }
@@ -346,6 +372,138 @@ final class DocumentSessionController: ObservableObject {
 
     private func canonicalIdentifier(for url: URL) -> String {
         url.standardizedFileURL.resolvingSymlinksInPath().absoluteString
+    }
+
+    private func normalizeRecent(_ recent: DocumentRecent) -> Result<DocumentRecent, DocumentAccessError> {
+        guard let resolvedURL = resolveURL(for: recent) else {
+            return .failure(.unresolvedBookmark)
+        }
+        let standardized = resolvedURL.standardizedFileURL
+        guard isReadableFile(at: standardized) else {
+            return .failure(.unreadable(standardized))
+        }
+        var normalized = recent
+        normalized.url = standardized
+        return .success(normalized)
+    }
+
+    private func handleRecentAccessFailure(_ recent: DocumentRecent, error: DocumentAccessError) {
+        removeRecent(with: recent.url)
+        emitLoadFailure(for: recent, error: error)
+    }
+
+    private func emitLoadFailure(for recent: DocumentRecent, error: Error?) {
+        var standardizedRecent = recent
+        standardizedRecent.url = recent.url.standardizedFileURL
+        let displayName = failureDisplayName(for: standardizedRecent)
+        let defaultSuggestion = "Verify that the file exists and you have permission to read it, then try again."
+
+        var message = "ISO Inspector couldn't open “\(displayName)”."
+        var suggestion = defaultSuggestion
+        var details: String?
+
+        if let localizedError = error as? LocalizedError {
+            if let description = localizedError.errorDescription?.trimmingCharacters(in: .whitespacesAndNewlines), !description.isEmpty {
+                message = description
+            }
+            if let recovery = localizedError.recoverySuggestion?.trimmingCharacters(in: .whitespacesAndNewlines), !recovery.isEmpty {
+                suggestion = recovery
+            }
+            if let reason = localizedError.failureReason?.trimmingCharacters(in: .whitespacesAndNewlines), !reason.isEmpty {
+                details = reason
+            }
+        } else if let error {
+            let localized = error.localizedDescription.trimmingCharacters(in: .whitespacesAndNewlines)
+            if !localized.isEmpty {
+                message = localized
+            }
+        }
+
+        if let error {
+            logger.error("Document open failed for \(standardizedRecent.url.path, privacy: .public): \(String(describing: error), privacy: .public)")
+        } else {
+            logger.error("Document open failed for \(standardizedRecent.url.path, privacy: .public): no additional error details available")
+        }
+
+        loadFailure = DocumentLoadFailure(
+            fileURL: standardizedRecent.url,
+            fileDisplayName: displayName,
+            message: message,
+            recoverySuggestion: suggestion,
+            details: details
+        )
+        lastFailedRecent = standardizedRecent
+    }
+
+    private func failureDisplayName(for recent: DocumentRecent) -> String {
+        let trimmed = recent.displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !trimmed.isEmpty {
+            return trimmed
+        }
+        let lastComponent = recent.url.lastPathComponent
+        return lastComponent.isEmpty ? recent.url.absoluteString : lastComponent
+    }
+
+    private func isReadableFile(at url: URL) -> Bool {
+        FileManager.default.isReadableFile(atPath: url.path)
+    }
+}
+
+extension DocumentSessionController {
+    struct DocumentLoadFailure: Identifiable, Equatable {
+        let id: UUID
+        let fileURL: URL
+        let fileDisplayName: String
+        let message: String
+        let recoverySuggestion: String
+        let details: String?
+
+        init(
+            id: UUID = UUID(),
+            fileURL: URL,
+            fileDisplayName: String,
+            message: String,
+            recoverySuggestion: String,
+            details: String?
+        ) {
+            self.id = id
+            self.fileURL = fileURL
+            self.fileDisplayName = fileDisplayName
+            self.message = message
+            self.recoverySuggestion = recoverySuggestion
+            self.details = details
+        }
+
+        var title: String {
+            "Unable to open “\(fileDisplayName)”"
+        }
+    }
+}
+
+private enum DocumentAccessError: LocalizedError {
+    case unreadable(URL)
+    case unresolvedBookmark
+
+    var errorDescription: String? {
+        switch self {
+        case let .unreadable(url):
+            return "ISO Inspector couldn't access the file at \(url.path)."
+        case .unresolvedBookmark:
+            return "ISO Inspector couldn't resolve the saved bookmark for this file."
+        }
+    }
+
+    var failureReason: String? {
+        switch self {
+        case let .unreadable(url):
+            return "The file may have been moved, deleted, or you may not have permission to read it. (\(url.path))"
+        case .unresolvedBookmark:
+            return "The security-scoped bookmark is no longer valid."
+        }
+    }
+
+    var recoverySuggestion: String? {
+        "Verify that the file exists and you have permission to read it, then try opening it again."
     }
 }
 
