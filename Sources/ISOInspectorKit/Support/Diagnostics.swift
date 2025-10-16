@@ -4,14 +4,14 @@ import Foundation
 import os
 #endif
 
-struct DiagnosticsLogger {
+public struct DiagnosticsLogger: DiagnosticsLogging {
     #if canImport(os)
     private let wrapped: Logger
     #else
     private let label: String
     #endif
 
-    init(subsystem: String, category: String) {
+    public init(subsystem: String, category: String) {
         #if canImport(os)
         self.wrapped = Logger(subsystem: subsystem, category: category)
         #else
@@ -19,7 +19,7 @@ struct DiagnosticsLogger {
         #endif
     }
 
-    func info(_ message: String) {
+    public func info(_ message: String) {
         #if canImport(os)
         wrapped.info("\(message, privacy: .public)")
         #else
@@ -27,7 +27,7 @@ struct DiagnosticsLogger {
         #endif
     }
 
-    func error(_ message: String) {
+    public func error(_ message: String) {
         #if canImport(os)
         wrapped.error("\(message, privacy: .public)")
         #else

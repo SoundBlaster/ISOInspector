@@ -372,3 +372,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/67_Summary_of_Work_2025-10-16/`.
 - **Highlights:** Captures the October 16, 2025 checkpoint that wrapped Task E5 by surfacing document load failures in the SwiftUI app shell with banner-based retry and dismissal handling, plus validated the flow via updated controller publishing and UI coverage.
 - **Next steps carried forward:** Hardware-dependent macOS benchmark and automation runs, diagnostics plumbing for session/recents persistence, and notarization Apple Events follow-ups remain tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md` alongside the backlog in `todo.md`.
+
+## 68_E6_Emit_Persistence_Diagnostics
+- **Archived files:** `E6_Emit_Persistence_Diagnostics.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/`.
+- **Highlights:** Documents completion of Task E6 by emitting diagnostics for recents and session persistence failures through the shared logging pipeline, introducing an injectable diagnostics protocol, and extending controller tests with stubs that assert error reporting.
+- **Next steps carried forward:** Reconcile CoreData bookmark diffs with live session data and execute the macOS-only automation plus benchmarking work recorded in `DOCS/INPROGRESS/next_tasks.md`.

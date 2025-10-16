@@ -200,15 +200,95 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertEqual(controller.currentDocument?.url.standardizedFileURL, url.standardizedFileURL)
     }
 
+    func testPersistRecentsFailureEmitsDiagnostics() throws {
+        enum SampleError: LocalizedError {
+            case failed
+
+            var errorDescription: String? { "Simulated recents failure" }
+        }
+
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
+        recentsStore.saveHandler = { _ in throw SampleError.failed }
+        let diagnostics = DiagnosticsLoggerStub()
+        let controller = makeController(
+            store: recentsStore,
+            diagnostics: diagnostics
+        )
+
+        controller.openDocument(at: URL(fileURLWithPath: "/tmp/recents.mp4"))
+
+        XCTAssertEqual(diagnostics.errors.count, 1)
+        let message = try XCTUnwrap(diagnostics.errors.first)
+        XCTAssertTrue(message.contains("recents"))
+        XCTAssertTrue(message.contains("Simulated recents failure"))
+        XCTAssertTrue(message.contains("/tmp/recents.mp4"))
+    }
+
+    func testPersistSessionFailureEmitsDiagnostics() throws {
+        enum SampleError: LocalizedError {
+            case failed
+
+            var errorDescription: String? { "Simulated session save failure" }
+        }
+
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
+        let sessionStore = WorkspaceSessionStoreStub()
+        sessionStore.saveHandler = { _ in throw SampleError.failed }
+        let diagnostics = DiagnosticsLoggerStub()
+        let controller = makeController(
+            store: recentsStore,
+            sessionStore: sessionStore,
+            diagnostics: diagnostics
+        )
+
+        controller.openDocument(at: URL(fileURLWithPath: "/tmp/session.mp4"))
+
+        XCTAssertEqual(diagnostics.errors.count, 1)
+        let message = try XCTUnwrap(diagnostics.errors.first)
+        XCTAssertTrue(message.contains("session"))
+        XCTAssertTrue(message.contains("Simulated session save failure"))
+        XCTAssertTrue(message.contains("sessionID"))
+    }
+
+    func testClearingSessionFailureEmitsDiagnostics() throws {
+        enum SampleError: LocalizedError {
+            case failed
+
+            var errorDescription: String? { "Simulated session clear failure" }
+        }
+
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
+        let sessionStore = WorkspaceSessionStoreStub()
+        sessionStore.clearHandler = { throw SampleError.failed }
+        let diagnostics = DiagnosticsLoggerStub()
+        let controller = makeController(
+            store: recentsStore,
+            sessionStore: sessionStore,
+            diagnostics: diagnostics
+        )
+
+        let url = URL(fileURLWithPath: "/tmp/clear.mp4")
+        controller.openDocument(at: url)
+        controller.removeRecent(at: IndexSet(integer: 0))
+
+        XCTAssertEqual(diagnostics.errors.count, 1)
+        let message = try XCTUnwrap(diagnostics.errors.first)
+        XCTAssertTrue(message.contains("clear"))
+        XCTAssertTrue(message.contains("Simulated session clear failure"))
+        XCTAssertTrue(message.contains("sessionID"))
+    }
+
     private func makeController(
         store: DocumentRecentsStoring,
         sessionStore: WorkspaceSessionStoring? = nil,
         annotationsStore: AnnotationBookmarkStoring? = nil,
         pipeline: ParsePipeline? = nil,
         readerFactory: ((URL) throws -> RandomAccessReader)? = nil,
-        workQueue: DocumentSessionWorkQueue = ImmediateWorkQueue()
+        workQueue: DocumentSessionWorkQueue = ImmediateWorkQueue(),
+        diagnostics: DiagnosticsLogging? = nil
     ) -> DocumentSessionController {
         let resolvedPipeline = pipeline ?? ParsePipeline(buildStream: { _, _ in .finishedStream })
+        let resolvedDiagnostics: (any DiagnosticsLogging)? = diagnostics
         return DocumentSessionController(
             parseTreeStore: ParseTreeStore(bridge: ParsePipelineEventBridge()),
             annotations: AnnotationBookmarkSession(store: annotationsStore),
@@ -216,7 +296,8 @@ final class DocumentSessionControllerTests: XCTestCase {
             sessionStore: sessionStore,
             pipelineFactory: { resolvedPipeline },
             readerFactory: readerFactory ?? { _ in StubRandomAccessReader() },
-            workQueue: workQueue
+            workQueue: workQueue,
+            diagnostics: resolvedDiagnostics
         )
     }
 

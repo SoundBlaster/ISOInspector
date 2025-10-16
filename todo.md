@@ -24,7 +24,7 @@
 - [x] PDD:1h Produce validation reports with streaming pipeline once Task D2 defines the CLI output contract.
 - [x] PDD:45m Route export operations to streaming capture utilities as they migrate from ISOInspectorCLIRunner.
 - [x] PDD:30m Surface document load failures in the app shell UI once design for error banners lands. **(Completed — see `DOCS/TASK_ARCHIVE/66_E5_Surface_Document_Load_Failures/Summary_of_Work.md`.)**
-- [ ] PDD:30m Surface recents persistence failures in diagnostics once logging pipeline is available. _(In Progress — tracked via `DOCS/INPROGRESS/E6_Emit_Persistence_Diagnostics.md`.)_
-- [ ] PDD:30m Surface session persistence failures in diagnostics once logging pipeline is available. _(In Progress — tracked via `DOCS/INPROGRESS/E6_Emit_Persistence_Diagnostics.md`.)_
+- [x] PDD:30m Surface recents persistence failures in diagnostics once logging pipeline is available. **(Completed — see `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/Summary_of_Work.md`.)**
+- [x] PDD:30m Surface session persistence failures in diagnostics once logging pipeline is available. **(Completed — see `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/Summary_of_Work.md`.)**
 - [ ] PDD:1h Connect CoreData session bookmark diffs to persisted bookmark entities once reconciliation rules are defined.
 - [x] PDD:30m Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely. *(Archived — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/56_Distribution_Apple_Events_Notarization_Assessment.md`.)*
