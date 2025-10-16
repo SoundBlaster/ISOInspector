@@ -19,6 +19,7 @@ public struct WorkspaceSessionFileSnapshot: Codable, Equatable, Sendable, Identi
     var lastSelectionNodeID: Int64?
     var isPinned: Bool
     var scrollOffset: WorkspaceSessionScrollOffset?
+    var bookmarkIdentifier: UUID?
     var bookmarkDiffs: [WorkspaceSessionBookmarkDiff]
 }
 

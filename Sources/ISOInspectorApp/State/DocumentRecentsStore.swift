@@ -3,11 +3,26 @@ import Foundation
 
 struct DocumentRecent: Codable, Equatable, Identifiable, Sendable {
     var url: URL
+    var bookmarkIdentifier: UUID?
     var bookmarkData: Data?
     var displayName: String
     var lastOpened: Date
 
     var id: URL { url }
+
+    init(
+        url: URL,
+        bookmarkIdentifier: UUID? = nil,
+        bookmarkData: Data? = nil,
+        displayName: String,
+        lastOpened: Date
+    ) {
+        self.url = url
+        self.bookmarkIdentifier = bookmarkIdentifier
+        self.bookmarkData = bookmarkData
+        self.displayName = displayName
+        self.lastOpened = lastOpened
+    }
 }
 
 protocol DocumentRecentsStoring {

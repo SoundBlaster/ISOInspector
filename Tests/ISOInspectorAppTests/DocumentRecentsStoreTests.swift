@@ -26,9 +26,11 @@ final class DocumentRecentsStoreTests: XCTestCase {
     func testSavedRecentsArePersisted() throws {
         let store = DocumentRecentsStore(directory: directory)
         let fileURL = URL(fileURLWithPath: "/tmp/example.mp4")
+        let bookmarkID = UUID(uuidString: "00000000-0000-0000-0000-0000000000AA")!
         let entries = [
             DocumentRecent(
                 url: fileURL,
+                bookmarkIdentifier: bookmarkID,
                 bookmarkData: Data("bookmark".utf8),
                 displayName: "Example",
                 lastOpened: Date(timeIntervalSince1970: 12345)
