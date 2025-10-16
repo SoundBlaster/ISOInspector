@@ -419,7 +419,7 @@ private struct RandomSliceBenchmarkScenario: Sendable {
                 maximumBytes: largeUpper,
                 sampleCount: 64,
                 seed: 0xA5A5_0003
-            ),
+            )
         ]
     }
 
