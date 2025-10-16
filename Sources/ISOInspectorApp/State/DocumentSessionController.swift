@@ -30,6 +30,7 @@ final class DocumentSessionController: ObservableObject {
     private let workQueue: DocumentSessionWorkQueue
     private let recentLimit: Int
     private let sessionStore: WorkspaceSessionStoring?
+    private let diagnostics: any DiagnosticsLogging
 
     private let logger = Logger(subsystem: "ISOInspectorApp", category: "DocumentSession")
 
@@ -48,6 +49,7 @@ final class DocumentSessionController: ObservableObject {
         pipelineFactory: @escaping () -> ParsePipeline = { .live() },
         readerFactory: @escaping (URL) throws -> RandomAccessReader = { try ChunkedFileReader(fileURL: $0) },
         workQueue: DocumentSessionWorkQueue = DocumentSessionBackgroundQueue(),
+        diagnostics: (any DiagnosticsLogging)? = nil,
         recentLimit: Int = 10
     ) {
         let resolvedParseTreeStore = parseTreeStore ?? ParseTreeStore()
@@ -61,6 +63,10 @@ final class DocumentSessionController: ObservableObject {
         self.readerFactory = readerFactory
         self.workQueue = workQueue
         self.recentLimit = recentLimit
+        self.diagnostics = diagnostics ?? DiagnosticsLogger(
+            subsystem: "ISOInspectorApp",
+            category: "DocumentSessionPersistence"
+        )
         self.recents = (try? recentsStore.load()) ?? []
 
         annotationsSelectionCancellable = resolvedAnnotations.$currentSelectedNodeID
@@ -218,7 +224,15 @@ final class DocumentSessionController: ObservableObject {
         do {
             try recentsStore.save(recents)
         } catch {
-            // @todo PDD:30m Surface recents persistence failures in diagnostics once logging pipeline is available.
+            let errorDescription = String(describing: error)
+            let focusedPath = currentDocument?.url.standardizedFileURL.path ?? "none"
+            let allRecents = recents
+                .map { $0.url.standardizedFileURL.path }
+                .joined(separator: ", ")
+            diagnostics.error(
+                "Failed to persist recents: error=\(errorDescription); recentsCount=\(recents.count); " +
+                "focusedPath=\(focusedPath); recentsPaths=[\(allRecents)]"
+            )
         }
     }
 
@@ -313,7 +327,11 @@ final class DocumentSessionController: ObservableObject {
                 currentSessionCreatedAt = nil
                 sessionFileIDs.removeAll()
             } catch {
-                // @todo PDD:30m Surface session persistence failures once diagnostics pipeline is available.
+                let errorDescription = String(describing: error)
+                diagnostics.error(
+                    "Failed to clear persisted session: error=\(errorDescription); " +
+                    "sessionID=\(currentSessionID?.uuidString ?? "none")"
+                )
             }
             return
         }
@@ -366,7 +384,11 @@ final class DocumentSessionController: ObservableObject {
         do {
             try sessionStore.saveCurrentSession(snapshot)
         } catch {
-            // @todo PDD:30m Surface session persistence failures once diagnostics pipeline is available.
+            let errorDescription = String(describing: error)
+            diagnostics.error(
+                "Failed to persist session snapshot: error=\(errorDescription); " +
+                "sessionID=\(snapshot.id.uuidString); focusedPath=\(snapshot.focusedFileURL?.standardizedFileURL.path ?? "none")"
+            )
         }
     }
 

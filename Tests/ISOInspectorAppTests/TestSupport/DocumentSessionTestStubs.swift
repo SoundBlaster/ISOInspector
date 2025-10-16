@@ -7,6 +7,7 @@ import ISOInspectorKit
 final class DocumentRecentsStoreStub: DocumentRecentsStoring {
     var initialRecents: [DocumentRecent]
     private(set) var savedRecents: [DocumentRecent]?
+    var saveHandler: (([DocumentRecent]) throws -> Void)?
 
     init(initialRecents: [DocumentRecent]) {
         self.initialRecents = initialRecents
@@ -18,6 +19,9 @@ final class DocumentRecentsStoreStub: DocumentRecentsStoring {
 
     func save(_ recents: [DocumentRecent]) throws {
         savedRecents = recents
+        if let saveHandler {
+            try saveHandler(recents)
+        }
     }
 }
 
@@ -25,6 +29,8 @@ final class WorkspaceSessionStoreStub: WorkspaceSessionStoring {
     var loadedSnapshot: WorkspaceSessionSnapshot?
     private(set) var savedSnapshots: [WorkspaceSessionSnapshot] = []
     private(set) var clearCallCount = 0
+    var saveHandler: ((WorkspaceSessionSnapshot) throws -> Void)?
+    var clearHandler: (() throws -> Void)?
 
     func loadCurrentSession() throws -> WorkspaceSessionSnapshot? {
         loadedSnapshot
@@ -32,10 +38,29 @@ final class WorkspaceSessionStoreStub: WorkspaceSessionStoring {
 
     func saveCurrentSession(_ snapshot: WorkspaceSessionSnapshot) throws {
         savedSnapshots.append(snapshot)
+        if let saveHandler {
+            try saveHandler(snapshot)
+        }
     }
 
     func clearCurrentSession() throws {
         clearCallCount += 1
+        if let clearHandler {
+            try clearHandler()
+        }
+    }
+}
+
+final class DiagnosticsLoggerStub: DiagnosticsLogging {
+    private(set) var infos: [String] = []
+    private(set) var errors: [String] = []
+
+    func info(_ message: String) {
+        infos.append(message)
+    }
+
+    func error(_ message: String) {
+        errors.append(message)
     }
 }
 
