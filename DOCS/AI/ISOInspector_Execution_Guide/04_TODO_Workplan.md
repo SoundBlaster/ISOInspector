@@ -71,7 +71,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | G3 | Expose CLI flags and sandbox profile guidance for headless access. | Medium | 1 | G1 | Swift ArgumentParser, sandbox profiles | CLI accepts `--open`/`--authorize` inputs mapped to FilesystemAccessKit; documentation updated with sandbox profile steps. |
 | G4 | Implement zero-trust logging and audit trail for file access events. | Medium | 1 | G1 | Swift Logging | Access logs omit absolute paths, include hashed identifiers, and pass diagnostics tests. |
 
-> **Next Up:** Task G2 – Persist FilesystemAccessKit bookmarks alongside recents/session storage while maintaining sandbox compliance. Planning checkpoints captured in `DOCS/INPROGRESS/next_tasks.md`.
+> **In Progress:** Task G2 – Persist FilesystemAccessKit bookmarks alongside recents/session storage while maintaining sandbox compliance. Active PRD: `DOCS/INPROGRESS/G2_Persist_FilesystemAccessKit_Bookmarks.md`; status mirrored in `DOCS/INPROGRESS/next_tasks.md`.
 
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
