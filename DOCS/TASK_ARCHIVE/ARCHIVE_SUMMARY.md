@@ -378,3 +378,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/`.
 - **Highlights:** Documents completion of Task E6 by emitting diagnostics for recents and session persistence failures through the shared logging pipeline, introducing an injectable diagnostics protocol, and extending controller tests with stubs that assert error reporting.
 - **Next steps carried forward:** Reconcile CoreData bookmark diffs with live session data and execute the macOS-only automation plus benchmarking work recorded in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 69_G1_FilesystemAccessKit_Core_API
+- **Archived files:** `G1_FilesystemAccessKit_Core_API.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/`.
+- **Highlights:** Delivers the FilesystemAccessKit facade with async open/save/bookmark operations, macOS `NSOpenPanel`/`NSSavePanel` adapters, and unit tests covering bookmark lifecycle, stale access recovery, and diagnostics logging integrations.
+- **Next steps carried forward:** Plan bookmark persistence integration (G2), CLI sandbox profile guidance (G3), and hardware-bound automation plus benchmarking work now tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md` and Phase G workplan entries.

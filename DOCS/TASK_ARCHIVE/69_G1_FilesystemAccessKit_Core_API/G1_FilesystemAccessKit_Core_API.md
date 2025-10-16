@@ -34,9 +34,9 @@ Deliver a unified FilesystemAccessKit surface that exposes async `openFile`, `sa
 
 ## 🧠 Source References
 
-- [`ISOInspector_Master_PRD.md`](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
-- [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
-- [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
-- [`DOCS/RULES`](../RULES)
-- [`DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md`](../AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md)
-- [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+- [`ISOInspector_Master_PRD.md`](../../AI/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
+- [`04_TODO_Workplan.md`](../../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
+- [`ISOInspector_PRD_TODO.md`](../../AI/ISOViewer/ISOInspector_PRD_TODO.md)
+- [`DOCS/RULES`](../../RULES)
+- [`DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md`](../../AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md)
+- [`DOCS/TASK_ARCHIVE`](../../TASK_ARCHIVE)

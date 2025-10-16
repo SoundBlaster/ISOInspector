@@ -2,9 +2,10 @@
 
 ## 🔐 Filesystem Access Enablement
 
+- [x] Prototype FilesystemAccessKit core APIs (`openFile`, `saveFile`, `createBookmark`, `resolveBookmarkData`) following `DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md` and wire initial tests. **Completed — see [`G1_FilesystemAccessKit_Core_API.md`](./G1_FilesystemAccessKit_Core_API.md) and new unit tests in `Tests/ISOInspectorKitTests/FilesystemAccessTests.swift`.**
 - [ ] Design bookmark persistence schema aligned with existing recents/session storage so Phase G (Workplan) can
   integrate without data loss.
-- [ ] Draft CLI sandbox profile guidance covering `com.apple.security.files.user-selected.read-write` and automation workflows for headless usage. Reference the newly archived task summary in `DOCS/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/` for current API behavior.
+- [ ] Draft CLI sandbox profile guidance covering `com.apple.security.files.user-selected.read-write` and automation workflows for headless usage.
 
 ## 🔭 Benchmark Validation
 
@@ -21,7 +22,9 @@
 
 ## 🛠️ Session Persistence Follow-Ups
 
+- [x] Surface session persistence errors once diagnostics plumbing is available. **(Completed — see `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/Summary_of_Work.md`.)** See `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/Summary_of_Work.md` and the closed `todo.md` entry “PDD:30m Surface session persistence failures in diagnostics once logging pipeline is available.”
 - [ ] Reconcile CoreData session bookmark diffs with live bookmark entities when reconciliation rules are defined. See `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/Summary_of_Work.md`.
+- [x] Surface recents persistence errors once diagnostics plumbing is available. **(Completed — see `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/Summary_of_Work.md`.)** See the closed `todo.md` entry “PDD:30m Surface recents persistence failures in diagnostics once logging pipeline is available.”
 
 ## 📦 Distribution Follow-Up
 
