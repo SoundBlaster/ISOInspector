@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🔐 Zero-Trust Logging
+
+- [ ] **In Progress** — Implement Task G4 zero-trust logging so FilesystemAccessKit access events emit hashed identifiers and auditable metrics aligned with CLI sandbox guidance. Coordinate log schemas with existing persistence diagnostics before extending telemetry coverage. (See `DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md`.)
+
 ## 🔭 Benchmark Validation
 
 - [ ] Execute the random slice benchmark suite on macOS hardware once Combine support is available so we can compare mapped vs. chunked readers under identical workloads. **(Blocked — requires macOS runner with Combine; see `DOCS/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/2025-10-15-random-slice-benchmark.md`.)**

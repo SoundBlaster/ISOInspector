@@ -17,4 +17,4 @@
 
 ## Follow-Up
 
-- Track Task G4 for zero-trust logging and audit trail updates once sandbox automation flows start emitting telemetry.
+- Track Task G4 for zero-trust logging and audit trail updates once sandbox automation flows start emitting telemetry. *(Status: In progress — see `DOCS/INPROGRESS/G4_Zero_Trust_Logging.md`.)*
