@@ -198,6 +198,56 @@ final class FilesystemAccessTests: XCTestCase {
         XCTAssertEqual(events.first?.pathHash, expectedHash(for: expectedURL))
     }
 
+    #if !canImport(AppKit)
+    func testLiveUsesDocumentPickerPresenterWhenAppKitUnavailable() async throws {
+        let expectedOpenURL = URL(fileURLWithPath: "/tmp/open.mp4")
+        let expectedSaveURL = URL(fileURLWithPath: "/tmp/save.mp4")
+        let scopeManager = FilesystemAccessTestSecurityScope()
+        let bookmarkManager = FilesystemAccessTestBookmarkManager()
+        let diagnosticsLogger = FilesystemAccessTestLogger()
+        let auditTrail = FilesystemAccessAuditTrail(limit: 5)
+        let logger = FilesystemAccessLogger(
+            diagnosticsLogger,
+            auditTrail: auditTrail,
+            makeDate: { Date(timeIntervalSinceReferenceDate: 6) }
+        )
+
+        let recorder = FilesystemDocumentPickerPresenterRecorder()
+        let presenter = FilesystemDocumentPickerPresenter(
+            openHandler: { configuration in
+                recorder.recordOpen(configuration)
+                return expectedOpenURL
+            },
+            saveHandler: { configuration in
+                recorder.recordSave(configuration)
+                return expectedSaveURL
+            }
+        )
+
+        let access = FilesystemAccess.live(
+            bookmarkManager: bookmarkManager,
+            securityScopeManager: scopeManager,
+            logger: logger,
+            documentPickerPresenter: presenter
+        )
+
+        let openConfiguration = FilesystemOpenConfiguration(allowedContentTypes: ["public.movie"], allowsMultipleSelection: true)
+        let openURL = try await access.openFile(configuration: openConfiguration)
+        let saveConfiguration = FilesystemSaveConfiguration(allowedContentTypes: ["public.movie"], suggestedFilename: "clip.mp4")
+        let saveURL = try await access.saveFile(configuration: saveConfiguration)
+
+        XCTAssertEqual(openURL.url, expectedOpenURL)
+        XCTAssertEqual(saveURL.url, expectedSaveURL)
+        XCTAssertEqual(recorder.openConfigurations, [openConfiguration])
+        XCTAssertEqual(recorder.saveConfigurations, [saveConfiguration])
+        XCTAssertEqual(scopeManager.startedURLs, [expectedOpenURL.standardizedFileURL, expectedSaveURL.standardizedFileURL])
+        XCTAssertTrue(diagnosticsLogger.infoMessages.contains { $0.contains("access_granted") })
+        let events = auditTrail.snapshot()
+        XCTAssertTrue(events.contains { $0.category == .openFile && $0.outcome == .accessGranted })
+        XCTAssertTrue(events.contains { $0.category == .saveFile && $0.outcome == .accessGranted })
+    }
+    #endif
+
     private func expectedHash(for url: URL) -> String {
         let path = url.standardizedFileURL.path
         #if canImport(CryptoKit)
@@ -314,6 +364,25 @@ private final class FilesystemAccessTestLogger: DiagnosticsLogging {
         lock.withLock { errorStorage.append(message) }
     }
 }
+
+private final class FilesystemDocumentPickerPresenterRecorder {
+    private let lock = NSLock()
+    private var openConfigurationsStorage: [FilesystemOpenConfiguration] = []
+    private var saveConfigurationsStorage: [FilesystemSaveConfiguration] = []
+
+    var openConfigurations: [FilesystemOpenConfiguration] { lock.withLock { openConfigurationsStorage } }
+    var saveConfigurations: [FilesystemSaveConfiguration] { lock.withLock { saveConfigurationsStorage } }
+
+    func recordOpen(_ configuration: FilesystemOpenConfiguration) {
+        lock.withLock { openConfigurationsStorage.append(configuration) }
+    }
+
+    func recordSave(_ configuration: FilesystemSaveConfiguration) {
+        lock.withLock { saveConfigurationsStorage.append(configuration) }
+    }
+}
+
+extension FilesystemDocumentPickerPresenterRecorder: @unchecked Sendable {}
 
 extension FilesystemAccessTestLogger: @unchecked Sendable {}
 
