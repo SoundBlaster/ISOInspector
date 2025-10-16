@@ -360,3 +360,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/63_Summary_of_Work_2025-10-15/`.
 - **Highlights:** Captures the October 15, 2025 checkpoint closing Task A4 with the unified `RandomAccessReaderError` taxonomy, aligned error reporting across mapped, chunked, and in-memory readers, and extended regression coverage for bounds, overflow, and IO propagation.
 - **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` tracks IO roadmap Task A5 benchmarking work along with macOS-only automation, Combine UI benchmarking, session persistence diagnostics, and notarization follow-ups until required hardware and diagnostics plumbing land.
+
+## 65_Summary_of_Work_2025-10-15_Benchmark
+- **Archived files:** `2025-10-15-random-slice-benchmark.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/`.
+- **Highlights:** Captures the October 15, 2025 benchmarking checkpoint consolidating the random slice harness design notes, throughput baselines for `MappedReader` vs. `ChunkedFileReader`, and the summary documenting Task A5 closure following the unified error taxonomy work.
+- **Next steps carried forward:** Fresh `DOCS/INPROGRESS/next_tasks.md` tracks the macOS hardware runs required for random slice benchmarking, macOS UI automation, Combine-backed UI benchmarking, session persistence diagnostics, and notarization entitlement follow-ups until the needed platforms and diagnostics plumbing are available.
