@@ -384,3 +384,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/`.
 - **Highlights:** Delivers the FilesystemAccessKit facade with async open/save/bookmark operations, macOS `NSOpenPanel`/`NSSavePanel` adapters, and unit tests covering bookmark lifecycle, stale access recovery, and diagnostics logging integrations.
 - **Next steps carried forward:** Plan bookmark persistence integration (G2), CLI sandbox profile guidance (G3), and hardware-bound automation plus benchmarking work now tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md` and Phase G workplan entries.
+
+## 70_Bookmark_Persistence_Schema
+- **Archived files:** `2025-10-16-bookmark-persistence-schema.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/70_Bookmark_Persistence_Schema/`.
+- **Highlights:** Captures the shared `BookmarkPersistenceStore` design, schema notes, and verification details covering JSON/CoreData consumers plus the macOS CI workflow fix that pins Tuist CLI downloads to the latest release tag.
+- **Next steps carried forward:** Wire the shared bookmark store into recents and session controllers (see `todo.md` PDD:45m) and continue tracking sandbox automation plus macOS benchmark follow-ups in `DOCS/INPROGRESS/next_tasks.md`.
