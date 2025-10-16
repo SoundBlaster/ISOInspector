@@ -15,7 +15,9 @@
 
 ## 🛠️ Session Persistence Follow-Ups
 
+- [x] Surface session persistence errors once diagnostics plumbing is available. **(Completed — see `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/Summary_of_Work.md`.)** See `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/Summary_of_Work.md` and the closed `todo.md` entry “PDD:30m Surface session persistence failures in diagnostics once logging pipeline is available.”
 - [ ] Reconcile CoreData session bookmark diffs with live bookmark entities when reconciliation rules are defined. See `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/Summary_of_Work.md`.
+- [x] Surface recents persistence errors once diagnostics plumbing is available. **(Completed — see `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/Summary_of_Work.md`.)** See the closed `todo.md` entry “PDD:30m Surface recents persistence failures in diagnostics once logging pipeline is available.”
 
 ## 📦 Distribution Follow-Up
 

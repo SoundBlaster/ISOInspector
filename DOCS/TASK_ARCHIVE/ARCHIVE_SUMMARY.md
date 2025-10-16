@@ -378,3 +378,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/`.
 - **Highlights:** Documents completion of Task E6 by emitting diagnostics for recents and session persistence failures through the shared logging pipeline, introducing an injectable diagnostics protocol, and extending controller tests with stubs that assert error reporting.
 - **Next steps carried forward:** Reconcile CoreData bookmark diffs with live session data and execute the macOS-only automation plus benchmarking work recorded in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 69_Summary_of_Work_2025-10-16_Persistence_Diagnostics
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/69_Summary_of_Work_2025-10-16_Persistence_Diagnostics/`.
+- **Highlights:** Captures the October 16, 2025 persistence diagnostics checkpoint consolidating Task E6 follow-ups, including the shared `DiagnosticsLogging` protocol, session/recents controller wiring, and the verification history covering logging spies plus `swift test` validation.
+- **Next steps carried forward:** Outstanding macOS hardware runs for benchmarks and UI automation plus CoreData bookmark reconciliation remain documented in the refreshed `DOCS/INPROGRESS/next_tasks.md` and backlog trackers.
