@@ -366,3 +366,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/`.
 - **Highlights:** Captures the October 15, 2025 benchmarking checkpoint consolidating the random slice harness design notes, throughput baselines for `MappedReader` vs. `ChunkedFileReader`, and the summary documenting Task A5 closure following the unified error taxonomy work.
 - **Next steps carried forward:** Fresh `DOCS/INPROGRESS/next_tasks.md` tracks the macOS hardware runs required for random slice benchmarking, macOS UI automation, Combine-backed UI benchmarking, session persistence diagnostics, and notarization entitlement follow-ups until the needed platforms and diagnostics plumbing are available.
+
+## 67_Summary_of_Work_2025-10-16
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/67_Summary_of_Work_2025-10-16/`.
+- **Highlights:** Captures the October 16, 2025 checkpoint that wrapped Task E5 by surfacing document load failures in the SwiftUI app shell with banner-based retry and dismissal handling, plus validated the flow via updated controller publishing and UI coverage.
+- **Next steps carried forward:** Hardware-dependent macOS benchmark and automation runs, diagnostics plumbing for session/recents persistence, and notarization Apple Events follow-ups remain tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md` alongside the backlog in `todo.md`.
