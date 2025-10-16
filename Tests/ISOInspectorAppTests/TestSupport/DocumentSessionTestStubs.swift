@@ -64,6 +64,8 @@ final class DiagnosticsLoggerStub: DiagnosticsLogging {
     }
 }
 
+extension DiagnosticsLoggerStub: @unchecked Sendable {}
+
 final class AnnotationBookmarkStoreStub: AnnotationBookmarkStoring {
     func annotations(for file: URL) throws -> [AnnotationRecord] { [] }
 
