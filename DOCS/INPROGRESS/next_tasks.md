@@ -2,7 +2,7 @@
 
 ## 🔐 Filesystem Access Enablement
 
-- [ ] Draft CLI sandbox profile guidance covering `com.apple.security.files.user-selected.read-write` and automation workflows for headless usage. Reference the archived FilesystemAccessKit baseline in `DOCS/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/` and the persistence summary in `DOCS/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/Summary_of_Work.md`.
+- [ ] Draft CLI sandbox profile guidance covering `com.apple.security.files.user-selected.read-write` and automation workflows for headless usage. Reference the archived FilesystemAccessKit baseline in `DOCS/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/` and the persistence summary in `DOCS/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/Summary_of_Work.md`. **(In Progress — see `DOCS/INPROGRESS/G3_Expose_CLI_Sandbox_Profile_Guidance.md`.)**
 
 ## 🔭 Benchmark Validation
 
