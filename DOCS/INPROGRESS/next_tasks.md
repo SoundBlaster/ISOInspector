@@ -2,8 +2,9 @@
 
 ## 🔐 Filesystem Access Enablement
 
-- [ ] Prototype FilesystemAccessKit core APIs (`openFile`, `saveFile`, `createBookmark`, `resolveBookmarkData`) following `DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md` and wire initial tests. **In Progress — see [`G1_FilesystemAccessKit_Core_API.md`](./G1_FilesystemAccessKit_Core_API.md).**
-- [ ] Design bookmark persistence schema aligned with existing recents/session storage so Phase G (Workplan) can integrate without data loss.
+- [x] Prototype FilesystemAccessKit core APIs (`openFile`, `saveFile`, `createBookmark`, `resolveBookmarkData`) following `DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md` and wire initial tests. **Completed — see [`G1_FilesystemAccessKit_Core_API.md`](./G1_FilesystemAccessKit_Core_API.md) and new unit tests in `Tests/ISOInspectorKitTests/FilesystemAccessTests.swift`.**
+- [ ] Design bookmark persistence schema aligned with existing recents/session storage so Phase G (Workplan) can
+  integrate without data loss.
 - [ ] Draft CLI sandbox profile guidance covering `com.apple.security.files.user-selected.read-write` and automation workflows for headless usage.
 
 ## 🔭 Benchmark Validation

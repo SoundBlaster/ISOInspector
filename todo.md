@@ -28,3 +28,4 @@
 - [x] PDD:30m Surface session persistence failures in diagnostics once logging pipeline is available. **(Completed — see `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/Summary_of_Work.md`.)**
 - [ ] PDD:1h Connect CoreData session bookmark diffs to persisted bookmark entities once reconciliation rules are defined.
 - [x] PDD:30m Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely. *(Archived — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/56_Distribution_Apple_Events_Notarization_Assessment.md`.)*
+- [ ] PDD:1h Provide UIDocumentPicker integration for iOS/iPadOS once UIKit adapters are introduced.
