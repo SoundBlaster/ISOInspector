@@ -66,12 +66,12 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 ## Phase G — Secure Filesystem Access
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
-| G1 | Implement FilesystemAccessKit core API (`openFile`, `saveFile`, `createBookmark`, `resolveBookmarkData`) with platform adapters. | High | 2 | E2 | Swift Concurrency, App Sandbox docs | Unit tests cover bookmark creation/resolution; macOS and iOS builds compile with new module. See `09_FilesystemAccessKit_PRD.md` for scope. |
+| G1 | Implement FilesystemAccessKit core API (`openFile`, `saveFile`, `createBookmark`, `resolveBookmarkData`) with platform adapters. | High | 2 | E2 | Swift Concurrency, App Sandbox docs | **Completed ✅** — Unit tests cover bookmark creation/resolution; macOS and iOS builds compile with the new module. Archived in `DOCS/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/`. Follow-up integration threads live in `DOCS/INPROGRESS/next_tasks.md`. |
 | G2 | Persist bookmarks and integrate with recents/session restoration in app targets. | High | 1.5 | G1, E3 | CoreData/JSON, SwiftUI | App restores previously authorized files on launch; stale bookmarks prompt re-authorization flows. |
 | G3 | Expose CLI flags and sandbox profile guidance for headless access. | Medium | 1 | G1 | Swift ArgumentParser, sandbox profiles | CLI accepts `--open`/`--authorize` inputs mapped to FilesystemAccessKit; documentation updated with sandbox profile steps. |
 | G4 | Implement zero-trust logging and audit trail for file access events. | Medium | 1 | G1 | Swift Logging | Access logs omit absolute paths, include hashed identifiers, and pass diagnostics tests. |
 
-> **In Progress:** Task G1 – Implement FilesystemAccessKit core API. Tracking details in `DOCS/INPROGRESS/G1_FilesystemAccessKit_Core_API.md`.
+> **Next Up:** Task G2 – Persist FilesystemAccessKit bookmarks alongside recents/session storage while maintaining sandbox compliance. Planning checkpoints captured in `DOCS/INPROGRESS/next_tasks.md`.
 
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.

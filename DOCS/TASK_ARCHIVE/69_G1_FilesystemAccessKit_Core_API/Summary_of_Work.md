@@ -17,7 +17,7 @@
 
 - Implement UIDocumentPicker-based adapters inside `FilesystemAccess.live()` so iOS/iPadOS builds expose the shared flows without regressing sandbox behaviour.【F:Sources/ISOInspectorKit/FilesystemAccess/FilesystemAccess+Live.swift†L9-L37】
 - Wire the new facade into app and CLI entry points, persisting bookmarks alongside recents/session stores per the Phase
-  G workplan.【F:DOCS/INPROGRESS/G1_FilesystemAccessKit_Core_API.md†L5-L27】
+  G workplan.【F:DOCS/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/G1_FilesystemAccessKit_Core_API.md†L5-L33】
 
 ## 2025-10-18 — Filesystem Access Planning
 
@@ -29,7 +29,7 @@
 - Reviewed historical distribution work (Task E4) to ensure entitlements already cover security-scoped bookmarks and
   documented that verification remains part of the new
   effort.【F:DOCS/TASK_ARCHIVE/55_E4_Prepare_App_Distribution_Configuration/54_E4_Prepare_App_Distribution_Configuration.md†L1-L47】
-- Identified upcoming research/action items for FilesystemAccessKit within `DOCS/INPROGRESS/next_tasks.md`, including bookmark schema design and sandbox profile guidance for CLI usage.【F:DOCS/INPROGRESS/next_tasks.md†L1-L11】
+- Identified upcoming research/action items for FilesystemAccessKit within `DOCS/INPROGRESS/next_tasks.md`, including bookmark schema design and sandbox profile guidance for CLI usage.【F:DOCS/INPROGRESS/next_tasks.md†L5-L7】
 
 ### ✅ Documentation Updates
 
@@ -41,7 +41,7 @@
   tasks.【F:DOCS/AI/ISOInspector_Execution_Guide/01_Project_Scope.md†L9-L17】【F:DOCS/AI/ISOInspector_Execution_Guide/03_Technical_Spec.md†L3-L39】【F:DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md†L255-L272】【F:DOCS/AI/ISOInspector_Execution_Guide/06_Task_Source_Crosswalk.md†L107-L121】
 - Updated workplan Phase G and in-progress trackers to highlight FilesystemAccessKit milestones and dependencies,
   ensuring backlog visibility across documentation
-  touchpoints.【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L75-L92】【F:DOCS/INPROGRESS/next_tasks.md†L1-L11】
+  touchpoints.【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L75-L92】【F:DOCS/INPROGRESS/next_tasks.md†L5-L27】
 
 ### 🔄 Pending — Filesystem Access Planning
 
@@ -49,7 +49,7 @@
   network volumes, and audit retention
   policy.【F:DOCS/AI/ISOInspector_Execution_Guide/09_FilesystemAccessKit_PRD.md†L72-L82】
 - Coordinate with automation owners to draft sandbox profile templates supporting CLI file access flows once
-  FilesystemAccessKit APIs stabilize.【F:DOCS/INPROGRESS/next_tasks.md†L1-L11】
+  FilesystemAccessKit APIs stabilize.【F:DOCS/INPROGRESS/next_tasks.md†L5-L7】
 
 ---
 
@@ -80,4 +80,4 @@
 ### 🔄 Pending — Persistence Diagnostics
 
 - Reconcile CoreData session bookmark diffs with live bookmark entities when reconciliation rules are defined.
-- Execute macOS-only automation and benchmarking efforts noted in `DOCS/INPROGRESS/next_tasks.md`.
+- Execute macOS-only automation and benchmarking efforts noted in `DOCS/INPROGRESS/next_tasks.md`.【F:DOCS/INPROGRESS/next_tasks.md†L10-L27】
