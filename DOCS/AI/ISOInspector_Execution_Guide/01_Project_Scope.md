@@ -11,6 +11,7 @@ Design and deliver a cross-platform ISO Base Media File Format (ISO BMFF / MP4 /
 | 3 | ISOInspectorCLI | Executable | Command-line interface wrapping the core parser with reporting and export commands. | Supports file inspection, validation summary, JSON export, and error reporting. |
 | 4 | ISOInspectorApp | App bundle | macOS + iPadOS + iOS app integrating core and UI packages. | Ships with onboarding, file picker, session management, and workspace persistence. |
 | 5 | Documentation Suite | Markdown + DocC | Developer onboarding, API reference, and user guides. | Published with navigation index, setup instructions, and troubleshooting appendix. |
+| 6 | FilesystemAccessKit | SwiftPM library | Security-scoped file access API shared by app and CLI targets. | Provides open/save/bookmark APIs validated by unit tests and integrated into platform targets. |
 
 ## Success Criteria
 - Stream-parse MP4/QuickTime files up to 20 GB.

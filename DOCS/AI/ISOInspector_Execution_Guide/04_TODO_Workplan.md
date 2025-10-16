@@ -63,6 +63,14 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | F5 | Finalize release checklist and go-live runbook. | Medium | 1 | E4, F2 | Markdown | Checklist covers QA sign-off, documentation updates, release packaging. (Completed ✅ — see `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md` and archive notes in `DOCS/TASK_ARCHIVE/59_F5_Finalize_Release_Checklist_and_Go_Live_Runbook/`.) |
 | F6 | Automate DocC publishing via CI artifacts. | Medium | 1 | A3 | GitHub Actions, DocC | DocC archives uploaded on CI and accessible as artifacts. (Completed ✅ — delivered by the `docc-archives` GitHub Actions job tracked under TODO #12.) |
 
+## Phase G — Secure Filesystem Access
+| Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
+|---------|-------------|----------|---------------|--------------|-------|---------------------|
+| G1 | Implement FilesystemAccessKit core API (`openFile`, `saveFile`, `createBookmark`, `resolveBookmarkData`) with platform adapters. | High | 2 | E2 | Swift Concurrency, App Sandbox docs | Unit tests cover bookmark creation/resolution; macOS and iOS builds compile with new module. See `09_FilesystemAccessKit_PRD.md` for scope. |
+| G2 | Persist bookmarks and integrate with recents/session restoration in app targets. | High | 1.5 | G1, E3 | CoreData/JSON, SwiftUI | App restores previously authorized files on launch; stale bookmarks prompt re-authorization flows. |
+| G3 | Expose CLI flags and sandbox profile guidance for headless access. | Medium | 1 | G1 | Swift ArgumentParser, sandbox profiles | CLI accepts `--open`/`--authorize` inputs mapped to FilesystemAccessKit; documentation updated with sandbox profile steps. |
+| G4 | Implement zero-trust logging and audit trail for file access events. | Medium | 1 | G1 | Swift Logging | Access logs omit absolute paths, include hashed identifiers, and pass diagnostics tests. |
+
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
 - Within Phase B, tasks B1–B3 and B4–B6 follow sequential order; B4 can start once B3 has event emission stubs.
