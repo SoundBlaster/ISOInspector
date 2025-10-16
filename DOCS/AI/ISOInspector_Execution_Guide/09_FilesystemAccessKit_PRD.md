@@ -45,13 +45,13 @@
 - ✅ Call `startAccessingSecurityScopedResource()`/`stopAccessing...` around file operations.
 - ✅ Persist bookmark data with access timestamp for audit trail.
 - ✅ Purge temporary files via `FileManager.default.temporaryDirectory`.
-- ✅ Document sandbox profile updates for CLI automation.
+- ✅ Document sandbox profile updates for CLI automation. Guidance lives in `Documentation/ISOInspector.docc/Guides/CLISandboxProfileGuide.md` and mirrors the shipped entitlements.
 
 ## 7. Risks & Mitigations
 | Risk | Mitigation |
 |------|------------|
 | Bookmark stale or file removed. | Detect bookmark resolution failures, prompt user to re-authorize, and clean up stale entries. |
-| CLI automation lacking UI context. | Support pre-authorized command-line arguments and note requirement for signed sandbox profiles. |
+| CLI automation lacking UI context. | Support pre-authorized command-line arguments and note requirement for signed sandbox profiles. Documentation now captures the end-to-end flow, including bookmark rotation and verification. |
 | Logging sensitive file paths. | Implement hashing + limited metadata logging, and update diagnostics tests. |
 
 ## 8. Open Questions

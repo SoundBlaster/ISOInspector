@@ -396,3 +396,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/`.
 - **Highlights:** Captures the integration pass that wires `BookmarkPersistenceStore` through recents JSON storage and workspace session controllers, introduces dependency-injected bookmark management for UI flows, and documents verification via updated tests and `swift test --disable-sandbox`.
 - **Next steps carried forward:** Renewed `DOCS/INPROGRESS/next_tasks.md` tracks sandbox profile guidance for the CLI along with macOS-dependent benchmark, UI automation, session reconciliation, and notarization follow-ups pending hardware and entitlement access.
+
+## 72_G3_Expose_CLI_Sandbox_Profile_Guidance
+- **Archived files:** `G3_Expose_CLI_Sandbox_Profile_Guidance.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/72_G3_Expose_CLI_Sandbox_Profile_Guidance/`.
+- **Highlights:** Publishes the CLI sandbox automation runbook with sample `.sb` profiles, bookmark capture and authorization flows, troubleshooting tips, and verification steps that align with FilesystemAccessKit entitlements.
+- **Next steps carried forward:** Continue Task G4 zero-trust logging work, add automated coverage for the `--open`/`--authorize` flags, and bundle signed sandbox profiles with notarized distributions per the archived next-task checklist.
