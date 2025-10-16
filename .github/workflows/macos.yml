@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Determine Tuist release
+      - name: Determine Tuist CLI release
         id: tuist-version
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -36,10 +36,27 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "User-Agent: isoinspector-ci" \
             -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/tuist/tuist/releases/latest")
-          TUIST_VERSION=$(jq -r '.tag_name // empty' <<<"${RESPONSE}")
+            "https://api.github.com/repos/tuist/tuist/releases?per_page=30")
+          TUIST_VERSION=$(jq -r '
+            (
+              [.[]
+                | select(((.name // "") | test("^CLI")) and ((.tag_name // "") != ""))
+                | .tag_name
+              ][0]
+            ) // empty
+          ' <<<"${RESPONSE}")
           if [ -z "${TUIST_VERSION}" ]; then
-            echo "Failed to determine Tuist release" >&2
+            TUIST_VERSION=$(jq -r '
+              (
+                [.[]
+                  | select(((.tag_name // "") != "") and (((.tag_name // "") | contains("@")) | not))
+                  | .tag_name
+                ][0]
+              ) // empty
+            ' <<<"${RESPONSE}")
+          fi
+          if [ -z "${TUIST_VERSION}" ]; then
+            echo "Failed to determine Tuist CLI release" >&2
             jq -r '.message // empty' <<<"${RESPONSE}" >&2 || true
             exit 1
           fi

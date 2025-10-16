@@ -54,6 +54,7 @@ final class WorkspaceSessionStoreTests: XCTestCase {
                     lastSelectionNodeID: 42,
                     isPinned: false,
                     scrollOffset: WorkspaceSessionScrollOffset(x: 1, y: 2),
+                    bookmarkIdentifier: primaryRecent.bookmarkIdentifier,
                     bookmarkDiffs: []
                 ),
                 WorkspaceSessionFileSnapshot(
@@ -63,6 +64,7 @@ final class WorkspaceSessionStoreTests: XCTestCase {
                     lastSelectionNodeID: nil,
                     isPinned: true,
                     scrollOffset: nil,
+                    bookmarkIdentifier: secondaryRecent.bookmarkIdentifier,
                     bookmarkDiffs: []
                 )
             ],

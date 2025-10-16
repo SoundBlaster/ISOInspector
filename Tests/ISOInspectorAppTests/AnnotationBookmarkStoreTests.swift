@@ -144,6 +144,7 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
                     lastSelectionNodeID: 77,
                     isPinned: false,
                     scrollOffset: WorkspaceSessionScrollOffset(x: 1, y: 2),
+                    bookmarkIdentifier: focusRecent.bookmarkIdentifier,
                     bookmarkDiffs: []
                 ),
                 WorkspaceSessionFileSnapshot(
@@ -153,6 +154,7 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
                     lastSelectionNodeID: nil,
                     isPinned: false,
                     scrollOffset: nil,
+                    bookmarkIdentifier: otherRecent.bookmarkIdentifier,
                     bookmarkDiffs: []
                 )
             ],
