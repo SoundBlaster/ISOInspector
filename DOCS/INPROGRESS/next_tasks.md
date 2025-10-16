@@ -2,7 +2,7 @@
 
 ## 🔭 IO Roadmap Priorities
 
-- [ ] Advance Task A5 from the IO roadmap by wiring up the random-slice benchmarking harness now that Task A4’s error taxonomy is complete (see `DOCS/TASK_ARCHIVE/62_A4_RandomAccessReader_Error_Types/Summary_of_Work.md`). Backlog details live in `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md` (items A5+) and `todo.md` for remaining platform diagnostics work. **(In Progress)**
+- [x] Advance Task A5 from the IO roadmap by wiring up the random-slice benchmarking harness now that Task A4’s error taxonomy is complete (see `DOCS/TASK_ARCHIVE/62_A4_RandomAccessReader_Error_Types/Summary_of_Work.md`). Backlog details live in `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md` (items A5+) and `todo.md` for remaining platform diagnostics work. **(Completed — see `DOCS/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/`.)**
 
 ## 🧪 Streaming UI Coverage
 

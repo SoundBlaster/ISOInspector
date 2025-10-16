@@ -1,6 +1,6 @@
-import XCTest
-import Foundation
 import _Concurrency
+import Foundation
+import XCTest
 
 private final class LockedValueBox<Value>: @unchecked Sendable {
     private let lock = NSLock()
@@ -16,8 +16,8 @@ private final class LockedValueBox<Value>: @unchecked Sendable {
         return update(&value)
     }
 }
-@testable import ISOInspectorCLI
 @testable import ISOInspectorApp
+@testable import ISOInspectorCLI
 @testable import ISOInspectorKit
 #if canImport(Combine)
 import Combine
@@ -109,6 +109,24 @@ final class LargeFileBenchmarkTests: XCTestCase {
         throw XCTSkip("Combine unavailable on this platform")
     }
     #endif
+
+    func testMappedReaderRandomSliceBenchmarkMeetsPerformanceExpectations() throws {
+        let fixture = try LargeFileBenchmarkFixture.make(configuration: configuration)
+        try runRandomSliceBenchmark(
+            readerName: "MappedReader",
+            fixture: fixture,
+            makeReader: { url in try MappedReader(fileURL: url) }
+        )
+    }
+
+    func testChunkedFileReaderRandomSliceBenchmarkMeetsPerformanceExpectations() throws {
+        let fixture = try LargeFileBenchmarkFixture.make(configuration: configuration)
+        try runRandomSliceBenchmark(
+            readerName: "ChunkedFileReader",
+            fixture: fixture,
+            makeReader: { url in try ChunkedFileReader(fileURL: url) }
+        )
+    }
 }
 
 private extension LargeFileBenchmarkTests {
@@ -136,6 +154,72 @@ private extension LargeFileBenchmarkTests {
                 XCTFail("Benchmark iteration failed: \(error)")
             }
         }
+    }
+
+    func runRandomSliceBenchmark(
+        readerName: String,
+        fixture: LargeFileBenchmarkFixture,
+        makeReader: (URL) throws -> any RandomAccessReader
+    ) throws {
+        let scenarios = RandomSliceBenchmarkScenario.makeDefaultScenarios(payloadBytes: configuration.payloadBytes)
+
+        for scenario in scenarios {
+            let reader = try makeReader(fixture.url)
+            let requests = scenario.makeRequests(fileLength: reader.length)
+            let expectedBytes = requests.reduce(into: 0) { $0 += $1.count }
+            XCTAssertFalse(requests.isEmpty, "Scenario \(scenario.name) produced no slice requests for \(readerName)")
+
+            performBenchmark(iterations: configuration.iterationCount) {
+                let bytesRead = try executeRandomSliceRequests(
+                    requests,
+                    using: reader,
+                    readerName: readerName,
+                    scenarioName: scenario.name
+                )
+                XCTAssertEqual(
+                    bytesRead,
+                    expectedBytes,
+                    "Reader \(readerName) returned truncated data while benchmarking scenario \(scenario.name)"
+                )
+            }
+
+            let summary = scenario.makeSummary(
+                readerName: readerName,
+                totalBytesPerIteration: expectedBytes,
+                requestCount: requests.count,
+                readerLength: reader.length
+            )
+            print(summary)
+        }
+    }
+
+    func executeRandomSliceRequests(
+        _ requests: [RandomSliceRequest],
+        using reader: any RandomAccessReader,
+        readerName: String,
+        scenarioName: String
+    ) throws -> Int {
+        var totalBytes = 0
+        for request in requests {
+            do {
+                let data = try reader.read(at: request.offset, count: request.count)
+                XCTAssertEqual(
+                    data.count,
+                    request.count,
+                    "Reader \(readerName) truncated slice during scenario \(scenarioName) (offset: \(request.offset), count: \(request.count))"
+                )
+                totalBytes += data.count
+            } catch {
+                let prefix = "Reader \(readerName) failed random slice scenario \(scenarioName) (offset: \(request.offset), count: \(request.count))"
+                if let readerError = error as? RandomAccessReaderError {
+                    XCTFail("\(prefix): \(readerError)")
+                } else {
+                    XCTFail("\(prefix): unexpected error type \(error)")
+                }
+                throw error
+            }
+        }
+        return totalBytes
     }
 
     func runValidateCommand(
@@ -294,6 +378,118 @@ private struct LargeFileBenchmarkFixtureBuilder {
         box.append(contentsOf: type.utf8)
         appendUInt64(UInt64(16 + payloadSize), to: &box)
         return box
+    }
+}
+
+private struct RandomSliceRequest: Sendable {
+    let offset: Int64
+    let count: Int
+}
+
+private struct RandomSliceBenchmarkScenario: Sendable {
+    let name: String
+    let minimumBytes: Int
+    let maximumBytes: Int
+    let sampleCount: Int
+    let seed: UInt64
+
+    static func makeDefaultScenarios(payloadBytes: Int) -> [RandomSliceBenchmarkScenario] {
+        let cappedPayload = max(payloadBytes, 1)
+        let mediumUpper = min(max(cappedPayload / 256, 8_192), 131_072)
+        let largeUpper = min(max(cappedPayload / 32, 131_072), 1_048_576)
+
+        return [
+            RandomSliceBenchmarkScenario(
+                name: "small",
+                minimumBytes: 32,
+                maximumBytes: 512,
+                sampleCount: 256,
+                seed: 0xA5A5_0001
+            ),
+            RandomSliceBenchmarkScenario(
+                name: "medium",
+                minimumBytes: 4_096,
+                maximumBytes: mediumUpper,
+                sampleCount: 128,
+                seed: 0xA5A5_0002
+            ),
+            RandomSliceBenchmarkScenario(
+                name: "large",
+                minimumBytes: 65_536,
+                maximumBytes: largeUpper,
+                sampleCount: 64,
+                seed: 0xA5A5_0003
+            ),
+        ]
+    }
+
+    func makeRequests(fileLength: Int64) -> [RandomSliceRequest] {
+        guard fileLength > 0 else { return [] }
+
+        let cappedLength = max(Int(clamping: fileLength), 1)
+
+        let effectiveMax = min(maximumBytes, cappedLength)
+        let effectiveMin = max(1, min(minimumBytes, effectiveMax))
+        guard effectiveMin <= effectiveMax else { return [] }
+
+        var generator = SplitMix64(seed: seed)
+        var requests: [RandomSliceRequest] = []
+        requests.reserveCapacity(sampleCount)
+
+        for _ in 0..<sampleCount {
+            let count = Int.random(in: effectiveMin...effectiveMax, using: &generator)
+            let maxOffset = max(0, cappedLength - count)
+            let offset: Int64
+            if maxOffset > 0 {
+                let offsetValue = Int.random(in: 0...maxOffset, using: &generator)
+                offset = Int64(offsetValue)
+            } else {
+                offset = 0
+            }
+            requests.append(RandomSliceRequest(offset: offset, count: count))
+        }
+
+        return requests
+    }
+
+    func makeSummary(
+        readerName: String,
+        totalBytesPerIteration: Int,
+        requestCount: Int,
+        readerLength: Int64
+    ) -> String {
+        let locale = Locale(identifier: "en_US_POSIX")
+        let average = requestCount > 0 ? Double(totalBytesPerIteration) / Double(requestCount) : 0
+        let bytesMiB = Double(totalBytesPerIteration) / 1_048_576.0
+        let readerMiB = Double(readerLength) / 1_048_576.0
+
+        let averageString = String(format: "%.2f", locale: locale, average)
+        let bytesString = String(format: "%.2f", locale: locale, bytesMiB)
+        let lengthString = String(format: "%.2f", locale: locale, readerMiB)
+
+        return """
+        \(readerName) random slice scenario: \(name)
+        • Requests per iteration: \(requestCount)
+        • Total bytes per iteration: \(totalBytesPerIteration) (\(bytesString) MiB)
+        • Average slice size: \(averageString) bytes
+        • Reader length: \(readerLength) (\(lengthString) MiB)
+        """
+    }
+}
+
+private struct SplitMix64: RandomNumberGenerator {
+    private var state: UInt64
+
+    init(seed: UInt64) {
+        self.state = seed
+    }
+
+    mutating func next() -> UInt64 {
+        state &+= 0x9E3779B97F4A7C15
+        var z = state
+        z = (z ^ (z >> 30)) &* 0xBF58476D1CE4E5B9
+        z = (z ^ (z >> 27)) &* 0x94D049BB133111EB
+        return z ^ (z >> 31)
     }
 }
 
