@@ -2,7 +2,7 @@
 
 ## 🚧 In Progress
 
-- [ ] PDD:30m Wire CLI bookmark flows to consume FilesystemAccessAuditTrail events once dedicated zero-trust telemetry flags land. **(In Progress — see [`DOCS/INPROGRESS/PDD_30m_Wire_CLI_Bookmark_Flows.md`](./PDD_30m_Wire_CLI_Bookmark_Flows.md).)**
+- [x] PDD:30m Wire CLI bookmark flows to consume FilesystemAccessAuditTrail events once dedicated zero-trust telemetry flags land. **(Completed — see [`DOCS/INPROGRESS/PDD_30m_Wire_CLI_Bookmark_Flows.md`](./PDD_30m_Wire_CLI_Bookmark_Flows.md).)**
 
 ## 🔭 Benchmark Validation
 

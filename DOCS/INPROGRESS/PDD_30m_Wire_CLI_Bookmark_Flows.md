@@ -9,6 +9,7 @@ Connect the CLI bookmark authorization and reuse paths to the shared `Filesystem
 - Zero-trust logging introduced `FilesystemAccessAuditTrail`, append-only audit events, and logger helpers that redact file identifiers for sandbox compliance.【F:DOCS/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/Summary_of_Work.md†L5-L13】
 - The CLI wraps file parsing through `ISOInspectorCLIEnvironment`, which owns reader factories, research log writers, and telemetry switches exposed via the global `--enable-telemetry/--disable-telemetry` flags.【F:Sources/ISOInspectorCLI/CLI.swift†L5-L60】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L57-L103】
 - Automation flows rely on FilesystemAccessKit bookmarks and sandbox profiles to operate without interactive prompts, so
+
   CLI executions must emit auditable traces for compliance
   reporting.【F:Documentation/ISOInspector.docc/Guides/CLISandboxProfileGuide.md†L1-L27】
 
@@ -16,8 +17,11 @@ Connect the CLI bookmark authorization and reuse paths to the shared `Filesystem
 
 - CLI bookmark acquisition, refresh, and reuse paths append structured events to a process-scoped `FilesystemAccessAuditTrail`, even when running headless.
 - Telemetry flags remain authoritative: disabling telemetry suppresses audit publishing, while enabling telemetry
+
   ensures audit output is flushed or exported for automation logs.
+
 - Unit tests cover CLI bookmark flows with audit assertions, and documentation cross-references are updated to reflect
+
   the new telemetry behavior.
 
 ## 🔧 Implementation Notes

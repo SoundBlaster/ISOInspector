@@ -13,6 +13,10 @@ public struct ISOInspectorCLIEnvironment: Sendable {
     public var defaultResearchLogURL: @Sendable () -> URL
     public var logVerbosity: LogVerbosity
     public var telemetryEnabled: Bool
+    public var auditInfo: @Sendable (String) -> Void
+    public var auditError: @Sendable (String) -> Void
+    public var filesystemAccessAuditTrail: FilesystemAccessAuditTrail
+    public var makeFilesystemAccessInstance: @Sendable (_ logger: FilesystemAccessLogger) -> FilesystemAccess
 
     public init(
         refreshCatalog: @escaping @Sendable (_ source: URL, _ output: URL) throws -> Void,
@@ -33,7 +37,18 @@ public struct ISOInspectorCLIEnvironment: Sendable {
             ResearchLogWriter.defaultLogURL()
         },
         logVerbosity: LogVerbosity = .standard,
-        telemetryEnabled: Bool = true
+        telemetryEnabled: Bool = true,
+        auditInfo: @escaping @Sendable (String) -> Void = { message in
+            Swift.print(message)
+        },
+        auditError: @escaping @Sendable (String) -> Void = { message in
+            let data = Data((message + "\n").utf8)
+            FileHandle.standardError.write(data)
+        },
+        filesystemAccessAuditTrail: FilesystemAccessAuditTrail = FilesystemAccessAuditTrail(),
+        makeFilesystemAccess: @escaping @Sendable (_ logger: FilesystemAccessLogger) -> FilesystemAccess = { logger in
+            FilesystemAccess.live(logger: logger)
+        }
     ) {
         self.refreshCatalog = refreshCatalog
         self.makeReader = makeReader
@@ -45,6 +60,10 @@ public struct ISOInspectorCLIEnvironment: Sendable {
         self.defaultResearchLogURL = defaultResearchLogURL
         self.logVerbosity = logVerbosity
         self.telemetryEnabled = telemetryEnabled
+        self.auditInfo = auditInfo
+        self.auditError = auditError
+        self.filesystemAccessAuditTrail = filesystemAccessAuditTrail
+        self.makeFilesystemAccessInstance = makeFilesystemAccess
     }
 
     public static let live = ISOInspectorCLIEnvironment { source, output in
@@ -66,6 +85,26 @@ public struct ISOInspectorCLIEnvironment: Sendable {
         public var isVerbose: Bool {
             if case .verbose = self { return true }
             return false
+        }
+    }
+
+    public func makeFilesystemAccess() -> FilesystemAccess {
+        if telemetryEnabled {
+            let infoSink = auditInfo
+            let errorSink = auditError
+            let logger = FilesystemAccessLogger(
+                info: { infoSink($0) },
+                error: { errorSink($0) },
+                auditTrail: filesystemAccessAuditTrail
+            )
+            return makeFilesystemAccessInstance(logger)
+        } else {
+            let logger = FilesystemAccessLogger(
+                info: { _ in },
+                error: { _ in },
+                auditTrail: FilesystemAccessAuditTrail(limit: 0)
+            )
+            return makeFilesystemAccessInstance(logger)
         }
     }
 }
