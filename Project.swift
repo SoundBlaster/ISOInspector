@@ -39,7 +39,7 @@ func projectDirectory() -> URL {
     let candidates = [
         URL(fileURLWithPath: fileManager.currentDirectoryPath),
         URL(fileURLWithPath: #filePath)
-            .deletingLastPathComponent(),
+            .deletingLastPathComponent()
     ]
 
     // Tuist compiles manifests in a cache directory, so fall back to the process
@@ -65,7 +65,7 @@ let metadata = loadDistributionMetadata()
 
 let baseSettings: SettingsDictionary = [
     "MARKETING_VERSION": .string(metadata.marketingVersion),
-    "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber),
+    "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber)
 ]
 
 func destinations(for platform: DistributionPlatform) -> Destinations {
@@ -118,7 +118,7 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     }
     let dependencies: [TargetDependency] = [
         .target(name: "ISOInspectorKit"),
-        .package(product: "NestedA11yIDs"),
+        .package(product: "NestedA11yIDs")
     ]
 
     // Configure Info.plist with privacy descriptions and document types
@@ -150,8 +150,8 @@ func infoPlistConfiguration(for platform: DistributionPlatform) -> InfoPlist {
             "LSHandlerRank": .string("Default"),
             "LSItemContentTypes": .array([
                 .string("public.mpeg-4"),
-                .string("com.apple.quicktime-movie"),
-            ]),
+                .string("com.apple.quicktime-movie")
+            ])
         ])
     ])
 
@@ -185,7 +185,7 @@ func cliLibraryTarget() -> Target {
         sources: ["Sources/ISOInspectorCLI/**"],
         dependencies: [
             .target(name: "ISOInspectorKit"),
-            .package(product: "ArgumentParser"),
+            .package(product: "ArgumentParser")
         ],
         settings: .settings(base: baseSettings)
     )
@@ -202,7 +202,7 @@ func cliRunnerTarget() -> Target {
         sources: ["Sources/ISOInspectorCLIRunner/**"],
         dependencies: [
             .target(name: "ISOInspectorCLI"),
-            .package(product: "ArgumentParser"),
+            .package(product: "ArgumentParser")
         ],
         settings: .settings(base: baseSettings)
     )
@@ -218,7 +218,7 @@ let project = Project(
             requirement: .upToNextMajor(from: "1.0.0")),
         .remote(
             url: "https://github.com/apple/swift-argument-parser",
-            requirement: .upToNextMajor(from: "1.3.0")),
+            requirement: .upToNextMajor(from: "1.3.0"))
     ],
     targets: [
         kitTarget(),
@@ -226,6 +226,6 @@ let project = Project(
         appTarget(for: .iOS),
         appTarget(for: .iPadOS),
         cliLibraryTarget(),
-        cliRunnerTarget(),
+        cliRunnerTarget()
     ]
 )
