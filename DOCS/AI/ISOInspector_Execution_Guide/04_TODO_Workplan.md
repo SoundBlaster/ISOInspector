@@ -80,11 +80,11 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | I1 | SwiftPM product definitions (library + app). | Medium | 0.5 | A1 | SwiftPM | **Completed ✅** — Library and application products ship from `Package.swift`; see `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md` for archived notes. |
 | I2 | App entitlements for file access; sandbox configuration. | Medium | 1 | E4 | Xcode, Notarytool | **Completed ✅** — Distribution entitlements validated via `scripts/notarize_app.sh` and captured under `Distribution/Entitlements/`. |
 | I2a | Evaluate Apple Events automation requirement for notarized builds. | Medium | 0.5 | I2 | Xcode, AppleScript | **Completed ✅** — Assessment archived in `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md`. |
-| I3 | App theming (icon, light/dark). | Medium | 1 | E4 | Xcode Asset Catalogs | App icon set and accent colors match branding across light/dark appearances. |
+| I3 | App theming (icon, light/dark). | Medium | 1 | E4 | Xcode Asset Catalogs | App icon set and accent colors match branding across light/dark appearances. (Accent palette delivery archived in `DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/`; production icon rasterization remains open via `todo.md` PDD:45m.) |
 | I4 | README with feature matrix, supported boxes, screenshots. | Medium | 0.5 | I1, F4 | Markdown, DocC captures | README documents core features, platform support, and embeds up-to-date screenshots. *(Completed — README now includes feature matrix, platform coverage, and concept capture; see `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/Summary_of_Work.md`.)* |
 | I5 | v0.1.0 Release notes; distribution packaging checklist. | Medium | 1 | I3, I4 | Markdown, Notarytool | Publish release notes summarizing MVP scope; DMG/TestFlight artifacts validated. |
 
-> **In Progress:** Task I3 – App theming (icon, light/dark) is now active to deliver production asset catalogs and accent color resources. See `DOCS/INPROGRESS/I3_App_Theming.md` for the working PRD and dependency notes.
+> **In Progress:** Task I3 – App theming (icon, light/dark) now awaits production icon raster assets after landing the accent palette. The working notes live in `DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/`; outstanding icon deliverables remain tracked via `todo.md` and `DOCS/INPROGRESS/next_tasks.md`.
 
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.

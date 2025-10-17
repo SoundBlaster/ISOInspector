@@ -3,7 +3,7 @@
 ## 🎨 App Theming (In Progress)
 
 - [ ] I3 — App theming (icon, light/dark).
-  - Accent palette and SwiftUI tint wiring landed in `DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/Summary_of_Work.md` (2025-10-17); production icon rasterization remains tracked via `@todo` PDD:45m.
+  - Accent palette and SwiftUI tint wiring landed in `Summary_of_Work.md` (2025-10-17); production icon rasterization remains tracked via `@todo` PDD:45m.
 
 ## 🔭 Benchmark Validation
 
