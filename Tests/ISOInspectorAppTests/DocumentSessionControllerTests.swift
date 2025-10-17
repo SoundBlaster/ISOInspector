@@ -89,17 +89,34 @@ final class DocumentSessionControllerTests: XCTestCase {
         let focusURL = URL(fileURLWithPath: "/tmp/focus.mp4")
         let otherURL = URL(fileURLWithPath: "/tmp/other.mp4")
 
+        let focusBookmarkID = UUID(uuidString: "00000000-0000-0000-0000-000000000099")!
         let focusRecent = DocumentRecent(
             url: focusURL,
+            bookmarkIdentifier: focusBookmarkID,
             bookmarkData: Data([0x01]),
             displayName: "Focus",
             lastOpened: Date(timeIntervalSince1970: 10)
         )
+        let otherBookmarkID = UUID(uuidString: "00000000-0000-0000-0000-000000000098")!
         let otherRecent = DocumentRecent(
             url: otherURL,
+            bookmarkIdentifier: otherBookmarkID,
             bookmarkData: nil,
             displayName: "Other",
             lastOpened: Date(timeIntervalSince1970: 5)
+        )
+
+        let focusDiff = WorkspaceSessionBookmarkDiff(
+            id: UUID(uuidString: "00000000-0000-0000-0000-0000000000D1")!,
+            bookmarkID: focusBookmarkID,
+            isRemoved: false,
+            noteDelta: "retain"
+        )
+        let otherDiff = WorkspaceSessionBookmarkDiff(
+            id: UUID(uuidString: "00000000-0000-0000-0000-0000000000D2")!,
+            bookmarkID: otherBookmarkID,
+            isRemoved: true,
+            noteDelta: ""
         )
 
         sessionStore.loadedSnapshot = WorkspaceSessionSnapshot(
@@ -116,7 +133,7 @@ final class DocumentSessionControllerTests: XCTestCase {
                     isPinned: false,
                     scrollOffset: nil,
                     bookmarkIdentifier: focusRecent.bookmarkIdentifier,
-                    bookmarkDiffs: []
+                    bookmarkDiffs: [focusDiff]
                 ),
                 WorkspaceSessionFileSnapshot(
                     id: UUID(uuidString: "00000000-0000-0000-0000-000000000011")!,
@@ -126,7 +143,7 @@ final class DocumentSessionControllerTests: XCTestCase {
                     isPinned: false,
                     scrollOffset: nil,
                     bookmarkIdentifier: otherRecent.bookmarkIdentifier,
-                    bookmarkDiffs: []
+                    bookmarkDiffs: [otherDiff]
                 )
             ],
             focusedFileURL: focusURL,
@@ -149,6 +166,7 @@ final class DocumentSessionControllerTests: XCTestCase {
         let persisted = try XCTUnwrap(sessionStore.savedSnapshots.first)
         XCTAssertEqual(persisted.files.count, 2)
         XCTAssertEqual(persisted.files.first?.lastSelectionNodeID, 99)
+        XCTAssertEqual(persisted.files.first?.bookmarkDiffs, [focusDiff])
     }
 
     func testSelectionChangePersistsUpdatedSession() throws {
