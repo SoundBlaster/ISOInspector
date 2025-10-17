@@ -55,4 +55,4 @@ paths, and expose an auditable trail for sandbox compliance.
 
 ## 📌 Follow-Ups
 
-- Integrate the shared audit trail with future CLI bookmark commands once they migrate from `ISOInspectorCLIRunner`. <!-- @todo PDD:30m Wire CLI bookmark flows to consume FilesystemAccessAuditTrail events once dedicated zero-trust telemetry flags land. -->
+- Integrate the shared audit trail with future CLI bookmark commands once they migrate from `ISOInspectorCLIRunner`. *(In Progress — see `DOCS/INPROGRESS/PDD_30m_Wire_CLI_Bookmark_Flows.md`.)*
