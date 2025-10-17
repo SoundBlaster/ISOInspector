@@ -444,3 +444,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/`.
 - **Highlights:** Captures the notarized distribution Apple Events follow-up decision, the README feature matrix rollout with supporting assets, and the bookkeeping summary documenting the workplan/PRD updates.
 - **Next steps carried forward:** Hardware-dependent macOS benchmarks and UI automation remain blocked and now live in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist until dedicated hardware is available.
+
+## 80_Summary_of_Work_2025-10-17_App_Theming
+- **Archived files:** `I3_App_Theming.md`, `Summary_of_Work.md`, and the prior `next_tasks.md` checklist.
+- **Archived location:** `DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/`.
+- **Highlights:** Records delivery of the refreshed SwiftUI theming layer, including the WCAG-AA brand palette, app-wide tint modifier, and asset catalog wiring captured in the accompanying Summary of Work.
+- **Next steps carried forward:** Production icon rasterization remains outstanding (`todo.md` PDD:45m) alongside the macOS hardware-dependent benchmark and automation runs documented in `DOCS/INPROGRESS/next_tasks.md`.
