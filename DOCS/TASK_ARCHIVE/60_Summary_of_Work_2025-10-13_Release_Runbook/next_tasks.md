@@ -16,7 +16,7 @@
 
 ## 📦 Distribution Follow-Up
 
-- [ ] Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely. *Archived — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/56_Distribution_Apple_Events_Notarization_Assessment.md`.* Track progress alongside `todo.md` entry “PDD:30m Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely.”
+- [x] Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely. *Completed — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md` for the final record.*
 
 ## 🧾 Release Readiness
 
