@@ -23,8 +23,6 @@ enum ISOInspectorAppTheme {
         Color("SurfaceBackground", bundle: .module)
     }
 
-    // @todo PDD:45m Generate production app icon raster assets from the brand vector source and populate AppIcon.appiconset filenames.
-    // Ensure the automation runs during distribution packaging so notarized builds include real icon art.
 }
 
 extension View {

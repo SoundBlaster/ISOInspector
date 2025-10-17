@@ -1,9 +1,9 @@
 # Next Tasks
 
-## 🎨 App Theming (In Progress)
+## 🎨 App Theming (In Review)
 
-- [ ] I3 — App theming (icon, light/dark). **(In Progress — production icon rasterization underway in `DOCS/INPROGRESS/I3_App_Icon_Rasterization.md`.)**
-  - Accent palette and SwiftUI tint wiring landed in `DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/Summary_of_Work.md` (2025-10-17); production icon rasterization remains tracked via `@todo` PDD:45m.
+- [x] I3 — App theming (icon, light/dark). **(Completed — production icon rasterization automated via `scripts/generate_app_icon.py`; see `DOCS/INPROGRESS/Summary_of_Work.md`.)**
+  - Accent palette and SwiftUI tint wiring landed in `DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/Summary_of_Work.md` (2025-10-17); rasterization summary captured in `DOCS/INPROGRESS/I3_App_Icon_Rasterization.md`.
 
 ## 🔭 Benchmark Validation
 
