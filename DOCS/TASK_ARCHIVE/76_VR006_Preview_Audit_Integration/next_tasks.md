@@ -2,7 +2,9 @@
 
 ## 🚧 Active
 
-_No active tasks are tracked in this iteration._
+- [x] C6 — Integrate `ResearchLogMonitor` audit results into SwiftUI previews that render VR-006 research log entries. **(Completed — archived in `DOCS/TASK_ARCHIVE/C6_Integrate_ResearchLogMonitor_Previews/`.)**
+
+_No additional active tasks are tracked in this iteration._
 
 ## 🔭 Benchmark Validation
 
