@@ -74,6 +74,16 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed:** Task G2 – Persist FilesystemAccessKit bookmarks alongside recents/session storage while maintaining sandbox compliance. Notes archived in `DOCS/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/`; remaining sandbox, benchmark, and automation follow-ups continue in `DOCS/INPROGRESS/next_tasks.md`.
 
+## Phase I — Packaging & Release
+| Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
+|---------|-------------|----------|---------------|--------------|-------|---------------------|
+| I1 | SwiftPM product definitions (library + app). | Medium | 0.5 | A1 | SwiftPM | **Completed ✅** — Library and application products ship from `Package.swift`; see `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md` for archived notes. |
+| I2 | App entitlements for file access; sandbox configuration. | Medium | 1 | E4 | Xcode, Notarytool | **Completed ✅** — Distribution entitlements validated via `scripts/notarize_app.sh` and captured under `Distribution/Entitlements/`. |
+| I2a | Evaluate Apple Events automation requirement for notarized builds. | Medium | 0.5 | I2 | Xcode, AppleScript | **Completed ✅** — Assessment archived in `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md`. |
+| I3 | App theming (icon, light/dark). | Medium | 1 | E4 | Xcode Asset Catalogs | App icon set and accent colors match branding across light/dark appearances. |
+| I4 | README with feature matrix, supported boxes, screenshots. | Medium | 0.5 | I1, F4 | Markdown, DocC captures | README documents core features, platform support, and embeds up-to-date screenshots. *(In Progress — current session authoring scoped PRD and task plan.)* |
+| I5 | v0.1.0 Release notes; distribution packaging checklist. | Medium | 1 | I3, I4 | Markdown, Notarytool | Publish release notes summarizing MVP scope; DMG/TestFlight artifacts validated. |
+
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
 - Within Phase B, tasks B1–B3 and B4–B6 follow sequential order; B4 can start once B3 has event emission stubs.
