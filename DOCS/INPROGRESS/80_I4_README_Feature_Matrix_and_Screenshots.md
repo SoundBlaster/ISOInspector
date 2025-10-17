@@ -8,29 +8,43 @@ matrix, enumerates supported box categories, and embeds representative UI captur
 ## 🧩 Context
 
 - Workplan Phase I identifies Task I4 as the next packaging milestone now that product definitions and entitlements are
+
   complete.【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L89-L103】
+
 - The PRD backlog tracks I4 as outstanding alongside related release collateral such as the theming and release-notes
+
   follow-ups.【F:DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md†L256-L263】
+
 - Existing manuals document the UI and CLI experiences that should feed the README feature matrix and
-  screenshots.【F:Documentation/ISOInspector.docc/Manuals/App.md†L1-L114】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L1-L91】
+
+screenshots.【F:Documentation/ISOInspector.docc/Manuals/App.md†L1-L114】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L1-L91】
 
 ## ✅ Success Criteria
 
 - README gains a “Feature Matrix” table covering ISOInspectorKit, ISOInspectorApp, and the `isoinspect` CLI with their flagship capabilities (streaming parse, validation, export, bookmarks, automation flags).【F:Documentation/ISOInspector.docc/Manuals/App.md†L15-L114】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L1-L91】
 - README lists supported platforms, file types, and major box families (e.g., container, metadata, streaming) aligned
+
   with the existing documentation and code
-  registries.【F:Documentation/ISOInspector.docc/Manuals/App.md†L7-L34】【F:Sources/ISOInspectorKit/ISO/FourCharContainerCode.swift†L1-L146】
+
+registries.【F:Documentation/ISOInspector.docc/Manuals/App.md†L7-L34】【F:Sources/ISOInspectorKit/ISO/FourCharContainerCode.swift†L1-L146】
+
 - README embeds at least one current UI screenshot illustrating the tree/detail/hex workflow, sourced from the latest
+
   DocC or simulator capture and stored in the repo’s documentation assets
   hierarchy.【F:Documentation/ISOInspector.docc/Manuals/App.md†L1-L114】
+
 - README cross-links to the DocC manuals and guides so readers can dive deeper without navigating the repo tree
-  manually.【F:Documentation/ISOInspector.docc/Manuals/App.md†L111-L114】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L83-L91】
+
+manually.【F:Documentation/ISOInspector.docc/Manuals/App.md†L111-L114】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L83-L91】
 
 ## 🔧 Implementation Notes
 
 - Reuse the CLI and app manuals as canonical descriptions when composing the feature matrix to ensure wording matches
+
   the shipped
-  experience.【F:Documentation/ISOInspector.docc/Manuals/App.md†L1-L114】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L1-L91】
+
+experience.【F:Documentation/ISOInspector.docc/Manuals/App.md†L1-L114】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L1-L91】
+
 - Reference the container and media code enums for supported box lists so the README stays aligned with `ISOInspectorKit` internals.【F:Sources/ISOInspectorKit/ISO/FourCharContainerCode.swift†L1-L146】【F:Sources/ISOInspectorKit/ISO/MediaAndIndexBoxCode.swift†L1-L154】
 - Capture fresh UI screenshots from the macOS build (or DocC tutorials) and store them under `Documentation/Assets/` or an equivalent tracked location referenced in DocC.【F:Documentation/ISOInspector.docc/Manuals/App.md†L1-L114】
 - Run `scripts/fix_markdown.py README.md` after editing to keep formatting consistent with repository conventions.
@@ -45,3 +59,10 @@ matrix, enumerates supported box categories, and embeds representative UI captur
 - [`Documentation/ISOInspector.docc/Manuals/CLI.md`](../Documentation/ISOInspector.docc/Manuals/CLI.md)
 - [`Sources/ISOInspectorKit/ISO/FourCharContainerCode.swift`](../Sources/ISOInspectorKit/ISO/FourCharContainerCode.swift)
 - [`Sources/ISOInspectorKit/ISO/MediaAndIndexBoxCode.swift`](../Sources/ISOInspectorKit/ISO/MediaAndIndexBoxCode.swift)
+
+## ✅ Completion Log — 2025-02-??
+
+- README now ships the feature matrix, supported platform overview, and DocC manual cross-links so release collateral
+  starts from the live workflow.【F:README.md†L5-L42】
+- Added a concept capture under `Documentation/Assets/isoinspector-app-overview.svg` to illustrate the tree/detail/hex panes until native screenshots land in DocC.【F:README.md†L44-L48】【F:Documentation/Assets/isoinspector-app-overview.svg†L1-L63】
+- Workplan and PRD trackers now record I4 as complete; see `DOCS/INPROGRESS/Summary_of_Work.md` for the session record once archived.【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L84-L85】【F:DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md†L256-L262】
