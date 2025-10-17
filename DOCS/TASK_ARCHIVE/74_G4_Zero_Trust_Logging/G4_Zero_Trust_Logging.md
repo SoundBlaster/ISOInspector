@@ -55,4 +55,4 @@ paths, and expose an auditable trail for sandbox compliance.
 
 ## 📌 Follow-Ups
 
-- Integrate the shared audit trail with future CLI bookmark commands once they migrate from `ISOInspectorCLIRunner`. *(In Progress — see `DOCS/INPROGRESS/PDD_30m_Wire_CLI_Bookmark_Flows.md`.)*
+- Integrate the shared audit trail with future CLI bookmark commands once they migrate from `ISOInspectorCLIRunner`. *(Completed — see `DOCS/TASK_ARCHIVE/78_PDD_30m_Wire_CLI_Bookmark_Flows/PDD_30m_Wire_CLI_Bookmark_Flows.md`.)*

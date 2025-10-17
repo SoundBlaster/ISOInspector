@@ -16,5 +16,5 @@
 
 ## Follow-Ups
 
-- [ ] PDD:30m Wire CLI bookmark flows to consume FilesystemAccessAuditTrail events once dedicated zero-trust telemetry flags land. **(In Progress — see `DOCS/INPROGRESS/PDD_30m_Wire_CLI_Bookmark_Flows.md` and `todo.md`.)**
+- [ ] PDD:30m Wire CLI bookmark flows to consume FilesystemAccessAuditTrail events once dedicated zero-trust telemetry flags land. **(Completed — see `DOCS/TASK_ARCHIVE/78_PDD_30m_Wire_CLI_Bookmark_Flows/PDD_30m_Wire_CLI_Bookmark_Flows.md` and `DOCS/TASK_ARCHIVE/78_PDD_30m_Wire_CLI_Bookmark_Flows/Summary_of_Work.md`; tracked in `todo.md`.)**
 - [ ] Await macOS hardware runs for blocked benchmark and UI automation tasks as tracked in `DOCS/INPROGRESS/next_tasks.md`.

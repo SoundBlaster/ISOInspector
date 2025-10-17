@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🚧 In Progress
+
+- [x] PDD:30m Wire CLI bookmark flows to consume FilesystemAccessAuditTrail events once dedicated zero-trust telemetry flags land. **(Completed — see [`DOCS/TASK_ARCHIVE/78_PDD_30m_Wire_CLI_Bookmark_Flows/PDD_30m_Wire_CLI_Bookmark_Flows.md`](./PDD_30m_Wire_CLI_Bookmark_Flows.md).)**
+
 ## 🔭 Benchmark Validation
 
 - [ ] Execute the random slice benchmark suite on macOS hardware once Combine support is available so we can compare mapped vs. chunked readers under identical workloads. **(Blocked — requires macOS runner with Combine; see `DOCS/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/2025-10-15-random-slice-benchmark.md`.)**
