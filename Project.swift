@@ -39,7 +39,7 @@ func projectDirectory() -> URL {
     let candidates = [
         URL(fileURLWithPath: fileManager.currentDirectoryPath),
         URL(fileURLWithPath: #filePath)
-            .deletingLastPathComponent()
+            .deletingLastPathComponent(),
     ]
 
     // Tuist compiles manifests in a cache directory, so fall back to the process
@@ -65,7 +65,7 @@ let metadata = loadDistributionMetadata()
 
 let baseSettings: SettingsDictionary = [
     "MARKETING_VERSION": .string(metadata.marketingVersion),
-    "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber)
+    "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber),
 ]
 
 func destinations(for platform: DistributionPlatform) -> Destinations {
@@ -118,21 +118,60 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     }
     let dependencies: [TargetDependency] = [
         .target(name: "ISOInspectorKit"),
-        .package(product: "NestedA11yIDs")
+        .package(product: "NestedA11yIDs"),
     ]
+
+    // Configure Info.plist with privacy descriptions and document types
+    let infoPlist = infoPlistConfiguration(for: platform)
+
     return Target.target(
         name: targetName,
         destinations: destinations(for: platform),
         product: .app,
         bundleId: metadata.bundleIdentifier(for: platform),
         deploymentTargets: deploymentTargets(for: platform),
-        infoPlist: .default,
+        infoPlist: infoPlist,
         sources: ["Sources/ISOInspectorApp/**"],
         resources: ["Sources/ISOInspectorApp/Resources/**"],
         entitlements: entitlements,
         dependencies: dependencies,
         settings: .settings(base: baseSettings)
     )
+}
+
+func infoPlistConfiguration(for platform: DistributionPlatform) -> InfoPlist {
+    var infoPlistEntries: [String: Plist.Value] = [:]
+
+    // Document type associations for MP4 and QuickTime files
+    infoPlistEntries["CFBundleDocumentTypes"] = .array([
+        .dictionary([
+            "CFBundleTypeName": .string("Movie"),
+            "CFBundleTypeRole": .string("Viewer"),
+            "LSHandlerRank": .string("Default"),
+            "LSItemContentTypes": .array([
+                .string("public.mpeg-4"),
+                .string("com.apple.quicktime-movie"),
+            ]),
+        ])
+    ])
+
+    // Privacy descriptions for folder access (macOS only, but safe to add for all platforms)
+    // These enable permission dialogs when accessing files from protected folders
+    infoPlistEntries["NSDocumentsFolderUsageDescription"] = .string(
+        "ISO Inspector needs access to open and inspect MP4 and QuickTime files from your Documents folder."
+    )
+    infoPlistEntries["NSDownloadsFolderUsageDescription"] = .string(
+        "ISO Inspector needs access to open and inspect MP4 and QuickTime files from your Downloads folder."
+    )
+
+    // Desktop folder access (macOS specific, but safe for all platforms)
+    if platform == .macOS {
+        infoPlistEntries["NSDesktopFolderUsageDescription"] = .string(
+            "ISO Inspector needs access to open and inspect MP4 and QuickTime files from your Desktop."
+        )
+    }
+
+    return .extendingDefault(with: infoPlistEntries)
 }
 
 func cliLibraryTarget() -> Target {
@@ -146,7 +185,7 @@ func cliLibraryTarget() -> Target {
         sources: ["Sources/ISOInspectorCLI/**"],
         dependencies: [
             .target(name: "ISOInspectorKit"),
-            .package(product: "ArgumentParser")
+            .package(product: "ArgumentParser"),
         ],
         settings: .settings(base: baseSettings)
     )
@@ -163,7 +202,7 @@ func cliRunnerTarget() -> Target {
         sources: ["Sources/ISOInspectorCLIRunner/**"],
         dependencies: [
             .target(name: "ISOInspectorCLI"),
-            .package(product: "ArgumentParser")
+            .package(product: "ArgumentParser"),
         ],
         settings: .settings(base: baseSettings)
     )
@@ -179,7 +218,7 @@ let project = Project(
             requirement: .upToNextMajor(from: "1.0.0")),
         .remote(
             url: "https://github.com/apple/swift-argument-parser",
-            requirement: .upToNextMajor(from: "1.3.0"))
+            requirement: .upToNextMajor(from: "1.3.0")),
     ],
     targets: [
         kitTarget(),
@@ -187,6 +226,6 @@ let project = Project(
         appTarget(for: .iOS),
         appTarget(for: .iPadOS),
         cliLibraryTarget(),
-        cliRunnerTarget()
+        cliRunnerTarget(),
     ]
 )
