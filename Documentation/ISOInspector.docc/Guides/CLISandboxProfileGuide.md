@@ -67,6 +67,7 @@ sandbox-exec -f isoinspector-automation.sb \
 - `--authorize` resolves the bookmark via FilesystemAccessKit, calling `resolveBookmarkData` to reactivate the security scope before the CLI attempts any file IO.【F:Sources/ISOInspectorKit/FilesystemAccess/FilesystemAccess.swift†L30-L53】
 - Place the target media relative to the bookmarked directory; otherwise the CLI will emit `authorization_denied` diagnostics.
 - Monitor stderr for stale bookmark warnings so operators can refresh artifacts proactively.
+- Bookmark commands emit hashed `FilesystemAccessAuditTrail` events. Leave telemetry enabled (default) to capture audit output for compliance logs, or pass `--disable-telemetry` to suppress publishing when audits are not required.【F:Sources/ISOInspectorCLI/CLI.swift†L11-L129】【F:Tests/ISOInspectorCLITests/FilesystemAccessTelemetryTests.swift†L6-L104】
 
 ## Step 5. Rotate bookmarks safely
 
