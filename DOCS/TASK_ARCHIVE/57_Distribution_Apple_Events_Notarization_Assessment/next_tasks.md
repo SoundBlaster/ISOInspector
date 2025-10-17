@@ -16,4 +16,4 @@
 
 ## 📦 Distribution Follow-Up
 
-- [x] Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely. *Completed — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md` and `DOCS/INPROGRESS/79_Distribution_Apple_Events_Follow_Up.md` for the status summary.*
+- [x] Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely. *Completed — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md` and `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/79_Distribution_Apple_Events_Follow_Up.md` for the status summary.*

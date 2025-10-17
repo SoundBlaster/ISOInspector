@@ -65,4 +65,4 @@ experience.【F:Documentation/ISOInspector.docc/Manuals/App.md†L1-L114】【F:
 - README now ships the feature matrix, supported platform overview, and DocC manual cross-links so release collateral
   starts from the live workflow.【F:README.md†L5-L42】
 - Added a concept capture under `Documentation/Assets/isoinspector-app-overview.svg` to illustrate the tree/detail/hex panes until native screenshots land in DocC.【F:README.md†L44-L48】【F:Documentation/Assets/isoinspector-app-overview.svg†L1-L63】
-- Workplan and PRD trackers now record I4 as complete; see `DOCS/INPROGRESS/Summary_of_Work.md` for the session record once archived.【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L84-L85】【F:DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md†L256-L262】
+- Workplan and PRD trackers now record I4 as complete; see `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/Summary_of_Work.md` for the session record once archived.【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L84-L85】【F:DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md†L256-L262】

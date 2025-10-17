@@ -26,7 +26,7 @@ heuristics.【F:README.md†L26-L42】【F:Sources/ISOInspectorKit/ISO/FourCharC
 
 - Recorded completion in the in-progress note and task trackers to satisfy the PDD bookkeeping
 
-loop.【F:DOCS/INPROGRESS/80_I4_README_Feature_Matrix_and_Screenshots.md†L33-L51】【F:DOCS/INPROGRESS/next_tasks.md†L19-L21】
+loop.【F:DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/80_I4_README_Feature_Matrix_and_Screenshots.md†L33-L51】【F:DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/next_tasks.md†L19-L21】
 
 ## Tests
 

@@ -438,3 +438,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/78_PDD_30m_Wire_CLI_Bookmark_Flows/`.
 - **Highlights:** Documents the CLI bookmark wiring that routes open/authorize flows through `FilesystemAccessAuditTrail`, adds telemetry-aware factory plumbing, and records verification of audit event emission when telemetry flags are enabled.
 - **Next steps carried forward:** No new follow-ups introduced; macOS hardware-dependent benchmarks and automation remain tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 79_Readme_Feature_Matrix_and_Distribution_Follow_Up
+- **Archived files:** `79_Distribution_Apple_Events_Follow_Up.md`, `80_I4_README_Feature_Matrix_and_Screenshots.md`, `Summary_of_Work.md`, and the session `next_tasks.md` checklist.
+- **Archived location:** `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/`.
+- **Highlights:** Captures the notarized distribution Apple Events follow-up decision, the README feature matrix rollout with supporting assets, and the bookkeeping summary documenting the workplan/PRD updates.
+- **Next steps carried forward:** Hardware-dependent macOS benchmarks and UI automation remain blocked and now live in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist until dedicated hardware is available.

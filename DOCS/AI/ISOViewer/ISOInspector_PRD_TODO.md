@@ -255,9 +255,9 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 ### Phase I — Packaging & Release
 - [x] I1. SwiftPM product definitions (library + app).
 - [x] I2. App entitlements for file access; sandbox. *(Completed by E4 distribution scaffolding — see `Distribution/Entitlements/` and `scripts/notarize_app.sh` for notarization tooling.)*
-- [x] I2.a Evaluate whether Apple Events automation is required for notarized builds and extend entitlements safely. *(Completed — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md` and the summary in `DOCS/INPROGRESS/79_Distribution_Apple_Events_Follow_Up.md`.)*
+- [x] I2.a Evaluate whether Apple Events automation is required for notarized builds and extend entitlements safely. *(Completed — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md` and the summary in `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/79_Distribution_Apple_Events_Follow_Up.md`.)*
 - [ ] I3. App theming (icon, light/dark).
-- [x] I4. README with feature matrix, supported boxes, screenshots. **(Completed — README updated with matrix, platform coverage, and concept capture; see `DOCS/INPROGRESS/Summary_of_Work.md`.)**
+- [x] I4. README with feature matrix, supported boxes, screenshots. **(Completed — README updated with matrix, platform coverage, and concept capture; see `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/Summary_of_Work.md`.)**
 - [ ] I5. v0.1.0 Release notes; distribution (TestFlight/DMG notarization).
 
 ### Phase J — Secure Filesystem Access
