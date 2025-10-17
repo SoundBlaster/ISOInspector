@@ -420,3 +420,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/75_PDD1h_Provide_UIDocumentPicker_Integration/`.
 - **Highlights:** Documents delivery of the UIKit-backed `FilesystemDocumentPickerPresenter`, the platform-specific wiring inside `FilesystemAccess.live`, and the accompanying verification notes confirming Linux CI coverage via injectable presenters.
 - **Next steps carried forward:** Hardware-dependent macOS benchmark, UI automation, session reconciliation, and notarization follow-ups remain tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md` alongside the backlog entries in `todo.md` and the execution workplan.
+
+## 76_VR006_Preview_Audit_Integration
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/76_VR006_Preview_Audit_Integration/`.
+- **Highlights:** Records closure of the VR-006 preview audit workflow by verifying SwiftUI previews route through `ResearchLogMonitor.audit` and layering accessibility assertions for missing fixture and schema mismatch states.
+- **Next steps carried forward:** Hardware-dependent benchmark, UI automation, and distribution follow-ups remain blocked and continue to live in `DOCS/INPROGRESS/next_tasks.md`.
