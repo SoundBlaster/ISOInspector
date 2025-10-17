@@ -41,6 +41,11 @@ Guidelines:
 2. UI automation should reference the dotted IDs via `XCUIApplication().descendants(matching: .any)["<id>"]`.
 3. For additional probes, embed temporary readers that inspect `Environment(\.accessibilityPrefix)` during previews.
 
+## Research log preview audits
+- `ResearchLogPreviewProvider` executes `ResearchLogMonitor.audit` against bundled VR-006 fixtures, surfacing ready, missing, and schema mismatch diagnostics during SwiftUI preview rendering.
+- Load `ResearchLogAuditPreview` in Xcode previews to validate fixture health without running the full app; missing fixtures and schema drift surface actionable guidance inline.
+- The `ResearchLogAccessibilityIdentifierTests` suite guards the nested identifiers for these preview scenarios so automation continues to align with the audit workflow.
+
 ## Migration roadmap
 - Parse tree explorer and detail panes now emit rooted identifiers.
 - Research log preview flows (`ResearchLogAuditPreview.swift`) expose the `researchLogPreview` hierarchy for headers, metadata,
