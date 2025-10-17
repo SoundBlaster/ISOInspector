@@ -2,6 +2,27 @@
 
 Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (MP4/QuickTime) parser, CLI, and multiplatform SwiftUI application. The repository follows the execution guidance documented in `DOCS/AI` and the XP-inspired TDD workflow defined in `DOCS/RULES/02_TDD_XP_Workflow.md`.
 
+## Feature Matrix
+
+| Surface | Highlights | Automation hooks |
+| --- | --- | --- |
+| **ISOInspectorKit** | Streaming `ParsePipeline.live()` surfaces MP4 boxes with metadata, validation, and research logging for callers in any platform target.【F:Documentation/ISOInspector.docc/Guides/DeveloperOnboarding.md†L60-L76】【F:Sources/ISOInspectorKit/ISO/ParsePipeline.swift†L90-L132】 | Exporters emit JSON trees and binary captures while `ResearchLogWriter` records VR-006 diagnostics for downstream tooling.【F:Documentation/ISOInspector.docc/Guides/DeveloperOnboarding.md†L60-L76】【F:Sources/ISOInspectorKit/Export/JSONParseTreeExporter.swift†L1-L52】【F:Sources/ISOInspectorKit/Validation/ResearchLogWriter.swift†L19-L60】 |
+| **ISOInspectorApp** | SwiftUI workspace combines streaming tree, detail inspector, notes, and hex panes with bookmark syncing across launches.【F:Documentation/ISOInspector.docc/Manuals/App.md†L1-L114】 | Restores sessions, bookmarks, and notes through Core Data while resolving security-scoped bookmarks for sandboxed distribution builds.【F:Documentation/ISOInspector.docc/Manuals/App.md†L69-L110】【F:Documentation/ISOInspector.docc/Manuals/App.md†L115-L149】 |
+| **`isoinspect` CLI** | Shared parsers stream validation summaries and box events with commands for inspect, validate, export, and batch workflows.【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L1-L83】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L96-L165】 | Global flags toggle verbose output, telemetry, and sandbox-friendly bookmark automation so jobs can run unattended with captured research logs and MP4RA refresh tooling.【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L11-L63】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L66-L141】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L182-L229】 |
+
+## Supported Platforms & Box Families
+
+- **Platforms:** macOS 14 and iOS/iPadOS 16 or newer targets are available through SwiftPM products for the app and kit.【F:Documentation/ISOInspector.docc/Manuals/App.md†L7-L18】【F:Package.swift†L6-L44】
+- **File types:** MP4 (`.mp4`) and QuickTime (`.mov`) containers stream through the document picker and CLI readers.【F:Documentation/ISOInspector.docc/Manuals/App.md†L9-L34】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L1-L52】
+- **Container boxes:** `FourCharContainerCode` centralises movie, track, metadata, and streaming container identifiers for traversal utilities.【F:Sources/ISOInspectorKit/ISO/FourCharContainerCode.swift†L1-L46】
+- **Media/index boxes:** `MediaAndIndexBoxCode` captures frequently referenced payload and streaming indicator boxes for validation heuristics.【F:Sources/ISOInspectorKit/ISO/MediaAndIndexBoxCode.swift†L1-L43】
+
+## Interface Preview
+
+![ISOInspector app workspace showing tree, detail, and hex panes](Documentation/Assets/isoinspector-app-overview.svg)
+
+The overview illustrates the tri-pane layout documented in the app manual so readers can map README highlights to the live SwiftUI workflow.【F:Documentation/ISOInspector.docc/Manuals/App.md†L33-L114】
+
 ## Package Layout
 - `Sources/ISOInspectorKit` — Core parsing and validation library (currently scaffolded).
 - `Sources/ISOInspectorCLI` — Command-line interface with a custom bootstrap runner.
