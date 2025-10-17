@@ -185,19 +185,42 @@
             workQueue.execute { [weak self] in
                 guard let self else { return }
 
-                // Start accessing security-scoped resource
-                let standardized = recent.url.standardizedFileURL
+                // First, resolve any bookmarks to get the correct URL
+                let resolvedRecent: DocumentRecent
+                if recent.bookmarkData != nil || recent.bookmarkIdentifier != nil {
+                    // This recent has a bookmark, resolve it first
+                    switch self.normalizeRecent(recent) {
+                    case .success(let normalized):
+                        resolvedRecent = normalized
+                    case .failure(let error):
+                        var failedRecent = recent
+                        failedRecent.url = recent.url.standardizedFileURL
+                        if Thread.isMainThread {
+                            self.handleRecentAccessFailure(failedRecent, error: error)
+                        } else {
+                            Task { @MainActor in
+                                self.handleRecentAccessFailure(failedRecent, error: error)
+                            }
+                        }
+                        return
+                    }
+                } else {
+                    resolvedRecent = recent
+                }
+
+                // Start accessing security-scoped resource on the resolved URL
+                let standardized = resolvedRecent.url.standardizedFileURL
                 let didStartAccessing = standardized.startAccessingSecurityScopedResource()
 
                 do {
                     let record = self.resolveBookmarkRecord(
-                        for: recent, url: standardized, allowCreation: true)
+                        for: resolvedRecent, url: standardized, allowCreation: true)
                     let bookmark =
-                        record?.bookmarkData ?? recent.bookmarkData
+                        record?.bookmarkData ?? resolvedRecent.bookmarkData
                         ?? self.makeBookmarkData(for: standardized)
                     let reader = try self.readerFactory(standardized)
                     let pipeline = self.pipelineFactory()
-                    var preparedRecent = recent
+                    var preparedRecent = resolvedRecent
                     preparedRecent.url = standardized
                     if let record {
                         preparedRecent = self.applyBookmarkRecord(record, to: preparedRecent)
@@ -611,9 +634,9 @@
                 return .failure(.unresolvedBookmark)
             }
             let standardized = resolvedURL.standardizedFileURL
-            guard isReadableFile(at: standardized) else {
-                return .failure(.unreadable(standardized))
-            }
+            // Note: We can't check isReadableFile here because security-scoped resources
+            // need to be activated first. File accessibility will be checked when
+            // attempting to create the FileHandle in openDocument().
             var normalized = recent
             normalized.url = standardized
             return .success(normalized)
