@@ -586,5 +586,187 @@ docker run --rm -v "$PWD":"$PWD" -w "$PWD" \
 ## Date
 2025-10-18
 
+## Follow-Up Fix 2: Thread Safety in Bookmark Resolution
+
+### Issue Discovered: NSInternalInconsistencyException Crash
+
+**User-Reported Behavior:**
+When clicking on a bookmarked file in the sidebar recents list, the app crashes with:
+```
+*** Terminating app due to uncaught exception 'NSInternalInconsistencyException', 
+reason: 'API misuse: modification of a menu's items on a non-main thread when the 
+menu is part of the main menu. Main menu contents may only be modified from the 
+main thread.'
+```
+
+**Stack Trace Analysis:**
+```
+Thread 9 Queue : isoinspector.document-session (serial)
+#24 closure #1 in DocumentSessionController.openDocument(recent:restoredSelection:) at DocumentSessionController.swift:192
+#23 DocumentSessionController.normalizeRecent(_:) at DocumentSessionController.swift:633
+#22 DocumentSessionController.resolveURL(for:) at DocumentSessionController.swift:370
+#21 DocumentSessionController.updateRecent(with:for:) at DocumentSessionController.swift:601
+#20 DocumentSessionController.recents.modify ()
+[...SwiftUI/Combine chain...]
+#11 -[NSMenu itemArray] ()
+```
+
+### Root Cause: @Published Property Modified on Background Thread
+
+The crash occurred because:
+
+1. **Background Execution**: `openDocument(recent:)` runs on `workQueue` (background thread named `isoinspector.document-session`)
+2. **Synchronous Call Chain**: 
+   - `openDocument()` → `normalizeRecent()` → `resolveURL()` → `updateRecent()`
+3. **@Published Mutation**: `updateRecent()` modifies `@Published var recents` and `@Published var currentDocument`
+4. **SwiftUI Update**: `@Published` triggers Combine publisher → SwiftUI view update
+5. **Menu Update**: SwiftUI tries to update main menu items
+6. **Thread Violation**: Menu update happens on background thread → **CRASH**
+
+**The Code:**
+```swift
+// BEFORE (Crashes):
+private func updateRecent(with record: BookmarkPersistenceStore.Record, for url: URL) {
+    let standardized = url.standardizedFileURL
+    if let index = recents.firstIndex(where: { $0.url.standardizedFileURL == standardized }) {
+        recents[index] = applyBookmarkRecord(record, to: recents[index])  // ❌ Background thread!
+    }
+    if let current = currentDocument, current.url.standardizedFileURL == standardized {
+        currentDocument = applyBookmarkRecord(record, to: current)  // ❌ Background thread!
+    }
+}
+```
+
+### The Fix: Dispatch @Published Updates to Main Thread
+
+**File Modified:** `DocumentSessionController.swift` (Lines 597-616)
+
+```swift
+// AFTER (Fixed):
+private func updateRecent(with record: BookmarkPersistenceStore.Record, for url: URL) {
+    let standardized = url.standardizedFileURL
+    // Must update @Published properties on main thread to avoid SwiftUI/menu crashes
+    if Thread.isMainThread {
+        if let index = recents.firstIndex(where: { $0.url.standardizedFileURL == standardized }) {
+            recents[index] = applyBookmarkRecord(record, to: recents[index])
+        }
+        if let current = currentDocument, current.url.standardizedFileURL == standardized {
+            currentDocument = applyBookmarkRecord(record, to: current)
+        }
+    } else {
+        Task { @MainActor in
+            if let index = self.recents.firstIndex(where: { $0.url.standardizedFileURL == standardized }) {
+                self.recents[index] = self.applyBookmarkRecord(record, to: self.recents[index])
+            }
+            if let current = self.currentDocument, current.url.standardizedFileURL == standardized {
+                self.currentDocument = self.applyBookmarkRecord(record, to: current)
+            }
+        }
+    }
+}
+```
+
+**Key Changes:**
+- Added `Thread.isMainThread` check to detect execution context
+- If already on main thread: Update synchronously (preserves existing behavior)
+- If on background thread: Dispatch to `@MainActor` via `Task` to ensure main thread execution
+- Prevents SwiftUI/Combine/AppKit menu updates from happening on background threads
+
+### Why This Pattern is Correct
+
+**@Published + SwiftUI + AppKit = Strict Main Thread Requirement**
+
+1. **@Published** is a Combine publisher that sends `objectWillChange` notifications
+2. **SwiftUI** observes these changes via `@ObservedObject`
+3. **SwiftUI** updates view hierarchy, which includes menu items on macOS
+4. **AppKit menus** (NSMenu) **must only be modified from main thread**
+5. **Violation** = Immediate crash with `NSInternalInconsistencyException`
+
+**Why `Task { @MainActor in }` Works:**
+- `@MainActor` ensures the closure runs on the main thread
+- `Task` creates an asynchronous context for the dispatch
+- Updates to `@Published` properties happen safely on main thread
+- SwiftUI/Combine/AppKit chain executes on correct thread
+
+### Alternative Considered: Make updateRecent @MainActor
+
+```swift
+// Alternative approach (NOT used):
+@MainActor
+private func updateRecent(with record: BookmarkPersistenceStore.Record, for url: URL) {
+    // ...
+}
+```
+
+**Why NOT chosen:**
+- Would require making entire call chain `@MainActor`: `resolveURL()` → `normalizeRecent()` → `openDocument()`
+- Would force bookmark resolution to happen on main thread (blocking UI)
+- Current approach allows bookmark I/O on background thread, only UI updates on main thread
+- More flexible: supports both synchronous (main thread) and asynchronous (background) callers
+
+### Testing Verification
+
+```bash
+# Build verification
+xcodebuild -workspace ISOInspector.xcworkspace \
+           -scheme ISOInspectorApp-macOS \
+           -configuration Debug build
+# Result: ✅ BUILD SUCCEEDED
+
+# SwiftLint verification
+docker run --rm -v "$PWD":"$PWD" -w "$PWD" \
+  ghcr.io/realm/swiftlint:0.53.0 \
+  swiftlint lint --path Sources/ISOInspectorApp/State/DocumentSessionController.swift --strict
+# Result: ✅ Done linting! Found 0 violations
+```
+
+### Expected Behavior After Fix
+
+**Scenario: Click bookmarked file in sidebar**
+
+**Before Fix:**
+1. User clicks recent in sidebar ❌
+2. `openRecent()` → background thread
+3. `normalizeRecent()` → `resolveURL()` → `updateRecent()`
+4. `updateRecent()` modifies `@Published var recents` on **background thread**
+5. SwiftUI update chain triggers menu update on **background thread**
+6. **CRASH**: `NSInternalInconsistencyException`
+
+**After Fix:**
+1. User clicks recent in sidebar ✅
+2. `openRecent()` → background thread
+3. `normalizeRecent()` → `resolveURL()` → `updateRecent()`
+4. `updateRecent()` detects background thread
+5. Dispatches to `@MainActor` → **main thread**
+6. `@Published var recents` updated on **main thread**
+7. SwiftUI update chain on **main thread**
+8. Menu updates safely on **main thread**
+9. **No crash!** File opens successfully ✅
+
+### Related Threading Issues Fixed
+
+This fix also prevents potential crashes in other code paths that might modify `recents` or `currentDocument` from background threads:
+
+- ✅ `replaceBookmark()` - calls `updateRecent()`
+- ✅ `insertRecent()` - modifies `recents` directly (already on main thread from `startSession`)
+- ✅ `removeRecent()` - modifies `recents` directly (called from UI, already on main thread)
+
+### Performance Impact
+
+**Minimal overhead:**
+- Main thread path: No change (synchronous update as before)
+- Background thread path: One `Task { @MainActor }` dispatch (~microseconds)
+- No blocking: Background thread continues immediately after dispatch
+- No race conditions: SwiftUI property updates are always serialized on main thread
+
+### Lessons Learned
+
+1. **@Published properties MUST be updated on main thread** in SwiftUI/AppKit apps
+2. **Background work queues** need explicit main thread dispatch for UI updates
+3. **Thread.isMainThread check** allows supporting both sync and async callers
+4. **NSMenu is strict** - any thread violation causes immediate crash
+5. **Stack traces are essential** - showed exact line where background thread mutation occurred
+
 ## Updates
 - **2025-10-18 02:10**: Added follow-up fix for bookmark resolution security scope activation issue
+- **2025-10-18 02:13**: Added follow-up fix for thread safety in bookmark resolution (NSInternalInconsistencyException crash)
