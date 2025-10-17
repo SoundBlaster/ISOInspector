@@ -2,7 +2,11 @@
 
 ## 🚧 Active
 
-_No active tasks are tracked in this iteration._
+- [ ] **C7 — Connect bookmark diffs to persisted bookmarks.** Reconcile CoreData session bookmark diffs with the
+  persisted
+
+  bookmark entities established in Task E3. Progress details live in
+  `DOCS/INPROGRESS/C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks.md`.
 
 ## 🔭 Benchmark Validation
 
