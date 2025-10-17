@@ -426,3 +426,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/76_VR006_Preview_Audit_Integration/`.
 - **Highlights:** Records closure of the VR-006 preview audit workflow by verifying SwiftUI previews route through `ResearchLogMonitor.audit` and layering accessibility assertions for missing fixture and schema mismatch states.
 - **Next steps carried forward:** Hardware-dependent benchmark, UI automation, and distribution follow-ups remain blocked and continue to live in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks
+- **Archived files:** `C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/`.
+- **Highlights:** Captures the session persistence updates that resolve CoreData bookmark diff entities to their corresponding `Bookmark` records, propagate identifiers through snapshot exports, and extend regression coverage for the reconciliation pipeline.
+- **Next steps carried forward:** Renewed `DOCS/INPROGRESS/next_tasks.md` tracks the macOS hardware-dependent benchmark, UI automation, and notarization follow-ups that remain blocked pending Combine and entitlement support.
