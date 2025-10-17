@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-labelledby="title desc">
+  <title id="title">ISOInspector app workspace</title>
+  <desc id="desc">Conceptual capture of the ISOInspector SwiftUI layout showing a sidebar, parse tree, detail inspector, notes, and hex panes.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1f2937" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="pane" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111827" />
+      <stop offset="100%" stop-color="#0b1220" />
+    </linearGradient>
+    <style>
+      text { font-family: "SF Pro Display", "Inter", "Helvetica Neue", Arial, sans-serif; }
+      .caption { fill: #d1d5db; font-size: 18px; font-weight: 600; }
+      .label { fill: #9ca3af; font-size: 15px; }
+      .badge { fill: #facc15; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; }
+      .chip { fill: #1e3a8a; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; }
+      .code { fill: #d1d5db; font-size: 12px; font-family: "SFMono-Regular", "Menlo", monospace; }
+    </style>
+  </defs>
+  <rect x="0" y="0" width="960" height="540" fill="url(#bg)" rx="32" />
+  <rect x="40" y="60" width="140" height="420" rx="14" fill="#111827" stroke="#1f2937" stroke-width="2" />
+  <text x="60" y="110" class="caption">Sidebar</text>
+  <rect x="52" y="130" width="116" height="40" rx="8" fill="#2563eb" opacity="0.35" />
+  <text x="64" y="155" class="label">Open File…</text>
+  <rect x="52" y="190" width="116" height="24" rx="6" fill="#1f2937" />
+  <text x="64" y="206" class="label">Recents</text>
+  <rect x="200" y="60" width="260" height="420" rx="18" fill="url(#pane)" stroke="#1f2937" stroke-width="2" />
+  <text x="220" y="110" class="caption">Parse Tree</text>
+  <rect x="220" y="130" width="220" height="36" rx="8" fill="#1f2937" />
+  <text x="234" y="154" class="label">Search boxes, notes, VR IDs</text>
+  <rect x="220" y="180" width="220" height="40" rx="10" fill="#111827" stroke="#1f2937" />
+  <text x="236" y="205" class="label">▸ moov (size 18432)</text>
+  <text x="236" y="235" class="label">▸ trak (video)</text>
+  <text x="236" y="265" class="label">▾ mdia</text>
+  <text x="252" y="295" class="label">▾ minf</text>
+  <text x="268" y="325" class="label">▾ stbl</text>
+  <text x="284" y="355" class="label">▸ stsd</text>
+  <rect x="480" y="60" width="280" height="420" rx="18" fill="url(#pane)" stroke="#1f2937" stroke-width="2" />
+  <text x="500" y="110" class="caption">Detail Inspector</text>
+  <text x="500" y="150" class="badge">METADATA</text>
+  <text x="500" y="176" class="label">Type: mdia · Offset: 0x0000F010</text>
+  <text x="500" y="206" class="label">Duration: 00:03:15.200</text>
+  <text x="500" y="236" class="badge" fill="#f97316">VALIDATION</text>
+  <text x="500" y="262" class="label">VR-002: Container closed early</text>
+  <rect x="500" y="282" width="240" height="56" rx="10" fill="#1f2937" />
+  <text x="514" y="306" class="label">Research note…</text>
+  <text x="500" y="358" class="badge" fill="#22c55e">BOOKMARKED</text>
+  <text x="500" y="384" class="label">Syncs with CLI exports</text>
+  <rect x="768" y="60" width="152" height="420" rx="18" fill="url(#pane)" stroke="#1f2937" stroke-width="2" />
+  <text x="788" y="110" class="caption">Hex Viewer</text>
+  <rect x="788" y="130" width="120" height="320" rx="10" fill="#0b1220" stroke="#1f2937" />
+  <text x="804" y="160" class="code">0000F010  00 00 00 6D 64 69 61 00</text>
+  <text x="804" y="182" class="code">0000F018  00 00 00 00 00 00 00 00</text>
+  <text x="804" y="204" class="code">0000F020  00 00 00 00 00 00 00 00</text>
+  <text x="804" y="226" class="code">0000F030  00 00 00 00 00 00 00 00</text>
+  <text x="804" y="248" class="code">0000F040  00 00 00 00 00 00 00 00</text>
+  <text x="804" y="270" class="code">0000F050  00 00 00 00 00 00 00 00</text>
+  <text x="804" y="292" class="code">0000F060  00 00 00 00 00 00 00 00</text>
+  <text x="804" y="314" class="code">0000F070  00 00 00 00 00 00 00 00</text>
+  <rect x="788" y="464" width="120" height="16" rx="6" fill="#2563eb" opacity="0.4" />
+  <text x="800" y="476" class="label">Select range</text>
+  <text x="40" y="32" class="caption" font-size="22" fill="#f3f4f6">ISOInspector · tree · detail · hex · notes</text>
+  <rect x="200" y="24" width="720" height="24" rx="12" fill="#1f2937" opacity="0.6" />
+  <text x="214" y="42" class="label">Streaming parse pipeline shared by CLI and app</text>
+</svg>

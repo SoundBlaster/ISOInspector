@@ -19,5 +19,4 @@
 
 ## 📝 Documentation Readiness
 
-- [ ] Draft README feature matrix and screenshots (Workplan Task I4). **(In Progress — current session is preparing the
-  scoped PRD and implementation plan.)**
+- [x] Draft README feature matrix and screenshots (Workplan Task I4). **(Completed — README updated with matrix, platform coverage, and concept capture; see `DOCS/INPROGRESS/Summary_of_Work.md`.)**
