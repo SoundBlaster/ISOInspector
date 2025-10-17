@@ -596,11 +596,29 @@
 
         private func updateRecent(with record: BookmarkPersistenceStore.Record, for url: URL) {
             let standardized = url.standardizedFileURL
-            if let index = recents.firstIndex(where: { $0.url.standardizedFileURL == standardized }) {
-                recents[index] = applyBookmarkRecord(record, to: recents[index])
-            }
-            if let current = currentDocument, current.url.standardizedFileURL == standardized {
-                currentDocument = applyBookmarkRecord(record, to: current)
+            // Must update @Published properties on main thread to avoid SwiftUI/menu crashes
+            if Thread.isMainThread {
+                if let index = recents.firstIndex(where: {
+                    $0.url.standardizedFileURL == standardized
+                }) {
+                    recents[index] = applyBookmarkRecord(record, to: recents[index])
+                }
+                if let current = currentDocument, current.url.standardizedFileURL == standardized {
+                    currentDocument = applyBookmarkRecord(record, to: current)
+                }
+            } else {
+                Task { @MainActor in
+                    if let index = self.recents.firstIndex(where: {
+                        $0.url.standardizedFileURL == standardized
+                    }) {
+                        self.recents[index] = self.applyBookmarkRecord(
+                            record, to: self.recents[index])
+                    }
+                    if let current = self.currentDocument,
+                        current.url.standardizedFileURL == standardized {
+                        self.currentDocument = self.applyBookmarkRecord(record, to: current)
+                    }
+                }
             }
         }
 
