@@ -292,6 +292,20 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
         return try context.fetch(request).first
     }
 
+    private func fetchBookmark(
+        id: UUID,
+        for file: FileEntity,
+        in context: NSManagedObjectContext
+    ) throws -> BookmarkEntity? {
+        let request = NSFetchRequest<BookmarkEntity>(entityName: "Bookmark")
+        request.fetchLimit = 1
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
+            NSPredicate(format: "id == %@", id as CVarArg),
+            NSPredicate(format: "file == %@", file)
+        ])
+        return try context.fetch(request).first
+    }
+
     private func canonicalIdentifier(for file: URL) -> String {
         file.standardizedFileURL.resolvingSymlinksInPath().absoluteString
     }
@@ -412,7 +426,13 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
                 diffEntity.isRemoved = diff.isRemoved
                 diffEntity.noteDelta = diff.noteDelta
                 diffEntity.sessionFile = sessionFile
-                // @todo PDD:1h Connect bookmark diff entities to resolved Bookmark records once reconciliation rules are defined.
+                if let bookmarkID = diff.bookmarkID,
+                   let bookmark = try self.fetchBookmark(id: bookmarkID, for: fileEntity, in: context) {
+                    diffEntity.bookmark = bookmark
+                    diffEntity.bookmarkID = bookmarkID
+                } else {
+                    diffEntity.bookmark = nil
+                }
             }
         }
     }
@@ -1018,9 +1038,10 @@ private extension SessionFileEntity {
 
 private extension SessionBookmarkDiffEntity {
     func makeSnapshot() -> WorkspaceSessionBookmarkDiff {
+        let identifier = bookmarkID ?? bookmark?.id
         WorkspaceSessionBookmarkDiff(
             id: id,
-            bookmarkID: bookmarkID,
+            bookmarkID: identifier,
             isRemoved: isRemoved,
             noteDelta: noteDelta
         )

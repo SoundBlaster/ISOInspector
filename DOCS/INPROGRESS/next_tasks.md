@@ -2,11 +2,7 @@
 
 ## 🚧 Active
 
-- [ ] **C7 — Connect bookmark diffs to persisted bookmarks.** Reconcile CoreData session bookmark diffs with the
-  persisted
-
-  bookmark entities established in Task E3. Progress details live in
-  `DOCS/INPROGRESS/C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks.md`.
+- [x] **C7 — Connect bookmark diffs to persisted bookmarks.** Reconciled CoreData session bookmark diffs with the persisted bookmark entities established in Task E3. Implementation summary recorded in `DOCS/INPROGRESS/Summary_of_Work.md`.
 
 ## 🔭 Benchmark Validation
 
@@ -23,7 +19,7 @@
 
 ## 🛠️ Session Persistence Follow-Ups
 
-- [ ] Reconcile CoreData session bookmark diffs with live bookmark entities when reconciliation rules are defined. See `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/Summary_of_Work.md`.
+- [x] Reconcile CoreData session bookmark diffs with live bookmark entities when reconciliation rules are defined. See `DOCS/INPROGRESS/Summary_of_Work.md` for completion notes.
 
 ## 📦 Distribution Follow-Up
 

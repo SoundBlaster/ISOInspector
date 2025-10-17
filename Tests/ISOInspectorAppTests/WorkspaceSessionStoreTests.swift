@@ -55,7 +55,14 @@ final class WorkspaceSessionStoreTests: XCTestCase {
                     isPinned: false,
                     scrollOffset: WorkspaceSessionScrollOffset(x: 1, y: 2),
                     bookmarkIdentifier: primaryRecent.bookmarkIdentifier,
-                    bookmarkDiffs: []
+                    bookmarkDiffs: [
+                        WorkspaceSessionBookmarkDiff(
+                            id: UUID(uuidString: "00000000-0000-0000-0000-0000000000EE")!,
+                            bookmarkID: primaryRecent.bookmarkIdentifier,
+                            isRemoved: false,
+                            noteDelta: "initial"
+                        )
+                    ]
                 ),
                 WorkspaceSessionFileSnapshot(
                     id: UUID(uuidString: "00000000-0000-0000-0000-0000000000CC")!,

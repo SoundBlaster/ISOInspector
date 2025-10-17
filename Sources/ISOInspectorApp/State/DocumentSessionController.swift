@@ -53,6 +53,7 @@ final class DocumentSessionController: ObservableObject {
     private var currentSessionID: UUID?
     private var currentSessionCreatedAt: Date?
     private var sessionFileIDs: [String: UUID] = [:]
+    private var sessionBookmarkDiffs: [String: [WorkspaceSessionBookmarkDiff]] = [:]
     private var pendingSessionSnapshot: WorkspaceSessionSnapshot?
     private var annotationsSelectionCancellable: AnyCancellable?
     private var lastFailedRecent: DocumentRecent?
@@ -362,6 +363,9 @@ final class DocumentSessionController: ObservableObject {
         sessionFileIDs = Dictionary(uniqueKeysWithValues: sortedFiles.map { file in
             (canonicalIdentifier(for: file.recent.url), file.id)
         })
+        sessionBookmarkDiffs = Dictionary(uniqueKeysWithValues: sortedFiles.map { file in
+            (canonicalIdentifier(for: file.recent.url), file.bookmarkDiffs)
+        })
     }
 
     private func restoreSessionIfNeeded() {
@@ -390,6 +394,7 @@ final class DocumentSessionController: ObservableObject {
                 currentSessionID = nil
                 currentSessionCreatedAt = nil
                 sessionFileIDs.removeAll()
+                sessionBookmarkDiffs.removeAll()
             } catch {
                 let errorDescription = String(describing: error)
                 diagnostics.error(
@@ -409,6 +414,7 @@ final class DocumentSessionController: ObservableObject {
 
         var snapshots: [WorkspaceSessionFileSnapshot] = []
         snapshots.reserveCapacity(recents.count)
+        var nextDiffs: [String: [WorkspaceSessionBookmarkDiff]] = [:]
 
         for (index, recent) in recents.enumerated() {
             let canonical = canonicalIdentifier(for: recent.url)
@@ -422,6 +428,8 @@ final class DocumentSessionController: ObservableObject {
                 selection = nil
             }
             let persistedRecent = sanitizeRecentsForPersistence([recent]).first ?? recent
+            let diffs = sessionBookmarkDiffs[canonical] ?? []
+            nextDiffs[canonical] = diffs
             snapshots.append(
                 WorkspaceSessionFileSnapshot(
                     id: fileID,
@@ -431,10 +439,12 @@ final class DocumentSessionController: ObservableObject {
                     isPinned: false,
                     scrollOffset: nil,
                     bookmarkIdentifier: recent.bookmarkIdentifier,
-                    bookmarkDiffs: []
+                    bookmarkDiffs: diffs
                 )
             )
         }
+
+        sessionBookmarkDiffs = nextDiffs
 
         let snapshot = WorkspaceSessionSnapshot(
             id: sessionID,
