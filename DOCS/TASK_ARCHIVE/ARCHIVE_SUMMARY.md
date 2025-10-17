@@ -432,3 +432,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/`.
 - **Highlights:** Captures the session persistence updates that resolve CoreData bookmark diff entities to their corresponding `Bookmark` records, propagate identifiers through snapshot exports, and extend regression coverage for the reconciliation pipeline.
 - **Next steps carried forward:** Renewed `DOCS/INPROGRESS/next_tasks.md` tracks the macOS hardware-dependent benchmark, UI automation, and notarization follow-ups that remain blocked pending Combine and entitlement support.
+
+## 78_PDD_30m_Wire_CLI_Bookmark_Flows
+- **Archived files:** `PDD_30m_Wire_CLI_Bookmark_Flows.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/78_PDD_30m_Wire_CLI_Bookmark_Flows/`.
+- **Highlights:** Documents the CLI bookmark wiring that routes open/authorize flows through `FilesystemAccessAuditTrail`, adds telemetry-aware factory plumbing, and records verification of audit event emission when telemetry flags are enabled.
+- **Next steps carried forward:** No new follow-ups introduced; macOS hardware-dependent benchmarks and automation remain tracked in `DOCS/INPROGRESS/next_tasks.md`.
