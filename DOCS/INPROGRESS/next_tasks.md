@@ -2,11 +2,13 @@
 
 ## 🎨 App Theming (In Progress)
 
-- [ ] I3 — App theming (icon, light/dark). **(In Progress — see `I3_App_Theming.md` for active PRD.)**
+- [ ] I3 — App theming (icon, light/dark).
+  - Accent palette and SwiftUI tint wiring landed in `Summary_of_Work.md` (2025-10-17); production icon rasterization remains tracked via `@todo` PDD:45m.
 
 ## 🔭 Benchmark Validation
 
 - [ ] Execute the random slice benchmark suite on macOS hardware once Combine support is available so we can compare
+
   mapped vs.
 
   chunked readers under identical workloads. **(Blocked — requires macOS runner with Combine; see `DOCS/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/Summary_of_Work.md` and

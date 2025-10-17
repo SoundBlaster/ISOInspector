@@ -13,6 +13,7 @@ struct ISOInspectorApp: App {
     var body: some Scene {
         WindowGroup {
             AppShellView(controller: controller)
+                .isoInspectorAppTheme()
                 .a11yRoot(ParseTreeAccessibilityID.root)
         }
     }
