@@ -1,4 +1,5 @@
 #if canImport(CoreData)
+import CoreData
 import Foundation
 import XCTest
 @testable import ISOInspectorApp
@@ -193,7 +194,108 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
         XCTAssertNil(try store.loadCurrentSession())
     }
 
+    func testSavingSessionLinksBookmarkDiffsToBookmarks() throws {
+        let directory = try makeTemporaryDirectory()
+        let store = try makeStore(directory: directory)
+        let fileURL = URL(fileURLWithPath: "/tmp/diff.mp4")
+
+        try store.setBookmark(for: fileURL, nodeID: 77, isBookmarked: true)
+
+        let canonical = fileURL.standardizedFileURL.resolvingSymlinksInPath().absoluteString
+        let context = try XCTUnwrap(extractContext(from: store))
+
+        let bookmarkID = try performSync(on: context) { context in
+            let request = NSFetchRequest<NSManagedObject>(entityName: "Bookmark")
+            request.fetchLimit = 1
+            request.predicate = NSPredicate(format: "file.url == %@", canonical)
+            let entity = try XCTUnwrap(context.fetch(request).first)
+            return try XCTUnwrap(entity.value(forKey: "id") as? UUID)
+        }
+
+        let recent = DocumentRecent(
+            url: fileURL,
+            bookmarkIdentifier: UUID(uuidString: "00000000-0000-0000-0000-00000000BEEF"),
+            bookmarkData: Data([0xAB]),
+            displayName: "Diff",
+            lastOpened: referenceDate
+        )
+
+        let diff = WorkspaceSessionBookmarkDiff(
+            id: UUID(uuidString: "00000000-0000-0000-0000-00000000B00K")!,
+            bookmarkID: bookmarkID,
+            isRemoved: false,
+            noteDelta: "sync"
+        )
+
+        let snapshot = WorkspaceSessionSnapshot(
+            id: UUID(uuidString: "00000000-0000-0000-0000-00000000D155")!,
+            createdAt: referenceDate,
+            updatedAt: referenceDate,
+            appVersion: "1.0",
+            files: [
+                WorkspaceSessionFileSnapshot(
+                    id: UUID(uuidString: "00000000-0000-0000-0000-00000000D156")!,
+                    recent: recent,
+                    orderIndex: 0,
+                    lastSelectionNodeID: nil,
+                    isPinned: false,
+                    scrollOffset: nil,
+                    bookmarkIdentifier: recent.bookmarkIdentifier,
+                    bookmarkDiffs: [diff]
+                )
+            ],
+            focusedFileURL: fileURL,
+            lastSceneIdentifier: nil,
+            windowLayouts: []
+        )
+
+        try store.saveCurrentSession(snapshot)
+
+        let resolved = try performSync(on: context) { context in
+            let request = NSFetchRequest<NSManagedObject>(entityName: "SessionBookmarkDiff")
+            request.fetchLimit = 1
+            let entity = try XCTUnwrap(context.fetch(request).first)
+            let linkedBookmark = entity.value(forKey: "bookmark") as? NSManagedObject
+            let linkedID = linkedBookmark?.value(forKey: "id") as? UUID
+            return linkedID
+        }
+
+        XCTAssertEqual(resolved, bookmarkID)
+
+        let reloadedDiff = try store.loadCurrentSession()?.files.first?.bookmarkDiffs.first
+        XCTAssertEqual(reloadedDiff?.bookmarkID, bookmarkID)
+    }
+
     // MARK: - Helpers
+
+    private func extractContext(from store: CoreDataAnnotationBookmarkStore) -> NSManagedObjectContext? {
+        let mirror = Mirror(reflecting: store)
+        for child in mirror.children {
+            if let context = child.value as? NSManagedObjectContext {
+                return context
+            }
+        }
+        return nil
+    }
+
+    private func performSync<T>(on context: NSManagedObjectContext, _ block: @escaping (NSManagedObjectContext) throws -> T) throws -> T {
+        var result: Result<T, Error>?
+        context.performAndWait {
+            do {
+                result = .success(try block(context))
+            } catch {
+                result = .failure(error)
+            }
+        }
+        switch result {
+        case let .success(value):
+            return value
+        case let .failure(error):
+            throw error
+        case .none:
+            throw CocoaError(.coderReadCorrupt)
+        }
+    }
 
     private func makeStore(
         directory: URL,

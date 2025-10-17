@@ -2,7 +2,7 @@
 import Foundation
 import ISOInspectorKit
 
-extension ParseTreeNode: Identifiable {
+extension ParseTreeNode: @retroactive Identifiable {
     public var id: Int64 { header.startOffset }
 
     public var category: BoxCategory {
