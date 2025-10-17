@@ -10,6 +10,6 @@
     <true/>
     <key>com.apple.security.files.bookmarks.document-scope</key>
     <true/>
-    <!-- @todo PDD:30m Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely. -->
+    <!-- Apple Events automation not required per DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md. -->
 </dict>
 </plist>
