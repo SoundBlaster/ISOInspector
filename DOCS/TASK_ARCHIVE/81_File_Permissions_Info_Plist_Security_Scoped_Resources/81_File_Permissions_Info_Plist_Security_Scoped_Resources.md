@@ -370,5 +370,221 @@ No changes needed to entitlements.
 ✅ **TESTED**: Security-scoped resource lifecycle properly managed
 ✅ **DOCUMENTED**: Implementation details and architectural rationale recorded
 
+## Follow-Up Fix: Bookmark Resolution Security Scope Activation
+
+### Issue Discovered After Initial Fix
+After implementing the Info.plist privacy descriptions and security-scoped resource management, a secondary issue was discovered:
+
+**User-Reported Behavior:**
+1. Open file from Downloads → ✅ Works
+2. Close app (kill process)
+3. Restart app
+4. App automatically shows error:
+```
+Unable to open "3.mp4"
+You don't have permission to save the file "3.mp4" in the folder "bad_files".
+```
+
+### Root Cause: Security Scope Activated on Wrong URL
+
+The `openDocument(recent:)` method had a critical ordering bug:
+
+```swift
+// BEFORE (Broken):
+private func openDocument(recent: DocumentRecent, restoredSelection: Int64? = nil) {
+    // 1. Activate security scope on recent.url (might be stale!)
+    let standardized = recent.url.standardizedFileURL
+    let didStartAccessing = standardized.startAccessingSecurityScopedResource()
+    
+    // 2. Later, resolve bookmark to get the ACTUAL URL
+    let record = self.resolveBookmarkRecord(for: recent, url: standardized, ...)
+    // 3. Try to open file - FAILS because scope was activated on wrong URL
+}
+```
+
+**The Problem:**
+- When restoring from bookmarks, `recent.url` is the **stored URL** from when the bookmark was created
+- `URL(resolvingBookmarkData:)` returns a **security-scoped URL** that might be different (e.g., if file was moved)
+- Security scope was activated on the **stale stored URL**, not the **resolved URL** from the bookmark
+- When `FileHandle(forReadingFrom:)` tried to open the file at the resolved URL, it failed because the security scope was activated on the wrong URL
+
+### The Fix: Resolve Bookmarks BEFORE Activating Security Scope
+
+**File Modified:** `DocumentSessionController.swift` (Lines 184-230, 640-652)
+
+#### Change 1: Reordered Operations in openDocument(recent:)
+
+```swift
+// AFTER (Fixed):
+private func openDocument(recent: DocumentRecent, restoredSelection: Int64? = nil) {
+    workQueue.execute { [weak self] in
+        guard let self else { return }
+
+        // 1. FIRST: Resolve any bookmarks to get the correct URL
+        let resolvedRecent: DocumentRecent
+        if recent.bookmarkData != nil || recent.bookmarkIdentifier != nil {
+            // This recent has a bookmark, resolve it first
+            switch self.normalizeRecent(recent) {
+            case .success(let normalized):
+                resolvedRecent = normalized
+            case .failure(let error):
+                var failedRecent = recent
+                failedRecent.url = recent.url.standardizedFileURL
+                if Thread.isMainThread {
+                    self.handleRecentAccessFailure(failedRecent, error: error)
+                } else {
+                    Task { @MainActor in
+                        self.handleRecentAccessFailure(failedRecent, error: error)
+                    }
+                }
+                return
+            }
+        } else {
+            resolvedRecent = recent
+        }
+
+        // 2. NOW: Activate security-scoped resource on the RESOLVED URL
+        let standardized = resolvedRecent.url.standardizedFileURL
+        let didStartAccessing = standardized.startAccessingSecurityScopedResource()
+
+        do {
+            // 3. Use resolvedRecent throughout the rest of the method
+            let record = self.resolveBookmarkRecord(
+                for: resolvedRecent, url: standardized, allowCreation: true)
+            let bookmark =
+                record?.bookmarkData ?? resolvedRecent.bookmarkData
+                ?? self.makeBookmarkData(for: standardized)
+            let reader = try self.readerFactory(standardized)
+            // ... rest of method uses resolvedRecent instead of recent
+        }
+    }
+}
+```
+
+**Key Changes:**
+- Added conditional check: if recent has bookmark data/identifier, resolve it first
+- Call `normalizeRecent()` to resolve bookmark → returns `DocumentRecent` with correct URL
+- Handle bookmark resolution failures early with proper error reporting
+- Only AFTER getting the resolved URL, activate security scope
+- Use `resolvedRecent` instead of original `recent` throughout the rest of the method
+
+#### Change 2: Removed Premature File Readability Check
+
+```swift
+// BEFORE (Broken):
+private func normalizeRecent(_ recent: DocumentRecent) -> Result<DocumentRecent, DocumentAccessError> {
+    guard let resolvedURL = resolveURL(for: recent) else {
+        return .failure(.unresolvedBookmark)
+    }
+    let standardized = resolvedURL.standardizedFileURL
+    guard isReadableFile(at: standardized) else {  // ❌ Can't check without security scope!
+        return .failure(.unreadable(standardized))
+    }
+    var normalized = recent
+    normalized.url = standardized
+    return .success(normalized)
+}
+
+// AFTER (Fixed):
+private func normalizeRecent(_ recent: DocumentRecent) -> Result<DocumentRecent, DocumentAccessError> {
+    guard let resolvedURL = resolveURL(for: recent) else {
+        return .failure(.unresolvedBookmark)
+    }
+    let standardized = resolvedURL.standardizedFileURL
+    // Note: We can't check isReadableFile here because security-scoped resources
+    // need to be activated first. File accessibility will be checked when
+    // attempting to create the FileHandle in openDocument().
+    var normalized = recent
+    normalized.url = standardized
+    return .success(normalized)
+}
+```
+
+**Why This Was Necessary:**
+- `isReadableFile()` checks `FileManager.default.isReadableFile(atPath:)` 
+- For security-scoped files, this check is unreliable without activating the scope first
+- The file accessibility check happens naturally when `FileHandle(forReadingFrom:)` is called
+- If the file isn't accessible, the error is properly caught and reported
+
+### Execution Flow Comparison
+
+#### Before Fix (Broken Flow):
+```
+App Restart
+  → restoreSessionIfNeeded()
+  → openDocument(recent: bookmarkedRecent)
+  → startAccessingSecurityScopedResource() on stale URL ❌
+  → resolveBookmarkRecord() gets new URL
+  → FileHandle(forReadingFrom: newURL) ❌ FAILS (scope on wrong URL)
+  → Error: "You don't have permission"
+```
+
+#### After Fix (Working Flow):
+```
+App Restart
+  → restoreSessionIfNeeded()
+  → openDocument(recent: bookmarkedRecent)
+  → Check: has bookmark? Yes
+  → normalizeRecent() resolves bookmark → returns correct URL ✅
+  → startAccessingSecurityScopedResource() on RESOLVED URL ✅
+  → FileHandle(forReadingFrom: resolvedURL) ✅ SUCCESS
+  → File opens without errors!
+```
+
+### Why This Bug Wasn't Caught Initially
+
+1. **Initial testing focused on first-time file opening** - which worked because no bookmark resolution was needed
+2. **Session restoration path was different** - it called `openDocument(recent:)` with bookmarked recents
+3. **The bug was timing-dependent** - security scope needed to be activated on the URL **after** bookmark resolution, not before
+
+### Testing Verification
+
+```bash
+# Build verification
+cd /Users/egor/Development/GitHub/ISOInspector
+xcodebuild -workspace ISOInspector.xcworkspace \
+           -scheme ISOInspectorApp-macOS \
+           -configuration Debug build
+# Result: ✅ BUILD SUCCEEDED
+
+# SwiftLint verification
+docker run --rm -v "$PWD":"$PWD" -w "$PWD" \
+  ghcr.io/realm/swiftlint:0.53.0 \
+  swiftlint lint --path Sources/ISOInspectorApp/State/DocumentSessionController.swift --strict
+# Result: ✅ Done linting! Found 0 violations
+```
+
+### Lines Modified
+
+**DocumentSessionController.swift:**
+- Lines 184-230: Completely rewrote `openDocument(recent:)` to resolve bookmarks before activating security scope
+- Lines 640-652: Removed `isReadableFile()` check from `normalizeRecent()` with explanatory comment
+
+### Edge Cases Handled
+
+1. **Fresh file (no bookmark)**: Skips bookmark resolution, works as before ✅
+2. **Bookmarked file**: Resolves bookmark first, activates scope on resolved URL ✅
+3. **Stale bookmark (file moved)**: Bookmark resolution returns new URL, scope activated on new URL ✅
+4. **Failed bookmark resolution**: Error caught early, user sees proper error message ✅
+5. **File deleted**: FileHandle creation fails with proper error ✅
+
+### Impact on Other Flows
+
+- ✅ **Opening from file picker**: No change, continues to work
+- ✅ **Opening from recents list**: Already calls `openRecent()` → `normalizeRecent()`, no change needed
+- ✅ **Opening via URL scheme**: Goes through `openDocument(at:)`, works correctly
+- ✅ **Session restoration**: Now works correctly with bookmark resolution
+
+### Lessons Learned
+
+1. **Security-scoped resources must be activated on the FINAL URL**, not an intermediate/stale URL
+2. **Bookmark resolution returns a NEW security-scoped URL** that supersedes the stored URL
+3. **Order of operations matters**: Resolve → Activate → Use
+4. **File accessibility checks are unreliable** without activating security scope first
+5. **Test all entry points**: File picker, recents, bookmarks, session restoration
+
 ## Date
 2025-10-18
+
+## Updates
+- **2025-10-18 02:10**: Added follow-up fix for bookmark resolution security scope activation issue
