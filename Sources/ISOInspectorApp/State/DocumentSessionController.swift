@@ -340,8 +340,7 @@
                         bookmarkDataIsStale: &isStale
                     ) {
                         if isStale,
-                            let refreshed = makeBookmarkData(for: url)
-                        {
+                            let refreshed = makeBookmarkData(for: url) {
                             replaceBookmark(for: url, data: refreshed)
                         }
                         if let record {
@@ -375,8 +374,7 @@
                 return
             }
             if let bookmarkStore,
-                let record = try? bookmarkStore.upsertBookmark(for: url, bookmarkData: data)
-            {
+                let record = try? bookmarkStore.upsertBookmark(for: url, bookmarkData: data) {
                 recents[index] = applyBookmarkRecord(record, to: recents[index])
             } else {
                 recents[index].bookmarkData = data
@@ -401,8 +399,7 @@
                 if let focusURL,
                     let focusedIndex = migratedRecents.firstIndex(where: {
                         $0.url.standardizedFileURL == focusURL
-                    })
-                {
+                    }) {
                     currentDocument = migratedRecents[focusedIndex]
                 } else {
                     currentDocument = migratedRecents.first
@@ -477,8 +474,7 @@
                 sessionFileIDs[canonical] = fileID
                 let selection: Int64?
                 if let currentURL = annotations.currentFileURL,
-                    currentURL.standardizedFileURL == recent.url.standardizedFileURL
-                {
+                    currentURL.standardizedFileURL == recent.url.standardizedFileURL {
                     selection = annotations.currentSelectedNodeID
                 } else {
                     selection = nil
@@ -541,8 +537,7 @@
             guard let bookmarkStore else { return recent }
             let standardized = recent.url.standardizedFileURL
             if let identifier = recent.bookmarkIdentifier,
-                let record = try? bookmarkStore.record(withID: identifier)
-            {
+                let record = try? bookmarkStore.record(withID: identifier) {
                 return applyBookmarkRecord(record, to: recent)
             }
             if let record = try? bookmarkStore.record(for: standardized) {
@@ -550,15 +545,13 @@
             }
             if let data = recent.bookmarkData,
                 let record = try? bookmarkStore.upsertBookmark(
-                    for: standardized, bookmarkData: data)
-            {
+                    for: standardized, bookmarkData: data) {
                 return applyBookmarkRecord(record, to: recent)
             }
             return recent
         }
 
-        private func sanitizeRecentsForPersistence(_ recents: [DocumentRecent]) -> [DocumentRecent]
-        {
+        private func sanitizeRecentsForPersistence(_ recents: [DocumentRecent]) -> [DocumentRecent] {
             guard bookmarkStore != nil else { return recents }
             return recents.map { recent in
                 var sanitized = recent
@@ -580,8 +573,7 @@
 
         private func updateRecent(with record: BookmarkPersistenceStore.Record, for url: URL) {
             let standardized = url.standardizedFileURL
-            if let index = recents.firstIndex(where: { $0.url.standardizedFileURL == standardized })
-            {
+            if let index = recents.firstIndex(where: { $0.url.standardizedFileURL == standardized }) {
                 recents[index] = applyBookmarkRecord(record, to: recents[index])
             }
             if let current = currentDocument, current.url.standardizedFileURL == standardized {
@@ -596,16 +588,14 @@
         ) -> BookmarkPersistenceStore.Record? {
             guard let bookmarkStore else { return nil }
             if let identifier = recent.bookmarkIdentifier,
-                let record = try? bookmarkStore.record(withID: identifier)
-            {
+                let record = try? bookmarkStore.record(withID: identifier) {
                 return record
             }
             if let record = try? bookmarkStore.record(for: url) {
                 return record
             }
             if let data = recent.bookmarkData,
-                let record = try? bookmarkStore.upsertBookmark(for: url, bookmarkData: data)
-            {
+                let record = try? bookmarkStore.upsertBookmark(for: url, bookmarkData: data) {
                 return record
             }
             if allowCreation, let data = makeBookmarkData(for: url) {
@@ -629,8 +619,7 @@
             return .success(normalized)
         }
 
-        private func handleRecentAccessFailure(_ recent: DocumentRecent, error: DocumentAccessError)
-        {
+        private func handleRecentAccessFailure(_ recent: DocumentRecent, error: DocumentAccessError) {
             removeRecent(with: recent.url)
             emitLoadFailure(for: recent, error: error)
         }
@@ -648,18 +637,15 @@
 
             if let localizedError = error as? LocalizedError {
                 if let description = localizedError.errorDescription?.trimmingCharacters(
-                    in: .whitespacesAndNewlines), !description.isEmpty
-                {
+                    in: .whitespacesAndNewlines), !description.isEmpty {
                     message = description
                 }
                 if let recovery = localizedError.recoverySuggestion?.trimmingCharacters(
-                    in: .whitespacesAndNewlines), !recovery.isEmpty
-                {
+                    in: .whitespacesAndNewlines), !recovery.isEmpty {
                     suggestion = recovery
                 }
                 if let reason = localizedError.failureReason?.trimmingCharacters(
-                    in: .whitespacesAndNewlines), !reason.isEmpty
-                {
+                    in: .whitespacesAndNewlines), !reason.isEmpty {
                     details = reason
                 }
             } else if let error {
