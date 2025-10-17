@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🎨 App Theming (In Progress)
+
+- [ ] I3 — App theming (icon, light/dark). **(In Progress — see `I3_App_Theming.md` for active PRD.)**
+
 ## 🔭 Benchmark Validation
 
 - [ ] Execute the random slice benchmark suite on macOS hardware once Combine support is available so we can compare
@@ -18,6 +22,7 @@
 ## 🔬 Combine UI Benchmark Follow-Up
 
 - [ ] Execute the Combine-backed UI benchmark on macOS to capture latency metrics on a platform that ships Combine,
+
   keeping throughput parity with the CLI harness.
 
   **(Blocked — requires macOS runner with Xcode/Combine; see `DOCS/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/50_Combine_UI_Benchmark_macOS_Run.md`.)**

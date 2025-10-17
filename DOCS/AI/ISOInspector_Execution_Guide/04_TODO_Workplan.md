@@ -84,6 +84,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | I4 | README with feature matrix, supported boxes, screenshots. | Medium | 0.5 | I1, F4 | Markdown, DocC captures | README documents core features, platform support, and embeds up-to-date screenshots. *(Completed — README now includes feature matrix, platform coverage, and concept capture; see `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/Summary_of_Work.md`.)* |
 | I5 | v0.1.0 Release notes; distribution packaging checklist. | Medium | 1 | I3, I4 | Markdown, Notarytool | Publish release notes summarizing MVP scope; DMG/TestFlight artifacts validated. |
 
+> **In Progress:** Task I3 – App theming (icon, light/dark) is now active to deliver production asset catalogs and accent color resources. See `DOCS/INPROGRESS/I3_App_Theming.md` for the working PRD and dependency notes.
+
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
 - Within Phase B, tasks B1–B3 and B4–B6 follow sequential order; B4 can start once B3 has event emission stubs.
