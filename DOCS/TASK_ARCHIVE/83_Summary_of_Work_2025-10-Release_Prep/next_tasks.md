@@ -1,8 +1,8 @@
 # Next Tasks
 
-## 📝 Release Readiness Validation
+## 📝 Release Preparation
 
-- [ ] Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA once runners are available, following the release readiness runbook. **(Blocked — requires macOS infrastructure; see `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md` and the archival notes in `DOCS/TASK_ARCHIVE/83_Summary_of_Work_2025-10-Release_Prep/Summary_of_Work.md`.)**
+- [x] I5 — Publish v0.1.0 release notes and finalize the distribution packaging checklist. **(Completed — see `Distribution/ReleaseNotes/v0.1.0.md` and `DOCS/TASK_ARCHIVE/82_I5_v0_1_0_Release_Notes/`.)**
 
 ## 🔭 Benchmark Validation
 
