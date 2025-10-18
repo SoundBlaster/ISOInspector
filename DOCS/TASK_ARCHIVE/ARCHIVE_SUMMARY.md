@@ -462,3 +462,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/83_Summary_of_Work_2025-10-Release_Prep/`.
 - **Highlights:** Captures the October 2025 release prep wrap-up, including v0.1.0 release note publication, distribution checklist validation, and the associated QA evidence for the CLI build and test suites.
 - **Next steps carried forward:** macOS-only release readiness verification, benchmark execution, UI automation, and Combine latency measurements remain blocked pending hardware access and continue in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 84_R2_Fixture_Acquisition
+- **Archived files:** `R2_Fixture_Acquisition.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/84_R2_Fixture_Acquisition/`.
+- **Highlights:** Captures the fixture acquisition research catalog, licensing guidance, storage sizing analysis, and workflow recommendations needed to unblock manifest-driven fixture downloads.
+- **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` tracks the blocked macOS hardware validations and the follow-up fixture automation work outlined in the backlog.
