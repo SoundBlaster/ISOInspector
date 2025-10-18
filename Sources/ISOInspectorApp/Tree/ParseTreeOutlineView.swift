@@ -151,7 +151,7 @@ struct ParseTreeOutlineView: View {
     @FocusState private var focusedRowID: ParseTreeNode.ID?
     let focusTarget: FocusState<InspectorFocusTarget?>.Binding
     let exportSelectionAction: ((ParseTreeNode.ID) -> Void)?
-    
+
     init(
         viewModel: ParseTreeOutlineViewModel,
         selectedNodeID: Binding<ParseTreeNode.ID?>,
