@@ -10,6 +10,8 @@ This log enumerates knowledge gaps and research activities required to ensure co
 | R6 | Annotation Persistence Strategy | Evaluate CoreData vs. JSON for cross-platform annotation storage. | Low | 1 | C4 | Review storage requirements, conflict resolution needs, and iCloud sync options. | Decision record outlining chosen storage mechanism with rationale. | ✅ CoreData selected; see `DOCS/INPROGRESS/C4_CoreData_Annotation_Persistence.md` |
 | R7 | CLI Distribution | Investigate best practices for distributing signed CLI binaries for macOS and Linux. | Low | 1.5 | D3 | Review notarization, Homebrew tap creation, and Linux package formats. | Distribution plan covering signing, packaging, and update strategy. |
 
+> **In Progress:** R4 – Large File Performance Benchmarks. See `DOCS/INPROGRESS/R4_Large_File_Performance_Benchmarks.md` for the active research outline.
+
 ## Completed Research
 
 - **R3 — Accessibility Guidelines (2025-10-19):** Consolidated VoiceOver, Dynamic Type, and keyboard navigation guidance for tree, detail, and hex surfaces. Reference <doc:AccessibilityGuidelines> and the archival summary in `DOCS/TASK_ARCHIVE/91_R3_Accessibility_Guidelines/Summary_of_Work.md` for verification notes and follow-up puzzles.
