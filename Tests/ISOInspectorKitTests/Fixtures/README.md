@@ -17,6 +17,22 @@ python3 Tests/ISOInspectorKitTests/Fixtures/generate_fixtures.py
 The command overwrites existing text artifacts in the `Media/` subdirectory
 with freshly generated base64 payloads.
 
+## Manifest-Driven Downloads
+
+The same helper also understands a manifest that describes larger external
+fixtures. Pass the tracked manifest to mirror remote assets into the
+distribution cache while preserving license texts:
+
+```bash
+python3 Tests/ISOInspectorKitTests/Fixtures/generate_fixtures.py \
+  --skip-text-fixtures \
+  --manifest Documentation/FixtureCatalog/manifest.json
+```
+
+- Downloaded binaries are stored under `Distribution/Fixtures/<category>/`.
+- License texts are mirrored into `Documentation/FixtureCatalog/licenses/`.
+- Use `--dry-run` to validate the manifest without performing network I/O.
+
 ## Fixture Inventory
 
 ### `baseline-sample`

@@ -1,0 +1,4 @@
+Big Buck Bunny by the Blender Foundation is licensed under Creative Commons Attribution 3.0.
+Attribution: (c) 2008 Blender Foundation | www.bigbuckbunny.org
+License: https://creativecommons.org/licenses/by/3.0/
+Downloaded from https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4

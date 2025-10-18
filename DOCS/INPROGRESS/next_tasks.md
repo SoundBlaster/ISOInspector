@@ -6,7 +6,7 @@
 
 ## 🧱 Fixture Automation
 
-- [ ] **PDD:45m Manifest-Driven Fixture Acquisition** — Extend `generate_fixtures.py` to download fixtures from the curated manifest with checksum verification and license mirroring. **(In Progress — see `DOCS/INPROGRESS/PDD_45m_Wire_Generate_Fixtures_Manifest.md` for the active PRD.)**
+- [x] **PDD:45m Manifest-Driven Fixture Acquisition** — Extend `generate_fixtures.py` to download fixtures from the curated manifest with checksum verification and license mirroring. **(Completed — manifest workflow implemented; see `DOCS/INPROGRESS/Summary_of_Work.md` for current notes.)**
 
 ## 📝 Release Readiness Validation
 
