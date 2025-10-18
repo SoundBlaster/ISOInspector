@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🧠 Parser Infrastructure
+
+- [ ] B5 — Introduce `FullBoxReader` for (version,flags) extraction. **(In Progress — see `DOCS/INPROGRESS/B5_FullBoxReader.md`.)**
+
 ## 🎨 App Theming (In Review)
 
 - [x] I3 — App theming (icon, light/dark). **(Completed — production icon rasterization automated via `scripts/generate_app_icon.py`; see `DOCS/INPROGRESS/Summary_of_Work.md`.)**
