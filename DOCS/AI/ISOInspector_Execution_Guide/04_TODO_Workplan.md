@@ -84,9 +84,9 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | I2a | Evaluate Apple Events automation requirement for notarized builds. | Medium | 0.5 | I2 | Xcode, AppleScript | **Completed ✅** — Assessment archived in `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md`. |
 | I3 | App theming (icon, light/dark). | Medium | 1 | E4 | Xcode Asset Catalogs | App icon set and accent colors match branding across light/dark appearances. **(Completed — rasterization automated in `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/I3_App_Icon_Rasterization.md`; palette captured in `DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/`.)** |
 | I4 | README with feature matrix, supported boxes, screenshots. | Medium | 0.5 | I1, F4 | Markdown, DocC captures | README documents core features, platform support, and embeds up-to-date screenshots. *(Completed — README now includes feature matrix, platform coverage, and concept capture; see `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/Summary_of_Work.md`.)* |
-| I5 | v0.1.0 Release notes; distribution packaging checklist. | Medium | 1 | I3, I4 | Markdown, Notarytool | Publish release notes summarizing MVP scope; DMG/TestFlight artifacts validated. *(In Progress — see `DOCS/INPROGRESS/I5_v0_1_0_Release_Notes.md`.)* |
+| I5 | v0.1.0 Release notes; distribution packaging checklist. | Medium | 1 | I3, I4 | Markdown, Notarytool | **Completed ✅** — Release notes captured in `Distribution/ReleaseNotes/v0.1.0.md`; archival summary lives in `DOCS/TASK_ARCHIVE/82_I5_v0_1_0_Release_Notes/`. |
 
-> **In Progress:** Task I5 – Draft v0.1.0 release notes and validate distribution packaging per `DOCS/INPROGRESS/I5_v0_1_0_Release_Notes.md`. Hardware-dependent benchmark and automation runs remain blocked (see `DOCS/INPROGRESS/next_tasks.md`).
+> **Completed:** Task I5 – Drafted v0.1.0 release notes and validated distribution packaging inputs. See `Distribution/ReleaseNotes/v0.1.0.md` and the archive folder `DOCS/TASK_ARCHIVE/82_I5_v0_1_0_Release_Notes/` for outputs; macOS-only verification remains tracked under `DOCS/INPROGRESS/next_tasks.md`.
 
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
