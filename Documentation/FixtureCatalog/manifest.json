@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "generated": "2025-02-16",
+  "fixtures": [
+    {
+      "id": "big-buck-bunny-320x180",
+      "description": "Creative Commons sample clip used for streaming validation and baseline playback benchmarking.",
+      "url": "https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4",
+      "sha256": "f78f39603e6774907f2faafabf26a667f4a6fc31769ec304a8a8f7c62d280508",
+      "destination": {
+        "category": "benchmark",
+        "filename": "big-buck-bunny-320x180.mp4"
+      },
+      "tags": ["benchmark", "streaming", "h264", "aac"],
+      "license": {
+        "name": "Creative Commons Attribution 3.0",
+        "filename": "big-buck-bunny-cc-by-3.txt",
+        "text": "Big Buck Bunny by the Blender Foundation is licensed under Creative Commons Attribution 3.0. Attribution: (c) 2008 Blender Foundation | www.bigbuckbunny.org. License: https://creativecommons.org/licenses/by/3.0/. Downloaded from https://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4."
+      }
+    }
+  ]
+}

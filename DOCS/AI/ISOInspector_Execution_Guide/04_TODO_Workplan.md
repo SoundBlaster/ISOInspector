@@ -65,7 +65,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | F5 | Finalize release checklist and go-live runbook. | Medium | 1 | E4, F2 | Markdown | Checklist covers QA sign-off, documentation updates, release packaging. (Completed ✅ — see `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md` and archive notes in `DOCS/TASK_ARCHIVE/59_F5_Finalize_Release_Checklist_and_Go_Live_Runbook/`.) |
 | F6 | Automate DocC publishing via CI artifacts. | Medium | 1 | A3 | GitHub Actions, DocC | DocC archives uploaded on CI and accessible as artifacts. (Completed ✅ — delivered by the `docc-archives` GitHub Actions job tracked under TODO #12.) |
 
-> **In Progress:** _PDD:45m Manifest-driven fixture acquisition for `generate_fixtures.py`, bringing checksum validation and license mirroring into the scripted workflow. See `DOCS/INPROGRESS/PDD_45m_Wire_Generate_Fixtures_Manifest.md` for the active PRD._
+> **Completed:** _PDD:45m Manifest-driven fixture acquisition for `generate_fixtures.py`, bringing checksum validation and license mirroring into the scripted workflow. Summary captured in `DOCS/INPROGRESS/Summary_of_Work.md`._
 
 ## Phase G — Secure Filesystem Access
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
