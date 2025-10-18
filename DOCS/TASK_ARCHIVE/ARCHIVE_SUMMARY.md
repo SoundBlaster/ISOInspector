@@ -486,3 +486,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/87_Summary_of_Work_2025-10-18_Storage_Workflow/`.
 - **Highlights:** Captures the storage workflow bookkeeping, linking the fixture storage README to the broader distribution plan and recording pending macOS validation work.
 - **Next steps carried forward:** macOS-only release readiness, benchmark, automation, and Combine latency runs remain blocked pending hardware access and now persist in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 88_G6_Export_JSON_Actions
+- **Archived files:** `G6_Export_JSON_Actions.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/88_G6_Export_JSON_Actions/`.
+- **Highlights:** Documents delivery of document-wide and selection-scoped JSON export affordances across the app toolbar, command menu, and outline context menu, backed by the updated `DocumentSessionController` workflow with FilesystemAccess integration and comprehensive tests.
+- **Next steps carried forward:** Select a new foreground puzzle; otherwise continue tracking release readiness, benchmarking, and UI automation follow-ups in `DOCS/INPROGRESS/next_tasks.md`.
