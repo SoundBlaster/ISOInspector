@@ -39,7 +39,7 @@ public struct BookmarkPersistenceStore: Sendable {
     public init(
         directory: URL,
         fileName: String = "Bookmarks.json",
-        makeDate: @escaping @Sendable () -> Date = Date.init
+        makeDate: @escaping @Sendable () -> Date = { Date() }
     ) {
         storageURL = directory.appendingPathComponent(fileName, isDirectory: false)
         self.makeDate = makeDate

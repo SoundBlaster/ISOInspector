@@ -11,6 +11,9 @@ import UniformTypeIdentifiers
 public struct FilesystemDocumentPickerPresenter: Sendable {
     public typealias OpenHandler = @Sendable (FilesystemOpenConfiguration) async throws -> URL
     public typealias SaveHandler = @Sendable (FilesystemSaveConfiguration) async throws -> URL
+    #if canImport(UIKit)
+    public typealias PresentingViewControllerProvider = @MainActor @Sendable () -> UIViewController?
+    #endif
 
     private let openHandler: OpenHandler
     private let saveHandler: SaveHandler
@@ -37,23 +40,30 @@ extension FilesystemDocumentPickerPresenter {
     /// Creates a presenter that wraps `UIDocumentPickerViewController` presentation.
     /// - Parameter presentingViewControllerProvider: Closure resolving the controller that should present the picker.
     /// - Returns: A presenter that handles open and save flows using UIKit dialogs.
-    @MainActor
     public static func uikit(
-        presentingViewControllerProvider: @escaping @Sendable () -> UIViewController?
-    ) -> FilesystemDocumentPickerPresenter {FilesystemDocumentPickerPresenter(
+        presentingViewControllerProvider: PresentingViewControllerProvider? = nil
+    ) -> FilesystemDocumentPickerPresenter {
+        let provider = presentingViewControllerProvider ?? defaultPresentingViewControllerProvider()
+        return FilesystemDocumentPickerPresenter(
             openHandler: { configuration in
                 try await presentOpenPicker(
                     configuration: configuration,
-                    presentingViewControllerProvider: presentingViewControllerProvider
+                    presentingViewControllerProvider: provider
                 )
             },
             saveHandler: { configuration in
                 try await presentSavePicker(
                     configuration: configuration,
-                    presentingViewControllerProvider: presentingViewControllerProvider
+                    presentingViewControllerProvider: provider
                 )
             }
         )
+    }
+
+    private static func defaultPresentingViewControllerProvider()
+        -> PresentingViewControllerProvider
+    {
+        { defaultPresentingViewController() }
     }
 }
 
@@ -63,7 +73,7 @@ extension FilesystemDocumentPickerPresenter {
 private func presentPicker(
     _ picker: UIDocumentPickerViewController,
     dialog: FilesystemAccessError.Dialog,
-    presentingViewControllerProvider: @escaping @Sendable () -> UIViewController?
+    presentingViewControllerProvider: FilesystemDocumentPickerPresenter.PresentingViewControllerProvider
 ) async throws -> URL {
     let presenter = presentingViewControllerProvider()?.iso_topMostPresented()
     guard let presenter else {
@@ -83,7 +93,7 @@ private func presentPicker(
 @MainActor
 private func presentOpenPicker(
     configuration: FilesystemOpenConfiguration,
-    presentingViewControllerProvider: @escaping @Sendable () -> UIViewController?
+    presentingViewControllerProvider: FilesystemDocumentPickerPresenter.PresentingViewControllerProvider
 ) async throws -> URL {
     let picker = makeOpenPicker(configuration: configuration)
     return try await presentPicker(
@@ -96,11 +106,16 @@ private func presentOpenPicker(
 @MainActor
 private func presentSavePicker(
     configuration: FilesystemSaveConfiguration,
-    presentingViewControllerProvider: @escaping @Sendable () -> UIViewController?
+    presentingViewControllerProvider: FilesystemDocumentPickerPresenter.PresentingViewControllerProvider
 ) async throws -> URL {
-    let picker = makeSavePicker(configuration: configuration)
+    let payload = try makeSavePicker(configuration: configuration)
+    defer {
+        if let placeholder = payload.placeholderURL {
+            cleanupPlaceholder(at: placeholder)
+        }
+    }
     return try await presentPicker(
-        picker,
+        payload.picker,
         dialog: .save,
         presentingViewControllerProvider: presentingViewControllerProvider
     )
@@ -109,15 +124,12 @@ private func presentSavePicker(
 @MainActor
 private func makeOpenPicker(configuration: FilesystemOpenConfiguration) -> UIDocumentPickerViewController {
     let picker: UIDocumentPickerViewController
-    if #available(iOS 14.0, *) {
-        if let contentTypes = makeUniformTypes(from: configuration.allowedContentTypes) {
-            picker = UIDocumentPickerViewController(
-                forOpeningContentTypes: contentTypes,
-                asCopy: false
-            )
-        } else {
-            picker = UIDocumentPickerViewController(forOpeningContentTypes: [])
-        }
+    if #available(iOS 14.0, macCatalyst 14.0, *) {
+        let contentTypes = makeUniformTypes(from: configuration.allowedContentTypes) ?? [UTType.item]
+        picker = UIDocumentPickerViewController(
+            forOpeningContentTypes: contentTypes,
+            asCopy: false
+        )
     } else {
         let identifiers = configuration.allowedContentTypes
         picker = UIDocumentPickerViewController(
@@ -126,32 +138,87 @@ private func makeOpenPicker(configuration: FilesystemOpenConfiguration) -> UIDoc
         )
     }
     picker.allowsMultipleSelection = configuration.allowsMultipleSelection
-    picker.modalPresentationStyle = .formSheet
+    picker.modalPresentationStyle = UIModalPresentationStyle.formSheet
     return picker
 }
 
 @MainActor
-private func makeSavePicker(configuration: FilesystemSaveConfiguration) -> UIDocumentPickerViewController {
-    let picker: UIDocumentPickerViewController
-    if #available(iOS 14.0, *) {
+private func makeSavePicker(configuration: FilesystemSaveConfiguration) throws -> SavePickerPayload {
+    if #available(iOS 14.0, macCatalyst 14.0, *) {
         let contentType = configuration.allowedContentTypes
             .compactMap { UTType($0) }
             .first ?? UTType.data
-        picker = UIDocumentPickerViewController(forCreatingDocumentOfContentType: contentType)
+        let filename = resolveFilename(
+            suggested: configuration.suggestedFilename,
+            contentType: contentType
+        )
+        let placeholder = try createPlaceholderFile(named: filename)
+        let picker = UIDocumentPickerViewController(
+            forExporting: [placeholder],
+            asCopy: true
+        )
+        picker.modalPresentationStyle = UIModalPresentationStyle.formSheet
+        return SavePickerPayload(picker: picker, placeholderURL: placeholder)
     } else {
         let identifiers = configuration.allowedContentTypes
-        picker = UIDocumentPickerViewController(
+        let picker = UIDocumentPickerViewController(
             documentTypes: identifiers.isEmpty ? ["public.item"] : identifiers,
             in: .open
         )
+        picker.modalPresentationStyle = UIModalPresentationStyle.formSheet
+        return SavePickerPayload(picker: picker, placeholderURL: nil)
     }
-    picker.modalPresentationStyle = .formSheet
-    return picker
 }
 
 private func makeUniformTypes(from identifiers: [String]) -> [UTType]? {
     let types = identifiers.compactMap(UTType.init)
     return types.isEmpty ? nil : types
+}
+
+private struct SavePickerPayload {
+    let picker: UIDocumentPickerViewController
+    let placeholderURL: URL?
+}
+
+private func resolveFilename(
+    suggested: String?,
+    contentType: UTType
+) -> String {
+    let fallback = "Untitled"
+    let trimmed = suggested?.trimmingCharacters(in: .whitespacesAndNewlines)
+    let base = (trimmed?.isEmpty ?? true) ? fallback : trimmed!
+    guard let preferredExtension = contentType.preferredFilenameExtension else {
+        return base
+    }
+    let existingExtension = (base as NSString).pathExtension
+    if !existingExtension.isEmpty || base.lowercased().hasSuffix(".\(preferredExtension.lowercased())") {
+        return base
+    }
+    return base + "." + preferredExtension
+}
+
+private func createPlaceholderFile(named filename: String) throws -> URL {
+    let manager = FileManager.default
+    let root = manager.temporaryDirectory.appendingPathComponent(
+        "FilesystemSavePlaceholders",
+        isDirectory: true
+    )
+    try manager.createDirectory(at: root, withIntermediateDirectories: true, attributes: nil)
+    let workingDirectory = root.appendingPathComponent(UUID().uuidString, isDirectory: true)
+    try manager.createDirectory(at: workingDirectory, withIntermediateDirectories: true, attributes: nil)
+    let placeholderURL = workingDirectory.appendingPathComponent(filename, isDirectory: false)
+    let created = manager.createFile(atPath: placeholderURL.path, contents: Data())
+    guard created else {
+        throw FilesystemAccessError.dialogUnavailable(dialog: .save)
+    }
+    return placeholderURL
+}
+
+private func cleanupPlaceholder(at url: URL) {
+    let manager = FileManager.default
+    try? manager.removeItem(at: url)
+    let directory = url.deletingLastPathComponent()
+    try? manager.removeItem(at: directory)
 }
 
 @MainActor
