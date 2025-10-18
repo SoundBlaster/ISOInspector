@@ -6,7 +6,8 @@
 
 ## 📈 Performance Benchmark Planning
 
-- [ ] R4 – Large File Performance Benchmarks research plan. **(In Progress — see `DOCS/INPROGRESS/R4_Large_File_Performance_Benchmarks.md`.)**
+- [x] R4 – Large File Performance Benchmarks research plan. **(Completed — benchmark charter captured in `DOCS/INPROGRESS/R4_Large_File_Performance_Benchmarks.md`.)**
+- [ ] Schedule macOS CLI/UI large-file benchmark execution using the R4 protocol once dedicated hardware runners come online. **(Blocked — requires macOS automation with Instruments support; track fixtures and manifest revisions in `DOCS/INPROGRESS/R4_Large_File_Performance_Benchmarks.md`.)**
 
 ## 📝 Release Readiness Validation
 
