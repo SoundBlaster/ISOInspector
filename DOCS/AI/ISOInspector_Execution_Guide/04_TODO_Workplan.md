@@ -13,6 +13,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Status:** _Blocked_ — benchmark harness implementation is archived and awaiting macOS hardware to execute random slice metrics, UI automation coverage, and Combine-backed UI benchmarks documented in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
 
+> **Research initiative:** Task R3 focuses on cataloging VoiceOver, Dynamic Type, and keyboard guidance so future UI tasks stay aligned with accessibility requirements. See `DOCS/INPROGRESS/R3_Accessibility_Guidelines.md` for progress tracking.
+
 ## Phase B — Core Parsing Engine
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
@@ -36,7 +38,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | C6 | Integrate ResearchLogMonitor audit results into SwiftUI previews that display VR-006 research log entries. | Medium | 1 | C3, B5 | SwiftUI Previews, DocC | Previews render VR-006 entries with audit context; mismatched schema cases surface actionable errors. **(Completed — see `DOCS/TASK_ARCHIVE/C6_Integrate_ResearchLogMonitor_Previews/Summary_of_Work.md`.)** |
 | C7 | Connect persisted bookmark diff entities to resolved bookmark records once reconciliation rules are finalized. | Medium | 0.5 | C4 | CoreData, Swift | Bookmark diff persistence reconciles with bookmark entities; unit tests cover add/update/remove flows. **(Completed ✅ — see `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/Summary_of_Work.md`.)** |
 
-> **Now In Progress:** Task G6 – Implement export actions so users can generate JSON for the entire parse tree or a selected subtree from the app UI. See `DOCS/INPROGRESS/G6_Export_JSON_Actions.md` for the current lightweight PRD.
+> **Now In Progress:** Task R3 – Document accessibility guidelines covering VoiceOver, Dynamic Type, and keyboard navigation patterns to reinforce the completed C5 implementation and upcoming UI polish. See `DOCS/INPROGRESS/R3_Accessibility_Guidelines.md` for the active PRD.
 
 ## Phase D — CLI Interface
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
