@@ -473,4 +473,16 @@
 - **Archived files:** `PDD_45m_Wire_Generate_Fixtures_Manifest.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/85_PDD_45m_Wire_Generate_Fixtures_Manifest/`.
 - **Highlights:** Records completion of the manifest-driven fixture acquisition workflow, including checksum validation, license mirroring, and regression coverage for the updated `generate_fixtures.py` helper.
-- **Next steps carried forward:** Author the fixture storage README outlining macOS runner mounts and Linux CI cache paths once infrastructure is available, keeping alignment with `todo.md` item `PDD:30m Produce fixture storage README`. **(In Progress — see `DOCS/INPROGRESS/PDD_30m_Fixture_Storage_README.md`.)**
+- **Next steps carried forward:** Author the fixture storage README outlining macOS runner mounts and Linux CI cache paths once infrastructure is available, keeping alignment with `todo.md` item `PDD:30m Produce fixture storage README`. **(Completed — documentation archived in `DOCS/TASK_ARCHIVE/86_PDD_30m_Fixture_Storage_README/` with follow-up summary in `DOCS/TASK_ARCHIVE/87_Summary_of_Work_2025-10-18_Storage_Workflow/`.)**
+
+## 86_PDD_30m_Fixture_Storage_README
+- **Archived files:** `PDD_30m_Fixture_Storage_README.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/86_PDD_30m_Fixture_Storage_README/`.
+- **Highlights:** Documents the macOS and Linux fixture storage quotas, mount paths, cache rotation process, and CI alignment guidance required to operationalize manifest-driven fixture downloads.
+- **Next steps carried forward:** Exercise the storage workflow on macOS hardware to validate sparse bundle mounts and finalize CI automation once runners are available.
+
+## 87_Summary_of_Work_2025-10-18_Storage_Workflow
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/87_Summary_of_Work_2025-10-18_Storage_Workflow/`.
+- **Highlights:** Captures the storage workflow bookkeeping, linking the fixture storage README to the broader distribution plan and recording pending macOS validation work.
+- **Next steps carried forward:** macOS-only release readiness, benchmark, automation, and Combine latency runs remain blocked pending hardware access and now persist in `DOCS/INPROGRESS/next_tasks.md`.
