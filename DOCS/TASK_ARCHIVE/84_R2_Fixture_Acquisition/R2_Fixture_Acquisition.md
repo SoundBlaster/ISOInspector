@@ -68,8 +68,8 @@ vendor-specific atoms so the parsing, validation, and benchmarking suites can re
 
 - <!-- @todo PDD:45m Wire generate_fixtures.py to ingest manifest-driven remote downloads, including checksum
   verification and license mirroring. -->
-- <!-- @todo PDD:30m Produce fixture storage README describing mount paths for macOS runners and Linux CI caches once
-  infrastructure lands. -->
+- [ ] PDD:30m Produce fixture storage README describing mount paths for macOS runners and Linux CI caches once
+  infrastructure lands. **(In Progress — see `DOCS/INPROGRESS/PDD_30m_Fixture_Storage_README.md`.)**
 
 ## 🔧 Implementation Notes
 
