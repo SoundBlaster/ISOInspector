@@ -2,7 +2,7 @@
 
 ## 🧠 Parser Infrastructure
 
-- [ ] B5 — Introduce `FullBoxReader` for (version,flags) extraction. **(In Progress — see `DOCS/INPROGRESS/B5_FullBoxReader.md`.)**
+- [x] B5 — Introduce `FullBoxReader` for (version,flags) extraction. **(Completed — helper, tests, and parser refactors documented in `DOCS/INPROGRESS/B5_FullBoxReader.md` and `Summary_of_Work.md`.)**
 
 ## 🎨 App Theming (In Review)
 
