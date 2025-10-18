@@ -3,6 +3,7 @@ import Combine
 import XCTest
 @testable import ISOInspectorApp
 @testable import ISOInspectorKit
+import UniformTypeIdentifiers
 
 @MainActor
 final class DocumentSessionControllerTests: XCTestCase {
@@ -320,6 +321,82 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertEqual(controller.currentDocument?.url.standardizedFileURL, url.standardizedFileURL)
     }
 
+    func testExportJSONWritesFullDocument() async throws {
+        let issue = ValidationIssue(ruleID: "sample", message: "root", severity: .warning)
+        let root = makeNode(identifier: 0, type: "moov", issues: [issue])
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [issue])
+        let parseTreeStore = ParseTreeStore(initialSnapshot: snapshot, initialState: .finished)
+        let filesystemStub = FilesystemAccessStub()
+        let destination = FileManager.default.temporaryDirectory
+            .appendingPathComponent("export-full-\(UUID().uuidString).json")
+        defer { try? FileManager.default.removeItem(at: destination) }
+        filesystemStub.saveHandler = { _ in destination }
+
+        let controller = makeController(
+            store: DocumentRecentsStoreStub(initialRecents: []),
+            filesystemAccess: filesystemStub.makeAccess(),
+            parseTreeStore: parseTreeStore
+        )
+
+        await controller.exportJSON(scope: .document)
+
+        XCTAssertEqual(filesystemStub.lastSaveConfiguration?.allowedContentTypes, [UTType.json.identifier])
+        XCTAssertEqual(filesystemStub.lastSavedURL?.standardizedFileURL, destination.standardizedFileURL)
+        let data = try Data(contentsOf: destination)
+        let expected = try JSONParseTreeExporter().export(tree: ParseTree(nodes: [root], validationIssues: [issue]))
+        XCTAssertEqual(data, expected)
+        let status = try XCTUnwrap(controller.exportStatus)
+        XCTAssertTrue(status.isSuccess)
+        XCTAssertEqual(status.destinationURL?.standardizedFileURL, destination.standardizedFileURL)
+        XCTAssertEqual(filesystemStub.manager.startedURLs, [destination.standardizedFileURL])
+        XCTAssertEqual(filesystemStub.manager.stoppedURLs, [destination.standardizedFileURL])
+    }
+
+    func testExportJSONSelectionWritesSubtree() async throws {
+        let childIssue = ValidationIssue(ruleID: "child", message: "child", severity: .error)
+        let grandChild = makeNode(identifier: 64, type: "trak", issues: [childIssue])
+        let parentIssue = ValidationIssue(ruleID: "parent", message: "parent", severity: .warning)
+        let parent = makeNode(identifier: 0, type: "moov", issues: [parentIssue], children: [grandChild])
+        let snapshot = ParseTreeSnapshot(nodes: [parent], validationIssues: [parentIssue, childIssue])
+        let parseTreeStore = ParseTreeStore(initialSnapshot: snapshot, initialState: .finished)
+        let filesystemStub = FilesystemAccessStub()
+        let destination = FileManager.default.temporaryDirectory
+            .appendingPathComponent("export-selection-\(UUID().uuidString).json")
+        defer { try? FileManager.default.removeItem(at: destination) }
+        filesystemStub.saveHandler = { _ in destination }
+
+        let controller = makeController(
+            store: DocumentRecentsStoreStub(initialRecents: []),
+            filesystemAccess: filesystemStub.makeAccess(),
+            parseTreeStore: parseTreeStore
+        )
+
+        await controller.exportJSON(scope: .selection(grandChild.id))
+
+        let data = try Data(contentsOf: destination)
+        let expected = try JSONParseTreeExporter().export(
+            tree: ParseTree(nodes: [grandChild], validationIssues: [childIssue])
+        )
+        XCTAssertEqual(data, expected)
+        let status = try XCTUnwrap(controller.exportStatus)
+        XCTAssertTrue(status.isSuccess)
+        XCTAssertEqual(status.destinationURL?.standardizedFileURL, destination.standardizedFileURL)
+    }
+
+    func testCanExportSelectionReflectsSnapshotMembership() throws {
+        let node = makeNode(identifier: 0, type: "moov")
+        let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [])
+        let parseTreeStore = ParseTreeStore(initialSnapshot: snapshot, initialState: .finished)
+        let controller = makeController(
+            store: DocumentRecentsStoreStub(initialRecents: []),
+            parseTreeStore: parseTreeStore
+        )
+
+        XCTAssertTrue(controller.canExportSelection(nodeID: node.id))
+        XCTAssertFalse(controller.canExportSelection(nodeID: -1))
+        XCTAssertFalse(controller.canExportSelection(nodeID: nil))
+    }
+
     func testPersistRecentsFailureEmitsDiagnostics() throws {
         enum SampleError: LocalizedError {
             case failed
@@ -408,13 +485,14 @@ final class DocumentSessionControllerTests: XCTestCase {
             diagnostics: DiagnosticsLogging? = nil,
             bookmarkStore: BookmarkPersistenceManaging? = nil,
             filesystemAccess: FilesystemAccess? = nil,
-            bookmarkDataProvider: ((SecurityScopedURL) -> Data?)? = nil
+            bookmarkDataProvider: ((SecurityScopedURL) -> Data?)? = nil,
+            parseTreeStore: ParseTreeStore? = nil
         ) -> DocumentSessionController {
             let resolvedPipeline = pipeline ?? ParsePipeline(buildStream: { _, _ in .finishedStream })
             let resolvedDiagnostics: (any DiagnosticsLogging)? = diagnostics
             let access = filesystemAccess ?? FilesystemAccessStub().makeAccess()
             return DocumentSessionController(
-                parseTreeStore: ParseTreeStore(bridge: ParsePipelineEventBridge()),
+                parseTreeStore: parseTreeStore ?? ParseTreeStore(bridge: ParsePipelineEventBridge()),
                 annotations: AnnotationBookmarkSession(store: annotationsStore),
                 recentsStore: store,
                 sessionStore: sessionStore,
@@ -434,6 +512,31 @@ final class DocumentSessionControllerTests: XCTestCase {
             bookmarkData: nil,
             displayName: "Sample \(index)",
             lastOpened: Date(timeIntervalSince1970: TimeInterval(index))
+        )
+    }
+
+    private func makeNode(
+        identifier: Int64,
+        type: String,
+        issues: [ValidationIssue] = [],
+        children: [ParseTreeNode] = []
+    ) -> ParseTreeNode {
+        let totalSize: Int64 = 32
+        let headerSize: Int64 = 8
+        let header = BoxHeader(
+            type: try! FourCharCode(type),
+            totalSize: totalSize,
+            headerSize: headerSize,
+            payloadRange: (identifier + headerSize)..<(identifier + totalSize),
+            range: identifier..<(identifier + totalSize),
+            uuid: nil
+        )
+        return ParseTreeNode(
+            header: header,
+            metadata: nil,
+            payload: nil,
+            validationIssues: issues,
+            children: children
         )
     }
 }

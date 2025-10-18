@@ -16,6 +16,20 @@ struct ISOInspectorApp: App {
                 .isoInspectorAppTheme()
                 .a11yRoot(ParseTreeAccessibilityID.root)
         }
+        .commands {
+            CommandMenu("Export") {
+                Button("Export JSON…") {
+                    Task { await controller.exportJSON(scope: .document) }
+                }
+                .disabled(!controller.canExportDocument)
+
+                Button("Export Selected JSON…") {
+                    guard let nodeID = controller.annotations.currentSelectedNodeID else { return }
+                    Task { await controller.exportJSON(scope: .selection(nodeID)) }
+                }
+                .disabled(!controller.canExportSelection(nodeID: controller.annotations.currentSelectedNodeID))
+            }
+        }
     }
 
     @MainActor

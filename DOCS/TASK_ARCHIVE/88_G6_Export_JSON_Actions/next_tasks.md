@@ -2,7 +2,7 @@
 
 ## 🚧 In Progress
 
-- [ ] _(Unassigned — select the next highest-priority puzzle from `todo.md` or the execution workplan.)_
+- [x] Implement Task G6 export actions so the app can produce JSON for the full tree or a selected subtree. **(Completed — see `DOCS/TASK_ARCHIVE/88_G6_Export_JSON_Actions/Summary_of_Work.md`.)**
 
 ## 📝 Release Readiness Validation
 
