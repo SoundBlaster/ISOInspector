@@ -21,3 +21,15 @@ public struct ParseTreeNode: Equatable, Sendable {
         self.children = children
     }
 }
+
+extension ParseTreeNode: Identifiable {
+    public var id: Int64 { header.startOffset }
+
+    public var category: BoxCategory {
+        BoxClassifier.category(for: header, metadata: metadata)
+    }
+
+    public var isStreamingIndicator: Bool {
+        BoxClassifier.isStreamingIndicator(header: header)
+    }
+}

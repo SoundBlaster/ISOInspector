@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -25,7 +25,6 @@
 		162CA3490E7556CF110142DD /* BoxClassifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D28E0A149E31A82169CA5F7 /* BoxClassifier.swift */; };
 		176234F5ECBE2471D56BDC0B /* ISOInspectorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B75C27B8833823C9363E27 /* ISOInspectorApp.swift */; };
 		180D8A709DC0D95DDC815444 /* ParsePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703023A26D3ACDE1C118923D /* ParsePipeline.swift */; };
-		186620F4E90B81758A93740F /* ParseTreeNode+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE95F7D9EC703DF3C632BCF /* ParseTreeNode+App.swift */; };
 		18E4D8E52F8DB6E3A5A25B30 /* ResearchLogAuditPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BFEA309FF99551DDDE4C6D /* ResearchLogAuditPreview.swift */; };
 		19514D9C2E94326939B32DDC /* FilesystemDocumentPickerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049756A04BDD0C4962FC7559 /* FilesystemDocumentPickerPresenter.swift */; };
 		1AB0F0E18DB454B2172AF87E /* ParseTreeOutlineFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5133157015969BEE1DD2EEE9 /* ParseTreeOutlineFilter.swift */; };
@@ -89,7 +88,6 @@
 		62653695852DD2F49E26AE70 /* AppShellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9F4E0356F2B4F3953E5673 /* AppShellView.swift */; };
 		626B50A1A1784478755557CD /* ParseTreeOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 021AE0FEA21D7DD5B031E9A0 /* ParseTreeOutlineView.swift */; };
 		64105FA48AC444FB19E9598D /* NestedA11yIDs in Frameworks */ = {isa = PBXBuildFile; productRef = 80E7CC719D8C8F243DFF8631 /* NestedA11yIDs */; };
-		655057FF6C3CF9B16FCADAAD /* ParseTreeNode+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE95F7D9EC703DF3C632BCF /* ParseTreeNode+App.swift */; };
 		674B23C08BBE88632887E723 /* ISOInspectorKit.docc in Sources */ = {isa = PBXBuildFile; fileRef = FC1A5DA04628AC60697D74FB /* ISOInspectorKit.docc */; };
 		679017084A427A0374E9FA9D /* ParseTreeNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = A193AA0F4BE94853AEB45498 /* ParseTreeNode.swift */; };
 		67D473B7D26EB6FB8E9F99F3 /* FullBoxReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 388214C71D463780D22CDA9A /* FullBoxReader.swift */; };
@@ -142,7 +140,6 @@
 		AD025C1188EA52880D5CDF15 /* BoxHeader+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19612B88415324608FBF01DD /* BoxHeader+Identifier.swift */; };
 		AE7D4906993662DE9055E3CD /* ParseTreePreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8158883247CF06B2778C5E83 /* ParseTreePreviewData.swift */; };
 		AE94A688E596474E324C9B0B /* AccessibilitySupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D967FE867C4D2044EF4F025C /* AccessibilitySupport.swift */; };
-		AEFA66B2EEE2D03EE0B71A7C /* ParseTreeNode+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CE95F7D9EC703DF3C632BCF /* ParseTreeNode+App.swift */; };
 		AF976C33C42E6CC6F808D1E3 /* AnnotationBookmarkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA489AF11B9824A5F1D67A /* AnnotationBookmarkSession.swift */; };
 		B044CDA586F2177354037C3E /* ISOInspectorKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A330CF0AA8B3DA9994E8C7C4 /* ISOInspectorKit.framework */; };
 		B06469C4CC943356B0BCDBEC /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = B203B2B399DEA61EDF375406 /* AppIcon.icon */; };
@@ -342,7 +339,6 @@
 		36C6AAF73907915AAC83C060 /* StreamingBoxWalker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingBoxWalker.swift; sourceTree = "<group>"; };
 		388214C71D463780D22CDA9A /* FullBoxReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullBoxReader.swift; sourceTree = "<group>"; };
 		3B5349D979615F3AE0D05C2C /* DistributionMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributionMetadata.swift; sourceTree = "<group>"; };
-		3CE95F7D9EC703DF3C632BCF /* ParseTreeNode+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseTreeNode+App.swift"; sourceTree = "<group>"; };
 		3DA9E22416800568115FEF59 /* TuistAssets+ISOInspectorAppMacOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistAssets+ISOInspectorAppMacOS.swift"; sourceTree = "<group>"; };
 		489F89A782ACBC9E32880591 /* DistributionMetadata.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = DistributionMetadata.json; sourceTree = "<group>"; };
 		4BBDAFAB74F3B48F411CE115 /* ISOInspectorApp_iPadOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ISOInspectorApp_iPadOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -410,7 +406,7 @@
 		ABEC08BB2BB8BBF2A78B0D02 /* MediaAndIndexBoxCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaAndIndexBoxCode.swift; sourceTree = "<group>"; };
 		ADFEFDE6079F2CA647739C6F /* ParseTreeSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTreeSnapshot.swift; sourceTree = "<group>"; };
 		AF0C131784A46D9528538AF5 /* ValidationIssueSeverity+CaseIterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ValidationIssueSeverity+CaseIterable.swift"; sourceTree = "<group>"; };
-		B203B2B399DEA61EDF375406 /* AppIcon.icon */ = {isa = PBXFileReference; path = AppIcon.icon; sourceTree = "<group>"; };
+		B203B2B399DEA61EDF375406 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		B50509651841E51A50DBC5C7 /* ISOInspectorApp_macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ISOInspectorApp_macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B542B93959C60FF996BD33B2 /* EventConsoleFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventConsoleFormatter.swift; sourceTree = "<group>"; };
 		B6A5A1B74EE77B5613D1AB9C /* FilesystemAccessLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesystemAccessLogger.swift; sourceTree = "<group>"; };
@@ -443,7 +439,7 @@
 		F393D83D461C2EC2EF91D5CD /* BookmarkDataManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDataManaging.swift; sourceTree = "<group>"; };
 		F3D46B4A9337E7419A8670AE /* AnnotationRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationRecord.swift; sourceTree = "<group>"; };
 		F46E4B36BBCA953B1DB84BF5 /* HexSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexSlice.swift; sourceTree = "<group>"; };
-		F48D51087E731C7AEA0D60E4 /* ISOInspectorCLIRunner */ = {isa = PBXFileReference; includeInIndex = 0; path = ISOInspectorCLIRunner; sourceTree = BUILT_PRODUCTS_DIR; };
+		F48D51087E731C7AEA0D60E4 /* ISOInspectorCLIRunner */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = text; path = ISOInspectorCLIRunner; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8AA489AF11B9824A5F1D67A /* AnnotationBookmarkSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationBookmarkSession.swift; sourceTree = "<group>"; };
 		F9A1238EA7514747C4429703 /* ISOInspectorKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISOInspectorKit.swift; sourceTree = "<group>"; };
 		F9FD9A51B1B9119CD5622C62 /* DocumentSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentSessionController.swift; sourceTree = "<group>"; };
@@ -612,7 +608,6 @@
 				E09E4867B52AD8CDF2C20D1A /* DocumentRecentsStore.swift */,
 				F9FD9A51B1B9119CD5622C62 /* DocumentSessionController.swift */,
 				82AB6BF42635863214F3F475 /* ParsePipelineEventBridge.swift */,
-				3CE95F7D9EC703DF3C632BCF /* ParseTreeNode+App.swift */,
 				ADFEFDE6079F2CA647739C6F /* ParseTreeSnapshot.swift */,
 				0DACBC298A1C81567875D980 /* ParseTreeStore.swift */,
 				7D91289088F00F69C94ABCD4 /* ParseTreeStoreState.swift */,
@@ -1035,8 +1030,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = ISOInspector;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 875EF0FB2020C34388A0DC8D /* Build configuration list for PBXProject "ISOInspector" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -1154,7 +1147,6 @@
 				F18BE11212E7E0147AA4C5DD /* DocumentRecentsStore.swift in Sources */,
 				C4C1631486A7A2B83C16293B /* DocumentSessionController.swift in Sources */,
 				A9567B3F92A728B697BD03F3 /* ParsePipelineEventBridge.swift in Sources */,
-				AEFA66B2EEE2D03EE0B71A7C /* ParseTreeNode+App.swift in Sources */,
 				3621D5247C3C1F2DD82ED3A4 /* ParseTreeSnapshot.swift in Sources */,
 				2FD8857FE1E283E1968EF366 /* ParseTreeStore.swift in Sources */,
 				B867177170C0EF61E2132688 /* ParseTreeStoreState.swift in Sources */,
@@ -1201,7 +1193,6 @@
 				F7A22269A84EA5081B7999D0 /* DocumentRecentsStore.swift in Sources */,
 				98A4CB42DDC1B3D177CD7536 /* DocumentSessionController.swift in Sources */,
 				FC34678EF823297DEE77783A /* ParsePipelineEventBridge.swift in Sources */,
-				655057FF6C3CF9B16FCADAAD /* ParseTreeNode+App.swift in Sources */,
 				81FACBFBC773CF2E326583C7 /* ParseTreeSnapshot.swift in Sources */,
 				F0C5030876AAEC69484037BB /* ParseTreeStore.swift in Sources */,
 				EDA1FD766449F0A767E805AD /* ParseTreeStoreState.swift in Sources */,
@@ -1248,7 +1239,6 @@
 				766F5885A36890CF7CF58CD4 /* DocumentRecentsStore.swift in Sources */,
 				13E68EA2E9D89908B714405F /* DocumentSessionController.swift in Sources */,
 				437BB4D1133A7D9CBDE3828E /* ParsePipelineEventBridge.swift in Sources */,
-				186620F4E90B81758A93740F /* ParseTreeNode+App.swift in Sources */,
 				55F7221D671E443FBF63D133 /* ParseTreeSnapshot.swift in Sources */,
 				C0CFD3C80CC91E2A4AC8BEC4 /* ParseTreeStore.swift in Sources */,
 				D5EDF5AE44C87E4B037E1C81 /* ParseTreeStoreState.swift in Sources */,
@@ -1392,6 +1382,7 @@
 				CODE_SIGN_ENTITLEMENTS = Distribution/Entitlements/ISOInspectorApp.iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorApp-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1406,10 +1397,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-					DEBUG,
-				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1457,10 +1445,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector.cli.runner;
 				PRODUCT_NAME = ISOInspectorCLIRunner;
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-					DEBUG,
-				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1534,6 +1519,7 @@
 				CODE_SIGN_ENTITLEMENTS = Distribution/Entitlements/ISOInspectorApp.iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorApp-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1595,10 +1581,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-					DEBUG,
-				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1635,10 +1618,7 @@
 				PRODUCT_NAME = ISOInspectorCLI;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-					DEBUG,
-				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1718,10 +1698,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector.app.mac;
 				PRODUCT_NAME = ISOInspectorApp_macOS;
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-					DEBUG,
-				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1825,10 +1802,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-					DEBUG,
-				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;

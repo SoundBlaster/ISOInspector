@@ -412,11 +412,11 @@
                     accessContext?.scopedURL.revoke()
                     let targetRecent = failureRecent ?? recent
                     Task { @MainActor in
-                        if let failureRecent {
-                            self.handleRecentAccessFailure(failureRecent, error: accessError)
-                        } else {
+                        guard failureRecent != nil else {
                             self.emitLoadFailure(for: targetRecent, error: accessError)
+                            return
                         }
+                        self.handleRecentAccessFailure(targetRecent, error: accessError)
                     }
                 } catch {
                     preResolvedScope?.revoke()

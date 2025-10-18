@@ -36,6 +36,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
 	<key>NSDocumentsFolderUsageDescription</key>
 	<string>ISO Inspector needs access to open and inspect MP4 and QuickTime files from your Documents folder.</string>
 	<key>NSDownloadsFolderUsageDescription</key>

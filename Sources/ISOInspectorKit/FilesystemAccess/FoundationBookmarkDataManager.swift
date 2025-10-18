@@ -7,8 +7,8 @@ public struct FoundationBookmarkDataManager: BookmarkDataManaging {
     private let resolutionOptions: URL.BookmarkResolutionOptions
 
     public init(
-        creationOptions: URL.BookmarkCreationOptions = [.withSecurityScope],
-        resolutionOptions: URL.BookmarkResolutionOptions = [.withSecurityScope]
+        creationOptions: URL.BookmarkCreationOptions = Self.defaultCreationOptions(),
+        resolutionOptions: URL.BookmarkResolutionOptions = Self.defaultResolutionOptions()
     ) {
         self.creationOptions = creationOptions
         self.resolutionOptions = resolutionOptions
@@ -42,3 +42,25 @@ public struct FoundationBookmarkDataManager: BookmarkDataManaging {
         #endif
     }
 }
+
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+extension FoundationBookmarkDataManager {
+    @usableFromInline
+    static func defaultCreationOptions() -> URL.BookmarkCreationOptions {
+        #if os(macOS)
+        return [.withSecurityScope]
+        #else
+        return []
+        #endif
+    }
+
+    @usableFromInline
+    static func defaultResolutionOptions() -> URL.BookmarkResolutionOptions {
+        #if os(macOS)
+        return [.withSecurityScope]
+        #else
+        return []
+        #endif
+    }
+}
+#endif
