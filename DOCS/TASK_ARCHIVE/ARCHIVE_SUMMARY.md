@@ -492,3 +492,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/88_G6_Export_JSON_Actions/`.
 - **Highlights:** Documents delivery of document-wide and selection-scoped JSON export affordances across the app toolbar, command menu, and outline context menu, backed by the updated `DocumentSessionController` workflow with FilesystemAccess integration and comprehensive tests.
 - **Next steps carried forward:** Select a new foreground puzzle; otherwise continue tracking release readiness, benchmarking, and UI automation follow-ups in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 89_Next_Tasks_Rollup
+- **Archived files:** `.gitkeep`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/89_Next_Tasks_Rollup/`.
+- **Highlights:** Preserves the standing backlog checklist while rotating `DOCS/INPROGRESS` for the next assignment cycle. Captures the unchanged release readiness, benchmarking, UI automation, and Combine follow-ups that remain blocked pending macOS hardware access.
+- **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` with the same macOS-dependent follow-ups so future task selection can resume from the shared backlog.
