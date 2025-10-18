@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 📚 Research & Backlog Grooming
+
+- [ ] **R2 Fixture Acquisition Research** — **In Progress**: Identify representative MP4 samples covering standard, fragmented, and vendor-specific atoms for QA coverage. (See `DOCS/INPROGRESS/R2_Fixture_Acquisition.md`.)
+
 ## 📝 Release Readiness Validation
 
 - [ ] Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA once runners are available, following the release readiness runbook. **(Blocked — requires macOS infrastructure; see `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md` and the archival notes in `DOCS/TASK_ARCHIVE/83_Summary_of_Work_2025-10-Release_Prep/Summary_of_Work.md`.)**
