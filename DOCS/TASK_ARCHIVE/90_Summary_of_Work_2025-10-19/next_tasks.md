@@ -1,8 +1,12 @@
 # Next Tasks
 
+## 🚧 In Progress
+
+- [x] Validated `todo.md #3` completion and cleared the placeholder so the next contributor can select a fresh puzzle when new backlog items land.
+
 ## 📝 Release Readiness Validation
 
-- [ ] Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA once runners are available, following the release readiness runbook. **(Blocked — requires macOS infrastructure; see `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md` and archival notes in `DOCS/TASK_ARCHIVE/83_Summary_of_Work_2025-10-Release_Prep/Summary_of_Work.md`.)**
+- [ ] Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA once runners are available, following the release readiness runbook. **(Blocked — requires macOS infrastructure; see `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md` and the archival notes in `DOCS/TASK_ARCHIVE/83_Summary_of_Work_2025-10-Release_Prep/Summary_of_Work.md`.)**
 
 ## 🔭 Benchmark Validation
 
