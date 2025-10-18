@@ -498,3 +498,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/89_Next_Tasks_Rollup/`.
 - **Highlights:** Preserves the standing backlog checklist while rotating `DOCS/INPROGRESS` for the next assignment cycle. Captures the unchanged release readiness, benchmarking, UI automation, and Combine follow-ups that remain blocked pending macOS hardware access.
 - **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` with the same macOS-dependent follow-ups so future task selection can resume from the shared backlog.
+
+## 90_Summary_of_Work_2025-10-19
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/90_Summary_of_Work_2025-10-19/`.
+- **Highlights:** Captures the rollover that confirmed `todo.md #3` remains complete and preserves the standing macOS-dependent validation backlog for the next assignee.
+- **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` continues to track the macOS release readiness, benchmarking, UI automation, and Combine latency follow-ups until hardware is available.
