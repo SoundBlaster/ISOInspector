@@ -1,5 +1,13 @@
 # Next Tasks
 
+## 📚 Research & Backlog Grooming
+
+- [x] **R2 Fixture Acquisition Research** — Curated multi-source fixture catalog with licensing, download, and storage guidance. (See `DOCS/TASK_ARCHIVE/84_R2_Fixture_Acquisition/R2_Fixture_Acquisition.md` and `DOCS/TASK_ARCHIVE/84_R2_Fixture_Acquisition/Summary_of_Work.md`.)
+
+## 🧱 Fixture Automation
+
+- [x] **PDD:45m Manifest-Driven Fixture Acquisition** — Extend `generate_fixtures.py` to download fixtures from the curated manifest with checksum verification and license mirroring. **(Completed — manifest workflow implemented; see `DOCS/TASK_ARCHIVE/85_PDD_45m_Wire_Generate_Fixtures_Manifest/Summary_of_Work.md` for current notes.)**
+
 ## 📝 Release Readiness Validation
 
 - [ ] Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA once runners are available, following the release readiness runbook. **(Blocked — requires macOS infrastructure; see `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md` and the archival notes in `DOCS/TASK_ARCHIVE/83_Summary_of_Work_2025-10-Release_Prep/Summary_of_Work.md`.)**
