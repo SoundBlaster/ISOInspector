@@ -2,7 +2,7 @@
 
 ## 📚 Research & Backlog Grooming
 
-- [ ] **R2 Fixture Acquisition Research** — **In Progress**: Identify representative MP4 samples covering standard, fragmented, and vendor-specific atoms for QA coverage. (See `DOCS/INPROGRESS/R2_Fixture_Acquisition.md`.)
+- [x] **R2 Fixture Acquisition Research** — Curated multi-source fixture catalog with licensing, download, and storage guidance. (See `DOCS/INPROGRESS/R2_Fixture_Acquisition.md` and `DOCS/INPROGRESS/Summary_of_Work.md`.)
 
 ## 📝 Release Readiness Validation
 
