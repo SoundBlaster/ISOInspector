@@ -37,10 +37,10 @@ extension FilesystemDocumentPickerPresenter {
     /// Creates a presenter that wraps `UIDocumentPickerViewController` presentation.
     /// - Parameter presentingViewControllerProvider: Closure resolving the controller that should present the picker.
     /// - Returns: A presenter that handles open and save flows using UIKit dialogs.
+    @MainActor
     public static func uikit(
-        presentingViewControllerProvider: @escaping @Sendable () -> UIViewController? = { defaultPresentingViewController() }
-    ) -> FilesystemDocumentPickerPresenter {
-        FilesystemDocumentPickerPresenter(
+        presentingViewControllerProvider: @escaping @Sendable () -> UIViewController?
+    ) -> FilesystemDocumentPickerPresenter {FilesystemDocumentPickerPresenter(
             openHandler: { configuration in
                 try await presentOpenPicker(
                     configuration: configuration,
