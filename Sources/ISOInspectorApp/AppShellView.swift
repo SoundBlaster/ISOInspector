@@ -1,12 +1,14 @@
 #if canImport(SwiftUI) && canImport(Combine)
 import SwiftUI
 import NestedA11yIDs
+import ISOInspectorKit
 
 struct AppShellView: View {
     @Environment(\.scenePhase) private var scenePhase
     @ObservedObject var controller: DocumentSessionController
     @State private var isImporterPresented = false
     @State private var importError: ImportError?
+    @State private var selectedNodeID: ParseTreeNode.ID?
 
     @ViewBuilder
     var body: some View {
@@ -57,8 +59,33 @@ struct AppShellView: View {
                 Text(message)
             }
         }
+        .alert(item: exportStatusBinding) { status in
+            Alert(
+                title: Text(status.title),
+                message: Text(status.message),
+                dismissButton: .default(Text("OK"), action: controller.dismissExportStatus)
+            )
+        }
         .onOpenURL { url in
             controller.openDocument(at: url)
+        }
+        .toolbar {
+            ToolbarItemGroup(placement: .primaryAction) {
+                Button {
+                    Task { await controller.exportJSON(scope: .document) }
+                } label: {
+                    Label("Export JSON", systemImage: "square.and.arrow.down")
+                }
+                .disabled(!controller.canExportDocument)
+
+                Button {
+                    guard let nodeID = selectedNodeID else { return }
+                    Task { await controller.exportJSON(scope: .selection(nodeID)) }
+                } label: {
+                    Label("Export Selection", systemImage: "square.and.arrow.down.on.square")
+                }
+                .disabled(!controller.canExportSelection(nodeID: selectedNodeID))
+            }
         }
     }
 
@@ -119,11 +146,14 @@ struct AppShellView: View {
                     store: controller.parseTreeStore,
                     annotations: controller.annotations,
                     outlineViewModel: ParseTreeOutlineViewModel(),
-                    detailViewModel: ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
+                    detailViewModel: ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil),
+                    selectedNodeID: $selectedNodeID,
+                    exportSelectionAction: exportSelectionHandler
                 )
                 .frame(minWidth: 640, minHeight: 480)
             } else {
                 OnboardingView(openAction: { isImporterPresented = true })
+                    .onAppear { selectedNodeID = nil }
             }
         }
     }
@@ -147,6 +177,23 @@ struct AppShellView: View {
                 }
             }
         )
+    }
+
+    private var exportStatusBinding: Binding<DocumentSessionController.ExportStatus?> {
+        Binding(
+            get: { controller.exportStatus },
+            set: { newValue in
+                if newValue == nil {
+                    controller.dismissExportStatus()
+                }
+            }
+        )
+    }
+
+    private var exportSelectionHandler: (ParseTreeNode.ID) -> Void {
+        { nodeID in
+            Task { await controller.exportJSON(scope: .selection(nodeID)) }
+        }
     }
 }
 
