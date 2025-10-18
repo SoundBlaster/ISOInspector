@@ -15,6 +15,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Research initiative:** Task R3 cataloged VoiceOver, Dynamic Type, and keyboard guidance so future UI tasks stay aligned with accessibility requirements. Follow <doc:AccessibilityGuidelines> and the archived summary in `DOCS/TASK_ARCHIVE/91_R3_Accessibility_Guidelines/Summary_of_Work.md` when planning new UI stories.
 
+> **Active research:** Task R4 — Large File Performance Benchmarks. Investigation is underway in `DOCS/INPROGRESS/R4_Large_File_Performance_Benchmarks.md` to unblock macOS-scale throughput validation ahead of F2 implementation runs.
+
 ## Phase B — Core Parsing Engine
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|

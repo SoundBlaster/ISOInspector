@@ -4,6 +4,10 @@
 
 - [x] R3 – Accessibility Guidelines review for SwiftUI tree, detail, and hex experiences. **(Completed — guidelines published as <doc:AccessibilityGuidelines>; see `DOCS/TASK_ARCHIVE/92_Summary_of_Work_2025-10-19_Accessibility_Guidelines/Summary_of_Work.md`.)**
 
+## 📈 Performance Benchmark Planning
+
+- [ ] R4 – Large File Performance Benchmarks research plan. **(In Progress — see `DOCS/INPROGRESS/R4_Large_File_Performance_Benchmarks.md`.)**
+
 ## 📝 Release Readiness Validation
 
 - [ ] Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA once runners are available, following the release readiness runbook. **(Blocked — requires macOS infrastructure; see `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md` and archival notes in `DOCS/TASK_ARCHIVE/83_Summary_of_Work_2025-10-Release_Prep/Summary_of_Work.md`.)**
