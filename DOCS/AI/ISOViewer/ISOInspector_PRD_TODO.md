@@ -163,7 +163,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 
 ### 🚧 In Progress
-- [x] B5 — Introduce `FullBoxReader` for (version,flags) extraction. **(Completed — helper, tests, and parser refactors documented in `DOCS/INPROGRESS/B5_FullBoxReader.md` and `Summary_of_Work.md`.)**
+- [x] B5 — Introduce `FullBoxReader` for (version,flags) extraction. **(Completed — helper, tests, and parser refactors documented in `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/B5_FullBoxReader.md` and `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/Summary_of_Work.md`.)**
 - [x] C6 — Integrate `ResearchLogMonitor` audit results into SwiftUI previews rendering VR-006 research log entries. _(Completed — see `DOCS/TASK_ARCHIVE/C6_Integrate_ResearchLogMonitor_Previews/Summary_of_Work.md`.)_
 - [x] C7 — Connect persisted bookmark diff entities to resolved bookmark records once reconciliation rules are finalized. _(Completed — see `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/Summary_of_Work.md`.)_
 
@@ -178,7 +178,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] B2. Define `BoxNode`: `header`, `children: [BoxNode]`, `payload: Payload?`, `warnings: [Warning]`.
 - [x] B3. Implement `readBoxHeader(at:)` supporting: size==0 (to EOF/parent end), size==1 (largesize), `uuid` type. _(Covered by [02_B2_Box_Header_Decoder](../../TASK_ARCHIVE/02_B2_Box_Header_Decoder/B2_Box_Header_Decoder.md) and validated in downstream streaming integration tasks.)_
 - [x] B4. Implement container iteration (`parseContainer(parentRange:)`) with forward-progress guard and max-depth limit. _(Shipped with [05_B3_Puzzle1_ParsePipeline_Live_Integration](../../TASK_ARCHIVE/05_B3_Puzzle1_ParsePipeline_Live_Integration/05_B3_Puzzle1_ParsePipeline_Live_Integration.md))._
-- [x] B5. Introduce `FullBoxReader` for (version,flags) extraction. **(Completed — helper, tests, and parser refactors documented in `DOCS/INPROGRESS/B5_FullBoxReader.md` and `Summary_of_Work.md`.)**
+- [x] B5. Introduce `FullBoxReader` for (version,flags) extraction. **(Completed — helper, tests, and parser refactors documented in `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/B5_FullBoxReader.md` and `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/Summary_of_Work.md`.)**
 - [ ] B6. Create `BoxParserRegistry`: map fourcc → parser; default: container? or leaf; unknown: opaque leaf.
 
 ### Phase C — Specific Parsers (Baseline)
@@ -257,7 +257,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] I1. SwiftPM product definitions (library + app).
 - [x] I2. App entitlements for file access; sandbox. *(Completed by E4 distribution scaffolding — see `Distribution/Entitlements/` and `scripts/notarize_app.sh` for notarization tooling.)*
 - [x] I2.a Evaluate whether Apple Events automation is required for notarized builds and extend entitlements safely. *(Completed — see `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md` and the summary in `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/79_Distribution_Apple_Events_Follow_Up.md`.)*
-- [ ] I3. App theming (icon, light/dark). _(In Progress — production icon raster assets are being generated; see [`DOCS/INPROGRESS/I3_App_Icon_Rasterization.md`](../../INPROGRESS/I3_App_Icon_Rasterization.md). Accent palette delivery archived in [`DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/`](../../TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/).)_
+- [ ] I3. App theming (icon, light/dark). _(In Progress — production icon raster assets are being generated; see [`DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/I3_App_Icon_Rasterization.md`](../../TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/I3_App_Icon_Rasterization.md). Accent palette delivery archived in [`DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/`](../../TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/).)_
 - [x] I4. README with feature matrix, supported boxes, screenshots. **(Completed — README updated with matrix, platform coverage, and concept capture; see `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/Summary_of_Work.md`.)**
 - [ ] I5. v0.1.0 Release notes; distribution (TestFlight/DMG notarization).
 

@@ -23,7 +23,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | B5 | Implement validation rules VR-001 to VR-006 with test coverage. | High | 2 | B3 | XCTest | Malformed fixtures trigger expected validation outcomes. (Completed ✅ — VR-006 research logging now persists unknown boxes to a shared research log for CLI/UI analysis.) |
 | B6 | Add JSON and binary export modules with regression tests. | Medium | 1.5 | B3 | Swift Codable | Exported files re-import successfully; CLI smoke tests pass. |
 
-> **Completed (2025-10-18):** Task B5 – Introduce a `FullBoxReader` helper for `(version, flags)` decoding so downstream parsers share a common entry point. Implementation details recorded in `DOCS/INPROGRESS/B5_FullBoxReader.md` and `Summary_of_Work.md`.
+> **Completed (2025-10-18):** Task B5 – Introduce a `FullBoxReader` helper for `(version, flags)` decoding so downstream parsers share a common entry point. Implementation details recorded in `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/B5_FullBoxReader.md` and `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/Summary_of_Work.md`.
 
 ## Phase C — User Interface Package
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
@@ -82,7 +82,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | I1 | SwiftPM product definitions (library + app). | Medium | 0.5 | A1 | SwiftPM | **Completed ✅** — Library and application products ship from `Package.swift`; see `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md` for archived notes. |
 | I2 | App entitlements for file access; sandbox configuration. | Medium | 1 | E4 | Xcode, Notarytool | **Completed ✅** — Distribution entitlements validated via `scripts/notarize_app.sh` and captured under `Distribution/Entitlements/`. |
 | I2a | Evaluate Apple Events automation requirement for notarized builds. | Medium | 0.5 | I2 | Xcode, AppleScript | **Completed ✅** — Assessment archived in `DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md`. |
-| I3 | App theming (icon, light/dark). | Medium | 1 | E4 | Xcode Asset Catalogs | App icon set and accent colors match branding across light/dark appearances. (In Progress — production icon raster assets now being generated; see `DOCS/INPROGRESS/I3_App_Icon_Rasterization.md`. Accent palette delivery archived in `DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/`.) |
+| I3 | App theming (icon, light/dark). | Medium | 1 | E4 | Xcode Asset Catalogs | App icon set and accent colors match branding across light/dark appearances. (In Progress — production icon raster assets now being generated; see `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/I3_App_Icon_Rasterization.md`. Accent palette delivery archived in `DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/`.) |
 | I4 | README with feature matrix, supported boxes, screenshots. | Medium | 0.5 | I1, F4 | Markdown, DocC captures | README documents core features, platform support, and embeds up-to-date screenshots. *(Completed — README now includes feature matrix, platform coverage, and concept capture; see `DOCS/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/Summary_of_Work.md`.)* |
 | I5 | v0.1.0 Release notes; distribution packaging checklist. | Medium | 1 | I3, I4 | Markdown, Notarytool | Publish release notes summarizing MVP scope; DMG/TestFlight artifacts validated. |
 
