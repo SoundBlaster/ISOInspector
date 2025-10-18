@@ -33,7 +33,8 @@ struct ISOInspectorApp: App {
             annotations: annotations,
             recentsStore: recentsStore,
             sessionStore: sessionStore,
-            bookmarkStore: bookmarkStore
+            bookmarkStore: bookmarkStore,
+            filesystemAccess: FilesystemAccess.live()
         )
     }
 

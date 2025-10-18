@@ -99,6 +99,18 @@ public struct FilesystemAccess: Sendable {
         }
     }
 
+    /// Adopts an existing security-scoped URL that was obtained outside of FilesystemAccessKit.
+    ///
+    /// This is primarily used by clients that receive URLs via system integrations
+    /// such as `UIDocumentPickerViewController` or `NSOpenPanel` and need to bring
+    /// them under FilesystemAccessKit's lifecycle management and auditing.
+    public func adoptSecurityScope(
+        for url: URL,
+        category: FilesystemAccessAuditEvent.Category = .externalGrant
+    ) throws -> SecurityScopedURL {
+        try activateSecurityScope(for: url, category: category)
+    }
+
     private func activateSecurityScope(
         for url: URL,
         category: FilesystemAccessAuditEvent.Category
