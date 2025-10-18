@@ -4,6 +4,7 @@
 - The automated rasterization workflow (`scripts/generate_app_icon.py`) and its CI-exercised verification tests were removed.
 - The application now ships a manually maintained `AppIcon.icon` resource inside the Xcode project, keeping the asset catalog in sync without generated PNG variants.
 - Local and CI build steps no longer regenerate PNGs on demand; icon updates are performed by replacing the committed `.icon` asset directly.
+- **Xcode requirement:** Building `AppIcon.icon` assets depends on Xcode 16 tooling (`AssetCatalogAgent` with `.icon` support). CI is now pinned to Xcode 16.0 to avoid compilation failures on older toolchains.
 
 ## Implementation Notes
 - Deleted the Python generator along with the `AppIconAssetTests` XCTest guard that enforced filename conventions tied to generated outputs.
