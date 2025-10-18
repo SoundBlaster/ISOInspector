@@ -280,6 +280,35 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertEqual(filesystemStub.manager.stoppedURLs, [url.standardizedFileURL])
     }
 
+    func testOpenRecentResolvesBookmarkAndActivatesSecurityScope() throws {
+        let recentURL = URL(fileURLWithPath: "/tmp/recent.mp4")
+        let bookmarkData = Data(recentURL.path.utf8)
+        let recent = DocumentRecent(
+            url: recentURL,
+            bookmarkData: bookmarkData,
+            displayName: "Recent",
+            lastOpened: Date()
+        )
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [recent])
+        let filesystemStub = FilesystemAccessStub()
+        var resolvedReaderURL: URL?
+        let controller = makeController(
+            store: recentsStore,
+            readerFactory: { url in
+                resolvedReaderURL = url
+                return StubRandomAccessReader()
+            },
+            workQueue: ImmediateWorkQueue(),
+            filesystemAccess: filesystemStub.makeAccess()
+        )
+
+        controller.openRecent(recent)
+
+        XCTAssertEqual(resolvedReaderURL?.standardizedFileURL, recentURL.standardizedFileURL)
+        XCTAssertEqual(filesystemStub.manager.startedURLs, [recentURL.standardizedFileURL])
+        XCTAssertTrue(filesystemStub.manager.stoppedURLs.isEmpty)
+    }
+
     func testRetryingFailureClearsBannerAfterSuccessfulOpen() throws {
         let store = DocumentRecentsStoreStub(initialRecents: [])
         var shouldFail = true
