@@ -23,7 +23,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | B5 | Implement validation rules VR-001 to VR-006 with test coverage. | High | 2 | B3 | XCTest | Malformed fixtures trigger expected validation outcomes. (Completed ✅ — VR-006 research logging now persists unknown boxes to a shared research log for CLI/UI analysis.) |
 | B6 | Add JSON and binary export modules with regression tests. | Medium | 1.5 | B3 | Swift Codable | Exported files re-import successfully; CLI smoke tests pass. |
 
-> **In Progress:** Task B5 – Introduce a `FullBoxReader` helper for `(version, flags)` decoding so downstream parsers share a common entry point. See `DOCS/INPROGRESS/B5_FullBoxReader.md` for the active PRD.
+> **Completed (2025-10-18):** Task B5 – Introduce a `FullBoxReader` helper for `(version, flags)` decoding so downstream parsers share a common entry point. Implementation details recorded in `DOCS/INPROGRESS/B5_FullBoxReader.md` and `Summary_of_Work.md`.
 
 ## Phase C — User Interface Package
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |

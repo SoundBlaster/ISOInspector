@@ -115,33 +115,28 @@ public struct BoxParserRegistry: Sendable {
         }
 
         static func movieHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+            guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
             var fields: [ParsedBoxPayload.Field] = []
             let start = header.payloadRange.lowerBound
             let end = header.payloadRange.upperBound
-            guard end > start else { return nil }
 
-            guard let versionData = try readData(reader, at: start, count: 1, end: end), let version = versionData.first else {
-                return nil
-            }
             fields.append(ParsedBoxPayload.Field(
                 name: "version",
-                value: String(version),
+                value: String(fullHeader.version),
                 description: "Structure version",
                 byteRange: start..<(start + 1)
             ))
 
-            if let flags = try readData(reader, at: start + 1, count: 3, end: end) {
-                let value = flags.reduce(UInt32(0)) { ($0 << 8) | UInt32($1) }
-                fields.append(ParsedBoxPayload.Field(
-                    name: "flags",
-                    value: String(format: "0x%06X", value),
-                    description: "Bit flags",
-                    byteRange: (start + 1)..<(start + 4)
-                ))
-            }
+            fields.append(ParsedBoxPayload.Field(
+                name: "flags",
+                value: String(format: "0x%06X", fullHeader.flags),
+                description: "Bit flags",
+                byteRange: (start + 1)..<(start + 4)
+            ))
 
-            var cursor = start + 4
-            if version == 1 {
+            var cursor = fullHeader.contentStart
+            if fullHeader.version == 1 {
                 if let creation = try readUInt64(reader, at: cursor, end: end) {
                     fields.append(ParsedBoxPayload.Field(
                         name: "creation_time",
@@ -258,33 +253,28 @@ public struct BoxParserRegistry: Sendable {
         }
 
         static func trackHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+            guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
             let start = header.payloadRange.lowerBound
             let end = header.payloadRange.upperBound
-            guard end > start else { return nil }
 
             var fields: [ParsedBoxPayload.Field] = []
-            guard let versionData = try readData(reader, at: start, count: 1, end: end), let version = versionData.first else {
-                return nil
-            }
             fields.append(ParsedBoxPayload.Field(
                 name: "version",
-                value: String(version),
+                value: String(fullHeader.version),
                 description: "Structure version",
                 byteRange: start..<(start + 1)
             ))
 
-            if let flags = try readData(reader, at: start + 1, count: 3, end: end) {
-                let value = flags.reduce(UInt32(0)) { ($0 << 8) | UInt32($1) }
-                fields.append(ParsedBoxPayload.Field(
-                    name: "flags",
-                    value: String(format: "0x%06X", value),
-                    description: "Bit flags",
-                    byteRange: (start + 1)..<(start + 4)
-                ))
-            }
+            fields.append(ParsedBoxPayload.Field(
+                name: "flags",
+                value: String(format: "0x%06X", fullHeader.flags),
+                description: "Bit flags",
+                byteRange: (start + 1)..<(start + 4)
+            ))
 
-            var cursor = start + 4
-            if version == 1 {
+            var cursor = fullHeader.contentStart
+            if fullHeader.version == 1 {
                 if let creation = try readUInt64(reader, at: cursor, end: end) {
                     fields.append(ParsedBoxPayload.Field(
                         name: "creation_time",
@@ -336,7 +326,7 @@ public struct BoxParserRegistry: Sendable {
 
             cursor += 4 // reserved
 
-            if version == 1 {
+            if fullHeader.version == 1 {
                 if let duration = try readUInt64(reader, at: cursor, end: end) {
                     fields.append(ParsedBoxPayload.Field(
                         name: "duration",
@@ -380,35 +370,36 @@ public struct BoxParserRegistry: Sendable {
                 cursor += 2
             }
 
-        if let volumeData = try readData(reader, at: cursor, count: 2, end: end) {
-            let raw = UInt16(volumeData[0]) << 8 | UInt16(volumeData[1])
-            let value = Double(raw) / 256.0
-            fields.append(ParsedBoxPayload.Field(
-                name: "volume",
-                value: String(format: "%.2f", value),
-                description: "Playback volume",
-                byteRange: cursor..<(cursor + 2)
-            ))
-        }
-        cursor += 2
-        cursor += 2 // reserved
+            if let volumeData = try readData(reader, at: cursor, count: 2, end: end) {
+                let raw = UInt16(volumeData[0]) << 8 | UInt16(volumeData[1])
+                let value = Double(raw) / 256.0
+                fields.append(ParsedBoxPayload.Field(
+                    name: "volume",
+                    value: String(format: "%.2f", value),
+                    description: "Playback volume",
+                    byteRange: cursor..<(cursor + 2)
+                ))
+            }
+            cursor += 2
+            cursor += 2 // reserved
 
-        cursor += 36 // matrix
-        cursor += 24 // predefined
+            cursor += 36 // matrix
+            cursor += 24 // predefined
 
-        if let nextTrack = try readUInt32(reader, at: cursor, end: end) {
-            fields.append(ParsedBoxPayload.Field(
-                name: "next_track_ID",
-                value: String(nextTrack),
-                description: "Next track identifier",
-                byteRange: cursor..<(cursor + 4)
-            ))
-        }
+            if let nextTrack = try readUInt32(reader, at: cursor, end: end) {
+                fields.append(ParsedBoxPayload.Field(
+                    name: "next_track_ID",
+                    value: String(nextTrack),
+                    description: "Next track identifier",
+                    byteRange: cursor..<(cursor + 4)
+                ))
+                cursor += 4
+            }
 
-        if let width = try readUInt32(reader, at: cursor, end: end) {
-            fields.append(ParsedBoxPayload.Field(
-                name: "width",
-                value: formatFixedPoint(width, integerBits: 16),
+            if let width = try readUInt32(reader, at: cursor, end: end) {
+                fields.append(ParsedBoxPayload.Field(
+                    name: "width",
+                    value: formatFixedPoint(width, integerBits: 16),
                     description: "Track width",
                     byteRange: cursor..<(cursor + 4)
                 ))

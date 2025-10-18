@@ -31,3 +31,10 @@ Introduce a reusable helper that extracts the common `(version, flags)` header s
 - [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
 - [`ISOInspector_Master_PRD.md`](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
 - [`BoxParserRegistry.swift`](../../Sources/ISOInspectorKit/ISO/BoxParserRegistry.swift)
+
+## ✅ Status — 2025-10-18
+
+- Implemented `FullBoxReader` with a `FullBoxHeaderFields` return type that exposes decoded version, flags, and the remaining payload range.
+- Added `FullBoxReaderTests` covering successful decoding, truncated payload handling, and reader error propagation.
+- Refactored `mvhd` and `tkhd` default parsers to consume the helper, eliminating duplicated byte offsets while preserving payload field extraction.
+- Updated execution trackers (`next_tasks.md`, workplan backlog, PRD TODO) and documented the automation in `Summary_of_Work.md`.
