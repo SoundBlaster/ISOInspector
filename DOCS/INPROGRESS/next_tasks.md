@@ -2,7 +2,7 @@
 
 ## 🚧 In Progress
 
-- [ ] _(Unassigned — select the next highest-priority puzzle from `todo.md` or the execution workplan.)_
+- [x] Validated `todo.md #3` completion and cleared the placeholder so the next contributor can select a fresh puzzle when new backlog items land.
 
 ## 📝 Release Readiness Validation
 
