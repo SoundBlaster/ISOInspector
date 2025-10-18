@@ -20,6 +20,6 @@
 
 ## Follow-Up Actions
 
-- [ ] Implement manifest-driven fixture acquisition in `generate_fixtures.py`, ensuring checksum validation and license mirroring accompany downloads.【F:DOCS/TASK_ARCHIVE/84_R2_Fixture_Acquisition/R2_Fixture_Acquisition.md†L69-L70】
+- [ ] Implement manifest-driven fixture acquisition in `generate_fixtures.py`, ensuring checksum validation and license mirroring accompany downloads.【F:DOCS/TASK_ARCHIVE/84_R2_Fixture_Acquisition/R2_Fixture_Acquisition.md†L69-L70】 **(In Progress — see `DOCS/INPROGRESS/PDD_45m_Wire_Generate_Fixtures_Manifest.md`.)**
 - [ ] Author fixture storage README describing mount paths and quotas for macOS runners and Linux caches once
   infrastructure is available.【F:DOCS/TASK_ARCHIVE/84_R2_Fixture_Acquisition/R2_Fixture_Acquisition.md†L71-L72】
