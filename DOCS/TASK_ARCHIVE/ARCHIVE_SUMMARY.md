@@ -456,3 +456,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/`.
 - **Highlights:** Captures introduction of the shared `FullBoxReader` helper plus parser refactors, alongside the production app icon rasterization workflow and verification notes consolidated in the Summary of Work.
 - **Next steps carried forward:** macOS-only benchmark, UI automation, and Combine validation runs remain blocked pending hardware access and continue in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist.
+
+## 83_Summary_of_Work_2025-10-Release_Prep
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/83_Summary_of_Work_2025-10-Release_Prep/`.
+- **Highlights:** Captures the October 2025 release prep wrap-up, including v0.1.0 release note publication, distribution checklist validation, and the associated QA evidence for the CLI build and test suites.
+- **Next steps carried forward:** macOS-only release readiness verification, benchmark execution, UI automation, and Combine latency measurements remain blocked pending hardware access and continue in `DOCS/INPROGRESS/next_tasks.md`.
