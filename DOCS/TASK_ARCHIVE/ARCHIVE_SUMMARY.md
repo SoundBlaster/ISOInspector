@@ -504,3 +504,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/90_Summary_of_Work_2025-10-19/`.
 - **Highlights:** Captures the rollover that confirmed `todo.md #3` remains complete and preserves the standing macOS-dependent validation backlog for the next assignee.
 - **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` continues to track the macOS release readiness, benchmarking, UI automation, and Combine latency follow-ups until hardware is available.
+
+## 92_Summary_of_Work_2025-10-19_Accessibility_Guidelines
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/92_Summary_of_Work_2025-10-19_Accessibility_Guidelines/`.
+- **Highlights:** Captures the October 19, 2025 accessibility guidelines checkpoint, linking the published DocC guide with NestedA11yIDs navigation updates and noting that the earlier R3 PRD has been archived for traceability.
+- **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` continues to track the macOS-only release readiness, benchmarking, UI automation, and Combine latency runs that remain blocked pending hardware access.
