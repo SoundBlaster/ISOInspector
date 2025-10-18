@@ -229,7 +229,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] I2. App entitlements for file access; sandbox.
 - [ ] I3. App theming (icon, light/dark).
 - [ ] I4. README with feature matrix, supported boxes, screenshots.
-- [ ] I5. v0.1.0 Release notes; distribution (TestFlight/DMG notarization).
+- [ ] I5. v0.1.0 Release notes; distribution (TestFlight/DMG notarization). _(In Progress — see `DOCS/INPROGRESS/I5_v0_1_0_Release_Notes.md`.)_
 
 ---
 
