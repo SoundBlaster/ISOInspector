@@ -56,7 +56,11 @@ final class DocumentSessionControllerTests: XCTestCase {
 
     func testOpeningDocumentStartsParsingAndUpdatesRecents() throws {
         let store = DocumentRecentsStoreStub(initialRecents: [])
-        let controller = makeController(store: store)
+        let filesystemStub = FilesystemAccessStub()
+        let controller = makeController(
+            store: store,
+            filesystemAccess: filesystemStub.makeAccess()
+        )
         let url = URL(fileURLWithPath: "/tmp/example.mp4")
         var cancellables: Set<AnyCancellable> = []
         let finished = expectation(description: "Parsing finished")
@@ -78,6 +82,31 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertEqual(controller.currentDocument?.url.standardizedFileURL, url.standardizedFileURL)
         XCTAssertEqual(controller.parseTreeStore.fileURL?.standardizedFileURL, url.standardizedFileURL)
         XCTAssertEqual(controller.parseTreeStore.state, .finished)
+        XCTAssertEqual(filesystemStub.manager.startedURLs, [url.standardizedFileURL])
+    }
+
+    func testOpeningSecondDocumentRevokesPreviousScope() throws {
+        let store = DocumentRecentsStoreStub(initialRecents: [])
+        let filesystemStub = FilesystemAccessStub()
+        let controller = makeController(
+            store: store,
+            filesystemAccess: filesystemStub.makeAccess()
+        )
+
+        let firstURL = URL(fileURLWithPath: "/tmp/first.mp4")
+        let secondURL = URL(fileURLWithPath: "/tmp/second.mp4")
+
+        controller.openDocument(at: firstURL)
+        controller.openDocument(at: secondURL)
+
+        XCTAssertEqual(
+            filesystemStub.manager.startedURLs,
+            [firstURL.standardizedFileURL, secondURL.standardizedFileURL]
+        )
+        XCTAssertEqual(
+            filesystemStub.manager.stoppedURLs,
+            [firstURL.standardizedFileURL]
+        )
     }
 
     func testInitializerRestoresSessionSnapshotAndPersistsUpdates() throws {
@@ -151,11 +180,15 @@ final class DocumentSessionControllerTests: XCTestCase {
             windowLayouts: []
         )
 
+        let filesystemStub = FilesystemAccessStub()
+        filesystemStub.resolutions[Data([0x01])] = BookmarkResolution(url: focusURL, isStale: false)
+
         let controller = makeController(
             store: recentsStore,
             sessionStore: sessionStore,
             annotationsStore: annotationStore,
-            bookmarkStore: bookmarkStore
+            bookmarkStore: bookmarkStore,
+            filesystemAccess: filesystemStub.makeAccess()
         )
 
         XCTAssertEqual(controller.recents.count, 2)
@@ -217,6 +250,7 @@ final class DocumentSessionControllerTests: XCTestCase {
             var errorDescription: String? { "Simulated failure" }
         }
         var shouldFail = true
+        let filesystemStub = FilesystemAccessStub()
         let controller = makeController(
             store: store,
             readerFactory: { _ in
@@ -226,7 +260,8 @@ final class DocumentSessionControllerTests: XCTestCase {
                 }
                 return StubRandomAccessReader()
             },
-            workQueue: ImmediateWorkQueue()
+            workQueue: ImmediateWorkQueue(),
+            filesystemAccess: filesystemStub.makeAccess()
         )
 
         let url = URL(fileURLWithPath: "/tmp/missing.mp4")
@@ -240,6 +275,8 @@ final class DocumentSessionControllerTests: XCTestCase {
 
         controller.dismissLoadFailure()
         XCTAssertNil(controller.loadFailure)
+        XCTAssertEqual(filesystemStub.manager.startedURLs, [url.standardizedFileURL])
+        XCTAssertEqual(filesystemStub.manager.stoppedURLs, [url.standardizedFileURL])
     }
 
     func testRetryingFailureClearsBannerAfterSuccessfulOpen() throws {
@@ -361,32 +398,35 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertTrue(message.contains("sessionID"))
     }
 
-    private func makeController(
-        store: DocumentRecentsStoring,
-        sessionStore: WorkspaceSessionStoring? = nil,
-        annotationsStore: AnnotationBookmarkStoring? = nil,
-        pipeline: ParsePipeline? = nil,
-        readerFactory: ((URL) throws -> RandomAccessReader)? = nil,
-        workQueue: DocumentSessionWorkQueue = ImmediateWorkQueue(),
-        diagnostics: DiagnosticsLogging? = nil,
-        bookmarkStore: BookmarkPersistenceManaging? = nil,
-        bookmarkDataProvider: ((URL) -> Data?)? = nil
-    ) -> DocumentSessionController {
-        let resolvedPipeline = pipeline ?? ParsePipeline(buildStream: { _, _ in .finishedStream })
-        let resolvedDiagnostics: (any DiagnosticsLogging)? = diagnostics
-        return DocumentSessionController(
-            parseTreeStore: ParseTreeStore(bridge: ParsePipelineEventBridge()),
-            annotations: AnnotationBookmarkSession(store: annotationsStore),
-            recentsStore: store,
-            sessionStore: sessionStore,
-            pipelineFactory: { resolvedPipeline },
-            readerFactory: readerFactory ?? { _ in StubRandomAccessReader() },
-            workQueue: workQueue,
-            diagnostics: resolvedDiagnostics,
-            bookmarkStore: bookmarkStore,
-            bookmarkDataProvider: bookmarkDataProvider
-        )
-    }
+        private func makeController(
+            store: DocumentRecentsStoring,
+            sessionStore: WorkspaceSessionStoring? = nil,
+            annotationsStore: AnnotationBookmarkStoring? = nil,
+            pipeline: ParsePipeline? = nil,
+            readerFactory: ((URL) throws -> RandomAccessReader)? = nil,
+            workQueue: DocumentSessionWorkQueue = ImmediateWorkQueue(),
+            diagnostics: DiagnosticsLogging? = nil,
+            bookmarkStore: BookmarkPersistenceManaging? = nil,
+            filesystemAccess: FilesystemAccess? = nil,
+            bookmarkDataProvider: ((SecurityScopedURL) -> Data?)? = nil
+        ) -> DocumentSessionController {
+            let resolvedPipeline = pipeline ?? ParsePipeline(buildStream: { _, _ in .finishedStream })
+            let resolvedDiagnostics: (any DiagnosticsLogging)? = diagnostics
+            let access = filesystemAccess ?? FilesystemAccessStub().makeAccess()
+            return DocumentSessionController(
+                parseTreeStore: ParseTreeStore(bridge: ParsePipelineEventBridge()),
+                annotations: AnnotationBookmarkSession(store: annotationsStore),
+                recentsStore: store,
+                sessionStore: sessionStore,
+                pipelineFactory: { resolvedPipeline },
+                readerFactory: readerFactory ?? { _ in StubRandomAccessReader() },
+                workQueue: workQueue,
+                diagnostics: resolvedDiagnostics,
+                bookmarkStore: bookmarkStore,
+                filesystemAccess: access,
+                bookmarkDataProvider: bookmarkDataProvider
+            )
+        }
 
     private func sampleRecent(index: Int) -> DocumentRecent {
         DocumentRecent(

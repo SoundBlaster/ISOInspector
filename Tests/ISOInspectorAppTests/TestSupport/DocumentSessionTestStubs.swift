@@ -176,4 +176,53 @@ final class StubRandomAccessReader: RandomAccessReader {
         Data(count: count)
     }
 }
+
+final class SecurityScopedAccessManagerStub: SecurityScopedAccessManaging {
+    var allowAccess = true
+    private(set) var startedURLs: [URL] = []
+    private(set) var stoppedURLs: [URL] = []
+
+    func startAccessing(_ url: URL) -> Bool {
+        startedURLs.append(url.standardizedFileURL)
+        return allowAccess
+    }
+
+    func stopAccessing(_ url: URL) {
+        stoppedURLs.append(url.standardizedFileURL)
+    }
+}
+
+extension SecurityScopedAccessManagerStub: @unchecked Sendable {}
+
+final class FilesystemAccessStub: @unchecked Sendable {
+    let manager = SecurityScopedAccessManagerStub()
+    var resolutions: [Data: BookmarkResolution] = [:]
+    var resolutionError: Error?
+    var bookmarkCreator: ((URL) throws -> Data)?
+
+    func makeAccess() -> FilesystemAccess {
+        FilesystemAccess(
+            openFileHandler: { _ in URL(fileURLWithPath: "/tmp/stub-open.mp4") },
+            saveFileHandler: { _ in URL(fileURLWithPath: "/tmp/stub-save.mp4") },
+            bookmarkCreator: { [weak self] url in
+                if let creator = self?.bookmarkCreator {
+                    return try creator(url)
+                }
+                return Data(url.path.utf8)
+            },
+            bookmarkResolver: { [weak self] data in
+                if let error = self?.resolutionError {
+                    throw error
+                }
+                if let resolution = self?.resolutions[data] {
+                    return resolution
+                }
+                let path = String(decoding: data, as: UTF8.self)
+                return BookmarkResolution(url: URL(fileURLWithPath: path), isStale: false)
+            },
+            securityScopeManager: manager,
+            logger: .disabled
+        )
+    }
+}
 #endif
