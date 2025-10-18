@@ -450,3 +450,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/`.
 - **Highlights:** Records delivery of the refreshed SwiftUI theming layer, including the WCAG-AA brand palette, app-wide tint modifier, and asset catalog wiring captured in the accompanying Summary of Work.
 - **Next steps carried forward:** Production icon rasterization remains outstanding (`todo.md` PDD:45m) alongside the macOS hardware-dependent benchmark and automation runs documented in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon
+- **Archived files:** `B5_FullBoxReader.md`, `I3_App_Icon_Rasterization.md`, `Summary_of_Work.md`, and the `next_tasks.md` checklist.
+- **Archived location:** `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/`.
+- **Highlights:** Captures introduction of the shared `FullBoxReader` helper plus parser refactors, alongside the production app icon rasterization workflow and verification notes consolidated in the Summary of Work.
+- **Next steps carried forward:** macOS-only benchmark, UI automation, and Combine validation runs remain blocked pending hardware access and continue in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist.
