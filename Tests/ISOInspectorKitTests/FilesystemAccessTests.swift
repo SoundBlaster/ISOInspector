@@ -198,6 +198,44 @@ final class FilesystemAccessTests: XCTestCase {
         XCTAssertEqual(events.first?.pathHash, expectedHash(for: expectedURL))
     }
 
+    func testAdoptSecurityScopeLogsAndManagesLifecycle() throws {
+        let expectedURL = URL(fileURLWithPath: "/tmp/adopt.mp4")
+        let scopeManager = FilesystemAccessTestSecurityScope()
+        let bookmarkManager = FilesystemAccessTestBookmarkManager()
+        let diagnosticsLogger = FilesystemAccessTestLogger()
+        let auditTrail = FilesystemAccessAuditTrail(limit: 5)
+        let accessLogger = FilesystemAccessLogger(
+            diagnosticsLogger,
+            auditTrail: auditTrail,
+            makeDate: { Date(timeIntervalSinceReferenceDate: 6) }
+        )
+
+        let access = FilesystemAccess(
+            openFileHandler: { _ in expectedURL },
+            saveFileHandler: { _ in expectedURL },
+            bookmarkCreator: bookmarkManager.createBookmark(for:),
+            bookmarkResolver: bookmarkManager.resolveBookmark(data:),
+            securityScopeManager: scopeManager,
+            logger: accessLogger
+        )
+
+        let scopedURL = try access.adoptSecurityScope(for: expectedURL)
+        XCTAssertEqual(scopedURL.url, expectedURL)
+        XCTAssertEqual(scopeManager.startedURLs, [expectedURL])
+        XCTAssertTrue(
+            diagnosticsLogger.infoMessages.contains { $0.contains("scope.external_grant.access_granted") }
+        )
+
+        scopedURL.revoke()
+        XCTAssertEqual(scopeManager.stoppedURLs, [expectedURL])
+
+        let events = auditTrail.snapshot()
+        XCTAssertEqual(events.count, 1)
+        XCTAssertEqual(events.first?.category, .externalGrant)
+        XCTAssertEqual(events.first?.outcome, .accessGranted)
+        XCTAssertEqual(events.first?.pathHash, expectedHash(for: expectedURL))
+    }
+
     #if !canImport(AppKit)
     func testLiveUsesDocumentPickerPresenterWhenAppKitUnavailable() async throws {
         let expectedOpenURL = URL(fileURLWithPath: "/tmp/open.mp4")

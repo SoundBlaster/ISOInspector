@@ -11,6 +11,7 @@ final class AppShellViewErrorBannerTests: XCTestCase {
     func testBannerAppearsForLoadFailureAndClearsAfterRetry() throws {
         let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
         var shouldFail = true
+        let filesystemAccessStub = FilesystemAccessStub()
         let controller = DocumentSessionController(
             parseTreeStore: ParseTreeStore(bridge: ParsePipelineEventBridge()),
             annotations: AnnotationBookmarkSession(store: nil),
@@ -27,7 +28,8 @@ final class AppShellViewErrorBannerTests: XCTestCase {
                 }
                 return StubRandomAccessReader()
             },
-            workQueue: ImmediateWorkQueue()
+            workQueue: ImmediateWorkQueue(),
+            filesystemAccess: filesystemAccessStub.makeAccess()
         )
 
         let view = AppShellView(controller: controller)

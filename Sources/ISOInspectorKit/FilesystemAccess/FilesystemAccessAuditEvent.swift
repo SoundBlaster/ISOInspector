@@ -6,6 +6,7 @@ public struct FilesystemAccessAuditEvent: Equatable, Sendable {
         case saveFile = "save_file"
         case bookmarkCreate = "bookmark.create"
         case bookmarkResolve = "bookmark.resolve"
+        case externalGrant = "scope.external_grant"
     }
 
     public enum Outcome: String, Sendable {

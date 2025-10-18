@@ -23,14 +23,6 @@
 
     extension BookmarkPersistenceStore: BookmarkPersistenceManaging {}
 
-    #if os(macOS)
-        private let bookmarkCreationOptions: URL.BookmarkCreationOptions = [.withSecurityScope]
-        private let bookmarkResolutionOptions: URL.BookmarkResolutionOptions = [.withSecurityScope]
-    #else
-        private let bookmarkCreationOptions: URL.BookmarkCreationOptions = []
-        private let bookmarkResolutionOptions: URL.BookmarkResolutionOptions = []
-    #endif
-
     @MainActor
     final class DocumentSessionController: ObservableObject {
         @Published private(set) var recents: [DocumentRecent]
@@ -48,7 +40,8 @@
         private let sessionStore: WorkspaceSessionStoring?
         private let diagnostics: any DiagnosticsLogging
         private let bookmarkStore: BookmarkPersistenceManaging?
-        private let bookmarkDataProvider: (URL) -> Data?
+        private let filesystemAccess: FilesystemAccess
+        private let bookmarkDataProvider: (SecurityScopedURL) -> Data?
 
         private let logger = Logger(subsystem: "ISOInspectorApp", category: "DocumentSession")
 
@@ -59,7 +52,7 @@
         private var pendingSessionSnapshot: WorkspaceSessionSnapshot?
         private var annotationsSelectionCancellable: AnyCancellable?
         private var lastFailedRecent: DocumentRecent?
-        private var activeSecurityScopedURL: URL?
+        private var activeSecurityScopedURL: SecurityScopedURL?
 
         init(
             parseTreeStore: ParseTreeStore? = nil,
@@ -74,7 +67,8 @@
             diagnostics: (any DiagnosticsLogging)? = nil,
             recentLimit: Int = 10,
             bookmarkStore: BookmarkPersistenceManaging? = nil,
-            bookmarkDataProvider: ((URL) -> Data?)? = nil
+            filesystemAccess: FilesystemAccess = .live(),
+            bookmarkDataProvider: ((SecurityScopedURL) -> Data?)? = nil
         ) {
             let resolvedParseTreeStore = parseTreeStore ?? ParseTreeStore()
             let resolvedAnnotations = annotations ?? AnnotationBookmarkSession(store: nil)
@@ -94,19 +88,12 @@
                     category: "DocumentSessionPersistence"
                 )
             self.bookmarkStore = bookmarkStore
+            self.filesystemAccess = filesystemAccess
             if let bookmarkDataProvider {
                 self.bookmarkDataProvider = bookmarkDataProvider
             } else {
-                self.bookmarkDataProvider = { url in
-                    #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-                        return try? url.bookmarkData(
-                            options: bookmarkCreationOptions,
-                            includingResourceValuesForKeys: nil,
-                            relativeTo: nil
-                        )
-                    #else
-                        return nil
-                    #endif
+                self.bookmarkDataProvider = { scopedURL in
+                    try? filesystemAccess.createBookmark(for: scopedURL)
                 }
             }
             self.recents = (try? recentsStore.load()) ?? []
@@ -130,31 +117,60 @@
 
         deinit {
             // Clean up security-scoped resource access on deallocation
-            if let activeURL = activeSecurityScopedURL {
-                activeURL.stopAccessingSecurityScopedResource()
-            }
+            activeSecurityScopedURL?.revoke()
         }
 
         func openDocument(at url: URL) {
-            var recent = DocumentRecent(
-                url: url.standardizedFileURL,
-                bookmarkData: nil,
-                displayName: url.lastPathComponent,
-                lastOpened: Date()
-            )
-            recent.bookmarkData = makeBookmarkData(for: recent.url)
-            openDocument(recent: recent)
+            workQueue.execute { [weak self] in
+                guard let self else { return }
+
+                let standardized = url.standardizedFileURL
+                var baseRecent = DocumentRecent(
+                    url: standardized,
+                    bookmarkData: nil,
+                    displayName: url.lastPathComponent,
+                    lastOpened: Date()
+                )
+                var adoptedScope: SecurityScopedURL?
+                var accessContext: AccessContext?
+
+                do {
+                    adoptedScope = try self.filesystemAccess.adoptSecurityScope(for: standardized)
+                    accessContext = try self.prepareAccess(
+                        for: baseRecent,
+                        preResolvedScope: adoptedScope
+                    )
+                    let reader = try self.readerFactory(accessContext!.scopedURL.url)
+                    let pipeline = self.pipelineFactory()
+                    Task { @MainActor in
+                        self.startSession(
+                            scopedURL: accessContext!.scopedURL,
+                            bookmark: accessContext!.bookmarkData,
+                            bookmarkRecord: accessContext!.bookmarkRecord,
+                            reader: reader,
+                            pipeline: pipeline,
+                            recent: accessContext!.recent,
+                            restoredSelection: nil
+                        )
+                    }
+                } catch {
+                    accessContext?.scopedURL.revoke()
+                    adoptedScope?.revoke()
+                    let failureRecent = accessContext?.recent ?? baseRecent
+                    Task { @MainActor in
+                        self.emitLoadFailure(for: failureRecent, error: error)
+                    }
+                }
+            }
         }
 
         func openRecent(_ recent: DocumentRecent) {
-            switch normalizeRecent(recent) {
-            case .success(let normalized):
-                openDocument(recent: normalized)
-            case .failure(let error):
-                var failedRecent = recent
-                failedRecent.url = recent.url.standardizedFileURL
-                handleRecentAccessFailure(failedRecent, error: error)
-            }
+            openDocument(
+                recent: recent,
+                restoredSelection: nil,
+                preResolvedScope: nil,
+                failureRecent: recent
+            )
         }
 
         func removeRecent(at offsets: IndexSet) {
@@ -181,98 +197,223 @@
             [.mpeg4Movie, .quickTimeMovie]
         }
 
-        private func openDocument(recent: DocumentRecent, restoredSelection: Int64? = nil) {
+        private func openDocument(
+            recent: DocumentRecent,
+            restoredSelection: Int64? = nil,
+            preResolvedScope: SecurityScopedURL? = nil,
+            failureRecent: DocumentRecent? = nil
+        ) {
             workQueue.execute { [weak self] in
                 guard let self else { return }
 
-                // First, resolve any bookmarks to get the correct URL
-                let resolvedRecent: DocumentRecent
-                if recent.bookmarkData != nil || recent.bookmarkIdentifier != nil {
-                    // This recent has a bookmark, resolve it first
-                    switch self.normalizeRecent(recent) {
-                    case .success(let normalized):
-                        resolvedRecent = normalized
-                    case .failure(let error):
-                        var failedRecent = recent
-                        failedRecent.url = recent.url.standardizedFileURL
-                        if Thread.isMainThread {
-                            self.handleRecentAccessFailure(failedRecent, error: error)
-                        } else {
-                            Task { @MainActor in
-                                self.handleRecentAccessFailure(failedRecent, error: error)
-                            }
-                        }
-                        return
-                    }
-                } else {
-                    resolvedRecent = recent
-                }
-
-                // Start accessing security-scoped resource on the resolved URL
-                let standardized = resolvedRecent.url.standardizedFileURL
-                let didStartAccessing = standardized.startAccessingSecurityScopedResource()
+                var accessContext: AccessContext?
 
                 do {
-                    let record = self.resolveBookmarkRecord(
-                        for: resolvedRecent, url: standardized, allowCreation: true)
-                    let bookmark =
-                        record?.bookmarkData ?? resolvedRecent.bookmarkData
-                        ?? self.makeBookmarkData(for: standardized)
-                    let reader = try self.readerFactory(standardized)
+                    accessContext = try self.prepareAccess(
+                        for: recent,
+                        preResolvedScope: preResolvedScope
+                    )
+                    let reader = try self.readerFactory(accessContext!.scopedURL.url)
                     let pipeline = self.pipelineFactory()
-                    var preparedRecent = resolvedRecent
-                    preparedRecent.url = standardized
-                    if let record {
-                        preparedRecent = self.applyBookmarkRecord(record, to: preparedRecent)
-                    } else {
-                        preparedRecent.bookmarkData = preparedRecent.bookmarkData ?? bookmark
-                    }
-                    preparedRecent.displayName =
-                        preparedRecent.displayName.isEmpty
-                        ? standardized.lastPathComponent : preparedRecent.displayName
-                    if Thread.isMainThread {
+                    Task { @MainActor in
                         self.startSession(
-                            url: standardized,
-                            securityScopedURL: didStartAccessing ? standardized : nil,
-                            bookmark: bookmark,
-                            bookmarkRecord: record,
+                            scopedURL: accessContext!.scopedURL,
+                            bookmark: accessContext!.bookmarkData,
+                            bookmarkRecord: accessContext!.bookmarkRecord,
                             reader: reader,
                             pipeline: pipeline,
-                            recent: preparedRecent,
+                            recent: accessContext!.recent,
                             restoredSelection: restoredSelection
                         )
-                    } else {
-                        Task { @MainActor in
-                            self.startSession(
-                                url: standardized,
-                                securityScopedURL: didStartAccessing ? standardized : nil,
-                                bookmark: bookmark,
-                                bookmarkRecord: record,
-                                reader: reader,
-                                pipeline: pipeline,
-                                recent: preparedRecent,
-                                restoredSelection: restoredSelection
-                            )
+                    }
+                } catch let accessError as DocumentAccessError {
+                    preResolvedScope?.revoke()
+                    accessContext?.scopedURL.revoke()
+                    let targetRecent = failureRecent ?? recent
+                    Task { @MainActor in
+                        if let failureRecent {
+                            self.handleRecentAccessFailure(targetRecent, error: accessError)
+                        } else {
+                            self.emitLoadFailure(for: targetRecent, error: accessError)
                         }
                     }
                 } catch {
-                    var failedRecent = recent
-                    failedRecent.url = recent.url.standardizedFileURL
-                    if Thread.isMainThread {
-                        self.emitLoadFailure(for: failedRecent, error: error)
-                    } else {
-                        Task { @MainActor in
-                            self.emitLoadFailure(for: failedRecent, error: error)
-                        }
+                    preResolvedScope?.revoke()
+                    accessContext?.scopedURL.revoke()
+                    let targetRecent = failureRecent ?? recent
+                    Task { @MainActor in
+                        self.emitLoadFailure(for: targetRecent, error: error)
                     }
                 }
             }
         }
 
+        private struct AccessContext {
+            let scopedURL: SecurityScopedURL
+            var recent: DocumentRecent
+            var bookmarkRecord: BookmarkPersistenceStore.Record?
+            var bookmarkData: Data?
+        }
+
+        private func prepareAccess(
+            for recent: DocumentRecent,
+            preResolvedScope: SecurityScopedURL?
+        ) throws -> AccessContext {
+            if let scope = preResolvedScope {
+                return prepareAccessUsingPreResolvedScope(scope, for: recent)
+            }
+            return try prepareAccessResolvingBookmark(for: recent)
+        }
+
+        private func prepareAccessUsingPreResolvedScope(
+            _ scope: SecurityScopedURL,
+            for recent: DocumentRecent
+        ) -> AccessContext {
+            var preparedRecent = recent
+            preparedRecent.url = scope.url
+            preparedRecent.displayName =
+                preparedRecent.displayName.isEmpty
+                ? scope.url.lastPathComponent : preparedRecent.displayName
+
+            var record: BookmarkPersistenceStore.Record?
+            var bookmarkData: Data?
+
+            if let bookmarkStore {
+                if let identifier = preparedRecent.bookmarkIdentifier,
+                    let existing = try? bookmarkStore.record(withID: identifier) {
+                    record = existing
+                } else if let existing = try? bookmarkStore.record(for: scope.url) {
+                    record = existing
+                } else if let data = makeBookmarkData(for: scope) {
+                    record = try? bookmarkStore.upsertBookmark(for: scope.url, bookmarkData: data)
+                }
+
+                if let record {
+                    preparedRecent = applyBookmarkRecord(record, to: preparedRecent)
+                }
+            } else {
+                bookmarkData = preparedRecent.bookmarkData ?? makeBookmarkData(for: scope)
+                preparedRecent.bookmarkData = bookmarkData
+            }
+
+            return AccessContext(
+                scopedURL: scope,
+                recent: preparedRecent,
+                bookmarkRecord: record,
+                bookmarkData: bookmarkData
+            )
+        }
+
+        private func prepareAccessResolvingBookmark(
+            for recent: DocumentRecent
+        ) throws -> AccessContext {
+            var preparedRecent = recent
+            let standardized = recent.url.standardizedFileURL
+
+            var candidateRecord: BookmarkPersistenceStore.Record?
+            if let bookmarkStore {
+                if let identifier = preparedRecent.bookmarkIdentifier,
+                    let existing = try? bookmarkStore.record(withID: identifier) {
+                    candidateRecord = existing
+                } else if let existing = try? bookmarkStore.record(for: standardized) {
+                    candidateRecord = existing
+                }
+            }
+
+            var bookmarkBlob: Data?
+            if let candidateRecord {
+                bookmarkBlob = candidateRecord.bookmarkData
+            } else if let existingData = preparedRecent.bookmarkData {
+                bookmarkBlob = existingData
+            }
+
+            var resolvedScope: SecurityScopedURL
+            var record: BookmarkPersistenceStore.Record? = candidateRecord
+            var bookmarkData: Data?
+
+            if let blob = bookmarkBlob {
+                do {
+                    let resolution = try filesystemAccess.resolveBookmarkData(blob)
+                    resolvedScope = resolution.url
+                    preparedRecent.url = resolution.url.url
+                    preparedRecent.displayName =
+                        preparedRecent.displayName.isEmpty
+                        ? resolution.url.url.lastPathComponent : preparedRecent.displayName
+
+                    if let bookmarkStore {
+                        if resolution.isStale,
+                            let refreshed = makeBookmarkData(for: resolution.url),
+                            let updated = try? bookmarkStore.upsertBookmark(
+                                for: resolution.url.url,
+                                bookmarkData: refreshed
+                            ) {
+                            record = updated
+                        }
+                        let state: BookmarkResolutionState = resolution.isStale ? .stale : .succeeded
+                        if let updated = try? bookmarkStore.markResolution(
+                            for: resolution.url.url,
+                            state: state
+                        ) {
+                            record = updated
+                        }
+                        if record == nil,
+                            let refreshed = makeBookmarkData(for: resolution.url) {
+                            record = try? bookmarkStore.upsertBookmark(
+                                for: resolution.url.url,
+                                bookmarkData: refreshed
+                            )
+                        }
+                    } else {
+                        if resolution.isStale {
+                            bookmarkData = makeBookmarkData(for: resolution.url) ?? blob
+                        } else {
+                            bookmarkData = blob
+                        }
+                    }
+                } catch {
+                    if let bookmarkStore {
+                        _ = try? bookmarkStore.markResolution(
+                            for: standardized,
+                            state: .failed
+                        )
+                    }
+                    throw DocumentAccessError.unresolvedBookmark
+                }
+            } else {
+                resolvedScope = try filesystemAccess.adoptSecurityScope(for: standardized)
+                preparedRecent.url = resolvedScope.url
+                preparedRecent.displayName =
+                    preparedRecent.displayName.isEmpty
+                    ? resolvedScope.url.lastPathComponent : preparedRecent.displayName
+
+                if let bookmarkStore,
+                    let data = makeBookmarkData(for: resolvedScope) {
+                    record = try? bookmarkStore.upsertBookmark(
+                        for: resolvedScope.url,
+                        bookmarkData: data
+                    )
+                } else {
+                    bookmarkData = makeBookmarkData(for: resolvedScope)
+                }
+            }
+
+            if let record {
+                preparedRecent = applyBookmarkRecord(record, to: preparedRecent)
+            } else {
+                preparedRecent.bookmarkData = bookmarkData
+            }
+
+            return AccessContext(
+                scopedURL: resolvedScope,
+                recent: preparedRecent,
+                bookmarkRecord: record,
+                bookmarkData: bookmarkData
+            )
+        }
+
         // swiftlint:disable:next function_parameter_count
         private func startSession(
-            url: URL,
-            securityScopedURL: URL?,
+            scopedURL: SecurityScopedURL,
             bookmark: Data?,
             bookmarkRecord: BookmarkPersistenceStore.Record?,
             reader: RandomAccessReader,
@@ -281,14 +422,17 @@
             restoredSelection: Int64?
         ) {
             // Release previous security-scoped resource if any
-            if let previousURL = activeSecurityScopedURL {
-                previousURL.stopAccessingSecurityScopedResource()
-            }
+            activeSecurityScopedURL?.revoke()
 
             // Store the new security-scoped URL to keep access alive
-            activeSecurityScopedURL = securityScopedURL
-            parseTreeStore.start(pipeline: pipeline, reader: reader, context: .init(source: url))
-            annotations.setFileURL(url)
+            activeSecurityScopedURL = scopedURL
+            let standardizedURL = scopedURL.url
+            parseTreeStore.start(
+                pipeline: pipeline,
+                reader: reader,
+                context: .init(source: standardizedURL)
+            )
+            annotations.setFileURL(standardizedURL)
             if let restoredSelection {
                 annotations.setSelectedNode(restoredSelection)
             } else {
@@ -303,7 +447,7 @@
             updatedRecent.lastOpened = Date()
             updatedRecent.displayName =
                 updatedRecent.displayName.isEmpty
-                ? url.lastPathComponent : updatedRecent.displayName
+                ? standardizedURL.lastPathComponent : updatedRecent.displayName
             loadFailure = nil
             lastFailedRecent = nil
             currentDocument = updatedRecent
@@ -344,66 +488,8 @@
             }
         }
 
-        private func makeBookmarkData(for url: URL) -> Data? {
-            bookmarkDataProvider(url)
-        }
-
-        private func resolveURL(for recent: DocumentRecent) -> URL? {
-            #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
-                let standardized = recent.url.standardizedFileURL
-                let record = resolveBookmarkRecord(
-                    for: recent, url: standardized, allowCreation: false)
-                let bookmark = record?.bookmarkData ?? recent.bookmarkData
-                if let bookmark {
-                    var isStale = false
-                    if let url = try? URL(
-                        resolvingBookmarkData: bookmark,
-                        options: bookmarkResolutionOptions,
-                        relativeTo: nil,
-                        bookmarkDataIsStale: &isStale
-                    ) {
-                        if isStale,
-                            let refreshed = makeBookmarkData(for: url) {
-                            replaceBookmark(for: url, data: refreshed)
-                        }
-                        if let record {
-                            updateRecent(with: record, for: standardized)
-                            if let bookmarkStore {
-                                _ = try? bookmarkStore.markResolution(
-                                    for: url,
-                                    state: isStale ? .stale : .succeeded
-                                )
-                            }
-                        }
-                        return url
-                    }
-                }
-                if let record {
-                    updateRecent(with: record, for: standardized)
-                    if let bookmarkStore {
-                        _ = try? bookmarkStore.markResolution(for: standardized, state: .failed)
-                    }
-                }
-            #endif
-            return recent.url
-        }
-
-        private func replaceBookmark(for url: URL, data: Data) {
-            guard
-                let index = recents.firstIndex(where: {
-                    $0.url.standardizedFileURL == url.standardizedFileURL
-                })
-            else {
-                return
-            }
-            if let bookmarkStore,
-                let record = try? bookmarkStore.upsertBookmark(for: url, bookmarkData: data) {
-                recents[index] = applyBookmarkRecord(record, to: recents[index])
-            } else {
-                recents[index].bookmarkData = data
-            }
-            persistRecents()
-            persistSession()
+        private func makeBookmarkData(for scopedURL: SecurityScopedURL) -> Data? {
+            bookmarkDataProvider(scopedURL)
         }
 
         private func applySessionSnapshot(_ snapshot: WorkspaceSessionSnapshot) {
@@ -458,7 +544,12 @@
             else {
                 return
             }
-            openDocument(recent: focused.recent, restoredSelection: focused.lastSelectionNodeID)
+            openDocument(
+                recent: focused.recent,
+                restoredSelection: focused.lastSelectionNodeID,
+                preResolvedScope: nil,
+                failureRecent: focused.recent
+            )
         }
 
         private func persistSession() {
@@ -622,44 +713,6 @@
             }
         }
 
-        private func resolveBookmarkRecord(
-            for recent: DocumentRecent,
-            url: URL,
-            allowCreation: Bool
-        ) -> BookmarkPersistenceStore.Record? {
-            guard let bookmarkStore else { return nil }
-            if let identifier = recent.bookmarkIdentifier,
-                let record = try? bookmarkStore.record(withID: identifier) {
-                return record
-            }
-            if let record = try? bookmarkStore.record(for: url) {
-                return record
-            }
-            if let data = recent.bookmarkData,
-                let record = try? bookmarkStore.upsertBookmark(for: url, bookmarkData: data) {
-                return record
-            }
-            if allowCreation, let data = makeBookmarkData(for: url) {
-                return try? bookmarkStore.upsertBookmark(for: url, bookmarkData: data)
-            }
-            return nil
-        }
-
-        private func normalizeRecent(_ recent: DocumentRecent) -> Result<
-            DocumentRecent, DocumentAccessError
-        > {
-            guard let resolvedURL = resolveURL(for: recent) else {
-                return .failure(.unresolvedBookmark)
-            }
-            let standardized = resolvedURL.standardizedFileURL
-            // Note: We can't check isReadableFile here because security-scoped resources
-            // need to be activated first. File accessibility will be checked when
-            // attempting to create the FileHandle in openDocument().
-            var normalized = recent
-            normalized.url = standardized
-            return .success(normalized)
-        }
-
         private func handleRecentAccessFailure(_ recent: DocumentRecent, error: DocumentAccessError) {
             removeRecent(with: recent.url)
             emitLoadFailure(for: recent, error: error)
@@ -726,9 +779,6 @@
             return lastComponent.isEmpty ? recent.url.absoluteString : lastComponent
         }
 
-        private func isReadableFile(at url: URL) -> Bool {
-            FileManager.default.isReadableFile(atPath: url.path)
-        }
     }
 
     extension DocumentSessionController {
