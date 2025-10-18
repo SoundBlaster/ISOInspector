@@ -199,11 +199,25 @@ final class FilesystemAccessStub: @unchecked Sendable {
     var resolutions: [Data: BookmarkResolution] = [:]
     var resolutionError: Error?
     var bookmarkCreator: ((URL) throws -> Data)?
+    var saveHandler: (@Sendable (FilesystemSaveConfiguration) async throws -> URL)?
+    private(set) var lastSaveConfiguration: FilesystemSaveConfiguration?
+    private(set) var lastSavedURL: URL?
 
     func makeAccess() -> FilesystemAccess {
         FilesystemAccess(
             openFileHandler: { _ in URL(fileURLWithPath: "/tmp/stub-open.mp4") },
-            saveFileHandler: { _ in URL(fileURLWithPath: "/tmp/stub-save.mp4") },
+            saveFileHandler: { [weak self] configuration in
+                guard let self else { return URL(fileURLWithPath: "/tmp/stub-save.mp4") }
+                self.lastSaveConfiguration = configuration
+                let destination: URL
+                if let handler = self.saveHandler {
+                    destination = try await handler(configuration)
+                } else {
+                    destination = URL(fileURLWithPath: "/tmp/stub-save.mp4")
+                }
+                self.lastSavedURL = destination
+                return destination
+            },
             bookmarkCreator: { [weak self] url in
                 if let creator = self?.bookmarkCreator {
                     return try creator(url)

@@ -9,19 +9,24 @@ struct ParseTreeExplorerView: View {
     @ObservedObject var annotations: AnnotationBookmarkSession
     @StateObject private var outlineViewModel: ParseTreeOutlineViewModel
     @StateObject private var detailViewModel: ParseTreeDetailViewModel
-    @State private var selectedNodeID: ParseTreeNode.ID?
+    @Binding var selectedNodeID: ParseTreeNode.ID?
     @FocusState private var focusTarget: InspectorFocusTarget?
+    let exportSelectionAction: ((ParseTreeNode.ID) -> Void)?
 
     init(
         store: ParseTreeStore,
         annotations: AnnotationBookmarkSession,
         outlineViewModel: ParseTreeOutlineViewModel,
-        detailViewModel: ParseTreeDetailViewModel
+        detailViewModel: ParseTreeDetailViewModel,
+        selectedNodeID: Binding<ParseTreeNode.ID?>,
+        exportSelectionAction: ((ParseTreeNode.ID) -> Void)? = nil
     ) {
         self._store = ObservedObject(wrappedValue: store)
         self._annotations = ObservedObject(wrappedValue: annotations)
         self._outlineViewModel = StateObject(wrappedValue: outlineViewModel)
         self._detailViewModel = StateObject(wrappedValue: detailViewModel)
+        self._selectedNodeID = selectedNodeID
+        self.exportSelectionAction = exportSelectionAction
     }
 
     var body: some View {
@@ -32,7 +37,8 @@ struct ParseTreeExplorerView: View {
                     viewModel: outlineViewModel,
                     selectedNodeID: $selectedNodeID,
                     annotationSession: annotations,
-                    focusTarget: $focusTarget
+                    focusTarget: $focusTarget,
+                    exportSelectionAction: exportSelectionAction
                 )
                 .frame(minWidth: 320)
                 .focused($focusTarget, equals: .outline)
@@ -144,6 +150,21 @@ struct ParseTreeOutlineView: View {
     @ObservedObject var annotationSession: AnnotationBookmarkSession
     @FocusState private var focusedRowID: ParseTreeNode.ID?
     let focusTarget: FocusState<InspectorFocusTarget?>.Binding
+    let exportSelectionAction: ((ParseTreeNode.ID) -> Void)?
+    
+    init(
+        viewModel: ParseTreeOutlineViewModel,
+        selectedNodeID: Binding<ParseTreeNode.ID?>,
+        annotationSession: AnnotationBookmarkSession,
+        focusTarget: FocusState<InspectorFocusTarget?>.Binding,
+        exportSelectionAction: ((ParseTreeNode.ID) -> Void)? = nil
+    ) {
+        self._viewModel = ObservedObject(wrappedValue: viewModel)
+        self._selectedNodeID = selectedNodeID
+        self._annotationSession = ObservedObject(wrappedValue: annotationSession)
+        self.focusTarget = focusTarget
+        self.exportSelectionAction = exportSelectionAction
+    }
     @State private var keyboardSelectionID: ParseTreeNode.ID?
 
     var body: some View {
@@ -254,6 +275,11 @@ struct ParseTreeOutlineView: View {
                                 selectedNodeID = row.id
                                 annotationSession.setSelectedNode(row.id)
                                 annotationSession.toggleBookmark()
+                            },
+                            onExport: exportSelectionAction.map { action in
+                                {
+                                    action(row.id)
+                                }
                             }
                         )
                         .id(row.id)
@@ -391,6 +417,7 @@ private struct ParseTreeOutlineRowView: View {
     let isBookmarkingEnabled: Bool
     let onSelect: () -> Void
     let onToggleBookmark: () -> Void
+    let onExport: (() -> Void)?
 
     var body: some View {
         HStack(spacing: 8) {
@@ -429,6 +456,15 @@ private struct ParseTreeOutlineRowView: View {
         .accessibilityLabel(accessibilityDescriptor.label)
         .accessibilityValue(optional: accessibilityDescriptor.value)
         .accessibilityHint(optional: accessibilityDescriptor.hint)
+        .contextMenu {
+            if let onExport {
+                Button {
+                    onExport()
+                } label: {
+                    Label("Export JSON…", systemImage: "square.and.arrow.down")
+                }
+            }
+        }
     }
 
     private var icon: some View {
@@ -598,13 +634,15 @@ private struct ParseTreeOutlinePreview: View {
 private struct ParseTreeExplorerPreview: View {
     @StateObject private var store = ParseTreeStore()
     @StateObject private var annotations = AnnotationBookmarkSession(store: nil)
+    @State private var selectedNodeID: ParseTreeNode.ID?
 
     var body: some View {
         ParseTreeExplorerView(
             store: store,
             annotations: annotations,
             outlineViewModel: ParseTreeOutlineViewModel(),
-            detailViewModel: ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
+            detailViewModel: ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil),
+            selectedNodeID: $selectedNodeID
         )
         .frame(width: 520, height: 520)
     }
