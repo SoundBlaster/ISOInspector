@@ -468,3 +468,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/84_R2_Fixture_Acquisition/`.
 - **Highlights:** Captures the fixture acquisition research catalog, licensing guidance, storage sizing analysis, and workflow recommendations needed to unblock manifest-driven fixture downloads.
 - **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` tracks the blocked macOS hardware validations and the follow-up fixture automation work outlined in the backlog.
+
+## 85_PDD_45m_Wire_Generate_Fixtures_Manifest
+- **Archived files:** `PDD_45m_Wire_Generate_Fixtures_Manifest.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/85_PDD_45m_Wire_Generate_Fixtures_Manifest/`.
+- **Highlights:** Records completion of the manifest-driven fixture acquisition workflow, including checksum validation, license mirroring, and regression coverage for the updated `generate_fixtures.py` helper.
+- **Next steps carried forward:** Author the fixture storage README outlining macOS runner mounts and Linux CI cache paths once infrastructure is available, keeping alignment with `todo.md` item `PDD:30m Produce fixture storage README`.
