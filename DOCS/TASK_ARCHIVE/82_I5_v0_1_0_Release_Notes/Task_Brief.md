@@ -1,5 +1,8 @@
 # I5 — v0.1.0 Release Notes and Distribution Packaging
 
+> **Status:** Completed — see `Summary_of_Work.md` in this folder and `Distribution/ReleaseNotes/v0.1.0.md` for the delivered
+> release notes draft.
+
 ## 🎯 Objective
 
 Summarize the MVP feature set, QA evidence, and distribution readiness for the v0.1.0 release. Produce release notes

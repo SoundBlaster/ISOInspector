@@ -2,7 +2,7 @@
 
 ## 📝 Release Preparation
 
-- [ ] I5 — Publish v0.1.0 release notes and finalize the distribution packaging checklist. **(In Progress — see `DOCS/INPROGRESS/I5_v0_1_0_Release_Notes.md` for the active PRD.)**
+- [x] I5 — Publish v0.1.0 release notes and finalize the distribution packaging checklist. **(Completed — see `Distribution/ReleaseNotes/v0.1.0.md` and `DOCS/TASK_ARCHIVE/82_I5_v0_1_0_Release_Notes/`.)**
 
 ## 🔭 Benchmark Validation
 
