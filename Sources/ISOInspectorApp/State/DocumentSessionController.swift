@@ -28,6 +28,7 @@
         @Published private(set) var recents: [DocumentRecent]
         @Published private(set) var currentDocument: DocumentRecent?
         @Published private(set) var loadFailure: DocumentLoadFailure?
+        @Published private(set) var exportStatus: ExportStatus?
 
         let parseTreeStore: ParseTreeStore
         let annotations: AnnotationBookmarkSession
@@ -44,6 +45,7 @@
         private let bookmarkDataProvider: (SecurityScopedURL) -> Data?
 
         private let logger = Logger(subsystem: "ISOInspectorApp", category: "DocumentSession")
+        private let exportLogger = Logger(subsystem: "ISOInspectorApp", category: "JSONExport")
 
         private var currentSessionID: UUID?
         private var currentSessionCreatedAt: Date?
@@ -125,7 +127,7 @@
                 guard let self else { return }
 
                 let standardized = url.standardizedFileURL
-                var baseRecent = DocumentRecent(
+                let baseRecent = DocumentRecent(
                     url: standardized,
                     bookmarkData: nil,
                     displayName: url.lastPathComponent,
@@ -193,8 +195,187 @@
             openDocument(recent: recent)
         }
 
+        func dismissExportStatus() {
+            exportStatus = nil
+        }
+
+        func exportJSON(scope: ExportScope) async {
+            do {
+                let destination = try await performJSONExport(scope: scope)
+                exportStatus = ExportStatus(
+                    title: "Export Complete",
+                    message: "Saved JSON to “\(destination.lastPathComponent)”.",
+                    destinationURL: destination,
+                    isSuccess: true
+                )
+                exportLogger.info(
+                    "JSON export succeeded: scope=\(scope.logDescription, privacy: .public); destination=\(destination.path, privacy: .public)"
+                )
+            } catch is CancellationError {
+                // User cancelled the save dialog; nothing to report.
+            } catch let error as ExportError {
+                handleExportError(error)
+            } catch {
+                handleExportError(.destinationUnavailable(underlying: error))
+            }
+        }
+
+        func canExportSelection(nodeID: ParseTreeNode.ID?) -> Bool {
+            guard let nodeID else { return false }
+            return findNode(with: nodeID, in: parseTreeStore.snapshot.nodes) != nil
+        }
+
+        var canExportDocument: Bool {
+            !parseTreeStore.snapshot.nodes.isEmpty
+        }
+
         var allowedContentTypes: [UTType] {
             [.mpeg4Movie, .quickTimeMovie]
+        }
+
+        private func performJSONExport(scope: ExportScope) async throws -> URL {
+            let prepared = try prepareExport(scope: scope)
+            let exporter = JSONParseTreeExporter()
+            let data = try exporter.export(tree: prepared.tree)
+            let configuration = FilesystemSaveConfiguration(
+                allowedContentTypes: [UTType.json.identifier],
+                suggestedFilename: prepared.suggestedFilename
+            )
+
+            let scopedURL: SecurityScopedURL
+            do {
+                scopedURL = try await filesystemAccess.saveFile(configuration: configuration)
+            } catch let accessError as FilesystemAccessError {
+                if case .dialogUnavailable = accessError {
+                    throw CancellationError()
+                }
+                throw ExportError.destinationUnavailable(underlying: accessError)
+            } catch is CancellationError {
+                throw CancellationError()
+            } catch {
+                throw ExportError.destinationUnavailable(underlying: error)
+            }
+
+            defer { scopedURL.revoke() }
+
+            do {
+                return try scopedURL.withAccess { url in
+                    try data.write(to: url, options: [.atomic])
+                    return url
+                }
+            } catch {
+                throw ExportError.writeFailed(url: scopedURL.url, underlying: error)
+            }
+        }
+
+        private func prepareExport(scope: ExportScope) throws -> PreparedExport {
+            let snapshot = parseTreeStore.snapshot
+            guard !snapshot.nodes.isEmpty else {
+                throw ExportError.emptyTree
+            }
+            let base = baseFilename()
+
+            switch scope {
+            case .document:
+                return PreparedExport(
+                    tree: ParseTree(nodes: snapshot.nodes, validationIssues: snapshot.validationIssues),
+                    suggestedFilename: suggestedFilename(base: base, suffix: nil)
+                )
+            case .selection(let nodeID):
+                guard let node = findNode(with: nodeID, in: snapshot.nodes) else {
+                    throw ExportError.nodeNotFound
+                }
+                let suffix = selectionFilenameSuffix(for: node)
+                return PreparedExport(
+                    tree: ParseTree(nodes: [node], validationIssues: collectIssues(from: node)),
+                    suggestedFilename: suggestedFilename(base: base, suffix: suffix)
+                )
+            }
+        }
+
+        private func baseFilename() -> String {
+            if let current = currentDocument {
+                let trimmed = current.displayName.trimmingCharacters(in: .whitespacesAndNewlines)
+                if !trimmed.isEmpty {
+                    return sanitisedFilenameStem(trimmed)
+                }
+            }
+            if let url = parseTreeStore.fileURL {
+                return sanitisedFilenameStem(url.deletingPathExtension().lastPathComponent)
+            }
+            return "parse-tree"
+        }
+
+        private func suggestedFilename(base: String, suffix: String?) -> String {
+            var stem = base
+            if let suffix, !suffix.isEmpty {
+                stem.append("-\(suffix)")
+            }
+            let filename = stem.hasSuffix(".json") ? stem : "\(stem).json"
+            return filename
+        }
+
+        private func selectionFilenameSuffix(for node: ParseTreeNode) -> String {
+            let rawType = node.header.type.rawValue
+            let sanitizedType = rawType
+                .replacingOccurrences(of: " ", with: "_")
+                .replacingOccurrences(of: "/", with: "-")
+                .replacingOccurrences(of: ":", with: "-")
+            return "\(sanitizedType)-offset-\(node.header.startOffset)"
+        }
+
+        private func sanitisedFilenameStem(_ raw: String) -> String {
+            let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else { return "parse-tree" }
+            let components = trimmed.split(separator: ".", omittingEmptySubsequences: false)
+            let stem: String
+            if components.count > 1 {
+                stem = components.dropLast().joined(separator: ".")
+            } else {
+                stem = trimmed
+            }
+            let sanitized = stem
+                .replacingOccurrences(of: "/", with: "-")
+                .replacingOccurrences(of: ":", with: "-")
+                .replacingOccurrences(of: "\u{0000}", with: "")
+                .replacingOccurrences(of: " ", with: "-")
+            return sanitized.isEmpty ? "parse-tree" : sanitized
+        }
+
+        private func collectIssues(from node: ParseTreeNode) -> [ValidationIssue] {
+            var issues = node.validationIssues
+            for child in node.children {
+                issues.append(contentsOf: collectIssues(from: child))
+            }
+            return issues
+        }
+
+        private func findNode(with id: ParseTreeNode.ID, in nodes: [ParseTreeNode]) -> ParseTreeNode? {
+            for node in nodes {
+                if node.id == id { return node }
+                if let match = findNode(with: id, in: node.children) {
+                    return match
+                }
+            }
+            return nil
+        }
+
+        private func handleExportError(_ error: ExportError) {
+            exportLogger.error(
+                "JSON export failed: error=\(error.logDescription, privacy: .public)"
+            )
+            diagnostics.error("JSON export failed: \(error.logDescription)")
+            exportStatus = ExportStatus(
+                title: "Export Failed",
+                message: error.errorDescription ?? "Failed to export JSON.",
+                destinationURL: nil,
+                isSuccess: false
+            )
+        }
+
+        private struct PreparedExport {
+            let tree: ParseTree
+            let suggestedFilename: String
         }
 
         private func openDocument(
@@ -232,7 +413,7 @@
                     let targetRecent = failureRecent ?? recent
                     Task { @MainActor in
                         if let failureRecent {
-                            self.handleRecentAccessFailure(targetRecent, error: accessError)
+                            self.handleRecentAccessFailure(failureRecent, error: accessError)
                         } else {
                             self.emitLoadFailure(for: targetRecent, error: accessError)
                         }
@@ -782,6 +963,75 @@
     }
 
     extension DocumentSessionController {
+        enum ExportScope: Equatable, Sendable {
+            case document
+            case selection(ParseTreeNode.ID)
+
+            var logDescription: String {
+                switch self {
+                case .document:
+                    return "document"
+                case .selection(let identifier):
+                    return "selection-\(identifier)"
+                }
+            }
+        }
+
+        struct ExportStatus: Identifiable, Equatable {
+            let id: UUID
+            let title: String
+            let message: String
+            let destinationURL: URL?
+            let isSuccess: Bool
+
+            init(
+                id: UUID = UUID(),
+                title: String,
+                message: String,
+                destinationURL: URL?,
+                isSuccess: Bool
+            ) {
+                self.id = id
+                self.title = title
+                self.message = message
+                self.destinationURL = destinationURL
+                self.isSuccess = isSuccess
+            }
+        }
+
+        enum ExportError: LocalizedError {
+            case emptyTree
+            case nodeNotFound
+            case destinationUnavailable(underlying: Error)
+            case writeFailed(url: URL, underlying: Error)
+
+            var errorDescription: String? {
+                switch self {
+                case .emptyTree:
+                    return "Run a parse before exporting JSON."
+                case .nodeNotFound:
+                    return "The selected box is no longer available. Refresh the selection and try again."
+                case .destinationUnavailable(let underlying):
+                    return "ISO Inspector couldn't access the chosen destination. \(underlying.localizedDescription)"
+                case .writeFailed(let url, let underlying):
+                    return "ISO Inspector couldn't write to “\(url.lastPathComponent)”. \(underlying.localizedDescription)"
+                }
+            }
+
+            var logDescription: String {
+                switch self {
+                case .emptyTree:
+                    return "empty-parse-tree"
+                case .nodeNotFound:
+                    return "selection-missing"
+                case .destinationUnavailable(let underlying):
+                    return "destination-unavailable: \(String(describing: underlying))"
+                case .writeFailed(let url, let underlying):
+                    return "write-failed: url=\(url.path) underlying=\(String(describing: underlying))"
+                }
+            }
+        }
+
         struct DocumentLoadFailure: Identifiable, Equatable {
             let id: UUID
             let fileURL: URL
