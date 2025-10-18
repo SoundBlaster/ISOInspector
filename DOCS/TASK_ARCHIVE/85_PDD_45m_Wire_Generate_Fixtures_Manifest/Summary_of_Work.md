@@ -18,4 +18,4 @@
 
 ## Follow-Up
 
-- Author the fixture storage README detailing mount paths for macOS runners and CI caches once infrastructure lands (tracked separately in `todo.md`).
+- Author the fixture storage README detailing mount paths for macOS runners and CI caches once infrastructure lands (tracked separately in `todo.md`). **(In Progress — see `DOCS/INPROGRESS/PDD_30m_Fixture_Storage_README.md`.)**
