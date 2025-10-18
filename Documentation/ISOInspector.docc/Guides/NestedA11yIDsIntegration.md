@@ -3,7 +3,9 @@
 ## Overview
 NestedA11yIDs standardizes hierarchical accessibility identifiers for SwiftUI views.
 This guide summarizes the ISOInspector App integration and codifies conventions for
-future development and UI test automation.
+future development and UI test automation. Pair these identifier rules with the
+VoiceOver, Dynamic Type, and keyboard guidelines captured in <doc:AccessibilityGuidelines>
+when extending the parse tree, detail, or hex surfaces.
 
 ## Dependency setup
 1. `Package.swift` includes `NestedA11yIDs` from `1.0.0`.
