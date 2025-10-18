@@ -27,8 +27,8 @@ public struct ParseEvent: Equatable, Sendable {
     }
 }
 
-private extension ParsePipeline {
-    static func parsePayload(
+extension ParsePipeline {
+    fileprivate static func parsePayload(
         header: BoxHeader,
         reader: RandomAccessReader,
         registry: BoxParserRegistry,
@@ -37,7 +37,9 @@ private extension ParsePipeline {
         do {
             return try registry.parse(header: header, reader: reader)
         } catch {
-            logger.error("Failed to parse payload for \(header.identifierString): \(String(describing: error))")
+            logger.error(
+                "Failed to parse payload for \(header.identifierString): \(String(describing: error))"
+            )
             return nil
         }
     }
@@ -59,7 +61,8 @@ public struct ParsePipeline: Sendable {
     }
 
     public typealias EventStream = AsyncThrowingStream<ParseEvent, Error>
-    public typealias Builder = @Sendable (_ reader: RandomAccessReader, _ context: Context) -> EventStream
+    public typealias Builder =
+        @Sendable (_ reader: RandomAccessReader, _ context: Context) -> EventStream
 
     private let buildStream: Builder
 
@@ -80,10 +83,8 @@ public struct ParsePipeline: Sendable {
     }
 }
 
-extension AsyncThrowingStream: @unchecked Sendable where Element: Sendable {}
-
-public extension ParsePipeline {
-    static func live(
+extension ParsePipeline {
+    public static func live(
         catalog: BoxCatalog = .shared,
         researchLog: (any ResearchLogRecording)? = nil,
         registry: BoxParserRegistry = .shared
@@ -98,7 +99,8 @@ public extension ParsePipeline {
                     let context = contextBox.value
                     let walker = StreamingBoxWalker()
                     var metadataStack: [BoxDescriptor?] = []
-                    let logger = DiagnosticsLogger(subsystem: "ISOInspectorKit", category: "ParsePipeline")
+                    let logger = DiagnosticsLogger(
+                        subsystem: "ISOInspectorKit", category: "ParsePipeline")
                     var loggedUnknownTypes: Set<String> = []
                     var recordedResearchEntries: Set<ResearchLogEntry> = []
                     let activeResearchLog = context.researchLog ?? researchLog
@@ -110,7 +112,7 @@ public extension ParsePipeline {
                             onEvent: { event in
                                 let enriched: ParseEvent
                                 switch event.kind {
-                                case let .willStartBox(header, _):
+                                case .willStartBox(let header, _):
                                     let descriptor = catalog.descriptor(for: header)
                                     metadataStack.append(descriptor)
                                     let payload = ParsePipeline.parsePayload(
@@ -143,9 +145,12 @@ public extension ParsePipeline {
                                         metadata: descriptor,
                                         payload: payload
                                     )
-                                case let .didFinishBox(header, _):
-                                    let descriptor = metadataStack.popLast() ?? catalog.descriptor(for: header)
-                                    enriched = ParseEvent(kind: event.kind, offset: event.offset, metadata: descriptor)
+                                case .didFinishBox(let header, _):
+                                    let descriptor =
+                                        metadataStack.popLast() ?? catalog.descriptor(for: header)
+                                    enriched = ParseEvent(
+                                        kind: event.kind, offset: event.offset, metadata: descriptor
+                                    )
                                 }
                                 let validated = validator.annotate(event: enriched, reader: reader)
                                 continuation.yield(validated)
