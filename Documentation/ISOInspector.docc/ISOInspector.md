@@ -11,6 +11,7 @@ ISOInspectorKit provides the shared parsing and validation foundation for the IS
 ### Guides
 - <doc:TuistConfiguration>
 - <doc:NestedA11yIDsIntegration>
+- <doc:AccessibilityGuidelines>
 - <doc:MP4RARefreshGuide>
 
 ### Manuals
