@@ -61,8 +61,7 @@ extension FilesystemAccess {
 #if canImport(AppKit)
     extension FilesystemAccess {
         fileprivate static func presentOpenPanel(configuration: FilesystemOpenConfiguration)
-            async throws -> URL
-        {
+            async throws -> URL {
             try await MainActor.run {
                 let panel = NSOpenPanel()
                 panel.canChooseFiles = true
@@ -78,8 +77,7 @@ extension FilesystemAccess {
         }
 
         fileprivate static func presentSavePanel(configuration: FilesystemSaveConfiguration)
-            async throws -> URL
-        {
+            async throws -> URL {
             try await MainActor.run {
                 let panel = NSSavePanel()
                 applyAllowedContentTypes(configuration.allowedContentTypes, to: panel)
