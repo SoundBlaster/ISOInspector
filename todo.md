@@ -2,7 +2,7 @@
 
 - [x] #1 Implement ParsePipeline.live() to iterate through MP4 boxes and emit streaming parse events.
 - [x] #2 Automate refreshing MP4RABoxes.json from the upstream registry and document the update workflow.
-- [ ] #3 Implement remaining validation rules (VR-001, VR-002, VR-004, VR-005) using streaming context and metadata stack.
+- [x] #3 Implement remaining validation rules (VR-001, VR-002, VR-004, VR-005) using streaming context and metadata stack.
     - [x] VR-001 Box size must be ≥ header length and fit within file range.
     - [x] VR-002 Container boxes must close exactly at their declared payload size.
     - [x] VR-004 `ftyp` must appear before any media box.
