@@ -1,0 +1,212 @@
+{
+  "fill" : "automatic",
+  "groups" : [
+    {
+      "hidden" : false,
+      "layers" : [
+        {
+          "fill" : {
+            "solid" : "srgb:0.00000,0.53333,1.00000,0.00000"
+          },
+          "hidden" : false,
+          "image-name" : "Intersect-2 2.svg",
+          "name" : "BoxLightLeft",
+          "opacity" : 0.5,
+          "position" : {
+            "scale" : 0.47,
+            "translation-in-points" : [
+              -76.30942210353108,
+              47.04144620611163
+            ]
+          }
+        },
+        {
+          "fill" : {
+            "solid" : "display-p3:1.00000,0.00000,0.05816,0.00000"
+          },
+          "hidden" : false,
+          "image-name" : "Intersect 2.svg",
+          "name" : "BoxLightRight",
+          "opacity" : 0.5,
+          "position" : {
+            "scale" : 0.47,
+            "translation-in-points" : [
+              74.7600164518112,
+              46.45381301573414
+            ]
+          }
+        },
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "display-p3:1.00000,0.24514,0.00000,1.00000"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "display-p3:0.94650,0.99352,1.00000,1.00000"
+              }
+            }
+          ],
+          "image-name" : "Atom 3.svg",
+          "name" : "Atom 3"
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "hidden" : false,
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "srgb:0.00000,0.53333,1.00000,0.20711"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "display-p3:0.97273,0.98793,1.00000,0.12360"
+              }
+            }
+          ],
+          "image-name" : "Subtract 4.svg",
+          "name" : "Subtract 4",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              0.8370041486414052,
+              93.68791031346971
+            ]
+          }
+        },
+        {
+          "blend-mode" : "normal",
+          "fill-specializations" : [
+            {
+              "value" : {
+                "linear-gradient" : [
+                  "display-p3:0.75227,0.88462,1.00000,1.00000",
+                  "display-p3:0.23949,0.48319,1.00000,1.00000"
+                ]
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "display-p3:1.00000,1.00000,1.00000,0.10726"
+              }
+            }
+          ],
+          "image-name" : "Container-Top.svg",
+          "name" : "Container-Top",
+          "opacity" : 1
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "hidden" : false,
+      "layers" : [
+        {
+          "blend-mode" : "normal",
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "display-p3:1.00000,0.71708,0.00000,1.00000"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "display-p3:1.00000,1.00000,1.00000,0.59645"
+              }
+            }
+          ],
+          "glass" : true,
+          "hidden" : false,
+          "image-name" : "Box.svg",
+          "name" : "Box",
+          "opacity-specializations" : [
+            {
+              "value" : 0.7
+            },
+            {
+              "appearance" : "dark",
+              "value" : 0.7
+            }
+          ]
+        }
+      ],
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    },
+    {
+      "blend-mode" : "normal",
+      "layers" : [
+        {
+          "fill-specializations" : [
+            {
+              "value" : {
+                "solid" : "display-p3:0.00000,0.41844,0.88283,1.00000"
+              }
+            },
+            {
+              "appearance" : "tinted",
+              "value" : {
+                "solid" : "display-p3:1.00000,1.00000,1.00000,0.61000"
+              }
+            }
+          ],
+          "glass" : true,
+          "image-name" : "Container-Base.svg",
+          "name" : "Container-Base",
+          "opacity-specializations" : [
+            {
+              "appearance" : "tinted",
+              "value" : 1
+            }
+          ]
+        }
+      ],
+      "opacity" : 0.7,
+      "shadow" : {
+        "kind" : "neutral",
+        "opacity" : 0.5
+      },
+      "translucency" : {
+        "enabled" : true,
+        "value" : 0.5
+      }
+    }
+  ],
+  "supported-platforms" : {
+    "circles" : [
+      "watchOS"
+    ],
+    "squares" : "shared"
+  }
+}
