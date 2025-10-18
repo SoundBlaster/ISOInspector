@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 📝 Release Preparation
+
+- [ ] I5 — Publish v0.1.0 release notes and finalize the distribution packaging checklist. **(In Progress — see `DOCS/INPROGRESS/I5_v0_1_0_Release_Notes.md` for the active PRD.)**
+
 ## 🔭 Benchmark Validation
 
 - [ ] Execute the random slice benchmark suite on macOS hardware once Combine support is available so we can compare mapped vs. chunked readers under identical workloads. **(Blocked — requires macOS runner with Combine; see `DOCS/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/2025-10-15-random-slice-benchmark.md`.)**
