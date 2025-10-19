@@ -570,3 +570,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/`.
 - **Highlights:** Captures delivery of the `mvhd` movie header parser with full transformation matrix decoding, JSON exporter updates, refreshed fixtures, and the codec payload planning roadmap spanning Dolby Vision, AV1, VP9, AC-4, and MPEG-H follow-ups.
 - **Next steps carried forward:** Hardware-dependent benchmarking, release readiness, UI automation, Combine latency benchmarks, and codec descriptor implementation threads now persist in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist awaiting macOS runners and future planning cycles.
+
+## 108_Summary_of_Work_2025-10-19_Performance_Benchmark_Readout
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/108_Summary_of_Work_2025-10-19_Performance_Benchmark_Readout/`.
+- **Highlights:** Captures the October 19, 2025 benchmark validation session that closed Task H4, including CLI and local run comparisons, release documentation updates, and links to the archived XCTest outputs.
+- **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` keeps the macOS hardware-dependent benchmark, UI automation, release readiness, and Combine latency follow-ups until dedicated runners become available.

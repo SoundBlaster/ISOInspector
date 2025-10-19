@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🚧 Active Task
+
+- [x] **H4 — Performance Benchmark Validation** — Completed. See `DOCS/TASK_ARCHIVE/107_H4_Performance_Benchmark_Validation/Summary_of_Work.md` for captured metrics and follow-ups.
+
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 
 - [ ] Evaluate additional handler type categorizations if future boxes require specialized roles beyond the current mapping set. *(Track notes in `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md` once refined.)*
