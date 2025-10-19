@@ -46,9 +46,9 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Archived:** C6 follow-up extended the `stsd` sample description parser with codec-specific metadata extraction for `avcC`, `hvcC`, and `esds`, documented in `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md`.
 
-> **Completed:** Task C2 – Implemented the `mvhd` movie header parser exposing timescale, 32/64-bit durations, rate, volume, and transformation matrix fields. See `DOCS/INPROGRESS/C2_mvhd_Movie_Header_Parser.md` and `DOCS/INPROGRESS/Summary_of_Work.md` for implementation and verification details.
+> **Completed:** Task C2 – Implemented the `mvhd` movie header parser exposing timescale, 32/64-bit durations, rate, volume, and transformation matrix fields. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C2_mvhd_Movie_Header_Parser.md` and `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/Summary_of_Work.md` for implementation and verification details.
 
-> **In Progress:** Monitor upcoming codec payload additions (e.g., Dolby Vision descriptors, extended audio profiles) so `BoxParserRegistry` keeps pace with new fixtures. See `DOCS/INPROGRESS/C6_Codec_Payload_Additions.md` for scope and success criteria.
+> **In Progress:** Monitor upcoming codec payload additions (e.g., Dolby Vision descriptors, extended audio profiles) so `BoxParserRegistry` keeps pace with new fixtures. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md` for scope and success criteria.
 
 ## Phase D — CLI Interface
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |

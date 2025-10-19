@@ -1,5 +1,13 @@
 # Next Tasks
 
+## 🚧 Active Parser Tasks
+
+- [x] C2 — Implement `mvhd` movie header parser (**Completed — parser, detail struct, and tests documented in `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C2_mvhd_Movie_Header_Parser.md`).
+
+## 🎯 Upcoming Parser Enhancements
+
+- [x] Monitor upcoming codec payload additions (e.g., Dolby Vision boxes, descriptor extensions) so the `BoxParserRegistry` gains dedicated entries when new fixtures arrive. Planning roadmap captured in `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md`; implementation follow-ups will graduate into dedicated puzzles.
+
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 
 - [ ] Evaluate additional handler type categorizations if future boxes require specialized roles beyond the current mapping set. *(Track notes in `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md` once refined.)*
@@ -23,3 +31,8 @@
 ## 🔬 Combine UI Benchmark Follow-Up
 
 - [ ] Execute the Combine-backed UI benchmark on macOS to capture latency metrics on a platform that ships Combine, keeping throughput parity with the CLI harness. *(Blocked — requires macOS runner with Xcode/Combine; see `DOCS/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/50_Combine_UI_Benchmark_macOS_Run.md` and the follow-up notes in `DOCS/TASK_ARCHIVE/47_Combine_UI_Benchmark_macOS/Summary_of_Work.md`.)*
+
+## 📚 Recently Archived Reference
+
+- ✅ Task H3 — JSON export snapshot tests now archived. Implementation details and snapshot update workflow live in `DOCS/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/H3_JSON_Export_Snapshot_Tests.md`.
+- ✅ Task C6 — Codec metadata extraction archived at `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/` with verification notes in `Summary_of_Work.md`.
