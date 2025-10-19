@@ -144,6 +144,7 @@ private struct StructuredPayload: Encodable {
     let movieHeader: MovieHeaderDetail?
     let trackHeader: TrackHeaderDetail?
     let sampleToChunk: SampleToChunkDetail?
+    let chunkOffset: ChunkOffsetDetail?
     let sampleSize: SampleSizeDetail?
     let compactSampleSize: CompactSampleSizeDetail?
 
@@ -154,6 +155,7 @@ private struct StructuredPayload: Encodable {
             self.movieHeader = nil
             self.trackHeader = nil
             self.sampleToChunk = nil
+            self.chunkOffset = nil
             self.sampleSize = nil
             self.compactSampleSize = nil
         case let .movieHeader(box):
@@ -161,6 +163,7 @@ private struct StructuredPayload: Encodable {
             self.movieHeader = MovieHeaderDetail(box: box)
             self.trackHeader = nil
             self.sampleToChunk = nil
+            self.chunkOffset = nil
             self.sampleSize = nil
             self.compactSampleSize = nil
         case let .trackHeader(box):
@@ -168,6 +171,7 @@ private struct StructuredPayload: Encodable {
             self.movieHeader = nil
             self.trackHeader = TrackHeaderDetail(box: box)
             self.sampleToChunk = nil
+            self.chunkOffset = nil
             self.sampleSize = nil
             self.compactSampleSize = nil
         case let .sampleToChunk(box):
@@ -175,6 +179,15 @@ private struct StructuredPayload: Encodable {
             self.movieHeader = nil
             self.trackHeader = nil
             self.sampleToChunk = SampleToChunkDetail(box: box)
+            self.chunkOffset = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
+        case let .chunkOffset(box):
+            self.fileType = nil
+            self.movieHeader = nil
+            self.trackHeader = nil
+            self.sampleToChunk = nil
+            self.chunkOffset = ChunkOffsetDetail(box: box)
             self.sampleSize = nil
             self.compactSampleSize = nil
         case let .sampleSize(box):
@@ -182,6 +195,7 @@ private struct StructuredPayload: Encodable {
             self.movieHeader = nil
             self.trackHeader = nil
             self.sampleToChunk = nil
+            self.chunkOffset = nil
             self.sampleSize = SampleSizeDetail(box: box)
             self.compactSampleSize = nil
         case let .compactSampleSize(box):
@@ -189,6 +203,7 @@ private struct StructuredPayload: Encodable {
             self.movieHeader = nil
             self.trackHeader = nil
             self.sampleToChunk = nil
+            self.chunkOffset = nil
             self.sampleSize = nil
             self.compactSampleSize = CompactSampleSizeDetail(box: box)
         }
@@ -199,6 +214,7 @@ private struct StructuredPayload: Encodable {
         case movieHeader = "movie_header"
         case trackHeader = "track_header"
         case sampleToChunk = "sample_to_chunk"
+        case chunkOffset = "chunk_offset"
         case sampleSize = "sample_size"
         case compactSampleSize = "compact_sample_size"
     }
@@ -296,6 +312,52 @@ private struct SampleToChunkDetail: Encodable {
     private enum CodingKeys: String, CodingKey {
         case version
         case flags
+        case entries
+    }
+}
+
+private struct ChunkOffsetDetail: Encodable {
+    enum Width: String, Encodable {
+        case bits32 = "32"
+        case bits64 = "64"
+    }
+
+    struct Entry: Encodable {
+        let index: UInt32
+        let offset: UInt64
+        let byteRange: ByteRange
+
+        init(entry: ParsedBoxPayload.ChunkOffsetBox.Entry) {
+            self.index = entry.index
+            self.offset = entry.offset
+            self.byteRange = ByteRange(range: entry.byteRange)
+        }
+    }
+
+    let version: UInt8
+    let flags: UInt32
+    let entryCount: UInt32
+    let width: Width
+    let entries: [Entry]
+
+    init(box: ParsedBoxPayload.ChunkOffsetBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.entryCount = box.entryCount
+        switch box.width {
+        case .bits32:
+            self.width = .bits32
+        case .bits64:
+            self.width = .bits64
+        }
+        self.entries = box.entries.map(Entry.init)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case entryCount = "entry_count"
+        case width
         case entries
     }
 }
