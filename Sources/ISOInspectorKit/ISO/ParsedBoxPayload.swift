@@ -3,6 +3,7 @@ import Foundation
 public struct ParsedBoxPayload: Equatable, Sendable {
     public enum Detail: Equatable, Sendable {
         case fileType(FileTypeBox)
+        case movieHeader(MovieHeaderBox)
     }
 
     public struct FileTypeBox: Equatable, Sendable {
@@ -14,6 +15,67 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             self.majorBrand = majorBrand
             self.minorVersion = minorVersion
             self.compatibleBrands = compatibleBrands
+        }
+    }
+
+    public struct MovieHeaderBox: Equatable, Sendable {
+        public struct TransformationMatrix: Equatable, Sendable {
+            public let a: Double
+            public let b: Double
+            public let u: Double
+            public let c: Double
+            public let d: Double
+            public let v: Double
+            public let x: Double
+            public let y: Double
+            public let w: Double
+
+            public static let identity = TransformationMatrix(
+                a: 1.0,
+                b: 0.0,
+                u: 0.0,
+                c: 0.0,
+                d: 1.0,
+                v: 0.0,
+                x: 0.0,
+                y: 0.0,
+                w: 1.0
+            )
+        }
+
+        public let version: UInt8
+        public let creationTime: UInt64
+        public let modificationTime: UInt64
+        public let timescale: UInt32
+        public let duration: UInt64
+        public let durationIs64Bit: Bool
+        public let rate: Double
+        public let volume: Double
+        public let matrix: TransformationMatrix
+        public let nextTrackID: UInt32
+
+        public init(
+            version: UInt8,
+            creationTime: UInt64,
+            modificationTime: UInt64,
+            timescale: UInt32,
+            duration: UInt64,
+            durationIs64Bit: Bool,
+            rate: Double,
+            volume: Double,
+            matrix: TransformationMatrix,
+            nextTrackID: UInt32
+        ) {
+            self.version = version
+            self.creationTime = creationTime
+            self.modificationTime = modificationTime
+            self.timescale = timescale
+            self.duration = duration
+            self.durationIs64Bit = durationIs64Bit
+            self.rate = rate
+            self.volume = volume
+            self.matrix = matrix
+            self.nextTrackID = nextTrackID
         }
     }
 
@@ -50,6 +112,11 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var fileType: FileTypeBox? {
         guard case let .fileType(box) = detail else { return nil }
+        return box
+    }
+
+    public var movieHeader: MovieHeaderBox? {
+        guard case let .movieHeader(box) = detail else { return nil }
         return box
     }
 }

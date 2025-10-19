@@ -14,9 +14,12 @@ Document the plan for extending `BoxParserRegistry` with future codec-specific p
 
 - Inventory target codec payloads (e.g., Dolby Vision `dvvC`, enhanced audio descriptors) with fixture sources and decoding references.
 - Define parser requirements, emitted fields, and validation hooks per payload while preserving existing snapshot/export
+
   regressions.
+
 - Outline test coverage updates (unit + JSON snapshot) required for each new payload and identify fixture gaps.
 - Enumerate documentation updates needed across PRD, user guides, and archived follow-up notes once implementations
+
   land.
 
 ## 🎬 Target Payload Inventory
@@ -34,7 +37,9 @@ Document the plan for extending `BoxParserRegistry` with future codec-specific p
 1. **VP9 codec configuration (`vpcC`)**
    - Sample entries: `vp09` (and deprecated `vp08`) embed the VP Codec Configuration box as described in ISO/IEC 14496-15.
    - Key fields: profile, level, bit depth, chroma subsampling, colour primaries, transfer characteristics, and matrix
+
      coefficients.
+
    - Fixture plan: pull the WebM Project conformance set and create sidecar metadata to verify HDR (`vp09.02`) payloads.
 
 1. **Dolby AC-4 descriptors (`dac4`)**
@@ -46,6 +51,7 @@ Document the plan for extending `BoxParserRegistry` with future codec-specific p
    - Sample entries: `mha1`/`mhm1` require the MPEG-H configuration record specified in ISO/IEC 23008-3.
    - Key fields: profile level indication, reference channel layout, `compatibleSetIndication`, and `generalProfileCompatibilitySet` bits for playback guidance.
    - Fixture plan: leverage Fraunhofer's public MPEG-H demos and add encrypted variants when we extend Common Encryption
+
      coverage.
 
 ## 🧱 Parser and Model Extensions
@@ -65,6 +71,7 @@ Document the plan for extending `BoxParserRegistry` with future codec-specific p
   - Add manifest entries in `scripts/generate_fixtures.py` for each new sample, including checksum, license text, and encryption metadata.
   - Record fixture provenance in `Documentation/FixtureCatalog/README.md` once downloads are automated.
 - **Automation hooks:** Wire new payload models into validation rule VR-006 logging paths to capture unsupported
+
   configurations for telemetry review.
 
 ## 📝 Documentation and Tracking Updates
@@ -77,15 +84,22 @@ Document the plan for extending `BoxParserRegistry` with future codec-specific p
 ## 🔭 Open Questions
 
 - Confirm whether Dolby Vision dual-layer samples require additional parser hooks to associate enhancement layer NAL
+
   units with base layer entries.
+
 - Determine whether MPEG-H configuration parsing should defer until Combine-backed streaming playback arrives or if
+
   static metadata is sufficient.
+
 - Evaluate if Common Encryption `schi`/`tenc` fallbacks need to special-case Dolby AC-4 object metadata when encryption flags mask descriptor payloads.
 
 ## ✅ Next Steps
 
 1. Acquire Dolby Vision and AV1 fixtures through the manifest-driven pipeline and verify licensing terms.
 1. Land parser structs and registry wiring under development flags, accompanied by failing tests to drive
+
    implementation.
+
 1. Update JSON snapshots and CLI/UI bindings once fixtures validate new payload models, then promote feature flags to
+
    production.
