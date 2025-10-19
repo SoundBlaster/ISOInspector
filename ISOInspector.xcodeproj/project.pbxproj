@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -28,6 +28,7 @@
 		18E4D8E52F8DB6E3A5A25B30 /* ResearchLogAuditPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BFEA309FF99551DDDE4C6D /* ResearchLogAuditPreview.swift */; };
 		19514D9C2E94326939B32DDC /* FilesystemDocumentPickerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049756A04BDD0C4962FC7559 /* FilesystemDocumentPickerPresenter.swift */; };
 		1AB0F0E18DB454B2172AF87E /* ParseTreeOutlineFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5133157015969BEE1DD2EEE9 /* ParseTreeOutlineFilter.swift */; };
+		1CD45EB652D9413CBBF57406 /* HandlerType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8118E3C981035084592FA121 /* HandlerType.swift */; };
 		1D60B78D76D288E59CB19E1F /* SecurityScopedURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36199A10CEE6FF195B047564 /* SecurityScopedURL.swift */; };
 		1E173B75A8A91F5B28B24BFC /* FourCharContainerCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6061B9FB8B5EE40A460F9678 /* FourCharContainerCode.swift */; };
 		1EAAE20BA46F487E704A8D89 /* BookmarkRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F4E374673C1E3FA127A415 /* BookmarkRecord.swift */; };
@@ -369,6 +370,7 @@
 		7954003B76877ED9E9074C66 /* ISOInspectorApp.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ISOInspectorApp.docc; sourceTree = "<group>"; };
 		7D91289088F00F69C94ABCD4 /* ParseTreeStoreState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTreeStoreState.swift; sourceTree = "<group>"; };
 		7D95762DBE6259BD3B0BB77B /* ResearchLogTelemetryProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchLogTelemetryProbe.swift; sourceTree = "<group>"; };
+		8118E3C981035084592FA121 /* HandlerType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandlerType.swift; sourceTree = "<group>"; };
 		8158883247CF06B2778C5E83 /* ParseTreePreviewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTreePreviewData.swift; sourceTree = "<group>"; };
 		82AB6BF42635863214F3F475 /* ParsePipelineEventBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePipelineEventBridge.swift; sourceTree = "<group>"; };
 		83ACFF2172681380445F93AF /* ISOInspectorApp-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ISOInspectorApp-iOS-Info.plist"; sourceTree = "<group>"; };
@@ -406,7 +408,7 @@
 		ABEC08BB2BB8BBF2A78B0D02 /* MediaAndIndexBoxCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaAndIndexBoxCode.swift; sourceTree = "<group>"; };
 		ADFEFDE6079F2CA647739C6F /* ParseTreeSnapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTreeSnapshot.swift; sourceTree = "<group>"; };
 		AF0C131784A46D9528538AF5 /* ValidationIssueSeverity+CaseIterable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ValidationIssueSeverity+CaseIterable.swift"; sourceTree = "<group>"; };
-		B203B2B399DEA61EDF375406 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
+		B203B2B399DEA61EDF375406 /* AppIcon.icon */ = {isa = PBXFileReference; path = AppIcon.icon; sourceTree = "<group>"; };
 		B50509651841E51A50DBC5C7 /* ISOInspectorApp_macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ISOInspectorApp_macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B542B93959C60FF996BD33B2 /* EventConsoleFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventConsoleFormatter.swift; sourceTree = "<group>"; };
 		B6A5A1B74EE77B5613D1AB9C /* FilesystemAccessLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesystemAccessLogger.swift; sourceTree = "<group>"; };
@@ -439,7 +441,7 @@
 		F393D83D461C2EC2EF91D5CD /* BookmarkDataManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkDataManaging.swift; sourceTree = "<group>"; };
 		F3D46B4A9337E7419A8670AE /* AnnotationRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationRecord.swift; sourceTree = "<group>"; };
 		F46E4B36BBCA953B1DB84BF5 /* HexSlice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexSlice.swift; sourceTree = "<group>"; };
-		F48D51087E731C7AEA0D60E4 /* ISOInspectorCLIRunner */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = text; path = ISOInspectorCLIRunner; sourceTree = BUILT_PRODUCTS_DIR; };
+		F48D51087E731C7AEA0D60E4 /* ISOInspectorCLIRunner */ = {isa = PBXFileReference; includeInIndex = 0; path = ISOInspectorCLIRunner; sourceTree = BUILT_PRODUCTS_DIR; };
 		F8AA489AF11B9824A5F1D67A /* AnnotationBookmarkSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationBookmarkSession.swift; sourceTree = "<group>"; };
 		F9A1238EA7514747C4429703 /* ISOInspectorKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISOInspectorKit.swift; sourceTree = "<group>"; };
 		F9FD9A51B1B9119CD5622C62 /* DocumentSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentSessionController.swift; sourceTree = "<group>"; };
@@ -548,6 +550,7 @@
 				687C5A869B47EBC67B833667 /* FourCharCode.swift */,
 				6061B9FB8B5EE40A460F9678 /* FourCharContainerCode.swift */,
 				388214C71D463780D22CDA9A /* FullBoxReader.swift */,
+				8118E3C981035084592FA121 /* HandlerType.swift */,
 				ABEC08BB2BB8BBF2A78B0D02 /* MediaAndIndexBoxCode.swift */,
 				D8BDBE4145A0701C4B86471C /* ParsedBoxPayload.swift */,
 				703023A26D3ACDE1C118923D /* ParsePipeline.swift */,
@@ -1030,6 +1033,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = ISOInspector;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 875EF0FB2020C34388A0DC8D /* Build configuration list for PBXProject "ISOInspector" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -1294,6 +1299,7 @@
 				233E1CF3E65C34FAD60043FB /* FourCharCode.swift in Sources */,
 				1E173B75A8A91F5B28B24BFC /* FourCharContainerCode.swift in Sources */,
 				67D473B7D26EB6FB8E9F99F3 /* FullBoxReader.swift in Sources */,
+				1CD45EB652D9413CBBF57406 /* HandlerType.swift in Sources */,
 				CB37B40517E672C9B046B425 /* MediaAndIndexBoxCode.swift in Sources */,
 				180D8A709DC0D95DDC815444 /* ParsePipeline.swift in Sources */,
 				E42F59737018AB55BE0DAF7E /* ParsedBoxPayload.swift in Sources */,
@@ -1382,7 +1388,6 @@
 				CODE_SIGN_ENTITLEMENTS = Distribution/Entitlements/ISOInspectorApp.iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorApp-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1397,7 +1402,10 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1445,7 +1453,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector.cli.runner;
 				PRODUCT_NAME = ISOInspectorCLIRunner;
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1519,7 +1530,6 @@
 				CODE_SIGN_ENTITLEMENTS = Distribution/Entitlements/ISOInspectorApp.iOS.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorApp-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -1581,7 +1591,10 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1618,7 +1631,10 @@
 				PRODUCT_NAME = ISOInspectorCLI;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1698,7 +1714,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector.app.mac;
 				PRODUCT_NAME = ISOInspectorApp_macOS;
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1802,7 +1821,10 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
