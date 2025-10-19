@@ -2,7 +2,7 @@
 
 ## 🚧 Active Parser Work
 
-- [ ] C3 `tkhd` track header parser — implement flag-dependent field decoding, track duration calculations, and presentation dimensions. Progress tracked in `DOCS/INPROGRESS/C3_tkhd_Track_Header_Parser.md`.
+- [x] C3 `tkhd` track header parser — implement flag-dependent field decoding, track duration calculations, and presentation dimensions. Implementation summarized in `DOCS/INPROGRESS/Summary_of_Work.md`.
 
 ## 🔄 Parser Coordination
 

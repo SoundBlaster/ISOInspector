@@ -434,12 +434,158 @@
                   "name" : "volume",
                   "summary" : "Playback volume",
                   "value" : "1.00"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 229,
+                    "start" : 225
+                  },
+                  "name" : "matrix.a",
+                  "summary" : "Matrix element a (row 1 column 1)",
+                  "value" : "1.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 233,
+                    "start" : 229
+                  },
+                  "name" : "matrix.b",
+                  "summary" : "Matrix element b (row 1 column 2)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 237,
+                    "start" : 233
+                  },
+                  "name" : "matrix.u",
+                  "summary" : "Matrix element u (row 1 column 3)",
+                  "value" : "0.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 241,
+                    "start" : 237
+                  },
+                  "name" : "matrix.c",
+                  "summary" : "Matrix element c (row 2 column 1)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 245,
+                    "start" : 241
+                  },
+                  "name" : "matrix.d",
+                  "summary" : "Matrix element d (row 2 column 2)",
+                  "value" : "1.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 249,
+                    "start" : 245
+                  },
+                  "name" : "matrix.v",
+                  "summary" : "Matrix element v (row 2 column 3)",
+                  "value" : "0.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 253,
+                    "start" : 249
+                  },
+                  "name" : "matrix.x",
+                  "summary" : "Matrix element x (row 3 column 1)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 257,
+                    "start" : 253
+                  },
+                  "name" : "matrix.y",
+                  "summary" : "Matrix element y (row 3 column 2)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 261,
+                    "start" : 257
+                  },
+                  "name" : "matrix.w",
+                  "summary" : "Matrix element w (row 3 column 3)",
+                  "value" : "1.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 265,
+                    "start" : 261
+                  },
+                  "name" : "width",
+                  "summary" : "Track width",
+                  "value" : "0.00"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 269,
+                    "start" : 265
+                  },
+                  "name" : "height",
+                  "summary" : "Track height",
+                  "value" : "0.00"
+                },
+                {
+                  "name" : "is_enabled",
+                  "summary" : "Track enabled flag",
+                  "value" : "true"
+                },
+                {
+                  "name" : "is_in_movie",
+                  "summary" : "Track participates in movie presentation",
+                  "value" : "false"
+                },
+                {
+                  "name" : "is_in_preview",
+                  "summary" : "Track participates in preview presentation",
+                  "value" : "false"
                 }
               ],
               "sizes" : {
                 "header" : 8,
                 "payload" : 84,
                 "total" : 92
+              },
+              "structured" : {
+                "track_header" : {
+                  "alternate_group" : 0,
+                  "creation_time" : 3345753062,
+                  "duration" : 1657,
+                  "duration_is_64bit" : false,
+                  "flags" : 1,
+                  "height" : 0,
+                  "is_enabled" : true,
+                  "is_in_movie" : false,
+                  "is_in_preview" : false,
+                  "is_zero_duration" : false,
+                  "is_zero_sized" : true,
+                  "layer" : 0,
+                  "matrix" : {
+                    "a" : 1,
+                    "b" : 0,
+                    "c" : 0,
+                    "d" : 1,
+                    "u" : 0,
+                    "v" : 0,
+                    "w" : 1,
+                    "x" : 0,
+                    "y" : 0
+                  },
+                  "modification_time" : 3345753062,
+                  "track_id" : 1,
+                  "version" : 0,
+                  "volume" : 1,
+                  "width" : 0
+                }
               },
               "validationIssues" : [
                 {
@@ -1715,12 +1861,158 @@
                   "name" : "volume",
                   "summary" : "Playback volume",
                   "value" : "0.00"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1499,
+                    "start" : 1495
+                  },
+                  "name" : "matrix.a",
+                  "summary" : "Matrix element a (row 1 column 1)",
+                  "value" : "1.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1503,
+                    "start" : 1499
+                  },
+                  "name" : "matrix.b",
+                  "summary" : "Matrix element b (row 1 column 2)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1507,
+                    "start" : 1503
+                  },
+                  "name" : "matrix.u",
+                  "summary" : "Matrix element u (row 1 column 3)",
+                  "value" : "0.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1511,
+                    "start" : 1507
+                  },
+                  "name" : "matrix.c",
+                  "summary" : "Matrix element c (row 2 column 1)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1515,
+                    "start" : 1511
+                  },
+                  "name" : "matrix.d",
+                  "summary" : "Matrix element d (row 2 column 2)",
+                  "value" : "1.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1519,
+                    "start" : 1515
+                  },
+                  "name" : "matrix.v",
+                  "summary" : "Matrix element v (row 2 column 3)",
+                  "value" : "0.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1523,
+                    "start" : 1519
+                  },
+                  "name" : "matrix.x",
+                  "summary" : "Matrix element x (row 3 column 1)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1527,
+                    "start" : 1523
+                  },
+                  "name" : "matrix.y",
+                  "summary" : "Matrix element y (row 3 column 2)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1531,
+                    "start" : 1527
+                  },
+                  "name" : "matrix.w",
+                  "summary" : "Matrix element w (row 3 column 3)",
+                  "value" : "1.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1535,
+                    "start" : 1531
+                  },
+                  "name" : "width",
+                  "summary" : "Track width",
+                  "value" : "1280.00"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1539,
+                    "start" : 1535
+                  },
+                  "name" : "height",
+                  "summary" : "Track height",
+                  "value" : "720.00"
+                },
+                {
+                  "name" : "is_enabled",
+                  "summary" : "Track enabled flag",
+                  "value" : "true"
+                },
+                {
+                  "name" : "is_in_movie",
+                  "summary" : "Track participates in movie presentation",
+                  "value" : "false"
+                },
+                {
+                  "name" : "is_in_preview",
+                  "summary" : "Track participates in preview presentation",
+                  "value" : "false"
                 }
               ],
               "sizes" : {
                 "header" : 8,
                 "payload" : 84,
                 "total" : 92
+              },
+              "structured" : {
+                "track_header" : {
+                  "alternate_group" : 0,
+                  "creation_time" : 3345753062,
+                  "duration" : 1641,
+                  "duration_is_64bit" : false,
+                  "flags" : 1,
+                  "height" : 720,
+                  "is_enabled" : true,
+                  "is_in_movie" : false,
+                  "is_in_preview" : false,
+                  "is_zero_duration" : false,
+                  "is_zero_sized" : false,
+                  "layer" : 0,
+                  "matrix" : {
+                    "a" : 1,
+                    "b" : 0,
+                    "c" : 0,
+                    "d" : 1,
+                    "u" : 0,
+                    "v" : 0,
+                    "w" : 1,
+                    "x" : 0,
+                    "y" : 0
+                  },
+                  "modification_time" : 3345753062,
+                  "track_id" : 2,
+                  "version" : 0,
+                  "volume" : 0,
+                  "width" : 1280
+                }
               },
               "validationIssues" : [
                 {
