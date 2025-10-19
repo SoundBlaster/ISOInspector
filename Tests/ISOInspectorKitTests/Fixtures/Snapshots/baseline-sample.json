@@ -720,6 +720,30 @@
                               "name" : "entries[0].samplerate",
                               "summary" : "Audio sample rate",
                               "value" : "44100"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 510,
+                                "start" : 509
+                              },
+                              "name" : "entries[0].codec.aac.object_type_indication",
+                              "summary" : "Object type indication",
+                              "value" : "0x40"
+                            },
+                            {
+                              "name" : "entries[0].codec.aac.audio_object_type",
+                              "summary" : "AAC audio object type",
+                              "value" : "2"
+                            },
+                            {
+                              "name" : "entries[0].codec.aac.sampling_frequency_hz",
+                              "summary" : "Sampling frequency (Hz)",
+                              "value" : "44100"
+                            },
+                            {
+                              "name" : "entries[0].codec.aac.channel_configuration",
+                              "summary" : "Channel configuration",
+                              "value" : "2"
                             }
                           ],
                           "sizes" : {
@@ -1427,6 +1451,87 @@
                               "name" : "entries[0].height",
                               "summary" : "Visual sample height",
                               "value" : "720"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1898,
+                                "start" : 1897
+                              },
+                              "name" : "entries[0].codec.avc.configuration_version",
+                              "summary" : "AVC configuration version",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1899,
+                                "start" : 1898
+                              },
+                              "name" : "entries[0].codec.avc.profile_indication",
+                              "summary" : "AVC profile indication",
+                              "value" : "0x64"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1900,
+                                "start" : 1899
+                              },
+                              "name" : "entries[0].codec.avc.profile_compatibility",
+                              "summary" : "Profile compatibility flags",
+                              "value" : "0x00"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1901,
+                                "start" : 1900
+                              },
+                              "name" : "entries[0].codec.avc.level_indication",
+                              "summary" : "AVC level indication",
+                              "value" : "31"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1902,
+                                "start" : 1901
+                              },
+                              "name" : "entries[0].codec.avc.nal_unit_length_bytes",
+                              "summary" : "Number of bytes used to encode NAL unit length",
+                              "value" : "4"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1903,
+                                "start" : 1902
+                              },
+                              "name" : "entries[0].codec.avc.sequence_parameter_sets.count",
+                              "summary" : "Number of SPS entries",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1905,
+                                "start" : 1903
+                              },
+                              "name" : "entries[0].codec.avc.sequence_parameter_sets[0].length",
+                              "summary" : "Sequence parameter set length",
+                              "value" : "25"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1931,
+                                "start" : 1930
+                              },
+                              "name" : "entries[0].codec.avc.picture_parameter_sets.count",
+                              "summary" : "Number of PPS entries",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1933,
+                                "start" : 1931
+                              },
+                              "name" : "entries[0].codec.avc.picture_parameter_sets[0].length",
+                              "summary" : "Picture parameter set length",
+                              "value" : "5"
                             }
                           ],
                           "sizes" : {
