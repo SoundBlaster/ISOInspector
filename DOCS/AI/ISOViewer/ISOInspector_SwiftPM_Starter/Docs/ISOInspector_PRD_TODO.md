@@ -169,7 +169,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] C2. `mvhd`: timescale, duration(32/64), rate, volume, matrix.
 - [ ] C3. `tkhd`: flags-driven size; track_id; duration; width/height.
 - [x] C4. `mdhd`: creation/modification times, timescale, duration, language. **(Completed — parser implemented in `ISOInspectorKit`; see `DOCS/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/Summary_of_Work.md`.)**
-- [x] C5. `hdlr`: handler_type, name. **(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)**
+- [x] C5. `hdlr`: handler_type, name. **(Completed — see `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md`.)**
 - [ ] C6. `stsd`: entry_count; generic sample_entry header; detect visual/audio entry.
 - [ ] C7. `stts`, `ctts`: entry arrays.
 - [ ] C8. `stsc`: sample-to-chunk entries.
@@ -221,7 +221,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 ### Phase H — Fixtures & Tests
 - [ ] H1. Fixture corpus: MP4 (non-frag), MOV, fMP4 segment, DASH init+media, huge `mdat`, malformed cases.
-- [x] H2. Unit tests: headers, container boundaries, specific box field extraction. **(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)**
+- [x] H2. Unit tests: headers, container boundaries, specific box field extraction. **(Completed — see `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md`.)**
 - [ ] H3. Snapshot tests: JSON exports of small fixtures.
 - [ ] H4. Performance tests: parse time & memory cap (<100 MB for 20 GB file).
 
