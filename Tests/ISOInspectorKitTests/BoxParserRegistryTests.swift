@@ -47,7 +47,17 @@ final class BoxParserRegistryTests: XCTestCase {
         payload.append(contentsOf: UInt32(0x00010000).bigEndianBytes) // rate 1.0
         payload.append(contentsOf: UInt16(0x0100).bigEndianBytes) // volume 1.0
         payload.append(contentsOf: Data(count: 10)) // reserved
-        payload.append(contentsOf: Data(count: 36)) // matrix
+        payload.append(contentsOf: [
+            UInt32(0x00010000), // a
+            0, // b
+            0, // u
+            0, // c
+            UInt32(0x00010000), // d
+            0, // v
+            0, // x
+            0, // y
+            UInt32(0x40000000) // w
+        ].flatMap { $0.bigEndianBytes })
         payload.append(contentsOf: Data(count: 24)) // pre-defined
         payload.append(contentsOf: UInt32(99).bigEndianBytes) // next track id
 
@@ -67,13 +77,45 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let registry = BoxParserRegistry.shared
         let parsed = try XCTUnwrap(registry.parse(header: header, reader: reader))
-        let fieldNames = parsed.fields.map(\.name)
-        XCTAssertTrue(fieldNames.contains("timescale"))
-        XCTAssertTrue(fieldNames.contains("duration"))
-        XCTAssertTrue(fieldNames.contains("rate"))
-        XCTAssertTrue(fieldNames.contains("volume"))
-        XCTAssertEqual(parsed.fields.first(where: { $0.name == "timescale" })?.value, "600")
-        XCTAssertEqual(parsed.fields.first(where: { $0.name == "duration" })?.value, "1200")
+        XCTAssertEqual(parsed.fields.map(\.name), [
+            "version",
+            "flags",
+            "creation_time",
+            "modification_time",
+            "timescale",
+            "duration",
+            "rate",
+            "volume",
+            "matrix.a",
+            "matrix.b",
+            "matrix.u",
+            "matrix.c",
+            "matrix.d",
+            "matrix.v",
+            "matrix.x",
+            "matrix.y",
+            "matrix.w",
+            "next_track_ID"
+        ])
+        XCTAssertEqual(value(named: "timescale", in: parsed), "600")
+        XCTAssertEqual(value(named: "duration", in: parsed), "1200")
+        XCTAssertEqual(value(named: "rate", in: parsed), "1.00")
+        XCTAssertEqual(value(named: "volume", in: parsed), "1.00")
+        XCTAssertEqual(value(named: "matrix.a", in: parsed), "1.0000")
+        XCTAssertEqual(value(named: "matrix.d", in: parsed), "1.0000")
+        XCTAssertEqual(value(named: "matrix.w", in: parsed), "1.000000")
+
+        let detail = try XCTUnwrap(parsed.movieHeader)
+        XCTAssertEqual(detail.version, 0)
+        XCTAssertEqual(detail.creationTime, 1)
+        XCTAssertEqual(detail.modificationTime, 2)
+        XCTAssertEqual(detail.timescale, 600)
+        XCTAssertFalse(detail.durationIs64Bit)
+        XCTAssertEqual(detail.duration, 1200)
+        XCTAssertEqual(detail.rate, 1.0, accuracy: 0.0001)
+        XCTAssertEqual(detail.volume, 1.0, accuracy: 0.0001)
+        XCTAssertEqual(detail.matrix, .identity)
+        XCTAssertEqual(detail.nextTrackID, 99)
     }
 
     func testDefaultRegistryParsesMovieHeaderVersion1Box() throws {
@@ -88,7 +130,17 @@ final class BoxParserRegistryTests: XCTestCase {
         payload.append(contentsOf: UInt16(0x0100).bigEndianBytes) // volume 1.0
         payload.append(contentsOf: Data(count: 2)) // reserved
         payload.append(contentsOf: Data(count: 8)) // reserved 32-bit fields
-        payload.append(contentsOf: Data(count: 36)) // matrix
+        payload.append(contentsOf: [
+            UInt32(0x00020000),
+            UInt32(0xFFFF0000),
+            UInt32(0x20000000),
+            UInt32(0x00008000),
+            UInt32(0x00010000),
+            UInt32(0xE0000000),
+            UInt32(0x00000000),
+            UInt32(0x00010000),
+            UInt32(0x40000000)
+        ].flatMap { $0.bigEndianBytes })
         payload.append(contentsOf: Data(count: 24)) // predefined
         payload.append(contentsOf: UInt32(42).bigEndianBytes) // next track id
 
@@ -116,7 +168,59 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(value(named: "duration", in: parsed), "1200")
         XCTAssertEqual(value(named: "rate", in: parsed), "1.50")
         XCTAssertEqual(value(named: "volume", in: parsed), "1.00")
+        XCTAssertEqual(value(named: "matrix.a", in: parsed), "2.0000")
+        XCTAssertEqual(value(named: "matrix.b", in: parsed), "-1.0000")
+        XCTAssertEqual(value(named: "matrix.u", in: parsed), "0.500000")
+        XCTAssertEqual(value(named: "matrix.c", in: parsed), "0.5000")
+        XCTAssertEqual(value(named: "matrix.v", in: parsed), "-0.500000")
+        XCTAssertEqual(value(named: "matrix.w", in: parsed), "1.000000")
         XCTAssertEqual(value(named: "next_track_ID", in: parsed), "42")
+
+        let detail = try XCTUnwrap(parsed.movieHeader)
+        XCTAssertEqual(detail.version, 1)
+        XCTAssertEqual(detail.creationTime, 1)
+        XCTAssertEqual(detail.modificationTime, 2)
+        XCTAssertEqual(detail.timescale, 600)
+        XCTAssertTrue(detail.durationIs64Bit)
+        XCTAssertEqual(detail.duration, 1200)
+        XCTAssertEqual(detail.rate, 1.5, accuracy: 0.0001)
+        XCTAssertEqual(detail.volume, 1.0, accuracy: 0.0001)
+        XCTAssertEqual(detail.matrix.a, 2.0, accuracy: 0.0001)
+        XCTAssertEqual(detail.matrix.b, -1.0, accuracy: 0.0001)
+        XCTAssertEqual(detail.matrix.u, 0.5, accuracy: 0.0001)
+        XCTAssertEqual(detail.matrix.c, 0.5, accuracy: 0.0001)
+        XCTAssertEqual(detail.matrix.v, -0.5, accuracy: 0.0001)
+        XCTAssertEqual(detail.matrix.w, 1.0, accuracy: 0.0001)
+    }
+
+    func testMovieHeaderParserRejectsTruncatedMatrix() throws {
+        var payload = Data()
+        payload.append(0x00)
+        payload.append(contentsOf: [0x00, 0x00, 0x00])
+        payload.append(contentsOf: UInt32(1).bigEndianBytes)
+        payload.append(contentsOf: UInt32(1).bigEndianBytes)
+        payload.append(contentsOf: UInt32(90).bigEndianBytes)
+        payload.append(contentsOf: UInt32(120).bigEndianBytes)
+        payload.append(contentsOf: UInt32(0x00010000).bigEndianBytes)
+        payload.append(contentsOf: UInt16(0x0100).bigEndianBytes)
+        payload.append(contentsOf: Data(count: 10))
+        payload.append(contentsOf: Data(count: 20)) // truncated matrix data
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("mvhd"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        XCTAssertNil(try BoxParserRegistry.shared.parse(header: header, reader: reader))
     }
 
     func testDefaultRegistryParsesMediaHeaderBoxVersion0() throws {
