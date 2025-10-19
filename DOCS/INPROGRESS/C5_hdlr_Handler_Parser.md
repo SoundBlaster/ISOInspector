@@ -9,6 +9,7 @@ Introduce a concrete parser for the ISO BMFF `hdlr` (handler reference) box so m
 - Aligns with the Phase C parser backlog and MVP checklist that still flags the `hdlr` parser as outstanding.
 - Builds on the `FullBoxReader` helper introduced in Task B5 and the recently completed `mdhd` parser wiring to populate media header data.
 - Enables downstream UI and export layers to surface handler metadata alongside timing information, as called for in the
+
   master PRD’s movie tree requirements.
 
 ## ✅ Success Criteria
@@ -16,7 +17,9 @@ Introduce a concrete parser for the ISO BMFF `hdlr` (handler reference) box so m
 - `BoxParserRegistry` registers a `hdlr` parser that extracts handler type, subtype, and name strings using the shared `FullBoxReader` for `(version, flags)`.
 - Parsing representative fixtures populates structured data for movie (`mdia/hdlr`) and metadata (`meta/hdlr`) boxes, with unit tests covering text vs. null-terminated names.
 - Streaming pipeline, CLI exports, and SwiftUI detail panes render handler metadata without regressions (update
+
   snapshots or fixtures if required).
+
 - Documentation and backlog entries referencing the missing `hdlr` parser are updated to reflect active work and eventual completion.
 
 ## 🔧 Implementation Notes
