@@ -170,7 +170,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] C3. `tkhd`: flags-driven size; track_id; duration; width/height.
 - [x] C4. `mdhd`: creation/modification times, timescale, duration, language. **(Completed — parser implemented in `ISOInspectorKit`; see `DOCS/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/Summary_of_Work.md`.)**
 - [x] C5. `hdlr`: handler_type, name. **(Completed — see `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md`.)**
-- [ ] C6. `stsd`: entry_count; generic sample_entry header; detect visual/audio entry.
+- [ ] C6. `stsd`: entry_count; generic sample_entry header; detect visual/audio entry. *(In Progress — see `DOCS/INPROGRESS/C6_stsd_Sample_Description_Parser.md`.)*
 - [ ] C7. `stts`, `ctts`: entry arrays.
 - [ ] C8. `stsc`: sample-to-chunk entries.
 - [ ] C9. `stsz/stz2`: sample sizes.
