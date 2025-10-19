@@ -2,7 +2,7 @@
 
 ## 🚧 Active Parser Work
 
-- [ ] Coordinate upcoming C10 (`stco/co64`) parser work with the new `stsz/stz2` sample size tables so validation can reconcile counts across the `stsc` detail model. *(Pending — see @todo #15 and track notes in `DOCS/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/C9_stsz_stz2_Sample_Size_Parser.md`.)*
+- [ ] Coordinate upcoming C10 (`stco/co64`) parser work with the new `stsz/stz2` sample size tables so validation can reconcile counts across the `stsc` detail model. *(Pending — see @todo #15 and track notes in `DOCS/INPROGRESS/C9_stsz_stz2_Sample_Size_Parser.md`.)*
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 

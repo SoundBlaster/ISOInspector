@@ -588,3 +588,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/`.
 - **Highlights:** Captures completion of the `tkhd` track header parser with version-aware timeline decoding, flag-derived enablement states, fixed-point transformation matrices, and presentation dimension exports wired into the JSON/UI surfaces alongside refreshed fixture coverage.
 - **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` now focuses on coordinating the upcoming C9 (`stsz/stz2`) and C10 (`stco/co64`) parser efforts plus the macOS-bound benchmarking, release readiness, UI automation, and Combine latency validations awaiting dedicated hardware.
+
+## 112_C9_stsz_stz2_Sample_Size_Parser
+- **Archived files:** `C9_stsz_stz2_Sample_Size_Parser.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/`.
+- **Highlights:** Captures the dedicated `stsz`/`stz2` sample size parser implementation, JSON/export wiring, and Swift test coverage validating constant, variable, and malformed sample tables while documenting CLI/UI integration notes.
+- **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` keeps the C10 chunk offset coordination plus the macOS-dependent benchmarking, release readiness, UI automation, and Combine latency follow-ups awaiting hardware support.
