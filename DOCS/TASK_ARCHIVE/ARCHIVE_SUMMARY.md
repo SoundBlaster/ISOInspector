@@ -606,3 +606,15 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/`.
 - **Highlights:** Captures the refined chunk offset parser that now emits decimal and hexadecimal offsets for both `stco` (32-bit) and `co64` (64-bit) tables, refreshed JSON fixture baselines, and extended Swift tests validating truncated table handling.
 - **Next steps carried forward:** Validation rule #15 to correlate `stsc` runs with `stsz/stz2` sample sizes remains active alongside macOS hardware-dependent benchmarking, release readiness, UI automation, and Combine latency validations — all tracked in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist.
+
+## 115_C11_stss_Sync_Sample_Table
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/`.
+- **Highlights:** Captures the sync sample table parser delivery, including CLI integration, fixture expansion, and refreshed JSON snapshots.
+- **Next steps carried forward:** Align validation rule #15 with the updated random-access metadata so chunk offsets, sample sizes, and sync markers remain coherent.
+
+## 116_Summary_of_Work_Parser_Focus
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/116_Summary_of_Work_Parser_Focus/`.
+- **Highlights:** Aggregates parser progress notes through the C11 `stss` sync sample milestone, including cross-references to refreshed JSON exports and streaming validation coverage.
+- **Next steps carried forward:** Prioritize remaining Phase C parser backlog (C12–C15) and VR-015 validation coherence checks to unblock end-to-end random access reporting.

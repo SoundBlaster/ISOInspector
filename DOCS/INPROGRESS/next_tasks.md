@@ -1,30 +1,12 @@
 # Next Tasks
 
-## 🚧 Active Parser Work
+## Phase C — Specific Parsers (Baseline)
 
-- [x] Implement C11 `stss` sync sample table parser to surface random-access sample numbers. _(Completed — see `DOCS/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/Summary_of_Work.md`.)_
-- [ ] Implement validation rule #15 to correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and the updated `stco/co64` chunk offsets. **(Follow the integration notes in `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/C10_stco_co64_Chunk_Offset_Parser.md` and `DOCS/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/C9_stsz_stz2_Sample_Size_Parser.md`.)**
+- [ ] 🔴 **P0+** C12. Implement `dinf/dref` data reference parser wiring to emit entry type, version/flags, and URL/urn payload metadata. Coordinate with the random-access validation stack outlined in `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/C10_stco_co64_Chunk_Offset_Parser.md` so downstream chunk lookups track reference indices correctly.
+- [ ] 🔴 **P0+** C13. Surface `smhd`/`vmhd` media header fields (balance, graphics mode, opcolor) via `BoxParserRegistry` and refresh JSON exports. Reference codec metadata notes in `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md` to keep audio/video presentation metadata aligned.
+- [ ] 🔴 **P0+** C14. Decode `edts/elst` edit lists, including segment duration, media time, and rate, and extend validation hooks so timeline adjustments reconcile with `mvhd`/`tkhd` durations (see `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/Summary_of_Work.md`).
+- [ ] 🔴 **P0+** C15. Implement baseline metadata box coverage for `udta`, `meta` (handler), `keys`, and `ilst` atoms, surfacing simple string/integer payloads for CLI export. Follow archival context in `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md` to keep handler mappings consistent.
 
-## 🔄 Follow-Ups from C5 `hdlr` Parser
+## Validation Follow-Up
 
-- [ ] Evaluate additional handler type categorizations if future boxes require specialized roles beyond the current mapping set. *(Track notes in `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md` once refined.)*
-
-## 📈 Performance Benchmark Planning
-
-- [ ] Schedule macOS CLI/UI large-file benchmark execution using the R4 protocol once dedicated hardware runners come online. *(Blocked — requires macOS automation with Instruments support; track fixtures and manifest revisions in `DOCS/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/R4_Large_File_Performance_Benchmarks.md`.)*
-
-## 📝 Release Readiness Validation
-
-- [ ] Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA once runners are available, following the release readiness runbook. *(Blocked — requires macOS infrastructure; see `Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md` and archival notes in `DOCS/TASK_ARCHIVE/83_Summary_of_Work_2025-10-Release_Prep/Summary_of_Work.md`.)*
-
-## 🔭 Benchmark Validation
-
-- [ ] Execute the random slice benchmark suite on macOS hardware once Combine support is available so we can compare mapped vs. chunked readers under identical workloads. *(Blocked — requires macOS runner with Combine; see `DOCS/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/2025-10-15-random-slice-benchmark.md`.)*
-
-## 🧪 Streaming UI Coverage
-
-- [ ] Run `ParseTreeStreamingSelectionAutomationTests` on macOS hardware with XCTest UI support to validate the end-to-end SwiftUI automation flow introduced in `DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md`. *(Blocked — macOS UI testing entitlements unavailable in container; see `DOCS/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/51_ParseTreeStreamingSelectionAutomation_macOS_Run.md`.)*
-
-## 🔬 Combine UI Benchmark Follow-Up
-
-- [ ] Execute the Combine-backed UI benchmark on macOS to capture latency metrics on a platform that ships Combine, keeping throughput parity with the CLI harness. *(Blocked — requires macOS runner with Xcode/Combine; see `DOCS/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/50_Combine_UI_Benchmark_macOS_Run.md` and the follow-up notes in `DOCS/TASK_ARCHIVE/47_Combine_UI_Benchmark_macOS/Summary_of_Work.md`.)*
+- [ ] Validation Rule #15. Correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and `stco/co64` offsets to flag mismatches alongside the new sync sample metadata (see `DOCS/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/Summary_of_Work.md`, `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/Summary_of_Work.md`, and `DOCS/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/Summary_of_Work.md`).
