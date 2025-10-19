@@ -1,0 +1,57 @@
+[0/1] Planning build
+[1/1] Compiling plugin GenerateManual
+[2/2] Compiling plugin GenerateDoccReference
+[3/3] Compiling plugin Swift-DocC Preview
+[4/4] Compiling plugin Swift-DocC
+Building for debugging...
+[4/8] Write swift-version--4EAD98957C2213E4.txt
+Build complete! (27.19s)
+Test Suite 'Selected tests' started at 2025-10-19 15:44:36.155
+Test Suite 'LargeFileBenchmarkTests' started at 2025-10-19 15:44:36.160
+Test Case 'LargeFileBenchmarkTests.testAppEventBridgeDeliversUpdatesWithinLatencyBudget' started at 2025-10-19 15:44:36.160
+/workspace/ISOInspector/Tests/ISOInspectorPerformanceTests/LargeFileBenchmarkTests.swift:109: LargeFileBenchmarkTests.testAppEventBridgeDeliversUpdatesWithinLatencyBudget : Test skipped - Combine unavailable on this platform
+Test Case 'LargeFileBenchmarkTests.testAppEventBridgeDeliversUpdatesWithinLatencyBudget' skipped (0.004 seconds)
+Test Case 'LargeFileBenchmarkTests.testCLIValidationCompletesWithinPerformanceBudget' started at 2025-10-19 15:44:36.164
+Test Case 'LargeFileBenchmarkTests.testCLIValidationCompletesWithinPerformanceBudget' passed (0.083 seconds)
+Test Case 'LargeFileBenchmarkTests.testChunkedFileReaderRandomSliceBenchmarkMeetsPerformanceExpectations' started at 2025-10-19 15:44:36.247
+ChunkedFileReader random slice scenario: small
+• Requests per iteration: 256
+• Total bytes per iteration: 67046 (0.06 MiB)
+• Average slice size: 261.90 bytes
+• Reader length: 67109020 (64.00 MiB)
+ChunkedFileReader random slice scenario: medium
+• Requests per iteration: 128
+• Total bytes per iteration: 8430601 (8.04 MiB)
+• Average slice size: 65864.07 bytes
+• Reader length: 67109020 (64.00 MiB)
+ChunkedFileReader random slice scenario: large
+• Requests per iteration: 64
+• Total bytes per iteration: 36284892 (34.60 MiB)
+• Average slice size: 566951.44 bytes
+• Reader length: 67109020 (64.00 MiB)
+Test Case 'LargeFileBenchmarkTests.testChunkedFileReaderRandomSliceBenchmarkMeetsPerformanceExpectations' passed (8.751 seconds)
+Test Case 'LargeFileBenchmarkTests.testMappedReaderRandomSliceBenchmarkMeetsPerformanceExpectations' started at 2025-10-19 15:44:44.998
+MappedReader random slice scenario: small
+• Requests per iteration: 256
+• Total bytes per iteration: 67046 (0.06 MiB)
+• Average slice size: 261.90 bytes
+• Reader length: 67109020 (64.00 MiB)
+MappedReader random slice scenario: medium
+• Requests per iteration: 128
+• Total bytes per iteration: 8430601 (8.04 MiB)
+• Average slice size: 65864.07 bytes
+• Reader length: 67109020 (64.00 MiB)
+MappedReader random slice scenario: large
+• Requests per iteration: 64
+• Total bytes per iteration: 36284892 (34.60 MiB)
+• Average slice size: 566951.44 bytes
+• Reader length: 67109020 (64.00 MiB)
+Test Case 'LargeFileBenchmarkTests.testMappedReaderRandomSliceBenchmarkMeetsPerformanceExpectations' passed (0.771 seconds)
+Test Suite 'LargeFileBenchmarkTests' passed at 2025-10-19 15:44:45.768
+	 Executed 4 tests, with 1 test skipped and 0 failures (0 unexpected) in 9.608 (9.608) seconds
+Test Suite 'Selected tests' passed at 2025-10-19 15:44:45.768
+	 Executed 4 tests, with 1 test skipped and 0 failures (0 unexpected) in 9.608 (9.608) seconds
+◇ Test run started.
+↳ Testing Library Version: 6.1 (43b6f88e2f2712e)
+↳ Target Platform: x86_64-unknown-linux-gnu
+✔ Test run with 0 tests passed after 0.001 seconds.

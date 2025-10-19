@@ -71,7 +71,7 @@ Provide release managers and on-call engineers with a single checklist that cove
 ### 5. Final Communications and Artifact Storage
 
 - Store CLI binaries, notarized DMGs/ZIPs, and DocC archives under the release tag in GitHub Releases. Use consistent naming: `ISOInspector-<version>-cli.zip`, `ISOInspector-<version>-app.dmg`, `DocC-<target>-<version>.zip`.
-- Publish the QA summary (test logs, benchmark metrics) in the `releases/<version>/QA` folder or linked wiki page.
+- Publish the QA summary (test logs, benchmark metrics) in the `releases/<version>/QA` folder or linked wiki page. Use `Documentation/Performance/2025-10-19-benchmark-summary.md` and the adjacent raw logs as the current baseline when compiling the evidence packet.
 - Circulate an internal announcement summarizing the release scope, artifacts, and any deferred items.
 
 ## Go / No-Go Review
