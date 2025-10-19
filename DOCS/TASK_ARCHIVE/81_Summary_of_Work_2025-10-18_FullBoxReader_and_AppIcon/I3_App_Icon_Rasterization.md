@@ -27,7 +27,7 @@ branding work from Task I3 ships in notarized builds with light and dark appeara
 - ✅ Updated `AppIcon.appiconset/Contents.json` with deterministic filenames so the catalog resolves the new artwork across macOS, iOS, and iPadOS targets once the generator runs.
 - ✅ Added `AppIconAssetTests` to assert manifest entries stay in sync with the generator's filename convention.
 - ✅ Removed the lingering `@todo` in `ISOInspectorAppTheme.swift` and marked the matching `todo.md` entry complete.
-- ✅ Documented the automation workflow in `DOCS/INPROGRESS/Summary_of_Work.md` for archival.
+- ✅ Documented the automation workflow in `DOCS/TASK_ARCHIVE/100_Summary_of_Work_2025-10-19_ftyp_Follow_Up/Summary_of_Work.md` for archival.
 
 ## 🧪 Validation Checklist
 

@@ -63,6 +63,6 @@
 - Add FilesystemAccessKit module spec to `03_Technical_Spec.md`.
 - Extend workplan (`04_TODO_Workplan.md`) with a dedicated phase.
 - Update backlog trackers (`ISOInspector_PRD_TODO.md`, `DOCS/INPROGRESS/next_tasks.md`).
-- Record follow-up summary in `DOCS/INPROGRESS/Summary_of_Work.md` with outstanding questions.
+- Record follow-up summary in `DOCS/INPROGRESS/Summary_of_Work.md` with outstanding questions (prior log archived at `DOCS/TASK_ARCHIVE/100_Summary_of_Work_2025-10-19_ftyp_Follow_Up/Summary_of_Work.md`).
 - Reference Apple sandbox documentation in `06_Task_Source_Crosswalk.md` for traceability.
 - Capture UIKit integration details confirming that `FilesystemAccess.live` now presents `UIDocumentPickerViewController` on iOS/iPadOS while maintaining existing macOS adapters.【F:Sources/ISOInspectorKit/FilesystemAccess/FilesystemAccess+Live.swift†L1-L52】

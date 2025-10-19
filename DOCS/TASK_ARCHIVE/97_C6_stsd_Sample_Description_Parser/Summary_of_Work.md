@@ -10,7 +10,7 @@
 ## Documentation Updates
 
 - Marked task C6 as completed in `DOCS/INPROGRESS/next_tasks.md`.
-- Captured this execution summary in `DOCS/INPROGRESS/Summary_of_Work.md`.
+- Captured this execution summary in `DOCS/TASK_ARCHIVE/100_Summary_of_Work_2025-10-19_ftyp_Follow_Up/Summary_of_Work.md`.
 
 ## Verification
 
