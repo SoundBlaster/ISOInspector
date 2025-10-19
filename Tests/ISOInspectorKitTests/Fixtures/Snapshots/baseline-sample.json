@@ -3735,10 +3735,746 @@
                             "payloadStart" : 1267,
                             "start" : 1259
                           },
+                          "payload" : [
+                            {
+                              "byteRange" : {
+                                "end" : 1268,
+                                "start" : 1267
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1271,
+                                "start" : 1268
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1275,
+                                "start" : 1271
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of chunk offsets",
+                              "value" : "41"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1279,
+                                "start" : 1275
+                              },
+                              "name" : "entries[0].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "3238"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1283,
+                                "start" : 1279
+                              },
+                              "name" : "entries[1].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "52481"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1287,
+                                "start" : 1283
+                              },
+                              "name" : "entries[2].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "69144"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1291,
+                                "start" : 1287
+                              },
+                              "name" : "entries[3].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "86541"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1295,
+                                "start" : 1291
+                              },
+                              "name" : "entries[4].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "104938"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1299,
+                                "start" : 1295
+                              },
+                              "name" : "entries[5].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "122915"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1303,
+                                "start" : 1299
+                              },
+                              "name" : "entries[6].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "132183"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1307,
+                                "start" : 1303
+                              },
+                              "name" : "entries[7].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "150492"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1311,
+                                "start" : 1307
+                              },
+                              "name" : "entries[8].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "167661"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1315,
+                                "start" : 1311
+                              },
+                              "name" : "entries[9].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "176860"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1319,
+                                "start" : 1315
+                              },
+                              "name" : "entries[10].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "192592"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1323,
+                                "start" : 1319
+                              },
+                              "name" : "entries[11].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "208936"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1327,
+                                "start" : 1323
+                              },
+                              "name" : "entries[12].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "217172"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1331,
+                                "start" : 1327
+                              },
+                              "name" : "entries[13].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "233746"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1335,
+                                "start" : 1331
+                              },
+                              "name" : "entries[14].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "250319"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1339,
+                                "start" : 1335
+                              },
+                              "name" : "entries[15].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "266598"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1343,
+                                "start" : 1339
+                              },
+                              "name" : "entries[16].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "282834"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1347,
+                                "start" : 1343
+                              },
+                              "name" : "entries[17].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "298019"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1351,
+                                "start" : 1347
+                              },
+                              "name" : "entries[18].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "317618"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1355,
+                                "start" : 1351
+                              },
+                              "name" : "entries[19].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "335194"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1359,
+                                "start" : 1355
+                              },
+                              "name" : "entries[20].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "351895"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1363,
+                                "start" : 1359
+                              },
+                              "name" : "entries[21].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "372463"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1367,
+                                "start" : 1363
+                              },
+                              "name" : "entries[22].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "392754"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1371,
+                                "start" : 1367
+                              },
+                              "name" : "entries[23].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "412945"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1375,
+                                "start" : 1371
+                              },
+                              "name" : "entries[24].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "433247"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1379,
+                                "start" : 1375
+                              },
+                              "name" : "entries[25].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "452118"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1383,
+                                "start" : 1379
+                              },
+                              "name" : "entries[26].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "471984"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1387,
+                                "start" : 1383
+                              },
+                              "name" : "entries[27].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "491143"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1391,
+                                "start" : 1387
+                              },
+                              "name" : "entries[28].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "508709"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1395,
+                                "start" : 1391
+                              },
+                              "name" : "entries[29].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "526188"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1399,
+                                "start" : 1395
+                              },
+                              "name" : "entries[30].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "543507"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1403,
+                                "start" : 1399
+                              },
+                              "name" : "entries[31].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "560705"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1407,
+                                "start" : 1403
+                              },
+                              "name" : "entries[32].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "577599"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1411,
+                                "start" : 1407
+                              },
+                              "name" : "entries[33].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "593655"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1415,
+                                "start" : 1411
+                              },
+                              "name" : "entries[34].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "609996"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1419,
+                                "start" : 1415
+                              },
+                              "name" : "entries[35].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "625994"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1423,
+                                "start" : 1419
+                              },
+                              "name" : "entries[36].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "645688"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1427,
+                                "start" : 1423
+                              },
+                              "name" : "entries[37].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "662161"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1431,
+                                "start" : 1427
+                              },
+                              "name" : "entries[38].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "677876"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1435,
+                                "start" : 1431
+                              },
+                              "name" : "entries[39].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "693620"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1439,
+                                "start" : 1435
+                              },
+                              "name" : "entries[40].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "708211"
+                            }
+                          ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 172,
                             "total" : 180
+                          },
+                          "structured" : {
+                            "chunk_offset" : {
+                              "entries" : [
+                                {
+                                  "byteRange" : {
+                                    "end" : 1279,
+                                    "start" : 1275
+                                  },
+                                  "index" : 0,
+                                  "offset" : 3238
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1283,
+                                    "start" : 1279
+                                  },
+                                  "index" : 1,
+                                  "offset" : 52481
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1287,
+                                    "start" : 1283
+                                  },
+                                  "index" : 2,
+                                  "offset" : 69144
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1291,
+                                    "start" : 1287
+                                  },
+                                  "index" : 3,
+                                  "offset" : 86541
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1295,
+                                    "start" : 1291
+                                  },
+                                  "index" : 4,
+                                  "offset" : 104938
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1299,
+                                    "start" : 1295
+                                  },
+                                  "index" : 5,
+                                  "offset" : 122915
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1303,
+                                    "start" : 1299
+                                  },
+                                  "index" : 6,
+                                  "offset" : 132183
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1307,
+                                    "start" : 1303
+                                  },
+                                  "index" : 7,
+                                  "offset" : 150492
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1311,
+                                    "start" : 1307
+                                  },
+                                  "index" : 8,
+                                  "offset" : 167661
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1315,
+                                    "start" : 1311
+                                  },
+                                  "index" : 9,
+                                  "offset" : 176860
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1319,
+                                    "start" : 1315
+                                  },
+                                  "index" : 10,
+                                  "offset" : 192592
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1323,
+                                    "start" : 1319
+                                  },
+                                  "index" : 11,
+                                  "offset" : 208936
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1327,
+                                    "start" : 1323
+                                  },
+                                  "index" : 12,
+                                  "offset" : 217172
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1331,
+                                    "start" : 1327
+                                  },
+                                  "index" : 13,
+                                  "offset" : 233746
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1335,
+                                    "start" : 1331
+                                  },
+                                  "index" : 14,
+                                  "offset" : 250319
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1339,
+                                    "start" : 1335
+                                  },
+                                  "index" : 15,
+                                  "offset" : 266598
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1343,
+                                    "start" : 1339
+                                  },
+                                  "index" : 16,
+                                  "offset" : 282834
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1347,
+                                    "start" : 1343
+                                  },
+                                  "index" : 17,
+                                  "offset" : 298019
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1351,
+                                    "start" : 1347
+                                  },
+                                  "index" : 18,
+                                  "offset" : 317618
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1355,
+                                    "start" : 1351
+                                  },
+                                  "index" : 19,
+                                  "offset" : 335194
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1359,
+                                    "start" : 1355
+                                  },
+                                  "index" : 20,
+                                  "offset" : 351895
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1363,
+                                    "start" : 1359
+                                  },
+                                  "index" : 21,
+                                  "offset" : 372463
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1367,
+                                    "start" : 1363
+                                  },
+                                  "index" : 22,
+                                  "offset" : 392754
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1371,
+                                    "start" : 1367
+                                  },
+                                  "index" : 23,
+                                  "offset" : 412945
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1375,
+                                    "start" : 1371
+                                  },
+                                  "index" : 24,
+                                  "offset" : 433247
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1379,
+                                    "start" : 1375
+                                  },
+                                  "index" : 25,
+                                  "offset" : 452118
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1383,
+                                    "start" : 1379
+                                  },
+                                  "index" : 26,
+                                  "offset" : 471984
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1387,
+                                    "start" : 1383
+                                  },
+                                  "index" : 27,
+                                  "offset" : 491143
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1391,
+                                    "start" : 1387
+                                  },
+                                  "index" : 28,
+                                  "offset" : 508709
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1395,
+                                    "start" : 1391
+                                  },
+                                  "index" : 29,
+                                  "offset" : 526188
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1399,
+                                    "start" : 1395
+                                  },
+                                  "index" : 30,
+                                  "offset" : 543507
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1403,
+                                    "start" : 1399
+                                  },
+                                  "index" : 31,
+                                  "offset" : 560705
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1407,
+                                    "start" : 1403
+                                  },
+                                  "index" : 32,
+                                  "offset" : 577599
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1411,
+                                    "start" : 1407
+                                  },
+                                  "index" : 33,
+                                  "offset" : 593655
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1415,
+                                    "start" : 1411
+                                  },
+                                  "index" : 34,
+                                  "offset" : 609996
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1419,
+                                    "start" : 1415
+                                  },
+                                  "index" : 35,
+                                  "offset" : 625994
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1423,
+                                    "start" : 1419
+                                  },
+                                  "index" : 36,
+                                  "offset" : 645688
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1427,
+                                    "start" : 1423
+                                  },
+                                  "index" : 37,
+                                  "offset" : 662161
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1431,
+                                    "start" : 1427
+                                  },
+                                  "index" : 38,
+                                  "offset" : 677876
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1435,
+                                    "start" : 1431
+                                  },
+                                  "index" : 39,
+                                  "offset" : 693620
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 1439,
+                                    "start" : 1435
+                                  },
+                                  "index" : 40,
+                                  "offset" : 708211
+                                }
+                              ],
+                              "entry_count" : 41,
+                              "flags" : 0,
+                              "version" : 0,
+                              "width" : "32"
+                            }
                           },
                           "validationIssues" : [
 
@@ -6282,10 +7018,746 @@
                             "payloadStart" : 3058,
                             "start" : 3050
                           },
+                          "payload" : [
+                            {
+                              "byteRange" : {
+                                "end" : 3059,
+                                "start" : 3058
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3062,
+                                "start" : 3059
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3066,
+                                "start" : 3062
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of chunk offsets",
+                              "value" : "41"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3070,
+                                "start" : 3066
+                              },
+                              "name" : "entries[0].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "4445"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3074,
+                                "start" : 3070
+                              },
+                              "name" : "entries[1].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "53305"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3078,
+                                "start" : 3074
+                              },
+                              "name" : "entries[2].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "69763"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3082,
+                                "start" : 3078
+                              },
+                              "name" : "entries[3].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "86964"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3086,
+                                "start" : 3082
+                              },
+                              "name" : "entries[4].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "105562"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3090,
+                                "start" : 3086
+                              },
+                              "name" : "entries[5].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "123562"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3094,
+                                "start" : 3090
+                              },
+                              "name" : "entries[6].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "132876"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3098,
+                                "start" : 3094
+                              },
+                              "name" : "entries[7].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "151157"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3102,
+                                "start" : 3098
+                              },
+                              "name" : "entries[8].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "168380"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3106,
+                                "start" : 3102
+                              },
+                              "name" : "entries[9].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "177542"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3110,
+                                "start" : 3106
+                              },
+                              "name" : "entries[10].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "193236"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3114,
+                                "start" : 3110
+                              },
+                              "name" : "entries[11].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "209365"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3118,
+                                "start" : 3114
+                              },
+                              "name" : "entries[12].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "217818"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3122,
+                                "start" : 3118
+                              },
+                              "name" : "entries[13].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "234410"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3126,
+                                "start" : 3122
+                              },
+                              "name" : "entries[14].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "250995"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3130,
+                                "start" : 3126
+                              },
+                              "name" : "entries[15].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "267283"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3134,
+                                "start" : 3130
+                              },
+                              "name" : "entries[16].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "283514"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3138,
+                                "start" : 3134
+                              },
+                              "name" : "entries[17].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "298648"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3142,
+                                "start" : 3138
+                              },
+                              "name" : "entries[18].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "318275"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3146,
+                                "start" : 3142
+                              },
+                              "name" : "entries[19].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "335634"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3150,
+                                "start" : 3146
+                              },
+                              "name" : "entries[20].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "352602"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3154,
+                                "start" : 3150
+                              },
+                              "name" : "entries[21].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "373133"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3158,
+                                "start" : 3154
+                              },
+                              "name" : "entries[22].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "393413"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3162,
+                                "start" : 3158
+                              },
+                              "name" : "entries[23].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "413624"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3166,
+                                "start" : 3162
+                              },
+                              "name" : "entries[24].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "433902"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3170,
+                                "start" : 3166
+                              },
+                              "name" : "entries[25].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "452759"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3174,
+                                "start" : 3170
+                              },
+                              "name" : "entries[26].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "472642"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3178,
+                                "start" : 3174
+                              },
+                              "name" : "entries[27].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "491576"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3182,
+                                "start" : 3178
+                              },
+                              "name" : "entries[28].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "509348"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3186,
+                                "start" : 3182
+                              },
+                              "name" : "entries[29].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "526881"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3190,
+                                "start" : 3186
+                              },
+                              "name" : "entries[30].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "544175"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3194,
+                                "start" : 3190
+                              },
+                              "name" : "entries[31].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "561341"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3198,
+                                "start" : 3194
+                              },
+                              "name" : "entries[32].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "578281"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3202,
+                                "start" : 3198
+                              },
+                              "name" : "entries[33].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "594275"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3206,
+                                "start" : 3202
+                              },
+                              "name" : "entries[34].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "610674"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3210,
+                                "start" : 3206
+                              },
+                              "name" : "entries[35].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "626427"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3214,
+                                "start" : 3210
+                              },
+                              "name" : "entries[36].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "646379"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3218,
+                                "start" : 3214
+                              },
+                              "name" : "entries[37].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "662855"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3222,
+                                "start" : 3218
+                              },
+                              "name" : "entries[38].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "678104"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3226,
+                                "start" : 3222
+                              },
+                              "name" : "entries[39].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "693647"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3230,
+                                "start" : 3226
+                              },
+                              "name" : "entries[40].chunk_offset",
+                              "summary" : "Chunk offset (32-bit)",
+                              "value" : "708220"
+                            }
+                          ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 172,
                             "total" : 180
+                          },
+                          "structured" : {
+                            "chunk_offset" : {
+                              "entries" : [
+                                {
+                                  "byteRange" : {
+                                    "end" : 3070,
+                                    "start" : 3066
+                                  },
+                                  "index" : 0,
+                                  "offset" : 4445
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3074,
+                                    "start" : 3070
+                                  },
+                                  "index" : 1,
+                                  "offset" : 53305
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3078,
+                                    "start" : 3074
+                                  },
+                                  "index" : 2,
+                                  "offset" : 69763
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3082,
+                                    "start" : 3078
+                                  },
+                                  "index" : 3,
+                                  "offset" : 86964
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3086,
+                                    "start" : 3082
+                                  },
+                                  "index" : 4,
+                                  "offset" : 105562
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3090,
+                                    "start" : 3086
+                                  },
+                                  "index" : 5,
+                                  "offset" : 123562
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3094,
+                                    "start" : 3090
+                                  },
+                                  "index" : 6,
+                                  "offset" : 132876
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3098,
+                                    "start" : 3094
+                                  },
+                                  "index" : 7,
+                                  "offset" : 151157
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3102,
+                                    "start" : 3098
+                                  },
+                                  "index" : 8,
+                                  "offset" : 168380
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3106,
+                                    "start" : 3102
+                                  },
+                                  "index" : 9,
+                                  "offset" : 177542
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3110,
+                                    "start" : 3106
+                                  },
+                                  "index" : 10,
+                                  "offset" : 193236
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3114,
+                                    "start" : 3110
+                                  },
+                                  "index" : 11,
+                                  "offset" : 209365
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3118,
+                                    "start" : 3114
+                                  },
+                                  "index" : 12,
+                                  "offset" : 217818
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3122,
+                                    "start" : 3118
+                                  },
+                                  "index" : 13,
+                                  "offset" : 234410
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3126,
+                                    "start" : 3122
+                                  },
+                                  "index" : 14,
+                                  "offset" : 250995
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3130,
+                                    "start" : 3126
+                                  },
+                                  "index" : 15,
+                                  "offset" : 267283
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3134,
+                                    "start" : 3130
+                                  },
+                                  "index" : 16,
+                                  "offset" : 283514
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3138,
+                                    "start" : 3134
+                                  },
+                                  "index" : 17,
+                                  "offset" : 298648
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3142,
+                                    "start" : 3138
+                                  },
+                                  "index" : 18,
+                                  "offset" : 318275
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3146,
+                                    "start" : 3142
+                                  },
+                                  "index" : 19,
+                                  "offset" : 335634
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3150,
+                                    "start" : 3146
+                                  },
+                                  "index" : 20,
+                                  "offset" : 352602
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3154,
+                                    "start" : 3150
+                                  },
+                                  "index" : 21,
+                                  "offset" : 373133
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3158,
+                                    "start" : 3154
+                                  },
+                                  "index" : 22,
+                                  "offset" : 393413
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3162,
+                                    "start" : 3158
+                                  },
+                                  "index" : 23,
+                                  "offset" : 413624
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3166,
+                                    "start" : 3162
+                                  },
+                                  "index" : 24,
+                                  "offset" : 433902
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3170,
+                                    "start" : 3166
+                                  },
+                                  "index" : 25,
+                                  "offset" : 452759
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3174,
+                                    "start" : 3170
+                                  },
+                                  "index" : 26,
+                                  "offset" : 472642
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3178,
+                                    "start" : 3174
+                                  },
+                                  "index" : 27,
+                                  "offset" : 491576
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3182,
+                                    "start" : 3178
+                                  },
+                                  "index" : 28,
+                                  "offset" : 509348
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3186,
+                                    "start" : 3182
+                                  },
+                                  "index" : 29,
+                                  "offset" : 526881
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3190,
+                                    "start" : 3186
+                                  },
+                                  "index" : 30,
+                                  "offset" : 544175
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3194,
+                                    "start" : 3190
+                                  },
+                                  "index" : 31,
+                                  "offset" : 561341
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3198,
+                                    "start" : 3194
+                                  },
+                                  "index" : 32,
+                                  "offset" : 578281
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3202,
+                                    "start" : 3198
+                                  },
+                                  "index" : 33,
+                                  "offset" : 594275
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3206,
+                                    "start" : 3202
+                                  },
+                                  "index" : 34,
+                                  "offset" : 610674
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3210,
+                                    "start" : 3206
+                                  },
+                                  "index" : 35,
+                                  "offset" : 626427
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3214,
+                                    "start" : 3210
+                                  },
+                                  "index" : 36,
+                                  "offset" : 646379
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3218,
+                                    "start" : 3214
+                                  },
+                                  "index" : 37,
+                                  "offset" : 662855
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3222,
+                                    "start" : 3218
+                                  },
+                                  "index" : 38,
+                                  "offset" : 678104
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3226,
+                                    "start" : 3222
+                                  },
+                                  "index" : 39,
+                                  "offset" : 693647
+                                },
+                                {
+                                  "byteRange" : {
+                                    "end" : 3230,
+                                    "start" : 3226
+                                  },
+                                  "index" : 40,
+                                  "offset" : 708220
+                                }
+                              ],
+                              "entry_count" : 41,
+                              "flags" : 0,
+                              "version" : 0,
+                              "width" : "32"
+                            }
                           },
                           "validationIssues" : [
 

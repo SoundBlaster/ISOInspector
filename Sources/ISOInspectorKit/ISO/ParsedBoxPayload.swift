@@ -6,6 +6,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case movieHeader(MovieHeaderBox)
         case trackHeader(TrackHeaderBox)
         case sampleToChunk(SampleToChunkBox)
+        case chunkOffset(ChunkOffsetBox)
         case sampleSize(SampleSizeBox)
         case compactSampleSize(CompactSampleSizeBox)
     }
@@ -174,6 +175,45 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         }
     }
 
+    public struct ChunkOffsetBox: Equatable, Sendable {
+        public enum Width: Equatable, Sendable {
+            case bits32
+            case bits64
+        }
+
+        public struct Entry: Equatable, Sendable {
+            public let index: UInt32
+            public let offset: UInt64
+            public let byteRange: Range<Int64>
+
+            public init(index: UInt32, offset: UInt64, byteRange: Range<Int64>) {
+                self.index = index
+                self.offset = offset
+                self.byteRange = byteRange
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let entryCount: UInt32
+        public let width: Width
+        public let entries: [Entry]
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            entryCount: UInt32,
+            width: Width,
+            entries: [Entry]
+        ) {
+            self.version = version
+            self.flags = flags
+            self.entryCount = entryCount
+            self.width = width
+            self.entries = entries
+        }
+    }
+
     public struct SampleSizeBox: Equatable, Sendable {
         public struct Entry: Equatable, Sendable {
             public let index: UInt32
@@ -292,6 +332,11 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var sampleToChunk: SampleToChunkBox? {
         guard case let .sampleToChunk(box) = detail else { return nil }
+        return box
+    }
+
+    public var chunkOffset: ChunkOffsetBox? {
+        guard case let .chunkOffset(box) = detail else { return nil }
         return box
     }
 

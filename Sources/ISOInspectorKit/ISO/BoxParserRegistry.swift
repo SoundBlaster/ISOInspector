@@ -85,6 +85,12 @@ public struct BoxParserRegistry: Sendable {
             if let stz2 = try? FourCharCode("stz2") {
                 registry.register(parser: compactSampleSize, for: stz2)
             }
+            if let stco = try? FourCharCode("stco") {
+                registry.register(parser: chunkOffset32, for: stco)
+            }
+            if let co64 = try? FourCharCode("co64") {
+                registry.register(parser: chunkOffset64, for: co64)
+            }
         }
 
         private static let visualSampleEntryTypes: Set<FourCharCode> = {
@@ -1239,6 +1245,136 @@ public struct BoxParserRegistry: Sendable {
                 detail = .sampleToChunk(ParsedBoxPayload.SampleToChunkBox(
                     version: fullHeader.version,
                     flags: fullHeader.flags,
+                    entries: entries
+                ))
+            } else {
+                detail = nil
+            }
+
+            return ParsedBoxPayload(fields: fields, detail: detail)
+        }
+
+        static func chunkOffset32(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+            try parseChunkOffsets(header: header, reader: reader, width: .bits32)
+        }
+
+        static func chunkOffset64(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+            try parseChunkOffsets(header: header, reader: reader, width: .bits64)
+        }
+
+        private static func parseChunkOffsets(
+            header: BoxHeader,
+            reader: RandomAccessReader,
+            width: ParsedBoxPayload.ChunkOffsetBox.Width
+        ) throws -> ParsedBoxPayload? {
+            guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            let start = header.payloadRange.lowerBound
+            let end = header.payloadRange.upperBound
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "version",
+                value: String(fullHeader.version),
+                description: "Structure version",
+                byteRange: start..<(start + 1)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "flags",
+                value: String(format: "0x%06X", fullHeader.flags),
+                description: "Bit flags",
+                byteRange: (start + 1)..<(start + 4)
+            ))
+
+            var cursor = fullHeader.contentStart
+
+            let countEndResult = cursor.addingReportingOverflow(4)
+            guard !countEndResult.overflow else { return nil }
+            let countEnd = countEndResult.partialValue
+            guard countEnd <= end,
+                  let entryCount = try readUInt32(reader, at: cursor, end: end) else { return nil }
+            fields.append(ParsedBoxPayload.Field(
+                name: "entry_count",
+                value: String(entryCount),
+                description: "Number of chunk offsets",
+                byteRange: cursor..<countEnd
+            ))
+            cursor = countEnd
+
+            var entries: [ParsedBoxPayload.ChunkOffsetBox.Entry] = []
+
+            func appendTruncationStatus(_ index: UInt32) {
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].status",
+                    value: "truncated",
+                    description: "Entry truncated before chunk offset completed",
+                    byteRange: nil
+                ))
+            }
+
+            let widthBytes: Int64 = width == .bits32 ? 4 : 8
+            var index: UInt32 = 0
+            while index < entryCount {
+                guard cursor < end else {
+                    appendTruncationStatus(index)
+                    break
+                }
+
+                let entryStart = cursor
+                let entryEndResult = cursor.addingReportingOverflow(widthBytes)
+                guard !entryEndResult.overflow else {
+                    appendTruncationStatus(index)
+                    break
+                }
+                let entryEnd = entryEndResult.partialValue
+                guard entryEnd <= end else {
+                    appendTruncationStatus(index)
+                    break
+                }
+
+                let offsetValue: UInt64?
+                switch width {
+                case .bits32:
+                    offsetValue = try readUInt32(reader, at: cursor, end: end).map(UInt64.init)
+                case .bits64:
+                    offsetValue = try readUInt64(reader, at: cursor, end: end)
+                }
+
+                guard let offset = offsetValue else {
+                    appendTruncationStatus(index)
+                    break
+                }
+
+                let entryRange = entryStart..<entryEnd
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].chunk_offset",
+                    value: String(offset),
+                    description: width == .bits32 ? "Chunk offset (32-bit)" : "Chunk offset (64-bit)",
+                    byteRange: entryRange
+                ))
+
+                entries.append(ParsedBoxPayload.ChunkOffsetBox.Entry(
+                    index: index,
+                    offset: offset,
+                    byteRange: entryRange
+                ))
+
+                cursor = entryEnd
+                if cursor <= entryStart {
+                    break
+                }
+
+                index += 1
+            }
+
+            let detail: ParsedBoxPayload.Detail?
+            if UInt32(entries.count) == entryCount {
+                detail = .chunkOffset(ParsedBoxPayload.ChunkOffsetBox(
+                    version: fullHeader.version,
+                    flags: fullHeader.flags,
+                    entryCount: entryCount,
+                    width: width,
                     entries: entries
                 ))
             } else {

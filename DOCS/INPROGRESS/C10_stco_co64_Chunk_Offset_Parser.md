@@ -16,6 +16,7 @@ Implement dedicated parsers for the 32-bit `stco` and 64-bit `co64` chunk offset
 - `BoxParserRegistry` registers both boxes, and streaming parse events emit structured metadata consumed by the CLI and SwiftUI experiences without regression.
 - Validation pipeline gains access to chunk offsets, enabling cross-checks that correlate `stsc` chunk ranges and `stsz/stz2` sample sizes (unblocking repo `todo.md` item #15).
 - Snapshot and fixture coverage updated so regression tests confirm offsets, counts, and 32/64-bit handling across
+
   representative MP4 fixtures.
 
 ## 🔧 Implementation Notes
@@ -32,3 +33,10 @@ Implement dedicated parsers for the 32-bit `stco` and 64-bit `co64` chunk offset
 - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES`](../RULES)
 - Archived context in [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+
+---
+
+## ✅ Current Progress
+
+- 2025-10-19 — Added dedicated parsers for `stco` (32-bit) and `co64` (64-bit) chunk offset boxes. Offsets now populate the shared detail model, JSON exporter, and streaming registry.
+- Follow-up — Implement validation rule #15 to reconcile `stsc` chunk runs, `stsz/stz2` sample sizes, and the newly captured chunk offsets.
