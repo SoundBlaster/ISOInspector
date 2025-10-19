@@ -6,7 +6,7 @@
 
 ## 🧪 Test Coverage Enablement
 
-- [ ] H2 – Unit tests for headers, container boundaries, and specific box field extraction. **(In Progress — see `DOCS/INPROGRESS/H2_Unit_Tests.md`.)**
+- [x] H2 – Unit tests for headers, container boundaries, and specific box field extraction. **(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)**
 
 ## 📈 Performance Benchmark Planning
 
