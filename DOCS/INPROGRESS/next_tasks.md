@@ -2,7 +2,7 @@
 
 ## 🚧 Active Parser Work
 
-- [ ] Implement C11 `stss` sync sample table parser to surface random-access sample numbers. _(In Progress — see `DOCS/INPROGRESS/C11_stss_Sync_Sample_Table.md`.)_
+- [x] Implement C11 `stss` sync sample table parser to surface random-access sample numbers. _(Completed — see `DOCS/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/Summary_of_Work.md`.)_
 - [ ] Implement validation rule #15 to correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and the updated `stco/co64` chunk offsets. **(Follow the integration notes in `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/C10_stco_co64_Chunk_Offset_Parser.md` and `DOCS/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/C9_stsz_stz2_Sample_Size_Parser.md`.)**
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser

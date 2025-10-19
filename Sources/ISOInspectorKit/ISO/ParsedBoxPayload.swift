@@ -9,6 +9,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case chunkOffset(ChunkOffsetBox)
         case sampleSize(SampleSizeBox)
         case compactSampleSize(CompactSampleSizeBox)
+        case syncSampleTable(SyncSampleTableBox)
     }
 
     public struct FileTypeBox: Equatable, Sendable {
@@ -284,6 +285,37 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         }
     }
 
+    /// Parsed representation of the `stss` sync sample table.
+    ///
+    /// Downstream validation (e.g., VR-015) combines these sync sample numbers with
+    /// chunk and sample size tables to confirm that random access entries align with
+    /// chunk boundaries exposed by `stsc`, `stsz/stz2`, and `stco/co64`.
+    public struct SyncSampleTableBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public let index: UInt32
+            public let sampleNumber: UInt32
+            public let byteRange: Range<Int64>
+
+            public init(index: UInt32, sampleNumber: UInt32, byteRange: Range<Int64>) {
+                self.index = index
+                self.sampleNumber = sampleNumber
+                self.byteRange = byteRange
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let entryCount: UInt32
+        public let entries: [Entry]
+
+        public init(version: UInt8, flags: UInt32, entryCount: UInt32, entries: [Entry]) {
+            self.version = version
+            self.flags = flags
+            self.entryCount = entryCount
+            self.entries = entries
+        }
+    }
+
     public struct Field: Equatable, Sendable {
         public let name: String
         public let value: String
@@ -347,6 +379,11 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var compactSampleSize: CompactSampleSizeBox? {
         guard case let .compactSampleSize(box) = detail else { return nil }
+        return box
+    }
+
+    public var syncSampleTable: SyncSampleTableBox? {
+        guard case let .syncSampleTable(box) = detail else { return nil }
         return box
     }
 }

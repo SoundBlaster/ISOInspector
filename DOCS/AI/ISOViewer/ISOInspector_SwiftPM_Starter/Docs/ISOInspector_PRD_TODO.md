@@ -175,7 +175,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] C8. `stsc`: sample-to-chunk entries. _(Completed — see `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md`.)_
 - [x] C9. `stsz/stz2`: sample sizes. **(Completed — see `DOCS/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/Summary_of_Work.md`.)**
 - [ ] C10. `stco/co64`: chunk offsets (32/64).
-- [ ] C11. `stss`: sync sample numbers.
+- [x] C11. `stss`: sync sample numbers. _(Completed — see `DOCS/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/Summary_of_Work.md`.)_
 - [ ] C12. `dinf/dref`: data reference entries.
 - [ ] C13. `smhd/vmhd`: media headers.
 - [ ] C14. `edts/elst`: edit list entries.
