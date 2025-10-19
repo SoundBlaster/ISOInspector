@@ -2,7 +2,7 @@
 
 ## 🚧 Active Parser Work
 
-- [ ] **In Progress:** Task C10 — Implement the `stco/co64` chunk offset parser so chunk tables emit normalized offsets for both 32-bit and 64-bit entries. (See `DOCS/INPROGRESS/C10_stco_co64_Chunk_Offset_Parser.md`.)
+- [x] **Completed:** Task C10 — Implement the `stco/co64` chunk offset parser so chunk tables emit normalized offsets for both 32-bit and 64-bit entries. (See `DOCS/INPROGRESS/C10_stco_co64_Chunk_Offset_Parser.md` and `DOCS/INPROGRESS/Summary_of_Work.md`.)
 - [ ] Implement validation rule #15 to correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and the new `stco/co64` chunk offsets. **(Follow the integration notes in `DOCS/TASK_ARCHIVE/113_C10_stco_co64_Chunk_Offset_Parser/C10_stco_co64_Chunk_Offset_Parser.md` and `DOCS/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/C9_stsz_stz2_Sample_Size_Parser.md`.)**
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser

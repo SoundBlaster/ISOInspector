@@ -193,7 +193,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] C7. Connect persisted bookmark diff entities to resolved bookmark records once reconciliation rules are finalized. _(Completed — see `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/Summary_of_Work.md`.)_
 - [x] 🔴 **P0+** C8. `stsc`: sample-to-chunk entries. _(Completed — see `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md`.)_
 - [x] 🔴 **P0+** C9. `stsz/stz2`: sample sizes. **(Completed — see `DOCS/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/Summary_of_Work.md` for parser delivery notes.)**
-- [ ] 🔴 **P0+** C10. `stco/co64`: chunk offsets (32/64). **(In Progress — see `DOCS/INPROGRESS/C10_stco_co64_Chunk_Offset_Parser.md`.)**
+- [x] 🟢 **P0+** C10. `stco/co64`: chunk offsets (32/64). **(Completed — see `DOCS/INPROGRESS/C10_stco_co64_Chunk_Offset_Parser.md` and `DOCS/INPROGRESS/Summary_of_Work.md`.)**
 - [ ] 🔴 **P0+** C11. `stss`: sync sample numbers.
 - [ ] 🔴 **P0+** C12. `dinf/dref`: data reference entries.
 - [ ] 🔴 **P0+** C13. `smhd/vmhd`: media headers.
