@@ -142,21 +142,29 @@ private struct Issue: Encodable {
 private struct StructuredPayload: Encodable {
     let fileType: FileTypeDetail?
     let movieHeader: MovieHeaderDetail?
+    let sampleToChunk: SampleToChunkDetail?
 
     init(detail: ParsedBoxPayload.Detail) {
         switch detail {
         case let .fileType(box):
             self.fileType = FileTypeDetail(box: box)
             self.movieHeader = nil
+            self.sampleToChunk = nil
         case let .movieHeader(box):
             self.fileType = nil
             self.movieHeader = MovieHeaderDetail(box: box)
+            self.sampleToChunk = nil
+        case let .sampleToChunk(box):
+            self.fileType = nil
+            self.movieHeader = nil
+            self.sampleToChunk = SampleToChunkDetail(box: box)
         }
     }
 
     private enum CodingKeys: String, CodingKey {
         case fileType = "file_type"
         case movieHeader = "movie_header"
+        case sampleToChunk = "sample_to_chunk"
     }
 }
 
@@ -214,6 +222,45 @@ private struct MovieHeaderDetail: Encodable {
         case volume
         case matrix
         case nextTrackID = "next_track_id"
+    }
+}
+
+private struct SampleToChunkDetail: Encodable {
+    struct Entry: Encodable {
+        let firstChunk: UInt32
+        let samplesPerChunk: UInt32
+        let sampleDescriptionIndex: UInt32
+        let byteRange: ByteRange
+
+        init(entry: ParsedBoxPayload.SampleToChunkBox.Entry) {
+            self.firstChunk = entry.firstChunk
+            self.samplesPerChunk = entry.samplesPerChunk
+            self.sampleDescriptionIndex = entry.sampleDescriptionIndex
+            self.byteRange = ByteRange(range: entry.byteRange)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firstChunk = "first_chunk"
+            case samplesPerChunk = "samples_per_chunk"
+            case sampleDescriptionIndex = "sample_description_index"
+            case byteRange = "byte_range"
+        }
+    }
+
+    let version: UInt8
+    let flags: UInt32
+    let entries: [Entry]
+
+    init(box: ParsedBoxPayload.SampleToChunkBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.entries = box.entries.map(Entry.init)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case entries
     }
 }
 

@@ -76,6 +76,9 @@ public struct BoxParserRegistry: Sendable {
             if let stsd = try? FourCharCode("stsd") {
                 registry.register(parser: sampleDescription, for: stsd)
             }
+            if let stsc = try? FourCharCode("stsc") {
+                registry.register(parser: sampleToChunk, for: stsc)
+            }
         }
 
         private static let visualSampleEntryTypes: Set<FourCharCode> = {
@@ -726,6 +729,150 @@ public struct BoxParserRegistry: Sendable {
             }
 
             return ParsedBoxPayload(fields: fields)
+        }
+
+        static func sampleToChunk(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+            guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            let start = header.payloadRange.lowerBound
+            let end = header.payloadRange.upperBound
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "version",
+                value: String(fullHeader.version),
+                description: "Structure version",
+                byteRange: start..<(start + 1)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "flags",
+                value: String(format: "0x%06X", fullHeader.flags),
+                description: "Bit flags",
+                byteRange: (start + 1)..<(start + 4)
+            ))
+
+            var cursor = fullHeader.contentStart
+            let entryCountOffset = cursor
+            let entryCountEndResult = cursor.addingReportingOverflow(4)
+            guard !entryCountEndResult.overflow else { return nil }
+            let entryCountEnd = entryCountEndResult.partialValue
+            guard let entryCount = try readUInt32(reader, at: cursor, end: end) else { return nil }
+            fields.append(ParsedBoxPayload.Field(
+                name: "entry_count",
+                value: String(entryCount),
+                description: "Number of sample-to-chunk table entries",
+                byteRange: entryCountOffset..<entryCountEnd
+            ))
+            cursor = entryCountEnd
+
+            var entries: [ParsedBoxPayload.SampleToChunkBox.Entry] = []
+            var index: UInt32 = 0
+
+            func appendTruncationStatus(_ missingField: String) {
+                let range: Range<Int64>?
+                if cursor < end {
+                    range = cursor..<end
+                } else {
+                    range = nil
+                }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].status",
+                    value: "truncated",
+                    description: "Entry truncated before \(missingField) field",
+                    byteRange: range
+                ))
+            }
+
+            while index < entryCount, cursor < end {
+                let entryStart = cursor
+
+                let firstChunkEndResult = cursor.addingReportingOverflow(4)
+                guard !firstChunkEndResult.overflow else {
+                    appendTruncationStatus("first_chunk")
+                    break
+                }
+                let firstChunkEnd = firstChunkEndResult.partialValue
+                guard firstChunkEnd <= end, let firstChunk = try readUInt32(reader, at: cursor, end: end) else {
+                    appendTruncationStatus("first_chunk")
+                    break
+                }
+                let firstChunkRange = cursor..<firstChunkEnd
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].first_chunk",
+                    value: String(firstChunk),
+                    description: "1-based index of the first chunk for this entry",
+                    byteRange: firstChunkRange
+                ))
+                cursor = firstChunkEnd
+
+                let samplesPerChunkEndResult = cursor.addingReportingOverflow(4)
+                guard !samplesPerChunkEndResult.overflow else {
+                    appendTruncationStatus("samples_per_chunk")
+                    break
+                }
+                let samplesPerChunkEnd = samplesPerChunkEndResult.partialValue
+                guard samplesPerChunkEnd <= end,
+                      let samplesPerChunk = try readUInt32(reader, at: cursor, end: end) else {
+                    appendTruncationStatus("samples_per_chunk")
+                    break
+                }
+                let samplesRange = cursor..<samplesPerChunkEnd
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].samples_per_chunk",
+                    value: String(samplesPerChunk),
+                    description: "Number of samples in each chunk",
+                    byteRange: samplesRange
+                ))
+                cursor = samplesPerChunkEnd
+
+                let descriptionIndexEndResult = cursor.addingReportingOverflow(4)
+                guard !descriptionIndexEndResult.overflow else {
+                    appendTruncationStatus("sample_description_index")
+                    break
+                }
+                let descriptionIndexEnd = descriptionIndexEndResult.partialValue
+                guard descriptionIndexEnd <= end,
+                      let sampleDescriptionIndex = try readUInt32(reader, at: cursor, end: end) else {
+                    appendTruncationStatus("sample_description_index")
+                    break
+                }
+                let descriptionRange = cursor..<descriptionIndexEnd
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].sample_description_index",
+                    value: String(sampleDescriptionIndex),
+                    description: "Index into the sample description table",
+                    byteRange: descriptionRange
+                ))
+                cursor = descriptionIndexEnd
+
+                let entryRange = entryStart..<cursor
+                entries.append(ParsedBoxPayload.SampleToChunkBox.Entry(
+                    firstChunk: firstChunk,
+                    samplesPerChunk: samplesPerChunk,
+                    sampleDescriptionIndex: sampleDescriptionIndex,
+                    byteRange: entryRange
+                ))
+
+                if cursor <= entryStart {
+                    break
+                }
+
+                index += 1
+            }
+
+            let detail: ParsedBoxPayload.Detail?
+            if fullHeader.version == 0, fullHeader.flags == 0, UInt32(entries.count) == entryCount {
+                detail = .sampleToChunk(ParsedBoxPayload.SampleToChunkBox(
+                    version: fullHeader.version,
+                    flags: fullHeader.flags,
+                    entries: entries
+                ))
+            } else {
+                detail = nil
+            }
+
+            return ParsedBoxPayload(fields: fields, detail: detail)
         }
 
         static func handlerReference(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {

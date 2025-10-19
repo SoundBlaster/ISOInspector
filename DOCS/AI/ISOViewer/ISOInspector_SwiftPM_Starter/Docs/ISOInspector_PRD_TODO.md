@@ -172,7 +172,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] C5. `hdlr`: handler_type, name. **(Completed — see `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md`.)**
 - [ ] C6. `stsd`: entry_count; generic sample_entry header; detect visual/audio entry. *(In Progress — see `DOCS/INPROGRESS/C6_stsd_Sample_Description_Parser.md`.)*
 - [ ] C7. `stts`, `ctts`: entry arrays.
-- [ ] C8. `stsc`: sample-to-chunk entries. _(In Progress — see `DOCS/INPROGRESS/C8_stsc_Sample_To_Chunk_Parser.md`.)_
+- [x] C8. `stsc`: sample-to-chunk entries. _(Completed — see `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md`.)_
 - [ ] C9. `stsz/stz2`: sample sizes.
 - [ ] C10. `stco/co64`: chunk offsets (32/64).
 - [ ] C11. `stss`: sync sample numbers.

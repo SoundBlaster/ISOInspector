@@ -114,3 +114,44 @@ When generating or updating code, an AI agent must:
 1. **Split code automatically** if it exceeds recommended thresholds.\
 1. Use **clear file naming** (e.g., `User+Mapping.swift`, `User+Storage.swift`).\
 1. Never merge unrelated logic into one "god file."
+
+---
+
+## Rule 3: Prefer Structs Over Tuples for Domain Data
+
+### 🔹 Rule 3 Summary
+
+Represent domain concepts and multi-field values with named types (`struct`, `class`, or `enum`) instead of tuples.
+
+### ✅ Rule 3 Guidelines
+
+- Use tuples only for short-lived helpers with **no more than two elements** (e.g., a key-value pair in a `map`).\
+- When more data is needed, introduce a dedicated type with descriptive property names.\
+- Prefer small immutable `struct`s for read-only aggregates that mirror ISO box payload entries.\
+- Update tests and fixtures to mirror production types instead of large tuples.
+
+### ❌ Incorrect Example
+
+``` swift
+let entry: (UInt32, UInt32, UInt32, UInt32) = (1, 8, 3, 24) // ❌ No context for each element
+
+```
+
+### ✅ Correct Example
+
+``` swift
+struct SampleToChunkEntry {
+    let firstChunk: UInt32
+    let samplesPerChunk: UInt32
+    let sampleDescriptionIndex: UInt32
+}
+
+let entry = SampleToChunkEntry(firstChunk: 1, samplesPerChunk: 8, sampleDescriptionIndex: 3)
+
+```
+
+### 💡 Rule 3 Rationale
+
+- Named properties make ISO box payloads self-documenting.\
+- SwiftLint's `large_tuple` rule stays silent, keeping CI noise low.\
+- Structs scale gracefully if metadata or helper methods are added later.
