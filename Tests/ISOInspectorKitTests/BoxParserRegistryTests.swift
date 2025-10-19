@@ -114,6 +114,96 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(value(named: "next_track_ID", in: parsed), "42")
     }
 
+    func testDefaultRegistryParsesMediaHeaderBoxVersion0() throws {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(100).bigEndianBytes) // creation
+        payload.append(contentsOf: UInt32(200).bigEndianBytes) // modification
+        payload.append(contentsOf: UInt32(1000).bigEndianBytes) // timescale
+        payload.append(contentsOf: UInt32(5000).bigEndianBytes) // duration
+        payload.append(contentsOf: languageBytes("eng")) // language
+        payload.append(contentsOf: UInt16(0).bigEndianBytes) // pre-defined
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("mdhd"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+        XCTAssertEqual(value(named: "version", in: parsed), "0")
+        XCTAssertEqual(value(named: "flags", in: parsed), "0x000000")
+        XCTAssertEqual(value(named: "creation_time", in: parsed), "100")
+        XCTAssertEqual(value(named: "modification_time", in: parsed), "200")
+        XCTAssertEqual(value(named: "timescale", in: parsed), "1000")
+        XCTAssertEqual(value(named: "duration", in: parsed), "5000")
+        XCTAssertEqual(value(named: "language", in: parsed), "eng")
+        XCTAssertEqual(value(named: "pre_defined", in: parsed), "0")
+    }
+
+    func testDefaultRegistryParsesMediaHeaderBoxVersion1() throws {
+        var payload = Data()
+        payload.append(0x01) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt64(0x0102030405060708).bigEndianBytes) // creation
+        payload.append(contentsOf: UInt64(0x1112131415161718).bigEndianBytes) // modification
+        payload.append(contentsOf: UInt32(48000).bigEndianBytes) // timescale
+        payload.append(contentsOf: UInt64(96000).bigEndianBytes) // duration
+        payload.append(contentsOf: languageBytes("jpn")) // language
+        payload.append(contentsOf: UInt16(1).bigEndianBytes) // pre-defined
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("mdhd"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+        XCTAssertEqual(value(named: "version", in: parsed), "1")
+        XCTAssertEqual(value(named: "flags", in: parsed), "0x000000")
+        XCTAssertEqual(value(named: "creation_time", in: parsed), "72623859790382856")
+        XCTAssertEqual(value(named: "modification_time", in: parsed), "1230066625199609624")
+        XCTAssertEqual(value(named: "timescale", in: parsed), "48000")
+        XCTAssertEqual(value(named: "duration", in: parsed), "96000")
+        XCTAssertEqual(value(named: "language", in: parsed), "jpn")
+        XCTAssertEqual(value(named: "pre_defined", in: parsed), "1")
+    }
+
+    func testMediaHeaderParserReturnsNilForShortPayload() throws {
+        let payload = Data([0x00, 0x00, 0x00, 0x00])
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("mdhd"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        XCTAssertNil(try BoxParserRegistry.shared.parse(header: header, reader: reader))
+    }
+
     func testRegistryAllowsOverrides() throws {
         var registry = BoxParserRegistry()
         let customType = try FourCharCode("cust")
@@ -186,6 +276,13 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(value(named: "next_track_ID", in: parsed), "42")
         XCTAssertEqual(value(named: "width", in: parsed), "1920.00")
         XCTAssertEqual(value(named: "height", in: parsed), "1080.00")
+    }
+
+    private func languageBytes(_ code: String) -> [UInt8] {
+        precondition(code.count == 3, "language code must be 3 letters")
+        let scalars = code.unicodeScalars.map { UInt16($0.value) - 0x60 }
+        let packed = UInt16(((scalars[0] & 0x1F) << 10) | ((scalars[1] & 0x1F) << 5) | (scalars[2] & 0x1F))
+        return packed.bigEndianBytes
     }
 
     private func value(named name: String, in payload: ParsedBoxPayload) -> String? {

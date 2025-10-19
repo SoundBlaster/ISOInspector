@@ -21,7 +21,9 @@ For every task/iteration:
 - SwiftPM workspace with targets: `ISOInspectorKit`, `ISOInspectorCLI`, `ISOInspectorApp`.
 - Documentation & PDD notes live under `DOCS/INPROGRESS/`.
 - Use Markdownlint conventions already in CI. *(Temporarily disabled while linting is paused; keep style guidance ready
+
   for reactivation.)*
+
 - Do not commit binary assets (for example, `.png`, `.zip`, `.dmg`) directly to the repository; reference external storage or describe the asset textually instead.
 - Prefer additive, backward-compatible changes. If breaking change is unavoidable, mark with `@available(*, deprecated, message: ...)` when possible and write migration notes.
 

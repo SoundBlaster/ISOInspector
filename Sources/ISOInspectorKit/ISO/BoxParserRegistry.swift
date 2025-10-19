@@ -67,6 +67,9 @@ public struct BoxParserRegistry: Sendable {
             if let tkhd = try? FourCharCode("tkhd") {
                 registry.register(parser: trackHeader, for: tkhd)
             }
+            if let mdhd = try? FourCharCode("mdhd") {
+                registry.register(parser: mediaHeader, for: mdhd)
+            }
         }
 
         static func fileType(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
@@ -112,6 +115,127 @@ public struct BoxParserRegistry: Sendable {
             }
 
             return fields.isEmpty ? nil : ParsedBoxPayload(fields: fields)
+        }
+
+        static func mediaHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+            guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+            let start = header.payloadRange.lowerBound
+            let end = header.payloadRange.upperBound
+            let availableContent = fullHeader.contentRange.upperBound - fullHeader.contentRange.lowerBound
+            let minimumContentLength: Int64 = fullHeader.version == 1 ? 8 + 8 + 4 + 8 + 2 + 2 : 4 + 4 + 4 + 4 + 2 + 2
+            guard availableContent >= minimumContentLength else { return nil }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            fields.append(ParsedBoxPayload.Field(
+                name: "version",
+                value: String(fullHeader.version),
+                description: "Structure version",
+                byteRange: start..<(start + 1)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "flags",
+                value: String(format: "0x%06X", fullHeader.flags),
+                description: "Bit flags",
+                byteRange: (start + 1)..<(start + 4)
+            ))
+
+            var cursor = fullHeader.contentStart
+
+            if fullHeader.version == 1 {
+                guard let creation = try readUInt64(reader, at: cursor, end: end) else { return nil }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "creation_time",
+                    value: String(creation),
+                    description: "Media creation timestamp",
+                    byteRange: cursor..<(cursor + 8)
+                ))
+                cursor += 8
+
+                guard let modification = try readUInt64(reader, at: cursor, end: end) else { return nil }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "modification_time",
+                    value: String(modification),
+                    description: "Last modification timestamp",
+                    byteRange: cursor..<(cursor + 8)
+                ))
+                cursor += 8
+
+                guard let timescale = try readUInt32(reader, at: cursor, end: end) else { return nil }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "timescale",
+                    value: String(timescale),
+                    description: "Media time units per second",
+                    byteRange: cursor..<(cursor + 4)
+                ))
+                cursor += 4
+
+                guard let duration = try readUInt64(reader, at: cursor, end: end) else { return nil }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "duration",
+                    value: String(duration),
+                    description: "Media duration",
+                    byteRange: cursor..<(cursor + 8)
+                ))
+                cursor += 8
+            } else {
+                guard let creation = try readUInt32(reader, at: cursor, end: end) else { return nil }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "creation_time",
+                    value: String(creation),
+                    description: "Media creation timestamp",
+                    byteRange: cursor..<(cursor + 4)
+                ))
+                cursor += 4
+
+                guard let modification = try readUInt32(reader, at: cursor, end: end) else { return nil }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "modification_time",
+                    value: String(modification),
+                    description: "Last modification timestamp",
+                    byteRange: cursor..<(cursor + 4)
+                ))
+                cursor += 4
+
+                guard let timescale = try readUInt32(reader, at: cursor, end: end) else { return nil }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "timescale",
+                    value: String(timescale),
+                    description: "Media time units per second",
+                    byteRange: cursor..<(cursor + 4)
+                ))
+                cursor += 4
+
+                guard let duration = try readUInt32(reader, at: cursor, end: end) else { return nil }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "duration",
+                    value: String(duration),
+                    description: "Media duration",
+                    byteRange: cursor..<(cursor + 4)
+                ))
+                cursor += 4
+            }
+
+            guard let languageRaw = try readUInt16(reader, at: cursor, end: end) else { return nil }
+            let languageValue = decodeISO639Language(languageRaw) ?? String(format: "0x%04X", languageRaw)
+            fields.append(ParsedBoxPayload.Field(
+                name: "language",
+                value: languageValue,
+                description: "ISO-639-2/T language code",
+                byteRange: cursor..<(cursor + 2)
+            ))
+            cursor += 2
+
+            guard let preDefined = try readUInt16(reader, at: cursor, end: end) else { return nil }
+            fields.append(ParsedBoxPayload.Field(
+                name: "pre_defined",
+                value: String(preDefined),
+                description: "Reserved value",
+                byteRange: cursor..<(cursor + 2)
+            ))
+
+            return ParsedBoxPayload(fields: fields)
         }
 
         static func movieHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
@@ -428,6 +552,28 @@ public struct BoxParserRegistry: Sendable {
             let data = try reader.read(at: offset, count: count)
             guard data.count == count else { return nil }
             return data
+        }
+
+        private static func readUInt16(
+            _ reader: RandomAccessReader,
+            at offset: Int64,
+            end: Int64
+        ) throws -> UInt16? {
+            guard offset + 2 <= end else { return nil }
+            guard let data = try? reader.read(at: offset, count: 2), data.count == 2 else { return nil }
+            return (UInt16(data[0]) << 8) | UInt16(data[1])
+        }
+
+        private static func decodeISO639Language(_ rawValue: UInt16) -> String? {
+            if rawValue == 0x7FFF {
+                return "und"
+            }
+            let first = UInt8((rawValue >> 10) & 0x1F)
+            let second = UInt8((rawValue >> 5) & 0x1F)
+            let third = UInt8(rawValue & 0x1F)
+            guard first != 0, second != 0, third != 0 else { return nil }
+            let bytes = [first + 0x60, second + 0x60, third + 0x60]
+            return String(bytes: bytes, encoding: .ascii)
         }
 
         private static func readUInt32(

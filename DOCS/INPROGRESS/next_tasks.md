@@ -2,7 +2,7 @@
 
 ## 🚧 Active Development
 
-- [ ] C4. Parse `mdhd` (media header) boxes to surface creation/modification timestamps, timescale, duration, and language metadata across the streaming pipeline. **(In Progress — selected per 2025-10 backlog review; dependencies satisfied by existing `FullBoxReader` infrastructure.)**
+- [x] C4. Parse `mdhd` (media header) boxes to surface creation/modification timestamps, timescale, duration, and language metadata across the streaming pipeline. **(Completed — parser registered in `ISOInspectorKit` with tests; see `DOCS/INPROGRESS/Summary_of_Work.md` for details.)**
 
 ## 📈 Performance Benchmark Planning
 
