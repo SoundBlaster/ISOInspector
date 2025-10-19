@@ -173,7 +173,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] C6. `stsd`: entry_count; generic sample_entry header; detect visual/audio entry. *(In Progress — see `DOCS/INPROGRESS/C6_stsd_Sample_Description_Parser.md`.)*
 - [ ] C7. `stts`, `ctts`: entry arrays.
 - [x] C8. `stsc`: sample-to-chunk entries. _(Completed — see `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md`.)_
-- [ ] C9. `stsz/stz2`: sample sizes.
+- [ ] C9. `stsz/stz2`: sample sizes. **(In Progress — see `DOCS/INPROGRESS/C9_stsz_stz2_Sample_Size_Parser.md`.)**
 - [ ] C10. `stco/co64`: chunk offsets (32/64).
 - [ ] C11. `stss`: sync sample numbers.
 - [ ] C12. `dinf/dref`: data reference entries.

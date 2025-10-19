@@ -2,7 +2,7 @@
 
 ## 🚧 Active Parser Work
 
-- [ ] Coordinate upcoming C9 (`stsz/stz2`) and C10 (`stco/co64`) parser tasks to align validation rules with the new `stsc` detail model.
+- [ ] Coordinate upcoming C9 (`stsz/stz2`) and C10 (`stco/co64`) parser tasks to align validation rules with the new `stsc` detail model. **(In Progress — see `DOCS/INPROGRESS/C9_stsz_stz2_Sample_Size_Parser.md`.)**
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 
