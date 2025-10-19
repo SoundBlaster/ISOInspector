@@ -4,6 +4,10 @@
 
 - [x] R3 – Accessibility Guidelines review for SwiftUI tree, detail, and hex experiences. **(Completed — guidelines published as <doc:AccessibilityGuidelines>; see `DOCS/TASK_ARCHIVE/92_Summary_of_Work_2025-10-19_Accessibility_Guidelines/Summary_of_Work.md`.)**
 
+## 🧪 Test Coverage Enablement
+
+- [ ] H2 – Unit tests for headers, container boundaries, and specific box field extraction. **(In Progress — see `DOCS/INPROGRESS/H2_Unit_Tests.md`.)**
+
 ## 📈 Performance Benchmark Planning
 
 - [x] R4 – Large File Performance Benchmarks research plan. **(Completed — benchmark charter captured in `DOCS/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/R4_Large_File_Performance_Benchmarks.md`.)**

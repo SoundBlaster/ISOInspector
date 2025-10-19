@@ -84,6 +84,14 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed:** Task G2 – Persist FilesystemAccessKit bookmarks alongside recents/session storage while maintaining sandbox compliance. Notes archived in `DOCS/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/`; remaining sandbox, benchmark, and automation follow-ups continue in `DOCS/INPROGRESS/next_tasks.md`.
 
+## Phase H — Fixtures & Tests
+| Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
+|---------|-------------|----------|---------------|--------------|-------|---------------------|
+| H1 | Expand fixture corpus with fragmented, DASH, malformed, and large-sample assets. | High | 2 | B2 | Python, Swift | *(Completed ✅ — see `DOCS/TASK_ARCHIVE/27_F1_Expand_Fixture_Catalog/` for manifest-driven fixture coverage.)* |
+| H2 | Author unit tests covering header parsing, container boundary enforcement, and targeted box field extraction. | High | 1.5 | B3 | XCTest | Structural regression tests assert header math, parent/child containment, and representative box decoders. **(In Progress — see `DOCS/INPROGRESS/H2_Unit_Tests.md`.)** |
+| H3 | Capture snapshot tests for JSON export on representative fixtures. | Medium | 1 | B6 | XCTest | Snapshot baselines update only when schema changes; diffs flag regressions. |
+| H4 | Execute performance tests to validate parse time and memory targets on large fixtures. | Medium | 1.5 | B3 | XCTest Metrics | Benchmarks document latency/memory ceilings and fail CI on regressions. |
+
 ## Phase I — Packaging & Release
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
