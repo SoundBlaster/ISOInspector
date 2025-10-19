@@ -10,8 +10,11 @@ if ! command -v docker >/dev/null 2>&1; then
   exit 1
 fi
 
+rm -f "$PWD/.swiftlint.cache"
+
 docker run --rm \
-  -v "$PWD":"$PWD" \
-  -w "$PWD" \
+  -u "$(id -u):$(id -g)" \
+  -v "$PWD:/work" \
+  -w /work \
   ghcr.io/realm/swiftlint:0.53.0 \
-  swiftlint lint --autocorrect --strict "$@"
+  swiftlint --fix --no-cache --config .swiftlint.yml "$@"

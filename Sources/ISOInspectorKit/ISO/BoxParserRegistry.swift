@@ -1462,7 +1462,13 @@ public struct BoxParserRegistry: Sendable {
             return fields
         }
 
-        private static func readDescriptorHeader(from data: Data, at offset: Int) -> (tag: UInt8, length: Int, headerLength: Int)? {
+        private struct DescriptorHeader {
+            let tag: UInt8
+            let length: Int
+            let headerLength: Int
+        }
+
+        private static func readDescriptorHeader(from data: Data, at offset: Int) -> DescriptorHeader? {
             guard offset < data.count else { return nil }
             let tag = data[offset]
             var length = 0
@@ -1480,7 +1486,7 @@ public struct BoxParserRegistry: Sendable {
                 if iterations >= 4 { return nil }
             }
 
-            return (tag, length, headerLength)
+            return DescriptorHeader(tag: tag, length: length, headerLength: headerLength)
         }
 
         private static func parseESDescriptor(
