@@ -1,8 +1,8 @@
 # Next Tasks
 
-## ✅ In Progress
+## ✅ Completed
 
-- C8 — `stsc` Sample-to-Chunk Parser implementation is now underway. See `DOCS/INPROGRESS/C8_stsc_Sample_To_Chunk_Parser.md` for the active PRD outline.
+- [x] C8 — `stsc` Sample-to-Chunk Parser is complete. See `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md` for the implementation recap.
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 

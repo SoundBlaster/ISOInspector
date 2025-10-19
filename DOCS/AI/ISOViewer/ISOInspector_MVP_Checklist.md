@@ -47,7 +47,7 @@
 ## Phase C — Specific Parsers (Baseline)
 > **Priority Update (2025-10-20):** Phase C parser work is now a **P0 blocker** for the upcoming milestone. Treat every unchecked item below as urgent and schedule accordingly.
 - [x] C1. Stubs: `ftyp`, `mvhd`, `tkhd`, `mdhd`, `hdlr` (input/output types only) **(Completed — see `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md` for the `hdlr` parser implementation; `mdhd` parser landed per `DOCS/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/Summary_of_Work.md`.)**
-- [ ] C2. Stubs: `stsd`, `stts`, `ctts`, `stsc`, `stsz/stz2`, `stco/co64`, `stss` *(Parser for `stsd` now in progress — see `DOCS/INPROGRESS/C6_stsd_Sample_Description_Parser.md`.)*
+- [ ] C2. Stubs: `stsd`, `stts`, `ctts`, `stsz/stz2`, `stco/co64`, `stss` *(Parser for `stsd` now in progress — see `DOCS/INPROGRESS/C6_stsd_Sample_Description_Parser.md`; `stsc` parser archived in `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md`.)*
 - [ ] C3. Stubs: `dinf/dref`, `smhd/vmhd`, `edts/elst`, `udta/meta/keys/ilst`
 - [ ] C4. Stubs: codec configs `avcC`, `hvcC`, `esds` (field names only)
 - [ ] C5. Stubs: `mdat`, `free/skip` (opaque markers)

@@ -191,7 +191,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] C5. `hdlr`: handler_type, name. **(Completed — see `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md`.)**
 - [x] C6. `stsd`: entry_count; generic sample_entry header; detect visual/audio entry. *(Completed — see `DOCS/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/`.)*
 - [x] C7. Connect persisted bookmark diff entities to resolved bookmark records once reconciliation rules are finalized. _(Completed — see `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/Summary_of_Work.md`.)_
-- [ ] 🔴 **P0+** C8. `stsc`: sample-to-chunk entries. _(In Progress — see `DOCS/INPROGRESS/C8_stsc_Sample_To_Chunk_Parser.md`.)_
+- [x] 🔴 **P0+** C8. `stsc`: sample-to-chunk entries. _(Completed — see `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md`.)_
 - [ ] 🔴 **P0+** C9. `stsz/stz2`: sample sizes.
 - [ ] 🔴 **P0+** C10. `stco/co64`: chunk offsets (32/64).
 - [ ] 🔴 **P0+** C11. `stss`: sync sample numbers.
