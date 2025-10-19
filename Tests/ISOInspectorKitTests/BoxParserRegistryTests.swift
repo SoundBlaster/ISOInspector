@@ -584,6 +584,55 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertTrue(detail.isZeroSized)
     }
 
+    func testDataReferenceParserEmitsEntries() throws {
+        let fixture = try makeDataReferenceFixture()
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(
+            header: fixture.header,
+            reader: fixture.reader
+        ))
+
+        XCTAssertEqual(value(named: "version", in: parsed), "0")
+        XCTAssertEqual(value(named: "flags", in: parsed), "0x000000")
+        XCTAssertEqual(value(named: "entry_count", in: parsed), "2")
+
+        XCTAssertEqual(value(named: "entries[0].type", in: parsed), "url ")
+        XCTAssertEqual(value(named: "entries[0].flags", in: parsed), "0x000001")
+        XCTAssertEqual(value(named: "entries[0].self_contained", in: parsed), "true")
+
+        XCTAssertEqual(value(named: "entries[1].type", in: parsed), "urn ")
+        XCTAssertEqual(value(named: "entries[1].flags", in: parsed), "0x000000")
+        XCTAssertEqual(value(named: "entries[1].name", in: parsed), "external-aac")
+        XCTAssertEqual(
+            value(named: "entries[1].location", in: parsed),
+            "https://cdn.example.com/audio.aac"
+        )
+
+        let detail = try XCTUnwrap(parsed.dataReference)
+        XCTAssertEqual(detail.entryCount, 2)
+        XCTAssertEqual(detail.entries.count, 2)
+
+        let urlEntry = detail.entries[0]
+        XCTAssertEqual(urlEntry.type.rawValue, "url ")
+        XCTAssertEqual(urlEntry.version, 0)
+        XCTAssertEqual(urlEntry.flags, 0x000001)
+        guard case .selfContained = urlEntry.location else {
+            XCTFail("Expected self-contained location")
+            return
+        }
+
+        let urnEntry = detail.entries[1]
+        XCTAssertEqual(urnEntry.type.rawValue, "urn ")
+        XCTAssertEqual(urnEntry.version, 0)
+        XCTAssertEqual(urnEntry.flags, 0x000000)
+        guard case let .urn(name, location) = urnEntry.location else {
+            XCTFail("Expected URN location")
+            return
+        }
+        XCTAssertEqual(name, "external-aac")
+        XCTAssertEqual(location, "https://cdn.example.com/audio.aac")
+    }
+
     private func makeTrackHeaderFixture(
         version: UInt8,
         flags: UInt32,
@@ -684,6 +733,52 @@ final class BoxParserRegistryTests: XCTestCase {
 private extension FixedWidthInteger {
     var bigEndianBytes: [UInt8] {
         withUnsafeBytes(of: self.bigEndian, Array.init)
+    }
+}
+
+private extension BoxParserRegistryTests {
+    func makeDataReferenceFixture() throws -> (header: BoxHeader, reader: InMemoryRandomAccessReader) {
+        let entryCount: UInt32 = 2
+
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: entryCount.bigEndianBytes)
+
+        // Entry 0: url , self-contained (no location payload)
+        payload.append(contentsOf: UInt32(12).bigEndianBytes)
+        payload.append(contentsOf: "url ".utf8)
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x01]) // flags (self-contained)
+
+        // Entry 1: urn with name + location strings
+        let name = Data("external-aac".utf8)
+        let location = Data("https://cdn.example.com/audio.aac".utf8)
+        var urnEntry = Data()
+        urnEntry.append(name)
+        urnEntry.append(0x00)
+        urnEntry.append(location)
+        urnEntry.append(0x00)
+        let urnSize = UInt32(12 + urnEntry.count)
+        payload.append(contentsOf: urnSize.bigEndianBytes)
+        payload.append(contentsOf: "urn ".utf8)
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(urnEntry)
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("dref"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        return (header, InMemoryRandomAccessReader(data: data))
     }
 }
 

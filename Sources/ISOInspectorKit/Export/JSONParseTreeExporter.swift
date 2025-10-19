@@ -148,6 +148,7 @@ private struct StructuredPayload: Encodable {
     let sampleSize: SampleSizeDetail?
     let compactSampleSize: CompactSampleSizeDetail?
     let syncSampleTable: SyncSampleTableDetail?
+    let dataReference: DataReferenceDetail?
 
     init(detail: ParsedBoxPayload.Detail) {
         switch detail {
@@ -160,6 +161,7 @@ private struct StructuredPayload: Encodable {
             self.sampleSize = nil
             self.compactSampleSize = nil
             self.syncSampleTable = nil
+            self.dataReference = nil
         case let .movieHeader(box):
             self.fileType = nil
             self.movieHeader = MovieHeaderDetail(box: box)
@@ -169,6 +171,7 @@ private struct StructuredPayload: Encodable {
             self.sampleSize = nil
             self.compactSampleSize = nil
             self.syncSampleTable = nil
+            self.dataReference = nil
         case let .trackHeader(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -178,6 +181,7 @@ private struct StructuredPayload: Encodable {
             self.sampleSize = nil
             self.compactSampleSize = nil
             self.syncSampleTable = nil
+            self.dataReference = nil
         case let .sampleToChunk(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -187,6 +191,7 @@ private struct StructuredPayload: Encodable {
             self.sampleSize = nil
             self.compactSampleSize = nil
             self.syncSampleTable = nil
+            self.dataReference = nil
         case let .chunkOffset(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -196,6 +201,7 @@ private struct StructuredPayload: Encodable {
             self.sampleSize = nil
             self.compactSampleSize = nil
             self.syncSampleTable = nil
+            self.dataReference = nil
         case let .sampleSize(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -205,6 +211,7 @@ private struct StructuredPayload: Encodable {
             self.sampleSize = SampleSizeDetail(box: box)
             self.compactSampleSize = nil
             self.syncSampleTable = nil
+            self.dataReference = nil
         case let .compactSampleSize(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -214,6 +221,7 @@ private struct StructuredPayload: Encodable {
             self.sampleSize = nil
             self.compactSampleSize = CompactSampleSizeDetail(box: box)
             self.syncSampleTable = nil
+            self.dataReference = nil
         case let .syncSampleTable(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -223,6 +231,17 @@ private struct StructuredPayload: Encodable {
             self.sampleSize = nil
             self.compactSampleSize = nil
             self.syncSampleTable = SyncSampleTableDetail(box: box)
+            self.dataReference = nil
+        case let .dataReference(box):
+            self.fileType = nil
+            self.movieHeader = nil
+            self.trackHeader = nil
+            self.sampleToChunk = nil
+            self.chunkOffset = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
+            self.syncSampleTable = nil
+            self.dataReference = DataReferenceDetail(box: box)
         }
     }
 
@@ -235,6 +254,88 @@ private struct StructuredPayload: Encodable {
         case sampleSize = "sample_size"
         case compactSampleSize = "compact_sample_size"
         case syncSampleTable = "sync_sample_table"
+        case dataReference = "data_reference"
+    }
+}
+
+private struct DataReferenceDetail: Encodable {
+    struct Entry: Encodable {
+        let index: Int
+        let type: String
+        let version: Int
+        let flags: UInt32
+        let selfContained: Bool
+        let url: String?
+        let urn: URN?
+        let payloadLength: Int?
+        let payloadBase64: String?
+
+        init(entry: ParsedBoxPayload.DataReferenceBox.Entry) {
+            self.index = Int(entry.index)
+            self.type = entry.type.rawValue
+            self.version = Int(entry.version)
+            self.flags = entry.flags
+            self.selfContained = (entry.flags & 0x000001) != 0
+
+            let payloadLengthValue = entry.payloadRange.map { Int($0.upperBound - $0.lowerBound) } ?? 0
+
+            switch entry.location {
+            case .selfContained:
+                self.url = nil
+                self.urn = nil
+                self.payloadLength = payloadLengthValue > 0 ? payloadLengthValue : nil
+                self.payloadBase64 = nil
+            case let .url(string):
+                self.url = string
+                self.urn = nil
+                self.payloadLength = payloadLengthValue > 0 ? payloadLengthValue : nil
+                self.payloadBase64 = nil
+            case let .urn(name, location):
+                self.url = nil
+                self.urn = URN(name: name, location: location)
+                self.payloadLength = payloadLengthValue > 0 ? payloadLengthValue : nil
+                self.payloadBase64 = nil
+            case let .data(data):
+                self.url = nil
+                self.urn = nil
+                self.payloadLength = payloadLengthValue > 0 ? payloadLengthValue : nil
+                self.payloadBase64 = data.isEmpty ? nil : Data(data).base64EncodedString()
+            case .empty:
+                self.url = nil
+                self.urn = nil
+                self.payloadLength = nil
+                self.payloadBase64 = nil
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index
+            case type
+            case version
+            case flags
+            case selfContained = "self_contained"
+            case url
+            case urn
+            case payloadLength = "payload_length"
+            case payloadBase64 = "payload_base64"
+        }
+    }
+
+    struct URN: Encodable {
+        let name: String?
+        let location: String?
+    }
+
+    let version: Int
+    let flags: UInt32
+    let entryCount: Int
+    let entries: [Entry]
+
+    init(box: ParsedBoxPayload.DataReferenceBox) {
+        self.version = Int(box.version)
+        self.flags = box.flags
+        self.entryCount = Int(box.entryCount)
+        self.entries = box.entries.map { Entry(entry: $0) }
     }
 }
 

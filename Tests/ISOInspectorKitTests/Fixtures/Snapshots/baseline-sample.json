@@ -818,10 +818,87 @@
                             "payloadStart" : 404,
                             "start" : 396
                           },
+                          "payload" : [
+                            {
+                              "byteRange" : {
+                                "end" : 405,
+                                "start" : 404
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 408,
+                                "start" : 405
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 412,
+                                "start" : 408
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of data reference entries",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 420,
+                                "start" : 416
+                              },
+                              "name" : "entries[0].type",
+                              "summary" : "Data reference entry type",
+                              "value" : "url "
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 421,
+                                "start" : 420
+                              },
+                              "name" : "entries[0].version",
+                              "summary" : "Entry version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 424,
+                                "start" : 421
+                              },
+                              "name" : "entries[0].flags",
+                              "summary" : "Entry flags",
+                              "value" : "0x000001"
+                            },
+                            {
+                              "name" : "entries[0].self_contained",
+                              "summary" : "Indicates media data is stored in the same file",
+                              "value" : "true"
+                            }
+                          ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 20,
                             "total" : 28
+                          },
+                          "structured" : {
+                            "data_reference" : {
+                              "entries" : [
+                                {
+                                  "flags" : 1,
+                                  "index" : 0,
+                                  "self_contained" : true,
+                                  "type" : "url ",
+                                  "version" : 0
+                                }
+                              ],
+                              "entryCount" : 1,
+                              "flags" : 0,
+                              "version" : 0
+                            }
                           },
                           "validationIssues" : [
 
@@ -5053,10 +5130,87 @@
                             "payloadStart" : 1743,
                             "start" : 1735
                           },
+                          "payload" : [
+                            {
+                              "byteRange" : {
+                                "end" : 1744,
+                                "start" : 1743
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1747,
+                                "start" : 1744
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1751,
+                                "start" : 1747
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of data reference entries",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1759,
+                                "start" : 1755
+                              },
+                              "name" : "entries[0].type",
+                              "summary" : "Data reference entry type",
+                              "value" : "url "
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1760,
+                                "start" : 1759
+                              },
+                              "name" : "entries[0].version",
+                              "summary" : "Entry version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1763,
+                                "start" : 1760
+                              },
+                              "name" : "entries[0].flags",
+                              "summary" : "Entry flags",
+                              "value" : "0x000001"
+                            },
+                            {
+                              "name" : "entries[0].self_contained",
+                              "summary" : "Indicates media data is stored in the same file",
+                              "value" : "true"
+                            }
+                          ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 20,
                             "total" : 28
+                          },
+                          "structured" : {
+                            "data_reference" : {
+                              "entries" : [
+                                {
+                                  "flags" : 1,
+                                  "index" : 0,
+                                  "self_contained" : true,
+                                  "type" : "url ",
+                                  "version" : 0
+                                }
+                              ],
+                              "entryCount" : 1,
+                              "flags" : 0,
+                              "version" : 0
+                            }
                           },
                           "validationIssues" : [
 
