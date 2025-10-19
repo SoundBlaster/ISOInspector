@@ -19,6 +19,7 @@
 - [x] #12 Add DocC publishing to CI once storage and hosting requirements are validated.
 - [x] #13 Apply NestedA11yIDs identifiers to research log preview flows when promoted to production UI screens.
 - [x] #14 Add NestedA11yIDs coverage for annotation note edit/save/delete controls once QA automation scenarios are defined.
+- [ ] #15 Validate sample size tables against chunk mappings once `stco/co64` parsing lands so `stsc`, `stsz`, and `stz2` counts align.
 - [x] PDD:45m Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI.
 - [x] PDD:1h Execute streaming inspection by consuming ParsePipeline events when Task D2 builds the streaming command.
 - [x] PDD:1h Produce validation reports with streaming pipeline once Task D2 defines the CLI output contract.

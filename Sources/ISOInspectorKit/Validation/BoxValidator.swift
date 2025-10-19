@@ -35,6 +35,8 @@ private extension BoxValidator {
             MovieDataOrderingRule(),
             VersionFlagsRule(),
             UnknownBoxRule()
+            // @todo #15 Reconcile sample size tables with chunk mappings once `stco/co64` parsing lands so validation can surface
+            // mismatched sample counts across `stsc`, `stsz`, and `stz2` entries.
         ]
     }
 }

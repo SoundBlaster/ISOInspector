@@ -144,6 +144,8 @@ private struct StructuredPayload: Encodable {
     let movieHeader: MovieHeaderDetail?
     let trackHeader: TrackHeaderDetail?
     let sampleToChunk: SampleToChunkDetail?
+    let sampleSize: SampleSizeDetail?
+    let compactSampleSize: CompactSampleSizeDetail?
 
     init(detail: ParsedBoxPayload.Detail) {
         switch detail {
@@ -152,21 +154,43 @@ private struct StructuredPayload: Encodable {
             self.movieHeader = nil
             self.trackHeader = nil
             self.sampleToChunk = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
         case let .movieHeader(box):
             self.fileType = nil
             self.movieHeader = MovieHeaderDetail(box: box)
             self.trackHeader = nil
             self.sampleToChunk = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
         case let .trackHeader(box):
             self.fileType = nil
             self.movieHeader = nil
             self.trackHeader = TrackHeaderDetail(box: box)
             self.sampleToChunk = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
         case let .sampleToChunk(box):
             self.fileType = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.sampleToChunk = SampleToChunkDetail(box: box)
+            self.sampleSize = nil
+            self.compactSampleSize = nil
+        case let .sampleSize(box):
+            self.fileType = nil
+            self.movieHeader = nil
+            self.trackHeader = nil
+            self.sampleToChunk = nil
+            self.sampleSize = SampleSizeDetail(box: box)
+            self.compactSampleSize = nil
+        case let .compactSampleSize(box):
+            self.fileType = nil
+            self.movieHeader = nil
+            self.trackHeader = nil
+            self.sampleToChunk = nil
+            self.sampleSize = nil
+            self.compactSampleSize = CompactSampleSizeDetail(box: box)
         }
     }
 
@@ -175,6 +199,8 @@ private struct StructuredPayload: Encodable {
         case movieHeader = "movie_header"
         case trackHeader = "track_header"
         case sampleToChunk = "sample_to_chunk"
+        case sampleSize = "sample_size"
+        case compactSampleSize = "compact_sample_size"
     }
 }
 
@@ -270,6 +296,93 @@ private struct SampleToChunkDetail: Encodable {
     private enum CodingKeys: String, CodingKey {
         case version
         case flags
+        case entries
+    }
+}
+
+private struct SampleSizeDetail: Encodable {
+    struct Entry: Encodable {
+        let index: UInt32
+        let size: UInt32
+        let byteRange: ByteRange
+
+        init(entry: ParsedBoxPayload.SampleSizeBox.Entry) {
+            self.index = entry.index
+            self.size = entry.size
+            self.byteRange = ByteRange(range: entry.byteRange)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index
+            case size
+            case byteRange = "byte_range"
+        }
+    }
+
+    let version: UInt8
+    let flags: UInt32
+    let defaultSampleSize: UInt32
+    let sampleCount: UInt32
+    let isConstant: Bool
+    let entries: [Entry]
+
+    init(box: ParsedBoxPayload.SampleSizeBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.defaultSampleSize = box.defaultSampleSize
+        self.sampleCount = box.sampleCount
+        self.isConstant = box.isConstant
+        self.entries = box.entries.map(Entry.init)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case defaultSampleSize = "default_sample_size"
+        case sampleCount = "sample_count"
+        case isConstant = "is_constant"
+        case entries
+    }
+}
+
+private struct CompactSampleSizeDetail: Encodable {
+    struct Entry: Encodable {
+        let index: UInt32
+        let size: UInt32
+        let byteRange: ByteRange
+
+        init(entry: ParsedBoxPayload.CompactSampleSizeBox.Entry) {
+            self.index = entry.index
+            self.size = entry.size
+            self.byteRange = ByteRange(range: entry.byteRange)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index
+            case size
+            case byteRange = "byte_range"
+        }
+    }
+
+    let version: UInt8
+    let flags: UInt32
+    let fieldSize: UInt8
+    let sampleCount: UInt32
+    let entries: [Entry]
+
+    init(box: ParsedBoxPayload.CompactSampleSizeBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.fieldSize = box.fieldSize
+        self.sampleCount = box.sampleCount
+        self.entries = box.entries.map(Entry.init)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case fieldSize = "field_size"
+        case sampleCount = "sample_count"
         case entries
     }
 }

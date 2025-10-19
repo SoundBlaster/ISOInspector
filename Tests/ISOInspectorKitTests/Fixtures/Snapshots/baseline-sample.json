@@ -1638,10 +1638,2082 @@
                             "payloadStart" : 771,
                             "start" : 763
                           },
+                          "payload" : [
+                            {
+                              "byteRange" : {
+                                "end" : 772,
+                                "start" : 771
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 775,
+                                "start" : 772
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 779,
+                                "start" : 775
+                              },
+                              "name" : "sample_size",
+                              "summary" : "Default sample size (0 = variable)",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 783,
+                                "start" : 779
+                              },
+                              "name" : "sample_count",
+                              "summary" : "Number of samples in table",
+                              "value" : "119"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 787,
+                                "start" : 783
+                              },
+                              "name" : "entries[0].size",
+                              "summary" : "Sample size entry",
+                              "value" : "263"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 791,
+                                "start" : 787
+                              },
+                              "name" : "entries[1].size",
+                              "summary" : "Sample size entry",
+                              "value" : "227"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 795,
+                                "start" : 791
+                              },
+                              "name" : "entries[2].size",
+                              "summary" : "Sample size entry",
+                              "value" : "232"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 799,
+                                "start" : 795
+                              },
+                              "name" : "entries[3].size",
+                              "summary" : "Sample size entry",
+                              "value" : "239"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 803,
+                                "start" : 799
+                              },
+                              "name" : "entries[4].size",
+                              "summary" : "Sample size entry",
+                              "value" : "246"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 807,
+                                "start" : 803
+                              },
+                              "name" : "entries[5].size",
+                              "summary" : "Sample size entry",
+                              "value" : "237"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 811,
+                                "start" : 807
+                              },
+                              "name" : "entries[6].size",
+                              "summary" : "Sample size entry",
+                              "value" : "198"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 815,
+                                "start" : 811
+                              },
+                              "name" : "entries[7].size",
+                              "summary" : "Sample size entry",
+                              "value" : "186"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 819,
+                                "start" : 815
+                              },
+                              "name" : "entries[8].size",
+                              "summary" : "Sample size entry",
+                              "value" : "203"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 823,
+                                "start" : 819
+                              },
+                              "name" : "entries[9].size",
+                              "summary" : "Sample size entry",
+                              "value" : "212"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 827,
+                                "start" : 823
+                              },
+                              "name" : "entries[10].size",
+                              "summary" : "Sample size entry",
+                              "value" : "198"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 831,
+                                "start" : 827
+                              },
+                              "name" : "entries[11].size",
+                              "summary" : "Sample size entry",
+                              "value" : "209"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 835,
+                                "start" : 831
+                              },
+                              "name" : "entries[12].size",
+                              "summary" : "Sample size entry",
+                              "value" : "209"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 839,
+                                "start" : 835
+                              },
+                              "name" : "entries[13].size",
+                              "summary" : "Sample size entry",
+                              "value" : "214"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 843,
+                                "start" : 839
+                              },
+                              "name" : "entries[14].size",
+                              "summary" : "Sample size entry",
+                              "value" : "214"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 847,
+                                "start" : 843
+                              },
+                              "name" : "entries[15].size",
+                              "summary" : "Sample size entry",
+                              "value" : "202"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 851,
+                                "start" : 847
+                              },
+                              "name" : "entries[16].size",
+                              "summary" : "Sample size entry",
+                              "value" : "208"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 855,
+                                "start" : 851
+                              },
+                              "name" : "entries[17].size",
+                              "summary" : "Sample size entry",
+                              "value" : "202"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 859,
+                                "start" : 855
+                              },
+                              "name" : "entries[18].size",
+                              "summary" : "Sample size entry",
+                              "value" : "217"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 863,
+                                "start" : 859
+                              },
+                              "name" : "entries[19].size",
+                              "summary" : "Sample size entry",
+                              "value" : "228"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 867,
+                                "start" : 863
+                              },
+                              "name" : "entries[20].size",
+                              "summary" : "Sample size entry",
+                              "value" : "230"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 871,
+                                "start" : 867
+                              },
+                              "name" : "entries[21].size",
+                              "summary" : "Sample size entry",
+                              "value" : "225"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 875,
+                                "start" : 871
+                              },
+                              "name" : "entries[22].size",
+                              "summary" : "Sample size entry",
+                              "value" : "238"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 879,
+                                "start" : 875
+                              },
+                              "name" : "entries[23].size",
+                              "summary" : "Sample size entry",
+                              "value" : "239"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 883,
+                                "start" : 879
+                              },
+                              "name" : "entries[24].size",
+                              "summary" : "Sample size entry",
+                              "value" : "209"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 887,
+                                "start" : 883
+                              },
+                              "name" : "entries[25].size",
+                              "summary" : "Sample size entry",
+                              "value" : "217"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 891,
+                                "start" : 887
+                              },
+                              "name" : "entries[26].size",
+                              "summary" : "Sample size entry",
+                              "value" : "217"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 895,
+                                "start" : 891
+                              },
+                              "name" : "entries[27].size",
+                              "summary" : "Sample size entry",
+                              "value" : "251"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 899,
+                                "start" : 895
+                              },
+                              "name" : "entries[28].size",
+                              "summary" : "Sample size entry",
+                              "value" : "251"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 903,
+                                "start" : 899
+                              },
+                              "name" : "entries[29].size",
+                              "summary" : "Sample size entry",
+                              "value" : "235"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 907,
+                                "start" : 903
+                              },
+                              "name" : "entries[30].size",
+                              "summary" : "Sample size entry",
+                              "value" : "222"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 911,
+                                "start" : 907
+                              },
+                              "name" : "entries[31].size",
+                              "summary" : "Sample size entry",
+                              "value" : "225"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 915,
+                                "start" : 911
+                              },
+                              "name" : "entries[32].size",
+                              "summary" : "Sample size entry",
+                              "value" : "215"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 919,
+                                "start" : 915
+                              },
+                              "name" : "entries[33].size",
+                              "summary" : "Sample size entry",
+                              "value" : "210"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 923,
+                                "start" : 919
+                              },
+                              "name" : "entries[34].size",
+                              "summary" : "Sample size entry",
+                              "value" : "219"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 927,
+                                "start" : 923
+                              },
+                              "name" : "entries[35].size",
+                              "summary" : "Sample size entry",
+                              "value" : "219"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 931,
+                                "start" : 927
+                              },
+                              "name" : "entries[36].size",
+                              "summary" : "Sample size entry",
+                              "value" : "210"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 935,
+                                "start" : 931
+                              },
+                              "name" : "entries[37].size",
+                              "summary" : "Sample size entry",
+                              "value" : "225"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 939,
+                                "start" : 935
+                              },
+                              "name" : "entries[38].size",
+                              "summary" : "Sample size entry",
+                              "value" : "209"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 943,
+                                "start" : 939
+                              },
+                              "name" : "entries[39].size",
+                              "summary" : "Sample size entry",
+                              "value" : "212"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 947,
+                                "start" : 943
+                              },
+                              "name" : "entries[40].size",
+                              "summary" : "Sample size entry",
+                              "value" : "226"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 951,
+                                "start" : 947
+                              },
+                              "name" : "entries[41].size",
+                              "summary" : "Sample size entry",
+                              "value" : "220"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 955,
+                                "start" : 951
+                              },
+                              "name" : "entries[42].size",
+                              "summary" : "Sample size entry",
+                              "value" : "218"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 959,
+                                "start" : 955
+                              },
+                              "name" : "entries[43].size",
+                              "summary" : "Sample size entry",
+                              "value" : "237"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 963,
+                                "start" : 959
+                              },
+                              "name" : "entries[44].size",
+                              "summary" : "Sample size entry",
+                              "value" : "221"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 967,
+                                "start" : 963
+                              },
+                              "name" : "entries[45].size",
+                              "summary" : "Sample size entry",
+                              "value" : "218"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 971,
+                                "start" : 967
+                              },
+                              "name" : "entries[46].size",
+                              "summary" : "Sample size entry",
+                              "value" : "226"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 975,
+                                "start" : 971
+                              },
+                              "name" : "entries[47].size",
+                              "summary" : "Sample size entry",
+                              "value" : "235"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 979,
+                                "start" : 975
+                              },
+                              "name" : "entries[48].size",
+                              "summary" : "Sample size entry",
+                              "value" : "224"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 983,
+                                "start" : 979
+                              },
+                              "name" : "entries[49].size",
+                              "summary" : "Sample size entry",
+                              "value" : "234"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 987,
+                                "start" : 983
+                              },
+                              "name" : "entries[50].size",
+                              "summary" : "Sample size entry",
+                              "value" : "241"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 991,
+                                "start" : 987
+                              },
+                              "name" : "entries[51].size",
+                              "summary" : "Sample size entry",
+                              "value" : "205"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 995,
+                                "start" : 991
+                              },
+                              "name" : "entries[52].size",
+                              "summary" : "Sample size entry",
+                              "value" : "209"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 999,
+                                "start" : 995
+                              },
+                              "name" : "entries[53].size",
+                              "summary" : "Sample size entry",
+                              "value" : "207"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1003,
+                                "start" : 999
+                              },
+                              "name" : "entries[54].size",
+                              "summary" : "Sample size entry",
+                              "value" : "213"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1007,
+                                "start" : 1003
+                              },
+                              "name" : "entries[55].size",
+                              "summary" : "Sample size entry",
+                              "value" : "210"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1011,
+                                "start" : 1007
+                              },
+                              "name" : "entries[56].size",
+                              "summary" : "Sample size entry",
+                              "value" : "217"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1015,
+                                "start" : 1011
+                              },
+                              "name" : "entries[57].size",
+                              "summary" : "Sample size entry",
+                              "value" : "230"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1019,
+                                "start" : 1015
+                              },
+                              "name" : "entries[58].size",
+                              "summary" : "Sample size entry",
+                              "value" : "225"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1023,
+                                "start" : 1019
+                              },
+                              "name" : "entries[59].size",
+                              "summary" : "Sample size entry",
+                              "value" : "215"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1027,
+                                "start" : 1023
+                              },
+                              "name" : "entries[60].size",
+                              "summary" : "Sample size entry",
+                              "value" : "207"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1031,
+                                "start" : 1027
+                              },
+                              "name" : "entries[61].size",
+                              "summary" : "Sample size entry",
+                              "value" : "246"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1035,
+                                "start" : 1031
+                              },
+                              "name" : "entries[62].size",
+                              "summary" : "Sample size entry",
+                              "value" : "254"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1039,
+                                "start" : 1035
+                              },
+                              "name" : "entries[63].size",
+                              "summary" : "Sample size entry",
+                              "value" : "220"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1043,
+                                "start" : 1039
+                              },
+                              "name" : "entries[64].size",
+                              "summary" : "Sample size entry",
+                              "value" : "222"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1047,
+                                "start" : 1043
+                              },
+                              "name" : "entries[65].size",
+                              "summary" : "Sample size entry",
+                              "value" : "228"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1051,
+                                "start" : 1047
+                              },
+                              "name" : "entries[66].size",
+                              "summary" : "Sample size entry",
+                              "value" : "230"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1055,
+                                "start" : 1051
+                              },
+                              "name" : "entries[67].size",
+                              "summary" : "Sample size entry",
+                              "value" : "198"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1059,
+                                "start" : 1055
+                              },
+                              "name" : "entries[68].size",
+                              "summary" : "Sample size entry",
+                              "value" : "231"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1063,
+                                "start" : 1059
+                              },
+                              "name" : "entries[69].size",
+                              "summary" : "Sample size entry",
+                              "value" : "209"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1067,
+                                "start" : 1063
+                              },
+                              "name" : "entries[70].size",
+                              "summary" : "Sample size entry",
+                              "value" : "236"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1071,
+                                "start" : 1067
+                              },
+                              "name" : "entries[71].size",
+                              "summary" : "Sample size entry",
+                              "value" : "234"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1075,
+                                "start" : 1071
+                              },
+                              "name" : "entries[72].size",
+                              "summary" : "Sample size entry",
+                              "value" : "219"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1079,
+                                "start" : 1075
+                              },
+                              "name" : "entries[73].size",
+                              "summary" : "Sample size entry",
+                              "value" : "216"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1083,
+                                "start" : 1079
+                              },
+                              "name" : "entries[74].size",
+                              "summary" : "Sample size entry",
+                              "value" : "220"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1087,
+                                "start" : 1083
+                              },
+                              "name" : "entries[75].size",
+                              "summary" : "Sample size entry",
+                              "value" : "211"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1091,
+                                "start" : 1087
+                              },
+                              "name" : "entries[76].size",
+                              "summary" : "Sample size entry",
+                              "value" : "211"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1095,
+                                "start" : 1091
+                              },
+                              "name" : "entries[77].size",
+                              "summary" : "Sample size entry",
+                              "value" : "219"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1099,
+                                "start" : 1095
+                              },
+                              "name" : "entries[78].size",
+                              "summary" : "Sample size entry",
+                              "value" : "229"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1103,
+                                "start" : 1099
+                              },
+                              "name" : "entries[79].size",
+                              "summary" : "Sample size entry",
+                              "value" : "220"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1107,
+                                "start" : 1103
+                              },
+                              "name" : "entries[80].size",
+                              "summary" : "Sample size entry",
+                              "value" : "209"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1111,
+                                "start" : 1107
+                              },
+                              "name" : "entries[81].size",
+                              "summary" : "Sample size entry",
+                              "value" : "225"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1115,
+                                "start" : 1111
+                              },
+                              "name" : "entries[82].size",
+                              "summary" : "Sample size entry",
+                              "value" : "208"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1119,
+                                "start" : 1115
+                              },
+                              "name" : "entries[83].size",
+                              "summary" : "Sample size entry",
+                              "value" : "213"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1123,
+                                "start" : 1119
+                              },
+                              "name" : "entries[84].size",
+                              "summary" : "Sample size entry",
+                              "value" : "217"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1127,
+                                "start" : 1123
+                              },
+                              "name" : "entries[85].size",
+                              "summary" : "Sample size entry",
+                              "value" : "209"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1131,
+                                "start" : 1127
+                              },
+                              "name" : "entries[86].size",
+                              "summary" : "Sample size entry",
+                              "value" : "227"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1135,
+                                "start" : 1131
+                              },
+                              "name" : "entries[87].size",
+                              "summary" : "Sample size entry",
+                              "value" : "210"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1139,
+                                "start" : 1135
+                              },
+                              "name" : "entries[88].size",
+                              "summary" : "Sample size entry",
+                              "value" : "256"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1143,
+                                "start" : 1139
+                              },
+                              "name" : "entries[89].size",
+                              "summary" : "Sample size entry",
+                              "value" : "228"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1147,
+                                "start" : 1143
+                              },
+                              "name" : "entries[90].size",
+                              "summary" : "Sample size entry",
+                              "value" : "232"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1151,
+                                "start" : 1147
+                              },
+                              "name" : "entries[91].size",
+                              "summary" : "Sample size entry",
+                              "value" : "208"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1155,
+                                "start" : 1151
+                              },
+                              "name" : "entries[92].size",
+                              "summary" : "Sample size entry",
+                              "value" : "202"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1159,
+                                "start" : 1155
+                              },
+                              "name" : "entries[93].size",
+                              "summary" : "Sample size entry",
+                              "value" : "217"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1163,
+                                "start" : 1159
+                              },
+                              "name" : "entries[94].size",
+                              "summary" : "Sample size entry",
+                              "value" : "217"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1167,
+                                "start" : 1163
+                              },
+                              "name" : "entries[95].size",
+                              "summary" : "Sample size entry",
+                              "value" : "209"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1171,
+                                "start" : 1167
+                              },
+                              "name" : "entries[96].size",
+                              "summary" : "Sample size entry",
+                              "value" : "251"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1175,
+                                "start" : 1171
+                              },
+                              "name" : "entries[97].size",
+                              "summary" : "Sample size entry",
+                              "value" : "222"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1179,
+                                "start" : 1175
+                              },
+                              "name" : "entries[98].size",
+                              "summary" : "Sample size entry",
+                              "value" : "203"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1183,
+                                "start" : 1179
+                              },
+                              "name" : "entries[99].size",
+                              "summary" : "Sample size entry",
+                              "value" : "202"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1187,
+                                "start" : 1183
+                              },
+                              "name" : "entries[100].size",
+                              "summary" : "Sample size entry",
+                              "value" : "215"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1191,
+                                "start" : 1187
+                              },
+                              "name" : "entries[101].size",
+                              "summary" : "Sample size entry",
+                              "value" : "205"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1195,
+                                "start" : 1191
+                              },
+                              "name" : "entries[102].size",
+                              "summary" : "Sample size entry",
+                              "value" : "229"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1199,
+                                "start" : 1195
+                              },
+                              "name" : "entries[103].size",
+                              "summary" : "Sample size entry",
+                              "value" : "244"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1203,
+                                "start" : 1199
+                              },
+                              "name" : "entries[104].size",
+                              "summary" : "Sample size entry",
+                              "value" : "214"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1207,
+                                "start" : 1203
+                              },
+                              "name" : "entries[105].size",
+                              "summary" : "Sample size entry",
+                              "value" : "219"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1211,
+                                "start" : 1207
+                              },
+                              "name" : "entries[106].size",
+                              "summary" : "Sample size entry",
+                              "value" : "223"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1215,
+                                "start" : 1211
+                              },
+                              "name" : "entries[107].size",
+                              "summary" : "Sample size entry",
+                              "value" : "232"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1219,
+                                "start" : 1215
+                              },
+                              "name" : "entries[108].size",
+                              "summary" : "Sample size entry",
+                              "value" : "236"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1223,
+                                "start" : 1219
+                              },
+                              "name" : "entries[109].size",
+                              "summary" : "Sample size entry",
+                              "value" : "234"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1227,
+                                "start" : 1223
+                              },
+                              "name" : "entries[110].size",
+                              "summary" : "Sample size entry",
+                              "value" : "232"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1231,
+                                "start" : 1227
+                              },
+                              "name" : "entries[111].size",
+                              "summary" : "Sample size entry",
+                              "value" : "228"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1235,
+                                "start" : 1231
+                              },
+                              "name" : "entries[112].size",
+                              "summary" : "Sample size entry",
+                              "value" : "210"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1239,
+                                "start" : 1235
+                              },
+                              "name" : "entries[113].size",
+                              "summary" : "Sample size entry",
+                              "value" : "9"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1243,
+                                "start" : 1239
+                              },
+                              "name" : "entries[114].size",
+                              "summary" : "Sample size entry",
+                              "value" : "9"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1247,
+                                "start" : 1243
+                              },
+                              "name" : "entries[115].size",
+                              "summary" : "Sample size entry",
+                              "value" : "9"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1251,
+                                "start" : 1247
+                              },
+                              "name" : "entries[116].size",
+                              "summary" : "Sample size entry",
+                              "value" : "9"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1255,
+                                "start" : 1251
+                              },
+                              "name" : "entries[117].size",
+                              "summary" : "Sample size entry",
+                              "value" : "9"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1259,
+                                "start" : 1255
+                              },
+                              "name" : "entries[118].size",
+                              "summary" : "Sample size entry",
+                              "value" : "9"
+                            }
+                          ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 488,
                             "total" : 496
+                          },
+                          "structured" : {
+                            "sample_size" : {
+                              "default_sample_size" : 0,
+                              "entries" : [
+                                {
+                                  "byte_range" : {
+                                    "end" : 787,
+                                    "start" : 783
+                                  },
+                                  "index" : 0,
+                                  "size" : 263
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 791,
+                                    "start" : 787
+                                  },
+                                  "index" : 1,
+                                  "size" : 227
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 795,
+                                    "start" : 791
+                                  },
+                                  "index" : 2,
+                                  "size" : 232
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 799,
+                                    "start" : 795
+                                  },
+                                  "index" : 3,
+                                  "size" : 239
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 803,
+                                    "start" : 799
+                                  },
+                                  "index" : 4,
+                                  "size" : 246
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 807,
+                                    "start" : 803
+                                  },
+                                  "index" : 5,
+                                  "size" : 237
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 811,
+                                    "start" : 807
+                                  },
+                                  "index" : 6,
+                                  "size" : 198
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 815,
+                                    "start" : 811
+                                  },
+                                  "index" : 7,
+                                  "size" : 186
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 819,
+                                    "start" : 815
+                                  },
+                                  "index" : 8,
+                                  "size" : 203
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 823,
+                                    "start" : 819
+                                  },
+                                  "index" : 9,
+                                  "size" : 212
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 827,
+                                    "start" : 823
+                                  },
+                                  "index" : 10,
+                                  "size" : 198
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 831,
+                                    "start" : 827
+                                  },
+                                  "index" : 11,
+                                  "size" : 209
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 835,
+                                    "start" : 831
+                                  },
+                                  "index" : 12,
+                                  "size" : 209
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 839,
+                                    "start" : 835
+                                  },
+                                  "index" : 13,
+                                  "size" : 214
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 843,
+                                    "start" : 839
+                                  },
+                                  "index" : 14,
+                                  "size" : 214
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 847,
+                                    "start" : 843
+                                  },
+                                  "index" : 15,
+                                  "size" : 202
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 851,
+                                    "start" : 847
+                                  },
+                                  "index" : 16,
+                                  "size" : 208
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 855,
+                                    "start" : 851
+                                  },
+                                  "index" : 17,
+                                  "size" : 202
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 859,
+                                    "start" : 855
+                                  },
+                                  "index" : 18,
+                                  "size" : 217
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 863,
+                                    "start" : 859
+                                  },
+                                  "index" : 19,
+                                  "size" : 228
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 867,
+                                    "start" : 863
+                                  },
+                                  "index" : 20,
+                                  "size" : 230
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 871,
+                                    "start" : 867
+                                  },
+                                  "index" : 21,
+                                  "size" : 225
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 875,
+                                    "start" : 871
+                                  },
+                                  "index" : 22,
+                                  "size" : 238
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 879,
+                                    "start" : 875
+                                  },
+                                  "index" : 23,
+                                  "size" : 239
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 883,
+                                    "start" : 879
+                                  },
+                                  "index" : 24,
+                                  "size" : 209
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 887,
+                                    "start" : 883
+                                  },
+                                  "index" : 25,
+                                  "size" : 217
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 891,
+                                    "start" : 887
+                                  },
+                                  "index" : 26,
+                                  "size" : 217
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 895,
+                                    "start" : 891
+                                  },
+                                  "index" : 27,
+                                  "size" : 251
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 899,
+                                    "start" : 895
+                                  },
+                                  "index" : 28,
+                                  "size" : 251
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 903,
+                                    "start" : 899
+                                  },
+                                  "index" : 29,
+                                  "size" : 235
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 907,
+                                    "start" : 903
+                                  },
+                                  "index" : 30,
+                                  "size" : 222
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 911,
+                                    "start" : 907
+                                  },
+                                  "index" : 31,
+                                  "size" : 225
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 915,
+                                    "start" : 911
+                                  },
+                                  "index" : 32,
+                                  "size" : 215
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 919,
+                                    "start" : 915
+                                  },
+                                  "index" : 33,
+                                  "size" : 210
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 923,
+                                    "start" : 919
+                                  },
+                                  "index" : 34,
+                                  "size" : 219
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 927,
+                                    "start" : 923
+                                  },
+                                  "index" : 35,
+                                  "size" : 219
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 931,
+                                    "start" : 927
+                                  },
+                                  "index" : 36,
+                                  "size" : 210
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 935,
+                                    "start" : 931
+                                  },
+                                  "index" : 37,
+                                  "size" : 225
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 939,
+                                    "start" : 935
+                                  },
+                                  "index" : 38,
+                                  "size" : 209
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 943,
+                                    "start" : 939
+                                  },
+                                  "index" : 39,
+                                  "size" : 212
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 947,
+                                    "start" : 943
+                                  },
+                                  "index" : 40,
+                                  "size" : 226
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 951,
+                                    "start" : 947
+                                  },
+                                  "index" : 41,
+                                  "size" : 220
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 955,
+                                    "start" : 951
+                                  },
+                                  "index" : 42,
+                                  "size" : 218
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 959,
+                                    "start" : 955
+                                  },
+                                  "index" : 43,
+                                  "size" : 237
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 963,
+                                    "start" : 959
+                                  },
+                                  "index" : 44,
+                                  "size" : 221
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 967,
+                                    "start" : 963
+                                  },
+                                  "index" : 45,
+                                  "size" : 218
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 971,
+                                    "start" : 967
+                                  },
+                                  "index" : 46,
+                                  "size" : 226
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 975,
+                                    "start" : 971
+                                  },
+                                  "index" : 47,
+                                  "size" : 235
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 979,
+                                    "start" : 975
+                                  },
+                                  "index" : 48,
+                                  "size" : 224
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 983,
+                                    "start" : 979
+                                  },
+                                  "index" : 49,
+                                  "size" : 234
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 987,
+                                    "start" : 983
+                                  },
+                                  "index" : 50,
+                                  "size" : 241
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 991,
+                                    "start" : 987
+                                  },
+                                  "index" : 51,
+                                  "size" : 205
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 995,
+                                    "start" : 991
+                                  },
+                                  "index" : 52,
+                                  "size" : 209
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 999,
+                                    "start" : 995
+                                  },
+                                  "index" : 53,
+                                  "size" : 207
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1003,
+                                    "start" : 999
+                                  },
+                                  "index" : 54,
+                                  "size" : 213
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1007,
+                                    "start" : 1003
+                                  },
+                                  "index" : 55,
+                                  "size" : 210
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1011,
+                                    "start" : 1007
+                                  },
+                                  "index" : 56,
+                                  "size" : 217
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1015,
+                                    "start" : 1011
+                                  },
+                                  "index" : 57,
+                                  "size" : 230
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1019,
+                                    "start" : 1015
+                                  },
+                                  "index" : 58,
+                                  "size" : 225
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1023,
+                                    "start" : 1019
+                                  },
+                                  "index" : 59,
+                                  "size" : 215
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1027,
+                                    "start" : 1023
+                                  },
+                                  "index" : 60,
+                                  "size" : 207
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1031,
+                                    "start" : 1027
+                                  },
+                                  "index" : 61,
+                                  "size" : 246
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1035,
+                                    "start" : 1031
+                                  },
+                                  "index" : 62,
+                                  "size" : 254
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1039,
+                                    "start" : 1035
+                                  },
+                                  "index" : 63,
+                                  "size" : 220
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1043,
+                                    "start" : 1039
+                                  },
+                                  "index" : 64,
+                                  "size" : 222
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1047,
+                                    "start" : 1043
+                                  },
+                                  "index" : 65,
+                                  "size" : 228
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1051,
+                                    "start" : 1047
+                                  },
+                                  "index" : 66,
+                                  "size" : 230
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1055,
+                                    "start" : 1051
+                                  },
+                                  "index" : 67,
+                                  "size" : 198
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1059,
+                                    "start" : 1055
+                                  },
+                                  "index" : 68,
+                                  "size" : 231
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1063,
+                                    "start" : 1059
+                                  },
+                                  "index" : 69,
+                                  "size" : 209
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1067,
+                                    "start" : 1063
+                                  },
+                                  "index" : 70,
+                                  "size" : 236
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1071,
+                                    "start" : 1067
+                                  },
+                                  "index" : 71,
+                                  "size" : 234
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1075,
+                                    "start" : 1071
+                                  },
+                                  "index" : 72,
+                                  "size" : 219
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1079,
+                                    "start" : 1075
+                                  },
+                                  "index" : 73,
+                                  "size" : 216
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1083,
+                                    "start" : 1079
+                                  },
+                                  "index" : 74,
+                                  "size" : 220
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1087,
+                                    "start" : 1083
+                                  },
+                                  "index" : 75,
+                                  "size" : 211
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1091,
+                                    "start" : 1087
+                                  },
+                                  "index" : 76,
+                                  "size" : 211
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1095,
+                                    "start" : 1091
+                                  },
+                                  "index" : 77,
+                                  "size" : 219
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1099,
+                                    "start" : 1095
+                                  },
+                                  "index" : 78,
+                                  "size" : 229
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1103,
+                                    "start" : 1099
+                                  },
+                                  "index" : 79,
+                                  "size" : 220
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1107,
+                                    "start" : 1103
+                                  },
+                                  "index" : 80,
+                                  "size" : 209
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1111,
+                                    "start" : 1107
+                                  },
+                                  "index" : 81,
+                                  "size" : 225
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1115,
+                                    "start" : 1111
+                                  },
+                                  "index" : 82,
+                                  "size" : 208
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1119,
+                                    "start" : 1115
+                                  },
+                                  "index" : 83,
+                                  "size" : 213
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1123,
+                                    "start" : 1119
+                                  },
+                                  "index" : 84,
+                                  "size" : 217
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1127,
+                                    "start" : 1123
+                                  },
+                                  "index" : 85,
+                                  "size" : 209
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1131,
+                                    "start" : 1127
+                                  },
+                                  "index" : 86,
+                                  "size" : 227
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1135,
+                                    "start" : 1131
+                                  },
+                                  "index" : 87,
+                                  "size" : 210
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1139,
+                                    "start" : 1135
+                                  },
+                                  "index" : 88,
+                                  "size" : 256
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1143,
+                                    "start" : 1139
+                                  },
+                                  "index" : 89,
+                                  "size" : 228
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1147,
+                                    "start" : 1143
+                                  },
+                                  "index" : 90,
+                                  "size" : 232
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1151,
+                                    "start" : 1147
+                                  },
+                                  "index" : 91,
+                                  "size" : 208
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1155,
+                                    "start" : 1151
+                                  },
+                                  "index" : 92,
+                                  "size" : 202
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1159,
+                                    "start" : 1155
+                                  },
+                                  "index" : 93,
+                                  "size" : 217
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1163,
+                                    "start" : 1159
+                                  },
+                                  "index" : 94,
+                                  "size" : 217
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1167,
+                                    "start" : 1163
+                                  },
+                                  "index" : 95,
+                                  "size" : 209
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1171,
+                                    "start" : 1167
+                                  },
+                                  "index" : 96,
+                                  "size" : 251
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1175,
+                                    "start" : 1171
+                                  },
+                                  "index" : 97,
+                                  "size" : 222
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1179,
+                                    "start" : 1175
+                                  },
+                                  "index" : 98,
+                                  "size" : 203
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1183,
+                                    "start" : 1179
+                                  },
+                                  "index" : 99,
+                                  "size" : 202
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1187,
+                                    "start" : 1183
+                                  },
+                                  "index" : 100,
+                                  "size" : 215
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1191,
+                                    "start" : 1187
+                                  },
+                                  "index" : 101,
+                                  "size" : 205
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1195,
+                                    "start" : 1191
+                                  },
+                                  "index" : 102,
+                                  "size" : 229
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1199,
+                                    "start" : 1195
+                                  },
+                                  "index" : 103,
+                                  "size" : 244
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1203,
+                                    "start" : 1199
+                                  },
+                                  "index" : 104,
+                                  "size" : 214
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1207,
+                                    "start" : 1203
+                                  },
+                                  "index" : 105,
+                                  "size" : 219
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1211,
+                                    "start" : 1207
+                                  },
+                                  "index" : 106,
+                                  "size" : 223
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1215,
+                                    "start" : 1211
+                                  },
+                                  "index" : 107,
+                                  "size" : 232
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1219,
+                                    "start" : 1215
+                                  },
+                                  "index" : 108,
+                                  "size" : 236
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1223,
+                                    "start" : 1219
+                                  },
+                                  "index" : 109,
+                                  "size" : 234
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1227,
+                                    "start" : 1223
+                                  },
+                                  "index" : 110,
+                                  "size" : 232
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1231,
+                                    "start" : 1227
+                                  },
+                                  "index" : 111,
+                                  "size" : 228
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1235,
+                                    "start" : 1231
+                                  },
+                                  "index" : 112,
+                                  "size" : 210
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1239,
+                                    "start" : 1235
+                                  },
+                                  "index" : 113,
+                                  "size" : 9
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1243,
+                                    "start" : 1239
+                                  },
+                                  "index" : 114,
+                                  "size" : 9
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1247,
+                                    "start" : 1243
+                                  },
+                                  "index" : 115,
+                                  "size" : 9
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1251,
+                                    "start" : 1247
+                                  },
+                                  "index" : 116,
+                                  "size" : 9
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1255,
+                                    "start" : 1251
+                                  },
+                                  "index" : 117,
+                                  "size" : 9
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 1259,
+                                    "start" : 1255
+                                  },
+                                  "index" : 118,
+                                  "size" : 9
+                                }
+                              ],
+                              "flags" : 0,
+                              "is_constant" : false,
+                              "sample_count" : 119,
+                              "version" : 0
+                            }
                           },
                           "validationIssues" : [
 
@@ -2742,10 +4814,1453 @@
                             "payloadStart" : 2710,
                             "start" : 2702
                           },
+                          "payload" : [
+                            {
+                              "byteRange" : {
+                                "end" : 2711,
+                                "start" : 2710
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2714,
+                                "start" : 2711
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2718,
+                                "start" : 2714
+                              },
+                              "name" : "sample_size",
+                              "summary" : "Default sample size (0 = variable)",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2722,
+                                "start" : 2718
+                              },
+                              "name" : "sample_count",
+                              "summary" : "Number of samples in table",
+                              "value" : "82"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2726,
+                                "start" : 2722
+                              },
+                              "name" : "entries[0].size",
+                              "summary" : "Sample size entry",
+                              "value" : "32191"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2730,
+                                "start" : 2726
+                              },
+                              "name" : "entries[1].size",
+                              "summary" : "Sample size entry",
+                              "value" : "13004"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2734,
+                                "start" : 2730
+                              },
+                              "name" : "entries[2].size",
+                              "summary" : "Sample size entry",
+                              "value" : "2841"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2738,
+                                "start" : 2734
+                              },
+                              "name" : "entries[3].size",
+                              "summary" : "Sample size entry",
+                              "value" : "12031"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2742,
+                                "start" : 2738
+                              },
+                              "name" : "entries[4].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3808"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2746,
+                                "start" : 2742
+                              },
+                              "name" : "entries[5].size",
+                              "summary" : "Sample size entry",
+                              "value" : "12953"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2750,
+                                "start" : 2746
+                              },
+                              "name" : "entries[6].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3825"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2754,
+                                "start" : 2750
+                              },
+                              "name" : "entries[7].size",
+                              "summary" : "Sample size entry",
+                              "value" : "13390"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2758,
+                                "start" : 2754
+                              },
+                              "name" : "entries[8].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4584"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2762,
+                                "start" : 2758
+                              },
+                              "name" : "entries[9].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4221"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2766,
+                                "start" : 2762
+                              },
+                              "name" : "entries[10].size",
+                              "summary" : "Sample size entry",
+                              "value" : "13132"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2770,
+                                "start" : 2766
+                              },
+                              "name" : "entries[11].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4301"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2774,
+                                "start" : 2770
+                              },
+                              "name" : "entries[12].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4320"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2778,
+                                "start" : 2774
+                              },
+                              "name" : "entries[13].size",
+                              "summary" : "Sample size entry",
+                              "value" : "13078"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2782,
+                                "start" : 2778
+                              },
+                              "name" : "entries[14].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4538"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2786,
+                                "start" : 2782
+                              },
+                              "name" : "entries[15].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4819"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2790,
+                                "start" : 2786
+                              },
+                              "name" : "entries[16].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11685"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2794,
+                                "start" : 2790
+                              },
+                              "name" : "entries[17].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4258"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2798,
+                                "start" : 2794
+                              },
+                              "name" : "entries[18].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4222"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2802,
+                                "start" : 2798
+                              },
+                              "name" : "entries[19].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11076"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2806,
+                                "start" : 2802
+                              },
+                              "name" : "entries[20].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3974"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2810,
+                                "start" : 2806
+                              },
+                              "name" : "entries[21].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3798"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2814,
+                                "start" : 2810
+                              },
+                              "name" : "entries[22].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11902"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2818,
+                                "start" : 2814
+                              },
+                              "name" : "entries[23].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3985"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2822,
+                                "start" : 2818
+                              },
+                              "name" : "entries[24].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3822"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2826,
+                                "start" : 2822
+                              },
+                              "name" : "entries[25].size",
+                              "summary" : "Sample size entry",
+                              "value" : "12178"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2830,
+                                "start" : 2826
+                              },
+                              "name" : "entries[26].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3750"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2834,
+                                "start" : 2830
+                              },
+                              "name" : "entries[27].size",
+                              "summary" : "Sample size entry",
+                              "value" : "12074"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2838,
+                                "start" : 2834
+                              },
+                              "name" : "entries[28].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3835"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2842,
+                                "start" : 2838
+                              },
+                              "name" : "entries[29].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11620"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2846,
+                                "start" : 2842
+                              },
+                              "name" : "entries[30].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3983"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2850,
+                                "start" : 2846
+                              },
+                              "name" : "entries[31].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11933"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2854,
+                                "start" : 2850
+                              },
+                              "name" : "entries[32].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3618"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2858,
+                                "start" : 2854
+                              },
+                              "name" : "entries[33].size",
+                              "summary" : "Sample size entry",
+                              "value" : "10669"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2862,
+                                "start" : 2858
+                              },
+                              "name" : "entries[34].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3836"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2866,
+                                "start" : 2862
+                              },
+                              "name" : "entries[35].size",
+                              "summary" : "Sample size entry",
+                              "value" : "15024"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2870,
+                                "start" : 2866
+                              },
+                              "name" : "entries[36].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3946"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2874,
+                                "start" : 2870
+                              },
+                              "name" : "entries[37].size",
+                              "summary" : "Sample size entry",
+                              "value" : "13365"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2878,
+                                "start" : 2874
+                              },
+                              "name" : "entries[38].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3554"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2882,
+                                "start" : 2878
+                              },
+                              "name" : "entries[39].size",
+                              "summary" : "Sample size entry",
+                              "value" : "12434"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2886,
+                                "start" : 2882
+                              },
+                              "name" : "entries[40].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3827"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2890,
+                                "start" : 2886
+                              },
+                              "name" : "entries[41].size",
+                              "summary" : "Sample size entry",
+                              "value" : "15745"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2894,
+                                "start" : 2890
+                              },
+                              "name" : "entries[42].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4116"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2898,
+                                "start" : 2894
+                              },
+                              "name" : "entries[43].size",
+                              "summary" : "Sample size entry",
+                              "value" : "14942"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2902,
+                                "start" : 2898
+                              },
+                              "name" : "entries[44].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4679"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2906,
+                                "start" : 2902
+                              },
+                              "name" : "entries[45].size",
+                              "summary" : "Sample size entry",
+                              "value" : "15041"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2910,
+                                "start" : 2906
+                              },
+                              "name" : "entries[46].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4491"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2914,
+                                "start" : 2910
+                              },
+                              "name" : "entries[47].size",
+                              "summary" : "Sample size entry",
+                              "value" : "14430"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2918,
+                                "start" : 2914
+                              },
+                              "name" : "entries[48].size",
+                              "summary" : "Sample size entry",
+                              "value" : "5193"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2922,
+                                "start" : 2918
+                              },
+                              "name" : "entries[49].size",
+                              "summary" : "Sample size entry",
+                              "value" : "13306"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2926,
+                                "start" : 2922
+                              },
+                              "name" : "entries[50].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4910"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2930,
+                                "start" : 2926
+                              },
+                              "name" : "entries[51].size",
+                              "summary" : "Sample size entry",
+                              "value" : "13966"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2934,
+                                "start" : 2930
+                              },
+                              "name" : "entries[52].size",
+                              "summary" : "Sample size entry",
+                              "value" : "5259"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2938,
+                                "start" : 2934
+                              },
+                              "name" : "entries[53].size",
+                              "summary" : "Sample size entry",
+                              "value" : "13397"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2942,
+                                "start" : 2938
+                              },
+                              "name" : "entries[54].size",
+                              "summary" : "Sample size entry",
+                              "value" : "5104"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2946,
+                                "start" : 2942
+                              },
+                              "name" : "entries[55].size",
+                              "summary" : "Sample size entry",
+                              "value" : "12275"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2950,
+                                "start" : 2946
+                              },
+                              "name" : "entries[56].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4858"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2954,
+                                "start" : 2950
+                              },
+                              "name" : "entries[57].size",
+                              "summary" : "Sample size entry",
+                              "value" : "12101"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2958,
+                                "start" : 2954
+                              },
+                              "name" : "entries[58].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4739"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2962,
+                                "start" : 2958
+                              },
+                              "name" : "entries[59].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11816"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2966,
+                                "start" : 2962
+                              },
+                              "name" : "entries[60].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4810"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2970,
+                                "start" : 2966
+                              },
+                              "name" : "entries[61].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11914"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2974,
+                                "start" : 2970
+                              },
+                              "name" : "entries[62].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4616"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2978,
+                                "start" : 2974
+                              },
+                              "name" : "entries[63].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11892"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2982,
+                                "start" : 2978
+                              },
+                              "name" : "entries[64].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4366"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2986,
+                                "start" : 2982
+                              },
+                              "name" : "entries[65].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11633"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2990,
+                                "start" : 2986
+                              },
+                              "name" : "entries[66].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3741"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2994,
+                                "start" : 2990
+                              },
+                              "name" : "entries[67].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11241"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2998,
+                                "start" : 2994
+                              },
+                              "name" : "entries[68].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4480"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3002,
+                                "start" : 2998
+                              },
+                              "name" : "entries[69].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11278"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3006,
+                                "start" : 3002
+                              },
+                              "name" : "entries[70].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4042"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3010,
+                                "start" : 3006
+                              },
+                              "name" : "entries[71].size",
+                              "summary" : "Sample size entry",
+                              "value" : "14677"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3014,
+                                "start" : 3010
+                              },
+                              "name" : "entries[72].size",
+                              "summary" : "Sample size entry",
+                              "value" : "4584"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3018,
+                                "start" : 3014
+                              },
+                              "name" : "entries[73].size",
+                              "summary" : "Sample size entry",
+                              "value" : "12192"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3022,
+                                "start" : 3018
+                              },
+                              "name" : "entries[74].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3590"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3026,
+                                "start" : 3022
+                              },
+                              "name" : "entries[75].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11322"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3030,
+                                "start" : 3026
+                              },
+                              "name" : "entries[76].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3699"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3034,
+                                "start" : 3030
+                              },
+                              "name" : "entries[77].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11759"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3038,
+                                "start" : 3034
+                              },
+                              "name" : "entries[78].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3757"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3042,
+                                "start" : 3038
+                              },
+                              "name" : "entries[79].size",
+                              "summary" : "Sample size entry",
+                              "value" : "11419"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3046,
+                                "start" : 3042
+                              },
+                              "name" : "entries[80].size",
+                              "summary" : "Sample size entry",
+                              "value" : "3145"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 3050,
+                                "start" : 3046
+                              },
+                              "name" : "entries[81].size",
+                              "summary" : "Sample size entry",
+                              "value" : "7743"
+                            }
+                          ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 340,
                             "total" : 348
+                          },
+                          "structured" : {
+                            "sample_size" : {
+                              "default_sample_size" : 0,
+                              "entries" : [
+                                {
+                                  "byte_range" : {
+                                    "end" : 2726,
+                                    "start" : 2722
+                                  },
+                                  "index" : 0,
+                                  "size" : 32191
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2730,
+                                    "start" : 2726
+                                  },
+                                  "index" : 1,
+                                  "size" : 13004
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2734,
+                                    "start" : 2730
+                                  },
+                                  "index" : 2,
+                                  "size" : 2841
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2738,
+                                    "start" : 2734
+                                  },
+                                  "index" : 3,
+                                  "size" : 12031
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2742,
+                                    "start" : 2738
+                                  },
+                                  "index" : 4,
+                                  "size" : 3808
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2746,
+                                    "start" : 2742
+                                  },
+                                  "index" : 5,
+                                  "size" : 12953
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2750,
+                                    "start" : 2746
+                                  },
+                                  "index" : 6,
+                                  "size" : 3825
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2754,
+                                    "start" : 2750
+                                  },
+                                  "index" : 7,
+                                  "size" : 13390
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2758,
+                                    "start" : 2754
+                                  },
+                                  "index" : 8,
+                                  "size" : 4584
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2762,
+                                    "start" : 2758
+                                  },
+                                  "index" : 9,
+                                  "size" : 4221
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2766,
+                                    "start" : 2762
+                                  },
+                                  "index" : 10,
+                                  "size" : 13132
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2770,
+                                    "start" : 2766
+                                  },
+                                  "index" : 11,
+                                  "size" : 4301
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2774,
+                                    "start" : 2770
+                                  },
+                                  "index" : 12,
+                                  "size" : 4320
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2778,
+                                    "start" : 2774
+                                  },
+                                  "index" : 13,
+                                  "size" : 13078
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2782,
+                                    "start" : 2778
+                                  },
+                                  "index" : 14,
+                                  "size" : 4538
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2786,
+                                    "start" : 2782
+                                  },
+                                  "index" : 15,
+                                  "size" : 4819
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2790,
+                                    "start" : 2786
+                                  },
+                                  "index" : 16,
+                                  "size" : 11685
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2794,
+                                    "start" : 2790
+                                  },
+                                  "index" : 17,
+                                  "size" : 4258
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2798,
+                                    "start" : 2794
+                                  },
+                                  "index" : 18,
+                                  "size" : 4222
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2802,
+                                    "start" : 2798
+                                  },
+                                  "index" : 19,
+                                  "size" : 11076
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2806,
+                                    "start" : 2802
+                                  },
+                                  "index" : 20,
+                                  "size" : 3974
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2810,
+                                    "start" : 2806
+                                  },
+                                  "index" : 21,
+                                  "size" : 3798
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2814,
+                                    "start" : 2810
+                                  },
+                                  "index" : 22,
+                                  "size" : 11902
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2818,
+                                    "start" : 2814
+                                  },
+                                  "index" : 23,
+                                  "size" : 3985
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2822,
+                                    "start" : 2818
+                                  },
+                                  "index" : 24,
+                                  "size" : 3822
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2826,
+                                    "start" : 2822
+                                  },
+                                  "index" : 25,
+                                  "size" : 12178
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2830,
+                                    "start" : 2826
+                                  },
+                                  "index" : 26,
+                                  "size" : 3750
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2834,
+                                    "start" : 2830
+                                  },
+                                  "index" : 27,
+                                  "size" : 12074
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2838,
+                                    "start" : 2834
+                                  },
+                                  "index" : 28,
+                                  "size" : 3835
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2842,
+                                    "start" : 2838
+                                  },
+                                  "index" : 29,
+                                  "size" : 11620
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2846,
+                                    "start" : 2842
+                                  },
+                                  "index" : 30,
+                                  "size" : 3983
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2850,
+                                    "start" : 2846
+                                  },
+                                  "index" : 31,
+                                  "size" : 11933
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2854,
+                                    "start" : 2850
+                                  },
+                                  "index" : 32,
+                                  "size" : 3618
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2858,
+                                    "start" : 2854
+                                  },
+                                  "index" : 33,
+                                  "size" : 10669
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2862,
+                                    "start" : 2858
+                                  },
+                                  "index" : 34,
+                                  "size" : 3836
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2866,
+                                    "start" : 2862
+                                  },
+                                  "index" : 35,
+                                  "size" : 15024
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2870,
+                                    "start" : 2866
+                                  },
+                                  "index" : 36,
+                                  "size" : 3946
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2874,
+                                    "start" : 2870
+                                  },
+                                  "index" : 37,
+                                  "size" : 13365
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2878,
+                                    "start" : 2874
+                                  },
+                                  "index" : 38,
+                                  "size" : 3554
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2882,
+                                    "start" : 2878
+                                  },
+                                  "index" : 39,
+                                  "size" : 12434
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2886,
+                                    "start" : 2882
+                                  },
+                                  "index" : 40,
+                                  "size" : 3827
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2890,
+                                    "start" : 2886
+                                  },
+                                  "index" : 41,
+                                  "size" : 15745
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2894,
+                                    "start" : 2890
+                                  },
+                                  "index" : 42,
+                                  "size" : 4116
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2898,
+                                    "start" : 2894
+                                  },
+                                  "index" : 43,
+                                  "size" : 14942
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2902,
+                                    "start" : 2898
+                                  },
+                                  "index" : 44,
+                                  "size" : 4679
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2906,
+                                    "start" : 2902
+                                  },
+                                  "index" : 45,
+                                  "size" : 15041
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2910,
+                                    "start" : 2906
+                                  },
+                                  "index" : 46,
+                                  "size" : 4491
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2914,
+                                    "start" : 2910
+                                  },
+                                  "index" : 47,
+                                  "size" : 14430
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2918,
+                                    "start" : 2914
+                                  },
+                                  "index" : 48,
+                                  "size" : 5193
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2922,
+                                    "start" : 2918
+                                  },
+                                  "index" : 49,
+                                  "size" : 13306
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2926,
+                                    "start" : 2922
+                                  },
+                                  "index" : 50,
+                                  "size" : 4910
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2930,
+                                    "start" : 2926
+                                  },
+                                  "index" : 51,
+                                  "size" : 13966
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2934,
+                                    "start" : 2930
+                                  },
+                                  "index" : 52,
+                                  "size" : 5259
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2938,
+                                    "start" : 2934
+                                  },
+                                  "index" : 53,
+                                  "size" : 13397
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2942,
+                                    "start" : 2938
+                                  },
+                                  "index" : 54,
+                                  "size" : 5104
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2946,
+                                    "start" : 2942
+                                  },
+                                  "index" : 55,
+                                  "size" : 12275
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2950,
+                                    "start" : 2946
+                                  },
+                                  "index" : 56,
+                                  "size" : 4858
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2954,
+                                    "start" : 2950
+                                  },
+                                  "index" : 57,
+                                  "size" : 12101
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2958,
+                                    "start" : 2954
+                                  },
+                                  "index" : 58,
+                                  "size" : 4739
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2962,
+                                    "start" : 2958
+                                  },
+                                  "index" : 59,
+                                  "size" : 11816
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2966,
+                                    "start" : 2962
+                                  },
+                                  "index" : 60,
+                                  "size" : 4810
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2970,
+                                    "start" : 2966
+                                  },
+                                  "index" : 61,
+                                  "size" : 11914
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2974,
+                                    "start" : 2970
+                                  },
+                                  "index" : 62,
+                                  "size" : 4616
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2978,
+                                    "start" : 2974
+                                  },
+                                  "index" : 63,
+                                  "size" : 11892
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2982,
+                                    "start" : 2978
+                                  },
+                                  "index" : 64,
+                                  "size" : 4366
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2986,
+                                    "start" : 2982
+                                  },
+                                  "index" : 65,
+                                  "size" : 11633
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2990,
+                                    "start" : 2986
+                                  },
+                                  "index" : 66,
+                                  "size" : 3741
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2994,
+                                    "start" : 2990
+                                  },
+                                  "index" : 67,
+                                  "size" : 11241
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2998,
+                                    "start" : 2994
+                                  },
+                                  "index" : 68,
+                                  "size" : 4480
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3002,
+                                    "start" : 2998
+                                  },
+                                  "index" : 69,
+                                  "size" : 11278
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3006,
+                                    "start" : 3002
+                                  },
+                                  "index" : 70,
+                                  "size" : 4042
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3010,
+                                    "start" : 3006
+                                  },
+                                  "index" : 71,
+                                  "size" : 14677
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3014,
+                                    "start" : 3010
+                                  },
+                                  "index" : 72,
+                                  "size" : 4584
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3018,
+                                    "start" : 3014
+                                  },
+                                  "index" : 73,
+                                  "size" : 12192
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3022,
+                                    "start" : 3018
+                                  },
+                                  "index" : 74,
+                                  "size" : 3590
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3026,
+                                    "start" : 3022
+                                  },
+                                  "index" : 75,
+                                  "size" : 11322
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3030,
+                                    "start" : 3026
+                                  },
+                                  "index" : 76,
+                                  "size" : 3699
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3034,
+                                    "start" : 3030
+                                  },
+                                  "index" : 77,
+                                  "size" : 11759
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3038,
+                                    "start" : 3034
+                                  },
+                                  "index" : 78,
+                                  "size" : 3757
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3042,
+                                    "start" : 3038
+                                  },
+                                  "index" : 79,
+                                  "size" : 11419
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3046,
+                                    "start" : 3042
+                                  },
+                                  "index" : 80,
+                                  "size" : 3145
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 3050,
+                                    "start" : 3046
+                                  },
+                                  "index" : 81,
+                                  "size" : 7743
+                                }
+                              ],
+                              "flags" : 0,
+                              "is_constant" : false,
+                              "sample_count" : 82,
+                              "version" : 0
+                            }
                           },
                           "validationIssues" : [
 
