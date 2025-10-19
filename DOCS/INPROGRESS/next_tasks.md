@@ -1,5 +1,9 @@
 # Next Tasks
 
+## ✅ In Progress
+
+- C8 — `stsc` Sample-to-Chunk Parser implementation is now underway. See `DOCS/INPROGRESS/C8_stsc_Sample_To_Chunk_Parser.md` for the active PRD outline.
+
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 
 - [ ] Evaluate additional handler type categorizations if future boxes require specialized roles beyond the current mapping set. *(Track notes in `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md` once refined.)*
