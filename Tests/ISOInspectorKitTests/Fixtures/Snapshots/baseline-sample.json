@@ -5355,10 +5355,65 @@
                             "payloadStart" : 2638,
                             "start" : 2630
                           },
+                          "payload" : [
+                            {
+                              "byteRange" : {
+                                "end" : 2639,
+                                "start" : 2638
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2642,
+                                "start" : 2639
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2646,
+                                "start" : 2642
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of sync sample entries",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2650,
+                                "start" : 2646
+                              },
+                              "name" : "entries[0].sample_number",
+                              "summary" : "Sync sample number (1-based)",
+                              "value" : "1"
+                            }
+                          ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 12,
                             "total" : 20
+                          },
+                          "structured" : {
+                            "sync_sample_table" : {
+                              "entries" : [
+                                {
+                                  "byte_range" : {
+                                    "end" : 2650,
+                                    "start" : 2646
+                                  },
+                                  "index" : 0,
+                                  "sample_number" : 1
+                                }
+                              ],
+                              "entry_count" : 1,
+                              "flags" : 0,
+                              "version" : 0
+                            }
                           },
                           "validationIssues" : [
 

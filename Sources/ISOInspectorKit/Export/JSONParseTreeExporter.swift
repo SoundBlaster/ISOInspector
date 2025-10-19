@@ -147,6 +147,7 @@ private struct StructuredPayload: Encodable {
     let chunkOffset: ChunkOffsetDetail?
     let sampleSize: SampleSizeDetail?
     let compactSampleSize: CompactSampleSizeDetail?
+    let syncSampleTable: SyncSampleTableDetail?
 
     init(detail: ParsedBoxPayload.Detail) {
         switch detail {
@@ -158,6 +159,7 @@ private struct StructuredPayload: Encodable {
             self.chunkOffset = nil
             self.sampleSize = nil
             self.compactSampleSize = nil
+            self.syncSampleTable = nil
         case let .movieHeader(box):
             self.fileType = nil
             self.movieHeader = MovieHeaderDetail(box: box)
@@ -166,6 +168,7 @@ private struct StructuredPayload: Encodable {
             self.chunkOffset = nil
             self.sampleSize = nil
             self.compactSampleSize = nil
+            self.syncSampleTable = nil
         case let .trackHeader(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -174,6 +177,7 @@ private struct StructuredPayload: Encodable {
             self.chunkOffset = nil
             self.sampleSize = nil
             self.compactSampleSize = nil
+            self.syncSampleTable = nil
         case let .sampleToChunk(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -182,6 +186,7 @@ private struct StructuredPayload: Encodable {
             self.chunkOffset = nil
             self.sampleSize = nil
             self.compactSampleSize = nil
+            self.syncSampleTable = nil
         case let .chunkOffset(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -190,6 +195,7 @@ private struct StructuredPayload: Encodable {
             self.chunkOffset = ChunkOffsetDetail(box: box)
             self.sampleSize = nil
             self.compactSampleSize = nil
+            self.syncSampleTable = nil
         case let .sampleSize(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -198,6 +204,7 @@ private struct StructuredPayload: Encodable {
             self.chunkOffset = nil
             self.sampleSize = SampleSizeDetail(box: box)
             self.compactSampleSize = nil
+            self.syncSampleTable = nil
         case let .compactSampleSize(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -206,6 +213,16 @@ private struct StructuredPayload: Encodable {
             self.chunkOffset = nil
             self.sampleSize = nil
             self.compactSampleSize = CompactSampleSizeDetail(box: box)
+            self.syncSampleTable = nil
+        case let .syncSampleTable(box):
+            self.fileType = nil
+            self.movieHeader = nil
+            self.trackHeader = nil
+            self.sampleToChunk = nil
+            self.chunkOffset = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
+            self.syncSampleTable = SyncSampleTableDetail(box: box)
         }
     }
 
@@ -217,6 +234,7 @@ private struct StructuredPayload: Encodable {
         case chunkOffset = "chunk_offset"
         case sampleSize = "sample_size"
         case compactSampleSize = "compact_sample_size"
+        case syncSampleTable = "sync_sample_table"
     }
 }
 
@@ -358,6 +376,45 @@ private struct ChunkOffsetDetail: Encodable {
         case flags
         case entryCount = "entry_count"
         case width
+        case entries
+    }
+}
+
+private struct SyncSampleTableDetail: Encodable {
+    struct Entry: Encodable {
+        let index: UInt32
+        let sampleNumber: UInt32
+        let byteRange: ByteRange
+
+        init(entry: ParsedBoxPayload.SyncSampleTableBox.Entry) {
+            self.index = entry.index
+            self.sampleNumber = entry.sampleNumber
+            self.byteRange = ByteRange(range: entry.byteRange)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index
+            case sampleNumber = "sample_number"
+            case byteRange = "byte_range"
+        }
+    }
+
+    let version: UInt8
+    let flags: UInt32
+    let entryCount: UInt32
+    let entries: [Entry]
+
+    init(box: ParsedBoxPayload.SyncSampleTableBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.entryCount = box.entryCount
+        self.entries = box.entries.map(Entry.init)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case entryCount = "entry_count"
         case entries
     }
 }

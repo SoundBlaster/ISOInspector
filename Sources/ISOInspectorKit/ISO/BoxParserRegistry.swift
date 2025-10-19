@@ -91,6 +91,9 @@ public struct BoxParserRegistry: Sendable {
             if let co64 = try? FourCharCode("co64") {
                 registry.register(parser: chunkOffset64, for: co64)
             }
+            if let stss = try? FourCharCode("stss") {
+                registry.register(parser: syncSampleTable, for: stss)
+            }
         }
 
         private static let visualSampleEntryTypes: Set<FourCharCode> = {
@@ -2403,6 +2406,106 @@ public struct BoxParserRegistry: Sendable {
                 }
                 return value
             }
+        }
+
+        static func syncSampleTable(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+            guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            let start = header.payloadRange.lowerBound
+            let end = header.payloadRange.upperBound
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "version",
+                value: String(fullHeader.version),
+                description: "Structure version",
+                byteRange: start..<(start + 1)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "flags",
+                value: String(format: "0x%06X", fullHeader.flags),
+                description: "Bit flags",
+                byteRange: (start + 1)..<(start + 4)
+            ))
+
+            var cursor = fullHeader.contentStart
+
+            let countEndResult = cursor.addingReportingOverflow(4)
+            guard !countEndResult.overflow else { return nil }
+            let countEnd = countEndResult.partialValue
+            guard countEnd <= end,
+                  let entryCount = try readUInt32(reader, at: cursor, end: end) else { return nil }
+            let countRange = cursor..<countEnd
+            fields.append(ParsedBoxPayload.Field(
+                name: "entry_count",
+                value: String(entryCount),
+                description: "Number of sync sample entries",
+                byteRange: countRange
+            ))
+            cursor = countEnd
+
+            var entries: [ParsedBoxPayload.SyncSampleTableBox.Entry] = []
+
+            func appendTruncationStatus(_ entryIndex: UInt32) {
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(entryIndex)].status",
+                    value: "truncated",
+                    description: "Entry truncated before sample_number field completed",
+                    byteRange: nil
+                ))
+            }
+
+            var index: UInt32 = 0
+            while index < entryCount {
+                guard cursor < end else {
+                    appendTruncationStatus(index)
+                    break
+                }
+                let entryStart = cursor
+                let entryEndResult = cursor.addingReportingOverflow(4)
+                guard !entryEndResult.overflow else {
+                    appendTruncationStatus(index)
+                    break
+                }
+                let entryEnd = entryEndResult.partialValue
+                guard entryEnd <= end,
+                      let sampleNumber = try readUInt32(reader, at: cursor, end: end) else {
+                    appendTruncationStatus(index)
+                    break
+                }
+                let byteRange = entryStart..<entryEnd
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].sample_number",
+                    value: String(sampleNumber),
+                    description: "Sync sample number (1-based)",
+                    byteRange: byteRange
+                ))
+                entries.append(ParsedBoxPayload.SyncSampleTableBox.Entry(
+                    index: index,
+                    sampleNumber: sampleNumber,
+                    byteRange: byteRange
+                ))
+                cursor = entryEnd
+                if cursor <= entryStart {
+                    break
+                }
+                index += 1
+            }
+
+            let detail: ParsedBoxPayload.Detail?
+            if UInt32(entries.count) == entryCount {
+                detail = .syncSampleTable(ParsedBoxPayload.SyncSampleTableBox(
+                    version: fullHeader.version,
+                    flags: fullHeader.flags,
+                    entryCount: entryCount,
+                    entries: entries
+                ))
+            } else {
+                detail = nil
+            }
+
+            return ParsedBoxPayload(fields: fields, detail: detail)
         }
 
         private static func readData(

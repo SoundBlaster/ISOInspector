@@ -31,8 +31,8 @@ Implement a parser that reads `stss` (Sync Sample Table) boxes so ISOInspector s
 
 ## 🧠 Source References
 
-- [`ISOInspector_Master_PRD.md`](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
-- [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
-- [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
-- [`DOCS/RULES`](../RULES)
-- Archived sample table parser work in [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+- [`ISOInspector_Master_PRD.md`](../../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
+- [`04_TODO_Workplan.md`](../../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
+- [`ISOInspector_PRD_TODO.md`](../../AI/ISOViewer/ISOInspector_PRD_TODO.md)
+- [`DOCS/RULES`](../../RULES)
+- Archived sample table parser work in [`DOCS/TASK_ARCHIVE`](../../TASK_ARCHIVE)
