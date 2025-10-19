@@ -528,3 +528,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/`.
 - **Highlights:** Documents delivery of the `mdhd` media header parser, including version-aware timestamp decoding, duration/time-scale extraction, language code helpers, and test fixtures covering 32-bit, 64-bit, and short-payload regressions now wired through the default `BoxParserRegistry`.
 - **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` targets the follow-on `hdlr` parser implementation while preserving the macOS-only benchmarking, release readiness, UI automation, and Combine latency follow-ups awaiting dedicated hardware.
+
+## 96_C5_hdlr_Handler_Parser
+- **Archived files:** `C5_hdlr_Handler_Parser.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/`.
+- **Highlights:** Finalizes the handler (`hdlr`) box parser with handler type classification, UTF-8 name decoding, and streaming/CLI/UI integration tests that verify metadata propagation through exports and SwiftUI detail flows.
+- **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` retains the handler categorization follow-up along with the macOS-bound benchmarking, release readiness, UI automation, and Combine latency work awaiting dedicated runners.
