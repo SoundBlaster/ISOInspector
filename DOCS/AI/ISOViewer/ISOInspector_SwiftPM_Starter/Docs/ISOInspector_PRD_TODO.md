@@ -165,7 +165,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 ### Phase C — Specific Parsers (Baseline)
 > **Priority Update (2025-10-20):** Phase C parser work is now a **P0 blocker** for the upcoming milestone. Treat every unchecked item below as urgent and schedule accordingly.
-- [ ] C1. `ftyp`: major_brand, minor_version, compatible_brands[]. **(In Progress — see `DOCS/INPROGRESS/C1_ftyp_Box_Parser.md`.)**
+- [x] C1. `ftyp`: major_brand, minor_version, compatible_brands[]. **(Completed — see `DOCS/TASK_ARCHIVE/99_C1_ftyp_Box_Parser/Summary_of_Work.md`.)**
 - [ ] C2. `mvhd`: timescale, duration(32/64), rate, volume, matrix.
 - [ ] C3. `tkhd`: flags-driven size; track_id; duration; width/height.
 - [x] C4. `mdhd`: creation/modification times, timescale, duration, language. **(Completed — parser implemented in `ISOInspectorKit`; see `DOCS/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/Summary_of_Work.md`.)**

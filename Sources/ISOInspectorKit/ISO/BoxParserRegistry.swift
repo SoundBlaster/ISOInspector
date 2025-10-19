@@ -98,6 +98,8 @@ public struct BoxParserRegistry: Sendable {
 
             var fields: [ParsedBoxPayload.Field] = []
             let start = payloadRange.lowerBound
+            var compatibleBrands: [FourCharCode] = []
+
             let major = try? reader.readFourCC(at: start)
             if let major {
                 fields.append(ParsedBoxPayload.Field(
@@ -108,7 +110,8 @@ public struct BoxParserRegistry: Sendable {
                 ))
             }
 
-            if let minor = try readUInt32(reader, at: start + 4, end: payloadRange.upperBound) {
+            let minorVersion = try readUInt32(reader, at: start + 4, end: payloadRange.upperBound)
+            if let minor = minorVersion {
                 fields.append(ParsedBoxPayload.Field(
                     name: "minor_version",
                     value: String(minor),
@@ -128,11 +131,25 @@ public struct BoxParserRegistry: Sendable {
                     description: "Brand compatibility entry",
                     byteRange: range
                 ))
+                compatibleBrands.append(brand)
                 offset += 4
                 index += 1
             }
 
-            return fields.isEmpty ? nil : ParsedBoxPayload(fields: fields)
+            guard !fields.isEmpty else { return nil }
+
+            let detail: ParsedBoxPayload.Detail?
+            if let major, let minor = minorVersion {
+                detail = .fileType(ParsedBoxPayload.FileTypeBox(
+                    majorBrand: major,
+                    minorVersion: minor,
+                    compatibleBrands: compatibleBrands
+                ))
+            } else {
+                detail = nil
+            }
+
+            return ParsedBoxPayload(fields: fields, detail: detail)
         }
 
         static func mediaHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {

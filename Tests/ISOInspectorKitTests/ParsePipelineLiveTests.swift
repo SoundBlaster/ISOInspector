@@ -102,6 +102,10 @@ final class ParsePipelineLiveTests: XCTestCase {
         let parsedPayload = try XCTUnwrap(ftypEvent.payload)
         XCTAssertEqual(parsedPayload.fields.first?.name, "major_brand")
         XCTAssertEqual(parsedPayload.fields.first?.value, "isom")
+        let fileType = try XCTUnwrap(parsedPayload.fileType)
+        XCTAssertEqual(fileType.majorBrand.rawValue, "isom")
+        XCTAssertEqual(fileType.minorVersion, 0)
+        XCTAssertEqual(fileType.compatibleBrands, [])
     }
 
     func testLivePipelineReportsVersionAndFlagMismatchWarnings() async throws {

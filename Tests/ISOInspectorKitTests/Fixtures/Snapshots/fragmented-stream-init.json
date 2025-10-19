@@ -59,6 +59,16 @@
         "payload" : 16,
         "total" : 24
       },
+      "structured" : {
+        "file_type" : {
+          "compatible_brands" : [
+            "iso5",
+            "dash"
+          ],
+          "major_brand" : "iso5",
+          "minor_version" : 512
+        }
+      },
       "validationIssues" : [
 
       ]
