@@ -2,7 +2,7 @@
 
 ## 🎯 Upcoming Parser Enhancements
 
-- [ ] Monitor upcoming codec payload additions (e.g., Dolby Vision boxes, descriptor extensions) so the `BoxParserRegistry` gains dedicated entries when new fixtures arrive. Track regression needs alongside `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/Summary_of_Work.md`.
+- [ ] Monitor upcoming codec payload additions (e.g., Dolby Vision boxes, descriptor extensions) so the `BoxParserRegistry` gains dedicated entries when new fixtures arrive. Track regression needs alongside `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/Summary_of_Work.md`. **(In Progress — see `DOCS/INPROGRESS/C6_Codec_Payload_Additions.md`.)**
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 
