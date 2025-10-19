@@ -186,7 +186,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 > **Priority Escalation (2025-10-23):** Outstanding items called out by program management — **C2, C3, C8–C15** — are now classified as **Critical P0+** and must be prioritized above all other work until completed.
 - [x] C1. `ftyp`: major_brand, minor_version, compatible_brands[]. **(Completed — see `DOCS/TASK_ARCHIVE/99_C1_ftyp_Box_Parser/Summary_of_Work.md`.)**
 - [x] 🔴 **P0+** C2. `mvhd`: timescale, duration(32/64), rate, volume, matrix. **(Completed — parser, matrix decoding, and snapshot updates documented in `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C2_mvhd_Movie_Header_Parser.md`.)**
-- [x] 🔴 **P0+** C3. `tkhd`: flags-driven size; track_id; duration; width/height. _(Completed — parser detail, fixtures, and snapshots documented in `DOCS/INPROGRESS/Summary_of_Work.md`.)_
+- [x] 🔴 **P0+** C3. `tkhd`: flags-driven size; track_id; duration; width/height. _(Completed — parser detail, fixtures, and snapshots documented in `DOCS/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/Summary_of_Work.md`.)_
 - [x] C4. `mdhd`: creation/modification times, timescale, duration, language. **(Completed — `BoxParserRegistry` now registers the parser; see `DOCS/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/Summary_of_Work.md`.)**
 - [x] C5. `hdlr`: handler_type, name. **(Completed — see `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md`.)**
 - [x] C6. `stsd`: entry_count; generic sample_entry header; detect visual/audio entry. *(Completed — see `DOCS/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/`.)*

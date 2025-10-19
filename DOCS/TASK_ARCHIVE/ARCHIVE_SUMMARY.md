@@ -582,3 +582,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/110_Summary_of_Work_2025-10-19_C9_C10_Planning/`.
 - **Highlights:** Preserves the October 19 worklog capturing the completed `stsc` parser delivery, linked Swift test coverage, and coordination notes for the upcoming `stsz/stz2` and `stco/co64` parser efforts that depend on the new detail model.
 - **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` now calls out the C9/C10 parser alignment alongside the standing macOS-bound benchmarking, release readiness, UI automation, and Combine latency runs awaiting dedicated hardware.
+
+## 111_C3_tkhd_Track_Header_Parser
+- **Archived files:** `C3_tkhd_Track_Header_Parser.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/`.
+- **Highlights:** Captures completion of the `tkhd` track header parser with version-aware timeline decoding, flag-derived enablement states, fixed-point transformation matrices, and presentation dimension exports wired into the JSON/UI surfaces alongside refreshed fixture coverage.
+- **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` now focuses on coordinating the upcoming C9 (`stsz/stz2`) and C10 (`stco/co64`) parser efforts plus the macOS-bound benchmarking, release readiness, UI automation, and Combine latency validations awaiting dedicated hardware.
