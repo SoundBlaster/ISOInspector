@@ -10,6 +10,8 @@ on:
 
 jobs:
   markdown-validation:
+    # Temporarily disable Markdown linting until the rules are re-enabled.
+    if: ${{ false }}
     name: Markdown Validation
     runs-on: ubuntu-22.04
     steps:

@@ -1,5 +1,7 @@
 # 06 — Markdown Title Rules
 
+> ⚠️ **Status: Disabled** — Title-specific linting is paused while Markdown validation is disabled in CI. Keep these notes for reference when the checks return.
+
 ## ✅ Required Rules
 
 1. **Don’t use `"` characters in headings or titles.** They cause markdownlint to fail during CI. Keep headings plain text or use other punctuation when emphasis is needed.
@@ -11,7 +13,7 @@
 
 ## 📌 Scope
 
-These rules apply to every Markdown file in the repository, especially content under `DOCS/**` that participates in automated linting.
+These rules apply to every Markdown file in the repository, especially content under `DOCS/**` that participates in automated linting, once the rule set is restored.
 
 ## 🛠 Recommended Practice
 

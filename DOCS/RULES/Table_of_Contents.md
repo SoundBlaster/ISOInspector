@@ -18,11 +18,11 @@ its scope.
 - [04_PDD.md](./04_PDD.md) — instructions for AI agents on Puzzle Driven Development and keeping `todo.md` synchronized.
 - [05_Markdown_Style.md](./05_Markdown_Style.md) — Markdown formatting standards and post-generation review
 
-  requirements.
+  requirements. *(Temporarily disabled while CI linting is paused.)*
 
 - [06_Markdown_Title_Rules.md](./06_Markdown_Title_Rules.md) — rules for writing Markdown headings that avoid
 
-  problematic characters.
+  problematic characters. *(Temporarily disabled while CI linting is paused.)*
 
 - [07_AI_Code_Structure_Principles.md](./07_AI_Code_Structure_Principles.md) — principles for structuring code,
 

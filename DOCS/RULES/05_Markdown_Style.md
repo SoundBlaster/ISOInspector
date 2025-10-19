@@ -1,9 +1,11 @@
 # 05 — Markdown Style & Lint Rule
 
+> ⚠️ **Status: Disabled** — This rule is temporarily paused while repository Markdown linting is turned off in CI. Retain the guidance for future reactivation.
+
 ## 🧩 Purpose
 
 Uniform Markdown style for all project docs and strict post-generation validation. The goal is for every
-`DOCS/**` file to pass **markdownlint** checks.
+`DOCS/**` file to pass **markdownlint** checks when the rule is active again.
 
 ## 🔧 Enforcement Scope
 
