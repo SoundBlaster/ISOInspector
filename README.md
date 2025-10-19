@@ -89,11 +89,12 @@ targets:
 Reproduce the automated checks locally with:
 
 ```sh
-# Apply SwiftLint autocorrections via the same container image used in CI
+# Apply SwiftLint fixes via the same container image used in CI
 scripts/swiftlint-format.sh
 
-# Lint (requires SwiftLint; the Docker image used in CI also works locally)
-docker run --rm -v "$(pwd)":/workspace ghcr.io/realm/swiftlint:0.53.0 lint --strict
+# Verify lint (requires Docker; mirrors the CI verify step)
+docker run --rm -u "$(id -u):$(id -g)" -v "$PWD:/work" -w /work ghcr.io/realm/swiftlint:0.53.0 \
+  swiftlint lint --strict --no-cache --config .swiftlint.yml
 
 # Build and test with coverage
 swift test --enable-code-coverage
