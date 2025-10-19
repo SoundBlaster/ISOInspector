@@ -48,6 +48,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed:** Task C2 – Implemented the `mvhd` movie header parser exposing timescale, 32/64-bit durations, rate, volume, and transformation matrix fields. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C2_mvhd_Movie_Header_Parser.md` and `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/Summary_of_Work.md` for implementation and verification details.
 
+> **In Progress:** Task C10 — Build the `stco/co64` chunk offset parser that completes the baseline sample table trio alongside `stsc` and `stsz/stz2`. Track implementation details in `DOCS/INPROGRESS/C10_stco_co64_Chunk_Offset_Parser.md`.
+>
 > **In Progress:** Monitor upcoming codec payload additions (e.g., Dolby Vision descriptors, extended audio profiles) so `BoxParserRegistry` keeps pace with new fixtures. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md` for scope and success criteria.
 
 > **Completed (2025-10-19):** Task C3 – Implemented the `tkhd` track header parser covering flag-dependent field layouts, duration handling, and presentation dimensions. See `DOCS/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/Summary_of_Work.md` for implementation notes and verification details.
