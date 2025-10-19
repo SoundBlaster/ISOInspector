@@ -25,7 +25,7 @@ Provide release managers and on-call engineers with a single checklist that cove
 | Core tests | QA | `swift test` | Store XCTest report including `LargeFileBenchmarkTests` baseline values. |
 | UI automation | QA (macOS hardware) | `swift test --filter ParseTreeStreamingSelectionAutomationTests` | Upload video/logs; note blockers if macOS UI runner unavailable. |
 | Performance | QA (macOS hardware) | `swift test --filter LargeFileBenchmarkTests/testAppEventBridgeDeliversUpdatesWithinLatencyBudget` | Capture latency/CPU/memory metrics and confirm against thresholds; document skips if Combine unavailable. |
-| Linting | Development lead | `scripts/swiftlint-format.sh && docker run --rm -v "$(pwd)":/workspace ghcr.io/realm/swiftlint:0.53.0 lint --strict` | Archive lint log showing no violations. |
+| Linting | Development lead | `scripts/swiftlint-format.sh && docker run --rm -u "$(id -u):$(id -g)" -v "$PWD:/work" -w /work ghcr.io/realm/swiftlint:0.53.0 swiftlint lint --strict --no-cache --config .swiftlint.yml` | Archive lint log showing no violations. |
 | Documentation | Tech writer | `scripts/generate_documentation.sh` | Publish DocC archives under `Documentation/DocC/` and link in release notes. |
 
 ### Documentation and Communication
