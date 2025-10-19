@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🚧 Active Parser Tasks
+
+- [ ] C2 — Implement `mvhd` movie header parser (**In Progress**; see `DOCS/INPROGRESS/C2_mvhd_Movie_Header_Parser.md`).
+
 ## 🎯 Upcoming Parser Enhancements
 
 - [x] Monitor upcoming codec payload additions (e.g., Dolby Vision boxes, descriptor extensions) so the `BoxParserRegistry` gains dedicated entries when new fixtures arrive. Planning roadmap captured in `DOCS/INPROGRESS/C6_Codec_Payload_Additions.md`; implementation follow-ups will graduate into dedicated puzzles.
