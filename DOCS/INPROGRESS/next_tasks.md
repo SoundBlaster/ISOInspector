@@ -2,7 +2,7 @@
 
 ## 🚧 Now In Progress
 
-- [ ] C1 — Implement `ftyp` box parser (`major_brand`, `minor_version`, `compatible_brands`). *(In Progress — see `DOCS/INPROGRESS/C1_ftyp_Box_Parser.md`.)*
+- [x] C1 — Implement `ftyp` box parser (`major_brand`, `minor_version`, `compatible_brands`). *(Completed — see `DOCS/TASK_ARCHIVE/99_C1_ftyp_Box_Parser/Summary_of_Work.md`.)*
 
 ## 🎯 Upcoming Parser Enhancements
 

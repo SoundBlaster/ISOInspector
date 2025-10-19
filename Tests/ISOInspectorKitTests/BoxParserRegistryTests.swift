@@ -29,6 +29,11 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(parsed.fields[1].byteRange, 12..<16)
         XCTAssertEqual(parsed.fields[2].value, "mp41")
         XCTAssertEqual(parsed.fields[2].byteRange, 16..<20)
+
+        let fileType = try XCTUnwrap(parsed.fileType)
+        XCTAssertEqual(fileType.majorBrand, try FourCharCode("isom"))
+        XCTAssertEqual(fileType.minorVersion, 512)
+        XCTAssertEqual(fileType.compatibleBrands, [try FourCharCode("mp41")])
     }
 
     func testDefaultRegistryParsesMovieHeaderBox() throws {

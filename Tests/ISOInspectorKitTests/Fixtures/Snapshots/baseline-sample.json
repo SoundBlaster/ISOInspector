@@ -77,6 +77,18 @@
         "payload" : 24,
         "total" : 32
       },
+      "structured" : {
+        "file_type" : {
+          "compatible_brands" : [
+            "isom",
+            "avc1",
+            "M4V ",
+            "mp42"
+          ],
+          "major_brand" : "M4V ",
+          "minor_version" : 1
+        }
+      },
       "validationIssues" : [
 
       ]

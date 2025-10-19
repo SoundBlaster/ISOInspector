@@ -32,6 +32,7 @@ private struct Node: Encodable {
     let sizes: Sizes
     let metadata: Metadata?
     let payload: [PayloadField]?
+    let structured: StructuredPayload?
     let validationIssues: [Issue]
     let children: [Node]
 
@@ -44,8 +45,10 @@ private struct Node: Encodable {
         if let payload = node.payload {
             let fields = payload.fields.map(PayloadField.init)
             self.payload = fields.isEmpty ? nil : fields
+            self.structured = payload.detail.map(StructuredPayload.init)
         } else {
             self.payload = nil
+            self.structured = nil
         }
         self.validationIssues = node.validationIssues.map(Issue.init)
         self.children = node.children.map(Node.init)
@@ -133,5 +136,38 @@ private struct Issue: Encodable {
         self.ruleID = issue.ruleID
         self.message = issue.message
         self.severity = issue.severity.rawValue
+    }
+}
+
+private struct StructuredPayload: Encodable {
+    let fileType: FileTypeDetail
+
+    init(detail: ParsedBoxPayload.Detail) {
+        switch detail {
+        case let .fileType(box):
+            self.fileType = FileTypeDetail(box: box)
+        }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case fileType = "file_type"
+    }
+}
+
+private struct FileTypeDetail: Encodable {
+    let majorBrand: String
+    let minorVersion: UInt32
+    let compatibleBrands: [String]
+
+    init(box: ParsedBoxPayload.FileTypeBox) {
+        self.majorBrand = box.majorBrand.rawValue
+        self.minorVersion = box.minorVersion
+        self.compatibleBrands = box.compatibleBrands.map(\.rawValue)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case majorBrand = "major_brand"
+        case minorVersion = "minor_version"
+        case compatibleBrands = "compatible_brands"
     }
 }

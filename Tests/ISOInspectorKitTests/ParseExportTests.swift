@@ -75,19 +75,29 @@ final class ParseExportTests: XCTestCase {
     func testJSONExporterProducesDeterministicStructure() throws {
         let header = try makeHeader(type: "ftyp", size: 24)
         var builder = ParseTreeBuilder()
+        let payload = try ParsedBoxPayload(
+            fields: [
+                ParsedBoxPayload.Field(
+                    name: "major_brand",
+                    value: "isom",
+                    description: nil,
+                    byteRange: 8..<12
+                )
+            ],
+            detail: .fileType(
+                ParsedBoxPayload.FileTypeBox(
+                    majorBrand: FourCharCode("isom"),
+                    minorVersion: 1,
+                    compatibleBrands: []
+                )
+            )
+        )
         builder.consume(
             ParseEvent(
                 kind: .willStartBox(header: header, depth: 0),
                 offset: header.startOffset,
                 metadata: BoxCatalog.shared.descriptor(for: header),
-                payload: ParsedBoxPayload(fields: [
-                    ParsedBoxPayload.Field(
-                        name: "major_brand",
-                        value: "isom",
-                        description: nil,
-                        byteRange: 8..<12
-                    )
-                ])
+                payload: payload
             )
         )
         builder.consume(
@@ -122,6 +132,12 @@ final class ParseExportTests: XCTestCase {
         let range = try XCTUnwrap(field["byteRange"] as? [String: Any])
         XCTAssertEqual(range["start"] as? Int, 8)
         XCTAssertEqual(range["end"] as? Int, 12)
+        let structured = try XCTUnwrap(node["structured"] as? [String: Any])
+        let fileTypeDetail = try XCTUnwrap(structured["file_type"] as? [String: Any])
+        XCTAssertEqual(fileTypeDetail["major_brand"] as? String, "isom")
+        XCTAssertEqual(fileTypeDetail["minor_version"] as? Int, 1)
+        let compatible = try XCTUnwrap(fileTypeDetail["compatible_brands"] as? [String])
+        XCTAssertTrue(compatible.isEmpty)
         let issues = try XCTUnwrap(json["validationIssues"] as? [[String: Any]])
         XCTAssertTrue(issues.isEmpty)
     }
