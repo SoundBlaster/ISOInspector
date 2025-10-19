@@ -1,8 +1,8 @@
 # Next Tasks
 
-## 🎯 Upcoming Parser Enhancements
+## 🚀 Currently In Progress
 
-- [ ] Extend the `stsd` sample description parser with codec-specific field extraction (e.g., `avcC`, `hvcC`, encrypted variants) once future tasks define the required metadata surface.
+- [x] C6 — Implement the `stsd` sample description parser to enumerate media sample entries. *(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)*
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 
