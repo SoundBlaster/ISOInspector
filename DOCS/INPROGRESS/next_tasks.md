@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🚧 Now In Progress
+
+- [ ] C1 — Implement `ftyp` box parser (`major_brand`, `minor_version`, `compatible_brands`). *(In Progress — see `DOCS/INPROGRESS/C1_ftyp_Box_Parser.md`.)*
+
 ## 🎯 Upcoming Parser Enhancements
 
 - [ ] Extend the `stsd` sample description parser with codec-specific field extraction (e.g., `avcC`, `hvcC`, encrypted variants) once future tasks define the required metadata surface.
