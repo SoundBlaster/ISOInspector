@@ -1,0 +1,274 @@
+{
+  "nodes" : [
+    {
+      "children" : [
+
+      ],
+      "fourcc" : "styp",
+      "metadata" : {
+        "name" : "Segment Type Box",
+        "specification" : "ISO",
+        "summary" : "Segment Type Box"
+      },
+      "offsets" : {
+        "end" : 24,
+        "payloadEnd" : 24,
+        "payloadStart" : 8,
+        "start" : 0
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 16,
+        "total" : 24
+      },
+      "validationIssues" : [
+        {
+          "message" : "Encountered styp before required file type box (ftyp).",
+          "ruleID" : "VR-004",
+          "severity" : "error"
+        }
+      ]
+    },
+    {
+      "children" : [
+
+      ],
+      "fourcc" : "sidx",
+      "metadata" : {
+        "name" : "Segment Index Box",
+        "specification" : "ISO",
+        "summary" : "Segment Index Box"
+      },
+      "offsets" : {
+        "end" : 64,
+        "payloadEnd" : 64,
+        "payloadStart" : 32,
+        "start" : 24
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 32,
+        "total" : 40
+      },
+      "validationIssues" : [
+        {
+          "message" : "Encountered sidx before required file type box (ftyp).",
+          "ruleID" : "VR-004",
+          "severity" : "error"
+        }
+      ]
+    },
+    {
+      "children" : [
+        {
+          "children" : [
+
+          ],
+          "fourcc" : "mfhd",
+          "metadata" : {
+            "name" : "Movie Fragment Header",
+            "specification" : "ISO",
+            "summary" : "movie fragment header"
+          },
+          "offsets" : {
+            "end" : 88,
+            "payloadEnd" : 88,
+            "payloadStart" : 80,
+            "start" : 72
+          },
+          "sizes" : {
+            "header" : 8,
+            "payload" : 8,
+            "total" : 16
+          },
+          "validationIssues" : [
+
+          ]
+        },
+        {
+          "children" : [
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "tfhd",
+              "metadata" : {
+                "name" : "Track Fragment Header",
+                "specification" : "ISO",
+                "summary" : "Track fragment header"
+              },
+              "offsets" : {
+                "end" : 112,
+                "payloadEnd" : 112,
+                "payloadStart" : 104,
+                "start" : 96
+              },
+              "sizes" : {
+                "header" : 8,
+                "payload" : 8,
+                "total" : 16
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "tfdt",
+              "metadata" : {
+                "name" : "Track Fragment Decode Time",
+                "specification" : "ISO",
+                "summary" : "Track fragment decode time"
+              },
+              "offsets" : {
+                "end" : 136,
+                "payloadEnd" : 136,
+                "payloadStart" : 120,
+                "start" : 112
+              },
+              "sizes" : {
+                "header" : 8,
+                "payload" : 16,
+                "total" : 24
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "trun",
+              "metadata" : {
+                "name" : "Track Fragment Run",
+                "specification" : "ISO",
+                "summary" : "track fragment run"
+              },
+              "offsets" : {
+                "end" : 164,
+                "payloadEnd" : 164,
+                "payloadStart" : 144,
+                "start" : 136
+              },
+              "sizes" : {
+                "header" : 8,
+                "payload" : 20,
+                "total" : 28
+              },
+              "validationIssues" : [
+
+              ]
+            }
+          ],
+          "fourcc" : "traf",
+          "metadata" : {
+            "name" : "Track Fragment",
+            "specification" : "ISO",
+            "summary" : "Track fragment"
+          },
+          "offsets" : {
+            "end" : 164,
+            "payloadEnd" : 164,
+            "payloadStart" : 96,
+            "start" : 88
+          },
+          "sizes" : {
+            "header" : 8,
+            "payload" : 68,
+            "total" : 76
+          },
+          "validationIssues" : [
+            {
+              "message" : "Encountered traf before required file type box (ftyp).",
+              "ruleID" : "VR-004",
+              "severity" : "error"
+            }
+          ]
+        }
+      ],
+      "fourcc" : "moof",
+      "metadata" : {
+        "name" : "Movie Fragment",
+        "specification" : "ISO",
+        "summary" : "movie fragment"
+      },
+      "offsets" : {
+        "end" : 164,
+        "payloadEnd" : 164,
+        "payloadStart" : 72,
+        "start" : 64
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 92,
+        "total" : 100
+      },
+      "validationIssues" : [
+        {
+          "message" : "Encountered moof before required file type box (ftyp).",
+          "ruleID" : "VR-004",
+          "severity" : "error"
+        }
+      ]
+    },
+    {
+      "children" : [
+
+      ],
+      "fourcc" : "mdat",
+      "metadata" : {
+        "name" : "Media Data Container",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Holds the raw media samples referenced by the track sample tables."
+      },
+      "offsets" : {
+        "end" : 684,
+        "payloadEnd" : 684,
+        "payloadStart" : 172,
+        "start" : 164
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 512,
+        "total" : 520
+      },
+      "validationIssues" : [
+        {
+          "message" : "Encountered mdat before required file type box (ftyp).",
+          "ruleID" : "VR-004",
+          "severity" : "error"
+        }
+      ]
+    }
+  ],
+  "validationIssues" : [
+    {
+      "message" : "Encountered styp before required file type box (ftyp).",
+      "ruleID" : "VR-004",
+      "severity" : "error"
+    },
+    {
+      "message" : "Encountered sidx before required file type box (ftyp).",
+      "ruleID" : "VR-004",
+      "severity" : "error"
+    },
+    {
+      "message" : "Encountered moof before required file type box (ftyp).",
+      "ruleID" : "VR-004",
+      "severity" : "error"
+    },
+    {
+      "message" : "Encountered traf before required file type box (ftyp).",
+      "ruleID" : "VR-004",
+      "severity" : "error"
+    },
+    {
+      "message" : "Encountered mdat before required file type box (ftyp).",
+      "ruleID" : "VR-004",
+      "severity" : "error"
+    }
+  ]
+}

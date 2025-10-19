@@ -2,7 +2,7 @@
 
 ## ✅ In Progress
 
-- ⏳ Task H3 — Capture JSON export snapshot tests for representative fixtures. See `DOCS/INPROGRESS/H3_JSON_Export_Snapshot_Tests.md` for the active PRD outline.
+- ✅ Task H3 — Capture JSON export snapshot tests for representative fixtures. Baselines captured; see `DOCS/INPROGRESS/Summary_of_Work.md` for implementation notes.
 
 ## 🎯 Upcoming Parser Enhancements
 
