@@ -6,6 +6,8 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case movieHeader(MovieHeaderBox)
         case trackHeader(TrackHeaderBox)
         case sampleToChunk(SampleToChunkBox)
+        case sampleSize(SampleSizeBox)
+        case compactSampleSize(CompactSampleSizeBox)
     }
 
     public struct FileTypeBox: Equatable, Sendable {
@@ -172,6 +174,76 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         }
     }
 
+    public struct SampleSizeBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public let index: UInt32
+            public let size: UInt32
+            public let byteRange: Range<Int64>
+
+            public init(index: UInt32, size: UInt32, byteRange: Range<Int64>) {
+                self.index = index
+                self.size = size
+                self.byteRange = byteRange
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let defaultSampleSize: UInt32
+        public let sampleCount: UInt32
+        public let entries: [Entry]
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            defaultSampleSize: UInt32,
+            sampleCount: UInt32,
+            entries: [Entry]
+        ) {
+            self.version = version
+            self.flags = flags
+            self.defaultSampleSize = defaultSampleSize
+            self.sampleCount = sampleCount
+            self.entries = entries
+        }
+
+        public var isConstant: Bool { defaultSampleSize != 0 }
+    }
+
+    public struct CompactSampleSizeBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public let index: UInt32
+            public let size: UInt32
+            public let byteRange: Range<Int64>
+
+            public init(index: UInt32, size: UInt32, byteRange: Range<Int64>) {
+                self.index = index
+                self.size = size
+                self.byteRange = byteRange
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let fieldSize: UInt8
+        public let sampleCount: UInt32
+        public let entries: [Entry]
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            fieldSize: UInt8,
+            sampleCount: UInt32,
+            entries: [Entry]
+        ) {
+            self.version = version
+            self.flags = flags
+            self.fieldSize = fieldSize
+            self.sampleCount = sampleCount
+            self.entries = entries
+        }
+    }
+
     public struct Field: Equatable, Sendable {
         public let name: String
         public let value: String
@@ -220,6 +292,16 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var sampleToChunk: SampleToChunkBox? {
         guard case let .sampleToChunk(box) = detail else { return nil }
+        return box
+    }
+
+    public var sampleSize: SampleSizeBox? {
+        guard case let .sampleSize(box) = detail else { return nil }
+        return box
+    }
+
+    public var compactSampleSize: CompactSampleSizeBox? {
+        guard case let .compactSampleSize(box) = detail else { return nil }
         return box
     }
 }
