@@ -594,3 +594,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/`.
 - **Highlights:** Captures the dedicated `stsz`/`stz2` sample size parser implementation, JSON/export wiring, and Swift test coverage validating constant, variable, and malformed sample tables while documenting CLI/UI integration notes.
 - **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` keeps the C10 chunk offset coordination plus the macOS-dependent benchmarking, release readiness, UI automation, and Combine latency follow-ups awaiting hardware support.
+
+## 113_C10_stco_co64_Chunk_Offset_Parser
+- **Archived files:** `C10_stco_co64_Chunk_Offset_Parser.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/113_C10_stco_co64_Chunk_Offset_Parser/`.
+- **Highlights:** Documents delivery of the 32-bit `stco` and 64-bit `co64` chunk offset parsers, normalization into the shared sample table model, JSON/export integration, and linked Swift verification covering registry wiring and snapshot updates.
+- **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now centers on implementing validation rule #15 that correlates `stsc` chunk runs, `stsz/stz2` sample sizes, and the newly archived chunk offsets alongside the standing macOS hardware-dependent benchmarks, release readiness, UI automation, and Combine latency follow-ups.
