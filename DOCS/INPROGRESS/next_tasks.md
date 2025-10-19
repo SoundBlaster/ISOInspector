@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🚧 Active Task
+
+- [ ] **H4 — Performance Benchmark Validation** — In Progress. See `DOCS/INPROGRESS/H4_Performance_Tests.md` for scope and success criteria.
+
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 
 - [ ] Evaluate additional handler type categorizations if future boxes require specialized roles beyond the current mapping set. *(Track notes in `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md` once refined.)*

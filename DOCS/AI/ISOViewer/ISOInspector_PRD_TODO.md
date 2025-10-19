@@ -249,7 +249,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] H1. Fixture corpus: MP4 (non-frag), MOV, fMP4 segment, DASH init+media, huge `mdat`, malformed cases.
 - [x] H2. Unit tests: headers, container boundaries, specific box field extraction. **(Completed — see `DOCS/TASK_ARCHIVE/94_H2_Unit_Tests/Summary_of_Work.md`.)**
 - [x] H3. Snapshot tests: JSON exports of small fixtures. *(Completed — see `Tests/ISOInspectorKitTests/JSONExportSnapshotTests.swift` and `DOCS/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/Summary_of_Work.md` for baselines and update workflow.)*
-- [ ] H4. Performance tests: parse time & memory cap (<100 MB for 20 GB file).
+- [ ] H4. Performance tests: parse time & memory cap (<100 MB for 20 GB file). _(In Progress — see `DOCS/INPROGRESS/H4_Performance_Tests.md`.)_
 - [x] H5. macOS SwiftUI automation covering streaming default selection and synchronized detail updates. Implemented via
   `ParseTreeStreamingSelectionAutomationTests`, which hosts the app view hierarchy on macOS and asserts outline/detail state
   during a streaming parse. See `DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md` for the execution
