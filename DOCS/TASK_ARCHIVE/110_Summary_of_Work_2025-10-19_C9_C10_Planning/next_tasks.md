@@ -1,8 +1,8 @@
 # Next Tasks
 
-## 🔄 Parser Coordination
+## ✅ Completed
 
-- [ ] Coordinate upcoming C9 (`stsz/stz2`) and C10 (`stco/co64`) parser tasks to align validation rules with the new `stsc` detail model.
+- [x] C8 — `stsc` Sample-to-Chunk Parser is complete. See `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md` for the implementation recap.
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 

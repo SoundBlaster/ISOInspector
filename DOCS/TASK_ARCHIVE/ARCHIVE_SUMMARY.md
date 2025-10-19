@@ -576,3 +576,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/108_Summary_of_Work_2025-10-19_Performance_Benchmark_Readout/`.
 - **Highlights:** Captures the October 19, 2025 benchmark validation session that closed Task H4, including CLI and local run comparisons, release documentation updates, and links to the archived XCTest outputs.
 - **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` keeps the macOS hardware-dependent benchmark, UI automation, release readiness, and Combine latency follow-ups until dedicated runners become available.
+
+## 110_Summary_of_Work_2025-10-19_C9_C10_Planning
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/110_Summary_of_Work_2025-10-19_C9_C10_Planning/`.
+- **Highlights:** Preserves the October 19 worklog capturing the completed `stsc` parser delivery, linked Swift test coverage, and coordination notes for the upcoming `stsz/stz2` and `stco/co64` parser efforts that depend on the new detail model.
+- **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` now calls out the C9/C10 parser alignment alongside the standing macOS-bound benchmarking, release readiness, UI automation, and Combine latency runs awaiting dedicated hardware.
