@@ -49,7 +49,7 @@ def validate_file(path: Path) -> bool:
 def _validate_indentation(path: Path, text: str) -> bool:
     success = True
     for line_no, line in enumerate(text.splitlines(), 1):
-        stripped = line.lstrip(" \t")
+        stripped = line.lstrip(" 	")
         leading = line[: len(line) - len(stripped)]
 
         if not stripped:
