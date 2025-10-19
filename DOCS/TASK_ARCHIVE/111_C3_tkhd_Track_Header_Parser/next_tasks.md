@@ -2,6 +2,10 @@
 
 ## 🚧 Active Parser Work
 
+- [x] C3 `tkhd` track header parser — implement flag-dependent field decoding, track duration calculations, and presentation dimensions. Implementation summarized in `DOCS/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/Summary_of_Work.md`.
+
+## 🔄 Parser Coordination
+
 - [ ] Coordinate upcoming C9 (`stsz/stz2`) and C10 (`stco/co64`) parser tasks to align validation rules with the new `stsc` detail model.
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
