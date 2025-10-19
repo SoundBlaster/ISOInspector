@@ -1,0 +1,202 @@
+{
+  "nodes" : [
+    {
+      "children" : [
+
+      ],
+      "fourcc" : "ftyp",
+      "metadata" : {
+        "name" : "File Type And Compatibility",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Identifies the file type and compatibility brands for the bitstream."
+      },
+      "offsets" : {
+        "end" : 24,
+        "payloadEnd" : 24,
+        "payloadStart" : 8,
+        "start" : 0
+      },
+      "payload" : [
+        {
+          "byteRange" : {
+            "end" : 12,
+            "start" : 8
+          },
+          "name" : "major_brand",
+          "summary" : "Primary brand identifying the file",
+          "value" : "iso5"
+        },
+        {
+          "byteRange" : {
+            "end" : 16,
+            "start" : 12
+          },
+          "name" : "minor_version",
+          "summary" : "File type minor version",
+          "value" : "512"
+        },
+        {
+          "byteRange" : {
+            "end" : 20,
+            "start" : 16
+          },
+          "name" : "compatible_brand[0]",
+          "summary" : "Brand compatibility entry",
+          "value" : "iso5"
+        },
+        {
+          "byteRange" : {
+            "end" : 24,
+            "start" : 20
+          },
+          "name" : "compatible_brand[1]",
+          "summary" : "Brand compatibility entry",
+          "value" : "dash"
+        }
+      ],
+      "sizes" : {
+        "header" : 8,
+        "payload" : 16,
+        "total" : 24
+      },
+      "validationIssues" : [
+
+      ]
+    },
+    {
+      "children" : [
+        {
+          "children" : [
+
+          ],
+          "fourcc" : "mvhd",
+          "metadata" : {
+            "name" : "Movie Header, Overall Declarations",
+            "specification" : "ISO",
+            "summary" : "movie header, overall declarations"
+          },
+          "offsets" : {
+            "end" : 140,
+            "payloadEnd" : 140,
+            "payloadStart" : 40,
+            "start" : 32
+          },
+          "payload" : [
+            {
+              "byteRange" : {
+                "end" : 41,
+                "start" : 40
+              },
+              "name" : "version",
+              "summary" : "Structure version",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 44,
+                "start" : 41
+              },
+              "name" : "flags",
+              "summary" : "Bit flags",
+              "value" : "0x000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 48,
+                "start" : 44
+              },
+              "name" : "creation_time",
+              "summary" : "Movie creation timestamp",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 52,
+                "start" : 48
+              },
+              "name" : "modification_time",
+              "summary" : "Last modification timestamp",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 56,
+                "start" : 52
+              },
+              "name" : "timescale",
+              "summary" : "Time units per second",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 60,
+                "start" : 56
+              },
+              "name" : "duration",
+              "summary" : "Movie duration",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 64,
+                "start" : 60
+              },
+              "name" : "rate",
+              "summary" : "Playback rate",
+              "value" : "0.00"
+            },
+            {
+              "byteRange" : {
+                "end" : 66,
+                "start" : 64
+              },
+              "name" : "volume",
+              "summary" : "Playback volume",
+              "value" : "0.00"
+            },
+            {
+              "byteRange" : {
+                "end" : 140,
+                "start" : 136
+              },
+              "name" : "next_track_ID",
+              "summary" : "Next track identifier",
+              "value" : "0"
+            }
+          ],
+          "sizes" : {
+            "header" : 8,
+            "payload" : 100,
+            "total" : 108
+          },
+          "validationIssues" : [
+
+          ]
+        }
+      ],
+      "fourcc" : "moov",
+      "metadata" : {
+        "name" : "Container For All The Meta-data",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Top-level container for movie metadata including tracks and timing information."
+      },
+      "offsets" : {
+        "end" : 140,
+        "payloadEnd" : 140,
+        "payloadStart" : 32,
+        "start" : 24
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 108,
+        "total" : 116
+      },
+      "validationIssues" : [
+
+      ]
+    }
+  ],
+  "validationIssues" : [
+
+  ]
+}

@@ -1,0 +1,1737 @@
+{
+  "nodes" : [
+    {
+      "children" : [
+
+      ],
+      "fourcc" : "ftyp",
+      "metadata" : {
+        "name" : "File Type And Compatibility",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Identifies the file type and compatibility brands for the bitstream."
+      },
+      "offsets" : {
+        "end" : 32,
+        "payloadEnd" : 32,
+        "payloadStart" : 8,
+        "start" : 0
+      },
+      "payload" : [
+        {
+          "byteRange" : {
+            "end" : 12,
+            "start" : 8
+          },
+          "name" : "major_brand",
+          "summary" : "Primary brand identifying the file",
+          "value" : "M4V "
+        },
+        {
+          "byteRange" : {
+            "end" : 16,
+            "start" : 12
+          },
+          "name" : "minor_version",
+          "summary" : "File type minor version",
+          "value" : "1"
+        },
+        {
+          "byteRange" : {
+            "end" : 20,
+            "start" : 16
+          },
+          "name" : "compatible_brand[0]",
+          "summary" : "Brand compatibility entry",
+          "value" : "isom"
+        },
+        {
+          "byteRange" : {
+            "end" : 24,
+            "start" : 20
+          },
+          "name" : "compatible_brand[1]",
+          "summary" : "Brand compatibility entry",
+          "value" : "avc1"
+        },
+        {
+          "byteRange" : {
+            "end" : 28,
+            "start" : 24
+          },
+          "name" : "compatible_brand[2]",
+          "summary" : "Brand compatibility entry",
+          "value" : "M4V "
+        },
+        {
+          "byteRange" : {
+            "end" : 32,
+            "start" : 28
+          },
+          "name" : "compatible_brand[3]",
+          "summary" : "Brand compatibility entry",
+          "value" : "mp42"
+        }
+      ],
+      "sizes" : {
+        "header" : 8,
+        "payload" : 24,
+        "total" : 32
+      },
+      "validationIssues" : [
+
+      ]
+    },
+    {
+      "children" : [
+        {
+          "children" : [
+
+          ],
+          "fourcc" : "mvhd",
+          "metadata" : {
+            "name" : "Movie Header, Overall Declarations",
+            "specification" : "ISO",
+            "summary" : "movie header, overall declarations"
+          },
+          "offsets" : {
+            "end" : 148,
+            "payloadEnd" : 148,
+            "payloadStart" : 48,
+            "start" : 40
+          },
+          "payload" : [
+            {
+              "byteRange" : {
+                "end" : 49,
+                "start" : 48
+              },
+              "name" : "version",
+              "summary" : "Structure version",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 52,
+                "start" : 49
+              },
+              "name" : "flags",
+              "summary" : "Bit flags",
+              "value" : "0x000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 56,
+                "start" : 52
+              },
+              "name" : "creation_time",
+              "summary" : "Movie creation timestamp",
+              "value" : "3345753062"
+            },
+            {
+              "byteRange" : {
+                "end" : 60,
+                "start" : 56
+              },
+              "name" : "modification_time",
+              "summary" : "Last modification timestamp",
+              "value" : "3345753062"
+            },
+            {
+              "byteRange" : {
+                "end" : 64,
+                "start" : 60
+              },
+              "name" : "timescale",
+              "summary" : "Time units per second",
+              "value" : "600"
+            },
+            {
+              "byteRange" : {
+                "end" : 68,
+                "start" : 64
+              },
+              "name" : "duration",
+              "summary" : "Movie duration",
+              "value" : "1657"
+            },
+            {
+              "byteRange" : {
+                "end" : 72,
+                "start" : 68
+              },
+              "name" : "rate",
+              "summary" : "Playback rate",
+              "value" : "1.00"
+            },
+            {
+              "byteRange" : {
+                "end" : 74,
+                "start" : 72
+              },
+              "name" : "volume",
+              "summary" : "Playback volume",
+              "value" : "1.00"
+            },
+            {
+              "byteRange" : {
+                "end" : 148,
+                "start" : 144
+              },
+              "name" : "next_track_ID",
+              "summary" : "Next track identifier",
+              "value" : "3"
+            }
+          ],
+          "sizes" : {
+            "header" : 8,
+            "payload" : 100,
+            "total" : 108
+          },
+          "validationIssues" : [
+
+          ]
+        },
+        {
+          "children" : [
+
+          ],
+          "fourcc" : "iods",
+          "metadata" : {
+            "name" : "Object Descriptor Container Box",
+            "specification" : "MP4v2",
+            "summary" : "Object Descriptor container box"
+          },
+          "offsets" : {
+            "end" : 169,
+            "payloadEnd" : 169,
+            "payloadStart" : 156,
+            "start" : 148
+          },
+          "sizes" : {
+            "header" : 8,
+            "payload" : 13,
+            "total" : 21
+          },
+          "validationIssues" : [
+
+          ]
+        },
+        {
+          "children" : [
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "tkhd",
+              "metadata" : {
+                "flags" : 7,
+                "name" : "Track Header, Overall Information About The Track",
+                "specification" : "ISO\/IEC 14496-12",
+                "summary" : "Defines the characteristics of a track, including ID, duration, and display parameters.",
+                "version" : 0
+              },
+              "offsets" : {
+                "end" : 269,
+                "payloadEnd" : 269,
+                "payloadStart" : 185,
+                "start" : 177
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 186,
+                    "start" : 185
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 189,
+                    "start" : 186
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000001"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 193,
+                    "start" : 189
+                  },
+                  "name" : "creation_time",
+                  "summary" : "Track creation timestamp",
+                  "value" : "3345753062"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 197,
+                    "start" : 193
+                  },
+                  "name" : "modification_time",
+                  "summary" : "Last modification timestamp",
+                  "value" : "3345753062"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 201,
+                    "start" : 197
+                  },
+                  "name" : "track_id",
+                  "summary" : "Unique track identifier",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 209,
+                    "start" : 205
+                  },
+                  "name" : "duration",
+                  "summary" : "Track duration",
+                  "value" : "1657"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 219,
+                    "start" : 217
+                  },
+                  "name" : "layer",
+                  "summary" : "Track layer",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 221,
+                    "start" : 219
+                  },
+                  "name" : "alternate_group",
+                  "summary" : "Alternate group",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 223,
+                    "start" : 221
+                  },
+                  "name" : "volume",
+                  "summary" : "Playback volume",
+                  "value" : "1.00"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 84,
+                "total" : 92
+              },
+              "validationIssues" : [
+                {
+                  "message" : "tkhd flags mismatch: expected 0x000007 but found 0x000001",
+                  "ruleID" : "VR-003",
+                  "severity" : "warning"
+                }
+              ]
+            },
+            {
+              "children" : [
+                {
+                  "children" : [
+
+                  ],
+                  "fourcc" : "mdhd",
+                  "metadata" : {
+                    "name" : "Media Header, Overall Information About The Media",
+                    "specification" : "ISO",
+                    "summary" : "media header, overall information about the media"
+                  },
+                  "offsets" : {
+                    "end" : 309,
+                    "payloadEnd" : 309,
+                    "payloadStart" : 285,
+                    "start" : 277
+                  },
+                  "payload" : [
+                    {
+                      "byteRange" : {
+                        "end" : 286,
+                        "start" : 285
+                      },
+                      "name" : "version",
+                      "summary" : "Structure version",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 289,
+                        "start" : 286
+                      },
+                      "name" : "flags",
+                      "summary" : "Bit flags",
+                      "value" : "0x000000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 293,
+                        "start" : 289
+                      },
+                      "name" : "creation_time",
+                      "summary" : "Media creation timestamp",
+                      "value" : "3345753062"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 297,
+                        "start" : 293
+                      },
+                      "name" : "modification_time",
+                      "summary" : "Last modification timestamp",
+                      "value" : "3345753062"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 301,
+                        "start" : 297
+                      },
+                      "name" : "timescale",
+                      "summary" : "Media time units per second",
+                      "value" : "44100"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 305,
+                        "start" : 301
+                      },
+                      "name" : "duration",
+                      "summary" : "Media duration",
+                      "value" : "121856"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 307,
+                        "start" : 305
+                      },
+                      "name" : "language",
+                      "summary" : "ISO-639-2\/T language code",
+                      "value" : "und"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 309,
+                        "start" : 307
+                      },
+                      "name" : "pre_defined",
+                      "summary" : "Reserved value",
+                      "value" : "0"
+                    }
+                  ],
+                  "sizes" : {
+                    "header" : 8,
+                    "payload" : 24,
+                    "total" : 32
+                  },
+                  "validationIssues" : [
+
+                  ]
+                },
+                {
+                  "children" : [
+
+                  ],
+                  "fourcc" : "hdlr",
+                  "metadata" : {
+                    "name" : "Handler, Declares The Media (handler) Type",
+                    "specification" : "ISO",
+                    "summary" : "handler, declares the media (handler) type"
+                  },
+                  "offsets" : {
+                    "end" : 364,
+                    "payloadEnd" : 364,
+                    "payloadStart" : 317,
+                    "start" : 309
+                  },
+                  "payload" : [
+                    {
+                      "byteRange" : {
+                        "end" : 318,
+                        "start" : 317
+                      },
+                      "name" : "version",
+                      "summary" : "Structure version",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 321,
+                        "start" : 318
+                      },
+                      "name" : "flags",
+                      "summary" : "Bit flags",
+                      "value" : "0x000000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 325,
+                        "start" : 321
+                      },
+                      "name" : "pre_defined",
+                      "summary" : "Reserved value",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 329,
+                        "start" : 325
+                      },
+                      "name" : "handler_type",
+                      "summary" : "Handler type identifier",
+                      "value" : "soun"
+                    },
+                    {
+                      "name" : "handler_category",
+                      "summary" : "Handler role classification",
+                      "value" : "Audio"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 363,
+                        "start" : 341
+                      },
+                      "name" : "handler_name",
+                      "summary" : "Handler name",
+                      "value" : "GPAC ISO Audio Handler"
+                    }
+                  ],
+                  "sizes" : {
+                    "header" : 8,
+                    "payload" : 47,
+                    "total" : 55
+                  },
+                  "validationIssues" : [
+
+                  ]
+                },
+                {
+                  "children" : [
+                    {
+                      "children" : [
+
+                      ],
+                      "fourcc" : "smhd",
+                      "metadata" : {
+                        "name" : "Sound Media Header, Overall Information (sound Track Only)",
+                        "specification" : "ISO",
+                        "summary" : "sound media header, overall information (sound track only)"
+                      },
+                      "offsets" : {
+                        "end" : 388,
+                        "payloadEnd" : 388,
+                        "payloadStart" : 380,
+                        "start" : 372
+                      },
+                      "sizes" : {
+                        "header" : 8,
+                        "payload" : 8,
+                        "total" : 16
+                      },
+                      "validationIssues" : [
+
+                      ]
+                    },
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "dref",
+                          "metadata" : {
+                            "name" : "Data Reference Box, Declares Source(s) Of Media Data In Track",
+                            "specification" : "ISO",
+                            "summary" : "data reference box, declares source(s) of media data in track"
+                          },
+                          "offsets" : {
+                            "end" : 424,
+                            "payloadEnd" : 424,
+                            "payloadStart" : 404,
+                            "start" : 396
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 20,
+                            "total" : 28
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        }
+                      ],
+                      "fourcc" : "dinf",
+                      "metadata" : {
+                        "name" : "Data Information Box, Container",
+                        "specification" : "ISO",
+                        "summary" : "data information box, container"
+                      },
+                      "offsets" : {
+                        "end" : 424,
+                        "payloadEnd" : 424,
+                        "payloadStart" : 396,
+                        "start" : 388
+                      },
+                      "sizes" : {
+                        "header" : 8,
+                        "payload" : 28,
+                        "total" : 36
+                      },
+                      "validationIssues" : [
+
+                      ]
+                    },
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "fourcc" : "\u0000\u0000\u0000\u0001",
+                              "offsets" : {
+                                "end" : 523,
+                                "payloadEnd" : 523,
+                                "payloadStart" : 448,
+                                "start" : 440
+                              },
+                              "sizes" : {
+                                "header" : 8,
+                                "payload" : 75,
+                                "total" : 83
+                              },
+                              "validationIssues" : [
+                                {
+                                  "message" : "Unknown box type \u0000\u0000\u0000\u0001 encountered; schedule catalog research.",
+                                  "ruleID" : "VR-006",
+                                  "severity" : "info"
+                                }
+                              ]
+                            }
+                          ],
+                          "fourcc" : "stsd",
+                          "metadata" : {
+                            "name" : "Sample Descriptions (codec Types, Initialization Etc.)",
+                            "specification" : "ISO",
+                            "summary" : "sample descriptions (codec types, initialization etc.)"
+                          },
+                          "offsets" : {
+                            "end" : 523,
+                            "payloadEnd" : 523,
+                            "payloadStart" : 440,
+                            "start" : 432
+                          },
+                          "payload" : [
+                            {
+                              "byteRange" : {
+                                "end" : 441,
+                                "start" : 440
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 444,
+                                "start" : 441
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 448,
+                                "start" : 444
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of sample entries",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 452,
+                                "start" : 448
+                              },
+                              "name" : "entries[0].byte_length",
+                              "summary" : "Sample entry byte length",
+                              "value" : "75"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 456,
+                                "start" : 452
+                              },
+                              "name" : "entries[0].format",
+                              "summary" : "Sample entry format",
+                              "value" : "mp4a"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 464,
+                                "start" : 462
+                              },
+                              "name" : "entries[0].data_reference_index",
+                              "summary" : "Data reference index",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 474,
+                                "start" : 472
+                              },
+                              "name" : "entries[0].channelcount",
+                              "summary" : "Audio channel count",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 476,
+                                "start" : 474
+                              },
+                              "name" : "entries[0].samplesize",
+                              "summary" : "Audio sample size",
+                              "value" : "16"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 484,
+                                "start" : 480
+                              },
+                              "name" : "entries[0].samplerate",
+                              "summary" : "Audio sample rate",
+                              "value" : "44100"
+                            }
+                          ],
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 83,
+                            "total" : 91
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "stts",
+                          "metadata" : {
+                            "name" : "(decoding) Time-to-sample",
+                            "specification" : "ISO",
+                            "summary" : "(decoding) time-to-sample"
+                          },
+                          "offsets" : {
+                            "end" : 547,
+                            "payloadEnd" : 547,
+                            "payloadStart" : 531,
+                            "start" : 523
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 16,
+                            "total" : 24
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "ctts",
+                          "metadata" : {
+                            "name" : "(composition) Time To Sample",
+                            "specification" : "ISO",
+                            "summary" : "(composition) time to sample"
+                          },
+                          "offsets" : {
+                            "end" : 579,
+                            "payloadEnd" : 579,
+                            "payloadStart" : 555,
+                            "start" : 547
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 24,
+                            "total" : 32
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "stsc",
+                          "metadata" : {
+                            "name" : "Sample-to-chunk, Partial Data-offset Information",
+                            "specification" : "ISO",
+                            "summary" : "sample-to-chunk, partial data-offset information"
+                          },
+                          "offsets" : {
+                            "end" : 763,
+                            "payloadEnd" : 763,
+                            "payloadStart" : 587,
+                            "start" : 579
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 176,
+                            "total" : 184
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "stsz",
+                          "metadata" : {
+                            "name" : "Sample Sizes (framing)",
+                            "specification" : "ISO",
+                            "summary" : "sample sizes (framing)"
+                          },
+                          "offsets" : {
+                            "end" : 1259,
+                            "payloadEnd" : 1259,
+                            "payloadStart" : 771,
+                            "start" : 763
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 488,
+                            "total" : 496
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "stco",
+                          "metadata" : {
+                            "name" : "Chunk Offset, Partial Data-offset Information",
+                            "specification" : "ISO",
+                            "summary" : "chunk offset, partial data-offset information"
+                          },
+                          "offsets" : {
+                            "end" : 1439,
+                            "payloadEnd" : 1439,
+                            "payloadStart" : 1267,
+                            "start" : 1259
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 172,
+                            "total" : 180
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        }
+                      ],
+                      "fourcc" : "stbl",
+                      "metadata" : {
+                        "name" : "Sample Table Box, Container For The Time\/space Map",
+                        "specification" : "ISO",
+                        "summary" : "sample table box, container for the time\/space map"
+                      },
+                      "offsets" : {
+                        "end" : 1439,
+                        "payloadEnd" : 1439,
+                        "payloadStart" : 432,
+                        "start" : 424
+                      },
+                      "sizes" : {
+                        "header" : 8,
+                        "payload" : 1007,
+                        "total" : 1015
+                      },
+                      "validationIssues" : [
+
+                      ]
+                    }
+                  ],
+                  "fourcc" : "minf",
+                  "metadata" : {
+                    "name" : "Media Information Container",
+                    "specification" : "ISO",
+                    "summary" : "media information container"
+                  },
+                  "offsets" : {
+                    "end" : 1439,
+                    "payloadEnd" : 1439,
+                    "payloadStart" : 372,
+                    "start" : 364
+                  },
+                  "sizes" : {
+                    "header" : 8,
+                    "payload" : 1067,
+                    "total" : 1075
+                  },
+                  "validationIssues" : [
+
+                  ]
+                }
+              ],
+              "fourcc" : "mdia",
+              "metadata" : {
+                "name" : "Container For The Media Information In A Track",
+                "specification" : "ISO",
+                "summary" : "container for the media information in a track"
+              },
+              "offsets" : {
+                "end" : 1439,
+                "payloadEnd" : 1439,
+                "payloadStart" : 277,
+                "start" : 269
+              },
+              "sizes" : {
+                "header" : 8,
+                "payload" : 1162,
+                "total" : 1170
+              },
+              "validationIssues" : [
+
+              ]
+            }
+          ],
+          "fourcc" : "trak",
+          "metadata" : {
+            "name" : "Container For An Individual Track Or Stream",
+            "specification" : "ISO\/IEC 14496-12",
+            "summary" : "Container describing a single track within the presentation."
+          },
+          "offsets" : {
+            "end" : 1439,
+            "payloadEnd" : 1439,
+            "payloadStart" : 177,
+            "start" : 169
+          },
+          "sizes" : {
+            "header" : 8,
+            "payload" : 1262,
+            "total" : 1270
+          },
+          "validationIssues" : [
+
+          ]
+        },
+        {
+          "children" : [
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "tkhd",
+              "metadata" : {
+                "flags" : 7,
+                "name" : "Track Header, Overall Information About The Track",
+                "specification" : "ISO\/IEC 14496-12",
+                "summary" : "Defines the characteristics of a track, including ID, duration, and display parameters.",
+                "version" : 0
+              },
+              "offsets" : {
+                "end" : 1539,
+                "payloadEnd" : 1539,
+                "payloadStart" : 1455,
+                "start" : 1447
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 1456,
+                    "start" : 1455
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1459,
+                    "start" : 1456
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000001"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1463,
+                    "start" : 1459
+                  },
+                  "name" : "creation_time",
+                  "summary" : "Track creation timestamp",
+                  "value" : "3345753062"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1467,
+                    "start" : 1463
+                  },
+                  "name" : "modification_time",
+                  "summary" : "Last modification timestamp",
+                  "value" : "3345753062"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1471,
+                    "start" : 1467
+                  },
+                  "name" : "track_id",
+                  "summary" : "Unique track identifier",
+                  "value" : "2"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1479,
+                    "start" : 1475
+                  },
+                  "name" : "duration",
+                  "summary" : "Track duration",
+                  "value" : "1641"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1489,
+                    "start" : 1487
+                  },
+                  "name" : "layer",
+                  "summary" : "Track layer",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1491,
+                    "start" : 1489
+                  },
+                  "name" : "alternate_group",
+                  "summary" : "Alternate group",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 1493,
+                    "start" : 1491
+                  },
+                  "name" : "volume",
+                  "summary" : "Playback volume",
+                  "value" : "0.00"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 84,
+                "total" : 92
+              },
+              "validationIssues" : [
+                {
+                  "message" : "tkhd flags mismatch: expected 0x000007 but found 0x000001",
+                  "ruleID" : "VR-003",
+                  "severity" : "warning"
+                }
+              ]
+            },
+            {
+              "children" : [
+                {
+                  "children" : [
+
+                  ],
+                  "fourcc" : "mdhd",
+                  "metadata" : {
+                    "name" : "Media Header, Overall Information About The Media",
+                    "specification" : "ISO",
+                    "summary" : "media header, overall information about the media"
+                  },
+                  "offsets" : {
+                    "end" : 1579,
+                    "payloadEnd" : 1579,
+                    "payloadStart" : 1555,
+                    "start" : 1547
+                  },
+                  "payload" : [
+                    {
+                      "byteRange" : {
+                        "end" : 1556,
+                        "start" : 1555
+                      },
+                      "name" : "version",
+                      "summary" : "Structure version",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 1559,
+                        "start" : 1556
+                      },
+                      "name" : "flags",
+                      "summary" : "Bit flags",
+                      "value" : "0x000000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 1563,
+                        "start" : 1559
+                      },
+                      "name" : "creation_time",
+                      "summary" : "Media creation timestamp",
+                      "value" : "3345753062"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 1567,
+                        "start" : 1563
+                      },
+                      "name" : "modification_time",
+                      "summary" : "Last modification timestamp",
+                      "value" : "3345753062"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 1571,
+                        "start" : 1567
+                      },
+                      "name" : "timescale",
+                      "summary" : "Media time units per second",
+                      "value" : "30000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 1575,
+                        "start" : 1571
+                      },
+                      "name" : "duration",
+                      "summary" : "Media duration",
+                      "value" : "82082"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 1577,
+                        "start" : 1575
+                      },
+                      "name" : "language",
+                      "summary" : "ISO-639-2\/T language code",
+                      "value" : "und"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 1579,
+                        "start" : 1577
+                      },
+                      "name" : "pre_defined",
+                      "summary" : "Reserved value",
+                      "value" : "0"
+                    }
+                  ],
+                  "sizes" : {
+                    "header" : 8,
+                    "payload" : 24,
+                    "total" : 32
+                  },
+                  "validationIssues" : [
+
+                  ]
+                },
+                {
+                  "children" : [
+
+                  ],
+                  "fourcc" : "hdlr",
+                  "metadata" : {
+                    "name" : "Handler, Declares The Media (handler) Type",
+                    "specification" : "ISO",
+                    "summary" : "handler, declares the media (handler) type"
+                  },
+                  "offsets" : {
+                    "end" : 1699,
+                    "payloadEnd" : 1699,
+                    "payloadStart" : 1587,
+                    "start" : 1579
+                  },
+                  "payload" : [
+                    {
+                      "byteRange" : {
+                        "end" : 1588,
+                        "start" : 1587
+                      },
+                      "name" : "version",
+                      "summary" : "Structure version",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 1591,
+                        "start" : 1588
+                      },
+                      "name" : "flags",
+                      "summary" : "Bit flags",
+                      "value" : "0x000000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 1595,
+                        "start" : 1591
+                      },
+                      "name" : "pre_defined",
+                      "summary" : "Reserved value",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 1599,
+                        "start" : 1595
+                      },
+                      "name" : "handler_type",
+                      "summary" : "Handler type identifier",
+                      "value" : "vide"
+                    },
+                    {
+                      "name" : "handler_category",
+                      "summary" : "Handler role classification",
+                      "value" : "Video"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 1698,
+                        "start" : 1611
+                      },
+                      "name" : "handler_name",
+                      "summary" : "Handler name",
+                      "value" : "bear.264 - Imported with GPAC 0.4.6-DEV (build 1 - Sep 20 2009) - compiled by Kurtnoise"
+                    }
+                  ],
+                  "sizes" : {
+                    "header" : 8,
+                    "payload" : 112,
+                    "total" : 120
+                  },
+                  "validationIssues" : [
+
+                  ]
+                },
+                {
+                  "children" : [
+                    {
+                      "children" : [
+
+                      ],
+                      "fourcc" : "vmhd",
+                      "metadata" : {
+                        "name" : "Video Media Header, Overall Information (video Track Only)",
+                        "specification" : "ISO",
+                        "summary" : "video media header, overall information (video track only)"
+                      },
+                      "offsets" : {
+                        "end" : 1727,
+                        "payloadEnd" : 1727,
+                        "payloadStart" : 1715,
+                        "start" : 1707
+                      },
+                      "sizes" : {
+                        "header" : 8,
+                        "payload" : 12,
+                        "total" : 20
+                      },
+                      "validationIssues" : [
+
+                      ]
+                    },
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "dref",
+                          "metadata" : {
+                            "name" : "Data Reference Box, Declares Source(s) Of Media Data In Track",
+                            "specification" : "ISO",
+                            "summary" : "data reference box, declares source(s) of media data in track"
+                          },
+                          "offsets" : {
+                            "end" : 1763,
+                            "payloadEnd" : 1763,
+                            "payloadStart" : 1743,
+                            "start" : 1735
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 20,
+                            "total" : 28
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        }
+                      ],
+                      "fourcc" : "dinf",
+                      "metadata" : {
+                        "name" : "Data Information Box, Container",
+                        "specification" : "ISO",
+                        "summary" : "data information box, container"
+                      },
+                      "offsets" : {
+                        "end" : 1763,
+                        "payloadEnd" : 1763,
+                        "payloadStart" : 1735,
+                        "start" : 1727
+                      },
+                      "sizes" : {
+                        "header" : 8,
+                        "payload" : 28,
+                        "total" : 36
+                      },
+                      "validationIssues" : [
+
+                      ]
+                    },
+                    {
+                      "children" : [
+                        {
+                          "children" : [
+                            {
+                              "children" : [
+
+                              ],
+                              "fourcc" : "\u0000\u0000\u0000\u0001",
+                              "offsets" : {
+                                "end" : 1982,
+                                "payloadEnd" : 1982,
+                                "payloadStart" : 1787,
+                                "start" : 1779
+                              },
+                              "sizes" : {
+                                "header" : 8,
+                                "payload" : 195,
+                                "total" : 203
+                              },
+                              "validationIssues" : [
+                                {
+                                  "message" : "Unknown box type \u0000\u0000\u0000\u0001 encountered; schedule catalog research.",
+                                  "ruleID" : "VR-006",
+                                  "severity" : "info"
+                                }
+                              ]
+                            }
+                          ],
+                          "fourcc" : "stsd",
+                          "metadata" : {
+                            "name" : "Sample Descriptions (codec Types, Initialization Etc.)",
+                            "specification" : "ISO",
+                            "summary" : "sample descriptions (codec types, initialization etc.)"
+                          },
+                          "offsets" : {
+                            "end" : 1982,
+                            "payloadEnd" : 1982,
+                            "payloadStart" : 1779,
+                            "start" : 1771
+                          },
+                          "payload" : [
+                            {
+                              "byteRange" : {
+                                "end" : 1780,
+                                "start" : 1779
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1783,
+                                "start" : 1780
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1787,
+                                "start" : 1783
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of sample entries",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1791,
+                                "start" : 1787
+                              },
+                              "name" : "entries[0].byte_length",
+                              "summary" : "Sample entry byte length",
+                              "value" : "195"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1795,
+                                "start" : 1791
+                              },
+                              "name" : "entries[0].format",
+                              "summary" : "Sample entry format",
+                              "value" : "avc1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1803,
+                                "start" : 1801
+                              },
+                              "name" : "entries[0].data_reference_index",
+                              "summary" : "Data reference index",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1821,
+                                "start" : 1819
+                              },
+                              "name" : "entries[0].width",
+                              "summary" : "Visual sample width",
+                              "value" : "1280"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1823,
+                                "start" : 1821
+                              },
+                              "name" : "entries[0].height",
+                              "summary" : "Visual sample height",
+                              "value" : "720"
+                            }
+                          ],
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 203,
+                            "total" : 211
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "stts",
+                          "metadata" : {
+                            "name" : "(decoding) Time-to-sample",
+                            "specification" : "ISO",
+                            "summary" : "(decoding) time-to-sample"
+                          },
+                          "offsets" : {
+                            "end" : 2006,
+                            "payloadEnd" : 2006,
+                            "payloadStart" : 1990,
+                            "start" : 1982
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 16,
+                            "total" : 24
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "ctts",
+                          "metadata" : {
+                            "name" : "(composition) Time To Sample",
+                            "specification" : "ISO",
+                            "summary" : "(composition) time to sample"
+                          },
+                          "offsets" : {
+                            "end" : 2630,
+                            "payloadEnd" : 2630,
+                            "payloadStart" : 2014,
+                            "start" : 2006
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 616,
+                            "total" : 624
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "stss",
+                          "metadata" : {
+                            "name" : "Sync Sample Table (random Access Points)",
+                            "specification" : "ISO",
+                            "summary" : "sync sample table (random access points)"
+                          },
+                          "offsets" : {
+                            "end" : 2650,
+                            "payloadEnd" : 2650,
+                            "payloadStart" : 2638,
+                            "start" : 2630
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 12,
+                            "total" : 20
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "stsc",
+                          "metadata" : {
+                            "name" : "Sample-to-chunk, Partial Data-offset Information",
+                            "specification" : "ISO",
+                            "summary" : "sample-to-chunk, partial data-offset information"
+                          },
+                          "offsets" : {
+                            "end" : 2702,
+                            "payloadEnd" : 2702,
+                            "payloadStart" : 2658,
+                            "start" : 2650
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 44,
+                            "total" : 52
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "stsz",
+                          "metadata" : {
+                            "name" : "Sample Sizes (framing)",
+                            "specification" : "ISO",
+                            "summary" : "sample sizes (framing)"
+                          },
+                          "offsets" : {
+                            "end" : 3050,
+                            "payloadEnd" : 3050,
+                            "payloadStart" : 2710,
+                            "start" : 2702
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 340,
+                            "total" : 348
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        },
+                        {
+                          "children" : [
+
+                          ],
+                          "fourcc" : "stco",
+                          "metadata" : {
+                            "name" : "Chunk Offset, Partial Data-offset Information",
+                            "specification" : "ISO",
+                            "summary" : "chunk offset, partial data-offset information"
+                          },
+                          "offsets" : {
+                            "end" : 3230,
+                            "payloadEnd" : 3230,
+                            "payloadStart" : 3058,
+                            "start" : 3050
+                          },
+                          "sizes" : {
+                            "header" : 8,
+                            "payload" : 172,
+                            "total" : 180
+                          },
+                          "validationIssues" : [
+
+                          ]
+                        }
+                      ],
+                      "fourcc" : "stbl",
+                      "metadata" : {
+                        "name" : "Sample Table Box, Container For The Time\/space Map",
+                        "specification" : "ISO",
+                        "summary" : "sample table box, container for the time\/space map"
+                      },
+                      "offsets" : {
+                        "end" : 3230,
+                        "payloadEnd" : 3230,
+                        "payloadStart" : 1771,
+                        "start" : 1763
+                      },
+                      "sizes" : {
+                        "header" : 8,
+                        "payload" : 1459,
+                        "total" : 1467
+                      },
+                      "validationIssues" : [
+
+                      ]
+                    }
+                  ],
+                  "fourcc" : "minf",
+                  "metadata" : {
+                    "name" : "Media Information Container",
+                    "specification" : "ISO",
+                    "summary" : "media information container"
+                  },
+                  "offsets" : {
+                    "end" : 3230,
+                    "payloadEnd" : 3230,
+                    "payloadStart" : 1707,
+                    "start" : 1699
+                  },
+                  "sizes" : {
+                    "header" : 8,
+                    "payload" : 1523,
+                    "total" : 1531
+                  },
+                  "validationIssues" : [
+
+                  ]
+                }
+              ],
+              "fourcc" : "mdia",
+              "metadata" : {
+                "name" : "Container For The Media Information In A Track",
+                "specification" : "ISO",
+                "summary" : "container for the media information in a track"
+              },
+              "offsets" : {
+                "end" : 3230,
+                "payloadEnd" : 3230,
+                "payloadStart" : 1547,
+                "start" : 1539
+              },
+              "sizes" : {
+                "header" : 8,
+                "payload" : 1683,
+                "total" : 1691
+              },
+              "validationIssues" : [
+
+              ]
+            }
+          ],
+          "fourcc" : "trak",
+          "metadata" : {
+            "name" : "Container For An Individual Track Or Stream",
+            "specification" : "ISO\/IEC 14496-12",
+            "summary" : "Container describing a single track within the presentation."
+          },
+          "offsets" : {
+            "end" : 3230,
+            "payloadEnd" : 3230,
+            "payloadStart" : 1447,
+            "start" : 1439
+          },
+          "sizes" : {
+            "header" : 8,
+            "payload" : 1783,
+            "total" : 1791
+          },
+          "validationIssues" : [
+
+          ]
+        }
+      ],
+      "fourcc" : "moov",
+      "metadata" : {
+        "name" : "Container For All The Meta-data",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Top-level container for movie metadata including tracks and timing information."
+      },
+      "offsets" : {
+        "end" : 3230,
+        "payloadEnd" : 3230,
+        "payloadStart" : 40,
+        "start" : 32
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 3190,
+        "total" : 3198
+      },
+      "validationIssues" : [
+
+      ]
+    },
+    {
+      "children" : [
+
+      ],
+      "fourcc" : "mdat",
+      "metadata" : {
+        "name" : "Media Data Container",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Holds the raw media samples referenced by the track sample tables."
+      },
+      "offsets" : {
+        "end" : 715963,
+        "payloadEnd" : 715963,
+        "payloadStart" : 3238,
+        "start" : 3230
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 712725,
+        "total" : 712733
+      },
+      "validationIssues" : [
+
+      ]
+    }
+  ],
+  "validationIssues" : [
+    {
+      "message" : "tkhd flags mismatch: expected 0x000007 but found 0x000001",
+      "ruleID" : "VR-003",
+      "severity" : "warning"
+    },
+    {
+      "message" : "Unknown box type \u0000\u0000\u0000\u0001 encountered; schedule catalog research.",
+      "ruleID" : "VR-006",
+      "severity" : "info"
+    },
+    {
+      "message" : "tkhd flags mismatch: expected 0x000007 but found 0x000001",
+      "ruleID" : "VR-003",
+      "severity" : "warning"
+    },
+    {
+      "message" : "Unknown box type \u0000\u0000\u0000\u0001 encountered; schedule catalog research.",
+      "ruleID" : "VR-006",
+      "severity" : "info"
+    }
+  ]
+}
