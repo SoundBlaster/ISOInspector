@@ -253,6 +253,38 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertTrue(vr005Issues.isEmpty)
     }
 
+    func testLivePipelineParsesHandlerBoxPayload() async throws {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // pre-defined
+        payload.append(contentsOf: "mdir".utf8) // handler type (metadata)
+        payload.append(contentsOf: Data(count: 12)) // reserved
+        payload.append(contentsOf: "Metadata Handler".utf8)
+        payload.append(0x00) // null terminator
+
+        let hdlr = makeBox(type: "hdlr", payload: payload)
+        let mdia = makeBox(type: "mdia", payload: hdlr)
+        let trak = makeBox(type: ContainerTypes.track, payload: mdia)
+        let moov = makeBox(type: ContainerTypes.movie, payload: trak)
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let handlerEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "hdlr"
+            }
+            return false
+        })
+
+        let parsed = try XCTUnwrap(handlerEvent.payload)
+        XCTAssertEqual(parsed.fields.first { $0.name == "handler_type" }?.value, "mdir")
+        XCTAssertEqual(parsed.fields.first { $0.name == "handler_category" }?.value, "Metadata")
+        XCTAssertEqual(parsed.fields.first { $0.name == "handler_name" }?.value, "Metadata Handler")
+    }
+
     private func collectEvents(from stream: ParsePipeline.EventStream) async throws -> [ParseEvent] {
         var result: [ParseEvent] = []
         for try await event in stream {

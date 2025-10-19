@@ -210,6 +210,55 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.highlightedRange, annotationB.byteRange)
     }
 
+    func testHandlerPayloadDerivesAnnotationsForDetailView() async throws {
+        let header = makeHeader(identifier: 3, type: "hdlr", payloadLength: 32)
+        let payload = ParsedBoxPayload(fields: [
+            ParsedBoxPayload.Field(
+                name: "handler_type",
+                value: "vide",
+                description: "Handler type",
+                byteRange: (header.payloadRange.lowerBound + 8)..<(header.payloadRange.lowerBound + 12)
+            ),
+            ParsedBoxPayload.Field(
+                name: "handler_category",
+                value: "Video",
+                description: "Handler category"
+            ),
+            ParsedBoxPayload.Field(
+                name: "handler_name",
+                value: "Video Handler",
+                description: "Handler display name",
+                byteRange: (header.payloadRange.lowerBound + 20)..<(header.payloadRange.lowerBound + 32)
+            )
+        ])
+
+        let node = ParseTreeNode(
+            header: header,
+            metadata: nil,
+            payload: payload,
+            validationIssues: [],
+            children: []
+        )
+
+        let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [], lastUpdatedAt: Date())
+        let subject = PassthroughSubject<ParseTreeSnapshot, Never>()
+        let provider = HexSliceProviderStub(result: HexSlice(offset: header.payloadRange.lowerBound, bytes: Data()))
+        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: provider, annotationProvider: nil, windowSize: 32)
+
+        viewModel.bind(to: subject.eraseToAnyPublisher())
+        subject.send(snapshot)
+        await Task.yield()
+
+        viewModel.select(nodeID: node.id)
+        try await Task.sleep(nanoseconds: 20_000_000)
+
+        XCTAssertEqual(viewModel.annotations.count, 2)
+        let labels = Set(viewModel.annotations.map(\.label))
+        XCTAssertTrue(labels.contains("handler_type"))
+        XCTAssertTrue(labels.contains("handler_name"))
+        XCTAssertEqual(viewModel.annotations.first { $0.label == "handler_name" }?.value, "Video Handler")
+    }
+
     // MARK: - Helpers
 
     private func makeHeader(identifier: Int64, type: String, payloadLength: Int64) -> BoxHeader {
