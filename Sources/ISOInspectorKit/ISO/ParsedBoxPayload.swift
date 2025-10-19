@@ -4,6 +4,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
     public enum Detail: Equatable, Sendable {
         case fileType(FileTypeBox)
         case movieHeader(MovieHeaderBox)
+        case sampleToChunk(SampleToChunkBox)
     }
 
     public struct FileTypeBox: Equatable, Sendable {
@@ -79,6 +80,37 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         }
     }
 
+    public struct SampleToChunkBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public let firstChunk: UInt32
+            public let samplesPerChunk: UInt32
+            public let sampleDescriptionIndex: UInt32
+            public let byteRange: Range<Int64>
+
+            public init(
+                firstChunk: UInt32,
+                samplesPerChunk: UInt32,
+                sampleDescriptionIndex: UInt32,
+                byteRange: Range<Int64>
+            ) {
+                self.firstChunk = firstChunk
+                self.samplesPerChunk = samplesPerChunk
+                self.sampleDescriptionIndex = sampleDescriptionIndex
+                self.byteRange = byteRange
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let entries: [Entry]
+
+        public init(version: UInt8, flags: UInt32, entries: [Entry]) {
+            self.version = version
+            self.flags = flags
+            self.entries = entries
+        }
+    }
+
     public struct Field: Equatable, Sendable {
         public let name: String
         public let value: String
@@ -117,6 +149,11 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var movieHeader: MovieHeaderBox? {
         guard case let .movieHeader(box) = detail else { return nil }
+        return box
+    }
+
+    public var sampleToChunk: SampleToChunkBox? {
+        guard case let .sampleToChunk(box) = detail else { return nil }
         return box
     }
 }

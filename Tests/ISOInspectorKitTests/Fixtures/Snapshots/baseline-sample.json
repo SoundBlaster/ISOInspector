@@ -926,10 +926,551 @@
                             "payloadStart" : 587,
                             "start" : 579
                           },
+                          "payload" : [
+                            {
+                              "byteRange" : {
+                                "end" : 588,
+                                "start" : 587
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 591,
+                                "start" : 588
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 595,
+                                "start" : 591
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of sample-to-chunk table entries",
+                              "value" : "14"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 599,
+                                "start" : 595
+                              },
+                              "name" : "entries[0].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 603,
+                                "start" : 599
+                              },
+                              "name" : "entries[0].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "5"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 607,
+                                "start" : 603
+                              },
+                              "name" : "entries[0].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 611,
+                                "start" : 607
+                              },
+                              "name" : "entries[1].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 615,
+                                "start" : 611
+                              },
+                              "name" : "entries[1].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "4"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 619,
+                                "start" : 615
+                              },
+                              "name" : "entries[1].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 623,
+                                "start" : 619
+                              },
+                              "name" : "entries[2].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "3"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 627,
+                                "start" : 623
+                              },
+                              "name" : "entries[2].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "3"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 631,
+                                "start" : 627
+                              },
+                              "name" : "entries[2].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 635,
+                                "start" : 631
+                              },
+                              "name" : "entries[3].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "4"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 639,
+                                "start" : 635
+                              },
+                              "name" : "entries[3].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 643,
+                                "start" : 639
+                              },
+                              "name" : "entries[3].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 647,
+                                "start" : 643
+                              },
+                              "name" : "entries[4].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "5"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 651,
+                                "start" : 647
+                              },
+                              "name" : "entries[4].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "3"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 655,
+                                "start" : 651
+                              },
+                              "name" : "entries[4].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 659,
+                                "start" : 655
+                              },
+                              "name" : "entries[5].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "12"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 663,
+                                "start" : 659
+                              },
+                              "name" : "entries[5].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 667,
+                                "start" : 663
+                              },
+                              "name" : "entries[5].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 671,
+                                "start" : 667
+                              },
+                              "name" : "entries[6].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "13"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 675,
+                                "start" : 671
+                              },
+                              "name" : "entries[6].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "3"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 679,
+                                "start" : 675
+                              },
+                              "name" : "entries[6].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 683,
+                                "start" : 679
+                              },
+                              "name" : "entries[7].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "20"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 687,
+                                "start" : 683
+                              },
+                              "name" : "entries[7].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 691,
+                                "start" : 687
+                              },
+                              "name" : "entries[7].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 695,
+                                "start" : 691
+                              },
+                              "name" : "entries[8].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "21"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 699,
+                                "start" : 695
+                              },
+                              "name" : "entries[8].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "3"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 703,
+                                "start" : 699
+                              },
+                              "name" : "entries[8].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 707,
+                                "start" : 703
+                              },
+                              "name" : "entries[9].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "28"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 711,
+                                "start" : 707
+                              },
+                              "name" : "entries[9].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 715,
+                                "start" : 711
+                              },
+                              "name" : "entries[9].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 719,
+                                "start" : 715
+                              },
+                              "name" : "entries[10].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "29"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 723,
+                                "start" : 719
+                              },
+                              "name" : "entries[10].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "3"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 727,
+                                "start" : 723
+                              },
+                              "name" : "entries[10].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 731,
+                                "start" : 727
+                              },
+                              "name" : "entries[11].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "36"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 735,
+                                "start" : 731
+                              },
+                              "name" : "entries[11].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 739,
+                                "start" : 735
+                              },
+                              "name" : "entries[11].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 743,
+                                "start" : 739
+                              },
+                              "name" : "entries[12].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "37"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 747,
+                                "start" : 743
+                              },
+                              "name" : "entries[12].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "3"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 751,
+                                "start" : 747
+                              },
+                              "name" : "entries[12].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 755,
+                                "start" : 751
+                              },
+                              "name" : "entries[13].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "41"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 759,
+                                "start" : 755
+                              },
+                              "name" : "entries[13].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 763,
+                                "start" : 759
+                              },
+                              "name" : "entries[13].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            }
+                          ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 176,
                             "total" : 184
+                          },
+                          "structured" : {
+                            "sample_to_chunk" : {
+                              "entries" : [
+                                {
+                                  "byte_range" : {
+                                    "end" : 607,
+                                    "start" : 595
+                                  },
+                                  "first_chunk" : 1,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 5
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 619,
+                                    "start" : 607
+                                  },
+                                  "first_chunk" : 2,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 4
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 631,
+                                    "start" : 619
+                                  },
+                                  "first_chunk" : 3,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 3
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 643,
+                                    "start" : 631
+                                  },
+                                  "first_chunk" : 4,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 2
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 655,
+                                    "start" : 643
+                                  },
+                                  "first_chunk" : 5,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 3
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 667,
+                                    "start" : 655
+                                  },
+                                  "first_chunk" : 12,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 2
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 679,
+                                    "start" : 667
+                                  },
+                                  "first_chunk" : 13,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 3
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 691,
+                                    "start" : 679
+                                  },
+                                  "first_chunk" : 20,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 2
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 703,
+                                    "start" : 691
+                                  },
+                                  "first_chunk" : 21,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 3
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 715,
+                                    "start" : 703
+                                  },
+                                  "first_chunk" : 28,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 2
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 727,
+                                    "start" : 715
+                                  },
+                                  "first_chunk" : 29,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 3
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 739,
+                                    "start" : 727
+                                  },
+                                  "first_chunk" : 36,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 2
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 751,
+                                    "start" : 739
+                                  },
+                                  "first_chunk" : 37,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 3
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 763,
+                                    "start" : 751
+                                  },
+                                  "first_chunk" : 41,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 1
+                                }
+                              ],
+                              "flags" : 0,
+                              "version" : 0
+                            }
                           },
                           "validationIssues" : [
 
@@ -1739,10 +2280,155 @@
                             "payloadStart" : 2658,
                             "start" : 2650
                           },
+                          "payload" : [
+                            {
+                              "byteRange" : {
+                                "end" : 2659,
+                                "start" : 2658
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2662,
+                                "start" : 2659
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2666,
+                                "start" : 2662
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of sample-to-chunk table entries",
+                              "value" : "3"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2670,
+                                "start" : 2666
+                              },
+                              "name" : "entries[0].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2674,
+                                "start" : 2670
+                              },
+                              "name" : "entries[0].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "3"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2678,
+                                "start" : 2674
+                              },
+                              "name" : "entries[0].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2682,
+                                "start" : 2678
+                              },
+                              "name" : "entries[1].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2686,
+                                "start" : 2682
+                              },
+                              "name" : "entries[1].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2690,
+                                "start" : 2686
+                              },
+                              "name" : "entries[1].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2694,
+                                "start" : 2690
+                              },
+                              "name" : "entries[2].first_chunk",
+                              "summary" : "1-based index of the first chunk for this entry",
+                              "value" : "41"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2698,
+                                "start" : 2694
+                              },
+                              "name" : "entries[2].samples_per_chunk",
+                              "summary" : "Number of samples in each chunk",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2702,
+                                "start" : 2698
+                              },
+                              "name" : "entries[2].sample_description_index",
+                              "summary" : "Index into the sample description table",
+                              "value" : "1"
+                            }
+                          ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 44,
                             "total" : 52
+                          },
+                          "structured" : {
+                            "sample_to_chunk" : {
+                              "entries" : [
+                                {
+                                  "byte_range" : {
+                                    "end" : 2678,
+                                    "start" : 2666
+                                  },
+                                  "first_chunk" : 1,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 3
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2690,
+                                    "start" : 2678
+                                  },
+                                  "first_chunk" : 2,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 2
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2702,
+                                    "start" : 2690
+                                  },
+                                  "first_chunk" : 41,
+                                  "sample_description_index" : 1,
+                                  "samples_per_chunk" : 1
+                                }
+                              ],
+                              "flags" : 0,
+                              "version" : 0
+                            }
                           },
                           "validationIssues" : [
 

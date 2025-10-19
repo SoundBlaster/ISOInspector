@@ -50,7 +50,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **In Progress:** Monitor upcoming codec payload additions (e.g., Dolby Vision descriptors, extended audio profiles) so `BoxParserRegistry` keeps pace with new fixtures. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md` for scope and success criteria.
 
-> **Now In Progress:** Task C8 — Implement the `stsc` sample-to-chunk parser to unlock downstream sample table decoding. Track active requirements in `DOCS/INPROGRESS/C8_stsc_Sample_To_Chunk_Parser.md`.
+> **Completed:** Task C8 — Implemented the `stsc` sample-to-chunk parser so sample table metadata flows into UI/CLI surfaces. See `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md` for implementation notes and follow-ups.
 
 ## Phase D — CLI Interface
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
