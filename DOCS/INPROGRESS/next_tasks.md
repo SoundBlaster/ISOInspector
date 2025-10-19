@@ -1,5 +1,9 @@
 # Next Tasks
 
+## ✅ In Progress
+
+- ⏳ Task H3 — Capture JSON export snapshot tests for representative fixtures. See `DOCS/INPROGRESS/H3_JSON_Export_Snapshot_Tests.md` for the active PRD outline.
+
 ## 🎯 Upcoming Parser Enhancements
 
 - [ ] Extend the `stsd` sample description parser with codec-specific field extraction (e.g., `avcC`, `hvcC`, encrypted variants) once future tasks define the required metadata surface.
