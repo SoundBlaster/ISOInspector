@@ -4,6 +4,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
     public enum Detail: Equatable, Sendable {
         case fileType(FileTypeBox)
         case movieHeader(MovieHeaderBox)
+        case trackHeader(TrackHeaderBox)
         case sampleToChunk(SampleToChunkBox)
     }
 
@@ -19,30 +20,31 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         }
     }
 
-    public struct MovieHeaderBox: Equatable, Sendable {
-        public struct TransformationMatrix: Equatable, Sendable {
-            public let a: Double
-            public let b: Double
-            public let u: Double
-            public let c: Double
-            public let d: Double
-            public let v: Double
-            public let x: Double
-            public let y: Double
-            public let w: Double
+    public struct TransformationMatrix: Equatable, Sendable {
+        public let a: Double
+        public let b: Double
+        public let u: Double
+        public let c: Double
+        public let d: Double
+        public let v: Double
+        public let x: Double
+        public let y: Double
+        public let w: Double
 
-            public static let identity = TransformationMatrix(
-                a: 1.0,
-                b: 0.0,
-                u: 0.0,
-                c: 0.0,
-                d: 1.0,
-                v: 0.0,
-                x: 0.0,
-                y: 0.0,
-                w: 1.0
-            )
-        }
+        public static let identity = TransformationMatrix(
+            a: 1.0,
+            b: 0.0,
+            u: 0.0,
+            c: 0.0,
+            d: 1.0,
+            v: 0.0,
+            x: 0.0,
+            y: 0.0,
+            w: 1.0
+        )
+    }
+
+    public struct MovieHeaderBox: Equatable, Sendable {
 
         public let version: UInt8
         public let creationTime: UInt64
@@ -78,6 +80,65 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             self.matrix = matrix
             self.nextTrackID = nextTrackID
         }
+    }
+
+    public struct TrackHeaderBox: Equatable, Sendable {
+        public let version: UInt8
+        public let flags: UInt32
+        public let creationTime: UInt64
+        public let modificationTime: UInt64
+        public let trackID: UInt32
+        public let duration: UInt64
+        public let durationIs64Bit: Bool
+        public let layer: Int16
+        public let alternateGroup: Int16
+        public let volume: Double
+        public let matrix: TransformationMatrix
+        public let width: Double
+        public let height: Double
+        public let isEnabled: Bool
+        public let isInMovie: Bool
+        public let isInPreview: Bool
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            creationTime: UInt64,
+            modificationTime: UInt64,
+            trackID: UInt32,
+            duration: UInt64,
+            durationIs64Bit: Bool,
+            layer: Int16,
+            alternateGroup: Int16,
+            volume: Double,
+            matrix: TransformationMatrix,
+            width: Double,
+            height: Double,
+            isEnabled: Bool,
+            isInMovie: Bool,
+            isInPreview: Bool
+        ) {
+            self.version = version
+            self.flags = flags
+            self.creationTime = creationTime
+            self.modificationTime = modificationTime
+            self.trackID = trackID
+            self.duration = duration
+            self.durationIs64Bit = durationIs64Bit
+            self.layer = layer
+            self.alternateGroup = alternateGroup
+            self.volume = volume
+            self.matrix = matrix
+            self.width = width
+            self.height = height
+            self.isEnabled = isEnabled
+            self.isInMovie = isInMovie
+            self.isInPreview = isInPreview
+        }
+
+        public var isZeroSized: Bool { width == 0.0 || height == 0.0 }
+
+        public var isZeroDuration: Bool { duration == 0 }
     }
 
     public struct SampleToChunkBox: Equatable, Sendable {
@@ -149,6 +210,11 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var movieHeader: MovieHeaderBox? {
         guard case let .movieHeader(box) = detail else { return nil }
+        return box
+    }
+
+    public var trackHeader: TrackHeaderBox? {
+        guard case let .trackHeader(box) = detail else { return nil }
         return box
     }
 

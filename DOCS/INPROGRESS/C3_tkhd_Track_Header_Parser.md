@@ -14,7 +14,9 @@ Implement a parser for the `tkhd` (track header) box that extracts flag-dependen
 - Support both version 0 and 1 layouts, honoring flag-driven optional fields (e.g., `duration` and `alternate_group`).
 - Decode track and movie times (`creation_time`, `modification_time`, `track_id`, `duration`) using the correct bit widths per version.
 - Parse layer, alternate group, volume, and 3x3 transformation matrix values with fixed-point conversion consistent with
+
   PRD specifications.
+
 - Expose width and height fields as 16.16 fixed-point dimensions and flag zero-sized tracks for validation follow-up.
 - Add unit tests covering standard video and audio fixtures, including disabled tracks and zero-duration edge cases.
 
@@ -32,3 +34,10 @@ Implement a parser for the `tkhd` (track header) box that extracts flag-dependen
 - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES`](../RULES)
 - Archived context in [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+
+## ✅ Status
+
+- The `tkhd` parser now decodes versioned timeline fields, layer/group metadata, fixed-point transformation matrices, and presentation dimensions with derived flag states for enabled/in-movie/preview.
+- `ParsedBoxPayload` exposes a dedicated `TrackHeaderBox` detail that surfaces into JSON exports and UI consumers, with baseline fixtures updated to include the new structured data.
+- Regression coverage includes synthetic version 0/1 cases, disabled/zero-duration handling, and fixture-driven
+  assertions for both audio and video tracks.

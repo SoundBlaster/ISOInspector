@@ -405,25 +405,235 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(parsed.fields.first?.value, "cust")
     }
 
-    func testDefaultRegistryParsesTrackHeaderVersion1Box() throws {
+    func testTrackHeaderParserParsesVersion0Box() throws {
+        let headerAndReader = try makeTrackHeaderFixture(
+            version: 0,
+            flags: 0x000001,
+            creationTime: 1,
+            modificationTime: 2,
+            trackID: 3,
+            duration: 540,
+            matrix: .identity,
+            width: 1280,
+            height: 720,
+            volumeRaw: 0x0100
+        )
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(
+            header: headerAndReader.header,
+            reader: headerAndReader.reader
+        ))
+
+        XCTAssertEqual(value(named: "version", in: parsed), "0")
+        XCTAssertEqual(value(named: "flags", in: parsed), "0x000001")
+        XCTAssertEqual(value(named: "creation_time", in: parsed), "1")
+        XCTAssertEqual(value(named: "modification_time", in: parsed), "2")
+        XCTAssertEqual(value(named: "track_id", in: parsed), "3")
+        XCTAssertEqual(value(named: "duration", in: parsed), "540")
+        XCTAssertEqual(value(named: "volume", in: parsed), "1.00")
+        XCTAssertEqual(value(named: "is_enabled", in: parsed), "true")
+        XCTAssertEqual(value(named: "is_in_movie", in: parsed), "false")
+        XCTAssertEqual(value(named: "is_in_preview", in: parsed), "false")
+        XCTAssertEqual(value(named: "matrix.a", in: parsed), "1.0000")
+        XCTAssertEqual(value(named: "matrix.d", in: parsed), "1.0000")
+        XCTAssertEqual(value(named: "matrix.w", in: parsed), "1.000000")
+        XCTAssertEqual(value(named: "width", in: parsed), "1280.00")
+        XCTAssertEqual(value(named: "height", in: parsed), "720.00")
+
+        let detail = try XCTUnwrap(parsed.trackHeader)
+        XCTAssertEqual(detail.version, 0)
+        XCTAssertEqual(detail.flags, 0x000001)
+        XCTAssertEqual(detail.trackID, 3)
+        XCTAssertEqual(detail.creationTime, 1)
+        XCTAssertEqual(detail.modificationTime, 2)
+        XCTAssertEqual(detail.duration, 540)
+        XCTAssertFalse(detail.durationIs64Bit)
+        XCTAssertEqual(detail.layer, 0)
+        XCTAssertEqual(detail.alternateGroup, 0)
+        XCTAssertEqual(detail.volume, 1.0, accuracy: 0.0001)
+        XCTAssertTrue(detail.isEnabled)
+        XCTAssertFalse(detail.isInMovie)
+        XCTAssertFalse(detail.isInPreview)
+        XCTAssertEqual(detail.matrix, .identity)
+        XCTAssertEqual(detail.width, 1280.0, accuracy: 0.0001)
+        XCTAssertEqual(detail.height, 720.0, accuracy: 0.0001)
+    }
+
+    func testTrackHeaderParserParsesVersion1Box() throws {
+        let matrix = ParsedBoxPayload.TransformationMatrix(
+            a: 2.0,
+            b: -1.0,
+            u: 0.5,
+            c: 0.5,
+            d: 1.0,
+            v: -0.5,
+            x: 0.0,
+            y: 1.0,
+            w: 1.0
+        )
+
+        let headerAndReader = try makeTrackHeaderFixture(
+            version: 1,
+            flags: 0x000007,
+            creationTime: 10,
+            modificationTime: 11,
+            trackID: 12,
+            duration: 900,
+            matrix: matrix,
+            width: 1920,
+            height: 1080,
+            volumeRaw: 0x0100,
+            layer: 1,
+            alternateGroup: 2
+        )
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(
+            header: headerAndReader.header,
+            reader: headerAndReader.reader
+        ))
+
+        XCTAssertEqual(value(named: "version", in: parsed), "1")
+        XCTAssertEqual(value(named: "flags", in: parsed), "0x000007")
+        XCTAssertEqual(value(named: "track_id", in: parsed), "12")
+        XCTAssertEqual(value(named: "duration", in: parsed), "900")
+        XCTAssertEqual(value(named: "matrix.a", in: parsed), "2.0000")
+        XCTAssertEqual(value(named: "matrix.b", in: parsed), "-1.0000")
+        XCTAssertEqual(value(named: "matrix.u", in: parsed), "0.500000")
+        XCTAssertEqual(value(named: "matrix.v", in: parsed), "-0.500000")
+        XCTAssertEqual(value(named: "width", in: parsed), "1920.00")
+        XCTAssertEqual(value(named: "height", in: parsed), "1080.00")
+        XCTAssertEqual(value(named: "layer", in: parsed), "1")
+        XCTAssertEqual(value(named: "alternate_group", in: parsed), "2")
+        XCTAssertEqual(value(named: "is_enabled", in: parsed), "true")
+        XCTAssertEqual(value(named: "is_in_movie", in: parsed), "true")
+        XCTAssertEqual(value(named: "is_in_preview", in: parsed), "true")
+
+        let detail = try XCTUnwrap(parsed.trackHeader)
+        XCTAssertEqual(detail.version, 1)
+        XCTAssertEqual(detail.flags, 0x000007)
+        XCTAssertEqual(detail.creationTime, 10)
+        XCTAssertEqual(detail.modificationTime, 11)
+        XCTAssertEqual(detail.trackID, 12)
+        XCTAssertEqual(detail.duration, 900)
+        XCTAssertTrue(detail.durationIs64Bit)
+        XCTAssertEqual(detail.layer, 1)
+        XCTAssertEqual(detail.alternateGroup, 2)
+        XCTAssertEqual(detail.volume, 1.0, accuracy: 0.0001)
+        XCTAssertTrue(detail.isEnabled)
+        XCTAssertTrue(detail.isInMovie)
+        XCTAssertTrue(detail.isInPreview)
+        XCTAssertEqual(detail.matrix.a, 2.0, accuracy: 0.0001)
+        XCTAssertEqual(detail.matrix.b, -1.0, accuracy: 0.0001)
+        XCTAssertEqual(detail.matrix.u, 0.5, accuracy: 0.0001)
+        XCTAssertEqual(detail.matrix.c, 0.5, accuracy: 0.0001)
+        XCTAssertEqual(detail.matrix.v, -0.5, accuracy: 0.0001)
+        XCTAssertEqual(detail.width, 1920.0, accuracy: 0.0001)
+        XCTAssertEqual(detail.height, 1080.0, accuracy: 0.0001)
+    }
+
+    func testTrackHeaderParserParsesAudioAndVideoTracksFromBaselineFixture() throws {
+        let catalog = try FixtureCatalog.load()
+        let fixture = try XCTUnwrap(catalog.fixture(withID: "baseline-sample"))
+        let data = try fixture.data(in: .module)
+        let reader = InMemoryRandomAccessReader(data: data)
+        let headers = try trackHeaders(in: reader)
+
+        let audio = try XCTUnwrap(headers.first { $0.trackID == 1 })
+        XCTAssertTrue(audio.isEnabled)
+        XCTAssertFalse(audio.isInMovie)
+        XCTAssertFalse(audio.isInPreview)
+        XCTAssertEqual(audio.volume, 1.0, accuracy: 0.0001)
+        XCTAssertEqual(audio.width, 0.0, accuracy: 0.0001)
+        XCTAssertEqual(audio.height, 0.0, accuracy: 0.0001)
+
+        let video = try XCTUnwrap(headers.first { $0.trackID == 2 })
+        XCTAssertTrue(video.isEnabled)
+        XCTAssertFalse(video.isInMovie)
+        XCTAssertFalse(video.isInPreview)
+        XCTAssertEqual(video.volume, 0.0, accuracy: 0.0001)
+        XCTAssertEqual(video.width, 1280.0, accuracy: 0.0001)
+        XCTAssertEqual(video.height, 720.0, accuracy: 0.0001)
+        XCTAssertFalse(video.isZeroSized)
+    }
+
+    func testTrackHeaderParserHandlesDisabledZeroDurationTrack() throws {
+        let headerAndReader = try makeTrackHeaderFixture(
+            version: 0,
+            flags: 0x000000,
+            creationTime: 0,
+            modificationTime: 0,
+            trackID: 33,
+            duration: 0,
+            matrix: .identity,
+            width: 0,
+            height: 0,
+            volumeRaw: 0x0000
+        )
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(
+            header: headerAndReader.header,
+            reader: headerAndReader.reader
+        ))
+
+        let detail = try XCTUnwrap(parsed.trackHeader)
+        XCTAssertFalse(detail.isEnabled)
+        XCTAssertFalse(detail.isInMovie)
+        XCTAssertFalse(detail.isInPreview)
+        XCTAssertEqual(detail.duration, 0)
+        XCTAssertTrue(detail.isZeroDuration)
+        XCTAssertTrue(detail.isZeroSized)
+    }
+
+    private func makeTrackHeaderFixture(
+        version: UInt8,
+        flags: UInt32,
+        creationTime: UInt64,
+        modificationTime: UInt64,
+        trackID: UInt32,
+        duration: UInt64,
+        matrix: ParsedBoxPayload.TransformationMatrix,
+        width: UInt32,
+        height: UInt32,
+        volumeRaw: UInt16,
+        layer: Int16 = 0,
+        alternateGroup: Int16 = 0
+    ) throws -> (header: BoxHeader, reader: InMemoryRandomAccessReader) {
+        precondition(version == 0 || version == 1, "Unsupported version")
+
         var payload = Data()
-        payload.append(0x01) // version 1
-        payload.append(contentsOf: [0x00, 0x00, 0x05]) // flags
-        payload.append(contentsOf: UInt64(10).bigEndianBytes) // creation
-        payload.append(contentsOf: UInt64(11).bigEndianBytes) // modification
-        payload.append(contentsOf: UInt32(12).bigEndianBytes) // track id
+        payload.append(version)
+        payload.append(contentsOf: [UInt8((flags >> 16) & 0xFF), UInt8((flags >> 8) & 0xFF), UInt8(flags & 0xFF)])
+
+        if version == 1 {
+            payload.append(contentsOf: creationTime.bigEndianBytes)
+            payload.append(contentsOf: modificationTime.bigEndianBytes)
+        } else {
+            payload.append(contentsOf: UInt32(creationTime).bigEndianBytes)
+            payload.append(contentsOf: UInt32(modificationTime).bigEndianBytes)
+        }
+
+        payload.append(contentsOf: trackID.bigEndianBytes)
         payload.append(contentsOf: UInt32(0).bigEndianBytes) // reserved
-        payload.append(contentsOf: UInt64(900).bigEndianBytes) // duration
-        payload.append(contentsOf: Data(count: 8)) // reserved
-        payload.append(contentsOf: Int16(0).bigEndianBytes) // layer
-        payload.append(contentsOf: Int16(2).bigEndianBytes) // alternate group
-        payload.append(contentsOf: UInt16(0x0100).bigEndianBytes) // volume 1.0
-        payload.append(contentsOf: Data(count: 2)) // reserved
-        payload.append(contentsOf: Data(count: 36)) // matrix
-        payload.append(contentsOf: Data(count: 24)) // predefined
-        payload.append(contentsOf: UInt32(42).bigEndianBytes) // next track id
-        payload.append(contentsOf: UInt32(1920 << 16).bigEndianBytes) // width 1920
-        payload.append(contentsOf: UInt32(1080 << 16).bigEndianBytes) // height 1080
+
+        if version == 1 {
+            payload.append(contentsOf: duration.bigEndianBytes)
+        } else {
+            payload.append(contentsOf: UInt32(duration).bigEndianBytes)
+        }
+
+        payload.append(contentsOf: UInt32(0).bigEndianBytes)
+        payload.append(contentsOf: UInt32(0).bigEndianBytes)
+
+        payload.append(contentsOf: layer.bigEndianBytes)
+        payload.append(contentsOf: alternateGroup.bigEndianBytes)
+        payload.append(contentsOf: volumeRaw.bigEndianBytes)
+        payload.append(contentsOf: UInt16(0).bigEndianBytes) // reserved
+
+        let matrixRaw = matrix.fixedPointRepresentation()
+        payload.append(contentsOf: matrixRaw.flatMap { $0.bigEndianBytes })
+
+        payload.append(contentsOf: UInt32(width << 16).bigEndianBytes)
+        payload.append(contentsOf: UInt32(height << 16).bigEndianBytes)
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
@@ -437,18 +647,26 @@ final class BoxParserRegistryTests: XCTestCase {
 
         var data = Data(count: totalSize)
         data.replaceSubrange(8..<totalSize, with: payload)
-        let reader = InMemoryRandomAccessReader(data: data)
+        return (header, InMemoryRandomAccessReader(data: data))
+    }
 
-        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
-
-        XCTAssertEqual(value(named: "version", in: parsed), "1")
-        XCTAssertEqual(value(named: "track_id", in: parsed), "12")
-        XCTAssertEqual(value(named: "duration", in: parsed), "900")
-        XCTAssertEqual(value(named: "alternate_group", in: parsed), "2")
-        XCTAssertEqual(value(named: "volume", in: parsed), "1.00")
-        XCTAssertEqual(value(named: "next_track_ID", in: parsed), "42")
-        XCTAssertEqual(value(named: "width", in: parsed), "1920.00")
-        XCTAssertEqual(value(named: "height", in: parsed), "1080.00")
+    private func trackHeaders(in reader: InMemoryRandomAccessReader) throws -> [ParsedBoxPayload.TrackHeaderBox] {
+        let walker = StreamingBoxWalker()
+        var headers: [ParsedBoxPayload.TrackHeaderBox] = []
+        try walker.walk(
+            reader: reader,
+            cancellationCheck: {},
+            onEvent: { event in
+                guard case let .willStartBox(header, _) = event.kind else { return }
+                guard header.type.rawValue == "tkhd" else { return }
+                if let payload = try? BoxParserRegistry.shared.parse(header: header, reader: reader),
+                   let detail = payload.trackHeader {
+                    headers.append(detail)
+                }
+            },
+            onFinish: {}
+        )
+        return headers
     }
 
     private func languageBytes(_ code: String) -> [UInt8] {
@@ -466,5 +684,21 @@ final class BoxParserRegistryTests: XCTestCase {
 private extension FixedWidthInteger {
     var bigEndianBytes: [UInt8] {
         withUnsafeBytes(of: self.bigEndian, Array.init)
+    }
+}
+
+private extension ParsedBoxPayload.TransformationMatrix {
+    func fixedPointRepresentation() -> [Int32] {
+        [
+            Int32((a * 65536.0).rounded()),
+            Int32((b * 65536.0).rounded()),
+            Int32((u * Double(1 << 30)).rounded()),
+            Int32((c * 65536.0).rounded()),
+            Int32((d * 65536.0).rounded()),
+            Int32((v * Double(1 << 30)).rounded()),
+            Int32((x * 65536.0).rounded()),
+            Int32((y * 65536.0).rounded()),
+            Int32((w * Double(1 << 30)).rounded())
+        ]
     }
 }
