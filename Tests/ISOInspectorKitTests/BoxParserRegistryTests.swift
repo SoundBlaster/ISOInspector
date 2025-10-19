@@ -204,6 +204,70 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertNil(try BoxParserRegistry.shared.parse(header: header, reader: reader))
     }
 
+    func testDefaultRegistryParsesHandlerBoxWithNullTerminatedName() throws {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // pre-defined
+        payload.append(contentsOf: "vide".utf8) // handler type
+        payload.append(contentsOf: Data(count: 12)) // reserved
+        payload.append(contentsOf: "Video Handler".utf8)
+        payload.append(0x00) // null terminator
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("hdlr"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        XCTAssertEqual(value(named: "version", in: parsed), "0")
+        XCTAssertEqual(value(named: "flags", in: parsed), "0x000000")
+        XCTAssertEqual(value(named: "pre_defined", in: parsed), "0")
+        XCTAssertEqual(value(named: "handler_type", in: parsed), "vide")
+        XCTAssertEqual(value(named: "handler_category", in: parsed), "Video")
+        XCTAssertEqual(value(named: "handler_name", in: parsed), "Video Handler")
+    }
+
+    func testDefaultRegistryParsesHandlerBoxWithoutTerminator() throws {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // pre-defined
+        payload.append(contentsOf: "soun".utf8) // handler type
+        payload.append(contentsOf: Data(count: 12)) // reserved
+        payload.append(contentsOf: "Sound Handler".utf8)
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("hdlr"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        XCTAssertEqual(value(named: "handler_type", in: parsed), "soun")
+        XCTAssertEqual(value(named: "handler_category", in: parsed), "Audio")
+        XCTAssertEqual(value(named: "handler_name", in: parsed), "Sound Handler")
+    }
+
     func testRegistryAllowsOverrides() throws {
         var registry = BoxParserRegistry()
         let customType = try FourCharCode("cust")

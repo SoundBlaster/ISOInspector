@@ -70,6 +70,9 @@ public struct BoxParserRegistry: Sendable {
             if let mdhd = try? FourCharCode("mdhd") {
                 registry.register(parser: mediaHeader, for: mdhd)
             }
+            if let hdlr = try? FourCharCode("hdlr") {
+                registry.register(parser: handlerReference, for: hdlr)
+            }
         }
 
         static func fileType(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
@@ -542,6 +545,71 @@ public struct BoxParserRegistry: Sendable {
             return fields.isEmpty ? nil : ParsedBoxPayload(fields: fields)
         }
 
+        static func handlerReference(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+            guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            let start = header.payloadRange.lowerBound
+            let end = header.payloadRange.upperBound
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "version",
+                value: String(fullHeader.version),
+                description: "Structure version",
+                byteRange: start..<(start + 1)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "flags",
+                value: String(format: "0x%06X", fullHeader.flags),
+                description: "Bit flags",
+                byteRange: (start + 1)..<(start + 4)
+            ))
+
+            var cursor = fullHeader.contentStart
+
+            guard let preDefined = try readUInt32(reader, at: cursor, end: end) else { return nil }
+            fields.append(ParsedBoxPayload.Field(
+                name: "pre_defined",
+                value: String(preDefined),
+                description: "Reserved value",
+                byteRange: cursor..<(cursor + 4)
+            ))
+            cursor += 4
+
+            let handlerRange = cursor..<(cursor + 4)
+            guard let handlerCode = try readFourCC(reader, at: cursor, end: end) else { return nil }
+            fields.append(ParsedBoxPayload.Field(
+                name: "handler_type",
+                value: handlerCode.rawValue,
+                description: "Handler type identifier",
+                byteRange: handlerRange
+            ))
+            let handler = HandlerType(code: handlerCode)
+            if let category = handler.category {
+                fields.append(ParsedBoxPayload.Field(
+                    name: "handler_category",
+                    value: category.displayName,
+                    description: "Handler role classification"
+                ))
+            }
+            cursor += 4
+
+            let reservedLength: Int64 = 12
+            guard cursor + reservedLength <= end else { return ParsedBoxPayload(fields: fields) }
+            cursor += reservedLength
+
+            let remainingLength = max(0, fullHeader.contentRange.upperBound - cursor)
+            if remainingLength > 0, let remaining = Int(exactly: remainingLength), remaining > 0 {
+                let data = try reader.read(at: cursor, count: remaining)
+                if let nameField = decodeHandlerName(from: data, at: cursor) {
+                    fields.append(nameField)
+                }
+            }
+
+            return ParsedBoxPayload(fields: fields)
+        }
+
         private static func readData(
             _ reader: RandomAccessReader,
             at offset: Int64,
@@ -620,6 +688,25 @@ public struct BoxParserRegistry: Sendable {
             let integer = Int32(bitPattern: value) >> fractionalBits
             let fractional = Double(value & UInt32((1 << fractionalBits) - 1)) / scale
             return String(format: "%.2f", Double(integer) + fractional)
+        }
+
+        private static func decodeHandlerName(from data: Data, at offset: Int64) -> ParsedBoxPayload.Field? {
+            guard !data.isEmpty else { return nil }
+            let nameData: Data
+            if let terminatorIndex = data.firstIndex(of: 0) {
+                nameData = data.prefix(upTo: terminatorIndex)
+            } else {
+                nameData = data
+            }
+            guard !nameData.isEmpty else { return nil }
+            guard let name = String(data: nameData, encoding: .utf8) else { return nil }
+            let nameEnd = offset + Int64(nameData.count)
+            return ParsedBoxPayload.Field(
+                name: "handler_name",
+                value: name,
+                description: "Handler name",
+                byteRange: offset..<nameEnd
+            )
         }
     }
 }

@@ -187,7 +187,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] C2. `mvhd`: timescale, duration(32/64), rate, volume, matrix.
 - [ ] C3. `tkhd`: flags-driven size; track_id; duration; width/height.
 - [x] C4. `mdhd`: creation/modification times, timescale, duration, language. **(Completed — `BoxParserRegistry` now registers the parser; see `DOCS/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/Summary_of_Work.md`.)**
-- [ ] C5. `hdlr`: handler_type, name. **(In Progress — see `DOCS/INPROGRESS/C5_hdlr_Handler_Parser.md`.)**
+- [x] C5. `hdlr`: handler_type, name. **(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)**
 - [ ] C6. `stsd`: entry_count; generic sample_entry header; detect visual/audio entry.
 - [x] C7. Connect persisted bookmark diff entities to resolved bookmark records once reconciliation rules are finalized. _(Completed — see `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/Summary_of_Work.md`.)_
 - [ ] C8. `stsc`: sample-to-chunk entries.

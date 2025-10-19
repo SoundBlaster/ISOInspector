@@ -397,6 +397,50 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
         XCTAssertEqual(errors.value.last, "inspect requires a file path.")
     }
 
+    func testExportJSONIncludesHandlerMetadata() throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+
+        let input = directory.appendingPathComponent("sample.mp4")
+        let output = input
+            .appendingPathExtension("isoinspector")
+            .appendingPathExtension("json")
+        try makeHandlerFixture().write(to: input)
+
+        let printedErrors = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { _ in DataBackedReader(data: try Data(contentsOf: input)) },
+            parsePipeline: .live(),
+            formatter: EventConsoleFormatter(),
+            print: { _ in },
+            printError: { printedErrors.value.append($0) }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "export-json",
+                input.path
+            ],
+            environment: environment
+        )
+
+        XCTAssertTrue(FileManager.default.fileExists(atPath: output.path))
+        XCTAssertTrue(printedErrors.value.isEmpty, "Unexpected CLI errors: \(printedErrors.value)")
+
+        let jsonData = try Data(contentsOf: output)
+        let json = try XCTUnwrap(JSONSerialization.jsonObject(with: jsonData) as? [String: Any])
+        let nodes = try XCTUnwrap(json["nodes"] as? [[String: Any]])
+        let handler = try XCTUnwrap(findNode(named: "hdlr", in: nodes))
+        let payload = try XCTUnwrap(handler["payload"] as? [[String: Any]])
+        let category = try XCTUnwrap(payload.first { ($0["name"] as? String) == "handler_category" })
+        XCTAssertEqual(category["value"] as? String, "Metadata")
+        let handlerName = try XCTUnwrap(payload.first { ($0["name"] as? String) == "handler_name" })
+        XCTAssertEqual(handlerName["value"] as? String, "Metadata Handler")
+    }
+
     func testEnvironmentSupportsParseExporters() async throws {
         let header = try makeHeader(type: "ftyp", size: 24)
         let descriptor = try XCTUnwrap(BoxCatalog.shared.descriptor(for: header))
@@ -452,6 +496,73 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
         func read(at offset: Int64, count: Int) throws -> Data { Data() }
     }
 
+    private struct DataBackedReader: RandomAccessReader {
+        let data: Data
+
+        var length: Int64 { Int64(data.count) }
+
+        func read(at offset: Int64, count: Int) throws -> Data {
+            guard let start = Int(exactly: offset) else {
+                throw RandomAccessReaderError.overflowError
+            }
+            guard count >= 0 else {
+                throw RandomAccessReaderError.boundsError(.invalidCount(count))
+            }
+            guard start >= 0 else {
+                throw RandomAccessReaderError.boundsError(.invalidOffset(offset))
+            }
+            let end = start + count
+            guard end <= data.count else {
+                throw RandomAccessReaderError.boundsError(
+                    .requestedRangeOutOfBounds(offset: offset, count: count)
+                )
+            }
+            return data.subdata(in: start..<end)
+        }
+    }
+
+    private func makeHandlerFixture() -> Data {
+        let ftypPayload = Data("isom".utf8) + Data(repeating: 0, count: 12)
+        let ftyp = makeBox(type: "ftyp", payload: ftypPayload)
+
+        var handlerPayload = Data()
+        handlerPayload.append(0x00) // version
+        handlerPayload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        handlerPayload.append(contentsOf: UInt32(0).bigEndianBytes) // pre-defined
+        handlerPayload.append(contentsOf: "mdir".utf8) // metadata handler
+        handlerPayload.append(contentsOf: Data(count: 12)) // reserved
+        handlerPayload.append(contentsOf: "Metadata Handler".utf8)
+        handlerPayload.append(0x00) // null terminator
+
+        let hdlr = makeBox(type: "hdlr", payload: handlerPayload)
+        let mdia = makeBox(type: "mdia", payload: hdlr)
+        let trak = makeBox(type: "trak", payload: mdia)
+        let moov = makeBox(type: "moov", payload: trak)
+        return ftyp + moov
+    }
+
+    private func makeBox(type: String, payload: Data) -> Data {
+        precondition(type.utf8.count == 4, "Box type must be four characters")
+        var data = Data()
+        let totalSize = 8 + payload.count
+        data.append(contentsOf: UInt32(totalSize).bigEndianBytes)
+        data.append(contentsOf: type.utf8)
+        data.append(payload)
+        return data
+    }
+
+    private func findNode(named fourcc: String, in nodes: [[String: Any]]) -> [String: Any]? {
+        for node in nodes {
+            if node["fourcc"] as? String == fourcc {
+                return node
+            }
+            if let children = node["children"] as? [[String: Any]], let match = findNode(named: fourcc, in: children) {
+                return match
+            }
+        }
+        return nil
+    }
+
     private func makeHeader(type: String, size: Int64) throws -> BoxHeader {
         let fourCC = try FourCharCode(type)
         let range = Int64(0)..<size
@@ -472,5 +583,11 @@ private final class MutableBox<Value>: @unchecked Sendable {
 
     init(_ value: Value) {
         self.value = value
+    }
+}
+
+private extension FixedWidthInteger {
+    var bigEndianBytes: [UInt8] {
+        withUnsafeBytes(of: self.bigEndian, Array.init)
     }
 }
