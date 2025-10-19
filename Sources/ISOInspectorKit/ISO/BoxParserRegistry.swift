@@ -73,7 +73,22 @@ public struct BoxParserRegistry: Sendable {
             if let hdlr = try? FourCharCode("hdlr") {
                 registry.register(parser: handlerReference, for: hdlr)
             }
+            if let stsd = try? FourCharCode("stsd") {
+                registry.register(parser: sampleDescription, for: stsd)
+            }
         }
+
+        private static let visualSampleEntryTypes: Set<FourCharCode> = {
+            let rawValues = ["avc1", "hvc1", "hev1"]
+            let codes = rawValues.compactMap { try? FourCharCode($0) }
+            return Set(codes)
+        }()
+
+        private static let audioSampleEntryTypes: Set<FourCharCode> = {
+            let rawValues = ["mp4a"]
+            let codes = rawValues.compactMap { try? FourCharCode($0) }
+            return Set(codes)
+        }()
 
         static func fileType(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
             let payloadRange = header.payloadRange
@@ -545,6 +560,58 @@ public struct BoxParserRegistry: Sendable {
             return fields.isEmpty ? nil : ParsedBoxPayload(fields: fields)
         }
 
+        static func sampleDescription(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+            guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            let start = header.payloadRange.lowerBound
+            let end = header.payloadRange.upperBound
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "version",
+                value: String(fullHeader.version),
+                description: "Structure version",
+                byteRange: start..<(start + 1)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "flags",
+                value: String(format: "0x%06X", fullHeader.flags),
+                description: "Bit flags",
+                byteRange: (start + 1)..<(start + 4)
+            ))
+
+            var cursor = fullHeader.contentStart
+            guard let entryCount = try readUInt32(reader, at: cursor, end: end) else { return nil }
+            fields.append(ParsedBoxPayload.Field(
+                name: "entry_count",
+                value: String(entryCount),
+                description: "Number of sample entries",
+                byteRange: cursor..<(cursor + 4)
+            ))
+            cursor += 4
+
+            var index: UInt32 = 0
+            while index < entryCount, cursor < end {
+                guard let result = try parseSampleEntry(
+                    reader: reader,
+                    startOffset: cursor,
+                    end: end,
+                    index: Int(index)
+                ) else {
+                    break
+                }
+                fields.append(contentsOf: result.fields)
+                cursor = result.nextOffset
+                if cursor <= result.startOffset {
+                    break
+                }
+                index += 1
+            }
+
+            return ParsedBoxPayload(fields: fields)
+        }
+
         static func handlerReference(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
             guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
@@ -608,6 +675,166 @@ public struct BoxParserRegistry: Sendable {
             }
 
             return ParsedBoxPayload(fields: fields)
+        }
+
+        private struct SampleEntryParseResult {
+            let fields: [ParsedBoxPayload.Field]
+            let nextOffset: Int64
+            let startOffset: Int64
+        }
+
+        private static func parseSampleEntry(
+            reader: RandomAccessReader,
+            startOffset: Int64,
+            end: Int64,
+            index: Int
+        ) throws -> SampleEntryParseResult? {
+            guard startOffset + 8 <= end else { return nil }
+            guard let declaredSize = try readUInt32(reader, at: startOffset, end: end) else { return nil }
+            guard let format = try readFourCC(reader, at: startOffset + 4, end: end) else { return nil }
+
+            let resolvedLength: Int64
+            if declaredSize == 0 {
+                resolvedLength = end - startOffset
+            } else {
+                resolvedLength = Int64(declaredSize)
+            }
+            guard resolvedLength > 0 else { return nil }
+            let endOffsetResult = startOffset.addingReportingOverflow(resolvedLength)
+            guard endOffsetResult.overflow == false else { return nil }
+            let entryEnd = endOffsetResult.partialValue
+            guard entryEnd <= end else { return nil }
+            guard resolvedLength >= 16 else { return nil }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            let recordedLength = declaredSize == 0 ? resolvedLength : Int64(declaredSize)
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(index)].byte_length",
+                value: String(recordedLength),
+                description: "Sample entry byte length",
+                byteRange: startOffset..<(startOffset + 4)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(index)].format",
+                value: format.rawValue,
+                description: "Sample entry format",
+                byteRange: (startOffset + 4)..<(startOffset + 8)
+            ))
+
+            let baseStart = startOffset + 8
+            let dataReferenceOffset = baseStart + 6
+            guard dataReferenceOffset + 2 <= entryEnd else { return nil }
+            guard let dataReferenceIndex = try readUInt16(reader, at: dataReferenceOffset, end: entryEnd) else {
+                return nil
+            }
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(index)].data_reference_index",
+                value: String(dataReferenceIndex),
+                description: "Data reference index",
+                byteRange: dataReferenceOffset..<(dataReferenceOffset + 2)
+            ))
+
+            let contentStart = dataReferenceOffset + 2
+
+            if visualSampleEntryTypes.contains(format) {
+                fields.append(contentsOf: parseVisualSampleEntry(
+                    reader: reader,
+                    contentStart: contentStart,
+                    entryEnd: entryEnd,
+                    index: index
+                ))
+            } else if audioSampleEntryTypes.contains(format) {
+                fields.append(contentsOf: parseAudioSampleEntry(
+                    reader: reader,
+                    contentStart: contentStart,
+                    entryEnd: entryEnd,
+                    index: index
+                ))
+            } else {
+                // @todo PDD:45m Extract codec-specific metadata for additional sample entry types once models for entry payload
+                // boxes (e.g., avcC, hvcC, esds) are available so downstream exports can surface richer annotations.
+            }
+
+            return SampleEntryParseResult(fields: fields, nextOffset: entryEnd, startOffset: startOffset)
+        }
+
+        private static func parseVisualSampleEntry(
+            reader: RandomAccessReader,
+            contentStart: Int64,
+            entryEnd: Int64,
+            index: Int
+        ) -> [ParsedBoxPayload.Field] {
+            var fields: [ParsedBoxPayload.Field] = []
+            let widthOffset = contentStart + 16
+            let heightOffset = widthOffset + 2
+
+            if widthOffset + 2 <= entryEnd,
+               let width = (try? readUInt16(reader, at: widthOffset, end: entryEnd)) ?? nil {
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].width",
+                    value: String(width),
+                    description: "Visual sample width",
+                    byteRange: widthOffset..<(widthOffset + 2)
+                ))
+            }
+
+            if heightOffset + 2 <= entryEnd,
+               let height = (try? readUInt16(reader, at: heightOffset, end: entryEnd)) ?? nil {
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].height",
+                    value: String(height),
+                    description: "Visual sample height",
+                    byteRange: heightOffset..<(heightOffset + 2)
+                ))
+            }
+
+            return fields
+        }
+
+        private static func parseAudioSampleEntry(
+            reader: RandomAccessReader,
+            contentStart: Int64,
+            entryEnd: Int64,
+            index: Int
+        ) -> [ParsedBoxPayload.Field] {
+            var fields: [ParsedBoxPayload.Field] = []
+            let channelCountOffset = contentStart + 8
+            let sampleSizeOffset = channelCountOffset + 2
+            let sampleRateOffset = contentStart + 16
+
+            if channelCountOffset + 2 <= entryEnd,
+               let channelCount = (try? readUInt16(reader, at: channelCountOffset, end: entryEnd)) ?? nil {
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].channelcount",
+                    value: String(channelCount),
+                    description: "Audio channel count",
+                    byteRange: channelCountOffset..<(channelCountOffset + 2)
+                ))
+            }
+
+            if sampleSizeOffset + 2 <= entryEnd,
+               let sampleSize = (try? readUInt16(reader, at: sampleSizeOffset, end: entryEnd)) ?? nil {
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].samplesize",
+                    value: String(sampleSize),
+                    description: "Audio sample size",
+                    byteRange: sampleSizeOffset..<(sampleSizeOffset + 2)
+                ))
+            }
+
+            if sampleRateOffset + 4 <= entryEnd,
+               let rawRate = try? reader.readUInt32(at: sampleRateOffset) {
+                let integerRate = rawRate >> 16
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].samplerate",
+                    value: String(integerRate),
+                    description: "Audio sample rate",
+                    byteRange: sampleRateOffset..<(sampleRateOffset + 4)
+                ))
+            }
+
+            return fields
         }
 
         private static func readData(

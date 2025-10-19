@@ -2,7 +2,7 @@
 
 ## 🚀 Currently In Progress
 
-- [ ] C6 — Implement the `stsd` sample description parser to enumerate media sample entries. *(In Progress — see `DOCS/INPROGRESS/C6_stsd_Sample_Description_Parser.md`.)*
+- [x] C6 — Implement the `stsd` sample description parser to enumerate media sample entries. *(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)*
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 

@@ -14,7 +14,9 @@ Implement parsing support for the `stsd` (Sample Description) box so the pipelin
 - `BoxParserRegistry` registers a parser for `stsd`, returning a `ParsedBoxPayload` that surfaces `entry_count` plus a collection of parsed sample entries. 【F:Sources/ISOInspectorKit/ISO/BoxParserRegistry.swift†L1-L120】【F:Sources/ISOInspectorKit/ISO/ParsedBoxPayload.swift†L1-L120】
 - Each sample entry records its format (`fourcc`), size, and critical header fields (e.g., width/height for visual, channel/sample rate for audio).
 - Unit tests feed representative audio and visual fixtures to ensure parsed entries align with ISO/IEC 14496-12
+
   structure.
+
 - Exporters and UI components can render the parsed metadata without additional manual decoding.
 
 ## 🔧 Implementation Notes
@@ -23,6 +25,7 @@ Implement parsing support for the `stsd` (Sample Description) box so the pipelin
 - Leverage the streaming tree builders to attach parsed entry data to `ParseTreeNode` instances so validation and export layers consume a uniform structure. 【F:Sources/ISOInspectorKit/Export/ParseTreeNode.swift†L1-L32】
 - Start with baseline support for ISO base media sample entries (`mp4a`, `avc1`, `hvc1`, `hev1`) and design extensible decoding to add codecs iteratively.
 - Ensure byte range calculations guard against malformed lengths, matching the validation expectations outlined in the
+
   existing structural rules. 【F:Sources/ISOInspectorKit/Validation/BoxValidator.swift†L1-L220】
 
 ## 🧠 Source References
