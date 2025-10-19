@@ -48,7 +48,9 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed:** Task C2 – Implemented the `mvhd` movie header parser exposing timescale, 32/64-bit durations, rate, volume, and transformation matrix fields. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C2_mvhd_Movie_Header_Parser.md` and `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/Summary_of_Work.md` for implementation and verification details.
 
-> **In Progress:** Task C10 — Build the `stco/co64` chunk offset parser that completes the baseline sample table trio alongside `stsc` and `stsz/stz2`. Track implementation details in `DOCS/INPROGRESS/C10_stco_co64_Chunk_Offset_Parser.md`.
+> **Completed:** Task C10 — Built the `stco/co64` chunk offset parser so chunk tables now surface normalized offsets for both 32-bit and 64-bit entries. Implementation details, verification notes, and updated fixtures are archived in `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/`.
+>
+> **Follow-up:** Validation rule #15 remains open to correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and the new `stco/co64` offsets. See the recreated `DOCS/INPROGRESS/next_tasks.md` checklist for the outstanding integration work and macOS-dependent validations.
 >
 > **In Progress:** Monitor upcoming codec payload additions (e.g., Dolby Vision descriptors, extended audio profiles) so `BoxParserRegistry` keeps pace with new fixtures. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md` for scope and success criteria.
 

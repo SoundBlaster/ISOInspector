@@ -600,3 +600,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/113_C10_stco_co64_Chunk_Offset_Parser/`.
 - **Highlights:** Documents delivery of the 32-bit `stco` and 64-bit `co64` chunk offset parsers, normalization into the shared sample table model, JSON/export integration, and linked Swift verification covering registry wiring and snapshot updates.
 - **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now centers on implementing validation rule #15 that correlates `stsc` chunk runs, `stsz/stz2` sample sizes, and the newly archived chunk offsets alongside the standing macOS hardware-dependent benchmarks, release readiness, UI automation, and Combine latency follow-ups.
+
+## 114_C10_stco_co64_Chunk_Offset_Parser_Update
+- **Archived files:** `C10_stco_co64_Chunk_Offset_Parser.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/`.
+- **Highlights:** Captures the refined chunk offset parser that now emits decimal and hexadecimal offsets for both `stco` (32-bit) and `co64` (64-bit) tables, refreshed JSON fixture baselines, and extended Swift tests validating truncated table handling.
+- **Next steps carried forward:** Validation rule #15 to correlate `stsc` runs with `stsz/stz2` sample sizes remains active alongside macOS hardware-dependent benchmarking, release readiness, UI automation, and Combine latency validations — all tracked in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist.
