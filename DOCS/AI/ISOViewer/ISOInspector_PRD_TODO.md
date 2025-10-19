@@ -199,9 +199,9 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] C14. `edts/elst`: edit list entries.
 - [ ] C15. Metadata: `udta`, `meta` (handler), `keys`, `ilst` (basic types).
 - [ ] C16. Codec configs:
-  - [ ] C16.1 `avcC`: version/profile/level, `lengthSizeMinusOne`, SPS/PPS counts + lengths.
-  - [ ] C16.2 `hvcC`: profile/compat/level, arrays (vps/sps/pps), `lengthSizeMinusOne`.
-  - [ ] C16.3 `esds`: ES_Descriptor → DecoderSpecific (AudioSpecificConfig fields mapped).
+  - [ ] C16.1 `avcC`: version/profile/level, `lengthSizeMinusOne`, SPS/PPS counts + lengths. **(In Progress — see `DOCS/INPROGRESS/C6_Extend_stsd_Codec_Metadata.md`.)**
+  - [ ] C16.2 `hvcC`: profile/compat/level, arrays (vps/sps/pps), `lengthSizeMinusOne`. **(In Progress — see `DOCS/INPROGRESS/C6_Extend_stsd_Codec_Metadata.md`.)**
+  - [ ] C16.3 `esds`: ES_Descriptor → DecoderSpecific (AudioSpecificConfig fields mapped). **(In Progress — see `DOCS/INPROGRESS/C6_Extend_stsd_Codec_Metadata.md`.)**
 
 - [ ] C17. `mdat`: record offset/size (skip payload).
 - [ ] C18. `free/skip`: opaque pass-through.

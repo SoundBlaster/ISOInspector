@@ -44,6 +44,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed:** Task R3 – Accessibility guidelines now live in <doc:AccessibilityGuidelines>, with verification notes in `DOCS/TASK_ARCHIVE/91_R3_Accessibility_Guidelines/Summary_of_Work.md`.
 
+> **In Progress:** C6 follow-up to extend the `stsd` sample description parser with codec-specific metadata extraction for `avcC`, `hvcC`, and `esds`, tracked in `DOCS/INPROGRESS/C6_Extend_stsd_Codec_Metadata.md`.
+
 ## Phase D — CLI Interface
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
