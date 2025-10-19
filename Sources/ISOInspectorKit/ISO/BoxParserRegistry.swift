@@ -79,13 +79,35 @@ public struct BoxParserRegistry: Sendable {
         }
 
         private static let visualSampleEntryTypes: Set<FourCharCode> = {
-            let rawValues = ["avc1", "hvc1", "hev1"]
+            let rawValues = [
+                "avc1", "avc2", "avc3", "avc4",
+                "hvc1", "hev1", "dvh1", "dvhe",
+                "encv"
+            ]
             let codes = rawValues.compactMap { try? FourCharCode($0) }
             return Set(codes)
         }()
 
         private static let audioSampleEntryTypes: Set<FourCharCode> = {
-            let rawValues = ["mp4a"]
+            let rawValues = ["mp4a", "enca"]
+            let codes = rawValues.compactMap { try? FourCharCode($0) }
+            return Set(codes)
+        }()
+
+        private static let avcSampleEntryTypes: Set<FourCharCode> = {
+            let rawValues = ["avc1", "avc2", "avc3", "avc4"]
+            let codes = rawValues.compactMap { try? FourCharCode($0) }
+            return Set(codes)
+        }()
+
+        private static let hevcSampleEntryTypes: Set<FourCharCode> = {
+            let rawValues = ["hvc1", "hev1", "dvh1", "dvhe"]
+            let codes = rawValues.compactMap { try? FourCharCode($0) }
+            return Set(codes)
+        }()
+
+        private static let protectedSampleEntryTypes: Set<FourCharCode> = {
+            let rawValues = ["encv", "enca"]
             let codes = rawValues.compactMap { try? FourCharCode($0) }
             return Set(codes)
         }()
@@ -754,6 +776,8 @@ public struct BoxParserRegistry: Sendable {
 
             let contentStart = dataReferenceOffset + 2
 
+            let baseHeaderLength = sampleEntryHeaderLength(for: format)
+
             if visualSampleEntryTypes.contains(format) {
                 fields.append(contentsOf: parseVisualSampleEntry(
                     reader: reader,
@@ -768,10 +792,36 @@ public struct BoxParserRegistry: Sendable {
                     entryEnd: entryEnd,
                     index: index
                 ))
-            } else {
-                // @todo PDD:45m Extract codec-specific metadata for additional sample entry types once models for entry payload
-                // boxes (e.g., avcC, hvcC, esds) are available so downstream exports can surface richer annotations.
             }
+
+            guard let headerLength = baseHeaderLength else {
+                return SampleEntryParseResult(fields: fields, nextOffset: entryEnd, startOffset: startOffset)
+            }
+
+            let childBoxes = parseChildBoxes(
+                reader: reader,
+                contentStart: contentStart,
+                entryEnd: entryEnd,
+                baseHeaderLength: headerLength
+            )
+
+            var effectiveFormat = format
+            if protectedSampleEntryTypes.contains(format) {
+                let protection = parseProtectedSampleEntry(
+                    reader: reader,
+                    boxes: childBoxes,
+                    entryIndex: index
+                )
+                effectiveFormat = protection.originalFormat ?? format
+                fields.append(contentsOf: protection.fields)
+            }
+
+            fields.append(contentsOf: parseCodecSpecificFields(
+                format: effectiveFormat,
+                boxes: childBoxes,
+                reader: reader,
+                entryIndex: index
+            ))
 
             return SampleEntryParseResult(fields: fields, nextOffset: entryEnd, startOffset: startOffset)
         }
@@ -852,6 +902,764 @@ public struct BoxParserRegistry: Sendable {
             }
 
             return fields
+        }
+
+        private struct NestedBox {
+            let type: FourCharCode
+            let range: Range<Int64>
+            let payloadRange: Range<Int64>
+        }
+
+        private static func sampleEntryHeaderLength(for format: FourCharCode) -> Int64? {
+            if visualSampleEntryTypes.contains(format) {
+                return 70
+            }
+            if audioSampleEntryTypes.contains(format) {
+                return 20
+            }
+            return nil
+        }
+
+        private static func parseChildBoxes(
+            reader: RandomAccessReader,
+            contentStart: Int64,
+            entryEnd: Int64,
+            baseHeaderLength: Int64
+        ) -> [NestedBox] {
+            var boxes: [NestedBox] = []
+            var cursor = contentStart + baseHeaderLength
+            guard cursor <= entryEnd else { return boxes }
+
+            while cursor + 8 <= entryEnd {
+                guard let size = (try? readUInt32(reader, at: cursor, end: entryEnd)) ?? nil else { break }
+                guard let type = (try? readFourCC(reader, at: cursor + 4, end: entryEnd)) ?? nil else { break }
+
+                var headerLength: Int64 = 8
+                var boxLength = Int64(size)
+                if size == 1 {
+                    headerLength = 16
+                    guard let largeSize = (try? readUInt64(reader, at: cursor + 8, end: entryEnd)) ?? nil else { break }
+                    boxLength = Int64(largeSize)
+                } else if size == 0 {
+                    boxLength = entryEnd - cursor
+                }
+
+                guard boxLength >= headerLength else { break }
+                let nextCursor = cursor + boxLength
+                guard nextCursor <= entryEnd else { break }
+
+                let payloadStart = cursor + headerLength
+                let payloadRange = payloadStart..<nextCursor
+                let range = cursor..<nextCursor
+                boxes.append(NestedBox(type: type, range: range, payloadRange: payloadRange))
+
+                if nextCursor <= cursor { break }
+                cursor = nextCursor
+            }
+
+            return boxes
+        }
+
+        private static func parseCodecSpecificFields(
+            format: FourCharCode,
+            boxes: [NestedBox],
+            reader: RandomAccessReader,
+            entryIndex: Int
+        ) -> [ParsedBoxPayload.Field] {
+            var fields: [ParsedBoxPayload.Field] = []
+
+            if avcSampleEntryTypes.contains(format),
+               let avcBox = boxes.first(where: { $0.type.rawValue == "avcC" }) {
+                fields.append(contentsOf: parseAvcConfiguration(
+                    reader: reader,
+                    box: avcBox,
+                    entryIndex: entryIndex
+                ))
+            }
+
+            if hevcSampleEntryTypes.contains(format),
+               let hevcBox = boxes.first(where: { $0.type.rawValue == "hvcC" }) {
+                fields.append(contentsOf: parseHevcConfiguration(
+                    reader: reader,
+                    box: hevcBox,
+                    entryIndex: entryIndex
+                ))
+            }
+
+            if format.rawValue == "mp4a",
+               let esdsBox = boxes.first(where: { $0.type.rawValue == "esds" }) {
+                fields.append(contentsOf: parseEsdsConfiguration(
+                    reader: reader,
+                    box: esdsBox,
+                    entryIndex: entryIndex
+                ))
+            }
+
+            return fields
+        }
+
+        private static func parseProtectedSampleEntry(
+            reader: RandomAccessReader,
+            boxes: [NestedBox],
+            entryIndex: Int
+        ) -> (fields: [ParsedBoxPayload.Field], originalFormat: FourCharCode?) {
+            guard let sinfBox = boxes.first(where: { $0.type.rawValue == "sinf" }) else {
+                return ([], nil)
+            }
+
+            let sinfChildren = parseChildBoxes(
+                reader: reader,
+                contentStart: sinfBox.payloadRange.lowerBound,
+                entryEnd: sinfBox.payloadRange.upperBound,
+                baseHeaderLength: 0
+            )
+
+            var fields: [ParsedBoxPayload.Field] = []
+            var originalFormat: FourCharCode?
+
+            if let frma = sinfChildren.first(where: { $0.type.rawValue == "frma" }),
+               let format = try? reader.readFourCC(at: frma.payloadRange.lowerBound) {
+                originalFormat = format
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(entryIndex)].encryption.original_format",
+                    value: format.rawValue,
+                    description: "Original codec format before protection",
+                    byteRange: frma.payloadRange
+                ))
+            }
+
+            if let schm = sinfChildren.first(where: { $0.type.rawValue == "schm" }) {
+                fields.append(contentsOf: parseSchemeInformation(
+                    reader: reader,
+                    box: schm,
+                    entryIndex: entryIndex
+                ))
+            }
+
+            if let schi = sinfChildren.first(where: { $0.type.rawValue == "schi" }) {
+                let schiChildren = parseChildBoxes(
+                    reader: reader,
+                    contentStart: schi.payloadRange.lowerBound,
+                    entryEnd: schi.payloadRange.upperBound,
+                    baseHeaderLength: 0
+                )
+
+                if let tenc = schiChildren.first(where: { $0.type.rawValue == "tenc" }) {
+                    fields.append(contentsOf: parseTrackEncryption(
+                        reader: reader,
+                        box: tenc,
+                        entryIndex: entryIndex
+                    ))
+                }
+            }
+
+            return (fields, originalFormat)
+        }
+
+        private static func parseSchemeInformation(
+            reader: RandomAccessReader,
+            box: NestedBox,
+            entryIndex: Int
+        ) -> [ParsedBoxPayload.Field] {
+            let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
+            guard length > 0,
+                  let payload = try? readData(
+                      reader,
+                      at: box.payloadRange.lowerBound,
+                      count: length,
+                      end: box.payloadRange.upperBound
+                  ) else { return [] }
+
+            guard payload.count >= 8 else { return [] }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            guard payload.count >= 8 else { return fields }
+
+            let schemeTypeData = payload[4..<8]
+            if let schemeType = String(bytes: schemeTypeData, encoding: .ascii) {
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(entryIndex)].encryption.scheme_type",
+                    value: schemeType,
+                    description: "Protection scheme identifier",
+                    byteRange: (box.payloadRange.lowerBound + 4)..<(box.payloadRange.lowerBound + 8)
+                ))
+            }
+
+            if payload.count >= 12 {
+                let schemeVersion = payload[8..<12].reduce(0) { ($0 << 8) | UInt32($1) }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(entryIndex)].encryption.scheme_version",
+                    value: String(format: "0x%08X", schemeVersion),
+                    description: "Protection scheme version",
+                    byteRange: (box.payloadRange.lowerBound + 8)..<(box.payloadRange.lowerBound + 12)
+                ))
+            }
+
+            if payload.count > 12 {
+                let uriData = payload[12..<payload.count]
+                if let uri = String(bytes: uriData, encoding: .utf8), !uri.isEmpty {
+                    fields.append(ParsedBoxPayload.Field(
+                        name: "entries[\(entryIndex)].encryption.scheme_uri",
+                        value: uri,
+                        description: "Protection scheme URI",
+                        byteRange: (box.payloadRange.lowerBound + 12)..<box.payloadRange.upperBound
+                    ))
+                }
+            }
+
+            return fields
+        }
+
+        private static func parseTrackEncryption(
+            reader: RandomAccessReader,
+            box: NestedBox,
+            entryIndex: Int
+        ) -> [ParsedBoxPayload.Field] {
+            let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
+            guard length > 0,
+                  let payload = try? readData(
+                      reader,
+                      at: box.payloadRange.lowerBound,
+                      count: length,
+                      end: box.payloadRange.upperBound
+                  ) else { return [] }
+
+            guard payload.count >= 6 else { return [] }
+
+            let defaultIsProtected = payload[4]
+            let defaultPerSampleIVSize = payload[5]
+
+            var fields: [ParsedBoxPayload.Field] = []
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].encryption.is_protected",
+                value: defaultIsProtected != 0 ? "true" : "false",
+                description: "Indicates whether samples are encrypted",
+                byteRange: (box.payloadRange.lowerBound + 4)..<(box.payloadRange.lowerBound + 5)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].encryption.per_sample_iv_size",
+                value: String(defaultPerSampleIVSize),
+                description: "Size of per-sample IV in bytes (0 for constant)",
+                byteRange: (box.payloadRange.lowerBound + 5)..<(box.payloadRange.lowerBound + 6)
+            ))
+
+            if payload.count >= 22 {
+                let kidRange = (box.payloadRange.lowerBound + 6)..<(box.payloadRange.lowerBound + 22)
+                let kid = payload[6..<22].map { String(format: "%02x", $0) }.joined()
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(entryIndex)].encryption.default_kid",
+                    value: kid,
+                    description: "Default key identifier",
+                    byteRange: kidRange
+                ))
+            }
+
+            if payload.count > 22 {
+                let constantIVSize = Int(payload[22])
+                let constantIVEnd = 23 + constantIVSize
+                if constantIVEnd <= payload.count {
+                    let ivData = payload[23..<constantIVEnd].map { String(format: "%02x", $0) }.joined()
+                    fields.append(ParsedBoxPayload.Field(
+                        name: "entries[\(entryIndex)].encryption.constant_iv",
+                        value: ivData,
+                        description: "Constant IV for samples when per-sample IV size is zero",
+                        byteRange: (box.payloadRange.lowerBound + 23)..<(box.payloadRange.lowerBound + Int64(constantIVEnd))
+                    ))
+                }
+            }
+
+            return fields
+        }
+
+        private static func parseAvcConfiguration(
+            reader: RandomAccessReader,
+            box: NestedBox,
+            entryIndex: Int
+        ) -> [ParsedBoxPayload.Field] {
+            let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
+            guard length > 0,
+                  let payload = try? readData(
+                      reader,
+                      at: box.payloadRange.lowerBound,
+                      count: length,
+                      end: box.payloadRange.upperBound
+                  ) else { return [] }
+
+            guard payload.count >= 6 else { return [] }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            let baseOffset = box.payloadRange.lowerBound
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.avc.configuration_version",
+                value: String(payload[0]),
+                description: "AVC configuration version",
+                byteRange: baseOffset..<(baseOffset + 1)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.avc.profile_indication",
+                value: String(format: "0x%02X", payload[1]),
+                description: "AVC profile indication",
+                byteRange: (baseOffset + 1)..<(baseOffset + 2)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.avc.profile_compatibility",
+                value: String(format: "0x%02X", payload[2]),
+                description: "Profile compatibility flags",
+                byteRange: (baseOffset + 2)..<(baseOffset + 3)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.avc.level_indication",
+                value: String(payload[3]),
+                description: "AVC level indication",
+                byteRange: (baseOffset + 3)..<(baseOffset + 4)
+            ))
+
+            let lengthSizeMinusOne = payload[4] & 0x03
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.avc.nal_unit_length_bytes",
+                value: String(Int(lengthSizeMinusOne) + 1),
+                description: "Number of bytes used to encode NAL unit length",
+                byteRange: (baseOffset + 4)..<(baseOffset + 5)
+            ))
+
+            let spsCount = Int(payload[5] & 0x1F)
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.avc.sequence_parameter_sets.count",
+                value: String(spsCount),
+                description: "Number of SPS entries",
+                byteRange: (baseOffset + 5)..<(baseOffset + 6)
+            ))
+
+            var offset = 6
+            for index in 0..<spsCount {
+                guard offset + 2 <= payload.count else { break }
+                let length = Int(payload[offset]) << 8 | Int(payload[offset + 1])
+                let lengthRange = (baseOffset + Int64(offset))..<(baseOffset + Int64(offset + 2))
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(entryIndex)].codec.avc.sequence_parameter_sets[\(index)].length",
+                    value: String(length),
+                    description: "Sequence parameter set length",
+                    byteRange: lengthRange
+                ))
+                offset += 2 + length
+                if offset > payload.count { break }
+            }
+
+            guard offset < payload.count else { return fields }
+            let ppsCount = Int(payload[offset])
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.avc.picture_parameter_sets.count",
+                value: String(ppsCount),
+                description: "Number of PPS entries",
+                byteRange: (baseOffset + Int64(offset))..<(baseOffset + Int64(offset + 1))
+            ))
+            offset += 1
+
+            for index in 0..<ppsCount {
+                guard offset + 2 <= payload.count else { break }
+                let length = Int(payload[offset]) << 8 | Int(payload[offset + 1])
+                let lengthRange = (baseOffset + Int64(offset))..<(baseOffset + Int64(offset + 2))
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(entryIndex)].codec.avc.picture_parameter_sets[\(index)].length",
+                    value: String(length),
+                    description: "Picture parameter set length",
+                    byteRange: lengthRange
+                ))
+                offset += 2 + length
+                if offset > payload.count { break }
+            }
+
+            return fields
+        }
+
+        private static func parseHevcConfiguration(
+            reader: RandomAccessReader,
+            box: NestedBox,
+            entryIndex: Int
+        ) -> [ParsedBoxPayload.Field] {
+            let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
+            guard length > 0,
+                  let payload = try? readData(
+                      reader,
+                      at: box.payloadRange.lowerBound,
+                      count: length,
+                      end: box.payloadRange.upperBound
+                  ) else { return [] }
+
+            guard payload.count >= 23 else { return [] }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            let baseOffset = box.payloadRange.lowerBound
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.hevc.configuration_version",
+                value: String(payload[0]),
+                description: "HEVC configuration version",
+                byteRange: baseOffset..<(baseOffset + 1)
+            ))
+
+            let profileSpace = (payload[1] >> 6) & 0x03
+            let tierFlag = (payload[1] >> 5) & 0x01
+            let profileIDC = payload[1] & 0x1F
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.hevc.profile_space",
+                value: String(profileSpace),
+                description: "Profile space",
+                byteRange: (baseOffset + 1)..<(baseOffset + 2)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.hevc.tier_flag",
+                value: tierFlag == 0 ? "main" : "high",
+                description: "Tier flag",
+                byteRange: (baseOffset + 1)..<(baseOffset + 2)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.hevc.profile_idc",
+                value: String(profileIDC),
+                description: "Profile IDC",
+                byteRange: (baseOffset + 1)..<(baseOffset + 2)
+            ))
+
+            let compatibility = payload[2..<6].reduce(0) { ($0 << 8) | UInt32($1) }
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.hevc.profile_compatibility_flags",
+                value: String(format: "0x%08X", compatibility),
+                description: "Profile compatibility flags",
+                byteRange: (baseOffset + 2)..<(baseOffset + 6)
+            ))
+
+            let constraintBytes = payload[6..<12]
+            let constraintHex = constraintBytes.map { String(format: "%02X", $0) }.joined()
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.hevc.constraint_indicator_flags",
+                value: "0x\(constraintHex)",
+                description: "Constraint indicator flags",
+                byteRange: (baseOffset + 6)..<(baseOffset + 12)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.hevc.level_idc",
+                value: String(payload[12]),
+                description: "Level IDC",
+                byteRange: (baseOffset + 12)..<(baseOffset + 13)
+            ))
+
+            let lengthSizeMinusOne = payload[21] & 0x03
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.hevc.nal_unit_length_bytes",
+                value: String(Int(lengthSizeMinusOne) + 1),
+                description: "NAL unit length field size",
+                byteRange: (baseOffset + 21)..<(baseOffset + 22)
+            ))
+
+            let numArrays = Int(payload[22])
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.hevc.nal_arrays",
+                value: String(numArrays),
+                description: "Number of NAL unit arrays",
+                byteRange: (baseOffset + 22)..<(baseOffset + 23)
+            ))
+
+            var offset = 23
+            var counters: [UInt8: (count: Int, lengths: [Int])] = [:]
+
+            for _ in 0..<numArrays {
+                guard offset + 3 <= payload.count else { break }
+                let arrayCompleteness = (payload[offset] & 0x80) != 0
+                let nalType = payload[offset] & 0x3F
+                let numNalus = Int(payload[offset + 1]) << 8 | Int(payload[offset + 2])
+                offset += 3
+
+                for _ in 0..<numNalus {
+                    guard offset + 2 <= payload.count else { break }
+                    let length = Int(payload[offset]) << 8 | Int(payload[offset + 1])
+                    offset += 2
+                    guard offset + length <= payload.count else { break }
+                    counters[nalType, default: (0, [])].count += 1
+                    counters[nalType]?.lengths.append(length)
+                    offset += length
+                }
+
+                if arrayCompleteness {
+                    // array completeness doesn't change metadata but ensures we consume all NALUs
+                }
+            }
+
+            for (nalType, info) in counters {
+                let name: String
+                switch nalType {
+                case 32: name = "vps"
+                case 33: name = "sps"
+                case 34: name = "pps"
+                default: name = "nal_type_\(nalType)"
+                }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(entryIndex)].codec.hevc.\(name).count",
+                    value: String(info.count),
+                    description: "Number of NAL units of type \(name.uppercased())",
+                    byteRange: nil
+                ))
+                for (index, length) in info.lengths.enumerated() {
+                    fields.append(ParsedBoxPayload.Field(
+                        name: "entries[\(entryIndex)].codec.hevc.\(name)[\(index)].length",
+                        value: String(length),
+                        description: "NAL unit length",
+                        byteRange: nil
+                    ))
+                }
+            }
+
+            return fields
+        }
+
+        private static func parseEsdsConfiguration(
+            reader: RandomAccessReader,
+            box: NestedBox,
+            entryIndex: Int
+        ) -> [ParsedBoxPayload.Field] {
+            let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
+            guard length > 0,
+                  let payload = try? readData(
+                      reader,
+                      at: box.payloadRange.lowerBound,
+                      count: length,
+                      end: box.payloadRange.upperBound
+                  ) else { return [] }
+
+            guard payload.count >= 4 else { return [] }
+
+            let baseOffset = box.payloadRange.lowerBound
+            var offset = 4
+            var fields: [ParsedBoxPayload.Field] = []
+
+            while offset < payload.count {
+                guard let descriptor = readDescriptorHeader(from: payload, at: offset) else { break }
+                let bodyStart = offset + descriptor.headerLength
+                let bodyEnd = bodyStart + descriptor.length
+                guard bodyEnd <= payload.count else { break }
+
+                if descriptor.tag == 0x03 {
+                    fields.append(contentsOf: parseESDescriptor(
+                        payload: payload,
+                        start: bodyStart,
+                        length: descriptor.length,
+                        baseOffset: baseOffset + Int64(bodyStart),
+                        entryIndex: entryIndex
+                    ))
+                }
+
+                offset = bodyEnd
+            }
+
+            return fields
+        }
+
+        private static func readDescriptorHeader(from data: Data, at offset: Int) -> (tag: UInt8, length: Int, headerLength: Int)? {
+            guard offset < data.count else { return nil }
+            let tag = data[offset]
+            var length = 0
+            var headerLength = 1
+            var index = offset + 1
+            var iterations = 0
+
+            while index < data.count {
+                let byte = data[index]
+                length = (length << 7) | Int(byte & 0x7F)
+                headerLength += 1
+                index += 1
+                iterations += 1
+                if byte & 0x80 == 0 { break }
+                if iterations >= 4 { return nil }
+            }
+
+            return (tag, length, headerLength)
+        }
+
+        private static func parseESDescriptor(
+            payload: Data,
+            start: Int,
+            length: Int,
+            baseOffset: Int64,
+            entryIndex: Int
+        ) -> [ParsedBoxPayload.Field] {
+            guard start + length <= payload.count else { return [] }
+
+            var offset = start
+            guard offset + 2 <= start + length else { return [] }
+            offset += 2 // ES_ID
+            guard offset < start + length else { return [] }
+            let flags = payload[offset]
+            offset += 1
+
+            if flags & 0x80 != 0 { offset += 2 }
+            if flags & 0x40 != 0, offset < start + length {
+                let urlLength = Int(payload[offset])
+                offset += 1 + urlLength
+            }
+            if flags & 0x20 != 0 { offset += 2 }
+
+            while offset < start + length {
+                guard let descriptor = readDescriptorHeader(from: payload, at: offset) else { break }
+                let bodyStart = offset + descriptor.headerLength
+                let bodyEnd = bodyStart + descriptor.length
+                guard bodyEnd <= start + length else { break }
+
+                if descriptor.tag == 0x04 {
+                    return parseDecoderConfigDescriptor(
+                        payload: payload,
+                        start: bodyStart,
+                        length: descriptor.length,
+                        baseOffset: baseOffset + Int64(bodyStart),
+                        entryIndex: entryIndex
+                    )
+                }
+
+                offset = bodyEnd
+            }
+
+            return []
+        }
+
+        private static func parseDecoderConfigDescriptor(
+            payload: Data,
+            start: Int,
+            length: Int,
+            baseOffset: Int64,
+            entryIndex: Int
+        ) -> [ParsedBoxPayload.Field] {
+            guard start + length <= payload.count, length >= 13 else { return [] }
+
+            var fields: [ParsedBoxPayload.Field] = []
+
+            let objectType = payload[start]
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.aac.object_type_indication",
+                value: String(format: "0x%02X", objectType),
+                description: "Object type indication",
+                byteRange: baseOffset..<(baseOffset + 1)
+            ))
+
+            var offset = start + 13
+
+            while offset < start + length {
+                guard let descriptor = readDescriptorHeader(from: payload, at: offset) else { break }
+                let bodyStart = offset + descriptor.headerLength
+                let bodyEnd = bodyStart + descriptor.length
+                guard bodyEnd <= start + length else { break }
+
+                if descriptor.tag == 0x05 {
+                    fields.append(contentsOf: parseAudioSpecificConfig(
+                        payload: payload,
+                        start: bodyStart,
+                        length: descriptor.length,
+                        baseOffset: baseOffset + Int64(bodyStart),
+                        entryIndex: entryIndex
+                    ))
+                    break
+                }
+
+                offset = bodyEnd
+            }
+
+            return fields
+        }
+
+        private static func parseAudioSpecificConfig(
+            payload: Data,
+            start: Int,
+            length: Int,
+            baseOffset: Int64,
+            entryIndex: Int
+        ) -> [ParsedBoxPayload.Field] {
+            guard length >= 2, start + length <= payload.count else { return [] }
+
+            let data = payload[start..<(start + length)]
+            var reader = Bitstream(data: Array(data))
+
+            guard let rawObjectType = reader.read(bits: 5),
+                  let samplingIndex = reader.read(bits: 4),
+                  let channelConfig = reader.read(bits: 4) else { return [] }
+
+            let audioObjectType: Int
+            if rawObjectType == 31, let extensionType = reader.read(bits: 6) {
+                audioObjectType = 32 + extensionType
+            } else {
+                audioObjectType = rawObjectType
+            }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.aac.audio_object_type",
+                value: String(audioObjectType),
+                description: "AAC audio object type",
+                byteRange: nil
+            ))
+
+            let frequencies = [
+                96000, 88200, 64000, 48000,
+                44100, 32000, 24000, 22050,
+                16000, 12000, 11025, 8000,
+                7350, 0, 0, 0
+            ]
+            let samplingFrequency: Int
+            if samplingIndex == 0x0F, let explicit = reader.read(bits: 24) {
+                samplingFrequency = explicit
+            } else if samplingIndex < frequencies.count {
+                samplingFrequency = frequencies[samplingIndex]
+            } else {
+                samplingFrequency = 0
+            }
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.aac.sampling_frequency_hz",
+                value: String(samplingFrequency),
+                description: "Sampling frequency (Hz)",
+                byteRange: nil
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(entryIndex)].codec.aac.channel_configuration",
+                value: String(channelConfig),
+                description: "Channel configuration",
+                byteRange: nil
+            ))
+
+            return fields
+        }
+
+        private struct Bitstream {
+            private let bytes: [UInt8]
+            private var byteIndex: Int = 0
+            private var bitIndex: Int = 0
+
+            init(data: [UInt8]) {
+                self.bytes = data
+            }
+
+            mutating func read(bits count: Int) -> Int? {
+                var value = 0
+                for _ in 0..<count {
+                    guard byteIndex < bytes.count else { return nil }
+                    value <<= 1
+                    let byte = bytes[byteIndex]
+                    let bit = (byte >> (7 - bitIndex)) & 0x01
+                    value |= Int(bit)
+                    bitIndex += 1
+                    if bitIndex == 8 {
+                        bitIndex = 0
+                        byteIndex += 1
+                    }
+                }
+                return value
+            }
         }
 
         private static func readData(

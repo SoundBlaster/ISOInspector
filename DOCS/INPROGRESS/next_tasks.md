@@ -2,7 +2,7 @@
 
 ## 🚧 Now In Progress
 
-- [ ] C6 — Extend the `stsd` sample description parser with codec-specific field extraction (e.g., `avcC`, `hvcC`, encrypted variants). *(In Progress — see `DOCS/INPROGRESS/C6_Extend_stsd_Codec_Metadata.md`.)*
+- [x] C6 — Extend the `stsd` sample description parser with codec-specific field extraction (e.g., `avcC`, `hvcC`, encrypted variants). *(Completed — see `DOCS/INPROGRESS/C6_Extend_stsd_Codec_Metadata.md` and `DOCS/INPROGRESS/Summary_of_Work.md`.)*
 - [x] C1 — Implement `ftyp` box parser (`major_brand`, `minor_version`, `compatible_brands`). *(Completed — see `DOCS/TASK_ARCHIVE/99_C1_ftyp_Box_Parser/Summary_of_Work.md`.)*
 
 ## 🎯 Upcoming Parser Enhancements
