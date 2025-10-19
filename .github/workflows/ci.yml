@@ -43,6 +43,16 @@ jobs:
             DOCS/COMMANDS/**/*.md
             DOCS/RULES/**/*.md
 
+  json-validation:
+    name: JSON Validation
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate JSON formatting
+        run: ./scripts/validate_json.py
+
   build-and-test:
     name: Build and Test (Ubuntu)
     runs-on: ubuntu-22.04
