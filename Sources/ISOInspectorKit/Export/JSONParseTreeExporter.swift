@@ -140,17 +140,23 @@ private struct Issue: Encodable {
 }
 
 private struct StructuredPayload: Encodable {
-    let fileType: FileTypeDetail
+    let fileType: FileTypeDetail?
+    let movieHeader: MovieHeaderDetail?
 
     init(detail: ParsedBoxPayload.Detail) {
         switch detail {
         case let .fileType(box):
             self.fileType = FileTypeDetail(box: box)
+            self.movieHeader = nil
+        case let .movieHeader(box):
+            self.fileType = nil
+            self.movieHeader = MovieHeaderDetail(box: box)
         }
     }
 
     private enum CodingKeys: String, CodingKey {
         case fileType = "file_type"
+        case movieHeader = "movie_header"
     }
 }
 
@@ -169,5 +175,68 @@ private struct FileTypeDetail: Encodable {
         case majorBrand = "major_brand"
         case minorVersion = "minor_version"
         case compatibleBrands = "compatible_brands"
+    }
+}
+
+private struct MovieHeaderDetail: Encodable {
+    let version: UInt8
+    let creationTime: UInt64
+    let modificationTime: UInt64
+    let timescale: UInt32
+    let duration: UInt64
+    let durationIs64Bit: Bool
+    let rate: Double
+    let volume: Double
+    let matrix: MatrixDetail
+    let nextTrackID: UInt32
+
+    init(box: ParsedBoxPayload.MovieHeaderBox) {
+        self.version = box.version
+        self.creationTime = box.creationTime
+        self.modificationTime = box.modificationTime
+        self.timescale = box.timescale
+        self.duration = box.duration
+        self.durationIs64Bit = box.durationIs64Bit
+        self.rate = box.rate
+        self.volume = box.volume
+        self.matrix = MatrixDetail(matrix: box.matrix)
+        self.nextTrackID = box.nextTrackID
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case creationTime = "creation_time"
+        case modificationTime = "modification_time"
+        case timescale
+        case duration
+        case durationIs64Bit = "duration_is_64bit"
+        case rate
+        case volume
+        case matrix
+        case nextTrackID = "next_track_id"
+    }
+}
+
+private struct MatrixDetail: Encodable {
+    let a: Double
+    let b: Double
+    let u: Double
+    let c: Double
+    let d: Double
+    let v: Double
+    let x: Double
+    let y: Double
+    let w: Double
+
+    init(matrix: ParsedBoxPayload.MovieHeaderBox.TransformationMatrix) {
+        self.a = matrix.a
+        self.b = matrix.b
+        self.u = matrix.u
+        self.c = matrix.c
+        self.d = matrix.d
+        self.v = matrix.v
+        self.x = matrix.x
+        self.y = matrix.y
+        self.w = matrix.w
     }
 }

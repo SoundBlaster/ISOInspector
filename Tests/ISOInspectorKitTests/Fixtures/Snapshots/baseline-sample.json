@@ -186,6 +186,87 @@
             },
             {
               "byteRange" : {
+                "end" : 88,
+                "start" : 84
+              },
+              "name" : "matrix.a",
+              "summary" : "Matrix element a (row 1 column 1)",
+              "value" : "1.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 92,
+                "start" : 88
+              },
+              "name" : "matrix.b",
+              "summary" : "Matrix element b (row 1 column 2)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 96,
+                "start" : 92
+              },
+              "name" : "matrix.u",
+              "summary" : "Matrix element u (row 1 column 3)",
+              "value" : "0.000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 100,
+                "start" : 96
+              },
+              "name" : "matrix.c",
+              "summary" : "Matrix element c (row 2 column 1)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 104,
+                "start" : 100
+              },
+              "name" : "matrix.d",
+              "summary" : "Matrix element d (row 2 column 2)",
+              "value" : "1.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 108,
+                "start" : 104
+              },
+              "name" : "matrix.v",
+              "summary" : "Matrix element v (row 2 column 3)",
+              "value" : "0.000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 112,
+                "start" : 108
+              },
+              "name" : "matrix.x",
+              "summary" : "Matrix element x (row 3 column 1)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 116,
+                "start" : 112
+              },
+              "name" : "matrix.y",
+              "summary" : "Matrix element y (row 3 column 2)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 120,
+                "start" : 116
+              },
+              "name" : "matrix.w",
+              "summary" : "Matrix element w (row 3 column 3)",
+              "value" : "1.000000"
+            },
+            {
+              "byteRange" : {
                 "end" : 148,
                 "start" : 144
               },
@@ -198,6 +279,30 @@
             "header" : 8,
             "payload" : 100,
             "total" : 108
+          },
+          "structured" : {
+            "movie_header" : {
+              "creation_time" : 3345753062,
+              "duration" : 1657,
+              "duration_is_64bit" : false,
+              "matrix" : {
+                "a" : 1,
+                "b" : 0,
+                "c" : 0,
+                "d" : 1,
+                "u" : 0,
+                "v" : 0,
+                "w" : 1,
+                "x" : 0,
+                "y" : 0
+              },
+              "modification_time" : 3345753062,
+              "next_track_id" : 3,
+              "rate" : 1,
+              "timescale" : 600,
+              "version" : 0,
+              "volume" : 1
+            }
           },
           "validationIssues" : [
 

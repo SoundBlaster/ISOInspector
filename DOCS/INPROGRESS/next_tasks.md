@@ -2,7 +2,7 @@
 
 ## 🚧 Active Parser Tasks
 
-- [ ] C2 — Implement `mvhd` movie header parser (**In Progress**; see `DOCS/INPROGRESS/C2_mvhd_Movie_Header_Parser.md`).
+- [x] C2 — Implement `mvhd` movie header parser (**Completed — parser, detail struct, and tests documented in `DOCS/INPROGRESS/Summary_of_Work.md` and `DOCS/INPROGRESS/C2_mvhd_Movie_Header_Parser.md`).
 
 ## 🎯 Upcoming Parser Enhancements
 
