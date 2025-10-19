@@ -168,7 +168,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] C1. `ftyp`: major_brand, minor_version, compatible_brands[].
 - [ ] C2. `mvhd`: timescale, duration(32/64), rate, volume, matrix.
 - [ ] C3. `tkhd`: flags-driven size; track_id; duration; width/height.
-- [ ] C4. `mdhd`: creation/modification times, timescale, duration, language.
+- [ ] C4. `mdhd`: creation/modification times, timescale, duration, language. **(In Progress — align with main backlog to decode media header metadata via `FullBoxReader`.)**
 - [ ] C5. `hdlr`: handler_type, name.
 - [ ] C6. `stsd`: entry_count; generic sample_entry header; detect visual/audio entry.
 - [ ] C7. `stts`, `ctts`: entry arrays.
