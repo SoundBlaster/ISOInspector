@@ -1,8 +1,12 @@
 # Next Tasks
 
+## 🚧 Now In Progress
+
+- [x] C6 — Extend the `stsd` sample description parser with codec-specific field extraction (e.g., `avcC`, `hvcC`, encrypted variants). *(Completed — see `DOCS/INPROGRESS/C6_Extend_stsd_Codec_Metadata.md` and `DOCS/INPROGRESS/Summary_of_Work.md`.)*
+- [x] C1 — Implement `ftyp` box parser (`major_brand`, `minor_version`, `compatible_brands`). *(Completed — see `DOCS/TASK_ARCHIVE/99_C1_ftyp_Box_Parser/Summary_of_Work.md`.)*
+
 ## 🎯 Upcoming Parser Enhancements
 
-- [ ] Monitor upcoming codec payload additions (e.g., Dolby Vision boxes, descriptor extensions) so the `BoxParserRegistry` gains dedicated entries when new fixtures arrive. Track regression needs alongside `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/Summary_of_Work.md`.
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 
@@ -31,4 +35,3 @@
 ## 📚 Recently Archived Reference
 
 - ✅ Task H3 — JSON export snapshot tests now archived. Implementation details and snapshot update workflow live in `DOCS/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/H3_JSON_Export_Snapshot_Tests.md`.
-- ✅ Task C6 — Codec metadata extraction archived at `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/` with verification notes in `Summary_of_Work.md`.

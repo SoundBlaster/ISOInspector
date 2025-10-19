@@ -558,3 +558,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/100_Summary_of_Work_2025-10-19_ftyp_Follow_Up/`.
 - **Highlights:** Rolls forward the October 19, 2025 work log confirming the `ftyp` parser integration, cross-linking parser coverage and verification commands, and documenting follow-up coordination with the codec backlog.
 - **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` preserves the macOS-only benchmarking, release readiness, UI automation, Combine latency runs, and codec descriptor follow-ups awaiting dedicated hardware and future planning cycles.
+
+## 102_C6_Extend_stsd_Codec_Metadata
+- **Archived files:** `C6_Extend_stsd_Codec_Metadata.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/`.
+- **Highlights:** Documents the codec-specific metadata extraction for `stsd` sample entries, including dedicated parsers for `avcC`, `hvcC`, `esds`, and Common Encryption protection boxes alongside refreshed unit tests.
+- **Next steps carried forward:** Monitor upcoming codec payload additions (e.g., Dolby Vision descriptors) and extend `BoxParserRegistry` coverage when new fixtures land, tracked in `DOCS/INPROGRESS/next_tasks.md`.
