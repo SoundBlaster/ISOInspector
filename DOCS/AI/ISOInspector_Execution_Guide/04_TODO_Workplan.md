@@ -90,8 +90,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
 | H1 | Expand fixture corpus with fragmented, DASH, malformed, and large-sample assets. | High | 2 | B2 | Python, Swift | *(Completed ✅ — see `DOCS/TASK_ARCHIVE/27_F1_Expand_Fixture_Catalog/` for manifest-driven fixture coverage.)* |
-| H2 | Author unit tests covering header parsing, container boundary enforcement, and targeted box field extraction. | High | 1.5 | B3 | XCTest | Structural regression tests assert header math, parent/child containment, and representative box decoders. **(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)** |
-| H3 | Capture snapshot tests for JSON export on representative fixtures. | Medium | 1 | B6 | XCTest | **Completed ✅** — Snapshot baselines cover baseline, streaming init, and DASH fixtures; see `Tests/ISOInspectorKitTests/JSONExportSnapshotTests.swift` and `DOCS/INPROGRESS/Summary_of_Work.md` for update workflow. |
+| H2 | Author unit tests covering header parsing, container boundary enforcement, and targeted box field extraction. | High | 1.5 | B3 | XCTest | Structural regression tests assert header math, parent/child containment, and representative box decoders. **(Completed — see `DOCS/TASK_ARCHIVE/94_H2_Unit_Tests/Summary_of_Work.md`.)** |
+| H3 | Capture snapshot tests for JSON export on representative fixtures. | Medium | 1 | B6 | XCTest | **Completed ✅** — Snapshot baselines cover baseline, streaming init, and DASH fixtures; see `Tests/ISOInspectorKitTests/JSONExportSnapshotTests.swift` and `DOCS/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/Summary_of_Work.md` for update workflow. |
 | H4 | Execute performance tests to validate parse time and memory targets on large fixtures. | Medium | 1.5 | B3 | XCTest Metrics | Benchmarks document latency/memory ceilings and fail CI on regressions. |
 
 ## Phase I — Packaging & Release

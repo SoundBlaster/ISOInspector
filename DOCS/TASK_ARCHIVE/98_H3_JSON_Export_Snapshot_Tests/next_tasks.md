@@ -1,5 +1,9 @@
 # Next Tasks
 
+## ✅ In Progress
+
+- ✅ Task H3 — Capture JSON export snapshot tests for representative fixtures. Baselines captured; see `DOCS/INPROGRESS/Summary_of_Work.md` for implementation notes.
+
 ## 🎯 Upcoming Parser Enhancements
 
 - [ ] Extend the `stsd` sample description parser with codec-specific field extraction (e.g., `avcC`, `hvcC`, encrypted variants) once future tasks define the required metadata surface.
@@ -27,7 +31,3 @@
 ## 🔬 Combine UI Benchmark Follow-Up
 
 - [ ] Execute the Combine-backed UI benchmark on macOS to capture latency metrics on a platform that ships Combine, keeping throughput parity with the CLI harness. *(Blocked — requires macOS runner with Xcode/Combine; see `DOCS/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/50_Combine_UI_Benchmark_macOS_Run.md` and the follow-up notes in `DOCS/TASK_ARCHIVE/47_Combine_UI_Benchmark_macOS/Summary_of_Work.md`.)*
-
-## 📚 Recently Archived Reference
-
-- ✅ Task H3 — JSON export snapshot tests now archived. Implementation details and snapshot update workflow live in `DOCS/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/H3_JSON_Export_Snapshot_Tests.md`.

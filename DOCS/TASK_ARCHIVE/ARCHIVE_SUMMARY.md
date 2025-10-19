@@ -540,3 +540,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/`.
 - **Highlights:** Adds a full-box parser that enumerates each `stsd` sample entry, records entry byte lengths, surfaces data reference indices, and extracts baseline visual/audio metadata for `avc1`, `hvc1`, and `mp4a` entries with targeted unit coverage.
 - **Next steps carried forward:** Extend the parser with codec-specific descriptors (`avcC`, `hvcC`, encrypted variants) and resume the hardware-dependent benchmarking, release readiness, and UI automation runs tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 98_H3_JSON_Export_Snapshot_Tests
+- **Archived files:** `H3_JSON_Export_Snapshot_Tests.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/`.
+- **Highlights:** Preserves the JSON export snapshot suite rollout, including pretty-printed baseline fixtures, regeneration workflow, and Swift test verification guidance for guarding tree format regressions.
+- **Next steps carried forward:** Parser enhancements for codec-specific `stsd` metadata plus macOS-bound benchmarking, release readiness, UI automation, and Combine latency runs remain tracked in the recreated `DOCS/INPROGRESS/next_tasks.md` until hardware access is available.

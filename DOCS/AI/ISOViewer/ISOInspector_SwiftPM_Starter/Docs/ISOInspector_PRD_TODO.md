@@ -221,8 +221,8 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 ### Phase H — Fixtures & Tests
 - [ ] H1. Fixture corpus: MP4 (non-frag), MOV, fMP4 segment, DASH init+media, huge `mdat`, malformed cases.
-- [x] H2. Unit tests: headers, container boundaries, specific box field extraction. **(Completed — see `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md`.)**
-- [ ] H3. Snapshot tests: JSON exports of small fixtures.
+- [x] H2. Unit tests: headers, container boundaries, specific box field extraction. **(Completed — see `DOCS/TASK_ARCHIVE/94_H2_Unit_Tests/Summary_of_Work.md`.)**
+- [x] H3. Snapshot tests: JSON exports of small fixtures. *(Completed — see `Tests/ISOInspectorKitTests/JSONExportSnapshotTests.swift` and `DOCS/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/Summary_of_Work.md` for snapshot baselines and update workflow.)*
 - [ ] H4. Performance tests: parse time & memory cap (<100 MB for 20 GB file).
 
 ### Phase I — Packaging & Release
