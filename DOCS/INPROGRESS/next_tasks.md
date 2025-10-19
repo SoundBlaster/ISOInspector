@@ -1,5 +1,9 @@
 # Next Tasks
 
+## 🚧 Active Development
+
+- [ ] C4. Parse `mdhd` (media header) boxes to surface creation/modification timestamps, timescale, duration, and language metadata across the streaming pipeline. **(In Progress — selected per 2025-10 backlog review; dependencies satisfied by existing `FullBoxReader` infrastructure.)**
+
 ## 📈 Performance Benchmark Planning
 
 - [ ] Schedule macOS CLI/UI large-file benchmark execution using the R4 protocol once dedicated hardware runners come online. **(Blocked — requires macOS automation with Instruments support; track fixtures and manifest revisions in `DOCS/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/R4_Large_File_Performance_Benchmarks.md`.)**

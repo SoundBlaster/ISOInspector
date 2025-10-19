@@ -46,7 +46,7 @@
 
 ## Phase C — Specific Parsers (Baseline)
 > **Priority Update (2025-10-20):** Phase C parser work is now a **P0 blocker** for the upcoming milestone. Treat every unchecked item below as urgent and schedule accordingly.
-- [ ] C1. Stubs: `ftyp`, `mvhd`, `tkhd`, `mdhd`, `hdlr` (input/output types only)
+- [ ] C1. Stubs: `ftyp`, `mvhd`, `tkhd`, `mdhd`, `hdlr` (input/output types only) **(In Progress — tracking `mdhd` parsing work to close out remaining stub coverage.)**
 - [ ] C2. Stubs: `stsd`, `stts`, `ctts`, `stsc`, `stsz/stz2`, `stco/co64`, `stss`
 - [ ] C3. Stubs: `dinf/dref`, `smhd/vmhd`, `edts/elst`, `udta/meta/keys/ilst`
 - [ ] C4. Stubs: codec configs `avcC`, `hvcC`, `esds` (field names only)

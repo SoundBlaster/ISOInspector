@@ -186,7 +186,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] C1. `ftyp`: major_brand, minor_version, compatible_brands[].
 - [ ] C2. `mvhd`: timescale, duration(32/64), rate, volume, matrix.
 - [ ] C3. `tkhd`: flags-driven size; track_id; duration; width/height.
-- [ ] C4. `mdhd`: creation/modification times, timescale, duration, language.
+- [ ] C4. `mdhd`: creation/modification times, timescale, duration, language. **(In Progress — leveraging `FullBoxReader` to decode full box headers and expose metadata to UI/export consumers.)**
 - [ ] C5. `hdlr`: handler_type, name.
 - [ ] C6. `stsd`: entry_count; generic sample_entry header; detect visual/audio entry.
 - [x] C7. Connect persisted bookmark diff entities to resolved bookmark records once reconciliation rules are finalized. _(Completed — see `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/Summary_of_Work.md`.)_
