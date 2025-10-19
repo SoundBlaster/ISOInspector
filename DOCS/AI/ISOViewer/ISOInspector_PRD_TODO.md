@@ -185,7 +185,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 > **Priority Update (2025-10-20):** Phase C parser work is now a **P0 blocker** for the upcoming milestone. Treat every unchecked item below as urgent and schedule accordingly.
 > **Priority Escalation (2025-10-23):** Outstanding items called out by program management — **C2, C3, C8–C15** — are now classified as **Critical P0+** and must be prioritized above all other work until completed.
 - [x] C1. `ftyp`: major_brand, minor_version, compatible_brands[]. **(Completed — see `DOCS/TASK_ARCHIVE/99_C1_ftyp_Box_Parser/Summary_of_Work.md`.)**
-- [ ] 🔴 **P0+** C2. `mvhd`: timescale, duration(32/64), rate, volume, matrix.
+- [ ] 🔴 **P0+** C2. `mvhd`: timescale, duration(32/64), rate, volume, matrix. **(In Progress — see `DOCS/INPROGRESS/C2_mvhd_Movie_Header_Parser.md`.)**
 - [ ] 🔴 **P0+** C3. `tkhd`: flags-driven size; track_id; duration; width/height.
 - [x] C4. `mdhd`: creation/modification times, timescale, duration, language. **(Completed — `BoxParserRegistry` now registers the parser; see `DOCS/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/Summary_of_Work.md`.)**
 - [x] C5. `hdlr`: handler_type, name. **(Completed — see `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md`.)**
