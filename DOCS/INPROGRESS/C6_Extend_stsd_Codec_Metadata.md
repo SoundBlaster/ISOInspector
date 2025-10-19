@@ -7,8 +7,11 @@ Implement codec-specific payload parsing for `stsd` sample entries so ISOInspect
 ## 🧩 Context
 
 - Phase C of the execution workplan elevates parser coverage as a priority, and follow-up notes from Task C6 call out
+
   codec metadata extraction as the next milestone.
-  【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L28-L36】【F:DOCS/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/Summary_of_Work.md†L5-L22】
+
+【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L28-L36】【F:DOCS/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/Summary_of_Work.md†L5-L22】
+
 - The master PRD requires ISOInspector to expose codec configuration boxes (`avcC`, `hvcC`, `esds`) so validation, navigation, and export pipelines can report detailed stream properties. 【F:DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md†L23-L76】【F:DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md†L189-L210】
 - Root TODO item “PDD:45m Extract codec-specific metadata…” and the `next_tasks.md` backlog both track this as the next unblocker for media sample visibility. 【F:todo.md†L40-L44】【F:DOCS/INPROGRESS/next_tasks.md†L7-L18】
 
@@ -19,6 +22,7 @@ Implement codec-specific payload parsing for `stsd` sample entries so ISOInspect
 - Parse `esds` descriptors for `mp4a` entries to expose AudioSpecificConfig (object type, sampling frequency, channel configuration) and any extension descriptors.
 - Preserve encrypted sample entry metadata (`encv`/`enca`) by threading sinf/schi/tenc relationships without losing codec payload access.
 - Extend JSON/export models and SwiftUI detail views so newly parsed codec fields appear in CLI exports and the detail
+
   pane with regression test coverage.
 
 ## ✅ Status
@@ -29,10 +33,15 @@ Implement codec-specific payload parsing for `stsd` sample entries so ISOInspect
 
 - Reuse existing `FullBoxReader`/`BitReader` utilities where possible; add targeted helpers if new bit-level parsing is required.
 - Introduce strongly typed models for codec payloads so validation rules and UI bindings remain type-safe; add Codable
+
   conformance for JSON export.
+
 - Update the parser registry to associate codec sample entries with the new payload decoders while keeping unknown
+
   codecs resilient.
+
 - Expand fixture coverage (or reuse existing fixtures) to assert parsing across AVC, HEVC, and AAC samples, including
+
   encrypted variants if available.
 
 ## 🧠 Source References

@@ -13,8 +13,10 @@
 ## Verification
 
 - `swift test` (includes JSON export snapshots and codec metadata regressions)
+- Re-ran `swift test` on Linux to verify codec metadata coverage stayed green after syncing docs and tasks.
 
 ## Follow-Ups
 
 - Monitor future codec payload additions (e.g., Dolby Vision-specific boxes, additional descriptor extensions) and
+
   extend the registry when new fixtures arrive.
