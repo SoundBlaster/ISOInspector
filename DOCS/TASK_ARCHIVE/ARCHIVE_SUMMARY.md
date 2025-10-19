@@ -516,3 +516,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/`.
 - **Highlights:** Captures the large-file benchmark charter detailing CLI and SwiftUI execution scenarios, fixture sourcing plan, instrumentation matrix, and mitigation strategy for hardware availability, storage pressure, and tooling drift risks.
 - **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` tracks the macOS hardware-dependent benchmark execution, release readiness validation, UI automation, and Combine latency runs that remain blocked until runners come online.
+
+## 94_H2_Unit_Tests
+- **Archived files:** `H2_Unit_Tests.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/94_H2_Unit_Tests/`.
+- **Highlights:** Captures hardening the header decoder and parser registry unit suites with oversized payload checks, UUID boundary coverage, and version 1 movie/track header assertions tied to width, height, and next track identifiers.
+- **Next steps carried forward:** macOS-bound benchmarking, release readiness, and automation follow-ups remain blocked and now persist in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist until dedicated runners come online.

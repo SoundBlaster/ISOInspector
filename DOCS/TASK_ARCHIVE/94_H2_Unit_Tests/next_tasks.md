@@ -1,7 +1,16 @@
 # Next Tasks
 
+## ♿ Accessibility Research
+
+- [x] R3 – Accessibility Guidelines review for SwiftUI tree, detail, and hex experiences. **(Completed — guidelines published as <doc:AccessibilityGuidelines>; see `DOCS/TASK_ARCHIVE/92_Summary_of_Work_2025-10-19_Accessibility_Guidelines/Summary_of_Work.md`.)**
+
+## 🧪 Test Coverage Enablement
+
+- [x] H2 – Unit tests for headers, container boundaries, and specific box field extraction. **(Completed — see `DOCS/TASK_ARCHIVE/94_H2_Unit_Tests/Summary_of_Work.md`.)**
+
 ## 📈 Performance Benchmark Planning
 
+- [x] R4 – Large File Performance Benchmarks research plan. **(Completed — benchmark charter captured in `DOCS/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/R4_Large_File_Performance_Benchmarks.md`.)**
 - [ ] Schedule macOS CLI/UI large-file benchmark execution using the R4 protocol once dedicated hardware runners come online. **(Blocked — requires macOS automation with Instruments support; track fixtures and manifest revisions in `DOCS/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/R4_Large_File_Performance_Benchmarks.md`.)**
 
 ## 📝 Release Readiness Validation
