@@ -182,6 +182,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] B6. Create `BoxParserRegistry`: map fourcc → parser; default: container? or leaf; unknown: opaque leaf.
 
 ### Phase C — Specific Parsers (Baseline)
+> **Priority Update (2025-10-20):** Phase C parser work is now a **P0 blocker** for the upcoming milestone. Treat every unchecked item below as urgent and schedule accordingly.
 - [ ] C1. `ftyp`: major_brand, minor_version, compatible_brands[].
 - [ ] C2. `mvhd`: timescale, duration(32/64), rate, volume, matrix.
 - [ ] C3. `tkhd`: flags-driven size; track_id; duration; width/height.
