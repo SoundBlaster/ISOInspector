@@ -10,4 +10,4 @@
 
 - `todo.md` (validation backlog close-out)
 - `DOCS/INPROGRESS/next_tasks.md` (placeholder removal)
-- `DOCS/INPROGRESS/Summary_of_Work.md` (rolling log updated with this task)
+- `DOCS/TASK_ARCHIVE/100_Summary_of_Work_2025-10-19_ftyp_Follow_Up/Summary_of_Work.md` (rolling log updated with this task)

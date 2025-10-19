@@ -546,3 +546,15 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/`.
 - **Highlights:** Preserves the JSON export snapshot suite rollout, including pretty-printed baseline fixtures, regeneration workflow, and Swift test verification guidance for guarding tree format regressions.
 - **Next steps carried forward:** Parser enhancements for codec-specific `stsd` metadata plus macOS-bound benchmarking, release readiness, UI automation, and Combine latency runs remain tracked in the recreated `DOCS/INPROGRESS/next_tasks.md` until hardware access is available.
+
+## 99_C1_ftyp_Box_Parser
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/99_C1_ftyp_Box_Parser/`.
+- **Highlights:** Captures delivery of the structured `ftyp` box payload parser, including brand metadata propagation through the streaming pipeline, updated JSON export snapshots, and broad regression coverage across parser registry and live pipeline tests.
+- **Next steps carried forward:** Codec inference for `ftyp` brand data remains on the backlog and is tracked through the standing hardware-dependent checklist in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 100_Summary_of_Work_2025-10-19_ftyp_Follow_Up
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/100_Summary_of_Work_2025-10-19_ftyp_Follow_Up/`.
+- **Highlights:** Rolls forward the October 19, 2025 work log confirming the `ftyp` parser integration, cross-linking parser coverage and verification commands, and documenting follow-up coordination with the codec backlog.
+- **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` preserves the macOS-only benchmarking, release readiness, UI automation, Combine latency runs, and codec descriptor follow-ups awaiting dedicated hardware and future planning cycles.
