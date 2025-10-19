@@ -10,6 +10,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case sampleSize(SampleSizeBox)
         case compactSampleSize(CompactSampleSizeBox)
         case syncSampleTable(SyncSampleTableBox)
+        case dataReference(DataReferenceBox)
     }
 
     public struct FileTypeBox: Equatable, Sendable {
@@ -316,6 +317,56 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         }
     }
 
+    public struct DataReferenceBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public enum Location: Equatable, Sendable {
+                case selfContained
+                case url(String)
+                case urn(name: String?, location: String?)
+                case data(Data)
+                case empty
+            }
+
+            public let index: UInt32
+            public let type: FourCharCode
+            public let version: UInt8
+            public let flags: UInt32
+            public let location: Location
+            public let byteRange: Range<Int64>
+            public let payloadRange: Range<Int64>?
+
+            public init(
+                index: UInt32,
+                type: FourCharCode,
+                version: UInt8,
+                flags: UInt32,
+                location: Location,
+                byteRange: Range<Int64>,
+                payloadRange: Range<Int64>?
+            ) {
+                self.index = index
+                self.type = type
+                self.version = version
+                self.flags = flags
+                self.location = location
+                self.byteRange = byteRange
+                self.payloadRange = payloadRange
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let entryCount: UInt32
+        public let entries: [Entry]
+
+        public init(version: UInt8, flags: UInt32, entryCount: UInt32, entries: [Entry]) {
+            self.version = version
+            self.flags = flags
+            self.entryCount = entryCount
+            self.entries = entries
+        }
+    }
+
     public struct Field: Equatable, Sendable {
         public let name: String
         public let value: String
@@ -384,6 +435,11 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var syncSampleTable: SyncSampleTableBox? {
         guard case let .syncSampleTable(box) = detail else { return nil }
+        return box
+    }
+
+    public var dataReference: DataReferenceBox? {
+        guard case let .dataReference(box) = detail else { return nil }
         return box
     }
 }

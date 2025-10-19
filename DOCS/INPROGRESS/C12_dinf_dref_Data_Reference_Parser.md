@@ -16,16 +16,22 @@ Enable ISOInspector to parse the movie data information container (`dinf`) and i
 - Each `dref` entry captures its reference type (e.g., `url `, `urn `), flags, and payload bytes, surfacing URL/URN strings for CLI JSON export and UI detail panes.
 - The parser updates JSON export snapshots to include data reference collections under the owning track/media context, with regression coverage in `ISOInspectorKitTests`.
 - Validation scaffolding consumes parsed references to associate chunk offsets with the correct reference index,
+
   enabling follow-up rule authoring without additional structural changes.
 
 ## 🔧 Implementation Notes
 
 - Extend existing full-box parsing helpers (`FullBoxReader`) to decode `dref` version/flags, then branch on entry type identifiers to extract URL and optional name fields.
 - Ensure reference indices align with one-based numbering described in ISO/IEC 14496-12; unit tests should assert index
+
   ordering and flag-driven semantics (self-contained bit vs. external resource).
+
 - Update CLI export mappers and SwiftUI detail views to include parsed data references, mirroring the formatting used
+
   for other sample table arrays.
+
 - Coordinate with pending Validation Rule #15 work so parsed reference indices are available to correlation logic
+
   without duplicating traversal state.
 
 ## 🧠 Source References
