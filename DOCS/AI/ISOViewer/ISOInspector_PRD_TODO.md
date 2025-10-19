@@ -183,21 +183,22 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 ### Phase C — Specific Parsers (Baseline)
 > **Priority Update (2025-10-20):** Phase C parser work is now a **P0 blocker** for the upcoming milestone. Treat every unchecked item below as urgent and schedule accordingly.
+> **Priority Escalation (2025-10-23):** Outstanding items called out by program management — **C2, C3, C8–C15** — are now classified as **Critical P0+** and must be prioritized above all other work until completed.
 - [x] C1. `ftyp`: major_brand, minor_version, compatible_brands[]. **(Completed — see `DOCS/TASK_ARCHIVE/99_C1_ftyp_Box_Parser/Summary_of_Work.md`.)**
-- [ ] C2. `mvhd`: timescale, duration(32/64), rate, volume, matrix.
-- [ ] C3. `tkhd`: flags-driven size; track_id; duration; width/height.
+- [ ] 🔴 **P0+** C2. `mvhd`: timescale, duration(32/64), rate, volume, matrix.
+- [ ] 🔴 **P0+** C3. `tkhd`: flags-driven size; track_id; duration; width/height.
 - [x] C4. `mdhd`: creation/modification times, timescale, duration, language. **(Completed — `BoxParserRegistry` now registers the parser; see `DOCS/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/Summary_of_Work.md`.)**
 - [x] C5. `hdlr`: handler_type, name. **(Completed — see `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md`.)**
 - [x] C6. `stsd`: entry_count; generic sample_entry header; detect visual/audio entry. *(Completed — see `DOCS/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/`.)*
 - [x] C7. Connect persisted bookmark diff entities to resolved bookmark records once reconciliation rules are finalized. _(Completed — see `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/Summary_of_Work.md`.)_
-- [ ] C8. `stsc`: sample-to-chunk entries.
-- [ ] C9. `stsz/stz2`: sample sizes.
-- [ ] C10. `stco/co64`: chunk offsets (32/64).
-- [ ] C11. `stss`: sync sample numbers.
-- [ ] C12. `dinf/dref`: data reference entries.
-- [ ] C13. `smhd/vmhd`: media headers.
-- [ ] C14. `edts/elst`: edit list entries.
-- [ ] C15. Metadata: `udta`, `meta` (handler), `keys`, `ilst` (basic types).
+- [ ] 🔴 **P0+** C8. `stsc`: sample-to-chunk entries.
+- [ ] 🔴 **P0+** C9. `stsz/stz2`: sample sizes.
+- [ ] 🔴 **P0+** C10. `stco/co64`: chunk offsets (32/64).
+- [ ] 🔴 **P0+** C11. `stss`: sync sample numbers.
+- [ ] 🔴 **P0+** C12. `dinf/dref`: data reference entries.
+- [ ] 🔴 **P0+** C13. `smhd/vmhd`: media headers.
+- [ ] 🔴 **P0+** C14. `edts/elst`: edit list entries.
+- [ ] 🔴 **P0+** C15. Metadata: `udta`, `meta` (handler), `keys`, `ilst` (basic types).
 - [x] C16. Codec configs:
   - [x] C16.1 `avcC`: version/profile/level, `lengthSizeMinusOne`, SPS/PPS counts + lengths. **(Completed — codec metadata now parsed with regression coverage; see `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md` and `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/Summary_of_Work.md`.)**
   - [x] C16.2 `hvcC`: profile/compat/level, arrays (vps/sps/pps), `lengthSizeMinusOne`. **(Completed — see `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md`.)**
