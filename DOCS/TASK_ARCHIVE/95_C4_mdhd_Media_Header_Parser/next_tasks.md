@@ -1,8 +1,8 @@
 # Next Tasks
 
-## 🎯 Immediate Focus
+## 🚧 Active Development
 
-- [ ] Implement the `hdlr` (handler) parser to close out the remaining Phase C backlog item referenced in the MVP checklists. Coordinate with the existing `BoxParserRegistry` wiring so the streaming pipeline, CLI exports, and SwiftUI detail panes surface handler metadata alongside the new `mdhd` parser coverage.
+- [x] C4. Parse `mdhd` (media header) boxes to surface creation/modification timestamps, timescale, duration, and language metadata across the streaming pipeline. **(Completed — parser registered in `ISOInspectorKit` with tests; see `DOCS/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/Summary_of_Work.md` for details.)**
 
 ## 📈 Performance Benchmark Planning
 

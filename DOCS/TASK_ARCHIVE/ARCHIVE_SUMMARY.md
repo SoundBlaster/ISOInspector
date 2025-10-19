@@ -522,3 +522,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/94_H2_Unit_Tests/`.
 - **Highlights:** Captures hardening the header decoder and parser registry unit suites with oversized payload checks, UUID boundary coverage, and version 1 movie/track header assertions tied to width, height, and next track identifiers.
 - **Next steps carried forward:** macOS-bound benchmarking, release readiness, and automation follow-ups remain blocked and now persist in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist until dedicated runners come online.
+
+## 95_C4_mdhd_Media_Header_Parser
+- **Archived files:** `C4_mdhd_Media_Header_Parser.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/`.
+- **Highlights:** Documents delivery of the `mdhd` media header parser, including version-aware timestamp decoding, duration/time-scale extraction, language code helpers, and test fixtures covering 32-bit, 64-bit, and short-payload regressions now wired through the default `BoxParserRegistry`.
+- **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` targets the follow-on `hdlr` parser implementation while preserving the macOS-only benchmarking, release readiness, UI automation, and Combine latency follow-ups awaiting dedicated hardware.
