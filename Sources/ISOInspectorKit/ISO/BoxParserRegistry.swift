@@ -1347,9 +1347,13 @@ public struct BoxParserRegistry: Sendable {
                 }
 
                 let entryRange = entryStart..<entryEnd
+                let hexDigits = width == .bits32 ? 8 : 16
+                let hexFormat = "0x%0\(hexDigits)llX"
+                let hexString = String(format: hexFormat, offset)
+                let formattedValue = "\(offset) (\(hexString))"
                 fields.append(ParsedBoxPayload.Field(
                     name: "entries[\(index)].chunk_offset",
-                    value: String(offset),
+                    value: formattedValue,
                     description: width == .bits32 ? "Chunk offset (32-bit)" : "Chunk offset (64-bit)",
                     byteRange: entryRange
                 ))

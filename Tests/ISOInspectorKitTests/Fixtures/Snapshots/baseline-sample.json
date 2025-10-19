@@ -3770,7 +3770,7 @@
                               },
                               "name" : "entries[0].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "3238"
+                              "value" : "3238 (0x00000CA6)"
                             },
                             {
                               "byteRange" : {
@@ -3779,7 +3779,7 @@
                               },
                               "name" : "entries[1].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "52481"
+                              "value" : "52481 (0x0000CD01)"
                             },
                             {
                               "byteRange" : {
@@ -3788,7 +3788,7 @@
                               },
                               "name" : "entries[2].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "69144"
+                              "value" : "69144 (0x00010E18)"
                             },
                             {
                               "byteRange" : {
@@ -3797,7 +3797,7 @@
                               },
                               "name" : "entries[3].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "86541"
+                              "value" : "86541 (0x0001520D)"
                             },
                             {
                               "byteRange" : {
@@ -3806,7 +3806,7 @@
                               },
                               "name" : "entries[4].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "104938"
+                              "value" : "104938 (0x000199EA)"
                             },
                             {
                               "byteRange" : {
@@ -3815,7 +3815,7 @@
                               },
                               "name" : "entries[5].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "122915"
+                              "value" : "122915 (0x0001E023)"
                             },
                             {
                               "byteRange" : {
@@ -3824,7 +3824,7 @@
                               },
                               "name" : "entries[6].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "132183"
+                              "value" : "132183 (0x00020457)"
                             },
                             {
                               "byteRange" : {
@@ -3833,7 +3833,7 @@
                               },
                               "name" : "entries[7].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "150492"
+                              "value" : "150492 (0x00024BDC)"
                             },
                             {
                               "byteRange" : {
@@ -3842,7 +3842,7 @@
                               },
                               "name" : "entries[8].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "167661"
+                              "value" : "167661 (0x00028EED)"
                             },
                             {
                               "byteRange" : {
@@ -3851,7 +3851,7 @@
                               },
                               "name" : "entries[9].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "176860"
+                              "value" : "176860 (0x0002B2DC)"
                             },
                             {
                               "byteRange" : {
@@ -3860,7 +3860,7 @@
                               },
                               "name" : "entries[10].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "192592"
+                              "value" : "192592 (0x0002F050)"
                             },
                             {
                               "byteRange" : {
@@ -3869,7 +3869,7 @@
                               },
                               "name" : "entries[11].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "208936"
+                              "value" : "208936 (0x00033028)"
                             },
                             {
                               "byteRange" : {
@@ -3878,7 +3878,7 @@
                               },
                               "name" : "entries[12].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "217172"
+                              "value" : "217172 (0x00035054)"
                             },
                             {
                               "byteRange" : {
@@ -3887,7 +3887,7 @@
                               },
                               "name" : "entries[13].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "233746"
+                              "value" : "233746 (0x00039112)"
                             },
                             {
                               "byteRange" : {
@@ -3896,7 +3896,7 @@
                               },
                               "name" : "entries[14].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "250319"
+                              "value" : "250319 (0x0003D1CF)"
                             },
                             {
                               "byteRange" : {
@@ -3905,7 +3905,7 @@
                               },
                               "name" : "entries[15].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "266598"
+                              "value" : "266598 (0x00041166)"
                             },
                             {
                               "byteRange" : {
@@ -3914,7 +3914,7 @@
                               },
                               "name" : "entries[16].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "282834"
+                              "value" : "282834 (0x000450D2)"
                             },
                             {
                               "byteRange" : {
@@ -3923,7 +3923,7 @@
                               },
                               "name" : "entries[17].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "298019"
+                              "value" : "298019 (0x00048C23)"
                             },
                             {
                               "byteRange" : {
@@ -3932,7 +3932,7 @@
                               },
                               "name" : "entries[18].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "317618"
+                              "value" : "317618 (0x0004D8B2)"
                             },
                             {
                               "byteRange" : {
@@ -3941,7 +3941,7 @@
                               },
                               "name" : "entries[19].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "335194"
+                              "value" : "335194 (0x00051D5A)"
                             },
                             {
                               "byteRange" : {
@@ -3950,7 +3950,7 @@
                               },
                               "name" : "entries[20].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "351895"
+                              "value" : "351895 (0x00055E97)"
                             },
                             {
                               "byteRange" : {
@@ -3959,7 +3959,7 @@
                               },
                               "name" : "entries[21].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "372463"
+                              "value" : "372463 (0x0005AEEF)"
                             },
                             {
                               "byteRange" : {
@@ -3968,7 +3968,7 @@
                               },
                               "name" : "entries[22].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "392754"
+                              "value" : "392754 (0x0005FE32)"
                             },
                             {
                               "byteRange" : {
@@ -3977,7 +3977,7 @@
                               },
                               "name" : "entries[23].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "412945"
+                              "value" : "412945 (0x00064D11)"
                             },
                             {
                               "byteRange" : {
@@ -3986,7 +3986,7 @@
                               },
                               "name" : "entries[24].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "433247"
+                              "value" : "433247 (0x00069C5F)"
                             },
                             {
                               "byteRange" : {
@@ -3995,7 +3995,7 @@
                               },
                               "name" : "entries[25].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "452118"
+                              "value" : "452118 (0x0006E616)"
                             },
                             {
                               "byteRange" : {
@@ -4004,7 +4004,7 @@
                               },
                               "name" : "entries[26].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "471984"
+                              "value" : "471984 (0x000733B0)"
                             },
                             {
                               "byteRange" : {
@@ -4013,7 +4013,7 @@
                               },
                               "name" : "entries[27].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "491143"
+                              "value" : "491143 (0x00077E87)"
                             },
                             {
                               "byteRange" : {
@@ -4022,7 +4022,7 @@
                               },
                               "name" : "entries[28].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "508709"
+                              "value" : "508709 (0x0007C325)"
                             },
                             {
                               "byteRange" : {
@@ -4031,7 +4031,7 @@
                               },
                               "name" : "entries[29].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "526188"
+                              "value" : "526188 (0x0008076C)"
                             },
                             {
                               "byteRange" : {
@@ -4040,7 +4040,7 @@
                               },
                               "name" : "entries[30].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "543507"
+                              "value" : "543507 (0x00084B13)"
                             },
                             {
                               "byteRange" : {
@@ -4049,7 +4049,7 @@
                               },
                               "name" : "entries[31].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "560705"
+                              "value" : "560705 (0x00088E41)"
                             },
                             {
                               "byteRange" : {
@@ -4058,7 +4058,7 @@
                               },
                               "name" : "entries[32].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "577599"
+                              "value" : "577599 (0x0008D03F)"
                             },
                             {
                               "byteRange" : {
@@ -4067,7 +4067,7 @@
                               },
                               "name" : "entries[33].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "593655"
+                              "value" : "593655 (0x00090EF7)"
                             },
                             {
                               "byteRange" : {
@@ -4076,7 +4076,7 @@
                               },
                               "name" : "entries[34].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "609996"
+                              "value" : "609996 (0x00094ECC)"
                             },
                             {
                               "byteRange" : {
@@ -4085,7 +4085,7 @@
                               },
                               "name" : "entries[35].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "625994"
+                              "value" : "625994 (0x00098D4A)"
                             },
                             {
                               "byteRange" : {
@@ -4094,7 +4094,7 @@
                               },
                               "name" : "entries[36].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "645688"
+                              "value" : "645688 (0x0009DA38)"
                             },
                             {
                               "byteRange" : {
@@ -4103,7 +4103,7 @@
                               },
                               "name" : "entries[37].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "662161"
+                              "value" : "662161 (0x000A1A91)"
                             },
                             {
                               "byteRange" : {
@@ -4112,7 +4112,7 @@
                               },
                               "name" : "entries[38].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "677876"
+                              "value" : "677876 (0x000A57F4)"
                             },
                             {
                               "byteRange" : {
@@ -4121,7 +4121,7 @@
                               },
                               "name" : "entries[39].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "693620"
+                              "value" : "693620 (0x000A9574)"
                             },
                             {
                               "byteRange" : {
@@ -4130,7 +4130,7 @@
                               },
                               "name" : "entries[40].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "708211"
+                              "value" : "708211 (0x000ACE73)"
                             }
                           ],
                           "sizes" : {
@@ -7053,7 +7053,7 @@
                               },
                               "name" : "entries[0].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "4445"
+                              "value" : "4445 (0x0000115D)"
                             },
                             {
                               "byteRange" : {
@@ -7062,7 +7062,7 @@
                               },
                               "name" : "entries[1].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "53305"
+                              "value" : "53305 (0x0000D039)"
                             },
                             {
                               "byteRange" : {
@@ -7071,7 +7071,7 @@
                               },
                               "name" : "entries[2].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "69763"
+                              "value" : "69763 (0x00011083)"
                             },
                             {
                               "byteRange" : {
@@ -7080,7 +7080,7 @@
                               },
                               "name" : "entries[3].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "86964"
+                              "value" : "86964 (0x000153B4)"
                             },
                             {
                               "byteRange" : {
@@ -7089,7 +7089,7 @@
                               },
                               "name" : "entries[4].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "105562"
+                              "value" : "105562 (0x00019C5A)"
                             },
                             {
                               "byteRange" : {
@@ -7098,7 +7098,7 @@
                               },
                               "name" : "entries[5].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "123562"
+                              "value" : "123562 (0x0001E2AA)"
                             },
                             {
                               "byteRange" : {
@@ -7107,7 +7107,7 @@
                               },
                               "name" : "entries[6].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "132876"
+                              "value" : "132876 (0x0002070C)"
                             },
                             {
                               "byteRange" : {
@@ -7116,7 +7116,7 @@
                               },
                               "name" : "entries[7].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "151157"
+                              "value" : "151157 (0x00024E75)"
                             },
                             {
                               "byteRange" : {
@@ -7125,7 +7125,7 @@
                               },
                               "name" : "entries[8].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "168380"
+                              "value" : "168380 (0x000291BC)"
                             },
                             {
                               "byteRange" : {
@@ -7134,7 +7134,7 @@
                               },
                               "name" : "entries[9].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "177542"
+                              "value" : "177542 (0x0002B586)"
                             },
                             {
                               "byteRange" : {
@@ -7143,7 +7143,7 @@
                               },
                               "name" : "entries[10].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "193236"
+                              "value" : "193236 (0x0002F2D4)"
                             },
                             {
                               "byteRange" : {
@@ -7152,7 +7152,7 @@
                               },
                               "name" : "entries[11].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "209365"
+                              "value" : "209365 (0x000331D5)"
                             },
                             {
                               "byteRange" : {
@@ -7161,7 +7161,7 @@
                               },
                               "name" : "entries[12].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "217818"
+                              "value" : "217818 (0x000352DA)"
                             },
                             {
                               "byteRange" : {
@@ -7170,7 +7170,7 @@
                               },
                               "name" : "entries[13].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "234410"
+                              "value" : "234410 (0x000393AA)"
                             },
                             {
                               "byteRange" : {
@@ -7179,7 +7179,7 @@
                               },
                               "name" : "entries[14].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "250995"
+                              "value" : "250995 (0x0003D473)"
                             },
                             {
                               "byteRange" : {
@@ -7188,7 +7188,7 @@
                               },
                               "name" : "entries[15].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "267283"
+                              "value" : "267283 (0x00041413)"
                             },
                             {
                               "byteRange" : {
@@ -7197,7 +7197,7 @@
                               },
                               "name" : "entries[16].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "283514"
+                              "value" : "283514 (0x0004537A)"
                             },
                             {
                               "byteRange" : {
@@ -7206,7 +7206,7 @@
                               },
                               "name" : "entries[17].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "298648"
+                              "value" : "298648 (0x00048E98)"
                             },
                             {
                               "byteRange" : {
@@ -7215,7 +7215,7 @@
                               },
                               "name" : "entries[18].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "318275"
+                              "value" : "318275 (0x0004DB43)"
                             },
                             {
                               "byteRange" : {
@@ -7224,7 +7224,7 @@
                               },
                               "name" : "entries[19].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "335634"
+                              "value" : "335634 (0x00051F12)"
                             },
                             {
                               "byteRange" : {
@@ -7233,7 +7233,7 @@
                               },
                               "name" : "entries[20].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "352602"
+                              "value" : "352602 (0x0005615A)"
                             },
                             {
                               "byteRange" : {
@@ -7242,7 +7242,7 @@
                               },
                               "name" : "entries[21].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "373133"
+                              "value" : "373133 (0x0005B18D)"
                             },
                             {
                               "byteRange" : {
@@ -7251,7 +7251,7 @@
                               },
                               "name" : "entries[22].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "393413"
+                              "value" : "393413 (0x000600C5)"
                             },
                             {
                               "byteRange" : {
@@ -7260,7 +7260,7 @@
                               },
                               "name" : "entries[23].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "413624"
+                              "value" : "413624 (0x00064FB8)"
                             },
                             {
                               "byteRange" : {
@@ -7269,7 +7269,7 @@
                               },
                               "name" : "entries[24].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "433902"
+                              "value" : "433902 (0x00069EEE)"
                             },
                             {
                               "byteRange" : {
@@ -7278,7 +7278,7 @@
                               },
                               "name" : "entries[25].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "452759"
+                              "value" : "452759 (0x0006E897)"
                             },
                             {
                               "byteRange" : {
@@ -7287,7 +7287,7 @@
                               },
                               "name" : "entries[26].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "472642"
+                              "value" : "472642 (0x00073642)"
                             },
                             {
                               "byteRange" : {
@@ -7296,7 +7296,7 @@
                               },
                               "name" : "entries[27].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "491576"
+                              "value" : "491576 (0x00078038)"
                             },
                             {
                               "byteRange" : {
@@ -7305,7 +7305,7 @@
                               },
                               "name" : "entries[28].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "509348"
+                              "value" : "509348 (0x0007C5A4)"
                             },
                             {
                               "byteRange" : {
@@ -7314,7 +7314,7 @@
                               },
                               "name" : "entries[29].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "526881"
+                              "value" : "526881 (0x00080A21)"
                             },
                             {
                               "byteRange" : {
@@ -7323,7 +7323,7 @@
                               },
                               "name" : "entries[30].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "544175"
+                              "value" : "544175 (0x00084DAF)"
                             },
                             {
                               "byteRange" : {
@@ -7332,7 +7332,7 @@
                               },
                               "name" : "entries[31].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "561341"
+                              "value" : "561341 (0x000890BD)"
                             },
                             {
                               "byteRange" : {
@@ -7341,7 +7341,7 @@
                               },
                               "name" : "entries[32].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "578281"
+                              "value" : "578281 (0x0008D2E9)"
                             },
                             {
                               "byteRange" : {
@@ -7350,7 +7350,7 @@
                               },
                               "name" : "entries[33].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "594275"
+                              "value" : "594275 (0x00091163)"
                             },
                             {
                               "byteRange" : {
@@ -7359,7 +7359,7 @@
                               },
                               "name" : "entries[34].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "610674"
+                              "value" : "610674 (0x00095172)"
                             },
                             {
                               "byteRange" : {
@@ -7368,7 +7368,7 @@
                               },
                               "name" : "entries[35].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "626427"
+                              "value" : "626427 (0x00098EFB)"
                             },
                             {
                               "byteRange" : {
@@ -7377,7 +7377,7 @@
                               },
                               "name" : "entries[36].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "646379"
+                              "value" : "646379 (0x0009DCEB)"
                             },
                             {
                               "byteRange" : {
@@ -7386,7 +7386,7 @@
                               },
                               "name" : "entries[37].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "662855"
+                              "value" : "662855 (0x000A1D47)"
                             },
                             {
                               "byteRange" : {
@@ -7395,7 +7395,7 @@
                               },
                               "name" : "entries[38].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "678104"
+                              "value" : "678104 (0x000A58D8)"
                             },
                             {
                               "byteRange" : {
@@ -7404,7 +7404,7 @@
                               },
                               "name" : "entries[39].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "693647"
+                              "value" : "693647 (0x000A958F)"
                             },
                             {
                               "byteRange" : {
@@ -7413,7 +7413,7 @@
                               },
                               "name" : "entries[40].chunk_offset",
                               "summary" : "Chunk offset (32-bit)",
-                              "value" : "708220"
+                              "value" : "708220 (0x000ACE7C)"
                             }
                           ],
                           "sizes" : {
