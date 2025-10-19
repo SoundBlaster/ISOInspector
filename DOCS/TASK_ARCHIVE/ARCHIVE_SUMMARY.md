@@ -534,3 +534,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/`.
 - **Highlights:** Finalizes the handler (`hdlr`) box parser with handler type classification, UTF-8 name decoding, and streaming/CLI/UI integration tests that verify metadata propagation through exports and SwiftUI detail flows.
 - **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` retains the handler categorization follow-up along with the macOS-bound benchmarking, release readiness, UI automation, and Combine latency work awaiting dedicated runners.
+
+## 97_C6_stsd_Sample_Description_Parser
+- **Archived files:** `C6_stsd_Sample_Description_Parser.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/`.
+- **Highlights:** Adds a full-box parser that enumerates each `stsd` sample entry, records entry byte lengths, surfaces data reference indices, and extracts baseline visual/audio metadata for `avc1`, `hvc1`, and `mp4a` entries with targeted unit coverage.
+- **Next steps carried forward:** Extend the parser with codec-specific descriptors (`avcC`, `hvcC`, encrypted variants) and resume the hardware-dependent benchmarking, release readiness, and UI automation runs tracked in `DOCS/INPROGRESS/next_tasks.md`.

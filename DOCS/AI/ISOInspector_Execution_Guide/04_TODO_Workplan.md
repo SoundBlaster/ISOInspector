@@ -29,7 +29,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed (2025-10-18):** Task B5 – Introduce a `FullBoxReader` helper for `(version, flags)` decoding so downstream parsers share a common entry point. Implementation details recorded in `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/B5_FullBoxReader.md` and `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/Summary_of_Work.md`.
 >
-> **In Progress:** Task C6 — Implement the `stsd` sample description parser to enumerate media sample entries. See `DOCS/INPROGRESS/C6_stsd_Sample_Description_Parser.md` for the active PRD outline.
+> **Completed (2025-10-19):** Task C6 — Implement the `stsd` sample description parser to enumerate media sample entries. See `DOCS/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/` for the archived PRD outline, summary, and verification notes.
 
 ## Phase C — User Interface Package
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
