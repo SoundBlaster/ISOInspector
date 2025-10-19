@@ -2,7 +2,7 @@
 
 ## 🎯 Immediate Focus
 
-- [ ] Implement the `hdlr` (handler) parser to close out the remaining Phase C backlog item referenced in the MVP checklists. Coordinate with the existing `BoxParserRegistry` wiring so the streaming pipeline, CLI exports, and SwiftUI detail panes surface handler metadata alongside the new `mdhd` parser coverage.
+- [ ] Implement the `hdlr` (handler) parser to close out the remaining Phase C backlog item referenced in the MVP checklists. Coordinate with the existing `BoxParserRegistry` wiring so the streaming pipeline, CLI exports, and SwiftUI detail panes surface handler metadata alongside the new `mdhd` parser coverage. **(In Progress — see `DOCS/INPROGRESS/C5_hdlr_Handler_Parser.md`.)**
 
 ## 📈 Performance Benchmark Planning
 
