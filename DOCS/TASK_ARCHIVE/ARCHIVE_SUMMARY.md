@@ -564,3 +564,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/`.
 - **Highlights:** Documents the codec-specific metadata extraction for `stsd` sample entries, including dedicated parsers for `avcC`, `hvcC`, `esds`, and Common Encryption protection boxes alongside refreshed unit tests.
 - **Next steps carried forward:** Monitor upcoming codec payload additions (e.g., Dolby Vision descriptors) and extend `BoxParserRegistry` coverage when new fixtures land, tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 103_C2_mvhd_Movie_Header_Parser
+- **Archived files:** `C2_mvhd_Movie_Header_Parser.md`, `C6_Codec_Payload_Additions.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/`.
+- **Highlights:** Captures delivery of the `mvhd` movie header parser with full transformation matrix decoding, JSON exporter updates, refreshed fixtures, and the codec payload planning roadmap spanning Dolby Vision, AV1, VP9, AC-4, and MPEG-H follow-ups.
+- **Next steps carried forward:** Hardware-dependent benchmarking, release readiness, UI automation, Combine latency benchmarks, and codec descriptor implementation threads now persist in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist awaiting macOS runners and future planning cycles.
