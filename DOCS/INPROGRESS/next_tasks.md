@@ -2,7 +2,7 @@
 
 ## 🚧 Active Task
 
-- [ ] **H4 — Performance Benchmark Validation** — In Progress. See `DOCS/INPROGRESS/H4_Performance_Tests.md` for scope and success criteria.
+- [x] **H4 — Performance Benchmark Validation** — Completed. See `DOCS/TASK_ARCHIVE/107_H4_Performance_Benchmark_Validation/Summary_of_Work.md` for captured metrics and follow-ups.
 
 ## 🔄 Follow-Ups from C5 `hdlr` Parser
 
