@@ -510,3 +510,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/92_Summary_of_Work_2025-10-19_Accessibility_Guidelines/`.
 - **Highlights:** Captures the October 19, 2025 accessibility guidelines checkpoint, linking the published DocC guide with NestedA11yIDs navigation updates and noting that the earlier R3 PRD has been archived for traceability.
 - **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` continues to track the macOS-only release readiness, benchmarking, UI automation, and Combine latency runs that remain blocked pending hardware access.
+
+## 93_R4_Large_File_Performance_Benchmarks
+- **Archived files:** `R4_Large_File_Performance_Benchmarks.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/`.
+- **Highlights:** Captures the large-file benchmark charter detailing CLI and SwiftUI execution scenarios, fixture sourcing plan, instrumentation matrix, and mitigation strategy for hardware availability, storage pressure, and tooling drift risks.
+- **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` tracks the macOS hardware-dependent benchmark execution, release readiness validation, UI automation, and Combine latency runs that remain blocked until runners come online.
