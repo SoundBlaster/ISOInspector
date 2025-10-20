@@ -50,7 +50,7 @@
 - [ ] C2. Stubs: `stsd`, `stts`, `ctts`, `stsz/stz2`, `stco/co64`, `stss` *(Parser for `stsd` now in progress — see `DOCS/INPROGRESS/C6_stsd_Sample_Description_Parser.md`; `stsc` parser archived in `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md`.)*
 - [ ] C3. Stubs: `dinf/dref`, `smhd/vmhd`, `edts/elst`, `udta/meta/keys/ilst`
 - [ ] C4. Stubs: codec configs `avcC`, `hvcC`, `esds` (field names only)
-- [x] C5. Stubs: `mdat`, `free/skip` (opaque markers). **(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)**
+- [x] C5. Stubs: `mdat`, `free/skip` (opaque markers). **(Completed — see `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/Summary_of_Work.md`.)**
 
 ## Phase D — Fragmentation & Indexes
 - [ ] D1. Stubs: `mvex/trex`
