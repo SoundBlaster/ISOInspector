@@ -1,0 +1,105 @@
+old_file: Sources/ISOInspectorKit/ISO/BoxParserRegistry.swift
+splits:
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry.swift
+    symbols:
+      - BoxParserRegistry
+      - BoxParserRegistry.EditListEnvironment
+      - BoxParserRegistry.withEditListEnvironmentProvider
+      - BoxParserRegistry.register(parser:for:)
+      - BoxParserRegistry.register(parser:forExtendedType:)
+      - BoxParserRegistry.registering(parser:for:)
+      - BoxParserRegistry.registering(parser:forExtendedType:)
+      - BoxParserRegistry.parser(for:)
+      - BoxParserRegistry.parse(header:reader:)
+      - BoxParserRegistry.shared
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+DefaultParsers.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers
+      - BoxParserRegistry.DefaultParsers.registerAll(into:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+EditList.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.editList(header:reader:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+FileTypeAndSampleSizes.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.fileType(header:reader:)
+      - BoxParserRegistry.DefaultParsers.sampleSize(header:reader:)
+      - BoxParserRegistry.DefaultParsers.compactSampleSize(header:reader:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+MediaHeaders.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.mediaHeader(header:reader:)
+      - BoxParserRegistry.DefaultParsers.soundMediaHeader(header:reader:)
+      - BoxParserRegistry.DefaultParsers.videoMediaHeader(header:reader:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+MovieHeader.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.movieHeader(header:reader:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+TrackHeader.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.trackHeader(header:reader:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+SampleTables.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.sampleToChunk(header:reader:)
+      - BoxParserRegistry.DefaultParsers.chunkOffset32(header:reader:)
+      - BoxParserRegistry.DefaultParsers.chunkOffset64(header:reader:)
+      - BoxParserRegistry.DefaultParsers.parseChunkOffsets(width:cursor:end:reader:)
+      - BoxParserRegistry.DefaultParsers.syncSampleTable(header:reader:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+HandlerAndData.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.handlerReference(header:reader:)
+      - BoxParserRegistry.DefaultParsers.dataInformation(header:reader:)
+      - BoxParserRegistry.DefaultParsers.dataReference(header:reader:)
+      - BoxParserRegistry.DefaultParsers.decodeDataReferenceLocation(entryIndex:type:payload:payloadStart:selfContained:)
+      - BoxParserRegistry.DefaultParsers.trimTrailingNulls(_:)
+      - BoxParserRegistry.DefaultParsers.decodeUTF8String(from:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+SampleDescription.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.sampleDescription(header:reader:)
+      - BoxParserRegistry.DefaultParsers.SampleEntryParseResult
+      - BoxParserRegistry.DefaultParsers.parseSampleEntry(reader:startOffset:end:index:)
+      - BoxParserRegistry.DefaultParsers.visualSampleEntryTypes
+      - BoxParserRegistry.DefaultParsers.audioSampleEntryTypes
+      - BoxParserRegistry.DefaultParsers.avcSampleEntryTypes
+      - BoxParserRegistry.DefaultParsers.hevcSampleEntryTypes
+      - BoxParserRegistry.DefaultParsers.protectedSampleEntryTypes
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+SampleDescriptionEntries.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.sampleEntryHeaderLength(for:)
+      - BoxParserRegistry.DefaultParsers.parseVisualSampleEntry(reader:contentStart:entryEnd:index:)
+      - BoxParserRegistry.DefaultParsers.parseAudioSampleEntry(reader:contentStart:entryEnd:index:)
+      - BoxParserRegistry.DefaultParsers.NestedBox
+      - BoxParserRegistry.DefaultParsers.parseChildBoxes(reader:contentStart:entryEnd:baseHeaderLength:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+SampleDescriptionProtection.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.parseCodecSpecificFields(format:boxes:reader:entryIndex:)
+      - BoxParserRegistry.DefaultParsers.parseProtectedSampleEntry(reader:boxes:entryIndex:)
+      - BoxParserRegistry.DefaultParsers.parseSchemeInformation(reader:box:entryIndex:)
+      - BoxParserRegistry.DefaultParsers.parseTrackEncryption(reader:box:entryIndex:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+SampleDescriptionCodecAVC.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.parseAvcConfiguration(reader:box:entryIndex:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+SampleDescriptionCodecHEVC.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.parseHevcConfiguration(reader:box:entryIndex:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+SampleDescriptionCodecESDS.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.parseEsdsConfiguration(reader:box:entryIndex:)
+  - path: Sources/ISOInspectorKit/ISO/BoxParserRegistry+Utilities.swift
+    symbols:
+      - BoxParserRegistry.DefaultParsers.readData(_:at:count:end:)
+      - BoxParserRegistry.DefaultParsers.readUInt16(_:at:end:)
+      - BoxParserRegistry.DefaultParsers.decodeISO639Language(_:)
+      - BoxParserRegistry.DefaultParsers.readUInt32(_:at:end:)
+      - BoxParserRegistry.DefaultParsers.readUInt64(_:at:end:)
+      - BoxParserRegistry.DefaultParsers.readFourCC(_:at:end:)
+      - BoxParserRegistry.DefaultParsers.readInt16(_:at:end:)
+      - BoxParserRegistry.DefaultParsers.readInt32(_:at:end:)
+      - BoxParserRegistry.DefaultParsers.readInt64(_:at:end:)
+      - BoxParserRegistry.DefaultParsers.formatFixedPoint(_:integerBits:)
+      - BoxParserRegistry.DefaultParsers.decodeSignedFixedPoint(_:fractionalBits:)
+      - BoxParserRegistry.DefaultParsers.formatSignedFixedPoint(_:fractionalBits:precision:)
+      - BoxParserRegistry.DefaultParsers.normalizedSeconds(for:timescale:)
+      - BoxParserRegistry.DefaultParsers.normalizedSeconds(forSigned:timescale:)
+      - BoxParserRegistry.DefaultParsers.formatSeconds(_:)
+      - BoxParserRegistry.DefaultParsers.formatMediaRate(_:)
+      - BoxParserRegistry.DefaultParsers.boolString(_:)
+      - BoxParserRegistry.DefaultParsers.describeGraphicsMode(_:)
+      - BoxParserRegistry.DefaultParsers.decodeHandlerName(from:at:)
