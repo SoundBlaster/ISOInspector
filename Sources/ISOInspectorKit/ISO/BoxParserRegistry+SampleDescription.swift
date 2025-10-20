@@ -5,6 +5,8 @@ extension BoxParserRegistry.DefaultParsers {
         let rawValues = [
             "avc1", "avc2", "avc3", "avc4",
             "hvc1", "hev1", "dvh1", "dvhe",
+            "dvav", "dvvc",
+            "av01", "vp08", "vp09",
             "encv"
         ]
         let codes = rawValues.compactMap { try? FourCharCode($0) }
@@ -12,7 +14,7 @@ extension BoxParserRegistry.DefaultParsers {
     }()
 
     static let audioSampleEntryTypes: Set<FourCharCode> = {
-        let rawValues = ["mp4a", "enca"]
+        let rawValues = ["mp4a", "enca", "ac-4", "mha1", "mhm1"]
         let codes = rawValues.compactMap { try? FourCharCode($0) }
         return Set(codes)
     }()
