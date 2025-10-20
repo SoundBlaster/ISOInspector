@@ -1,3 +1,3 @@
 # Next Tasks
 
-- [Completed] **C16.4 – Future codec payload descriptors**: Extended codec payload coverage (Dolby Vision, AV1, VP9, Dolby AC-4, MPEG-H) and documented results in `DOCS/INPROGRESS/Summary_of_Work.md`.
+- Acquire real-world fixtures for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H codecs to replace synthetic payloads and refresh snapshot baselines once licensing is cleared.
