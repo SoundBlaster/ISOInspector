@@ -52,9 +52,9 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed:** Task C12 — Delivered the `dinf/dref` data reference parser so entry metadata flows into the random-access validation stack alongside refreshed tests and JSON exports. See `DOCS/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/C12_dinf_dref_Data_Reference_Parser.md` for implementation notes.
 >
-> **Follow-up:** Validation rule #15 remains open to correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and the new `stco/co64` offsets. The refreshed `DOCS/INPROGRESS/next_tasks.md` now tracks that effort alongside metadata decoding extensions queued after the C15 archive.
+> **Follow-up:** Validation rule #15 remains open to correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and the new `stco/co64` offsets. The recreated `DOCS/INPROGRESS/next_tasks.md` now tracks that effort alongside the remaining MP4RA metadata format work queued after archiving `DOCS/TASK_ARCHIVE/128_C15_Metadata_Value_Decoding_Expansion/`.
 >
-> **In Progress:** Expand metadata value decoding for additional data types so metadata exports stay aligned with MP4RA guidance. See `DOCS/INPROGRESS/C15_Metadata_Value_Decoding_Expansion.md` for the active task outline and dependency notes.
+> **Completed:** Expanded metadata value decoding for additional data types so metadata exports stay aligned with MP4RA guidance. See `DOCS/TASK_ARCHIVE/128_C15_Metadata_Value_Decoding_Expansion/C15_Metadata_Value_Decoding_Expansion.md` for the implementation outline and dependency notes.
 >
 > **Completed:** Task C17 – `mdat` parser now records header offsets and payload length while skipping media bytes. Notes captured in `DOCS/TASK_ARCHIVE/126_C17_mdat_Box_Parser/Summary_of_Work.md` alongside parser and snapshot updates.
 >

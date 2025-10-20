@@ -666,3 +666,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/`.
 - **Highlights:** Records the shared padding parser added to `BoxParserRegistry`, JSON export updates that surface padding metadata, and the verification notes covering unit plus live pipeline coverage for `free`/`skip` boxes.
 - **Next steps carried forward:** Continue the metadata decoding expansion and Validation Rule #15 correlation work now tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 128_C15_Metadata_Value_Decoding_Expansion
+- **Archived files:** `C15_Metadata_Value_Decoding_Expansion.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/128_C15_Metadata_Value_Decoding_Expansion/`.
+- **Highlights:** Documents the metadata value decoding enhancements that add boolean, floating-point, and binary payload renderers across the parse tree and JSON exporters, with fixtures validating CLI/app parity.
+- **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` now tracks the remaining MP4RA metadata formats (GIF, TIFF, fixed-point) and Validation Rule #15 chunk/sample correlation diagnostics.
