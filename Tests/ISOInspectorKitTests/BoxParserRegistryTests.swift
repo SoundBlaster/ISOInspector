@@ -718,6 +718,149 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(location, "https://cdn.example.com/audio.aac")
     }
 
+    func testMetadataKeysParserEmitsEntries() throws {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+
+        payload.append(contentsOf: UInt32(2).bigEndianBytes)
+
+        let entries: [(namespace: String, name: String)] = [
+            ("mdta", "com.example.title"),
+            ("mdta", "com.example.year")
+        ]
+
+        for entry in entries {
+            let nameData = Data(entry.name.utf8)
+            var entryData = Data()
+            entryData.append(contentsOf: entry.namespace.utf8)
+            entryData.append(nameData)
+            payload.append(contentsOf: UInt32(entryData.count).bigEndianBytes)
+            payload.append(entryData)
+        }
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("keys"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        XCTAssertEqual(value(named: "version", in: parsed), "0")
+        XCTAssertEqual(value(named: "flags", in: parsed), "0x000000")
+        XCTAssertEqual(value(named: "entry_count", in: parsed), "2")
+        XCTAssertEqual(value(named: "entries[0].namespace", in: parsed), "mdta")
+        XCTAssertEqual(value(named: "entries[0].name", in: parsed), "com.example.title")
+        XCTAssertEqual(value(named: "entries[1].name", in: parsed), "com.example.year")
+
+        let detail = try XCTUnwrap(parsed.metadataKeyTable)
+        XCTAssertEqual(detail.entries.count, 2)
+        XCTAssertEqual(detail.entries[0].index, 1)
+        XCTAssertEqual(detail.entries[0].namespace, "mdta")
+        XCTAssertEqual(detail.entries[0].name, "com.example.title")
+        XCTAssertEqual(detail.entries[1].index, 2)
+        XCTAssertEqual(detail.entries[1].name, "com.example.year")
+    }
+
+    func testMetadataItemListParserDecodesStringAndIntegerValues() throws {
+        let titleEntry = makeMetadataItemEntry(
+            identifierBytes: [0xA9, 0x6E, 0x61, 0x6D],
+            dataBoxes: [
+                makeMetadataDataBox(type: 1, locale: 0, data: Data("Example Title".utf8))
+            ]
+        )
+
+        let tempoValue: UInt16 = 120
+        let tempoEntry = makeMetadataItemEntry(
+            identifierBytes: [0x00, 0x00, 0x00, 0x01],
+            dataBoxes: [
+                makeMetadataDataBox(type: 21, locale: 0, data: Data(tempoValue.bigEndianBytes))
+            ]
+        )
+
+        var payload = Data()
+        payload.append(titleEntry)
+        payload.append(tempoEntry)
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("ilst"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let keyEntry = ParsedBoxPayload.MetadataKeyTableBox.Entry(
+            index: 1,
+            namespace: "mdta",
+            name: "com.example.rating"
+        )
+
+        let environment = BoxParserRegistry.MetadataEnvironment(
+            handlerType: HandlerType(code: try FourCharCode("mdir")),
+            keyTable: [1: keyEntry]
+        )
+
+        let parsed = try BoxParserRegistry.withMetadataEnvironmentProvider({ _, _ in environment }) {
+            try BoxParserRegistry.shared.parse(header: header, reader: reader)
+        }
+
+        let payloadResult = try XCTUnwrap(parsed)
+        XCTAssertEqual(value(named: "handler_type", in: payloadResult), "mdir")
+        XCTAssertEqual(value(named: "entry_count", in: payloadResult), "2")
+        XCTAssertEqual(value(named: "entries[0].identifier", in: payloadResult), "©nam")
+        XCTAssertEqual(value(named: "entries[0].values[0].value", in: payloadResult), "Example Title")
+        XCTAssertEqual(value(named: "entries[1].identifier", in: payloadResult), "key[1]")
+        XCTAssertEqual(value(named: "entries[1].name", in: payloadResult), "com.example.rating")
+        XCTAssertEqual(value(named: "entries[1].values[0].value", in: payloadResult), "120")
+
+        let detail = try XCTUnwrap(payloadResult.metadataItemList)
+        XCTAssertEqual(detail.handlerType?.rawValue, "mdir")
+        XCTAssertEqual(detail.entries.count, 2)
+        XCTAssertEqual(detail.entries[0].values.first?.kind, .utf8("Example Title"))
+        XCTAssertEqual(detail.entries[1].values.first?.kind, .integer(120))
+        XCTAssertEqual(detail.entries[1].namespace, "mdta")
+        XCTAssertEqual(detail.entries[1].name, "com.example.rating")
+    }
+
+    private func makeMetadataItemEntry(identifierBytes: [UInt8], dataBoxes: [Data]) -> Data {
+        precondition(identifierBytes.count == 4, "Identifier must be four bytes")
+        let payload = dataBoxes.reduce(into: Data(), { $0.append($1) })
+        var entry = Data()
+        entry.append(contentsOf: UInt32(8 + payload.count).bigEndianBytes)
+        entry.append(contentsOf: identifierBytes)
+        entry.append(payload)
+        return entry
+    }
+
+    private func makeMetadataDataBox(type: UInt32, locale: UInt32, data: Data) -> Data {
+        var box = Data()
+        box.append(contentsOf: UInt32(16 + data.count).bigEndianBytes)
+        box.append(contentsOf: "data".utf8)
+        box.append(0x00) // version
+        box.append(UInt8((type >> 16) & 0xFF))
+        box.append(UInt8((type >> 8) & 0xFF))
+        box.append(UInt8(type & 0xFF))
+        box.append(contentsOf: locale.bigEndianBytes)
+        box.append(data)
+        return box
+    }
+
     private func makeTrackHeaderFixture(
         version: UInt8,
         flags: UInt32,

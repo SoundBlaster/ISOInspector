@@ -49,6 +49,19 @@ public struct BoxParserRegistry: Sendable {
         }
     }
 
+    public struct MetadataEnvironment: Sendable {
+        public var handlerType: HandlerType?
+        public var keyTable: [UInt32: ParsedBoxPayload.MetadataKeyTableBox.Entry]
+
+        public init(
+            handlerType: HandlerType? = nil,
+            keyTable: [UInt32: ParsedBoxPayload.MetadataKeyTableBox.Entry] = [:]
+        ) {
+            self.handlerType = handlerType
+            self.keyTable = keyTable
+        }
+    }
+
     private static let defaultEditListEnvironmentProvider:
         @Sendable (_ header: BoxHeader, _ reader: RandomAccessReader) -> EditListEnvironment = { _, _ in
             EditListEnvironment()
@@ -73,6 +86,32 @@ public struct BoxParserRegistry: Sendable {
         perform: () throws -> T
     ) rethrows -> T {
         try $editListEnvironmentProviderOverride.withValue(provider, operation: perform)
+    }
+
+    private static let defaultMetadataEnvironmentProvider:
+        @Sendable (_ header: BoxHeader, _ reader: RandomAccessReader) -> MetadataEnvironment = { _, _ in
+            MetadataEnvironment()
+        }
+
+    @TaskLocal
+    private static var metadataEnvironmentProviderOverride:
+        (@Sendable (BoxHeader, RandomAccessReader) -> MetadataEnvironment)?
+
+    static func resolveMetadataEnvironment(
+        header: BoxHeader,
+        reader: RandomAccessReader
+    ) -> MetadataEnvironment {
+        if let override = metadataEnvironmentProviderOverride {
+            return override(header, reader)
+        }
+        return defaultMetadataEnvironmentProvider(header, reader)
+    }
+
+    public static func withMetadataEnvironmentProvider<T>(
+        _ provider: @escaping @Sendable (BoxHeader, RandomAccessReader) -> MetadataEnvironment,
+        perform: () throws -> T
+    ) rethrows -> T {
+        try $metadataEnvironmentProviderOverride.withValue(provider, operation: perform)
     }
 
     public func registering(parser: @escaping Parser, for type: FourCharCode) -> BoxParserRegistry {

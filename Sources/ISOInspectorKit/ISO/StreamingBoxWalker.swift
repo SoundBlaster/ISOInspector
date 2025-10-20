@@ -58,10 +58,11 @@ public struct StreamingBoxWalker: Sendable {
 
             let payloadRange = header.payloadRange
             let shouldParseChildren = Self.shouldParseChildren(for: header, payloadRange: payloadRange)
+            let initialCursor = Self.initialCursor(for: header, payloadRange: payloadRange)
             stack.append(Frame(
                 header: header,
                 range: payloadRange,
-                cursor: payloadRange.lowerBound,
+                cursor: initialCursor,
                 depth: depth,
                 shouldParseChildren: shouldParseChildren
             ))
@@ -83,5 +84,17 @@ private extension StreamingBoxWalker {
             return false
         }
         return FourCharContainerCode.isContainer(header)
+    }
+
+    static func initialCursor(for header: BoxHeader, payloadRange: Range<Int64>) -> Int64 {
+        guard payloadRange.lowerBound < payloadRange.upperBound else {
+            return payloadRange.lowerBound
+        }
+        if header.type.rawValue == "meta" {
+            let available = payloadRange.upperBound - payloadRange.lowerBound
+            let skip = min(Int64(8), available)
+            return payloadRange.lowerBound + skip
+        }
+        return payloadRange.lowerBound
     }
 }
