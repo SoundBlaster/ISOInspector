@@ -625,6 +625,9 @@ private struct MetadataItemListDetail: Encodable {
             let rawTypeHex: String
             let dataFormat: String?
             let locale: UInt32?
+            let fixedPointValue: Double?
+            let fixedPointRaw: Int32?
+            let fixedPointFormat: String?
 
             init(value: ParsedBoxPayload.MetadataItemListBox.Entry.Value) {
                 self.rawType = value.rawType
@@ -639,6 +642,9 @@ private struct MetadataItemListDetail: Encodable {
                 var float64Value: Double?
                 var bytesBase64: String?
                 var dataFormat: String?
+                var fixedPointValue: Double?
+                var fixedPointRaw: Int32?
+                var fixedPointFormat: String?
 
                 switch value.kind {
                 case let .utf8(string):
@@ -669,6 +675,11 @@ private struct MetadataItemListDetail: Encodable {
                 case let .bytes(data):
                     self.kind = "bytes"
                     bytesBase64 = data.isEmpty ? nil : Data(data).base64EncodedString()
+                case let .signedFixedPoint(point):
+                    self.kind = "signed_fixed_point"
+                    fixedPointValue = point.value
+                    fixedPointRaw = point.rawValue
+                    fixedPointFormat = point.format.rawValue
                 }
 
                 self.stringValue = stringValue
@@ -679,6 +690,9 @@ private struct MetadataItemListDetail: Encodable {
                 self.float64Value = float64Value
                 self.bytesBase64 = bytesBase64
                 self.dataFormat = dataFormat
+                self.fixedPointValue = fixedPointValue
+                self.fixedPointRaw = fixedPointRaw
+                self.fixedPointFormat = fixedPointFormat
             }
 
             private enum CodingKeys: String, CodingKey {
@@ -694,6 +708,9 @@ private struct MetadataItemListDetail: Encodable {
                 case rawTypeHex = "raw_type_hex"
                 case dataFormat = "data_format"
                 case locale
+                case fixedPointValue = "fixed_point_value"
+                case fixedPointRaw = "fixed_point_raw"
+                case fixedPointFormat = "fixed_point_format"
             }
         }
 
