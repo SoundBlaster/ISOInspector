@@ -36,6 +36,35 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(fileType.compatibleBrands, [try FourCharCode("mp41")])
     }
 
+    func testDefaultFallbackProvidesPlaceholderPayloadForUnknownBox() throws {
+        let payload = Data([0xDE, 0xAD, 0xBE, 0xEF])
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("zzzz"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        XCTAssertNil(parsed.detail)
+        XCTAssertEqual(value(named: "parser", in: parsed), "placeholder")
+        XCTAssertEqual(value(named: "payload_length", in: parsed), String(payload.count))
+        XCTAssertEqual(
+            value(named: "payload_range", in: parsed),
+            String(describing: header.payloadRange)
+        )
+        let payloadRangeField = try XCTUnwrap(parsed.fields.first(where: { $0.name == "payload_range" }))
+        XCTAssertEqual(payloadRangeField.byteRange, header.payloadRange)
+    }
+
     func testDefaultRegistryParsesMovieHeaderBox() throws {
         var payload = Data()
         payload.append(0x00) // version

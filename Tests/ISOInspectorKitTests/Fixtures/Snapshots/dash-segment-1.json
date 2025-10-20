@@ -16,6 +16,27 @@
         "payloadStart" : 8,
         "start" : 0
       },
+      "payload" : [
+        {
+          "name" : "parser",
+          "summary" : "No parser registered for this box type; returning placeholder metadata.",
+          "value" : "placeholder"
+        },
+        {
+          "name" : "payload_length",
+          "summary" : "Number of bytes in the box payload.",
+          "value" : "16"
+        },
+        {
+          "byteRange" : {
+            "end" : 24,
+            "start" : 8
+          },
+          "name" : "payload_range",
+          "summary" : "Byte range of the payload relative to the file start.",
+          "value" : "8..<24"
+        }
+      ],
       "sizes" : {
         "header" : 8,
         "payload" : 16,
@@ -45,6 +66,27 @@
         "payloadStart" : 32,
         "start" : 24
       },
+      "payload" : [
+        {
+          "name" : "parser",
+          "summary" : "No parser registered for this box type; returning placeholder metadata.",
+          "value" : "placeholder"
+        },
+        {
+          "name" : "payload_length",
+          "summary" : "Number of bytes in the box payload.",
+          "value" : "32"
+        },
+        {
+          "byteRange" : {
+            "end" : 64,
+            "start" : 32
+          },
+          "name" : "payload_range",
+          "summary" : "Byte range of the payload relative to the file start.",
+          "value" : "32..<64"
+        }
+      ],
       "sizes" : {
         "header" : 8,
         "payload" : 32,
@@ -76,6 +118,27 @@
             "payloadStart" : 80,
             "start" : 72
           },
+          "payload" : [
+            {
+              "name" : "parser",
+              "summary" : "No parser registered for this box type; returning placeholder metadata.",
+              "value" : "placeholder"
+            },
+            {
+              "name" : "payload_length",
+              "summary" : "Number of bytes in the box payload.",
+              "value" : "8"
+            },
+            {
+              "byteRange" : {
+                "end" : 88,
+                "start" : 80
+              },
+              "name" : "payload_range",
+              "summary" : "Byte range of the payload relative to the file start.",
+              "value" : "80..<88"
+            }
+          ],
           "sizes" : {
             "header" : 8,
             "payload" : 8,
@@ -103,6 +166,27 @@
                 "payloadStart" : 104,
                 "start" : 96
               },
+              "payload" : [
+                {
+                  "name" : "parser",
+                  "summary" : "No parser registered for this box type; returning placeholder metadata.",
+                  "value" : "placeholder"
+                },
+                {
+                  "name" : "payload_length",
+                  "summary" : "Number of bytes in the box payload.",
+                  "value" : "8"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 112,
+                    "start" : 104
+                  },
+                  "name" : "payload_range",
+                  "summary" : "Byte range of the payload relative to the file start.",
+                  "value" : "104..<112"
+                }
+              ],
               "sizes" : {
                 "header" : 8,
                 "payload" : 8,
@@ -128,6 +212,27 @@
                 "payloadStart" : 120,
                 "start" : 112
               },
+              "payload" : [
+                {
+                  "name" : "parser",
+                  "summary" : "No parser registered for this box type; returning placeholder metadata.",
+                  "value" : "placeholder"
+                },
+                {
+                  "name" : "payload_length",
+                  "summary" : "Number of bytes in the box payload.",
+                  "value" : "16"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 136,
+                    "start" : 120
+                  },
+                  "name" : "payload_range",
+                  "summary" : "Byte range of the payload relative to the file start.",
+                  "value" : "120..<136"
+                }
+              ],
               "sizes" : {
                 "header" : 8,
                 "payload" : 16,
@@ -153,6 +258,27 @@
                 "payloadStart" : 144,
                 "start" : 136
               },
+              "payload" : [
+                {
+                  "name" : "parser",
+                  "summary" : "No parser registered for this box type; returning placeholder metadata.",
+                  "value" : "placeholder"
+                },
+                {
+                  "name" : "payload_length",
+                  "summary" : "Number of bytes in the box payload.",
+                  "value" : "20"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 164,
+                    "start" : 144
+                  },
+                  "name" : "payload_range",
+                  "summary" : "Byte range of the payload relative to the file start.",
+                  "value" : "144..<164"
+                }
+              ],
               "sizes" : {
                 "header" : 8,
                 "payload" : 20,
@@ -175,6 +301,27 @@
             "payloadStart" : 96,
             "start" : 88
           },
+          "payload" : [
+            {
+              "name" : "parser",
+              "summary" : "No parser registered for this box type; returning placeholder metadata.",
+              "value" : "placeholder"
+            },
+            {
+              "name" : "payload_length",
+              "summary" : "Number of bytes in the box payload.",
+              "value" : "68"
+            },
+            {
+              "byteRange" : {
+                "end" : 164,
+                "start" : 96
+              },
+              "name" : "payload_range",
+              "summary" : "Byte range of the payload relative to the file start.",
+              "value" : "96..<164"
+            }
+          ],
           "sizes" : {
             "header" : 8,
             "payload" : 68,
@@ -201,6 +348,27 @@
         "payloadStart" : 72,
         "start" : 64
       },
+      "payload" : [
+        {
+          "name" : "parser",
+          "summary" : "No parser registered for this box type; returning placeholder metadata.",
+          "value" : "placeholder"
+        },
+        {
+          "name" : "payload_length",
+          "summary" : "Number of bytes in the box payload.",
+          "value" : "92"
+        },
+        {
+          "byteRange" : {
+            "end" : 164,
+            "start" : 72
+          },
+          "name" : "payload_range",
+          "summary" : "Byte range of the payload relative to the file start.",
+          "value" : "72..<164"
+        }
+      ],
       "sizes" : {
         "header" : 8,
         "payload" : 92,

@@ -301,6 +301,27 @@
         "payloadStart" : 32,
         "start" : 24
       },
+      "payload" : [
+        {
+          "name" : "parser",
+          "summary" : "No parser registered for this box type; returning placeholder metadata.",
+          "value" : "placeholder"
+        },
+        {
+          "name" : "payload_length",
+          "summary" : "Number of bytes in the box payload.",
+          "value" : "108"
+        },
+        {
+          "byteRange" : {
+            "end" : 140,
+            "start" : 32
+          },
+          "name" : "payload_range",
+          "summary" : "Byte range of the payload relative to the file start.",
+          "value" : "32..<140"
+        }
+      ],
       "sizes" : {
         "header" : 8,
         "payload" : 108,

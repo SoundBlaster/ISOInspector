@@ -42,7 +42,7 @@
 - [ ] B3. Stub `readBoxHeader(at:)` signature (no body)
 - [ ] B4. Stub `parseContainer(parentRange:)` signature (no body); add max-depth constant
 - [ ] B5. Create `BoxParserRegistry` skeleton (register/match fourcc)
-- [ ] B6. Add `FullBoxReader` type with `version`, `flags` placeholders
+- [x] B6. Add `FullBoxReader` type with `version`, `flags` placeholders *(Completed — see `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/B5_FullBoxReader.md`.)*
 
 ## Phase C — Specific Parsers (Baseline)
 > **Priority Update (2025-10-20):** Phase C parser work is now a **P0 blocker** for the upcoming milestone. Treat every unchecked item below as urgent and schedule accordingly.

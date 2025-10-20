@@ -14,7 +14,7 @@ public struct BoxParserRegistry: Sendable {
     ) {
         self.typeParsers = typeParsers
         self.extendedTypeParsers = extendedTypeParsers
-        self.fallback = fallback ?? { _, _ in nil }
+        self.fallback = fallback ?? BoxParserRegistry.placeholderFallback
     }
 
     public mutating func register(parser: @escaping Parser, for type: FourCharCode) {
@@ -37,6 +37,37 @@ public struct BoxParserRegistry: Sendable {
 
     public func parse(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         try parser(for: header)(header, reader)
+    }
+
+    private static let placeholderFallback: Parser = { header, _ in
+        let payloadRange = header.payloadRange
+        let payloadLength = max(0, payloadRange.upperBound - payloadRange.lowerBound)
+
+        var fields: [ParsedBoxPayload.Field] = [
+            ParsedBoxPayload.Field(
+                name: "parser",
+                value: "placeholder",
+                description: "No parser registered for this box type; returning placeholder metadata."
+            ),
+            ParsedBoxPayload.Field(
+                name: "payload_length",
+                value: String(payloadLength),
+                description: "Number of bytes in the box payload."
+            )
+        ]
+
+        if payloadLength > 0 {
+            fields.append(
+                ParsedBoxPayload.Field(
+                    name: "payload_range",
+                    value: String(describing: payloadRange),
+                    description: "Byte range of the payload relative to the file start.",
+                    byteRange: payloadRange
+                )
+            )
+        }
+
+        return ParsedBoxPayload(fields: fields)
     }
 
     public struct EditListEnvironment: Sendable {
