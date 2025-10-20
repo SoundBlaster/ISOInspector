@@ -13,4 +13,18 @@ extension BoxParserRegistry.DefaultParsers {
         )
         return ParsedBoxPayload(fields: [], detail: .mediaData(detail))
     }
+
+    static func padding(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
+        let payloadRange = header.payloadRange
+        guard payloadRange.lowerBound <= payloadRange.upperBound else { return nil }
+        let headerEndOffset = header.startOffset + header.headerSize
+        let detail = ParsedBoxPayload.PaddingBox(
+            type: header.type,
+            headerStartOffset: header.startOffset,
+            headerEndOffset: headerEndOffset,
+            totalSize: header.totalSize,
+            payloadRange: payloadRange
+        )
+        return ParsedBoxPayload(fields: [], detail: .padding(detail))
+    }
 }

@@ -251,6 +251,63 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertTrue(parsed.fields.isEmpty)
     }
 
+    func testDefaultRegistryParsesFreeBoxAsPadding() throws {
+        let payloadLength = 24
+        let totalSize = 8 + payloadLength
+        let startOffset: Int64 = 16384
+        let header = BoxHeader(
+            type: try FourCharCode("free"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: (startOffset + 8)..<(startOffset + Int64(totalSize)),
+            range: startOffset..<(startOffset + Int64(totalSize)),
+            uuid: nil
+        )
+
+        var data = Data(count: Int(startOffset) + totalSize)
+        data.replaceSubrange(Int(startOffset) + 8..<(Int(startOffset) + totalSize), with: Data(count: payloadLength))
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        let padding = try XCTUnwrap(parsed.padding)
+        XCTAssertEqual(padding.type.rawValue, "free")
+        XCTAssertEqual(padding.headerStartOffset, startOffset)
+        XCTAssertEqual(padding.headerEndOffset, startOffset + 8)
+        XCTAssertEqual(padding.totalSize, Int64(totalSize))
+        XCTAssertEqual(padding.payloadRange, (startOffset + 8)..<(startOffset + Int64(totalSize)))
+        XCTAssertEqual(padding.payloadLength, Int64(payloadLength))
+        XCTAssertTrue(parsed.fields.isEmpty)
+    }
+
+    func testDefaultRegistryParsesSkipBoxAsPadding() throws {
+        let payloadLength = 0
+        let headerSize: Int64 = 8
+        let totalSize = headerSize + Int64(payloadLength)
+        let startOffset: Int64 = 19456
+        let header = BoxHeader(
+            type: try FourCharCode("skip"),
+            totalSize: totalSize,
+            headerSize: headerSize,
+            payloadRange: (startOffset + headerSize)..<(startOffset + totalSize),
+            range: startOffset..<(startOffset + totalSize),
+            uuid: nil
+        )
+
+        let reader = InMemoryRandomAccessReader(data: Data(count: Int(startOffset + totalSize)))
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        let padding = try XCTUnwrap(parsed.padding)
+        XCTAssertEqual(padding.type.rawValue, "skip")
+        XCTAssertEqual(padding.headerStartOffset, startOffset)
+        XCTAssertEqual(padding.headerEndOffset, startOffset + headerSize)
+        XCTAssertEqual(padding.totalSize, totalSize)
+        XCTAssertEqual(padding.payloadRange, (startOffset + headerSize)..<(startOffset + totalSize))
+        XCTAssertEqual(padding.payloadLength, 0)
+        XCTAssertTrue(parsed.fields.isEmpty)
+    }
+
     func testDefaultRegistryParsesSoundMediaHeaderBox() throws {
         var payload = Data()
         payload.append(0x00) // version

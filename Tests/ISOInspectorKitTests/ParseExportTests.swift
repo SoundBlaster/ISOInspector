@@ -142,6 +142,57 @@ final class ParseExportTests: XCTestCase {
         XCTAssertTrue(issues.isEmpty)
     }
 
+    func testJSONExporterIncludesPaddingBoxes() async throws {
+        let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
+        let freePayload = Data(count: 12)
+        let free = makeBox(type: "free", payload: freePayload)
+        let skip = makeBox(type: "skip", payload: Data())
+        let moov = makeBox(type: "moov", payload: Data())
+        let mdat = makeBox(type: "mdat", payload: Data(count: 4))
+        let data = ftyp + free + moov + skip + mdat
+
+        let reader = InMemoryRandomAccessReader(data: data)
+        let pipeline = ParsePipeline.live()
+        var builder = ParseTreeBuilder()
+        for try await event in pipeline.events(for: reader) {
+            builder.consume(event)
+        }
+
+        let tree = builder.makeTree()
+        let exporter = JSONParseTreeExporter()
+        let jsonData = try exporter.export(tree: tree)
+        let json = try XCTUnwrap(JSONSerialization.jsonObject(with: jsonData) as? [String: Any])
+
+        let nodes = try XCTUnwrap(json["nodes"] as? [[String: Any]])
+        XCTAssertEqual(nodes.count, 5)
+        XCTAssertEqual(nodes.compactMap { $0["fourcc"] as? String }, ["ftyp", "free", "moov", "skip", "mdat"])
+
+        let freeNode = try XCTUnwrap(nodes.first(where: { $0["fourcc"] as? String == "free" }))
+        let freeStructured = try XCTUnwrap(freeNode["structured"] as? [String: Any])
+        let freePadding = try XCTUnwrap(freeStructured["padding"] as? [String: Any])
+        XCTAssertEqual(freePadding["type"] as? String, "free")
+        XCTAssertEqual(freePadding["headerStartOffset"] as? Int, 24)
+        XCTAssertEqual(freePadding["headerEndOffset"] as? Int, 32)
+        XCTAssertEqual(freePadding["payloadStartOffset"] as? Int, 32)
+        XCTAssertEqual(freePadding["payloadEndOffset"] as? Int, 44)
+        XCTAssertEqual(freePadding["payloadLength"] as? Int, freePayload.count)
+        XCTAssertEqual(freePadding["totalSize"] as? Int, 20)
+
+        let skipNode = try XCTUnwrap(nodes.first(where: { $0["fourcc"] as? String == "skip" }))
+        let skipStructured = try XCTUnwrap(skipNode["structured"] as? [String: Any])
+        let skipPadding = try XCTUnwrap(skipStructured["padding"] as? [String: Any])
+        XCTAssertEqual(skipPadding["type"] as? String, "skip")
+        XCTAssertEqual(skipPadding["headerStartOffset"] as? Int, 52)
+        XCTAssertEqual(skipPadding["headerEndOffset"] as? Int, 60)
+        XCTAssertEqual(skipPadding["payloadStartOffset"] as? Int, 60)
+        XCTAssertEqual(skipPadding["payloadEndOffset"] as? Int, 60)
+        XCTAssertEqual(skipPadding["payloadLength"] as? Int, 0)
+        XCTAssertEqual(skipPadding["totalSize"] as? Int, 8)
+
+        let validationIssues = try XCTUnwrap(json["validationIssues"] as? [[String: Any]])
+        XCTAssertTrue(validationIssues.isEmpty, "Validation issues present: \(validationIssues)")
+    }
+
     func testBinaryCaptureRoundTripPreservesEvents() throws {
         let header = try makeHeader(type: "trak", size: 40)
         let metadata = BoxDescriptor(
@@ -194,5 +245,17 @@ final class ParseExportTests: XCTestCase {
             range: offset..<(offset + size),
             uuid: nil
         )
+    }
+
+    private func makeBox(type: String, payload: Data) -> Data {
+        precondition(type.utf8.count == 4, "Box type must be four characters")
+        var data = Data()
+        let size = UInt32(8 + payload.count).bigEndian
+        withUnsafeBytes(of: size) { buffer in
+            data.append(contentsOf: buffer)
+        }
+        data.append(contentsOf: type.utf8)
+        data.append(payload)
+        return data
     }
 }

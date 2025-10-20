@@ -206,7 +206,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
   - [ ] C16.4 Future codec payload descriptors (e.g., Dolby Vision, enhanced audio) ensure registry coverage stays current. **(In Progress — see `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md`.)**
 
 - [x] C17. `mdat`: record offset/size (skip payload). **(Completed — streaming parser now records byte ranges without loading payload data; see `DOCS/TASK_ARCHIVE/126_C17_mdat_Box_Parser/Summary_of_Work.md`.)**
-- [ ] C18. `free/skip`: opaque pass-through. **(In Progress — see `DOCS/INPROGRESS/C18_free_skip_Pass_Through.md`.)**
+- [x] C18. `free/skip`: opaque pass-through. **(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md` for implementation notes and `DOCS/INPROGRESS/C18_free_skip_Pass_Through.md` for original puzzle scope.)**
 
 - [ ] D1. `mvex/trex`: defaults.
 - [ ] D2. `moof/mfhd`: sequence number.

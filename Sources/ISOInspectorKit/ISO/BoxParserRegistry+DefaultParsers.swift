@@ -9,6 +9,12 @@ extension BoxParserRegistry {
             if let mdat = try? FourCharCode("mdat") {
                 registry.register(parser: mediaData, for: mdat)
             }
+            if let free = try? FourCharCode("free") {
+                registry.register(parser: padding, for: free)
+            }
+            if let skip = try? FourCharCode("skip") {
+                registry.register(parser: padding, for: skip)
+            }
             if let mvhd = try? FourCharCode("mvhd") {
                 registry.register(parser: movieHeader, for: mvhd)
             }

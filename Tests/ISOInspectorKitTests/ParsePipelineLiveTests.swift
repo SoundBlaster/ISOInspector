@@ -65,6 +65,55 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertFalse(reader.didReadPayload)
     }
 
+    func testLivePipelineEmitsPaddingDetailsForFreeAndSkip() async throws {
+        let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
+        let freePayload = Data(count: 12)
+        let free = makeBox(type: "free", payload: freePayload)
+        let skip = makeBox(type: "skip", payload: Data())
+        let mdat = makeBox(type: MediaAndIndexBoxCode.mediaData.rawValue, payload: Data(count: 4))
+        let data = ftyp + free + skip + mdat
+
+        let reader = InMemoryRandomAccessReader(data: data)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+
+        var sawFree = false
+        var sawSkip = false
+
+        for event in events {
+            guard case let .willStartBox(header, _) = event.kind else { continue }
+            guard let payload = event.payload else { continue }
+            switch header.type.rawValue {
+            case "free":
+                sawFree = true
+                let padding = try XCTUnwrap(payload.padding)
+                XCTAssertEqual(padding.type.rawValue, "free")
+                XCTAssertEqual(padding.headerStartOffset, header.startOffset)
+                XCTAssertEqual(padding.headerEndOffset, header.startOffset + header.headerSize)
+                XCTAssertEqual(padding.totalSize, header.totalSize)
+                XCTAssertEqual(padding.payloadRange, header.payloadRange)
+                XCTAssertEqual(padding.payloadLength, Int64(freePayload.count))
+                XCTAssertTrue(payload.fields.isEmpty)
+            case "skip":
+                sawSkip = true
+                let padding = try XCTUnwrap(payload.padding)
+                XCTAssertEqual(padding.type.rawValue, "skip")
+                XCTAssertEqual(padding.headerStartOffset, header.startOffset)
+                XCTAssertEqual(padding.headerEndOffset, header.startOffset + header.headerSize)
+                XCTAssertEqual(padding.totalSize, header.totalSize)
+                XCTAssertEqual(padding.payloadRange, header.payloadRange)
+                XCTAssertEqual(padding.payloadLength, 0)
+                XCTAssertTrue(payload.fields.isEmpty)
+            default:
+                continue
+            }
+        }
+
+        XCTAssertTrue(sawFree)
+        XCTAssertTrue(sawSkip)
+    }
+
     func testLivePipelinePropagatesHeaderErrors() async {
         var corrupted = Data()
         corrupted.append(contentsOf: UInt32(24).bigEndianBytes)
