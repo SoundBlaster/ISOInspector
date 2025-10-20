@@ -212,7 +212,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] C18. `free/skip`: opaque pass-through. **(Completed — see `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/Summary_of_Work.md` for implementation notes and `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/C18_free_skip_Pass_Through.md` for original puzzle scope.)**
 
 - [x] D1. `mvex/trex`: defaults. _(Completed — see `DOCS/TASK_ARCHIVE/D1_mvex_trex_Defaults/Summary_of_Work.md`.)_
-- [ ] D2. `moof/mfhd`: sequence number.
+- [ ] D2. `moof/mfhd`: sequence number. _(In Progress — see [`DOCS/INPROGRESS/D2_moof_mfhd_Sequence_Number.md`](../../INPROGRESS/D2_moof_mfhd_Sequence_Number.md); Section C parsers are complete, so fragment headers can now surface sequence metadata.)_
 - [ ] D3. `traf/tfhd/tfdt/trun`: parse via flags; sample_count; optional data_offset; sizes.
 - [x] D4. `sidx`: refs (sizes/durations), earliest_presentation_time, timescale. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
 - [ ] D5. `mfra/tfra/mfro`: random access table.
