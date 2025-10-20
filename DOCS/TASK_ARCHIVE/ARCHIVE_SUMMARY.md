@@ -636,3 +636,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/121_C14b_Implement_elst_Parser/`.
 - **Highlights:** Registers the streaming `elst` decoder that emits normalized edit list metadata, playback rates, and cumulative presentation offsets while threading `mvhd`/`mdhd` timescales into the live parse pipeline. Fixtures and tests cover both 32-bit and 64-bit edit entries so CLI exports and downstream consumers stay aligned.
 - **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` now tracks Tasks C14c–C14d for validation and fixture updates, plus Task C15 metadata coverage and Validation Rule #15 chunk/sample correlation work.
+
+## 122_C14c_Edit_List_Duration_Validation
+- **Archived files:** `C14c_Edit_List_Duration_Validation.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/122_C14c_Edit_List_Duration_Validation/`.
+- **Highlights:** Captures validation rule VR-014 that reconciles edit list presentation spans against `mvhd`, `tkhd`, and `mdhd` durations, surfaces unsupported playback rates, and defers diagnostics until referenced media headers are parsed so streaming order remains flexible.
+- **Next steps carried forward:** Fresh fixtures (Task C14d), metadata box coverage (Task C15), and Validation Rule #15 chunk/sample correlation remain open in `DOCS/INPROGRESS/next_tasks.md` alongside existing backlog checkpoints.
