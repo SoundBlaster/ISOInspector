@@ -4,7 +4,9 @@
 
 - [ ] 🔴 **P0+** C14c. Wire edit list payloads into validation so reconciled presentation durations align with
 
-  movie/track headers and flag gaps or overlaps. Extend duration diagnostics to reference edit list context.
+  movie/track headers and flag gaps or overlaps. Extend duration diagnostics to reference edit list context. _(In
+Progress — see
+  `DOCS/INPROGRESS/C14c_Edit_List_Duration_Validation.md`.)_
 
 - [ ] 🔴 **P0+** C14d. Refresh fixtures, JSON exports, and snapshot baselines covering common edit list scenarios (empty
 
