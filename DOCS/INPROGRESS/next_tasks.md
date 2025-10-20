@@ -10,14 +10,15 @@ point rate handling, and how edit list segment counts relate to `mvhd`/`tkhd` du
 
 - [ ] 🔴 **P0+** C14b. Implement `elst` entry parsing within `BoxParserRegistry`, capturing segment duration, media time, and rate
 
-  while normalizing rate to double precision for UI/export consumers. Ensure large edit lists stream without
-over-allocation.
+    while normalizing rate to double precision for UI/export consumers. Ensure large edit lists stream without
+  over-allocation. **(In Progress — see `DOCS/INPROGRESS/C14b_Implement_elst_Parser.md`.)**
 
 - [ ] 🔴 **P0+** C14c. Wire edit list payloads into validation so reconciled presentation durations align with
 
   movie/track headers and flag gaps or overlaps. Extend existing duration diagnostics to reference edit list context.
 
 - [ ] 🔴 **P0+** C14d. Refresh fixtures, JSON exports, and snapshot baselines covering common edit list scenarios (empty
+
   list,
 
   single offset, multi-segment, rate adjustments) and document test execution notes in the new task summary.
