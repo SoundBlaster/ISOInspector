@@ -391,7 +391,40 @@ private extension BoxParserRegistry.DefaultParsers {
                     typeDescription: "Unsigned Integer"
                 )
             }
+        case 23:
+            if let value = parseFloat32(from: data) {
+                return MetadataValueDescription(
+                    kind: .float32(value),
+                    display: formatFloatingPoint(value),
+                    typeDescription: "Float32"
+                )
+            }
+        case 24:
+            if let value = parseFloat64(from: data) {
+                return MetadataValueDescription(
+                    kind: .float64(value),
+                    display: formatFloatingPoint(value),
+                    typeDescription: "Float64"
+                )
+            }
+        case 27:
+            if let value = parseBoolean(from: data) {
+                return MetadataValueDescription(
+                    kind: .boolean(value),
+                    display: value ? "true" : "false",
+                    typeDescription: "Boolean"
+                )
+            }
+        case 13:
+            return describeDataValue(format: .jpeg, data: data)
+        case 14:
+            return describeDataValue(format: .png, data: data)
+        case 15:
+            return describeDataValue(format: .bmp, data: data)
         default:
+            // @todo PDD:30m Surface additional MP4RA metadata data types (e.g., GIF, TIFF, signed fixed-point)
+            //        when fixtures land so CLI/app exports stay human-readable. Track scope in
+            //        DOCS/INPROGRESS/next_tasks.md.
             break
         }
 
@@ -429,5 +462,54 @@ private extension BoxParserRegistry.DefaultParsers {
             value = (value << 8) | UInt64(byte)
         }
         return value
+    }
+
+    private static func parseFloat32(from data: Data) -> Float32? {
+        guard data.count == MemoryLayout<UInt32>.size else { return nil }
+        var value: UInt32 = 0
+        for byte in data {
+            value = (value << 8) | UInt32(byte)
+        }
+        return Float32(bitPattern: value)
+    }
+
+    private static func parseFloat64(from data: Data) -> Double? {
+        guard data.count == MemoryLayout<UInt64>.size else { return nil }
+        var value: UInt64 = 0
+        for byte in data {
+            value = (value << 8) | UInt64(byte)
+        }
+        return Double(bitPattern: value)
+    }
+
+    private static func parseBoolean(from data: Data) -> Bool? {
+        guard data.count == 1 else { return nil }
+        switch data[0] {
+        case 0:
+            return false
+        case 1:
+            return true
+        default:
+            return nil
+        }
+    }
+
+    private static func formatFloatingPoint<T: BinaryFloatingPoint>(_ value: T) -> String {
+        if let doubleValue = value as? Double {
+            return String(doubleValue)
+        }
+        return String(Double(value))
+    }
+
+    private static func describeDataValue(
+        format: ParsedBoxPayload.MetadataItemListBox.Entry.Value.DataFormat,
+        data: Data
+    ) -> MetadataValueDescription {
+        let display = "\(format.valuePrefix) (\(data.count) bytes)"
+        return MetadataValueDescription(
+            kind: .data(format: format, data: data),
+            display: display,
+            typeDescription: format.displayName
+        )
     }
 }

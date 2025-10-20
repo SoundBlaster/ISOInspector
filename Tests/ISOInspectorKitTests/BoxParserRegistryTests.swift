@@ -953,6 +953,78 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(detail.entries[1].name, "com.example.rating")
     }
 
+    func testMetadataItemListParserDecodesBooleanFloatingPointAndDataValues() throws {
+        let booleanEntry = makeMetadataItemEntry(
+            identifierBytes: [0xA9, 0x73, 0x68, 0x6F],
+            dataBoxes: [
+                makeMetadataDataBox(type: 27, locale: 0, data: Data([0x01]))
+            ]
+        )
+
+        let float32Value = Float32(42.5)
+        let float32Entry = makeMetadataItemEntry(
+            identifierBytes: [0xA9, 0x74, 0x6D, 0x70],
+            dataBoxes: [
+                makeMetadataDataBox(type: 23, locale: 0, data: Data(float32Value.bitPattern.bigEndianBytes))
+            ]
+        )
+
+        let float64Value = Double(273.15)
+        let float64Entry = makeMetadataItemEntry(
+            identifierBytes: [0xA9, 0x70, 0x72, 0x66],
+            dataBoxes: [
+                makeMetadataDataBox(type: 24, locale: 0, data: Data(float64Value.bitPattern.bigEndianBytes))
+            ]
+        )
+
+        let jpegData = Data([0xFF, 0xD8, 0xFF, 0xEE])
+        let jpegEntry = makeMetadataItemEntry(
+            identifierBytes: [0xA9, 0x63, 0x76, 0x72],
+            dataBoxes: [
+                makeMetadataDataBox(type: 13, locale: 0, data: jpegData)
+            ]
+        )
+
+        var payload = Data()
+        payload.append(booleanEntry)
+        payload.append(float32Entry)
+        payload.append(float64Entry)
+        payload.append(jpegEntry)
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("ilst"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        XCTAssertEqual(value(named: "entry_count", in: parsed), "4")
+        XCTAssertEqual(value(named: "entries[0].values[0].value", in: parsed), "true")
+        XCTAssertEqual(value(named: "entries[0].values[0].type", in: parsed), "Boolean")
+        XCTAssertEqual(value(named: "entries[1].values[0].value", in: parsed), "42.5")
+        XCTAssertEqual(value(named: "entries[1].values[0].type", in: parsed), "Float32")
+        XCTAssertEqual(value(named: "entries[2].values[0].value", in: parsed), "273.15")
+        XCTAssertEqual(value(named: "entries[2].values[0].type", in: parsed), "Float64")
+        XCTAssertEqual(value(named: "entries[3].values[0].value", in: parsed), "JPEG data (4 bytes)")
+        XCTAssertEqual(value(named: "entries[3].values[0].type", in: parsed), "JPEG Data")
+
+        let detail = try XCTUnwrap(parsed.metadataItemList)
+        XCTAssertEqual(detail.entries.count, 4)
+        XCTAssertEqual(detail.entries[0].values.first?.kind, .boolean(true))
+        XCTAssertEqual(detail.entries[1].values.first?.kind, .float32(float32Value))
+        XCTAssertEqual(detail.entries[2].values.first?.kind, .float64(float64Value))
+        XCTAssertEqual(detail.entries[3].values.first?.kind, .data(format: .jpeg, data: jpegData))
+    }
+
     private func makeMetadataItemEntry(identifierBytes: [UInt8], dataBoxes: [Data]) -> Data {
         precondition(identifierBytes.count == 4, "Identifier must be four bytes")
         let payload = dataBoxes.reduce(into: Data(), { $0.append($1) })
