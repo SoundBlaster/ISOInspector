@@ -152,6 +152,9 @@ private struct StructuredPayload: Encodable {
     let compactSampleSize: CompactSampleSizeDetail?
     let syncSampleTable: SyncSampleTableDetail?
     let dataReference: DataReferenceDetail?
+    let metadata: MetadataDetail?
+    let metadataKeys: MetadataKeyTableDetail?
+    let metadataItems: MetadataItemListDetail?
 
     init(detail: ParsedBoxPayload.Detail) {
         switch detail {
@@ -168,6 +171,9 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = nil
             self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
         case let .movieHeader(box):
             self.fileType = nil
             self.movieHeader = MovieHeaderDetail(box: box)
@@ -181,6 +187,9 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = nil
             self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
         case let .trackHeader(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -194,6 +203,9 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = nil
             self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
         case let .soundMediaHeader(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -207,6 +219,9 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = nil
             self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
         case let .videoMediaHeader(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -220,6 +235,9 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = nil
             self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
         case let .editList(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -233,6 +251,9 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = nil
             self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
         case let .sampleToChunk(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -246,6 +267,9 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = nil
             self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
         case let .chunkOffset(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -259,6 +283,9 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = nil
             self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
         case let .sampleSize(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -272,6 +299,9 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = nil
             self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
         case let .compactSampleSize(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -285,6 +315,9 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = CompactSampleSizeDetail(box: box)
             self.syncSampleTable = nil
             self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
         case let .syncSampleTable(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -298,6 +331,9 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = SyncSampleTableDetail(box: box)
             self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
         case let .dataReference(box):
             self.fileType = nil
             self.movieHeader = nil
@@ -311,6 +347,57 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = nil
             self.dataReference = DataReferenceDetail(box: box)
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
+        case let .metadata(box):
+            self.fileType = nil
+            self.movieHeader = nil
+            self.trackHeader = nil
+            self.soundMediaHeader = nil
+            self.videoMediaHeader = nil
+            self.editList = nil
+            self.sampleToChunk = nil
+            self.chunkOffset = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
+            self.syncSampleTable = nil
+            self.dataReference = nil
+            self.metadata = MetadataDetail(box: box)
+            self.metadataKeys = nil
+            self.metadataItems = nil
+        case let .metadataKeyTable(box):
+            self.fileType = nil
+            self.movieHeader = nil
+            self.trackHeader = nil
+            self.soundMediaHeader = nil
+            self.videoMediaHeader = nil
+            self.editList = nil
+            self.sampleToChunk = nil
+            self.chunkOffset = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
+            self.syncSampleTable = nil
+            self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = MetadataKeyTableDetail(box: box)
+            self.metadataItems = nil
+        case let .metadataItemList(box):
+            self.fileType = nil
+            self.movieHeader = nil
+            self.trackHeader = nil
+            self.soundMediaHeader = nil
+            self.videoMediaHeader = nil
+            self.editList = nil
+            self.sampleToChunk = nil
+            self.chunkOffset = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
+            self.syncSampleTable = nil
+            self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = MetadataItemListDetail(box: box)
         }
     }
 
@@ -327,6 +414,193 @@ private struct StructuredPayload: Encodable {
         case compactSampleSize = "compact_sample_size"
         case syncSampleTable = "sync_sample_table"
         case dataReference = "data_reference"
+        case metadata = "metadata"
+        case metadataKeys = "metadata_keys"
+        case metadataItems = "metadata_items"
+    }
+}
+
+private struct MetadataDetail: Encodable {
+    let version: UInt8
+    let flags: UInt32
+    let reserved: UInt32
+
+    init(box: ParsedBoxPayload.MetadataBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.reserved = box.reserved
+    }
+}
+
+private struct MetadataKeyTableDetail: Encodable {
+    struct Entry: Encodable {
+        let index: UInt32
+        let namespace: String
+        let name: String
+    }
+
+    let version: UInt8
+    let flags: UInt32
+    let entryCount: Int
+    let entries: [Entry]
+
+    init(box: ParsedBoxPayload.MetadataKeyTableBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.entries = box.entries.map { Entry(index: $0.index, namespace: $0.namespace, name: $0.name) }
+        self.entryCount = entries.count
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case entryCount = "entry_count"
+        case entries
+    }
+}
+
+private struct MetadataItemListDetail: Encodable {
+    struct Entry: Encodable {
+        struct Identifier: Encodable {
+            let kind: String
+            let display: String
+            let rawValue: UInt32
+            let rawValueHex: String
+            let keyIndex: UInt32?
+
+            init(identifier: ParsedBoxPayload.MetadataItemListBox.Entry.Identifier) {
+                switch identifier {
+                case let .fourCC(raw, display):
+                    self.kind = "fourcc"
+                    self.rawValue = raw
+                    self.rawValueHex = String(format: "0x%08X", raw)
+                    self.keyIndex = nil
+                    if display.isEmpty {
+                        self.display = self.rawValueHex
+                    } else {
+                        self.display = display
+                    }
+                case let .keyIndex(index):
+                    self.kind = "key_index"
+                    self.rawValue = index
+                    self.rawValueHex = String(format: "0x%08X", index)
+                    self.keyIndex = index
+                    self.display = "key[\(index)]"
+                case let .raw(value):
+                    self.kind = "raw"
+                    self.rawValue = value
+                    self.rawValueHex = String(format: "0x%08X", value)
+                    self.keyIndex = nil
+                    self.display = self.rawValueHex
+                }
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case kind
+                case display
+                case rawValue = "raw_value"
+                case rawValueHex = "raw_value_hex"
+                case keyIndex = "key_index"
+            }
+        }
+
+        struct Value: Encodable {
+            let kind: String
+            let stringValue: String?
+            let integerValue: Int64?
+            let unsignedValue: UInt64?
+            let bytesBase64: String?
+            let rawType: UInt32
+            let rawTypeHex: String
+            let locale: UInt32?
+
+            init(value: ParsedBoxPayload.MetadataItemListBox.Entry.Value) {
+                self.rawType = value.rawType
+                self.rawTypeHex = String(format: "0x%06X", value.rawType)
+                self.locale = value.locale == 0 ? nil : value.locale
+                switch value.kind {
+                case let .utf8(string):
+                    self.kind = "utf8"
+                    self.stringValue = string
+                    self.integerValue = nil
+                    self.unsignedValue = nil
+                    self.bytesBase64 = nil
+                case let .utf16(string):
+                    self.kind = "utf16"
+                    self.stringValue = string
+                    self.integerValue = nil
+                    self.unsignedValue = nil
+                    self.bytesBase64 = nil
+                case let .integer(number):
+                    self.kind = "integer"
+                    self.stringValue = nil
+                    self.integerValue = number
+                    self.unsignedValue = nil
+                    self.bytesBase64 = nil
+                case let .unsignedInteger(number):
+                    self.kind = "unsigned_integer"
+                    self.stringValue = nil
+                    self.integerValue = nil
+                    self.unsignedValue = number
+                    self.bytesBase64 = nil
+                case let .bytes(data):
+                    self.kind = "bytes"
+                    self.stringValue = nil
+                    self.integerValue = nil
+                    self.unsignedValue = nil
+                    self.bytesBase64 = data.isEmpty ? nil : Data(data).base64EncodedString()
+                }
+            }
+
+            private enum CodingKeys: String, CodingKey {
+                case kind
+                case stringValue = "string_value"
+                case integerValue = "integer_value"
+                case unsignedValue = "unsigned_value"
+                case bytesBase64 = "bytes_base64"
+                case rawType = "raw_type"
+                case rawTypeHex = "raw_type_hex"
+                case locale
+            }
+        }
+
+        let index: Int
+        let identifier: Identifier
+        let namespace: String?
+        let name: String?
+        let values: [Value]
+
+        init(entry: ParsedBoxPayload.MetadataItemListBox.Entry, index: Int) {
+            self.index = index
+            self.identifier = Identifier(identifier: entry.identifier)
+            self.namespace = entry.namespace
+            self.name = entry.name
+            self.values = entry.values.map(Value.init)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index
+            case identifier
+            case namespace
+            case name
+            case values
+        }
+    }
+
+    let handlerType: String?
+    let entryCount: Int
+    let entries: [Entry]
+
+    init(box: ParsedBoxPayload.MetadataItemListBox) {
+        self.handlerType = box.handlerType?.rawValue
+        self.entries = box.entries.enumerated().map { Entry(entry: $0.element, index: $0.offset + 1) }
+        self.entryCount = entries.count
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case handlerType = "handler_type"
+        case entryCount = "entry_count"
+        case entries
     }
 }
 

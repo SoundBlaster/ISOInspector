@@ -14,6 +14,9 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case compactSampleSize(CompactSampleSizeBox)
         case syncSampleTable(SyncSampleTableBox)
         case dataReference(DataReferenceBox)
+        case metadata(MetadataBox)
+        case metadataKeyTable(MetadataKeyTableBox)
+        case metadataItemList(MetadataItemListBox)
     }
 
     public struct FileTypeBox: Equatable, Sendable {
@@ -499,6 +502,97 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         }
     }
 
+    public struct MetadataBox: Equatable, Sendable {
+        public let version: UInt8
+        public let flags: UInt32
+        public let reserved: UInt32
+
+        public init(version: UInt8, flags: UInt32, reserved: UInt32) {
+            self.version = version
+            self.flags = flags
+            self.reserved = reserved
+        }
+    }
+
+    public struct MetadataKeyTableBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public let index: UInt32
+            public let namespace: String
+            public let name: String
+
+            public init(index: UInt32, namespace: String, name: String) {
+                self.index = index
+                self.namespace = namespace
+                self.name = name
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let entries: [Entry]
+
+        public init(version: UInt8, flags: UInt32, entries: [Entry]) {
+            self.version = version
+            self.flags = flags
+            self.entries = entries
+        }
+    }
+
+    public struct MetadataItemListBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public enum Identifier: Equatable, Sendable {
+                case fourCC(raw: UInt32, display: String)
+                case keyIndex(UInt32)
+                case raw(UInt32)
+            }
+
+            public struct Value: Equatable, Sendable {
+                public enum Kind: Equatable, Sendable {
+                    case utf8(String)
+                    case utf16(String)
+                    case integer(Int64)
+                    case unsignedInteger(UInt64)
+                    case bytes(Data)
+                }
+
+                public let kind: Kind
+                public let rawType: UInt32
+                public let locale: UInt32
+
+                public init(kind: Kind, rawType: UInt32, locale: UInt32) {
+                    self.kind = kind
+                    self.rawType = rawType
+                    self.locale = locale
+                }
+            }
+
+            public let identifier: Identifier
+            public let namespace: String?
+            public let name: String?
+            public let values: [Value]
+
+            public init(
+                identifier: Identifier,
+                namespace: String?,
+                name: String?,
+                values: [Value]
+            ) {
+                self.identifier = identifier
+                self.namespace = namespace
+                self.name = name
+                self.values = values
+            }
+        }
+
+        public let handlerType: HandlerType?
+        public let entries: [Entry]
+
+        public init(handlerType: HandlerType?, entries: [Entry]) {
+            self.handlerType = handlerType
+            self.entries = entries
+        }
+    }
+
     public struct Field: Equatable, Sendable {
         public let name: String
         public let value: String
@@ -587,6 +681,21 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var dataReference: DataReferenceBox? {
         guard case let .dataReference(box) = detail else { return nil }
+        return box
+    }
+
+    public var metadataBox: MetadataBox? {
+        guard case let .metadata(box) = detail else { return nil }
+        return box
+    }
+
+    public var metadataKeyTable: MetadataKeyTableBox? {
+        guard case let .metadataKeyTable(box) = detail else { return nil }
+        return box
+    }
+
+    public var metadataItemList: MetadataItemListBox? {
+        guard case let .metadataItemList(box) = detail else { return nil }
         return box
     }
 }

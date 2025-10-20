@@ -424,6 +424,36 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertEqual(parsed.fields.first { $0.name == "handler_name" }?.value, "Metadata Handler")
     }
 
+    func testLivePipelineParsesMetadataHierarchy() async throws {
+        let metadataHierarchy = makeMetadataContainer()
+        let moov = makeContainer(type: ContainerTypes.movie, children: [metadataHierarchy])
+        let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
+        let reader = InMemoryRandomAccessReader(data: ftyp + moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let ilstEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "ilst"
+            }
+            return false
+        })
+
+        let parsed = try XCTUnwrap(ilstEvent.payload)
+        XCTAssertEqual(field(named: "handler_type", in: parsed), "mdir")
+        XCTAssertEqual(field(named: "entries[0].identifier", in: parsed), "©nam")
+        XCTAssertEqual(field(named: "entries[0].values[0].value", in: parsed), "Example Title")
+        XCTAssertEqual(field(named: "entries[1].identifier", in: parsed), "key[1]")
+        XCTAssertEqual(field(named: "entries[1].name", in: parsed), "com.example.rating")
+        XCTAssertEqual(field(named: "entries[1].values[0].value", in: parsed), "120")
+
+        let detail = try XCTUnwrap(parsed.metadataItemList)
+        XCTAssertEqual(detail.handlerType?.rawValue, "mdir")
+        XCTAssertEqual(detail.entries.count, 2)
+        XCTAssertEqual(detail.entries[0].values.first?.kind, .utf8("Example Title"))
+        XCTAssertEqual(detail.entries[1].values.first?.kind, .integer(120))
+    }
+
     private func collectEvents(from stream: ParsePipeline.EventStream) async throws -> [ParseEvent] {
         var result: [ParseEvent] = []
         for try await event in stream {
@@ -583,6 +613,93 @@ final class ParsePipelineLiveTests: XCTestCase {
         }
         data.append(payload)
         return data
+    }
+
+    private func makeMetadataContainer() -> Data {
+        let handler = makeMetadataHandlerBox()
+        let keys = makeMetadataKeysBox(entries: [
+            (namespace: "mdta", name: "com.example.rating")
+        ])
+        let ilst = makeMetadataItemListBox(entries: [
+            (identifier: [0xA9, 0x6E, 0x61, 0x6D], type: 1, locale: 0, data: Data("Example Title".utf8)),
+            (identifier: [0x00, 0x00, 0x00, 0x01], type: 21, locale: 0, data: Data(UInt16(120).bigEndianBytes))
+        ])
+
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // reserved
+        payload.append(handler)
+        payload.append(keys)
+        payload.append(ilst)
+
+        let meta = makeBox(type: "meta", payload: payload)
+        return makeBox(type: "udta", payload: meta)
+    }
+
+    private func makeMetadataHandlerBox() -> Data {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // pre-defined
+        payload.append(contentsOf: "mdir".utf8) // metadata handler
+        payload.append(contentsOf: Data(count: 12)) // reserved
+        payload.append(contentsOf: "Metadata Handler".utf8)
+        payload.append(0x00)
+        return makeBox(type: "hdlr", payload: payload)
+    }
+
+    private func makeMetadataKeysBox(entries: [(namespace: String, name: String)]) -> Data {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(entries.count).bigEndianBytes)
+
+        for entry in entries {
+            let nameData = Data(entry.name.utf8)
+            var entryData = Data()
+            entryData.append(contentsOf: entry.namespace.utf8)
+            entryData.append(nameData)
+            payload.append(contentsOf: UInt32(entryData.count).bigEndianBytes)
+            payload.append(entryData)
+        }
+
+        return makeBox(type: "keys", payload: payload)
+    }
+
+    private func makeMetadataItemListBox(
+        entries: [(identifier: [UInt8], type: UInt32, locale: UInt32, data: Data)]
+    ) -> Data {
+        var payload = Data()
+        for entry in entries {
+            payload.append(makeMetadataItemEntry(
+                identifierBytes: entry.identifier,
+                dataBox: makeMetadataDataBox(type: entry.type, locale: entry.locale, data: entry.data)
+            ))
+        }
+        return makeBox(type: "ilst", payload: payload)
+    }
+
+    private func makeMetadataItemEntry(identifierBytes: [UInt8], dataBox: Data) -> Data {
+        precondition(identifierBytes.count == 4)
+        var entry = Data()
+        entry.append(contentsOf: UInt32(8 + dataBox.count).bigEndianBytes)
+        entry.append(contentsOf: identifierBytes)
+        entry.append(dataBox)
+        return entry
+    }
+
+    private func makeMetadataDataBox(type: UInt32, locale: UInt32, data: Data) -> Data {
+        var box = Data()
+        box.append(contentsOf: UInt32(16 + data.count).bigEndianBytes)
+        box.append(contentsOf: "data".utf8)
+        box.append(0x00) // version
+        box.append(UInt8((type >> 16) & 0xFF))
+        box.append(UInt8((type >> 8) & 0xFF))
+        box.append(UInt8(type & 0xFF))
+        box.append(contentsOf: locale.bigEndianBytes)
+        box.append(data)
+        return box
     }
 }
 

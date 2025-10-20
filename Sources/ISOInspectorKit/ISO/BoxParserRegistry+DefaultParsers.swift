@@ -33,6 +33,18 @@ extension BoxParserRegistry {
             if let dref = try? FourCharCode("dref") {
                 registry.register(parser: dataReference, for: dref)
             }
+            if let udta = try? FourCharCode("udta") {
+                registry.register(parser: userData, for: udta)
+            }
+            if let meta = try? FourCharCode("meta") {
+                registry.register(parser: metadata, for: meta)
+            }
+            if let keys = try? FourCharCode("keys") {
+                registry.register(parser: metadataKeys, for: keys)
+            }
+            if let ilst = try? FourCharCode("ilst") {
+                registry.register(parser: metadataItemList, for: ilst)
+            }
             if let stsd = try? FourCharCode("stsd") {
                 registry.register(parser: sampleDescription, for: stsd)
             }
