@@ -7,16 +7,16 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 0/89 tasks completed (0%)**
+**Total: 0/99 tasks completed (0%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | Not Started | 0/15 (0%) |
-| Phase 2: Core Components | Not Started | 0/18 (0%) |
+| Phase 2: Core Components | Not Started | 0/22 (0%) |
 | Phase 3: Patterns & Platform Adaptation | Not Started | 0/16 (0%) |
 | Phase 4: Agent Support & Polish | Not Started | 0/13 (0%) |
 | Phase 5: Documentation & QA | Not Started | 0/15 (0%) |
-| Phase 6: Integration & Validation | Not Started | 0/12 (0%) |
+| Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
 
 ---
 
@@ -84,7 +84,7 @@
 
 ## Phase 2: Core Components (Week 3-4)
 **Priority: P0 - Critical**
-**Progress: 0/18 tasks completed (0%)**
+**Progress: 0/22 tasks completed (0%)**
 
 ### 2.1 Layer 1: View Modifiers (Atoms)
 **Progress: 0/6 tasks**
@@ -208,6 +208,34 @@
   - Verify zero magic numbers
   - Check documentation coverage (100%)
   - Review API naming consistency
+
+### 2.3 Demo Application (Component Testing)
+**Progress: 0/4 tasks**
+
+- [ ] **P0** Create minimal demo app for component testing
+  - File: `Examples/ComponentTestApp/`
+  - Single-target app (iOS/macOS universal)
+  - Live preview of all implemented components
+  - Used for manual testing during development
+  - Quick iteration without full example apps
+
+- [ ] **P0** Implement component showcase screens
+  - Screen for Design Tokens (visual reference)
+  - Screen for View Modifiers (interactive examples)
+  - Screen for each Component (all variations)
+  - Navigation between component screens
+
+- [ ] **P1** Add interactive component inspector
+  - Toggle between Light/Dark mode
+  - Adjust Dynamic Type size
+  - Toggle platform-specific features
+  - Export component code snippets
+
+- [ ] **P1** Demo app documentation
+  - README with setup instructions
+  - How to add new components to showcase
+  - Testing guidelines for developers
+  - Screenshots of all screens
 
 ---
 
@@ -531,37 +559,100 @@
 
 ## Phase 6: Integration & Validation (Week 8+)
 **Priority: P1-P2**
-**Progress: 0/12 tasks completed (0%)**
+**Progress: 0/18 tasks completed (0%)**
 
 ### 6.1 Example Projects
-**Progress: 0/4 tasks**
+**Progress: 0/10 tasks**
 
 - [ ] **P1** Create iOS example app
   - File: `Examples/iOS/ISOInspectorDemo/`
-  - Showcase all components
-  - Real-world ISO file inspector UI
-  - Navigation and data flow examples
-  - Include in package repository
+  - Full-featured ISO file inspector UI
+  - Showcase all components in real context
+  - Navigation stack implementation
+  - Tab bar with multiple sections
+  - Sheet presentations and alerts
+  - File picker integration
+  - Dark mode support
+  - VoiceOver testing
+
+- [ ] **P1** iOS demo app implementation details
+  - Parse and display ISO box structure
+  - Use BoxTreePattern for hierarchy
+  - Use InspectorPattern for details
+  - Badge components for box types
+  - KeyValueRow for metadata
+  - CopyableText for hex values
+  - Search and filter functionality
 
 - [ ] **P1** Create macOS example app
   - File: `Examples/macOS/ISOInspectorDemo/`
-  - Multi-window support
-  - Toolbar and sidebar patterns
-  - Keyboard shortcut demonstration
-  - Platform-specific features
+  - Multi-window document architecture
+  - Use SidebarPattern for navigation
+  - Use ToolbarPattern for actions
+  - Resizable inspector panel
+  - Keyboard shortcut integration (⌘ keys)
+  - Menu bar integration
+  - Window state persistence
+  - Drag & drop support
+
+- [ ] **P1** macOS demo app implementation details
+  - Three-column layout (Sidebar → Tree → Inspector)
+  - Custom toolbar with SF Symbols
+  - Contextual menus for tree items
+  - Quick Look preview integration
+  - Export functionality
+  - Preferences window
+  - Full keyboard navigation
 
 - [ ] **P2** Create iPad example app
   - File: `Examples/iPad/ISOInspectorDemo/`
-  - Adaptive layout showcase
-  - Size class handling
-  - Pointer interaction examples
-  - Split view patterns
+  - Adaptive layout for all size classes
+  - Split view on landscape
+  - Sidebar collapse on portrait
+  - Pointer interaction hover effects
+  - Drag and drop between panes
+  - Multitasking support
+  - Keyboard shortcuts (with hardware keyboard)
+
+- [ ] **P2** iPad demo app implementation details
+  - Responsive component sizing
+  - Touch-optimized controls
+  - Pointer hover states
+  - Context menus on long press
+  - Pencil support (if applicable)
+  - State preservation
+
+- [ ] **P1** Create unified demo app (all platforms)
+  - File: `Examples/UnifiedDemo/`
+  - Single codebase for iOS/iPadOS/macOS
+  - Conditional UI based on platform
+  - Shared business logic
+  - Platform-specific features
+  - Best practices showcase
 
 - [ ] **P2** Create component playground
+  - File: `Examples/ComponentPlayground/`
   - Interactive component explorer
-  - Live code editing (if feasible)
-  - Parameter tweaking interface
+  - Live parameter tweaking interface
+  - Side-by-side code and preview
   - Export code snippets
+  - Search components by name
+  - Filter by category (Atoms, Molecules, Organisms)
+
+- [ ] **P2** Demo app assets and content
+  - Sample ISO files for testing
+  - App icons for all platforms
+  - Screenshots for documentation
+  - Video recordings of key features
+  - User guide within apps
+
+- [ ] **P1** Demo app documentation
+  - README for each example app
+  - Architecture documentation
+  - Setup and build instructions
+  - Feature highlights
+  - Code walkthrough guides
+  - Common patterns demonstrated
 
 ### 6.2 Integration Testing
 **Progress: 0/4 tasks**
