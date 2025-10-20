@@ -108,6 +108,43 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertEqual(fileType.compatibleBrands, [])
     }
 
+    func testLivePipelineNormalizesEditListUsingHeaderTimescales() async throws {
+        let mvhd = makeMovieHeaderBox(timescale: 600, duration: 1_800)
+        let tkhd = makeTrackHeaderBox(trackID: 1, duration: 1_800, width: 0, height: 0)
+        let mdhd = makeMediaHeaderBox(timescale: 48_000, duration: 96_000)
+        let mdia = makeContainer(type: ContainerTypes.media, children: [mdhd])
+        let elst = makeEditListBox(entries: [
+            .init(segmentDuration: 600, mediaTime: 0, mediaRateInteger: 1, mediaRateFraction: 0)
+        ])
+        let edts = makeContainer(type: FourCharContainerCode.edts.rawValue, children: [elst])
+        let trak = makeContainer(type: ContainerTypes.track, children: [tkhd, mdia, edts])
+        let moov = makeContainer(type: ContainerTypes.movie, children: [mvhd, trak])
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let editListEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "elst"
+            }
+            return false
+        })
+
+        let payload = try XCTUnwrap(editListEvent.payload)
+        XCTAssertEqual(field(named: "entries[0].segment_duration_seconds", in: payload), "1.000000")
+        XCTAssertEqual(field(named: "entries[0].media_time_seconds", in: payload), "0.000000")
+        XCTAssertEqual(field(named: "entries[0].presentation_end_seconds", in: payload), "1.000000")
+
+        let detail = try XCTUnwrap(payload.editList)
+        XCTAssertEqual(detail.movieTimescale, 600)
+        XCTAssertEqual(detail.mediaTimescale, 48_000)
+        let entry = try XCTUnwrap(detail.entries.first)
+        XCTAssertEqual(try XCTUnwrap(entry.segmentDurationSeconds), 1.0, accuracy: 0.000_001)
+        XCTAssertEqual(try XCTUnwrap(entry.mediaTimeSeconds), 0.0, accuracy: 0.000_001)
+        XCTAssertEqual(try XCTUnwrap(entry.presentationEndSeconds), 1.0, accuracy: 0.000_001)
+    }
+
     func testLivePipelineReportsVersionAndFlagMismatchWarnings() async throws {
         let mismatchTkhd = makeBox(
             type: "tkhd",
@@ -297,6 +334,113 @@ final class ParsePipelineLiveTests: XCTestCase {
         return result
     }
 
+    private func field(named name: String, in payload: ParsedBoxPayload) -> String? {
+        payload.fields.first(where: { $0.name == name })?.value
+    }
+
+    private func makeMovieHeaderBox(timescale: UInt32, duration: UInt32) -> Data {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // creation time
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // modification time
+        payload.append(contentsOf: timescale.bigEndianBytes)
+        payload.append(contentsOf: duration.bigEndianBytes)
+        payload.append(contentsOf: UInt32(0x0001_0000).bigEndianBytes) // rate 1.0
+        payload.append(contentsOf: UInt16(0x0100).bigEndianBytes) // volume 1.0
+        payload.append(contentsOf: Data(count: 10)) // reserved
+        payload.append(contentsOf: Int32(0x0001_0000).bigEndianBytes) // matrix.a
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.b
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.u
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.c
+        payload.append(contentsOf: Int32(0x0001_0000).bigEndianBytes) // matrix.d
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.v
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.x
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.y
+        payload.append(contentsOf: Int32(0x4000_0000).bigEndianBytes) // matrix.w
+        payload.append(contentsOf: Data(count: 24)) // pre-defined
+        payload.append(contentsOf: UInt32(2).bigEndianBytes) // next track ID
+        return makeBox(type: "mvhd", payload: payload)
+    }
+
+    private func makeTrackHeaderBox(trackID: UInt32, duration: UInt32, width: UInt32, height: UInt32) -> Data {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x07]) // flags (enabled + in movie + in preview)
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // creation time
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // modification time
+        payload.append(contentsOf: trackID.bigEndianBytes)
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // reserved
+        payload.append(contentsOf: duration.bigEndianBytes)
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // reserved
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // reserved
+        payload.append(contentsOf: Int16(0).bigEndianBytes) // layer
+        payload.append(contentsOf: Int16(0).bigEndianBytes) // alternate group
+        payload.append(contentsOf: UInt16(0).bigEndianBytes) // volume (0 for video)
+        payload.append(contentsOf: UInt16(0).bigEndianBytes) // reserved
+        payload.append(contentsOf: Int32(0x0001_0000).bigEndianBytes) // matrix.a
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.b
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.u
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.c
+        payload.append(contentsOf: Int32(0x0001_0000).bigEndianBytes) // matrix.d
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.v
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.x
+        payload.append(contentsOf: Int32(0).bigEndianBytes) // matrix.y
+        payload.append(contentsOf: Int32(0x4000_0000).bigEndianBytes) // matrix.w
+        payload.append(contentsOf: UInt32(width << 16).bigEndianBytes)
+        payload.append(contentsOf: UInt32(height << 16).bigEndianBytes)
+        return makeBox(type: "tkhd", payload: payload)
+    }
+
+    private func makeMediaHeaderBox(timescale: UInt32, duration: UInt32) -> Data {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // creation time
+        payload.append(contentsOf: UInt32(0).bigEndianBytes) // modification time
+        payload.append(contentsOf: timescale.bigEndianBytes)
+        payload.append(contentsOf: duration.bigEndianBytes)
+        payload.append(contentsOf: languageBytes("eng"))
+        payload.append(contentsOf: UInt16(0).bigEndianBytes) // pre-defined
+        return makeBox(type: "mdhd", payload: payload)
+    }
+
+    private struct EditListEntryParameters {
+        let segmentDuration: UInt32
+        let mediaTime: Int32
+        let mediaRateInteger: Int16
+        let mediaRateFraction: UInt16
+    }
+
+    private func makeEditListBox(
+        version: UInt8 = 0,
+        entries: [EditListEntryParameters]
+    ) -> Data {
+        var payload = Data()
+        payload.append(version)
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(entries.count).bigEndianBytes)
+        for entry in entries {
+            if version == 1 {
+                payload.append(contentsOf: UInt64(entry.segmentDuration).bigEndianBytes)
+                payload.append(contentsOf: Int64(entry.mediaTime).bigEndianBytes)
+            } else {
+                payload.append(contentsOf: entry.segmentDuration.bigEndianBytes)
+                payload.append(contentsOf: entry.mediaTime.bigEndianBytes)
+            }
+            payload.append(contentsOf: entry.mediaRateInteger.bigEndianBytes)
+            payload.append(contentsOf: entry.mediaRateFraction.bigEndianBytes)
+        }
+        return makeBox(type: "elst", payload: payload)
+    }
+
+    private func makeContainer(type: String, children: [Data]) -> Data {
+        let payload = children.reduce(into: Data()) { result, child in
+            result.append(child)
+        }
+        return makeBox(type: type, payload: payload)
+    }
+
     private enum EventKind {
         case willStart
         case didFinish
@@ -347,7 +491,15 @@ final class ParsePipelineLiveTests: XCTestCase {
 private enum ContainerTypes {
     static let movie = FourCharContainerCode.moov.rawValue
     static let track = FourCharContainerCode.trak.rawValue
+    static let media = FourCharContainerCode.mdia.rawValue
     static let movieFragment = FourCharContainerCode.moof.rawValue
+}
+
+private func languageBytes(_ code: String) -> [UInt8] {
+    precondition(code.count == 3, "language code must be 3 letters")
+    let scalars = code.unicodeScalars.map { UInt16($0.value) - 0x60 }
+    let packed = UInt16(((scalars[0] & 0x1F) << 10) | ((scalars[1] & 0x1F) << 5) | (scalars[2] & 0x1F))
+    return packed.bigEndianBytes
 }
 
 private extension FixedWidthInteger {
