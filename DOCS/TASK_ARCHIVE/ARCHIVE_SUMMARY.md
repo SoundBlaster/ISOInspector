@@ -654,3 +654,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/125_C15_Metadata_Box_Coverage/`.
 - **Highlights:** Captures delivery of baseline metadata box parsing, environment propagation, and JSON export updates for `udta/meta/keys/ilst`, including parser registry wiring notes and streaming walker validation results.
 - **Next steps carried forward:** The refreshed `DOCS/INPROGRESS/next_tasks.md` now prioritizes extending metadata value decoding for new fixture types and implementing Validation Rule #15 chunk/sample correlation diagnostics.
+
+## 126_C17_mdat_Box_Parser
+- **Archived files:** `C17_mdat_Box_Parser.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/126_C17_mdat_Box_Parser/`.
+- **Highlights:** Documents the streaming `mdat` parser that records header offsets and payload length, updates JSON export baselines, and refreshes regression coverage so large media payloads are skipped without loading bytes.
+- **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` continues to track the metadata decoding expansion and Validation Rule #15 chunk/sample correlation diagnostics referenced across the backlog.
