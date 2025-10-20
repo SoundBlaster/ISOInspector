@@ -205,7 +205,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
   - [x] C16.3 `esds`: ES_Descriptor → DecoderSpecific (AudioSpecificConfig fields mapped). **(Completed — see `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md`.)**
   - [ ] C16.4 Future codec payload descriptors (e.g., Dolby Vision, enhanced audio) ensure registry coverage stays current. **(In Progress — see `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md`.)**
 
-- [ ] C17. `mdat`: record offset/size (skip payload). **(In Progress — see `DOCS/INPROGRESS/C17_mdat_Box_Parser.md`.)**
+- [x] C17. `mdat`: record offset/size (skip payload). **(Completed — streaming parser now records byte ranges without loading payload data; see `DOCS/INPROGRESS/Summary_of_Work.md`.)**
 - [ ] C18. `free/skip`: opaque pass-through.
 
 - [ ] D1. `mvex/trex`: defaults.

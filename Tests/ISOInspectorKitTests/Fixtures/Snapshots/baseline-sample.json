@@ -8272,6 +8272,16 @@
         "payload" : 712725,
         "total" : 712733
       },
+      "structured" : {
+        "media_data" : {
+          "headerEndOffset" : 3238,
+          "headerStartOffset" : 3230,
+          "payloadEndOffset" : 715963,
+          "payloadLength" : 712725,
+          "payloadStartOffset" : 3238,
+          "totalSize" : 712733
+        }
+      },
       "validationIssues" : [
 
       ]

@@ -193,6 +193,64 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(detail.matrix.w, 1.0, accuracy: 0.0001)
     }
 
+    func testDefaultRegistryParsesMediaDataBoxRecordsOffsets() throws {
+        let payloadLength = 32
+        let totalSize = 8 + payloadLength
+        let startOffset: Int64 = 2048
+        let header = BoxHeader(
+            type: try FourCharCode("mdat"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: (startOffset + 8)..<(startOffset + Int64(totalSize)),
+            range: startOffset..<(startOffset + Int64(totalSize)),
+            uuid: nil
+        )
+
+        var data = Data(count: Int(startOffset) + totalSize)
+        data.replaceSubrange(Int(startOffset) + 8..<(Int(startOffset) + totalSize), with: Data(count: payloadLength))
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        let mediaData = try XCTUnwrap(parsed.mediaData)
+        XCTAssertEqual(mediaData.headerStartOffset, startOffset)
+        XCTAssertEqual(mediaData.headerEndOffset, startOffset + 8)
+        XCTAssertEqual(mediaData.totalSize, Int64(totalSize))
+        XCTAssertEqual(mediaData.payloadRange, (startOffset + 8)..<(startOffset + Int64(totalSize)))
+        XCTAssertEqual(mediaData.payloadLength, Int64(payloadLength))
+        XCTAssertTrue(parsed.fields.isEmpty)
+    }
+
+    func testDefaultRegistryParsesLargeMediaDataBoxRecordsOffsets() throws {
+        let payloadLength = 128
+        let headerSize: Int64 = 16
+        let totalSize = headerSize + Int64(payloadLength)
+        let startOffset: Int64 = 8192
+        let header = BoxHeader(
+            type: try FourCharCode("mdat"),
+            totalSize: totalSize,
+            headerSize: headerSize,
+            payloadRange: (startOffset + headerSize)..<(startOffset + totalSize),
+            range: startOffset..<(startOffset + totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: Int(startOffset + totalSize))
+        let payloadStart = Int(startOffset + headerSize)
+        data.replaceSubrange(payloadStart..<payloadStart + payloadLength, with: Data(count: payloadLength))
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        let mediaData = try XCTUnwrap(parsed.mediaData)
+        XCTAssertEqual(mediaData.headerStartOffset, startOffset)
+        XCTAssertEqual(mediaData.headerEndOffset, startOffset + headerSize)
+        XCTAssertEqual(mediaData.totalSize, totalSize)
+        XCTAssertEqual(mediaData.payloadRange, (startOffset + headerSize)..<(startOffset + totalSize))
+        XCTAssertEqual(mediaData.payloadLength, Int64(payloadLength))
+        XCTAssertTrue(parsed.fields.isEmpty)
+    }
+
     func testDefaultRegistryParsesSoundMediaHeaderBox() throws {
         var payload = Data()
         payload.append(0x00) // version

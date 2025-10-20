@@ -42,6 +42,29 @@ final class ParsePipelineLiveTests: XCTestCase {
         try assertEvent(events[1], kind: .didFinish, type: mediaType, depth: 0, offset: Int64(largeBox.count))
     }
 
+    func testLivePipelineRecordsMediaDataOffsetsWithoutReadingPayload() async throws {
+        let payloadLength = 256
+        let mediaType = MediaAndIndexBoxCode.mediaData.rawValue
+        let mdat = makeBox(type: mediaType, payload: Data(count: payloadLength))
+        let payloadRange: Range<Int64> = 8..<Int64(mdat.count)
+        let reader = PayloadSpyRandomAccessReader(data: mdat, payloadRange: payloadRange)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let mdatEvent = try XCTUnwrap(events.first { event in
+            guard case let .willStartBox(header, _) = event.kind else { return false }
+            return header.type.rawValue == mediaType
+        })
+
+        let detail = try XCTUnwrap(mdatEvent.payload?.mediaData)
+        XCTAssertEqual(detail.headerStartOffset, 0)
+        XCTAssertEqual(detail.totalSize, Int64(mdat.count))
+        XCTAssertEqual(detail.payloadRange, payloadRange)
+        XCTAssertEqual(detail.payloadLength, Int64(payloadLength))
+
+        XCTAssertFalse(reader.didReadPayload)
+    }
+
     func testLivePipelinePropagatesHeaderErrors() async {
         var corrupted = Data()
         corrupted.append(contentsOf: UInt32(24).bigEndianBytes)
@@ -560,6 +583,32 @@ final class ParsePipelineLiveTests: XCTestCase {
             payload.append(contentsOf: entry.mediaRateFraction.bigEndianBytes)
         }
         return makeBox(type: "elst", payload: payload)
+    }
+
+    private final class PayloadSpyRandomAccessReader: RandomAccessReader {
+        private let reader: InMemoryRandomAccessReader
+        private let payloadRange: Range<Int64>
+        private(set) var readRanges: [Range<Int64>] = []
+
+        init(data: Data, payloadRange: Range<Int64>) {
+            self.reader = InMemoryRandomAccessReader(data: data)
+            self.payloadRange = payloadRange
+        }
+
+        var length: Int64 { reader.length }
+
+        var didReadPayload: Bool {
+            readRanges.contains { $0.overlaps(payloadRange) }
+        }
+
+        func read(at offset: Int64, count: Int) throws -> Data {
+            let data = try reader.read(at: offset, count: count)
+            if !data.isEmpty {
+                let range = offset..<offset + Int64(data.count)
+                readRanges.append(range)
+            }
+            return data
+        }
     }
 
     private func makeContainer(type: String, children: [Data]) -> Data {
