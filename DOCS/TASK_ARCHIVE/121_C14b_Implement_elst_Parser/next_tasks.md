@@ -15,7 +15,7 @@ point rate handling, and how edit list segment counts relate to `mvhd`/`tkhd` du
 
   timescales into the edit list environment.)**
 
-- [ ] 🔴 **P0+** C14c. Wire edit list payloads into validation so reconciled presentation durations align with
+- [x] 🔴 **P0+** C14c. Wire edit list payloads into validation so reconciled presentation durations align with
 
   movie/track headers and flag gaps or overlaps. Extend existing duration diagnostics to reference edit list context.
 
