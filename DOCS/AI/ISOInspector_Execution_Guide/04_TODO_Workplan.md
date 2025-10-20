@@ -46,7 +46,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Archived:** C6 follow-up extended the `stsd` sample description parser with codec-specific metadata extraction for `avcC`, `hvcC`, and `esds`, documented in `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md`.
 
-> **In Progress:** Task C16.4 — Future codec payload descriptors (Dolby Vision, AV1, VP9, Dolby AC-4, MPEG-H) are being planned and tracked in `DOCS/INPROGRESS/C16_4_Future_Codec_Payload_Descriptors.md`, with historical research in `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md`.
+> **Completed:** Task C16.4 — Future codec payload descriptors now ship typed parsers for Dolby Vision (`dvvC`), AV1 (`av1C`), VP9 (`vpcC`), Dolby AC-4 (`dac4`), and MPEG-H (`mhaC`). See `DOCS/TASK_ARCHIVE/131_C16_4_Future_Codec_Payload_Descriptors/Summary_of_Work.md` for implementation notes and `DOCS/INPROGRESS/next_tasks.md` for the remaining fixture acquisition follow-up.
 
 > **Completed:** Task C2 – Implemented the `mvhd` movie header parser exposing timescale, 32/64-bit durations, rate, volume, and transformation matrix fields. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C2_mvhd_Movie_Header_Parser.md` and `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/Summary_of_Work.md` for implementation and verification details.
 

@@ -684,3 +684,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/130_VR15_Sample_Table_Correlation/`.
 - **Highlights:** Finalizes Validation Rule #15 by correlating `stsc` chunk runs, `stsz/stz2` sample sizes, and `stco/co64` offsets, adds regression coverage for aligned and mismatched sample tables, and documents the validator integration notes captured during delivery.
 - **Next steps carried forward:** None — `DOCS/INPROGRESS/next_tasks.md` now records that no additional parser or validation follow-ups are queued.
+
+## 131_C16_4_Future_Codec_Payload_Descriptors
+- **Archived files:** `C16_4_Future_Codec_Payload_Descriptors.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/131_C16_4_Future_Codec_Payload_Descriptors/`.
+- **Highlights:** Captures completion of the future codec descriptor rollout that adds typed parsers for Dolby Vision (`dvvC`), AV1 (`av1C`), VP9 (`vpcC`), Dolby AC-4 (`dac4`), and MPEG-H (`mhaC`) payloads, updates the sample entry registry, and extends fixture-backed tests to cover the new metadata surfaces.
+- **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now tracks acquisition of real-world fixtures for each codec so synthetic payloads can be replaced and snapshot baselines refreshed once licensing clears.
