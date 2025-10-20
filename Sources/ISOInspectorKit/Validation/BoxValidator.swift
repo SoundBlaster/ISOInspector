@@ -35,9 +35,8 @@ private extension BoxValidator {
             MovieDataOrderingRule(),
             VersionFlagsRule(),
             EditListValidationRule(),
+            SampleTableCorrelationRule(),
             UnknownBoxRule()
-            // @todo #15 Reconcile sample size tables with chunk mappings now that `stco/co64` offsets are available so validation can surface
-            // mismatched sample counts across `stsc`, `stsz`, and `stz2` entries.
         ]
     }
 }
@@ -504,6 +503,199 @@ private final class EditListValidationRule: BoxValidationRule, @unchecked Sendab
         static let trackHeader = try! FourCharCode("tkhd")
         static let mediaHeader = try! FourCharCode("mdhd")
         static let editList = try! FourCharCode("elst")
+    }
+}
+
+private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Sendable {
+    /// Context for tracking sample tables within a single track
+    private struct TrackContext {
+        var sampleToChunk: ParsedBoxPayload.SampleToChunkBox?
+        var sampleSize: ParsedBoxPayload.SampleSizeBox?
+        var compactSampleSize: ParsedBoxPayload.CompactSampleSizeBox?
+        var chunkOffset: ParsedBoxPayload.ChunkOffsetBox?
+    }
+
+    private var trackStack: [TrackContext] = []
+
+    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
+        switch event.kind {
+        case let .willStartBox(header, depth):
+            trimStack(to: depth)
+
+            if header.type == BoxType.track {
+                trackStack.append(TrackContext())
+                return []
+            }
+
+            guard let trackIndex = trackStack.indices.last else { return [] }
+
+            switch header.type {
+            case BoxType.sampleToChunk:
+                if let detail = event.payload?.sampleToChunk {
+                    trackStack[trackIndex].sampleToChunk = detail
+                }
+                return []
+            case BoxType.sampleSize:
+                if let detail = event.payload?.sampleSize {
+                    trackStack[trackIndex].sampleSize = detail
+                }
+                return []
+            case BoxType.compactSampleSize:
+                if let detail = event.payload?.compactSampleSize {
+                    trackStack[trackIndex].compactSampleSize = detail
+                }
+                return []
+            case BoxType.chunkOffset, BoxType.chunkOffset64:
+                if let detail = event.payload?.chunkOffset {
+                    trackStack[trackIndex].chunkOffset = detail
+                    // Validate correlation when chunk offset table arrives
+                    return validateCorrelation(context: trackStack[trackIndex])
+                }
+                return []
+            default:
+                return []
+            }
+
+        case let .didFinishBox(header, depth):
+            trimStack(to: depth)
+            if header.type == BoxType.track, !trackStack.isEmpty {
+                trackStack.removeLast()
+            }
+            return []
+        }
+    }
+
+    private func trimStack(to depth: Int) {
+        if trackStack.count > depth {
+            trackStack.removeLast(trackStack.count - depth)
+        }
+    }
+
+    private func validateCorrelation(context: TrackContext) -> [ValidationIssue] {
+        var issues: [ValidationIssue] = []
+
+        // VR-015: Chunk count correlation
+        if let stsc = context.sampleToChunk, let stco = context.chunkOffset {
+            let expectedChunkCount = computeExpectedChunkCount(from: stsc)
+            let actualChunkCount = stco.entryCount
+
+            if expectedChunkCount != actualChunkCount {
+                issues.append(ValidationIssue(
+                    ruleID: "VR-015",
+                    message: "Sample table chunk count mismatch: stsc references \(expectedChunkCount) chunks, but stco/co64 declares \(actualChunkCount) chunks.",
+                    severity: .warning
+                ))
+            }
+        }
+
+        // VR-015: Sample count correlation
+        if let stsc = context.sampleToChunk, let stco = context.chunkOffset {
+            let computedSampleCount = computeTotalSampleCount(from: stsc, chunkCount: stco.entryCount)
+
+            if let stsz = context.sampleSize {
+                if computedSampleCount != stsz.sampleCount {
+                    issues.append(ValidationIssue(
+                        ruleID: "VR-015",
+                        message: "Sample table sample count mismatch: stsc computes \(computedSampleCount) samples across \(stco.entryCount) chunks, but stsz declares \(stsz.sampleCount) samples.",
+                        severity: .warning
+                    ))
+                }
+            } else if let stz2 = context.compactSampleSize {
+                if computedSampleCount != stz2.sampleCount {
+                    issues.append(ValidationIssue(
+                        ruleID: "VR-015",
+                        message: "Sample table sample count mismatch: stsc computes \(computedSampleCount) samples across \(stco.entryCount) chunks, but stz2 declares \(stz2.sampleCount) samples.",
+                        severity: .warning
+                    ))
+                }
+            }
+        }
+
+        // VR-015: Chunk offset monotonicity
+        if let stco = context.chunkOffset {
+            if let monotonicityIssue = validateChunkOffsetMonotonicity(stco) {
+                issues.append(monotonicityIssue)
+            }
+        }
+
+        return issues
+    }
+
+    /// Computes the total number of chunks referenced by stsc entries
+    private func computeExpectedChunkCount(from stsc: ParsedBoxPayload.SampleToChunkBox) -> UInt32 {
+        guard !stsc.entries.isEmpty else { return 0 }
+
+        // The last entry's firstChunk tells us the last chunk index referenced.
+        // Since chunks are 1-indexed in ISO spec, the count equals the last firstChunk value
+        // plus any additional chunks implied by the last run.
+        // However, stsc doesn't explicitly say how many chunks are in the last run.
+        // The chunk count is determined by stco/co64.
+        // So we use the maximum firstChunk value as the minimum expected chunk count.
+        let maxFirstChunk = stsc.entries.map(\.firstChunk).max() ?? 0
+        return maxFirstChunk
+    }
+
+    /// Computes the total number of samples by applying stsc runs across the given chunk count
+    private func computeTotalSampleCount(
+        from stsc: ParsedBoxPayload.SampleToChunkBox,
+        chunkCount: UInt32
+    ) -> UInt32 {
+        guard !stsc.entries.isEmpty, chunkCount > 0 else { return 0 }
+
+        var totalSamples: UInt32 = 0
+
+        for (index, entry) in stsc.entries.enumerated() {
+            let runStartChunk = entry.firstChunk
+            let runEndChunk: UInt32
+
+            if index + 1 < stsc.entries.count {
+                // Not the last entry: run ends at (next entry's firstChunk - 1)
+                runEndChunk = stsc.entries[index + 1].firstChunk - 1
+            } else {
+                // Last entry: run extends to the end of the chunk table
+                runEndChunk = chunkCount
+            }
+
+            // Validate chunk range
+            guard runStartChunk >= 1, runStartChunk <= chunkCount else { continue }
+            guard runEndChunk >= runStartChunk, runEndChunk <= chunkCount else { continue }
+
+            let chunksInRun = runEndChunk - runStartChunk + 1
+            totalSamples += chunksInRun * entry.samplesPerChunk
+        }
+
+        return totalSamples
+    }
+
+    /// Validates that chunk offsets are monotonically increasing
+    private func validateChunkOffsetMonotonicity(
+        _ chunkOffset: ParsedBoxPayload.ChunkOffsetBox
+    ) -> ValidationIssue? {
+        guard chunkOffset.entries.count > 1 else { return nil }
+
+        for i in 1..<chunkOffset.entries.count {
+            let previousOffset = chunkOffset.entries[i - 1].offset
+            let currentOffset = chunkOffset.entries[i].offset
+
+            if currentOffset <= previousOffset {
+                return ValidationIssue(
+                    ruleID: "VR-015",
+                    message: "Chunk offset table contains non-monotonic offsets: chunk \(i - 1) at offset \(previousOffset), chunk \(i) at offset \(currentOffset) (expected strictly increasing).",
+                    severity: .warning
+                )
+            }
+        }
+
+        return nil
+    }
+
+    private enum BoxType {
+        static let track = try! FourCharCode("trak")
+        static let sampleToChunk = try! FourCharCode("stsc")
+        static let sampleSize = try! FourCharCode("stsz")
+        static let compactSampleSize = try! FourCharCode("stz2")
+        static let chunkOffset = try! FourCharCode("stco")
+        static let chunkOffset64 = try! FourCharCode("co64")
     }
 }
 

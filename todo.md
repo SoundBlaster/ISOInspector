@@ -19,7 +19,9 @@
 - [x] #12 Add DocC publishing to CI once storage and hosting requirements are validated.
 - [x] #13 Apply NestedA11yIDs identifiers to research log preview flows when promoted to production UI screens.
 - [x] #14 Add NestedA11yIDs coverage for annotation note edit/save/delete controls once QA automation scenarios are defined.
-- [ ] #15 Validate sample size tables against chunk mappings now that `stco/co64` chunk offsets are available to correlate `stsc`, `stsz`, and `stz2` counts. *(In Progress — see `DOCS/INPROGRESS/Validation_Rule_15_Sample_Table_Correlation.md`; reference implementation notes in `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/C10_stco_co64_Chunk_Offset_Parser.md`.)*
+- [x] #15 Validate sample size tables against chunk mappings now that `stco/co64` chunk offsets are available to correlate `stsc`, `stsz`, and `stz2` counts. **(Completed — VR-015 implemented with chunk count, sample count, and offset monotonicity checks in `Sources/ISOInspectorKit/Validation/BoxValidator.swift`; tests in `Tests/ISOInspectorKitTests/SampleTableCorrelationValidationRuleTests.swift`.)**
+- [x] #16 Add sample count validation between stsc and stsz/stz2. **(Completed — integrated into VR-015.)**
+- [x] #17 Add monotonicity check for chunk offsets in stco/co64. **(Completed — integrated into VR-015.)**
 - [x] PDD:30m Surface additional MP4RA metadata data types (e.g., GIF, TIFF, signed fixed-point) when fixtures land so CLI/app exports stay human-readable. *(Track scope in `DOCS/INPROGRESS/next_tasks.md` and reference `DOCS/TASK_ARCHIVE/128_C15_Metadata_Value_Decoding_Expansion/` for delivered coverage. Completed — see `DOCS/TASK_ARCHIVE/129_C15_Metadata_Value_Type_Expansion/C15_Metadata_Value_Type_Expansion.md`.)*
 - [x] PDD:45m Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI.
 - [x] PDD:1h Execute streaming inspection by consuming ParsePipeline events when Task D2 builds the streaming command.

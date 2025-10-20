@@ -13,10 +13,15 @@ Implement Validation Rule #15 to cross-check `stsc` chunk run definitions, `stsz
 ## ✅ Success Criteria
 
 - Streaming validation emits a dedicated VR-015 diagnostic when correlated chunk/sample data is inconsistent (e.g.,
+
   counts mismatch, offsets not monotonic, or sample totals disagree).
+
 - Existing fixtures covering chunk tables and edit lists gain positive/negative assertions for the new rule without
+
   regressing prior validation snapshots.
+
 - Validation output links to affected boxes (chunk table, sample size table, edit list) for UI highlighting and CLI
+
   reporting.
 
 ## 🔧 Implementation Notes
