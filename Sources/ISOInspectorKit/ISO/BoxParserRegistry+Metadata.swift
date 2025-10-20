@@ -201,8 +201,8 @@ extension BoxParserRegistry.DefaultParsers {
             let identifierRange = typeOffset..<(typeOffset + 4)
 
             let identifier: ParsedBoxPayload.MetadataItemListBox.Entry.Identifier
-            var namespace: String? = nil
-            var name: String? = nil
+            var namespace: String?
+            var name: String?
 
             if let keyEntry = environment.keyTable[rawIdentifier] {
                 identifier = .keyIndex(rawIdentifier)
