@@ -602,11 +602,43 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             }
 
             public struct Value: Equatable, Sendable {
+                public enum DataFormat: String, Equatable, Sendable {
+                    case jpeg
+                    case png
+                    case bmp
+
+                    var displayName: String {
+                        switch self {
+                        case .jpeg:
+                            return "JPEG Data"
+                        case .png:
+                            return "PNG Data"
+                        case .bmp:
+                            return "BMP Data"
+                        }
+                    }
+
+                    var valuePrefix: String {
+                        switch self {
+                        case .jpeg:
+                            return "JPEG data"
+                        case .png:
+                            return "PNG data"
+                        case .bmp:
+                            return "BMP data"
+                        }
+                    }
+                }
+
                 public enum Kind: Equatable, Sendable {
                     case utf8(String)
                     case utf16(String)
                     case integer(Int64)
                     case unsignedInteger(UInt64)
+                    case boolean(Bool)
+                    case float32(Float32)
+                    case float64(Double)
+                    case data(format: DataFormat, data: Data)
                     case bytes(Data)
                 }
 

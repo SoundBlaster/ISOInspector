@@ -617,47 +617,68 @@ private struct MetadataItemListDetail: Encodable {
             let stringValue: String?
             let integerValue: Int64?
             let unsignedValue: UInt64?
+            let booleanValue: Bool?
+            let float32Value: Double?
+            let float64Value: Double?
             let bytesBase64: String?
             let rawType: UInt32
             let rawTypeHex: String
+            let dataFormat: String?
             let locale: UInt32?
 
             init(value: ParsedBoxPayload.MetadataItemListBox.Entry.Value) {
                 self.rawType = value.rawType
                 self.rawTypeHex = String(format: "0x%06X", value.rawType)
                 self.locale = value.locale == 0 ? nil : value.locale
+
+                var stringValue: String?
+                var integerValue: Int64?
+                var unsignedValue: UInt64?
+                var booleanValue: Bool?
+                var float32Value: Double?
+                var float64Value: Double?
+                var bytesBase64: String?
+                var dataFormat: String?
+
                 switch value.kind {
                 case let .utf8(string):
                     self.kind = "utf8"
-                    self.stringValue = string
-                    self.integerValue = nil
-                    self.unsignedValue = nil
-                    self.bytesBase64 = nil
+                    stringValue = string
                 case let .utf16(string):
                     self.kind = "utf16"
-                    self.stringValue = string
-                    self.integerValue = nil
-                    self.unsignedValue = nil
-                    self.bytesBase64 = nil
+                    stringValue = string
                 case let .integer(number):
                     self.kind = "integer"
-                    self.stringValue = nil
-                    self.integerValue = number
-                    self.unsignedValue = nil
-                    self.bytesBase64 = nil
+                    integerValue = number
                 case let .unsignedInteger(number):
                     self.kind = "unsigned_integer"
-                    self.stringValue = nil
-                    self.integerValue = nil
-                    self.unsignedValue = number
-                    self.bytesBase64 = nil
+                    unsignedValue = number
+                case let .boolean(flag):
+                    self.kind = "boolean"
+                    booleanValue = flag
+                case let .float32(number):
+                    self.kind = "float32"
+                    float32Value = Double(number)
+                case let .float64(number):
+                    self.kind = "float64"
+                    float64Value = number
+                case let .data(format, data):
+                    self.kind = "data"
+                    dataFormat = format.rawValue
+                    bytesBase64 = data.isEmpty ? nil : Data(data).base64EncodedString()
                 case let .bytes(data):
                     self.kind = "bytes"
-                    self.stringValue = nil
-                    self.integerValue = nil
-                    self.unsignedValue = nil
-                    self.bytesBase64 = data.isEmpty ? nil : Data(data).base64EncodedString()
+                    bytesBase64 = data.isEmpty ? nil : Data(data).base64EncodedString()
                 }
+
+                self.stringValue = stringValue
+                self.integerValue = integerValue
+                self.unsignedValue = unsignedValue
+                self.booleanValue = booleanValue
+                self.float32Value = float32Value
+                self.float64Value = float64Value
+                self.bytesBase64 = bytesBase64
+                self.dataFormat = dataFormat
             }
 
             private enum CodingKeys: String, CodingKey {
@@ -665,9 +686,13 @@ private struct MetadataItemListDetail: Encodable {
                 case stringValue = "string_value"
                 case integerValue = "integer_value"
                 case unsignedValue = "unsigned_value"
+                case booleanValue = "boolean_value"
+                case float32Value = "float32_value"
+                case float64Value = "float64_value"
                 case bytesBase64 = "bytes_base64"
                 case rawType = "raw_type"
                 case rawTypeHex = "raw_type_hex"
+                case dataFormat = "data_format"
                 case locale
             }
         }

@@ -14,7 +14,9 @@ Expand the metadata value decoding pipeline so additional `ilst` data types emit
 
 - Add decoding coverage for the next tranche of MP4RA-listed metadata value types (e.g., boolean, signed/unsigned numeric variants, `data` flavors) with verified fixtures.
 - CLI JSON export and SwiftUI detail panes display normalized values for each newly supported type without falling back
+
   to hex dumps.
+
 - Regression tests cover at least one fixture per new type, ensuring `decodeMetadataValue` continues to resolve UTF-8/UTF-16/integer types while exercising the new cases.
 
 ## 🔧 Implementation Notes
@@ -23,6 +25,7 @@ Expand the metadata value decoding pipeline so additional `ilst` data types emit
 - Refresh the MP4RA catalog snapshot or add targeted overrides in `Sources/ISOInspectorKit/Metadata/` when the upstream registry introduces new identifiers required for decoding.
 - Introduce fixture updates (or synthetic samples) that emit the new metadata values, then update JSON snapshot tests under `Tests/ISOInspectorKitTests` to confirm human-readable output.
 - Coordinate with Validation Rule #15 planning to ensure metadata field expansions do not regress pending chunk table
+
   audits.
 
 ## 🧠 Source References
