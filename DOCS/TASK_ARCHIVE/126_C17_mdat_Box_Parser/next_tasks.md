@@ -7,3 +7,7 @@
 ## Validation Follow-Up
 
 - [ ] Validation Rule #15. Correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and `stco/co64` offsets to flag mismatches alongside the edit list duration diagnostics archived in `DOCS/TASK_ARCHIVE/122_C14c_Edit_List_Duration_Validation/`.
+
+## Parser Baseline
+
+- [x] Completed — C17 `mdat` parser now captures offsets and payload size while skipping media data. Summary in `DOCS/TASK_ARCHIVE/126_C17_mdat_Box_Parser/Summary_of_Work.md`.
