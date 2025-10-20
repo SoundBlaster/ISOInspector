@@ -161,7 +161,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] B3. Implement `readBoxHeader(at:)` supporting: size==0 (to EOF/parent end), size==1 (largesize), `uuid` type.
 - [ ] B4. Implement container iteration (`parseContainer(parentRange:)`) with forward-progress guard and max-depth limit.
 - [ ] B5. Introduce `FullBoxReader` for (version,flags) extraction.
-- [x] B6. Create `BoxParserRegistry`: map fourcc → parser; default: container? or leaf; unknown: opaque leaf. *(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md` for fallback details.)*
+- [x] B6. Create `BoxParserRegistry`: map fourcc → parser; default: container? or leaf; unknown: opaque leaf. *(Completed — see `DOCS/TASK_ARCHIVE/132_B6_Box_Parser_Registry/Summary_of_Work.md` for fallback details.)*
 
 ### Phase C — Specific Parsers (Baseline)
 > **Priority Update (2025-10-20):** Phase C parser work is now a **P0 blocker** for the upcoming milestone. Treat every unchecked item below as urgent and schedule accordingly.

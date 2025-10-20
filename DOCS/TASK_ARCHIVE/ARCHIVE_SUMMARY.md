@@ -690,3 +690,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/131_C16_4_Future_Codec_Payload_Descriptors/`.
 - **Highlights:** Captures completion of the future codec descriptor rollout that adds typed parsers for Dolby Vision (`dvvC`), AV1 (`av1C`), VP9 (`vpcC`), Dolby AC-4 (`dac4`), and MPEG-H (`mhaC`) payloads, updates the sample entry registry, and extends fixture-backed tests to cover the new metadata surfaces.
 - **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now tracks acquisition of real-world fixtures for each codec so synthetic payloads can be replaced and snapshot baselines refreshed once licensing clears.
+
+## 132_B6_Box_Parser_Registry
+- **Archived files:** `B6_BoxParserRegistry.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/132_B6_Box_Parser_Registry/`.
+- **Highlights:** Captures completion of the shared `BoxParserRegistry` fallback that emits placeholder payload metadata for unknown boxes, refreshes JSON export baselines to reflect the richer structure, and adds unit coverage ensuring the default parser delivers contextual byte ranges instead of `nil` payloads.
+- **Next steps carried forward:** Acquire Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures so snapshot baselines migrate from synthetic payloads; tracked in `DOCS/INPROGRESS/next_tasks.md` pending licensing clearance.
