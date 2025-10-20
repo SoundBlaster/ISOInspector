@@ -13,10 +13,15 @@ Implement Validation Rule #15 to cross-check `stsc` chunk run definitions, `stsz
 ## ✅ Success Criteria
 
 - Streaming validation emits a dedicated VR-015 diagnostic when correlated chunk/sample data is inconsistent (e.g.,
+
   counts mismatch, offsets not monotonic, or sample totals disagree).
+
 - Existing fixtures covering chunk tables and edit lists gain positive/negative assertions for the new rule without
+
   regressing prior validation snapshots.
+
 - Validation output links to affected boxes (chunk table, sample size table, edit list) for UI highlighting and CLI
+
   reporting.
 
 ## 🔧 Implementation Notes
@@ -33,3 +38,9 @@ Implement Validation Rule #15 to cross-check `stsc` chunk run definitions, `stsz
 - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES`](../RULES)
 - [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+
+## ✅ Outcome
+
+- VR-015 validation now reconciles `stsc`, `stsz/stz2`, and `stco/co64` tables, emitting descriptive errors for count mismatches and non-monotonic chunk offsets.
+- Added regression coverage in `ParsePipelineLiveTests` for aligned sample tables, sample count mismatches, and misordered chunk offsets.
+- Refer to `DOCS/INPROGRESS/Summary_of_Work.md` for the delivery log and follow-up notes.

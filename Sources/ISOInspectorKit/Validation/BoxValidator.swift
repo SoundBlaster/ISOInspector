@@ -35,9 +35,8 @@ private extension BoxValidator {
             MovieDataOrderingRule(),
             VersionFlagsRule(),
             EditListValidationRule(),
+            SampleTableCorrelationRule(),
             UnknownBoxRule()
-            // @todo #15 Reconcile sample size tables with chunk mappings now that `stco/co64` offsets are available so validation can surface
-            // mismatched sample counts across `stsc`, `stsz`, and `stz2` entries.
         ]
     }
 }
@@ -504,6 +503,245 @@ private final class EditListValidationRule: BoxValidationRule, @unchecked Sendab
         static let trackHeader = try! FourCharCode("tkhd")
         static let mediaHeader = try! FourCharCode("mdhd")
         static let editList = try! FourCharCode("elst")
+    }
+}
+
+private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Sendable {
+    private struct SampleToChunkState {
+        let identifier: String
+        let box: ParsedBoxPayload.SampleToChunkBox
+    }
+
+    private struct SampleSizeState {
+        let identifier: String
+        let sampleCount: UInt32
+    }
+
+    private struct ChunkOffsetState {
+        let identifier: String
+        let entries: [ParsedBoxPayload.ChunkOffsetBox.Entry]
+    }
+
+    private struct TrackContext {
+        var trackHeader: ParsedBoxPayload.TrackHeaderBox?
+        var sampleToChunk: SampleToChunkState?
+        var sampleSize: SampleSizeState?
+        var chunkOffsets: ChunkOffsetState?
+    }
+
+    private var trackStack: [TrackContext] = []
+
+    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
+        switch event.kind {
+        case let .willStartBox(header, depth):
+            trimStack(to: depth)
+
+            if header.type == BoxType.track {
+                trackStack.append(TrackContext())
+                return []
+            }
+
+            guard let trackIndex = trackStack.indices.last else { return [] }
+
+            switch header.type {
+            case BoxType.trackHeader:
+                if let detail = event.payload?.trackHeader {
+                    trackStack[trackIndex].trackHeader = detail
+                }
+                return []
+            case BoxType.sampleToChunk:
+                guard let box = event.payload?.sampleToChunk else { return [] }
+                trackStack[trackIndex].sampleToChunk = SampleToChunkState(
+                    identifier: header.identifierString,
+                    box: box
+                )
+                return evaluateCorrelation(for: trackIndex, triggeredBy: header)
+            case BoxType.sampleSize:
+                guard let box = event.payload?.sampleSize else { return [] }
+                trackStack[trackIndex].sampleSize = SampleSizeState(
+                    identifier: header.identifierString,
+                    sampleCount: box.sampleCount
+                )
+                return evaluateCorrelation(for: trackIndex, triggeredBy: header)
+            case BoxType.compactSampleSize:
+                guard let box = event.payload?.compactSampleSize else { return [] }
+                trackStack[trackIndex].sampleSize = SampleSizeState(
+                    identifier: header.identifierString,
+                    sampleCount: box.sampleCount
+                )
+                return evaluateCorrelation(for: trackIndex, triggeredBy: header)
+            case BoxType.chunkOffset32, BoxType.chunkOffset64:
+                guard let box = event.payload?.chunkOffset else { return [] }
+                trackStack[trackIndex].chunkOffsets = ChunkOffsetState(
+                    identifier: header.identifierString,
+                    entries: box.entries
+                )
+                var issues = chunkOffsetOrderingIssues(
+                    entries: box.entries,
+                    trackIndex: trackIndex,
+                    header: header
+                )
+                issues.append(contentsOf: evaluateCorrelation(for: trackIndex, triggeredBy: header))
+                return issues
+            default:
+                return []
+            }
+        case let .didFinishBox(header, depth):
+            trimStack(to: depth)
+            if header.type == BoxType.track, !trackStack.isEmpty {
+                trackStack.removeLast()
+            }
+            return []
+        }
+    }
+
+    private func trimStack(to depth: Int) {
+        if trackStack.count > depth {
+            trackStack.removeLast(trackStack.count - depth)
+        }
+    }
+
+    private func evaluateCorrelation(for trackIndex: Int, triggeredBy header: BoxHeader) -> [ValidationIssue] {
+        let context = trackStack[trackIndex]
+        guard let sampleToChunk = context.sampleToChunk,
+              let sampleSize = context.sampleSize,
+              let chunkOffsets = context.chunkOffsets else {
+            return []
+        }
+
+        let chunkCount = chunkOffsets.entries.count
+        let declaredSamples = UInt64(sampleSize.sampleCount)
+        let trackLabel = trackDescription(for: context)
+        var issues: [ValidationIssue] = []
+
+        if chunkCount == 0 {
+            if declaredSamples > 0 {
+                issues.append(ValidationIssue(
+                    ruleID: "VR-015",
+                    message: "\(trackLabel) chunk offset table \(chunkOffsets.identifier) declares 0 chunks but sample size table \(sampleSize.identifier) declares \(declaredSamples) samples.",
+                    severity: .error
+                ))
+            }
+            return issues
+        }
+
+        let entries = sampleToChunk.box.entries
+        if entries.isEmpty {
+            if declaredSamples > 0 {
+                issues.append(ValidationIssue(
+                    ruleID: "VR-015",
+                    message: "\(trackLabel) sample-to-chunk table \(sampleToChunk.identifier) contains no entries but chunk offset table \(chunkOffsets.identifier) defines \(chunkCount) chunks.",
+                    severity: .error
+                ))
+            }
+            return issues
+        }
+
+        var sortedEntries = entries
+        sortedEntries.sort { $0.firstChunk < $1.firstChunk }
+
+        var coverage = 0
+        var totalSamples = UInt64(0)
+
+        for (index, entry) in sortedEntries.enumerated() {
+            let start = Int(entry.firstChunk)
+            if start < 1 {
+                issues.append(ValidationIssue(
+                    ruleID: "VR-015",
+                    message: "\(trackLabel) sample-to-chunk table \(sampleToChunk.identifier) has entry \(index + 1) with invalid first_chunk \(entry.firstChunk).",
+                    severity: .error
+                ))
+                continue
+            }
+
+            if start > chunkCount {
+                issues.append(ValidationIssue(
+                    ruleID: "VR-015",
+                    message: "\(trackLabel) sample-to-chunk table \(sampleToChunk.identifier) references chunk \(entry.firstChunk) but chunk offset table \(chunkOffsets.identifier) only defines \(chunkCount) chunks.",
+                    severity: .error
+                ))
+                continue
+            }
+
+            if index + 1 < sortedEntries.count,
+               sortedEntries[index + 1].firstChunk <= entry.firstChunk {
+                issues.append(ValidationIssue(
+                    ruleID: "VR-015",
+                    message: "\(trackLabel) sample-to-chunk table \(sampleToChunk.identifier) has non-monotonic first_chunk values at entries \(index + 1) and \(index + 2).",
+                    severity: .error
+                ))
+            }
+
+            let nextStart = index + 1 < sortedEntries.count
+                ? Int(sortedEntries[index + 1].firstChunk)
+                : chunkCount + 1
+            let runEnd = min(nextStart, chunkCount + 1)
+
+            if runEnd <= start {
+                continue
+            }
+
+            let runLength = runEnd - start
+            coverage += runLength
+            totalSamples += UInt64(runLength) * UInt64(entry.samplesPerChunk)
+        }
+
+        if coverage < chunkCount {
+            let missing = chunkCount - coverage
+            issues.append(ValidationIssue(
+                ruleID: "VR-015",
+                message: "\(trackLabel) sample-to-chunk table \(sampleToChunk.identifier) only covers \(coverage) of \(chunkCount) chunks declared by \(chunkOffsets.identifier) (missing \(missing)).",
+                severity: .error
+            ))
+        }
+
+        if totalSamples != declaredSamples {
+            issues.append(ValidationIssue(
+                ruleID: "VR-015",
+                message: "\(trackLabel) sample size table \(sampleSize.identifier) declares \(declaredSamples) samples but sample-to-chunk table \(sampleToChunk.identifier) expands to \(totalSamples) samples across \(chunkCount) chunks.",
+                severity: .error
+            ))
+        }
+
+        return issues
+    }
+
+    private func chunkOffsetOrderingIssues(
+        entries: [ParsedBoxPayload.ChunkOffsetBox.Entry],
+        trackIndex: Int,
+        header: BoxHeader
+    ) -> [ValidationIssue] {
+        guard entries.count >= 2 else { return [] }
+        let context = trackStack[trackIndex]
+        let label = trackDescription(for: context)
+
+        for index in entries.indices.dropFirst() {
+            let previous = entries[index - 1]
+            let current = entries[index]
+            if current.offset <= previous.offset {
+                let message = "\(label) chunk offset table \(header.identifierString) has non-monotonic offsets at entries \(previous.index) and \(current.index) (\(previous.offset) then \(current.offset))."
+                return [ValidationIssue(ruleID: "VR-015", message: message, severity: .error)]
+            }
+        }
+
+        return []
+    }
+
+    private func trackDescription(for context: TrackContext) -> String {
+        if let trackID = context.trackHeader?.trackID {
+            return "Track \(trackID)"
+        }
+        return "Track"
+    }
+
+    private enum BoxType {
+        static let track = try! FourCharCode("trak")
+        static let trackHeader = try! FourCharCode("tkhd")
+        static let sampleToChunk = try! FourCharCode("stsc")
+        static let sampleSize = try! FourCharCode("stsz")
+        static let compactSampleSize = try! FourCharCode("stz2")
+        static let chunkOffset32 = try! FourCharCode("stco")
+        static let chunkOffset64 = try! FourCharCode("co64")
     }
 }
 

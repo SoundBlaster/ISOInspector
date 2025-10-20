@@ -32,8 +32,8 @@ point rate handling, and how edit list segment counts relate to `mvhd`/`tkhd` du
 
 ## Validation Follow-Up
 
-- [ ] Validation Rule #15. Correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and `stco/co64` offsets to flag mismatches
+- [x] Validation Rule #15. Correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and `stco/co64` offsets to flag mismatches
 
   alongside the new sync sample metadata (see `DOCS/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/Summary_of_Work.md`,
   `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/Summary_of_Work.md`, and
-  `DOCS/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/Summary_of_Work.md`).
+  `DOCS/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/Summary_of_Work.md`). *(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)*

@@ -315,6 +315,93 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertTrue(issues.contains(where: { $0.message.contains("media_rate_fraction") }))
     }
 
+    func testSampleTableValidationPassesForMatchingTables() async throws {
+        let tkhd = makeTrackHeaderBox(trackID: 5, duration: 900, width: 0, height: 0)
+        let stsc = makeSampleToChunkBox(entries: [
+            SampleToChunkEntryParameters(firstChunk: 1, samplesPerChunk: 2, sampleDescriptionIndex: 1),
+            SampleToChunkEntryParameters(firstChunk: 3, samplesPerChunk: 4, sampleDescriptionIndex: 1)
+        ])
+        let stsz = makeSampleSizeBox(defaultSampleSize: 128, sampleCount: 8)
+        let stco = makeChunkOffsetBox(offsets: [100, 200, 320])
+        let stbl = makeContainer(type: FourCharContainerCode.stbl.rawValue, children: [stsc, stsz, stco])
+        let minf = makeContainer(type: FourCharContainerCode.minf.rawValue, children: [stbl])
+        let mdia = makeContainer(type: ContainerTypes.media, children: [minf])
+        let trak = makeContainer(type: ContainerTypes.track, children: [tkhd, mdia])
+        let moov = makeContainer(type: ContainerTypes.movie, children: [trak])
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+
+        for code in ["stsc", "stsz", "stco"] {
+            let event = try XCTUnwrap(events.first { event in
+                if case let .willStartBox(header, _) = event.kind {
+                    return header.type.rawValue == code
+                }
+                return false
+            })
+            let issues = event.validationIssues.filter { $0.ruleID == "VR-015" }
+            XCTAssertTrue(issues.isEmpty, "Expected no VR-015 issues for \(code)")
+        }
+    }
+
+    func testSampleTableValidationReportsSampleCountMismatch() async throws {
+        let tkhd = makeTrackHeaderBox(trackID: 6, duration: 1_200, width: 0, height: 0)
+        let stsc = makeSampleToChunkBox(entries: [
+            SampleToChunkEntryParameters(firstChunk: 1, samplesPerChunk: 2, sampleDescriptionIndex: 1),
+            SampleToChunkEntryParameters(firstChunk: 3, samplesPerChunk: 4, sampleDescriptionIndex: 1)
+        ])
+        let stsz = makeSampleSizeBox(defaultSampleSize: 256, sampleCount: 7)
+        let stco = makeChunkOffsetBox(offsets: [64, 128, 256])
+        let stbl = makeContainer(type: FourCharContainerCode.stbl.rawValue, children: [stsc, stsz, stco])
+        let minf = makeContainer(type: FourCharContainerCode.minf.rawValue, children: [stbl])
+        let mdia = makeContainer(type: ContainerTypes.media, children: [minf])
+        let trak = makeContainer(type: ContainerTypes.track, children: [tkhd, mdia])
+        let moov = makeContainer(type: ContainerTypes.movie, children: [trak])
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let issues = events.flatMap { event in
+            event.validationIssues.filter { $0.ruleID == "VR-015" }
+        }
+
+        XCTAssertFalse(issues.isEmpty)
+        XCTAssertTrue(issues.contains { $0.message.contains("declares 7 samples") })
+    }
+
+    func testSampleTableValidationReportsNonMonotonicChunkOffsets() async throws {
+        let tkhd = makeTrackHeaderBox(trackID: 7, duration: 900, width: 0, height: 0)
+        let stsc = makeSampleToChunkBox(entries: [
+            SampleToChunkEntryParameters(firstChunk: 1, samplesPerChunk: 2, sampleDescriptionIndex: 1),
+            SampleToChunkEntryParameters(firstChunk: 3, samplesPerChunk: 4, sampleDescriptionIndex: 1)
+        ])
+        let stsz = makeSampleSizeBox(defaultSampleSize: 128, sampleCount: 8)
+        let stco = makeChunkOffsetBox(offsets: [400, 392, 512])
+        let stbl = makeContainer(type: FourCharContainerCode.stbl.rawValue, children: [stsc, stsz, stco])
+        let minf = makeContainer(type: FourCharContainerCode.minf.rawValue, children: [stbl])
+        let mdia = makeContainer(type: ContainerTypes.media, children: [minf])
+        let trak = makeContainer(type: ContainerTypes.track, children: [tkhd, mdia])
+        let moov = makeContainer(type: ContainerTypes.movie, children: [trak])
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let chunkOffsetEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "stco"
+            }
+            return false
+        })
+
+        let issues = chunkOffsetEvent.validationIssues.filter { $0.ruleID == "VR-015" }
+        XCTAssertEqual(issues.count, 1)
+        XCTAssertTrue(issues.contains { $0.message.contains("non-monotonic") })
+    }
+
     func testLivePipelineReportsVersionAndFlagMismatchWarnings() async throws {
         let mismatchTkhd = makeBox(
             type: "tkhd",
@@ -791,6 +878,59 @@ final class ParsePipelineLiveTests: XCTestCase {
             ))
         }
         return makeBox(type: "ilst", payload: payload)
+    }
+
+    private struct SampleToChunkEntryParameters {
+        let firstChunk: UInt32
+        let samplesPerChunk: UInt32
+        let sampleDescriptionIndex: UInt32
+    }
+
+    private func makeSampleToChunkBox(entries: [SampleToChunkEntryParameters]) -> Data {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(entries.count).bigEndianBytes)
+        for entry in entries {
+            payload.append(contentsOf: entry.firstChunk.bigEndianBytes)
+            payload.append(contentsOf: entry.samplesPerChunk.bigEndianBytes)
+            payload.append(contentsOf: entry.sampleDescriptionIndex.bigEndianBytes)
+        }
+        return makeBox(type: "stsc", payload: payload)
+    }
+
+    private func makeSampleSizeBox(
+        defaultSampleSize: UInt32,
+        sampleCount: UInt32,
+        explicitSizes: [UInt32] = []
+    ) -> Data {
+        if defaultSampleSize == 0 {
+            precondition(explicitSizes.count == Int(sampleCount), "Explicit sample sizes must match sampleCount when default size is zero")
+        } else {
+            precondition(explicitSizes.isEmpty, "Explicit sample sizes are only supported when default size is zero")
+        }
+
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: defaultSampleSize.bigEndianBytes)
+        payload.append(contentsOf: sampleCount.bigEndianBytes)
+        if defaultSampleSize == 0 {
+            explicitSizes.forEach { payload.append(contentsOf: $0.bigEndianBytes) }
+        }
+        return makeBox(type: "stsz", payload: payload)
+    }
+
+    private func makeChunkOffsetBox(offsets: [UInt64]) -> Data {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(offsets.count).bigEndianBytes)
+        for offset in offsets {
+            precondition(offset <= UInt64(UInt32.max), "Chunk offset exceeds 32-bit range")
+            payload.append(contentsOf: UInt32(offset).bigEndianBytes)
+        }
+        return makeBox(type: "stco", payload: payload)
     }
 
     private func makeMetadataItemEntry(identifierBytes: [UInt8], dataBox: Data) -> Data {
