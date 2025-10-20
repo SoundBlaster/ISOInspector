@@ -287,6 +287,131 @@
           "validationIssues" : [
 
           ]
+        },
+        {
+          "children" : [
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "trex",
+              "metadata" : {
+                "name" : "Track Extends Defaults",
+                "specification" : "ISO",
+                "summary" : "track extends defaults"
+              },
+              "offsets" : {
+                "end" : 180,
+                "payloadEnd" : 180,
+                "payloadStart" : 156,
+                "start" : 148
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 157,
+                    "start" : 156
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 160,
+                    "start" : 157
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 164,
+                    "start" : 160
+                  },
+                  "name" : "track_ID",
+                  "summary" : "Track identifier",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 168,
+                    "start" : 164
+                  },
+                  "name" : "default_sample_description_index",
+                  "summary" : "Default sample description table index",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 172,
+                    "start" : 168
+                  },
+                  "name" : "default_sample_duration",
+                  "summary" : "Default sample duration in timescale units",
+                  "value" : "1000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 176,
+                    "start" : 172
+                  },
+                  "name" : "default_sample_size",
+                  "summary" : "Default sample size in bytes",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 180,
+                    "start" : 176
+                  },
+                  "name" : "default_sample_flags",
+                  "summary" : "Default sample flags applied to fragment samples",
+                  "value" : "0x01000000"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 24,
+                "total" : 32
+              },
+              "structured" : {
+                "track_extends" : {
+                  "default_sample_description_index" : 1,
+                  "default_sample_duration" : 1000,
+                  "default_sample_flags" : 16777216,
+                  "default_sample_size" : 0,
+                  "flags" : 0,
+                  "track_ID" : 1,
+                  "version" : 0
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            }
+          ],
+          "fourcc" : "mvex",
+          "metadata" : {
+            "name" : "Movie Extends Box",
+            "specification" : "ISO",
+            "summary" : "movie extends box"
+          },
+          "offsets" : {
+            "end" : 180,
+            "payloadEnd" : 180,
+            "payloadStart" : 148,
+            "start" : 140
+          },
+          "sizes" : {
+            "header" : 8,
+            "payload" : 32,
+            "total" : 40
+          },
+          "validationIssues" : [
+
+          ]
         }
       ],
       "fourcc" : "moov",
@@ -296,8 +421,8 @@
         "summary" : "Top-level container for movie metadata including tracks and timing information."
       },
       "offsets" : {
-        "end" : 140,
-        "payloadEnd" : 140,
+        "end" : 180,
+        "payloadEnd" : 180,
         "payloadStart" : 32,
         "start" : 24
       },
@@ -310,22 +435,22 @@
         {
           "name" : "payload_length",
           "summary" : "Number of bytes in the box payload.",
-          "value" : "108"
+          "value" : "148"
         },
         {
           "byteRange" : {
-            "end" : 140,
+            "end" : 180,
             "start" : 32
           },
           "name" : "payload_range",
           "summary" : "Byte range of the payload relative to the file start.",
-          "value" : "32..<140"
+          "value" : "32..<180"
         }
       ],
       "sizes" : {
         "header" : 8,
-        "payload" : 108,
-        "total" : 116
+        "payload" : 148,
+        "total" : 156
       },
       "validationIssues" : [
 

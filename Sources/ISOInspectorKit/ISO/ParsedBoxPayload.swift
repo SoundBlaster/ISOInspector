@@ -7,6 +7,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case padding(PaddingBox)
         case movieHeader(MovieHeaderBox)
         case trackHeader(TrackHeaderBox)
+        case trackExtends(TrackExtendsDefaultsBox)
         case soundMediaHeader(SoundMediaHeaderBox)
         case videoMediaHeader(VideoMediaHeaderBox)
         case editList(EditListBox)
@@ -218,6 +219,34 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             self.flags = flags
             self.balance = balance
             self.balanceRaw = balanceRaw
+        }
+    }
+
+    public struct TrackExtendsDefaultsBox: Equatable, Sendable {
+        public let version: UInt8
+        public let flags: UInt32
+        public let trackID: UInt32
+        public let defaultSampleDescriptionIndex: UInt32
+        public let defaultSampleDuration: UInt32
+        public let defaultSampleSize: UInt32
+        public let defaultSampleFlags: UInt32
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            trackID: UInt32,
+            defaultSampleDescriptionIndex: UInt32,
+            defaultSampleDuration: UInt32,
+            defaultSampleSize: UInt32,
+            defaultSampleFlags: UInt32
+        ) {
+            self.version = version
+            self.flags = flags
+            self.trackID = trackID
+            self.defaultSampleDescriptionIndex = defaultSampleDescriptionIndex
+            self.defaultSampleDuration = defaultSampleDuration
+            self.defaultSampleSize = defaultSampleSize
+            self.defaultSampleFlags = defaultSampleFlags
         }
     }
 
@@ -761,6 +790,11 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var trackHeader: TrackHeaderBox? {
         guard case let .trackHeader(box) = detail else { return nil }
+        return box
+    }
+
+    public var trackExtends: TrackExtendsDefaultsBox? {
+        guard case let .trackExtends(box) = detail else { return nil }
         return box
     }
 

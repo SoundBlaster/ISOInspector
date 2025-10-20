@@ -36,6 +36,68 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(fileType.compatibleBrands, [try FourCharCode("mp41")])
     }
 
+    func testDefaultRegistryParsesMovieExtendsContainer() throws {
+        let totalSize = 8
+        let header = BoxHeader(
+            type: try FourCharCode("mvex"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        let reader = InMemoryRandomAccessReader(data: Data(count: totalSize))
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        XCTAssertTrue(parsed.fields.isEmpty)
+        XCTAssertNil(parsed.detail)
+    }
+
+    func testDefaultRegistryParsesTrackExtendsDefaultsBox() throws {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x01]) // flags
+        payload.append(contentsOf: UInt32(3).bigEndianBytes) // track_ID
+        payload.append(contentsOf: UInt32(2).bigEndianBytes) // default_sample_description_index
+        payload.append(contentsOf: UInt32(600).bigEndianBytes) // default_sample_duration
+        payload.append(contentsOf: UInt32(1024).bigEndianBytes) // default_sample_size
+        payload.append(contentsOf: UInt32(0x01020304).bigEndianBytes) // default_sample_flags
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("trex"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        XCTAssertEqual(value(named: "version", in: parsed), "0")
+        XCTAssertEqual(value(named: "flags", in: parsed), "0x000001")
+        XCTAssertEqual(value(named: "track_ID", in: parsed), "3")
+        XCTAssertEqual(value(named: "default_sample_description_index", in: parsed), "2")
+        XCTAssertEqual(value(named: "default_sample_duration", in: parsed), "600")
+        XCTAssertEqual(value(named: "default_sample_size", in: parsed), "1024")
+        XCTAssertEqual(value(named: "default_sample_flags", in: parsed), "0x01020304")
+
+        let detail = try XCTUnwrap(parsed.trackExtends)
+        XCTAssertEqual(detail.version, 0)
+        XCTAssertEqual(detail.flags, 0x000001)
+        XCTAssertEqual(detail.trackID, 3)
+        XCTAssertEqual(detail.defaultSampleDescriptionIndex, 2)
+        XCTAssertEqual(detail.defaultSampleDuration, 600)
+        XCTAssertEqual(detail.defaultSampleSize, 1024)
+        XCTAssertEqual(detail.defaultSampleFlags, 0x01020304)
+    }
+
     func testDefaultFallbackProvidesPlaceholderPayloadForUnknownBox() throws {
         let payload = Data([0xDE, 0xAD, 0xBE, 0xEF])
         let totalSize = 8 + payload.count

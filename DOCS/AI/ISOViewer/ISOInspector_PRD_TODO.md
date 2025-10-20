@@ -211,7 +211,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] C17. `mdat`: record offset/size (skip payload). **(Completed — streaming parser now records byte ranges without loading payload data; see `DOCS/TASK_ARCHIVE/126_C17_mdat_Box_Parser/Summary_of_Work.md`.)**
 - [x] C18. `free/skip`: opaque pass-through. **(Completed — see `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/Summary_of_Work.md` for implementation notes and `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/C18_free_skip_Pass_Through.md` for original puzzle scope.)**
 
-- [ ] D1. `mvex/trex`: defaults. _(In Progress — see `DOCS/INPROGRESS/D1_mvex_trex_Defaults.md`.)_
+- [x] D1. `mvex/trex`: defaults. _(Completed — see `DOCS/TASK_ARCHIVE/D1_mvex_trex_Defaults/Summary_of_Work.md`.)_
 - [ ] D2. `moof/mfhd`: sequence number.
 - [ ] D3. `traf/tfhd/tfdt/trun`: parse via flags; sample_count; optional data_offset; sizes.
 - [x] D4. `sidx`: refs (sizes/durations), earliest_presentation_time, timescale. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
