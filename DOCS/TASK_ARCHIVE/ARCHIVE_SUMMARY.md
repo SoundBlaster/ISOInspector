@@ -630,3 +630,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/118_C13_Surface_smhd_vmhd_Media_Header_Fields/`.
 - **Highlights:** Documents the delivery of dedicated `smhd` and `vmhd` media header parsers, JSON export updates, and validation coverage ensuring balance, graphics mode, and opcolor metadata flows through the registry and downstream consumers.
 - **Next steps carried forward:** The new `DOCS/INPROGRESS/next_tasks.md` breaks down Phase C Task C14 (`edts/elst` edit lists) into actionable subtasks while keeping C15 metadata boxes and Validation Rule #15 queued for follow-up.
+
+## 121_C14b_Implement_elst_Parser
+- **Archived files:** `C14b_Implement_elst_Parser.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/121_C14b_Implement_elst_Parser/`.
+- **Highlights:** Registers the streaming `elst` decoder that emits normalized edit list metadata, playback rates, and cumulative presentation offsets while threading `mvhd`/`mdhd` timescales into the live parse pipeline. Fixtures and tests cover both 32-bit and 64-bit edit entries so CLI exports and downstream consumers stay aligned.
+- **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` now tracks Tasks C14c–C14d for validation and fixture updates, plus Task C15 metadata coverage and Validation Rule #15 chunk/sample correlation work.
