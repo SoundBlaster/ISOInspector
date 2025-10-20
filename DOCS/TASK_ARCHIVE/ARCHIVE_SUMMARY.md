@@ -648,3 +648,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/124_Summary_of_Work_2025-10-20/`.
 - **Highlights:** Summarizes completion of Task C14d fixture refresh with regenerated edit list JSON exports, snapshot baselines, and regression validation commands covering empty, offset, multi-segment, and rate-adjusted scenarios.
 - **Next steps carried forward:** Task C15 metadata box coverage and Validation Rule #15 chunk/sample correlation remain tracked in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist.
+
+## 125_C15_Metadata_Box_Coverage
+- **Archived files:** `C15_Metadata_Box_Coverage.md`, `Summary_of_Work.md`, `next_tasks.md`, `split_plan.yaml`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/125_C15_Metadata_Box_Coverage/`.
+- **Highlights:** Captures delivery of baseline metadata box parsing, environment propagation, and JSON export updates for `udta/meta/keys/ilst`, including parser registry wiring notes and streaming walker validation results.
+- **Next steps carried forward:** The refreshed `DOCS/INPROGRESS/next_tasks.md` now prioritizes extending metadata value decoding for new fixture types and implementing Validation Rule #15 chunk/sample correlation diagnostics.
