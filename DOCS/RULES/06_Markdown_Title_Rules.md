@@ -18,5 +18,4 @@ These rules apply to every Markdown file in the repository, especially content u
 ## 🛠 Recommended Practice
 
 - Prefer descriptive wording or emojis instead of quotes when highlighting phrases.
-- Run `python scripts/fix_markdown.py` before committing to normalize spacing around headings and lists.
-- Validate with `markdownlint-cli2` locally if you introduce new heading patterns.
+- Validate formatting manually if you introduce new heading patterns; automated helpers such as `scripts/fix_markdown.py` have been retired.

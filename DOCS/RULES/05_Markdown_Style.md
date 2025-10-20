@@ -1,6 +1,6 @@
 # 05 — Markdown Style & Lint Rule
 
-> ⚠️ **Status: Disabled** — This rule is temporarily paused while repository Markdown linting is turned off in CI. Retain the guidance for future reactivation.
+> ⚠️ **Status: Disabled** — This rule is temporarily paused while repository Markdown linting is turned off in CI. Retain the guidance for future reactivation. The legacy helper script `scripts/fix_markdown.py` has been retired and now acts as a no-op placeholder.
 
 ## 🧩 Purpose
 
@@ -61,7 +61,7 @@ Create or update `.markdownlint.jsonc` at the repo root (line-length rule disabl
 
 **Agent must:**
 
-1. **Auto-fix style (idempotent):**
+1. **Auto-fix style (idempotent, when practical):**
    - Normalize newlines to `\n` and ensure exactly one trailing newline.
    - Insert blank lines around headings.
    - Insert blank lines around lists.
@@ -87,17 +87,6 @@ npx markdownlint-cli2 "DOCS/INPROGRESS/**/*.md" "DOCS/COMMANDS/**/*.md" "DOCS/RU
 
 ```
 
-## 🛠 Recommended Auto-fix Script (reference)
-
-Call an idempotent fixer before lint:
-
-- Normalize trailing newline (MD047)
-- Add blank lines for headings/lists/fences (MD022/MD032/MD031)
-- Add language for code fences (MD040)
-- Use `1.` for ordered lists (MD029)
-
-If you already have a similar fixer, you can reuse it.
-
 ## ✅ Definition of Done
 
 - All touched `.md` files comply with `.markdownlint.jsonc`.
@@ -113,12 +102,10 @@ on:
     paths:
       - 'DOCS/**.md'
       - '.markdownlint.jsonc'
-      - 'scripts/fix_markdown.py'
   push:
     paths:
       - 'DOCS/**.md'
       - '.markdownlint.jsonc'
-      - 'scripts/fix_markdown.py'
 
 jobs:
   lint-md:
@@ -129,10 +116,6 @@ jobs:
         with:
           node-version: '20'
       - run: npm i -g markdownlint-cli2
-      - name: Auto-fix Markdown
-        run: |
-          python3 -V || sudo apt-get update && sudo apt-get install -y python3
-          python3 scripts/fix_markdown.py || true
       - name: Run markdownlint
         run: |
           markdownlint-cli2 "DOCS/INPROGRESS/**/*.md" "DOCS/COMMANDS/**/*.md" "DOCS/RULES/**/*.md"

@@ -61,7 +61,7 @@ documentation updates:
 
 1. Produce a summary of findings, updates applied, and next actions.
 1. Highlight any unresolved questions or approvals needed.
-1. Verify that all modified Markdown files comply with repository formatting standards (see [`scripts/fix_markdown.py`](../../scripts/fix_markdown.py)).
+1. Verify that all modified Markdown files comply with repository formatting standards. (The legacy auto-fix script [`scripts/fix_markdown.py`](../../scripts/fix_markdown.py) is now disabled.)
 
 ---
 
