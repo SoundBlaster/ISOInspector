@@ -791,10 +791,65 @@
                         "payloadStart" : 380,
                         "start" : 372
                       },
+                      "payload" : [
+                        {
+                          "byteRange" : {
+                            "end" : 381,
+                            "start" : 380
+                          },
+                          "name" : "version",
+                          "summary" : "Structure version",
+                          "value" : "0"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 384,
+                            "start" : 381
+                          },
+                          "name" : "flags",
+                          "summary" : "Bit flags",
+                          "value" : "0x000000"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 386,
+                            "start" : 384
+                          },
+                          "name" : "balance",
+                          "summary" : "Audio channel balance (center = 0)",
+                          "value" : "0.00"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 386,
+                            "start" : 384
+                          },
+                          "name" : "balance_raw",
+                          "summary" : "Raw signed 8.8 balance value",
+                          "value" : "0"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 388,
+                            "start" : 386
+                          },
+                          "name" : "reserved",
+                          "summary" : "Reserved field",
+                          "value" : "0"
+                        }
+                      ],
                       "sizes" : {
                         "header" : 8,
                         "payload" : 8,
                         "total" : 16
+                      },
+                      "structured" : {
+                        "sound_media_header" : {
+                          "balance" : 0,
+                          "balance_raw" : 0,
+                          "flags" : 0,
+                          "version" : 0
+                        }
                       },
                       "validationIssues" : [
 
@@ -5103,10 +5158,124 @@
                         "payloadStart" : 1715,
                         "start" : 1707
                       },
+                      "payload" : [
+                        {
+                          "byteRange" : {
+                            "end" : 1716,
+                            "start" : 1715
+                          },
+                          "name" : "version",
+                          "summary" : "Structure version",
+                          "value" : "0"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 1719,
+                            "start" : 1716
+                          },
+                          "name" : "flags",
+                          "summary" : "Bit flags",
+                          "value" : "0x000001"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 1721,
+                            "start" : 1719
+                          },
+                          "name" : "graphics_mode",
+                          "summary" : "Video transfer\/compositing mode",
+                          "value" : "copy"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 1721,
+                            "start" : 1719
+                          },
+                          "name" : "graphics_mode_raw",
+                          "summary" : "Raw graphics mode value",
+                          "value" : "0"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 1723,
+                            "start" : 1721
+                          },
+                          "name" : "opcolor.red",
+                          "summary" : "Normalized red overprint color",
+                          "value" : "0.0000"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 1723,
+                            "start" : 1721
+                          },
+                          "name" : "opcolor.red_raw",
+                          "summary" : "Raw opcolor.red value",
+                          "value" : "0"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 1725,
+                            "start" : 1723
+                          },
+                          "name" : "opcolor.green",
+                          "summary" : "Normalized green overprint color",
+                          "value" : "0.0000"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 1725,
+                            "start" : 1723
+                          },
+                          "name" : "opcolor.green_raw",
+                          "summary" : "Raw opcolor.green value",
+                          "value" : "0"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 1727,
+                            "start" : 1725
+                          },
+                          "name" : "opcolor.blue",
+                          "summary" : "Normalized blue overprint color",
+                          "value" : "0.0000"
+                        },
+                        {
+                          "byteRange" : {
+                            "end" : 1727,
+                            "start" : 1725
+                          },
+                          "name" : "opcolor.blue_raw",
+                          "summary" : "Raw opcolor.blue value",
+                          "value" : "0"
+                        }
+                      ],
                       "sizes" : {
                         "header" : 8,
                         "payload" : 12,
                         "total" : 20
+                      },
+                      "structured" : {
+                        "video_media_header" : {
+                          "flags" : 1,
+                          "graphics_mode" : 0,
+                          "graphics_mode_description" : "copy",
+                          "opcolor" : {
+                            "blue" : {
+                              "normalized" : 0,
+                              "raw" : 0
+                            },
+                            "green" : {
+                              "normalized" : 0,
+                              "raw" : 0
+                            },
+                            "red" : {
+                              "normalized" : 0,
+                              "raw" : 0
+                            }
+                          },
+                          "version" : 0
+                        }
                       },
                       "validationIssues" : [
 

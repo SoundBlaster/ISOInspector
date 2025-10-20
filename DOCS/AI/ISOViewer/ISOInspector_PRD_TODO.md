@@ -196,7 +196,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] 🟢 **P0+** C10. `stco/co64`: chunk offsets (32/64). **(Completed — see `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/C10_stco_co64_Chunk_Offset_Parser.md` and `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/Summary_of_Work.md`.)**
 - [x] 🔴 **P0+** C11. `stss`: sync sample numbers. _(Completed — see `DOCS/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/Summary_of_Work.md`.)_
 - [x] 🔴 **P0+** C12. `dinf/dref`: data reference entries. _(Completed — parsers, tests, and exports documented in `DOCS/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/Summary_of_Work.md` with implementation notes recorded in `DOCS/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/C12_dinf_dref_Data_Reference_Parser.md`.)_
-- [ ] 🔴 **P0+** C13. `smhd/vmhd`: media headers. **(In Progress — surface balance/graphics mode/opcolor metadata via `BoxParserRegistry`; align with codec metadata follow-ups in `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md`.)**
+- [x] 🟢 **P0+** C13. `smhd/vmhd`: media headers. **(Completed — balance, graphics mode, and opcolor metadata now flow through `BoxParserRegistry`; see `DOCS/INPROGRESS/Summary_of_Work.md`.)**
 - [ ] 🔴 **P0+** C14. `edts/elst`: edit list entries.
 - [ ] 🔴 **P0+** C15. Metadata: `udta`, `meta` (handler), `keys`, `ilst` (basic types).
 - [x] C16. Codec configs:

@@ -177,7 +177,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] C10. `stco/co64`: chunk offsets (32/64).
 - [x] C11. `stss`: sync sample numbers. _(Completed — see `DOCS/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/Summary_of_Work.md`.)_
 - [ ] C12. `dinf/dref`: data reference entries.
-- [ ] C13. `smhd/vmhd`: media headers.
+- [x] C13. `smhd/vmhd`: media headers.
 - [ ] C14. `edts/elst`: edit list entries.
 - [ ] C15. Metadata: `udta`, `meta` (handler), `keys`, `ilst` (basic types).
 - [ ] C16. Codec configs:

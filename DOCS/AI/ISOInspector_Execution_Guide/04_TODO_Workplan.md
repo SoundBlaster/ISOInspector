@@ -58,7 +58,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed (2025-10-19):** Task C3 – Implemented the `tkhd` track header parser covering flag-dependent field layouts, duration handling, and presentation dimensions. See `DOCS/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/Summary_of_Work.md` for implementation notes and verification details.
 >
-> **In Progress:** Task C13 – Surface `smhd`/`vmhd` media header fields via `BoxParserRegistry`, ensuring balance and graphics metadata align with codec notes in `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md`.
+> **Completed:** Task C13 – `smhd`/`vmhd` media header fields now surface balance, graphics mode, and opcolor details through `BoxParserRegistry` (see `DOCS/INPROGRESS/Summary_of_Work.md`).
 
 > **Completed:** Task C8 — Implemented the `stsc` sample-to-chunk parser so sample table metadata flows into UI/CLI surfaces. See `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md` for implementation notes and follow-ups.
 
