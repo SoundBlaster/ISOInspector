@@ -145,6 +145,104 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertEqual(try XCTUnwrap(entry.presentationEndSeconds), 1.0, accuracy: 0.000_001)
     }
 
+    func testEditListValidationFlagsDurationMismatches() async throws {
+        let mvhd = makeMovieHeaderBox(timescale: 600, duration: 1_200)
+        let tkhd = makeTrackHeaderBox(trackID: 2, duration: 1_200, width: 0, height: 0)
+        let mdhd = makeMediaHeaderBox(timescale: 48_000, duration: 24_000)
+        let elst = makeEditListBox(entries: [
+            .init(segmentDuration: 300, mediaTime: 0, mediaRateInteger: 1, mediaRateFraction: 0),
+            .init(segmentDuration: 300, mediaTime: 300, mediaRateInteger: 1, mediaRateFraction: 0)
+        ])
+        let mdia = makeContainer(type: ContainerTypes.media, children: [mdhd])
+        let edts = makeContainer(type: FourCharContainerCode.edts.rawValue, children: [elst])
+        let trak = makeContainer(type: ContainerTypes.track, children: [tkhd, mdia, edts])
+        let moov = makeContainer(type: ContainerTypes.movie, children: [mvhd, trak])
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let editListEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "elst"
+            }
+            return false
+        })
+
+        let issues = editListEvent.validationIssues.filter { $0.ruleID == "VR-014" }
+        XCTAssertEqual(issues.count, 3)
+        XCTAssertTrue(issues.contains(where: { $0.message.contains("movie header duration") }))
+        XCTAssertTrue(issues.contains(where: { $0.message.contains("track header duration") }))
+        XCTAssertTrue(issues.contains(where: { $0.message.contains("media duration") }))
+    }
+
+    func testEditListValidationDefersMediaDurationUntilMediaHeader() async throws {
+        let mvhd = makeMovieHeaderBox(timescale: 600, duration: 900)
+        let tkhd = makeTrackHeaderBox(trackID: 4, duration: 900, width: 0, height: 0)
+        let mdhd = makeMediaHeaderBox(timescale: 48_000, duration: 96_000)
+        let elst = makeEditListBox(entries: [
+            .init(segmentDuration: 900, mediaTime: 0, mediaRateInteger: 1, mediaRateFraction: 0)
+        ])
+        let edts = makeContainer(type: FourCharContainerCode.edts.rawValue, children: [elst])
+        let mdia = makeContainer(type: ContainerTypes.media, children: [mdhd])
+        let trak = makeContainer(type: ContainerTypes.track, children: [tkhd, edts, mdia])
+        let moov = makeContainer(type: ContainerTypes.movie, children: [mvhd, trak])
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let editListEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "elst"
+            }
+            return false
+        })
+
+        let editListIssues = editListEvent.validationIssues.filter { $0.ruleID == "VR-014" }
+        XCTAssertTrue(editListIssues.isEmpty)
+
+        let mediaHeaderEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "mdhd"
+            }
+            return false
+        })
+        let mediaIssues = mediaHeaderEvent.validationIssues.filter { $0.ruleID == "VR-014" }
+        XCTAssertEqual(mediaIssues.count, 1)
+        XCTAssertTrue(mediaIssues.contains(where: { $0.message.contains("media duration") }))
+    }
+
+    func testEditListValidationFlagsUnsupportedRates() async throws {
+        let mvhd = makeMovieHeaderBox(timescale: 600, duration: 600)
+        let tkhd = makeTrackHeaderBox(trackID: 3, duration: 600, width: 0, height: 0)
+        let mdhd = makeMediaHeaderBox(timescale: 48_000, duration: 48_000)
+        let elst = makeEditListBox(entries: [
+            .init(segmentDuration: 600, mediaTime: 0, mediaRateInteger: -1, mediaRateFraction: 0),
+            .init(segmentDuration: 0, mediaTime: 0, mediaRateInteger: 1, mediaRateFraction: 1)
+        ])
+        let mdia = makeContainer(type: ContainerTypes.media, children: [mdhd])
+        let edts = makeContainer(type: FourCharContainerCode.edts.rawValue, children: [elst])
+        let trak = makeContainer(type: ContainerTypes.track, children: [tkhd, mdia, edts])
+        let moov = makeContainer(type: ContainerTypes.movie, children: [mvhd, trak])
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let editListEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "elst"
+            }
+            return false
+        })
+
+        let issues = editListEvent.validationIssues.filter { $0.ruleID == "VR-014" }
+        XCTAssertEqual(issues.count, 2)
+        XCTAssertTrue(issues.contains(where: { $0.message.contains("reverse playback") }))
+        XCTAssertTrue(issues.contains(where: { $0.message.contains("media_rate_fraction") }))
+    }
+
     func testLivePipelineReportsVersionAndFlagMismatchWarnings() async throws {
         let mismatchTkhd = makeBox(
             type: "tkhd",
