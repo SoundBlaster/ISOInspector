@@ -5,6 +5,8 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case fileType(FileTypeBox)
         case movieHeader(MovieHeaderBox)
         case trackHeader(TrackHeaderBox)
+        case soundMediaHeader(SoundMediaHeaderBox)
+        case videoMediaHeader(VideoMediaHeaderBox)
         case sampleToChunk(SampleToChunkBox)
         case chunkOffset(ChunkOffsetBox)
         case sampleSize(SampleSizeBox)
@@ -144,6 +146,64 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         public var isZeroSized: Bool { width == 0.0 || height == 0.0 }
 
         public var isZeroDuration: Bool { duration == 0 }
+    }
+
+    public struct SoundMediaHeaderBox: Equatable, Sendable {
+        public let version: UInt8
+        public let flags: UInt32
+        public let balance: Double
+        public let balanceRaw: Int16
+
+        public init(version: UInt8, flags: UInt32, balance: Double, balanceRaw: Int16) {
+            self.version = version
+            self.flags = flags
+            self.balance = balance
+            self.balanceRaw = balanceRaw
+        }
+    }
+
+    public struct VideoMediaHeaderBox: Equatable, Sendable {
+        public struct OpcolorComponent: Equatable, Sendable {
+            public let raw: UInt16
+            public let normalized: Double
+
+            public init(raw: UInt16, normalized: Double) {
+                self.raw = raw
+                self.normalized = normalized
+            }
+        }
+
+        public struct Opcolor: Equatable, Sendable {
+            public let red: OpcolorComponent
+            public let green: OpcolorComponent
+            public let blue: OpcolorComponent
+
+            public init(red: OpcolorComponent, green: OpcolorComponent, blue: OpcolorComponent) {
+                self.red = red
+                self.green = green
+                self.blue = blue
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let graphicsMode: UInt16
+        public let graphicsModeDescription: String?
+        public let opcolor: Opcolor
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            graphicsMode: UInt16,
+            graphicsModeDescription: String?,
+            opcolor: Opcolor
+        ) {
+            self.version = version
+            self.flags = flags
+            self.graphicsMode = graphicsMode
+            self.graphicsModeDescription = graphicsModeDescription
+            self.opcolor = opcolor
+        }
     }
 
     public struct SampleToChunkBox: Equatable, Sendable {
@@ -410,6 +470,16 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var trackHeader: TrackHeaderBox? {
         guard case let .trackHeader(box) = detail else { return nil }
+        return box
+    }
+
+    public var soundMediaHeader: SoundMediaHeaderBox? {
+        guard case let .soundMediaHeader(box) = detail else { return nil }
+        return box
+    }
+
+    public var videoMediaHeader: VideoMediaHeaderBox? {
+        guard case let .videoMediaHeader(box) = detail else { return nil }
         return box
     }
 

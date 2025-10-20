@@ -70,6 +70,12 @@ public struct BoxParserRegistry: Sendable {
             if let mdhd = try? FourCharCode("mdhd") {
                 registry.register(parser: mediaHeader, for: mdhd)
             }
+            if let smhd = try? FourCharCode("smhd") {
+                registry.register(parser: soundMediaHeader, for: smhd)
+            }
+            if let vmhd = try? FourCharCode("vmhd") {
+                registry.register(parser: videoMediaHeader, for: vmhd)
+            }
             if let hdlr = try? FourCharCode("hdlr") {
                 registry.register(parser: handlerReference, for: hdlr)
             }
@@ -1065,6 +1071,159 @@ public struct BoxParserRegistry: Sendable {
             )
 
             return ParsedBoxPayload(fields: fields, detail: .trackHeader(detail))
+        }
+
+        static func soundMediaHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+            guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            let start = header.payloadRange.lowerBound
+            let end = header.payloadRange.upperBound
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "version",
+                value: String(fullHeader.version),
+                description: "Structure version",
+                byteRange: start..<(start + 1)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "flags",
+                value: String(format: "0x%06X", fullHeader.flags),
+                description: "Bit flags",
+                byteRange: (start + 1)..<(start + 4)
+            ))
+
+            var cursor = fullHeader.contentStart
+
+            guard let balanceRaw = try readInt16(reader, at: cursor, end: end) else { return nil }
+            let balance = Double(balanceRaw) / 256.0
+            let balanceRange = cursor..<(cursor + 2)
+            fields.append(ParsedBoxPayload.Field(
+                name: "balance",
+                value: String(format: "%.2f", balance),
+                description: "Audio channel balance (center = 0)",
+                byteRange: balanceRange
+            ))
+            fields.append(ParsedBoxPayload.Field(
+                name: "balance_raw",
+                value: String(Int(balanceRaw)),
+                description: "Raw signed 8.8 balance value",
+                byteRange: balanceRange
+            ))
+            cursor += 2
+
+            guard let reserved = try readUInt16(reader, at: cursor, end: end) else { return nil }
+            fields.append(ParsedBoxPayload.Field(
+                name: "reserved",
+                value: String(reserved),
+                description: "Reserved field",
+                byteRange: cursor..<(cursor + 2)
+            ))
+
+            let detail = ParsedBoxPayload.SoundMediaHeaderBox(
+                version: fullHeader.version,
+                flags: fullHeader.flags,
+                balance: balance,
+                balanceRaw: balanceRaw
+            )
+
+            return ParsedBoxPayload(fields: fields, detail: .soundMediaHeader(detail))
+        }
+
+        static func videoMediaHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+            guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+            var fields: [ParsedBoxPayload.Field] = []
+            let start = header.payloadRange.lowerBound
+            let end = header.payloadRange.upperBound
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "version",
+                value: String(fullHeader.version),
+                description: "Structure version",
+                byteRange: start..<(start + 1)
+            ))
+
+            fields.append(ParsedBoxPayload.Field(
+                name: "flags",
+                value: String(format: "0x%06X", fullHeader.flags),
+                description: "Bit flags",
+                byteRange: (start + 1)..<(start + 4)
+            ))
+
+            var cursor = fullHeader.contentStart
+
+            guard let graphicsMode = try readUInt16(reader, at: cursor, end: end) else { return nil }
+            let graphicsRange = cursor..<(cursor + 2)
+            let graphicsDescription = describeGraphicsMode(graphicsMode)
+            let graphicsValue = graphicsDescription ?? "reserved"
+            fields.append(ParsedBoxPayload.Field(
+                name: "graphics_mode",
+                value: graphicsValue,
+                description: "Video transfer/compositing mode",
+                byteRange: graphicsRange
+            ))
+            fields.append(ParsedBoxPayload.Field(
+                name: "graphics_mode_raw",
+                value: String(graphicsMode),
+                description: "Raw graphics mode value",
+                byteRange: graphicsRange
+            ))
+            cursor += 2
+
+            struct OpcolorEntry {
+                let name: String
+                let description: String
+            }
+
+            let entries: [OpcolorEntry] = [
+                OpcolorEntry(name: "opcolor.red", description: "Normalized red overprint color"),
+                OpcolorEntry(name: "opcolor.green", description: "Normalized green overprint color"),
+                OpcolorEntry(name: "opcolor.blue", description: "Normalized blue overprint color")
+            ]
+
+            var components: [ParsedBoxPayload.VideoMediaHeaderBox.OpcolorComponent] = []
+            for entry in entries {
+                guard let value = try readUInt16(reader, at: cursor, end: end) else { return nil }
+                let range = cursor..<(cursor + 2)
+                let normalized = Double(value) / 65535.0
+                fields.append(ParsedBoxPayload.Field(
+                    name: entry.name,
+                    value: String(format: "%.4f", normalized),
+                    description: entry.description,
+                    byteRange: range
+                ))
+                fields.append(ParsedBoxPayload.Field(
+                    name: "\(entry.name)_raw",
+                    value: String(value),
+                    description: "Raw \(entry.name) value",
+                    byteRange: range
+                ))
+                components.append(ParsedBoxPayload.VideoMediaHeaderBox.OpcolorComponent(
+                    raw: value,
+                    normalized: normalized
+                ))
+                cursor += 2
+            }
+
+            guard components.count == 3 else { return nil }
+
+            let opcolor = ParsedBoxPayload.VideoMediaHeaderBox.Opcolor(
+                red: components[0],
+                green: components[1],
+                blue: components[2]
+            )
+
+            let detail = ParsedBoxPayload.VideoMediaHeaderBox(
+                version: fullHeader.version,
+                flags: fullHeader.flags,
+                graphicsMode: graphicsMode,
+                graphicsModeDescription: graphicsDescription,
+                opcolor: opcolor
+            )
+
+            return ParsedBoxPayload(fields: fields, detail: .videoMediaHeader(detail))
         }
 
         static func sampleDescription(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
@@ -2931,6 +3090,21 @@ public struct BoxParserRegistry: Sendable {
         ) -> String {
             let formatted = decodeSignedFixedPoint(value, fractionalBits: fractionalBits)
             return String(format: "%.\(precision)f", formatted)
+        }
+
+        private static func describeGraphicsMode(_ raw: UInt16) -> String? {
+            switch raw {
+            case 0:
+                return "copy"
+            case 1:
+                return "ditherCopy"
+            case 2:
+                return "componentAlpha"
+            case 3:
+                return "preMultipliedAlpha"
+            default:
+                return nil
+            }
         }
 
         private static func decodeHandlerName(from data: Data, at offset: Int64) -> ParsedBoxPayload.Field? {

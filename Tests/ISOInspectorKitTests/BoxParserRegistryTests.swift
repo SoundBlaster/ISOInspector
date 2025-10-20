@@ -193,6 +193,91 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(detail.matrix.w, 1.0, accuracy: 0.0001)
     }
 
+    func testDefaultRegistryParsesSoundMediaHeaderBox() throws {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt16(0x0180).bigEndianBytes) // balance 1.5 in 8.8 fixed
+        payload.append(contentsOf: UInt16(0x0000).bigEndianBytes) // reserved
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("smhd"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        XCTAssertEqual(value(named: "version", in: parsed), "0")
+        XCTAssertEqual(value(named: "flags", in: parsed), "0x000000")
+        XCTAssertEqual(value(named: "balance", in: parsed), "1.50")
+        XCTAssertEqual(value(named: "balance_raw", in: parsed), "384")
+        XCTAssertEqual(value(named: "reserved", in: parsed), "0")
+
+        let detail = try XCTUnwrap(parsed.soundMediaHeader)
+        XCTAssertEqual(detail.version, 0)
+        XCTAssertEqual(detail.flags, 0)
+        XCTAssertEqual(detail.balance, 1.5, accuracy: 0.0001)
+        XCTAssertEqual(detail.balanceRaw, 0x0180)
+    }
+
+    func testDefaultRegistryParsesVideoMediaHeaderBox() throws {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x01]) // flags with single low bit set
+        payload.append(contentsOf: UInt16(0x0002).bigEndianBytes) // graphics mode (component alpha)
+        payload.append(contentsOf: UInt16(0x8000).bigEndianBytes) // opcolor red
+        payload.append(contentsOf: UInt16(0x4000).bigEndianBytes) // opcolor green
+        payload.append(contentsOf: UInt16(0xFFFF).bigEndianBytes) // opcolor blue
+
+        let totalSize = 8 + payload.count
+        let header = BoxHeader(
+            type: try FourCharCode("vmhd"),
+            totalSize: Int64(totalSize),
+            headerSize: 8,
+            payloadRange: 8..<Int64(totalSize),
+            range: 0..<Int64(totalSize),
+            uuid: nil
+        )
+
+        var data = Data(count: totalSize)
+        data.replaceSubrange(8..<totalSize, with: payload)
+        let reader = InMemoryRandomAccessReader(data: data)
+
+        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        XCTAssertEqual(value(named: "version", in: parsed), "0")
+        XCTAssertEqual(value(named: "flags", in: parsed), "0x000001")
+        XCTAssertEqual(value(named: "graphics_mode", in: parsed), "componentAlpha")
+        XCTAssertEqual(value(named: "graphics_mode_raw", in: parsed), "2")
+        XCTAssertEqual(value(named: "opcolor.red", in: parsed), "0.5000")
+        XCTAssertEqual(value(named: "opcolor.red_raw", in: parsed), "32768")
+        XCTAssertEqual(value(named: "opcolor.green", in: parsed), "0.2500")
+        XCTAssertEqual(value(named: "opcolor.green_raw", in: parsed), "16384")
+        XCTAssertEqual(value(named: "opcolor.blue", in: parsed), "1.0000")
+        XCTAssertEqual(value(named: "opcolor.blue_raw", in: parsed), "65535")
+
+        let detail = try XCTUnwrap(parsed.videoMediaHeader)
+        XCTAssertEqual(detail.version, 0)
+        XCTAssertEqual(detail.flags, 1)
+        XCTAssertEqual(detail.graphicsMode, 0x0002)
+        XCTAssertEqual(detail.graphicsModeDescription, "componentAlpha")
+        XCTAssertEqual(detail.opcolor.red.raw, 0x8000)
+        XCTAssertEqual(detail.opcolor.red.normalized, 0.5, accuracy: 0.0001)
+        XCTAssertEqual(detail.opcolor.green.raw, 0x4000)
+        XCTAssertEqual(detail.opcolor.green.normalized, 0.25, accuracy: 0.0001)
+        XCTAssertEqual(detail.opcolor.blue.raw, 0xFFFF)
+        XCTAssertEqual(detail.opcolor.blue.normalized, 1.0, accuracy: 0.0001)
+    }
+
     func testMovieHeaderParserRejectsTruncatedMatrix() throws {
         var payload = Data()
         payload.append(0x00)

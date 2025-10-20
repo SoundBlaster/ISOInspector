@@ -24,3 +24,13 @@ details how validation issues surface in SwiftUI.
 New features must start in ISOInspectorKit. Update the CLI and app
 simultaneously, leaving focused @todo notes if propagation needs to be split into
 additional tasks.
+
+### Media header bindings
+
+- `ParsedBoxPayload.SoundMediaHeaderBox` exposes human-readable `balance`
+  alongside the raw signed 8.8 value so audio track panes can display centering
+  while validations operate on the integer payload.
+- `ParsedBoxPayload.VideoMediaHeaderBox` surfaces a descriptive
+  `graphicsModeDescription`, raw graphics mode bits, and normalized
+  `opcolor` components so SwiftUI and CLI exports can highlight transfer modes
+  without re-decoding the byte buffer.
