@@ -696,3 +696,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/132_B6_Box_Parser_Registry/`.
 - **Highlights:** Captures completion of the shared `BoxParserRegistry` fallback that emits placeholder payload metadata for unknown boxes, refreshes JSON export baselines to reflect the richer structure, and adds unit coverage ensuring the default parser delivers contextual byte ranges instead of `nil` payloads.
 - **Next steps carried forward:** Acquire Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures so snapshot baselines migrate from synthetic payloads; tracked in `DOCS/INPROGRESS/next_tasks.md` pending licensing clearance.
+
+## 133_Summary_of_Work_2025-10-20_mvex_trex_Defaults
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/133_Summary_of_Work_2025-10-20_mvex_trex_Defaults/`.
+- **Highlights:** Captures the 2025-10-20 summary that documents completion of Task D1, including the new `mvex` container plus `trex` defaults parsing, structured payload export updates, refreshed fragmented fixture snapshots, and the associated regression coverage.
+- **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now focuses on acquiring Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures so synthetic payloads can be replaced once licensing is cleared.
