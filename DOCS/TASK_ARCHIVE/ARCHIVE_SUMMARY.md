@@ -677,4 +677,10 @@
 - **Archived files:** `C15_Metadata_Value_Type_Expansion.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/129_C15_Metadata_Value_Type_Expansion/`.
 - **Highlights:** Captures the follow-on metadata decoder expansion that adds GIF, TIFF, and signed fixed-point MP4RA value support across `BoxParserRegistry`, JSON exporters, and regression fixtures, keeping CLI and app outputs readable for the new data types.
-- **Next steps carried forward:** Validation Rule #15 remains open to reconcile `stsc` chunk runs, `stsz/stz2` sample sizes, and `stco/co64` offsets; the refreshed `DOCS/INPROGRESS/next_tasks.md` tracks that work.
+- **Next steps carried forward:** Validation Rule #15 completion is now archived in `DOCS/TASK_ARCHIVE/130_VR15_Sample_Table_Correlation/`; no additional metadata follow-ups remain in the active tracker.
+
+## 130_VR15_Sample_Table_Correlation
+- **Archived files:** `Summary_of_Work.md`, `Validation_Rule_15_Sample_Table_Correlation.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/130_VR15_Sample_Table_Correlation/`.
+- **Highlights:** Finalizes Validation Rule #15 by correlating `stsc` chunk runs, `stsz/stz2` sample sizes, and `stco/co64` offsets, adds regression coverage for aligned and mismatched sample tables, and documents the validator integration notes captured during delivery.
+- **Next steps carried forward:** None — `DOCS/INPROGRESS/next_tasks.md` now records that no additional parser or validation follow-ups are queued.

@@ -43,4 +43,4 @@ Implement Validation Rule #15 to cross-check `stsc` chunk run definitions, `stsz
 
 - VR-015 validation now reconciles `stsc`, `stsz/stz2`, and `stco/co64` tables, emitting descriptive errors for count mismatches and non-monotonic chunk offsets.
 - Added regression coverage in `ParsePipelineLiveTests` for aligned sample tables, sample count mismatches, and misordered chunk offsets.
-- Refer to `DOCS/INPROGRESS/Summary_of_Work.md` for the delivery log and follow-up notes.
+- Refer to `DOCS/TASK_ARCHIVE/130_VR15_Sample_Table_Correlation/Summary_of_Work.md` for the delivery log and follow-up notes.
