@@ -10,4 +10,4 @@
 
 ## Parser Baseline
 
-- [ ] In Progress — C17 `mdat` parser capturing offsets and payload size while skipping media data. See `DOCS/INPROGRESS/C17_mdat_Box_Parser.md` for scope.
+- [x] Completed — C17 `mdat` parser now captures offsets and payload size while skipping media data. Summary in `DOCS/INPROGRESS/Summary_of_Work.md`.

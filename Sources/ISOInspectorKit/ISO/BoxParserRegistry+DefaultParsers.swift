@@ -6,6 +6,9 @@ extension BoxParserRegistry {
             if let ftyp = try? FourCharCode("ftyp") {
                 registry.register(parser: fileType, for: ftyp)
             }
+            if let mdat = try? FourCharCode("mdat") {
+                registry.register(parser: mediaData, for: mdat)
+            }
             if let mvhd = try? FourCharCode("mvhd") {
                 registry.register(parser: movieHeader, for: mvhd)
             }

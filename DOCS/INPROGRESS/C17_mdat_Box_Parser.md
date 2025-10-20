@@ -19,9 +19,13 @@ Implement a parser that records the media data (`mdat`) box's byte range so the 
 ## 🔧 Implementation Notes
 
 - Reuse the shared chunked reader helpers to compute start offsets and to jump over payload bytes for both 32-bit and
+
   large-size headers.
+
 - Surface the recorded metadata through existing detail/hex view models and CLI export structures so downstream
+
   components can surface payload boundaries without reading the media data.
+
 - Verify interactions with validation logging, ensuring that the parser cooperates with existing VR-005 handling when `mdat` precedes `moov` in streaming files.
 
 ## 🧠 Source References

@@ -235,6 +235,16 @@
         "payload" : 512,
         "total" : 520
       },
+      "structured" : {
+        "media_data" : {
+          "headerEndOffset" : 684,
+          "headerStartOffset" : 164,
+          "payloadEndOffset" : 684,
+          "payloadLength" : 512,
+          "payloadStartOffset" : 172,
+          "totalSize" : 520
+        }
+      },
       "validationIssues" : [
         {
           "message" : "Encountered mdat before required file type box (ftyp).",
