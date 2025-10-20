@@ -8,9 +8,11 @@
 — see
   `DOCS/TASK_ARCHIVE/122_C14c_Edit_List_Duration_Validation/Summary_of_Work.md`.)_
 
-- [ ] 🔴 **P0+** C14d. Refresh fixtures, JSON exports, and snapshot baselines covering common edit list scenarios (empty
+- [x] 🔴 **P0+** C14d. Refresh fixtures, JSON exports, and snapshot baselines covering common edit list scenarios (empty
 
-  list, single offset, multi-segment, rate adjustments) and document test execution notes in the new task summary.
+  list, single offset, multi-segment, rate adjustments) so VR-014 diagnostics have full regression coverage. _(Completed
+  — see `DOCS/TASK_ARCHIVE/123_C14d_Refresh_Edit_List_Fixtures/Summary_of_Work.md` and the in-progress summary at
+  `DOCS/INPROGRESS/Summary_of_Work.md`.)_
 
 - [ ] 🔴 **P0+** C15. Implement baseline metadata box coverage for `udta`, `meta` (handler), `keys`, and `ilst` atoms, surfacing simple string/integer payloads for CLI export. Follow archival context in `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md` to keep handler mappings consistent.
 

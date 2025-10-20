@@ -1,0 +1,836 @@
+{
+  "nodes" : [
+    {
+      "children" : [
+
+      ],
+      "fourcc" : "ftyp",
+      "metadata" : {
+        "name" : "File Type And Compatibility",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Identifies the file type and compatibility brands for the bitstream."
+      },
+      "offsets" : {
+        "end" : 24,
+        "payloadEnd" : 24,
+        "payloadStart" : 8,
+        "start" : 0
+      },
+      "payload" : [
+        {
+          "byteRange" : {
+            "end" : 12,
+            "start" : 8
+          },
+          "name" : "major_brand",
+          "summary" : "Primary brand identifying the file",
+          "value" : "isom"
+        },
+        {
+          "byteRange" : {
+            "end" : 16,
+            "start" : 12
+          },
+          "name" : "minor_version",
+          "summary" : "File type minor version",
+          "value" : "0"
+        },
+        {
+          "byteRange" : {
+            "end" : 20,
+            "start" : 16
+          },
+          "name" : "compatible_brand[0]",
+          "summary" : "Brand compatibility entry",
+          "value" : "isom"
+        },
+        {
+          "byteRange" : {
+            "end" : 24,
+            "start" : 20
+          },
+          "name" : "compatible_brand[1]",
+          "summary" : "Brand compatibility entry",
+          "value" : "iso2"
+        }
+      ],
+      "sizes" : {
+        "header" : 8,
+        "payload" : 16,
+        "total" : 24
+      },
+      "structured" : {
+        "file_type" : {
+          "compatible_brands" : [
+            "isom",
+            "iso2"
+          ],
+          "major_brand" : "isom",
+          "minor_version" : 0
+        }
+      },
+      "validationIssues" : [
+
+      ]
+    },
+    {
+      "children" : [
+        {
+          "children" : [
+
+          ],
+          "fourcc" : "mvhd",
+          "metadata" : {
+            "name" : "Movie Header, Overall Declarations",
+            "specification" : "ISO",
+            "summary" : "movie header, overall declarations"
+          },
+          "offsets" : {
+            "end" : 140,
+            "payloadEnd" : 140,
+            "payloadStart" : 40,
+            "start" : 32
+          },
+          "payload" : [
+            {
+              "byteRange" : {
+                "end" : 41,
+                "start" : 40
+              },
+              "name" : "version",
+              "summary" : "Structure version",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 44,
+                "start" : 41
+              },
+              "name" : "flags",
+              "summary" : "Bit flags",
+              "value" : "0x000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 48,
+                "start" : 44
+              },
+              "name" : "creation_time",
+              "summary" : "Movie creation timestamp",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 52,
+                "start" : 48
+              },
+              "name" : "modification_time",
+              "summary" : "Last modification timestamp",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 56,
+                "start" : 52
+              },
+              "name" : "timescale",
+              "summary" : "Time units per second",
+              "value" : "600"
+            },
+            {
+              "byteRange" : {
+                "end" : 60,
+                "start" : 56
+              },
+              "name" : "duration",
+              "summary" : "Movie duration",
+              "value" : "1200"
+            },
+            {
+              "byteRange" : {
+                "end" : 64,
+                "start" : 60
+              },
+              "name" : "rate",
+              "summary" : "Playback rate",
+              "value" : "1.00"
+            },
+            {
+              "byteRange" : {
+                "end" : 66,
+                "start" : 64
+              },
+              "name" : "volume",
+              "summary" : "Playback volume",
+              "value" : "1.00"
+            },
+            {
+              "byteRange" : {
+                "end" : 80,
+                "start" : 76
+              },
+              "name" : "matrix.a",
+              "summary" : "Matrix element a (row 1 column 1)",
+              "value" : "1.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 84,
+                "start" : 80
+              },
+              "name" : "matrix.b",
+              "summary" : "Matrix element b (row 1 column 2)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 88,
+                "start" : 84
+              },
+              "name" : "matrix.u",
+              "summary" : "Matrix element u (row 1 column 3)",
+              "value" : "0.000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 92,
+                "start" : 88
+              },
+              "name" : "matrix.c",
+              "summary" : "Matrix element c (row 2 column 1)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 96,
+                "start" : 92
+              },
+              "name" : "matrix.d",
+              "summary" : "Matrix element d (row 2 column 2)",
+              "value" : "1.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 100,
+                "start" : 96
+              },
+              "name" : "matrix.v",
+              "summary" : "Matrix element v (row 2 column 3)",
+              "value" : "0.000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 104,
+                "start" : 100
+              },
+              "name" : "matrix.x",
+              "summary" : "Matrix element x (row 3 column 1)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 108,
+                "start" : 104
+              },
+              "name" : "matrix.y",
+              "summary" : "Matrix element y (row 3 column 2)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 112,
+                "start" : 108
+              },
+              "name" : "matrix.w",
+              "summary" : "Matrix element w (row 3 column 3)",
+              "value" : "1.000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 140,
+                "start" : 136
+              },
+              "name" : "next_track_ID",
+              "summary" : "Next track identifier",
+              "value" : "2"
+            }
+          ],
+          "sizes" : {
+            "header" : 8,
+            "payload" : 100,
+            "total" : 108
+          },
+          "structured" : {
+            "movie_header" : {
+              "creation_time" : 0,
+              "duration" : 1200,
+              "duration_is_64bit" : false,
+              "matrix" : {
+                "a" : 1,
+                "b" : 0,
+                "c" : 0,
+                "d" : 1,
+                "u" : 0,
+                "v" : 0,
+                "w" : 1,
+                "x" : 0,
+                "y" : 0
+              },
+              "modification_time" : 0,
+              "next_track_id" : 2,
+              "rate" : 1,
+              "timescale" : 600,
+              "version" : 0,
+              "volume" : 1
+            }
+          },
+          "validationIssues" : [
+
+          ]
+        },
+        {
+          "children" : [
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "tkhd",
+              "metadata" : {
+                "flags" : 7,
+                "name" : "Track Header, Overall Information About The Track",
+                "specification" : "ISO\/IEC 14496-12",
+                "summary" : "Defines the characteristics of a track, including ID, duration, and display parameters.",
+                "version" : 0
+              },
+              "offsets" : {
+                "end" : 240,
+                "payloadEnd" : 240,
+                "payloadStart" : 156,
+                "start" : 148
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 157,
+                    "start" : 156
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 160,
+                    "start" : 157
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000007"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 164,
+                    "start" : 160
+                  },
+                  "name" : "creation_time",
+                  "summary" : "Track creation timestamp",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 168,
+                    "start" : 164
+                  },
+                  "name" : "modification_time",
+                  "summary" : "Last modification timestamp",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 172,
+                    "start" : 168
+                  },
+                  "name" : "track_id",
+                  "summary" : "Unique track identifier",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 180,
+                    "start" : 176
+                  },
+                  "name" : "duration",
+                  "summary" : "Track duration",
+                  "value" : "900"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 190,
+                    "start" : 188
+                  },
+                  "name" : "layer",
+                  "summary" : "Track layer",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 192,
+                    "start" : 190
+                  },
+                  "name" : "alternate_group",
+                  "summary" : "Alternate group",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 194,
+                    "start" : 192
+                  },
+                  "name" : "volume",
+                  "summary" : "Playback volume",
+                  "value" : "0.00"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 200,
+                    "start" : 196
+                  },
+                  "name" : "matrix.a",
+                  "summary" : "Matrix element a (row 1 column 1)",
+                  "value" : "1.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 204,
+                    "start" : 200
+                  },
+                  "name" : "matrix.b",
+                  "summary" : "Matrix element b (row 1 column 2)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 208,
+                    "start" : 204
+                  },
+                  "name" : "matrix.u",
+                  "summary" : "Matrix element u (row 1 column 3)",
+                  "value" : "0.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 212,
+                    "start" : 208
+                  },
+                  "name" : "matrix.c",
+                  "summary" : "Matrix element c (row 2 column 1)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 216,
+                    "start" : 212
+                  },
+                  "name" : "matrix.d",
+                  "summary" : "Matrix element d (row 2 column 2)",
+                  "value" : "1.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 220,
+                    "start" : 216
+                  },
+                  "name" : "matrix.v",
+                  "summary" : "Matrix element v (row 2 column 3)",
+                  "value" : "0.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 224,
+                    "start" : 220
+                  },
+                  "name" : "matrix.x",
+                  "summary" : "Matrix element x (row 3 column 1)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 228,
+                    "start" : 224
+                  },
+                  "name" : "matrix.y",
+                  "summary" : "Matrix element y (row 3 column 2)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 232,
+                    "start" : 228
+                  },
+                  "name" : "matrix.w",
+                  "summary" : "Matrix element w (row 3 column 3)",
+                  "value" : "1.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 236,
+                    "start" : 232
+                  },
+                  "name" : "width",
+                  "summary" : "Track width",
+                  "value" : "0.00"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 240,
+                    "start" : 236
+                  },
+                  "name" : "height",
+                  "summary" : "Track height",
+                  "value" : "0.00"
+                },
+                {
+                  "name" : "is_enabled",
+                  "summary" : "Track enabled flag",
+                  "value" : "true"
+                },
+                {
+                  "name" : "is_in_movie",
+                  "summary" : "Track participates in movie presentation",
+                  "value" : "true"
+                },
+                {
+                  "name" : "is_in_preview",
+                  "summary" : "Track participates in preview presentation",
+                  "value" : "true"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 84,
+                "total" : 92
+              },
+              "structured" : {
+                "track_header" : {
+                  "alternate_group" : 0,
+                  "creation_time" : 0,
+                  "duration" : 900,
+                  "duration_is_64bit" : false,
+                  "flags" : 7,
+                  "height" : 0,
+                  "is_enabled" : true,
+                  "is_in_movie" : true,
+                  "is_in_preview" : true,
+                  "is_zero_duration" : false,
+                  "is_zero_sized" : true,
+                  "layer" : 0,
+                  "matrix" : {
+                    "a" : 1,
+                    "b" : 0,
+                    "c" : 0,
+                    "d" : 1,
+                    "u" : 0,
+                    "v" : 0,
+                    "w" : 1,
+                    "x" : 0,
+                    "y" : 0
+                  },
+                  "modification_time" : 0,
+                  "track_id" : 1,
+                  "version" : 0,
+                  "volume" : 0,
+                  "width" : 0
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+                {
+                  "children" : [
+
+                  ],
+                  "fourcc" : "elst",
+                  "metadata" : {
+                    "name" : "An Edit List",
+                    "specification" : "ISO",
+                    "summary" : "an edit list"
+                  },
+                  "offsets" : {
+                    "end" : 264,
+                    "payloadEnd" : 264,
+                    "payloadStart" : 256,
+                    "start" : 248
+                  },
+                  "payload" : [
+                    {
+                      "byteRange" : {
+                        "end" : 257,
+                        "start" : 256
+                      },
+                      "name" : "version",
+                      "summary" : "Structure version",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 260,
+                        "start" : 257
+                      },
+                      "name" : "flags",
+                      "summary" : "Bit flags",
+                      "value" : "0x000000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 264,
+                        "start" : 260
+                      },
+                      "name" : "entry_count",
+                      "summary" : "Number of edit entries",
+                      "value" : "0"
+                    }
+                  ],
+                  "sizes" : {
+                    "header" : 8,
+                    "payload" : 8,
+                    "total" : 16
+                  },
+                  "structured" : {
+                    "edit_list" : {
+                      "entries" : [
+
+                      ],
+                      "entry_count" : 0,
+                      "flags" : 0,
+                      "movie_timescale" : 600,
+                      "version" : 0
+                    }
+                  },
+                  "validationIssues" : [
+                    {
+                      "message" : "Track 1 edit list spans 0 movie ticks but movie header duration is 1200 (short by 1200 > 1 tick).",
+                      "ruleID" : "VR-014",
+                      "severity" : "warning"
+                    },
+                    {
+                      "message" : "Track 1 edit list spans 0 movie ticks but track header duration is 900 (short by 900 > 1 tick).",
+                      "ruleID" : "VR-014",
+                      "severity" : "warning"
+                    }
+                  ]
+                }
+              ],
+              "fourcc" : "edts",
+              "metadata" : {
+                "name" : "Edit List Container",
+                "specification" : "ISO",
+                "summary" : "edit list container"
+              },
+              "offsets" : {
+                "end" : 264,
+                "payloadEnd" : 264,
+                "payloadStart" : 248,
+                "start" : 240
+              },
+              "sizes" : {
+                "header" : 8,
+                "payload" : 16,
+                "total" : 24
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+                {
+                  "children" : [
+
+                  ],
+                  "fourcc" : "mdhd",
+                  "metadata" : {
+                    "name" : "Media Header, Overall Information About The Media",
+                    "specification" : "ISO",
+                    "summary" : "media header, overall information about the media"
+                  },
+                  "offsets" : {
+                    "end" : 304,
+                    "payloadEnd" : 304,
+                    "payloadStart" : 280,
+                    "start" : 272
+                  },
+                  "payload" : [
+                    {
+                      "byteRange" : {
+                        "end" : 281,
+                        "start" : 280
+                      },
+                      "name" : "version",
+                      "summary" : "Structure version",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 284,
+                        "start" : 281
+                      },
+                      "name" : "flags",
+                      "summary" : "Bit flags",
+                      "value" : "0x000000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 288,
+                        "start" : 284
+                      },
+                      "name" : "creation_time",
+                      "summary" : "Media creation timestamp",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 292,
+                        "start" : 288
+                      },
+                      "name" : "modification_time",
+                      "summary" : "Last modification timestamp",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 296,
+                        "start" : 292
+                      },
+                      "name" : "timescale",
+                      "summary" : "Media time units per second",
+                      "value" : "48000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 300,
+                        "start" : 296
+                      },
+                      "name" : "duration",
+                      "summary" : "Media duration",
+                      "value" : "96000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 302,
+                        "start" : 300
+                      },
+                      "name" : "language",
+                      "summary" : "ISO-639-2\/T language code",
+                      "value" : "eng"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 304,
+                        "start" : 302
+                      },
+                      "name" : "pre_defined",
+                      "summary" : "Reserved value",
+                      "value" : "0"
+                    }
+                  ],
+                  "sizes" : {
+                    "header" : 8,
+                    "payload" : 24,
+                    "total" : 32
+                  },
+                  "validationIssues" : [
+                    {
+                      "message" : "Track 1 edit list consumes 0 media ticks but media duration is 96000 (short by 96000 > 1 tick).",
+                      "ruleID" : "VR-014",
+                      "severity" : "warning"
+                    }
+                  ]
+                }
+              ],
+              "fourcc" : "mdia",
+              "metadata" : {
+                "name" : "Container For The Media Information In A Track",
+                "specification" : "ISO",
+                "summary" : "container for the media information in a track"
+              },
+              "offsets" : {
+                "end" : 304,
+                "payloadEnd" : 304,
+                "payloadStart" : 272,
+                "start" : 264
+              },
+              "sizes" : {
+                "header" : 8,
+                "payload" : 32,
+                "total" : 40
+              },
+              "validationIssues" : [
+
+              ]
+            }
+          ],
+          "fourcc" : "trak",
+          "metadata" : {
+            "name" : "Container For An Individual Track Or Stream",
+            "specification" : "ISO\/IEC 14496-12",
+            "summary" : "Container describing a single track within the presentation."
+          },
+          "offsets" : {
+            "end" : 304,
+            "payloadEnd" : 304,
+            "payloadStart" : 148,
+            "start" : 140
+          },
+          "sizes" : {
+            "header" : 8,
+            "payload" : 156,
+            "total" : 164
+          },
+          "validationIssues" : [
+
+          ]
+        }
+      ],
+      "fourcc" : "moov",
+      "metadata" : {
+        "name" : "Container For All The Meta-data",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Top-level container for movie metadata including tracks and timing information."
+      },
+      "offsets" : {
+        "end" : 304,
+        "payloadEnd" : 304,
+        "payloadStart" : 32,
+        "start" : 24
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 272,
+        "total" : 280
+      },
+      "validationIssues" : [
+
+      ]
+    }
+  ],
+  "validationIssues" : [
+    {
+      "message" : "Track 1 edit list spans 0 movie ticks but movie header duration is 1200 (short by 1200 > 1 tick).",
+      "ruleID" : "VR-014",
+      "severity" : "warning"
+    },
+    {
+      "message" : "Track 1 edit list spans 0 movie ticks but track header duration is 900 (short by 900 > 1 tick).",
+      "ruleID" : "VR-014",
+      "severity" : "warning"
+    },
+    {
+      "message" : "Track 1 edit list consumes 0 media ticks but media duration is 96000 (short by 96000 > 1 tick).",
+      "ruleID" : "VR-014",
+      "severity" : "warning"
+    }
+  ]
+}

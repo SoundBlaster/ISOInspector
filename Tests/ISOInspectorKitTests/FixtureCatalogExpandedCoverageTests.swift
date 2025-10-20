@@ -45,6 +45,44 @@ final class FixtureCatalogExpandedCoverageTests: XCTestCase {
         XCTAssertTrue(fixture.expectations.errors.contains("Truncated box payload"))
     }
 
+    func testEditListEmptyFixtureReportsDurationWarnings() throws {
+        let fixture = try fixture(withID: "edit-list-empty")
+        XCTAssertTrue(fixture.tags.contains("edit-list"))
+        XCTAssertTrue(fixture.expectations.errors.isEmpty)
+        let warnings = Set(fixture.expectations.warnings)
+        XCTAssertTrue(warnings.contains("Track 1 edit list spans 0 movie ticks but movie header duration is 1200 (short by 1200 > 1 tick)."))
+        XCTAssertTrue(warnings.contains("Track 1 edit list spans 0 movie ticks but track header duration is 900 (short by 900 > 1 tick)."))
+        XCTAssertTrue(warnings.contains("Track 1 edit list consumes 0 media ticks but media duration is 96000 (short by 96000 > 1 tick)."))
+    }
+
+    func testEditListSingleOffsetFixtureReportsMediaDurationWarning() throws {
+        let fixture = try fixture(withID: "edit-list-single-offset")
+        XCTAssertTrue(fixture.tags.contains("edit-list"))
+        XCTAssertTrue(fixture.expectations.errors.isEmpty)
+        XCTAssertEqual(fixture.expectations.warnings, [
+            "Track 2 edit list consumes 62400 media ticks but media duration is 64000 (short by 1600 > 1 tick)."
+        ])
+    }
+
+    func testEditListMultiSegmentFixtureReportsOverageWarnings() throws {
+        let fixture = try fixture(withID: "edit-list-multi-segment")
+        XCTAssertTrue(fixture.tags.contains("edit-list"))
+        XCTAssertTrue(fixture.expectations.errors.isEmpty)
+        let warnings = Set(fixture.expectations.warnings)
+        XCTAssertTrue(warnings.contains("Track 3 edit list spans 1200 movie ticks but movie header duration is 1000 (over by 200 > 1 tick)."))
+        XCTAssertTrue(warnings.contains("Track 3 edit list spans 1200 movie ticks but track header duration is 950 (over by 250 > 1 tick)."))
+    }
+
+    func testEditListRateAdjustedFixtureReportsPlaybackWarnings() throws {
+        let fixture = try fixture(withID: "edit-list-rate-adjusted")
+        XCTAssertTrue(fixture.tags.contains("edit-list"))
+        XCTAssertTrue(fixture.expectations.errors.isEmpty)
+        let warnings = Set(fixture.expectations.warnings)
+        XCTAssertTrue(warnings.contains("Track 4 edit list entry 0 uses media_rate_integer=-1; reverse playback is unsupported."))
+        XCTAssertTrue(warnings.contains("Track 4 edit list entry 1 uses media_rate_integer=2; playback rate adjustments above 1x are unsupported."))
+        XCTAssertTrue(warnings.contains("Track 4 edit list entry 2 sets media_rate_fraction=1; fractional playback rates are unsupported."))
+    }
+
     private func fixture(withID id: String) throws -> FixtureCatalog.Fixture {
         struct MissingFixtureError: Error {}
         guard let fixture = catalog.fixture(withID: id) else {
