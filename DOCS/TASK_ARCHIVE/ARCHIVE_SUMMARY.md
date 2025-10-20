@@ -672,3 +672,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/128_C15_Metadata_Value_Decoding_Expansion/`.
 - **Highlights:** Documents the metadata value decoding enhancements that add boolean, floating-point, and binary payload renderers across the parse tree and JSON exporters, with fixtures validating CLI/app parity.
 - **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` now tracks the remaining MP4RA metadata formats (GIF, TIFF, fixed-point) and Validation Rule #15 chunk/sample correlation diagnostics.
+
+## 129_C15_Metadata_Value_Type_Expansion
+- **Archived files:** `C15_Metadata_Value_Type_Expansion.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/129_C15_Metadata_Value_Type_Expansion/`.
+- **Highlights:** Captures the follow-on metadata decoder expansion that adds GIF, TIFF, and signed fixed-point MP4RA value support across `BoxParserRegistry`, JSON exporters, and regression fixtures, keeping CLI and app outputs readable for the new data types.
+- **Next steps carried forward:** Validation Rule #15 remains open to reconcile `stsc` chunk runs, `stsz/stz2` sample sizes, and `stco/co64` offsets; the refreshed `DOCS/INPROGRESS/next_tasks.md` tracks that work.
