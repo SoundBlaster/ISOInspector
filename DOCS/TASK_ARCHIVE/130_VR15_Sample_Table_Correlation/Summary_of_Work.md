@@ -2,7 +2,7 @@
 
 ## Completed Tasks
 
-- ✅ **Validation Rule #15** — Correlate `stsc`, `stsz/stz2`, and `stco/co64` tables to surface mismatched sample counts and non-monotonic chunk offsets. (Tracked previously in `DOCS/INPROGRESS/Validation_Rule_15_Sample_Table_Correlation.md` and `todo.md` task #15.)
+- ✅ **Validation Rule #15** — Correlate `stsc`, `stsz/stz2`, and `stco/co64` tables to surface mismatched sample counts and non-monotonic chunk offsets. (Tracked previously in `DOCS/TASK_ARCHIVE/130_VR15_Sample_Table_Correlation/Validation_Rule_15_Sample_Table_Correlation.md` and `todo.md` task #15.)
 
 ## Implementation Highlights
 
@@ -12,9 +12,9 @@
 
 ## Documentation & Tracking Updates
 
-- Marked task #15 complete in `todo.md`, `DOCS/INPROGRESS/next_tasks.md`, and all dependent `next_tasks.md` trackers under `DOCS/TASK_ARCHIVE`.
+- Marked task #15 complete in `todo.md`, the refreshed `DOCS/INPROGRESS/next_tasks.md` placeholder, and all dependent `next_tasks.md` trackers under `DOCS/TASK_ARCHIVE`.
 - Updated `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md` to reflect VR-015 completion and pointed stakeholders to this summary.
-- Captured the final outcome directly in `DOCS/INPROGRESS/Validation_Rule_15_Sample_Table_Correlation.md`.
+- Captured the final outcome directly in `DOCS/TASK_ARCHIVE/130_VR15_Sample_Table_Correlation/Validation_Rule_15_Sample_Table_Correlation.md`.
 
 ## Verification
 
