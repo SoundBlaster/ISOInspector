@@ -201,8 +201,8 @@ extension BoxParserRegistry.DefaultParsers {
             let identifierRange = typeOffset..<(typeOffset + 4)
 
             let identifier: ParsedBoxPayload.MetadataItemListBox.Entry.Identifier
-            var namespace: String? = nil
-            var name: String? = nil
+            var namespace: String?
+            var name: String?
 
             if let keyEntry = environment.keyTable[rawIdentifier] {
                 identifier = .keyIndex(rawIdentifier)
@@ -363,34 +363,44 @@ private extension BoxParserRegistry.DefaultParsers {
         }
     }
 
-    static func decodeMetadataValue(type: UInt32, data: Data) -> (
-        kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind,
-        display: String,
-        typeDescription: String
-    ) {
+    private struct MetadataValueDescription {
+        let kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind
+        let display: String
+        let typeDescription: String
+    }
+
+    private static func decodeMetadataValue(type: UInt32, data: Data) -> MetadataValueDescription {
         switch type {
         case 1:
             if let string = String(data: data, encoding: .utf8) {
-                return (.utf8(string), string, "UTF-8")
+                return MetadataValueDescription(kind: .utf8(string), display: string, typeDescription: "UTF-8")
             }
         case 2:
             if let string = String(data: data, encoding: .utf16BigEndian) {
-                return (.utf16(string), string, "UTF-16")
+                return MetadataValueDescription(kind: .utf16(string), display: string, typeDescription: "UTF-16")
             }
         case 21:
             if let value = parseSignedInteger(from: data) {
-                return (.integer(value), String(value), "Integer")
+                return MetadataValueDescription(kind: .integer(value), display: String(value), typeDescription: "Integer")
             }
         case 22:
             if let value = parseUnsignedInteger(from: data) {
-                return (.unsignedInteger(value), String(value), "Unsigned Integer")
+                return MetadataValueDescription(
+                    kind: .unsignedInteger(value),
+                    display: String(value),
+                    typeDescription: "Unsigned Integer"
+                )
             }
         default:
             break
         }
 
         let hex = bytesToHex(data)
-        return (.bytes(data), hex, String(format: "type=0x%06X", type))
+        return MetadataValueDescription(
+            kind: .bytes(data),
+            display: hex,
+            typeDescription: String(format: "type=0x%06X", type)
+        )
     }
 
     static func bytesToHex(_ data: Data) -> String {

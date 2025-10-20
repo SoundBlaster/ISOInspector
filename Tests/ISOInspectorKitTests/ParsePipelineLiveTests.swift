@@ -621,8 +621,18 @@ final class ParsePipelineLiveTests: XCTestCase {
             (namespace: "mdta", name: "com.example.rating")
         ])
         let ilst = makeMetadataItemListBox(entries: [
-            (identifier: [0xA9, 0x6E, 0x61, 0x6D], type: 1, locale: 0, data: Data("Example Title".utf8)),
-            (identifier: [0x00, 0x00, 0x00, 0x01], type: 21, locale: 0, data: Data(UInt16(120).bigEndianBytes))
+            MetadataItemBoxEntry(
+                identifier: [0xA9, 0x6E, 0x61, 0x6D],
+                type: 1,
+                locale: 0,
+                data: Data("Example Title".utf8)
+            ),
+            MetadataItemBoxEntry(
+                identifier: [0x00, 0x00, 0x00, 0x01],
+                type: 21,
+                locale: 0,
+                data: Data(UInt16(120).bigEndianBytes)
+            )
         ])
 
         var payload = Data()
@@ -667,9 +677,14 @@ final class ParsePipelineLiveTests: XCTestCase {
         return makeBox(type: "keys", payload: payload)
     }
 
-    private func makeMetadataItemListBox(
-        entries: [(identifier: [UInt8], type: UInt32, locale: UInt32, data: Data)]
-    ) -> Data {
+    private struct MetadataItemBoxEntry {
+        let identifier: [UInt8]
+        let type: UInt32
+        let locale: UInt32
+        let data: Data
+    }
+
+    private func makeMetadataItemListBox(entries: [MetadataItemBoxEntry]) -> Data {
         var payload = Data()
         for entry in entries {
             payload.append(makeMetadataItemEntry(
