@@ -7,7 +7,7 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 0/99 tasks completed (0%)**
+**Total: 0/111 tasks completed (0%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
@@ -15,8 +15,55 @@
 | Phase 2: Core Components | Not Started | 0/22 (0%) |
 | Phase 3: Patterns & Platform Adaptation | Not Started | 0/16 (0%) |
 | Phase 4: Agent Support & Polish | Not Started | 0/13 (0%) |
-| Phase 5: Documentation & QA | Not Started | 0/15 (0%) |
+| Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
+
+---
+
+## Testing Strategy & Framework
+
+### Testing Pyramid
+```
+           ┌─────────────┐
+           │  E2E Tests  │  ← Integration with real apps (Phase 6)
+           │   (10%)     │
+           ├─────────────┤
+           │ Integration │  ← Pattern & component composition
+           │   Tests     │     (20%)
+           │             │
+           ├─────────────┤
+           │ Unit Tests  │  ← Tokens, modifiers, components (70%)
+           └─────────────┘
+```
+
+### Test Coverage Targets by Layer
+
+| Layer | Component | Unit Tests | Snapshot Tests | Integration Tests | Target Coverage |
+|-------|-----------|------------|----------------|-------------------|-----------------|
+| **Layer 0** | Design Tokens | ✅ Validation | N/A | N/A | 100% |
+| **Layer 1** | View Modifiers | ✅ Logic | ✅ Visual | ✅ Composition | ≥90% |
+| **Layer 2** | Components | ✅ API | ✅ All variants | ✅ Nesting | ≥85% |
+| **Layer 3** | Patterns | ✅ State | ✅ Platforms | ✅ Navigation | ≥80% |
+| **Layer 4** | Contexts | ✅ Environment | ✅ Adaptation | ✅ Platform | ≥80% |
+
+### Test Types & Tools
+
+| Test Type | Tool/Framework | Purpose | Phases |
+|-----------|----------------|---------|--------|
+| **Unit Tests** | XCTest | Component logic, state management | 1-4 |
+| **Snapshot Tests** | SnapshotTesting | Visual regression, Dark Mode | 2-3 |
+| **Accessibility Tests** | XCTest + AccessibilitySnapshot | VoiceOver, contrast, Dynamic Type | 2-5 |
+| **Performance Tests** | XCTest + Instruments | Memory, render time, FPS | 3-5 |
+| **Integration Tests** | XCTest | Cross-component, navigation flows | 3-6 |
+| **UI Tests** | XCUITest | End-to-end user flows | 6 |
+| **Visual Regression** | Percy/Snapshot | Platform-specific rendering | 5-6 |
+
+### Continuous Testing Requirements
+
+- ✅ **Pre-commit hooks**: SwiftLint, unit tests for modified files
+- ✅ **CI pipeline**: Full test suite on every PR
+- ✅ **Nightly builds**: Performance tests, visual regression
+- ✅ **Release gates**: 100% test pass rate, ≥80% coverage
 
 ---
 
@@ -451,7 +498,7 @@
 
 ## Phase 5: Documentation & QA (Continuous)
 **Priority: P0-P1**
-**Progress: 0/15 tasks completed (0%)**
+**Progress: 0/27 tasks completed (0%)**
 
 ### 5.1 API Documentation (DocC)
 **Progress: 0/6 tasks**
@@ -493,46 +540,158 @@
   - Platform adaptation tutorial
 
 ### 5.2 Testing & Quality Assurance
-**Progress: 0/6 tasks**
+**Progress: 0/18 tasks**
 
-- [ ] **P0** Achieve ≥80% code coverage
-  - Run code coverage analysis
+#### Unit Testing
+**Progress: 0/3 tasks**
+
+- [ ] **P0** Comprehensive unit test coverage (≥80%)
+  - Run code coverage analysis with Xcode
   - Identify untested code paths
-  - Write missing tests
+  - Write missing unit tests for all layers
   - Verify coverage metrics in CI
+  - Generate coverage reports (HTML, Cobertura)
+
+- [ ] **P0** Unit test infrastructure
+  - Configure XCTest for all targets
+  - Set up test data fixtures
+  - Create test helpers and utilities
+  - Mock environment values for testing
+  - Parameterized tests for variants
+
+- [ ] **P1** Test-Driven Development (TDD) validation
+  - Review test quality and completeness
+  - Ensure tests are independent and repeatable
+  - Verify no flaky tests
+  - Check test execution speed (<30s for full suite)
+
+#### Snapshot & Visual Testing
+**Progress: 0/3 tasks**
+
+- [ ] **P0** Snapshot testing setup
+  - Integrate SnapshotTesting framework
+  - File: `Tests/SnapshotTests/`
+  - Configure snapshot recording and comparison
+  - Set up snapshot storage in repository
+  - Document snapshot update workflow
+
+- [ ] **P0** Visual regression test suite
+  - Create snapshot baselines for all components
+  - Test Light/Dark mode variants
+  - Test all Dynamic Type sizes (XS to XXXL)
+  - Test platform-specific rendering (iOS/macOS/iPad)
+  - Test RTL language layouts
+  - Test color scheme variations
+
+- [ ] **P1** Automated visual regression in CI
+  - Set up visual regression checks on PRs
+  - Configure Percy or similar service
+  - Set acceptable diff thresholds
+  - Document false positive handling
+  - Review process for intentional changes
+
+#### Accessibility Testing
+**Progress: 0/3 tasks**
 
 - [ ] **P0** Accessibility audit (≥95% score)
-  - Automated accessibility testing
-  - Manual VoiceOver testing
-  - Keyboard navigation verification
-  - Contrast ratio validation (all components)
-  - Dynamic Type testing
+  - Install AccessibilitySnapshot framework
+  - Automated contrast ratio testing (≥4.5:1)
+  - VoiceOver label and hint validation
+  - Keyboard navigation testing
+  - Focus order verification
+  - Touch target size validation (≥44×44 pt)
 
-- [ ] **P0** Performance profiling
-  - Profile all components with Instruments
+- [ ] **P0** Manual accessibility testing
+  - Manual VoiceOver testing on iOS
+  - Manual VoiceOver testing on macOS
+  - Keyboard-only navigation testing
+  - Dynamic Type testing (all sizes)
+  - Reduce Motion testing
+  - Increase Contrast testing
+  - Bold Text testing
+
+- [ ] **P1** Accessibility CI integration
+  - Automated a11y tests in CI pipeline
+  - Fail builds on accessibility violations
+  - Generate accessibility reports
+  - Document remediation for failures
+
+#### Performance Testing
+**Progress: 0/3 tasks**
+
+- [ ] **P0** Performance profiling with Instruments
+  - Profile all components with Time Profiler
+  - Profile memory usage with Allocations
+  - Profile rendering with Core Animation
+  - Test on oldest supported devices
+  - Identify and fix performance bottlenecks
+
+- [ ] **P0** Performance benchmarks
   - Verify <10s build time for clean module
-  - Verify <500KB binary size
+  - Verify <500KB binary size for release
   - Verify <5MB memory footprint per screen
   - Ensure 60 FPS rendering on all platforms
+  - Measure SwiftUI View body execution time
+  - Test with 1000+ item lists (BoxTreePattern)
 
-- [ ] **P1** SwiftLint compliance (0 violations)
-  - Configure custom rules (zero magic numbers)
-  - Fix all violations
-  - Set up CI enforcement
-  - Document exceptions (if any)
+- [ ] **P1** Performance regression testing
+  - Establish performance baselines
+  - Set up performance CI gates
+  - Monitor build size on every commit
+  - Alert on performance regressions
+
+#### Code Quality & Compliance
+**Progress: 0/3 tasks**
+
+- [ ] **P0** SwiftLint compliance (0 violations)
+  - Configure SwiftLint rules
+  - Enable custom rules (zero magic numbers)
+  - Fix all existing violations
+  - Set up pre-commit hooks
+  - CI enforcement with --strict mode
+  - Document rule exceptions (if any)
 
 - [ ] **P1** Cross-platform testing
-  - Test on iOS 17+ (iPhone, iPad)
-  - Test on iPadOS 17+ (all size classes)
+  - Test on iOS 17+ (iPhone SE, iPhone 15, iPhone 15 Pro Max)
+  - Test on iPadOS 17+ (all size classes, portrait/landscape)
   - Test on macOS 14+ (multiple window sizes)
   - Test Dark Mode on all platforms
-  - Test RTL languages
+  - Test RTL languages (Arabic, Hebrew)
+  - Test different locales and regions
 
-- [ ] **P1** Regression testing suite
-  - Create snapshot test baselines
-  - Set up visual regression CI
-  - Document snapshot update process
-  - Test matrix (platforms × modes × sizes)
+- [ ] **P1** Code quality metrics
+  - Cyclomatic complexity analysis
+  - Code duplication detection
+  - API design review (SwiftAPI guidelines)
+  - Documentation completeness check
+  - Unused code detection
+
+#### CI/CD & Test Automation
+**Progress: 0/3 tasks**
+
+- [ ] **P0** CI pipeline configuration
+  - Configure GitHub Actions or similar CI
+  - Set up test matrix (iOS 17, macOS 14, iPadOS 17)
+  - Run unit tests on every PR
+  - Run snapshot tests with baseline comparison
+  - Run accessibility tests
+  - Generate and upload coverage reports
+  - Fail PR on test failures or coverage drop
+
+- [ ] **P0** Pre-commit and pre-push hooks
+  - Install Swift pre-commit hooks
+  - Run SwiftLint before commit
+  - Run affected tests before push
+  - Prevent commits with failing tests
+  - Format code with swift-format
+
+- [ ] **P1** Test reporting and monitoring
+  - Set up test result dashboard
+  - Track test execution time trends
+  - Monitor flaky tests
+  - Alert on test failures
+  - Generate weekly test health reports
+  - Code coverage trend analysis
 
 ### 5.3 Design Documentation
 **Progress: 0/3 tasks**
