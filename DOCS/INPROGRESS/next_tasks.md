@@ -2,7 +2,7 @@
 
 ## Metadata Follow-Up
 
-- [ ] Surface additional MP4RA metadata data types (e.g., GIF, TIFF, signed fixed-point) once fixtures land so CLI/app exports stay human-readable. Track progress alongside the archived implementation details in `DOCS/TASK_ARCHIVE/128_C15_Metadata_Value_Decoding_Expansion/` and the backlog entries in `todo.md`.
+- [ ] Surface additional MP4RA metadata data types (e.g., GIF, TIFF, signed fixed-point) once fixtures land so CLI/app exports stay human-readable. Track progress alongside the archived implementation details in `DOCS/TASK_ARCHIVE/128_C15_Metadata_Value_Decoding_Expansion/` and the backlog entries in `todo.md`. _(In Progress — see `DOCS/INPROGRESS/C15_Metadata_Value_Type_Expansion.md`.)_
 
 ## Validation Follow-Up
 
