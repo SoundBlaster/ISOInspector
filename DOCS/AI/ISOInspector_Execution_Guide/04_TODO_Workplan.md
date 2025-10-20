@@ -46,6 +46,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Archived:** C6 follow-up extended the `stsd` sample description parser with codec-specific metadata extraction for `avcC`, `hvcC`, and `esds`, documented in `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md`.
 
+> **In Progress:** Task C16.4 — Future codec payload descriptors (Dolby Vision, AV1, VP9, Dolby AC-4, MPEG-H) are being planned and tracked in `DOCS/INPROGRESS/C16_4_Future_Codec_Payload_Descriptors.md`, with historical research in `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md`.
+
 > **Completed:** Task C2 – Implemented the `mvhd` movie header parser exposing timescale, 32/64-bit durations, rate, volume, and transformation matrix fields. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C2_mvhd_Movie_Header_Parser.md` and `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/Summary_of_Work.md` for implementation and verification details.
 
 > **Completed:** Task C10 — Built the `stco/co64` chunk offset parser so chunk tables now surface normalized offsets for both 32-bit and 64-bit entries. Implementation details, verification notes, and updated fixtures are archived in `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/`.
@@ -63,7 +65,6 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > **Completed:** Task C15 metadata coverage now ships via `DOCS/TASK_ARCHIVE/125_C15_Metadata_Box_Coverage/`, covering parser registration, environment propagation, and JSON export updates while queuing Validation Rule #15 for follow-up in the refreshed checklist.
 > **Completed:** Task C14c — VR-014 edit list validation is archived in `DOCS/TASK_ARCHIVE/122_C14c_Edit_List_Duration_Validation/`, covering duration reconciliation diagnostics and deferred streaming checks.
 >
-> **In Progress:** Monitor upcoming codec payload additions (e.g., Dolby Vision descriptors, extended audio profiles) so `BoxParserRegistry` keeps pace with new fixtures. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md` for scope and success criteria.
 
 > **Completed (2025-10-19):** Task C3 – Implemented the `tkhd` track header parser covering flag-dependent field layouts, duration handling, and presentation dimensions. See `DOCS/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/Summary_of_Work.md` for implementation notes and verification details.
 >
