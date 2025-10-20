@@ -55,8 +55,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > **Follow-up:** Validation rule #15 remains open to correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and the new `stco/co64` offsets. See the recreated `DOCS/INPROGRESS/next_tasks.md` checklist for the outstanding integration work and macOS-dependent validations.
 >
 > **Completed:** Task C14b — Implemented the `elst` edit list parser in `BoxParserRegistry`, normalizing durations and media rates while streaming large lists. See `DOCS/TASK_ARCHIVE/121_C14b_Implement_elst_Parser/C14b_Implement_elst_Parser.md` for scope, implementation notes, and verification details.
-> **Next focus:** Tasks C14c–C14d carry validation and fixture updates, with Task C15 metadata coverage and Validation Rule #15 tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
-> **In Progress:** Task C14c — Edit list validation wiring is underway, consolidating duration reconciliation diagnostics per `DOCS/INPROGRESS/C14c_Edit_List_Duration_Validation.md`.
+> **Next focus:** Task C14d fixture refresh remains the active follow-up, with Task C15 metadata coverage and Validation Rule #15 tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+> **Completed:** Task C14c — VR-014 edit list validation is archived in `DOCS/TASK_ARCHIVE/122_C14c_Edit_List_Duration_Validation/`, covering duration reconciliation diagnostics and deferred streaming checks.
 >
 > **In Progress:** Monitor upcoming codec payload additions (e.g., Dolby Vision descriptors, extended audio profiles) so `BoxParserRegistry` keeps pace with new fixtures. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md` for scope and success criteria.
 
