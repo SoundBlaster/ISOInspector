@@ -57,6 +57,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > **In Progress:** Monitor upcoming codec payload additions (e.g., Dolby Vision descriptors, extended audio profiles) so `BoxParserRegistry` keeps pace with new fixtures. See `DOCS/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md` for scope and success criteria.
 
 > **Completed (2025-10-19):** Task C3 – Implemented the `tkhd` track header parser covering flag-dependent field layouts, duration handling, and presentation dimensions. See `DOCS/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/Summary_of_Work.md` for implementation notes and verification details.
+>
+> **In Progress:** Task C13 – Surface `smhd`/`vmhd` media header fields via `BoxParserRegistry`, ensuring balance and graphics metadata align with codec notes in `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md`.
 
 > **Completed:** Task C8 — Implemented the `stsc` sample-to-chunk parser so sample table metadata flows into UI/CLI surfaces. See `DOCS/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md` for implementation notes and follow-ups.
 
