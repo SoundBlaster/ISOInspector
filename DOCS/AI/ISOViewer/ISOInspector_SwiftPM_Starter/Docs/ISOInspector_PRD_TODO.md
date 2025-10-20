@@ -189,7 +189,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] C18. `free/skip`: opaque pass-through. **(Completed — see `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/Summary_of_Work.md` for implementation summary.)**
 
 ### Phase D — Fragmentation & Indexes
-- [ ] D1. `mvex/trex`: defaults.
+- [ ] D1. `mvex/trex`: defaults. _(In Progress — see `DOCS/INPROGRESS/D1_mvex_trex_Defaults.md`.)_
 - [ ] D2. `moof/mfhd`: sequence number.
 - [ ] D3. `traf/tfhd/tfdt/trun`: parse via flags; sample_count; optional data_offset; sizes.
 - [x] D4. `sidx`: refs (sizes/durations), earliest_presentation_time, timescale. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
