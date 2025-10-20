@@ -197,7 +197,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] 🔴 **P0+** C11. `stss`: sync sample numbers. _(Completed — see `DOCS/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/Summary_of_Work.md`.)_
 - [x] 🔴 **P0+** C12. `dinf/dref`: data reference entries. _(Completed — parsers, tests, and exports documented in `DOCS/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/Summary_of_Work.md` with implementation notes recorded in `DOCS/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/C12_dinf_dref_Data_Reference_Parser.md`.)_
 - [x] 🟢 **P0+** C13. `smhd/vmhd`: media headers. **(Completed — balance, graphics mode, and opcolor metadata now flow through `BoxParserRegistry`; see `DOCS/TASK_ARCHIVE/118_C13_Surface_smhd_vmhd_Media_Header_Fields/Summary_of_Work.md`.)**
-- [ ] 🔴 **P0+** C14. `edts/elst`: edit list entries. _(In Progress — see `DOCS/INPROGRESS/C14a_Finalize_Edit_List_Scope.md` for scope review.)_
+- [ ] 🔴 **P0+** C14. `edts/elst`: edit list entries. _(Scope documented in `DOCS/TASK_ARCHIVE/120_C14a_Finalize_Edit_List_Scope/C14a_Finalize_Edit_List_Scope.md`; implementation/validation/fixture work tracked under tasks C14b–C14d.)_
 - [ ] 🔴 **P0+** C15. Metadata: `udta`, `meta` (handler), `keys`, `ilst` (basic types).
 - [x] C16. Codec configs:
   - [x] C16.1 `avcC`: version/profile/level, `lengthSizeMinusOne`, SPS/PPS counts + lengths. **(Completed — codec metadata now parsed with regression coverage; see `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md` and `DOCS/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/Summary_of_Work.md`.)**
