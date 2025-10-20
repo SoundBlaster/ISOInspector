@@ -25,6 +25,22 @@ final class JSONExportSnapshotTests: XCTestCase {
         try await assertSnapshotMatchesFixture(id: "dash-segment-1")
     }
 
+    func testEditListEmptySnapshotMatchesFixture() async throws {
+        try await assertSnapshotMatchesFixture(id: "edit-list-empty")
+    }
+
+    func testEditListSingleOffsetSnapshotMatchesFixture() async throws {
+        try await assertSnapshotMatchesFixture(id: "edit-list-single-offset")
+    }
+
+    func testEditListMultiSegmentSnapshotMatchesFixture() async throws {
+        try await assertSnapshotMatchesFixture(id: "edit-list-multi-segment")
+    }
+
+    func testEditListRateAdjustedSnapshotMatchesFixture() async throws {
+        try await assertSnapshotMatchesFixture(id: "edit-list-rate-adjusted")
+    }
+
     private func assertSnapshotMatchesFixture(id: String) async throws {
         let tree = try await makeParseTree(forFixtureID: id)
         let canonical = try canonicalJSONString(for: tree)

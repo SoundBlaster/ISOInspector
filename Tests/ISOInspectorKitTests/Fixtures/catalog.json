@@ -123,6 +123,115 @@
           "Truncated box payload"
         ]
       }
+    },
+    {
+      "id": "edit-list-empty",
+      "title": "Edit list with no entries",
+      "description": "Synthetic track containing an empty edit list to exercise VR-014 duration reconciliation when no edits are declared.",
+      "format": "mp4",
+      "tags": [
+        "edit-list",
+        "vr-014",
+        "mp4",
+        "empty"
+      ],
+      "resource": {
+        "name": "edit_list_empty",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [
+          "Track 1 edit list spans 0 movie ticks but movie header duration is 1200 (short by 1200 > 1 tick).",
+          "Track 1 edit list spans 0 movie ticks but track header duration is 900 (short by 900 > 1 tick).",
+          "Track 1 edit list consumes 0 media ticks but media duration is 96000 (short by 96000 > 1 tick)."
+        ],
+        "errors": []
+      }
+    },
+    {
+      "id": "edit-list-single-offset",
+      "title": "Edit list with initial empty edit and offset",
+      "description": "Synthetic track containing an initial empty edit followed by an offset segment to surface VR-014 media duration diagnostics.",
+      "format": "mp4",
+      "tags": [
+        "edit-list",
+        "vr-014",
+        "mp4",
+        "offset"
+      ],
+      "resource": {
+        "name": "edit_list_single_offset",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [
+          "Track 2 edit list consumes 62400 media ticks but media duration is 64000 (short by 1600 > 1 tick)."
+        ],
+        "errors": []
+      }
+    },
+    {
+      "id": "edit-list-multi-segment",
+      "title": "Edit list with multiple segments exceeding durations",
+      "description": "Synthetic track containing multiple contiguous edit list segments to exercise VR-014 overage warnings for movie and track durations.",
+      "format": "mp4",
+      "tags": [
+        "edit-list",
+        "vr-014",
+        "mp4",
+        "multi-segment"
+      ],
+      "resource": {
+        "name": "edit_list_multi_segment",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [
+          "Track 3 edit list spans 1200 movie ticks but movie header duration is 1000 (over by 200 > 1 tick).",
+          "Track 3 edit list spans 1200 movie ticks but track header duration is 950 (over by 250 > 1 tick)."
+        ],
+        "errors": []
+      }
+    },
+    {
+      "id": "edit-list-rate-adjusted",
+      "title": "Edit list with unsupported playback rates",
+      "description": "Synthetic track containing negative, accelerated, and fractional rate edits to exercise VR-014 playback rate diagnostics.",
+      "format": "mp4",
+      "tags": [
+        "edit-list",
+        "vr-014",
+        "mp4",
+        "rate"
+      ],
+      "resource": {
+        "name": "edit_list_rate_adjusted",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [
+          "Track 4 edit list entry 0 uses media_rate_integer=-1; reverse playback is unsupported.",
+          "Track 4 edit list entry 1 uses media_rate_integer=2; playback rate adjustments above 1x are unsupported.",
+          "Track 4 edit list entry 2 sets media_rate_fraction=1; fractional playback rates are unsupported."
+        ],
+        "errors": []
+      }
     }
   ]
 }

@@ -351,6 +351,212 @@ def build_dash_segment() -> bytes:
     return styp + sidx + moof + mdat
 
 
+def build_movie_header(timescale: int, duration: int, next_track_id: int) -> bytes:
+    payload = bytearray()
+    payload.extend((0).to_bytes(1, "big"))  # version
+    payload.extend((0).to_bytes(3, "big"))  # flags
+    payload.extend((0).to_bytes(4, "big"))  # creation time
+    payload.extend((0).to_bytes(4, "big"))  # modification time
+    payload.extend(timescale.to_bytes(4, "big"))
+    payload.extend(duration.to_bytes(4, "big"))
+    payload.extend((0x0001_0000).to_bytes(4, "big"))  # rate 1.0
+    payload.extend((0x0100).to_bytes(2, "big"))  # volume 1.0
+    payload.extend(bytes(10))  # reserved
+    matrix = [
+        0x0001_0000,
+        0,
+        0,
+        0,
+        0x0001_0000,
+        0,
+        0,
+        0,
+        0x4000_0000,
+    ]
+    for value in matrix:
+        payload.extend(int(value).to_bytes(4, "big", signed=True))
+    payload.extend(bytes(24))  # pre-defined
+    payload.extend(next_track_id.to_bytes(4, "big"))
+    return box("mvhd", bytes(payload))
+
+
+def build_track_header(track_id: int, duration: int, width: int = 0, height: int = 0) -> bytes:
+    payload = bytearray()
+    payload.extend((0).to_bytes(1, "big"))  # version
+    payload.extend((0x0000_0007).to_bytes(3, "big"))  # flags: enabled + in movie + in preview
+    payload.extend((0).to_bytes(4, "big"))  # creation time
+    payload.extend((0).to_bytes(4, "big"))  # modification time
+    payload.extend(track_id.to_bytes(4, "big"))
+    payload.extend((0).to_bytes(4, "big"))  # reserved
+    payload.extend(duration.to_bytes(4, "big"))
+    payload.extend((0).to_bytes(4, "big"))  # reserved
+    payload.extend((0).to_bytes(4, "big"))  # reserved
+    payload.extend((0).to_bytes(2, "big", signed=True))  # layer
+    payload.extend((0).to_bytes(2, "big", signed=True))  # alternate group
+    payload.extend((0).to_bytes(2, "big"))  # volume (0 for video)
+    payload.extend((0).to_bytes(2, "big"))  # reserved
+    matrix = [
+        0x0001_0000,
+        0,
+        0,
+        0,
+        0x0001_0000,
+        0,
+        0,
+        0,
+        0x4000_0000,
+    ]
+    for value in matrix:
+        payload.extend(int(value).to_bytes(4, "big", signed=True))
+    payload.extend((width << 16).to_bytes(4, "big"))
+    payload.extend((height << 16).to_bytes(4, "big"))
+    return box("tkhd", bytes(payload))
+
+
+def pack_language(code: str) -> bytes:
+    if len(code) != 3:
+        raise ValueError("ISO-639-2 language code must be 3 characters")
+    scalars = [ord(char) - 0x60 for char in code.lower()]
+    value = ((scalars[0] & 0x1F) << 10) | ((scalars[1] & 0x1F) << 5) | (scalars[2] & 0x1F)
+    return value.to_bytes(2, "big")
+
+
+def build_media_header(timescale: int, duration: int, language: str = "eng") -> bytes:
+    payload = bytearray()
+    payload.extend((0).to_bytes(1, "big"))  # version
+    payload.extend((0).to_bytes(3, "big"))  # flags
+    payload.extend((0).to_bytes(4, "big"))  # creation time
+    payload.extend((0).to_bytes(4, "big"))  # modification time
+    payload.extend(timescale.to_bytes(4, "big"))
+    payload.extend(duration.to_bytes(4, "big"))
+    payload.extend(pack_language(language))
+    payload.extend((0).to_bytes(2, "big"))  # pre-defined
+    return box("mdhd", bytes(payload))
+
+
+def build_edit_list_box(entries: list[dict], version: int = 0) -> bytes:
+    payload = bytearray()
+    payload.append(version & 0xFF)
+    payload.extend((0).to_bytes(3, "big"))  # flags
+    payload.extend(len(entries).to_bytes(4, "big"))
+    for entry in entries:
+        segment_duration = int(entry["segment_duration"])
+        media_time = int(entry["media_time"])
+        media_rate_integer = int(entry.get("media_rate_integer", 1))
+        media_rate_fraction = int(entry.get("media_rate_fraction", 0))
+        if version == 1:
+            payload.extend(segment_duration.to_bytes(8, "big"))
+            payload.extend(media_time.to_bytes(8, "big", signed=True))
+        else:
+            payload.extend(segment_duration.to_bytes(4, "big"))
+            payload.extend(media_time.to_bytes(4, "big", signed=True))
+        payload.extend(media_rate_integer.to_bytes(2, "big", signed=True))
+        payload.extend(media_rate_fraction.to_bytes(2, "big"))
+    return box("elst", bytes(payload))
+
+
+def build_edit_list_fixture(
+    *,
+    entries: list[dict],
+    movie_timescale: int = 600,
+    movie_duration: int,
+    track_id: int,
+    track_duration: int,
+    media_timescale: int = 48_000,
+    media_duration: int,
+    version: int = 0,
+) -> bytes:
+    ftyp = box("ftyp", brand_payload("isom", 0, ["isom", "iso2"]))
+    mvhd = build_movie_header(movie_timescale, movie_duration, next_track_id=track_id + 1)
+    tkhd = build_track_header(track_id, track_duration)
+    mdhd = build_media_header(media_timescale, media_duration)
+    elst = build_edit_list_box(entries, version=version)
+    edts = box("edts", elst)
+    mdia = box("mdia", mdhd)
+    trak = box("trak", tkhd + edts + mdia)
+    moov = box("moov", mvhd + trak)
+    return ftyp + moov
+
+
+def build_edit_list_empty() -> bytes:
+    return build_edit_list_fixture(
+        entries=[],
+        movie_duration=1_200,
+        track_id=1,
+        track_duration=900,
+        media_duration=96_000,
+    )
+
+
+def build_edit_list_single_offset() -> bytes:
+    entries = [
+        {
+            "segment_duration": 120,
+            "media_time": -1,
+            "media_rate_integer": 1,
+            "media_rate_fraction": 0,
+        },
+        {
+            "segment_duration": 780,
+            "media_time": 240,
+            "media_rate_integer": 1,
+            "media_rate_fraction": 0,
+        },
+    ]
+    return build_edit_list_fixture(
+        entries=entries,
+        movie_duration=900,
+        track_id=2,
+        track_duration=900,
+        media_duration=64_000,
+    )
+
+
+def build_edit_list_multi_segment() -> bytes:
+    entries = [
+        {"segment_duration": 400, "media_time": 0},
+        {"segment_duration": 400, "media_time": 400},
+        {"segment_duration": 400, "media_time": 800},
+    ]
+    return build_edit_list_fixture(
+        entries=entries,
+        movie_duration=1_000,
+        track_id=3,
+        track_duration=950,
+        media_duration=96_000,
+    )
+
+
+def build_edit_list_rate_adjusted() -> bytes:
+    entries = [
+        {
+            "segment_duration": 300,
+            "media_time": 0,
+            "media_rate_integer": -1,
+            "media_rate_fraction": 0,
+        },
+        {
+            "segment_duration": 300,
+            "media_time": 300,
+            "media_rate_integer": 2,
+            "media_rate_fraction": 0,
+        },
+        {
+            "segment_duration": 0,
+            "media_time": 600,
+            "media_rate_integer": 1,
+            "media_rate_fraction": 1,
+        },
+    ]
+    return build_edit_list_fixture(
+        entries=entries,
+        movie_duration=600,
+        track_id=4,
+        track_duration=600,
+        media_duration=48_000,
+    )
+
+
 def build_large_mdat() -> bytes:
     ftyp = box(
         "ftyp",
@@ -390,6 +596,10 @@ def generate_text_fixtures(media_root: Path = MEDIA) -> list[Path]:
         write_fixture("dash_segment_1", build_dash_segment(), media_root),
         write_fixture("large_mdat_placeholder", build_large_mdat(), media_root),
         write_fixture("malformed_truncated", build_malformed_truncated(), media_root),
+        write_fixture("edit_list_empty", build_edit_list_empty(), media_root),
+        write_fixture("edit_list_single_offset", build_edit_list_single_offset(), media_root),
+        write_fixture("edit_list_multi_segment", build_edit_list_multi_segment(), media_root),
+        write_fixture("edit_list_rate_adjusted", build_edit_list_rate_adjusted(), media_root),
     ]
 
 
