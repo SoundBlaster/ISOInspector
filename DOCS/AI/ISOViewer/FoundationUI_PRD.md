@@ -1,8 +1,8 @@
 # Product Requirements Document
-# Cross-Platform SwiftUI Foundation Module
+# FoundationUI - Cross-Platform SwiftUI Framework
 
-**Project:** ISO Inspector / ISOViewer
-**Module:** CrossPlatformFoundation
+**Project:** ISO Inspector
+**Module:** FoundationUI
 **Version:** 1.0
 **Date:** 2025-10-20
 **Status:** Planning
@@ -13,40 +13,40 @@
 ## 1. Executive Summary
 
 ### 1.1 Overview
-CrossPlatformFoundation — это универсальный SwiftUI-модуль, предоставляющий единую кроссплатформенную основу для разработки iOS/macOS приложений в рамках экосистемы ISO Inspector. Модуль реализует дизайн-систему **Composable Clarity**, обеспечивая согласованный пользовательский интерфейс и опыт взаимодействия на всех поддерживаемых платформах.
+FoundationUI is a universal SwiftUI framework that provides a unified cross-platform foundation for developing iOS/macOS applications within the ISO Inspector ecosystem. The framework implements the **Composable Clarity** design system, ensuring consistent user interface and experience across all supported platforms.
 
 ### 1.2 Goals
-- **Унификация UI/UX** на iOS, iPadOS и macOS
-- **Ускорение разработки** через переиспользуемые компоненты
-- **Обеспечение консистентности** дизайна через токены и модификаторы
-- **Поддержка agent-driven UI generation** для интеграции с 0AL/Hypercode
-- **Упрощение тестирования** через самодостаточные компоненты
+- **Unify UI/UX** across iOS, iPadOS, and macOS
+- **Accelerate development** through reusable components
+- **Ensure design consistency** via tokens and modifiers
+- **Support agent-driven UI generation** for integration with 0AL/Hypercode
+- **Simplify testing** through self-contained components
 
 ### 1.3 Success Criteria
-- ✅ 100% компонентов поддерживают iOS 17+, iPadOS 17+, macOS 14+
-- ✅ Все визуальные элементы используют только токены (zero magic numbers)
-- ✅ Accessibility score ≥ 95% (контраст, VoiceOver, клавиатурная навигация)
-- ✅ Unit test coverage ≥ 80% для всех компонентов
-- ✅ Preview coverage = 100% для визуальных компонентов
-- ✅ Документация API = 100%
+- ✅ 100% of components support iOS 17+, iPadOS 17+, macOS 14+
+- ✅ All visual elements use only tokens (zero magic numbers)
+- ✅ Accessibility score ≥ 95% (contrast, VoiceOver, keyboard navigation)
+- ✅ Unit test coverage ≥ 80% for all components
+- ✅ Preview coverage = 100% for visual components
+- ✅ API documentation = 100%
 
 ---
 
 ## 2. Problem Statement
 
 ### 2.1 Current Challenges
-- **Дублирование кода** при разработке для iOS и macOS
-- **Несогласованность дизайна** между платформами
-- **Сложность поддержки** множественных UI стилей
-- **Отсутствие системного подхода** к композиции интерфейсов
-- **Трудности в автоматической генерации UI** для агентов
+- **Code duplication** when developing for iOS and macOS
+- **Design inconsistency** between platforms
+- **Complexity in maintaining** multiple UI styles
+- **Lack of systematic approach** to interface composition
+- **Difficulties in automatic UI generation** for agents
 
 ### 2.2 Proposed Solution
-Создание централизованного SwiftUI-модуля, который:
-- Реализует 4-слойную архитектуру дизайн-системы (Tokens → Modifiers → Components → Patterns)
-- Обеспечивает платформенную адаптацию через Environment
-- Предоставляет декларативное API для agent-driven генерации
-- Гарантирует семантическую консистентность через type-safe компоненты
+Create a centralized SwiftUI framework that:
+- Implements a 4-layer design system architecture (Tokens → Modifiers → Components → Patterns)
+- Provides platform adaptation through Environment
+- Offers declarative API for agent-driven generation
+- Guarantees semantic consistency through type-safe components
 
 ---
 
@@ -70,7 +70,7 @@ CrossPlatformFoundation — это универсальный SwiftUI-модул
 ### 4.1 Module Structure
 
 ```
-CrossPlatformFoundation/
+FoundationUI/
 ├── Sources/
 │   ├── DesignTokens/           # Layer 0: Tokens
 │   │   ├── Spacing.swift
@@ -112,7 +112,7 @@ CrossPlatformFoundation/
 ### 4.2 Layer Responsibilities
 
 #### Layer 0: Design Tokens
-**Purpose:** Единый источник визуальных констант
+**Purpose:** Single source of truth for visual constants
 
 ```swift
 public enum DS {
@@ -150,7 +150,7 @@ public enum DS {
 ```
 
 #### Layer 1: View Modifiers (Atoms)
-**Purpose:** Переиспользуемые стили без контекста
+**Purpose:** Reusable styles without context
 
 ```swift
 public struct BadgeChipStyle: ViewModifier {
@@ -186,7 +186,7 @@ public enum BadgeLevel: String, CaseIterable {
 ```
 
 #### Layer 2: Components (Molecules)
-**Purpose:** Семантические компоненты с четким назначением
+**Purpose:** Semantic components with clear purpose
 
 ```swift
 public struct Badge: View {
@@ -206,7 +206,7 @@ public struct Badge: View {
 ```
 
 #### Layer 3: Patterns (Organisms)
-**Purpose:** Сложные композиции для стандартных UI-паттернов
+**Purpose:** Complex compositions for standard UI patterns
 
 ```swift
 public struct InspectorPattern<Content: View>: View {
@@ -238,7 +238,7 @@ public struct InspectorPattern<Content: View>: View {
 ```
 
 #### Layer 4: Contexts (Themes)
-**Purpose:** Платформенная адаптация и темизация
+**Purpose:** Platform adaptation and theming
 
 ```swift
 public struct SurfaceStyleKey: EnvironmentKey {
@@ -331,17 +331,17 @@ KeyValueRow(key: "Size", value: "1024 bytes", copyable: true)
 ## 6. Design Principles Implementation
 
 ### 6.1 Composable Clarity
-- **Zero magic numbers:** Все значения через DS tokens
-- **Semantic before visual:** Имена отражают смысл, не стиль
-- **Local responsibility:** Компоненты управляют своим состоянием
-- **Predictable composability:** Компоненты корректны при вложении
+- **Zero magic numbers:** All values through DS tokens
+- **Semantic before visual:** Names reflect meaning, not style
+- **Local responsibility:** Components manage their own state
+- **Predictable composability:** Components work correctly when nested
 
 ### 6.2 Accessibility Requirements
-- **Контраст:** ≥ 4.5:1 для всех текстов
-- **VoiceOver:** Полная поддержка для всех интерактивных элементов
-- **Dynamic Type:** Поддержка системных размеров шрифтов
-- **Keyboard Navigation:** Полная клавиатурная доступность
-- **Reduce Motion:** Респект к preferredReduceMotion
+- **Contrast:** ≥ 4.5:1 for all text
+- **VoiceOver:** Full support for all interactive elements
+- **Dynamic Type:** Support for system font sizes
+- **Keyboard Navigation:** Full keyboard accessibility
+- **Reduce Motion:** Respect for preferredReduceMotion
 
 ### 6.3 Platform Adaptation Strategy
 
@@ -363,7 +363,7 @@ extension DS.Spacing {
 ## 7. Agent-Driven UI Generation
 
 ### 7.1 Declarative Component Description
-Компоненты поддерживают описание через структурированные данные для генерации агентами:
+Components support description through structured data for agent generation:
 
 ```swift
 public protocol AgentDescribable {
@@ -410,9 +410,9 @@ children:
 ## 8. Testing Strategy
 
 ### 8.1 Unit Tests
-- **Token validation:** Проверка всех значений DS
-- **Modifier behavior:** Тестирование логики стилей
-- **Component composition:** Проверка корректности вложений
+- **Token validation:** Verify all DS values
+- **Modifier behavior:** Test style logic
+- **Component composition:** Verify correct nesting
 - **Accessibility:** Automated a11y checks
 
 ### 8.2 Snapshot Tests
@@ -490,13 +490,13 @@ dependencies: [
 ## 11. Documentation Requirements
 
 ### 11.1 API Documentation
-- 100% DocC coverage для public API
-- Code examples для каждого компонента
+- 100% DocC coverage for public API
+- Code examples for each component
 - Best practices guide
 - Migration guides (if applicable)
 
 ### 11.2 Design Documentation
-- Component catalog с визуальными примерами
+- Component catalog with visual examples
 - Design token reference
 - Platform adaptation guide
 - Accessibility guidelines
@@ -512,15 +512,15 @@ dependencies: [
 ## 12. Success Metrics
 
 ### 12.1 Technical Metrics
-- **Build time:** < 10s для чистой сборки модуля
-- **Binary size:** < 500KB для release build
-- **Memory footprint:** < 5MB для типичного экрана
-- **Render performance:** 60 FPS на всех платформах
+- **Build time:** < 10s for clean module build
+- **Binary size:** < 500KB for release build
+- **Memory footprint:** < 5MB for typical screen
+- **Render performance:** 60 FPS on all platforms
 
 ### 12.2 Developer Experience Metrics
-- **Time to first component:** < 5 минут для нового разработчика
-- **Code reuse rate:** ≥ 80% кода совместим между платформами
-- **Documentation quality:** ≥ 90% satisfaction в опросах
+- **Time to first component:** < 5 minutes for new developer
+- **Code reuse rate:** ≥ 80% of code compatible between platforms
+- **Documentation quality:** ≥ 90% satisfaction in surveys
 
 ### 12.3 Quality Metrics
 - **Test coverage:** ≥ 80%
@@ -574,6 +574,7 @@ dependencies: [
 - **Token:** Design constant (spacing, color, etc.)
 - **Material:** SwiftUI background effect
 - **Composable Clarity:** Core design philosophy
+- **FoundationUI:** Cross-platform SwiftUI framework for ISO Inspector
 
 ---
 
