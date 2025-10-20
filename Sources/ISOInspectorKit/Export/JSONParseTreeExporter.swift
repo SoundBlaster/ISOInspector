@@ -145,6 +145,7 @@ private struct StructuredPayload: Encodable {
     let trackHeader: TrackHeaderDetail?
     let soundMediaHeader: SoundMediaHeaderDetail?
     let videoMediaHeader: VideoMediaHeaderDetail?
+    let editList: EditListDetail?
     let sampleToChunk: SampleToChunkDetail?
     let chunkOffset: ChunkOffsetDetail?
     let sampleSize: SampleSizeDetail?
@@ -160,6 +161,7 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
+            self.editList = nil
             self.sampleToChunk = nil
             self.chunkOffset = nil
             self.sampleSize = nil
@@ -172,6 +174,7 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
+            self.editList = nil
             self.sampleToChunk = nil
             self.chunkOffset = nil
             self.sampleSize = nil
@@ -184,6 +187,7 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = TrackHeaderDetail(box: box)
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
+            self.editList = nil
             self.sampleToChunk = nil
             self.chunkOffset = nil
             self.sampleSize = nil
@@ -196,6 +200,7 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = nil
             self.soundMediaHeader = SoundMediaHeaderDetail(box: box)
             self.videoMediaHeader = nil
+            self.editList = nil
             self.sampleToChunk = nil
             self.chunkOffset = nil
             self.sampleSize = nil
@@ -208,6 +213,20 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = VideoMediaHeaderDetail(box: box)
+            self.editList = nil
+            self.sampleToChunk = nil
+            self.chunkOffset = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
+            self.syncSampleTable = nil
+            self.dataReference = nil
+        case let .editList(box):
+            self.fileType = nil
+            self.movieHeader = nil
+            self.trackHeader = nil
+            self.soundMediaHeader = nil
+            self.videoMediaHeader = nil
+            self.editList = EditListDetail(box: box)
             self.sampleToChunk = nil
             self.chunkOffset = nil
             self.sampleSize = nil
@@ -220,6 +239,7 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
+            self.editList = nil
             self.sampleToChunk = SampleToChunkDetail(box: box)
             self.chunkOffset = nil
             self.sampleSize = nil
@@ -232,6 +252,7 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
+            self.editList = nil
             self.sampleToChunk = nil
             self.chunkOffset = ChunkOffsetDetail(box: box)
             self.sampleSize = nil
@@ -244,6 +265,7 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
+            self.editList = nil
             self.sampleToChunk = nil
             self.chunkOffset = nil
             self.sampleSize = SampleSizeDetail(box: box)
@@ -256,6 +278,7 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
+            self.editList = nil
             self.sampleToChunk = nil
             self.chunkOffset = nil
             self.sampleSize = nil
@@ -268,6 +291,7 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
+            self.editList = nil
             self.sampleToChunk = nil
             self.chunkOffset = nil
             self.sampleSize = nil
@@ -280,6 +304,7 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
+            self.editList = nil
             self.sampleToChunk = nil
             self.chunkOffset = nil
             self.sampleSize = nil
@@ -295,6 +320,7 @@ private struct StructuredPayload: Encodable {
         case trackHeader = "track_header"
         case soundMediaHeader = "sound_media_header"
         case videoMediaHeader = "video_media_header"
+        case editList = "edit_list"
         case sampleToChunk = "sample_to_chunk"
         case chunkOffset = "chunk_offset"
         case sampleSize = "sample_size"
@@ -499,6 +525,81 @@ private struct VideoMediaHeaderDetail: Encodable {
         case graphicsMode = "graphics_mode"
         case graphicsModeDescription = "graphics_mode_description"
         case opcolor
+    }
+}
+
+private struct EditListDetail: Encodable {
+    struct Entry: Encodable {
+        let index: UInt32
+        let segmentDuration: UInt64
+        let mediaTime: Int64
+        let mediaRateInteger: Int16
+        let mediaRateFraction: UInt16
+        let mediaRate: Double
+        let segmentDurationSeconds: Double?
+        let mediaTimeSeconds: Double?
+        let presentationStart: UInt64
+        let presentationEnd: UInt64
+        let presentationStartSeconds: Double?
+        let presentationEndSeconds: Double?
+        let isEmptyEdit: Bool
+
+        init(entry: ParsedBoxPayload.EditListBox.Entry) {
+            self.index = entry.index
+            self.segmentDuration = entry.segmentDuration
+            self.mediaTime = entry.mediaTime
+            self.mediaRateInteger = entry.mediaRateInteger
+            self.mediaRateFraction = entry.mediaRateFraction
+            self.mediaRate = entry.mediaRate
+            self.segmentDurationSeconds = entry.segmentDurationSeconds
+            self.mediaTimeSeconds = entry.mediaTimeSeconds
+            self.presentationStart = entry.presentationStart
+            self.presentationEnd = entry.presentationEnd
+            self.presentationStartSeconds = entry.presentationStartSeconds
+            self.presentationEndSeconds = entry.presentationEndSeconds
+            self.isEmptyEdit = entry.isEmptyEdit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index
+            case segmentDuration = "segment_duration"
+            case mediaTime = "media_time"
+            case mediaRateInteger = "media_rate_integer"
+            case mediaRateFraction = "media_rate_fraction"
+            case mediaRate = "media_rate"
+            case segmentDurationSeconds = "segment_duration_seconds"
+            case mediaTimeSeconds = "media_time_seconds"
+            case presentationStart = "presentation_start"
+            case presentationEnd = "presentation_end"
+            case presentationStartSeconds = "presentation_start_seconds"
+            case presentationEndSeconds = "presentation_end_seconds"
+            case isEmptyEdit = "is_empty_edit"
+        }
+    }
+
+    let version: UInt8
+    let flags: UInt32
+    let entryCount: UInt32
+    let movieTimescale: UInt32?
+    let mediaTimescale: UInt32?
+    let entries: [Entry]
+
+    init(box: ParsedBoxPayload.EditListBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.entryCount = box.entryCount
+        self.movieTimescale = box.movieTimescale
+        self.mediaTimescale = box.mediaTimescale
+        self.entries = box.entries.map(Entry.init)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case entryCount = "entry_count"
+        case movieTimescale = "movie_timescale"
+        case mediaTimescale = "media_timescale"
+        case entries
     }
 }
 

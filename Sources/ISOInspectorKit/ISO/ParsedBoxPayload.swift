@@ -7,6 +7,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case trackHeader(TrackHeaderBox)
         case soundMediaHeader(SoundMediaHeaderBox)
         case videoMediaHeader(VideoMediaHeaderBox)
+        case editList(EditListBox)
         case sampleToChunk(SampleToChunkBox)
         case chunkOffset(ChunkOffsetBox)
         case sampleSize(SampleSizeBox)
@@ -203,6 +204,77 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             self.graphicsMode = graphicsMode
             self.graphicsModeDescription = graphicsModeDescription
             self.opcolor = opcolor
+        }
+    }
+
+    public struct EditListBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public let index: UInt32
+            public let segmentDuration: UInt64
+            public let mediaTime: Int64
+            public let mediaRateInteger: Int16
+            public let mediaRateFraction: UInt16
+            public let mediaRate: Double
+            public let segmentDurationSeconds: Double?
+            public let mediaTimeSeconds: Double?
+            public let presentationStart: UInt64
+            public let presentationEnd: UInt64
+            public let presentationStartSeconds: Double?
+            public let presentationEndSeconds: Double?
+            public let isEmptyEdit: Bool
+
+            public init(
+                index: UInt32,
+                segmentDuration: UInt64,
+                mediaTime: Int64,
+                mediaRateInteger: Int16,
+                mediaRateFraction: UInt16,
+                mediaRate: Double,
+                segmentDurationSeconds: Double?,
+                mediaTimeSeconds: Double?,
+                presentationStart: UInt64,
+                presentationEnd: UInt64,
+                presentationStartSeconds: Double?,
+                presentationEndSeconds: Double?,
+                isEmptyEdit: Bool
+            ) {
+                self.index = index
+                self.segmentDuration = segmentDuration
+                self.mediaTime = mediaTime
+                self.mediaRateInteger = mediaRateInteger
+                self.mediaRateFraction = mediaRateFraction
+                self.mediaRate = mediaRate
+                self.segmentDurationSeconds = segmentDurationSeconds
+                self.mediaTimeSeconds = mediaTimeSeconds
+                self.presentationStart = presentationStart
+                self.presentationEnd = presentationEnd
+                self.presentationStartSeconds = presentationStartSeconds
+                self.presentationEndSeconds = presentationEndSeconds
+                self.isEmptyEdit = isEmptyEdit
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let entryCount: UInt32
+        public let movieTimescale: UInt32?
+        public let mediaTimescale: UInt32?
+        public let entries: [Entry]
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            entryCount: UInt32,
+            movieTimescale: UInt32?,
+            mediaTimescale: UInt32?,
+            entries: [Entry]
+        ) {
+            self.version = version
+            self.flags = flags
+            self.entryCount = entryCount
+            self.movieTimescale = movieTimescale
+            self.mediaTimescale = mediaTimescale
+            self.entries = entries
         }
     }
 
@@ -480,6 +552,11 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var videoMediaHeader: VideoMediaHeaderBox? {
         guard case let .videoMediaHeader(box) = detail else { return nil }
+        return box
+    }
+
+    public var editList: EditListBox? {
+        guard case let .editList(box) = detail else { return nil }
         return box
     }
 
