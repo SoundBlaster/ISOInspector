@@ -179,7 +179,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] B3. Implement `readBoxHeader(at:)` supporting: size==0 (to EOF/parent end), size==1 (largesize), `uuid` type. _(Covered by [02_B2_Box_Header_Decoder](../../TASK_ARCHIVE/02_B2_Box_Header_Decoder/B2_Box_Header_Decoder.md) and validated in downstream streaming integration tasks.)_
 - [x] B4. Implement container iteration (`parseContainer(parentRange:)`) with forward-progress guard and max-depth limit. _(Shipped with [05_B3_Puzzle1_ParsePipeline_Live_Integration](../../TASK_ARCHIVE/05_B3_Puzzle1_ParsePipeline_Live_Integration/05_B3_Puzzle1_ParsePipeline_Live_Integration.md))._
 - [x] B5. Introduce `FullBoxReader` for (version,flags) extraction. **(Completed — helper, tests, and parser refactors documented in `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/B5_FullBoxReader.md` and `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/Summary_of_Work.md`.)**
-- [ ] B6. Create `BoxParserRegistry`: map fourcc → parser; default: container? or leaf; unknown: opaque leaf. **(In Progress — see `DOCS/INPROGRESS/B6_BoxParserRegistry.md`.)**
+- [x] B6. Create `BoxParserRegistry`: map fourcc → parser; default: container? or leaf; unknown: opaque leaf. **(Completed — placeholder payload fallback and snapshot updates documented in `DOCS/INPROGRESS/Summary_of_Work.md`.)**
 
 ### Phase C — Specific Parsers (Baseline)
 > **Priority Update (2025-10-20):** Phase C parser work is now a **P0 blocker** for the upcoming milestone. Treat every unchecked item below as urgent and schedule accordingly.
