@@ -5,13 +5,17 @@ let package = Package(
     name: "ISOInspector",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v16),
+        .iOS(.v17),
         .macOS(.v14)
     ],
     products: [
         .library(
             name: "ISOInspectorKit",
             targets: ["ISOInspectorKit"]
+        ),
+        .library(
+            name: "FoundationUI",
+            targets: ["FoundationUI"]
         ),
         .executable(
             name: "isoinspect",
@@ -28,6 +32,13 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0")
     ],
     targets: [
+        .target(
+            name: "FoundationUI",
+            dependencies: [],
+            swiftSettings: [
+                .enableExperimentalFeature("StrictConcurrency")
+            ]
+        ),
         .target(
             name: "ISOInspectorKit",
             resources: [
@@ -93,6 +104,10 @@ let package = Package(
                 "ISOInspectorApp",
                 "ISOInspectorKit"
             ]
+        ),
+        .testTarget(
+            name: "FoundationUITests",
+            dependencies: ["FoundationUI"]
         )
     ]
 )

@@ -1,0 +1,99 @@
+# SwiftLint Configuration for FoundationUI
+# Enforces Composable Clarity design system principles
+
+# Enabled Rules
+opt_in_rules:
+  - empty_count
+  - explicit_init
+  - file_header
+  - first_where
+  - force_unwrapping
+  - implicitly_unwrapped_optional
+  - number_separator
+  - operator_usage_whitespace
+  - overridden_super_call
+  - prohibited_super_call
+  - sorted_imports
+  - strict_fileprivate
+  - toggle_bool
+  - unneeded_parentheses_in_closure_argument
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+
+# Disabled Rules
+disabled_rules:
+  - todo
+  - trailing_whitespace
+
+# Rule Configurations
+line_length:
+  warning: 120
+  error: 150
+  ignores_comments: true
+  ignores_urls: true
+
+file_length:
+  warning: 500
+  error: 800
+  ignore_comment_only_lines: true
+
+type_body_length:
+  warning: 300
+  error: 500
+
+function_body_length:
+  warning: 50
+  error: 100
+
+cyclomatic_complexity:
+  warning: 10
+  error: 20
+
+identifier_name:
+  min_length:
+    warning: 2
+    error: 1
+  max_length:
+    warning: 50
+    error: 60
+  excluded:
+    - id
+    - s
+    - m
+    - l
+    - xl
+    - DS
+
+# Custom Rules for Zero Magic Numbers
+custom_rules:
+  zero_magic_numbers:
+    name: "Zero Magic Numbers"
+    regex: '(?<![a-zA-Z0-9_])((?![0-1]\b)[0-9]+\.?[0-9]*(?!pt|px|em|rem|%)(?![a-zA-Z0-9_]))'
+    message: "Avoid magic numbers. Use design tokens from DS namespace instead."
+    severity: warning
+    # Note: This rule has exceptions for 0, 1, and common literals in comments
+    # Actual enforcement requires manual review as numeric literals in token
+    # definitions themselves are allowed (they define the tokens)
+
+  ds_namespace_usage:
+    name: "Use DS Namespace"
+    regex: '\.padding\(\s*[0-9]+\s*\)'
+    message: "Use DS.Spacing tokens instead of numeric literals for padding"
+    severity: warning
+
+# Excluded Paths
+excluded:
+  - Derived
+  - .build
+  - DerivedData
+
+# Included Paths
+included:
+  - Sources/FoundationUI
+
+# Reporter
+reporter: "xcode"
+
+# Severity
+warnings_as_errors: false
+strict: false
