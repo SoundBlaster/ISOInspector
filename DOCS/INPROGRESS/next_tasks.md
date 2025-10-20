@@ -5,7 +5,7 @@
 - [ ] 🔴 **P0+** C14d. Refresh fixtures, JSON exports, and snapshot baselines covering common edit list scenarios (empty
 
   list, single offset, multi-segment, rate adjustments) so the VR-014 diagnostics introduced in Task C14c have full
-  regression coverage.
+  regression coverage. **(In Progress — tracked in `DOCS/INPROGRESS/C14d_Refresh_Edit_List_Fixtures.md`.)**
 
 - [ ] 🔴 **P0+** C15. Implement baseline metadata box coverage for `udta`, `meta` (handler), `keys`, and `ilst` atoms to surface simple string/integer payloads for CLI export while preserving handler mappings documented in `DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/`.
 
