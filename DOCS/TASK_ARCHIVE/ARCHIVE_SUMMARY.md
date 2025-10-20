@@ -642,3 +642,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/122_C14c_Edit_List_Duration_Validation/`.
 - **Highlights:** Captures validation rule VR-014 that reconciles edit list presentation spans against `mvhd`, `tkhd`, and `mdhd` durations, surfaces unsupported playback rates, and defers diagnostics until referenced media headers are parsed so streaming order remains flexible.
 - **Next steps carried forward:** Fresh fixtures (Task C14d), metadata box coverage (Task C15), and Validation Rule #15 chunk/sample correlation remain open in `DOCS/INPROGRESS/next_tasks.md` alongside existing backlog checkpoints.
+
+## 124_Summary_of_Work_2025-10-20
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/124_Summary_of_Work_2025-10-20/`.
+- **Highlights:** Summarizes completion of Task C14d fixture refresh with regenerated edit list JSON exports, snapshot baselines, and regression validation commands covering empty, offset, multi-segment, and rate-adjusted scenarios.
+- **Next steps carried forward:** Task C15 metadata box coverage and Validation Rule #15 chunk/sample correlation remain tracked in the recreated `DOCS/INPROGRESS/next_tasks.md` checklist.
