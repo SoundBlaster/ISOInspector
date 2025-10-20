@@ -7,3 +7,7 @@
 ## Validation Follow-Up
 
 - [ ] Validation Rule #15. Correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and `stco/co64` offsets to flag mismatches alongside the edit list duration diagnostics archived in `DOCS/TASK_ARCHIVE/122_C14c_Edit_List_Duration_Validation/`.
+
+## Parser Coverage
+
+- [x] C18 `free/skip` opaque pass-through handling. _(Completed — details in `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/C18_free_skip_Pass_Through.md`.)_

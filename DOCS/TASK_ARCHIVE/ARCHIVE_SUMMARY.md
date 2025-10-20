@@ -660,3 +660,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/126_C17_mdat_Box_Parser/`.
 - **Highlights:** Documents the streaming `mdat` parser that records header offsets and payload length, updates JSON export baselines, and refreshes regression coverage so large media payloads are skipped without loading bytes.
 - **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` continues to track the metadata decoding expansion and Validation Rule #15 chunk/sample correlation diagnostics referenced across the backlog.
+
+## 127_C18_free_skip_Pass_Through
+- **Archived files:** `C18_free_skip_Pass_Through.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/`.
+- **Highlights:** Records the shared padding parser added to `BoxParserRegistry`, JSON export updates that surface padding metadata, and the verification notes covering unit plus live pipeline coverage for `free`/`skip` boxes.
+- **Next steps carried forward:** Continue the metadata decoding expansion and Validation Rule #15 correlation work now tracked in `DOCS/INPROGRESS/next_tasks.md`.
