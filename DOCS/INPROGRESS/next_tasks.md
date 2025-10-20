@@ -10,4 +10,4 @@
 
 ## Parser Coverage
 
-- [ ] C18 `free/skip` opaque pass-through handling. _(In Progress — see `DOCS/INPROGRESS/C18_free_skip_Pass_Through.md`.)_
+- [x] C18 `free/skip` opaque pass-through handling. _(Completed — details in `DOCS/INPROGRESS/Summary_of_Work.md` and `DOCS/INPROGRESS/C18_free_skip_Pass_Through.md`.)_

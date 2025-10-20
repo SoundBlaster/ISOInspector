@@ -186,7 +186,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
   - [ ] C16.3 `esds`: ES_Descriptor → DecoderSpecific (AudioSpecificConfig fields mapped).
 
 - [ ] C17. `mdat`: record offset/size (skip payload).
-- [ ] C18. `free/skip`: opaque pass-through.
+- [x] C18. `free/skip`: opaque pass-through. **(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md` for implementation summary.)**
 
 ### Phase D — Fragmentation & Indexes
 - [ ] D1. `mvex/trex`: defaults.

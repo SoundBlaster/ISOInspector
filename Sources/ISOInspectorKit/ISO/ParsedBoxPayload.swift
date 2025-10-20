@@ -4,6 +4,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
     public enum Detail: Equatable, Sendable {
         case fileType(FileTypeBox)
         case mediaData(MediaDataBox)
+        case padding(PaddingBox)
         case movieHeader(MovieHeaderBox)
         case trackHeader(TrackHeaderBox)
         case soundMediaHeader(SoundMediaHeaderBox)
@@ -44,6 +45,34 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             totalSize: Int64,
             payloadRange: Range<Int64>
         ) {
+            self.headerStartOffset = headerStartOffset
+            self.headerEndOffset = headerEndOffset
+            self.totalSize = totalSize
+            self.payloadRange = payloadRange
+        }
+
+        public var payloadLength: Int64 { max(0, payloadRange.upperBound - payloadRange.lowerBound) }
+
+        public var payloadStartOffset: Int64 { payloadRange.lowerBound }
+
+        public var payloadEndOffset: Int64 { payloadRange.upperBound }
+    }
+
+    public struct PaddingBox: Equatable, Sendable {
+        public let type: FourCharCode
+        public let headerStartOffset: Int64
+        public let headerEndOffset: Int64
+        public let totalSize: Int64
+        public let payloadRange: Range<Int64>
+
+        public init(
+            type: FourCharCode,
+            headerStartOffset: Int64,
+            headerEndOffset: Int64,
+            totalSize: Int64,
+            payloadRange: Range<Int64>
+        ) {
+            self.type = type
             self.headerStartOffset = headerStartOffset
             self.headerEndOffset = headerEndOffset
             self.totalSize = totalSize
@@ -662,6 +691,11 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var mediaData: MediaDataBox? {
         guard case let .mediaData(box) = detail else { return nil }
+        return box
+    }
+
+    public var padding: PaddingBox? {
+        guard case let .padding(box) = detail else { return nil }
         return box
     }
 

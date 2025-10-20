@@ -142,6 +142,7 @@ private struct Issue: Encodable {
 private struct StructuredPayload: Encodable {
     let fileType: FileTypeDetail?
     let mediaData: MediaDataDetail?
+    let padding: PaddingDetail?
     let movieHeader: MovieHeaderDetail?
     let trackHeader: TrackHeaderDetail?
     let soundMediaHeader: SoundMediaHeaderDetail?
@@ -162,6 +163,7 @@ private struct StructuredPayload: Encodable {
         case let .fileType(box):
             self.fileType = FileTypeDetail(box: box)
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -179,6 +181,25 @@ private struct StructuredPayload: Encodable {
         case let .mediaData(box):
             self.fileType = nil
             self.mediaData = MediaDataDetail(box: box)
+            self.padding = nil
+            self.movieHeader = nil
+            self.trackHeader = nil
+            self.soundMediaHeader = nil
+            self.videoMediaHeader = nil
+            self.editList = nil
+            self.sampleToChunk = nil
+            self.chunkOffset = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
+            self.syncSampleTable = nil
+            self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
+        case let .padding(box):
+            self.fileType = nil
+            self.mediaData = nil
+            self.padding = PaddingDetail(box: box)
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -196,6 +217,7 @@ private struct StructuredPayload: Encodable {
         case let .movieHeader(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = MovieHeaderDetail(box: box)
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -213,6 +235,7 @@ private struct StructuredPayload: Encodable {
         case let .trackHeader(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = TrackHeaderDetail(box: box)
             self.soundMediaHeader = nil
@@ -230,6 +253,7 @@ private struct StructuredPayload: Encodable {
         case let .soundMediaHeader(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = SoundMediaHeaderDetail(box: box)
@@ -247,6 +271,7 @@ private struct StructuredPayload: Encodable {
         case let .videoMediaHeader(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -264,6 +289,7 @@ private struct StructuredPayload: Encodable {
         case let .editList(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -281,6 +307,7 @@ private struct StructuredPayload: Encodable {
         case let .sampleToChunk(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -298,6 +325,7 @@ private struct StructuredPayload: Encodable {
         case let .chunkOffset(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -315,6 +343,7 @@ private struct StructuredPayload: Encodable {
         case let .sampleSize(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -332,6 +361,7 @@ private struct StructuredPayload: Encodable {
         case let .compactSampleSize(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -349,6 +379,7 @@ private struct StructuredPayload: Encodable {
         case let .syncSampleTable(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -366,6 +397,7 @@ private struct StructuredPayload: Encodable {
         case let .dataReference(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -383,6 +415,7 @@ private struct StructuredPayload: Encodable {
         case let .metadata(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -400,6 +433,7 @@ private struct StructuredPayload: Encodable {
         case let .metadataKeyTable(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -417,6 +451,7 @@ private struct StructuredPayload: Encodable {
         case let .metadataItemList(box):
             self.fileType = nil
             self.mediaData = nil
+            self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
@@ -437,6 +472,7 @@ private struct StructuredPayload: Encodable {
     private enum CodingKeys: String, CodingKey {
         case fileType = "file_type"
         case mediaData = "media_data"
+        case padding = "padding"
         case movieHeader = "movie_header"
         case trackHeader = "track_header"
         case soundMediaHeader = "sound_media_header"
@@ -463,6 +499,26 @@ private struct MediaDataDetail: Encodable {
     let totalSize: Int64
 
     init(box: ParsedBoxPayload.MediaDataBox) {
+        self.headerStartOffset = box.headerStartOffset
+        self.headerEndOffset = box.headerEndOffset
+        self.payloadStartOffset = box.payloadStartOffset
+        self.payloadEndOffset = box.payloadEndOffset
+        self.payloadLength = box.payloadLength
+        self.totalSize = box.totalSize
+    }
+}
+
+private struct PaddingDetail: Encodable {
+    let type: String
+    let headerStartOffset: Int64
+    let headerEndOffset: Int64
+    let payloadStartOffset: Int64
+    let payloadEndOffset: Int64
+    let payloadLength: Int64
+    let totalSize: Int64
+
+    init(box: ParsedBoxPayload.PaddingBox) {
+        self.type = box.type.rawValue
         self.headerStartOffset = box.headerStartOffset
         self.headerEndOffset = box.headerEndOffset
         self.payloadStartOffset = box.payloadStartOffset

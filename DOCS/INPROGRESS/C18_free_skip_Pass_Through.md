@@ -8,7 +8,9 @@ Ensure the parsing pipeline recognizes `free` and `skip` boxes, treating them as
 
 - Phase C baseline backlog identifies `free/skip` handling as the remaining gap for core box coverage.
 - Master PRD requires baseline parsers to recognize padding boxes so streaming views and exports remain faithful to
+
   source structure.
+
 - Existing streaming pipeline (`BoxParserRegistry`, `ISOInspectorKit`) already supports pass-through nodes for other opaque boxes such as `mdat`.
 
 ## ✅ Success Criteria
@@ -22,9 +24,12 @@ Ensure the parsing pipeline recognizes `free` and `skip` boxes, treating them as
 
 - Extend `BoxParserRegistry` with entries for `free` and `skip`, reusing existing opaque-box utilities where possible (compare with `mdat`).
 - If no fixtures currently exercise padding boxes, author lightweight synthetic samples via existing fixture tooling for
+
   regression coverage.
+
 - Verify CLI JSON output includes nodes with type `free`/`skip`, size, and offsets while omitting payload fields.
 - Update UI preview/sample data only if necessary; ensure Combine-backed stores accept the new node types without
+
   additional work.
 
 ## 🧠 Source References
