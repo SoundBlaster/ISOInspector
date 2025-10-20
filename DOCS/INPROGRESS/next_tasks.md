@@ -8,10 +8,12 @@ point rate handling, and how edit list segment counts relate to `mvhd`/`tkhd` du
   `DOCS/TASK_ARCHIVE/120_C14a_Finalize_Edit_List_Scope/C14a_Finalize_Edit_List_Scope.md` to unblock parser, validation, and
   fixture follow-ups.
 
-- [ ] 🔴 **P0+** C14b. Implement `elst` entry parsing within `BoxParserRegistry`, capturing segment duration, media time, and rate
+- [x] 🔴 **P0+** C14b. Implement `elst` entry parsing within `BoxParserRegistry`, capturing segment duration, media time, and rate
 
     while normalizing rate to double precision for UI/export consumers. Ensure large edit lists stream without
-  over-allocation. **(In Progress — see `DOCS/INPROGRESS/C14b_Implement_elst_Parser.md`.)**
+  over-allocation. **(Completed — summary captured in `DOCS/INPROGRESS/Summary_of_Work.md`; parse pipeline now threads `mvhd`/`mdhd`
+
+  timescales into the edit list environment.)**
 
 - [ ] 🔴 **P0+** C14c. Wire edit list payloads into validation so reconciled presentation durations align with
 
