@@ -54,7 +54,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Follow-up:** Validation rule #15 remains open to correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and the new `stco/co64` offsets. The refreshed `DOCS/INPROGRESS/next_tasks.md` now tracks that effort alongside metadata decoding extensions queued after the C15 archive.
 >
-> **In Progress:** Task C17 – Implement the `mdat` parser to capture offsets and sizes while skipping large payloads. See `DOCS/INPROGRESS/C17_mdat_Box_Parser.md` for the active PRD outline.
+> **Completed:** Task C17 – `mdat` parser now records header offsets and payload length while skipping media bytes. Notes captured in `DOCS/INPROGRESS/Summary_of_Work.md` alongside parser and snapshot updates.
 >
 > **Completed:** Task C14b — Implemented the `elst` edit list parser in `BoxParserRegistry`, normalizing durations and media rates while streaming large lists. See `DOCS/TASK_ARCHIVE/121_C14b_Implement_elst_Parser/C14b_Implement_elst_Parser.md` for scope, implementation notes, and verification details.
 > **Completed:** Task C14d — Refreshed edit list fixtures, JSON exports, and snapshot baselines covering empty, single-offset, multi-segment, and rate-adjusted scenarios. Notes archived in `DOCS/TASK_ARCHIVE/123_C14d_Refresh_Edit_List_Fixtures/` alongside the consolidated summary in `DOCS/TASK_ARCHIVE/124_Summary_of_Work_2025-10-20/`.
