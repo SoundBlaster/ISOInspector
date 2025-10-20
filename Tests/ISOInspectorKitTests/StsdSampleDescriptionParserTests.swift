@@ -148,6 +148,165 @@ final class StsdSampleDescriptionParserTests: XCTestCase {
         XCTAssertEqual(fieldsByName["entries[0].codec.avc.picture_parameter_sets.count"]?.value, "1")
     }
 
+    func testParsesDolbyVisionConfiguration() throws {
+        let dolbyVision = makeDolbyVisionConfigurationBox(
+            versionMajor: 1,
+            versionMinor: 2,
+            profile: 4,
+            level: 8,
+            rpuPresent: true,
+            elPresent: false,
+            blPresent: true,
+            compatibilityID: 5
+        )
+        let entry = makeVisualSampleEntry(
+            format: "dvh1",
+            width: 3840,
+            height: 2160,
+            dataReferenceIndex: 1,
+            additionalBoxes: [dolbyVision]
+        )
+
+        let fieldsByName = try parseFields(entries: [entry])
+
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_vision.version_major"]?.value, "1")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_vision.version_minor"]?.value, "2")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_vision.profile"]?.value, "4")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_vision.level"]?.value, "8")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_vision.rpu_present"]?.value, "true")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_vision.el_present"]?.value, "false")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_vision.bl_present"]?.value, "true")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_vision.compatibility_id"]?.value, "5")
+    }
+
+    func testParsesAv1CodecConfiguration() throws {
+        let av1C = makeAv1ConfigurationBox(
+            version: 0,
+            sequenceProfile: 2,
+            sequenceLevelIndex: 10,
+            tierFlagHigh: true,
+            highBitDepth: true,
+            twelveBit: false,
+            monochrome: false,
+            chromaSubsamplingX: true,
+            chromaSubsamplingY: true,
+            chromaSamplePosition: 2,
+            initialPresentationDelayPresent: true,
+            initialPresentationDelayMinusOne: 7,
+            configObuBytes: Data([0x01, 0x02, 0x03])
+        )
+        let entry = makeVisualSampleEntry(
+            format: "av01",
+            width: 1920,
+            height: 1080,
+            dataReferenceIndex: 1,
+            additionalBoxes: [av1C]
+        )
+
+        let fieldsByName = try parseFields(entries: [entry])
+
+        XCTAssertEqual(fieldsByName["entries[0].codec.av1.version"]?.value, "0")
+        XCTAssertEqual(fieldsByName["entries[0].codec.av1.profile"]?.value, "2")
+        XCTAssertEqual(fieldsByName["entries[0].codec.av1.level"]?.value, "10")
+        XCTAssertEqual(fieldsByName["entries[0].codec.av1.tier"]?.value, "high")
+        XCTAssertEqual(fieldsByName["entries[0].codec.av1.bit_depth"]?.value, "10")
+        XCTAssertEqual(fieldsByName["entries[0].codec.av1.monochrome"]?.value, "false")
+        XCTAssertEqual(fieldsByName["entries[0].codec.av1.chroma_subsampling"]?.value, "4:2:0")
+        XCTAssertEqual(fieldsByName["entries[0].codec.av1.chroma_sample_position"]?.value, "colocated")
+        XCTAssertEqual(fieldsByName["entries[0].codec.av1.initial_presentation_delay_present"]?.value, "true")
+        XCTAssertEqual(fieldsByName["entries[0].codec.av1.initial_presentation_delay_minus_one"]?.value, "7")
+        XCTAssertEqual(fieldsByName["entries[0].codec.av1.config_obu_length"]?.value, "3")
+    }
+
+    func testParsesVp9CodecConfiguration() throws {
+        let vp9 = makeVp9ConfigurationBox(
+            profile: 2,
+            level: 31,
+            bitDepthCode: 1,
+            chromaSubsamplingCode: 1,
+            videoFullRange: true,
+            colourPrimaries: 9,
+            transferCharacteristics: 10,
+            matrixCoefficients: 11
+        )
+        let entry = makeVisualSampleEntry(
+            format: "vp09",
+            width: 1280,
+            height: 720,
+            dataReferenceIndex: 1,
+            additionalBoxes: [vp9]
+        )
+
+        let fieldsByName = try parseFields(entries: [entry])
+
+        XCTAssertEqual(fieldsByName["entries[0].codec.vp9.profile"]?.value, "2")
+        XCTAssertEqual(fieldsByName["entries[0].codec.vp9.level"]?.value, "31")
+        XCTAssertEqual(fieldsByName["entries[0].codec.vp9.bit_depth"]?.value, "10")
+        XCTAssertEqual(fieldsByName["entries[0].codec.vp9.chroma_subsampling"]?.value, "4:2:2")
+        XCTAssertEqual(fieldsByName["entries[0].codec.vp9.video_full_range"]?.value, "true")
+        XCTAssertEqual(fieldsByName["entries[0].codec.vp9.colour_primaries"]?.value, "9")
+        XCTAssertEqual(fieldsByName["entries[0].codec.vp9.transfer_characteristics"]?.value, "10")
+        XCTAssertEqual(fieldsByName["entries[0].codec.vp9.matrix_coefficients"]?.value, "11")
+    }
+
+    func testParsesDolbyAC4Descriptor() throws {
+        let dac4 = makeDolbyAC4ConfigurationBox(
+            dsiVersion: 1,
+            bitstreamVersion: 1,
+            sampleRateIndex: 1,
+            frameRateIndex: 4,
+            presentationCount: 0,
+            bitRateMode: 2,
+            bitRate: 1_000_000,
+            bitRatePrecision: 0
+        )
+        let entry = makeAudioSampleEntry(
+            format: "ac-4",
+            channelCount: 2,
+            sampleSize: 16,
+            sampleRate: 48_000,
+            dataReferenceIndex: 1,
+            additionalBoxes: [dac4]
+        )
+
+        let fieldsByName = try parseFields(entries: [entry])
+
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_ac4.dsi_version"]?.value, "1")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_ac4.bitstream_version"]?.value, "1")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_ac4.sample_rate_index"]?.value, "1")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_ac4.frame_rate_index"]?.value, "4")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_ac4.presentation_count"]?.value, "0")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_ac4.bit_rate_mode"]?.value, "2")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_ac4.bit_rate"]?.value, "1000000")
+        XCTAssertEqual(fieldsByName["entries[0].codec.dolby_ac4.bit_rate_precision"]?.value, "0")
+    }
+
+    func testParsesMpegHConfiguration() throws {
+        let mhaC = makeMpegHConfigurationBox(
+            configurationVersion: 1,
+            profileLevelIndication: 0x2A,
+            referenceChannelLayout: 0x1234,
+            compatibleSetIndication: 0x56,
+            generalProfileCompatibilitySet: 0x789ABCDE
+        )
+        let entry = makeAudioSampleEntry(
+            format: "mha1",
+            channelCount: 6,
+            sampleSize: 16,
+            sampleRate: 48_000,
+            dataReferenceIndex: 1,
+            additionalBoxes: [mhaC]
+        )
+
+        let fieldsByName = try parseFields(entries: [entry])
+
+        XCTAssertEqual(fieldsByName["entries[0].codec.mpeg_h.configuration_version"]?.value, "1")
+        XCTAssertEqual(fieldsByName["entries[0].codec.mpeg_h.profile_level_indication"]?.value, "42")
+        XCTAssertEqual(fieldsByName["entries[0].codec.mpeg_h.reference_channel_layout"]?.value, "4660")
+        XCTAssertEqual(fieldsByName["entries[0].codec.mpeg_h.compatible_set_indication"]?.value, "86")
+        XCTAssertEqual(fieldsByName["entries[0].codec.mpeg_h.general_profile_compatibility_set"]?.value, "2023406814")
+    }
+
     private func parseFields(entries: [Data]) throws -> [String: ParsedBoxPayload.Field] {
         let payload = makeStsdPayload(entries: entries)
         let totalSize = 8 + payload.count
@@ -219,6 +378,7 @@ final class StsdSampleDescriptionParserTests: XCTestCase {
     }
 
     private func makeAudioSampleEntry(
+        format: String = "mp4a",
         channelCount: UInt16,
         sampleSize: UInt16,
         sampleRate: UInt32,
@@ -227,7 +387,7 @@ final class StsdSampleDescriptionParserTests: XCTestCase {
     ) -> Data {
         var entry = Data()
         entry.append(contentsOf: [0x00, 0x00, 0x00, 0x00]) // size placeholder
-        entry.append(contentsOf: Data("mp4a".utf8))
+        entry.append(contentsOf: Data(format.utf8))
         entry.append(Data(repeating: 0, count: 6))
         entry.append(contentsOf: dataReferenceIndex.bigEndianBytes)
         entry.append(contentsOf: UInt32(0).bigEndianBytes)
@@ -245,6 +405,175 @@ final class StsdSampleDescriptionParserTests: XCTestCase {
         let size = UInt32(entry.count)
         entry.replaceSubrange(0..<4, with: size.bigEndianBytes)
         return entry
+    }
+
+    private func makeDolbyVisionConfigurationBox(
+        versionMajor: UInt8,
+        versionMinor: UInt8,
+        profile: UInt8,
+        level: UInt8,
+        rpuPresent: Bool,
+        elPresent: Bool,
+        blPresent: Bool,
+        compatibilityID: UInt8
+    ) -> Data {
+        let flagsByte: UInt8 =
+            (rpuPresent ? 0x80 : 0x00) |
+            (elPresent ? 0x40 : 0x00) |
+            (blPresent ? 0x20 : 0x00) |
+            (compatibilityID & 0x0F)
+        let payload: [UInt8] = [
+            versionMajor,
+            versionMinor,
+            profile,
+            level,
+            flagsByte
+        ]
+        return makeBox(type: "dvvC", payload: Data(payload))
+    }
+
+    private func makeAv1ConfigurationBox(
+        version: UInt8,
+        sequenceProfile: UInt8,
+        sequenceLevelIndex: UInt8,
+        tierFlagHigh: Bool,
+        highBitDepth: Bool,
+        twelveBit: Bool,
+        monochrome: Bool,
+        chromaSubsamplingX: Bool,
+        chromaSubsamplingY: Bool,
+        chromaSamplePosition: UInt8,
+        initialPresentationDelayPresent: Bool,
+        initialPresentationDelayMinusOne: UInt8,
+        configObuBytes: Data
+    ) -> Data {
+        precondition(chromaSamplePosition < 4)
+        precondition(initialPresentationDelayMinusOne < 16)
+
+        let byte0: UInt8 = 0x80 | (version & 0x7F)
+        let byte1: UInt8 = ((sequenceProfile & 0x07) << 5) | (sequenceLevelIndex & 0x1F)
+        let byte2: UInt8 =
+            (tierFlagHigh ? 0x80 : 0x00) |
+            (highBitDepth ? 0x40 : 0x00) |
+            (twelveBit ? 0x20 : 0x00) |
+            (monochrome ? 0x10 : 0x00) |
+            (chromaSubsamplingX ? 0x08 : 0x00) |
+            (chromaSubsamplingY ? 0x04 : 0x00) |
+            ((chromaSamplePosition & 0x03) << 0)
+        let byte3: UInt8 =
+            (initialPresentationDelayPresent ? 0x10 : 0x00) |
+            (initialPresentationDelayMinusOne & 0x0F)
+
+        var payload = Data([byte0, byte1, byte2, byte3])
+        payload.append(configObuBytes)
+        return makeBox(type: "av1C", payload: payload)
+    }
+
+    private func makeVp9ConfigurationBox(
+        profile: UInt8,
+        level: UInt8,
+        bitDepthCode: UInt8,
+        chromaSubsamplingCode: UInt8,
+        videoFullRange: Bool,
+        colourPrimaries: UInt8,
+        transferCharacteristics: UInt8,
+        matrixCoefficients: UInt8
+    ) -> Data {
+        let version: UInt8 = 1
+        let flags: [UInt8] = [0x00, 0x00, 0x00]
+        let colourRange: UInt8 =
+            ((bitDepthCode & 0x0F) << 4) |
+            ((chromaSubsamplingCode & 0x07) << 1) |
+            (videoFullRange ? 0x01 : 0x00)
+
+        var payload = Data([version])
+        payload.append(contentsOf: flags)
+        payload.append(profile)
+        payload.append(level)
+        payload.append(colourRange)
+        payload.append(colourPrimaries)
+        payload.append(transferCharacteristics)
+        payload.append(matrixCoefficients)
+        payload.append(contentsOf: UInt16(0).bigEndianBytes) // codecInitBytes length
+        return makeBox(type: "vpcC", payload: payload)
+    }
+
+    private func makeDolbyAC4ConfigurationBox(
+        dsiVersion: UInt8,
+        bitstreamVersion: UInt8,
+        sampleRateIndex: UInt8,
+        frameRateIndex: UInt8,
+        presentationCount: UInt16,
+        bitRateMode: UInt8,
+        bitRate: UInt32,
+        bitRatePrecision: UInt32
+    ) -> Data {
+        var writer = BitWriter()
+        writer.write(value: Int(dsiVersion), bitCount: 3)
+        writer.write(value: Int(bitstreamVersion), bitCount: 7)
+        writer.write(value: Int(sampleRateIndex), bitCount: 1)
+        writer.write(value: Int(frameRateIndex), bitCount: 4)
+        writer.write(value: Int(presentationCount), bitCount: 9)
+        writer.write(value: Int(bitRateMode), bitCount: 2)
+        writer.write(value: Int(bitRate), bitCount: 32)
+        writer.write(value: Int(bitRatePrecision), bitCount: 32)
+        writer.byteAlign()
+        return makeBox(type: "dac4", payload: writer.data)
+    }
+
+    private func makeMpegHConfigurationBox(
+        configurationVersion: UInt8,
+        profileLevelIndication: UInt8,
+        referenceChannelLayout: UInt16,
+        compatibleSetIndication: UInt8,
+        generalProfileCompatibilitySet: UInt32
+    ) -> Data {
+        var payload = Data()
+        payload.append(configurationVersion)
+        payload.append(profileLevelIndication)
+        payload.append(contentsOf: referenceChannelLayout.bigEndianBytes)
+        payload.append(compatibleSetIndication)
+        payload.append(contentsOf: generalProfileCompatibilitySet.bigEndianBytes)
+        return makeBox(type: "mhaC", payload: payload)
+    }
+
+    private struct BitWriter {
+        private var buffer: [UInt8] = []
+        private var currentByte: UInt8 = 0
+        private var bitIndex: Int = 0
+
+        mutating func write(value: Int, bitCount: Int) {
+            guard bitCount > 0 else { return }
+            for index in stride(from: bitCount - 1, through: 0, by: -1) {
+                let bit = (value >> index) & 1
+                currentByte <<= 1
+                currentByte |= UInt8(bit)
+                bitIndex += 1
+                if bitIndex == 8 {
+                    buffer.append(currentByte)
+                    currentByte = 0
+                    bitIndex = 0
+                }
+            }
+        }
+
+        mutating func byteAlign() {
+            if bitIndex == 0 { return }
+            currentByte <<= UInt8(8 - bitIndex)
+            buffer.append(currentByte)
+            currentByte = 0
+            bitIndex = 0
+        }
+
+        var data: Data {
+            var result = Data(buffer)
+            if bitIndex > 0 {
+                var aligned = self
+                aligned.byteAlign()
+                result = Data(aligned.buffer)
+            }
+            return result
+        }
     }
 
     private func makeAvcConfigurationBox(

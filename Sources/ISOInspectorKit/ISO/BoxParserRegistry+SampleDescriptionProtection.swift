@@ -36,6 +36,50 @@ extension BoxParserRegistry.DefaultParsers {
             ))
         }
 
+        if let dolbyVisionBox = boxes.first(where: { $0.type.rawValue == "dvvC" }) {
+            fields.append(contentsOf: parseDolbyVisionConfiguration(
+                reader: reader,
+                box: dolbyVisionBox,
+                entryIndex: entryIndex
+            ))
+        }
+
+        if format.rawValue == "av01",
+           let av1Box = boxes.first(where: { $0.type.rawValue == "av1C" }) {
+            fields.append(contentsOf: parseAv1Configuration(
+                reader: reader,
+                box: av1Box,
+                entryIndex: entryIndex
+            ))
+        }
+
+        if ["vp09", "vp08"].contains(format.rawValue),
+            let vp9Box = boxes.first(where: { $0.type.rawValue == "vpcC" }) {
+            fields.append(contentsOf: parseVp9Configuration(
+                reader: reader,
+                box: vp9Box,
+                entryIndex: entryIndex
+            ))
+        }
+
+        if format.rawValue == "ac-4",
+           let ac4Box = boxes.first(where: { $0.type.rawValue == "dac4" }) {
+            fields.append(contentsOf: parseDolbyAC4Configuration(
+                reader: reader,
+                box: ac4Box,
+                entryIndex: entryIndex
+            ))
+        }
+
+        if ["mha1", "mhm1"].contains(format.rawValue),
+            let mpegHBox = boxes.first(where: { $0.type.rawValue == "mhaC" }) {
+            fields.append(contentsOf: parseMpegHConfiguration(
+                reader: reader,
+                box: mpegHBox,
+                entryIndex: entryIndex
+            ))
+        }
+
         return fields
     }
 
