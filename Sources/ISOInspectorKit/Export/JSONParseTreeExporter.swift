@@ -145,6 +145,7 @@ private struct StructuredPayload: Encodable {
     let padding: PaddingDetail?
     let movieHeader: MovieHeaderDetail?
     let trackHeader: TrackHeaderDetail?
+    let trackExtends: TrackExtendsDetail?
     let soundMediaHeader: SoundMediaHeaderDetail?
     let videoMediaHeader: VideoMediaHeaderDetail?
     let editList: EditListDetail?
@@ -166,6 +167,7 @@ private struct StructuredPayload: Encodable {
             self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
+            self.trackExtends = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
             self.editList = nil
@@ -184,6 +186,7 @@ private struct StructuredPayload: Encodable {
             self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
+            self.trackExtends = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
             self.editList = nil
@@ -202,6 +205,7 @@ private struct StructuredPayload: Encodable {
             self.padding = PaddingDetail(box: box)
             self.movieHeader = nil
             self.trackHeader = nil
+            self.trackExtends = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
             self.editList = nil
@@ -220,6 +224,7 @@ private struct StructuredPayload: Encodable {
             self.padding = nil
             self.movieHeader = MovieHeaderDetail(box: box)
             self.trackHeader = nil
+            self.trackExtends = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
             self.editList = nil
@@ -238,6 +243,26 @@ private struct StructuredPayload: Encodable {
             self.padding = nil
             self.movieHeader = nil
             self.trackHeader = TrackHeaderDetail(box: box)
+            self.trackExtends = nil
+            self.soundMediaHeader = nil
+            self.videoMediaHeader = nil
+            self.editList = nil
+            self.sampleToChunk = nil
+            self.chunkOffset = nil
+            self.sampleSize = nil
+            self.compactSampleSize = nil
+            self.syncSampleTable = nil
+            self.dataReference = nil
+            self.metadata = nil
+            self.metadataKeys = nil
+            self.metadataItems = nil
+        case let .trackExtends(box):
+            self.fileType = nil
+            self.mediaData = nil
+            self.padding = nil
+            self.movieHeader = nil
+            self.trackHeader = nil
+            self.trackExtends = TrackExtendsDetail(box: box)
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
             self.editList = nil
@@ -256,6 +281,7 @@ private struct StructuredPayload: Encodable {
             self.padding = nil
             self.movieHeader = nil
             self.trackHeader = nil
+            self.trackExtends = nil
             self.soundMediaHeader = SoundMediaHeaderDetail(box: box)
             self.videoMediaHeader = nil
             self.editList = nil
@@ -275,6 +301,7 @@ private struct StructuredPayload: Encodable {
             self.movieHeader = nil
             self.trackHeader = nil
             self.soundMediaHeader = nil
+            self.trackExtends = nil
             self.videoMediaHeader = VideoMediaHeaderDetail(box: box)
             self.editList = nil
             self.sampleToChunk = nil
@@ -294,6 +321,7 @@ private struct StructuredPayload: Encodable {
             self.trackHeader = nil
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
+            self.trackExtends = nil
             self.editList = EditListDetail(box: box)
             self.sampleToChunk = nil
             self.chunkOffset = nil
@@ -313,6 +341,7 @@ private struct StructuredPayload: Encodable {
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
             self.editList = nil
+            self.trackExtends = nil
             self.sampleToChunk = SampleToChunkDetail(box: box)
             self.chunkOffset = nil
             self.sampleSize = nil
@@ -331,6 +360,7 @@ private struct StructuredPayload: Encodable {
             self.soundMediaHeader = nil
             self.videoMediaHeader = nil
             self.editList = nil
+            self.trackExtends = nil
             self.sampleToChunk = nil
             self.chunkOffset = ChunkOffsetDetail(box: box)
             self.sampleSize = nil
@@ -351,6 +381,7 @@ private struct StructuredPayload: Encodable {
             self.editList = nil
             self.sampleToChunk = nil
             self.chunkOffset = nil
+            self.trackExtends = nil
             self.sampleSize = SampleSizeDetail(box: box)
             self.compactSampleSize = nil
             self.syncSampleTable = nil
@@ -370,6 +401,7 @@ private struct StructuredPayload: Encodable {
             self.sampleToChunk = nil
             self.chunkOffset = nil
             self.sampleSize = nil
+            self.trackExtends = nil
             self.compactSampleSize = CompactSampleSizeDetail(box: box)
             self.syncSampleTable = nil
             self.dataReference = nil
@@ -389,6 +421,7 @@ private struct StructuredPayload: Encodable {
             self.chunkOffset = nil
             self.sampleSize = nil
             self.compactSampleSize = nil
+            self.trackExtends = nil
             self.syncSampleTable = SyncSampleTableDetail(box: box)
             self.dataReference = nil
             self.metadata = nil
@@ -408,6 +441,7 @@ private struct StructuredPayload: Encodable {
             self.sampleSize = nil
             self.compactSampleSize = nil
             self.syncSampleTable = nil
+            self.trackExtends = nil
             self.dataReference = DataReferenceDetail(box: box)
             self.metadata = nil
             self.metadataKeys = nil
@@ -427,6 +461,7 @@ private struct StructuredPayload: Encodable {
             self.compactSampleSize = nil
             self.syncSampleTable = nil
             self.dataReference = nil
+            self.trackExtends = nil
             self.metadata = MetadataDetail(box: box)
             self.metadataKeys = nil
             self.metadataItems = nil
@@ -446,6 +481,7 @@ private struct StructuredPayload: Encodable {
             self.syncSampleTable = nil
             self.dataReference = nil
             self.metadata = nil
+            self.trackExtends = nil
             self.metadataKeys = MetadataKeyTableDetail(box: box)
             self.metadataItems = nil
         case let .metadataItemList(box):
@@ -465,6 +501,7 @@ private struct StructuredPayload: Encodable {
             self.dataReference = nil
             self.metadata = nil
             self.metadataKeys = nil
+            self.trackExtends = nil
             self.metadataItems = MetadataItemListDetail(box: box)
         }
     }
@@ -475,6 +512,7 @@ private struct StructuredPayload: Encodable {
         case padding = "padding"
         case movieHeader = "movie_header"
         case trackHeader = "track_header"
+        case trackExtends = "track_extends"
         case soundMediaHeader = "sound_media_header"
         case videoMediaHeader = "video_media_header"
         case editList = "edit_list"
@@ -1322,5 +1360,35 @@ private struct TrackHeaderDetail: Encodable {
         case isInPreview = "is_in_preview"
         case isZeroSized = "is_zero_sized"
         case isZeroDuration = "is_zero_duration"
+    }
+}
+
+private struct TrackExtendsDetail: Encodable {
+    let version: UInt8
+    let flags: UInt32
+    let trackID: UInt32
+    let defaultSampleDescriptionIndex: UInt32
+    let defaultSampleDuration: UInt32
+    let defaultSampleSize: UInt32
+    let defaultSampleFlags: UInt32
+
+    init(box: ParsedBoxPayload.TrackExtendsDefaultsBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.trackID = box.trackID
+        self.defaultSampleDescriptionIndex = box.defaultSampleDescriptionIndex
+        self.defaultSampleDuration = box.defaultSampleDuration
+        self.defaultSampleSize = box.defaultSampleSize
+        self.defaultSampleFlags = box.defaultSampleFlags
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case trackID = "track_ID"
+        case defaultSampleDescriptionIndex = "default_sample_description_index"
+        case defaultSampleDuration = "default_sample_duration"
+        case defaultSampleSize = "default_sample_size"
+        case defaultSampleFlags = "default_sample_flags"
     }
 }

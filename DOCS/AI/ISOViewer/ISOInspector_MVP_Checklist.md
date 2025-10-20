@@ -53,7 +53,7 @@
 - [x] C5. Stubs: `mdat`, `free/skip` (opaque markers). **(Completed — `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/Summary_of_Work.md` captures the finalized pass-through handling.)**
 
 ## Phase D — Fragmentation & Indexes
-- [ ] D1. Stubs: `mvex/trex` _(In Progress — see `DOCS/INPROGRESS/D1_mvex_trex_Defaults.md`.)_
+- [x] D1. Stubs: `mvex/trex` _(Completed — see `DOCS/TASK_ARCHIVE/D1_mvex_trex_Defaults/Summary_of_Work.md`.)_
 - [ ] D2. Stubs: `moof/mfhd`
 - [ ] D3. Stubs: `traf/tfhd/tfdt/trun` (flags map only)
 - [x] D4. Stubs: `sidx`. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
