@@ -54,6 +54,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Follow-up:** Validation rule #15 remains open to correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and the new `stco/co64` offsets. The refreshed `DOCS/INPROGRESS/next_tasks.md` now tracks that effort alongside metadata decoding extensions queued after the C15 archive.
 >
+> **In Progress:** Expand metadata value decoding for additional data types so metadata exports stay aligned with MP4RA guidance. See `DOCS/INPROGRESS/C15_Metadata_Value_Decoding_Expansion.md` for the active task outline and dependency notes.
+>
 > **Completed:** Task C17 – `mdat` parser now records header offsets and payload length while skipping media bytes. Notes captured in `DOCS/TASK_ARCHIVE/126_C17_mdat_Box_Parser/Summary_of_Work.md` alongside parser and snapshot updates.
 >
 > **Completed:** Task C14b — Implemented the `elst` edit list parser in `BoxParserRegistry`, normalizing durations and media rates while streaming large lists. See `DOCS/TASK_ARCHIVE/121_C14b_Implement_elst_Parser/C14b_Implement_elst_Parser.md` for scope, implementation notes, and verification details.
