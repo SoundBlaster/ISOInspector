@@ -27,6 +27,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | B5 | Implement validation rules VR-001 to VR-006 with test coverage. | High | 2 | B3 | XCTest | Malformed fixtures trigger expected validation outcomes. (Completed ✅ — VR-006 research logging now persists unknown boxes to a shared research log for CLI/UI analysis.) |
 | B6 | Add JSON and binary export modules with regression tests. | Medium | 1.5 | B3 | Swift Codable | Exported files re-import successfully; CLI smoke tests pass. |
 
+> **In Progress (2025-10-25):** Backlog item **B6 — Box Parser Registry** is being executed to finalize parser registration infrastructure ahead of remaining Phase C+ decoding work. Track details in `DOCS/INPROGRESS/B6_BoxParserRegistry.md`.
+
 > **Completed (2025-10-18):** Task B5 – Introduce a `FullBoxReader` helper for `(version, flags)` decoding so downstream parsers share a common entry point. Implementation details recorded in `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/B5_FullBoxReader.md` and `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/Summary_of_Work.md`.
 >
 > **Completed (2025-10-19):** Task C6 — Implement the `stsd` sample description parser to enumerate media sample entries. See `DOCS/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/` for the archived PRD outline, summary, and verification notes.
