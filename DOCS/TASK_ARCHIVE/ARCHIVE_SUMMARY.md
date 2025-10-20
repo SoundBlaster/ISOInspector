@@ -618,3 +618,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/116_Summary_of_Work_Parser_Focus/`.
 - **Highlights:** Aggregates parser progress notes through the C11 `stss` sync sample milestone, including cross-references to refreshed JSON exports and streaming validation coverage.
 - **Next steps carried forward:** Prioritize remaining Phase C parser backlog (C12–C15) and VR-015 validation coherence checks to unblock end-to-end random access reporting.
+
+## 117_C12_dinf_dref_Data_Reference_Parser
+- **Archived files:** `C12_dinf_dref_Data_Reference_Parser.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/`.
+- **Highlights:** Captures completion of the `dinf/dref` data reference parser with dedicated registry wiring, refreshed JSON export snapshots, and Swift tests exercising URL/URN payload coverage, all summarized for downstream random-access validation work.
+- **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` prioritizes the remaining Phase C parser backlog (C13–C15) and Validation Rule #15 coherence checks so media metadata stays aligned with chunk correlation logic.

@@ -50,7 +50,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed:** Task C10 — Built the `stco/co64` chunk offset parser so chunk tables now surface normalized offsets for both 32-bit and 64-bit entries. Implementation details, verification notes, and updated fixtures are archived in `DOCS/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/`.
 >
-> **In Progress:** Task C12 — Drafting parser plan for `dinf/dref` data references to expose entry metadata and integrate with the random-access validation stack. See `DOCS/INPROGRESS/C12_dinf_dref_Data_Reference_Parser.md` for the active PRD outline.
+> **Completed:** Task C12 — Delivered the `dinf/dref` data reference parser so entry metadata flows into the random-access validation stack alongside refreshed tests and JSON exports. See `DOCS/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/C12_dinf_dref_Data_Reference_Parser.md` for implementation notes.
 >
 > **Follow-up:** Validation rule #15 remains open to correlate `stsc` chunk runs, `stsz/stz2` sample sizes, and the new `stco/co64` offsets. See the recreated `DOCS/INPROGRESS/next_tasks.md` checklist for the outstanding integration work and macOS-dependent validations.
 >
