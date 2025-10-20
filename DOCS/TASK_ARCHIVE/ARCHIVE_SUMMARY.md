@@ -624,3 +624,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/`.
 - **Highlights:** Captures completion of the `dinf/dref` data reference parser with dedicated registry wiring, refreshed JSON export snapshots, and Swift tests exercising URL/URN payload coverage, all summarized for downstream random-access validation work.
 - **Next steps carried forward:** The recreated `DOCS/INPROGRESS/next_tasks.md` prioritizes the remaining Phase C parser backlog (C13–C15) and Validation Rule #15 coherence checks so media metadata stays aligned with chunk correlation logic.
+
+## 118_C13_Surface_smhd_vmhd_Media_Header_Fields
+- **Archived files:** `C13_Surface_smhd_vmhd_Media_Header_Fields.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/118_C13_Surface_smhd_vmhd_Media_Header_Fields/`.
+- **Highlights:** Documents the delivery of dedicated `smhd` and `vmhd` media header parsers, JSON export updates, and validation coverage ensuring balance, graphics mode, and opcolor metadata flows through the registry and downstream consumers.
+- **Next steps carried forward:** The new `DOCS/INPROGRESS/next_tasks.md` breaks down Phase C Task C14 (`edts/elst` edit lists) into actionable subtasks while keeping C15 metadata boxes and Validation Rule #15 queued for follow-up.
