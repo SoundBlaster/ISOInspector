@@ -13,22 +13,34 @@ Extend the metadata value decoding coverage so that `udta/meta/ilst` entries for
 ## ✅ Success Criteria
 
 - MP4RA metadata value types called out in the backlog (e.g., GIF/TIFF image payloads, signed fixed-point formats, any
+
   additional binary encodings) are decoded into readable structures for both CLI and app consumers.
+
 - Automated tests cover each newly supported value type using fixtures or synthetic payloads while preserving existing
+
   coverage for previously handled types.
+
 - JSON export snapshots and app detail panes display meaningful representations for the new value types without
+
   regressions in existing metadata output.
+
 - Documentation and inline code comments reference the MP4RA specification identifiers for each added type to simplify
+
   future maintenance.
 
 ## 🔧 Implementation Notes
 
 - Coordinate with fixture preparation owners to land representative samples; until then, create minimal synthetic
+
   payloads to drive parser behavior where feasible.
+
 - Extend the metadata decoder registry in `BoxParserRegistry+Metadata.swift` and related value adapters, ensuring the Combine/UI pipelines continue to emit normalized metadata models.
 - Reuse the validation hooks established during Task C15 to confirm that unrecognized value types still fall back to
+
   binary representations with research log entries.
+
 - Update CLI and SwiftUI regression baselines after expanding decoding coverage, following the snapshot refresh workflow
+
   recorded in the Task C15 archives.
 
 ## 🧠 Source References

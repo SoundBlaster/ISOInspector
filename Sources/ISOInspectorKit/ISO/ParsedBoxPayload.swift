@@ -606,6 +606,8 @@ public struct ParsedBoxPayload: Equatable, Sendable {
                     case jpeg
                     case png
                     case bmp
+                    case gif
+                    case tiff
 
                     var displayName: String {
                         switch self {
@@ -615,6 +617,10 @@ public struct ParsedBoxPayload: Equatable, Sendable {
                             return "PNG Data"
                         case .bmp:
                             return "BMP Data"
+                        case .gif:
+                            return "GIF Data"
+                        case .tiff:
+                            return "TIFF Data"
                         }
                     }
 
@@ -626,7 +632,28 @@ public struct ParsedBoxPayload: Equatable, Sendable {
                             return "PNG data"
                         case .bmp:
                             return "BMP data"
+                        case .gif:
+                            return "GIF data"
+                        case .tiff:
+                            return "TIFF data"
                         }
+                    }
+                }
+
+                public struct SignedFixedPoint: Equatable, Sendable {
+                    public enum Format: String, Equatable, Sendable {
+                        case s8_8 = "S8.8"
+                        case s16_16 = "S16.16"
+                    }
+
+                    public let value: Double
+                    public let rawValue: Int32
+                    public let format: Format
+
+                    public init(value: Double, rawValue: Int32, format: Format) {
+                        self.value = value
+                        self.rawValue = rawValue
+                        self.format = format
                     }
                 }
 
@@ -640,6 +667,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
                     case float64(Double)
                     case data(format: DataFormat, data: Data)
                     case bytes(Data)
+                    case signedFixedPoint(SignedFixedPoint)
                 }
 
                 public let kind: Kind

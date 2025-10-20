@@ -985,11 +985,49 @@ final class BoxParserRegistryTests: XCTestCase {
             ]
         )
 
+        let gifData = Data([0x47, 0x49, 0x46, 0x38, 0x39, 0x61, 0x00, 0x00, 0x00, 0x00])
+        let gifEntry = makeMetadataItemEntry(
+            identifierBytes: [0xA9, 0x67, 0x69, 0x66],
+            dataBoxes: [
+                makeMetadataDataBox(type: 12, locale: 0, data: gifData)
+            ]
+        )
+
+        let tiffData = Data([0x49, 0x49, 0x2A, 0x00, 0x08, 0x00, 0x00, 0x00])
+        let tiffEntry = makeMetadataItemEntry(
+            identifierBytes: [0xA9, 0x74, 0x69, 0x66],
+            dataBoxes: [
+                makeMetadataDataBox(type: 16, locale: 0, data: tiffData)
+            ]
+        )
+
+        let fixedPointRaw = Int32(0x0001_8000)
+        let fixedPointData = Data(fixedPointRaw.bigEndianBytes)
+        let fixedPointEntry = makeMetadataItemEntry(
+            identifierBytes: [0xA9, 0x73, 0x66, 0x70],
+            dataBoxes: [
+                makeMetadataDataBox(type: 66, locale: 0, data: fixedPointData)
+            ]
+        )
+
+        let fixedPoint88Raw = Int16(0x0080)
+        let fixedPoint88Data = Data(fixedPoint88Raw.bigEndianBytes)
+        let fixedPoint88Entry = makeMetadataItemEntry(
+            identifierBytes: [0xA9, 0x73, 0x38, 0x38],
+            dataBoxes: [
+                makeMetadataDataBox(type: 65, locale: 0, data: fixedPoint88Data)
+            ]
+        )
+
         var payload = Data()
         payload.append(booleanEntry)
         payload.append(float32Entry)
         payload.append(float64Entry)
         payload.append(jpegEntry)
+        payload.append(gifEntry)
+        payload.append(tiffEntry)
+        payload.append(fixedPointEntry)
+        payload.append(fixedPoint88Entry)
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
@@ -1007,7 +1045,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
 
-        XCTAssertEqual(value(named: "entry_count", in: parsed), "4")
+        XCTAssertEqual(value(named: "entry_count", in: parsed), "8")
         XCTAssertEqual(value(named: "entries[0].values[0].value", in: parsed), "true")
         XCTAssertEqual(value(named: "entries[0].values[0].type", in: parsed), "Boolean")
         XCTAssertEqual(value(named: "entries[1].values[0].value", in: parsed), "42.5")
@@ -1016,13 +1054,40 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(value(named: "entries[2].values[0].type", in: parsed), "Float64")
         XCTAssertEqual(value(named: "entries[3].values[0].value", in: parsed), "JPEG data (4 bytes)")
         XCTAssertEqual(value(named: "entries[3].values[0].type", in: parsed), "JPEG Data")
+        XCTAssertEqual(value(named: "entries[4].values[0].value", in: parsed), "GIF data (10 bytes)")
+        XCTAssertEqual(value(named: "entries[4].values[0].type", in: parsed), "GIF Data")
+        XCTAssertEqual(value(named: "entries[5].values[0].value", in: parsed), "TIFF data (8 bytes)")
+        XCTAssertEqual(value(named: "entries[5].values[0].type", in: parsed), "TIFF Data")
+        XCTAssertEqual(value(named: "entries[6].values[0].value", in: parsed), "1.5")
+        XCTAssertEqual(value(named: "entries[6].values[0].type", in: parsed), "Signed Fixed 16.16")
+        XCTAssertEqual(value(named: "entries[7].values[0].value", in: parsed), "0.5")
+        XCTAssertEqual(value(named: "entries[7].values[0].type", in: parsed), "Signed Fixed 8.8")
 
         let detail = try XCTUnwrap(parsed.metadataItemList)
-        XCTAssertEqual(detail.entries.count, 4)
+        XCTAssertEqual(detail.entries.count, 8)
         XCTAssertEqual(detail.entries[0].values.first?.kind, .boolean(true))
         XCTAssertEqual(detail.entries[1].values.first?.kind, .float32(float32Value))
         XCTAssertEqual(detail.entries[2].values.first?.kind, .float64(float64Value))
         XCTAssertEqual(detail.entries[3].values.first?.kind, .data(format: .jpeg, data: jpegData))
+        XCTAssertEqual(detail.entries[4].values.first?.kind, .data(format: .gif, data: gifData))
+        XCTAssertEqual(detail.entries[5].values.first?.kind, .data(format: .tiff, data: tiffData))
+        let fixedPointKind = try XCTUnwrap(detail.entries[6].values.first?.kind)
+        guard case let .signedFixedPoint(point) = fixedPointKind else {
+            XCTFail("Expected signed fixed-point value")
+            return
+        }
+        XCTAssertEqual(point.format, .s16_16)
+        XCTAssertEqual(point.rawValue, fixedPointRaw)
+        XCTAssertEqual(point.value, 1.5)
+
+        let fixedPoint88Kind = try XCTUnwrap(detail.entries[7].values.first?.kind)
+        guard case let .signedFixedPoint(point88) = fixedPoint88Kind else {
+            XCTFail("Expected signed fixed-point 8.8 value")
+            return
+        }
+        XCTAssertEqual(point88.format, .s8_8)
+        XCTAssertEqual(point88.rawValue, Int32(fixedPoint88Raw))
+        XCTAssertEqual(point88.value, 0.5)
     }
 
     private func makeMetadataItemEntry(identifierBytes: [UInt8], dataBoxes: [Data]) -> Data {

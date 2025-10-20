@@ -415,17 +415,42 @@ private extension BoxParserRegistry.DefaultParsers {
                     typeDescription: "Boolean"
                 )
             }
+        case 12:
+            if isGIFData(data) {
+                return describeDataValue(format: .gif, data: data)
+            }
         case 13:
             return describeDataValue(format: .jpeg, data: data)
         case 14:
             return describeDataValue(format: .png, data: data)
         case 15:
             return describeDataValue(format: .bmp, data: data)
+        case 16:
+            if isTIFFData(data) {
+                return describeDataValue(format: .tiff, data: data)
+            }
+        case 65:
+            if let fixed = parseSignedFixedPoint8_8(from: data) {
+                return MetadataValueDescription(
+                    kind: .signedFixedPoint(fixed),
+                    display: formatFixedPoint(fixed),
+                    typeDescription: "Signed Fixed 8.8"
+                )
+            }
+        case 66:
+            if let fixed = parseSignedFixedPoint16_16(from: data) {
+                return MetadataValueDescription(
+                    kind: .signedFixedPoint(fixed),
+                    display: formatFixedPoint(fixed),
+                    typeDescription: "Signed Fixed 16.16"
+                )
+            }
         default:
-            // @todo PDD:30m Surface additional MP4RA metadata data types (e.g., GIF, TIFF, signed fixed-point)
-            //        when fixtures land so CLI/app exports stay human-readable. Track scope in
-            //        DOCS/INPROGRESS/next_tasks.md.
             break
+        }
+
+        if let inferred = inferImageFormat(from: data) {
+            return describeDataValue(format: inferred, data: data)
         }
 
         let hex = bytesToHex(data)
@@ -511,5 +536,79 @@ private extension BoxParserRegistry.DefaultParsers {
             display: display,
             typeDescription: format.displayName
         )
+    }
+
+    private static func inferImageFormat(
+        from data: Data
+    ) -> ParsedBoxPayload.MetadataItemListBox.Entry.Value.DataFormat? {
+        if isGIFData(data) {
+            return .gif
+        }
+        if isJPEGData(data) {
+            return .jpeg
+        }
+        if isPNGData(data) {
+            return .png
+        }
+        if isBMPData(data) {
+            return .bmp
+        }
+        if isTIFFData(data) {
+            return .tiff
+        }
+        return nil
+    }
+
+    private static func isGIFData(_ data: Data) -> Bool {
+        guard data.count >= 6 else { return false }
+        let signature = data.prefix(6)
+        return signature == Data([0x47, 0x49, 0x46, 0x38, 0x37, 0x61]) ||
+            signature == Data([0x47, 0x49, 0x46, 0x38, 0x39, 0x61])
+    }
+
+    private static func isJPEGData(_ data: Data) -> Bool {
+        data.count >= 2 && data[data.startIndex] == 0xFF && data[data.startIndex + 1] == 0xD8
+    }
+
+    private static func isPNGData(_ data: Data) -> Bool {
+        data.starts(with: Data([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]))
+    }
+
+    private static func isBMPData(_ data: Data) -> Bool {
+        data.starts(with: Data([0x42, 0x4D]))
+    }
+
+    private static func isTIFFData(_ data: Data) -> Bool {
+        guard data.count >= 4 else { return false }
+        let prefix = data.prefix(4)
+        return prefix == Data([0x49, 0x49, 0x2A, 0x00]) || prefix == Data([0x4D, 0x4D, 0x00, 0x2A])
+    }
+
+    private static func parseSignedFixedPoint8_8(from data: Data) -> ParsedBoxPayload.MetadataItemListBox.Entry.Value.SignedFixedPoint? {
+        guard data.count == 2, let rawWide = parseSignedInteger(from: data) else { return nil }
+        let raw = Int32(truncatingIfNeeded: rawWide)
+        let value = Double(raw) / 256.0
+        return ParsedBoxPayload.MetadataItemListBox.Entry.Value.SignedFixedPoint(
+            value: value,
+            rawValue: Int32(raw),
+            format: .s8_8
+        )
+    }
+
+    private static func parseSignedFixedPoint16_16(from data: Data) -> ParsedBoxPayload.MetadataItemListBox.Entry.Value.SignedFixedPoint? {
+        guard data.count == 4, let rawWide = parseSignedInteger(from: data) else { return nil }
+        let raw = Int32(truncatingIfNeeded: rawWide)
+        let value = Double(raw) / 65536.0
+        return ParsedBoxPayload.MetadataItemListBox.Entry.Value.SignedFixedPoint(
+            value: value,
+            rawValue: raw,
+            format: .s16_16
+        )
+    }
+
+    private static func formatFixedPoint(
+        _ point: ParsedBoxPayload.MetadataItemListBox.Entry.Value.SignedFixedPoint
+    ) -> String {
+        formatFloatingPoint(point.value)
     }
 }
