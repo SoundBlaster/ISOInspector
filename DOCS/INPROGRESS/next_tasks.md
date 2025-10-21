@@ -1,5 +1,5 @@
 # Next Tasks
 
-- **In Progress:** D3 — `traf/tfhd/tfdt/trun` parsing and validation to establish sample table scaffolding for fragment runs. See `DOCS/INPROGRESS/D3_traf_tfhd_tfdt_trun_Parsing.md` for the active PRD.
-- **Follow-Up:** Add integration coverage for multi-fragment assets once suitable fixtures are available to exercise the D2 monotonic validation paths end-to-end.
-- Pending licensing: Acquire real-world fixtures for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H codecs so synthetic payloads can be replaced and snapshot baselines refreshed once licensing clears.
+- **Primary Focus:** Resume Task D3 — `traf/tfhd/tfdt/trun` fragment run parsing and validation scaffolding. Consult `DOCS/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/D3_traf_tfhd_tfdt_trun_Parsing.md` for the archived PRD and continue by wiring `tfdt`/`trun` parsers plus aggregated `traf` metadata into the streaming pipeline.
+- **Follow-Up:** Add integration coverage for multi-fragment assets once representative fixtures are ready so the D2 monotonic validation paths receive end-to-end exercising.
+- **Pending Licensing:** Acquire real-world fixtures for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H codecs so synthetic payloads can be replaced and snapshot baselines refreshed once licensing clears.
