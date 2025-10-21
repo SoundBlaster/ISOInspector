@@ -13,10 +13,6 @@ let package = Package(
             name: "ISOInspectorKit",
             targets: ["ISOInspectorKit"]
         ),
-        .library(
-            name: "FoundationUI",
-            targets: ["FoundationUI"]
-        ),
         .executable(
             name: "isoinspect",
             targets: ["ISOInspectorCLIRunner"]
@@ -32,10 +28,6 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0")
     ],
     targets: [
-        .target(
-            name: "FoundationUI",
-            dependencies: []
-        ),
         .target(
             name: "ISOInspectorKit",
             resources: [
@@ -101,10 +93,6 @@ let package = Package(
                 "ISOInspectorApp",
                 "ISOInspectorKit"
             ]
-        ),
-        .testTarget(
-            name: "FoundationUITests",
-            dependencies: ["FoundationUI"]
         )
     ]
 )
