@@ -2,29 +2,27 @@
 
 **Last Updated**: 2025-10-21
 **Current Phase**: Phase 2.2 - Layer 2: Essential Components (Molecules)
-**Completed**: Badge Component ✅
 
 ---
 
 ## Immediate Priority (Phase 2.2)
 
-### 1. SectionHeader Component (Recommended Next)
+### 1. Badge Component
 - **Status**: Ready to start
 - **Priority**: P0 (Critical)
-- **Dependencies**: DS.Typography ✅, DS.Spacing ✅
+- **Dependencies**: BadgeChipStyle modifier ✅ COMPLETE
 - **Estimated Effort**: S (2-4 hours)
-- **File**: `Sources/FoundationUI/Components/SectionHeader.swift`
+- **File**: `Sources/FoundationUI/Components/Badge.swift`
 
-**Why now**: Simple component needed for organizing inspector views and list sections. No complex dependencies, quick implementation.
+**Why now**: BadgeChipStyle modifier is complete and tested. Badge component is the simplest molecule to implement and will validate our component architecture.
 
 **Requirements**:
-- Uppercase title styling (`.textCase(.uppercase)`)
-- Optional divider support
-- Consistent spacing via DS.Spacing tokens
-- Accessibility heading level (`.accessibilityAddTraits(.isHeader)`)
-- Unit tests
-- Previews with and without dividers
-- DocC documentation
+- Public initializer: `Badge(text: String, level: BadgeLevel)`
+- Use BadgeChipStyle modifier internally
+- Full VoiceOver support
+- 4+ SwiftUI Previews (all levels, light/dark mode)
+- Unit tests for all badge levels
+- DocC documentation with usage examples
 
 ---
 
@@ -72,15 +70,35 @@
 
 ---
 
+### 4. SectionHeader Component
+- **Status**: Ready to start
+- **Priority**: P0 (Critical)
+- **Dependencies**: DS.Typography ✅, DS.Spacing ✅
+- **Estimated Effort**: S (2-4 hours)
+- **File**: `Sources/FoundationUI/Components/SectionHeader.swift`
+
+**Why now**: Simple component needed for organizing inspector views and list sections.
+
+**Requirements**:
+- Uppercase title styling (`.textCase(.uppercase)`)
+- Optional divider support
+- Consistent spacing via DS.Spacing tokens
+- Accessibility heading level (`.accessibilityAddTraits(.isHeader)`)
+- Unit tests
+- Previews with and without dividers
+- DocC documentation
+
+---
+
 ## Testing Tasks (Phase 2.2)
 
-### 4. Component Unit Tests
-- **Status**: Implement alongside components
+### 5. Component Unit Tests
+- **Status**: Pending (implement alongside components)
 - **Priority**: P0 (Critical)
 - **Estimated Effort**: M (4-6 hours total)
 
 **Requirements**:
-- Test Badge with all levels ✅ COMPLETE
+- Test Badge with all levels
 - Test Card composition and nesting
 - Test KeyValueRow layout variants
 - Test SectionHeader with/without divider
@@ -89,7 +107,7 @@
 
 ---
 
-### 5. Component Snapshot Tests
+### 6. Component Snapshot Tests
 - **Status**: Pending
 - **Priority**: P0 (Critical)
 - **Estimated Effort**: L (1-2 days)
@@ -103,7 +121,7 @@
 
 ---
 
-### 6. Component Previews
+### 7. Component Previews
 - **Status**: Implement alongside components
 - **Priority**: P0 (Critical)
 - **Estimated Effort**: S (included in component tasks)
@@ -116,7 +134,7 @@
 
 ---
 
-### 7. Component Accessibility Tests
+### 8. Component Accessibility Tests
 - **Status**: Pending
 - **Priority**: P1 (Important)
 - **Estimated Effort**: M (4-6 hours)
@@ -129,7 +147,7 @@
 
 ---
 
-### 8. Component Performance Tests
+### 9. Component Performance Tests
 - **Status**: Pending
 - **Priority**: P1 (Important)
 - **Estimated Effort**: M (4-6 hours)
@@ -142,7 +160,7 @@
 
 ---
 
-### 9. Component Integration Tests
+### 10. Component Integration Tests
 - **Status**: Pending
 - **Priority**: P1 (Important)
 - **Estimated Effort**: M (4-6 hours)
@@ -155,7 +173,7 @@
 
 ---
 
-### 10. Code Quality Verification
+### 11. Code Quality Verification
 - **Status**: Continuous
 - **Priority**: P1 (Important)
 - **Estimated Effort**: S (1-2 hours)
@@ -168,55 +186,27 @@
 
 ---
 
-### 11. Demo Application
+### 12. Demo Application
 - **Status**: Pending (Phase 2.3)
 - **Priority**: P0 (Critical)
 - **Estimated Effort**: L (1-2 days)
 
-**Why later**: Build after all 4 components are complete to showcase all functionality
-
----
-
-## Phase 2.2 Progress Tracker
-
-**Completed** (1/4 components):
-- ✅ Badge Component (2025-10-21)
-
-**In Progress** (0/4 components):
-- (None)
-
-**Pending** (3/4 components):
-- [ ] SectionHeader Component
-- [ ] Card Component
-- [ ] KeyValueRow Component
-
-**Testing Progress** (0/8 testing tasks):
-- [ ] Component Unit Tests (partial - Badge complete)
-- [ ] Component Snapshot Tests
-- [ ] Component Previews (partial - Badge complete)
-- [ ] Component Accessibility Tests
-- [ ] Component Performance Tests
-- [ ] Component Integration Tests
-- [ ] Code Quality Verification
-- [ ] Demo Application
+**Why later**: Build after components are complete to showcase all functionality
 
 ---
 
 ## Phase 2.2 Completion Criteria
 
 Before archiving Phase 2.2:
-- ✅ Badge component implemented ✅ COMPLETE
-- [ ] SectionHeader component implemented
-- [ ] Card component implemented
-- [ ] KeyValueRow component implemented
-- [ ] All unit tests written and passing
-- [ ] All snapshot tests created
-- [ ] All components have comprehensive previews
-- [ ] 100% DocC coverage
-- [ ] SwiftLint 0 violations
-- [ ] Zero magic numbers
-- [ ] Accessibility compliance verified
-- [ ] All code committed to git
+- ✅ All 4 components implemented (Badge, Card, KeyValueRow, SectionHeader)
+- ✅ All unit tests written and passing
+- ✅ All snapshot tests created
+- ✅ All components have comprehensive previews
+- ✅ 100% DocC coverage
+- ✅ SwiftLint 0 violations
+- ✅ Zero magic numbers
+- ✅ Accessibility compliance verified
+- ✅ All code committed to git
 
 ---
 
@@ -244,7 +234,7 @@ Before archiving Phase 2.2:
 - Implement ToolbarPattern
 - Implement BoxTreePattern
 
-**Dependencies**: Need Badge ✅, Card, SectionHeader, KeyValueRow components
+**Dependencies**: Need Badge, Card, SectionHeader, KeyValueRow components
 
 ---
 
@@ -261,8 +251,8 @@ Before archiving Phase 2.2:
 
 ## Recommended Implementation Order
 
-1. ✅ **Badge** (simplest, validates component architecture) - COMPLETE
-2. **SectionHeader** (simple, needed for demo app) - RECOMMENDED NEXT
+1. **Badge** (simplest, validates component architecture)
+2. **SectionHeader** (simple, needed for demo app)
 3. **Card** (more complex, heavily reused)
 4. **KeyValueRow** (moderate complexity, inspector essential)
 5. **Component Tests** (comprehensive test coverage)
@@ -271,4 +261,4 @@ Before archiving Phase 2.2:
 
 ---
 
-**Next Action**: Use START.md command workflow to begin SectionHeader component implementation.
+**Next Action**: Use `/start` command with Badge component task to begin Phase 2.2 implementation.
