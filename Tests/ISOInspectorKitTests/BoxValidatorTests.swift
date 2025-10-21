@@ -193,6 +193,41 @@ final class BoxValidatorTests: XCTestCase {
         XCTAssertTrue(vr002Issues.isEmpty)
     }
 
+    func testFragmentSequenceRuleWarnsOnNonMonotonicSequenceNumbers() throws {
+        let reader = InMemoryRandomAccessReader(data: Data(count: 64))
+        let validator = BoxValidator()
+
+        _ = validator.annotate(event: try makeMfhdEvent(sequenceNumber: 10, offset: 0), reader: reader)
+        let second = validator.annotate(event: try makeMfhdEvent(sequenceNumber: 9, offset: 16), reader: reader)
+
+        let issues = second.validationIssues.filter { $0.ruleID == "VR-016" }
+        XCTAssertEqual(issues.count, 1)
+        XCTAssertEqual(issues.first?.severity, .warning)
+        XCTAssertTrue(issues.first?.message.contains("non-monotonic") ?? false)
+    }
+
+    func testFragmentSequenceRuleWarnsWhenSequenceNumberIsZero() throws {
+        let reader = InMemoryRandomAccessReader(data: Data(count: 64))
+        let validator = BoxValidator()
+
+        let event = validator.annotate(event: try makeMfhdEvent(sequenceNumber: 0, offset: 0), reader: reader)
+        let issues = event.validationIssues.filter { $0.ruleID == "VR-016" }
+        XCTAssertEqual(issues.count, 1)
+        XCTAssertEqual(issues.first?.severity, .warning)
+        XCTAssertTrue(issues.first?.message.contains("zero") ?? false)
+    }
+
+    func testFragmentSequenceRulePassesWhenSequenceNumbersIncrease() throws {
+        let reader = InMemoryRandomAccessReader(data: Data(count: 64))
+        let validator = BoxValidator()
+
+        let first = validator.annotate(event: try makeMfhdEvent(sequenceNumber: 1, offset: 0), reader: reader)
+        XCTAssertTrue(first.validationIssues.filter { $0.ruleID == "VR-016" }.isEmpty)
+
+        let second = validator.annotate(event: try makeMfhdEvent(sequenceNumber: 2, offset: 16), reader: reader)
+        XCTAssertTrue(second.validationIssues.filter { $0.ruleID == "VR-016" }.isEmpty)
+    }
+
     private func makeHeader(type: String, payloadSize: Int, offset: Int64 = 0) throws -> BoxHeader {
         let fourCC = try FourCharCode(type)
         let headerSize: Int64 = 8
@@ -206,6 +241,47 @@ final class BoxValidatorTests: XCTestCase {
             payloadRange: payloadRange,
             range: range,
             uuid: nil
+        )
+    }
+
+    private func makeMfhdEvent(sequenceNumber: UInt32, offset: Int64) throws -> ParseEvent {
+        let header = try makeHeader(type: "mfhd", payloadSize: 8, offset: offset)
+        let versionRange = header.payloadRange.lowerBound..<(header.payloadRange.lowerBound + 1)
+        let flagsRange = (header.payloadRange.lowerBound + 1)..<(header.payloadRange.lowerBound + 4)
+        let sequenceRange = (header.payloadRange.lowerBound + 4)..<(header.payloadRange.lowerBound + 8)
+        let payload = ParsedBoxPayload(
+            fields: [
+                ParsedBoxPayload.Field(
+                    name: "version",
+                    value: "0",
+                    description: "Structure version",
+                    byteRange: versionRange
+                ),
+                ParsedBoxPayload.Field(
+                    name: "flags",
+                    value: "0x000000",
+                    description: "Bit flags",
+                    byteRange: flagsRange
+                ),
+                ParsedBoxPayload.Field(
+                    name: "sequence_number",
+                    value: String(sequenceNumber),
+                    description: "Fragment sequence number",
+                    byteRange: sequenceRange
+                )
+            ],
+            detail: .movieFragmentHeader(
+                ParsedBoxPayload.MovieFragmentHeaderBox(
+                    version: 0,
+                    flags: 0,
+                    sequenceNumber: sequenceNumber
+                )
+            )
+        )
+        return ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            payload: payload
         )
     }
 
