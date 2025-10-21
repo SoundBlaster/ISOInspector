@@ -127,6 +127,7 @@
 		84147E6B2CF64CFE23D5E879 /* BoxHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B483777CC66074C18FECD4 /* BoxHeader.swift */; };
 		866DC29737199C922B7F7462 /* HexSliceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56BF38C898896987F6E8A17E /* HexSliceRequest.swift */; };
 		893503E5BF2C4BED0360A0E7 /* BoxParserRegistry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B4375801992F96F39B73543 /* BoxParserRegistry.swift */; };
+		8A67EA80F5DFA9A3E697D049 /* BoxParserRegistry+MovieFragments.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4B6A4251697D08B21AA94F3 /* BoxParserRegistry+MovieFragments.swift */; };
 		8B1C987220E7AFE849F72724 /* PayloadAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F4481708652BF412A221 /* PayloadAnnotation.swift */; };
 		927D761F82A37674F4E83001 /* FilesystemAccess+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA5E7756F1C1C3CC5C13F5FE /* FilesystemAccess+Live.swift */; };
 		9312C83216E9094E512F3763 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710A9F4D2D1EEB5BA5809A8F /* main.swift */; };
@@ -145,6 +146,7 @@
 		A5642FDC72D771F0B6E8811E /* TuistBundle+ISOInspectorAppIPadOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC6BC35E6D9101E8FC4728A7 /* TuistBundle+ISOInspectorAppIPadOS.swift */; };
 		A615C3DDDFD3816DBF824D9D /* RandomAccessPayloadAnnotationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E7DCCA63840A40EA73968EC /* RandomAccessPayloadAnnotationProvider.swift */; };
 		A7993DFD7B84E53ADCD4BE0A /* ParseTreeOutlineRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EF997BA1663E1627FC36132 /* ParseTreeOutlineRow.swift */; };
+		A84A94D38A5929E154ACDB35 /* BoxParserRegistry+MovieExtends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB21940FDF05BF8841D561B /* BoxParserRegistry+MovieExtends.swift */; };
 		A9567B3F92A728B697BD03F3 /* ParsePipelineEventBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82AB6BF42635863214F3F475 /* ParsePipelineEventBridge.swift */; };
 		A967A45C3DA6133BA690F8AD /* ResearchLogAuditPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6BFEA309FF99551DDDE4C6D /* ResearchLogAuditPreview.swift */; };
 		AD025C1188EA52880D5CDF15 /* BoxHeader+Identifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19612B88415324608FBF01DD /* BoxHeader+Identifier.swift */; };
@@ -186,6 +188,7 @@
 		D5EDF5AE44C87E4B037E1C81 /* ParseTreeStoreState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D91289088F00F69C94ABCD4 /* ParseTreeStoreState.swift */; };
 		D645D990BB0054F5DEE52750 /* AppShellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB9F4E0356F2B4F3953E5673 /* AppShellView.swift */; };
 		D65D76C5D70AA8506F937145 /* InspectorFocusTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F2144455E946F7C9630F783 /* InspectorFocusTarget.swift */; };
+		D6684553CD58D38492D56914 /* BoxParserRegistry+SampleDescriptionCodecFuture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D11B00822C9DF87E86FA097 /* BoxParserRegistry+SampleDescriptionCodecFuture.swift */; };
 		D6C57632E050EF3B3AF6F1A7 /* BookmarkRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F4E374673C1E3FA127A415 /* BookmarkRecord.swift */; };
 		D7E7CA6BF684B62D43048A9C /* CoreDataAnnotationBookmarkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501BDE7D817A15D0AB66845E /* CoreDataAnnotationBookmarkStore.swift */; };
 		D82D7C95CE3B06A43544DDD4 /* ParseTreePreviewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8158883247CF06B2778C5E83 /* ParseTreePreviewData.swift */; };
@@ -410,6 +413,7 @@
 		8C8C2FE675AB7404E2AE1639 /* FilesystemOpenConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesystemOpenConfiguration.swift; sourceTree = "<group>"; };
 		8E7DCCA63840A40EA73968EC /* RandomAccessPayloadAnnotationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomAccessPayloadAnnotationProvider.swift; sourceTree = "<group>"; };
 		8EF997BA1663E1627FC36132 /* ParseTreeOutlineRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTreeOutlineRow.swift; sourceTree = "<group>"; };
+		8FB21940FDF05BF8841D561B /* BoxParserRegistry+MovieExtends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BoxParserRegistry+MovieExtends.swift"; sourceTree = "<group>"; };
 		91B483777CC66074C18FECD4 /* BoxHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxHeader.swift; sourceTree = "<group>"; };
 		91D7DF7C02CEB706BB4FAE65 /* ISOInspectorAppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISOInspectorAppTheme.swift; sourceTree = "<group>"; };
 		9395F198504DCE95EE92A82D /* ParseTree.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTree.swift; sourceTree = "<group>"; };
@@ -421,11 +425,13 @@
 		9AE0726E01AB27FA4DACE6CC /* ISOInspectorCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISOInspectorCommand.swift; sourceTree = "<group>"; };
 		9B4375801992F96F39B73543 /* BoxParserRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxParserRegistry.swift; sourceTree = "<group>"; };
 		9BBBC249904E7CD9255585D7 /* ResearchLogPreviewProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResearchLogPreviewProvider.swift; sourceTree = "<group>"; };
+		9D11B00822C9DF87E86FA097 /* BoxParserRegistry+SampleDescriptionCodecFuture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BoxParserRegistry+SampleDescriptionCodecFuture.swift"; sourceTree = "<group>"; };
 		A193AA0F4BE94853AEB45498 /* ParseTreeNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTreeNode.swift; sourceTree = "<group>"; };
 		A1AB51558975344378C3651B /* BoxCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxCatalog.swift; sourceTree = "<group>"; };
 		A268CA3A385FC92AB9924728 /* TuistAssets+ISOInspectorAppIOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistAssets+ISOInspectorAppIOS.swift"; sourceTree = "<group>"; };
 		A330CF0AA8B3DA9994E8C7C4 /* ISOInspectorKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ISOInspectorKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A4A7FD5DB2419768D596B0F0 /* MappedReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MappedReader.swift; sourceTree = "<group>"; };
+		A4B6A4251697D08B21AA94F3 /* BoxParserRegistry+MovieFragments.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BoxParserRegistry+MovieFragments.swift"; sourceTree = "<group>"; };
 		A4F8E516253488CBA30650FF /* ISOInspectorApp_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ISOInspectorApp_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A599DD0D887F4E7B86F00794 /* FilesystemAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesystemAccess.swift; sourceTree = "<group>"; };
 		A84C8949483003AF8A31AF67 /* BoxCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxCategory.swift; sourceTree = "<group>"; };
@@ -588,10 +594,13 @@
 				741120468F214B4944E2BC5F /* BoxParserRegistry+MediaData.swift */,
 				10ED0C6B7FF0021F533E6492 /* BoxParserRegistry+MediaHeaders.swift */,
 				B874A1C675D113B89CF5A90E /* BoxParserRegistry+Metadata.swift */,
+				8FB21940FDF05BF8841D561B /* BoxParserRegistry+MovieExtends.swift */,
+				A4B6A4251697D08B21AA94F3 /* BoxParserRegistry+MovieFragments.swift */,
 				208FD93C8E4CABD3745B2432 /* BoxParserRegistry+MovieHeader.swift */,
 				B745AF5957DF749B6DC44330 /* BoxParserRegistry+SampleDescription.swift */,
 				E209809EF7CEFB902E0BD46B /* BoxParserRegistry+SampleDescriptionCodecAVC.swift */,
 				2082637B5E8BE74C8357BF39 /* BoxParserRegistry+SampleDescriptionCodecESDS.swift */,
+				9D11B00822C9DF87E86FA097 /* BoxParserRegistry+SampleDescriptionCodecFuture.swift */,
 				3933BD3CF1F0CB5C33732C96 /* BoxParserRegistry+SampleDescriptionCodecHEVC.swift */,
 				C1E0AB1EB991F8B285EBA366 /* BoxParserRegistry+SampleDescriptionEntries.swift */,
 				C236D659D14BA9C36DE63BA2 /* BoxParserRegistry+SampleDescriptionProtection.swift */,
@@ -1353,10 +1362,13 @@
 				E10939D5AC2DE144658CF01C /* BoxParserRegistry+MediaData.swift in Sources */,
 				72CA7E6C8DA9F5465A8E8401 /* BoxParserRegistry+MediaHeaders.swift in Sources */,
 				3D89B78D7B34B58BDF92823A /* BoxParserRegistry+Metadata.swift in Sources */,
+				A84A94D38A5929E154ACDB35 /* BoxParserRegistry+MovieExtends.swift in Sources */,
+				8A67EA80F5DFA9A3E697D049 /* BoxParserRegistry+MovieFragments.swift in Sources */,
 				EF016CD3E25C79E932CD8120 /* BoxParserRegistry+MovieHeader.swift in Sources */,
 				EE309E56E3AB523786D26663 /* BoxParserRegistry+SampleDescription.swift in Sources */,
 				4E79430E90718562B01DA010 /* BoxParserRegistry+SampleDescriptionCodecAVC.swift in Sources */,
 				EB15A1E44F76C59E8FBEFB15 /* BoxParserRegistry+SampleDescriptionCodecESDS.swift in Sources */,
+				D6684553CD58D38492D56914 /* BoxParserRegistry+SampleDescriptionCodecFuture.swift in Sources */,
 				D45C9069545645F9F044BC2B /* BoxParserRegistry+SampleDescriptionCodecHEVC.swift in Sources */,
 				D388A49F2577977D14D3B740 /* BoxParserRegistry+SampleDescriptionEntries.swift in Sources */,
 				1EA36DF04BE1DEA4E959D1CC /* BoxParserRegistry+SampleDescriptionProtection.swift in Sources */,
