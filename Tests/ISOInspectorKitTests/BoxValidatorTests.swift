@@ -263,7 +263,10 @@ final class BoxValidatorTests: XCTestCase {
         let issues = annotated.validationIssues.filter { $0.ruleID == "VR-017" }
         XCTAssertEqual(issues.count, 1)
         XCTAssertEqual(issues.first?.severity, .error)
-        XCTAssertTrue(issues.first?.message.contains("declares 0 samples") ?? false)
+        let message = try XCTUnwrap(issues.first?.message)
+        XCTAssertTrue(message.contains("track 1"))
+        XCTAssertTrue(message.contains("run #0"))
+        XCTAssertTrue(message.contains("declares 0 samples"))
     }
 
     func testFragmentRunRuleFlagsMissingDurations() throws {
@@ -312,7 +315,11 @@ final class BoxValidatorTests: XCTestCase {
         let issues = annotated.validationIssues.filter { $0.ruleID == "VR-017" }
         XCTAssertEqual(issues.count, 1)
         XCTAssertEqual(issues.first?.severity, .error)
-        XCTAssertTrue(issues.first?.message.contains("sample durations unavailable") ?? false)
+        let message = try XCTUnwrap(issues.first?.message)
+        XCTAssertTrue(message.contains("track 3"))
+        XCTAssertTrue(message.contains("run #0"))
+        XCTAssertTrue(message.contains("entries [1]"))
+        XCTAssertTrue(message.contains("cannot advance decode timeline"))
     }
 
     func testFragmentRunRulePassesForWellFormedRun() throws {
