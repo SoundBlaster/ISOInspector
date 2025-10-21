@@ -209,12 +209,13 @@
   - Monospaced font for values
   - Keyboard shortcut hints
 
-- [ ] **P0** Implement SectionHeader component
+- [ ] **P0** Implement SectionHeader component → **IN PROGRESS**
   - File: `Sources/Components/SectionHeader.swift`
   - Uppercase title styling
   - Optional divider support
   - Consistent spacing via DS.Spacing
   - Accessibility heading level
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase2_SectionHeader.md`
 
 - [ ] **P0** Implement CopyableText utility component
   - File: `Sources/Components/CopyableText.swift`
