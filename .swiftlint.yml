@@ -13,10 +13,12 @@ disabled_rules:
   - redundant_string_enum_value
   - unneeded_synthesized_initializer
   - multiple_closures_with_trailing_closure
+  - trailing_comma
 
 excluded:
   - .build
   - DOCS
+  - FoundationUI
 
 line_length:
   ignores_comments: true
