@@ -11,6 +11,7 @@ import SwiftUI
 /// - Accessibility support (VoiceOver labels)
 /// - Design system token usage
 /// - Platform compatibility
+@MainActor
 final class BadgeTests: XCTestCase {
 
     // MARK: - Initialization Tests
