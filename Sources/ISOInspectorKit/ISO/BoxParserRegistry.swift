@@ -93,6 +93,58 @@ public struct BoxParserRegistry: Sendable {
         }
     }
 
+    public struct FragmentEnvironment: Sendable {
+        public var trackID: UInt32?
+        public var sampleDescriptionIndex: UInt32?
+        public var defaultSampleDuration: UInt32?
+        public var defaultSampleSize: UInt32?
+        public var defaultSampleFlags: UInt32?
+        public var baseDataOffset: UInt64?
+        public var dataCursor: UInt64?
+        public var nextDecodeTime: UInt64?
+        public var baseDecodeTime: UInt64?
+        public var baseDecodeTimeIs64Bit: Bool
+        public var trackExtendsDefaults: ParsedBoxPayload.TrackExtendsDefaultsBox?
+        public var trackFragmentHeader: ParsedBoxPayload.TrackFragmentHeaderBox?
+        public var trackFragmentDecodeTime: ParsedBoxPayload.TrackFragmentDecodeTimeBox?
+        public var runIndex: UInt32
+        public var nextSampleNumber: UInt64
+
+        public init(
+            trackID: UInt32? = nil,
+            sampleDescriptionIndex: UInt32? = nil,
+            defaultSampleDuration: UInt32? = nil,
+            defaultSampleSize: UInt32? = nil,
+            defaultSampleFlags: UInt32? = nil,
+            baseDataOffset: UInt64? = nil,
+            dataCursor: UInt64? = nil,
+            nextDecodeTime: UInt64? = nil,
+            baseDecodeTime: UInt64? = nil,
+            baseDecodeTimeIs64Bit: Bool = false,
+            trackExtendsDefaults: ParsedBoxPayload.TrackExtendsDefaultsBox? = nil,
+            trackFragmentHeader: ParsedBoxPayload.TrackFragmentHeaderBox? = nil,
+            trackFragmentDecodeTime: ParsedBoxPayload.TrackFragmentDecodeTimeBox? = nil,
+            runIndex: UInt32 = 0,
+            nextSampleNumber: UInt64 = 1
+        ) {
+            self.trackID = trackID
+            self.sampleDescriptionIndex = sampleDescriptionIndex
+            self.defaultSampleDuration = defaultSampleDuration
+            self.defaultSampleSize = defaultSampleSize
+            self.defaultSampleFlags = defaultSampleFlags
+            self.baseDataOffset = baseDataOffset
+            self.dataCursor = dataCursor
+            self.nextDecodeTime = nextDecodeTime
+            self.baseDecodeTime = baseDecodeTime
+            self.baseDecodeTimeIs64Bit = baseDecodeTimeIs64Bit
+            self.trackExtendsDefaults = trackExtendsDefaults
+            self.trackFragmentHeader = trackFragmentHeader
+            self.trackFragmentDecodeTime = trackFragmentDecodeTime
+            self.runIndex = runIndex
+            self.nextSampleNumber = nextSampleNumber
+        }
+    }
+
     private static let defaultEditListEnvironmentProvider:
         @Sendable (_ header: BoxHeader, _ reader: RandomAccessReader) -> EditListEnvironment = { _, _ in
             EditListEnvironment()
@@ -143,6 +195,32 @@ public struct BoxParserRegistry: Sendable {
         perform: () throws -> T
     ) rethrows -> T {
         try $metadataEnvironmentProviderOverride.withValue(provider, operation: perform)
+    }
+
+    private static let defaultFragmentEnvironmentProvider:
+        @Sendable (_ header: BoxHeader, _ reader: RandomAccessReader) -> FragmentEnvironment = { _, _ in
+            FragmentEnvironment()
+        }
+
+    @TaskLocal
+    private static var fragmentEnvironmentProviderOverride:
+        (@Sendable (BoxHeader, RandomAccessReader) -> FragmentEnvironment)?
+
+    static func resolveFragmentEnvironment(
+        header: BoxHeader,
+        reader: RandomAccessReader
+    ) -> FragmentEnvironment {
+        if let override = fragmentEnvironmentProviderOverride {
+            return override(header, reader)
+        }
+        return defaultFragmentEnvironmentProvider(header, reader)
+    }
+
+    public static func withFragmentEnvironmentProvider<T>(
+        _ provider: @escaping @Sendable (BoxHeader, RandomAccessReader) -> FragmentEnvironment,
+        perform: () throws -> T
+    ) rethrows -> T {
+        try $fragmentEnvironmentProviderOverride.withValue(provider, operation: perform)
     }
 
     public func registering(parser: @escaping Parser, for type: FourCharCode) -> BoxParserRegistry {

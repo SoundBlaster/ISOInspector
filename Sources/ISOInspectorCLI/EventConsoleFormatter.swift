@@ -45,6 +45,38 @@ public struct EventConsoleFormatter: Sendable {
     }
 
     private func detailDescription(for event: ParseEvent) -> String? {
+        if let fragment = event.payload?.trackFragment {
+            var parts: [String] = []
+            if let trackID = fragment.trackID {
+                parts.append("track=\(trackID)")
+            }
+            parts.append("samples=\(fragment.totalSampleCount)")
+            if let baseDecode = fragment.baseDecodeTime {
+                parts.append("base_decode_time=\(baseDecode)")
+            }
+            return parts.joined(separator: " ")
+        }
+        if let run = event.payload?.trackRun {
+            var parts: [String] = []
+            if let trackID = run.trackID {
+                parts.append("track=\(trackID)")
+            }
+            parts.append("samples=\(run.sampleCount)")
+            if let dataOffset = run.dataOffset {
+                parts.append("data_offset=\(dataOffset)")
+            }
+            if let start = run.startDecodeTime {
+                parts.append("start_decode=\(start)")
+            }
+            return parts.joined(separator: " ")
+        }
+        if let decodeTime = event.payload?.trackFragmentDecodeTime {
+            var parts = ["base_decode_time=\(decodeTime.baseMediaDecodeTime)"]
+            if decodeTime.baseMediaDecodeTimeIs64Bit {
+                parts.append("(64-bit)")
+            }
+            return parts.joined(separator: " ")
+        }
         if let fragmentHeader = event.payload?.trackFragmentHeader {
             return "track=\(fragmentHeader.trackID)"
         }

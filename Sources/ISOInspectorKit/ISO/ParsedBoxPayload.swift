@@ -9,6 +9,9 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case trackHeader(TrackHeaderBox)
         case trackExtends(TrackExtendsDefaultsBox)
         case trackFragmentHeader(TrackFragmentHeaderBox)
+        case trackFragmentDecodeTime(TrackFragmentDecodeTimeBox)
+        case trackRun(TrackRunBox)
+        case trackFragment(TrackFragmentBox)
         case movieFragmentHeader(MovieFragmentHeaderBox)
         case soundMediaHeader(SoundMediaHeaderBox)
         case videoMediaHeader(VideoMediaHeaderBox)
@@ -298,6 +301,181 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             self.version = version
             self.flags = flags
             self.sequenceNumber = sequenceNumber
+        }
+    }
+
+    public struct TrackFragmentDecodeTimeBox: Equatable, Sendable {
+        public let version: UInt8
+        public let flags: UInt32
+        public let baseMediaDecodeTime: UInt64
+        public let baseMediaDecodeTimeIs64Bit: Bool
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            baseMediaDecodeTime: UInt64,
+            baseMediaDecodeTimeIs64Bit: Bool
+        ) {
+            self.version = version
+            self.flags = flags
+            self.baseMediaDecodeTime = baseMediaDecodeTime
+            self.baseMediaDecodeTimeIs64Bit = baseMediaDecodeTimeIs64Bit
+        }
+    }
+
+    public struct TrackRunBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public let index: UInt32
+            public let decodeTime: UInt64?
+            public let presentationTime: Int64?
+            public let sampleDuration: UInt32?
+            public let sampleSize: UInt32?
+            public let sampleFlags: UInt32?
+            public let sampleCompositionTimeOffset: Int32?
+            public let dataOffset: UInt64?
+            public let byteRange: Range<Int64>?
+
+            public init(
+                index: UInt32,
+                decodeTime: UInt64?,
+                presentationTime: Int64?,
+                sampleDuration: UInt32?,
+                sampleSize: UInt32?,
+                sampleFlags: UInt32?,
+                sampleCompositionTimeOffset: Int32?,
+                dataOffset: UInt64?,
+                byteRange: Range<Int64>?
+            ) {
+                self.index = index
+                self.decodeTime = decodeTime
+                self.presentationTime = presentationTime
+                self.sampleDuration = sampleDuration
+                self.sampleSize = sampleSize
+                self.sampleFlags = sampleFlags
+                self.sampleCompositionTimeOffset = sampleCompositionTimeOffset
+                self.dataOffset = dataOffset
+                self.byteRange = byteRange
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let sampleCount: UInt32
+        public let dataOffset: Int32?
+        public let firstSampleFlags: UInt32?
+        public let entries: [Entry]
+        public let totalSampleDuration: UInt64?
+        public let totalSampleSize: UInt64?
+        public let startDecodeTime: UInt64?
+        public let endDecodeTime: UInt64?
+        public let startPresentationTime: Int64?
+        public let endPresentationTime: Int64?
+        public let startDataOffset: UInt64?
+        public let endDataOffset: UInt64?
+        public let trackID: UInt32?
+        public let sampleDescriptionIndex: UInt32?
+        public let runIndex: UInt32?
+        public let firstSampleGlobalIndex: UInt64?
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            sampleCount: UInt32,
+            dataOffset: Int32?,
+            firstSampleFlags: UInt32?,
+            entries: [Entry],
+            totalSampleDuration: UInt64?,
+            totalSampleSize: UInt64?,
+            startDecodeTime: UInt64?,
+            endDecodeTime: UInt64?,
+            startPresentationTime: Int64?,
+            endPresentationTime: Int64?,
+            startDataOffset: UInt64?,
+            endDataOffset: UInt64?,
+            trackID: UInt32?,
+            sampleDescriptionIndex: UInt32?,
+            runIndex: UInt32?,
+            firstSampleGlobalIndex: UInt64?
+        ) {
+            self.version = version
+            self.flags = flags
+            self.sampleCount = sampleCount
+            self.dataOffset = dataOffset
+            self.firstSampleFlags = firstSampleFlags
+            self.entries = entries
+            self.totalSampleDuration = totalSampleDuration
+            self.totalSampleSize = totalSampleSize
+            self.startDecodeTime = startDecodeTime
+            self.endDecodeTime = endDecodeTime
+            self.startPresentationTime = startPresentationTime
+            self.endPresentationTime = endPresentationTime
+            self.startDataOffset = startDataOffset
+            self.endDataOffset = endDataOffset
+            self.trackID = trackID
+            self.sampleDescriptionIndex = sampleDescriptionIndex
+            self.runIndex = runIndex
+            self.firstSampleGlobalIndex = firstSampleGlobalIndex
+        }
+    }
+
+    public struct TrackFragmentBox: Equatable, Sendable {
+        public let trackID: UInt32?
+        public let sampleDescriptionIndex: UInt32?
+        public let baseDataOffset: UInt64?
+        public let defaultSampleDuration: UInt32?
+        public let defaultSampleSize: UInt32?
+        public let defaultSampleFlags: UInt32?
+        public let durationIsEmpty: Bool
+        public let defaultBaseIsMoof: Bool
+        public let baseDecodeTime: UInt64?
+        public let baseDecodeTimeIs64Bit: Bool
+        public let runs: [TrackRunBox]
+        public let totalSampleCount: UInt64
+        public let totalSampleSize: UInt64?
+        public let totalSampleDuration: UInt64?
+        public let earliestPresentationTime: Int64?
+        public let latestPresentationTime: Int64?
+        public let firstDecodeTime: UInt64?
+        public let lastDecodeTime: UInt64?
+
+        public init(
+            trackID: UInt32?,
+            sampleDescriptionIndex: UInt32?,
+            baseDataOffset: UInt64?,
+            defaultSampleDuration: UInt32?,
+            defaultSampleSize: UInt32?,
+            defaultSampleFlags: UInt32?,
+            durationIsEmpty: Bool,
+            defaultBaseIsMoof: Bool,
+            baseDecodeTime: UInt64?,
+            baseDecodeTimeIs64Bit: Bool,
+            runs: [TrackRunBox],
+            totalSampleCount: UInt64,
+            totalSampleSize: UInt64?,
+            totalSampleDuration: UInt64?,
+            earliestPresentationTime: Int64?,
+            latestPresentationTime: Int64?,
+            firstDecodeTime: UInt64?,
+            lastDecodeTime: UInt64?
+        ) {
+            self.trackID = trackID
+            self.sampleDescriptionIndex = sampleDescriptionIndex
+            self.baseDataOffset = baseDataOffset
+            self.defaultSampleDuration = defaultSampleDuration
+            self.defaultSampleSize = defaultSampleSize
+            self.defaultSampleFlags = defaultSampleFlags
+            self.durationIsEmpty = durationIsEmpty
+            self.defaultBaseIsMoof = defaultBaseIsMoof
+            self.baseDecodeTime = baseDecodeTime
+            self.baseDecodeTimeIs64Bit = baseDecodeTimeIs64Bit
+            self.runs = runs
+            self.totalSampleCount = totalSampleCount
+            self.totalSampleSize = totalSampleSize
+            self.totalSampleDuration = totalSampleDuration
+            self.earliestPresentationTime = earliestPresentationTime
+            self.latestPresentationTime = latestPresentationTime
+            self.firstDecodeTime = firstDecodeTime
+            self.lastDecodeTime = lastDecodeTime
         }
     }
 
@@ -851,6 +1029,21 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var trackFragmentHeader: TrackFragmentHeaderBox? {
         guard case let .trackFragmentHeader(box) = detail else { return nil }
+        return box
+    }
+
+    public var trackFragmentDecodeTime: TrackFragmentDecodeTimeBox? {
+        guard case let .trackFragmentDecodeTime(box) = detail else { return nil }
+        return box
+    }
+
+    public var trackRun: TrackRunBox? {
+        guard case let .trackRun(box) = detail else { return nil }
+        return box
+    }
+
+    public var trackFragment: TrackFragmentBox? {
+        guard case let .trackFragment(box) = detail else { return nil }
         return box
     }
 

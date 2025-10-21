@@ -228,6 +228,139 @@ final class BoxValidatorTests: XCTestCase {
         XCTAssertTrue(second.validationIssues.filter { $0.ruleID == "VR-016" }.isEmpty)
     }
 
+    func testFragmentRunRuleFlagsZeroSampleCount() throws {
+        let header = try makeHeader(type: "trun", payloadSize: 0)
+        let run = ParsedBoxPayload.TrackRunBox(
+            version: 0,
+            flags: 0,
+            sampleCount: 0,
+            dataOffset: nil,
+            firstSampleFlags: nil,
+            entries: [],
+            totalSampleDuration: 0,
+            totalSampleSize: 0,
+            startDecodeTime: nil,
+            endDecodeTime: nil,
+            startPresentationTime: nil,
+            endPresentationTime: nil,
+            startDataOffset: nil,
+            endDataOffset: nil,
+            trackID: 1,
+            sampleDescriptionIndex: nil,
+            runIndex: 0,
+            firstSampleGlobalIndex: 1
+        )
+        let payload = ParsedBoxPayload(detail: .trackRun(run))
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            payload: payload
+        )
+        let reader = InMemoryRandomAccessReader(data: Data(count: Int(header.totalSize)))
+        let validator = BoxValidator()
+
+        let annotated = validator.annotate(event: event, reader: reader)
+        let issues = annotated.validationIssues.filter { $0.ruleID == "VR-017" }
+        XCTAssertEqual(issues.count, 1)
+        XCTAssertEqual(issues.first?.severity, .error)
+        XCTAssertTrue(issues.first?.message.contains("declares 0 samples") ?? false)
+    }
+
+    func testFragmentRunRuleFlagsMissingDurations() throws {
+        let header = try makeHeader(type: "trun", payloadSize: 0)
+        let entry = ParsedBoxPayload.TrackRunBox.Entry(
+            index: 1,
+            decodeTime: nil,
+            presentationTime: nil,
+            sampleDuration: nil,
+            sampleSize: 1024,
+            sampleFlags: 0x0102_0304,
+            sampleCompositionTimeOffset: nil,
+            dataOffset: 4096,
+            byteRange: nil
+        )
+        let run = ParsedBoxPayload.TrackRunBox(
+            version: 0,
+            flags: 0,
+            sampleCount: 1,
+            dataOffset: nil,
+            firstSampleFlags: nil,
+            entries: [entry],
+            totalSampleDuration: nil,
+            totalSampleSize: 1024,
+            startDecodeTime: nil,
+            endDecodeTime: nil,
+            startPresentationTime: nil,
+            endPresentationTime: nil,
+            startDataOffset: 4096,
+            endDataOffset: 4096 + 1024,
+            trackID: 3,
+            sampleDescriptionIndex: 4,
+            runIndex: 0,
+            firstSampleGlobalIndex: 1
+        )
+        let payload = ParsedBoxPayload(detail: .trackRun(run))
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            payload: payload
+        )
+        let reader = InMemoryRandomAccessReader(data: Data(count: Int(header.totalSize)))
+        let validator = BoxValidator()
+
+        let annotated = validator.annotate(event: event, reader: reader)
+        let issues = annotated.validationIssues.filter { $0.ruleID == "VR-017" }
+        XCTAssertEqual(issues.count, 1)
+        XCTAssertEqual(issues.first?.severity, .error)
+        XCTAssertTrue(issues.first?.message.contains("sample durations unavailable") ?? false)
+    }
+
+    func testFragmentRunRulePassesForWellFormedRun() throws {
+        let header = try makeHeader(type: "trun", payloadSize: 0)
+        let entry = ParsedBoxPayload.TrackRunBox.Entry(
+            index: 1,
+            decodeTime: 10,
+            presentationTime: 10,
+            sampleDuration: 100,
+            sampleSize: 512,
+            sampleFlags: 0x0,
+            sampleCompositionTimeOffset: nil,
+            dataOffset: 2048,
+            byteRange: nil
+        )
+        let run = ParsedBoxPayload.TrackRunBox(
+            version: 0,
+            flags: 0,
+            sampleCount: 1,
+            dataOffset: nil,
+            firstSampleFlags: nil,
+            entries: [entry],
+            totalSampleDuration: 100,
+            totalSampleSize: 512,
+            startDecodeTime: 10,
+            endDecodeTime: 110,
+            startPresentationTime: 10,
+            endPresentationTime: 110,
+            startDataOffset: 2048,
+            endDataOffset: 2560,
+            trackID: 5,
+            sampleDescriptionIndex: 6,
+            runIndex: 0,
+            firstSampleGlobalIndex: 1
+        )
+        let payload = ParsedBoxPayload(detail: .trackRun(run))
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            payload: payload
+        )
+        let reader = InMemoryRandomAccessReader(data: Data(count: Int(header.totalSize)))
+        let validator = BoxValidator()
+
+        let annotated = validator.annotate(event: event, reader: reader)
+        XCTAssertTrue(annotated.validationIssues.filter { $0.ruleID == "VR-017" }.isEmpty)
+    }
+
     private func makeHeader(type: String, payloadSize: Int, offset: Int64 = 0) throws -> BoxHeader {
         let fourCC = try FourCharCode(type)
         let headerSize: Int64 = 8

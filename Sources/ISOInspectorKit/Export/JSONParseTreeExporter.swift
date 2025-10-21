@@ -147,6 +147,9 @@ private struct StructuredPayload: Encodable {
     let trackHeader: TrackHeaderDetail?
     let trackExtends: TrackExtendsDetail?
     let trackFragmentHeader: TrackFragmentHeaderDetail?
+    let trackFragmentDecodeTime: TrackFragmentDecodeTimeDetail?
+    let trackRun: TrackRunDetail?
+    let trackFragment: TrackFragmentDetail?
     let movieFragmentHeader: MovieFragmentHeaderDetail?
     let soundMediaHeader: SoundMediaHeaderDetail?
     let videoMediaHeader: VideoMediaHeaderDetail?
@@ -162,429 +165,104 @@ private struct StructuredPayload: Encodable {
     let metadataItems: MetadataItemListDetail?
 
     init(detail: ParsedBoxPayload.Detail) {
+        var fileType: FileTypeDetail?
+        var mediaData: MediaDataDetail?
+        var padding: PaddingDetail?
+        var movieHeader: MovieHeaderDetail?
+        var trackHeader: TrackHeaderDetail?
+        var trackExtends: TrackExtendsDetail?
+        var trackFragmentHeader: TrackFragmentHeaderDetail?
+        var trackFragmentDecodeTime: TrackFragmentDecodeTimeDetail?
+        var trackRun: TrackRunDetail?
+        var trackFragment: TrackFragmentDetail?
+        var movieFragmentHeader: MovieFragmentHeaderDetail?
+        var soundMediaHeader: SoundMediaHeaderDetail?
+        var videoMediaHeader: VideoMediaHeaderDetail?
+        var editList: EditListDetail?
+        var sampleToChunk: SampleToChunkDetail?
+        var chunkOffset: ChunkOffsetDetail?
+        var sampleSize: SampleSizeDetail?
+        var compactSampleSize: CompactSampleSizeDetail?
+        var syncSampleTable: SyncSampleTableDetail?
+        var dataReference: DataReferenceDetail?
+        var metadata: MetadataDetail?
+        var metadataKeys: MetadataKeyTableDetail?
+        var metadataItems: MetadataItemListDetail?
+
         switch detail {
         case let .fileType(box):
-            self.fileType = FileTypeDetail(box: box)
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.trackExtends = nil
-            self.trackFragmentHeader = nil
-            self.movieFragmentHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            fileType = FileTypeDetail(box: box)
         case let .mediaData(box):
-            self.fileType = nil
-            self.mediaData = MediaDataDetail(box: box)
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.trackExtends = nil
-            self.trackFragmentHeader = nil
-            self.movieFragmentHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            mediaData = MediaDataDetail(box: box)
         case let .padding(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = PaddingDetail(box: box)
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.trackExtends = nil
-            self.trackFragmentHeader = nil
-            self.movieFragmentHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            padding = PaddingDetail(box: box)
         case let .movieHeader(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = MovieHeaderDetail(box: box)
-            self.trackHeader = nil
-            self.trackExtends = nil
-            self.trackFragmentHeader = nil
-            self.movieFragmentHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            movieHeader = MovieHeaderDetail(box: box)
         case let .trackHeader(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = TrackHeaderDetail(box: box)
-            self.trackExtends = nil
-            self.trackFragmentHeader = nil
-            self.movieFragmentHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            trackHeader = TrackHeaderDetail(box: box)
         case let .trackExtends(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.trackExtends = TrackExtendsDetail(box: box)
-            self.trackFragmentHeader = nil
-            self.movieFragmentHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            trackExtends = TrackExtendsDetail(box: box)
         case let .trackFragmentHeader(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.trackExtends = nil
-            self.trackFragmentHeader = TrackFragmentHeaderDetail(box: box)
-            self.movieFragmentHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            trackFragmentHeader = TrackFragmentHeaderDetail(box: box)
+        case let .trackFragmentDecodeTime(box):
+            trackFragmentDecodeTime = TrackFragmentDecodeTimeDetail(box: box)
+        case let .trackRun(box):
+            trackRun = TrackRunDetail(box: box)
+        case let .trackFragment(box):
+            trackFragment = TrackFragmentDetail(box: box)
         case let .movieFragmentHeader(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.trackExtends = nil
-            self.trackFragmentHeader = nil
-            self.movieFragmentHeader = MovieFragmentHeaderDetail(box: box)
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            movieFragmentHeader = MovieFragmentHeaderDetail(box: box)
         case let .soundMediaHeader(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.trackExtends = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.soundMediaHeader = SoundMediaHeaderDetail(box: box)
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            soundMediaHeader = SoundMediaHeaderDetail(box: box)
         case let .videoMediaHeader(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.soundMediaHeader = nil
-            self.trackExtends = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.videoMediaHeader = VideoMediaHeaderDetail(box: box)
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            videoMediaHeader = VideoMediaHeaderDetail(box: box)
         case let .editList(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.trackExtends = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.editList = EditListDetail(box: box)
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            editList = EditListDetail(box: box)
         case let .sampleToChunk(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.trackExtends = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.sampleToChunk = SampleToChunkDetail(box: box)
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            sampleToChunk = SampleToChunkDetail(box: box)
         case let .chunkOffset(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.trackExtends = nil
-            self.sampleToChunk = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.chunkOffset = ChunkOffsetDetail(box: box)
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            chunkOffset = ChunkOffsetDetail(box: box)
         case let .sampleSize(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.trackExtends = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.sampleSize = SampleSizeDetail(box: box)
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            sampleSize = SampleSizeDetail(box: box)
         case let .compactSampleSize(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.trackExtends = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.compactSampleSize = CompactSampleSizeDetail(box: box)
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            compactSampleSize = CompactSampleSizeDetail(box: box)
         case let .syncSampleTable(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.trackExtends = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.syncSampleTable = SyncSampleTableDetail(box: box)
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            syncSampleTable = SyncSampleTableDetail(box: box)
         case let .dataReference(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.trackExtends = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.dataReference = DataReferenceDetail(box: box)
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            dataReference = DataReferenceDetail(box: box)
         case let .metadata(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.trackExtends = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.metadata = MetadataDetail(box: box)
-            self.metadataKeys = nil
-            self.metadataItems = nil
+            metadata = MetadataDetail(box: box)
         case let .metadataKeyTable(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.trackExtends = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.metadataKeys = MetadataKeyTableDetail(box: box)
-            self.metadataItems = nil
+            metadataKeys = MetadataKeyTableDetail(box: box)
         case let .metadataItemList(box):
-            self.fileType = nil
-            self.mediaData = nil
-            self.padding = nil
-            self.movieHeader = nil
-            self.trackHeader = nil
-            self.soundMediaHeader = nil
-            self.videoMediaHeader = nil
-            self.editList = nil
-            self.sampleToChunk = nil
-            self.chunkOffset = nil
-            self.sampleSize = nil
-            self.compactSampleSize = nil
-            self.syncSampleTable = nil
-            self.dataReference = nil
-            self.metadata = nil
-            self.metadataKeys = nil
-            self.trackExtends = nil
-            self.movieFragmentHeader = nil
-            self.trackFragmentHeader = nil
-            self.metadataItems = MetadataItemListDetail(box: box)
+            metadataItems = MetadataItemListDetail(box: box)
         }
+
+        self.fileType = fileType
+        self.mediaData = mediaData
+        self.padding = padding
+        self.movieHeader = movieHeader
+        self.trackHeader = trackHeader
+        self.trackExtends = trackExtends
+        self.trackFragmentHeader = trackFragmentHeader
+        self.trackFragmentDecodeTime = trackFragmentDecodeTime
+        self.trackRun = trackRun
+        self.trackFragment = trackFragment
+        self.movieFragmentHeader = movieFragmentHeader
+        self.soundMediaHeader = soundMediaHeader
+        self.videoMediaHeader = videoMediaHeader
+        self.editList = editList
+        self.sampleToChunk = sampleToChunk
+        self.chunkOffset = chunkOffset
+        self.sampleSize = sampleSize
+        self.compactSampleSize = compactSampleSize
+        self.syncSampleTable = syncSampleTable
+        self.dataReference = dataReference
+        self.metadata = metadata
+        self.metadataKeys = metadataKeys
+        self.metadataItems = metadataItems
     }
+
 
     private enum CodingKeys: String, CodingKey {
         case fileType = "file_type"
@@ -594,6 +272,9 @@ private struct StructuredPayload: Encodable {
         case trackHeader = "track_header"
         case trackExtends = "track_extends"
         case trackFragmentHeader = "track_fragment_header"
+        case trackFragmentDecodeTime = "track_fragment_decode_time"
+        case trackRun = "track_run"
+        case trackFragment = "track_fragment"
         case movieFragmentHeader = "movie_fragment_header"
         case soundMediaHeader = "sound_media_header"
         case videoMediaHeader = "video_media_header"
@@ -1511,6 +1192,193 @@ private struct TrackFragmentHeaderDetail: Encodable {
         case defaultSampleFlags = "default_sample_flags"
         case durationIsEmpty = "duration_is_empty"
         case defaultBaseIsMoof = "default_base_is_moof"
+    }
+}
+
+private struct TrackFragmentDecodeTimeDetail: Encodable {
+    let version: UInt8
+    let flags: UInt32
+    let baseMediaDecodeTime: UInt64
+    let baseMediaDecodeTimeIs64Bit: Bool
+
+    init(box: ParsedBoxPayload.TrackFragmentDecodeTimeBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.baseMediaDecodeTime = box.baseMediaDecodeTime
+        self.baseMediaDecodeTimeIs64Bit = box.baseMediaDecodeTimeIs64Bit
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case baseMediaDecodeTime = "base_media_decode_time"
+        case baseMediaDecodeTimeIs64Bit = "base_media_decode_time_is_64bit"
+    }
+}
+
+private struct TrackRunEntryDetail: Encodable {
+    let index: UInt32
+    let decodeTime: UInt64?
+    let presentationTime: Int64?
+    let sampleDuration: UInt32?
+    let sampleSize: UInt32?
+    let sampleFlags: UInt32?
+    let sampleCompositionTimeOffset: Int32?
+    let dataOffset: UInt64?
+    let byteRange: ByteRange?
+
+    init(entry: ParsedBoxPayload.TrackRunBox.Entry) {
+        self.index = entry.index
+        self.decodeTime = entry.decodeTime
+        self.presentationTime = entry.presentationTime
+        self.sampleDuration = entry.sampleDuration
+        self.sampleSize = entry.sampleSize
+        self.sampleFlags = entry.sampleFlags
+        self.sampleCompositionTimeOffset = entry.sampleCompositionTimeOffset
+        self.dataOffset = entry.dataOffset
+        if let range = entry.byteRange {
+            self.byteRange = ByteRange(range: range)
+        } else {
+            self.byteRange = nil
+        }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case index
+        case decodeTime = "decode_time"
+        case presentationTime = "presentation_time"
+        case sampleDuration = "sample_duration"
+        case sampleSize = "sample_size"
+        case sampleFlags = "sample_flags"
+        case sampleCompositionTimeOffset = "sample_composition_time_offset"
+        case dataOffset = "data_offset"
+        case byteRange
+    }
+}
+
+private struct TrackRunDetail: Encodable {
+    let version: UInt8
+    let flags: UInt32
+    let sampleCount: UInt32
+    let dataOffset: Int32?
+    let firstSampleFlags: UInt32?
+    let totalSampleDuration: UInt64?
+    let totalSampleSize: UInt64?
+    let startDecodeTime: UInt64?
+    let endDecodeTime: UInt64?
+    let startPresentationTime: Int64?
+    let endPresentationTime: Int64?
+    let startDataOffset: UInt64?
+    let endDataOffset: UInt64?
+    let trackID: UInt32?
+    let sampleDescriptionIndex: UInt32?
+    let runIndex: UInt32?
+    let firstSampleGlobalIndex: UInt64?
+    let entries: [TrackRunEntryDetail]
+
+    init(box: ParsedBoxPayload.TrackRunBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.sampleCount = box.sampleCount
+        self.dataOffset = box.dataOffset
+        self.firstSampleFlags = box.firstSampleFlags
+        self.totalSampleDuration = box.totalSampleDuration
+        self.totalSampleSize = box.totalSampleSize
+        self.startDecodeTime = box.startDecodeTime
+        self.endDecodeTime = box.endDecodeTime
+        self.startPresentationTime = box.startPresentationTime
+        self.endPresentationTime = box.endPresentationTime
+        self.startDataOffset = box.startDataOffset
+        self.endDataOffset = box.endDataOffset
+        self.trackID = box.trackID
+        self.sampleDescriptionIndex = box.sampleDescriptionIndex
+        self.runIndex = box.runIndex
+        self.firstSampleGlobalIndex = box.firstSampleGlobalIndex
+        self.entries = box.entries.map(TrackRunEntryDetail.init)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case sampleCount = "sample_count"
+        case dataOffset = "data_offset"
+        case firstSampleFlags = "first_sample_flags"
+        case totalSampleDuration = "total_sample_duration"
+        case totalSampleSize = "total_sample_size"
+        case startDecodeTime = "start_decode_time"
+        case endDecodeTime = "end_decode_time"
+        case startPresentationTime = "start_presentation_time"
+        case endPresentationTime = "end_presentation_time"
+        case startDataOffset = "start_data_offset"
+        case endDataOffset = "end_data_offset"
+        case trackID = "track_ID"
+        case sampleDescriptionIndex = "sample_description_index"
+        case runIndex = "run_index"
+        case firstSampleGlobalIndex = "first_sample_global_index"
+        case entries
+    }
+}
+
+private struct TrackFragmentDetail: Encodable {
+    let trackID: UInt32?
+    let sampleDescriptionIndex: UInt32?
+    let baseDataOffset: UInt64?
+    let defaultSampleDuration: UInt32?
+    let defaultSampleSize: UInt32?
+    let defaultSampleFlags: UInt32?
+    let durationIsEmpty: Bool
+    let defaultBaseIsMoof: Bool
+    let baseDecodeTime: UInt64?
+    let baseDecodeTimeIs64Bit: Bool
+    let runs: [TrackRunDetail]
+    let totalSampleCount: UInt64
+    let totalSampleSize: UInt64?
+    let totalSampleDuration: UInt64?
+    let earliestPresentationTime: Int64?
+    let latestPresentationTime: Int64?
+    let firstDecodeTime: UInt64?
+    let lastDecodeTime: UInt64?
+
+    init(box: ParsedBoxPayload.TrackFragmentBox) {
+        self.trackID = box.trackID
+        self.sampleDescriptionIndex = box.sampleDescriptionIndex
+        self.baseDataOffset = box.baseDataOffset
+        self.defaultSampleDuration = box.defaultSampleDuration
+        self.defaultSampleSize = box.defaultSampleSize
+        self.defaultSampleFlags = box.defaultSampleFlags
+        self.durationIsEmpty = box.durationIsEmpty
+        self.defaultBaseIsMoof = box.defaultBaseIsMoof
+        self.baseDecodeTime = box.baseDecodeTime
+        self.baseDecodeTimeIs64Bit = box.baseDecodeTimeIs64Bit
+        self.runs = box.runs.map(TrackRunDetail.init)
+        self.totalSampleCount = box.totalSampleCount
+        self.totalSampleSize = box.totalSampleSize
+        self.totalSampleDuration = box.totalSampleDuration
+        self.earliestPresentationTime = box.earliestPresentationTime
+        self.latestPresentationTime = box.latestPresentationTime
+        self.firstDecodeTime = box.firstDecodeTime
+        self.lastDecodeTime = box.lastDecodeTime
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case trackID = "track_ID"
+        case sampleDescriptionIndex = "sample_description_index"
+        case baseDataOffset = "base_data_offset"
+        case defaultSampleDuration = "default_sample_duration"
+        case defaultSampleSize = "default_sample_size"
+        case defaultSampleFlags = "default_sample_flags"
+        case durationIsEmpty = "duration_is_empty"
+        case defaultBaseIsMoof = "default_base_is_moof"
+        case baseDecodeTime = "base_decode_time"
+        case baseDecodeTimeIs64Bit = "base_decode_time_is_64bit"
+        case runs
+        case totalSampleCount = "total_sample_count"
+        case totalSampleSize = "total_sample_size"
+        case totalSampleDuration = "total_sample_duration"
+        case earliestPresentationTime = "earliest_presentation_time"
+        case latestPresentationTime = "latest_presentation_time"
+        case firstDecodeTime = "first_decode_time"
+        case lastDecodeTime = "last_decode_time"
     }
 }
 

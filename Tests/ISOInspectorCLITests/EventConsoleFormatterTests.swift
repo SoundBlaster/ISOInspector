@@ -123,6 +123,102 @@ final class EventConsoleFormatterTests: XCTestCase {
         XCTAssertTrue(output.contains("track=42"))
     }
 
+    func testFormatterIncludesTrackFragmentDecodeTime() throws {
+        let header = try makeHeader(type: "tfdt", size: 20)
+        let payload = ParsedBoxPayload(
+            detail: .trackFragmentDecodeTime(
+                ParsedBoxPayload.TrackFragmentDecodeTimeBox(
+                    version: 1,
+                    flags: 0,
+                    baseMediaDecodeTime: 9000,
+                    baseMediaDecodeTimeIs64Bit: true
+                )
+            )
+        )
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: 0,
+            payload: payload
+        )
+
+        let formatter = EventConsoleFormatter()
+        let output = formatter.format(event)
+
+        XCTAssertTrue(output.contains("base_decode_time=9000"))
+    }
+
+    func testFormatterIncludesTrackRunSummary() throws {
+        let header = try makeHeader(type: "trun", size: 24)
+        let run = ParsedBoxPayload.TrackRunBox(
+            version: 0,
+            flags: 0x000001,
+            sampleCount: 3,
+            dataOffset: 256,
+            firstSampleFlags: nil,
+            entries: [],
+            totalSampleDuration: 180,
+            totalSampleSize: 1500,
+            startDecodeTime: 1000,
+            endDecodeTime: 1180,
+            startPresentationTime: nil,
+            endPresentationTime: nil,
+            startDataOffset: 2048,
+            endDataOffset: 2048 + 1500,
+            trackID: 7,
+            sampleDescriptionIndex: 2,
+            runIndex: 0,
+            firstSampleGlobalIndex: 1
+        )
+        let payload = ParsedBoxPayload(detail: .trackRun(run))
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: 0,
+            payload: payload
+        )
+
+        let formatter = EventConsoleFormatter()
+        let output = formatter.format(event)
+
+        XCTAssertTrue(output.contains("samples=3"))
+        XCTAssertTrue(output.contains("data_offset=256"))
+    }
+
+    func testFormatterIncludesTrackFragmentSummary() throws {
+        let header = try makeHeader(type: "traf", size: 40)
+        let fragment = ParsedBoxPayload.TrackFragmentBox(
+            trackID: 9,
+            sampleDescriptionIndex: 5,
+            baseDataOffset: 4096,
+            defaultSampleDuration: 100,
+            defaultSampleSize: 512,
+            defaultSampleFlags: 0x0102_0304,
+            durationIsEmpty: false,
+            defaultBaseIsMoof: true,
+            baseDecodeTime: 1200,
+            baseDecodeTimeIs64Bit: false,
+            runs: [],
+            totalSampleCount: 4,
+            totalSampleSize: 2048,
+            totalSampleDuration: 400,
+            earliestPresentationTime: nil,
+            latestPresentationTime: nil,
+            firstDecodeTime: 1200,
+            lastDecodeTime: 1600
+        )
+        let payload = ParsedBoxPayload(detail: .trackFragment(fragment))
+        let event = ParseEvent(
+            kind: .didFinishBox(header: header, depth: 0),
+            offset: header.endOffset,
+            payload: payload
+        )
+
+        let formatter = EventConsoleFormatter()
+        let output = formatter.format(event)
+
+        XCTAssertTrue(output.contains("track=9"))
+        XCTAssertTrue(output.contains("samples=4"))
+    }
+
     private func makeHeader(type: String, size: Int64) throws -> BoxHeader {
         let fourCC = try FourCharCode(type)
         let range = Int64(0)..<size
