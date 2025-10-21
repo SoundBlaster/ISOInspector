@@ -221,7 +221,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] D6. Recognize `senc/saio/saiz` (CENC placeholders), capture sizes/offsets only. _(In Progress — see `DOCS/INPROGRESS/D6_Recognize_senc_saio_saiz_Placeholders.md`.)_
 
 ### Phase E — Validation
-- [ ] E1. Enforce parent containment and non-overlap.
+- [ ] E1. Enforce parent containment and non-overlap. _(In Progress — see `DOCS/INPROGRESS/E1_Enforce_Parent_Containment_and_Non_Overlap.md`.)_
 - [ ] E2. Detect zero/negative progress loops; cap nesting depth. _(In Progress — alignment with app shell wiring to surface live parser progress.)_
 - [ ] E3. Warn on unusual top-level ordering (advisory).
 - [ ] E4. Verify `avcC/hvcC` invariants; flag inconsistencies.
