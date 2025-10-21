@@ -726,3 +726,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/138_Fragment_Fixture_Coverage/`.
 - **Highlights:** Documents expansion of the fragment fixture catalog with multi-`trun`, negative `data_offset`, missing `tfdt`, and composition offset scenarios plus the corresponding updates to tests, JSON export snapshots, CLI output, and fixture documentation.
 - **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now tracks validator/CLI polish follow-ups informed by the new fixture metadata and the licensing work needed to replace synthetic codec payloads with real-world assets.
+
+## 139_Validator_and_CLI_Polish
+- **Archived files:** `Validator_and_CLI_Polish.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/139_Validator_and_CLI_Polish/`.
+- **Highlights:** Captures the validator diagnostics and CLI formatter refinements that incorporate fragment run context, decode windows, presentation ranges, and data offsets introduced by the expanded fixture catalog, plus verification commands confirming JSON export stability.
+- **Next steps carried forward:** Real-world codec fixture licensing remains blocked pending external approvals and is recorded in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
