@@ -1,6 +1,34 @@
 // swift-tools-version: 6.0
 import PackageDescription
 
+// Conditional products and targets based on platform
+// FoundationUI requires SwiftUI which is only available on Apple platforms
+#if os(macOS) || os(iOS)
+let foundationUIProducts: [Product] = [
+    .library(
+        name: "FoundationUI",
+        targets: ["FoundationUI"]
+    )
+]
+
+let conditionalTargets: [Target] = [
+    .target(
+        name: "FoundationUI",
+        dependencies: [],
+        swiftSettings: [
+            .enableExperimentalFeature("StrictConcurrency")
+        ]
+    ),
+    .testTarget(
+        name: "FoundationUITests",
+        dependencies: ["FoundationUI"]
+    )
+]
+#else
+let foundationUIProducts: [Product] = []
+let conditionalTargets: [Target] = []
+#endif
+
 let package = Package(
     name: "ISOInspector",
     defaultLocalization: "en",
@@ -13,10 +41,6 @@ let package = Package(
             name: "ISOInspectorKit",
             targets: ["ISOInspectorKit"]
         ),
-        .library(
-            name: "FoundationUI",
-            targets: ["FoundationUI"]
-        ),
         .executable(
             name: "isoinspect",
             targets: ["ISOInspectorCLIRunner"]
@@ -25,20 +49,13 @@ let package = Package(
             name: "ISOInspectorApp",
             targets: ["ISOInspectorApp"]
         )
-    ],
+    ] + foundationUIProducts,
     dependencies: [
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0"),
         .package(url: "https://github.com/SoundBlaster/NestedA11yIDs", from: "1.0.0"),
         .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0")
     ],
-    targets: [
-        .target(
-            name: "FoundationUI",
-            dependencies: [],
-            swiftSettings: [
-                .enableExperimentalFeature("StrictConcurrency")
-            ]
-        ),
+    targets: conditionalTargets + [
         .target(
             name: "ISOInspectorKit",
             resources: [
@@ -104,10 +121,6 @@ let package = Package(
                 "ISOInspectorApp",
                 "ISOInspectorKit"
             ]
-        ),
-        .testTarget(
-            name: "FoundationUITests",
-            dependencies: ["FoundationUI"]
         )
     ]
 )
