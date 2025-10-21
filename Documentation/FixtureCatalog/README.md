@@ -96,3 +96,24 @@ The downloaded fixtures remain available to the release readiness runbook, which
 - Validate cache health with `--dry-run`; the helper verifies existing files against the manifest checksum and redownloads corrupted assets automatically.【F:Tests/ISOInspectorKitTests/Fixtures/generate_fixtures.py†L64-L112】
 - Keep license texts in sync with the manifest and include them in distribution packages per the release readiness runbook requirements.【F:Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md†L9-L31】【F:Tests/ISOInspectorKitTests/Fixtures/README.md†L27-L33】
 
+## Synthetic Fragment Profiles
+
+### `fragmented-multi-trun`
+
+Synthetic fragment with two `trun` boxes. The first run carries explicit sample
+durations, sizes, and version 0 composition offsets while the second relies on
+defaulted values. Regenerate via `generate_fixtures.py` to stress multi-run
+aggregation across validator, CLI, and JSON export tests.
+
+### `fragmented-negative-offset`
+
+Fragmented sample that encodes a negative `data_offset`, forcing the parser to
+drop absolute byte ranges while keeping logical totals. Useful for rehearsing
+edge cases before promoting assets into the golden catalog.
+
+### `fragmented-no-tfdt`
+
+Fragment without a `tfdt` box so decode times default to contextual state. The
+fixture keeps durations and sizes explicit to confirm totals remain available
+when timing cursors are nil; metadata documents the expected warning.
+

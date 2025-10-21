@@ -1,0 +1,580 @@
+{
+  "nodes" : [
+    {
+      "children" : [
+
+      ],
+      "fourcc" : "styp",
+      "metadata" : {
+        "name" : "Segment Type Box",
+        "specification" : "ISO",
+        "summary" : "Segment Type Box"
+      },
+      "offsets" : {
+        "end" : 24,
+        "payloadEnd" : 24,
+        "payloadStart" : 8,
+        "start" : 0
+      },
+      "payload" : [
+        {
+          "name" : "parser",
+          "summary" : "No parser registered for this box type; returning placeholder metadata.",
+          "value" : "placeholder"
+        },
+        {
+          "name" : "payload_length",
+          "summary" : "Number of bytes in the box payload.",
+          "value" : "16"
+        },
+        {
+          "byteRange" : {
+            "end" : 24,
+            "start" : 8
+          },
+          "name" : "payload_range",
+          "summary" : "Byte range of the payload relative to the file start.",
+          "value" : "8..<24"
+        }
+      ],
+      "sizes" : {
+        "header" : 8,
+        "payload" : 16,
+        "total" : 24
+      },
+      "validationIssues" : [
+        {
+          "message" : "Encountered styp before required file type box (ftyp).",
+          "ruleID" : "VR-004",
+          "severity" : "error"
+        }
+      ]
+    },
+    {
+      "children" : [
+        {
+          "children" : [
+
+          ],
+          "fourcc" : "mfhd",
+          "metadata" : {
+            "name" : "Movie Fragment Header",
+            "specification" : "ISO",
+            "summary" : "movie fragment header"
+          },
+          "offsets" : {
+            "end" : 52,
+            "payloadEnd" : 52,
+            "payloadStart" : 40,
+            "start" : 32
+          },
+          "payload" : [
+            {
+              "byteRange" : {
+                "end" : 41,
+                "start" : 40
+              },
+              "name" : "version",
+              "summary" : "Structure version",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 44,
+                "start" : 41
+              },
+              "name" : "flags",
+              "summary" : "Bit flags",
+              "value" : "0x000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 48,
+                "start" : 44
+              },
+              "name" : "sequence_number",
+              "summary" : "Fragment sequence number",
+              "value" : "0"
+            }
+          ],
+          "sizes" : {
+            "header" : 8,
+            "payload" : 12,
+            "total" : 20
+          },
+          "structured" : {
+            "movie_fragment_header" : {
+              "flags" : 0,
+              "sequence_number" : 0,
+              "version" : 0
+            }
+          },
+          "validationIssues" : [
+            {
+              "message" : "mfhd sequence number is zero; fragments should start at 1.",
+              "ruleID" : "VR-016",
+              "severity" : "warning"
+            }
+          ]
+        },
+        {
+          "children" : [
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "tfhd",
+              "metadata" : {
+                "name" : "Track Fragment Header",
+                "specification" : "ISO",
+                "summary" : "Track fragment header"
+              },
+              "offsets" : {
+                "end" : 92,
+                "payloadEnd" : 92,
+                "payloadStart" : 68,
+                "start" : 60
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 69,
+                    "start" : 68
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 72,
+                    "start" : 69
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000019"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 76,
+                    "start" : 72
+                  },
+                  "name" : "track_id",
+                  "summary" : "Track identifier",
+                  "value" : "2"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 84,
+                    "start" : 76
+                  },
+                  "name" : "base_data_offset",
+                  "summary" : "Absolute data offset",
+                  "value" : "32"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 88,
+                    "start" : 84
+                  },
+                  "name" : "default_sample_duration",
+                  "summary" : "Default sample duration override",
+                  "value" : "200"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 92,
+                    "start" : 88
+                  },
+                  "name" : "default_sample_size",
+                  "summary" : "Default sample size override",
+                  "value" : "450"
+                },
+                {
+                  "name" : "duration_is_empty",
+                  "summary" : "Indicates empty duration",
+                  "value" : "false"
+                },
+                {
+                  "name" : "default_base_is_moof",
+                  "summary" : "Use moof offset as base",
+                  "value" : "false"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 24,
+                "total" : 32
+              },
+              "structured" : {
+                "track_fragment_header" : {
+                  "base_data_offset" : 32,
+                  "default_base_is_moof" : false,
+                  "default_sample_duration" : 200,
+                  "default_sample_size" : 450,
+                  "duration_is_empty" : false,
+                  "flags" : 25,
+                  "track_ID" : 2,
+                  "version" : 0
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "tfdt",
+              "metadata" : {
+                "name" : "Track Fragment Decode Time",
+                "specification" : "ISO",
+                "summary" : "Track fragment decode time"
+              },
+              "offsets" : {
+                "end" : 112,
+                "payloadEnd" : 112,
+                "payloadStart" : 100,
+                "start" : 92
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 101,
+                    "start" : 100
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 104,
+                    "start" : 101
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 112,
+                    "start" : 104
+                  },
+                  "name" : "base_media_decode_time",
+                  "summary" : "Base media decode time",
+                  "value" : "2000"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 12,
+                "total" : 20
+              },
+              "structured" : {
+                "track_fragment_decode_time" : {
+                  "base_media_decode_time" : 2000,
+                  "base_media_decode_time_is_64bit" : true,
+                  "flags" : 0,
+                  "version" : 1
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "trun",
+              "metadata" : {
+                "name" : "Track Fragment Run",
+                "specification" : "ISO",
+                "summary" : "track fragment run"
+              },
+              "offsets" : {
+                "end" : 144,
+                "payloadEnd" : 144,
+                "payloadStart" : 120,
+                "start" : 112
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 121,
+                    "start" : 120
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 124,
+                    "start" : 121
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000B01"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 128,
+                    "start" : 124
+                  },
+                  "name" : "sample_count",
+                  "summary" : "Number of samples in this run",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 132,
+                    "start" : 128
+                  },
+                  "name" : "data_offset",
+                  "summary" : "Offset from base data position",
+                  "value" : "-64"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 136,
+                    "start" : 132
+                  },
+                  "name" : "entries[0].sample_duration",
+                  "summary" : "Sample duration",
+                  "value" : "200"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 140,
+                    "start" : 136
+                  },
+                  "name" : "entries[0].sample_size",
+                  "summary" : "Sample size",
+                  "value" : "450"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 144,
+                    "start" : 140
+                  },
+                  "name" : "entries[0].sample_composition_time_offset",
+                  "summary" : "Composition time offset",
+                  "value" : "-20"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 24,
+                "total" : 32
+              },
+              "structured" : {
+                "track_run" : {
+                  "data_offset" : -64,
+                  "end_decode_time" : 2200,
+                  "end_presentation_time" : 1980,
+                  "entries" : [
+                    {
+                      "byteRange" : {
+                        "end" : 144,
+                        "start" : 132
+                      },
+                      "decode_time" : 2000,
+                      "index" : 1,
+                      "presentation_time" : 1980,
+                      "sample_composition_time_offset" : -20,
+                      "sample_duration" : 200,
+                      "sample_size" : 450
+                    }
+                  ],
+                  "first_sample_global_index" : 1,
+                  "flags" : 2817,
+                  "run_index" : 0,
+                  "sample_count" : 1,
+                  "sample_description_index" : 1,
+                  "start_decode_time" : 2000,
+                  "start_presentation_time" : 1980,
+                  "total_sample_duration" : 200,
+                  "total_sample_size" : 450,
+                  "track_ID" : 2,
+                  "version" : 1
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            }
+          ],
+          "fourcc" : "traf",
+          "metadata" : {
+            "name" : "Track Fragment",
+            "specification" : "ISO",
+            "summary" : "Track fragment"
+          },
+          "offsets" : {
+            "end" : 144,
+            "payloadEnd" : 144,
+            "payloadStart" : 60,
+            "start" : 52
+          },
+          "sizes" : {
+            "header" : 8,
+            "payload" : 84,
+            "total" : 92
+          },
+          "structured" : {
+            "track_fragment" : {
+              "base_data_offset" : 32,
+              "base_decode_time" : 2000,
+              "base_decode_time_is_64bit" : true,
+              "default_base_is_moof" : false,
+              "default_sample_duration" : 200,
+              "default_sample_size" : 450,
+              "duration_is_empty" : false,
+              "earliest_presentation_time" : 1980,
+              "first_decode_time" : 2000,
+              "last_decode_time" : 2200,
+              "latest_presentation_time" : 1980,
+              "runs" : [
+                {
+                  "data_offset" : -64,
+                  "end_decode_time" : 2200,
+                  "end_presentation_time" : 1980,
+                  "entries" : [
+                    {
+                      "byteRange" : {
+                        "end" : 144,
+                        "start" : 132
+                      },
+                      "decode_time" : 2000,
+                      "index" : 1,
+                      "presentation_time" : 1980,
+                      "sample_composition_time_offset" : -20,
+                      "sample_duration" : 200,
+                      "sample_size" : 450
+                    }
+                  ],
+                  "first_sample_global_index" : 1,
+                  "flags" : 2817,
+                  "run_index" : 0,
+                  "sample_count" : 1,
+                  "sample_description_index" : 1,
+                  "start_decode_time" : 2000,
+                  "start_presentation_time" : 1980,
+                  "total_sample_duration" : 200,
+                  "total_sample_size" : 450,
+                  "track_ID" : 2,
+                  "version" : 1
+                }
+              ],
+              "sample_description_index" : 1,
+              "total_sample_count" : 1,
+              "total_sample_duration" : 200,
+              "total_sample_size" : 450,
+              "track_ID" : 2
+            }
+          },
+          "validationIssues" : [
+            {
+              "message" : "Encountered traf before required file type box (ftyp).",
+              "ruleID" : "VR-004",
+              "severity" : "error"
+            }
+          ]
+        }
+      ],
+      "fourcc" : "moof",
+      "metadata" : {
+        "name" : "Movie Fragment",
+        "specification" : "ISO",
+        "summary" : "movie fragment"
+      },
+      "offsets" : {
+        "end" : 144,
+        "payloadEnd" : 144,
+        "payloadStart" : 32,
+        "start" : 24
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 112,
+        "total" : 120
+      },
+      "validationIssues" : [
+        {
+          "message" : "Encountered moof before required file type box (ftyp).",
+          "ruleID" : "VR-004",
+          "severity" : "error"
+        }
+      ]
+    },
+    {
+      "children" : [
+
+      ],
+      "fourcc" : "mdat",
+      "metadata" : {
+        "name" : "Media Data Container",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Holds the raw media samples referenced by the track sample tables."
+      },
+      "offsets" : {
+        "end" : 664,
+        "payloadEnd" : 664,
+        "payloadStart" : 152,
+        "start" : 144
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 512,
+        "total" : 520
+      },
+      "structured" : {
+        "media_data" : {
+          "headerEndOffset" : 152,
+          "headerStartOffset" : 144,
+          "payloadEndOffset" : 664,
+          "payloadLength" : 512,
+          "payloadStartOffset" : 152,
+          "totalSize" : 520
+        }
+      },
+      "validationIssues" : [
+        {
+          "message" : "Encountered mdat before required file type box (ftyp).",
+          "ruleID" : "VR-004",
+          "severity" : "error"
+        }
+      ]
+    }
+  ],
+  "validationIssues" : [
+    {
+      "message" : "Encountered styp before required file type box (ftyp).",
+      "ruleID" : "VR-004",
+      "severity" : "error"
+    },
+    {
+      "message" : "Encountered moof before required file type box (ftyp).",
+      "ruleID" : "VR-004",
+      "severity" : "error"
+    },
+    {
+      "message" : "mfhd sequence number is zero; fragments should start at 1.",
+      "ruleID" : "VR-016",
+      "severity" : "warning"
+    },
+    {
+      "message" : "Encountered traf before required file type box (ftyp).",
+      "ruleID" : "VR-004",
+      "severity" : "error"
+    },
+    {
+      "message" : "Encountered mdat before required file type box (ftyp).",
+      "ruleID" : "VR-004",
+      "severity" : "error"
+    }
+  ]
+}

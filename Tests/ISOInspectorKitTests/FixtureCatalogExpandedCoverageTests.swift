@@ -29,6 +29,36 @@ final class FixtureCatalogExpandedCoverageTests: XCTestCase {
         XCTAssertTrue(fixture.expectations.warnings.contains("Contains streaming media segment"))
     }
 
+    func testFragmentedMultiTrunFixtureDeclaresFragmentTags() throws {
+        let fixture = try fixture(withID: "fragmented-multi-trun")
+        XCTAssertTrue(fixture.tags.contains("fragmented"))
+        XCTAssertTrue(fixture.tags.contains("segment"))
+        XCTAssertTrue(fixture.tags.contains("multi-run"))
+        let types = try topLevelBoxTypes(for: fixture)
+        XCTAssertTrue(types.contains("moof"))
+        XCTAssertTrue(fixture.expectations.errors.isEmpty)
+    }
+
+    func testFragmentedNegativeOffsetFixtureHighlightsEdgeCase() throws {
+        let fixture = try fixture(withID: "fragmented-negative-offset")
+        XCTAssertTrue(fixture.tags.contains("fragmented"))
+        XCTAssertTrue(fixture.tags.contains("negative-offset"))
+        XCTAssertTrue(fixture.tags.contains("segment"))
+        XCTAssertTrue(fixture.expectations.warnings.isEmpty)
+        XCTAssertTrue(fixture.expectations.errors.isEmpty)
+    }
+
+    func testFragmentedNoTfdtFixtureDocumentsDefaultingBehavior() throws {
+        let fixture = try fixture(withID: "fragmented-no-tfdt")
+        XCTAssertTrue(fixture.tags.contains("fragmented"))
+        XCTAssertTrue(fixture.tags.contains("no-tfdt"))
+        XCTAssertTrue(fixture.tags.contains("segment"))
+        XCTAssertEqual(fixture.expectations.warnings, [
+            "Track fragment omits tfdt; decode times default to context state"
+        ])
+        XCTAssertTrue(fixture.expectations.errors.isEmpty)
+    }
+
     func testLargeMdatFixtureReportsExpectedWarning() throws {
         let fixture = try fixture(withID: "large-mdat")
         let types = try topLevelBoxTypes(for: fixture)

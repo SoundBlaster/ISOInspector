@@ -54,6 +54,26 @@ Synthetic DASH media segment (extension `.m4s`) with `styp`, `sidx`, `moof`, and
 `mdat` boxes to exercise streaming validations. Tests assert that the warnings
 include the "Contains streaming media segment" marker.
 
+### `fragmented-multi-trun`
+
+Fragmented segment containing two `trun` runs: the first sets explicit durations,
+sizes, and version 0 composition offsets while the second relies on defaults.
+Used by `FragmentFixtureCoverageTests` to confirm run aggregation and by JSON
+snapshot tests to verify composition offsets surface in exported trees.
+
+### `fragmented-negative-offset`
+
+Single-run fragment with a negative `data_offset`, ensuring parser summaries and
+CLI formatting tolerate unresolved byte ranges. The entry also carries a signed
+composition offset to cover version 1 payload handling.
+
+### `fragmented-no-tfdt`
+
+Fragment without a `tfdt` box so decode times default to contextual state.
+Durations remain explicit, allowing totals to be asserted even when per-sample
+timestamps are nil. Catalog metadata advertises the expected warning about the
+missing decode time box.
+
 ### `large-mdat`
 
 MP4 stub with an 8 KiB payload written via a large-size `mdat` box. Used to

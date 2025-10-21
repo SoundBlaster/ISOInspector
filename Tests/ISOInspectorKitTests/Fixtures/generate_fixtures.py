@@ -329,6 +329,15 @@ def build_fragmented_init() -> bytes:
     return ftyp + moov
 
 
+def full_box(box_type: str, version: int, flags: int, payload: bytes) -> bytes:
+    if version < 0 or version > 255:
+        raise ValueError("Version must fit in a single byte")
+    if flags < 0 or flags > 0xFFFFFF:
+        raise ValueError("Flags must fit in 24 bits")
+    header = bytes([version]) + flags.to_bytes(3, "big")
+    return box(box_type, header + payload)
+
+
 def build_dash_segment() -> bytes:
     styp = box(
         "styp",
@@ -349,6 +358,208 @@ def build_dash_segment() -> bytes:
     mdat_payload = bytes([0xAA]) * 512
     mdat = box("mdat", mdat_payload)
     return styp + sidx + moof + mdat
+
+
+def build_movie_fragment_header(sequence_number: int) -> bytes:
+    payload = bytes([0, 0, 0, 0]) + sequence_number.to_bytes(4, "big")
+    return full_box("mfhd", 0, 0, payload)
+
+
+def build_track_fragment_header(
+    track_id: int,
+    flags: int,
+    *,
+    base_data_offset: Optional[int] = None,
+    sample_description_index: Optional[int] = None,
+    default_sample_duration: Optional[int] = None,
+    default_sample_size: Optional[int] = None,
+    default_sample_flags: Optional[int] = None,
+) -> bytes:
+    payload = bytearray()
+    payload.extend(track_id.to_bytes(4, "big"))
+    if flags & 0x000001:
+        if base_data_offset is None:
+            raise ValueError("base_data_offset required when flag set")
+        payload.extend(base_data_offset.to_bytes(8, "big", signed=False))
+    if flags & 0x000002:
+        if sample_description_index is None:
+            raise ValueError("sample_description_index required when flag set")
+        payload.extend(sample_description_index.to_bytes(4, "big"))
+    if flags & 0x000008:
+        if default_sample_duration is None:
+            raise ValueError("default_sample_duration required when flag set")
+        payload.extend(default_sample_duration.to_bytes(4, "big"))
+    if flags & 0x000010:
+        if default_sample_size is None:
+            raise ValueError("default_sample_size required when flag set")
+        payload.extend(default_sample_size.to_bytes(4, "big"))
+    if flags & 0x000020:
+        if default_sample_flags is None:
+            raise ValueError("default_sample_flags required when flag set")
+        payload.extend(default_sample_flags.to_bytes(4, "big"))
+    return full_box("tfhd", 0, flags, bytes(payload))
+
+
+def build_track_fragment_decode_time(base_decode_time: int, *, version: int = 1) -> bytes:
+    if version == 0:
+        if base_decode_time < 0 or base_decode_time > 0xFFFFFFFF:
+            raise ValueError("base_decode_time must fit in 32 bits for version 0")
+        payload = base_decode_time.to_bytes(4, "big")
+    elif version == 1:
+        if base_decode_time < 0 or base_decode_time > 0xFFFFFFFFFFFFFFFF:
+            raise ValueError("base_decode_time must fit in 64 bits for version 1")
+        payload = base_decode_time.to_bytes(8, "big")
+    else:
+        raise ValueError("Unsupported tfdt version")
+    return full_box("tfdt", version, 0, payload)
+
+
+def build_track_run(
+    *,
+    sample_count: int,
+    version: int = 0,
+    flags: int,
+    data_offset: Optional[int] = None,
+    first_sample_flags: Optional[int] = None,
+    sample_durations: Optional[list[int]] = None,
+    sample_sizes: Optional[list[int]] = None,
+    sample_flags: Optional[list[int]] = None,
+    composition_offsets: Optional[list[int]] = None,
+) -> bytes:
+    payload = bytearray()
+    payload.extend(sample_count.to_bytes(4, "big"))
+
+    if flags & 0x000001:
+        if data_offset is None:
+            raise ValueError("data_offset required when flag set")
+        payload.extend(int(data_offset).to_bytes(4, "big", signed=True))
+    if flags & 0x000004:
+        if first_sample_flags is None:
+            raise ValueError("first_sample_flags required when flag set")
+        payload.extend(first_sample_flags.to_bytes(4, "big"))
+
+    durations = sample_durations or [None] * sample_count
+    sizes = sample_sizes or [None] * sample_count
+    flags_list = sample_flags or [None] * sample_count
+    offsets = composition_offsets or [None] * sample_count
+
+    for index in range(sample_count):
+        if flags & 0x000100:
+            value = durations[index]
+            if value is None:
+                raise ValueError("sample_durations missing entry")
+            payload.extend(int(value).to_bytes(4, "big"))
+        if flags & 0x000200:
+            value = sizes[index]
+            if value is None:
+                raise ValueError("sample_sizes missing entry")
+            payload.extend(int(value).to_bytes(4, "big"))
+        if flags & 0x000400:
+            value = flags_list[index]
+            if value is None:
+                raise ValueError("sample_flags missing entry")
+            payload.extend(int(value).to_bytes(4, "big"))
+        if flags & 0x000800:
+            value = offsets[index]
+            if value is None:
+                raise ValueError("composition_offsets missing entry")
+            if version == 0:
+                payload.extend(int(value).to_bytes(4, "big"))
+            elif version == 1:
+                payload.extend(int(value).to_bytes(4, "big", signed=True))
+            else:
+                raise ValueError("Unsupported trun version")
+
+    return full_box("trun", version, flags, bytes(payload))
+
+
+def build_fragmented_multi_trun() -> bytes:
+    styp = box("styp", brand_payload("iso6", 0x1, ["msdh", "dash"]))
+    mfhd = build_movie_fragment_header(2)
+    tfhd_flags = 0x000002 | 0x000008 | 0x000010 | 0x000020 | 0x000200
+    tfhd = build_track_fragment_header(
+        track_id=1,
+        flags=tfhd_flags,
+        sample_description_index=1,
+        default_sample_duration=100,
+        default_sample_size=400,
+        default_sample_flags=0x0010_0000,
+    )
+    tfdt = build_track_fragment_decode_time(1_000, version=1)
+    trun_primary_flags = 0x000001 | 0x000100 | 0x000200 | 0x000800
+    trun_primary = build_track_run(
+        sample_count=2,
+        version=0,
+        flags=trun_primary_flags,
+        data_offset=128,
+        sample_durations=[90, 90],
+        sample_sizes=[300, 320],
+        composition_offsets=[5, 15],
+    )
+    trun_tail_flags = 0x000200
+    trun_tail = build_track_run(
+        sample_count=1,
+        version=0,
+        flags=trun_tail_flags,
+        sample_sizes=[380],
+    )
+    traf = box("traf", tfhd + tfdt + trun_primary + trun_tail)
+    moof = box("moof", mfhd + traf)
+    mdat = box("mdat", bytes([0x11]) * 1200)
+    return styp + moof + mdat
+
+
+def build_fragmented_negative_offset() -> bytes:
+    styp = box("styp", brand_payload("iso6", 0x1, ["msdh", "dash"]))
+    mfhd = build_movie_fragment_header(3)
+    tfhd_flags = 0x000001 | 0x000008 | 0x000010
+    tfhd = build_track_fragment_header(
+        track_id=2,
+        flags=tfhd_flags,
+        base_data_offset=32,
+        default_sample_duration=200,
+        default_sample_size=450,
+    )
+    tfdt = build_track_fragment_decode_time(2_000, version=1)
+    trun_flags = 0x000001 | 0x000100 | 0x000200 | 0x000800
+    trun = build_track_run(
+        sample_count=1,
+        version=1,
+        flags=trun_flags,
+        data_offset=-64,
+        sample_durations=[200],
+        sample_sizes=[450],
+        composition_offsets=[-20],
+    )
+    traf = box("traf", tfhd + tfdt + trun)
+    moof = box("moof", mfhd + traf)
+    mdat = box("mdat", bytes([0x22]) * 512)
+    return styp + moof + mdat
+
+
+def build_fragmented_no_tfdt() -> bytes:
+    styp = box("styp", brand_payload("iso6", 0x1, ["msdh", "dash"]))
+    mfhd = build_movie_fragment_header(4)
+    tfhd_flags = 0x000002 | 0x000010 | 0x000200
+    tfhd = build_track_fragment_header(
+        track_id=3,
+        flags=tfhd_flags,
+        sample_description_index=1,
+        default_sample_size=256,
+    )
+    trun_flags = 0x000001 | 0x000100 | 0x000200
+    trun = build_track_run(
+        sample_count=2,
+        version=0,
+        flags=trun_flags,
+        data_offset=96,
+        sample_durations=[120, 120],
+        sample_sizes=[200, 220],
+    )
+    traf = box("traf", tfhd + trun)
+    moof = box("moof", mfhd + traf)
+    mdat = box("mdat", bytes([0x33]) * 512)
+    return styp + moof + mdat
 
 
 def build_movie_header(timescale: int, duration: int, next_track_id: int) -> bytes:
@@ -594,6 +805,9 @@ def generate_text_fixtures(media_root: Path = MEDIA) -> list[Path]:
     return [
         write_fixture("fragmented_stream_init", build_fragmented_init(), media_root),
         write_fixture("dash_segment_1", build_dash_segment(), media_root),
+        write_fixture("fragmented_multi_trun", build_fragmented_multi_trun(), media_root),
+        write_fixture("fragmented_negative_offset", build_fragmented_negative_offset(), media_root),
+        write_fixture("fragmented_no_tfdt", build_fragmented_no_tfdt(), media_root),
         write_fixture("large_mdat_placeholder", build_large_mdat(), media_root),
         write_fixture("malformed_truncated", build_malformed_truncated(), media_root),
         write_fixture("edit_list_empty", build_edit_list_empty(), media_root),

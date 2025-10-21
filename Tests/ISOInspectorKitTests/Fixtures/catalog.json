@@ -73,6 +73,80 @@
       }
     },
     {
+      "id": "fragmented-multi-trun",
+      "title": "Fragment with multiple track runs",
+      "description": "Synthetic moof carrying two trun boxes with composition offsets to stress run aggregation.",
+      "format": "m4s",
+      "tags": [
+        "fragmented",
+        "segment",
+        "multi-run",
+        "composition-offsets"
+      ],
+      "resource": {
+        "name": "fragmented_multi_trun",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [
+          "Contains multiple trun runs with version 0 composition offsets"
+        ],
+        "errors": []
+      }
+    },
+    {
+      "id": "fragmented-negative-offset",
+      "title": "Fragment with negative data offset",
+      "description": "Synthetic fragment exercising negative trun data_offset handling and signed composition offsets.",
+      "format": "m4s",
+      "tags": [
+        "fragmented",
+        "segment",
+        "negative-offset"
+      ],
+      "resource": {
+        "name": "fragmented_negative_offset",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [],
+        "errors": []
+      }
+    },
+    {
+      "id": "fragmented-no-tfdt",
+      "title": "Fragment without decode time box",
+      "description": "Synthetic fragment omitting tfdt so decode times and presentation offsets fall back to defaults.",
+      "format": "m4s",
+      "tags": [
+        "fragmented",
+        "segment",
+        "no-tfdt"
+      ],
+      "resource": {
+        "name": "fragmented_no_tfdt",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [
+          "Track fragment omits tfdt; decode times default to context state"
+        ],
+        "errors": []
+      }
+    },
+    {
       "id": "large-mdat",
       "title": "Large mdat stress sample",
       "description": "Synthetic MP4 with 8 KiB media payload to exercise large mdat handling and large-size headers.",
