@@ -14,10 +14,7 @@ let foundationUIProducts: [Product] = [
 let conditionalTargets: [Target] = [
     .target(
         name: "FoundationUI",
-        dependencies: [],
-        swiftSettings: [
-            .enableExperimentalFeature("StrictConcurrency")
-        ]
+        dependencies: []
     ),
     .testTarget(
         name: "FoundationUITests",
