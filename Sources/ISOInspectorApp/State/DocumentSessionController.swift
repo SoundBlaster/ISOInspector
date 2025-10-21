@@ -1091,7 +1091,7 @@
     }
 
     protocol DocumentSessionWorkQueue {
-        func execute(_ work: @escaping () -> Void)
+        func execute(_ work: @escaping @Sendable () -> Void)
     }
 
     struct DocumentSessionBackgroundQueue: DocumentSessionWorkQueue {
