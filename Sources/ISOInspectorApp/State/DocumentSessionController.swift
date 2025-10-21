@@ -1104,7 +1104,7 @@
             self.queue = queue
         }
 
-        func execute(_ work: @escaping () -> Void) {
+        func execute(_ work: @escaping @Sendable () -> Void) {
             queue.async(execute: work)
         }
     }
