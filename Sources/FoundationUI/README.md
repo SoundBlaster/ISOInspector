@@ -12,7 +12,7 @@ FoundationUI is a universal SwiftUI framework that provides a unified cross-plat
 
 ## Features
 
-- ✅ **Unified UI/UX** across iOS 17+, iPadOS 17+, and macOS 14+
+- ✅ **Unified UI/UX** across iOS 16+, iPadOS 16+, and macOS 14+
 - ✅ **Zero magic numbers** - all design values use semantic tokens
 - ✅ **Accessibility first** - WCAG 2.1 AA compliant (≥95% score target)
 - ✅ **Platform adaptive** - automatic iOS/macOS UI adaptation
@@ -132,6 +132,13 @@ DS.Animation.spring  // Physics-based motion
 - `SidebarPattern` - Navigation sidebar
 - `ToolbarPattern` - Platform-adaptive toolbar
 - `BoxTreePattern` - Hierarchical tree view
+
+## Platform Support
+
+FoundationUI supports:
+- **iOS** 16.0+
+- **iPadOS** 16.0+
+- **macOS** 14.0+
 
 ## Platform Adaptation
 
