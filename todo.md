@@ -1,3 +1,3 @@
 # TODO
 
-No outstanding tasks. Completed tasks have been archived in the `DOCS/TASK_ARCHIVE/` directory.
+- [ ] #D3 Parse `tfdt` and `trun` boxes plus aggregate `traf` container metadata so fragment runs expose sample timing and offsets. See DOCS/INPROGRESS/D3_traf_tfhd_tfdt_trun_Parsing.md.

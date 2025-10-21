@@ -8,6 +8,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case movieHeader(MovieHeaderBox)
         case trackHeader(TrackHeaderBox)
         case trackExtends(TrackExtendsDefaultsBox)
+        case trackFragmentHeader(TrackFragmentHeaderBox)
         case movieFragmentHeader(MovieFragmentHeaderBox)
         case soundMediaHeader(SoundMediaHeaderBox)
         case videoMediaHeader(VideoMediaHeaderBox)
@@ -248,6 +249,43 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             self.defaultSampleDuration = defaultSampleDuration
             self.defaultSampleSize = defaultSampleSize
             self.defaultSampleFlags = defaultSampleFlags
+        }
+    }
+
+    public struct TrackFragmentHeaderBox: Equatable, Sendable {
+        public let version: UInt8
+        public let flags: UInt32
+        public let trackID: UInt32
+        public let baseDataOffset: UInt64?
+        public let sampleDescriptionIndex: UInt32?
+        public let defaultSampleDuration: UInt32?
+        public let defaultSampleSize: UInt32?
+        public let defaultSampleFlags: UInt32?
+        public let durationIsEmpty: Bool
+        public let defaultBaseIsMoof: Bool
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            trackID: UInt32,
+            baseDataOffset: UInt64?,
+            sampleDescriptionIndex: UInt32?,
+            defaultSampleDuration: UInt32?,
+            defaultSampleSize: UInt32?,
+            defaultSampleFlags: UInt32?,
+            durationIsEmpty: Bool,
+            defaultBaseIsMoof: Bool
+        ) {
+            self.version = version
+            self.flags = flags
+            self.trackID = trackID
+            self.baseDataOffset = baseDataOffset
+            self.sampleDescriptionIndex = sampleDescriptionIndex
+            self.defaultSampleDuration = defaultSampleDuration
+            self.defaultSampleSize = defaultSampleSize
+            self.defaultSampleFlags = defaultSampleFlags
+            self.durationIsEmpty = durationIsEmpty
+            self.defaultBaseIsMoof = defaultBaseIsMoof
         }
     }
 
@@ -808,6 +846,11 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var trackExtends: TrackExtendsDefaultsBox? {
         guard case let .trackExtends(box) = detail else { return nil }
+        return box
+    }
+
+    public var trackFragmentHeader: TrackFragmentHeaderBox? {
+        guard case let .trackFragmentHeader(box) = detail else { return nil }
         return box
     }
 

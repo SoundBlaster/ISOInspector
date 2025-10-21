@@ -85,6 +85,44 @@ final class EventConsoleFormatterTests: XCTestCase {
         XCTAssertTrue(output.contains("sequence=7"))
     }
 
+    func testFormatterIncludesTrackFragmentHeaderTrackID() throws {
+        let header = try makeHeader(type: "tfhd", size: 20)
+        let payload = ParsedBoxPayload(
+            fields: [
+                ParsedBoxPayload.Field(
+                    name: "track_id",
+                    value: "42",
+                    description: "Track identifier",
+                    byteRange: 12..<16
+                )
+            ],
+            detail: .trackFragmentHeader(
+                ParsedBoxPayload.TrackFragmentHeaderBox(
+                    version: 0,
+                    flags: 0,
+                    trackID: 42,
+                    baseDataOffset: nil,
+                    sampleDescriptionIndex: nil,
+                    defaultSampleDuration: nil,
+                    defaultSampleSize: nil,
+                    defaultSampleFlags: nil,
+                    durationIsEmpty: false,
+                    defaultBaseIsMoof: false
+                )
+            )
+        )
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: 0,
+            payload: payload
+        )
+
+        let formatter = EventConsoleFormatter()
+        let output = formatter.format(event)
+
+        XCTAssertTrue(output.contains("track=42"))
+    }
+
     private func makeHeader(type: String, size: Int64) throws -> BoxHeader {
         let fourCC = try FourCharCode(type)
         let range = Int64(0)..<size

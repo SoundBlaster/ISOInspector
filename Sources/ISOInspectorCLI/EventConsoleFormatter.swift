@@ -45,6 +45,9 @@ public struct EventConsoleFormatter: Sendable {
     }
 
     private func detailDescription(for event: ParseEvent) -> String? {
+        if let fragmentHeader = event.payload?.trackFragmentHeader {
+            return "track=\(fragmentHeader.trackID)"
+        }
         if let fragment = event.payload?.movieFragmentHeader {
             return "sequence=\(fragment.sequenceNumber)"
         }
