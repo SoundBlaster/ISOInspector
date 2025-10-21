@@ -16,6 +16,7 @@ import SwiftUI
 /// - Platform-specific behaviors
 /// - Keyboard navigation support
 /// - Design token usage (zero magic numbers)
+@MainActor
 final class InteractiveStyleTests: XCTestCase {
 
     // MARK: - Interaction Type Tests
