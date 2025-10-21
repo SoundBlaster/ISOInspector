@@ -1090,7 +1090,9 @@
         }
     }
 
-    protocol DocumentSessionWorkQueue {
+    /// Work queue for executing background tasks in a document session.
+    /// Uses @Sendable closures for Swift 6 concurrency safety.
+    protocol DocumentSessionWorkQueue: Sendable {
         func execute(_ work: @escaping @Sendable () -> Void)
     }
 
