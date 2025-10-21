@@ -9,6 +9,10 @@ public struct EventConsoleFormatter: Sendable {
         segments.append(prefix(for: event))
         segments.append(describe(event))
 
+        if let detail = detailDescription(for: event) {
+            segments.append(detail)
+        }
+
         if let metadata = event.metadata {
             segments.append("— \(metadata.summary)")
         }
@@ -38,6 +42,16 @@ public struct EventConsoleFormatter: Sendable {
         case let .willStartBox(header, _), let .didFinishBox(header, _):
             return "Box \(header.identifierString)"
         }
+    }
+
+    private func detailDescription(for event: ParseEvent) -> String? {
+        if let fragment = event.payload?.movieFragmentHeader {
+            return "sequence=\(fragment.sequenceNumber)"
+        }
+        if let sequenceField = event.payload?.fields.first(where: { $0.name == "sequence_number" })?.value {
+            return "sequence=\(sequenceField)"
+        }
+        return nil
     }
 
     private func issueDescription(_ issue: ValidationIssue) -> String {

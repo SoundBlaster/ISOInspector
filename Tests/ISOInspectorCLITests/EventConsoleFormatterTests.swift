@@ -42,6 +42,49 @@ final class EventConsoleFormatterTests: XCTestCase {
         XCTAssertTrue(output.contains("Expected version 0 but found 1"))
     }
 
+    func testFormatterIncludesMovieFragmentSequenceNumber() throws {
+        let header = try makeHeader(type: "mfhd", size: 16)
+        let payload = ParsedBoxPayload(
+            fields: [
+                ParsedBoxPayload.Field(
+                    name: "version",
+                    value: "0",
+                    description: "Structure version",
+                    byteRange: 8..<9
+                ),
+                ParsedBoxPayload.Field(
+                    name: "flags",
+                    value: "0x000000",
+                    description: "Bit flags",
+                    byteRange: 9..<12
+                ),
+                ParsedBoxPayload.Field(
+                    name: "sequence_number",
+                    value: "7",
+                    description: "Fragment sequence number",
+                    byteRange: 12..<16
+                )
+            ],
+            detail: .movieFragmentHeader(
+                ParsedBoxPayload.MovieFragmentHeaderBox(
+                    version: 0,
+                    flags: 0,
+                    sequenceNumber: 7
+                )
+            )
+        )
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: 0,
+            payload: payload
+        )
+
+        let formatter = EventConsoleFormatter()
+        let output = formatter.format(event)
+
+        XCTAssertTrue(output.contains("sequence=7"))
+    }
+
     private func makeHeader(type: String, size: Int64) throws -> BoxHeader {
         let fourCC = try FourCharCode(type)
         let range = Int64(0)..<size

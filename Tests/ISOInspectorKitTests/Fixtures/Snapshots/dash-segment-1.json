@@ -120,29 +120,44 @@
           },
           "payload" : [
             {
-              "name" : "parser",
-              "summary" : "No parser registered for this box type; returning placeholder metadata.",
-              "value" : "placeholder"
+              "byteRange" : {
+                "end" : 81,
+                "start" : 80
+              },
+              "name" : "version",
+              "summary" : "Structure version",
+              "value" : "0"
             },
             {
-              "name" : "payload_length",
-              "summary" : "Number of bytes in the box payload.",
-              "value" : "8"
+              "byteRange" : {
+                "end" : 84,
+                "start" : 81
+              },
+              "name" : "flags",
+              "summary" : "Bit flags",
+              "value" : "0x000000"
             },
             {
               "byteRange" : {
                 "end" : 88,
-                "start" : 80
+                "start" : 84
               },
-              "name" : "payload_range",
-              "summary" : "Byte range of the payload relative to the file start.",
-              "value" : "80..<88"
+              "name" : "sequence_number",
+              "summary" : "Fragment sequence number",
+              "value" : "1"
             }
           ],
           "sizes" : {
             "header" : 8,
             "payload" : 8,
             "total" : 16
+          },
+          "structured" : {
+            "movie_fragment_header" : {
+              "flags" : 0,
+              "sequence_number" : 1,
+              "version" : 0
+            }
           },
           "validationIssues" : [
 
@@ -348,27 +363,6 @@
         "payloadStart" : 72,
         "start" : 64
       },
-      "payload" : [
-        {
-          "name" : "parser",
-          "summary" : "No parser registered for this box type; returning placeholder metadata.",
-          "value" : "placeholder"
-        },
-        {
-          "name" : "payload_length",
-          "summary" : "Number of bytes in the box payload.",
-          "value" : "92"
-        },
-        {
-          "byteRange" : {
-            "end" : 164,
-            "start" : 72
-          },
-          "name" : "payload_range",
-          "summary" : "Byte range of the payload relative to the file start.",
-          "value" : "72..<164"
-        }
-      ],
       "sizes" : {
         "header" : 8,
         "payload" : 92,

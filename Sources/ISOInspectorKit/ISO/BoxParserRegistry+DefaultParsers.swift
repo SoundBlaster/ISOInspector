@@ -21,11 +21,17 @@ extension BoxParserRegistry {
             if let mvex = try? FourCharCode("mvex") {
                 registry.register(parser: movieExtends, for: mvex)
             }
+            if let moof = try? FourCharCode("moof") {
+                registry.register(parser: movieFragment, for: moof)
+            }
             if let tkhd = try? FourCharCode("tkhd") {
                 registry.register(parser: trackHeader, for: tkhd)
             }
             if let trex = try? FourCharCode("trex") {
                 registry.register(parser: trackExtends, for: trex)
+            }
+            if let mfhd = try? FourCharCode("mfhd") {
+                registry.register(parser: movieFragmentHeader, for: mfhd)
             }
             if let mdhd = try? FourCharCode("mdhd") {
                 registry.register(parser: mediaHeader, for: mdhd)

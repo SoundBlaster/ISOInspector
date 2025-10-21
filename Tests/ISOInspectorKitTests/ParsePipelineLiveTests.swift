@@ -551,6 +551,27 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertTrue(vr005Issues.isEmpty)
     }
 
+    func testLivePipelineParsesMovieFragmentHeaderSequenceNumber() async throws {
+        let mfhd = makeMovieFragmentHeaderBox(sequenceNumber: 42)
+        let moof = makeContainer(type: ContainerTypes.movieFragment, children: [mfhd])
+        let reader = InMemoryRandomAccessReader(data: moof)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let mfhdEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "mfhd"
+            }
+            return false
+        })
+
+        let payload = try XCTUnwrap(mfhdEvent.payload)
+        XCTAssertEqual(field(named: "sequence_number", in: payload), "42")
+
+        let detail = try XCTUnwrap(payload.movieFragmentHeader)
+        XCTAssertEqual(detail.sequenceNumber, 42)
+    }
+
     func testLivePipelineParsesHandlerBoxPayload() async throws {
         var payload = Data()
         payload.append(0x00) // version
@@ -878,6 +899,14 @@ final class ParsePipelineLiveTests: XCTestCase {
             ))
         }
         return makeBox(type: "ilst", payload: payload)
+    }
+
+    private func makeMovieFragmentHeaderBox(sequenceNumber: UInt32) -> Data {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: sequenceNumber.bigEndianBytes)
+        return makeBox(type: "mfhd", payload: payload)
     }
 
     private struct SampleToChunkEntryParameters {
