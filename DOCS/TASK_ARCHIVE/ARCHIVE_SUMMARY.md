@@ -720,3 +720,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/`.
 - **Highlights:** Captures delivery of the `tfhd` track fragment header parser, downstream CLI and JSON export updates, regenerated DASH fragment snapshots, and the verification notes recorded in the 2025-10-21 work summary.
 - **Next steps carried forward:** Resume Task D3 by implementing `tfdt`/`trun` parsing plus aggregated `traf` metadata, expand multi-fragment integration coverage, and pursue codec fixture licensing per the recreated `DOCS/INPROGRESS/next_tasks.md`.
+
+## 138_Fragment_Fixture_Coverage
+- **Archived files:** `Fragment_Fixture_Coverage.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/138_Fragment_Fixture_Coverage/`.
+- **Highlights:** Documents expansion of the fragment fixture catalog with multi-`trun`, negative `data_offset`, missing `tfdt`, and composition offset scenarios plus the corresponding updates to tests, JSON export snapshots, CLI output, and fixture documentation.
+- **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now tracks validator/CLI polish follow-ups informed by the new fixture metadata and the licensing work needed to replace synthetic codec payloads with real-world assets.
