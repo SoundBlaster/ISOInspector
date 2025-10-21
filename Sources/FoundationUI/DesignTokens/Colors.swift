@@ -109,7 +109,7 @@ public extension DS {
             #if canImport(UIKit)
             return SwiftUI.Color(uiColor: .tertiarySystemBackground)
             #elseif canImport(AppKit)
-            return SwiftUI.Color(nsColor: .tertiarySystemBackground)
+            return SwiftUI.Color(nsColor: .tertiaryLabelColor)
             #else
             return SwiftUI.Color.gray.opacity(0.1)
             #endif
@@ -136,7 +136,7 @@ public extension DS {
             #if canImport(UIKit)
             return SwiftUI.Color(uiColor: .placeholderText)
             #elseif canImport(AppKit)
-            return SwiftUI.Color(nsColor: .placeholderText)
+            return SwiftUI.Color(nsColor: .placeholderTextColor)
             #else
             return SwiftUI.Color.gray.opacity(0.6)
             #endif
