@@ -217,7 +217,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] D3. `traf/tfhd/tfdt/trun`: parse via flags; sample_count; optional data_offset; sizes. _(Completed — see `DOCS/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/Summary_of_Work.md` for implementation recap and follow-up notes.)_
 - [x] Fragment fixture coverage — *(Completed — see `DOCS/TASK_ARCHIVE/138_Fragment_Fixture_Coverage/Fragment_Fixture_Coverage.md` and `DOCS/TASK_ARCHIVE/138_Fragment_Fixture_Coverage/Summary_of_Work.md` for fixture details. Validator/CLI polish documentation now lives in `DOCS/TASK_ARCHIVE/139_Validator_and_CLI_Polish/Summary_of_Work.md`, while real-world asset licensing follow-ups remain queued in `DOCS/INPROGRESS/next_tasks.md`.)*
 - [x] D4. `sidx`: refs (sizes/durations), earliest_presentation_time, timescale. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
-- [ ] D5. `mfra/tfra/mfro`: random access table.
+- [ ] D5. `mfra/tfra/mfro`: random access table. _(In Progress — see `DOCS/INPROGRESS/D5_mfra_tfra_mfro_Random_Access.md`.)_
 - [ ] D6. Recognize `senc/saio/saiz` (CENC placeholders), capture sizes/offsets only.
 
 ### Phase E — Validation
