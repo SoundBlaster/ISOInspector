@@ -263,7 +263,6 @@ private struct StructuredPayload: Encodable {
         self.metadataItems = metadataItems
     }
 
-
     private enum CodingKeys: String, CodingKey {
         case fileType = "file_type"
         case mediaData = "media_data"
