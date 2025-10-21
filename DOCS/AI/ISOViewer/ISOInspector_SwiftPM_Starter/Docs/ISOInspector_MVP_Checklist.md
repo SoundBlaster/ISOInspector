@@ -55,7 +55,7 @@
 ## Phase D — Fragmentation & Indexes
 - [x] D1. Stubs: `mvex/trex` _(Completed — see `DOCS/TASK_ARCHIVE/D1_mvex_trex_Defaults/Summary_of_Work.md`.)_
 - [ ] D2. Stubs: `moof/mfhd`
-- [ ] D3. Stubs: `traf/tfhd/tfdt/trun` (flags map only). _(In Progress — see `DOCS/INPROGRESS/D3_traf_tfhd_tfdt_trun_Parsing.md`.)_
+- [ ] D3. Stubs: `traf/tfhd/tfdt/trun` (flags map only). _(In Progress — see `DOCS/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/D3_traf_tfhd_tfdt_trun_Parsing.md`.)_
 - [x] D4. Stubs: `sidx`. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
 - [ ] D5. Stubs: `mfra/tfra/mfro`
 - [ ] D6. Stubs: `senc/saio/saiz` placeholders

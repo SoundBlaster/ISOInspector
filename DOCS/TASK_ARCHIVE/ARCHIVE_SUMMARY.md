@@ -708,3 +708,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/135_Summary_of_Work_2025-10-20_moof_mfhd_Sequence_Number/`.
 - **Highlights:** Captures completion of Task D2 `moof/mfhd` sequence number decoding across the streaming parse pipeline, JSON export, CLI formatting, and validation layers, including refreshed fixtures and tests.
 - **Next steps carried forward:** Multi-fragment fixture coverage and codec licensing follow-ups remain active in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header
+- **Archived files:** `2025-10-21-track-fragment-header.md`, `D3_traf_tfhd_tfdt_trun_Parsing.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/`.
+- **Highlights:** Captures delivery of the `tfhd` track fragment header parser, downstream CLI and JSON export updates, regenerated DASH fragment snapshots, and the verification notes recorded in the 2025-10-21 work summary.
+- **Next steps carried forward:** Resume Task D3 by implementing `tfdt`/`trun` parsing plus aggregated `traf` metadata, expand multi-fragment integration coverage, and pursue codec fixture licensing per the recreated `DOCS/INPROGRESS/next_tasks.md`.
