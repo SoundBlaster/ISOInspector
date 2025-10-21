@@ -3,6 +3,11 @@
 ## 🎯 Objective
 Implement stub-level parsing for the sample encryption support boxes (`senc`, `saio`, `saiz`) so fragment workflows expose their byte ranges and counts without attempting to decrypt protected payloads.
 
+## 🔀 Subtasks
+- [D6.A — Register Sample Encryption Box Parsers](./D6A_Register_Sample_Encryption_Parsers_PRD.md): Adds dedicated registry handlers that emit placeholder metadata for each helper box.
+- [D6.B — Surface Sample Encryption Metadata Across Outputs](./D6B_Surface_Sample_Encryption_Metadata_PRD.md): Propagates the new fields through kit models, JSON exports, CLI formatting, and SwiftUI detail panes.
+- [D6.C — Validate & Document Sample Encryption Placeholder Coverage](./D6C_Validate_Sample_Encryption_Placeholders_PRD.md): Establishes regression fixtures, tests, and documentation updates covering the new functionality end-to-end.
+
 ## 🧩 Context
 - The detailed backlog calls for capturing sizes and offsets for these Common Encryption helper boxes to round out the fragment parser surface.【F:DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md†L218-L221】
 - Product requirements emphasise recording the presence of encrypted payload structures without decoding their contents, keeping security goals intact while informing users that protection exists.【F:DOCS/AI/ISOInspector_Execution_Guide/02_Product_Requirements.md†L52-L64】
