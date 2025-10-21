@@ -25,6 +25,18 @@ final class JSONExportSnapshotTests: XCTestCase {
         try await assertSnapshotMatchesFixture(id: "dash-segment-1")
     }
 
+    func testFragmentedMultiTrunSnapshotMatchesFixture() async throws {
+        try await assertSnapshotMatchesFixture(id: "fragmented-multi-trun")
+    }
+
+    func testFragmentedNegativeOffsetSnapshotMatchesFixture() async throws {
+        try await assertSnapshotMatchesFixture(id: "fragmented-negative-offset")
+    }
+
+    func testFragmentedNoTfdtSnapshotMatchesFixture() async throws {
+        try await assertSnapshotMatchesFixture(id: "fragmented-no-tfdt")
+    }
+
     func testEditListEmptySnapshotMatchesFixture() async throws {
         try await assertSnapshotMatchesFixture(id: "edit-list-empty")
     }
