@@ -27,6 +27,84 @@ final class ParsePipelineLiveTests: XCTestCase {
         try assertEvent(events[7], kind: .didFinish, type: ContainerTypes.movie, depth: 0, offset: Int64(ftyp.count + moov.count))
     }
 
+    func testRandomAccessTableCorrelatesWithFragments() async throws {
+        let sequenceNumber: UInt32 = 7
+        let trackID: UInt32 = 1
+        let baseDecodeTime: UInt64 = 9_000
+        let sampleDurations: [UInt32] = [3_000, 3_000, 3_000]
+        let sampleSizes: [UInt32] = [1_200, 1_500, 1_800]
+        let dataOffset: Int32 = 64
+        let baseDataOffset: UInt64 = 4_096
+
+        let mfhd = makeMovieFragmentHeaderBox(sequenceNumber: sequenceNumber)
+        let tfhd = makeTrackFragmentHeaderBox(
+            trackID: trackID,
+            baseDataOffset: baseDataOffset,
+            defaultSampleDuration: sampleDurations[0],
+            defaultSampleSize: sampleSizes[0],
+            defaultSampleFlags: 0
+        )
+        let tfdt = makeTrackFragmentDecodeTimeBox(baseDecodeTime: baseDecodeTime)
+        let trun = makeTrackRunBox(
+            sampleCount: UInt32(sampleDurations.count),
+            dataOffset: dataOffset,
+            sampleDurations: sampleDurations,
+            sampleSizes: sampleSizes
+        )
+        let traf = makeContainer(type: ContainerTypes.trackFragment, children: [tfhd, tfdt, trun])
+        let moof = makeContainer(type: ContainerTypes.movieFragment, children: [mfhd, traf])
+
+        let tfra = makeTrackFragmentRandomAccessBox(
+            version: 1,
+            trackID: trackID,
+            entries: [
+                .init(
+                    time: baseDecodeTime + UInt64(sampleDurations[0]),
+                    moofOffset: 0,
+                    trafNumber: 1,
+                    trunNumber: 1,
+                    sampleNumber: 2
+                )
+            ]
+        )
+        let mfra = makeMovieFragmentRandomAccessBox(trackEntries: [tfra])
+
+        let data = moof + mfra
+        let reader = InMemoryRandomAccessReader(data: data)
+        let pipeline = ParsePipeline.live()
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+
+        let tfraEvent = try XCTUnwrap(events.first { event in
+            guard case let .willStartBox(header, _) = event.kind else { return false }
+            return header.type.rawValue == "tfra"
+        })
+        let tfraDetail = try XCTUnwrap(tfraEvent.payload?.trackFragmentRandomAccess)
+        XCTAssertEqual(tfraDetail.trackID, trackID)
+        XCTAssertEqual(tfraDetail.entries.count, 1)
+
+        let entry = try XCTUnwrap(tfraDetail.entries.first)
+        XCTAssertEqual(entry.fragmentSequenceNumber, sequenceNumber)
+        XCTAssertEqual(entry.trafNumber, 1)
+        XCTAssertEqual(entry.trunNumber, 1)
+        XCTAssertEqual(entry.sampleNumber, 2)
+        XCTAssertEqual(entry.resolvedDecodeTime, baseDecodeTime + UInt64(sampleDurations[0]))
+        XCTAssertEqual(entry.resolvedPresentationTime, Int64(baseDecodeTime + UInt64(sampleDurations[0])))
+        XCTAssertEqual(entry.resolvedDataOffset, baseDataOffset + UInt64(Int64(dataOffset)) + UInt64(sampleSizes[0]))
+        XCTAssertEqual(entry.resolvedSampleSize, sampleSizes[1])
+
+        let mfraEvent = try XCTUnwrap(events.first { event in
+            guard case let .didFinishBox(header, _) = event.kind else { return false }
+            return header.type.rawValue == "mfra"
+        })
+        let mfraDetail = try XCTUnwrap(mfraEvent.payload?.movieFragmentRandomAccess)
+        XCTAssertEqual(mfraDetail.totalEntryCount, 1)
+        XCTAssertEqual(mfraDetail.tracks.count, 1)
+        XCTAssertEqual(mfraDetail.tracks.first?.trackID, trackID)
+        XCTAssertEqual(mfraDetail.tracks.first?.entryCount, 1)
+        XCTAssertEqual(mfraDetail.tracks.first?.referencedFragmentSequenceNumbers, [sequenceNumber])
+        XCTAssertEqual(mfraDetail.offset?.mfraSize, UInt32(mfra.count))
+    }
+
     func testLivePipelineHandlesLargeSizeBoxes() async throws {
         let payload = Data(repeating: 0xFF, count: 12)
         let mediaType = MediaAndIndexBoxCode.mediaData.rawValue
@@ -1077,6 +1155,64 @@ final class ParsePipelineLiveTests: XCTestCase {
         box.append(contentsOf: locale.bigEndianBytes)
         box.append(data)
         return box
+    }
+
+    private struct TrackFragmentRandomAccessEntryParameters {
+        let time: UInt64
+        let moofOffset: UInt64
+        let trafNumber: UInt64
+        let trunNumber: UInt64
+        let sampleNumber: UInt64
+    }
+
+    private func makeTrackFragmentRandomAccessBox(
+        version: UInt8,
+        trackID: UInt32,
+        entries: [TrackFragmentRandomAccessEntryParameters]
+    ) -> Data {
+        precondition(version == 0 || version == 1, "Unsupported tfra version for test fixture")
+        var payload = Data()
+        payload.append(version)
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: trackID.bigEndianBytes)
+
+        let lengthIndicator: UInt32 = (0b11 << 4) | (0b11 << 2) | 0b11
+        payload.append(contentsOf: lengthIndicator.bigEndianBytes)
+        payload.append(contentsOf: UInt32(entries.count).bigEndianBytes)
+
+        for entry in entries {
+            if version == 1 {
+                payload.append(contentsOf: entry.time.bigEndianBytes)
+                payload.append(contentsOf: entry.moofOffset.bigEndianBytes)
+            } else {
+                payload.append(contentsOf: UInt32(truncatingIfNeeded: entry.time).bigEndianBytes)
+                payload.append(contentsOf: UInt32(truncatingIfNeeded: entry.moofOffset).bigEndianBytes)
+            }
+            payload.append(contentsOf: UInt32(truncatingIfNeeded: entry.trafNumber).bigEndianBytes)
+            payload.append(contentsOf: UInt32(truncatingIfNeeded: entry.trunNumber).bigEndianBytes)
+            payload.append(contentsOf: UInt32(truncatingIfNeeded: entry.sampleNumber).bigEndianBytes)
+        }
+
+        return makeBox(type: "tfra", payload: payload)
+    }
+
+    private func makeMovieFragmentRandomAccessBox(trackEntries: [Data]) -> Data {
+        var payload = Data()
+        for table in trackEntries {
+            payload.append(table)
+        }
+
+        let mfroSize = 16
+        let totalMfraSize = UInt32(8 + payload.count + mfroSize)
+
+        var mfroPayload = Data()
+        mfroPayload.append(0x00)
+        mfroPayload.append(contentsOf: [0x00, 0x00, 0x00])
+        mfroPayload.append(contentsOf: totalMfraSize.bigEndianBytes)
+        let mfro = makeBox(type: "mfro", payload: mfroPayload)
+
+        payload.append(mfro)
+        return makeBox(type: "mfra", payload: payload)
     }
 }
 

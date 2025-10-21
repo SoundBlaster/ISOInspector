@@ -145,6 +145,34 @@ public struct BoxParserRegistry: Sendable {
         }
     }
 
+    public struct RandomAccessEnvironment: Sendable {
+        public struct TrackFragment: Sendable {
+            public let order: UInt32
+            public let detail: ParsedBoxPayload.TrackFragmentBox
+
+            public init(order: UInt32, detail: ParsedBoxPayload.TrackFragmentBox) {
+                self.order = order
+                self.detail = detail
+            }
+        }
+
+        public struct Fragment: Sendable {
+            public let sequenceNumber: UInt32?
+            public let trackFragments: [TrackFragment]
+
+            public init(sequenceNumber: UInt32?, trackFragments: [TrackFragment]) {
+                self.sequenceNumber = sequenceNumber
+                self.trackFragments = trackFragments
+            }
+        }
+
+        public var fragmentsByMoofOffset: [UInt64: Fragment]
+
+        public init(fragmentsByMoofOffset: [UInt64: Fragment] = [:]) {
+            self.fragmentsByMoofOffset = fragmentsByMoofOffset
+        }
+    }
+
     private static let defaultEditListEnvironmentProvider:
         @Sendable (_ header: BoxHeader, _ reader: RandomAccessReader) -> EditListEnvironment = { _, _ in
             EditListEnvironment()
@@ -221,6 +249,32 @@ public struct BoxParserRegistry: Sendable {
         perform: () throws -> T
     ) rethrows -> T {
         try $fragmentEnvironmentProviderOverride.withValue(provider, operation: perform)
+    }
+
+    private static let defaultRandomAccessEnvironmentProvider:
+        @Sendable (_ header: BoxHeader, _ reader: RandomAccessReader) -> RandomAccessEnvironment = { _, _ in
+            RandomAccessEnvironment()
+        }
+
+    @TaskLocal
+    private static var randomAccessEnvironmentProviderOverride:
+        (@Sendable (BoxHeader, RandomAccessReader) -> RandomAccessEnvironment)?
+
+    static func resolveRandomAccessEnvironment(
+        header: BoxHeader,
+        reader: RandomAccessReader
+    ) -> RandomAccessEnvironment {
+        if let override = randomAccessEnvironmentProviderOverride {
+            return override(header, reader)
+        }
+        return defaultRandomAccessEnvironmentProvider(header, reader)
+    }
+
+    public static func withRandomAccessEnvironmentProvider<T>(
+        _ provider: @escaping @Sendable (BoxHeader, RandomAccessReader) -> RandomAccessEnvironment,
+        perform: () throws -> T
+    ) rethrows -> T {
+        try $randomAccessEnvironmentProviderOverride.withValue(provider, operation: perform)
     }
 
     public func registering(parser: @escaping Parser, for type: FourCharCode) -> BoxParserRegistry {

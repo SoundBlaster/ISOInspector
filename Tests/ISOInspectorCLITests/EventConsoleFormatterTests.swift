@@ -191,6 +191,84 @@ final class EventConsoleFormatterTests: XCTestCase {
         XCTAssertTrue(output.contains("presentation=1000-1180"))
     }
 
+    func testFormatterSummarizesTrackFragmentRandomAccess() throws {
+        let header = try makeHeader(type: "tfra", size: 32)
+        let entry = ParsedBoxPayload.TrackFragmentRandomAccessBox.Entry(
+            index: 1,
+            time: 12_000,
+            moofOffset: 0,
+            trafNumber: 1,
+            trunNumber: 1,
+            sampleNumber: 2,
+            fragmentSequenceNumber: 9,
+            trackID: 1,
+            sampleDescriptionIndex: 1,
+            runIndex: 0,
+            firstSampleGlobalIndex: 1,
+            resolvedDecodeTime: 12_000,
+            resolvedPresentationTime: 12_000,
+            resolvedDataOffset: 5_360,
+            resolvedSampleSize: 1_500,
+            resolvedSampleFlags: nil
+        )
+        let box = ParsedBoxPayload.TrackFragmentRandomAccessBox(
+            version: 1,
+            flags: 0,
+            trackID: 1,
+            trafNumberLength: 4,
+            trunNumberLength: 4,
+            sampleNumberLength: 4,
+            entryCount: 1,
+            entries: [entry]
+        )
+        let payload = ParsedBoxPayload(detail: .trackFragmentRandomAccess(box))
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: 0,
+            payload: payload
+        )
+
+        let formatter = EventConsoleFormatter()
+        let output = formatter.format(event)
+
+        XCTAssertTrue(output.contains("track=1"))
+        XCTAssertTrue(output.contains("entries=1"))
+        XCTAssertTrue(output.contains("fragment=9"))
+        XCTAssertTrue(output.contains("sample=traf1:trun1:2"))
+        XCTAssertTrue(output.contains("decode=12000"))
+        XCTAssertTrue(output.contains("offset=5360"))
+    }
+
+    func testFormatterSummarizesMovieFragmentRandomAccess() throws {
+        let header = try makeHeader(type: "mfra", size: 24)
+        let trackSummary = ParsedBoxPayload.MovieFragmentRandomAccessBox.TrackSummary(
+            trackID: 1,
+            entryCount: 1,
+            earliestTime: 12_000,
+            latestTime: 12_000,
+            referencedFragmentSequenceNumbers: [9]
+        )
+        let box = ParsedBoxPayload.MovieFragmentRandomAccessBox(
+            tracks: [trackSummary],
+            totalEntryCount: 1,
+            offset: ParsedBoxPayload.MovieFragmentRandomAccessOffsetBox(mfraSize: 128)
+        )
+        let payload = ParsedBoxPayload(detail: .movieFragmentRandomAccess(box))
+        let event = ParseEvent(
+            kind: .didFinishBox(header: header, depth: 0),
+            offset: 0,
+            payload: payload
+        )
+
+        let formatter = EventConsoleFormatter()
+        let output = formatter.format(event)
+
+        XCTAssertTrue(output.contains("tracks=1"))
+        XCTAssertTrue(output.contains("total_entries=1"))
+        XCTAssertTrue(output.contains("fragments=[9]"))
+        XCTAssertTrue(output.contains("mfra_size=128"))
+    }
+
     func testFormatterHighlightsRunWithNegativeDataOffset() throws {
         let header = try makeHeader(type: "trun", size: 24)
         let run = ParsedBoxPayload.TrackRunBox(

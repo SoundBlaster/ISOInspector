@@ -193,6 +193,105 @@ final class ParseExportTests: XCTestCase {
         XCTAssertTrue(validationIssues.isEmpty, "Validation issues present: \(validationIssues)")
     }
 
+    func testJSONExporterIncludesRandomAccessDetails() throws {
+        let tfraHeader = try makeHeader(type: "tfra", size: 32, offset: 16)
+        let mfraHeader = try makeHeader(type: "mfra", size: 48, offset: 0)
+
+        let entry = ParsedBoxPayload.TrackFragmentRandomAccessBox.Entry(
+            index: 1,
+            time: 12_000,
+            moofOffset: 0,
+            trafNumber: 1,
+            trunNumber: 1,
+            sampleNumber: 2,
+            fragmentSequenceNumber: 9,
+            trackID: 1,
+            sampleDescriptionIndex: 1,
+            runIndex: 0,
+            firstSampleGlobalIndex: 1,
+            resolvedDecodeTime: 12_000,
+            resolvedPresentationTime: 12_000,
+            resolvedDataOffset: 5_360,
+            resolvedSampleSize: 1_500,
+            resolvedSampleFlags: nil
+        )
+
+        let tfraDetail = ParsedBoxPayload.TrackFragmentRandomAccessBox(
+            version: 1,
+            flags: 0,
+            trackID: 1,
+            trafNumberLength: 4,
+            trunNumberLength: 4,
+            sampleNumberLength: 4,
+            entryCount: 1,
+            entries: [entry]
+        )
+
+        let mfraDetail = ParsedBoxPayload.MovieFragmentRandomAccessBox(
+            tracks: [
+                ParsedBoxPayload.MovieFragmentRandomAccessBox.TrackSummary(
+                    trackID: 1,
+                    entryCount: 1,
+                    earliestTime: 12_000,
+                    latestTime: 12_000,
+                    referencedFragmentSequenceNumbers: [9]
+                )
+            ],
+            totalEntryCount: 1,
+            offset: ParsedBoxPayload.MovieFragmentRandomAccessOffsetBox(mfraSize: 128)
+        )
+
+        let tfraNode = ParseTreeNode(
+            header: tfraHeader,
+            payload: ParsedBoxPayload(detail: .trackFragmentRandomAccess(tfraDetail))
+        )
+
+        let mfraNode = ParseTreeNode(
+            header: mfraHeader,
+            payload: ParsedBoxPayload(detail: .movieFragmentRandomAccess(mfraDetail)),
+            children: [tfraNode]
+        )
+
+        let tree = ParseTree(nodes: [mfraNode])
+        let exporter = JSONParseTreeExporter()
+        let data = try exporter.export(tree: tree)
+        let json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+
+        let nodes = try XCTUnwrap(json["nodes"] as? [[String: Any]])
+        XCTAssertEqual(nodes.count, 1)
+        let root = try XCTUnwrap(nodes.first)
+        XCTAssertEqual(root["fourcc"] as? String, "mfra")
+        let structured = try XCTUnwrap(root["structured"] as? [String: Any])
+        let mfraJSON = try XCTUnwrap(structured["movie_fragment_random_access"] as? [String: Any])
+        XCTAssertEqual(mfraJSON["total_entry_count"] as? Int, 1)
+        XCTAssertEqual((mfraJSON["tracks"] as? [[String: Any]])?.count, 1)
+        let trackJSON = try XCTUnwrap((mfraJSON["tracks"] as? [[String: Any]])?.first)
+        XCTAssertEqual(trackJSON["track_ID"] as? Int, 1)
+        XCTAssertEqual(trackJSON["entry_count"] as? Int, 1)
+        XCTAssertEqual(trackJSON["earliest_time"] as? Int, 12_000)
+        XCTAssertEqual(trackJSON["fragments"] as? [Int], [9])
+        let offsetJSON = try XCTUnwrap(mfraJSON["offset"] as? [String: Any])
+        XCTAssertEqual(offsetJSON["mfra_size"] as? Int, 128)
+
+        let children = try XCTUnwrap(root["children"] as? [[String: Any]])
+        XCTAssertEqual(children.count, 1)
+        let tfraJSON = try XCTUnwrap(children.first)
+        XCTAssertEqual(tfraJSON["fourcc"] as? String, "tfra")
+        let tfraStructured = try XCTUnwrap(tfraJSON["structured"] as? [String: Any])
+        let tableJSON = try XCTUnwrap(tfraStructured["track_fragment_random_access"] as? [String: Any])
+        XCTAssertEqual(tableJSON["track_ID"] as? Int, 1)
+        XCTAssertEqual(tableJSON["entry_count"] as? Int, 1)
+        let entriesJSON = try XCTUnwrap(tableJSON["entries"] as? [[String: Any]])
+        XCTAssertEqual(entriesJSON.count, 1)
+        let entryJSON = try XCTUnwrap(entriesJSON.first)
+        XCTAssertEqual(entryJSON["fragment_sequence_number"] as? Int, 9)
+        XCTAssertEqual(entryJSON["traf_number"] as? Int, 1)
+        XCTAssertEqual(entryJSON["trun_number"] as? Int, 1)
+        XCTAssertEqual(entryJSON["sample_number"] as? Int, 2)
+        XCTAssertEqual(entryJSON["resolved_decode_time"] as? Int, 12_000)
+        XCTAssertEqual(entryJSON["resolved_data_offset"] as? Int, 5_360)
+    }
+
     func testBinaryCaptureRoundTripPreservesEvents() throws {
         let header = try makeHeader(type: "trak", size: 40)
         let metadata = BoxDescriptor(

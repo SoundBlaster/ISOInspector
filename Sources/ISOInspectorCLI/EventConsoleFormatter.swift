@@ -45,6 +45,38 @@ public struct EventConsoleFormatter: Sendable {
     }
 
     private func detailDescription(for event: ParseEvent) -> String? {
+        if let table = event.payload?.trackFragmentRandomAccess {
+            var parts: [String] = []
+            parts.append("track=\(table.trackID)")
+            parts.append("entries=\(table.entries.count)")
+            if let fragment = table.entries.compactMap({ $0.fragmentSequenceNumber }).sorted().first {
+                parts.append("fragment=\(fragment)")
+            }
+            if let firstEntry = table.entries.first {
+                parts.append("sample=traf\(firstEntry.trafNumber):trun\(firstEntry.trunNumber):\(firstEntry.sampleNumber)")
+                if let decode = firstEntry.resolvedDecodeTime {
+                    parts.append("decode=\(decode)")
+                }
+                if let offset = firstEntry.resolvedDataOffset {
+                    parts.append("offset=\(offset)")
+                }
+            }
+            return parts.joined(separator: " ")
+        }
+        if let summary = event.payload?.movieFragmentRandomAccess {
+            var parts: [String] = []
+            parts.append("tracks=\(summary.tracks.count)")
+            parts.append("total_entries=\(summary.totalEntryCount)")
+            let fragments = summary.tracks.flatMap { $0.referencedFragmentSequenceNumbers }.sorted()
+            if !fragments.isEmpty {
+                let joined = fragments.map(String.init).joined(separator: ",")
+                parts.append("fragments=[\(joined)]")
+            }
+            if let size = summary.offset?.mfraSize {
+                parts.append("mfra_size=\(size)")
+            }
+            return parts.joined(separator: " ")
+        }
         if let fragment = event.payload?.trackFragment {
             var parts: [String] = []
             if let trackID = fragment.trackID {
