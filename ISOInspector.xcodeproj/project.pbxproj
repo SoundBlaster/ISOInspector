@@ -136,6 +136,7 @@
 		95A2E8431D7938246301CB29 /* ISOInspectorAppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D7DF7C02CEB706BB4FAE65 /* ISOInspectorAppTheme.swift */; };
 		961657F56CDA7EFCF43668E7 /* FoundationBookmarkDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB19A0775A7409615DA3C895 /* FoundationBookmarkDataManager.swift */; };
 		980E4CAF1A7521A5E6600E80 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 0315013D590768D9DECC9684 /* ArgumentParser */; };
+		984CD222476ACBA59D134858 /* BoxParserRegistry+RandomAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97EEE2C62DF4E907C8D4E94 /* BoxParserRegistry+RandomAccess.swift */; };
 		98A4CB42DDC1B3D177CD7536 /* DocumentSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FD9A51B1B9119CD5622C62 /* DocumentSessionController.swift */; };
 		99A6A364AA428BA5031CEE68 /* TuistAssets+ISOInspectorAppMacOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DA9E22416800568115FEF59 /* TuistAssets+ISOInspectorAppMacOS.swift */; };
 		99BB7583EC1085C13DB68CA5 /* HexSliceProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BB89073E4EE5FD8547865B4 /* HexSliceProvider.swift */; };
@@ -456,6 +457,7 @@
 		C1E0AB1EB991F8B285EBA366 /* BoxParserRegistry+SampleDescriptionEntries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BoxParserRegistry+SampleDescriptionEntries.swift"; sourceTree = "<group>"; };
 		C236D659D14BA9C36DE63BA2 /* BoxParserRegistry+SampleDescriptionProtection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BoxParserRegistry+SampleDescriptionProtection.swift"; sourceTree = "<group>"; };
 		C3102926110408EF51524646 /* ISOInspectorBrandPalette.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISOInspectorBrandPalette.swift; sourceTree = "<group>"; };
+		C97EEE2C62DF4E907C8D4E94 /* BoxParserRegistry+RandomAccess.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BoxParserRegistry+RandomAccess.swift"; sourceTree = "<group>"; };
 		CDCAAD28CCEB601FC8F6F564 /* ParseTreeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTreeDetailViewModel.swift; sourceTree = "<group>"; };
 		CE6E350A3BA9C9CD45A32ADD /* FilesystemAccessAuditTrail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesystemAccessAuditTrail.swift; sourceTree = "<group>"; };
 		D1106066309A0A40BDFFFB3E /* FoundationSecurityScopedAccessManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundationSecurityScopedAccessManager.swift; sourceTree = "<group>"; };
@@ -597,6 +599,7 @@
 				8FB21940FDF05BF8841D561B /* BoxParserRegistry+MovieExtends.swift */,
 				A4B6A4251697D08B21AA94F3 /* BoxParserRegistry+MovieFragments.swift */,
 				208FD93C8E4CABD3745B2432 /* BoxParserRegistry+MovieHeader.swift */,
+				C97EEE2C62DF4E907C8D4E94 /* BoxParserRegistry+RandomAccess.swift */,
 				B745AF5957DF749B6DC44330 /* BoxParserRegistry+SampleDescription.swift */,
 				E209809EF7CEFB902E0BD46B /* BoxParserRegistry+SampleDescriptionCodecAVC.swift */,
 				2082637B5E8BE74C8357BF39 /* BoxParserRegistry+SampleDescriptionCodecESDS.swift */,
@@ -1365,6 +1368,7 @@
 				A84A94D38A5929E154ACDB35 /* BoxParserRegistry+MovieExtends.swift in Sources */,
 				8A67EA80F5DFA9A3E697D049 /* BoxParserRegistry+MovieFragments.swift in Sources */,
 				EF016CD3E25C79E932CD8120 /* BoxParserRegistry+MovieHeader.swift in Sources */,
+				984CD222476ACBA59D134858 /* BoxParserRegistry+RandomAccess.swift in Sources */,
 				EE309E56E3AB523786D26663 /* BoxParserRegistry+SampleDescription.swift in Sources */,
 				4E79430E90718562B01DA010 /* BoxParserRegistry+SampleDescriptionCodecAVC.swift in Sources */,
 				EB15A1E44F76C59E8FBEFB15 /* BoxParserRegistry+SampleDescriptionCodecESDS.swift in Sources */,
