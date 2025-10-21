@@ -24,6 +24,9 @@ extension BoxParserRegistry {
             if let moof = try? FourCharCode("moof") {
                 registry.register(parser: movieFragment, for: moof)
             }
+            if let mfra = try? FourCharCode("mfra") {
+                registry.register(parser: movieFragmentRandomAccess, for: mfra)
+            }
             if let tkhd = try? FourCharCode("tkhd") {
                 registry.register(parser: trackHeader, for: tkhd)
             }
@@ -44,6 +47,12 @@ extension BoxParserRegistry {
             }
             if let traf = try? FourCharCode("traf") {
                 registry.register(parser: trackFragment, for: traf)
+            }
+            if let tfra = try? FourCharCode("tfra") {
+                registry.register(parser: trackFragmentRandomAccess, for: tfra)
+            }
+            if let mfro = try? FourCharCode("mfro") {
+                registry.register(parser: movieFragmentRandomAccessOffset, for: mfro)
             }
             if let mdhd = try? FourCharCode("mdhd") {
                 registry.register(parser: mediaHeader, for: mdhd)

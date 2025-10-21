@@ -13,6 +13,9 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case trackRun(TrackRunBox)
         case trackFragment(TrackFragmentBox)
         case movieFragmentHeader(MovieFragmentHeaderBox)
+        case movieFragmentRandomAccess(MovieFragmentRandomAccessBox)
+        case trackFragmentRandomAccess(TrackFragmentRandomAccessBox)
+        case movieFragmentRandomAccessOffset(MovieFragmentRandomAccessOffsetBox)
         case soundMediaHeader(SoundMediaHeaderBox)
         case videoMediaHeader(VideoMediaHeaderBox)
         case editList(EditListBox)
@@ -476,6 +479,138 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             self.latestPresentationTime = latestPresentationTime
             self.firstDecodeTime = firstDecodeTime
             self.lastDecodeTime = lastDecodeTime
+        }
+    }
+
+    public struct TrackFragmentRandomAccessBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public let index: UInt32
+            public let time: UInt64
+            public let moofOffset: UInt64
+            public let trafNumber: UInt64
+            public let trunNumber: UInt64
+            public let sampleNumber: UInt64
+            public let fragmentSequenceNumber: UInt32?
+            public let trackID: UInt32?
+            public let sampleDescriptionIndex: UInt32?
+            public let runIndex: UInt32?
+            public let firstSampleGlobalIndex: UInt64?
+            public let resolvedDecodeTime: UInt64?
+            public let resolvedPresentationTime: Int64?
+            public let resolvedDataOffset: UInt64?
+            public let resolvedSampleSize: UInt32?
+            public let resolvedSampleFlags: UInt32?
+
+            public init(
+                index: UInt32,
+                time: UInt64,
+                moofOffset: UInt64,
+                trafNumber: UInt64,
+                trunNumber: UInt64,
+                sampleNumber: UInt64,
+                fragmentSequenceNumber: UInt32?,
+                trackID: UInt32?,
+                sampleDescriptionIndex: UInt32?,
+                runIndex: UInt32?,
+                firstSampleGlobalIndex: UInt64?,
+                resolvedDecodeTime: UInt64?,
+                resolvedPresentationTime: Int64?,
+                resolvedDataOffset: UInt64?,
+                resolvedSampleSize: UInt32?,
+                resolvedSampleFlags: UInt32?
+            ) {
+                self.index = index
+                self.time = time
+                self.moofOffset = moofOffset
+                self.trafNumber = trafNumber
+                self.trunNumber = trunNumber
+                self.sampleNumber = sampleNumber
+                self.fragmentSequenceNumber = fragmentSequenceNumber
+                self.trackID = trackID
+                self.sampleDescriptionIndex = sampleDescriptionIndex
+                self.runIndex = runIndex
+                self.firstSampleGlobalIndex = firstSampleGlobalIndex
+                self.resolvedDecodeTime = resolvedDecodeTime
+                self.resolvedPresentationTime = resolvedPresentationTime
+                self.resolvedDataOffset = resolvedDataOffset
+                self.resolvedSampleSize = resolvedSampleSize
+                self.resolvedSampleFlags = resolvedSampleFlags
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let trackID: UInt32
+        public let trafNumberLength: UInt8
+        public let trunNumberLength: UInt8
+        public let sampleNumberLength: UInt8
+        public let entryCount: UInt32
+        public let entries: [Entry]
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            trackID: UInt32,
+            trafNumberLength: UInt8,
+            trunNumberLength: UInt8,
+            sampleNumberLength: UInt8,
+            entryCount: UInt32,
+            entries: [Entry]
+        ) {
+            self.version = version
+            self.flags = flags
+            self.trackID = trackID
+            self.trafNumberLength = trafNumberLength
+            self.trunNumberLength = trunNumberLength
+            self.sampleNumberLength = sampleNumberLength
+            self.entryCount = entryCount
+            self.entries = entries
+        }
+    }
+
+    public struct MovieFragmentRandomAccessOffsetBox: Equatable, Sendable {
+        public let mfraSize: UInt32
+
+        public init(mfraSize: UInt32) {
+            self.mfraSize = mfraSize
+        }
+    }
+
+    public struct MovieFragmentRandomAccessBox: Equatable, Sendable {
+        public struct TrackSummary: Equatable, Sendable {
+            public let trackID: UInt32
+            public let entryCount: Int
+            public let earliestTime: UInt64?
+            public let latestTime: UInt64?
+            public let referencedFragmentSequenceNumbers: [UInt32]
+
+            public init(
+                trackID: UInt32,
+                entryCount: Int,
+                earliestTime: UInt64?,
+                latestTime: UInt64?,
+                referencedFragmentSequenceNumbers: [UInt32]
+            ) {
+                self.trackID = trackID
+                self.entryCount = entryCount
+                self.earliestTime = earliestTime
+                self.latestTime = latestTime
+                self.referencedFragmentSequenceNumbers = referencedFragmentSequenceNumbers
+            }
+        }
+
+        public let tracks: [TrackSummary]
+        public let totalEntryCount: Int
+        public let offset: MovieFragmentRandomAccessOffsetBox?
+
+        public init(
+            tracks: [TrackSummary],
+            totalEntryCount: Int,
+            offset: MovieFragmentRandomAccessOffsetBox?
+        ) {
+            self.tracks = tracks
+            self.totalEntryCount = totalEntryCount
+            self.offset = offset
         }
     }
 
@@ -1049,6 +1184,21 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var movieFragmentHeader: MovieFragmentHeaderBox? {
         guard case let .movieFragmentHeader(box) = detail else { return nil }
+        return box
+    }
+
+    public var trackFragmentRandomAccess: TrackFragmentRandomAccessBox? {
+        guard case let .trackFragmentRandomAccess(box) = detail else { return nil }
+        return box
+    }
+
+    public var movieFragmentRandomAccess: MovieFragmentRandomAccessBox? {
+        guard case let .movieFragmentRandomAccess(box) = detail else { return nil }
+        return box
+    }
+
+    public var movieFragmentRandomAccessOffset: MovieFragmentRandomAccessOffsetBox? {
+        guard case let .movieFragmentRandomAccessOffset(box) = detail else { return nil }
         return box
     }
 

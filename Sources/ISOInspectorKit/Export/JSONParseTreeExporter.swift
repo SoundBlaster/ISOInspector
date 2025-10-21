@@ -151,6 +151,9 @@ private struct StructuredPayload: Encodable {
     let trackRun: TrackRunDetail?
     let trackFragment: TrackFragmentDetail?
     let movieFragmentHeader: MovieFragmentHeaderDetail?
+    let movieFragmentRandomAccess: MovieFragmentRandomAccessDetail?
+    let trackFragmentRandomAccess: TrackFragmentRandomAccessDetail?
+    let movieFragmentRandomAccessOffset: MovieFragmentRandomAccessOffsetDetail?
     let soundMediaHeader: SoundMediaHeaderDetail?
     let videoMediaHeader: VideoMediaHeaderDetail?
     let editList: EditListDetail?
@@ -176,6 +179,9 @@ private struct StructuredPayload: Encodable {
         var trackRun: TrackRunDetail?
         var trackFragment: TrackFragmentDetail?
         var movieFragmentHeader: MovieFragmentHeaderDetail?
+        var movieFragmentRandomAccess: MovieFragmentRandomAccessDetail?
+        var trackFragmentRandomAccess: TrackFragmentRandomAccessDetail?
+        var movieFragmentRandomAccessOffset: MovieFragmentRandomAccessOffsetDetail?
         var soundMediaHeader: SoundMediaHeaderDetail?
         var videoMediaHeader: VideoMediaHeaderDetail?
         var editList: EditListDetail?
@@ -212,6 +218,12 @@ private struct StructuredPayload: Encodable {
             trackFragment = TrackFragmentDetail(box: box)
         case let .movieFragmentHeader(box):
             movieFragmentHeader = MovieFragmentHeaderDetail(box: box)
+        case let .movieFragmentRandomAccess(box):
+            movieFragmentRandomAccess = MovieFragmentRandomAccessDetail(box: box)
+        case let .trackFragmentRandomAccess(box):
+            trackFragmentRandomAccess = TrackFragmentRandomAccessDetail(box: box)
+        case let .movieFragmentRandomAccessOffset(box):
+            movieFragmentRandomAccessOffset = MovieFragmentRandomAccessOffsetDetail(box: box)
         case let .soundMediaHeader(box):
             soundMediaHeader = SoundMediaHeaderDetail(box: box)
         case let .videoMediaHeader(box):
@@ -249,6 +261,9 @@ private struct StructuredPayload: Encodable {
         self.trackRun = trackRun
         self.trackFragment = trackFragment
         self.movieFragmentHeader = movieFragmentHeader
+        self.movieFragmentRandomAccess = movieFragmentRandomAccess
+        self.trackFragmentRandomAccess = trackFragmentRandomAccess
+        self.movieFragmentRandomAccessOffset = movieFragmentRandomAccessOffset
         self.soundMediaHeader = soundMediaHeader
         self.videoMediaHeader = videoMediaHeader
         self.editList = editList
@@ -275,6 +290,9 @@ private struct StructuredPayload: Encodable {
         case trackRun = "track_run"
         case trackFragment = "track_fragment"
         case movieFragmentHeader = "movie_fragment_header"
+        case movieFragmentRandomAccess = "movie_fragment_random_access"
+        case trackFragmentRandomAccess = "track_fragment_random_access"
+        case movieFragmentRandomAccessOffset = "movie_fragment_random_access_offset"
         case soundMediaHeader = "sound_media_header"
         case videoMediaHeader = "video_media_header"
         case editList = "edit_list"
@@ -1315,6 +1333,154 @@ private struct TrackRunDetail: Encodable {
         case runIndex = "run_index"
         case firstSampleGlobalIndex = "first_sample_global_index"
         case entries
+    }
+}
+
+private struct TrackFragmentRandomAccessEntryDetail: Encodable {
+    let index: UInt32
+    let time: UInt64
+    let moofOffset: UInt64
+    let trafNumber: UInt64
+    let trunNumber: UInt64
+    let sampleNumber: UInt64
+    let fragmentSequenceNumber: UInt32?
+    let trackID: UInt32?
+    let sampleDescriptionIndex: UInt32?
+    let runIndex: UInt32?
+    let firstSampleGlobalIndex: UInt64?
+    let resolvedDecodeTime: UInt64?
+    let resolvedPresentationTime: Int64?
+    let resolvedDataOffset: UInt64?
+    let resolvedSampleSize: UInt32?
+    let resolvedSampleFlags: UInt32?
+
+    init(entry: ParsedBoxPayload.TrackFragmentRandomAccessBox.Entry) {
+        self.index = entry.index
+        self.time = entry.time
+        self.moofOffset = entry.moofOffset
+        self.trafNumber = entry.trafNumber
+        self.trunNumber = entry.trunNumber
+        self.sampleNumber = entry.sampleNumber
+        self.fragmentSequenceNumber = entry.fragmentSequenceNumber
+        self.trackID = entry.trackID
+        self.sampleDescriptionIndex = entry.sampleDescriptionIndex
+        self.runIndex = entry.runIndex
+        self.firstSampleGlobalIndex = entry.firstSampleGlobalIndex
+        self.resolvedDecodeTime = entry.resolvedDecodeTime
+        self.resolvedPresentationTime = entry.resolvedPresentationTime
+        self.resolvedDataOffset = entry.resolvedDataOffset
+        self.resolvedSampleSize = entry.resolvedSampleSize
+        self.resolvedSampleFlags = entry.resolvedSampleFlags
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case index
+        case time
+        case moofOffset = "moof_offset"
+        case trafNumber = "traf_number"
+        case trunNumber = "trun_number"
+        case sampleNumber = "sample_number"
+        case fragmentSequenceNumber = "fragment_sequence_number"
+        case trackID = "track_ID"
+        case sampleDescriptionIndex = "sample_description_index"
+        case runIndex = "run_index"
+        case firstSampleGlobalIndex = "first_sample_global_index"
+        case resolvedDecodeTime = "resolved_decode_time"
+        case resolvedPresentationTime = "resolved_presentation_time"
+        case resolvedDataOffset = "resolved_data_offset"
+        case resolvedSampleSize = "resolved_sample_size"
+        case resolvedSampleFlags = "resolved_sample_flags"
+    }
+}
+
+private struct TrackFragmentRandomAccessDetail: Encodable {
+    let version: UInt8
+    let flags: UInt32
+    let trackID: UInt32
+    let trafNumberLength: UInt8
+    let trunNumberLength: UInt8
+    let sampleNumberLength: UInt8
+    let entryCount: UInt32
+    let entries: [TrackFragmentRandomAccessEntryDetail]
+
+    init(box: ParsedBoxPayload.TrackFragmentRandomAccessBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.trackID = box.trackID
+        self.trafNumberLength = box.trafNumberLength
+        self.trunNumberLength = box.trunNumberLength
+        self.sampleNumberLength = box.sampleNumberLength
+        self.entryCount = box.entryCount
+        self.entries = box.entries.map(TrackFragmentRandomAccessEntryDetail.init)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case trackID = "track_ID"
+        case trafNumberLength = "traf_number_length_bytes"
+        case trunNumberLength = "trun_number_length_bytes"
+        case sampleNumberLength = "sample_number_length_bytes"
+        case entryCount = "entry_count"
+        case entries
+    }
+}
+
+private struct MovieFragmentRandomAccessOffsetDetail: Encodable {
+    let mfraSize: UInt32
+
+    init(box: ParsedBoxPayload.MovieFragmentRandomAccessOffsetBox) {
+        self.mfraSize = box.mfraSize
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case mfraSize = "mfra_size"
+    }
+}
+
+private struct MovieFragmentRandomAccessTrackDetail: Encodable {
+    let trackID: UInt32
+    let entryCount: Int
+    let earliestTime: UInt64?
+    let latestTime: UInt64?
+    let fragments: [UInt32]
+
+    init(summary: ParsedBoxPayload.MovieFragmentRandomAccessBox.TrackSummary) {
+        self.trackID = summary.trackID
+        self.entryCount = summary.entryCount
+        self.earliestTime = summary.earliestTime
+        self.latestTime = summary.latestTime
+        self.fragments = summary.referencedFragmentSequenceNumbers
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case trackID = "track_ID"
+        case entryCount = "entry_count"
+        case earliestTime = "earliest_time"
+        case latestTime = "latest_time"
+        case fragments
+    }
+}
+
+private struct MovieFragmentRandomAccessDetail: Encodable {
+    let tracks: [MovieFragmentRandomAccessTrackDetail]
+    let totalEntryCount: Int
+    let offset: MovieFragmentRandomAccessOffsetDetail?
+
+    init(box: ParsedBoxPayload.MovieFragmentRandomAccessBox) {
+        self.tracks = box.tracks.map(MovieFragmentRandomAccessTrackDetail.init)
+        self.totalEntryCount = box.totalEntryCount
+        if let offset = box.offset {
+            self.offset = MovieFragmentRandomAccessOffsetDetail(box: offset)
+        } else {
+            self.offset = nil
+        }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case tracks
+        case totalEntryCount = "total_entry_count"
+        case offset
     }
 }
 
