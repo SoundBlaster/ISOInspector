@@ -160,8 +160,8 @@ final class EventConsoleFormatterTests: XCTestCase {
             totalSampleSize: 1500,
             startDecodeTime: 1000,
             endDecodeTime: 1180,
-            startPresentationTime: nil,
-            endPresentationTime: nil,
+            startPresentationTime: 1000,
+            endPresentationTime: 1180,
             startDataOffset: 2048,
             endDataOffset: 2048 + 1500,
             trackID: 7,
@@ -179,8 +179,55 @@ final class EventConsoleFormatterTests: XCTestCase {
         let formatter = EventConsoleFormatter()
         let output = formatter.format(event)
 
+        XCTAssertTrue(output.contains("track=7"))
+        XCTAssertTrue(output.contains("run=0"))
         XCTAssertTrue(output.contains("samples=3"))
+        XCTAssertTrue(output.contains("first_sample=1"))
+        XCTAssertTrue(output.contains("duration=180"))
+        XCTAssertTrue(output.contains("size=1500"))
         XCTAssertTrue(output.contains("data_offset=256"))
+        XCTAssertTrue(output.contains("data_range=2048-3548"))
+        XCTAssertTrue(output.contains("decode=1000-1180"))
+        XCTAssertTrue(output.contains("presentation=1000-1180"))
+    }
+
+    func testFormatterHighlightsRunWithNegativeDataOffset() throws {
+        let header = try makeHeader(type: "trun", size: 24)
+        let run = ParsedBoxPayload.TrackRunBox(
+            version: 0,
+            flags: 0x000200,
+            sampleCount: 1,
+            dataOffset: -64,
+            firstSampleFlags: nil,
+            entries: [],
+            totalSampleDuration: 240,
+            totalSampleSize: 480,
+            startDecodeTime: nil,
+            endDecodeTime: nil,
+            startPresentationTime: nil,
+            endPresentationTime: nil,
+            startDataOffset: nil,
+            endDataOffset: nil,
+            trackID: 2,
+            sampleDescriptionIndex: 1,
+            runIndex: 1,
+            firstSampleGlobalIndex: 5
+        )
+        let payload = ParsedBoxPayload(detail: .trackRun(run))
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: 0,
+            payload: payload
+        )
+
+        let formatter = EventConsoleFormatter()
+        let output = formatter.format(event)
+
+        XCTAssertTrue(output.contains("track=2"))
+        XCTAssertTrue(output.contains("run=1"))
+        XCTAssertTrue(output.contains("data_offset=-64"))
+        XCTAssertTrue(output.contains("data_range=unresolved"))
+        XCTAssertTrue(output.contains("decode=unresolved"))
     }
 
     func testFormatterIncludesTrackFragmentSummary() throws {
@@ -200,8 +247,8 @@ final class EventConsoleFormatterTests: XCTestCase {
             totalSampleCount: 4,
             totalSampleSize: 2048,
             totalSampleDuration: 400,
-            earliestPresentationTime: nil,
-            latestPresentationTime: nil,
+            earliestPresentationTime: 1000,
+            latestPresentationTime: 1600,
             firstDecodeTime: 1200,
             lastDecodeTime: 1600
         )
@@ -216,7 +263,13 @@ final class EventConsoleFormatterTests: XCTestCase {
         let output = formatter.format(event)
 
         XCTAssertTrue(output.contains("track=9"))
+        XCTAssertTrue(output.contains("runs=0"))
         XCTAssertTrue(output.contains("samples=4"))
+        XCTAssertTrue(output.contains("duration=400"))
+        XCTAssertTrue(output.contains("size=2048"))
+        XCTAssertTrue(output.contains("base_decode=1200"))
+        XCTAssertTrue(output.contains("decode=1200-1600"))
+        XCTAssertTrue(output.contains("presentation=1000-1600"))
     }
 
     private func makeHeader(type: String, size: Int64) throws -> BoxHeader {

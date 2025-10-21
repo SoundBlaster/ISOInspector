@@ -50,9 +50,29 @@ public struct EventConsoleFormatter: Sendable {
             if let trackID = fragment.trackID {
                 parts.append("track=\(trackID)")
             }
+            parts.append("runs=\(fragment.runs.count)")
             parts.append("samples=\(fragment.totalSampleCount)")
+            if let totalDuration = fragment.totalSampleDuration {
+                parts.append("duration=\(totalDuration)")
+            }
+            if let totalSize = fragment.totalSampleSize {
+                parts.append("size=\(totalSize)")
+            }
+            if let baseData = fragment.baseDataOffset {
+                parts.append("base_data_offset=\(baseData)")
+            }
             if let baseDecode = fragment.baseDecodeTime {
-                parts.append("base_decode_time=\(baseDecode)")
+                parts.append("base_decode=\(baseDecode)")
+            }
+            if let firstDecode = fragment.firstDecodeTime,
+               let lastDecode = fragment.lastDecodeTime {
+                parts.append("decode=\(firstDecode)-\(lastDecode)")
+            } else if let first = fragment.firstDecodeTime ?? fragment.baseDecodeTime {
+                parts.append("decode_start=\(first)")
+            }
+            if let earliest = fragment.earliestPresentationTime,
+               let latest = fragment.latestPresentationTime {
+                parts.append("presentation=\(earliest)-\(latest)")
             }
             return parts.joined(separator: " ")
         }
@@ -61,12 +81,39 @@ public struct EventConsoleFormatter: Sendable {
             if let trackID = run.trackID {
                 parts.append("track=\(trackID)")
             }
+            if let runIndex = run.runIndex {
+                parts.append("run=\(runIndex)")
+            }
             parts.append("samples=\(run.sampleCount)")
+            if let firstSample = run.firstSampleGlobalIndex {
+                parts.append("first_sample=\(firstSample)")
+            }
+            if let totalDuration = run.totalSampleDuration {
+                parts.append("duration=\(totalDuration)")
+            }
+            if let totalSize = run.totalSampleSize {
+                parts.append("size=\(totalSize)")
+            }
             if let dataOffset = run.dataOffset {
                 parts.append("data_offset=\(dataOffset)")
             }
-            if let start = run.startDecodeTime {
-                parts.append("start_decode=\(start)")
+            if let start = run.startDataOffset,
+               let end = run.endDataOffset {
+                parts.append("data_range=\(start)-\(end)")
+            } else if run.dataOffset != nil {
+                parts.append("data_range=unresolved")
+            }
+            if let startDecode = run.startDecodeTime,
+               let endDecode = run.endDecodeTime {
+                parts.append("decode=\(startDecode)-\(endDecode)")
+            } else if let singleDecode = run.startDecodeTime ?? run.endDecodeTime {
+                parts.append("decode=\(singleDecode)")
+            } else if run.sampleCount > 0 {
+                parts.append("decode=unresolved")
+            }
+            if let startPresentation = run.startPresentationTime,
+               let endPresentation = run.endPresentationTime {
+                parts.append("presentation=\(startPresentation)-\(endPresentation)")
             }
             return parts.joined(separator: " ")
         }

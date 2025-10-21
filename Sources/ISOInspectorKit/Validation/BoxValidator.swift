@@ -786,15 +786,17 @@ private struct FragmentRunValidationRule: BoxValidationRule {
         guard let run = event.payload?.trackRun else { return [] }
 
         var issues: [ValidationIssue] = []
-        let trackInfo = run.trackID.map { " for track \($0)" } ?? ""
+        let context = contextDescription(for: run)
 
         if run.sampleCount == 0 {
-            let message = "Track fragment run\(trackInfo) declares 0 samples."
+            let message = "Track fragment run\(context) declares 0 samples; ensure track run entries are present."
             issues.append(ValidationIssue(ruleID: "VR-017", message: message, severity: .error))
         }
 
-        if run.entries.contains(where: { $0.sampleDuration == nil }) {
-            let message = "Track fragment run\(trackInfo) sample durations unavailable; cannot advance decode timeline."
+        let missingDurations = missingDurationEntryIndexes(in: run)
+        if !missingDurations.isEmpty {
+            let entriesLabel = missingDurations.map(String.init).joined(separator: ", ")
+            let message = "Track fragment run\(context) is missing sample durations for entries [\(entriesLabel)]; cannot advance decode timeline."
             issues.append(ValidationIssue(ruleID: "VR-017", message: message, severity: .error))
         }
 
@@ -803,6 +805,42 @@ private struct FragmentRunValidationRule: BoxValidationRule {
 
     private enum BoxType {
         static let trackRun = try! FourCharCode("trun")
+    }
+
+    private func contextDescription(for run: ParsedBoxPayload.TrackRunBox) -> String {
+        var descriptors: [String] = []
+        if let trackID = run.trackID {
+            descriptors.append("track \(trackID)")
+        }
+        if let runIndex = run.runIndex {
+            descriptors.append("run #\(runIndex)")
+        }
+        if let first = run.firstSampleGlobalIndex {
+            if run.sampleCount > 0 {
+                let count = UInt64(run.sampleCount)
+                if count == 1 {
+                    descriptors.append("sample \(first)")
+                } else {
+                    let (candidate, overflow) = first.addingReportingOverflow(count - 1)
+                    if overflow {
+                        descriptors.append("sample range starting at \(first)")
+                    } else {
+                        descriptors.append("samples \(first)-\(candidate)")
+                    }
+                }
+            } else {
+                descriptors.append("first sample \(first)")
+            }
+        }
+        guard !descriptors.isEmpty else { return "" }
+        return " for " + descriptors.joined(separator: ", ")
+    }
+
+    private func missingDurationEntryIndexes(in run: ParsedBoxPayload.TrackRunBox) -> [UInt32] {
+        run.entries.compactMap { entry in
+            guard entry.sampleDuration == nil else { return nil }
+            return entry.index
+        }
     }
 }
 

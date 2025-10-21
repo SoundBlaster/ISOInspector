@@ -1,5 +1,7 @@
 # Validator & CLI Polish
 
+> **Status:** Completed — see [Summary_of_Work.md](Summary_of_Work.md) for verification notes and follow-up tracking.
+
 ## 🎯 Objective
 Ensure validator messaging, CLI formatting, and JSON export snapshots fully incorporate the expanded fragment fixture metadata so diagnostics and summaries stay accurate and readable for complex `moof/traf` scenarios.
 
