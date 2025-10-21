@@ -16,6 +16,7 @@ import SwiftUI
 /// - Platform-specific behavior
 /// - Fallback colors for unsupported platforms
 /// - Accessibility support
+@MainActor
 final class SurfaceStyleTests: XCTestCase {
 
     // MARK: - Surface Material Tests

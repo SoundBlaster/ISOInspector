@@ -16,6 +16,7 @@ import SwiftUI
 /// - Corner radius variants (small, medium, card)
 /// - Platform-specific adaptations
 /// - Design token usage (zero magic numbers)
+@MainActor
 final class CardStyleTests: XCTestCase {
 
     // MARK: - Elevation Level Tests

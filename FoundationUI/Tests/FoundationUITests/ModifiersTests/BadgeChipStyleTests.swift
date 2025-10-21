@@ -15,6 +15,7 @@ import SwiftUI
 /// - All badge levels (info, warning, error, success)
 /// - Design token usage (zero magic numbers)
 /// - Accessibility support
+@MainActor
 final class BadgeChipStyleTests: XCTestCase {
 
     // MARK: - Badge Level Tests
