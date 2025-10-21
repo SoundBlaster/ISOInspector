@@ -74,18 +74,10 @@ jobs:
             ${{ runner.os }}-spm-
 
       - name: swift build
-        run: |
-          # Build only Linux-compatible targets (excluding FoundationUI which requires SwiftUI)
-          swift build --target ISOInspectorKit --build-tests
-          swift build --target ISOInspectorCLI --build-tests
-          swift build --target ISOInspectorCLIRunner --build-tests
+        run: swift build --build-tests
 
       - name: swift test
-        run: |
-          # Test only Linux-compatible targets (excluding FoundationUI)
-          swift test --skip-build \
-            --filter ISOInspectorKitTests \
-            --filter ISOInspectorCLITests
+        run: swift test
 
   docc-archives:
     name: Generate DocC Archives

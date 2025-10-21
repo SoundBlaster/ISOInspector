@@ -46,18 +46,10 @@ jobs:
             ${{ runner.os }}-spm-
 
       - name: Build (debug with tests)
-        run: |
-          # Build only Linux-compatible targets (excluding FoundationUI which requires SwiftUI)
-          swift build --target ISOInspectorKit --build-tests
-          swift build --target ISOInspectorCLI --build-tests
-          swift build --target ISOInspectorCLIRunner --build-tests
+        run: swift build --build-tests
 
       - name: Test with coverage
-        run: |
-          # Test only Linux-compatible targets (excluding FoundationUI)
-          swift test --enable-code-coverage --skip-build \
-            --filter ISOInspectorKitTests \
-            --filter ISOInspectorCLITests
+        run: swift test --enable-code-coverage
 
       - name: Coverage summary
         run: |
