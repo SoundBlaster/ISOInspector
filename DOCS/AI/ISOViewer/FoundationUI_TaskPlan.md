@@ -183,14 +183,15 @@
   - Archive: `TASK_ARCHIVE/01_Phase2.1_BaseModifiers/`
 
 ### 2.2 Layer 2: Essential Components (Molecules)
-**Progress: 0/12 tasks**
+**Progress: 0/12 tasks → IN PROGRESS**
 
-- [ ] **P0** Implement Badge component
+- [ ] **P0** Implement Badge component → **IN PROGRESS**
   - File: `Sources/Components/Badge.swift`
   - Public initializer: `Badge(text: String, level: BadgeLevel)`
   - Use BadgeChipStyle modifier
   - Full VoiceOver support
   - Add 4+ SwiftUI Previews (all levels, light/dark)
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase2.2_Badge.md`
 
 - [ ] **P0** Implement Card component
   - File: `Sources/Components/Card.swift`
