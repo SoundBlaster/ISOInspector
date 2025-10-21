@@ -732,3 +732,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/139_Validator_and_CLI_Polish/`.
 - **Highlights:** Captures the validator diagnostics and CLI formatter refinements that incorporate fragment run context, decode windows, presentation ranges, and data offsets introduced by the expanded fixture catalog, plus verification commands confirming JSON export stability.
 - **Next steps carried forward:** Real-world codec fixture licensing remains blocked pending external approvals and is recorded in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+
+## 140_D5_mfra_tfra_mfro_Random_Access
+- **Archived files:** `D5_mfra_tfra_mfro_Random_Access.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/`.
+- **Highlights:** Documents delivery of the random access index coordinator, typed `mfra/tfra/mfro` payload models, and downstream ISOInspectorKit, CLI, and JSON export updates that surface fragment lookup metadata across the toolchain.
+- **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now tracks the blocked real-world codec fixture licensing effort needed to replace synthetic payloads and refresh regression baselines once approvals land.

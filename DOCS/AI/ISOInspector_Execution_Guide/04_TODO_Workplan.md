@@ -13,7 +13,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Status:** _Blocked_ — benchmark harness implementation is archived and awaiting macOS hardware to execute random slice metrics, UI automation coverage, and Combine-backed UI benchmarks documented in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
 >
-> **In Progress:** _D5 — `mfra/tfra/mfro` random access tables (see `DOCS/INPROGRESS/D5_mfra_tfra_mfro_Random_Access.md`). Validator and CLI polish is archived in `DOCS/TASK_ARCHIVE/139_Validator_and_CLI_Polish/`, and codec fixture licensing follow-ups remain blocked pending external approvals in `DOCS/INPROGRESS/next_tasks.md`._
+> **Archived (D5):** _`mfra/tfra/mfro` random access tables deliverable now lives in `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/`. Planning notes remain in `D5_mfra_tfra_mfro_Random_Access.md` with implementation details summarized in `Summary_of_Work.md`. Random access index integration shipped across ISOInspectorKit, CLI, and JSON exports; real-world codec fixture licensing follow-ups stay blocked in `DOCS/INPROGRESS/next_tasks.md`._
 >
 > **Recently archived:** Validator & CLI polish documentation captured in `DOCS/TASK_ARCHIVE/139_Validator_and_CLI_Polish/` alongside the fragment fixture coverage deliverable stored in `DOCS/TASK_ARCHIVE/138_Fragment_Fixture_Coverage/`. Task D3 — `traf/tfhd/tfdt/trun` fragment run parsing and validation scaffolding — remains documented in `DOCS/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/Summary_of_Work.md`, with historical planning notes retained in `DOCS/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/D3_traf_tfhd_tfdt_trun_Parsing.md`.
 
