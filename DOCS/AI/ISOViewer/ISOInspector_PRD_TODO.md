@@ -163,6 +163,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 
 ### 🚧 In Progress
+- [ ] D3 — `traf/tfhd/tfdt/trun` fragment run parsing and validation scaffolding. _(In Progress — see `DOCS/INPROGRESS/D3_traf_tfhd_tfdt_trun_Parsing.md`.)_
 - [x] B5 — Introduce `FullBoxReader` for (version,flags) extraction. **(Completed — helper, tests, and parser refactors documented in `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/B5_FullBoxReader.md` and `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/Summary_of_Work.md`.)**
 - [x] C6 — Integrate `ResearchLogMonitor` audit results into SwiftUI previews rendering VR-006 research log entries. _(Completed — see `DOCS/TASK_ARCHIVE/C6_Integrate_ResearchLogMonitor_Previews/Summary_of_Work.md`.)_
 - [x] C7 — Connect persisted bookmark diff entities to resolved bookmark records once reconciliation rules are finalized. _(Completed — see `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/Summary_of_Work.md`.)_
@@ -213,7 +214,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 - [x] D1. `mvex/trex`: defaults. _(Completed — see `DOCS/TASK_ARCHIVE/D1_mvex_trex_Defaults/Summary_of_Work.md`.)_
 - [x] [D2. `moof/mfhd`: sequence number](../../TASK_ARCHIVE/134_D2_moof_mfhd_Sequence_Number/D2_moof_mfhd_Sequence_Number.md). _(Completed — fragment headers now surface sequence numbers across Kit, CLI, and exports.)_
-- [ ] D3. `traf/tfhd/tfdt/trun`: parse via flags; sample_count; optional data_offset; sizes.
+- [ ] D3. `traf/tfhd/tfdt/trun`: parse via flags; sample_count; optional data_offset; sizes. _(In Progress — see `DOCS/INPROGRESS/D3_traf_tfhd_tfdt_trun_Parsing.md`.)_
 - [x] D4. `sidx`: refs (sizes/durations), earliest_presentation_time, timescale. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
 - [ ] D5. `mfra/tfra/mfro`: random access table.
 - [ ] D6. Recognize `senc/saio/saiz` (CENC placeholders), capture sizes/offsets only.

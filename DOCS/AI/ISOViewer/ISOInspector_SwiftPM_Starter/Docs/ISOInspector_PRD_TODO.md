@@ -191,7 +191,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 ### Phase D — Fragmentation & Indexes
 - [x] D1. `mvex/trex`: defaults. _(Completed — see `DOCS/TASK_ARCHIVE/D1_mvex_trex_Defaults/Summary_of_Work.md`.)_
 - [ ] D2. `moof/mfhd`: sequence number.
-- [ ] D3. `traf/tfhd/tfdt/trun`: parse via flags; sample_count; optional data_offset; sizes.
+- [ ] D3. `traf/tfhd/tfdt/trun`: parse via flags; sample_count; optional data_offset; sizes. _(In Progress — see `DOCS/INPROGRESS/D3_traf_tfhd_tfdt_trun_Parsing.md`.)_
 - [x] D4. `sidx`: refs (sizes/durations), earliest_presentation_time, timescale. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
 - [ ] D5. `mfra/tfra/mfro`: random access table.
 - [ ] D6. Recognize `senc/saio/saiz` (CENC placeholders), capture sizes/offsets only.
