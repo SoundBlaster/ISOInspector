@@ -6,17 +6,13 @@ on:
     branches:
       - "**"
     paths:
-      - 'Sources/FoundationUI/**'
-      - 'Tests/FoundationUITests/**'
-      - 'Package.swift'
+      - 'FoundationUI/**'
       - '.github/workflows/foundationui.yml'
   push:
     branches:
       - main
     paths:
-      - 'Sources/FoundationUI/**'
-      - 'Tests/FoundationUITests/**'
-      - 'Package.swift'
+      - 'FoundationUI/**'
       - '.github/workflows/foundationui.yml'
 
 jobs:
@@ -41,20 +37,21 @@ jobs:
       - name: Cache SwiftPM build artifacts
         uses: actions/cache@v4
         with:
-          path: .build
-          key: ${{ runner.os }}-spm-foundationui-${{ hashFiles('Package.swift', 'Package.resolved') }}
+          path: FoundationUI/.build
+          key: ${{ runner.os }}-spm-foundationui-${{ hashFiles('FoundationUI/Package.swift', 'FoundationUI/Package.resolved') }}
           restore-keys: |
             ${{ runner.os }}-spm-foundationui-
-            ${{ runner.os }}-spm-
 
       - name: Build FoundationUI framework
         run: |
           set -eo pipefail
           echo "Building FoundationUI framework..."
+          cd FoundationUI
           swift build --target FoundationUI
 
       - name: Run FoundationUI tests
         run: |
           set -eo pipefail
           echo "Running FoundationUI tests..."
+          cd FoundationUI
           swift test --filter FoundationUITests
