@@ -36,6 +36,15 @@ extension BoxParserRegistry {
             if let tfhd = try? FourCharCode("tfhd") {
                 registry.register(parser: trackFragmentHeader, for: tfhd)
             }
+            if let tfdt = try? FourCharCode("tfdt") {
+                registry.register(parser: trackFragmentDecodeTime, for: tfdt)
+            }
+            if let trun = try? FourCharCode("trun") {
+                registry.register(parser: trackRun, for: trun)
+            }
+            if let traf = try? FourCharCode("traf") {
+                registry.register(parser: trackFragment, for: traf)
+            }
             if let mdhd = try? FourCharCode("mdhd") {
                 registry.register(parser: mediaHeader, for: mdhd)
             }

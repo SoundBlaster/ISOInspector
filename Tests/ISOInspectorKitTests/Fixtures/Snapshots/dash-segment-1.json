@@ -256,29 +256,45 @@
               },
               "payload" : [
                 {
-                  "name" : "parser",
-                  "summary" : "No parser registered for this box type; returning placeholder metadata.",
-                  "value" : "placeholder"
-                },
-                {
-                  "name" : "payload_length",
-                  "summary" : "Number of bytes in the box payload.",
-                  "value" : "16"
+                  "byteRange" : {
+                    "end" : 121,
+                    "start" : 120
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "1"
                 },
                 {
                   "byteRange" : {
-                    "end" : 136,
-                    "start" : 120
+                    "end" : 124,
+                    "start" : 121
                   },
-                  "name" : "payload_range",
-                  "summary" : "Byte range of the payload relative to the file start.",
-                  "value" : "120..<136"
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 132,
+                    "start" : 124
+                  },
+                  "name" : "base_media_decode_time",
+                  "summary" : "Base media decode time",
+                  "value" : "0"
                 }
               ],
               "sizes" : {
                 "header" : 8,
                 "payload" : 16,
                 "total" : 24
+              },
+              "structured" : {
+                "track_fragment_decode_time" : {
+                  "base_media_decode_time" : 0,
+                  "base_media_decode_time_is_64bit" : true,
+                  "flags" : 0,
+                  "version" : 1
+                }
               },
               "validationIssues" : [
 
@@ -302,29 +318,98 @@
               },
               "payload" : [
                 {
-                  "name" : "parser",
-                  "summary" : "No parser registered for this box type; returning placeholder metadata.",
-                  "value" : "placeholder"
+                  "byteRange" : {
+                    "end" : 145,
+                    "start" : 144
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "0"
                 },
                 {
-                  "name" : "payload_length",
-                  "summary" : "Number of bytes in the box payload.",
-                  "value" : "20"
+                  "byteRange" : {
+                    "end" : 148,
+                    "start" : 145
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000301"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 152,
+                    "start" : 148
+                  },
+                  "name" : "sample_count",
+                  "summary" : "Number of samples in this run",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 156,
+                    "start" : 152
+                  },
+                  "name" : "data_offset",
+                  "summary" : "Offset from base data position",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 160,
+                    "start" : 156
+                  },
+                  "name" : "entries[0].sample_duration",
+                  "summary" : "Sample duration",
+                  "value" : "0"
                 },
                 {
                   "byteRange" : {
                     "end" : 164,
-                    "start" : 144
+                    "start" : 160
                   },
-                  "name" : "payload_range",
-                  "summary" : "Byte range of the payload relative to the file start.",
-                  "value" : "144..<164"
+                  "name" : "entries[0].sample_size",
+                  "summary" : "Sample size",
+                  "value" : "0"
                 }
               ],
               "sizes" : {
                 "header" : 8,
                 "payload" : 20,
                 "total" : 28
+              },
+              "structured" : {
+                "track_run" : {
+                  "data_offset" : 0,
+                  "end_data_offset" : 0,
+                  "end_decode_time" : 0,
+                  "end_presentation_time" : 0,
+                  "entries" : [
+                    {
+                      "byteRange" : {
+                        "end" : 164,
+                        "start" : 156
+                      },
+                      "data_offset" : 0,
+                      "decode_time" : 0,
+                      "index" : 1,
+                      "presentation_time" : 0,
+                      "sample_duration" : 0,
+                      "sample_size" : 0
+                    }
+                  ],
+                  "first_sample_global_index" : 1,
+                  "flags" : 769,
+                  "run_index" : 0,
+                  "sample_count" : 1,
+                  "sample_description_index" : 1,
+                  "start_data_offset" : 0,
+                  "start_decode_time" : 0,
+                  "start_presentation_time" : 0,
+                  "total_sample_duration" : 0,
+                  "total_sample_size" : 0,
+                  "track_ID" : 1,
+                  "version" : 0
+                }
               },
               "validationIssues" : [
 
@@ -343,31 +428,61 @@
             "payloadStart" : 96,
             "start" : 88
           },
-          "payload" : [
-            {
-              "name" : "parser",
-              "summary" : "No parser registered for this box type; returning placeholder metadata.",
-              "value" : "placeholder"
-            },
-            {
-              "name" : "payload_length",
-              "summary" : "Number of bytes in the box payload.",
-              "value" : "68"
-            },
-            {
-              "byteRange" : {
-                "end" : 164,
-                "start" : 96
-              },
-              "name" : "payload_range",
-              "summary" : "Byte range of the payload relative to the file start.",
-              "value" : "96..<164"
-            }
-          ],
           "sizes" : {
             "header" : 8,
             "payload" : 68,
             "total" : 76
+          },
+          "structured" : {
+            "track_fragment" : {
+              "base_decode_time" : 0,
+              "base_decode_time_is_64bit" : true,
+              "default_base_is_moof" : false,
+              "duration_is_empty" : false,
+              "earliest_presentation_time" : 0,
+              "first_decode_time" : 0,
+              "last_decode_time" : 0,
+              "latest_presentation_time" : 0,
+              "runs" : [
+                {
+                  "data_offset" : 0,
+                  "end_data_offset" : 0,
+                  "end_decode_time" : 0,
+                  "end_presentation_time" : 0,
+                  "entries" : [
+                    {
+                      "byteRange" : {
+                        "end" : 164,
+                        "start" : 156
+                      },
+                      "data_offset" : 0,
+                      "decode_time" : 0,
+                      "index" : 1,
+                      "presentation_time" : 0,
+                      "sample_duration" : 0,
+                      "sample_size" : 0
+                    }
+                  ],
+                  "first_sample_global_index" : 1,
+                  "flags" : 769,
+                  "run_index" : 0,
+                  "sample_count" : 1,
+                  "sample_description_index" : 1,
+                  "start_data_offset" : 0,
+                  "start_decode_time" : 0,
+                  "start_presentation_time" : 0,
+                  "total_sample_duration" : 0,
+                  "total_sample_size" : 0,
+                  "track_ID" : 1,
+                  "version" : 0
+                }
+              ],
+              "sample_description_index" : 1,
+              "total_sample_count" : 1,
+              "total_sample_duration" : 0,
+              "total_sample_size" : 0,
+              "track_ID" : 1
+            }
           },
           "validationIssues" : [
             {

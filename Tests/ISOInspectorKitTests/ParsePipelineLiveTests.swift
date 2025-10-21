@@ -572,6 +572,53 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertEqual(detail.sequenceNumber, 42)
     }
 
+    func testLivePipelineAggregatesTrackFragmentSummary() async throws {
+        let tfhd = makeTrackFragmentHeaderBox(
+            trackID: 1,
+            baseDataOffset: 4096,
+            defaultSampleDuration: 100,
+            defaultSampleSize: 512,
+            defaultSampleFlags: 0
+        )
+        let tfdt = makeTrackFragmentDecodeTimeBox(baseDecodeTime: 1200)
+        let trun = makeTrackRunBox(
+            sampleCount: 2,
+            dataOffset: 256,
+            sampleDurations: [110, 120],
+            sampleSizes: [500, 600]
+        )
+        let traf = makeBox(type: ContainerTypes.trackFragment, payload: tfhd + tfdt + trun)
+        let mfhd = makeMovieFragmentHeaderBox(sequenceNumber: 1)
+        let moof = makeContainer(type: ContainerTypes.movieFragment, children: [mfhd, traf])
+
+        let reader = InMemoryRandomAccessReader(data: moof)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let trafFinish = try XCTUnwrap(events.first { event in
+            guard case let .didFinishBox(header, _) = event.kind else { return false }
+            return header.type.rawValue == ContainerTypes.trackFragment
+        })
+
+        let summary = try XCTUnwrap(trafFinish.payload?.trackFragment)
+        XCTAssertEqual(summary.trackID, 1)
+        XCTAssertEqual(summary.sampleDescriptionIndex, 1)
+        XCTAssertEqual(summary.baseDataOffset, 4096)
+        XCTAssertEqual(summary.totalSampleCount, 2)
+        XCTAssertEqual(summary.totalSampleDuration, 230)
+        XCTAssertEqual(summary.totalSampleSize, 1100)
+        XCTAssertEqual(summary.baseDecodeTime, 1200)
+        XCTAssertEqual(summary.runs.count, 1)
+        let run = try XCTUnwrap(summary.runs.first)
+        XCTAssertEqual(run.sampleCount, 2)
+        XCTAssertEqual(run.dataOffset, 256)
+        XCTAssertEqual(run.totalSampleDuration, 230)
+        XCTAssertEqual(run.totalSampleSize, 1100)
+        XCTAssertEqual(run.entries.count, 2)
+        XCTAssertEqual(run.entries.first?.sampleDuration, 110)
+        XCTAssertEqual(run.entries.last?.sampleDuration, 120)
+    }
+
     func testLivePipelineParsesHandlerBoxPayload() async throws {
         var payload = Data()
         payload.append(0x00) // version
@@ -909,6 +956,54 @@ final class ParsePipelineLiveTests: XCTestCase {
         return makeBox(type: "mfhd", payload: payload)
     }
 
+    private func makeTrackFragmentHeaderBox(
+        trackID: UInt32,
+        baseDataOffset: UInt64,
+        defaultSampleDuration: UInt32,
+        defaultSampleSize: UInt32,
+        defaultSampleFlags: UInt32
+    ) -> Data {
+        let flags: UInt32 = 0x000001 | 0x000008 | 0x000010 | 0x000020
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: UInt32(flags).bigEndianFlagBytes)
+        payload.append(contentsOf: trackID.bigEndianBytes)
+        payload.append(contentsOf: baseDataOffset.bigEndianBytes)
+        payload.append(contentsOf: defaultSampleDuration.bigEndianBytes)
+        payload.append(contentsOf: defaultSampleSize.bigEndianBytes)
+        payload.append(contentsOf: defaultSampleFlags.bigEndianBytes)
+        return makeBox(type: "tfhd", payload: payload)
+    }
+
+    private func makeTrackFragmentDecodeTimeBox(baseDecodeTime: UInt64) -> Data {
+        var payload = Data()
+        payload.append(0x01) // version 1 for 64-bit decode time
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: baseDecodeTime.bigEndianBytes)
+        return makeBox(type: "tfdt", payload: payload)
+    }
+
+    private func makeTrackRunBox(
+        sampleCount: UInt32,
+        dataOffset: Int32,
+        sampleDurations: [UInt32],
+        sampleSizes: [UInt32]
+    ) -> Data {
+        precondition(sampleDurations.count == sampleSizes.count)
+        precondition(sampleDurations.count == Int(sampleCount))
+        let flags: UInt32 = 0x000001 | 0x000100 | 0x000200
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: flags.bigEndianFlagBytes)
+        payload.append(contentsOf: sampleCount.bigEndianBytes)
+        payload.append(contentsOf: dataOffset.bigEndianBytes)
+        for index in 0..<sampleDurations.count {
+            payload.append(contentsOf: sampleDurations[index].bigEndianBytes)
+            payload.append(contentsOf: sampleSizes[index].bigEndianBytes)
+        }
+        return makeBox(type: "trun", payload: payload)
+    }
+
     private struct SampleToChunkEntryParameters {
         let firstChunk: UInt32
         let samplesPerChunk: UInt32
@@ -990,6 +1085,7 @@ private enum ContainerTypes {
     static let track = FourCharContainerCode.trak.rawValue
     static let media = FourCharContainerCode.mdia.rawValue
     static let movieFragment = FourCharContainerCode.moof.rawValue
+    static let trackFragment = FourCharContainerCode.traf.rawValue
 }
 
 private func languageBytes(_ code: String) -> [UInt8] {
@@ -1002,5 +1098,15 @@ private func languageBytes(_ code: String) -> [UInt8] {
 private extension FixedWidthInteger {
     var bigEndianBytes: [UInt8] {
         withUnsafeBytes(of: self.bigEndian, Array.init)
+    }
+}
+
+private extension UInt32 {
+    var bigEndianFlagBytes: [UInt8] {
+        [
+            UInt8((self >> 16) & 0xFF),
+            UInt8((self >> 8) & 0xFF),
+            UInt8(self & 0xFF)
+        ]
     }
 }

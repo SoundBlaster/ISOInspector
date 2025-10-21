@@ -37,6 +37,7 @@ private extension BoxValidator {
             EditListValidationRule(),
             SampleTableCorrelationRule(),
             FragmentSequenceRule(),
+            FragmentRunValidationRule(),
             UnknownBoxRule()
         ]
     }
@@ -775,6 +776,33 @@ private final class FragmentSequenceRule: BoxValidationRule, @unchecked Sendable
 
     private enum BoxType {
         static let movieFragmentHeader = try! FourCharCode("mfhd")
+    }
+}
+
+private struct FragmentRunValidationRule: BoxValidationRule {
+    func issues(for event: ParseEvent, reader _: RandomAccessReader) -> [ValidationIssue] {
+        guard case let .willStartBox(header, _) = event.kind else { return [] }
+        guard header.type == BoxType.trackRun else { return [] }
+        guard let run = event.payload?.trackRun else { return [] }
+
+        var issues: [ValidationIssue] = []
+        let trackInfo = run.trackID.map { " for track \($0)" } ?? ""
+
+        if run.sampleCount == 0 {
+            let message = "Track fragment run\(trackInfo) declares 0 samples."
+            issues.append(ValidationIssue(ruleID: "VR-017", message: message, severity: .error))
+        }
+
+        if run.entries.contains(where: { $0.sampleDuration == nil }) {
+            let message = "Track fragment run\(trackInfo) sample durations unavailable; cannot advance decode timeline."
+            issues.append(ValidationIssue(ruleID: "VR-017", message: message, severity: .error))
+        }
+
+        return issues
+    }
+
+    private enum BoxType {
+        static let trackRun = try! FourCharCode("trun")
     }
 }
 
