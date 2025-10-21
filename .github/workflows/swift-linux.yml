@@ -52,7 +52,7 @@ jobs:
           swift build --target ISOInspectorCLI
           swift build --target ISOInspectorCLIRunner
           swift build --target ISOInspectorApp
-          # Build tests
+          # Build tests (except FoundationUITests)
           swift build --target ISOInspectorKitTests
           swift build --target ISOInspectorCLITests
           swift build --target ISOInspectorAppTests
@@ -60,9 +60,15 @@ jobs:
 
       - name: Test with coverage
         run: |
-          # Test all except FoundationUI (requires SwiftUI)
+          # Test specific targets (excludes FoundationUITests)
           swift test --enable-code-coverage \
-            --skip-testing FoundationUITests
+            --filter ISOInspectorKitTests
+          swift test --enable-code-coverage \
+            --filter ISOInspectorCLITests
+          swift test --enable-code-coverage \
+            --filter ISOInspectorAppTests
+          swift test --enable-code-coverage \
+            --filter ISOInspectorPerformanceTests
 
       - name: Coverage summary
         run: |
