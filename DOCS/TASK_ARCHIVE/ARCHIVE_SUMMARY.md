@@ -702,3 +702,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/133_Summary_of_Work_2025-10-20_mvex_trex_Defaults/`.
 - **Highlights:** Captures the 2025-10-20 summary that documents completion of Task D1, including the new `mvex` container plus `trex` defaults parsing, structured payload export updates, refreshed fragmented fixture snapshots, and the associated regression coverage.
 - **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now focuses on acquiring Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures so synthetic payloads can be replaced once licensing is cleared.
+
+## 135_Summary_of_Work_2025-10-20_moof_mfhd_Sequence_Number
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/135_Summary_of_Work_2025-10-20_moof_mfhd_Sequence_Number/`.
+- **Highlights:** Captures completion of Task D2 `moof/mfhd` sequence number decoding across the streaming parse pipeline, JSON export, CLI formatting, and validation layers, including refreshed fixtures and tests.
+- **Next steps carried forward:** Multi-fragment fixture coverage and codec licensing follow-ups remain active in `DOCS/INPROGRESS/next_tasks.md`.

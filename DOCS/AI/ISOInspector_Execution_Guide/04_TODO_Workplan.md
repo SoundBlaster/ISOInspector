@@ -33,7 +33,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-19):** Task C6 — Implement the `stsd` sample description parser to enumerate media sample entries. See `DOCS/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/` for the archived PRD outline, summary, and verification notes.
 
-> **In Progress (2025-10-23):** Fragment parser backlog Task **D2 — `moof/mfhd` sequence number decoding** is now active. Track requirements and progress in `DOCS/INPROGRESS/D2_moof_mfhd_Sequence_Number.md` while coordinating upcoming D3 follow-ups.
+> **Completed (2025-10-20):** Fragment parser backlog Task **D2 — `moof/mfhd` sequence number decoding** wrapped with sequence numbers flowing through the parse pipeline, JSON export, and CLI formatting. See `DOCS/TASK_ARCHIVE/135_Summary_of_Work_2025-10-20_moof_mfhd_Sequence_Number/` for the summary and follow-up notes; D3 fragment run scaffolding remains next.
 
 ## Phase C — User Interface Package
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
