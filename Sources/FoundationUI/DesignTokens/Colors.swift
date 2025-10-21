@@ -1,6 +1,12 @@
 // swift-tools-version: 6.0
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
+
 /// Design System Color Tokens
 ///
 /// Provides semantic, accessible color tokens for the FoundationUI framework.
@@ -99,9 +105,15 @@ public extension DS {
         /// Uses system tertiary for subtle backgrounds and fills.
         ///
         /// **Usage**: Card backgrounds, hover states, disabled states
-        public static let tertiary = SwiftUI.Color(
-            .tertiarySystemBackground
-        )
+        public static let tertiary: SwiftUI.Color = {
+            #if canImport(UIKit)
+            return SwiftUI.Color(uiColor: .tertiarySystemBackground)
+            #elseif canImport(AppKit)
+            return SwiftUI.Color(nsColor: .tertiarySystemBackground)
+            #else
+            return SwiftUI.Color.gray.opacity(0.1)
+            #endif
+        }()
 
         // MARK: - Foreground Colors
 
@@ -120,8 +132,14 @@ public extension DS {
         /// Placeholder text color for empty states
         ///
         /// **Usage**: Placeholder text, disabled labels
-        public static let textPlaceholder = SwiftUI.Color(
-            .placeholderText
-        )
+        public static let textPlaceholder: SwiftUI.Color = {
+            #if canImport(UIKit)
+            return SwiftUI.Color(uiColor: .placeholderText)
+            #elseif canImport(AppKit)
+            return SwiftUI.Color(nsColor: .placeholderText)
+            #else
+            return SwiftUI.Color.gray.opacity(0.6)
+            #endif
+        }()
     }
 }
