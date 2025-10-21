@@ -13,7 +13,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Status:** _Blocked_ — benchmark harness implementation is archived and awaiting macOS hardware to execute random slice metrics, UI automation coverage, and Combine-backed UI benchmarks documented in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
 >
-> **Now In Progress:** Task D3 — `traf/tfhd/tfdt/trun` fragment run parsing and validation scaffolding. Active notes live in `DOCS/INPROGRESS/D3_traf_tfhd_tfdt_trun_Parsing.md`; refer to `DOCS/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/D3_traf_tfhd_tfdt_trun_Parsing.md` for the archived planning context and acceptance checkpoints.
+> **Recently archived:** Task D3 — `traf/tfhd/tfdt/trun` fragment run parsing and validation scaffolding. Delivery summary now lives in `DOCS/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/Summary_of_Work.md`, with detailed planning notes retained in `DOCS/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/D3_traf_tfhd_tfdt_trun_Parsing.md`; follow-up fixtures and validator polish items have rolled into `DOCS/INPROGRESS/next_tasks.md`.
 
 > **Research initiative:** Task R3 cataloged VoiceOver, Dynamic Type, and keyboard guidance so future UI tasks stay aligned with accessibility requirements. Follow <doc:AccessibilityGuidelines> and the archived summary in `DOCS/TASK_ARCHIVE/91_R3_Accessibility_Guidelines/Summary_of_Work.md` when planning new UI stories.
 

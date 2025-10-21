@@ -163,7 +163,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 
 ### 🚧 In Progress
-- [x] D3 — `traf/tfhd/tfdt/trun` fragment run parsing and validation scaffolding. _(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md` for the latest fragment parsing delivery and follow-up notes.)_
+- [x] D3 — `traf/tfhd/tfdt/trun` fragment run parsing and validation scaffolding. _(Completed — see `DOCS/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/Summary_of_Work.md` for the latest fragment parsing delivery and follow-up notes.)_
 - [x] B5 — Introduce `FullBoxReader` for (version,flags) extraction. **(Completed — helper, tests, and parser refactors documented in `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/B5_FullBoxReader.md` and `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/Summary_of_Work.md`.)**
 - [x] C6 — Integrate `ResearchLogMonitor` audit results into SwiftUI previews rendering VR-006 research log entries. _(Completed — see `DOCS/TASK_ARCHIVE/C6_Integrate_ResearchLogMonitor_Previews/Summary_of_Work.md`.)_
 - [x] C7 — Connect persisted bookmark diff entities to resolved bookmark records once reconciliation rules are finalized. _(Completed — see `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/Summary_of_Work.md`.)_

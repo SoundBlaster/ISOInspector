@@ -198,7 +198,13 @@
 - **Archived files:** `34_E3_CoreData_Migration_Planning.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/34_E3_CoreData_Migration_Planning/`.
 - **Highlights:** Documents the CoreData migration strategy for session persistence, including schema evolution paths, lightweight migration safeguards, and testing plus tooling implications for Task E3.
-- **Next steps carried forward:** Implement Task E3 with versioned model loading, migration coverage, and updated DocC articles describing session restoration workflows.
+- **Next steps carried forward:** Implement Task E3 with versioned model loading, migration coverage, and updated DocC articles describing session restoration workflows, coordinating migration rehearsals once macOS automation hardware is online.
+
+## 137_D3_traf_tfhd_tfdt_trun_Parsing
+- **Archived files:** `D3_traf_tfhd_tfdt_trun_Parsing.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/`.
+- **Highlights:** Captures the fragment parser delivery that wires `tfdt`, `trun`, and `traf` payloads into the registry, aggregates run timing/offset metadata, updates validation (VR-017) coverage, and refreshes the DASH segment JSON snapshot plus CLI formatting outputs.
+- **Next steps carried forward:** Generate multi-`trun` and negative `data_offset` fixtures, audit downstream validator/CLI consumers, and secure real-world codec assets as outlined in `DOCS/INPROGRESS/next_tasks.md`.
 
 ## 35_A3_DocC_Tutorial_Expansion
 - **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
