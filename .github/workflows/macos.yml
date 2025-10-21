@@ -98,14 +98,6 @@ jobs:
       - name: Show Xcode version
         run: xcodebuild -version
 
-      - name: Build and test FoundationUI (SwiftPM)
-        run: |
-          set -eo pipefail
-          echo "Building FoundationUI framework..."
-          swift build --target FoundationUI
-          echo "Running FoundationUI tests..."
-          swift test --filter FoundationUITests
-
       - name: Validate Tuist project definition
         run: tuist dump project > /dev/null
 

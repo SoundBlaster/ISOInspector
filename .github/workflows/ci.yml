@@ -81,10 +81,21 @@ jobs:
           swift build --target ISOInspectorCLIRunner
           swift build --target ISOInspectorApp
 
+      - name: Build test targets
+        run: |
+          # Build test targets except FoundationUITests (requires SwiftUI)
+          swift build --target ISOInspectorKitTests
+          swift build --target ISOInspectorCLITests
+          swift build --target ISOInspectorAppTests
+          swift build --target ISOInspectorPerformanceTests
+
       - name: swift test
         run: |
-          # Test all except FoundationUI (requires SwiftUI)
-          swift test --skip-testing FoundationUITests
+          # Test specific targets (excludes FoundationUITests)
+          swift test --filter ISOInspectorKitTests
+          swift test --filter ISOInspectorCLITests
+          swift test --filter ISOInspectorAppTests
+          swift test --filter ISOInspectorPerformanceTests
 
   docc-archives:
     name: Generate DocC Archives
