@@ -337,12 +337,11 @@ final class SectionHeaderPerformanceTests: XCTestCase {
 
     // MARK: - Divider Performance Tests
 
-    /// Test divider impact on performance
+    /// Test SectionHeader without divider performance
     ///
-    /// Compare with and without dividers
+    /// Baseline performance without dividers
     @MainActor
-    func testDividerPerformanceImpact() throws {
-        // Without dividers
+    func testSectionHeaderWithoutDividerPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var headers: [SectionHeader] = []
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -351,8 +350,13 @@ final class SectionHeaderPerformanceTests: XCTestCase {
             }
             _ = headers.count
         }
+    }
 
-        // With dividers
+    /// Test SectionHeader with divider performance
+    ///
+    /// Performance with dividers enabled
+    @MainActor
+    func testSectionHeaderWithDividerPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var headers: [SectionHeader] = []
             for i in 0..<DS.PerformanceTest.componentCount {

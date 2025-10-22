@@ -374,12 +374,11 @@ final class KeyValueRowPerformanceTests: XCTestCase {
 
     // MARK: - Copyable Feature Performance Tests
 
-    /// Test copyable feature performance overhead
+    /// Test KeyValueRow without copyable performance
     ///
-    /// Measure impact of copyable functionality
+    /// Baseline performance without copyable functionality
     @MainActor
-    func testCopyableFeatureOverhead() throws {
-        // Test without copyable
+    func testKeyValueRowWithoutCopyablePerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var rows: [KeyValueRow] = []
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -392,8 +391,13 @@ final class KeyValueRowPerformanceTests: XCTestCase {
             }
             _ = rows.count
         }
+    }
 
-        // Test with copyable
+    /// Test KeyValueRow with copyable performance
+    ///
+    /// Performance with copyable functionality enabled
+    @MainActor
+    func testKeyValueRowWithCopyablePerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var rows: [KeyValueRow] = []
             for i in 0..<DS.PerformanceTest.componentCount {
