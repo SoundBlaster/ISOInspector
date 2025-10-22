@@ -753,7 +753,7 @@ private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Se
         let trackLabel = trackDescription(for: context)
         var issues: [ValidationIssue] = []
 
-        if (triggeredKind == .sampleSize || triggeredKind == .timeToSample),
+        if triggeredKind == .sampleSize || triggeredKind == .timeToSample,
            let sampleSize = context.sampleSize,
            let timeToSample = context.timeToSample {
             let declared = UInt64(sampleSize.sampleCount)
@@ -766,7 +766,7 @@ private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Se
             }
         }
 
-        if (triggeredKind == .sampleSize || triggeredKind == .compositionOffset),
+        if triggeredKind == .sampleSize || triggeredKind == .compositionOffset,
            let sampleSize = context.sampleSize,
            let composition = context.compositionOffset {
             let declared = UInt64(sampleSize.sampleCount)
@@ -779,7 +779,7 @@ private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Se
             }
         }
 
-        if (triggeredKind == .timeToSample || triggeredKind == .compositionOffset),
+        if triggeredKind == .timeToSample || triggeredKind == .compositionOffset,
            let timeToSample = context.timeToSample,
            let composition = context.compositionOffset,
            timeToSample.totalSamples != composition.totalSamples {
