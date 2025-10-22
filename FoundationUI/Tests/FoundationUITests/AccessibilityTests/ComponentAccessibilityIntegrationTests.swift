@@ -167,9 +167,9 @@ final class ComponentAccessibilityIntegrationTests: XCTestCase {
         )
     }
 
-    // MARK: - Color Scheme in Nested Components
+    // MARK: - Badge Color Definitions
 
-    func testColorSchemeInNestedComponents() {
+    func testBadgeLevelsHaveColorDefinitions() {
         // Given
         // Badges use semi-transparent backgrounds designed to work on top of other backgrounds
         // Testing contrast in isolation is not meaningful - they need a parent background
