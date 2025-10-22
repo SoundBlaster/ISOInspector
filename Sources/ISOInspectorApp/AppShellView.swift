@@ -225,16 +225,21 @@ private struct DocumentLoadFailureBanner: View {
                         .font(.footnote)
                         .foregroundColor(.secondary)
                 }
+                .textSelection(.enabled)
 
                 Spacer()
 
                 Button(action: dismissAction) {
-                    Image(systemName: "xmark")
-                        .font(.system(size: 12, weight: .bold))
-                        .padding(6)
+                    Image(systemName: "xmark.circle.fill")
+                        .symbolRenderingMode(.hierarchical)
+                        .foregroundStyle(Color.secondary)
+                        .font(.system(size: 16, weight: .semibold))
+                        .padding(4)
+                        .accessibilityHidden(true)
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(.borderless)
                 .accessibilityLabel("Dismiss error")
+                .accessibilityAddTraits(.isButton)
             }
 
             HStack(spacing: 12) {
