@@ -207,7 +207,7 @@ extension BoxParserRegistry.DefaultParsers {
             byteRange: (payloadStart + 1)..<(payloadStart + 4)
         ))
 
-        var cursor = fullHeader.contentStart
+        let cursor = fullHeader.contentStart
         let is64Bit = fullHeader.version != 0
 
         if is64Bit {
