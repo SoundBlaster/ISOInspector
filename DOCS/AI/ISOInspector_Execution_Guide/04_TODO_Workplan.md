@@ -32,6 +32,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | B6 | Add JSON and binary export modules with regression tests. | Medium | 1.5 | B3 | Swift Codable | Exported files re-import successfully; CLI smoke tests pass. |
 | B7 | Introduce validation configuration layer with per-rule toggles and preset registry. | Medium | 1.5 | B5 | Swift, XCTest | `ValidationConfiguration`/`ValidationPreset` types serialize settings, load bundled preset manifests, persist user-authored presets under Application Support, annotate exports with `skipped` disabled rules, and default to all rules enabled per `13_Validation_Rule_Toggle_Presets_PRD.md`. |
 
+> **In Progress:** Task **B7 — Validation Configuration Layer** now has active planning captured in `DOCS/INPROGRESS/B7_Validation_Rule_Preset_Configuration.md`, establishing presets and per-rule toggles ahead of CLI (D7) and UI (C19) integrations.
+>
 > **In Progress:** Validation follow-up **E1 — Enforce Parent Containment and Non-Overlap** extends structural safeguards beyond VR-001/VR-002; tracked in `DOCS/INPROGRESS/E1_Enforce_Parent_Containment_and_Non_Overlap.md` for execution details.
 >
 > **Completed:** Advisory validation **E3 — Warn on Unusual Top-Level Ordering** now emits guidance when `ftyp`/`moov` sequences deviate from expectations while respecting streaming layouts; implementation recap in `DOCS/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/Summary_of_Work.md`.
