@@ -259,11 +259,12 @@
   - Include usage examples in DocC
   - Platform-specific preview conditionals
 
-- [ ] **P1** Add component accessibility tests
+- [ ] **P1** Add component accessibility tests → **IN PROGRESS**
   - VoiceOver navigation testing
   - Contrast ratio validation (≥4.5:1)
   - Keyboard navigation testing
   - Focus management verification
+  - Task file: `DOCS/INPROGRESS/Phase2_ComponentAccessibilityTests.md`
 
 - [ ] **P1** Performance testing for components
   - Measure render time for complex hierarchies
