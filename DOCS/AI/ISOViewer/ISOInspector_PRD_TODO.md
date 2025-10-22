@@ -218,10 +218,10 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] Fragment fixture coverage — *(Completed — see `DOCS/TASK_ARCHIVE/138_Fragment_Fixture_Coverage/Fragment_Fixture_Coverage.md` and `DOCS/TASK_ARCHIVE/138_Fragment_Fixture_Coverage/Summary_of_Work.md` for fixture details. Validator/CLI polish documentation now lives in `DOCS/TASK_ARCHIVE/139_Validator_and_CLI_Polish/Summary_of_Work.md`, while real-world asset licensing follow-ups remain queued in `DOCS/INPROGRESS/next_tasks.md`.)*
 - [x] D4. `sidx`: refs (sizes/durations), earliest_presentation_time, timescale. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
 - [x] D5. `mfra/tfra/mfro`: random access table. _(Completed — see `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/Summary_of_Work.md` for implementation recap and remaining notes.)_
-- [ ] D6. Recognize `senc/saio/saiz` (CENC placeholders), capture sizes/offsets only. _(In Progress — see `DOCS/INPROGRESS/D6_Recognize_senc_saio_saiz_Placeholders.md`.)_
+- [ ] D6. Recognize `senc/saio/saiz` (CENC placeholders), capture sizes/offsets only. _(In Progress — planning archived in `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/D6_Recognize_senc_saio_saiz_Placeholders.md`; follow-ups tracked via `DOCS/INPROGRESS/next_tasks.md`.)_
 
 ### Phase E — Validation
-- [ ] E1. Enforce parent containment and non-overlap. _(In Progress — see `DOCS/INPROGRESS/E1_Enforce_Parent_Containment_and_Non_Overlap.md`.)_
+- [ ] E1. Enforce parent containment and non-overlap. _(In Progress — context archived in `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/E1_Enforce_Parent_Containment_and_Non_Overlap.md`; next steps listed in `DOCS/INPROGRESS/next_tasks.md`.)_
 - [ ] E2. Detect zero/negative progress loops; cap nesting depth. _(In Progress — alignment with app shell wiring to surface live parser progress.)_
 - [ ] E3. Warn on unusual top-level ordering (advisory).
 - [ ] E4. Verify `avcC/hvcC` invariants; flag inconsistencies.
