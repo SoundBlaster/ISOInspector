@@ -206,39 +206,41 @@ This document provides an index and summary of all archived FoundationUI impleme
 
 ---
 
-### 03_Phase2.2_SectionHeader
-**Completed**: 2025-10-21
+### 03_Phase2.2_KeyValueRow
+**Completed**: 2025-10-22
 **Phase**: 2.2 Layer 2: Essential Components (Molecules)
-**Component**: SectionHeader Component
+**Component**: KeyValueRow Component
 
 **Implemented**:
-- **SectionHeader component**: Essential component for organizing content in inspector views and structured layouts
-- Public API: `SectionHeader(title: String, showDivider: Bool = false)`
-- Uppercase title styling with `.textCase(.uppercase)`
-- Optional divider support for visual content separation
-- Consistent spacing via DS.Spacing tokens
-- Full accessibility support with `.accessibilityAddTraits(.isHeader)`
+- **KeyValueRow component**: Essential component for displaying metadata key-value pairs with semantic styling
+- Public API: `KeyValueRow(key: String, value: String, layout: KeyValueLayout = .horizontal, copyable: Bool = false)`
+- Horizontal and vertical layout variants
+- Optional copyable text integration with visual feedback
+- Monospaced font for values (DS.Typography.code)
+- Platform-specific clipboard handling (macOS/iOS)
+- Full VoiceOver support with semantic labels
 
 **Files Created**:
-- `Sources/FoundationUI/Components/SectionHeader.swift` (248 lines)
-- `Tests/FoundationUITests/ComponentsTests/SectionHeaderTests.swift` (159 lines)
+- `Sources/FoundationUI/Components/KeyValueRow.swift` (implemented)
+- `Tests/FoundationUITests/ComponentsTests/KeyValueRowTests.swift` (implemented)
 
-**Test Coverage**: 12 comprehensive unit tests
-- Initialization tests: 3 tests
-- Text content tests: 1 test
-- Divider visibility tests: 1 test
-- Component composition tests: 1 test
-- Edge cases tests: 4 tests
-- Multiple instances tests: 1 test
-- Type safety tests: 1 test
+**Test Coverage**: 27 comprehensive unit tests (exceeds ≥12 requirement by 125%)
+- Initialization tests
+- Layout variant tests (horizontal, vertical)
+- Copyable text integration tests
+- Accessibility label tests
+- Dynamic Type scaling tests
+- Platform-specific rendering tests
+- Long text wrapping tests
+- Edge cases handling
 
 **Preview Coverage**: 6 SwiftUI Previews (150% of requirement)
-1. Basic Header (without divider)
-2. Header with Divider
-3. Multiple Sections (real-world layout)
-4. Dark Mode variant
-5. Various Titles (length variations)
-6. Real World Usage (with Badge components)
+1. Basic Horizontal Layout
+2. Vertical Layout with Long Value
+3. Copyable Text Variant
+4. Dark Mode Comparison
+5. Multiple KeyValueRows in VStack (catalog view)
+6. Platform-specific rendering
 
 **Quality Metrics**:
 - SwiftLint Violations: 0
@@ -247,50 +249,55 @@ This document provides an index and summary of all archived FoundationUI impleme
 - Accessibility Score: 100%
 
 **Design System Compliance**:
-- Uses DS.Spacing.s (8pt) for internal spacing
-- Uses DS.Typography.caption for title styling
-- System secondary colors for dividers
+- DS.Spacing.s (8pt) for tight spacing between key and value
+- DS.Spacing.m (12pt) for padding around component
+- DS.Typography.code for monospaced values
+- DS.Typography.body for keys
 - Zero direct magic numbers
 
 **Platform Support**:
 - iOS 17.0+
 - macOS 14.0+
 - iPadOS 17.0+
+- Platform-specific clipboard APIs
 
 **Accessibility Features**:
-- ✅ Header accessibility trait for proper VoiceOver navigation
-- ✅ Text transformation (uppercase) for visual consistency
-- ✅ Dynamic Type support via DS.Typography tokens
-- ✅ Semantic colors that adapt to color schemes
+- ✅ VoiceOver announces "Key: value" format
+- ✅ Copyable values announce "Double-tap to copy" hint
+- ✅ Dynamic Type support
+- ✅ Touch target size ≥44×44pt for interactive elements
 
 **Implementation Approach**:
 - **TDD Workflow**: Tests written before implementation (RED → GREEN → REFACTOR)
-- **Component Simplicity**: Focused single-responsibility component
+- **Component Simplicity**: Focused on key-value display with optional copyable feature
 - **Design System Integration**: Uses DS tokens exclusively
 - **Zero Magic Numbers**: All values use design tokens
 
 **Technical Decisions**:
-1. **Uppercase Styling**: Used `.textCase(.uppercase)` for consistent visual hierarchy
-2. **Optional Divider**: Added `showDivider` parameter for flexible visual separation
-3. **Accessibility First**: Built-in header trait for proper screen reader navigation
+1. **Monospaced Values**: Used DS.Typography.code for technical content alignment
+2. **Layout Flexibility**: Support both horizontal and vertical layouts
+3. **Copyable Text**: Implemented basic clipboard functionality inline (Phase 4.2 will add reusable utility)
+4. **Platform-specific Clipboard**: Used NSPasteboard (macOS) and UIPasteboard (iOS)
 
 **Lessons Learned**:
-1. **TDD Approach**: Writing tests first clarified requirements and edge cases
-2. **Component Simplicity**: Single-responsibility components are easier to test and maintain
-3. **Documentation Quality**: Complete DocC comments provide excellent developer experience
-4. **Preview Coverage**: 6 comprehensive previews demonstrate all use cases effectively
+1. **TDD Approach**: Writing tests first (27 test cases) ensured comprehensive coverage
+2. **Component Flexibility**: Layout variants provide flexibility for different content types
+3. **Platform Adaptation**: Clipboard handling requires platform-specific APIs
+4. **Documentation Quality**: Complete DocC comments provide excellent developer experience
 
-**Next Steps** (Phase 2.2 remaining tasks):
-- [ ] Implement Card component (recommended next)
-- [ ] Implement KeyValueRow component
-- [ ] Continue with testing tasks for all components
+**Next Steps** (Phase 2.2 completion):
+- ✅ All 4 core Phase 2.2 components complete (Badge, Card, SectionHeader, KeyValueRow)
+- [ ] Continue with comprehensive testing tasks
+- [ ] Snapshot tests for visual regression
+- [ ] Performance tests for component rendering
 
 **Git Commits**:
-- `e845ef7` Implement SectionHeader component (Phase 2.2)
+- `011d94a` Fix KeyValueRow: Import clipboard frameworks for pasteboard APIs
+- `a6f58c2` Implement KeyValueRow component with TDD (#2.2)
 
-**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/03_Phase2.2_SectionHeader/`
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/03_Phase2.2_KeyValueRow/`
 
-**Task Plan Updated**: Yes, marked SectionHeader component complete, Phase 2.2 progress: 2/12 tasks (17%)
+**Task Plan Updated**: Yes, marked KeyValueRow component complete, Phase 2.2 progress: 4/12 tasks (33%)
 
 ---
 
@@ -403,24 +410,24 @@ This document provides an index and summary of all archived FoundationUI impleme
 - ✅ Badge Component (2025-10-21)
 - ✅ SectionHeader Component (2025-10-21)
 - ✅ Card Component (2025-10-22)
-- ⏭️ KeyValueRow Component (Next)
+- ✅ KeyValueRow Component (2025-10-22)
 
-**Phase 2.2 Completion**: 3/4 core components complete (75%)
+**Phase 2.2 Completion**: 4/4 core components complete (100%)
 
 ---
 
 ## Archive Statistics
 
 **Total Archives**: 4
-**Total Tasks Completed**: 9
-**Total Files Created**: 14 (7 source + 7 test)
-**Total Lines of Code**: ~4,159 lines (sources + tests)
-**Total Test Cases**: 139 tests
-**Total Previews**: 39 SwiftUI previews
+**Total Tasks Completed**: 10
+**Total Files Created**: 16 (8 source + 8 test)
+**Total Lines of Code**: ~4,500+ lines (sources + tests)
+**Total Test Cases**: 166 tests (139 + 27 KeyValueRow)
+**Total Previews**: 45 SwiftUI previews (39 + 6 KeyValueRow)
 
 **Phase Breakdown**:
 - Phase 2.1 (View Modifiers): 1 archive, 6 tasks complete
-- Phase 2.2 (Components): 3 archives, 3 tasks complete
+- Phase 2.2 (Components): 3 archives, 4 tasks complete
 
 ---
 
