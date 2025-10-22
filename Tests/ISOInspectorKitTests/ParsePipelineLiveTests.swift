@@ -629,6 +629,79 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertTrue(vr005Issues.isEmpty)
     }
 
+    func testLivePipelineDoesNotWarnForCommonTopLevelOrdering() async throws {
+        let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
+        let moov = makeBox(type: ContainerTypes.movie, payload: Data())
+        let mdat = makeBox(type: MediaAndIndexBoxCode.mediaData.rawValue, payload: Data(count: 8))
+        let reader = InMemoryRandomAccessReader(data: ftyp + moov + mdat)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+
+        let ftypEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, depth) = event.kind {
+                return depth == 0 && header.type.rawValue == "ftyp"
+            }
+            return false
+        }))
+        let moovEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, depth) = event.kind {
+                return depth == 0 && header.type.rawValue == ContainerTypes.movie
+            }
+            return false
+        }))
+
+        XCTAssertTrue(ftypEvent.validationIssues.filter { $0.ruleID == "E3" }.isEmpty)
+        XCTAssertTrue(moovEvent.validationIssues.filter { $0.ruleID == "E3" }.isEmpty)
+    }
+
+    func testLivePipelineAdvisesWhenFileTypeIsNotFirstTopLevelBox() async throws {
+        let junk = makeBox(type: "zzzz", payload: Data(count: 4))
+        let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
+        let moov = makeBox(type: ContainerTypes.movie, payload: Data())
+        let reader = InMemoryRandomAccessReader(data: junk + ftyp + moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+
+        let ftypEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, depth) = event.kind {
+                return depth == 0 && header.type.rawValue == "ftyp"
+            }
+            return false
+        }))
+
+        let advisoryIssues = ftypEvent.validationIssues.filter { $0.ruleID == "E3" }
+        XCTAssertEqual(advisoryIssues.count, 1)
+        XCTAssertEqual(advisoryIssues.first?.severity, .warning)
+        XCTAssertTrue(advisoryIssues.first?.message.contains("ftyp") ?? false)
+    }
+
+    func testLivePipelineAdvisesWhenMovieFollowsStreamingMediaPayload() async throws {
+        let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
+        let styp = makeBox(type: MediaAndIndexBoxCode.segmentType.rawValue, payload: Data(count: 8))
+        let moof = makeBox(type: ContainerTypes.movieFragment, payload: Data())
+        let mdat = makeBox(type: MediaAndIndexBoxCode.mediaData.rawValue, payload: Data(count: 8))
+        let moov = makeBox(type: ContainerTypes.movie, payload: Data())
+        let reader = InMemoryRandomAccessReader(data: ftyp + styp + moof + mdat + moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+
+        let moovEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, depth) = event.kind {
+                return depth == 0 && header.type.rawValue == ContainerTypes.movie
+            }
+            return false
+        }))
+
+        let advisoryIssues = moovEvent.validationIssues.filter { $0.ruleID == "E3" }
+        XCTAssertEqual(advisoryIssues.count, 1)
+        XCTAssertEqual(advisoryIssues.first?.severity, .warning)
+        XCTAssertTrue(advisoryIssues.first?.message.contains(ContainerTypes.movie) ?? false)
+        XCTAssertTrue(advisoryIssues.first?.message.contains(MediaAndIndexBoxCode.mediaData.rawValue) ?? false)
+    }
+
     func testLivePipelineParsesMovieFragmentHeaderSequenceNumber() async throws {
         let mfhd = makeMovieFragmentHeaderBox(sequenceNumber: 42)
         let moof = makeContainer(type: ContainerTypes.movieFragment, children: [mfhd])
