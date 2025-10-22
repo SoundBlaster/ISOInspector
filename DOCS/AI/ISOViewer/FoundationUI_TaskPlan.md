@@ -7,12 +7,12 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 10/111 tasks completed (9%)**
+**Total: 11/111 tasks completed (10%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | Not Started | 0/15 (0%) |
-| Phase 2: Core Components | In Progress | 10/22 (45%) |
+| Phase 2: Core Components | In Progress | 11/22 (50%) |
 | Phase 3: Patterns & Platform Adaptation | Not Started | 0/16 (0%) |
 | Phase 4: Agent Support & Polish | Not Started | 0/13 (0%) |
 | Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
@@ -183,7 +183,7 @@
   - Archive: `TASK_ARCHIVE/01_Phase2.1_BaseModifiers/`
 
 ### 2.2 Layer 2: Essential Components (Molecules)
-**Progress: 4/12 tasks (33%) → IN PROGRESS**
+**Progress: 5/12 tasks (42%) → IN PROGRESS**
 
 - [x] **P0** Implement Badge component ✅ Completed 2025-10-21
   - File: `Sources/FoundationUI/Components/Badge.swift`
@@ -244,12 +244,14 @@
   - Test SectionHeader accessibility
   - Verify 100% public API coverage
 
-- [ ] **P0** Create component snapshot tests → **IN PROGRESS**
-  - Test Light/Dark mode rendering
-  - Test Dynamic Type sizes (XS, M, XXL)
-  - Test platform-specific layouts
-  - Test locale variations (RTL support)
-  - Task file: `FoundationUI/DOCS/INPROGRESS/Phase2_ComponentSnapshotTests.md`
+- [x] **P0** Create component snapshot tests ✅ Completed 2025-10-22
+  - Test Light/Dark mode rendering ✅
+  - Test Dynamic Type sizes (XS, M, XXL) ✅
+  - Test platform-specific layouts ✅
+  - Test locale variations (RTL support) ✅
+  - 120+ snapshot tests implemented across 4 components
+  - SnapshotTesting framework integrated (v1.15.0+)
+  - Archive: `TASK_ARCHIVE/05_Phase2.2_SnapshotTests/`
 
 - [ ] **P0** Implement component previews
   - Create comprehensive preview catalog
