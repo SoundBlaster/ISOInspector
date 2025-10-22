@@ -1,6 +1,7 @@
 #if canImport(CoreData)
 import CoreData
 import Foundation
+import ISOInspectorKit
 import XCTest
 @testable import ISOInspectorApp
 
@@ -132,6 +133,11 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
             lastOpened: referenceDate.addingTimeInterval(-60)
         )
 
+        let focusConfiguration = ValidationConfiguration(
+            activePresetID: "structural",
+            ruleOverrides: [.researchLogRecording: false]
+        )
+
         let snapshot = WorkspaceSessionSnapshot(
             id: UUID(uuidString: "00000000-0000-0000-0000-000000000021")!,
             createdAt: referenceDate,
@@ -147,7 +153,7 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
                     scrollOffset: WorkspaceSessionScrollOffset(x: 1, y: 2),
                     bookmarkIdentifier: focusRecent.bookmarkIdentifier,
                     bookmarkDiffs: [],
-                    validationConfiguration: nil
+                    validationConfiguration: focusConfiguration
                 ),
                 WorkspaceSessionFileSnapshot(
                     id: UUID(uuidString: "00000000-0000-0000-0000-000000000023")!,
@@ -173,6 +179,8 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
         XCTAssertEqual(loaded?.files.count, 2)
         XCTAssertEqual(loaded?.files.first?.lastSelectionNodeID, 77)
         XCTAssertEqual(loaded?.files.first?.recent.url.standardizedFileURL, focusURL.standardizedFileURL)
+        XCTAssertEqual(loaded?.files.first?.validationConfiguration, focusConfiguration)
+        XCTAssertNil(loaded?.files.last?.validationConfiguration)
     }
 
     func testClearingCurrentSessionRemovesSnapshot() throws {
