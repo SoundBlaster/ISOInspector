@@ -18,10 +18,16 @@ public struct JSONParseTreeExporter {
 private struct Payload: Encodable {
     let nodes: [Node]
     let validationIssues: [Issue]
+    let validation: ValidationMetadataPayload?
 
     init(tree: ParseTree) {
         self.nodes = tree.nodes.map(Node.init)
         self.validationIssues = tree.validationIssues.map(Issue.init)
+        if let metadata = tree.validationMetadata {
+            self.validation = ValidationMetadataPayload(metadata: metadata)
+        } else {
+            self.validation = nil
+        }
     }
 }
 
@@ -136,6 +142,16 @@ private struct Issue: Encodable {
         self.ruleID = issue.ruleID
         self.message = issue.message
         self.severity = issue.severity.rawValue
+    }
+}
+
+private struct ValidationMetadataPayload: Encodable {
+    let activePresetID: String
+    let disabledRules: [String]
+
+    init(metadata: ValidationMetadata) {
+        self.activePresetID = metadata.activePresetID
+        self.disabledRules = metadata.disabledRuleIDs
     }
 }
 

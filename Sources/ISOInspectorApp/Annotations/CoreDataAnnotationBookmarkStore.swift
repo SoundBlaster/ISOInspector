@@ -1031,7 +1031,8 @@ private extension SessionFileEntity {
             isPinned: isPinned,
             scrollOffset: scrollOffset,
             bookmarkIdentifier: bookmarkIdentifier ?? recent.bookmarkIdentifier,
-            bookmarkDiffs: diffs
+            bookmarkDiffs: diffs,
+            validationConfiguration: nil
         )
     }
 }

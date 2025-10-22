@@ -27,6 +27,30 @@ final class DocumentRecentsStoreStub: DocumentRecentsStoring {
     }
 }
 
+final class ValidationConfigurationStoreStub: ValidationConfigurationPersisting {
+    var storedConfiguration: ValidationConfiguration?
+    var loadError: Error?
+    private(set) var savedConfigurations: [ValidationConfiguration] = []
+    private(set) var clearedCount = 0
+
+    func loadConfiguration() throws -> ValidationConfiguration? {
+        if let loadError {
+            throw loadError
+        }
+        return storedConfiguration
+    }
+
+    func saveConfiguration(_ configuration: ValidationConfiguration) throws {
+        savedConfigurations.append(configuration)
+        storedConfiguration = configuration
+    }
+
+    func clearConfiguration() throws {
+        clearedCount += 1
+        storedConfiguration = nil
+    }
+}
+
 final class BookmarkPersistenceStoreStub: BookmarkPersistenceManaging {
     private struct StoredRecord {
         var record: BookmarkPersistenceStore.Record

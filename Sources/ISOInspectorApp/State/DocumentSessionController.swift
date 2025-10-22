@@ -29,6 +29,10 @@
         @Published private(set) var currentDocument: DocumentRecent?
         @Published private(set) var loadFailure: DocumentLoadFailure?
         @Published private(set) var exportStatus: ExportStatus?
+        @Published private(set) var validationConfiguration: ValidationConfiguration
+        @Published private(set) var globalValidationConfiguration: ValidationConfiguration
+        @Published private(set) var validationPresets: [ValidationPreset]
+        @Published private(set) var isUsingWorkspaceValidationOverride: Bool
 
         let parseTreeStore: ParseTreeStore
         let annotations: AnnotationBookmarkSession
@@ -43,6 +47,7 @@
         private let bookmarkStore: BookmarkPersistenceManaging?
         private let filesystemAccess: FilesystemAccess
         private let bookmarkDataProvider: (SecurityScopedURL) -> Data?
+        private let validationConfigurationStore: ValidationConfigurationPersisting?
 
         private let logger = Logger(subsystem: "ISOInspectorApp", category: "DocumentSession")
         private let exportLogger = Logger(subsystem: "ISOInspectorApp", category: "JSONExport")
@@ -55,6 +60,15 @@
         private var annotationsSelectionCancellable: AnyCancellable?
         private var lastFailedRecent: DocumentRecent?
         private var activeSecurityScopedURL: SecurityScopedURL?
+        private var sessionValidationConfigurations: [String: ValidationConfiguration] = [:]
+        private var presetByID: [String: ValidationPreset] = [:]
+        private var currentConfigurationKey: String?
+        private var defaultValidationPresetID: String
+
+        enum ValidationConfigurationScope {
+            case global
+            case workspace
+        }
 
         init(
             parseTreeStore: ParseTreeStore? = nil,
@@ -70,7 +84,9 @@
             recentLimit: Int = 10,
             bookmarkStore: BookmarkPersistenceManaging? = nil,
             filesystemAccess: FilesystemAccess = .live(),
-            bookmarkDataProvider: ((SecurityScopedURL) -> Data?)? = nil
+            bookmarkDataProvider: ((SecurityScopedURL) -> Data?)? = nil,
+            validationConfigurationStore: ValidationConfigurationPersisting? = nil,
+            validationPresetLoader: (() throws -> [ValidationPreset])? = nil
         ) {
             let resolvedParseTreeStore = parseTreeStore ?? ParseTreeStore()
             let resolvedAnnotations = annotations ?? AnnotationBookmarkSession(store: nil)
@@ -98,6 +114,44 @@
                     try? filesystemAccess.createBookmark(for: scopedURL)
                 }
             }
+            self.validationConfigurationStore = validationConfigurationStore
+
+            let loader = validationPresetLoader ?? { try ValidationPreset.loadBundledPresets() }
+            var loadedPresets: [ValidationPreset] = []
+            do {
+                loadedPresets = try loader()
+            } catch {
+                self.diagnostics.error("Failed to load validation presets: \(error)")
+            }
+            self.validationPresets = loadedPresets
+            let presetByID = Dictionary(uniqueKeysWithValues: loadedPresets.map { ($0.id, $0) })
+            self.presetByID = presetByID
+            let defaultPresetID = Self.defaultPresetID(from: loadedPresets)
+            self.defaultValidationPresetID = defaultPresetID
+
+            let loadedGlobal: ValidationConfiguration
+            if let validationConfigurationStore {
+                do {
+                    loadedGlobal = try validationConfigurationStore.loadConfiguration()
+                        ?? ValidationConfiguration(activePresetID: defaultValidationPresetID)
+                } catch {
+                    self.diagnostics.error("Failed to load validation configuration: \(error)")
+                    loadedGlobal = ValidationConfiguration(activePresetID: defaultValidationPresetID)
+                }
+            } else {
+                loadedGlobal = ValidationConfiguration(activePresetID: defaultValidationPresetID)
+            }
+
+            let normalizedGlobal = Self.normalizedConfiguration(
+                loadedGlobal,
+                presetByID: presetByID,
+                defaultPresetID: defaultPresetID
+            )
+            self.globalValidationConfiguration = normalizedGlobal
+            self.validationConfiguration = normalizedGlobal
+            self.isUsingWorkspaceValidationOverride = false
+            self.currentConfigurationKey = nil
+
             self.recents = (try? recentsStore.load()) ?? []
             migrateRecentsForBookmarkStore()
 
@@ -107,6 +161,8 @@
                     guard let self, !self.recents.isEmpty else { return }
                     self.persistSession()
                 }
+
+            applyValidationConfigurationFilter()
 
             if let sessionStore, let snapshot = try? sessionStore.loadCurrentSession() {
                 currentSessionID = snapshot.id
@@ -199,6 +255,47 @@
             exportStatus = nil
         }
 
+        func selectValidationPreset(_ presetID: String, scope: ValidationConfigurationScope) {
+            guard presetByID[presetID] != nil else { return }
+            switch scope {
+            case .global:
+                var configuration = globalValidationConfiguration
+                configuration.activePresetID = presetID
+                configuration.ruleOverrides.removeAll()
+                updateGlobalConfiguration(configuration)
+            case .workspace:
+                guard let key = currentConfigurationKey else { return }
+                var configuration = sessionValidationConfigurations[key]
+                    ?? globalValidationConfiguration
+                configuration.activePresetID = presetID
+                configuration.ruleOverrides.removeAll()
+                updateWorkspaceConfiguration(configuration)
+            }
+        }
+
+        func setValidationRule(
+            _ rule: ValidationRuleIdentifier,
+            isEnabled: Bool,
+            scope: ValidationConfigurationScope
+        ) {
+            switch scope {
+            case .global:
+                var configuration = globalValidationConfiguration
+                applyOverride(on: &configuration, rule: rule, isEnabled: isEnabled)
+                updateGlobalConfiguration(configuration)
+            case .workspace:
+                guard let key = currentConfigurationKey else { return }
+                var configuration = sessionValidationConfigurations[key]
+                    ?? globalValidationConfiguration
+                applyOverride(on: &configuration, rule: rule, isEnabled: isEnabled)
+                updateWorkspaceConfiguration(configuration)
+            }
+        }
+
+        func resetWorkspaceValidationOverrides() {
+            updateWorkspaceConfiguration(globalValidationConfiguration)
+        }
+
         func exportJSON(scope: ExportScope) async {
             do {
                 let destination = try await performJSONExport(scope: scope)
@@ -278,7 +375,11 @@
             switch scope {
             case .document:
                 return PreparedExport(
-                    tree: ParseTree(nodes: snapshot.nodes, validationIssues: snapshot.validationIssues),
+                    tree: ParseTree(
+                        nodes: snapshot.nodes,
+                        validationIssues: snapshot.validationIssues,
+                        validationMetadata: makeValidationMetadata()
+                    ),
                     suggestedFilename: suggestedFilename(base: base, suffix: nil)
                 )
             case .selection(let nodeID):
@@ -287,7 +388,11 @@
                 }
                 let suffix = selectionFilenameSuffix(for: node)
                 return PreparedExport(
-                    tree: ParseTree(nodes: [node], validationIssues: collectIssues(from: node)),
+                    tree: ParseTree(
+                        nodes: [node],
+                        validationIssues: collectIssues(from: node),
+                        validationMetadata: makeValidationMetadata()
+                    ),
                     suggestedFilename: suggestedFilename(base: base, suffix: suffix)
                 )
             }
@@ -608,6 +713,7 @@
             // Store the new security-scoped URL to keep access alive
             activeSecurityScopedURL = scopedURL
             let standardizedURL = scopedURL.url
+            updateActiveValidationConfiguration(for: recent)
             parseTreeStore.start(
                 pipeline: pipeline,
                 reader: reader,
@@ -703,6 +809,12 @@
                 uniqueKeysWithValues: sortedFiles.map { file in
                     (canonicalIdentifier(for: file.recent.url), file.bookmarkDiffs)
                 })
+            sessionValidationConfigurations = Dictionary(
+                uniqueKeysWithValues: sortedFiles.compactMap { file in
+                    guard let configuration = file.validationConfiguration else { return nil }
+                    let key = canonicalIdentifier(for: file.recent.url)
+                    return (key, normalizedConfiguration(configuration))
+                })
         }
 
         private func restoreSessionIfNeeded() {
@@ -742,6 +854,7 @@
                     currentSessionCreatedAt = nil
                     sessionFileIDs.removeAll()
                     sessionBookmarkDiffs.removeAll()
+                    sessionValidationConfigurations.removeAll()
                 } catch {
                     let errorDescription = String(describing: error)
                     diagnostics.error(
@@ -762,6 +875,7 @@
             var snapshots: [WorkspaceSessionFileSnapshot] = []
             snapshots.reserveCapacity(recents.count)
             var nextDiffs: [String: [WorkspaceSessionBookmarkDiff]] = [:]
+            var nextValidationConfigurations: [String: ValidationConfiguration] = [:]
 
             for (index, recent) in recents.enumerated() {
                 let canonical = canonicalIdentifier(for: recent.url)
@@ -777,6 +891,10 @@
                 let persistedRecent = sanitizeRecentsForPersistence([recent]).first ?? recent
                 let diffs = sessionBookmarkDiffs[canonical] ?? []
                 nextDiffs[canonical] = diffs
+                let overrideConfiguration = sessionValidationConfigurations[canonical]
+                if let overrideConfiguration {
+                    nextValidationConfigurations[canonical] = overrideConfiguration
+                }
                 snapshots.append(
                     WorkspaceSessionFileSnapshot(
                         id: fileID,
@@ -786,12 +904,14 @@
                         isPinned: false,
                         scrollOffset: nil,
                         bookmarkIdentifier: recent.bookmarkIdentifier,
-                        bookmarkDiffs: diffs
+                        bookmarkDiffs: diffs,
+                        validationConfiguration: overrideConfiguration
                     )
                 )
             }
 
             sessionBookmarkDiffs = nextDiffs
+            sessionValidationConfigurations = nextValidationConfigurations
 
             let snapshot = WorkspaceSessionSnapshot(
                 id: sessionID,
@@ -817,6 +937,128 @@
 
         private func canonicalIdentifier(for url: URL) -> String {
             url.standardizedFileURL.resolvingSymlinksInPath().absoluteString
+        }
+
+        private func updateActiveValidationConfiguration(for recent: DocumentRecent) {
+            let key = canonicalIdentifier(for: recent.url)
+            currentConfigurationKey = key
+            if let override = sessionValidationConfigurations[key] {
+                validationConfiguration = normalizedConfiguration(override)
+                isUsingWorkspaceValidationOverride = true
+            } else {
+                validationConfiguration = globalValidationConfiguration
+                isUsingWorkspaceValidationOverride = false
+            }
+            applyValidationConfigurationFilter()
+        }
+
+        private func updateGlobalConfiguration(_ configuration: ValidationConfiguration) {
+            let normalized = normalizedConfiguration(configuration)
+            guard normalized != globalValidationConfiguration else { return }
+            globalValidationConfiguration = normalized
+            persistGlobalConfiguration()
+            if !isUsingWorkspaceValidationOverride {
+                validationConfiguration = normalized
+                applyValidationConfigurationFilter()
+            }
+        }
+
+        private func updateWorkspaceConfiguration(_ configuration: ValidationConfiguration) {
+            guard let key = currentConfigurationKey else { return }
+            let normalized = normalizedConfiguration(configuration)
+            if normalized == globalValidationConfiguration {
+                let removed = sessionValidationConfigurations.removeValue(forKey: key) != nil
+                validationConfiguration = globalValidationConfiguration
+                isUsingWorkspaceValidationOverride = false
+                applyValidationConfigurationFilter()
+                if removed {
+                    persistSession()
+                }
+            } else {
+                sessionValidationConfigurations[key] = normalized
+                validationConfiguration = normalized
+                isUsingWorkspaceValidationOverride = true
+                applyValidationConfigurationFilter()
+                persistSession()
+            }
+        }
+
+        private func applyOverride(
+            on configuration: inout ValidationConfiguration,
+            rule: ValidationRuleIdentifier,
+            isEnabled: Bool
+        ) {
+            let preset = presetByID[configuration.activePresetID]
+            let presetValue = preset?.isRuleEnabled(rule) ?? true
+            if isEnabled == presetValue {
+                configuration.ruleOverrides.removeValue(forKey: rule)
+            } else {
+                configuration.ruleOverrides[rule] = isEnabled
+            }
+        }
+
+        private func applyValidationConfigurationFilter() {
+            let configuration = validationConfiguration
+            let presets = validationPresets
+            parseTreeStore.setValidationIssueFilter { issue in
+                guard let identifier = ValidationRuleIdentifier(rawValue: issue.ruleID) else {
+                    return true
+                }
+                return configuration.isRuleEnabled(identifier, presets: presets)
+            }
+        }
+
+        private func normalizedConfiguration(
+            _ configuration: ValidationConfiguration
+        ) -> ValidationConfiguration {
+            Self.normalizedConfiguration(
+                configuration,
+                presetByID: presetByID,
+                defaultPresetID: defaultValidationPresetID
+            )
+        }
+
+        private static func normalizedConfiguration(
+            _ configuration: ValidationConfiguration,
+            presetByID: [String: ValidationPreset],
+            defaultPresetID: String
+        ) -> ValidationConfiguration {
+            var normalized = configuration
+            if presetByID[normalized.activePresetID] == nil {
+                normalized.activePresetID = defaultPresetID
+                normalized.ruleOverrides.removeAll()
+            }
+            return normalized
+        }
+
+        private func persistGlobalConfiguration() {
+            guard let validationConfigurationStore else { return }
+            do {
+                try validationConfigurationStore.saveConfiguration(globalValidationConfiguration)
+            } catch {
+                diagnostics.error("Failed to persist validation configuration: \(error)")
+            }
+        }
+
+        private func makeValidationMetadata() -> ValidationMetadata {
+            ValidationMetadata(
+                activePresetID: validationConfiguration.activePresetID,
+                disabledRuleIDs: disabledRuleIDs(for: validationConfiguration)
+            )
+        }
+
+        private func disabledRuleIDs(for configuration: ValidationConfiguration) -> [String] {
+            ValidationRuleIdentifier.allCases
+                .filter { !configuration.isRuleEnabled($0, presets: validationPresets) }
+                .map(\.rawValue)
+                .sorted()
+        }
+
+        private static func defaultPresetID(from presets: [ValidationPreset]) -> String {
+            if presets.contains(where: { $0.id == "all-rules" }) {
+                return "all-rules"
+            }
+            return presets.first?.id ?? "all-rules"
         }
 
         private func migrateRecentsForBookmarkStore() {

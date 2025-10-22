@@ -58,6 +58,53 @@ final class ParseTreeStoreTests: XCTestCase {
     }
 
     @MainActor
+    func testFilteringValidationIssuesUpdatesSnapshot() {
+        let filteredIssue = ValidationIssue(ruleID: "VR-006", message: "research", severity: .info)
+        let retainedIssue = ValidationIssue(ruleID: "VR-001", message: "structure", severity: .error)
+        let events = makeSampleEvents(childIssues: [filteredIssue, retainedIssue])
+        let bridge = ParsePipelineEventBridge()
+        let stream = AsyncThrowingStream<ParseEvent, Error> { continuation in
+            for event in events {
+                continuation.yield(event)
+            }
+            continuation.finish()
+        }
+        let connection = bridge.makeConnection(stream: stream)
+        let store = ParseTreeStore(bridge: bridge)
+        let finished = expectation(description: "Parsing finished")
+        var cancellables: Set<AnyCancellable> = []
+
+        store.$state
+            .dropFirst()
+            .sink { state in
+                if state == .finished {
+                    finished.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        store.bind(to: connection)
+        wait(for: [finished], timeout: 2.0)
+
+        XCTAssertEqual(store.snapshot.validationIssues.count, 4)
+        XCTAssertEqual(store.snapshot.validationIssues.filter { $0.ruleID == "VR-006" }.count, 2)
+        XCTAssertEqual(store.snapshot.validationIssues.filter { $0.ruleID == "VR-001" }.count, 2)
+
+        store.setValidationIssueFilter { $0.ruleID != "VR-006" }
+
+        XCTAssertEqual(store.snapshot.validationIssues.count, 2)
+        XCTAssertTrue(store.snapshot.validationIssues.allSatisfy { $0.ruleID == "VR-001" })
+        let childIssues = store.snapshot.nodes.first?.children.first?.validationIssues ?? []
+        XCTAssertEqual(childIssues.count, 1)
+        XCTAssertEqual(childIssues.first?.ruleID, "VR-001")
+
+        store.setValidationIssueFilter(nil)
+
+        XCTAssertEqual(store.snapshot.validationIssues.count, 4)
+        XCTAssertEqual(store.snapshot.validationIssues.filter { $0.ruleID == "VR-006" }.count, 2)
+    }
+
+    @MainActor
     func testTreeStoreBuildsHierarchyAndAggregatesIssues() {
         let events = makeSampleEvents(
             childIssues: [ValidationIssue(ruleID: "VR-999", message: "Stub issue", severity: .warning)]
