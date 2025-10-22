@@ -68,6 +68,17 @@ struct ParseEvent: Sendable, Codable {
 | VR-005 | `moov` must precede `mdat` unless flagged streaming. | Warning | Evaluate order; attach suggestion. |
 | VR-006 | Unknown box types recorded for follow-up research. | Info | Append to research log with type code. |
 
+### Validation Configuration
+- `ValidationRuleID` enumerates shipping rules, enabling presentation layers to build toggle lists without probing implementation details.
+- Default presets load from bundled JSON manifests while user-authored presets persist in `Application Support/ISOInspector/validation-presets.json`, letting upgrades merge in new defaults without erasing local customizations.
+- `ValidationPreset` models curated bundles (e.g., `allChecks`, `structuralOnly`, `advisoryFocus`) and surfaces localized descriptions.
+- `ValidationConfiguration` stores the active preset name plus per-rule overrides; defaults enable every rule to preserve backward compatibility.
+- Configuration flows through dependency injection: CLI resolves flags into a configuration, UI sessions persist the last selection, and exports annotate their payloads with the active preset for audit trails.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L1-L120】
+- Global defaults persist in an app-level `ValidationPreferences` file colocated with other user settings, while per-document/workspace overrides travel with the document bundle and can be cleared to fall back to the global layer.
+- Persisted settings serialize via `Codable` so workspaces, CLI config files, and potential future shared preferences reuse the same schema.
+- Export pipelines emit a `disabledRules` collection whose entries include `{ id, status: "skipped" }`; CLI text reports omit those rules from their issue tables but retain preset metadata in the header.
+- CLI conveniences register alias flags (for example, `--structural-only`) that map directly to preset identifiers in addition to the generic `--preset <name>` option.
+
 ## Concurrency Model
 - Parsing executes on dedicated background task using Swift concurrency (`Task`, `AsyncStream`).
 - UI subscribes via `@StateObject` stores bridging Combine to SwiftUI.
