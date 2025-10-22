@@ -14,6 +14,18 @@ Enable ISOInspectorCLI consumers to choose bundled validation presets or overrid
 - When presets or per-rule overrides are supplied, CLI output and JSON exports annotate the active preset and any disabled rule IDs, matching the configuration persistence semantics delivered in task B7.
 - New and updated tests cover flag parsing, preset alias resolution, and integration with the existing validation execution path to ensure regressions are caught by `swift test`.
 
+## 🚀 Status — CLI wiring complete
+
+- Global options now expose `--preset`, `--structural-only`, `--enable-rule`, and `--disable-rule`, with validation that prevents conflicting overrides and surfaces friendly help text sourced from the bundled manifest.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L133-L166】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L235-L309】
+- Parsed validation metadata is threaded through the command context so `inspect`, `validate`, `export`, and `batch` all honor disabled rules, emit preset summaries for customized runs, and embed metadata into JSON exports.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L344-L633】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L688-L734】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L973-L1013】
+- CLI manual updated with the new flags, metadata behavior, and batch/export notes to keep user-facing guidance accurate.【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L20-L82】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L96-L132】
+- Added tests capturing preset selection, conflicting overrides, metadata printing, and JSON export annotations to lock down behavior (`ISOInspectorCommandTests`).【F:Tests/ISOInspectorCLITests/ISOInspectorCommandTests.swift†L33-L314】
+- `swift test` passes locally, confirming the wiring integrates cleanly with existing coverage (one benchmark skipped on Linux because Combine is unavailable).【2ad5d4†L1-L22】
+
+### Follow-ups
+
+- Consider additional integration coverage for complex override ordering or multi-preset batches if future tasks require deeper assertions; current scope satisfies D7 criteria without introducing new @todo markers.
+
 ## 🔧 Implementation Notes
 - Extend `ISOInspectorCommand.GlobalOptions` in `Sources/ISOInspectorCLI/ISOInspectorCommand.swift` to declare the new flags and surface preset metadata pulled from `ValidationPresetRegistry` or equivalent helpers introduced in task B7.
 - Ensure the command context (`ISOInspectorCommandContext` and `ISOInspectorCommandContextStore`) receives the effective `ValidationConfiguration` so downstream command handlers reuse the same configuration regardless of entry point.

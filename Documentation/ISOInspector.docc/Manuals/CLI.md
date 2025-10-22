@@ -17,12 +17,13 @@ L11-L72】
 
 Use these flags before any subcommand:
 
-- `--quiet` (`-q`) suppresses standard output, emitting only errors and summaries.【F:Sources/ISOInspectorCLI/ISOInspectorComman
-d.swift†L76-L134】
-- `--verbose` prints each message with a `[verbose]` prefix and enables additional diagnostics.【F:Sources/ISOInspectorCLI/ISOIns
-pectorCommand.swift†L48-L134】
-- `--enable-telemetry` and `--disable-telemetry` override the default streaming telemetry behaviour. The command validates that
-mutually exclusive flags are not combined.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L76-L146】
+- `--quiet` (`-q`) suppresses standard output, emitting only errors and summaries.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L109-L113】
+- `--verbose` prints each message with a `[verbose]` prefix and enables additional diagnostics.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L115-L119】
+- `--enable-telemetry` and `--disable-telemetry` override the default streaming telemetry behaviour. The command validates that mutually exclusive flags are not combined.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L121-L131】
+- `--preset <PRESET>` selects a bundled validation preset. Help text enumerates available identifiers, and the CLI prints the chosen preset and any disabled rules whenever the configuration differs from defaults.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L133-L140】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L235-L242】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L1004-L1011】
+- `--structural-only` resolves to the `structural` preset without typing the identifier manually.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L142-L146】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L305-L309】
+- `--enable-rule RULE_ID` explicitly turns on validation rules for the current run and can be provided multiple times.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L148-L156】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L278-L300】
+- `--disable-rule RULE_ID` suppresses specific rule identifiers for the invocation. Disabled rules are removed from streamed events and summaries.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L158-L166】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L292-L300】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L985-L1001】
 
 ## Sandbox automation
 
@@ -58,10 +59,9 @@ VR-006 schema v1: boxType, filePath, startOffset, endOffset
 isoinspect [global options] validate <file>
 ```
 
-- Aggregates validation issues by severity and prints each rule identifier and message.【F:Sources/ISOInspectorCLI/ISOInspector
-Command.swift†L206-L268】
-- Exits with code `2` when errors are present, `1` when only warnings remain, and `0` when the file is clean. Exit code `3` ind
-icates an I/O or parsing failure.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L255-L267】
+- Aggregates validation issues by severity and prints each rule identifier and message.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L206-L268】
+- When presets or rule overrides are supplied, the CLI emits the active preset and any disabled rule IDs before the summary, mirroring exported metadata.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L400-L418】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L1004-L1011】
+- Exits with code `2` when errors are present, `1` when only warnings remain, and `0` when the file is clean. Exit code `3` indicates an I/O or parsing failure.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L255-L267】
 
 ## `export` — persist parse artifacts
 
@@ -71,10 +71,9 @@ icates an I/O or parsing failure.【F:Sources/ISOInspectorCLI/ISOInspectorComman
 isoinspect [global options] export json <file> [--output <path>]
 ```
 
-- Builds the full parse tree and writes a `.isoinspector.json` file next to the input when no output path is provided.【F:Source
-s/ISOInspectorCLI/ISOInspectorCommand.swift†L271-L360】
-- The exporter reuses streaming events, ensuring parity with the interactive UI.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.
-swift†L373-L418】
+- Builds the full parse tree and writes a `.isoinspector.json` file next to the input when no output path is provided.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L271-L360】
+- The exporter reuses streaming events, ensuring parity with the interactive UI.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L373-L418】
+- Customized validation settings embed the preset identifier and disabled rules inside the exported JSON metadata for downstream tooling.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L609-L633】
 
 ### Binary capture
 
@@ -96,10 +95,9 @@ isoinspect [global options] batch <inputs...> [--csv <path>]
 
 - Accepts file paths, glob patterns, or directories. Input resolution collects unique files and reports unmatched patterns in s
 tderr.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L444-L707】
-- Streams each file through the same pipeline, recording box counts and per-severity totals. The summary table prints to stdou
-t and can be exported to CSV for regression tracking.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L482-L595】
-- Exit codes mirror validation severity: `3` for parse failures, `2` when any file contains errors, `1` when warnings remain, `0`
-otherwise.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L584-L595】
+- Streams each file through the same pipeline, recording box counts and per-severity totals. The summary table prints to stdout and can be exported to CSV for regression tracking.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L482-L595】
+- Customized presets are announced once per run, and disabled rule IDs are filtered from per-file issue tallies to align with interactive commands.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L688-L734】【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L985-L1001】
+- Exit codes mirror validation severity: `3` for parse failures, `2` when any file contains errors, `1` when warnings remain, `0` otherwise.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L584-L595】
 
 ## Refreshing the MP4RA catalog
 
