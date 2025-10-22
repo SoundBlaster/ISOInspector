@@ -157,6 +157,8 @@ private struct StructuredPayload: Encodable {
     let soundMediaHeader: SoundMediaHeaderDetail?
     let videoMediaHeader: VideoMediaHeaderDetail?
     let editList: EditListDetail?
+    let timeToSample: TimeToSampleDetail?
+    let compositionOffset: CompositionOffsetDetail?
     let sampleToChunk: SampleToChunkDetail?
     let chunkOffset: ChunkOffsetDetail?
     let sampleSize: SampleSizeDetail?
@@ -185,6 +187,8 @@ private struct StructuredPayload: Encodable {
         var soundMediaHeader: SoundMediaHeaderDetail?
         var videoMediaHeader: VideoMediaHeaderDetail?
         var editList: EditListDetail?
+        var timeToSample: TimeToSampleDetail?
+        var compositionOffset: CompositionOffsetDetail?
         var sampleToChunk: SampleToChunkDetail?
         var chunkOffset: ChunkOffsetDetail?
         var sampleSize: SampleSizeDetail?
@@ -233,6 +237,10 @@ private struct StructuredPayload: Encodable {
             videoMediaHeader = VideoMediaHeaderDetail(box: box)
         case let .editList(box):
             editList = EditListDetail(box: box)
+        case let .decodingTimeToSample(box):
+            timeToSample = TimeToSampleDetail(box: box)
+        case let .compositionOffset(box):
+            compositionOffset = CompositionOffsetDetail(box: box)
         case let .sampleToChunk(box):
             sampleToChunk = SampleToChunkDetail(box: box)
         case let .chunkOffset(box):
@@ -270,6 +278,8 @@ private struct StructuredPayload: Encodable {
         self.soundMediaHeader = soundMediaHeader
         self.videoMediaHeader = videoMediaHeader
         self.editList = editList
+        self.timeToSample = timeToSample
+        self.compositionOffset = compositionOffset
         self.sampleToChunk = sampleToChunk
         self.chunkOffset = chunkOffset
         self.sampleSize = sampleSize
@@ -299,6 +309,8 @@ private struct StructuredPayload: Encodable {
         case soundMediaHeader = "sound_media_header"
         case videoMediaHeader = "video_media_header"
         case editList = "edit_list"
+        case timeToSample = "time_to_sample"
+        case compositionOffset = "composition_offset"
         case sampleToChunk = "sample_to_chunk"
         case chunkOffset = "chunk_offset"
         case sampleSize = "sample_size"
@@ -844,6 +856,90 @@ private struct EditListDetail: Encodable {
         case entryCount = "entry_count"
         case movieTimescale = "movie_timescale"
         case mediaTimescale = "media_timescale"
+        case entries
+    }
+}
+
+private struct TimeToSampleDetail: Encodable {
+    struct Entry: Encodable {
+        let index: UInt32
+        let sampleCount: UInt32
+        let sampleDelta: UInt32
+        let byteRange: ByteRange
+
+        init(entry: ParsedBoxPayload.DecodingTimeToSampleBox.Entry) {
+            self.index = entry.index
+            self.sampleCount = entry.sampleCount
+            self.sampleDelta = entry.sampleDelta
+            self.byteRange = ByteRange(range: entry.byteRange)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index
+            case sampleCount = "sample_count"
+            case sampleDelta = "sample_delta"
+            case byteRange = "byte_range"
+        }
+    }
+
+    let version: UInt8
+    let flags: UInt32
+    let entryCount: UInt32
+    let entries: [Entry]
+
+    init(box: ParsedBoxPayload.DecodingTimeToSampleBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.entryCount = box.entryCount
+        self.entries = box.entries.map(Entry.init)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case entryCount = "entry_count"
+        case entries
+    }
+}
+
+private struct CompositionOffsetDetail: Encodable {
+    struct Entry: Encodable {
+        let index: UInt32
+        let sampleCount: UInt32
+        let sampleOffset: Int32
+        let byteRange: ByteRange
+
+        init(entry: ParsedBoxPayload.CompositionOffsetBox.Entry) {
+            self.index = entry.index
+            self.sampleCount = entry.sampleCount
+            self.sampleOffset = entry.sampleOffset
+            self.byteRange = ByteRange(range: entry.byteRange)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index
+            case sampleCount = "sample_count"
+            case sampleOffset = "sample_offset"
+            case byteRange = "byte_range"
+        }
+    }
+
+    let version: UInt8
+    let flags: UInt32
+    let entryCount: UInt32
+    let entries: [Entry]
+
+    init(box: ParsedBoxPayload.CompositionOffsetBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.entryCount = box.entryCount
+        self.entries = box.entries.map(Entry.init)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case entryCount = "entry_count"
         case entries
     }
 }

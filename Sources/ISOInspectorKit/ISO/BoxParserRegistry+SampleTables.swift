@@ -145,6 +145,285 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: detail)
     }
 
+    static func decodingTimeToSample(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+        guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+        var fields: [ParsedBoxPayload.Field] = []
+        let start = header.payloadRange.lowerBound
+        let end = header.payloadRange.upperBound
+
+        fields.append(ParsedBoxPayload.Field(
+            name: "version",
+            value: String(fullHeader.version),
+            description: "Structure version",
+            byteRange: start..<(start + 1)
+        ))
+
+        fields.append(ParsedBoxPayload.Field(
+            name: "flags",
+            value: String(format: "0x%06X", fullHeader.flags),
+            description: "Bit flags",
+            byteRange: (start + 1)..<(start + 4)
+        ))
+
+        var cursor = fullHeader.contentStart
+
+        let countEndResult = cursor.addingReportingOverflow(4)
+        guard !countEndResult.overflow else { return nil }
+        let countEnd = countEndResult.partialValue
+        guard countEnd <= end,
+              let entryCount = try readUInt32(reader, at: cursor, end: end) else { return nil }
+        fields.append(ParsedBoxPayload.Field(
+            name: "entry_count",
+            value: String(entryCount),
+            description: "Number of decoding time entries",
+            byteRange: cursor..<countEnd
+        ))
+        cursor = countEnd
+
+        var entries: [ParsedBoxPayload.DecodingTimeToSampleBox.Entry] = []
+        var index: UInt32 = 0
+
+        func appendTruncationStatus(_ missingField: String) {
+            let range: Range<Int64>?
+            if cursor < end {
+                range = cursor..<end
+            } else {
+                range = nil
+            }
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(index)].status",
+                value: "truncated",
+                description: "Entry truncated before \(missingField) field",
+                byteRange: range
+            ))
+        }
+
+        while index < entryCount, cursor < end {
+            let entryStart = cursor
+
+            let sampleCountEndResult = cursor.addingReportingOverflow(4)
+            guard !sampleCountEndResult.overflow else {
+                appendTruncationStatus("sample_count")
+                break
+            }
+            let sampleCountEnd = sampleCountEndResult.partialValue
+            guard sampleCountEnd <= end,
+                  let sampleCount = try readUInt32(reader, at: cursor, end: end) else {
+                appendTruncationStatus("sample_count")
+                break
+            }
+            let sampleCountRange = cursor..<sampleCountEnd
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(index)].sample_count",
+                value: String(sampleCount),
+                description: "Number of consecutive samples using this delta",
+                byteRange: sampleCountRange
+            ))
+            cursor = sampleCountEnd
+
+            let sampleDeltaEndResult = cursor.addingReportingOverflow(4)
+            guard !sampleDeltaEndResult.overflow else {
+                appendTruncationStatus("sample_delta")
+                break
+            }
+            let sampleDeltaEnd = sampleDeltaEndResult.partialValue
+            guard sampleDeltaEnd <= end,
+                  let sampleDelta = try readUInt32(reader, at: cursor, end: end) else {
+                appendTruncationStatus("sample_delta")
+                break
+            }
+            let sampleDeltaRange = cursor..<sampleDeltaEnd
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(index)].sample_delta",
+                value: String(sampleDelta),
+                description: "Decode time delta applied to each sample",
+                byteRange: sampleDeltaRange
+            ))
+            cursor = sampleDeltaEnd
+
+            let entryRange = entryStart..<cursor
+            entries.append(ParsedBoxPayload.DecodingTimeToSampleBox.Entry(
+                index: index,
+                sampleCount: sampleCount,
+                sampleDelta: sampleDelta,
+                byteRange: entryRange
+            ))
+
+            if cursor <= entryStart {
+                break
+            }
+
+            index += 1
+        }
+
+        let detail: ParsedBoxPayload.Detail?
+        if UInt32(entries.count) == entryCount {
+            detail = .decodingTimeToSample(ParsedBoxPayload.DecodingTimeToSampleBox(
+                version: fullHeader.version,
+                flags: fullHeader.flags,
+                entryCount: entryCount,
+                entries: entries
+            ))
+        } else {
+            detail = nil
+        }
+
+        return ParsedBoxPayload(fields: fields, detail: detail)
+    }
+
+    static func compositionOffset(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+        guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+        var fields: [ParsedBoxPayload.Field] = []
+        let start = header.payloadRange.lowerBound
+        let end = header.payloadRange.upperBound
+
+        fields.append(ParsedBoxPayload.Field(
+            name: "version",
+            value: String(fullHeader.version),
+            description: "Structure version",
+            byteRange: start..<(start + 1)
+        ))
+
+        fields.append(ParsedBoxPayload.Field(
+            name: "flags",
+            value: String(format: "0x%06X", fullHeader.flags),
+            description: "Bit flags",
+            byteRange: (start + 1)..<(start + 4)
+        ))
+
+        var cursor = fullHeader.contentStart
+
+        let countEndResult = cursor.addingReportingOverflow(4)
+        guard !countEndResult.overflow else { return nil }
+        let countEnd = countEndResult.partialValue
+        guard countEnd <= end,
+              let entryCount = try readUInt32(reader, at: cursor, end: end) else { return nil }
+        fields.append(ParsedBoxPayload.Field(
+            name: "entry_count",
+            value: String(entryCount),
+            description: "Number of composition offset entries",
+            byteRange: cursor..<countEnd
+        ))
+        cursor = countEnd
+
+        var entries: [ParsedBoxPayload.CompositionOffsetBox.Entry] = []
+        var index: UInt32 = 0
+
+        func appendTruncationStatus(_ missingField: String) {
+            let range: Range<Int64>?
+            if cursor < end {
+                range = cursor..<end
+            } else {
+                range = nil
+            }
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(index)].status",
+                value: "truncated",
+                description: "Entry truncated before \(missingField) field",
+                byteRange: range
+            ))
+        }
+
+        while index < entryCount, cursor < end {
+            let entryStart = cursor
+
+            let sampleCountEndResult = cursor.addingReportingOverflow(4)
+            guard !sampleCountEndResult.overflow else {
+                appendTruncationStatus("sample_count")
+                break
+            }
+            let sampleCountEnd = sampleCountEndResult.partialValue
+            guard sampleCountEnd <= end,
+                  let sampleCount = try readUInt32(reader, at: cursor, end: end) else {
+                appendTruncationStatus("sample_count")
+                break
+            }
+            let sampleCountRange = cursor..<sampleCountEnd
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries[\(index)].sample_count",
+                value: String(sampleCount),
+                description: "Number of consecutive samples using this offset",
+                byteRange: sampleCountRange
+            ))
+            cursor = sampleCountEnd
+
+            let offsetEndResult = cursor.addingReportingOverflow(4)
+            guard !offsetEndResult.overflow else {
+                appendTruncationStatus("sample_offset")
+                break
+            }
+            let offsetEnd = offsetEndResult.partialValue
+            guard offsetEnd <= end else {
+                appendTruncationStatus("sample_offset")
+                break
+            }
+
+            let offsetRange = cursor..<offsetEnd
+            let offsetValue: Int32?
+            if fullHeader.version == 0 {
+                guard let raw = try readUInt32(reader, at: cursor, end: end) else {
+                    appendTruncationStatus("sample_offset")
+                    break
+                }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].sample_offset",
+                    value: String(raw),
+                    description: "Composition time offset",
+                    byteRange: offsetRange
+                ))
+                offsetValue = Int32(bitPattern: raw)
+            } else {
+                guard let signed = try readInt32(reader, at: cursor, end: end) else {
+                    appendTruncationStatus("sample_offset")
+                    break
+                }
+                fields.append(ParsedBoxPayload.Field(
+                    name: "entries[\(index)].sample_offset",
+                    value: String(signed),
+                    description: "Composition time offset",
+                    byteRange: offsetRange
+                ))
+                offsetValue = signed
+            }
+            cursor = offsetEnd
+
+            guard let sampleOffset = offsetValue else {
+                appendTruncationStatus("sample_offset")
+                break
+            }
+
+            let entryRange = entryStart..<cursor
+            entries.append(ParsedBoxPayload.CompositionOffsetBox.Entry(
+                index: index,
+                sampleCount: sampleCount,
+                sampleOffset: sampleOffset,
+                byteRange: entryRange
+            ))
+
+            if cursor <= entryStart {
+                break
+            }
+
+            index += 1
+        }
+
+        let detail: ParsedBoxPayload.Detail?
+        if UInt32(entries.count) == entryCount {
+            detail = .compositionOffset(ParsedBoxPayload.CompositionOffsetBox(
+                version: fullHeader.version,
+                flags: fullHeader.flags,
+                entryCount: entryCount,
+                entries: entries
+            ))
+        } else {
+            detail = nil
+        }
+
+        return ParsedBoxPayload(fields: fields, detail: detail)
+    }
+
     static func chunkOffset32(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         try parseChunkOffsets(header: header, reader: reader, width: .bits32)
     }

@@ -22,6 +22,8 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case soundMediaHeader(SoundMediaHeaderBox)
         case videoMediaHeader(VideoMediaHeaderBox)
         case editList(EditListBox)
+        case decodingTimeToSample(DecodingTimeToSampleBox)
+        case compositionOffset(CompositionOffsetBox)
         case sampleToChunk(SampleToChunkBox)
         case chunkOffset(ChunkOffsetBox)
         case sampleSize(SampleSizeBox)
@@ -921,6 +923,76 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         }
     }
 
+    public struct DecodingTimeToSampleBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public let index: UInt32
+            public let sampleCount: UInt32
+            public let sampleDelta: UInt32
+            public let byteRange: Range<Int64>
+
+            public init(index: UInt32, sampleCount: UInt32, sampleDelta: UInt32, byteRange: Range<Int64>) {
+                self.index = index
+                self.sampleCount = sampleCount
+                self.sampleDelta = sampleDelta
+                self.byteRange = byteRange
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let entryCount: UInt32
+        public let entries: [Entry]
+
+        public init(version: UInt8, flags: UInt32, entryCount: UInt32, entries: [Entry]) {
+            self.version = version
+            self.flags = flags
+            self.entryCount = entryCount
+            self.entries = entries
+        }
+
+        public var totalSampleCount: UInt64 {
+            entries.reduce(UInt64(0)) { total, entry in
+                let (next, overflow) = total.addingReportingOverflow(UInt64(entry.sampleCount))
+                return overflow ? UInt64.max : next
+            }
+        }
+    }
+
+    public struct CompositionOffsetBox: Equatable, Sendable {
+        public struct Entry: Equatable, Sendable {
+            public let index: UInt32
+            public let sampleCount: UInt32
+            public let sampleOffset: Int32
+            public let byteRange: Range<Int64>
+
+            public init(index: UInt32, sampleCount: UInt32, sampleOffset: Int32, byteRange: Range<Int64>) {
+                self.index = index
+                self.sampleCount = sampleCount
+                self.sampleOffset = sampleOffset
+                self.byteRange = byteRange
+            }
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let entryCount: UInt32
+        public let entries: [Entry]
+
+        public init(version: UInt8, flags: UInt32, entryCount: UInt32, entries: [Entry]) {
+            self.version = version
+            self.flags = flags
+            self.entryCount = entryCount
+            self.entries = entries
+        }
+
+        public var totalSampleCount: UInt64 {
+            entries.reduce(UInt64(0)) { total, entry in
+                let (next, overflow) = total.addingReportingOverflow(UInt64(entry.sampleCount))
+                return overflow ? UInt64.max : next
+            }
+        }
+    }
+
     public struct SampleSizeBox: Equatable, Sendable {
         public struct Entry: Equatable, Sendable {
             public let index: UInt32
@@ -1351,6 +1423,16 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var editList: EditListBox? {
         guard case let .editList(box) = detail else { return nil }
+        return box
+    }
+
+    public var decodingTimeToSample: DecodingTimeToSampleBox? {
+        guard case let .decodingTimeToSample(box) = detail else { return nil }
+        return box
+    }
+
+    public var compositionOffset: CompositionOffsetBox? {
+        guard case let .compositionOffset(box) = detail else { return nil }
         return box
     }
 

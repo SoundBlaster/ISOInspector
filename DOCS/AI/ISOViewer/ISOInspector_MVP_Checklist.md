@@ -65,7 +65,7 @@
 - [ ] E2. Add progress guard + max nesting depth constants
 - [ ] E3. Advisory order warnings (ftyp/moov/mdat)
 - [x] E4. avcC/hvcC invariants list _(Completed — validator coverage summarized in `DOCS/INPROGRESS/Summary_of_Work.md`.)_
-- [ ] E5. Basic `stbl` coherence checks list
+- [x] E5. Basic `stbl` coherence checks list _(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)_
 
 ## Phase F — Export & Hex
 - [ ] F1. JSON export: encoder structure (types only)

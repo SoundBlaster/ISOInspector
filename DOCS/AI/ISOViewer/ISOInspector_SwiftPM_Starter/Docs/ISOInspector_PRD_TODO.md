@@ -201,7 +201,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] E2. Detect zero/negative progress loops; cap nesting depth.
 - [x] E3. Warn on unusual top-level ordering (advisory). _(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)_
 - [ ] E4. Verify `avcC/hvcC` invariants; flag inconsistencies.
-- [ ] E5. Basic `stbl` coherence checks (counts nonzero, arrays parse).
+- [x] E5. Basic `stbl` coherence checks (counts nonzero, arrays parse). _(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)_
 
 ### Phase F — Export & Hex
 - [ ] F1. JSON export: encode tree with offsets/sizes/parsed fields.

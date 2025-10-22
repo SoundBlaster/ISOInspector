@@ -526,11 +526,23 @@ private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Se
         let entries: [ParsedBoxPayload.ChunkOffsetBox.Entry]
     }
 
+    private struct TimeToSampleState {
+        let identifier: String
+        let totalSamples: UInt64
+    }
+
+    private struct CompositionOffsetState {
+        let identifier: String
+        let totalSamples: UInt64
+    }
+
     private struct TrackContext {
         var trackHeader: ParsedBoxPayload.TrackHeaderBox?
         var sampleToChunk: SampleToChunkState?
         var sampleSize: SampleSizeState?
         var chunkOffsets: ChunkOffsetState?
+        var timeToSample: TimeToSampleState?
+        var compositionOffset: CompositionOffsetState?
     }
 
     private var trackStack: [TrackContext] = []
@@ -559,21 +571,21 @@ private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Se
                     identifier: header.identifierString,
                     box: box
                 )
-                return evaluateCorrelation(for: trackIndex, triggeredBy: header)
+                return evaluateTrack(for: trackIndex, triggeredKind: .sampleToChunk)
             case BoxType.sampleSize:
                 guard let box = event.payload?.sampleSize else { return [] }
                 trackStack[trackIndex].sampleSize = SampleSizeState(
                     identifier: header.identifierString,
                     sampleCount: box.sampleCount
                 )
-                return evaluateCorrelation(for: trackIndex, triggeredBy: header)
+                return evaluateTrack(for: trackIndex, triggeredKind: .sampleSize)
             case BoxType.compactSampleSize:
                 guard let box = event.payload?.compactSampleSize else { return [] }
                 trackStack[trackIndex].sampleSize = SampleSizeState(
                     identifier: header.identifierString,
                     sampleCount: box.sampleCount
                 )
-                return evaluateCorrelation(for: trackIndex, triggeredBy: header)
+                return evaluateTrack(for: trackIndex, triggeredKind: .sampleSize)
             case BoxType.chunkOffset32, BoxType.chunkOffset64:
                 guard let box = event.payload?.chunkOffset else { return [] }
                 trackStack[trackIndex].chunkOffsets = ChunkOffsetState(
@@ -585,8 +597,22 @@ private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Se
                     trackIndex: trackIndex,
                     header: header
                 )
-                issues.append(contentsOf: evaluateCorrelation(for: trackIndex, triggeredBy: header))
+                issues.append(contentsOf: evaluateTrack(for: trackIndex, triggeredKind: .chunkOffsets))
                 return issues
+            case BoxType.decodingTimeToSample:
+                guard let box = event.payload?.decodingTimeToSample else { return [] }
+                trackStack[trackIndex].timeToSample = TimeToSampleState(
+                    identifier: header.identifierString,
+                    totalSamples: totalSampleCount(box.entries.map { $0.sampleCount })
+                )
+                return evaluateTrack(for: trackIndex, triggeredKind: .timeToSample)
+            case BoxType.compositionOffset:
+                guard let box = event.payload?.compositionOffset else { return [] }
+                trackStack[trackIndex].compositionOffset = CompositionOffsetState(
+                    identifier: header.identifierString,
+                    totalSamples: totalSampleCount(box.entries.map { $0.sampleCount })
+                )
+                return evaluateTrack(for: trackIndex, triggeredKind: .compositionOffset)
             default:
                 return []
             }
@@ -605,7 +631,19 @@ private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Se
         }
     }
 
-    private func evaluateCorrelation(for trackIndex: Int, triggeredBy header: BoxHeader) -> [ValidationIssue] {
+    private func evaluateTrack(for trackIndex: Int, triggeredKind: SampleTableKind) -> [ValidationIssue] {
+        var issues: [ValidationIssue] = []
+        switch triggeredKind {
+        case .chunkOffsets, .sampleToChunk, .sampleSize:
+            issues.append(contentsOf: chunkCorrelationIssues(for: trackIndex))
+        case .timeToSample, .compositionOffset:
+            break
+        }
+        issues.append(contentsOf: sampleCountConsistencyIssues(for: trackIndex, triggeredKind: triggeredKind))
+        return issues
+    }
+
+    private func chunkCorrelationIssues(for trackIndex: Int) -> [ValidationIssue] {
         let context = trackStack[trackIndex]
         guard let sampleToChunk = context.sampleToChunk,
               let sampleSize = context.sampleSize,
@@ -710,6 +748,66 @@ private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Se
         return issues
     }
 
+    private func sampleCountConsistencyIssues(for trackIndex: Int, triggeredKind: SampleTableKind) -> [ValidationIssue] {
+        let context = trackStack[trackIndex]
+        let trackLabel = trackDescription(for: context)
+        var issues: [ValidationIssue] = []
+
+        if (triggeredKind == .sampleSize || triggeredKind == .timeToSample),
+           let sampleSize = context.sampleSize,
+           let timeToSample = context.timeToSample {
+            let declared = UInt64(sampleSize.sampleCount)
+            if timeToSample.totalSamples != declared {
+                issues.append(ValidationIssue(
+                    ruleID: "VR-015",
+                    message: "\(trackLabel) time-to-sample table \(timeToSample.identifier) sums to \(timeToSample.totalSamples) samples but sample size table \(sampleSize.identifier) declares \(declared) samples.",
+                    severity: .error
+                ))
+            }
+        }
+
+        if (triggeredKind == .sampleSize || triggeredKind == .compositionOffset),
+           let sampleSize = context.sampleSize,
+           let composition = context.compositionOffset {
+            let declared = UInt64(sampleSize.sampleCount)
+            if composition.totalSamples != declared {
+                issues.append(ValidationIssue(
+                    ruleID: "VR-015",
+                    message: "\(trackLabel) composition offset table \(composition.identifier) sums to \(composition.totalSamples) samples but sample size table \(sampleSize.identifier) declares \(declared) samples.",
+                    severity: .error
+                ))
+            }
+        }
+
+        if (triggeredKind == .timeToSample || triggeredKind == .compositionOffset),
+           let timeToSample = context.timeToSample,
+           let composition = context.compositionOffset,
+           timeToSample.totalSamples != composition.totalSamples {
+            issues.append(ValidationIssue(
+                ruleID: "VR-015",
+                message: "\(trackLabel) time-to-sample table \(timeToSample.identifier) sums to \(timeToSample.totalSamples) samples but composition offset table \(composition.identifier) covers \(composition.totalSamples) samples.",
+                severity: .error
+            ))
+        }
+
+        return issues
+    }
+
+    private func totalSampleCount<S: Sequence>(_ counts: S) -> UInt64 where S.Element == UInt32 {
+        counts.reduce(UInt64(0)) { total, value in
+            let (next, overflow) = total.addingReportingOverflow(UInt64(value))
+            return overflow ? UInt64.max : next
+        }
+    }
+
+    private enum SampleTableKind {
+        case sampleToChunk
+        case sampleSize
+        case chunkOffsets
+        case timeToSample
+        case compositionOffset
+    }
+
     private func chunkOffsetOrderingIssues(
         entries: [ParsedBoxPayload.ChunkOffsetBox.Entry],
         trackIndex: Int,
@@ -746,6 +844,8 @@ private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Se
         static let compactSampleSize = try! FourCharCode("stz2")
         static let chunkOffset32 = try! FourCharCode("stco")
         static let chunkOffset64 = try! FourCharCode("co64")
+        static let decodingTimeToSample = try! FourCharCode("stts")
+        static let compositionOffset = try! FourCharCode("ctts")
     }
 }
 

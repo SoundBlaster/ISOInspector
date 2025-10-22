@@ -99,6 +99,12 @@ extension BoxParserRegistry {
             if let stsd = try? FourCharCode("stsd") {
                 registry.register(parser: sampleDescription, for: stsd)
             }
+            if let stts = try? FourCharCode("stts") {
+                registry.register(parser: decodingTimeToSample, for: stts)
+            }
+            if let ctts = try? FourCharCode("ctts") {
+                registry.register(parser: compositionOffset, for: ctts)
+            }
             if let stsc = try? FourCharCode("stsc") {
                 registry.register(parser: sampleToChunk, for: stsc)
             }
