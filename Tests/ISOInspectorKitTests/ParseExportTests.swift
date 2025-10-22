@@ -142,6 +142,46 @@ final class ParseExportTests: XCTestCase {
         XCTAssertTrue(issues.isEmpty)
     }
 
+    func testJSONExporterIncludesValidationMetadata() throws {
+        let header = try makeHeader(type: "ftyp", size: 24)
+        var builder = ParseTreeBuilder()
+        builder.consume(
+            ParseEvent(
+                kind: .willStartBox(header: header, depth: 0),
+                offset: header.startOffset,
+                metadata: nil,
+                payload: nil,
+                validationIssues: [
+                    ValidationIssue(ruleID: "VR-006", message: "suppressed", severity: .info)
+                ]
+            )
+        )
+        builder.consume(
+            ParseEvent(
+                kind: .didFinishBox(header: header, depth: 0),
+                offset: header.endOffset,
+                validationIssues: [
+                    ValidationIssue(ruleID: "VR-006", message: "suppressed", severity: .info)
+                ]
+            )
+        )
+
+        var tree = builder.makeTree()
+        tree.validationMetadata = ValidationMetadata(
+            activePresetID: "structural",
+            disabledRuleIDs: ["VR-006"]
+        )
+
+        let exporter = JSONParseTreeExporter()
+        let data = try exporter.export(tree: tree)
+        let json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+
+        let validation = try XCTUnwrap(json["validation"] as? [String: Any])
+        XCTAssertEqual(validation["activePresetID"] as? String, "structural")
+        let disabled = try XCTUnwrap(validation["disabledRules"] as? [String])
+        XCTAssertEqual(disabled, ["VR-006"])
+    }
+
     func testJSONExporterIncludesPaddingBoxes() async throws {
         let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
         let freePayload = Data(count: 12)

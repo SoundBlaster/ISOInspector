@@ -1,5 +1,6 @@
 #if canImport(Foundation)
 import Foundation
+import ISOInspectorKit
 
 public struct WorkspaceSessionSnapshot: Codable, Equatable, Sendable {
     var id: UUID
@@ -21,6 +22,7 @@ public struct WorkspaceSessionFileSnapshot: Codable, Equatable, Sendable, Identi
     var scrollOffset: WorkspaceSessionScrollOffset?
     var bookmarkIdentifier: UUID?
     var bookmarkDiffs: [WorkspaceSessionBookmarkDiff]
+    var validationConfiguration: ValidationConfiguration?
 }
 
 public struct WorkspaceSessionScrollOffset: Codable, Equatable, Sendable {

@@ -30,6 +30,12 @@ struct ISOInspectorApp: App {
                 .disabled(!controller.canExportSelection(nodeID: controller.annotations.currentSelectedNodeID))
             }
         }
+#if os(macOS)
+        Settings {
+            ValidationSettingsView(controller: controller)
+                .isoInspectorAppTheme()
+        }
+#endif
     }
 
     @MainActor
@@ -48,7 +54,10 @@ struct ISOInspectorApp: App {
             recentsStore: recentsStore,
             sessionStore: sessionStore,
             bookmarkStore: bookmarkStore,
-            filesystemAccess: FilesystemAccess.live()
+            filesystemAccess: FilesystemAccess.live(),
+            validationConfigurationStore: FileBackedValidationConfigurationStore(
+                directory: validationConfigurationDirectory()
+            )
         )
     }
 
@@ -81,6 +90,14 @@ struct ISOInspectorApp: App {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
             ?? FileManager.default.temporaryDirectory
         let directory = base.appendingPathComponent("WorkspaceSession", isDirectory: true)
+        try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        return directory
+    }
+
+    private static func validationConfigurationDirectory() -> URL {
+        let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
+            ?? FileManager.default.temporaryDirectory
+        let directory = base.appendingPathComponent("ValidationConfiguration", isDirectory: true)
         try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         return directory
     }
