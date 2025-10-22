@@ -224,7 +224,6 @@ final class SectionHeaderAccessibilityTests: XCTestCase {
         // Given
         // SectionHeader uses .secondary foreground color on default background
         let foreground = Color.secondary
-        let background = Color.clear  // Inherits from parent
 
         // Note: Testing secondary color contrast is complex as it's system-dependent
         // We verify that secondary color is being used, which is WCAG compliant by design

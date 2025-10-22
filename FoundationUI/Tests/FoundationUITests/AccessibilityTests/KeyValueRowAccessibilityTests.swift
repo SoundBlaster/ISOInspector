@@ -41,7 +41,6 @@ final class KeyValueRowAccessibilityTests: XCTestCase {
         // Given
         let key = "File Size"
         let value = "1024 bytes"
-        let row = KeyValueRow(key: key, value: value)
 
         // Then
         // Expected format: "File Size, 1024 bytes"
@@ -232,7 +231,6 @@ final class KeyValueRowAccessibilityTests: XCTestCase {
         // Given
         // Keys use .secondary foreground color
         let keyColor = Color.secondary
-        let background = Color.clear
 
         // Then
         // Secondary color is system-provided and WCAG compliant by design
@@ -246,7 +244,6 @@ final class KeyValueRowAccessibilityTests: XCTestCase {
         // Given
         // Values use .primary foreground color
         let valueColor = Color.primary
-        let background = Color.clear
 
         // Then
         // Primary color is system-provided and WCAG compliant by design

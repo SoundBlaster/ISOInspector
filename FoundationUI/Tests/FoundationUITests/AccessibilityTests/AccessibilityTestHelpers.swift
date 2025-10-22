@@ -120,7 +120,7 @@ enum AccessibilityTestHelpers {
         foreground: Color,
         background: Color,
         message: String = "Should meet WCAG 2.1 AA contrast ratio (≥4.5:1)",
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         line: UInt = #line
     ) {
         let ratio = contrastRatio(foreground: foreground, background: background)
@@ -158,7 +158,7 @@ enum AccessibilityTestHelpers {
     static func assertMeetsTouchTargetSize(
         size: CGSize,
         message: String = "Should meet minimum touch target size (≥44×44 pt)",
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         line: UInt = #line
     ) {
         XCTAssertGreaterThanOrEqual(
@@ -200,7 +200,7 @@ enum AccessibilityTestHelpers {
     static func assertValidAccessibilityLabel(
         _ label: String?,
         context: String = "Component",
-        file: StaticString = #file,
+        file: StaticString = #filePath,
         line: UInt = #line
     ) {
         XCTAssertTrue(
