@@ -195,12 +195,13 @@
   - 100% DocC documentation with examples
   - Archive: `TASK_ARCHIVE/02_Phase2.2_Badge/`
 
-- [ ] **P0** Implement Card component
+- [ ] **P0** Implement Card component → **IN PROGRESS**
   - File: `Sources/Components/Card.swift`
   - Generic content with @ViewBuilder
   - Configurable elevation and corner radius
   - Material background support
   - Add comprehensive previews
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase2_Card.md`
 
 - [ ] **P0** Implement KeyValueRow component
   - File: `Sources/Components/KeyValueRow.swift`
