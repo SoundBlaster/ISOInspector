@@ -36,7 +36,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
     public var globalOptions: GlobalOptions
 
     public mutating func run() async throws {
-        await Self.bootstrap(with: globalOptions)
+        _ = await Self.resolveContext(applying: globalOptions)
         throw CleanExit.helpRequest(self)
     }
 
@@ -66,30 +66,47 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                 environment.telemetryEnabled = false
             }
 
-            let presets = GlobalOptions.bundledPresets()
-            let defaultPresetID = GlobalOptions.defaultPresetID(in: presets)
-            var resolvedConfiguration = ValidationConfiguration(activePresetID: defaultPresetID)
-            var wasCustomized = false
+            let providedPresets = context.validationPresets
+            let presets: [ValidationPreset]
+            let defaultPresetID: String
+            var resolvedConfiguration = context.validationConfiguration
+            var wasCustomized = context.validationConfigurationWasCustomized
 
-            do {
-                let result = try options.makeValidationConfiguration(
-                    presets: presets,
-                    defaultPresetID: defaultPresetID
-                )
-                resolvedConfiguration = result.configuration
-                wasCustomized = result.wasCustomized
-            } catch {
-                environment.printError("Failed to resolve validation configuration: \(error)")
+            if providedPresets.isEmpty {
+                let bundled = GlobalOptions.bundledPresets()
+                presets = bundled
+                defaultPresetID = GlobalOptions.defaultPresetID(in: bundled)
+                resolvedConfiguration = ValidationConfiguration(activePresetID: defaultPresetID)
+                wasCustomized = false
+
+                do {
+                    let result = try options.makeValidationConfiguration(
+                        presets: presets,
+                        defaultPresetID: defaultPresetID
+                    )
+                    resolvedConfiguration = result.configuration
+                    wasCustomized = result.wasCustomized
+                } catch {
+                    environment.printError("Failed to resolve validation configuration: \(error)")
+                }
+            } else {
+                presets = providedPresets
+                defaultPresetID = GlobalOptions.defaultPresetID(in: presets)
             }
 
             context.environment = environment
             context.verbosity = options.resolvedVerbosity
             context.telemetryMode = options.resolvedTelemetryMode
-            context.validationConfiguration = resolvedConfiguration
             context.validationPresets = presets
             context.validationConfigurationWasCustomized = wasCustomized
+            context.validationConfiguration = resolvedConfiguration
             ISOInspectorCommandContextStore.bootstrap(with: context)
         }
+    }
+
+    @MainActor static func resolveContext(applying options: GlobalOptions) async -> ISOInspectorCommandContext {
+        await bootstrap(with: options)
+        return await MainActor.run { ISOInspectorCommandContextStore.current }
     }
 
     public struct GlobalOptions: ParsableArguments, Sendable {
@@ -327,10 +344,15 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
             )
             public var researchLog: String?
 
-            public init() {}
+            @OptionGroup
+            public var globalOptions: ISOInspectorCommand.GlobalOptions
+
+            public init() {
+                self._globalOptions = .init()
+            }
 
             public mutating func run() async throws {
-                let context = await MainActor.run { ISOInspectorCommandContextStore.current }
+                let context = await ISOInspectorCommand.resolveContext(applying: globalOptions)
                 let environment = context.environment
                 let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
                 let fileURL = URL(fileURLWithPath: file, relativeTo: cwd).standardizedFileURL
@@ -392,10 +414,15 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
             @Argument(help: "Path to the media file to validate.")
             public var file: String
 
-            public init() {}
+            @OptionGroup
+            public var globalOptions: ISOInspectorCommand.GlobalOptions
+
+            public init() {
+                self._globalOptions = .init()
+            }
 
             public mutating func run() async throws {
-                let context = await MainActor.run { ISOInspectorCommandContextStore.current }
+                let context = await ISOInspectorCommand.resolveContext(applying: globalOptions)
                 let environment = context.environment
                 let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
                 let fileURL = URL(fileURLWithPath: file, relativeTo: cwd).standardizedFileURL
@@ -519,7 +546,12 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                 )
                 var output: String?
 
-                public init() {}
+                @OptionGroup
+                var globalOptions: ISOInspectorCommand.GlobalOptions
+
+                public init() {
+                    self._globalOptions = .init()
+                }
             }
 
             enum Mode {
@@ -577,7 +609,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                     outputURL = mode.defaultOutput(for: fileURL)
                 }
 
-                let context = await MainActor.run { ISOInspectorCommandContextStore.current }
+                let context = await ISOInspectorCommand.resolveContext(applying: options.globalOptions)
                 let environment = context.environment
 
                 let metadata = ISOInspectorCommand.validationMetadata(
@@ -670,7 +702,12 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
             )
             public var csv: String?
 
-            public init() {}
+            @OptionGroup
+            public var globalOptions: ISOInspectorCommand.GlobalOptions
+
+            public init() {
+                self._globalOptions = .init()
+            }
 
             public mutating func validate() throws {
                 if inputs.isEmpty {
@@ -679,7 +716,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
             }
 
             public mutating func run() async throws {
-                let context = await MainActor.run { ISOInspectorCommandContextStore.current }
+                let context = await ISOInspectorCommand.resolveContext(applying: globalOptions)
                 let environment = context.environment
                 let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
                 let resolver = InputResolver(fileManager: .default)
