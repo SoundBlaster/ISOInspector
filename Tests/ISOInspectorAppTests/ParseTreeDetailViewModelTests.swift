@@ -259,6 +259,40 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.annotations.first { $0.label == "handler_name" }?.value, "Video Handler")
     }
 
+    func testSelectingSampleEncryptionNodeFromFixturePopulatesDetail() async throws {
+        let catalog = try FixtureCatalog.load()
+        let fixture = try XCTUnwrap(catalog.fixture(withID: "sample-encryption-placeholder"))
+        let data = try fixture.data(in: .module)
+        let reader = InMemoryRandomAccessReader(data: data)
+        var builder = ParseTreeBuilder()
+        let pipeline = ParsePipeline.live()
+        for try await event in pipeline.events(for: reader, context: .init()) {
+            builder.consume(event)
+        }
+
+        let tree = builder.makeTree()
+        let snapshot = ParseTreeSnapshot(
+            nodes: tree.nodes,
+            validationIssues: tree.validationIssues,
+            lastUpdatedAt: Date()
+        )
+        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil, windowSize: 16)
+
+        viewModel.apply(snapshot: snapshot)
+        let sencNode = try XCTUnwrap(findNode(withFourCC: "senc", in: snapshot.nodes))
+        viewModel.select(nodeID: sencNode.id)
+        await Task.yield()
+
+        let detail = try XCTUnwrap(viewModel.detail)
+        let encryption = try XCTUnwrap(detail.payload?.sampleEncryption)
+        XCTAssertEqual(encryption.sampleCount, 2)
+        XCTAssertEqual(encryption.perSampleIVSize, 8)
+        XCTAssertEqual(encryption.algorithmIdentifier, 0x010203)
+        XCTAssertTrue(encryption.overrideTrackEncryptionDefaults)
+        XCTAssertTrue(encryption.usesSubsampleEncryption)
+        XCTAssertEqual(encryption.sampleInfoByteLength, encryption.sampleInfoRange?.count)
+    }
+
     // MARK: - Helpers
 
     private func makeHeader(identifier: Int64, type: String, payloadLength: Int64) -> BoxHeader {
@@ -273,6 +307,19 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
             uuid: nil
         )
     }
+}
+
+private func findNode(withFourCC fourCC: String, in nodes: [ParseTreeNode]) -> ParseTreeNode? {
+    guard let code = try? FourCharCode(fourCC) else { return nil }
+    for node in nodes {
+        if node.header.type == code {
+            return node
+        }
+        if let match = findNode(withFourCC: fourCC, in: node.children) {
+            return match
+        }
+    }
+    return nil
 }
 
 private final class HexSliceProviderStub: HexSliceProvider {

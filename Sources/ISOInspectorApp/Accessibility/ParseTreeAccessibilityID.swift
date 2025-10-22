@@ -47,6 +47,7 @@ enum ParseTreeAccessibilityID {
     enum Detail {
         static let root = "detail"
         static let metadata = "metadata"
+        static let encryption = "encryption"
         static let notes = "notes"
         static let fieldAnnotations = "fieldAnnotations"
         static let validation = "validation"

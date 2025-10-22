@@ -82,6 +82,80 @@ extension ParseTreeNodeDetail {
             components.append("Flags 0x\(String(flags, radix: 16, uppercase: true))")
         }
 
+        func rangeString(_ range: Range<Int64>) -> String {
+            "\(range.lowerBound) – \(range.upperBound)"
+        }
+
+        if let payload {
+            if let encryption = payload.sampleEncryption {
+                var encryptionParts: [String] = ["Sample encryption entries \(encryption.sampleCount)"]
+                if encryption.overrideTrackEncryptionDefaults {
+                    encryptionParts.append("Overrides defaults")
+                }
+                if encryption.usesSubsampleEncryption {
+                    encryptionParts.append("Includes subsample encryption")
+                }
+                if let ivSize = encryption.perSampleIVSize {
+                    encryptionParts.append("Per-sample IV size \(ivSize)")
+                }
+                if let algorithm = encryption.algorithmIdentifier {
+                    encryptionParts.append(String(format: "Algorithm 0x%06X", algorithm))
+                }
+                if let keyRange = encryption.keyIdentifierRange {
+                    encryptionParts.append("Key identifier range \(rangeString(keyRange))")
+                }
+                if let sampleBytes = encryption.sampleInfoByteLength {
+                    encryptionParts.append("Sample info bytes \(sampleBytes)")
+                }
+                if let sampleRange = encryption.sampleInfoRange {
+                    encryptionParts.append("Sample info range \(rangeString(sampleRange))")
+                }
+                if let constantBytes = encryption.constantIVByteLength {
+                    encryptionParts.append("Constant IV bytes \(constantBytes)")
+                }
+                if let constantRange = encryption.constantIVRange {
+                    encryptionParts.append("Constant IV range \(rangeString(constantRange))")
+                }
+                components.append(encryptionParts.joined(separator: ". "))
+            }
+            if let offsets = payload.sampleAuxInfoOffsets {
+                var offsetParts: [String] = ["Auxiliary info offsets entries \(offsets.entryCount)"]
+                offsetParts.append("Bytes per entry \(offsets.entrySizeBytes)")
+                if let type = offsets.auxInfoType?.rawValue, !type.isEmpty {
+                    offsetParts.append("Type \(type)")
+                }
+                if let parameter = offsets.auxInfoTypeParameter {
+                    offsetParts.append("Parameter \(parameter)")
+                }
+                if let byteLength = offsets.entriesByteLength {
+                    offsetParts.append("Entries bytes \(byteLength)")
+                }
+                if let entriesRange = offsets.entriesRange {
+                    offsetParts.append("Range \(rangeString(entriesRange))")
+                }
+                components.append(offsetParts.joined(separator: ". "))
+            }
+            if let sizes = payload.sampleAuxInfoSizes {
+                var sizeParts: [String] = [
+                    "Auxiliary info sizes default \(sizes.defaultSampleInfoSize)",
+                    "Entry count \(sizes.entryCount)"
+                ]
+                if let type = sizes.auxInfoType?.rawValue, !type.isEmpty {
+                    sizeParts.append("Type \(type)")
+                }
+                if let parameter = sizes.auxInfoTypeParameter {
+                    sizeParts.append("Parameter \(parameter)")
+                }
+                if let variableBytes = sizes.variableEntriesByteLength {
+                    sizeParts.append("Variable bytes \(variableBytes)")
+                }
+                if let variableRange = sizes.variableEntriesRange {
+                    sizeParts.append("Variable range \(rangeString(variableRange))")
+                }
+                components.append(sizeParts.joined(separator: ". "))
+            }
+        }
+
         if validationIssues.isEmpty {
             components.append("No validation issues")
         } else {

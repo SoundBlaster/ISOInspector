@@ -1,0 +1,1678 @@
+{
+  "nodes" : [
+    {
+      "children" : [
+
+      ],
+      "fourcc" : "ftyp",
+      "metadata" : {
+        "name" : "File Type And Compatibility",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Identifies the file type and compatibility brands for the bitstream."
+      },
+      "offsets" : {
+        "end" : 24,
+        "payloadEnd" : 24,
+        "payloadStart" : 8,
+        "start" : 0
+      },
+      "payload" : [
+        {
+          "byteRange" : {
+            "end" : 12,
+            "start" : 8
+          },
+          "name" : "major_brand",
+          "summary" : "Primary brand identifying the file",
+          "value" : "iso6"
+        },
+        {
+          "byteRange" : {
+            "end" : 16,
+            "start" : 12
+          },
+          "name" : "minor_version",
+          "summary" : "File type minor version",
+          "value" : "0"
+        },
+        {
+          "byteRange" : {
+            "end" : 20,
+            "start" : 16
+          },
+          "name" : "compatible_brand[0]",
+          "summary" : "Brand compatibility entry",
+          "value" : "iso6"
+        },
+        {
+          "byteRange" : {
+            "end" : 24,
+            "start" : 20
+          },
+          "name" : "compatible_brand[1]",
+          "summary" : "Brand compatibility entry",
+          "value" : "dash"
+        }
+      ],
+      "sizes" : {
+        "header" : 8,
+        "payload" : 16,
+        "total" : 24
+      },
+      "structured" : {
+        "file_type" : {
+          "compatible_brands" : [
+            "iso6",
+            "dash"
+          ],
+          "major_brand" : "iso6",
+          "minor_version" : 0
+        }
+      },
+      "validationIssues" : [
+
+      ]
+    },
+    {
+      "children" : [
+        {
+          "children" : [
+
+          ],
+          "fourcc" : "mvhd",
+          "metadata" : {
+            "name" : "Movie Header, Overall Declarations",
+            "specification" : "ISO",
+            "summary" : "movie header, overall declarations"
+          },
+          "offsets" : {
+            "end" : 140,
+            "payloadEnd" : 140,
+            "payloadStart" : 40,
+            "start" : 32
+          },
+          "payload" : [
+            {
+              "byteRange" : {
+                "end" : 41,
+                "start" : 40
+              },
+              "name" : "version",
+              "summary" : "Structure version",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 44,
+                "start" : 41
+              },
+              "name" : "flags",
+              "summary" : "Bit flags",
+              "value" : "0x000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 48,
+                "start" : 44
+              },
+              "name" : "creation_time",
+              "summary" : "Movie creation timestamp",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 52,
+                "start" : 48
+              },
+              "name" : "modification_time",
+              "summary" : "Last modification timestamp",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 56,
+                "start" : 52
+              },
+              "name" : "timescale",
+              "summary" : "Time units per second",
+              "value" : "600"
+            },
+            {
+              "byteRange" : {
+                "end" : 60,
+                "start" : 56
+              },
+              "name" : "duration",
+              "summary" : "Movie duration",
+              "value" : "600"
+            },
+            {
+              "byteRange" : {
+                "end" : 64,
+                "start" : 60
+              },
+              "name" : "rate",
+              "summary" : "Playback rate",
+              "value" : "1.00"
+            },
+            {
+              "byteRange" : {
+                "end" : 66,
+                "start" : 64
+              },
+              "name" : "volume",
+              "summary" : "Playback volume",
+              "value" : "1.00"
+            },
+            {
+              "byteRange" : {
+                "end" : 80,
+                "start" : 76
+              },
+              "name" : "matrix.a",
+              "summary" : "Matrix element a (row 1 column 1)",
+              "value" : "1.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 84,
+                "start" : 80
+              },
+              "name" : "matrix.b",
+              "summary" : "Matrix element b (row 1 column 2)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 88,
+                "start" : 84
+              },
+              "name" : "matrix.u",
+              "summary" : "Matrix element u (row 1 column 3)",
+              "value" : "0.000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 92,
+                "start" : 88
+              },
+              "name" : "matrix.c",
+              "summary" : "Matrix element c (row 2 column 1)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 96,
+                "start" : 92
+              },
+              "name" : "matrix.d",
+              "summary" : "Matrix element d (row 2 column 2)",
+              "value" : "1.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 100,
+                "start" : 96
+              },
+              "name" : "matrix.v",
+              "summary" : "Matrix element v (row 2 column 3)",
+              "value" : "0.000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 104,
+                "start" : 100
+              },
+              "name" : "matrix.x",
+              "summary" : "Matrix element x (row 3 column 1)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 108,
+                "start" : 104
+              },
+              "name" : "matrix.y",
+              "summary" : "Matrix element y (row 3 column 2)",
+              "value" : "0.0000"
+            },
+            {
+              "byteRange" : {
+                "end" : 112,
+                "start" : 108
+              },
+              "name" : "matrix.w",
+              "summary" : "Matrix element w (row 3 column 3)",
+              "value" : "1.000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 140,
+                "start" : 136
+              },
+              "name" : "next_track_ID",
+              "summary" : "Next track identifier",
+              "value" : "2"
+            }
+          ],
+          "sizes" : {
+            "header" : 8,
+            "payload" : 100,
+            "total" : 108
+          },
+          "structured" : {
+            "movie_header" : {
+              "creation_time" : 0,
+              "duration" : 600,
+              "duration_is_64bit" : false,
+              "matrix" : {
+                "a" : 1,
+                "b" : 0,
+                "c" : 0,
+                "d" : 1,
+                "u" : 0,
+                "v" : 0,
+                "w" : 1,
+                "x" : 0,
+                "y" : 0
+              },
+              "modification_time" : 0,
+              "next_track_id" : 2,
+              "rate" : 1,
+              "timescale" : 600,
+              "version" : 0,
+              "volume" : 1
+            }
+          },
+          "validationIssues" : [
+
+          ]
+        },
+        {
+          "children" : [
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "tkhd",
+              "metadata" : {
+                "flags" : 7,
+                "name" : "Track Header, Overall Information About The Track",
+                "specification" : "ISO\/IEC 14496-12",
+                "summary" : "Defines the characteristics of a track, including ID, duration, and display parameters.",
+                "version" : 0
+              },
+              "offsets" : {
+                "end" : 240,
+                "payloadEnd" : 240,
+                "payloadStart" : 156,
+                "start" : 148
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 157,
+                    "start" : 156
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 160,
+                    "start" : 157
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000007"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 164,
+                    "start" : 160
+                  },
+                  "name" : "creation_time",
+                  "summary" : "Track creation timestamp",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 168,
+                    "start" : 164
+                  },
+                  "name" : "modification_time",
+                  "summary" : "Last modification timestamp",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 172,
+                    "start" : 168
+                  },
+                  "name" : "track_id",
+                  "summary" : "Unique track identifier",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 180,
+                    "start" : 176
+                  },
+                  "name" : "duration",
+                  "summary" : "Track duration",
+                  "value" : "600"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 190,
+                    "start" : 188
+                  },
+                  "name" : "layer",
+                  "summary" : "Track layer",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 192,
+                    "start" : 190
+                  },
+                  "name" : "alternate_group",
+                  "summary" : "Alternate group",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 194,
+                    "start" : 192
+                  },
+                  "name" : "volume",
+                  "summary" : "Playback volume",
+                  "value" : "0.00"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 200,
+                    "start" : 196
+                  },
+                  "name" : "matrix.a",
+                  "summary" : "Matrix element a (row 1 column 1)",
+                  "value" : "1.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 204,
+                    "start" : 200
+                  },
+                  "name" : "matrix.b",
+                  "summary" : "Matrix element b (row 1 column 2)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 208,
+                    "start" : 204
+                  },
+                  "name" : "matrix.u",
+                  "summary" : "Matrix element u (row 1 column 3)",
+                  "value" : "0.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 212,
+                    "start" : 208
+                  },
+                  "name" : "matrix.c",
+                  "summary" : "Matrix element c (row 2 column 1)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 216,
+                    "start" : 212
+                  },
+                  "name" : "matrix.d",
+                  "summary" : "Matrix element d (row 2 column 2)",
+                  "value" : "1.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 220,
+                    "start" : 216
+                  },
+                  "name" : "matrix.v",
+                  "summary" : "Matrix element v (row 2 column 3)",
+                  "value" : "0.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 224,
+                    "start" : 220
+                  },
+                  "name" : "matrix.x",
+                  "summary" : "Matrix element x (row 3 column 1)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 228,
+                    "start" : 224
+                  },
+                  "name" : "matrix.y",
+                  "summary" : "Matrix element y (row 3 column 2)",
+                  "value" : "0.0000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 232,
+                    "start" : 228
+                  },
+                  "name" : "matrix.w",
+                  "summary" : "Matrix element w (row 3 column 3)",
+                  "value" : "1.000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 236,
+                    "start" : 232
+                  },
+                  "name" : "width",
+                  "summary" : "Track width",
+                  "value" : "0.00"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 240,
+                    "start" : 236
+                  },
+                  "name" : "height",
+                  "summary" : "Track height",
+                  "value" : "0.00"
+                },
+                {
+                  "name" : "is_enabled",
+                  "summary" : "Track enabled flag",
+                  "value" : "true"
+                },
+                {
+                  "name" : "is_in_movie",
+                  "summary" : "Track participates in movie presentation",
+                  "value" : "true"
+                },
+                {
+                  "name" : "is_in_preview",
+                  "summary" : "Track participates in preview presentation",
+                  "value" : "true"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 84,
+                "total" : 92
+              },
+              "structured" : {
+                "track_header" : {
+                  "alternate_group" : 0,
+                  "creation_time" : 0,
+                  "duration" : 600,
+                  "duration_is_64bit" : false,
+                  "flags" : 7,
+                  "height" : 0,
+                  "is_enabled" : true,
+                  "is_in_movie" : true,
+                  "is_in_preview" : true,
+                  "is_zero_duration" : false,
+                  "is_zero_sized" : true,
+                  "layer" : 0,
+                  "matrix" : {
+                    "a" : 1,
+                    "b" : 0,
+                    "c" : 0,
+                    "d" : 1,
+                    "u" : 0,
+                    "v" : 0,
+                    "w" : 1,
+                    "x" : 0,
+                    "y" : 0
+                  },
+                  "modification_time" : 0,
+                  "track_id" : 1,
+                  "version" : 0,
+                  "volume" : 0,
+                  "width" : 0
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+                {
+                  "children" : [
+
+                  ],
+                  "fourcc" : "mdhd",
+                  "metadata" : {
+                    "name" : "Media Header, Overall Information About The Media",
+                    "specification" : "ISO",
+                    "summary" : "media header, overall information about the media"
+                  },
+                  "offsets" : {
+                    "end" : 280,
+                    "payloadEnd" : 280,
+                    "payloadStart" : 256,
+                    "start" : 248
+                  },
+                  "payload" : [
+                    {
+                      "byteRange" : {
+                        "end" : 257,
+                        "start" : 256
+                      },
+                      "name" : "version",
+                      "summary" : "Structure version",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 260,
+                        "start" : 257
+                      },
+                      "name" : "flags",
+                      "summary" : "Bit flags",
+                      "value" : "0x000000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 264,
+                        "start" : 260
+                      },
+                      "name" : "creation_time",
+                      "summary" : "Media creation timestamp",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 268,
+                        "start" : 264
+                      },
+                      "name" : "modification_time",
+                      "summary" : "Last modification timestamp",
+                      "value" : "0"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 272,
+                        "start" : 268
+                      },
+                      "name" : "timescale",
+                      "summary" : "Media time units per second",
+                      "value" : "48000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 276,
+                        "start" : 272
+                      },
+                      "name" : "duration",
+                      "summary" : "Media duration",
+                      "value" : "48000"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 278,
+                        "start" : 276
+                      },
+                      "name" : "language",
+                      "summary" : "ISO-639-2\/T language code",
+                      "value" : "eng"
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 280,
+                        "start" : 278
+                      },
+                      "name" : "pre_defined",
+                      "summary" : "Reserved value",
+                      "value" : "0"
+                    }
+                  ],
+                  "sizes" : {
+                    "header" : 8,
+                    "payload" : 24,
+                    "total" : 32
+                  },
+                  "validationIssues" : [
+
+                  ]
+                }
+              ],
+              "fourcc" : "mdia",
+              "metadata" : {
+                "name" : "Container For The Media Information In A Track",
+                "specification" : "ISO",
+                "summary" : "container for the media information in a track"
+              },
+              "offsets" : {
+                "end" : 280,
+                "payloadEnd" : 280,
+                "payloadStart" : 248,
+                "start" : 240
+              },
+              "payload" : [
+                {
+                  "name" : "parser",
+                  "summary" : "No parser registered for this box type; returning placeholder metadata.",
+                  "value" : "placeholder"
+                },
+                {
+                  "name" : "payload_length",
+                  "summary" : "Number of bytes in the box payload.",
+                  "value" : "32"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 280,
+                    "start" : 248
+                  },
+                  "name" : "payload_range",
+                  "summary" : "Byte range of the payload relative to the file start.",
+                  "value" : "248..<280"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 32,
+                "total" : 40
+              },
+              "validationIssues" : [
+
+              ]
+            }
+          ],
+          "fourcc" : "trak",
+          "metadata" : {
+            "name" : "Container For An Individual Track Or Stream",
+            "specification" : "ISO\/IEC 14496-12",
+            "summary" : "Container describing a single track within the presentation."
+          },
+          "offsets" : {
+            "end" : 280,
+            "payloadEnd" : 280,
+            "payloadStart" : 148,
+            "start" : 140
+          },
+          "payload" : [
+            {
+              "name" : "parser",
+              "summary" : "No parser registered for this box type; returning placeholder metadata.",
+              "value" : "placeholder"
+            },
+            {
+              "name" : "payload_length",
+              "summary" : "Number of bytes in the box payload.",
+              "value" : "132"
+            },
+            {
+              "byteRange" : {
+                "end" : 280,
+                "start" : 148
+              },
+              "name" : "payload_range",
+              "summary" : "Byte range of the payload relative to the file start.",
+              "value" : "148..<280"
+            }
+          ],
+          "sizes" : {
+            "header" : 8,
+            "payload" : 132,
+            "total" : 140
+          },
+          "validationIssues" : [
+
+          ]
+        }
+      ],
+      "fourcc" : "moov",
+      "metadata" : {
+        "name" : "Container For All The Meta-data",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Top-level container for movie metadata including tracks and timing information."
+      },
+      "offsets" : {
+        "end" : 280,
+        "payloadEnd" : 280,
+        "payloadStart" : 32,
+        "start" : 24
+      },
+      "payload" : [
+        {
+          "name" : "parser",
+          "summary" : "No parser registered for this box type; returning placeholder metadata.",
+          "value" : "placeholder"
+        },
+        {
+          "name" : "payload_length",
+          "summary" : "Number of bytes in the box payload.",
+          "value" : "248"
+        },
+        {
+          "byteRange" : {
+            "end" : 280,
+            "start" : 32
+          },
+          "name" : "payload_range",
+          "summary" : "Byte range of the payload relative to the file start.",
+          "value" : "32..<280"
+        }
+      ],
+      "sizes" : {
+        "header" : 8,
+        "payload" : 248,
+        "total" : 256
+      },
+      "validationIssues" : [
+
+      ]
+    },
+    {
+      "children" : [
+        {
+          "children" : [
+
+          ],
+          "fourcc" : "mfhd",
+          "metadata" : {
+            "name" : "Movie Fragment Header",
+            "specification" : "ISO",
+            "summary" : "movie fragment header"
+          },
+          "offsets" : {
+            "end" : 308,
+            "payloadEnd" : 308,
+            "payloadStart" : 296,
+            "start" : 288
+          },
+          "payload" : [
+            {
+              "byteRange" : {
+                "end" : 297,
+                "start" : 296
+              },
+              "name" : "version",
+              "summary" : "Structure version",
+              "value" : "0"
+            },
+            {
+              "byteRange" : {
+                "end" : 300,
+                "start" : 297
+              },
+              "name" : "flags",
+              "summary" : "Bit flags",
+              "value" : "0x000000"
+            },
+            {
+              "byteRange" : {
+                "end" : 304,
+                "start" : 300
+              },
+              "name" : "sequence_number",
+              "summary" : "Fragment sequence number",
+              "value" : "0"
+            }
+          ],
+          "sizes" : {
+            "header" : 8,
+            "payload" : 12,
+            "total" : 20
+          },
+          "structured" : {
+            "movie_fragment_header" : {
+              "flags" : 0,
+              "sequence_number" : 0,
+              "version" : 0
+            }
+          },
+          "validationIssues" : [
+            {
+              "message" : "mfhd sequence number is zero; fragments should start at 1.",
+              "ruleID" : "VR-016",
+              "severity" : "warning"
+            }
+          ]
+        },
+        {
+          "children" : [
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "tfhd",
+              "metadata" : {
+                "name" : "Track Fragment Header",
+                "specification" : "ISO",
+                "summary" : "Track fragment header"
+              },
+              "offsets" : {
+                "end" : 352,
+                "payloadEnd" : 352,
+                "payloadStart" : 324,
+                "start" : 316
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 325,
+                    "start" : 324
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 328,
+                    "start" : 325
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x00001B"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 332,
+                    "start" : 328
+                  },
+                  "name" : "track_id",
+                  "summary" : "Track identifier",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 340,
+                    "start" : 332
+                  },
+                  "name" : "base_data_offset",
+                  "summary" : "Absolute data offset",
+                  "value" : "512"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 344,
+                    "start" : 340
+                  },
+                  "name" : "sample_description_index",
+                  "summary" : "Sample description index override",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 348,
+                    "start" : 344
+                  },
+                  "name" : "default_sample_duration",
+                  "summary" : "Default sample duration override",
+                  "value" : "120"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 352,
+                    "start" : 348
+                  },
+                  "name" : "default_sample_size",
+                  "summary" : "Default sample size override",
+                  "value" : "256"
+                },
+                {
+                  "name" : "duration_is_empty",
+                  "summary" : "Indicates empty duration",
+                  "value" : "false"
+                },
+                {
+                  "name" : "default_base_is_moof",
+                  "summary" : "Use moof offset as base",
+                  "value" : "false"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 28,
+                "total" : 36
+              },
+              "structured" : {
+                "track_fragment_header" : {
+                  "base_data_offset" : 512,
+                  "default_base_is_moof" : false,
+                  "default_sample_duration" : 120,
+                  "default_sample_size" : 256,
+                  "duration_is_empty" : false,
+                  "flags" : 27,
+                  "sample_description_index" : 1,
+                  "track_ID" : 1,
+                  "version" : 0
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "tfdt",
+              "metadata" : {
+                "name" : "Track Fragment Decode Time",
+                "specification" : "ISO",
+                "summary" : "Track fragment decode time"
+              },
+              "offsets" : {
+                "end" : 372,
+                "payloadEnd" : 372,
+                "payloadStart" : 360,
+                "start" : 352
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 361,
+                    "start" : 360
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 364,
+                    "start" : 361
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000000"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 372,
+                    "start" : 364
+                  },
+                  "name" : "base_media_decode_time",
+                  "summary" : "Base media decode time",
+                  "value" : "1000"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 12,
+                "total" : 20
+              },
+              "structured" : {
+                "track_fragment_decode_time" : {
+                  "base_media_decode_time" : 1000,
+                  "base_media_decode_time_is_64bit" : true,
+                  "flags" : 0,
+                  "version" : 1
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "trun",
+              "metadata" : {
+                "name" : "Track Fragment Run",
+                "specification" : "ISO",
+                "summary" : "track fragment run"
+              },
+              "offsets" : {
+                "end" : 408,
+                "payloadEnd" : 408,
+                "payloadStart" : 380,
+                "start" : 372
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 381,
+                    "start" : 380
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 384,
+                    "start" : 381
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000301"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 388,
+                    "start" : 384
+                  },
+                  "name" : "sample_count",
+                  "summary" : "Number of samples in this run",
+                  "value" : "2"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 392,
+                    "start" : 388
+                  },
+                  "name" : "data_offset",
+                  "summary" : "Offset from base data position",
+                  "value" : "128"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 396,
+                    "start" : 392
+                  },
+                  "name" : "entries[0].sample_duration",
+                  "summary" : "Sample duration",
+                  "value" : "120"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 400,
+                    "start" : 396
+                  },
+                  "name" : "entries[0].sample_size",
+                  "summary" : "Sample size",
+                  "value" : "256"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 404,
+                    "start" : 400
+                  },
+                  "name" : "entries[1].sample_duration",
+                  "summary" : "Sample duration",
+                  "value" : "120"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 408,
+                    "start" : 404
+                  },
+                  "name" : "entries[1].sample_size",
+                  "summary" : "Sample size",
+                  "value" : "256"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 28,
+                "total" : 36
+              },
+              "structured" : {
+                "track_run" : {
+                  "data_offset" : 128,
+                  "end_data_offset" : 1152,
+                  "end_decode_time" : 1240,
+                  "end_presentation_time" : 1120,
+                  "entries" : [
+                    {
+                      "byteRange" : {
+                        "end" : 400,
+                        "start" : 392
+                      },
+                      "data_offset" : 640,
+                      "decode_time" : 1000,
+                      "index" : 1,
+                      "presentation_time" : 1000,
+                      "sample_duration" : 120,
+                      "sample_size" : 256
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 408,
+                        "start" : 400
+                      },
+                      "data_offset" : 896,
+                      "decode_time" : 1120,
+                      "index" : 2,
+                      "presentation_time" : 1120,
+                      "sample_duration" : 120,
+                      "sample_size" : 256
+                    }
+                  ],
+                  "first_sample_global_index" : 1,
+                  "flags" : 769,
+                  "run_index" : 0,
+                  "sample_count" : 2,
+                  "sample_description_index" : 1,
+                  "start_data_offset" : 640,
+                  "start_decode_time" : 1000,
+                  "start_presentation_time" : 1000,
+                  "total_sample_duration" : 240,
+                  "total_sample_size" : 512,
+                  "track_ID" : 1,
+                  "version" : 0
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "senc",
+              "metadata" : {
+                "name" : "Sample Specific Encryption Data",
+                "specification" : "ISO Common Encryption",
+                "summary" : "Sample specific encryption data"
+              },
+              "offsets" : {
+                "end" : 482,
+                "payloadEnd" : 482,
+                "payloadStart" : 416,
+                "start" : 408
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 417,
+                    "start" : 416
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 420,
+                    "start" : 417
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000003"
+                },
+                {
+                  "name" : "override_track_encryption_defaults",
+                  "summary" : "Overrides track encryption defaults",
+                  "value" : "true"
+                },
+                {
+                  "name" : "uses_subsample_encryption",
+                  "summary" : "Includes subsample encryption entries",
+                  "value" : "true"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 423,
+                    "start" : 420
+                  },
+                  "name" : "algorithm_id",
+                  "summary" : "Override algorithm identifier",
+                  "value" : "0x010203"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 424,
+                    "start" : 423
+                  },
+                  "name" : "per_sample_iv_size",
+                  "summary" : "Per-sample IV size override",
+                  "value" : "8"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 440,
+                    "start" : 424
+                  },
+                  "name" : "key_identifier_range",
+                  "summary" : "Byte range of overriding key identifier",
+                  "value" : "424..<440"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 444,
+                    "start" : 440
+                  },
+                  "name" : "sample_count",
+                  "summary" : "Number of sample encryption records",
+                  "value" : "2"
+                },
+                {
+                  "name" : "sample_info_length",
+                  "summary" : "Total bytes used by sample encryption entries",
+                  "value" : "38"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 482,
+                    "start" : 444
+                  },
+                  "name" : "sample_info_range",
+                  "summary" : "Byte range covering sample encryption entries",
+                  "value" : "444..<482"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 66,
+                "total" : 74
+              },
+              "structured" : {
+                "sample_encryption" : {
+                  "algorithm_identifier" : "0x010203",
+                  "flags" : 3,
+                  "key_identifier_range" : {
+                    "end" : 440,
+                    "start" : 424
+                  },
+                  "override_track_encryption_defaults" : true,
+                  "per_sample_iv_size" : 8,
+                  "sample_count" : 2,
+                  "sample_info" : {
+                    "length" : 38,
+                    "range" : {
+                      "end" : 482,
+                      "start" : 444
+                    }
+                  },
+                  "uses_subsample_encryption" : true,
+                  "version" : 0
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "saio",
+              "metadata" : {
+                "name" : "Sample Auxiliary Information Offsets",
+                "specification" : "ISO",
+                "summary" : "Sample auxiliary information offsets"
+              },
+              "offsets" : {
+                "end" : 522,
+                "payloadEnd" : 522,
+                "payloadStart" : 490,
+                "start" : 482
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 491,
+                    "start" : 490
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 494,
+                    "start" : 491
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000001"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 498,
+                    "start" : 494
+                  },
+                  "name" : "aux_info_type",
+                  "summary" : "Auxiliary information type",
+                  "value" : "cenc"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 502,
+                    "start" : 498
+                  },
+                  "name" : "aux_info_type_parameter",
+                  "summary" : "Auxiliary information type parameter",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 506,
+                    "start" : 502
+                  },
+                  "name" : "entry_count",
+                  "summary" : "Number of auxiliary offset entries",
+                  "value" : "2"
+                },
+                {
+                  "name" : "entry_size_bytes",
+                  "summary" : "Bytes per auxiliary offset entry",
+                  "value" : "8"
+                },
+                {
+                  "name" : "entry_size_note",
+                  "summary" : "Placeholder handling for 64-bit auxiliary offsets",
+                  "value" : "64-bit offsets recorded as ranges"
+                },
+                {
+                  "name" : "entries_length",
+                  "summary" : "Total bytes used by auxiliary offset entries",
+                  "value" : "16"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 522,
+                    "start" : 506
+                  },
+                  "name" : "entries_range",
+                  "summary" : "Byte range covering auxiliary offset entries",
+                  "value" : "506..<522"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 32,
+                "total" : 40
+              },
+              "structured" : {
+                "sample_aux_info_offsets" : {
+                  "aux_info_type" : "cenc",
+                  "aux_info_type_parameter" : 1,
+                  "entries" : {
+                    "length" : 16,
+                    "range" : {
+                      "end" : 522,
+                      "start" : 506
+                    }
+                  },
+                  "entry_count" : 2,
+                  "entry_size_bytes" : 8,
+                  "flags" : 1,
+                  "version" : 1
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            },
+            {
+              "children" : [
+
+              ],
+              "fourcc" : "saiz",
+              "metadata" : {
+                "name" : "Sample Auxiliary Information Sizes",
+                "specification" : "ISO",
+                "summary" : "Sample auxiliary information sizes"
+              },
+              "offsets" : {
+                "end" : 549,
+                "payloadEnd" : 549,
+                "payloadStart" : 530,
+                "start" : 522
+              },
+              "payload" : [
+                {
+                  "byteRange" : {
+                    "end" : 531,
+                    "start" : 530
+                  },
+                  "name" : "version",
+                  "summary" : "Structure version",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 534,
+                    "start" : 531
+                  },
+                  "name" : "flags",
+                  "summary" : "Bit flags",
+                  "value" : "0x000001"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 538,
+                    "start" : 534
+                  },
+                  "name" : "aux_info_type",
+                  "summary" : "Auxiliary information type",
+                  "value" : "cenc"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 542,
+                    "start" : 538
+                  },
+                  "name" : "aux_info_type_parameter",
+                  "summary" : "Auxiliary information type parameter",
+                  "value" : "1"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 543,
+                    "start" : 542
+                  },
+                  "name" : "default_sample_info_size",
+                  "summary" : "Default auxiliary sample info size",
+                  "value" : "0"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 547,
+                    "start" : 543
+                  },
+                  "name" : "entry_count",
+                  "summary" : "Number of auxiliary sample info entries",
+                  "value" : "2"
+                },
+                {
+                  "name" : "uses_uniform_sample_info_size",
+                  "summary" : "Indicates whether default size applies to all entries",
+                  "value" : "false"
+                },
+                {
+                  "name" : "variable_sizes_length",
+                  "summary" : "Total bytes used by variable sample info sizes",
+                  "value" : "2"
+                },
+                {
+                  "byteRange" : {
+                    "end" : 549,
+                    "start" : 547
+                  },
+                  "name" : "variable_sizes_range",
+                  "summary" : "Byte range covering variable sample info sizes",
+                  "value" : "547..<549"
+                }
+              ],
+              "sizes" : {
+                "header" : 8,
+                "payload" : 19,
+                "total" : 27
+              },
+              "structured" : {
+                "sample_aux_info_sizes" : {
+                  "aux_info_type" : "cenc",
+                  "aux_info_type_parameter" : 1,
+                  "default_sample_info_size" : 0,
+                  "entry_count" : 2,
+                  "flags" : 1,
+                  "variable_sizes" : {
+                    "length" : 2,
+                    "range" : {
+                      "end" : 549,
+                      "start" : 547
+                    }
+                  },
+                  "version" : 0
+                }
+              },
+              "validationIssues" : [
+
+              ]
+            }
+          ],
+          "fourcc" : "traf",
+          "metadata" : {
+            "name" : "Track Fragment",
+            "specification" : "ISO",
+            "summary" : "Track fragment"
+          },
+          "offsets" : {
+            "end" : 549,
+            "payloadEnd" : 549,
+            "payloadStart" : 316,
+            "start" : 308
+          },
+          "sizes" : {
+            "header" : 8,
+            "payload" : 233,
+            "total" : 241
+          },
+          "structured" : {
+            "track_fragment" : {
+              "base_data_offset" : 512,
+              "base_decode_time" : 1000,
+              "base_decode_time_is_64bit" : true,
+              "default_base_is_moof" : false,
+              "default_sample_duration" : 120,
+              "default_sample_size" : 256,
+              "duration_is_empty" : false,
+              "earliest_presentation_time" : 1000,
+              "first_decode_time" : 1000,
+              "last_decode_time" : 1240,
+              "latest_presentation_time" : 1120,
+              "runs" : [
+                {
+                  "data_offset" : 128,
+                  "end_data_offset" : 1152,
+                  "end_decode_time" : 1240,
+                  "end_presentation_time" : 1120,
+                  "entries" : [
+                    {
+                      "byteRange" : {
+                        "end" : 400,
+                        "start" : 392
+                      },
+                      "data_offset" : 640,
+                      "decode_time" : 1000,
+                      "index" : 1,
+                      "presentation_time" : 1000,
+                      "sample_duration" : 120,
+                      "sample_size" : 256
+                    },
+                    {
+                      "byteRange" : {
+                        "end" : 408,
+                        "start" : 400
+                      },
+                      "data_offset" : 896,
+                      "decode_time" : 1120,
+                      "index" : 2,
+                      "presentation_time" : 1120,
+                      "sample_duration" : 120,
+                      "sample_size" : 256
+                    }
+                  ],
+                  "first_sample_global_index" : 1,
+                  "flags" : 769,
+                  "run_index" : 0,
+                  "sample_count" : 2,
+                  "sample_description_index" : 1,
+                  "start_data_offset" : 640,
+                  "start_decode_time" : 1000,
+                  "start_presentation_time" : 1000,
+                  "total_sample_duration" : 240,
+                  "total_sample_size" : 512,
+                  "track_ID" : 1,
+                  "version" : 0
+                }
+              ],
+              "sample_description_index" : 1,
+              "total_sample_count" : 2,
+              "total_sample_duration" : 240,
+              "total_sample_size" : 512,
+              "track_ID" : 1
+            }
+          },
+          "validationIssues" : [
+
+          ]
+        }
+      ],
+      "fourcc" : "moof",
+      "metadata" : {
+        "name" : "Movie Fragment",
+        "specification" : "ISO",
+        "summary" : "movie fragment"
+      },
+      "offsets" : {
+        "end" : 549,
+        "payloadEnd" : 549,
+        "payloadStart" : 288,
+        "start" : 280
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 261,
+        "total" : 269
+      },
+      "validationIssues" : [
+
+      ]
+    },
+    {
+      "children" : [
+
+      ],
+      "fourcc" : "mdat",
+      "metadata" : {
+        "name" : "Media Data Container",
+        "specification" : "ISO\/IEC 14496-12",
+        "summary" : "Holds the raw media samples referenced by the track sample tables."
+      },
+      "offsets" : {
+        "end" : 813,
+        "payloadEnd" : 813,
+        "payloadStart" : 557,
+        "start" : 549
+      },
+      "sizes" : {
+        "header" : 8,
+        "payload" : 256,
+        "total" : 264
+      },
+      "structured" : {
+        "media_data" : {
+          "headerEndOffset" : 557,
+          "headerStartOffset" : 549,
+          "payloadEndOffset" : 813,
+          "payloadLength" : 256,
+          "payloadStartOffset" : 557,
+          "totalSize" : 264
+        }
+      },
+      "validationIssues" : [
+
+      ]
+    }
+  ],
+  "validationIssues" : [
+    {
+      "message" : "mfhd sequence number is zero; fragments should start at 1.",
+      "ruleID" : "VR-016",
+      "severity" : "warning"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 #if canImport(SwiftUI) && canImport(Combine)
 import SwiftUI
+import Foundation
 import NestedA11yIDs
 import ISOInspectorKit
 
@@ -45,6 +46,7 @@ struct ParseTreeDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     metadataSection(detail: detail)
+                    encryptionSection(detail: detail)
                     userNotesSection()
                     fieldAnnotationSection()
                     validationSection(detail: detail)
@@ -132,6 +134,41 @@ struct ParseTreeDetailView: View {
             Text(value)
                 .font(.caption)
                 .textSelection(.enabled)
+        }
+    }
+
+    @ViewBuilder
+    private func encryptionSection(detail: ParseTreeNodeDetail) -> some View {
+        let summary = EncryptionSummary(detail: detail)
+        if summary.hasContent {
+            VStack(alignment: .leading, spacing: 12) {
+                sectionHeader(title: "Encryption Metadata", icon: "lock.shield")
+                if !summary.sampleEncryption.isEmpty {
+                    encryptionSubsection(title: "Sample Encryption (senc)", rows: summary.sampleEncryption)
+                }
+                if !summary.auxInfoOffsets.isEmpty {
+                    encryptionSubsection(title: "Aux Info Offsets (saio)", rows: summary.auxInfoOffsets)
+                }
+                if !summary.auxInfoSizes.isEmpty {
+                    encryptionSubsection(title: "Aux Info Sizes (saiz)", rows: summary.auxInfoSizes)
+                }
+            }
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.encryption)
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(summary.accessibilityLabel)
+        }
+    }
+
+    private func encryptionSubsection(title: String, rows: [(String, String)]) -> some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(title)
+                .font(.subheadline)
+                .fontWeight(.semibold)
+            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 6) {
+                ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
+                    metadataRow(label: row.0, value: row.1)
+                }
+            }
         }
     }
 
@@ -501,6 +538,108 @@ private struct HexSliceView: View {
                 proxy.scrollTo(id, anchor: .center)
             }
         }
+    }
+}
+
+private struct EncryptionSummary {
+    let sampleEncryption: [(String, String)]
+    let auxInfoOffsets: [(String, String)]
+    let auxInfoSizes: [(String, String)]
+
+    var hasContent: Bool {
+        !sampleEncryption.isEmpty || !auxInfoOffsets.isEmpty || !auxInfoSizes.isEmpty
+    }
+
+    var accessibilityLabel: String {
+        var segments: [String] = []
+        func append(_ title: String, rows: [(String, String)]) {
+            guard !rows.isEmpty else { return }
+            segments.append(title)
+            for (label, value) in rows {
+                segments.append("\(label) \(value)")
+            }
+        }
+        append("Sample encryption", rows: sampleEncryption)
+        append("Aux info offsets", rows: auxInfoOffsets)
+        append("Aux info sizes", rows: auxInfoSizes)
+        return segments.joined(separator: ". ")
+    }
+
+    init(detail: ParseTreeNodeDetail) {
+        func rangeString(_ range: Range<Int64>) -> String {
+            "\(range.lowerBound) – \(range.upperBound)"
+        }
+
+        func yesNo(_ value: Bool) -> String {
+            value ? "Yes" : "No"
+        }
+
+        var sampleRows: [(String, String)] = []
+        if let encryption = detail.payload?.sampleEncryption {
+            sampleRows.append(("Entries", "\(encryption.sampleCount)"))
+            sampleRows.append(("Overrides Defaults", yesNo(encryption.overrideTrackEncryptionDefaults)))
+            sampleRows.append(("Subsample Encryption", yesNo(encryption.usesSubsampleEncryption)))
+            if let ivSize = encryption.perSampleIVSize {
+                sampleRows.append(("Per-Sample IV Size", "\(ivSize)"))
+            }
+            if let algorithm = encryption.algorithmIdentifier {
+                sampleRows.append(("Algorithm ID", String(format: "0x%06X", algorithm)))
+            }
+            if let keyRange = encryption.keyIdentifierRange {
+                sampleRows.append(("Key Identifier Range", rangeString(keyRange)))
+            }
+            if let sampleBytes = encryption.sampleInfoByteLength {
+                sampleRows.append(("Sample Info Bytes", "\(sampleBytes)"))
+            }
+            if let sampleRange = encryption.sampleInfoRange {
+                sampleRows.append(("Sample Info Range", rangeString(sampleRange)))
+            }
+            if let constantBytes = encryption.constantIVByteLength {
+                sampleRows.append(("Constant IV Bytes", "\(constantBytes)"))
+            }
+            if let constantRange = encryption.constantIVRange {
+                sampleRows.append(("Constant IV Range", rangeString(constantRange)))
+            }
+        }
+        self.sampleEncryption = sampleRows
+
+        var offsetRows: [(String, String)] = []
+        if let offsets = detail.payload?.sampleAuxInfoOffsets {
+            offsetRows.append(("Entries", "\(offsets.entryCount)"))
+            offsetRows.append(("Bytes Per Entry", "\(offsets.entrySizeBytes)"))
+            if let type = offsets.auxInfoType?.rawValue, !type.isEmpty {
+                offsetRows.append(("Aux Info Type", type))
+            }
+            if let parameter = offsets.auxInfoTypeParameter {
+                offsetRows.append(("Type Parameter", "\(parameter)"))
+            }
+            if let entriesBytes = offsets.entriesByteLength {
+                offsetRows.append(("Entries Bytes", "\(entriesBytes)"))
+            }
+            if let entriesRange = offsets.entriesRange {
+                offsetRows.append(("Entries Range", rangeString(entriesRange)))
+            }
+        }
+        self.auxInfoOffsets = offsetRows
+
+        var sizeRows: [(String, String)] = []
+        if let sizes = detail.payload?.sampleAuxInfoSizes {
+            sizeRows.append(("Default Size", "\(sizes.defaultSampleInfoSize)"))
+            sizeRows.append(("Entry Count", "\(sizes.entryCount)"))
+            if let type = sizes.auxInfoType?.rawValue, !type.isEmpty {
+                sizeRows.append(("Aux Info Type", type))
+            }
+            if let parameter = sizes.auxInfoTypeParameter {
+                sizeRows.append(("Type Parameter", "\(parameter)"))
+            }
+            if let variableBytes = sizes.variableEntriesByteLength {
+                sizeRows.append(("Variable Bytes", "\(variableBytes)"))
+            }
+            if let variableRange = sizes.variableEntriesRange {
+                sizeRows.append(("Variable Range", rangeString(variableRange)))
+            }
+        }
+        self.auxInfoSizes = sizeRows
     }
 }
 

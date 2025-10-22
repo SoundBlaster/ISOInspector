@@ -15,7 +15,7 @@ Align the new `senc`/`saio`/`saiz` parser scaffolding with targeted unit tests s
 - Tests: `SencSampleEncryptionParserTests`, `SaioSampleAuxInfoOffsetsParserTests`, `SaizSampleAuxInfoSizesParserTests`
 
 ## Next puzzles
-- [ ] #D6B Surface sample encryption helper metadata in JSON/CLI/App outputs once formatting contracts are finalized.
+- [x] #D6B Surface sample encryption helper metadata in JSON/CLI/App outputs once formatting contracts are finalized.
 
 ## Notes
 Build: `swift build && swift test`

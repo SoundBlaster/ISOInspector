@@ -53,6 +53,14 @@ final class JSONExportSnapshotTests: XCTestCase {
         try await assertSnapshotMatchesFixture(id: "edit-list-rate-adjusted")
     }
 
+    func testCodecInvalidConfigsSnapshotMatchesFixture() async throws {
+        try await assertSnapshotMatchesFixture(id: "codec-invalid-configs")
+    }
+
+    func testSampleEncryptionPlaceholderSnapshotMatchesFixture() async throws {
+        try await assertSnapshotMatchesFixture(id: "sample-encryption-placeholder")
+    }
+
     private func assertSnapshotMatchesFixture(id: String) async throws {
         let tree = try await makeParseTree(forFixtureID: id)
         let canonical = try canonicalJSONString(for: tree)

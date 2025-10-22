@@ -85,3 +85,17 @@ without consuming excessive disk space.
 Intentional negative fixture where the declared `moov` size exceeds the payload.
 Validation is expected to surface a "Truncated box payload" error along with a
 warning documenting the truncated hierarchy.
+
+### `codec-invalid-configs`
+
+Synthetic `moov` hierarchy containing `avc1` and `hvc1` sample descriptions whose
+codec configuration boxes declare zero-length parameter sets. Validation emits
+VR-018 errors for both the H.264 sequence parameter set and HEVC SPS array so CLI,
+JSON, and ParsePipeline integrations surface codec diagnostics end to end.
+
+### `sample-encryption-placeholder`
+
+Fragmented sample containing a `moof` with `senc`, `saio`, and `saiz` placeholders
+so regression tests can assert encryption metadata flows through the kit, CLI, and
+app. The `saio` table uses version 1 to exercise 64-bit auxiliary offsets while
+`senc` encodes two samples with override defaults and subsample encryption ranges.

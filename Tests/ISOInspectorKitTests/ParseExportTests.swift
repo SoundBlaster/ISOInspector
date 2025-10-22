@@ -332,6 +332,113 @@ final class ParseExportTests: XCTestCase {
         XCTAssertEqual(entryJSON["resolved_data_offset"] as? Int, 5_360)
     }
 
+    func testJSONExporterIncludesSampleEncryptionMetadata() throws {
+        let sampleEncryption = ParsedBoxPayload.SampleEncryptionBox(
+            version: 0,
+            flags: 0x000003,
+            sampleCount: 2,
+            algorithmIdentifier: 0x010203,
+            perSampleIVSize: 8,
+            keyIdentifierRange: 24..<40,
+            sampleInfoRange: 40..<48,
+            sampleInfoByteLength: 8,
+            constantIVRange: nil,
+            constantIVByteLength: nil
+        )
+        let sampleOffsets = ParsedBoxPayload.SampleAuxInfoOffsetsBox(
+            version: 0,
+            flags: 0x000001,
+            entryCount: 3,
+            auxInfoType: try FourCharCode("cenc"),
+            auxInfoTypeParameter: 0x00000002,
+            entrySize: .eightBytes,
+            entriesRange: 80..<104,
+            entriesByteLength: 24
+        )
+        let sampleSizes = ParsedBoxPayload.SampleAuxInfoSizesBox(
+            version: 0,
+            flags: 0x000001,
+            defaultSampleInfoSize: 0,
+            entryCount: 3,
+            auxInfoType: try FourCharCode("cenc"),
+            auxInfoTypeParameter: 0x00000002,
+            variableEntriesRange: 120..<123,
+            variableEntriesByteLength: 3
+        )
+
+        let sencHeader = try makeHeader(type: "senc", size: 80)
+        let saioHeader = try makeHeader(type: "saio", size: 72, offset: 80)
+        let saizHeader = try makeHeader(type: "saiz", size: 64, offset: 160)
+
+        let sencNode = ParseTreeNode(
+            header: sencHeader,
+            payload: ParsedBoxPayload(detail: .sampleEncryption(sampleEncryption))
+        )
+        let saioNode = ParseTreeNode(
+            header: saioHeader,
+            payload: ParsedBoxPayload(detail: .sampleAuxInfoOffsets(sampleOffsets))
+        )
+        let saizNode = ParseTreeNode(
+            header: saizHeader,
+            payload: ParsedBoxPayload(detail: .sampleAuxInfoSizes(sampleSizes))
+        )
+
+        let tree = ParseTree(nodes: [sencNode, saioNode, saizNode])
+        let exporter = JSONParseTreeExporter()
+        let data = try exporter.export(tree: tree)
+        let json = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let nodes = try XCTUnwrap(json["nodes"] as? [[String: Any]])
+
+        let sencJSON = try XCTUnwrap(nodes.first { ($0["fourcc"] as? String) == "senc" })
+        let sencStructured = try XCTUnwrap(sencJSON["structured"] as? [String: Any])
+        let sampleEncryptionJSON = try XCTUnwrap(sencStructured["sample_encryption"] as? [String: Any])
+        XCTAssertEqual(sampleEncryptionJSON["version"] as? Int, 0)
+        XCTAssertEqual(sampleEncryptionJSON["flags"] as? Int, 3)
+        XCTAssertEqual(sampleEncryptionJSON["sample_count"] as? Int, 2)
+        XCTAssertEqual(sampleEncryptionJSON["override_track_encryption_defaults"] as? Bool, true)
+        XCTAssertEqual(sampleEncryptionJSON["uses_subsample_encryption"] as? Bool, true)
+        XCTAssertEqual(sampleEncryptionJSON["algorithm_identifier"] as? String, "0x010203")
+        XCTAssertEqual(sampleEncryptionJSON["per_sample_iv_size"] as? Int, 8)
+        let keyIdentifier = try XCTUnwrap(sampleEncryptionJSON["key_identifier_range"] as? [String: Any])
+        XCTAssertEqual(keyIdentifier["start"] as? Int, 24)
+        XCTAssertEqual(keyIdentifier["end"] as? Int, 40)
+        let sampleInfo = try XCTUnwrap(sampleEncryptionJSON["sample_info"] as? [String: Any])
+        XCTAssertEqual(sampleInfo["length"] as? Int, 8)
+        let sampleInfoRange = try XCTUnwrap(sampleInfo["range"] as? [String: Any])
+        XCTAssertEqual(sampleInfoRange["start"] as? Int, 40)
+        XCTAssertEqual(sampleInfoRange["end"] as? Int, 48)
+
+        let saioJSON = try XCTUnwrap(nodes.first { ($0["fourcc"] as? String) == "saio" })
+        let saioStructured = try XCTUnwrap(saioJSON["structured"] as? [String: Any])
+        let offsetsJSON = try XCTUnwrap(saioStructured["sample_aux_info_offsets"] as? [String: Any])
+        XCTAssertEqual(offsetsJSON["entry_count"] as? Int, 3)
+        XCTAssertEqual(offsetsJSON["entry_size_bytes"] as? Int, 8)
+        XCTAssertEqual(offsetsJSON["version"] as? Int, 0)
+        XCTAssertEqual(offsetsJSON["flags"] as? Int, 1)
+        XCTAssertEqual(offsetsJSON["aux_info_type"] as? String, "cenc")
+        XCTAssertEqual(offsetsJSON["aux_info_type_parameter"] as? Int, 2)
+        let entries = try XCTUnwrap(offsetsJSON["entries"] as? [String: Any])
+        XCTAssertEqual(entries["length"] as? Int, 24)
+        let entriesRange = try XCTUnwrap(entries["range"] as? [String: Any])
+        XCTAssertEqual(entriesRange["start"] as? Int, 80)
+        XCTAssertEqual(entriesRange["end"] as? Int, 104)
+
+        let saizJSON = try XCTUnwrap(nodes.first { ($0["fourcc"] as? String) == "saiz" })
+        let saizStructured = try XCTUnwrap(saizJSON["structured"] as? [String: Any])
+        let sizesJSON = try XCTUnwrap(saizStructured["sample_aux_info_sizes"] as? [String: Any])
+        XCTAssertEqual(sizesJSON["default_sample_info_size"] as? Int, 0)
+        XCTAssertEqual(sizesJSON["entry_count"] as? Int, 3)
+        XCTAssertEqual(sizesJSON["version"] as? Int, 0)
+        XCTAssertEqual(sizesJSON["flags"] as? Int, 1)
+        XCTAssertEqual(sizesJSON["aux_info_type"] as? String, "cenc")
+        XCTAssertEqual(sizesJSON["aux_info_type_parameter"] as? Int, 2)
+        let variable = try XCTUnwrap(sizesJSON["variable_sizes"] as? [String: Any])
+        XCTAssertEqual(variable["length"] as? Int, 3)
+        let variableRange = try XCTUnwrap(variable["range"] as? [String: Any])
+        XCTAssertEqual(variableRange["start"] as? Int, 120)
+        XCTAssertEqual(variableRange["end"] as? Int, 123)
+    }
+
     func testBinaryCaptureRoundTripPreservesEvents() throws {
         let header = try makeHeader(type: "trak", size: 40)
         let metadata = BoxDescriptor(

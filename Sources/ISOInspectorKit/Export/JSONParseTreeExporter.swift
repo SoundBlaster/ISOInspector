@@ -133,6 +133,23 @@ private struct ByteRange: Encodable {
     }
 }
 
+private struct RangeSummary: Encodable {
+    let range: ByteRange
+    let length: Int
+
+    init(range: Range<Int64>, length: Int64?) {
+        self.range = ByteRange(range: range)
+        let resolved = length ?? (range.upperBound - range.lowerBound)
+        if resolved <= 0 {
+            self.length = 0
+        } else if resolved >= Int64(Int.max) {
+            self.length = Int.max
+        } else {
+            self.length = Int(resolved)
+        }
+    }
+}
+
 private struct Issue: Encodable {
     let ruleID: String
     let message: String
@@ -170,6 +187,9 @@ private struct StructuredPayload: Encodable {
     let movieFragmentRandomAccess: MovieFragmentRandomAccessDetail?
     let trackFragmentRandomAccess: TrackFragmentRandomAccessDetail?
     let movieFragmentRandomAccessOffset: MovieFragmentRandomAccessOffsetDetail?
+    let sampleEncryption: SampleEncryptionDetail?
+    let sampleAuxInfoOffsets: SampleAuxInfoOffsetsDetail?
+    let sampleAuxInfoSizes: SampleAuxInfoSizesDetail?
     let soundMediaHeader: SoundMediaHeaderDetail?
     let videoMediaHeader: VideoMediaHeaderDetail?
     let editList: EditListDetail?
@@ -200,6 +220,9 @@ private struct StructuredPayload: Encodable {
         var movieFragmentRandomAccess: MovieFragmentRandomAccessDetail?
         var trackFragmentRandomAccess: TrackFragmentRandomAccessDetail?
         var movieFragmentRandomAccessOffset: MovieFragmentRandomAccessOffsetDetail?
+        var sampleEncryption: SampleEncryptionDetail?
+        var sampleAuxInfoOffsets: SampleAuxInfoOffsetsDetail?
+        var sampleAuxInfoSizes: SampleAuxInfoSizesDetail?
         var soundMediaHeader: SoundMediaHeaderDetail?
         var videoMediaHeader: VideoMediaHeaderDetail?
         var editList: EditListDetail?
@@ -234,9 +257,12 @@ private struct StructuredPayload: Encodable {
             trackFragmentDecodeTime = TrackFragmentDecodeTimeDetail(box: box)
         case let .trackRun(box):
             trackRun = TrackRunDetail(box: box)
-        case .sampleEncryption, .sampleAuxInfoOffsets, .sampleAuxInfoSizes:
-            // @todo #D6B Surface sample encryption helper metadata in JSON structured payloads once formatting is defined.
-            break
+        case let .sampleEncryption(box):
+            sampleEncryption = SampleEncryptionDetail(box: box)
+        case let .sampleAuxInfoOffsets(box):
+            sampleAuxInfoOffsets = SampleAuxInfoOffsetsDetail(box: box)
+        case let .sampleAuxInfoSizes(box):
+            sampleAuxInfoSizes = SampleAuxInfoSizesDetail(box: box)
         case let .trackFragment(box):
             trackFragment = TrackFragmentDetail(box: box)
         case let .movieFragmentHeader(box):
@@ -291,6 +317,9 @@ private struct StructuredPayload: Encodable {
         self.movieFragmentRandomAccess = movieFragmentRandomAccess
         self.trackFragmentRandomAccess = trackFragmentRandomAccess
         self.movieFragmentRandomAccessOffset = movieFragmentRandomAccessOffset
+        self.sampleEncryption = sampleEncryption
+        self.sampleAuxInfoOffsets = sampleAuxInfoOffsets
+        self.sampleAuxInfoSizes = sampleAuxInfoSizes
         self.soundMediaHeader = soundMediaHeader
         self.videoMediaHeader = videoMediaHeader
         self.editList = editList
@@ -322,6 +351,9 @@ private struct StructuredPayload: Encodable {
         case movieFragmentRandomAccess = "movie_fragment_random_access"
         case trackFragmentRandomAccess = "track_fragment_random_access"
         case movieFragmentRandomAccessOffset = "movie_fragment_random_access_offset"
+        case sampleEncryption = "sample_encryption"
+        case sampleAuxInfoOffsets = "sample_aux_info_offsets"
+        case sampleAuxInfoSizes = "sample_aux_info_sizes"
         case soundMediaHeader = "sound_media_header"
         case videoMediaHeader = "video_media_header"
         case editList = "edit_list"
@@ -336,6 +368,129 @@ private struct StructuredPayload: Encodable {
         case metadata = "metadata"
         case metadataKeys = "metadata_keys"
         case metadataItems = "metadata_items"
+    }
+}
+
+private struct SampleEncryptionDetail: Encodable {
+    let version: UInt8
+    let flags: UInt32
+    let sampleCount: UInt32
+    let overrideTrackEncryptionDefaults: Bool
+    let usesSubsampleEncryption: Bool
+    let algorithmIdentifier: String?
+    let perSampleIVSize: UInt8?
+    let keyIdentifierRange: ByteRange?
+    let sampleInfo: RangeSummary?
+    let constantIV: RangeSummary?
+
+    init(box: ParsedBoxPayload.SampleEncryptionBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.sampleCount = box.sampleCount
+        self.overrideTrackEncryptionDefaults = box.overrideTrackEncryptionDefaults
+        self.usesSubsampleEncryption = box.usesSubsampleEncryption
+        if let algorithm = box.algorithmIdentifier {
+            self.algorithmIdentifier = String(format: "0x%06X", algorithm)
+        } else {
+            self.algorithmIdentifier = nil
+        }
+        self.perSampleIVSize = box.perSampleIVSize
+        if let range = box.keyIdentifierRange {
+            self.keyIdentifierRange = ByteRange(range: range)
+        } else {
+            self.keyIdentifierRange = nil
+        }
+        if let range = box.sampleInfoRange {
+            self.sampleInfo = RangeSummary(range: range, length: box.sampleInfoByteLength)
+        } else {
+            self.sampleInfo = nil
+        }
+        if let range = box.constantIVRange {
+            self.constantIV = RangeSummary(range: range, length: box.constantIVByteLength)
+        } else {
+            self.constantIV = nil
+        }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case sampleCount = "sample_count"
+        case overrideTrackEncryptionDefaults = "override_track_encryption_defaults"
+        case usesSubsampleEncryption = "uses_subsample_encryption"
+        case algorithmIdentifier = "algorithm_identifier"
+        case perSampleIVSize = "per_sample_iv_size"
+        case keyIdentifierRange = "key_identifier_range"
+        case sampleInfo = "sample_info"
+        case constantIV = "constant_iv"
+    }
+}
+
+private struct SampleAuxInfoOffsetsDetail: Encodable {
+    let version: UInt8
+    let flags: UInt32
+    let entryCount: UInt32
+    let auxInfoType: String?
+    let auxInfoTypeParameter: UInt32?
+    let entrySizeBytes: Int
+    let entries: RangeSummary?
+
+    init(box: ParsedBoxPayload.SampleAuxInfoOffsetsBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.entryCount = box.entryCount
+        self.auxInfoType = box.auxInfoType?.rawValue
+        self.auxInfoTypeParameter = box.auxInfoTypeParameter
+        self.entrySizeBytes = box.entrySizeBytes
+        if let range = box.entriesRange {
+            self.entries = RangeSummary(range: range, length: box.entriesByteLength)
+        } else {
+            self.entries = nil
+        }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case entryCount = "entry_count"
+        case auxInfoType = "aux_info_type"
+        case auxInfoTypeParameter = "aux_info_type_parameter"
+        case entrySizeBytes = "entry_size_bytes"
+        case entries
+    }
+}
+
+private struct SampleAuxInfoSizesDetail: Encodable {
+    let version: UInt8
+    let flags: UInt32
+    let defaultSampleInfoSize: UInt8
+    let entryCount: UInt32
+    let auxInfoType: String?
+    let auxInfoTypeParameter: UInt32?
+    let variableSizes: RangeSummary?
+
+    init(box: ParsedBoxPayload.SampleAuxInfoSizesBox) {
+        self.version = box.version
+        self.flags = box.flags
+        self.defaultSampleInfoSize = box.defaultSampleInfoSize
+        self.entryCount = box.entryCount
+        self.auxInfoType = box.auxInfoType?.rawValue
+        self.auxInfoTypeParameter = box.auxInfoTypeParameter
+        if let range = box.variableEntriesRange {
+            self.variableSizes = RangeSummary(range: range, length: box.variableEntriesByteLength)
+        } else {
+            self.variableSizes = nil
+        }
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case version
+        case flags
+        case defaultSampleInfoSize = "default_sample_info_size"
+        case entryCount = "entry_count"
+        case auxInfoType = "aux_info_type"
+        case auxInfoTypeParameter = "aux_info_type_parameter"
+        case variableSizes = "variable_sizes"
     }
 }
 
