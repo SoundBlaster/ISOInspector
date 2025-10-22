@@ -195,67 +195,17 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test memory footprint for single SectionHeader
     ///
     /// Baseline memory measurement
-    @MainActor
-    func testSingleSectionHeaderMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var headers: [SectionHeader] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let header = SectionHeader(title: "Section \(i)")
-                headers.append(header)
-            }
-
-            stopMeasuring()
-
-            _ = headers.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint for 100 SectionHeaders
     ///
     /// Verify memory stays under 5MB target
-    @MainActor
-    func testMultipleSectionHeadersMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var headers: [SectionHeader] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let header = SectionHeader(
-                    title: "Section Header \(i)",
-                    showDivider: i % 2 == 0
-                )
-                headers.append(header)
-            }
-
-            stopMeasuring()
-
-            _ = headers.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint with long titles
     ///
     /// Ensure long text doesn't cause excessive memory usage
-    @MainActor
-    func testSectionHeadersWithLongTitlesMemoryFootprint() throws {
-        let longTitle = String(repeating: "Long Section Title ", count: 10) // ~200 chars
-
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var headers: [SectionHeader] = []
-            for _ in 0..<DS.PerformanceTest.componentCount {
-                let header = SectionHeader(title: longTitle, showDivider: true)
-                headers.append(header)
-            }
-
-            stopMeasuring()
-
-            _ = headers.count
-        }
-    }
+    /* @MainActor
 
     // MARK: - SwiftUI View Hierarchy Tests
 

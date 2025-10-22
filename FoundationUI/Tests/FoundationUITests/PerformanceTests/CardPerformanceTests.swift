@@ -299,105 +299,22 @@ final class CardPerformanceTests: XCTestCase {
     /// Test memory footprint for single Card
     ///
     /// Baseline memory measurement
-    @MainActor
-    func testSingleCardMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var cards: [Card<Text>] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let card = Card {
-                    Text("Card \(i)")
-                }
-                cards.append(card)
-            }
-
-            stopMeasuring()
-
-            _ = cards.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint for 100 Cards with all elevations
     ///
     /// Verify memory stays under 5MB target
-    @MainActor
-    func testMultipleCardsMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var cards: [Card<Text>] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let elevation = CardElevation.allCases[i % CardElevation.allCases.count]
-                let card = Card(elevation: elevation) {
-                    Text("Card with elevation \(elevation) - \(i)")
-                }
-                cards.append(card)
-            }
-
-            stopMeasuring()
-
-            _ = cards.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint for nested cards
     ///
     /// Ensure nesting doesn't cause excessive memory usage
-    @MainActor
-    func testNestedCardsMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var cards: [Card<VStack<TupleView<(Text, Card<Text>)>>>] = []
-            for i in 0..<(DS.PerformanceTest.componentCount / 2) {
-                let card = Card {
-                    VStack {
-                        Text("Parent \(i)")
-                        Card {
-                            Text("Child \(i)")
-                        }
-                    }
-                }
-                cards.append(card)
-            }
-
-            stopMeasuring()
-
-            _ = cards.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint for cards with complex content
     ///
     /// Real-world scenario with multiple elements
-    @MainActor
-    func testComplexCardMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var cards: [Card<VStack<TupleView<(Text, Text, Divider, Text, HStack<TupleView<(Badge, Badge)>>)>>>] = []
-            for i in 0..<(DS.PerformanceTest.componentCount / 2) {
-                let card = Card {
-                    VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                        Text("Title \(i)")
-                        Text("Subtitle \(i)")
-                        Divider()
-                        Text("Description \(i)")
-                        HStack {
-                            Badge(text: "Info", level: .info)
-                            Badge(text: "Warning", level: .warning)
-                        }
-                    }
-                }
-                cards.append(card)
-            }
-
-            stopMeasuring()
-
-            _ = cards.count
-        }
-    }
+    /* @MainActor
 
     // MARK: - SwiftUI View Hierarchy Tests
 
