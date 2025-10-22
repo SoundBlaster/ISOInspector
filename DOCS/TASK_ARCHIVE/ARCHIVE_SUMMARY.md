@@ -750,3 +750,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/`.
 - **Highlights:** Captures the advisory validation rule that flags atypical `ftyp`/`moov` ordering without blocking streaming-friendly layouts, including CLI/JSON surfacing updates and the verification log recorded in the summary of work.
 - **Next steps carried forward:** D6 sample encryption metadata surfacing, E1 parent containment validation, and the real-world asset licensing track continue in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+
+## 143_E4_Verify_avcC_hvcC_Invariants
+- **Archived files:** `E4_Verify_avcC_hvcC_Invariants.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/`.
+- **Highlights:** Documents the `CodecConfigurationValidationRule` now executed by `BoxValidator` so ISOInspectorKit enforces `lengthSizeMinusOne`, parameter-set counts, HEVC NAL array integrity, and zero-length payload safeguards with shared CLI/JSON messaging.
+- **Next steps carried forward:** Expand end-to-end ParsePipeline plus CLI/JSON snapshot coverage to exercise the new codec warnings, and continue tracking sample encryption validation plus real-world fixture licensing in `DOCS/INPROGRESS/next_tasks.md`.
