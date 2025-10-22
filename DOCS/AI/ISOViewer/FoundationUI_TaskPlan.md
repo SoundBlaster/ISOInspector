@@ -272,11 +272,12 @@
   - Integration tests for component composition
   - Archive: `TASK_ARCHIVE/06_Phase2.2_AccessibilityTests/`
 
-- [ ] **P1** Performance testing for components
+- [ ] **P1** Performance testing for components → **IN PROGRESS**
   - Measure render time for complex hierarchies
   - Test memory footprint (target: <5MB per screen)
   - Verify 60 FPS on all platforms
   - Profile with Instruments
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase2_ComponentPerformanceTests.md`
 
 - [ ] **P1** Component integration tests
   - Test component nesting scenarios
