@@ -24,7 +24,7 @@ import SwiftUI
 /// ## Design System Integration
 /// All colors use DS.Color tokens to ensure zero magic numbers and
 /// consistent visual language across the application.
-public enum BadgeLevel: Equatable, Sendable {
+public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     /// Informational status (neutral)
     case info
 
