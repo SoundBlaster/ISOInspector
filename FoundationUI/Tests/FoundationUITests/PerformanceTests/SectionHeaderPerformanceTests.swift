@@ -24,6 +24,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test render performance for a single SectionHeader
     ///
     /// Target: <1ms render time
+    @MainActor
     func testSingleSectionHeaderRenderPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -36,6 +37,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test render performance for SectionHeader with divider
     ///
     /// Divider adds visual element overhead
+    @MainActor
     func testSectionHeaderWithDividerPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -48,6 +50,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test render performance for SectionHeader without divider
     ///
     /// Minimal overhead baseline
+    @MainActor
     func testSectionHeaderWithoutDividerPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -60,6 +63,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test render performance with varying title lengths
     ///
     /// Long titles should not significantly impact performance
+    @MainActor
     func testSectionHeaderWithVaryingTitleLengthPerformance() throws {
         let titles = [
             "S",                                        // 1 char
@@ -84,6 +88,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test performance with 10 SectionHeader instances
     ///
     /// Simulates a typical screen with moderate sections
+    @MainActor
     func testMultipleSectionHeaders_10Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var headers: [SectionHeader] = []
@@ -103,6 +108,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test performance with 50 SectionHeader instances
     ///
     /// Simulates a screen with many sections
+    @MainActor
     func testMultipleSectionHeaders_50Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var headers: [SectionHeader] = []
@@ -122,6 +128,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test performance with 100 SectionHeader instances
     ///
     /// Stress test for maximum sections
+    @MainActor
     func testMultipleSectionHeaders_100Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var headers: [SectionHeader] = []
@@ -143,6 +150,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test SectionHeader with content in VStack
     ///
     /// Common pattern: header followed by content
+    @MainActor
     func testSectionHeaderWithContentPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.iterationCount {
@@ -159,6 +167,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test multiple sections with content
     ///
     /// Real-world usage: inspector with multiple sections
+    @MainActor
     func testMultipleSectionsWithContentPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -186,6 +195,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test memory footprint for single SectionHeader
     ///
     /// Baseline memory measurement
+    @MainActor
     func testSingleSectionHeaderMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -205,6 +215,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test memory footprint for 100 SectionHeaders
     ///
     /// Verify memory stays under 5MB target
+    @MainActor
     func testMultipleSectionHeadersMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -227,6 +238,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test memory footprint with long titles
     ///
     /// Ensure long text doesn't cause excessive memory usage
+    @MainActor
     func testSectionHeadersWithLongTitlesMemoryFootprint() throws {
         let longTitle = String(repeating: "Long Section Title ", count: 10) // ~200 chars
 
@@ -250,6 +262,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test SectionHeader embedded in VStack performance
     ///
     /// Common usage pattern: list of sections
+    @MainActor
     func testSectionHeaderInVStackPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -269,6 +282,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test SectionHeader in ScrollView with 50 sections
     ///
     /// Performance for scrollable section list
+    @MainActor
     func testSectionHeaderInScrollViewPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -294,6 +308,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test SectionHeader in List performance
     ///
     /// Performance for native List container
+    @MainActor
     func testSectionHeaderInListPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -317,6 +332,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test SectionHeader nested inside Card
     ///
     /// Common pattern: card with sectioned content
+    @MainActor
     func testSectionHeaderInCardPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.iterationCount {
@@ -342,6 +358,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test multiple sections in Card with many items
     ///
     /// Complex inspector panel performance
+    @MainActor
     func testComplexSectionedCardPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -358,7 +375,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
                                     KeyValueRow(
                                         key: "Property \(itemIndex)",
                                         value: "Value \(itemIndex)",
-                                        isCopyable: true
+                                        copyable: true
                                     )
                                 }
                             }
@@ -376,6 +393,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test divider impact on performance
     ///
     /// Compare with and without dividers
+    @MainActor
     func testDividerPerformanceImpact() throws {
         // Without dividers
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
@@ -403,6 +421,7 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test inspector panel pattern
     ///
     /// Sections with mixed content types
+    @MainActor
     func testInspectorPanelPatternPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -421,8 +440,8 @@ final class SectionHeaderPerformanceTests: XCTestCase {
 
                         // Data section
                         SectionHeader(title: "Data", showDivider: true)
-                        KeyValueRow(key: "Offset", value: "0x00000000", isCopyable: true)
-                        KeyValueRow(key: "Length", value: "0x00000020", isCopyable: true)
+                        KeyValueRow(key: "Offset", value: "0x00000000", copyable: true)
+                        KeyValueRow(key: "Length", value: "0x00000020", copyable: true)
 
                         // Flags section
                         SectionHeader(title: "Flags", showDivider: true)

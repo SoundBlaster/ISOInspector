@@ -22,6 +22,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test render performance for a single Badge component
     ///
     /// Target: <1ms render time
+    @MainActor
     func testSingleBadgeRenderPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.componentCount {
@@ -35,6 +36,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test render performance for Badge with icon
     ///
     /// Icons may add overhead, verify still meets target
+    @MainActor
     func testBadgeWithIconRenderPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.componentCount {
@@ -47,6 +49,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test render performance across all badge levels
     ///
     /// Ensures consistent performance regardless of level
+    @MainActor
     func testAllBadgeLevelsRenderPerformance() throws {
         let levels: [BadgeLevel] = [.info, .warning, .error, .success]
 
@@ -63,6 +66,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test render performance with varying text lengths
     ///
     /// Long text should not significantly impact performance
+    @MainActor
     func testBadgeWithVaryingTextLengthPerformance() throws {
         let texts = [
             "X",                                    // 1 char
@@ -87,6 +91,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test performance with 10 badge instances
     ///
     /// Simulates a typical screen with moderate badge usage
+    @MainActor
     func testMultipleBadges_10Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var badges: [Badge] = []
@@ -104,6 +109,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test performance with 50 badge instances
     ///
     /// Simulates a screen with heavy badge usage
+    @MainActor
     func testMultipleBadges_50Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var badges: [Badge] = []
@@ -121,6 +127,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test performance with 100 badge instances
     ///
     /// Stress test to validate performance at scale
+    @MainActor
     func testMultipleBadges_100Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var badges: [Badge] = []
@@ -140,6 +147,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test memory footprint for single Badge
     ///
     /// Baseline memory measurement
+    @MainActor
     func testSingleBadgeMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -160,6 +168,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test memory footprint for 100 Badge instances with all levels
     ///
     /// Verify memory stays under 5MB target
+    @MainActor
     func testMultipleBadgesMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -185,6 +194,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test memory footprint with badges containing long text
     ///
     /// Ensure long text doesn't cause excessive memory usage
+    @MainActor
     func testBadgesWithLongTextMemoryFootprint() throws {
         let longText = String(repeating: "Long Badge Text ", count: 10) // ~160 chars
 
@@ -208,6 +218,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test Badge embedded in VStack performance
     ///
     /// Common usage pattern: list of badges
+    @MainActor
     func testBadgeInVStackPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -227,6 +238,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test Badge embedded in HStack performance
     ///
     /// Common usage pattern: horizontal badge row
+    @MainActor
     func testBadgeInHStackPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -244,6 +256,7 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test Badge in ScrollView with 100 items
     ///
     /// Performance for scrollable badge list
+    @MainActor
     func testBadgeInScrollViewPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -266,6 +279,7 @@ final class BadgePerformanceTests: XCTestCase {
     // MARK: - Level-Specific Performance Tests
 
     /// Test Info level badge performance
+    @MainActor
     func testInfoBadgePerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -276,6 +290,7 @@ final class BadgePerformanceTests: XCTestCase {
     }
 
     /// Test Warning level badge performance
+    @MainActor
     func testWarningBadgePerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -286,6 +301,7 @@ final class BadgePerformanceTests: XCTestCase {
     }
 
     /// Test Error level badge performance
+    @MainActor
     func testErrorBadgePerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -296,6 +312,7 @@ final class BadgePerformanceTests: XCTestCase {
     }
 
     /// Test Success level badge performance
+    @MainActor
     func testSuccessBadgePerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {

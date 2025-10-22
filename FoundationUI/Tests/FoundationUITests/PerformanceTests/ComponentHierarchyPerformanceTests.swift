@@ -24,6 +24,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test Card → Text hierarchy performance
     ///
     /// Baseline: simplest possible hierarchy
+    @MainActor
     func testSimpleCardTextHierarchyPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -38,6 +39,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test Card → SectionHeader → Text hierarchy
     ///
     /// Common two-level nesting
+    @MainActor
     func testCardSectionHeaderHierarchyPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -55,6 +57,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test Card → SectionHeader → KeyValueRow hierarchy
     ///
     /// Most common usage pattern
+    @MainActor
     func testCardSectionKeyValueHierarchyPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -74,6 +77,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test simple inspector panel performance
     ///
     /// Card with single section containing 5 KeyValueRows
+    @MainActor
     func testSimpleInspectorPanelPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.iterationCount {
@@ -97,6 +101,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test medium inspector panel performance
     ///
     /// Card with 3 sections, each with 5 KeyValueRows (15 total)
+    @MainActor
     func testMediumInspectorPanelPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.iterationCount {
@@ -136,6 +141,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test complex inspector panel performance
     ///
     /// Card with 5 sections, each with 10 KeyValueRows (50 total) plus badges
+    @MainActor
     func testComplexInspectorPanelPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for iteration in 0..<DS.PerformanceTest.iterationCount {
@@ -153,7 +159,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
                                         KeyValueRow(
                                             key: "Property \(rowIndex)",
                                             value: "Value \(iteration)-\(sectionIndex)-\(rowIndex)",
-                                            isCopyable: rowIndex % 2 == 0
+                                            copyable: rowIndex % 2 == 0
                                         )
                                     }
 
@@ -179,6 +185,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test list of simple cards (10 cards)
     ///
     /// Typical card list view
+    @MainActor
     func testCardListPerformance_10Cards() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -206,6 +213,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test list of complex cards (50 cards)
     ///
     /// Each card contains section header and multiple rows
+    @MainActor
     func testComplexCardListPerformance_50Cards() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -243,6 +251,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test nested cards with complex content
     ///
     /// Card → Card → SectionHeader → KeyValueRow
+    @MainActor
     func testNestedCardsWithComplexContentPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.iterationCount {
@@ -272,6 +281,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test deeply nested hierarchy (4 levels)
     ///
     /// Maximum realistic nesting depth
+    @MainActor
     func testDeeplyNestedHierarchyPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.iterationCount {
@@ -306,6 +316,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test screen with 100+ total components
     ///
     /// Stress test for complex screens
+    @MainActor
     func testLargeScaleComponentCompositionPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -324,7 +335,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
                                         KeyValueRow(
                                             key: "Property \(rowIndex)",
                                             value: "Value \(cardIndex)-\(rowIndex)",
-                                            isCopyable: true
+                                            copyable: true
                                         )
                                     }
 
@@ -350,6 +361,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test memory footprint for simple inspector panel
     ///
     /// Baseline complex hierarchy memory
+    @MainActor
     func testSimpleInspectorPanelMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -376,6 +388,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test memory footprint for complex inspector panel
     ///
     /// Verify complex hierarchies stay under 5MB target
+    @MainActor
     func testComplexInspectorPanelMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -390,7 +403,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
                             KeyValueRow(
                                 key: "Property \(index)",
                                 value: "Value \(i)-\(index)",
-                                isCopyable: true
+                                copyable: true
                             )
                         }
 
@@ -413,6 +426,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test memory footprint for large scale composition
     ///
     /// 10 cards with 10 rows each = 100+ components
+    @MainActor
     func testLargeScaleCompositionMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -445,6 +459,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test ISO box inspector panel
     ///
     /// Realistic ISO Inspector usage
+    @MainActor
     func testISOBoxInspectorPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.iterationCount {
@@ -455,7 +470,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
                             SectionHeader(title: "Box Information", showDivider: true)
                             KeyValueRow(key: "Type", value: "ftyp")
                             KeyValueRow(key: "Size", value: "32 bytes")
-                            KeyValueRow(key: "Offset", value: "0x00000000", isCopyable: true)
+                            KeyValueRow(key: "Offset", value: "0x00000000", copyable: true)
                             KeyValueRow(key: "Parent", value: "Root")
 
                             // Metadata section
@@ -469,12 +484,12 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
                             KeyValueRow(
                                 key: "Hex Dump",
                                 value: "00 00 00 20 66 74 79 70",
-                                isCopyable: true
+                                copyable: true
                             )
                             KeyValueRow(
                                 key: "ASCII",
                                 value: "....ftyp",
-                                isCopyable: true
+                                copyable: true
                             )
 
                             // Status section
@@ -496,6 +511,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test multi-box inspector view
     ///
     /// List of multiple box inspectors
+    @MainActor
     func testMultiBoxInspectorPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -511,7 +527,7 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
                                     KeyValueRow(
                                         key: "Offset",
                                         value: "0x\(String(format: "%08X", boxIndex * 256))",
-                                        isCopyable: true
+                                        copyable: true
                                     )
 
                                     HStack {
