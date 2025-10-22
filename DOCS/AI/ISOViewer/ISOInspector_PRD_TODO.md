@@ -226,6 +226,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] E3. Warn on unusual top-level ordering (advisory). _(Completed — summary in `DOCS/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/Summary_of_Work.md`.)_
 - [x] E4. Verify `avcC/hvcC` invariants; flag inconsistencies. _(Completed — validation summary recorded in `DOCS/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/Summary_of_Work.md`.)_
 - [ ] E5. Basic `stbl` coherence checks (counts nonzero, arrays parse). _(In Progress — see `DOCS/INPROGRESS/E5_Basic_stbl_Coherence_Checks.md` for objectives and validation scope.)_
+- [ ] E7. Validation rule presets and per-rule toggles spanning core, CLI, and UI. _(New — see `DOCS/AI/ISOInspector_Execution_Guide/13_Validation_Rule_Toggle_Presets_PRD.md` along with workplan items B7, C19, and D7.) Bundled JSON manifests seed default presets, Application Support stores user-authored sets, exports mark disabled rules as `skipped`, and CLI aliases (for example, `--structural-only`) complement the `--preset` flag._
 - [x] E6. Add streaming structural validation rules VR-001 (header sizing) and VR-002 (container closure).
 
 ### Phase F — Export & Hex

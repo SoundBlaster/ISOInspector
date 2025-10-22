@@ -10,11 +10,14 @@ ISOInspector enables engineers and media technologists to introspect ISO BMFF (M
 | FR-CORE-002 | ISOInspectorCore | Validate box structure, size fields, and hierarchical relationships according to ISO/IEC 14496-12. | Malformed fixtures produce error reports identifying offending box offsets and reasons. |
 | FR-CORE-003 | ISOInspectorCore | Catalog recognized atom types using MP4RA registry metadata. | Known box types include name, description, version, and flags; unknown types flagged for research. |
 | FR-CORE-004 | ISOInspectorCore | Export parse results as JSON and binary capture for reproducibility. | CLI/UI trigger exports; resulting files round-trip with re-import verification. |
+| FR-CORE-005 | ISOInspectorCore | Provide configurable validation rule toggles and named presets with default "all enabled" behavior. | Configuration API exposes rule IDs/presets loaded from a bundled manifest, persists user-defined presets under Application Support, and suppressing a rule removes its findings while logging the active preset and disabled list. |
 | FR-UI-001 | ISOInspectorUI | Display hierarchical tree of boxes with search, filter, and expand/collapse controls. | Tree view updates in <200 ms upon new event; filter reduces nodes accordingly. |
 | FR-UI-002 | ISOInspectorUI | Provide detail pane with field-level metadata, hex viewer, and validation status. | Selecting a box populates metadata and hex window with highlighted ranges. |
 | FR-UI-003 | ISOInspectorUI | Support session bookmarking and annotations stored per file. | Users can add notes per box; data persists between launches via CoreData/JSON. |
+| FR-UI-004 | ISOInspectorUI | Surface validation settings that let users pick presets and toggle individual rules. | Settings pane displays presets/rule list, respects global default choices from user preferences, persists per-workspace overrides, and offers a "Reset to Global" action. |
 | FR-CLI-001 | ISOInspectorCLI | Offer commands `inspect`, `validate`, `export-json`, `export-report`. | Commands documented via `--help`; exit codes 0 success, >0 failure. |
 | FR-CLI-002 | ISOInspectorCLI | Support batch mode for inspecting multiple files with aggregated summary. | Provide table summarizing file size, box count, error count; output saved to CSV. |
+| FR-CLI-003 | ISOInspectorCLI | Offer preset selection and per-rule enable/disable flags for validation. | `--preset` lists known bundles, aliases such as `--structural-only` map to curated presets, overrides accept rule IDs, and defaults enable every rule when unspecified. |
 | FR-APP-001 | ISOInspectorApp | Integrate document browser, recent files, and workspace persistence. | App relaunch shows last session, including open files and notes. |
 | FR-DOC-001 | Documentation Suite | Provide onboarding guide, API reference, and troubleshooting steps. | README, DocC catalog, and FAQ published with cross-links. |
 
