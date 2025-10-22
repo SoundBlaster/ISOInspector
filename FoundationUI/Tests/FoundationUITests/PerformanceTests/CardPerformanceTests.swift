@@ -299,22 +299,18 @@ final class CardPerformanceTests: XCTestCase {
     /// Test memory footprint for single Card
     ///
     /// Baseline memory measurement
-    /* @MainActor
 
     /// Test memory footprint for 100 Cards with all elevations
     ///
     /// Verify memory stays under 5MB target
-    /* @MainActor
 
     /// Test memory footprint for nested cards
     ///
     /// Ensure nesting doesn't cause excessive memory usage
-    /* @MainActor
 
     /// Test memory footprint for cards with complex content
     ///
     /// Real-world scenario with multiple elements
-    /* @MainActor
 
     // MARK: - SwiftUI View Hierarchy Tests
 

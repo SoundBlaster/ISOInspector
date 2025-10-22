@@ -195,17 +195,14 @@ final class SectionHeaderPerformanceTests: XCTestCase {
     /// Test memory footprint for single SectionHeader
     ///
     /// Baseline memory measurement
-    /* @MainActor
 
     /// Test memory footprint for 100 SectionHeaders
     ///
     /// Verify memory stays under 5MB target
-    /* @MainActor
 
     /// Test memory footprint with long titles
     ///
     /// Ensure long text doesn't cause excessive memory usage
-    /* @MainActor
 
     // MARK: - SwiftUI View Hierarchy Tests
 

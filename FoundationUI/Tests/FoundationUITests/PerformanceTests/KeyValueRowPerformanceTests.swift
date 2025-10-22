@@ -323,22 +323,18 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test memory footprint for single KeyValueRow
     ///
     /// Baseline memory measurement
-    /* @MainActor
 
     /// Test memory footprint for 100 KeyValueRows
     ///
     /// Verify memory stays under 5MB target
-    /* @MainActor
 
     /// Test memory footprint with long text values
     ///
     /// Ensure long text doesn't cause excessive memory usage
-    /* @MainActor
 
     /// Test memory footprint for 1000 KeyValueRows
     ///
     /// Large scale memory test
-    /* @MainActor
 
     // MARK: - Layout-Specific Performance Tests
 
