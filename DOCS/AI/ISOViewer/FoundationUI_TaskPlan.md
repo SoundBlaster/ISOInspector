@@ -207,12 +207,13 @@
   - Zero magic numbers (100% DS token usage)
   - Archive: `TASK_ARCHIVE/04_Phase2.2_Card/`
 
-- [ ] **P0** Implement KeyValueRow component
+- [ ] **P0** Implement KeyValueRow component → **IN PROGRESS**
   - File: `Sources/Components/KeyValueRow.swift`
   - Display key-value pairs with semantic styling
   - Optional copyable text integration
   - Monospaced font for values
   - Keyboard shortcut hints
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase2_KeyValueRow.md`
 
 - [x] **P0** Implement SectionHeader component ✅ Completed 2025-10-21
   - File: `Sources/FoundationUI/Components/SectionHeader.swift`
