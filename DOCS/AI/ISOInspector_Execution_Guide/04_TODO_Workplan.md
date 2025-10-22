@@ -93,6 +93,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | D4 | Create batch mode processing with aggregated summary + CSV export. | Medium | 1.5 | D2 | Swift, CSV writer | CLI handles multiple files; CSV contains expected rows and metrics. (Completed ✅ — archived in `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/` with CSV summary generation and regression coverage.) |
 | D6 | Recognize `senc/saio/saiz` sample encryption placeholders and record their offsets and lengths for downstream reporting. | Medium | 1 | D3 | Swift, XCTest | Fragment parses capture stub metadata for these boxes; CLI/UI surface presence without decrypting content. *(In Progress — planning archived in `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/D6_Recognize_senc_saio_saiz_Placeholders.md`; follow-ups tracked via `DOCS/INPROGRESS/next_tasks.md`.)* |
 
+> **New In Progress:** Task **E4 — Verify avcC/hvcC Invariants** now focuses on enforcing codec configuration sanity checks (`lengthSizeMinusOne`, parameter set array counts, and NAL unit length tables) across ISOInspectorKit validation, CLI messaging, and JSON exports. Scope captured in `DOCS/INPROGRESS/E4_Verify_avcC_hvcC_Invariants.md` with acceptance tests to be added alongside existing codec fixtures.
+
 ## Phase E — Application Shell
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
 |---------|-------------|----------|---------------|--------------|-------|---------------------|
