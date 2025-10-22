@@ -25,6 +25,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test render performance for a single KeyValueRow
     ///
     /// Target: <1ms render time
+    @MainActor
     func testSingleKeyValueRowRenderPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -37,6 +38,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test render performance for KeyValueRow with long values
     ///
     /// Common use case: hash values, file paths, etc.
+    @MainActor
     func testKeyValueRowWithLongValuesPerformance() throws {
         let longValue = String(repeating: "0123456789abcdef", count: 10) // 160 chars
 
@@ -51,6 +53,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test render performance for horizontal layout
     ///
     /// Default layout orientation
+    @MainActor
     func testHorizontalLayoutPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -67,6 +70,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test render performance for vertical layout
     ///
     /// Alternative layout for narrow screens
+    @MainActor
     func testVerticalLayoutPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -83,13 +87,14 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test render performance with copyable enabled
     ///
     /// Copyable adds interaction overhead
+    @MainActor
     func testCopyableKeyValueRowPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
                 let row = KeyValueRow(
                     key: "Key \(i)",
                     value: "Value \(i)",
-                    isCopyable: true
+                    copyable: true
                 )
                 _ = Mirror(reflecting: row).children.count
             }
@@ -101,6 +106,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test performance with 10 KeyValueRow instances
     ///
     /// Simulates a typical inspector panel
+    @MainActor
     func testMultipleKeyValueRows_10Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var rows: [KeyValueRow] = []
@@ -120,6 +126,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test performance with 50 KeyValueRow instances
     ///
     /// Simulates a detailed inspector with many properties
+    @MainActor
     func testMultipleKeyValueRows_50Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var rows: [KeyValueRow] = []
@@ -128,7 +135,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
                     let row = KeyValueRow(
                         key: "Field \(index)-\(i)",
                         value: "Data \(index)-\(i)",
-                        isCopyable: i % 2 == 0
+                        copyable: i % 2 == 0
                     )
                     rows.append(row)
                 }
@@ -140,6 +147,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test performance with 100 KeyValueRow instances
     ///
     /// Stress test for large property lists
+    @MainActor
     func testMultipleKeyValueRows_100Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var rows: [KeyValueRow] = []
@@ -150,7 +158,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
                         key: "Key \(index)-\(i)",
                         value: "Value \(index)-\(i)",
                         layout: layout,
-                        isCopyable: i % 3 == 0
+                        copyable: i % 3 == 0
                     )
                     rows.append(row)
                 }
@@ -162,6 +170,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test performance with 1000 KeyValueRow instances
     ///
     /// Maximum stress test for very large data sets
+    @MainActor
     func testMultipleKeyValueRows_1000Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var rows: [KeyValueRow] = []
@@ -181,6 +190,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test KeyValueRow in VStack (typical usage pattern)
     ///
     /// Performance for inspector panels
+    @MainActor
     func testKeyValueRowInVStackPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -200,6 +210,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test KeyValueRow in ScrollView with 100 items
     ///
     /// Performance for scrollable property lists
+    @MainActor
     func testKeyValueRowInScrollViewPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -209,7 +220,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
                             KeyValueRow(
                                 key: "Field \(index)",
                                 value: "Data value \(index)",
-                                isCopyable: index % 2 == 0
+                                copyable: index % 2 == 0
                             )
                         }
                     }
@@ -223,6 +234,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test KeyValueRow in List with 100 items
     ///
     /// Performance for native List container
+    @MainActor
     func testKeyValueRowInListPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -242,6 +254,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test mixed layout KeyValueRows in VStack
     ///
     /// Performance with both horizontal and vertical layouts
+    @MainActor
     func testMixedLayoutKeyValueRowsPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -264,6 +277,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test KeyValueRow with metadata properties
     ///
     /// Real-world usage: ISO box metadata display
+    @MainActor
     func testKeyValueRowWithMetadataPerformance() throws {
         let metadata = [
             ("Type", "ftyp"),
@@ -278,7 +292,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
             for _ in 0..<DS.PerformanceTest.iterationCount {
                 var rows: [KeyValueRow] = []
                 for (key, value) in metadata {
-                    let row = KeyValueRow(key: key, value: value, isCopyable: true)
+                    let row = KeyValueRow(key: key, value: value, copyable: true)
                     rows.append(row)
                 }
                 _ = rows.count
@@ -289,6 +303,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test KeyValueRow with hex values (monospace)
     ///
     /// Performance with monospace font styling
+    @MainActor
     func testKeyValueRowWithHexValuesPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -296,7 +311,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
                 let row = KeyValueRow(
                     key: "Offset",
                     value: hexValue,
-                    isCopyable: true
+                    copyable: true
                 )
                 _ = Mirror(reflecting: row).children.count
             }
@@ -308,6 +323,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test memory footprint for single KeyValueRow
     ///
     /// Baseline memory measurement
+    @MainActor
     func testSingleKeyValueRowMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -327,6 +343,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test memory footprint for 100 KeyValueRows
     ///
     /// Verify memory stays under 5MB target
+    @MainActor
     func testMultipleKeyValueRowsMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -338,7 +355,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
                     key: "Property \(i)",
                     value: "Value data \(i)",
                     layout: layout,
-                    isCopyable: i % 3 == 0
+                    copyable: i % 3 == 0
                 )
                 rows.append(row)
             }
@@ -352,6 +369,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test memory footprint with long text values
     ///
     /// Ensure long text doesn't cause excessive memory usage
+    @MainActor
     func testKeyValueRowsWithLongTextMemoryFootprint() throws {
         let longValue = String(repeating: "0123456789abcdef", count: 20) // 320 chars
 
@@ -363,7 +381,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
                 let row = KeyValueRow(
                     key: "Key \(i)",
                     value: longValue,
-                    isCopyable: true
+                    copyable: true
                 )
                 rows.append(row)
             }
@@ -377,6 +395,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test memory footprint for 1000 KeyValueRows
     ///
     /// Large scale memory test
+    @MainActor
     func testLargeScaleKeyValueRowsMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -399,6 +418,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     // MARK: - Layout-Specific Performance Tests
 
     /// Test horizontal layout performance at scale
+    @MainActor
     func testHorizontalLayoutAtScale() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var rows: [KeyValueRow] = []
@@ -415,6 +435,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     }
 
     /// Test vertical layout performance at scale
+    @MainActor
     func testVerticalLayoutAtScale() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var rows: [KeyValueRow] = []
@@ -435,6 +456,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test copyable feature performance overhead
     ///
     /// Measure impact of copyable functionality
+    @MainActor
     func testCopyableFeatureOverhead() throws {
         // Test without copyable
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
@@ -443,7 +465,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
                 let row = KeyValueRow(
                     key: "Key \(i)",
                     value: "Value \(i)",
-                    isCopyable: false
+                    copyable: false
                 )
                 rows.append(row)
             }
@@ -457,7 +479,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
                 let row = KeyValueRow(
                     key: "Key \(i)",
                     value: "Value \(i)",
-                    isCopyable: true
+                    copyable: true
                 )
                 rows.append(row)
             }
@@ -470,6 +492,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test KeyValueRow nested inside Card
     ///
     /// Common pattern: inspector panel with card wrapper
+    @MainActor
     func testKeyValueRowInCardPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -479,7 +502,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
                             KeyValueRow(
                                 key: "Property \(index)",
                                 value: "Value \(index)",
-                                isCopyable: true
+                                copyable: true
                             )
                         }
                     }

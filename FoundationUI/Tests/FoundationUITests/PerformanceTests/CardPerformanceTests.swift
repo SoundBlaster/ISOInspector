@@ -25,6 +25,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test render performance for a single empty Card
     ///
     /// Baseline: Card with minimal content
+    @MainActor
     func testSingleEmptyCardRenderPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.componentCount {
@@ -39,6 +40,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test render performance for Card with Text content
     ///
     /// Common use case: simple text content
+    @MainActor
     func testCardWithTextContentPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -56,6 +58,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test render performance across all elevation levels
     ///
     /// Ensures consistent performance regardless of elevation
+    @MainActor
     func testAllElevationLevelsPerformance() throws {
         let elevations: [CardElevation] = [.none, .low, .medium, .high]
 
@@ -74,6 +77,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test render performance across all material backgrounds
     ///
     /// Ensures consistent performance regardless of material
+    @MainActor
     func testAllMaterialBackgroundsPerformance() throws {
         let materials: [Material?] = [
             .thin,
@@ -99,6 +103,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test render performance with varying corner radius
     ///
     /// Custom corner radius should not significantly impact performance
+    @MainActor
     func testCardWithVaryingCornerRadiusPerformance() throws {
         let radii: [CGFloat] = [
             DS.Radius.small,
@@ -125,6 +130,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test performance with 10 card instances
     ///
     /// Simulates a typical screen with moderate card usage
+    @MainActor
     func testMultipleCards_10Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var cards: [Card<Text>] = []
@@ -143,6 +149,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test performance with 50 card instances
     ///
     /// Simulates a screen with heavy card usage
+    @MainActor
     func testMultipleCards_50Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var cards: [Card<Text>] = []
@@ -162,6 +169,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test performance with 100 card instances
     ///
     /// Stress test to validate performance at scale
+    @MainActor
     func testMultipleCards_100Instances() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             var cards: [Card<Text>] = []
@@ -183,6 +191,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test performance with Card nested within Card
     ///
     /// Common pattern: card containing sub-cards
+    @MainActor
     func testNestedCardsPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.iterationCount {
@@ -207,6 +216,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test performance with deeply nested cards (3 levels)
     ///
     /// Stress test for complex nesting scenarios
+    @MainActor
     func testDeeplyNestedCardsPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.iterationCount {
@@ -235,6 +245,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test Card with complex VStack content
     ///
     /// Real-world usage: card with multiple elements
+    @MainActor
     func testCardWithComplexVStackPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.iterationCount {
@@ -262,6 +273,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test Card with list content (10 items)
     ///
     /// Performance for card containing lists
+    @MainActor
     func testCardWithListContentPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for iteration in 0..<DS.PerformanceTest.iterationCount {
@@ -287,6 +299,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test memory footprint for single Card
     ///
     /// Baseline memory measurement
+    @MainActor
     func testSingleCardMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -308,6 +321,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test memory footprint for 100 Cards with all elevations
     ///
     /// Verify memory stays under 5MB target
+    @MainActor
     func testMultipleCardsMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -330,6 +344,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test memory footprint for nested cards
     ///
     /// Ensure nesting doesn't cause excessive memory usage
+    @MainActor
     func testNestedCardsMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -356,6 +371,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test memory footprint for cards with complex content
     ///
     /// Real-world scenario with multiple elements
+    @MainActor
     func testComplexCardMemoryFootprint() throws {
         measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
             startMeasuring()
@@ -388,6 +404,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test Card embedded in VStack performance
     ///
     /// Common usage pattern: list of cards
+    @MainActor
     func testCardInVStackPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -406,6 +423,7 @@ final class CardPerformanceTests: XCTestCase {
     /// Test Card in ScrollView with 50 items
     ///
     /// Performance for scrollable card list
+    @MainActor
     func testCardInScrollViewPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for _ in 0..<DS.PerformanceTest.iterationCount {
@@ -432,6 +450,7 @@ final class CardPerformanceTests: XCTestCase {
     // MARK: - Elevation-Specific Performance Tests
 
     /// Test none elevation card performance
+    @MainActor
     func testNoneElevationCardPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -444,6 +463,7 @@ final class CardPerformanceTests: XCTestCase {
     }
 
     /// Test low elevation card performance
+    @MainActor
     func testLowElevationCardPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -456,6 +476,7 @@ final class CardPerformanceTests: XCTestCase {
     }
 
     /// Test medium elevation card performance
+    @MainActor
     func testMediumElevationCardPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
@@ -468,6 +489,7 @@ final class CardPerformanceTests: XCTestCase {
     }
 
     /// Test high elevation card performance
+    @MainActor
     func testHighElevationCardPerformance() throws {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for i in 0..<DS.PerformanceTest.componentCount {
