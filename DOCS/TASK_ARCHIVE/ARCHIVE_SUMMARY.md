@@ -738,3 +738,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/`.
 - **Highlights:** Documents delivery of the random access index coordinator, typed `mfra/tfra/mfro` payload models, and downstream ISOInspectorKit, CLI, and JSON export updates that surface fragment lookup metadata across the toolchain.
 - **Next steps carried forward:** `DOCS/INPROGRESS/next_tasks.md` now tracks the blocked real-world codec fixture licensing effort needed to replace synthetic payloads and refresh regression baselines once approvals land.
+
+## 141_Summary_of_Work_2025-10-21_Sample_Encryption
+- **Archived files:** `Summary_of_Work.md`, `2025-10-21-sample-encryption-parser-alignment.md`, `D6_Recognize_senc_saio_saiz_Placeholders.md`, `D6A_Register_Sample_Encryption_Parsers_PRD.md`, `D6B_Surface_Sample_Encryption_Metadata_PRD.md`, `D6C_Validate_Sample_Encryption_Placeholders_PRD.md`, `E1_Enforce_Parent_Containment_and_Non_Overlap.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/`.
+- **Highlights:** Documents completion of Task D6.A’s parser scaffolding for `senc/saio/saiz`, alignment of placeholder detail structs with focused unit tests, and the supporting PRDs that chart downstream surfacing and validation work.
+- **Next steps carried forward:** D6.B/D6.C metadata surfacing and validation plus E1 structural containment checks remain active in `DOCS/INPROGRESS/next_tasks.md`, alongside the blocked real-world asset licensing track.
