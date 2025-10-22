@@ -780,3 +780,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/147_Summary_of_Work_2025-10-22_Validation_Preset_UI_Settings_Integration/`.
 - **Highlights:** Captures the validation metadata plumbing that threads preset selections and disabled rule identifiers through parse tree exports, file-backed configuration persistence, and the macOS settings scene delivering reset-to-global behavior.
 - **Next steps carried forward:** Manual QA of the settings UI, ISOInspectorCLI wiring for presets (Task D7), export metadata updates, structural validation expansion (E1), sample encryption placeholder parsing (D6), codec validation coverage, and real-world fixture licensing continue in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 148_D7_Validation_Preset_CLI_Wiring
+- **Archived files:** `D7_Validation_Preset_CLI_Wiring.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/148_D7_Validation_Preset_CLI_Wiring/`.
+- **Highlights:** Documents the CLI validation preset wiring that introduces global `--preset`/`--structural-only` aliases, per-rule enable/disable flags, metadata propagation through command contexts, documentation updates, and the accompanying test coverage plus verification notes.
+- **Next steps carried forward:** Ongoing work on sample encryption placeholders (D6), structural containment validation (E1), real-world fixture licensing, and codec validation coverage expansion remain listed in the recreated `DOCS/INPROGRESS/next_tasks.md`.
