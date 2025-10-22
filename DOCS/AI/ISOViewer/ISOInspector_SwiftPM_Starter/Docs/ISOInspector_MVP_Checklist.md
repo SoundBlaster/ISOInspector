@@ -64,7 +64,7 @@
 - [ ] E1. Rules list: containment, non-overlap, overflow (documented in README)
 - [ ] E2. Add progress guard + max nesting depth constants
 - [ ] E3. Advisory order warnings (ftyp/moov/mdat)
-- [ ] E4. avcC/hvcC invariants list
+- [x] E4. avcC/hvcC invariants list _(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)_
 - [ ] E5. Basic `stbl` coherence checks list
 
 ## Phase F — Export & Hex

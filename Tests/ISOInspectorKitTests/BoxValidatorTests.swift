@@ -368,6 +368,106 @@ final class BoxValidatorTests: XCTestCase {
         XCTAssertTrue(annotated.validationIssues.filter { $0.ruleID == "VR-017" }.isEmpty)
     }
 
+    func testCodecRuleFlagsAvcSequenceCountMismatch() throws {
+        let avcC = makeValidAvcConfigurationBox()
+        var mutatedAvcC = avcC
+        let spsCountOffset = 8 + 5
+        mutatedAvcC[spsCountOffset] = 0xE0 | 0x02
+
+        let stsd = makeStsdBox(entries: [makeVisualSampleEntry(additionalBoxes: [mutatedAvcC])])
+        let header = try makeHeader(type: "stsd", payloadSize: stsd.count - 8)
+        let reader = InMemoryRandomAccessReader(data: stsd)
+        let payload = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            payload: payload
+        )
+
+        let validator = BoxValidator()
+        let annotated = validator.annotate(event: event, reader: reader)
+        let issues = annotated.validationIssues.filter { $0.ruleID == "VR-018" }
+
+        XCTAssertEqual(issues.count, 1)
+        let message = try XCTUnwrap(issues.first?.message)
+        XCTAssertTrue(message.contains("sequence parameter"))
+        XCTAssertTrue(message.contains("declares 2") || message.contains("expected 2"))
+    }
+
+    func testCodecRuleFlagsAvcMissingLengthSize() throws {
+        let truncatedAvcC = makeBox(type: "avcC", payload: Data([0x01, 0x42, 0x80, 0x1F]))
+        let stsd = makeStsdBox(entries: [makeVisualSampleEntry(additionalBoxes: [truncatedAvcC])])
+        let header = try makeHeader(type: "stsd", payloadSize: stsd.count - 8)
+        let reader = InMemoryRandomAccessReader(data: stsd)
+        let payload = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            payload: payload
+        )
+
+        let validator = BoxValidator()
+        let annotated = validator.annotate(event: event, reader: reader)
+        let issues = annotated.validationIssues.filter { $0.ruleID == "VR-018" }
+
+        XCTAssertEqual(issues.count, 1)
+        let message = try XCTUnwrap(issues.first?.message)
+        XCTAssertTrue(message.contains("length"))
+        XCTAssertTrue(message.contains("avcC"))
+    }
+
+    func testCodecRuleFlagsHevcArrayCountMismatch() throws {
+        var hevcC = makeValidHevcConfigurationBox()
+        let arrayCountOffset = 8 + 22
+        hevcC[arrayCountOffset] = hevcC[arrayCountOffset] &+ 1
+
+        let stsd = makeStsdBox(entries: [makeVisualSampleEntry(format: "hvc1", additionalBoxes: [hevcC])])
+        let header = try makeHeader(type: "stsd", payloadSize: stsd.count - 8)
+        let reader = InMemoryRandomAccessReader(data: stsd)
+        let payload = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            payload: payload
+        )
+
+        let validator = BoxValidator()
+        let annotated = validator.annotate(event: event, reader: reader)
+        let issues = annotated.validationIssues.filter { $0.ruleID == "VR-018" }
+
+        XCTAssertEqual(issues.count, 1)
+        let message = try XCTUnwrap(issues.first?.message)
+        XCTAssertTrue(message.contains("NAL array"))
+        XCTAssertTrue(message.contains("declares"))
+    }
+
+    func testCodecRuleFlagsHevcMissingLengthSize() throws {
+        let payload = Data([UInt8](repeating: 0x00, count: 10))
+        let hevcC = makeBox(type: "hvcC", payload: payload)
+        let stsd = makeStsdBox(entries: [makeVisualSampleEntry(format: "hvc1", additionalBoxes: [hevcC])])
+        let header = try makeHeader(type: "stsd", payloadSize: stsd.count - 8)
+        let reader = InMemoryRandomAccessReader(data: stsd)
+        let payloadDetail = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
+
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            payload: payloadDetail
+        )
+
+        let validator = BoxValidator()
+        let annotated = validator.annotate(event: event, reader: reader)
+        let issues = annotated.validationIssues.filter { $0.ruleID == "VR-018" }
+
+        XCTAssertEqual(issues.count, 1)
+        let message = try XCTUnwrap(issues.first?.message)
+        XCTAssertTrue(message.contains("hvcC"))
+        XCTAssertTrue(message.contains("length"))
+    }
+
     private func makeHeader(type: String, payloadSize: Int, offset: Int64 = 0) throws -> BoxHeader {
         let fourCC = try FourCharCode(type)
         let headerSize: Int64 = 8
@@ -451,9 +551,118 @@ final class BoxValidatorTests: XCTestCase {
             flags: flags
         )
     }
+
+    private func makeStsdBox(entries: [Data]) -> Data {
+        var payload = Data([0x00, 0x00, 0x00, 0x00])
+        payload.append(contentsOf: UInt32(entries.count).bigEndianBytes)
+        for entry in entries {
+            payload.append(entry)
+        }
+        return makeBox(type: "stsd", payload: payload)
+    }
+
+    private func makeVisualSampleEntry(
+        format: String = "avc1",
+        width: UInt16 = 1920,
+        height: UInt16 = 1080,
+        dataReferenceIndex: UInt16 = 1,
+        additionalBoxes: [Data]
+    ) -> Data {
+        var entry = Data()
+        entry.append(contentsOf: [0x00, 0x00, 0x00, 0x00])
+        entry.append(contentsOf: Data(format.utf8))
+        entry.append(Data(repeating: 0, count: 6))
+        entry.append(contentsOf: dataReferenceIndex.bigEndianBytes)
+        entry.append(contentsOf: UInt32(0).bigEndianBytes)
+        entry.append(contentsOf: UInt32(0).bigEndianBytes)
+        entry.append(contentsOf: width.bigEndianBytes)
+        entry.append(contentsOf: height.bigEndianBytes)
+        entry.append(contentsOf: UInt32(0x00480000).bigEndianBytes)
+        entry.append(contentsOf: UInt32(0x00480000).bigEndianBytes)
+        entry.append(contentsOf: UInt32(0).bigEndianBytes)
+        entry.append(contentsOf: UInt16(1).bigEndianBytes)
+        var compressorName = Data([3])
+        compressorName.append(contentsOf: Data("AVC".utf8))
+        compressorName.append(Data(repeating: 0, count: 32 - compressorName.count))
+        entry.append(compressorName)
+        entry.append(contentsOf: UInt16(0x0018).bigEndianBytes)
+        entry.append(contentsOf: UInt16(0xFFFF).bigEndianBytes)
+        for box in additionalBoxes {
+            entry.append(box)
+        }
+        let size = UInt32(entry.count)
+        entry.replaceSubrange(0..<4, with: size.bigEndianBytes)
+        return entry
+    }
+
+    private func makeValidAvcConfigurationBox() -> Data {
+        var payload = Data()
+        payload.append(0x01)
+        payload.append(0x4D)
+        payload.append(0x40)
+        payload.append(0x1F)
+        payload.append(0xFC | 0x03)
+        payload.append(0xE0 | 0x01)
+        payload.append(contentsOf: UInt16(4).bigEndianBytes)
+        payload.append(contentsOf: [0x67, 0x64, 0x00, 0x1F])
+        payload.append(0x01)
+        payload.append(contentsOf: UInt16(3).bigEndianBytes)
+        payload.append(contentsOf: [0x68, 0xEE, 0x3C])
+        return makeBox(type: "avcC", payload: payload)
+    }
+
+    private func makeValidHevcConfigurationBox() -> Data {
+        var payload = Data()
+        payload.append(0x01)
+        payload.append(0x60)
+        payload.append(contentsOf: UInt32(0).bigEndianBytes)
+        payload.append(Data(repeating: 0, count: 6))
+        payload.append(0x78)
+        payload.append(contentsOf: UInt16(0xF000).bigEndianBytes)
+        payload.append(0xFC)
+        payload.append(0xFC)
+        payload.append(0xF8)
+        payload.append(0xF8)
+        payload.append(contentsOf: UInt16(0).bigEndianBytes)
+        payload.append(0x03)
+        payload.append(0x03)
+        let arrays: [(UInt8, [UInt8])] = [
+            (32, [0x40, 0x01]),
+            (33, [0x42, 0x01, 0x01]),
+            (34, [0x44, 0x01])
+        ]
+        payload.append(UInt8(arrays.count))
+        for (nalType, body) in arrays {
+            payload.append(0x80 | nalType)
+            payload.append(contentsOf: UInt16(1).bigEndianBytes)
+            payload.append(contentsOf: UInt16(body.count).bigEndianBytes)
+            payload.append(contentsOf: body)
+        }
+        return makeBox(type: "hvcC", payload: payload)
+    }
+
+    private func makeBox(type: String, payload: Data) -> Data {
+        var data = Data()
+        data.append(contentsOf: UInt32(8 + payload.count).bigEndianBytes)
+        data.append(contentsOf: Data(type.utf8))
+        data.append(payload)
+        return data
+    }
 }
 
 private enum ContainerTypes {
     static let movie = FourCharContainerCode.moov.rawValue
     static let track = FourCharContainerCode.trak.rawValue
+}
+
+private extension UInt16 {
+    var bigEndianBytes: [UInt8] {
+        withUnsafeBytes(of: bigEndian, Array.init)
+    }
+}
+
+private extension UInt32 {
+    var bigEndianBytes: [UInt8] {
+        withUnsafeBytes(of: bigEndian, Array.init)
+    }
 }
