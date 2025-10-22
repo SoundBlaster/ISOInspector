@@ -756,3 +756,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/`.
 - **Highlights:** Documents the `CodecConfigurationValidationRule` now executed by `BoxValidator` so ISOInspectorKit enforces `lengthSizeMinusOne`, parameter-set counts, HEVC NAL array integrity, and zero-length payload safeguards with shared CLI/JSON messaging.
 - **Next steps carried forward:** Expand end-to-end ParsePipeline plus CLI/JSON snapshot coverage to exercise the new codec warnings, and continue tracking sample encryption validation plus real-world fixture licensing in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 144_E5_Basic_stbl_Coherence_Checks
+- **Archived files:** `E5_Basic_stbl_Coherence_Checks.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/`.
+- **Highlights:** Captures the validation rule updates that reconcile `stts/ctts/stsc/stsz/stz2/stco` counts, regenerate JSON exporter snapshots, and extend ParsePipeline live tests to assert the new VR-015 diagnostics emitted for sample size and timing mismatches.
+- **Next steps carried forward:** Continue D6 sample encryption metadata surfacing, E1 parent containment validation, and codec coverage expansion as listed in the recreated `DOCS/INPROGRESS/next_tasks.md`.

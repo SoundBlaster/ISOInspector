@@ -6,7 +6,7 @@
 - Surface these controls through CLI flags, project configuration, and UI settings panes to maintain parity across workflows documented in the execution plan and PRD backlog.【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L12-L120】【F:DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md†L223-L266】
 
 ## Motivation
-- Validation scope has steadily expanded (VR-001…VR-015), and upcoming correlation checks continue to increase runtime cost.【F:DOCS/TASK_ARCHIVE/130_VR15_Sample_Table_Correlation/Summary_of_Work.md†L5-L22】【F:DOCS/INPROGRESS/E5_Basic_stbl_Coherence_Checks.md†L1-L24】
+- Validation scope has steadily expanded (VR-001…VR-015), and upcoming correlation checks continue to increase runtime cost.【F:DOCS/TASK_ARCHIVE/130_VR15_Sample_Table_Correlation/Summary_of_Work.md†L5-L22】【F:DOCS/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/E5_Basic_stbl_Coherence_Checks.md†L1-L24】
 - Analysts often want to suppress advisory warnings (VR-005, VR-006) while focusing on structural blockers; conversely, QA smoke tests may only need catastrophic failures to bubble up.【F:DOCS/TASK_ARCHIVE/89_Close_TODO_3/89_Close_TODO_3.md†L1-L24】
 - Execution guide roadmaps already assume future knobs for streaming diagnostics, so providing validation toggles now aligns with our configuration strategy and reduces ad-hoc forked builds.【F:DOCS/TASK_ARCHIVE/49_CLI_Global_Logging_and_Telemetry_Toggles/Summary_of_Work.md†L8-L15】【F:DOCS/AI/ISOInspector_Execution_Guide/03_Technical_Spec.md†L92-L96】
 
@@ -74,5 +74,5 @@
 ## References
 - `ISOInspector Technical Specification` — validation architecture and rule catalog.【F:DOCS/AI/ISOInspector_Execution_Guide/03_Technical_Spec.md†L32-L96】
 - `Validation Rule #15 — Sample Table Correlation` — demonstrates multi-rule coordination benefiting from presets.【F:DOCS/TASK_ARCHIVE/130_VR15_Sample_Table_Correlation/Validation_Rule_15_Sample_Table_Correlation.md†L1-L31】
-- `E5 — Basic stbl Coherence Checks` — highlights ongoing validation expansion motivating configuration.【F:DOCS/INPROGRESS/E5_Basic_stbl_Coherence_Checks.md†L1-L24】
+- `E5 — Basic stbl Coherence Checks` — highlights ongoing validation expansion motivating configuration.【F:DOCS/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/E5_Basic_stbl_Coherence_Checks.md†L1-L24】
 - `ISOInspector PRD TODO (Phase E)` — validation backlog requiring cohesive configuration strategy.【F:DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md†L223-L266】

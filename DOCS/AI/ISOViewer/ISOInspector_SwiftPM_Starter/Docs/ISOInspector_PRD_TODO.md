@@ -199,9 +199,9 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 ### Phase E — Validation
 - [ ] E1. Enforce parent containment and non-overlap. _(In Progress — see `DOCS/INPROGRESS/E1_Enforce_Parent_Containment_and_Non_Overlap.md`.)_
 - [ ] E2. Detect zero/negative progress loops; cap nesting depth.
-- [x] E3. Warn on unusual top-level ordering (advisory). _(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)_
+- [x] E3. Warn on unusual top-level ordering (advisory). _(Completed — see `DOCS/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/Summary_of_Work.md`.)_
 - [ ] E4. Verify `avcC/hvcC` invariants; flag inconsistencies.
-- [x] E5. Basic `stbl` coherence checks (counts nonzero, arrays parse). _(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`.)_
+- [x] E5. Basic `stbl` coherence checks (counts nonzero, arrays parse). _(Completed — see `DOCS/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/Summary_of_Work.md`.)_
 
 ### Phase F — Export & Hex
 - [ ] F1. JSON export: encode tree with offsets/sizes/parsed fields.
