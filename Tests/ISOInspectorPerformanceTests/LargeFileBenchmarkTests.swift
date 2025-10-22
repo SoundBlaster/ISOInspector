@@ -231,17 +231,20 @@ private extension LargeFileBenchmarkTests {
 
         Task {
             await MainActor.run {
-                ISOInspectorCommandContextStore.bootstrap(with: ISOInspectorCommandContext(environment: environment))
+                ISOInspectorCommand.contextFactory = { _ in
+                    ISOInspectorCommandContext(environment: environment)
+                }
+                ISOInspectorCommandContextStore.reset()
             }
-            var command = ISOInspectorCommand.Commands.Validate()
-            command.file = fileURL.path
             do {
+                var command = try ISOInspectorCommand.Commands.Validate.parse([fileURL.path])
                 try await command.run()
             } catch {
                 capturedError.withValue { $0 = error }
             }
             await MainActor.run {
                 ISOInspectorCommandContextStore.reset()
+                ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
             }
             expectation.fulfill()
         }

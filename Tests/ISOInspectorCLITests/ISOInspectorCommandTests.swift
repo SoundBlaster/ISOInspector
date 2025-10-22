@@ -273,7 +273,10 @@ final class ISOInspectorCommandTests: XCTestCase {
         )
 
         await MainActor.run {
-            ISOInspectorCommandContextStore.bootstrap(with: .init(environment: environment))
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
         }
 
         var command = try ISOInspectorCommand.Commands.Inspect.parse([
@@ -292,6 +295,7 @@ final class ISOInspectorCommandTests: XCTestCase {
 
         await MainActor.run {
             ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
         }
     }
 
@@ -354,14 +358,15 @@ final class ISOInspectorCommandTests: XCTestCase {
         let configuration = ValidationConfiguration(activePresetID: "structural")
 
         await MainActor.run {
-            ISOInspectorCommandContextStore.bootstrap(
-                with: .init(
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(
                     environment: environment,
                     validationConfiguration: configuration,
                     validationPresets: presets,
                     validationConfigurationWasCustomized: true
                 )
-            )
+            }
+            ISOInspectorCommandContextStore.reset()
         }
 
         var command = try ISOInspectorCommand.Commands.Validate.parse([
@@ -384,6 +389,7 @@ final class ISOInspectorCommandTests: XCTestCase {
 
         await MainActor.run {
             ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
         }
     }
 
@@ -416,7 +422,10 @@ final class ISOInspectorCommandTests: XCTestCase {
         )
 
         await MainActor.run {
-            ISOInspectorCommandContextStore.bootstrap(with: .init(environment: environment))
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
         }
 
         var command = try ISOInspectorCommand.Commands.Validate.parse([
@@ -439,6 +448,7 @@ final class ISOInspectorCommandTests: XCTestCase {
 
         await MainActor.run {
             ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
         }
     }
 
@@ -508,7 +518,10 @@ final class ISOInspectorCommandTests: XCTestCase {
         )
 
         await MainActor.run {
-            ISOInspectorCommandContextStore.bootstrap(with: .init(environment: environment))
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
         }
 
         let csvURL = temporaryDirectory.appendingPathComponent("summary.csv")
@@ -540,6 +553,7 @@ final class ISOInspectorCommandTests: XCTestCase {
 
         await MainActor.run {
             ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
         }
     }
 
@@ -599,7 +613,10 @@ final class ISOInspectorCommandTests: XCTestCase {
         )
 
         await MainActor.run {
-            ISOInspectorCommandContextStore.bootstrap(with: .init(environment: environment))
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
         }
 
         var command = try ISOInspectorCommand.Commands.Export.JSON.parse([fileURL.path])
@@ -621,6 +638,7 @@ final class ISOInspectorCommandTests: XCTestCase {
 
         await MainActor.run {
             ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
         }
     }
 
@@ -670,7 +688,10 @@ final class ISOInspectorCommandTests: XCTestCase {
         )
 
         await MainActor.run {
-            ISOInspectorCommandContextStore.bootstrap(with: .init(environment: environment))
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
         }
 
         var command = try ISOInspectorCommand.Commands.Export.Capture.parse([
@@ -689,6 +710,7 @@ final class ISOInspectorCommandTests: XCTestCase {
 
         await MainActor.run {
             ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
         }
     }
 
@@ -718,7 +740,10 @@ final class ISOInspectorCommandTests: XCTestCase {
         )
 
         await MainActor.run {
-            ISOInspectorCommandContextStore.bootstrap(with: .init(environment: environment))
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
         }
 
         var command = try ISOInspectorCommand.Commands.Export.JSON.parse([
@@ -739,6 +764,7 @@ final class ISOInspectorCommandTests: XCTestCase {
 
         await MainActor.run {
             ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
         }
     }
 }
