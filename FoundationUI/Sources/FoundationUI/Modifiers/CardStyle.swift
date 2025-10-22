@@ -21,7 +21,7 @@ import SwiftUI
 /// ## Design System Integration
 /// Shadow properties use consistent values that work harmoniously with DS tokens
 /// for spacing, colors, and radius.
-public enum CardElevation: Equatable, Sendable {
+public enum CardElevation: Equatable, Sendable, CaseIterable {
     /// No elevation - flat appearance with no shadow
     case none
 
