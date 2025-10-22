@@ -68,6 +68,13 @@ struct ParseEvent: Sendable, Codable {
 | VR-005 | `moov` must precede `mdat` unless flagged streaming. | Warning | Evaluate order; attach suggestion. |
 | VR-006 | Unknown box types recorded for follow-up research. | Info | Append to research log with type code. |
 
+### Validation Configuration
+- `ValidationRuleID` enumerates shipping rules, enabling presentation layers to build toggle lists without probing implementation details.
+- `ValidationPreset` models curated bundles (e.g., `allChecks`, `structuralOnly`, `advisoryFocus`) and surfaces localized descriptions.
+- `ValidationConfiguration` stores the active preset name plus per-rule overrides; defaults enable every rule to preserve backward compatibility.
+- Configuration flows through dependency injection: CLI resolves flags into a configuration, UI sessions persist the last selection, and exports annotate their payloads with the active preset for audit trails.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L1-L120】
+- Persisted settings serialize via `Codable` so workspaces, CLI config files, and potential future shared preferences reuse the same schema.
+
 ## Concurrency Model
 - Parsing executes on dedicated background task using Swift concurrency (`Task`, `AsyncStream`).
 - UI subscribes via `@StateObject` stores bridging Combine to SwiftUI.
