@@ -1,6 +1,7 @@
 #if canImport(CoreData)
 import CoreData
 import Foundation
+import ISOInspectorKit
 
 /// Persists annotations and bookmarks to a CoreData SQLite store keyed by the
 /// canonical URL for an inspected media file.
@@ -8,8 +9,9 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
     public enum ModelVersion: CaseIterable, Sendable {
         case v1
         case v2
+        case v3
 
-        public static var latest: Self { .v2 }
+        public static var latest: Self { .v3 }
     }
 
     private static let containerName = "AnnotationBookmarks"
@@ -177,7 +179,7 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
                 workspace.appVersion = appVersion
             }
             workspace.lastOpened = snapshot.updatedAt
-            workspace.schemaVersion = 2
+            workspace.schemaVersion = 3
 
             let session = try self.fetchOrCreateSession(id: snapshot.id, in: context, workspace: workspace)
             session.createdAt = snapshot.createdAt
@@ -334,7 +336,7 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
         workspace.id = UUID()
         workspace.appVersion = ""
         workspace.lastOpened = makeDate()
-        workspace.schemaVersion = 2
+        workspace.schemaVersion = 3
         return workspace
     }
 
@@ -391,6 +393,9 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
             return lhs.orderIndex < rhs.orderIndex
         }
 
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+
         for snapshot in orderedSnapshots {
             guard let fileEntity = try fetchFile(for: snapshot.recent.url, createIfMissing: true, in: context) else {
                 continue
@@ -416,6 +421,11 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
             sessionFile.lastOpened = snapshot.recent.lastOpened
             sessionFile.bookmarkData = snapshot.recent.bookmarkData
             sessionFile.bookmarkIdentifier = snapshot.bookmarkIdentifier ?? snapshot.recent.bookmarkIdentifier
+            if let configuration = snapshot.validationConfiguration {
+                sessionFile.validationConfigurationData = try encoder.encode(configuration)
+            } else {
+                sessionFile.validationConfigurationData = nil
+            }
             sessionFile.session = session
             sessionFile.file = fileEntity
 
@@ -474,6 +484,8 @@ private extension CoreDataAnnotationBookmarkStore {
             return makeV1Model()
         case .v2:
             return makeV2Model()
+        case .v3:
+            return makeV3Model()
         }
     }
 
@@ -564,6 +576,14 @@ private extension CoreDataAnnotationBookmarkStore {
     }
 
     static func makeV2Model() -> NSManagedObjectModel {
+        makeSessionModel(includeValidationConfigurationData: false)
+    }
+
+    static func makeV3Model() -> NSManagedObjectModel {
+        makeSessionModel(includeValidationConfigurationData: true)
+    }
+
+    static func makeSessionModel(includeValidationConfigurationData: Bool) -> NSManagedObjectModel {
         let base = makeBaseEntities()
         let fileEntity = base.file
         let annotationEntity = base.annotation
@@ -614,6 +634,12 @@ private extension CoreDataAnnotationBookmarkStore {
         let sessionFileLastOpened = dateAttribute(named: "lastOpened")
         let sessionFileBookmarkData = binaryAttribute(named: "bookmarkData", isOptional: true)
         let sessionFileBookmarkIdentifier = uuidAttribute(named: "bookmarkIdentifier", isOptional: true)
+        let sessionFileValidationConfigurationData: NSAttributeDescription?
+        if includeValidationConfigurationData {
+            sessionFileValidationConfigurationData = binaryAttribute(named: "validationConfigurationData", isOptional: true)
+        } else {
+            sessionFileValidationConfigurationData = nil
+        }
 
         // WindowLayout attributes
         let windowLayoutID = uuidAttribute(named: "id")
@@ -765,7 +791,7 @@ private extension CoreDataAnnotationBookmarkStore {
         bookmarkProperties.append(bookmarkToDiffs)
         bookmarkEntity.properties = bookmarkProperties
 
-        sessionFileEntity.properties = [
+        var sessionFileProperties: [NSPropertyDescription] = [
             sessionFileID,
             sessionFileOrderIndex,
             sessionFileLastSelectionNodeID,
@@ -775,11 +801,17 @@ private extension CoreDataAnnotationBookmarkStore {
             sessionFileDisplayName,
             sessionFileLastOpened,
             sessionFileBookmarkData,
-            sessionFileBookmarkIdentifier,
+            sessionFileBookmarkIdentifier
+        ]
+        if let sessionFileValidationConfigurationData {
+            sessionFileProperties.append(sessionFileValidationConfigurationData)
+        }
+        sessionFileProperties.append(contentsOf: [
             sessionFileToSession,
             sessionFileToFile,
             sessionFileToBookmarkDiffs
-        ]
+        ])
+        sessionFileEntity.properties = sessionFileProperties
 
         windowLayoutEntity.properties = [
             windowLayoutID,
@@ -945,6 +977,7 @@ private final class SessionFileEntity: NSManagedObject {
     @NSManaged var lastOpened: Date
     @NSManaged var bookmarkData: Data?
     @NSManaged var bookmarkIdentifier: UUID?
+    @NSManaged var validationConfigurationData: Data?
     @NSManaged var session: SessionEntity
     @NSManaged var file: FileEntity
     @NSManaged var bookmarkDiffs: NSSet?
@@ -1023,6 +1056,14 @@ private extension SessionFileEntity {
             .map { $0.makeSnapshot() }
             .sorted { $0.id.uuidString < $1.id.uuidString } ?? []
 
+        let validationConfiguration: ValidationConfiguration?
+        if let data = validationConfigurationData {
+            let decoder = JSONDecoder()
+            validationConfiguration = try? decoder.decode(ValidationConfiguration.self, from: data)
+        } else {
+            validationConfiguration = nil
+        }
+
         return WorkspaceSessionFileSnapshot(
             id: id,
             recent: recent,
@@ -1032,7 +1073,7 @@ private extension SessionFileEntity {
             scrollOffset: scrollOffset,
             bookmarkIdentifier: bookmarkIdentifier ?? recent.bookmarkIdentifier,
             bookmarkDiffs: diffs,
-            validationConfiguration: nil
+            validationConfiguration: validationConfiguration
         )
     }
 }
@@ -1077,8 +1118,9 @@ public final class CoreDataAnnotationBookmarkStore: @unchecked Sendable {
     public enum ModelVersion: CaseIterable, Sendable {
         case v1
         case v2
+        case v3
 
-        public static var latest: Self { .v2 }
+        public static var latest: Self { .v3 }
     }
 
     public init(
