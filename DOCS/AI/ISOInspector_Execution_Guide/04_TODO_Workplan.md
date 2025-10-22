@@ -101,6 +101,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > **Completed (2025-10-22):** Validation follow-up **E5 — Basic `stbl` Coherence Checks** reconciles cross-table counts across `stts/ctts/stsc/stsz/stz2/stco`, with implementation recap captured in `DOCS/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/Summary_of_Work.md`.
 
 > **Completed:** Task **E4 — Verify avcC/hvcC Invariants** delivered codec validation checks across ISOInspectorKit, CLI messaging, and JSON exports. See `DOCS/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/Summary_of_Work.md` for the validator roll-out, regression coverage, and follow-up notes.
+> **In Progress:** **Codec Validation Coverage Expansion** extends ParsePipeline smoke tests and CLI/JSON snapshots to exercise the new codec warnings. See `DOCS/INPROGRESS/Codec_Validation_Coverage_Expansion.md` for scope and success metrics while the coverage gap is addressed.
 
 ## Phase E — Application Shell
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
