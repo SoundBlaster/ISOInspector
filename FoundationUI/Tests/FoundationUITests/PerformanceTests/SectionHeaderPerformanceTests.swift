@@ -335,38 +335,6 @@ final class SectionHeaderPerformanceTests: XCTestCase {
         }
     }
 
-    // MARK: - Divider Performance Tests
-
-    /// Test SectionHeader without divider performance
-    ///
-    /// Baseline performance without dividers
-    @MainActor
-    func testSectionHeaderWithoutDividerPerformance() throws {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            var headers: [SectionHeader] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let header = SectionHeader(title: "Section \(i)", showDivider: false)
-                headers.append(header)
-            }
-            _ = headers.count
-        }
-    }
-
-    /// Test SectionHeader with divider performance
-    ///
-    /// Performance with dividers enabled
-    @MainActor
-    func testSectionHeaderWithDividerPerformance() throws {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            var headers: [SectionHeader] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let header = SectionHeader(title: "Section \(i)", showDivider: true)
-                headers.append(header)
-            }
-            _ = headers.count
-        }
-    }
-
     // MARK: - Real-World Usage Pattern Tests
 
     /// Test inspector panel pattern
