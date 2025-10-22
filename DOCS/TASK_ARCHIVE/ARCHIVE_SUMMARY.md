@@ -762,3 +762,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/`.
 - **Highlights:** Captures the validation rule updates that reconcile `stts/ctts/stsc/stsz/stz2/stco` counts, regenerate JSON exporter snapshots, and extend ParsePipeline live tests to assert the new VR-015 diagnostics emitted for sample size and timing mismatches.
 - **Next steps carried forward:** Continue D6 sample encryption metadata surfacing, E1 parent containment validation, and codec coverage expansion as listed in the recreated `DOCS/INPROGRESS/next_tasks.md`.
+
+## 145_B7_Validation_Rule_Preset_Configuration
+- **Archived files:** `B7_Validation_Rule_Preset_Configuration.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/145_B7_Validation_Rule_Preset_Configuration/`.
+- **Highlights:** Establishes the shared `ValidationConfiguration`/`ValidationPreset` Codable models, seeds bundled `ValidationPresets.json` manifests (including "All Checks Enabled" and "Structural Focus"), and wires loader helpers plus unit coverage that verifies manifest loading, override behavior, and identifier coverage.
+- **Next steps carried forward:** Expose preset selection and rule toggles via ISOInspectorCLI (task D7), surface the configuration UI with Application Support persistence (task C19), and extend exports to record active presets and disabled rule identifiers as tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
