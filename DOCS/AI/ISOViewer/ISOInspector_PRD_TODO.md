@@ -212,6 +212,8 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] C17. `mdat`: record offset/size (skip payload). **(Completed — streaming parser now records byte ranges without loading payload data; see `DOCS/TASK_ARCHIVE/126_C17_mdat_Box_Parser/Summary_of_Work.md`.)**
 - [x] C18. `free/skip`: opaque pass-through. **(Completed — see `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/Summary_of_Work.md` for implementation notes and `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/C18_free_skip_Pass_Through.md` for original puzzle scope.)**
 
+- [ ] C19. Validation preset UI settings integration. _(In Progress — see `DOCS/INPROGRESS/C19_Validation_Preset_UI_Settings_Integration.md`; builds on the B7 configuration layer while UI wiring ships in parallel with CLI task D7.)_
+
 - [x] D1. `mvex/trex`: defaults. _(Completed — see `DOCS/TASK_ARCHIVE/D1_mvex_trex_Defaults/Summary_of_Work.md`.)_
 - [x] [D2. `moof/mfhd`: sequence number](../../TASK_ARCHIVE/134_D2_moof_mfhd_Sequence_Number/D2_moof_mfhd_Sequence_Number.md). _(Completed — fragment headers now surface sequence numbers across Kit, CLI, and exports.)_
 - [x] D3. `traf/tfhd/tfdt/trun`: parse via flags; sample_count; optional data_offset; sizes. _(Completed — see `DOCS/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/Summary_of_Work.md` for implementation recap and follow-up notes.)_
