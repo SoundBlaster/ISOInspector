@@ -768,6 +768,83 @@ def build_edit_list_rate_adjusted() -> bytes:
     )
 
 
+def build_sample_encryption_box() -> bytes:
+    payload = bytearray()
+    payload.extend((0x010203).to_bytes(3, "big"))
+    payload.append(8)
+    payload.extend(bytes(range(0x20, 0x30)))
+    payload.extend((2).to_bytes(4, "big"))
+    payload.extend(bytes(range(0x01, 0x09)))
+    payload.extend((1).to_bytes(2, "big"))
+    payload.extend((0x0010).to_bytes(2, "big"))
+    payload.extend((0x0000_0020).to_bytes(4, "big"))
+    payload.extend(bytes(range(0x11, 0x19)))
+    payload.extend((2).to_bytes(2, "big"))
+    payload.extend((0x0004).to_bytes(2, "big"))
+    payload.extend((0x0000_0008).to_bytes(4, "big"))
+    payload.extend((0x0006).to_bytes(2, "big"))
+    payload.extend((0x0000_000C).to_bytes(4, "big"))
+    return full_box("senc", 0, 0x000003, bytes(payload))
+
+
+def build_sample_aux_info_offsets_box() -> bytes:
+    payload = bytearray()
+    payload.extend(b"cenc")
+    payload.extend((1).to_bytes(4, "big"))
+    payload.extend((2).to_bytes(4, "big"))
+    payload.extend((0x0000_0000_0000_0200).to_bytes(8, "big"))
+    payload.extend((0x0000_0000_0000_0380).to_bytes(8, "big"))
+    return full_box("saio", 1, 0x000001, bytes(payload))
+
+
+def build_sample_aux_info_sizes_box() -> bytes:
+    payload = bytearray()
+    payload.extend(b"cenc")
+    payload.extend((1).to_bytes(4, "big"))
+    payload.append(0)
+    payload.extend((2).to_bytes(4, "big"))
+    payload.extend(bytes([0x10, 0x18]))
+    return full_box("saiz", 0, 0x000001, bytes(payload))
+
+
+def build_sample_encryption_fragment() -> bytes:
+    ftyp = box("ftyp", brand_payload("iso6", 0, ["iso6", "dash"]))
+    mvhd = build_movie_header(600, 600, next_track_id=2)
+    tkhd = build_track_header(1, 600)
+    mdhd = build_media_header(48_000, 48_000)
+    mdia = box("mdia", mdhd)
+    trak = box("trak", tkhd + mdia)
+    moov = box("moov", mvhd + trak)
+
+    mfhd = build_movie_fragment_header(1)
+    tfhd_flags = 0x000001 | 0x000002 | 0x000008 | 0x000010
+    tfhd = build_track_fragment_header(
+        track_id=1,
+        flags=tfhd_flags,
+        base_data_offset=0x0000_0000_0000_0200,
+        sample_description_index=1,
+        default_sample_duration=120,
+        default_sample_size=256,
+    )
+    tfdt = build_track_fragment_decode_time(1_000, version=1)
+    trun_flags = 0x000001 | 0x000100 | 0x000200
+    trun = build_track_run(
+        sample_count=2,
+        version=0,
+        flags=trun_flags,
+        data_offset=128,
+        sample_durations=[120, 120],
+        sample_sizes=[256, 256],
+    )
+    senc = build_sample_encryption_box()
+    saio = build_sample_aux_info_offsets_box()
+    saiz = build_sample_aux_info_sizes_box()
+    traf = box("traf", tfhd + tfdt + trun + senc + saio + saiz)
+    moof = box("moof", mfhd + traf)
+    mdat = box("mdat", bytes([0x55]) * 256)
+    return ftyp + moov + moof + mdat
+
+
 def build_large_mdat() -> bytes:
     ftyp = box(
         "ftyp",
@@ -814,6 +891,7 @@ def generate_text_fixtures(media_root: Path = MEDIA) -> list[Path]:
         write_fixture("edit_list_single_offset", build_edit_list_single_offset(), media_root),
         write_fixture("edit_list_multi_segment", build_edit_list_multi_segment(), media_root),
         write_fixture("edit_list_rate_adjusted", build_edit_list_rate_adjusted(), media_root),
+        write_fixture("sample_encryption_metadata", build_sample_encryption_fragment(), media_root),
     ]
 
 

@@ -742,26 +742,26 @@
 ## 141_Summary_of_Work_2025-10-21_Sample_Encryption
 - **Archived files:** `Summary_of_Work.md`, `2025-10-21-sample-encryption-parser-alignment.md`, `D6_Recognize_senc_saio_saiz_Placeholders.md`, `D6A_Register_Sample_Encryption_Parsers_PRD.md`, `D6B_Surface_Sample_Encryption_Metadata_PRD.md`, `D6C_Validate_Sample_Encryption_Placeholders_PRD.md`, `E1_Enforce_Parent_Containment_and_Non_Overlap.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/`.
-- **Highlights:** Documents completion of Task D6.A’s parser scaffolding for `senc/saio/saiz`, alignment of placeholder detail structs with focused unit tests, and the supporting PRDs that chart downstream surfacing and validation work.
-- **Next steps carried forward:** D6.B/D6.C metadata surfacing and validation plus E1 structural containment checks remain active in `DOCS/INPROGRESS/next_tasks.md`, alongside the blocked real-world asset licensing track.
+- **Highlights:** Documents completion of Task D6.A’s parser scaffolding and D6.B’s metadata surfacing for `senc/saio/saiz`, alignment of placeholder detail structs with focused unit tests, and the supporting PRDs that chart downstream validation work.
+- **Next steps carried forward:** E1 structural containment checks remain active in `DOCS/INPROGRESS/next_tasks.md`, alongside the blocked real-world asset licensing track.
 
 ## 142_E3_Warn_on_Unusual_Top_Level_Ordering
 - **Archived files:** `E3_Warn_on_Unusual_Top_Level_Ordering.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/`.
 - **Highlights:** Captures the advisory validation rule that flags atypical `ftyp`/`moov` ordering without blocking streaming-friendly layouts, including CLI/JSON surfacing updates and the verification log recorded in the summary of work.
-- **Next steps carried forward:** D6 sample encryption metadata surfacing, E1 parent containment validation, and the real-world asset licensing track continue in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+- **Next steps carried forward:** E1 parent containment validation and the real-world asset licensing track continue in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
 
 ## 143_E4_Verify_avcC_hvcC_Invariants
 - **Archived files:** `E4_Verify_avcC_hvcC_Invariants.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/`.
 - **Highlights:** Documents the `CodecConfigurationValidationRule` now executed by `BoxValidator` so ISOInspectorKit enforces `lengthSizeMinusOne`, parameter-set counts, HEVC NAL array integrity, and zero-length payload safeguards with shared CLI/JSON messaging.
-- **Next steps carried forward:** Expand end-to-end ParsePipeline plus CLI/JSON snapshot coverage to exercise the new codec warnings, and continue tracking sample encryption validation plus real-world fixture licensing in `DOCS/INPROGRESS/next_tasks.md`.
+- **Next steps carried forward:** Continue tracking E1 containment validation and real-world fixture licensing in `DOCS/INPROGRESS/next_tasks.md`.
 
 ## 144_E5_Basic_stbl_Coherence_Checks
 - **Archived files:** `E5_Basic_stbl_Coherence_Checks.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/`.
 - **Highlights:** Captures the validation rule updates that reconcile `stts/ctts/stsc/stsz/stz2/stco` counts, regenerate JSON exporter snapshots, and extend ParsePipeline live tests to assert the new VR-015 diagnostics emitted for sample size and timing mismatches.
-- **Next steps carried forward:** Continue D6 sample encryption metadata surfacing, E1 parent containment validation, and codec coverage expansion as listed in the recreated `DOCS/INPROGRESS/next_tasks.md`.
+- **Next steps carried forward:** Continue E1 parent containment validation and codec coverage follow-ups as listed in the recreated `DOCS/INPROGRESS/next_tasks.md`.
 
 ## 145_B7_Validation_Rule_Preset_Configuration
 - **Archived files:** `B7_Validation_Rule_Preset_Configuration.md`, `Summary_of_Work.md`, `next_tasks.md`.
@@ -786,3 +786,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/148_D7_Validation_Preset_CLI_Wiring/`.
 - **Highlights:** Documents the CLI validation preset wiring that introduces global `--preset`/`--structural-only` aliases, per-rule enable/disable flags, metadata propagation through command contexts, documentation updates, and the accompanying test coverage plus verification notes.
 - **Next steps carried forward:** Ongoing work on sample encryption placeholders (D6), structural containment validation (E1), real-world fixture licensing, and codec validation coverage expansion remain listed in the recreated `DOCS/INPROGRESS/next_tasks.md`.
+
+## 149_Codec_Validation_Coverage_Expansion
+- **Archived files:** `Codec_Validation_Coverage_Expansion.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/149_Codec_Validation_Coverage_Expansion/`.
+- **Highlights:** Extends VR-018 codec diagnostics across ParsePipeline live tests, CLI validate output, and JSON export snapshots using a new `codec-invalid-configs` fixture that encodes zero-length AVC/HEVC parameter sets. CLI integration asserts `VR-018` reporting with preset metadata, while snapshot baselines capture the emitted errors for regression.
+- **Next steps carried forward:** Sample encryption placeholder parsing, structural containment validation, and real-world codec fixture licensing remain active in `DOCS/INPROGRESS/next_tasks.md`.

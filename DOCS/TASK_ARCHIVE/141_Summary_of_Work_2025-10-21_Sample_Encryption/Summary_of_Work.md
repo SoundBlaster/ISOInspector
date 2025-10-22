@@ -2,13 +2,17 @@
 
 ## Completed Tasks
 - **D6.A — Register Sample Encryption Box Parsers**: Finalized parser detail structs for `senc`, `saio`, and `saiz`, ensured registry wiring returns populated ranges/counts, and added focused unit tests verifying algorithm IDs, entry lengths, and byte ranges.
+- **D6.B — Surface Sample Encryption Metadata Across Outputs**: Extended JSON structured payloads, CLI summaries, and SwiftUI detail panes to expose encryption placeholder metadata with refreshed accessibility coverage.
+- **D6.C — Validate Sample Encryption Placeholders**: Introduced the `sample-encryption-placeholder` fixture, JSON snapshot baseline, CLI inspect integration test, and SwiftUI detail selection coverage to lock in placeholder metadata end to end.
 
 ## Tests & Validation
 - `swift test --filter SencSampleEncryptionParserTests`
 - `swift test --filter SaioSampleAuxInfoOffsetsParserTests`
 - `swift test --filter SaizSampleAuxInfoSizesParserTests`
 - `swift test`
+- `swift test --filter ParseExportTests/testJSONExporterIncludesSampleEncryptionMetadata`
+- `swift test --filter EventConsoleFormatterTests/testFormatterSummarizesSampleEncryptionMetadata`
 
 ## Notes
-- Open puzzle **#D6B** tracks surfacing the new metadata through JSON exports, CLI formatting, and app detail views.
-- Micro PRD: `DOCS/INPROGRESS/2025-10-21-sample-encryption-parser-alignment.md`
+- Regression fixture + snapshot live under `Tests/ISOInspectorKitTests/Fixtures/Media/sample_encryption_metadata.txt` and `Fixtures/Snapshots/sample-encryption-placeholder.json`.
+- Micro PRDs: `DOCS/INPROGRESS/2025-10-21-sample-encryption-parser-alignment.md`, `DOCS/INPROGRESS/2025-10-22-sample-encryption-metadata-surfacing.md`

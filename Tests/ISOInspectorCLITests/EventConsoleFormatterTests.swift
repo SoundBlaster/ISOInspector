@@ -350,6 +350,96 @@ final class EventConsoleFormatterTests: XCTestCase {
         XCTAssertTrue(output.contains("presentation=1000-1600"))
     }
 
+    func testFormatterSummarizesSampleEncryptionMetadata() throws {
+        let header = try makeHeader(type: "senc", size: 40)
+        let detail = ParsedBoxPayload.SampleEncryptionBox(
+            version: 0,
+            flags: 0x000003,
+            sampleCount: 2,
+            algorithmIdentifier: 0x010203,
+            perSampleIVSize: 8,
+            keyIdentifierRange: 24..<40,
+            sampleInfoRange: 40..<48,
+            sampleInfoByteLength: 8,
+            constantIVRange: nil,
+            constantIVByteLength: nil
+        )
+        let payload = ParsedBoxPayload(detail: .sampleEncryption(detail))
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: 0,
+            payload: payload
+        )
+
+        let formatter = EventConsoleFormatter()
+        let output = formatter.format(event)
+
+        XCTAssertTrue(output.contains("encryption"))
+        XCTAssertTrue(output.contains("samples=2"))
+        XCTAssertTrue(output.contains("iv_size=8"))
+        XCTAssertTrue(output.contains("algorithm=0x010203"))
+        XCTAssertTrue(output.contains("sample_bytes=8"))
+        XCTAssertTrue(output.contains("key_range=24-40"))
+    }
+
+    func testFormatterSummarizesSampleAuxInfoOffsets() throws {
+        let header = try makeHeader(type: "saio", size: 36)
+        let detail = ParsedBoxPayload.SampleAuxInfoOffsetsBox(
+            version: 0,
+            flags: 0x000001,
+            entryCount: 3,
+            auxInfoType: try FourCharCode("cenc"),
+            auxInfoTypeParameter: 2,
+            entrySize: .eightBytes,
+            entriesRange: 80..<104,
+            entriesByteLength: 24
+        )
+        let payload = ParsedBoxPayload(detail: .sampleAuxInfoOffsets(detail))
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: 0,
+            payload: payload
+        )
+
+        let formatter = EventConsoleFormatter()
+        let output = formatter.format(event)
+
+        XCTAssertTrue(output.contains("aux_offsets"))
+        XCTAssertTrue(output.contains("entries=3"))
+        XCTAssertTrue(output.contains("bytes_per_entry=8"))
+        XCTAssertTrue(output.contains("type=cenc"))
+        XCTAssertTrue(output.contains("range=80-104"))
+    }
+
+    func testFormatterSummarizesSampleAuxInfoSizes() throws {
+        let header = try makeHeader(type: "saiz", size: 32)
+        let detail = ParsedBoxPayload.SampleAuxInfoSizesBox(
+            version: 0,
+            flags: 0x000001,
+            defaultSampleInfoSize: 0,
+            entryCount: 3,
+            auxInfoType: try FourCharCode("cenc"),
+            auxInfoTypeParameter: 2,
+            variableEntriesRange: 120..<123,
+            variableEntriesByteLength: 3
+        )
+        let payload = ParsedBoxPayload(detail: .sampleAuxInfoSizes(detail))
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: 0,
+            payload: payload
+        )
+
+        let formatter = EventConsoleFormatter()
+        let output = formatter.format(event)
+
+        XCTAssertTrue(output.contains("aux_sizes"))
+        XCTAssertTrue(output.contains("entry_count=3"))
+        XCTAssertTrue(output.contains("default=0"))
+        XCTAssertTrue(output.contains("variable_bytes=3"))
+        XCTAssertTrue(output.contains("range=120-123"))
+    }
+
     private func makeHeader(type: String, size: Int64) throws -> BoxHeader {
         let fourCC = try FourCharCode(type)
         let range = Int64(0)..<size

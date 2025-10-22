@@ -452,6 +452,117 @@ final class ISOInspectorCommandTests: XCTestCase {
         }
     }
 
+    func testValidateCommandEmitsCodecWarningsFromFixture() async throws {
+        let data = try loadFixtureData(named: "codec_invalid_configs")
+        let printed = MutableBox<[String]>([])
+        let errors = MutableBox<[String]>([])
+        let temporaryDirectory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: temporaryDirectory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: temporaryDirectory) }
+        let fileURL = temporaryDirectory.appendingPathComponent("codec-invalid.mp4")
+        try data.write(to: fileURL)
+
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                XCTAssertEqual(url, fileURL)
+                return try ChunkedFileReader(fileURL: url)
+            },
+            parsePipeline: .live(),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { errors.value.append($0) }
+        )
+
+        await MainActor.run {
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
+        }
+
+        var command = try ISOInspectorCommand.Commands.Validate.parse([
+            fileURL.path
+        ])
+
+        do {
+            try await command.run()
+            XCTFail("Expected ExitCode to be thrown")
+        } catch let exit as ExitCode {
+            XCTAssertEqual(exit.rawValue, 2)
+        }
+
+        XCTAssertTrue(errors.value.isEmpty)
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("Validation summary") }))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("Errors: 2") }))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("VR-018") && $0.contains("avcC") }))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("VR-018") && $0.contains("hvcC") }))
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
+        }
+    }
+
+    func testInspectCommandSurfacesSampleEncryptionMetadata() async throws {
+        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
+            func record(_: ResearchLogEntry) {}
+        }
+
+        let data = try loadFixtureData(named: "sample_encryption_metadata")
+        let printed = MutableBox<[String]>([])
+        let errors = MutableBox<[String]>([])
+        let temporaryDirectory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: temporaryDirectory, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: temporaryDirectory) }
+
+        let fileURL = temporaryDirectory.appendingPathComponent("encryption-fragment.m4s")
+        try data.write(to: fileURL)
+
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                XCTAssertEqual(url, fileURL)
+                return try ChunkedFileReader(fileURL: url)
+            },
+            parsePipeline: .live(),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { errors.value.append($0) },
+            makeResearchLogWriter: { url in
+                XCTAssertEqual(
+                    url.deletingLastPathComponent().path,
+                    temporaryDirectory.path
+                )
+                return NullResearchLog()
+            },
+            defaultResearchLogURL: { temporaryDirectory.appendingPathComponent("research-log.json") }
+        )
+
+        await MainActor.run {
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
+        }
+
+        var command = try ISOInspectorCommand.Commands.Inspect.parse([
+            fileURL.path
+        ])
+
+        try await command.run()
+
+        XCTAssertTrue(errors.value.isEmpty)
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("encryption") && $0.contains("samples=2") }))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("aux_offsets") && $0.contains("bytes_per_entry=8") }))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("aux_sizes") && $0.contains("entry_count=2") }))
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
+        }
+    }
+
     func testBatchCommandAggregatesResultsAndWritesCSV() async throws {
         let temporaryDirectory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
         try FileManager.default.createDirectory(at: temporaryDirectory, withIntermediateDirectories: true)
@@ -767,6 +878,20 @@ final class ISOInspectorCommandTests: XCTestCase {
             ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
         }
     }
+}
+
+private func loadFixtureData(named name: String) throws -> Data {
+    let baseDirectory = URL(fileURLWithPath: #filePath)
+        .deletingLastPathComponent()
+        .appendingPathComponent("../ISOInspectorKitTests/Fixtures/Media", isDirectory: true)
+        .standardized
+    let fileURL = baseDirectory.appendingPathComponent("\(name).txt")
+    let encoded = try String(contentsOf: fileURL, encoding: .utf8)
+    guard let decoded = Data(base64Encoded: encoded, options: [.ignoreUnknownCharacters]) else {
+        struct InvalidFixtureData: Error {}
+        throw InvalidFixtureData()
+    }
+    return decoded
 }
 
 private final class MutableBox<Value>: @unchecked Sendable {

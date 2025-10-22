@@ -306,6 +306,58 @@
         ],
         "errors": []
       }
+    },
+    {
+      "id": "sample-encryption-placeholder",
+      "title": "Fragment with sample encryption placeholders",
+      "description": "Synthetic moof carrying senc/saio/saiz metadata to exercise sample encryption placeholder coverage.",
+      "format": "m4s",
+      "tags": [
+        "fragmented",
+        "sample-encryption",
+        "placeholder"
+      ],
+      "resource": {
+        "name": "sample_encryption_metadata",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [
+          "Sample encryption metadata surfaces for 2 samples with override defaults.",
+          "64-bit sample auxiliary offsets recorded via range references."
+        ],
+        "errors": []
+      }
+    },
+    {
+      "id": "codec-invalid-configs",
+      "title": "Codec configurations with malformed parameter sets",
+      "description": "Synthetic moov hierarchy with avc1/hvc1 sample entries whose codec configuration boxes declare zero-length parameter sets to surface VR-018 warnings.",
+      "format": "mp4",
+      "tags": [
+        "codec",
+        "validation",
+        "negative"
+      ],
+      "resource": {
+        "name": "codec_invalid_configs",
+        "extension": "txt",
+        "subdirectory": "Media"
+      },
+      "provenance": {
+        "source": "Generated via generate_fixtures.py"
+      },
+      "expectations": {
+        "warnings": [],
+        "errors": [
+          "Track 1 sample description entry 0 (format avc1) avcC sequence parameter set #0 has zero length.",
+          "Track 1 sample description entry 1 (format hvc1) hvcC SPS NAL #0 has zero length."
+        ]
+      }
     }
   ]
 }

@@ -113,6 +113,26 @@ final class FixtureCatalogExpandedCoverageTests: XCTestCase {
         XCTAssertTrue(warnings.contains("Track 4 edit list entry 2 sets media_rate_fraction=1; fractional playback rates are unsupported."))
     }
 
+    func testCodecInvalidConfigsFixtureDocumentsCodecWarnings() throws {
+        let fixture = try fixture(withID: "codec-invalid-configs")
+        XCTAssertTrue(fixture.tags.contains("codec"))
+        XCTAssertTrue(fixture.expectations.warnings.isEmpty)
+        let errors = Set(fixture.expectations.errors)
+        XCTAssertTrue(errors.contains("Track 1 sample description entry 0 (format avc1) avcC sequence parameter set #0 has zero length."))
+        XCTAssertTrue(errors.contains("Track 1 sample description entry 1 (format hvc1) hvcC SPS NAL #0 has zero length."))
+    }
+
+    func testSampleEncryptionFixtureDocumentsPlaceholderCoverage() throws {
+        let fixture = try fixture(withID: "sample-encryption-placeholder")
+        XCTAssertTrue(fixture.tags.contains("sample-encryption"))
+        XCTAssertTrue(fixture.tags.contains("placeholder"))
+        XCTAssertTrue(fixture.tags.contains("fragmented"))
+        XCTAssertTrue(fixture.expectations.errors.isEmpty)
+        let warnings = Set(fixture.expectations.warnings)
+        XCTAssertTrue(warnings.contains("Sample encryption metadata surfaces for 2 samples with override defaults."))
+        XCTAssertTrue(warnings.contains("64-bit sample auxiliary offsets recorded via range references."))
+    }
+
     private func fixture(withID id: String) throws -> FixtureCatalog.Fixture {
         struct MissingFixtureError: Error {}
         guard let fixture = catalog.fixture(withID: id) else {

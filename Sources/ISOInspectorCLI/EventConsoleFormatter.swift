@@ -45,6 +45,67 @@ public struct EventConsoleFormatter: Sendable {
     }
 
     private func detailDescription(for event: ParseEvent) -> String? {
+        if let encryption = event.payload?.sampleEncryption {
+            var parts: [String] = ["encryption", "samples=\(encryption.sampleCount)"]
+            parts.append("override_defaults=\(encryption.overrideTrackEncryptionDefaults ? "true" : "false")")
+            parts.append("subsample=\(encryption.usesSubsampleEncryption ? "true" : "false")")
+            if let ivSize = encryption.perSampleIVSize {
+                parts.append("iv_size=\(ivSize)")
+            }
+            if let algorithm = encryption.algorithmIdentifier {
+                parts.append(String(format: "algorithm=0x%06X", algorithm))
+            }
+            if let sampleBytes = encryption.sampleInfoByteLength {
+                parts.append("sample_bytes=\(sampleBytes)")
+            }
+            if let sampleRange = encryption.sampleInfoRange {
+                parts.append("sample_range=\(sampleRange.lowerBound)-\(sampleRange.upperBound)")
+            }
+            if let keyRange = encryption.keyIdentifierRange {
+                parts.append("key_range=\(keyRange.lowerBound)-\(keyRange.upperBound)")
+            }
+            if let constantBytes = encryption.constantIVByteLength {
+                parts.append("constant_iv=\(constantBytes)")
+            }
+            if let constantRange = encryption.constantIVRange {
+                parts.append("constant_range=\(constantRange.lowerBound)-\(constantRange.upperBound)")
+            }
+            return parts.joined(separator: " ")
+        }
+        if let offsets = event.payload?.sampleAuxInfoOffsets {
+            var parts: [String] = ["aux_offsets", "entries=\(offsets.entryCount)"]
+            parts.append("bytes_per_entry=\(offsets.entrySizeBytes)")
+            if let type = offsets.auxInfoType {
+                parts.append("type=\(type.rawValue)")
+            }
+            if let parameter = offsets.auxInfoTypeParameter {
+                parts.append("parameter=\(parameter)")
+            }
+            if let entriesLength = offsets.entriesByteLength {
+                parts.append("bytes=\(entriesLength)")
+            }
+            if let range = offsets.entriesRange {
+                parts.append("range=\(range.lowerBound)-\(range.upperBound)")
+            }
+            return parts.joined(separator: " ")
+        }
+        if let sizes = event.payload?.sampleAuxInfoSizes {
+            var parts: [String] = ["aux_sizes", "entry_count=\(sizes.entryCount)"]
+            parts.append("default=\(sizes.defaultSampleInfoSize)")
+            if let type = sizes.auxInfoType {
+                parts.append("type=\(type.rawValue)")
+            }
+            if let parameter = sizes.auxInfoTypeParameter {
+                parts.append("parameter=\(parameter)")
+            }
+            if let variableBytes = sizes.variableEntriesByteLength {
+                parts.append("variable_bytes=\(variableBytes)")
+            }
+            if let range = sizes.variableEntriesRange {
+                parts.append("range=\(range.lowerBound)-\(range.upperBound)")
+            }
+            return parts.joined(separator: " ")
+        }
         if let table = event.payload?.trackFragmentRandomAccess {
             var parts: [String] = []
             parts.append("track=\(table.trackID)")
