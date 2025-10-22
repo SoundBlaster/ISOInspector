@@ -768,3 +768,15 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/145_B7_Validation_Rule_Preset_Configuration/`.
 - **Highlights:** Establishes the shared `ValidationConfiguration`/`ValidationPreset` Codable models, seeds bundled `ValidationPresets.json` manifests (including "All Checks Enabled" and "Structural Focus"), and wires loader helpers plus unit coverage that verifies manifest loading, override behavior, and identifier coverage.
 - **Next steps carried forward:** Expose preset selection and rule toggles via ISOInspectorCLI (task D7), surface the configuration UI with Application Support persistence (task C19), and extend exports to record active presets and disabled rule identifiers as tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+
+## 146_C19_Validation_Preset_UI_Settings_Integration
+- **Archived files:** `C19_Validation_Preset_UI_Settings_Integration.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/146_C19_Validation_Preset_UI_Settings_Integration/`.
+- **Highlights:** Records the macOS settings integration that surfaces validation presets, per-rule toggles, and workspace overrides backed by the new configuration store, including persistence plumbing and regression coverage.
+- **Next steps carried forward:** Validation preset CLI wiring (D7) and export metadata enhancements stay tracked in `DOCS/INPROGRESS/next_tasks.md` alongside manual UI QA follow-ups.
+
+## 147_Summary_of_Work_2025-10-22_Validation_Preset_UI_Settings_Integration
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/147_Summary_of_Work_2025-10-22_Validation_Preset_UI_Settings_Integration/`.
+- **Highlights:** Captures the validation metadata plumbing that threads preset selections and disabled rule identifiers through parse tree exports, file-backed configuration persistence, and the macOS settings scene delivering reset-to-global behavior.
+- **Next steps carried forward:** Manual QA of the settings UI, ISOInspectorCLI wiring for presets (Task D7), export metadata updates, structural validation expansion (E1), sample encryption placeholder parsing (D6), codec validation coverage, and real-world fixture licensing continue in `DOCS/INPROGRESS/next_tasks.md`.
