@@ -275,7 +275,8 @@ final class CardTests: XCTestCase {
 
         // Then
         // Verify that Card conforms to View protocol (compile-time check)
-        XCTAssertTrue(type(of: card) is any View.Type, "Card should be a SwiftUI View")
+        _ = card as any View // Compile-time verification that Card conforms to View
+        XCTAssertNotNil(card, "Card should be a SwiftUI View")
     }
 
     func testCardCanBeNestedInOtherViews() {

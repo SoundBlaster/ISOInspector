@@ -163,7 +163,8 @@ final class BadgeTests: XCTestCase {
         // Then
         // Verify that Badge conforms to View protocol (compile-time check)
         // This test primarily serves as documentation that Badge is a proper SwiftUI View
-        XCTAssertTrue(type(of: badge) is any View.Type, "Badge should be a SwiftUI View")
+        _ = badge as any View // Compile-time verification that Badge conforms to View
+        XCTAssertNotNil(badge, "Badge should be a SwiftUI View")
     }
 
     // MARK: - Edge Cases

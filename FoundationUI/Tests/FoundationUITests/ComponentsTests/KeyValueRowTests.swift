@@ -175,7 +175,8 @@ final class KeyValueRowTests: XCTestCase {
         // Then
         // Verify that KeyValueRow conforms to View protocol (compile-time check)
         // This test primarily serves as documentation that KeyValueRow is a proper SwiftUI View
-        XCTAssertTrue(type(of: row) is any View.Type, "KeyValueRow should be a SwiftUI View")
+        _ = row as any View // Compile-time verification that KeyValueRow conforms to View
+        XCTAssertNotNil(row, "KeyValueRow should be a SwiftUI View")
     }
 
     // MARK: - Edge Cases
