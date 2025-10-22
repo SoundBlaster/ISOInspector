@@ -1,0 +1,8 @@
+# Next Tasks
+
+- 🚧 **D6 — Sample Encryption Placeholder Parsing** _(In Progress)_: Recognize `senc`, `saio`, and `saiz` boxes during fragment parsing so the pipeline records their offsets/sizes and surfaces presence to CLI/UI consumers without attempting decryption.
+- 🚧 **E1 — Enforce Parent Containment and Non-Overlap** _(In Progress)_: Extend structural validation so child boxes cannot exceed parent ranges, flagging overlapping payloads for CLI/UI surfaces; context captured in `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/E1_Enforce_Parent_Containment_and_Non_Overlap.md`.
+- 🚧 **Validation Rule Preset Controls** _(In Progress — see `DOCS/INPROGRESS/B7_Validation_Rule_Preset_Configuration.md`)_: Implement the configuration layer, CLI flags, and UI settings detailed in `DOCS/AI/ISOInspector_Execution_Guide/13_Validation_Rule_Toggle_Presets_PRD.md`, with bundled preset manifests, Application Support storage for custom sets, global-vs-document persistence layers, export metadata marking disabled rules as `skipped`, and CLI alias flags tracked via workplan items B7, C19, and D7.
+- ⏳ **Real-World Assets** _(Blocked — awaiting external licensing approvals)_: Secure licensing for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures so synthetic payloads can be replaced and regression baselines refreshed once approvals land.
+- 🔁 **Codec Validation Coverage Expansion** _(Follow-up from `DOCS/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/Summary_of_Work.md`)_:
+  Expand end-to-end ParsePipeline and CLI/JSON snapshot coverage to exercise the new codec warnings alongside broader validation suite updates.
