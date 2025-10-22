@@ -214,6 +214,9 @@ private struct StructuredPayload: Encodable {
             trackFragmentDecodeTime = TrackFragmentDecodeTimeDetail(box: box)
         case let .trackRun(box):
             trackRun = TrackRunDetail(box: box)
+        case .sampleEncryption, .sampleAuxInfoOffsets, .sampleAuxInfoSizes:
+            // @todo #D6B Surface sample encryption helper metadata in JSON structured payloads once formatting is defined.
+            break
         case let .trackFragment(box):
             trackFragment = TrackFragmentDetail(box: box)
         case let .movieFragmentHeader(box):
