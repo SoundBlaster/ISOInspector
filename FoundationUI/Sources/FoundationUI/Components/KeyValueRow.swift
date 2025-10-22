@@ -1,6 +1,12 @@
 // swift-tools-version: 6.0
 import SwiftUI
 
+#if canImport(AppKit)
+import AppKit
+#elseif canImport(UIKit)
+import UIKit
+#endif
+
 /// A component for displaying key-value pairs with semantic styling
 ///
 /// The KeyValueRow component provides a reusable UI element for displaying
