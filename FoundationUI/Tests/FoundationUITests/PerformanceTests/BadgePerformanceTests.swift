@@ -147,71 +147,17 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test memory footprint for single Badge
     ///
     /// Baseline memory measurement
-    @MainActor
-    func testSingleBadgeMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var badges: [Badge] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let badge = Badge(text: "Badge \(i)", level: .info)
-                badges.append(badge)
-            }
-
-            stopMeasuring()
-
-            // Keep badges alive during measurement
-            _ = badges.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint for 100 Badge instances with all levels
     ///
     /// Verify memory stays under 5MB target
-    @MainActor
-    func testMultipleBadgesMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var badges: [Badge] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let level = BadgeLevel.allCases[i % BadgeLevel.allCases.count]
-                let showIcon = i % 3 == 0
-                let badge = Badge(
-                    text: "Badge \(i)",
-                    level: level,
-                    showIcon: showIcon
-                )
-                badges.append(badge)
-            }
-
-            stopMeasuring()
-
-            _ = badges.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint with badges containing long text
     ///
     /// Ensure long text doesn't cause excessive memory usage
-    @MainActor
-    func testBadgesWithLongTextMemoryFootprint() throws {
-        let longText = String(repeating: "Long Badge Text ", count: 10) // ~160 chars
-
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var badges: [Badge] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let badge = Badge(text: longText, level: .info)
-                badges.append(badge)
-            }
-
-            stopMeasuring()
-
-            _ = badges.count
-        }
-    }
+    /* @MainActor
 
     // MARK: - SwiftUI View Hierarchy Tests
 

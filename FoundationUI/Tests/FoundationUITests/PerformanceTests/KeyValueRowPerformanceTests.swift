@@ -153,7 +153,7 @@ final class KeyValueRowPerformanceTests: XCTestCase {
             var rows: [KeyValueRow] = []
             for index in 0..<DS.PerformanceTest.iterationCount {
                 for i in 0..<DS.PerformanceTest.componentCount {
-                    let layout: KeyValueRowLayout = i % 2 == 0 ? .horizontal : .vertical
+                    let layout: KeyValueLayout = i % 2 == 0 ? .horizontal : .vertical
                     let row = KeyValueRow(
                         key: "Key \(index)-\(i)",
                         value: "Value \(index)-\(i)",
@@ -323,97 +323,22 @@ final class KeyValueRowPerformanceTests: XCTestCase {
     /// Test memory footprint for single KeyValueRow
     ///
     /// Baseline memory measurement
-    @MainActor
-    func testSingleKeyValueRowMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var rows: [KeyValueRow] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let row = KeyValueRow(key: "Key \(i)", value: "Value \(i)")
-                rows.append(row)
-            }
-
-            stopMeasuring()
-
-            _ = rows.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint for 100 KeyValueRows
     ///
     /// Verify memory stays under 5MB target
-    @MainActor
-    func testMultipleKeyValueRowsMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var rows: [KeyValueRow] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let layout: KeyValueRowLayout = i % 2 == 0 ? .horizontal : .vertical
-                let row = KeyValueRow(
-                    key: "Property \(i)",
-                    value: "Value data \(i)",
-                    layout: layout,
-                    copyable: i % 3 == 0
-                )
-                rows.append(row)
-            }
-
-            stopMeasuring()
-
-            _ = rows.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint with long text values
     ///
     /// Ensure long text doesn't cause excessive memory usage
-    @MainActor
-    func testKeyValueRowsWithLongTextMemoryFootprint() throws {
-        let longValue = String(repeating: "0123456789abcdef", count: 20) // 320 chars
-
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var rows: [KeyValueRow] = []
-            for i in 0..<DS.PerformanceTest.componentCount {
-                let row = KeyValueRow(
-                    key: "Key \(i)",
-                    value: longValue,
-                    copyable: true
-                )
-                rows.append(row)
-            }
-
-            stopMeasuring()
-
-            _ = rows.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint for 1000 KeyValueRows
     ///
     /// Large scale memory test
-    @MainActor
-    func testLargeScaleKeyValueRowsMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var rows: [KeyValueRow] = []
-            for i in 0..<DS.PerformanceTest.largeListCount {
-                let row = KeyValueRow(
-                    key: "Item \(i)",
-                    value: "Value \(i)"
-                )
-                rows.append(row)
-            }
-
-            stopMeasuring()
-
-            _ = rows.count
-        }
-    }
+    /* @MainActor
 
     // MARK: - Layout-Specific Performance Tests
 

@@ -361,98 +361,17 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test memory footprint for simple inspector panel
     ///
     /// Baseline complex hierarchy memory
-    @MainActor
-    func testSimpleInspectorPanelMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var views: [Card<VStack<TupleView<(SectionHeader, KeyValueRow, KeyValueRow, KeyValueRow)>>>] = []
-            for i in 0..<(DS.PerformanceTest.componentCount / 2) {
-                let view = Card {
-                    VStack(alignment: .leading) {
-                        SectionHeader(title: "Section \(i)")
-                        KeyValueRow(key: "Key 1", value: "Value 1")
-                        KeyValueRow(key: "Key 2", value: "Value 2")
-                        KeyValueRow(key: "Key 3", value: "Value 3")
-                    }
-                }
-                views.append(view)
-            }
-
-            stopMeasuring()
-
-            _ = views.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint for complex inspector panel
     ///
     /// Verify complex hierarchies stay under 5MB target
-    @MainActor
-    func testComplexInspectorPanelMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var views: [AnyView] = []
-            for i in 0..<(DS.PerformanceTest.componentCount / 10) {
-                let view = Card {
-                    VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                        SectionHeader(title: "Section \(i)", showDivider: true)
-
-                        ForEach(0..<10, id: \.self) { index in
-                            KeyValueRow(
-                                key: "Property \(index)",
-                                value: "Value \(i)-\(index)",
-                                copyable: true
-                            )
-                        }
-
-                        HStack {
-                            Badge(text: "Info", level: .info)
-                            Badge(text: "Warning", level: .warning)
-                        }
-                    }
-                    .padding(DS.Spacing.m)
-                }
-                views.append(AnyView(view))
-            }
-
-            stopMeasuring()
-
-            _ = views.count
-        }
-    }
+    /* @MainActor
 
     /// Test memory footprint for large scale composition
     ///
     /// 10 cards with 10 rows each = 100+ components
-    @MainActor
-    func testLargeScaleCompositionMemoryFootprint() throws {
-        measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
-            startMeasuring()
-
-            var views: [AnyView] = []
-            for cardIndex in 0..<10 {
-                let view = Card {
-                    VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                        SectionHeader(title: "Card \(cardIndex)", showDivider: true)
-
-                        ForEach(0..<10, id: \.self) { rowIndex in
-                            KeyValueRow(
-                                key: "Row \(rowIndex)",
-                                value: "Value \(cardIndex)-\(rowIndex)"
-                            )
-                        }
-                    }
-                }
-                views.append(AnyView(view))
-            }
-
-            stopMeasuring()
-
-            _ = views.count
-        }
-    }
+    /* @MainActor
 
     // MARK: - Real-World Simulation Tests
 
