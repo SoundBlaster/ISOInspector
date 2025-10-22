@@ -744,3 +744,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/`.
 - **Highlights:** Documents completion of Task D6.A’s parser scaffolding for `senc/saio/saiz`, alignment of placeholder detail structs with focused unit tests, and the supporting PRDs that chart downstream surfacing and validation work.
 - **Next steps carried forward:** D6.B/D6.C metadata surfacing and validation plus E1 structural containment checks remain active in `DOCS/INPROGRESS/next_tasks.md`, alongside the blocked real-world asset licensing track.
+
+## 142_E3_Warn_on_Unusual_Top_Level_Ordering
+- **Archived files:** `E3_Warn_on_Unusual_Top_Level_Ordering.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/`.
+- **Highlights:** Captures the advisory validation rule that flags atypical `ftyp`/`moov` ordering without blocking streaming-friendly layouts, including CLI/JSON surfacing updates and the verification log recorded in the summary of work.
+- **Next steps carried forward:** D6 sample encryption metadata surfacing, E1 parent containment validation, and the real-world asset licensing track continue in the refreshed `DOCS/INPROGRESS/next_tasks.md`.

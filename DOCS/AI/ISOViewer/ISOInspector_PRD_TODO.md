@@ -223,7 +223,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 ### Phase E — Validation
 - [ ] E1. Enforce parent containment and non-overlap. _(In Progress — context archived in `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/E1_Enforce_Parent_Containment_and_Non_Overlap.md`; next steps listed in `DOCS/INPROGRESS/next_tasks.md`.)_
 - [ ] E2. Detect zero/negative progress loops; cap nesting depth. _(In Progress — alignment with app shell wiring to surface live parser progress.)_
-- [x] E3. Warn on unusual top-level ordering (advisory). _(Completed — summary in `DOCS/INPROGRESS/Summary_of_Work.md`.)_
+- [x] E3. Warn on unusual top-level ordering (advisory). _(Completed — summary in `DOCS/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/Summary_of_Work.md`.)_
 - [ ] E4. Verify `avcC/hvcC` invariants; flag inconsistencies.
 - [ ] E5. Basic `stbl` coherence checks (counts nonzero, arrays parse).
 - [x] E6. Add streaming structural validation rules VR-001 (header sizing) and VR-002 (container closure).
