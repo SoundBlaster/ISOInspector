@@ -32,6 +32,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | B6 | Add JSON and binary export modules with regression tests. | Medium | 1.5 | B3 | Swift Codable | Exported files re-import successfully; CLI smoke tests pass. |
 
 > **In Progress:** Validation follow-up **E1 — Enforce Parent Containment and Non-Overlap** extends structural safeguards beyond VR-001/VR-002; tracked in `DOCS/INPROGRESS/E1_Enforce_Parent_Containment_and_Non_Overlap.md` for execution details.
+>
+> **Now In Progress:** Advisory validation **E3 — Warn on Unusual Top-Level Ordering** adds guidance when `ftyp`/`moov` sequences deviate from expectations, coordinating with VR-004/VR-005 history; see `DOCS/INPROGRESS/E3_Warn_on_Unusual_Top_Level_Ordering.md`.
 
 > **Completed (2025-10-20):** Backlog item **B6 — Box Parser Registry** finalized parser registration infrastructure with a placeholder payload fallback for unknown boxes. See `DOCS/TASK_ARCHIVE/132_B6_Box_Parser_Registry/Summary_of_Work.md` for implementation notes and carried-forward fixture acquisition follow-ups now tracked in `DOCS/INPROGRESS/next_tasks.md`.
 
