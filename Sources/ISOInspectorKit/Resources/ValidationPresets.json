@@ -1,0 +1,25 @@
+{
+  "presets": [
+    {
+      "id": "all-rules",
+      "name": "All Checks Enabled",
+      "summary": "Enable all validation rules shipped with ISOInspectorKit.",
+      "rules": []
+    },
+    {
+      "id": "structural",
+      "name": "Structural Focus",
+      "summary": "Prioritize structural blockers by disabling advisory ordering and research log diagnostics.",
+      "rules": [
+        {
+          "ruleID": "VR-005",
+          "isEnabled": false
+        },
+        {
+          "ruleID": "VR-006",
+          "isEnabled": false
+        }
+      ]
+    }
+  ]
+}
