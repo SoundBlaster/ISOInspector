@@ -66,9 +66,28 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                 environment.telemetryEnabled = false
             }
 
+            let presets = GlobalOptions.bundledPresets()
+            let defaultPresetID = GlobalOptions.defaultPresetID(in: presets)
+            var resolvedConfiguration = ValidationConfiguration(activePresetID: defaultPresetID)
+            var wasCustomized = false
+
+            do {
+                let result = try options.makeValidationConfiguration(
+                    presets: presets,
+                    defaultPresetID: defaultPresetID
+                )
+                resolvedConfiguration = result.configuration
+                wasCustomized = result.wasCustomized
+            } catch {
+                environment.printError("Failed to resolve validation configuration: \(error)")
+            }
+
             context.environment = environment
             context.verbosity = options.resolvedVerbosity
             context.telemetryMode = options.resolvedTelemetryMode
+            context.validationConfiguration = resolvedConfiguration
+            context.validationPresets = presets
+            context.validationConfigurationWasCustomized = wasCustomized
             ISOInspectorCommandContextStore.bootstrap(with: context)
         }
     }
@@ -111,6 +130,41 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
         )
         public var disableTelemetry: Bool = false
 
+        @Option(
+            name: .long,
+            help: ArgumentHelp(
+                ISOInspectorCommand.GlobalOptions.presetOptionHelpText(),
+                valueName: "PRESET"
+            )
+        )
+        public var preset: String?
+
+        @Flag(
+            name: .long,
+            help: "Shortcut for '--preset structural'."
+        )
+        public var structuralOnly: Bool = false
+
+        @Option(
+            name: .long,
+            parsing: .upToNextOption,
+            help: ArgumentHelp(
+                ISOInspectorCommand.GlobalOptions.ruleToggleHelpText(action: "Enable"),
+                valueName: "RULE_ID"
+            )
+        )
+        public var enableRule: [String] = []
+
+        @Option(
+            name: .long,
+            parsing: .upToNextOption,
+            help: ArgumentHelp(
+                ISOInspectorCommand.GlobalOptions.ruleToggleHelpText(action: "Disable"),
+                valueName: "RULE_ID"
+            )
+        )
+        public var disableRule: [String] = []
+
         public mutating func validate() throws {
             if quiet && verbose {
                 throw ValidationError("Specify at most one of --quiet or --verbose.")
@@ -119,6 +173,11 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
             if enableTelemetry && disableTelemetry {
                 throw ValidationError("Specify at most one telemetry toggle flag.")
             }
+
+            let presets = Self.bundledPresets()
+            let defaultPresetID = Self.defaultPresetID(in: presets)
+            _ = try resolvedPresetID(presets: presets, defaultPresetID: defaultPresetID)
+            _ = try resolvedRuleOverrides()
         }
 
         public var resolvedVerbosity: Verbosity {
@@ -144,6 +203,113 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
 
             return .enabled
         }
+
+        static func defaultPresetID(in presets: [ValidationPreset]) -> String {
+            if presets.contains(where: { $0.id == "all-rules" }) {
+                return "all-rules"
+            }
+            return presets.first?.id ?? "all-rules"
+        }
+
+        func makeValidationConfiguration(
+            presets: [ValidationPreset],
+            defaultPresetID: String
+        ) throws -> (configuration: ValidationConfiguration, wasCustomized: Bool) {
+            let (presetID, presetWasExplicit) = try resolvedPresetID(
+                presets: presets,
+                defaultPresetID: defaultPresetID
+            )
+            let overrides = try resolvedRuleOverrides()
+            var configuration = ValidationConfiguration(activePresetID: presetID)
+            for (identifier, isEnabled) in overrides {
+                configuration.ruleOverrides[identifier] = isEnabled
+            }
+            let wasCustomized = presetWasExplicit || !overrides.isEmpty
+            return (configuration, wasCustomized)
+        }
+
+        static func bundledPresets() -> [ValidationPreset] {
+            (try? ValidationPreset.loadBundledPresets()) ?? []
+        }
+
+        private static func presetOptionHelpText() -> String {
+            let presets = bundledPresets()
+            guard !presets.isEmpty else {
+                return "Select a validation preset identifier to configure rule defaults."
+            }
+            let listings = presets.map { "\($0.id) — \($0.summary)" }
+            let aliases = "structural-only → structural"
+            return "Select a validation preset identifier (aliases: \(aliases)). Available presets: \(listings.joined(separator: "; "))."
+        }
+
+        private static func ruleToggleHelpText(action: String) -> String {
+            let identifiers = ValidationRuleIdentifier.allCases
+                .map(\.rawValue)
+                .sorted()
+            return "\(action) specific validation rule identifiers for this run. Known IDs: \(identifiers.joined(separator: ", "))."
+        }
+
+        private func resolvedPresetID(
+            presets: [ValidationPreset],
+            defaultPresetID: String
+        ) throws -> (String, Bool) {
+            var selections: Set<String> = []
+            var wasExplicit = false
+            if let preset, !preset.isEmpty {
+                selections.insert(preset)
+                wasExplicit = true
+            }
+            for alias in selectedAliasPresetIDs() {
+                selections.insert(alias)
+                wasExplicit = true
+            }
+
+            if selections.count > 1 {
+                throw ValidationError("Specify at most one validation preset selector.")
+            }
+
+            let selectedID = selections.first ?? defaultPresetID
+            if !presets.contains(where: { $0.id == selectedID }) {
+                throw ValidationError("Unknown validation preset: \(selectedID)")
+            }
+            return (selectedID, wasExplicit)
+        }
+
+        private func resolvedRuleOverrides() throws -> [ValidationRuleIdentifier: Bool] {
+            let mapping = Dictionary(uniqueKeysWithValues: ValidationRuleIdentifier.allCases.map { ($0.rawValue, $0) })
+            var overrides: [ValidationRuleIdentifier: Bool] = [:]
+
+            for id in enableRule {
+                guard let identifier = mapping[id] else {
+                    throw ValidationError("Unknown validation rule identifier: \(id)")
+                }
+                if let existing = overrides[identifier], existing == false {
+                    throw ValidationError("Validation rule \(id) cannot be both enabled and disabled.")
+                }
+                overrides[identifier] = true
+            }
+
+            for id in disableRule {
+                guard let identifier = mapping[id] else {
+                    throw ValidationError("Unknown validation rule identifier: \(id)")
+                }
+                if let existing = overrides[identifier], existing == true {
+                    throw ValidationError("Validation rule \(id) cannot be both enabled and disabled.")
+                }
+                overrides[identifier] = false
+            }
+
+            return overrides
+        }
+
+        private func selectedAliasPresetIDs() -> [String] {
+            var ids: [String] = []
+            if structuralOnly {
+                ids.append("structural")
+            }
+            return ids
+        }
+
     }
 
     public enum Commands {
@@ -175,12 +341,23 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                     researchLogURL = environment.defaultResearchLogURL()
                 }
 
+                let metadata = ISOInspectorCommand.validationMetadata(
+                    configuration: context.validationConfiguration,
+                    presets: context.validationPresets
+                )
+                let disabledRuleIDs = Set(metadata.disabledRuleIDs)
+
                 do {
                     let reader = try environment.makeReader(fileURL)
                     let researchLog = try environment.makeResearchLogWriter(researchLogURL)
                     environment.print("Research log → \(researchLogURL.path)")
                     environment.print(
                         "VR-006 schema v\(ResearchLogSchema.version): \(ResearchLogSchema.fieldNames.joined(separator: ", "))"
+                    )
+                    ISOInspectorCommand.printValidationMetadataIfNeeded(
+                        metadata: metadata,
+                        wasCustomized: context.validationConfigurationWasCustomized,
+                        using: environment
                     )
 
                     let events = environment.parsePipeline.events(
@@ -190,7 +367,11 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
 
                     do {
                         for try await event in events {
-                            environment.print(environment.formatter.format(event))
+                            let filtered = ISOInspectorCommand.filteredEvent(
+                                event,
+                                removing: disabledRuleIDs
+                            )
+                            environment.print(environment.formatter.format(filtered))
                         }
                     } catch {
                         environment.printError("Failed to inspect file: \(error)")
@@ -219,6 +400,12 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                 let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
                 let fileURL = URL(fileURLWithPath: file, relativeTo: cwd).standardizedFileURL
 
+                let metadata = ISOInspectorCommand.validationMetadata(
+                    configuration: context.validationConfiguration,
+                    presets: context.validationPresets
+                )
+                let disabledRuleIDs = Set(metadata.disabledRuleIDs)
+
                 do {
                     let reader = try environment.makeReader(fileURL)
                     let events = environment.parsePipeline.events(
@@ -226,12 +413,22 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                         context: .init(source: fileURL)
                     )
 
+                    ISOInspectorCommand.printValidationMetadataIfNeeded(
+                        metadata: metadata,
+                        wasCustomized: context.validationConfigurationWasCustomized,
+                        using: environment
+                    )
+
                     var counts: [ValidationIssue.Severity: Int] = [:]
                     var details: [ValidationIssue.Severity: [String]] = [:]
 
                     do {
                         for try await event in events {
-                            for issue in event.validationIssues {
+                            let filtered = ISOInspectorCommand.filteredEvent(
+                                event,
+                                removing: disabledRuleIDs
+                            )
+                            for issue in filtered.validationIssues {
                                 counts[issue.severity, default: 0] += 1
                                 details[issue.severity, default: []].append("\(issue.ruleID): \(issue.message)")
                             }
@@ -383,6 +580,12 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                 let context = await MainActor.run { ISOInspectorCommandContextStore.current }
                 let environment = context.environment
 
+                let metadata = ISOInspectorCommand.validationMetadata(
+                    configuration: context.validationConfiguration,
+                    presets: context.validationPresets
+                )
+                let disabledRuleIDs = Set(metadata.disabledRuleIDs)
+
                 do {
                     try validateOutputPath(outputURL)
 
@@ -397,8 +600,12 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
 
                     do {
                         for try await event in events {
-                            builder.consume(event)
-                            captured.append(event)
+                            let filtered = ISOInspectorCommand.filteredEvent(
+                                event,
+                                removing: disabledRuleIDs
+                            )
+                            builder.consume(filtered)
+                            captured.append(filtered)
                         }
                     } catch {
                         environment.printError(mode.failurePrefix + "\(error)")
@@ -408,13 +615,21 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                     let data: Data
                     switch mode {
                     case .json:
-                        let tree = builder.makeTree()
+                        var tree = builder.makeTree()
+                        if context.validationConfigurationWasCustomized {
+                            tree.validationMetadata = metadata
+                        }
                         data = try JSONParseTreeExporter().export(tree: tree)
                     case .capture:
                         data = try ParseEventCaptureEncoder().encode(events: captured)
                     }
 
                     try data.write(to: outputURL, options: .atomic)
+                    ISOInspectorCommand.printValidationMetadataIfNeeded(
+                        metadata: metadata,
+                        wasCustomized: context.validationConfigurationWasCustomized,
+                        using: environment
+                    )
                     environment.print(mode.successMessage + outputURL.path)
                 } catch let executionError as ExecutionError {
                     environment.printError(executionError.message)
@@ -470,6 +685,12 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                 let resolver = InputResolver(fileManager: .default)
                 let resolution = resolver.resolve(inputs: inputs, relativeTo: cwd)
 
+                let metadata = ISOInspectorCommand.validationMetadata(
+                    configuration: context.validationConfiguration,
+                    presets: context.validationPresets
+                )
+                let disabledRuleIDs = Set(metadata.disabledRuleIDs)
+
                 switch resolution {
                 case .failure(let error):
                     environment.printError(error.message)
@@ -502,11 +723,15 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
 
                             do {
                                 for try await event in events {
-                                    if case .willStartBox = event.kind {
+                                    let filtered = ISOInspectorCommand.filteredEvent(
+                                        event,
+                                        removing: disabledRuleIDs
+                                    )
+                                    if case .willStartBox = filtered.kind {
                                         boxCount += 1
                                     }
 
-                                    for issue in event.validationIssues {
+                                    for issue in filtered.validationIssues {
                                         severityCounts[issue.severity, default: 0] += 1
                                     }
                                 }
@@ -559,6 +784,11 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                     }
 
                     let summary = builder.build()
+                    ISOInspectorCommand.printValidationMetadataIfNeeded(
+                        metadata: metadata,
+                        wasCustomized: context.validationConfigurationWasCustomized,
+                        using: environment
+                    )
                     environment.print("Batch validation summary")
                     for line in summary.formattedLines() {
                         environment.print(line)
@@ -736,6 +966,49 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
 #endif
                 }
             }
+        }
+    }
+}
+
+private extension ISOInspectorCommand {
+    static func validationMetadata(
+        configuration: ValidationConfiguration,
+        presets: [ValidationPreset]
+    ) -> ValidationMetadata {
+        let disabled = ValidationRuleIdentifier.allCases
+            .filter { !configuration.isRuleEnabled($0, presets: presets) }
+            .map(\.rawValue)
+            .sorted()
+        return ValidationMetadata(activePresetID: configuration.activePresetID, disabledRuleIDs: disabled)
+    }
+
+    static func filteredEvent(
+        _ event: ParseEvent,
+        removing disabledRuleIDs: Set<String>
+    ) -> ParseEvent {
+        guard !event.validationIssues.isEmpty, !disabledRuleIDs.isEmpty else { return event }
+        let filtered = event.validationIssues.filter { !disabledRuleIDs.contains($0.ruleID) }
+        if filtered.count == event.validationIssues.count {
+            return event
+        }
+        return ParseEvent(
+            kind: event.kind,
+            offset: event.offset,
+            metadata: event.metadata,
+            payload: event.payload,
+            validationIssues: filtered
+        )
+    }
+
+    static func printValidationMetadataIfNeeded(
+        metadata: ValidationMetadata,
+        wasCustomized: Bool,
+        using environment: ISOInspectorCLIEnvironment
+    ) {
+        guard wasCustomized else { return }
+        environment.print("Validation preset: \(metadata.activePresetID)")
+        if !metadata.disabledRuleIDs.isEmpty {
+            environment.print("Disabled rules: \(metadata.disabledRuleIDs.joined(separator: ", "))")
         }
     }
 }

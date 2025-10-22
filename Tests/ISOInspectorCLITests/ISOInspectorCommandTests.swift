@@ -176,6 +176,50 @@ final class ISOInspectorCommandTests: XCTestCase {
         }
     }
 
+    func testGlobalOptionsResolvesValidationConfigurationFromPresetAliasAndOverrides() throws {
+        let options = try ISOInspectorCommand.GlobalOptions.parse([
+            "--structural-only",
+            "--disable-rule", "VR-006",
+            "--enable-rule", "VR-001"
+        ])
+
+        let presets = try ValidationPreset.loadBundledPresets()
+        let defaultPresetID = ISOInspectorCommand.GlobalOptions.defaultPresetID(in: presets)
+        let result = try options.makeValidationConfiguration(
+            presets: presets,
+            defaultPresetID: defaultPresetID
+        )
+
+        XCTAssertEqual(result.configuration.activePresetID, "structural")
+        XCTAssertEqual(
+            result.configuration.ruleOverrides[ValidationRuleIdentifier.researchLogRecording],
+            false
+        )
+        XCTAssertEqual(
+            result.configuration.ruleOverrides[ValidationRuleIdentifier.structuralSize],
+            true
+        )
+        XCTAssertTrue(result.wasCustomized)
+    }
+
+    func testGlobalOptionsRejectsUnknownRuleIdentifiers() {
+        XCTAssertThrowsError(try ISOInspectorCommand.GlobalOptions.parse([
+            "--disable-rule", "VR-999"
+        ])) { error in
+            XCTAssertTrue(String(describing: error).contains("VR-999"))
+        }
+    }
+
+    func testGlobalOptionsRejectsConflictingPresetSelections() {
+        XCTAssertThrowsError(try ISOInspectorCommand.GlobalOptions.parse([
+            "--preset", "all-rules",
+            "--structural-only"
+        ])) { error in
+            let description = String(describing: error)
+            XCTAssertTrue(description.localizedCaseInsensitiveContains("preset"))
+        }
+    }
+
     func testInspectCommandStreamsEventsAndRespectsResearchLogOption() async throws {
         final class Recorder: ResearchLogRecording, @unchecked Sendable {
             var entries: [ResearchLogEntry] = []
@@ -245,6 +289,98 @@ final class ISOInspectorCommandTests: XCTestCase {
         XCTAssertTrue(printed.value.first?.contains("Research log") ?? false)
         XCTAssertTrue(printed.value.contains(where: { $0.contains("VR-006 schema v") }))
         XCTAssertTrue(printed.value.contains(where: { $0.contains(descriptor.summary) }))
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+        }
+    }
+
+    func testValidateCommandFiltersDisabledRulesAndPrintsPresetMetadata() async throws {
+        let header = try makeHeader(type: "ftyp", size: 24)
+        let descriptor = try XCTUnwrap(BoxCatalog.shared.descriptor(for: header))
+        let disabledIssue = ValidationIssue(
+            ruleID: ValidationRuleIdentifier.researchLogRecording.rawValue,
+            message: "Research log advisory",
+            severity: .info
+        )
+        let errorIssue = ValidationIssue(
+            ruleID: ValidationRuleIdentifier.structuralSize.rawValue,
+            message: "Size mismatch",
+            severity: .error
+        )
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            metadata: descriptor,
+            validationIssues: [disabledIssue, errorIssue]
+        )
+
+        let printed = MutableBox<[String]>([])
+        let errors = MutableBox<[String]>([])
+
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { _ in StubReader() },
+            parsePipeline: ParsePipeline(buildStream: { _, _ in
+                AsyncThrowingStream { continuation in
+                    continuation.yield(event)
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { errors.value.append($0) }
+        )
+
+        let presets = [
+            ValidationPreset(id: "all-rules", name: "All", summary: ""),
+            ValidationPreset(
+                id: "structural",
+                name: "Structural Focus",
+                summary: "",
+                rules: [
+                    ValidationPreset.RuleState(
+                        ruleID: .movieDataOrdering,
+                        isEnabled: false
+                    ),
+                    ValidationPreset.RuleState(
+                        ruleID: .researchLogRecording,
+                        isEnabled: false
+                    )
+                ]
+            )
+        ]
+
+        let configuration = ValidationConfiguration(activePresetID: "structural")
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.bootstrap(
+                with: .init(
+                    environment: environment,
+                    validationConfiguration: configuration,
+                    validationPresets: presets,
+                    validationConfigurationWasCustomized: true
+                )
+            )
+        }
+
+        var command = try ISOInspectorCommand.Commands.Validate.parse([
+            "/tmp/sample.mp4"
+        ])
+
+        do {
+            try await command.run()
+            XCTFail("Expected ExitCode to be thrown")
+        } catch let exit as ExitCode {
+            XCTAssertEqual(exit.rawValue, 2)
+        }
+
+        XCTAssertTrue(errors.value.isEmpty)
+        XCTAssertTrue(printed.value.contains("Validation preset: structural"))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("VR-005") }))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("VR-006") }))
+        XCTAssertTrue(printed.value.contains(where: { $0.contains("Errors: 1") }))
+        XCTAssertFalse(printed.value.contains(where: { $0.contains("Info: 1") }))
 
         await MainActor.run {
             ISOInspectorCommandContextStore.reset()
