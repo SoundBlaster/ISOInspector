@@ -395,13 +395,24 @@ final class ParsePipelineLiveTests: XCTestCase {
 
     func testSampleTableValidationPassesForMatchingTables() async throws {
         let tkhd = makeTrackHeaderBox(trackID: 5, duration: 900, width: 0, height: 0)
+        let stts = makeTimeToSampleBox(entries: [
+            TimeToSampleEntryParameters(sampleCount: 3, sampleDelta: 300),
+            TimeToSampleEntryParameters(sampleCount: 5, sampleDelta: 300)
+        ])
+        let ctts = makeCompositionOffsetBox(entries: [
+            CompositionOffsetEntryParameters(sampleCount: 3, sampleOffset: 0),
+            CompositionOffsetEntryParameters(sampleCount: 5, sampleOffset: 0)
+        ])
         let stsc = makeSampleToChunkBox(entries: [
             SampleToChunkEntryParameters(firstChunk: 1, samplesPerChunk: 2, sampleDescriptionIndex: 1),
             SampleToChunkEntryParameters(firstChunk: 3, samplesPerChunk: 4, sampleDescriptionIndex: 1)
         ])
         let stsz = makeSampleSizeBox(defaultSampleSize: 128, sampleCount: 8)
         let stco = makeChunkOffsetBox(offsets: [100, 200, 320])
-        let stbl = makeContainer(type: FourCharContainerCode.stbl.rawValue, children: [stsc, stsz, stco])
+        let stbl = makeContainer(
+            type: FourCharContainerCode.stbl.rawValue,
+            children: [stts, ctts, stsc, stsz, stco]
+        )
         let minf = makeContainer(type: FourCharContainerCode.minf.rawValue, children: [stbl])
         let mdia = makeContainer(type: ContainerTypes.media, children: [minf])
         let trak = makeContainer(type: ContainerTypes.track, children: [tkhd, mdia])
@@ -478,6 +489,148 @@ final class ParsePipelineLiveTests: XCTestCase {
         let issues = chunkOffsetEvent.validationIssues.filter { $0.ruleID == "VR-015" }
         XCTAssertEqual(issues.count, 1)
         XCTAssertTrue(issues.contains { $0.message.contains("non-monotonic") })
+    }
+
+    func testSampleTableValidationReportsTimeToSampleMismatch() async throws {
+        let tkhd = makeTrackHeaderBox(trackID: 8, duration: 900, width: 0, height: 0)
+        let stts = makeTimeToSampleBox(entries: [
+            TimeToSampleEntryParameters(sampleCount: 3, sampleDelta: 200),
+            TimeToSampleEntryParameters(sampleCount: 4, sampleDelta: 200)
+        ])
+        let stsc = makeSampleToChunkBox(entries: [
+            SampleToChunkEntryParameters(firstChunk: 1, samplesPerChunk: 2, sampleDescriptionIndex: 1),
+            SampleToChunkEntryParameters(firstChunk: 3, samplesPerChunk: 4, sampleDescriptionIndex: 1)
+        ])
+        let stsz = makeSampleSizeBox(defaultSampleSize: 160, sampleCount: 8)
+        let stco = makeChunkOffsetBox(offsets: [96, 256, 448])
+        let stbl = makeContainer(type: FourCharContainerCode.stbl.rawValue, children: [stts, stsc, stsz, stco])
+        let minf = makeContainer(type: FourCharContainerCode.minf.rawValue, children: [stbl])
+        let mdia = makeContainer(type: ContainerTypes.media, children: [minf])
+        let trak = makeContainer(type: ContainerTypes.track, children: [tkhd, mdia])
+        let moov = makeContainer(type: ContainerTypes.movie, children: [trak])
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let sampleSizeEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "stsz"
+            }
+            return false
+        })
+
+        let issues = sampleSizeEvent.validationIssues.filter { $0.ruleID == "VR-015" }
+        XCTAssertFalse(issues.isEmpty)
+        XCTAssertTrue(issues.contains { issue in
+            issue.message.contains("time-to-sample table")
+        })
+    }
+
+    func testSampleTableValidationReportsCompositionOffsetMismatch() async throws {
+        let tkhd = makeTrackHeaderBox(trackID: 9, duration: 900, width: 0, height: 0)
+        let stts = makeTimeToSampleBox(entries: [
+            TimeToSampleEntryParameters(sampleCount: 4, sampleDelta: 300),
+            TimeToSampleEntryParameters(sampleCount: 4, sampleDelta: 300)
+        ])
+        let ctts = makeCompositionOffsetBox(entries: [
+            CompositionOffsetEntryParameters(sampleCount: 4, sampleOffset: 0),
+            CompositionOffsetEntryParameters(sampleCount: 5, sampleOffset: 0)
+        ])
+        let stsc = makeSampleToChunkBox(entries: [
+            SampleToChunkEntryParameters(firstChunk: 1, samplesPerChunk: 2, sampleDescriptionIndex: 1),
+            SampleToChunkEntryParameters(firstChunk: 3, samplesPerChunk: 4, sampleDescriptionIndex: 1)
+        ])
+        let stsz = makeSampleSizeBox(defaultSampleSize: 256, sampleCount: 8)
+        let stco = makeChunkOffsetBox(offsets: [128, 320, 512])
+        let stbl = makeContainer(type: FourCharContainerCode.stbl.rawValue, children: [stts, ctts, stsc, stsz, stco])
+        let minf = makeContainer(type: FourCharContainerCode.minf.rawValue, children: [stbl])
+        let mdia = makeContainer(type: ContainerTypes.media, children: [minf])
+        let trak = makeContainer(type: ContainerTypes.track, children: [tkhd, mdia])
+        let moov = makeContainer(type: ContainerTypes.movie, children: [trak])
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let sampleSizeEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "stsz"
+            }
+            return false
+        })
+
+        let stszIssues = sampleSizeEvent.validationIssues.filter { $0.ruleID == "VR-015" }
+        XCTAssertFalse(stszIssues.isEmpty)
+        XCTAssertTrue(stszIssues.contains { issue in
+            issue.message.contains("composition offset table")
+        })
+
+        let cttsEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "ctts"
+            }
+            return false
+        })
+
+        let cttsIssues = cttsEvent.validationIssues.filter { $0.ruleID == "VR-015" }
+        XCTAssertFalse(cttsIssues.isEmpty)
+        XCTAssertTrue(cttsIssues.contains { issue in
+            issue.message.contains("composition offset table")
+        })
+    }
+
+    func testSampleTableValidationReportsTimeToSampleAndCompositionMismatch() async throws {
+        let tkhd = makeTrackHeaderBox(trackID: 10, duration: 900, width: 0, height: 0)
+        let stts = makeTimeToSampleBox(entries: [
+            TimeToSampleEntryParameters(sampleCount: 5, sampleDelta: 250),
+            TimeToSampleEntryParameters(sampleCount: 3, sampleDelta: 250)
+        ])
+        let ctts = makeCompositionOffsetBox(entries: [
+            CompositionOffsetEntryParameters(sampleCount: 4, sampleOffset: 0),
+            CompositionOffsetEntryParameters(sampleCount: 5, sampleOffset: 0)
+        ])
+        let stsc = makeSampleToChunkBox(entries: [
+            SampleToChunkEntryParameters(firstChunk: 1, samplesPerChunk: 2, sampleDescriptionIndex: 1),
+            SampleToChunkEntryParameters(firstChunk: 3, samplesPerChunk: 4, sampleDescriptionIndex: 1)
+        ])
+        let stsz = makeSampleSizeBox(defaultSampleSize: 192, sampleCount: 8)
+        let stco = makeChunkOffsetBox(offsets: [96, 256, 448])
+        let stbl = makeContainer(type: FourCharContainerCode.stbl.rawValue, children: [stts, ctts, stsc, stsz, stco])
+        let minf = makeContainer(type: FourCharContainerCode.minf.rawValue, children: [stbl])
+        let mdia = makeContainer(type: ContainerTypes.media, children: [minf])
+        let trak = makeContainer(type: ContainerTypes.track, children: [tkhd, mdia])
+        let moov = makeContainer(type: ContainerTypes.movie, children: [trak])
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let sampleSizeEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "stsz"
+            }
+            return false
+        })
+
+        let stszIssues = sampleSizeEvent.validationIssues.filter { $0.ruleID == "VR-015" }
+        XCTAssertFalse(stszIssues.isEmpty)
+        XCTAssertTrue(stszIssues.contains { issue in
+            issue.message.contains("composition offset table")
+        })
+
+        let cttsEvent = try XCTUnwrap(events.first { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "ctts"
+            }
+            return false
+        })
+
+        let cttsIssues = cttsEvent.validationIssues.filter { $0.ruleID == "VR-015" }
+        XCTAssertFalse(cttsIssues.isEmpty)
+        XCTAssertTrue(cttsIssues.contains { issue in
+            issue.message.contains("composition offset table")
+        })
     }
 
     func testLivePipelineReportsVersionAndFlagMismatchWarnings() async throws {
@@ -1161,6 +1314,16 @@ final class ParsePipelineLiveTests: XCTestCase {
         let sampleDescriptionIndex: UInt32
     }
 
+    private struct TimeToSampleEntryParameters {
+        let sampleCount: UInt32
+        let sampleDelta: UInt32
+    }
+
+    private struct CompositionOffsetEntryParameters {
+        let sampleCount: UInt32
+        let sampleOffset: Int32
+    }
+
     private func makeSampleToChunkBox(entries: [SampleToChunkEntryParameters]) -> Data {
         var payload = Data()
         payload.append(0x00) // version
@@ -1172,6 +1335,38 @@ final class ParsePipelineLiveTests: XCTestCase {
             payload.append(contentsOf: entry.sampleDescriptionIndex.bigEndianBytes)
         }
         return makeBox(type: "stsc", payload: payload)
+    }
+
+    private func makeTimeToSampleBox(entries: [TimeToSampleEntryParameters]) -> Data {
+        var payload = Data()
+        payload.append(0x00) // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(entries.count).bigEndianBytes)
+        for entry in entries {
+            payload.append(contentsOf: entry.sampleCount.bigEndianBytes)
+            payload.append(contentsOf: entry.sampleDelta.bigEndianBytes)
+        }
+        return makeBox(type: "stts", payload: payload)
+    }
+
+    private func makeCompositionOffsetBox(
+        version: UInt8 = 0,
+        entries: [CompositionOffsetEntryParameters]
+    ) -> Data {
+        var payload = Data()
+        payload.append(version)
+        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(contentsOf: UInt32(entries.count).bigEndianBytes)
+        for entry in entries {
+            payload.append(contentsOf: entry.sampleCount.bigEndianBytes)
+            if version == 0 {
+                precondition(entry.sampleOffset >= 0, "Version 0 offsets must be non-negative")
+                payload.append(contentsOf: UInt32(entry.sampleOffset).bigEndianBytes)
+            } else {
+                payload.append(contentsOf: entry.sampleOffset.bigEndianBytes)
+            }
+        }
+        return makeBox(type: "ctts", payload: payload)
     }
 
     private func makeSampleSizeBox(

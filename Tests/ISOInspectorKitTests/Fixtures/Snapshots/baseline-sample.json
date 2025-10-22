@@ -1198,29 +1198,73 @@
                           },
                           "payload" : [
                             {
-                              "name" : "parser",
-                              "summary" : "No parser registered for this box type; returning placeholder metadata.",
-                              "value" : "placeholder"
+                              "byteRange" : {
+                                "end" : 532,
+                                "start" : 531
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
                             },
                             {
-                              "name" : "payload_length",
-                              "summary" : "Number of bytes in the box payload.",
-                              "value" : "16"
+                              "byteRange" : {
+                                "end" : 535,
+                                "start" : 532
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 539,
+                                "start" : 535
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of decoding time entries",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 543,
+                                "start" : 539
+                              },
+                              "name" : "entries[0].sample_count",
+                              "summary" : "Number of consecutive samples using this delta",
+                              "value" : "119"
                             },
                             {
                               "byteRange" : {
                                 "end" : 547,
-                                "start" : 531
+                                "start" : 543
                               },
-                              "name" : "payload_range",
-                              "summary" : "Byte range of the payload relative to the file start.",
-                              "value" : "531..<547"
+                              "name" : "entries[0].sample_delta",
+                              "summary" : "Decode time delta applied to each sample",
+                              "value" : "1024"
                             }
                           ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 16,
                             "total" : 24
+                          },
+                          "structured" : {
+                            "time_to_sample" : {
+                              "entries" : [
+                                {
+                                  "byte_range" : {
+                                    "end" : 547,
+                                    "start" : 539
+                                  },
+                                  "index" : 0,
+                                  "sample_count" : 119,
+                                  "sample_delta" : 1024
+                                }
+                              ],
+                              "entry_count" : 1,
+                              "flags" : 0,
+                              "version" : 0
+                            }
                           },
                           "validationIssues" : [
 
@@ -1244,29 +1288,100 @@
                           },
                           "payload" : [
                             {
-                              "name" : "parser",
-                              "summary" : "No parser registered for this box type; returning placeholder metadata.",
-                              "value" : "placeholder"
+                              "byteRange" : {
+                                "end" : 556,
+                                "start" : 555
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
                             },
                             {
-                              "name" : "payload_length",
-                              "summary" : "Number of bytes in the box payload.",
-                              "value" : "24"
+                              "byteRange" : {
+                                "end" : 559,
+                                "start" : 556
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 563,
+                                "start" : 559
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of composition offset entries",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 567,
+                                "start" : 563
+                              },
+                              "name" : "entries[0].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 571,
+                                "start" : 567
+                              },
+                              "name" : "entries[0].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "1024"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 575,
+                                "start" : 571
+                              },
+                              "name" : "entries[1].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "118"
                             },
                             {
                               "byteRange" : {
                                 "end" : 579,
-                                "start" : 555
+                                "start" : 575
                               },
-                              "name" : "payload_range",
-                              "summary" : "Byte range of the payload relative to the file start.",
-                              "value" : "555..<579"
+                              "name" : "entries[1].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
                             }
                           ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 24,
                             "total" : 32
+                          },
+                          "structured" : {
+                            "composition_offset" : {
+                              "entries" : [
+                                {
+                                  "byte_range" : {
+                                    "end" : 571,
+                                    "start" : 563
+                                  },
+                                  "index" : 0,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 1024
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 579,
+                                    "start" : 571
+                                  },
+                                  "index" : 1,
+                                  "sample_count" : 118,
+                                  "sample_offset" : 0
+                                }
+                              ],
+                              "entry_count" : 2,
+                              "flags" : 0,
+                              "version" : 0
+                            }
                           },
                           "validationIssues" : [
 
@@ -5819,29 +5934,73 @@
                           },
                           "payload" : [
                             {
-                              "name" : "parser",
-                              "summary" : "No parser registered for this box type; returning placeholder metadata.",
-                              "value" : "placeholder"
+                              "byteRange" : {
+                                "end" : 1991,
+                                "start" : 1990
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
                             },
                             {
-                              "name" : "payload_length",
-                              "summary" : "Number of bytes in the box payload.",
-                              "value" : "16"
+                              "byteRange" : {
+                                "end" : 1994,
+                                "start" : 1991
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 1998,
+                                "start" : 1994
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of decoding time entries",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2002,
+                                "start" : 1998
+                              },
+                              "name" : "entries[0].sample_count",
+                              "summary" : "Number of consecutive samples using this delta",
+                              "value" : "82"
                             },
                             {
                               "byteRange" : {
                                 "end" : 2006,
-                                "start" : 1990
+                                "start" : 2002
                               },
-                              "name" : "payload_range",
-                              "summary" : "Byte range of the payload relative to the file start.",
-                              "value" : "1990..<2006"
+                              "name" : "entries[0].sample_delta",
+                              "summary" : "Decode time delta applied to each sample",
+                              "value" : "1001"
                             }
                           ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 16,
                             "total" : 24
+                          },
+                          "structured" : {
+                            "time_to_sample" : {
+                              "entries" : [
+                                {
+                                  "byte_range" : {
+                                    "end" : 2006,
+                                    "start" : 1998
+                                  },
+                                  "index" : 0,
+                                  "sample_count" : 82,
+                                  "sample_delta" : 1001
+                                }
+                              ],
+                              "entry_count" : 1,
+                              "flags" : 0,
+                              "version" : 0
+                            }
                           },
                           "validationIssues" : [
 
@@ -5865,29 +6024,2098 @@
                           },
                           "payload" : [
                             {
-                              "name" : "parser",
-                              "summary" : "No parser registered for this box type; returning placeholder metadata.",
-                              "value" : "placeholder"
+                              "byteRange" : {
+                                "end" : 2015,
+                                "start" : 2014
+                              },
+                              "name" : "version",
+                              "summary" : "Structure version",
+                              "value" : "0"
                             },
                             {
-                              "name" : "payload_length",
-                              "summary" : "Number of bytes in the box payload.",
-                              "value" : "616"
+                              "byteRange" : {
+                                "end" : 2018,
+                                "start" : 2015
+                              },
+                              "name" : "flags",
+                              "summary" : "Bit flags",
+                              "value" : "0x000000"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2022,
+                                "start" : 2018
+                              },
+                              "name" : "entry_count",
+                              "summary" : "Number of composition offset entries",
+                              "value" : "76"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2026,
+                                "start" : 2022
+                              },
+                              "name" : "entries[0].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2030,
+                                "start" : 2026
+                              },
+                              "name" : "entries[0].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "1001"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2034,
+                                "start" : 2030
+                              },
+                              "name" : "entries[1].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2038,
+                                "start" : 2034
+                              },
+                              "name" : "entries[1].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2042,
+                                "start" : 2038
+                              },
+                              "name" : "entries[2].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2046,
+                                "start" : 2042
+                              },
+                              "name" : "entries[2].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2050,
+                                "start" : 2046
+                              },
+                              "name" : "entries[3].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2054,
+                                "start" : 2050
+                              },
+                              "name" : "entries[3].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2058,
+                                "start" : 2054
+                              },
+                              "name" : "entries[4].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2062,
+                                "start" : 2058
+                              },
+                              "name" : "entries[4].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2066,
+                                "start" : 2062
+                              },
+                              "name" : "entries[5].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2070,
+                                "start" : 2066
+                              },
+                              "name" : "entries[5].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2074,
+                                "start" : 2070
+                              },
+                              "name" : "entries[6].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2078,
+                                "start" : 2074
+                              },
+                              "name" : "entries[6].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2082,
+                                "start" : 2078
+                              },
+                              "name" : "entries[7].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2086,
+                                "start" : 2082
+                              },
+                              "name" : "entries[7].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "3003"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2090,
+                                "start" : 2086
+                              },
+                              "name" : "entries[8].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2094,
+                                "start" : 2090
+                              },
+                              "name" : "entries[8].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2098,
+                                "start" : 2094
+                              },
+                              "name" : "entries[9].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2102,
+                                "start" : 2098
+                              },
+                              "name" : "entries[9].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "3003"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2106,
+                                "start" : 2102
+                              },
+                              "name" : "entries[10].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2110,
+                                "start" : 2106
+                              },
+                              "name" : "entries[10].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2114,
+                                "start" : 2110
+                              },
+                              "name" : "entries[11].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2118,
+                                "start" : 2114
+                              },
+                              "name" : "entries[11].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "3003"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2122,
+                                "start" : 2118
+                              },
+                              "name" : "entries[12].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2126,
+                                "start" : 2122
+                              },
+                              "name" : "entries[12].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2130,
+                                "start" : 2126
+                              },
+                              "name" : "entries[13].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2134,
+                                "start" : 2130
+                              },
+                              "name" : "entries[13].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "3003"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2138,
+                                "start" : 2134
+                              },
+                              "name" : "entries[14].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2142,
+                                "start" : 2138
+                              },
+                              "name" : "entries[14].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2146,
+                                "start" : 2142
+                              },
+                              "name" : "entries[15].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2150,
+                                "start" : 2146
+                              },
+                              "name" : "entries[15].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "3003"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2154,
+                                "start" : 2150
+                              },
+                              "name" : "entries[16].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2158,
+                                "start" : 2154
+                              },
+                              "name" : "entries[16].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2162,
+                                "start" : 2158
+                              },
+                              "name" : "entries[17].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2166,
+                                "start" : 2162
+                              },
+                              "name" : "entries[17].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "3003"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2170,
+                                "start" : 2166
+                              },
+                              "name" : "entries[18].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "2"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2174,
+                                "start" : 2170
+                              },
+                              "name" : "entries[18].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2178,
+                                "start" : 2174
+                              },
+                              "name" : "entries[19].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2182,
+                                "start" : 2178
+                              },
+                              "name" : "entries[19].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2186,
+                                "start" : 2182
+                              },
+                              "name" : "entries[20].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2190,
+                                "start" : 2186
+                              },
+                              "name" : "entries[20].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2194,
+                                "start" : 2190
+                              },
+                              "name" : "entries[21].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2198,
+                                "start" : 2194
+                              },
+                              "name" : "entries[21].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2202,
+                                "start" : 2198
+                              },
+                              "name" : "entries[22].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2206,
+                                "start" : 2202
+                              },
+                              "name" : "entries[22].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2210,
+                                "start" : 2206
+                              },
+                              "name" : "entries[23].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2214,
+                                "start" : 2210
+                              },
+                              "name" : "entries[23].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2218,
+                                "start" : 2214
+                              },
+                              "name" : "entries[24].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2222,
+                                "start" : 2218
+                              },
+                              "name" : "entries[24].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2226,
+                                "start" : 2222
+                              },
+                              "name" : "entries[25].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2230,
+                                "start" : 2226
+                              },
+                              "name" : "entries[25].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2234,
+                                "start" : 2230
+                              },
+                              "name" : "entries[26].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2238,
+                                "start" : 2234
+                              },
+                              "name" : "entries[26].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2242,
+                                "start" : 2238
+                              },
+                              "name" : "entries[27].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2246,
+                                "start" : 2242
+                              },
+                              "name" : "entries[27].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2250,
+                                "start" : 2246
+                              },
+                              "name" : "entries[28].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2254,
+                                "start" : 2250
+                              },
+                              "name" : "entries[28].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2258,
+                                "start" : 2254
+                              },
+                              "name" : "entries[29].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2262,
+                                "start" : 2258
+                              },
+                              "name" : "entries[29].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2266,
+                                "start" : 2262
+                              },
+                              "name" : "entries[30].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2270,
+                                "start" : 2266
+                              },
+                              "name" : "entries[30].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2274,
+                                "start" : 2270
+                              },
+                              "name" : "entries[31].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2278,
+                                "start" : 2274
+                              },
+                              "name" : "entries[31].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2282,
+                                "start" : 2278
+                              },
+                              "name" : "entries[32].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2286,
+                                "start" : 2282
+                              },
+                              "name" : "entries[32].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2290,
+                                "start" : 2286
+                              },
+                              "name" : "entries[33].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2294,
+                                "start" : 2290
+                              },
+                              "name" : "entries[33].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2298,
+                                "start" : 2294
+                              },
+                              "name" : "entries[34].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2302,
+                                "start" : 2298
+                              },
+                              "name" : "entries[34].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2306,
+                                "start" : 2302
+                              },
+                              "name" : "entries[35].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2310,
+                                "start" : 2306
+                              },
+                              "name" : "entries[35].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2314,
+                                "start" : 2310
+                              },
+                              "name" : "entries[36].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2318,
+                                "start" : 2314
+                              },
+                              "name" : "entries[36].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2322,
+                                "start" : 2318
+                              },
+                              "name" : "entries[37].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2326,
+                                "start" : 2322
+                              },
+                              "name" : "entries[37].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2330,
+                                "start" : 2326
+                              },
+                              "name" : "entries[38].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2334,
+                                "start" : 2330
+                              },
+                              "name" : "entries[38].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2338,
+                                "start" : 2334
+                              },
+                              "name" : "entries[39].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2342,
+                                "start" : 2338
+                              },
+                              "name" : "entries[39].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2346,
+                                "start" : 2342
+                              },
+                              "name" : "entries[40].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2350,
+                                "start" : 2346
+                              },
+                              "name" : "entries[40].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2354,
+                                "start" : 2350
+                              },
+                              "name" : "entries[41].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2358,
+                                "start" : 2354
+                              },
+                              "name" : "entries[41].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2362,
+                                "start" : 2358
+                              },
+                              "name" : "entries[42].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2366,
+                                "start" : 2362
+                              },
+                              "name" : "entries[42].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2370,
+                                "start" : 2366
+                              },
+                              "name" : "entries[43].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2374,
+                                "start" : 2370
+                              },
+                              "name" : "entries[43].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2378,
+                                "start" : 2374
+                              },
+                              "name" : "entries[44].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2382,
+                                "start" : 2378
+                              },
+                              "name" : "entries[44].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2386,
+                                "start" : 2382
+                              },
+                              "name" : "entries[45].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2390,
+                                "start" : 2386
+                              },
+                              "name" : "entries[45].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2394,
+                                "start" : 2390
+                              },
+                              "name" : "entries[46].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2398,
+                                "start" : 2394
+                              },
+                              "name" : "entries[46].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2402,
+                                "start" : 2398
+                              },
+                              "name" : "entries[47].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2406,
+                                "start" : 2402
+                              },
+                              "name" : "entries[47].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2410,
+                                "start" : 2406
+                              },
+                              "name" : "entries[48].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2414,
+                                "start" : 2410
+                              },
+                              "name" : "entries[48].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2418,
+                                "start" : 2414
+                              },
+                              "name" : "entries[49].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2422,
+                                "start" : 2418
+                              },
+                              "name" : "entries[49].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2426,
+                                "start" : 2422
+                              },
+                              "name" : "entries[50].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2430,
+                                "start" : 2426
+                              },
+                              "name" : "entries[50].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2434,
+                                "start" : 2430
+                              },
+                              "name" : "entries[51].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2438,
+                                "start" : 2434
+                              },
+                              "name" : "entries[51].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2442,
+                                "start" : 2438
+                              },
+                              "name" : "entries[52].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2446,
+                                "start" : 2442
+                              },
+                              "name" : "entries[52].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2450,
+                                "start" : 2446
+                              },
+                              "name" : "entries[53].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2454,
+                                "start" : 2450
+                              },
+                              "name" : "entries[53].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2458,
+                                "start" : 2454
+                              },
+                              "name" : "entries[54].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2462,
+                                "start" : 2458
+                              },
+                              "name" : "entries[54].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2466,
+                                "start" : 2462
+                              },
+                              "name" : "entries[55].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2470,
+                                "start" : 2466
+                              },
+                              "name" : "entries[55].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2474,
+                                "start" : 2470
+                              },
+                              "name" : "entries[56].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2478,
+                                "start" : 2474
+                              },
+                              "name" : "entries[56].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2482,
+                                "start" : 2478
+                              },
+                              "name" : "entries[57].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2486,
+                                "start" : 2482
+                              },
+                              "name" : "entries[57].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2490,
+                                "start" : 2486
+                              },
+                              "name" : "entries[58].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2494,
+                                "start" : 2490
+                              },
+                              "name" : "entries[58].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2498,
+                                "start" : 2494
+                              },
+                              "name" : "entries[59].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2502,
+                                "start" : 2498
+                              },
+                              "name" : "entries[59].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2506,
+                                "start" : 2502
+                              },
+                              "name" : "entries[60].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2510,
+                                "start" : 2506
+                              },
+                              "name" : "entries[60].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2514,
+                                "start" : 2510
+                              },
+                              "name" : "entries[61].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2518,
+                                "start" : 2514
+                              },
+                              "name" : "entries[61].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2522,
+                                "start" : 2518
+                              },
+                              "name" : "entries[62].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2526,
+                                "start" : 2522
+                              },
+                              "name" : "entries[62].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2530,
+                                "start" : 2526
+                              },
+                              "name" : "entries[63].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2534,
+                                "start" : 2530
+                              },
+                              "name" : "entries[63].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2538,
+                                "start" : 2534
+                              },
+                              "name" : "entries[64].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2542,
+                                "start" : 2538
+                              },
+                              "name" : "entries[64].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2546,
+                                "start" : 2542
+                              },
+                              "name" : "entries[65].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2550,
+                                "start" : 2546
+                              },
+                              "name" : "entries[65].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2554,
+                                "start" : 2550
+                              },
+                              "name" : "entries[66].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2558,
+                                "start" : 2554
+                              },
+                              "name" : "entries[66].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2562,
+                                "start" : 2558
+                              },
+                              "name" : "entries[67].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2566,
+                                "start" : 2562
+                              },
+                              "name" : "entries[67].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2570,
+                                "start" : 2566
+                              },
+                              "name" : "entries[68].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2574,
+                                "start" : 2570
+                              },
+                              "name" : "entries[68].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2578,
+                                "start" : 2574
+                              },
+                              "name" : "entries[69].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2582,
+                                "start" : 2578
+                              },
+                              "name" : "entries[69].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2586,
+                                "start" : 2582
+                              },
+                              "name" : "entries[70].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2590,
+                                "start" : 2586
+                              },
+                              "name" : "entries[70].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2594,
+                                "start" : 2590
+                              },
+                              "name" : "entries[71].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2598,
+                                "start" : 2594
+                              },
+                              "name" : "entries[71].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2602,
+                                "start" : 2598
+                              },
+                              "name" : "entries[72].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2606,
+                                "start" : 2602
+                              },
+                              "name" : "entries[72].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2610,
+                                "start" : 2606
+                              },
+                              "name" : "entries[73].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2614,
+                                "start" : 2610
+                              },
+                              "name" : "entries[73].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "2002"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2618,
+                                "start" : 2614
+                              },
+                              "name" : "entries[74].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2622,
+                                "start" : 2618
+                              },
+                              "name" : "entries[74].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "0"
+                            },
+                            {
+                              "byteRange" : {
+                                "end" : 2626,
+                                "start" : 2622
+                              },
+                              "name" : "entries[75].sample_count",
+                              "summary" : "Number of consecutive samples using this offset",
+                              "value" : "1"
                             },
                             {
                               "byteRange" : {
                                 "end" : 2630,
-                                "start" : 2014
+                                "start" : 2626
                               },
-                              "name" : "payload_range",
-                              "summary" : "Byte range of the payload relative to the file start.",
-                              "value" : "2014..<2630"
+                              "name" : "entries[75].sample_offset",
+                              "summary" : "Composition time offset",
+                              "value" : "1001"
                             }
                           ],
                           "sizes" : {
                             "header" : 8,
                             "payload" : 616,
                             "total" : 624
+                          },
+                          "structured" : {
+                            "composition_offset" : {
+                              "entries" : [
+                                {
+                                  "byte_range" : {
+                                    "end" : 2030,
+                                    "start" : 2022
+                                  },
+                                  "index" : 0,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 1001
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2038,
+                                    "start" : 2030
+                                  },
+                                  "index" : 1,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2046,
+                                    "start" : 2038
+                                  },
+                                  "index" : 2,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2054,
+                                    "start" : 2046
+                                  },
+                                  "index" : 3,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2062,
+                                    "start" : 2054
+                                  },
+                                  "index" : 4,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2070,
+                                    "start" : 2062
+                                  },
+                                  "index" : 5,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2078,
+                                    "start" : 2070
+                                  },
+                                  "index" : 6,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2086,
+                                    "start" : 2078
+                                  },
+                                  "index" : 7,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 3003
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2094,
+                                    "start" : 2086
+                                  },
+                                  "index" : 8,
+                                  "sample_count" : 2,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2102,
+                                    "start" : 2094
+                                  },
+                                  "index" : 9,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 3003
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2110,
+                                    "start" : 2102
+                                  },
+                                  "index" : 10,
+                                  "sample_count" : 2,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2118,
+                                    "start" : 2110
+                                  },
+                                  "index" : 11,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 3003
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2126,
+                                    "start" : 2118
+                                  },
+                                  "index" : 12,
+                                  "sample_count" : 2,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2134,
+                                    "start" : 2126
+                                  },
+                                  "index" : 13,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 3003
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2142,
+                                    "start" : 2134
+                                  },
+                                  "index" : 14,
+                                  "sample_count" : 2,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2150,
+                                    "start" : 2142
+                                  },
+                                  "index" : 15,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 3003
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2158,
+                                    "start" : 2150
+                                  },
+                                  "index" : 16,
+                                  "sample_count" : 2,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2166,
+                                    "start" : 2158
+                                  },
+                                  "index" : 17,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 3003
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2174,
+                                    "start" : 2166
+                                  },
+                                  "index" : 18,
+                                  "sample_count" : 2,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2182,
+                                    "start" : 2174
+                                  },
+                                  "index" : 19,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2190,
+                                    "start" : 2182
+                                  },
+                                  "index" : 20,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2198,
+                                    "start" : 2190
+                                  },
+                                  "index" : 21,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2206,
+                                    "start" : 2198
+                                  },
+                                  "index" : 22,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2214,
+                                    "start" : 2206
+                                  },
+                                  "index" : 23,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2222,
+                                    "start" : 2214
+                                  },
+                                  "index" : 24,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2230,
+                                    "start" : 2222
+                                  },
+                                  "index" : 25,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2238,
+                                    "start" : 2230
+                                  },
+                                  "index" : 26,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2246,
+                                    "start" : 2238
+                                  },
+                                  "index" : 27,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2254,
+                                    "start" : 2246
+                                  },
+                                  "index" : 28,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2262,
+                                    "start" : 2254
+                                  },
+                                  "index" : 29,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2270,
+                                    "start" : 2262
+                                  },
+                                  "index" : 30,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2278,
+                                    "start" : 2270
+                                  },
+                                  "index" : 31,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2286,
+                                    "start" : 2278
+                                  },
+                                  "index" : 32,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2294,
+                                    "start" : 2286
+                                  },
+                                  "index" : 33,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2302,
+                                    "start" : 2294
+                                  },
+                                  "index" : 34,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2310,
+                                    "start" : 2302
+                                  },
+                                  "index" : 35,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2318,
+                                    "start" : 2310
+                                  },
+                                  "index" : 36,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2326,
+                                    "start" : 2318
+                                  },
+                                  "index" : 37,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2334,
+                                    "start" : 2326
+                                  },
+                                  "index" : 38,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2342,
+                                    "start" : 2334
+                                  },
+                                  "index" : 39,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2350,
+                                    "start" : 2342
+                                  },
+                                  "index" : 40,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2358,
+                                    "start" : 2350
+                                  },
+                                  "index" : 41,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2366,
+                                    "start" : 2358
+                                  },
+                                  "index" : 42,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2374,
+                                    "start" : 2366
+                                  },
+                                  "index" : 43,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2382,
+                                    "start" : 2374
+                                  },
+                                  "index" : 44,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2390,
+                                    "start" : 2382
+                                  },
+                                  "index" : 45,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2398,
+                                    "start" : 2390
+                                  },
+                                  "index" : 46,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2406,
+                                    "start" : 2398
+                                  },
+                                  "index" : 47,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2414,
+                                    "start" : 2406
+                                  },
+                                  "index" : 48,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2422,
+                                    "start" : 2414
+                                  },
+                                  "index" : 49,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2430,
+                                    "start" : 2422
+                                  },
+                                  "index" : 50,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2438,
+                                    "start" : 2430
+                                  },
+                                  "index" : 51,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2446,
+                                    "start" : 2438
+                                  },
+                                  "index" : 52,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2454,
+                                    "start" : 2446
+                                  },
+                                  "index" : 53,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2462,
+                                    "start" : 2454
+                                  },
+                                  "index" : 54,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2470,
+                                    "start" : 2462
+                                  },
+                                  "index" : 55,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2478,
+                                    "start" : 2470
+                                  },
+                                  "index" : 56,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2486,
+                                    "start" : 2478
+                                  },
+                                  "index" : 57,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2494,
+                                    "start" : 2486
+                                  },
+                                  "index" : 58,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2502,
+                                    "start" : 2494
+                                  },
+                                  "index" : 59,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2510,
+                                    "start" : 2502
+                                  },
+                                  "index" : 60,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2518,
+                                    "start" : 2510
+                                  },
+                                  "index" : 61,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2526,
+                                    "start" : 2518
+                                  },
+                                  "index" : 62,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2534,
+                                    "start" : 2526
+                                  },
+                                  "index" : 63,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2542,
+                                    "start" : 2534
+                                  },
+                                  "index" : 64,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2550,
+                                    "start" : 2542
+                                  },
+                                  "index" : 65,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2558,
+                                    "start" : 2550
+                                  },
+                                  "index" : 66,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2566,
+                                    "start" : 2558
+                                  },
+                                  "index" : 67,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2574,
+                                    "start" : 2566
+                                  },
+                                  "index" : 68,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2582,
+                                    "start" : 2574
+                                  },
+                                  "index" : 69,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2590,
+                                    "start" : 2582
+                                  },
+                                  "index" : 70,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2598,
+                                    "start" : 2590
+                                  },
+                                  "index" : 71,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2606,
+                                    "start" : 2598
+                                  },
+                                  "index" : 72,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2614,
+                                    "start" : 2606
+                                  },
+                                  "index" : 73,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 2002
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2622,
+                                    "start" : 2614
+                                  },
+                                  "index" : 74,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 0
+                                },
+                                {
+                                  "byte_range" : {
+                                    "end" : 2630,
+                                    "start" : 2622
+                                  },
+                                  "index" : 75,
+                                  "sample_count" : 1,
+                                  "sample_offset" : 1001
+                                }
+                              ],
+                              "entry_count" : 76,
+                              "flags" : 0,
+                              "version" : 0
+                            }
                           },
                           "validationIssues" : [
 
