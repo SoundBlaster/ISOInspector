@@ -244,11 +244,12 @@
   - Test SectionHeader accessibility
   - Verify 100% public API coverage
 
-- [ ] **P0** Create component snapshot tests
+- [ ] **P0** Create component snapshot tests → **IN PROGRESS**
   - Test Light/Dark mode rendering
   - Test Dynamic Type sizes (XS, M, XXL)
   - Test platform-specific layouts
   - Test locale variations (RTL support)
+  - Task file: `FoundationUI/DOCS/INPROGRESS/Phase2_ComponentSnapshotTests.md`
 
 - [ ] **P0** Implement component previews
   - Create comprehensive preview catalog
