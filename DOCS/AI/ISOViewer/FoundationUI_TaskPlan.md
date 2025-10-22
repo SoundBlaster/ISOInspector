@@ -217,7 +217,7 @@
   - Complete unit test coverage (27 test cases)
   - 100% DocC documentation with examples
   - Zero magic numbers (100% DS token usage)
-  - Archive: `TASK_ARCHIVE/05_Phase2.2_KeyValueRow/`
+  - Archive: `TASK_ARCHIVE/03_Phase2.2_KeyValueRow/`
 
 - [x] **P0** Implement SectionHeader component ✅ Completed 2025-10-21
   - File: `Sources/FoundationUI/Components/SectionHeader.swift`

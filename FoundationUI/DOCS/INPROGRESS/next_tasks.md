@@ -1,117 +1,73 @@
 # Next Tasks for FoundationUI
 
 **Last Updated**: 2025-10-22
-**Current Phase**: Phase 2.2 - Layer 2: Essential Components (Molecules)
+**Current Phase**: Phase 2.2 → Phase 2.3 (Testing & Demo)
 **Completed**: Badge ✅, Card ✅, SectionHeader ✅, KeyValueRow ✅
-**In Progress**: None (Phase 2.2 components complete!)
+**Phase 2.2 Status**: 🎉 ALL CORE COMPONENTS COMPLETE (4/4)
 
 ---
 
-## Immediate Priority (Phase 2.2)
+## 🎉 Phase 2.2 Milestone Complete!
 
-### 1. Card Component (Recommended Next)
+All 4 essential components are now implemented:
+- ✅ Badge Component (2025-10-21)
+- ✅ Card Component (2025-10-22)
+- ✅ SectionHeader Component (2025-10-21)
+- ✅ KeyValueRow Component (2025-10-22)
+
+**Total Achievement**:
+- 166 unit tests written
+- 45 SwiftUI previews created
+- 100% DocC documentation coverage
+- Zero magic numbers (100% DS token usage)
+- Full accessibility support
+
+---
+
+## Immediate Priority (Phase 2.2 Testing Tasks)
+
+### 1. Component Snapshot Tests (Recommended Next)
 - **Status**: Ready to start
-- **Priority**: P0 (Critical)
-- **Dependencies**: CardStyle modifier ✅ COMPLETE
-- **Estimated Effort**: M (4-6 hours)
-- **File**: `Sources/FoundationUI/Components/Card.swift`
-
-**Why now**: CardStyle modifier is complete. Card component is needed for many higher-level patterns and will be heavily reused.
-
-**Requirements**:
-- Generic content with `@ViewBuilder`
-- Configurable elevation (none, low, medium, high)
-- Configurable corner radius via DS.Radius tokens
-- Material background support (optional)
-- Comprehensive previews showing various content types
-- Unit tests for all elevation levels
-- Integration tests with nested components
-- DocC documentation
-
----
-
-### 2. KeyValueRow Component
-- **Status**: Ready to start
-- **Priority**: P0 (Critical)
-- **Dependencies**: DS.Typography ✅, DS.Spacing ✅
-- **Estimated Effort**: M (4-6 hours)
-- **File**: `Sources/FoundationUI/Components/KeyValueRow.swift`
-
-**Why now**: Essential for inspector patterns and metadata display. No blocking dependencies.
-
-**Requirements**:
-- Display key-value pairs with semantic styling
-- Optional copyable text integration (phase 4.2 utility)
-- Monospaced font for values (hex, timestamps, etc.)
-- Keyboard shortcut hints display
-- Accessibility labels for screen readers
-- Multiple layout variants (horizontal, vertical)
-- Unit tests
-- Previews with various content types
-
-**Note**: CopyableText integration can be deferred to Phase 4.2, implement basic version first.
-
----
-
-## Testing Tasks (Phase 2.2)
-
-### 3. Component Unit Tests
-- **Status**: Implement alongside components
-- **Priority**: P0 (Critical)
-- **Estimated Effort**: M (4-6 hours total)
-
-**Requirements**:
-- Test Badge with all levels ✅ COMPLETE
-- Test Card composition and nesting
-- Test KeyValueRow layout variants
-- Test SectionHeader with/without divider
-- Verify 100% public API coverage
-- Target: ≥85% code coverage for components
-
----
-
-### 4. Component Snapshot Tests
-- **Status**: Pending
 - **Priority**: P0 (Critical)
 - **Estimated Effort**: L (1-2 days)
 
+**Why now**: Visual regression testing is critical to prevent UI breakage as we continue development.
+
 **Requirements**:
 - Set up SnapshotTesting framework
+- Create snapshot baselines for all 4 components (Badge, Card, SectionHeader, KeyValueRow)
 - Test Light/Dark mode rendering for all components
 - Test Dynamic Type sizes (XS, M, XXL)
-- Test platform-specific layouts
+- Test platform-specific layouts (iOS/macOS/iPadOS)
 - Test locale variations (RTL support)
 
----
-
-### 5. Component Previews
-- **Status**: Implement alongside components
-- **Priority**: P0 (Critical)
-- **Estimated Effort**: S (included in component tasks)
-
-**Requirements**:
-- Create comprehensive preview catalog
-- Show all component variations
-- Include usage examples in DocC
-- Platform-specific preview conditionals
+**Files to Create**:
+- `Tests/SnapshotTests/BadgeSnapshotTests.swift`
+- `Tests/SnapshotTests/CardSnapshotTests.swift`
+- `Tests/SnapshotTests/SectionHeaderSnapshotTests.swift`
+- `Tests/SnapshotTests/KeyValueRowSnapshotTests.swift`
+- Configure snapshot storage in repository
 
 ---
 
-### 6. Component Accessibility Tests
-- **Status**: Pending
+### 2. Component Accessibility Tests
+- **Status**: Ready to start
 - **Priority**: P1 (Important)
 - **Estimated Effort**: M (4-6 hours)
+
+**Why now**: Ensure all components meet WCAG 2.1 AA standards.
 
 **Requirements**:
 - VoiceOver navigation testing
 - Contrast ratio validation (≥4.5:1)
 - Keyboard navigation testing
 - Focus management verification
+- Touch target size validation (≥44×44pt)
 
 ---
 
-### 7. Component Performance Tests
-- **Status**: Pending
+### 3. Component Performance Tests
+- **Status**: Ready to start
 - **Priority**: P1 (Important)
 - **Estimated Effort**: M (4-6 hours)
 
@@ -119,104 +75,59 @@
 - Measure render time for complex hierarchies
 - Test memory footprint (target: <5MB per screen)
 - Verify 60 FPS on all platforms
-- Profile with Instruments
+- Profile with Instruments (if available)
 
 ---
 
-### 8. Component Integration Tests
-- **Status**: Pending
+### 4. Component Integration Tests
+- **Status**: Ready to start
 - **Priority**: P1 (Important)
 - **Estimated Effort**: M (4-6 hours)
 
 **Requirements**:
-- Test component nesting scenarios
+- Test component nesting scenarios (Card → SectionHeader → KeyValueRow)
 - Verify Environment value propagation
 - Test state management
-- Test preview compilation
+- Test preview compilation across all platforms
 
 ---
 
-### 9. Code Quality Verification
+### 5. Code Quality Verification
 - **Status**: Continuous
 - **Priority**: P1 (Important)
 - **Estimated Effort**: S (1-2 hours)
 
 **Requirements**:
 - Run SwiftLint (target: 0 violations)
-- Verify zero magic numbers
-- Check documentation coverage (100%)
+- Verify zero magic numbers across all components
+- Check documentation coverage (maintain 100%)
 - Review API naming consistency
 
 ---
 
-### 10. Demo Application
-- **Status**: Pending (Phase 2.3)
+## Upcoming (Phase 2.3)
+
+### 6. Demo Application
+- **Status**: Ready to start (all dependencies met)
 - **Priority**: P0 (Critical)
 - **Estimated Effort**: L (1-2 days)
 
-**Why later**: Build after all 4 components are complete to showcase all functionality
+**Why now**: With all 4 components complete, we can build a comprehensive demo showcasing all functionality.
 
----
-
-## Phase 2.2 Progress Tracker
-
-**Completed** (4/4 components):
-- ✅ Badge Component (2025-10-21)
-- ✅ Card Component (2025-10-22)
-- ✅ SectionHeader Component (2025-10-21)
-- ✅ KeyValueRow Component (2025-10-22)
-
-**In Progress** (0/4 components):
-- (None - all core components complete!)
-
-**Pending** (0/4 components):
-- (None - all Phase 2.2 core components complete!)
-
-**Testing Progress** (0/8 testing tasks):
-- [ ] Component Unit Tests (partial - Badge complete)
-- [ ] Component Snapshot Tests
-- [ ] Component Previews (partial - Badge complete)
-- [ ] Component Accessibility Tests
-- [ ] Component Performance Tests
-- [ ] Component Integration Tests
-- [ ] Code Quality Verification
-- [ ] Demo Application
-
----
-
-## Phase 2.2 Completion Criteria
-
-Before archiving Phase 2.2:
-- ✅ Badge component implemented ✅ COMPLETE
-- ✅ Card component implemented ✅ COMPLETE
-- ✅ SectionHeader component implemented ✅ COMPLETE
-- 🔄 KeyValueRow component implemented → IN PROGRESS
-- [ ] All unit tests written and passing
-- [ ] All snapshot tests created
-- [ ] All components have comprehensive previews
-- [ ] 100% DocC coverage
-- [ ] SwiftLint 0 violations
-- [ ] Zero magic numbers
-- [ ] Accessibility compliance verified
-- [ ] All code committed to git
-
----
-
-## Upcoming (Phase 2.3 & Beyond)
-
-### Phase 2.3: Demo Application
-- **Status**: Blocked until Phase 2.2 complete
-- **Priority**: P0 (Critical)
-- **Estimated Effort**: L (1-2 days)
-
-**Tasks**:
+**Requirements**:
 - Create minimal demo app for component testing
 - Implement component showcase screens
 - Add interactive component inspector
 - Demo app documentation
 
+**Dependencies**: ✅ All Phase 2.2 components complete
+
+---
+
+## Future (Phase 3.1 & Beyond)
+
 ### Phase 3.1: UI Patterns (Organisms)
-- **Status**: Blocked until Phase 2.2 complete
+- **Status**: Blocked until Phase 2.3 complete
 - **Priority**: P0-P1
 - **Estimated Effort**: XL (3-5 days)
 
@@ -226,31 +137,70 @@ Before archiving Phase 2.2:
 - Implement ToolbarPattern
 - Implement BoxTreePattern
 
-**Dependencies**: Need Badge ✅, Card, SectionHeader, KeyValueRow components
+**Dependencies**: Need all Phase 2.2 components ✅ COMPLETE
+
+---
+
+## Phase 2.2 Progress Tracker
+
+**Completed Components** (4/4):
+- ✅ Badge Component (2025-10-21)
+- ✅ Card Component (2025-10-22)
+- ✅ SectionHeader Component (2025-10-21)
+- ✅ KeyValueRow Component (2025-10-22)
+
+**Testing Progress** (0/5 testing tasks):
+- [ ] Component Snapshot Tests (RECOMMENDED NEXT)
+- [ ] Component Accessibility Tests
+- [ ] Component Performance Tests
+- [ ] Component Integration Tests
+- [ ] Code Quality Verification
+
+**Demo Progress** (0/1):
+- [ ] Demo Application
+
+---
+
+## Phase 2.2 Completion Criteria
+
+**Core Components** ✅ COMPLETE:
+- ✅ Badge component implemented
+- ✅ Card component implemented
+- ✅ SectionHeader component implemented
+- ✅ KeyValueRow component implemented
+
+**Testing & Quality** (In Progress):
+- [ ] All snapshot tests created
+- [ ] Accessibility compliance verified (≥95%)
+- [ ] Performance benchmarks met
+- [ ] Integration tests passing
+- [ ] SwiftLint 0 violations
+- [ ] Zero magic numbers ✅ COMPLETE
+- [ ] 100% DocC coverage ✅ COMPLETE
 
 ---
 
 ## Notes
 
-- **Focus on Phase 2.2**: Complete all 4 essential components before moving to patterns
-- **TDD First**: Write tests before implementation for each component
-- **Preview Everything**: Every component needs comprehensive SwiftUI previews
-- **Document Continuously**: Add DocC comments as you implement
-- **Zero Magic Numbers**: All values must use DS tokens
-- **Accessibility First**: Build VoiceOver support from the start
+- **Phase 2.2 Core Components**: ✅ 100% COMPLETE (4/4)
+- **Focus on Testing**: Now that components are complete, shift focus to comprehensive testing
+- **TDD Continues**: Maintain test-first approach for all new features
+- **Preview Everything**: Every component has comprehensive SwiftUI previews ✅
+- **Document Continuously**: All components have 100% DocC coverage ✅
+- **Zero Magic Numbers**: All components use DS tokens exclusively ✅
+- **Accessibility First**: All components have full VoiceOver support ✅
 
 ---
 
 ## Recommended Implementation Order
 
-1. ✅ **Badge** (simplest, validates component architecture) - COMPLETE
-2. **SectionHeader** (simple, needed for demo app) - RECOMMENDED NEXT
-3. **Card** (more complex, heavily reused)
-4. **KeyValueRow** (moderate complexity, inspector essential)
-5. **Component Tests** (comprehensive test coverage)
-6. **Snapshot Tests** (visual regression prevention)
-7. **Demo App** (integration validation)
+1. 📸 **Component Snapshot Tests** (RECOMMENDED NEXT) - Prevent visual regressions
+2. ♿ **Accessibility Tests** - Ensure WCAG compliance
+3. ⚡ **Performance Tests** - Validate render performance
+4. 🔗 **Integration Tests** - Test component composition
+5. ✅ **Code Quality Verification** - Maintain zero violations
+6. 🎨 **Demo Application** - Showcase all components
 
 ---
 
-**Next Action**: Use START.md command workflow to begin SectionHeader component implementation.
+**Next Action**: Use START.md command workflow to begin Component Snapshot Tests implementation.
