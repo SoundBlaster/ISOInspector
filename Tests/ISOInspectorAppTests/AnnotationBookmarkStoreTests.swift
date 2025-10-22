@@ -146,7 +146,8 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
                     isPinned: false,
                     scrollOffset: WorkspaceSessionScrollOffset(x: 1, y: 2),
                     bookmarkIdentifier: focusRecent.bookmarkIdentifier,
-                    bookmarkDiffs: []
+                    bookmarkDiffs: [],
+                    validationConfiguration: nil
                 ),
                 WorkspaceSessionFileSnapshot(
                     id: UUID(uuidString: "00000000-0000-0000-0000-000000000023")!,
@@ -156,7 +157,8 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
                     isPinned: false,
                     scrollOffset: nil,
                     bookmarkIdentifier: otherRecent.bookmarkIdentifier,
-                    bookmarkDiffs: []
+                    bookmarkDiffs: [],
+                    validationConfiguration: nil
                 )
             ],
             focusedFileURL: focusURL,
@@ -241,7 +243,8 @@ final class AnnotationBookmarkStoreTests: XCTestCase {
                     isPinned: false,
                     scrollOffset: nil,
                     bookmarkIdentifier: recent.bookmarkIdentifier,
-                    bookmarkDiffs: [diff]
+                    bookmarkDiffs: [diff],
+                    validationConfiguration: nil
                 )
             ],
             focusedFileURL: fileURL,

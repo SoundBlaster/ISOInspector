@@ -62,7 +62,8 @@ final class WorkspaceSessionStoreTests: XCTestCase {
                             isRemoved: false,
                             noteDelta: "initial"
                         )
-                    ]
+                    ],
+                    validationConfiguration: nil
                 ),
                 WorkspaceSessionFileSnapshot(
                     id: UUID(uuidString: "00000000-0000-0000-0000-0000000000CC")!,
@@ -72,7 +73,8 @@ final class WorkspaceSessionStoreTests: XCTestCase {
                     isPinned: true,
                     scrollOffset: nil,
                     bookmarkIdentifier: secondaryRecent.bookmarkIdentifier,
-                    bookmarkDiffs: []
+                    bookmarkDiffs: [],
+                    validationConfiguration: nil
                 )
             ],
             focusedFileURL: primaryURL,

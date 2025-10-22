@@ -13,6 +13,7 @@ public final class ParseTreeStore: ObservableObject {
     private let bridge: ParsePipelineEventBridge
     private let resources = ResourceBag()
     private var builder = Builder()
+    private var issueFilter: ((ValidationIssue) -> Bool)?
 
     public init(
         bridge: ParsePipelineEventBridge = ParsePipelineEventBridge(),
@@ -55,8 +56,13 @@ public final class ParseTreeStore: ObservableObject {
             }, receiveValue: { [weak self] event in
                 guard let self else { return }
                 self.builder.consume(event)
-                self.snapshot = self.builder.snapshot()
+                self.snapshot = self.builder.snapshot(filter: self.issueFilter)
             })
+    }
+
+    public func setValidationIssueFilter(_ filter: ((ValidationIssue) -> Bool)?) {
+        issueFilter = filter
+        snapshot = builder.snapshot(filter: filter)
     }
 
     public func cancel() {
@@ -181,10 +187,12 @@ extension ParseTreeStore {
             }
         }
 
-        func snapshot() -> ParseTreeSnapshot {
-            ParseTreeSnapshot(
-                nodes: rootNodes.map { $0.snapshot() },
-                validationIssues: aggregatedIssues,
+        func snapshot(filter: ((ValidationIssue) -> Bool)?) -> ParseTreeSnapshot {
+            let filteredNodes = rootNodes.map { $0.snapshot(filter: filter) }
+            let filteredIssues = filter.map { aggregatedIssues.filter($0) } ?? aggregatedIssues
+            return ParseTreeSnapshot(
+                nodes: filteredNodes,
+                validationIssues: filteredIssues,
                 lastUpdatedAt: lastUpdatedAt
             )
         }
@@ -205,13 +213,14 @@ extension ParseTreeStore {
             self.children = []
         }
 
-        func snapshot() -> ParseTreeNode {
+        func snapshot(filter: ((ValidationIssue) -> Bool)?) -> ParseTreeNode {
+            let filteredIssues = filter.map { validationIssues.filter($0) } ?? validationIssues
             ParseTreeNode(
                 header: header,
                 metadata: metadata,
                 payload: payload,
-                validationIssues: validationIssues,
-                children: children.map { $0.snapshot() }
+                validationIssues: filteredIssues,
+                children: children.map { $0.snapshot(filter: filter) }
             )
         }
     }

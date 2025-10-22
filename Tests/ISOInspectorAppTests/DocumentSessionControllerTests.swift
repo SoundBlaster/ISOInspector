@@ -163,7 +163,8 @@ final class DocumentSessionControllerTests: XCTestCase {
                     isPinned: false,
                     scrollOffset: nil,
                     bookmarkIdentifier: focusRecent.bookmarkIdentifier,
-                    bookmarkDiffs: [focusDiff]
+                    bookmarkDiffs: [focusDiff],
+                    validationConfiguration: nil
                 ),
                 WorkspaceSessionFileSnapshot(
                     id: UUID(uuidString: "00000000-0000-0000-0000-000000000011")!,
@@ -173,7 +174,8 @@ final class DocumentSessionControllerTests: XCTestCase {
                     isPinned: false,
                     scrollOffset: nil,
                     bookmarkIdentifier: otherRecent.bookmarkIdentifier,
-                    bookmarkDiffs: [otherDiff]
+                    bookmarkDiffs: [otherDiff],
+                    validationConfiguration: nil
                 )
             ],
             focusedFileURL: focusURL,
@@ -476,6 +478,124 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertTrue(message.contains("sessionID"))
     }
 
+    func testSelectingWorkspacePresetFiltersIssuesAndPersistsOverride() throws {
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
+        let sessionStore = WorkspaceSessionStoreStub()
+        let configStore = ValidationConfigurationStoreStub()
+        configStore.storedConfiguration = ValidationConfiguration(activePresetID: "all-rules")
+        let presets = [
+            ValidationPreset(id: "all-rules", name: "All", summary: "", rules: []),
+            ValidationPreset(
+                id: "structural",
+                name: "Structural",
+                summary: "",
+                rules: [ValidationPreset.RuleState(ruleID: .researchLogRecording, isEnabled: false)]
+            )
+        ]
+        let parseTreeStore = ParseTreeStore(bridge: ParsePipelineEventBridge())
+        let eventStream = makeValidationEventStream()
+        let pipeline = ParsePipeline { _, _ in eventStream }
+        let controller = makeController(
+            store: recentsStore,
+            sessionStore: sessionStore,
+            pipeline: pipeline,
+            filesystemAccess: FilesystemAccessStub().makeAccess(),
+            parseTreeStore: parseTreeStore,
+            validationConfigStore: configStore,
+            validationPresets: presets
+        )
+
+        let finished = expectation(description: "Parsing finished")
+        var cancellables: Set<AnyCancellable> = []
+        controller.parseTreeStore.$state
+            .dropFirst()
+            .sink { state in
+                if state == .finished {
+                    finished.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        let url = URL(fileURLWithPath: "/tmp/validation.mp4")
+        controller.openDocument(at: url)
+        wait(for: [finished], timeout: 1.0)
+
+        XCTAssertEqual(controller.validationConfiguration.activePresetID, "all-rules")
+        XCTAssertFalse(controller.isUsingWorkspaceValidationOverride)
+        XCTAssertEqual(controller.parseTreeStore.snapshot.validationIssues.filter { $0.ruleID == "VR-006" }.count, 2)
+
+        controller.selectValidationPreset("structural", scope: .workspace)
+
+        XCTAssertEqual(controller.validationConfiguration.activePresetID, "structural")
+        XCTAssertTrue(controller.isUsingWorkspaceValidationOverride)
+        XCTAssertEqual(controller.parseTreeStore.snapshot.validationIssues.filter { $0.ruleID == "VR-006" }.count, 0)
+        let savedSnapshot = try XCTUnwrap(sessionStore.savedSnapshots.last)
+        let savedConfiguration = try XCTUnwrap(savedSnapshot.files.first?.validationConfiguration)
+        XCTAssertEqual(savedConfiguration.activePresetID, "structural")
+        XCTAssertTrue(savedConfiguration.ruleOverrides.isEmpty)
+
+        controller.resetWorkspaceValidationOverrides()
+
+        XCTAssertEqual(controller.validationConfiguration.activePresetID, "all-rules")
+        XCTAssertFalse(controller.isUsingWorkspaceValidationOverride)
+        XCTAssertEqual(controller.parseTreeStore.snapshot.validationIssues.filter { $0.ruleID == "VR-006" }.count, 2)
+        let resetSnapshot = try XCTUnwrap(sessionStore.savedSnapshots.last)
+        XCTAssertNil(resetSnapshot.files.first?.validationConfiguration)
+    }
+
+    func testUpdatingGlobalConfigurationAppliesWhenNoOverride() throws {
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
+        let sessionStore = WorkspaceSessionStoreStub()
+        let configStore = ValidationConfigurationStoreStub()
+        configStore.storedConfiguration = ValidationConfiguration(activePresetID: "all-rules")
+        let presets = [
+            ValidationPreset(id: "all-rules", name: "All", summary: "", rules: []),
+            ValidationPreset(
+                id: "structural",
+                name: "Structural",
+                summary: "",
+                rules: [ValidationPreset.RuleState(ruleID: .researchLogRecording, isEnabled: false)]
+            )
+        ]
+        let parseTreeStore = ParseTreeStore(bridge: ParsePipelineEventBridge())
+        let eventStream = makeValidationEventStream()
+        let pipeline = ParsePipeline { _, _ in eventStream }
+        let controller = makeController(
+            store: recentsStore,
+            sessionStore: sessionStore,
+            pipeline: pipeline,
+            filesystemAccess: FilesystemAccessStub().makeAccess(),
+            parseTreeStore: parseTreeStore,
+            validationConfigStore: configStore,
+            validationPresets: presets
+        )
+
+        let finished = expectation(description: "Parsing finished")
+        var cancellables: Set<AnyCancellable> = []
+        controller.parseTreeStore.$state
+            .dropFirst()
+            .sink { state in
+                if state == .finished {
+                    finished.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        let url = URL(fileURLWithPath: "/tmp/global-validation.mp4")
+        controller.openDocument(at: url)
+        wait(for: [finished], timeout: 1.0)
+
+        XCTAssertEqual(controller.globalValidationConfiguration.activePresetID, "all-rules")
+        XCTAssertEqual(controller.parseTreeStore.snapshot.validationIssues.filter { $0.ruleID == "VR-006" }.count, 2)
+
+        controller.setValidationRule(.researchLogRecording, isEnabled: false, scope: .global)
+
+        XCTAssertEqual(controller.globalValidationConfiguration.ruleOverrides[.researchLogRecording], false)
+        XCTAssertEqual(configStore.savedConfigurations.last?.ruleOverrides[.researchLogRecording], false)
+        XCTAssertEqual(controller.parseTreeStore.snapshot.validationIssues.filter { $0.ruleID == "VR-006" }.count, 0)
+        XCTAssertFalse(controller.isUsingWorkspaceValidationOverride)
+    }
+
     func testClearingSessionFailureEmitsDiagnostics() throws {
         enum SampleError: LocalizedError {
             case failed
@@ -515,7 +635,9 @@ final class DocumentSessionControllerTests: XCTestCase {
             bookmarkStore: BookmarkPersistenceManaging? = nil,
             filesystemAccess: FilesystemAccess? = nil,
             bookmarkDataProvider: ((SecurityScopedURL) -> Data?)? = nil,
-            parseTreeStore: ParseTreeStore? = nil
+            parseTreeStore: ParseTreeStore? = nil,
+            validationConfigStore: ValidationConfigurationPersisting? = nil,
+            validationPresets: [ValidationPreset]? = nil
         ) -> DocumentSessionController {
             let resolvedPipeline = pipeline ?? ParsePipeline(buildStream: { _, _ in .finishedStream })
             let resolvedDiagnostics: (any DiagnosticsLogging)? = diagnostics
@@ -531,9 +653,48 @@ final class DocumentSessionControllerTests: XCTestCase {
                 diagnostics: resolvedDiagnostics,
                 bookmarkStore: bookmarkStore,
                 filesystemAccess: access,
-                bookmarkDataProvider: bookmarkDataProvider
+                bookmarkDataProvider: bookmarkDataProvider,
+                validationConfigurationStore: validationConfigStore,
+                validationPresetLoader: { validationPresets ?? [] }
             )
         }
+
+    private func makeValidationEventStream() -> ParsePipeline.EventStream {
+        let parentHeader = BoxHeader(
+            type: try! FourCharCode("root"),
+            totalSize: 32,
+            headerSize: 8,
+            payloadRange: 8..<32,
+            range: 0..<32,
+            uuid: nil
+        )
+        let childHeader = BoxHeader(
+            type: try! FourCharCode("test"),
+            totalSize: 16,
+            headerSize: 8,
+            payloadRange: 8..<16,
+            range: 8..<24,
+            uuid: nil
+        )
+        let issues = [
+            ValidationIssue(ruleID: "VR-006", message: "research", severity: .info),
+            ValidationIssue(ruleID: "VR-001", message: "structure", severity: .error)
+        ]
+
+        let events = [
+            ParseEvent(kind: .willStartBox(header: parentHeader, depth: 0), offset: 0, metadata: nil, validationIssues: []),
+            ParseEvent(kind: .willStartBox(header: childHeader, depth: 1), offset: 8, metadata: nil, validationIssues: issues),
+            ParseEvent(kind: .didFinishBox(header: childHeader, depth: 1), offset: 24, metadata: nil, validationIssues: issues),
+            ParseEvent(kind: .didFinishBox(header: parentHeader, depth: 0), offset: 32, metadata: nil, validationIssues: [])
+        ]
+
+        return AsyncThrowingStream { continuation in
+            for event in events {
+                continuation.yield(event)
+            }
+            continuation.finish()
+        }
+    }
 
     private func sampleRecent(index: Int) -> DocumentRecent {
         DocumentRecent(
