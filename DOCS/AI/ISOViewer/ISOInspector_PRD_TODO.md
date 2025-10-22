@@ -212,7 +212,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] C17. `mdat`: record offset/size (skip payload). **(Completed — streaming parser now records byte ranges without loading payload data; see `DOCS/TASK_ARCHIVE/126_C17_mdat_Box_Parser/Summary_of_Work.md`.)**
 - [x] C18. `free/skip`: opaque pass-through. **(Completed — see `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/Summary_of_Work.md` for implementation notes and `DOCS/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/C18_free_skip_Pass_Through.md` for original puzzle scope.)**
 
-- [x] C19. Validation preset UI settings integration. **(Completed — macOS settings scene now surfaces presets, per-rule toggles, workspace overrides, and reset affordance with persistence captured in `DOCS/INPROGRESS/Summary_of_Work.md`.)**
+- [x] C19. Validation preset UI settings integration. **(Completed — macOS settings scene now surfaces presets, per-rule toggles, workspace overrides, and reset affordance with persistence captured in `DOCS/TASK_ARCHIVE/147_Summary_of_Work_2025-10-22_Validation_Preset_UI_Settings_Integration/Summary_of_Work.md`.)**
 
 - [x] D1. `mvex/trex`: defaults. _(Completed — see `DOCS/TASK_ARCHIVE/D1_mvex_trex_Defaults/Summary_of_Work.md`.)_
 - [x] [D2. `moof/mfhd`: sequence number](../../TASK_ARCHIVE/134_D2_moof_mfhd_Sequence_Number/D2_moof_mfhd_Sequence_Number.md). _(Completed — fragment headers now surface sequence numbers across Kit, CLI, and exports.)_
@@ -228,7 +228,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] E3. Warn on unusual top-level ordering (advisory). _(Completed — summary in `DOCS/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/Summary_of_Work.md`.)_
 - [x] E4. Verify `avcC/hvcC` invariants; flag inconsistencies. _(Completed — validation summary recorded in `DOCS/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/Summary_of_Work.md`.)_
 - [x] E5. Basic `stbl` coherence checks (counts nonzero, arrays parse). **(Completed — see `DOCS/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/Summary_of_Work.md` for validation rollout notes.)**
-- [ ] E7. Validation rule presets and per-rule toggles spanning core, CLI, and UI. _(In Progress — configuration layer archived in `DOCS/TASK_ARCHIVE/145_B7_Validation_Rule_Preset_Configuration/B7_Validation_Rule_Preset_Configuration.md`; UI settings integration delivered via `DOCS/INPROGRESS/Summary_of_Work.md` while CLI wiring (D7) remains active in `DOCS/INPROGRESS/next_tasks.md`. Bundled JSON manifests seed default presets, Application Support stores user-authored sets, exports mark disabled rules as `skipped`, and CLI aliases (for example, `--structural-only`) complement the `--preset` flag.)_
+- [ ] E7. Validation rule presets and per-rule toggles spanning core, CLI, and UI. _(In Progress — configuration layer archived in `DOCS/TASK_ARCHIVE/145_B7_Validation_Rule_Preset_Configuration/B7_Validation_Rule_Preset_Configuration.md`; UI settings integration delivered via `DOCS/TASK_ARCHIVE/147_Summary_of_Work_2025-10-22_Validation_Preset_UI_Settings_Integration/Summary_of_Work.md` while CLI wiring (D7) remains active in `DOCS/INPROGRESS/next_tasks.md`. Bundled JSON manifests seed default presets, Application Support stores user-authored sets, exports mark disabled rules as `skipped`, and CLI aliases (for example, `--structural-only`) complement the `--preset` flag.)_
 - [x] E6. Add streaming structural validation rules VR-001 (header sizing) and VR-002 (container closure).
 
 ### Phase F — Export & Hex
