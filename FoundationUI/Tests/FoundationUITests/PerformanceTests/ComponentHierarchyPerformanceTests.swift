@@ -361,17 +361,14 @@ final class ComponentHierarchyPerformanceTests: XCTestCase {
     /// Test memory footprint for simple inspector panel
     ///
     /// Baseline complex hierarchy memory
-    /* @MainActor
 
     /// Test memory footprint for complex inspector panel
     ///
     /// Verify complex hierarchies stay under 5MB target
-    /* @MainActor
 
     /// Test memory footprint for large scale composition
     ///
     /// 10 cards with 10 rows each = 100+ components
-    /* @MainActor
 
     // MARK: - Real-World Simulation Tests
 

@@ -147,17 +147,14 @@ final class BadgePerformanceTests: XCTestCase {
     /// Test memory footprint for single Badge
     ///
     /// Baseline memory measurement
-    /* @MainActor
 
     /// Test memory footprint for 100 Badge instances with all levels
     ///
     /// Verify memory stays under 5MB target
-    /* @MainActor
 
     /// Test memory footprint with badges containing long text
     ///
     /// Ensure long text doesn't cause excessive memory usage
-    /* @MainActor
 
     // MARK: - SwiftUI View Hierarchy Tests
 
