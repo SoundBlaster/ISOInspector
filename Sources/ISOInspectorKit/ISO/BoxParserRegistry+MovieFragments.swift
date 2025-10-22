@@ -568,6 +568,401 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: .trackRun(runDetail))
     }
 
+    static func sampleEncryption(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+        guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+        let payloadStart = header.payloadRange.lowerBound
+        let payloadEnd = fullHeader.contentRange.upperBound
+
+        var fields: [ParsedBoxPayload.Field] = []
+        fields.append(ParsedBoxPayload.Field(
+            name: "version",
+            value: String(fullHeader.version),
+            description: "Structure version",
+            byteRange: payloadStart..<(payloadStart + 1)
+        ))
+
+        fields.append(ParsedBoxPayload.Field(
+            name: "flags",
+            value: String(format: "0x%06X", fullHeader.flags),
+            description: "Bit flags",
+            byteRange: (payloadStart + 1)..<(payloadStart + 4)
+        ))
+
+        let overrideDefaults = (fullHeader.flags & 0x000001) != 0
+        let usesSubsampleEncryption = (fullHeader.flags & 0x000002) != 0
+
+        fields.append(ParsedBoxPayload.Field(
+            name: "override_track_encryption_defaults",
+            value: boolString(overrideDefaults),
+            description: "Overrides track encryption defaults",
+            byteRange: nil
+        ))
+
+        fields.append(ParsedBoxPayload.Field(
+            name: "uses_subsample_encryption",
+            value: boolString(usesSubsampleEncryption),
+            description: "Includes subsample encryption entries",
+            byteRange: nil
+        ))
+
+        var cursor = fullHeader.contentStart
+
+        var algorithmIdentifier: UInt32?
+        var perSampleIVSize: UInt8?
+        var keyIdentifierRange: Range<Int64>?
+
+        if overrideDefaults {
+            guard let algorithmData = try readData(reader, at: cursor, count: 3, end: payloadEnd) else { return nil }
+            let algorithmValue = algorithmData.reduce(UInt32(0)) { ($0 << 8) | UInt32($1) }
+            algorithmIdentifier = algorithmValue
+            let algorithmRange = cursor..<(cursor + 3)
+            fields.append(ParsedBoxPayload.Field(
+                name: "algorithm_id",
+                value: String(format: "0x%06X", algorithmValue),
+                description: "Override algorithm identifier",
+                byteRange: algorithmRange
+            ))
+            cursor += 3
+
+            guard let ivSizeData = try readData(reader, at: cursor, count: 1, end: payloadEnd),
+                  let sizeByte = ivSizeData.first else { return nil }
+            perSampleIVSize = sizeByte
+            let ivSizeRange = cursor..<(cursor + 1)
+            fields.append(ParsedBoxPayload.Field(
+                name: "per_sample_iv_size",
+                value: String(sizeByte),
+                description: "Per-sample IV size override",
+                byteRange: ivSizeRange
+            ))
+            cursor += 1
+
+            let keyStart = cursor
+            let keyEnd = keyStart + 16
+            guard keyEnd <= payloadEnd else { return nil }
+            keyIdentifierRange = keyStart..<keyEnd
+            fields.append(ParsedBoxPayload.Field(
+                name: "key_identifier_range",
+                value: String(describing: keyIdentifierRange!),
+                description: "Byte range of overriding key identifier",
+                byteRange: keyIdentifierRange
+            ))
+            cursor = keyEnd
+        }
+
+        guard let sampleCount = try readUInt32(reader, at: cursor, end: payloadEnd) else { return nil }
+        let sampleCountRange = cursor..<(cursor + 4)
+        fields.append(ParsedBoxPayload.Field(
+            name: "sample_count",
+            value: String(sampleCount),
+            description: "Number of sample encryption records",
+            byteRange: sampleCountRange
+        ))
+        cursor += 4
+
+        var sampleInfoRange: Range<Int64>?
+        var sampleInfoByteLength: Int64?
+        var constantIVRange: Range<Int64>?
+        var constantIVByteLength: Int64?
+
+        if cursor < payloadEnd {
+            let remaining = payloadEnd - cursor
+            if sampleCount == 0 {
+                let range = cursor..<payloadEnd
+                constantIVRange = range
+                constantIVByteLength = remaining
+                fields.append(ParsedBoxPayload.Field(
+                    name: "constant_iv_length",
+                    value: String(remaining),
+                    description: "Bytes containing constant IV payload",
+                    byteRange: range
+                ))
+                fields.append(ParsedBoxPayload.Field(
+                    name: "constant_iv_range",
+                    value: String(describing: range),
+                    description: "Byte range of constant IV payload",
+                    byteRange: range
+                ))
+            } else {
+                let range = cursor..<payloadEnd
+                sampleInfoRange = range
+                sampleInfoByteLength = remaining
+                fields.append(ParsedBoxPayload.Field(
+                    name: "sample_info_length",
+                    value: String(remaining),
+                    description: "Total bytes used by sample encryption entries",
+                    byteRange: nil
+                ))
+                fields.append(ParsedBoxPayload.Field(
+                    name: "sample_info_range",
+                    value: String(describing: range),
+                    description: "Byte range covering sample encryption entries",
+                    byteRange: range
+                ))
+            }
+        }
+
+        let detail = ParsedBoxPayload.SampleEncryptionBox(
+            version: fullHeader.version,
+            flags: fullHeader.flags,
+            sampleCount: sampleCount,
+            algorithmIdentifier: algorithmIdentifier,
+            perSampleIVSize: perSampleIVSize,
+            keyIdentifierRange: keyIdentifierRange,
+            sampleInfoRange: sampleInfoRange,
+            sampleInfoByteLength: sampleInfoByteLength,
+            constantIVRange: constantIVRange,
+            constantIVByteLength: constantIVByteLength
+        )
+
+        return ParsedBoxPayload(fields: fields, detail: .sampleEncryption(detail))
+    }
+
+    static func sampleAuxInfoOffsets(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+        guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+        let payloadStart = header.payloadRange.lowerBound
+        let payloadEnd = fullHeader.contentRange.upperBound
+
+        var fields: [ParsedBoxPayload.Field] = []
+        fields.append(ParsedBoxPayload.Field(
+            name: "version",
+            value: String(fullHeader.version),
+            description: "Structure version",
+            byteRange: payloadStart..<(payloadStart + 1)
+        ))
+
+        fields.append(ParsedBoxPayload.Field(
+            name: "flags",
+            value: String(format: "0x%06X", fullHeader.flags),
+            description: "Bit flags",
+            byteRange: (payloadStart + 1)..<(payloadStart + 4)
+        ))
+
+        var cursor = fullHeader.contentStart
+
+        let hasAuxInfoType = (fullHeader.flags & 0x000001) != 0
+        var auxInfoType: FourCharCode?
+        var auxInfoTypeParameter: UInt32?
+
+        if hasAuxInfoType {
+            guard let type = try readFourCC(reader, at: cursor, end: payloadEnd) else { return nil }
+            auxInfoType = type
+            let typeRange = cursor..<(cursor + 4)
+            fields.append(ParsedBoxPayload.Field(
+                name: "aux_info_type",
+                value: type.rawValue,
+                description: "Auxiliary information type",
+                byteRange: typeRange
+            ))
+            cursor += 4
+
+            guard let parameter = try readUInt32(reader, at: cursor, end: payloadEnd) else { return nil }
+            auxInfoTypeParameter = parameter
+            let parameterRange = cursor..<(cursor + 4)
+            fields.append(ParsedBoxPayload.Field(
+                name: "aux_info_type_parameter",
+                value: String(parameter),
+                description: "Auxiliary information type parameter",
+                byteRange: parameterRange
+            ))
+            cursor += 4
+        }
+
+        guard let entryCount = try readUInt32(reader, at: cursor, end: payloadEnd) else { return nil }
+        let entryCountRange = cursor..<(cursor + 4)
+        fields.append(ParsedBoxPayload.Field(
+            name: "entry_count",
+            value: String(entryCount),
+            description: "Number of auxiliary offset entries",
+            byteRange: entryCountRange
+        ))
+        cursor += 4
+
+        let entrySizeBytes = fullHeader.version == 0 ? 4 : 8
+        fields.append(ParsedBoxPayload.Field(
+            name: "entry_size_bytes",
+            value: String(entrySizeBytes),
+            description: "Bytes per auxiliary offset entry",
+            byteRange: nil
+        ))
+
+        if entrySizeBytes == 8 {
+            fields.append(ParsedBoxPayload.Field(
+                name: "entry_size_note",
+                value: "64-bit offsets recorded as ranges",
+                description: "Placeholder handling for 64-bit auxiliary offsets",
+                byteRange: nil
+            ))
+        }
+
+        let entriesByteLength = Int64(entrySizeBytes) * Int64(entryCount)
+        guard cursor + entriesByteLength <= payloadEnd else { return nil }
+
+        var entriesRange: Range<Int64>?
+        if entriesByteLength > 0 {
+            let range = cursor..<(cursor + entriesByteLength)
+            entriesRange = range
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries_length",
+                value: String(entriesByteLength),
+                description: "Total bytes used by auxiliary offset entries",
+                byteRange: nil
+            ))
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries_range",
+                value: String(describing: range),
+                description: "Byte range covering auxiliary offset entries",
+                byteRange: range
+            ))
+        } else {
+            fields.append(ParsedBoxPayload.Field(
+                name: "entries_length",
+                value: "0",
+                description: "Total bytes used by auxiliary offset entries",
+                byteRange: nil
+            ))
+        }
+
+        let detail = ParsedBoxPayload.SampleAuxInfoOffsetsBox(
+            version: fullHeader.version,
+            flags: fullHeader.flags,
+            entryCount: entryCount,
+            auxInfoType: auxInfoType,
+            auxInfoTypeParameter: auxInfoTypeParameter,
+            entrySize: entrySizeBytes == 8 ? .eightBytes : .fourBytes,
+            entriesRange: entriesRange,
+            entriesByteLength: entriesByteLength > 0 ? entriesByteLength : nil
+        )
+
+        return ParsedBoxPayload(fields: fields, detail: .sampleAuxInfoOffsets(detail))
+    }
+
+    static func sampleAuxInfoSizes(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+        guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
+
+        let payloadStart = header.payloadRange.lowerBound
+        let payloadEnd = fullHeader.contentRange.upperBound
+
+        var fields: [ParsedBoxPayload.Field] = []
+        fields.append(ParsedBoxPayload.Field(
+            name: "version",
+            value: String(fullHeader.version),
+            description: "Structure version",
+            byteRange: payloadStart..<(payloadStart + 1)
+        ))
+
+        fields.append(ParsedBoxPayload.Field(
+            name: "flags",
+            value: String(format: "0x%06X", fullHeader.flags),
+            description: "Bit flags",
+            byteRange: (payloadStart + 1)..<(payloadStart + 4)
+        ))
+
+        var cursor = fullHeader.contentStart
+
+        let hasAuxInfoType = (fullHeader.flags & 0x000001) != 0
+        var auxInfoType: FourCharCode?
+        var auxInfoTypeParameter: UInt32?
+
+        if hasAuxInfoType {
+            guard let type = try readFourCC(reader, at: cursor, end: payloadEnd) else { return nil }
+            auxInfoType = type
+            let typeRange = cursor..<(cursor + 4)
+            fields.append(ParsedBoxPayload.Field(
+                name: "aux_info_type",
+                value: type.rawValue,
+                description: "Auxiliary information type",
+                byteRange: typeRange
+            ))
+            cursor += 4
+
+            guard let parameter = try readUInt32(reader, at: cursor, end: payloadEnd) else { return nil }
+            auxInfoTypeParameter = parameter
+            let parameterRange = cursor..<(cursor + 4)
+            fields.append(ParsedBoxPayload.Field(
+                name: "aux_info_type_parameter",
+                value: String(parameter),
+                description: "Auxiliary information type parameter",
+                byteRange: parameterRange
+            ))
+            cursor += 4
+        }
+
+        guard let defaultSizeData = try readData(reader, at: cursor, count: 1, end: payloadEnd),
+              let defaultSize = defaultSizeData.first else { return nil }
+        let defaultRange = cursor..<(cursor + 1)
+        fields.append(ParsedBoxPayload.Field(
+            name: "default_sample_info_size",
+            value: String(defaultSize),
+            description: "Default auxiliary sample info size",
+            byteRange: defaultRange
+        ))
+        cursor += 1
+
+        guard let entryCount = try readUInt32(reader, at: cursor, end: payloadEnd) else { return nil }
+        let entryCountRange = cursor..<(cursor + 4)
+        fields.append(ParsedBoxPayload.Field(
+            name: "entry_count",
+            value: String(entryCount),
+            description: "Number of auxiliary sample info entries",
+            byteRange: entryCountRange
+        ))
+        cursor += 4
+
+        fields.append(ParsedBoxPayload.Field(
+            name: "uses_uniform_sample_info_size",
+            value: boolString(defaultSize != 0),
+            description: "Indicates whether default size applies to all entries",
+            byteRange: nil
+        ))
+
+        var variableEntriesRange: Range<Int64>?
+        var variableEntriesByteLength: Int64?
+
+        if defaultSize == 0 {
+            let entriesByteLength = Int64(entryCount)
+            guard cursor + entriesByteLength <= payloadEnd else { return nil }
+            variableEntriesByteLength = entriesByteLength
+            fields.append(ParsedBoxPayload.Field(
+                name: "variable_sizes_length",
+                value: String(entriesByteLength),
+                description: "Total bytes used by variable sample info sizes",
+                byteRange: nil
+            ))
+            if entriesByteLength > 0 {
+                let range = cursor..<(cursor + entriesByteLength)
+                variableEntriesRange = range
+                fields.append(ParsedBoxPayload.Field(
+                    name: "variable_sizes_range",
+                    value: String(describing: range),
+                    description: "Byte range covering variable sample info sizes",
+                    byteRange: range
+                ))
+            }
+        } else {
+            fields.append(ParsedBoxPayload.Field(
+                name: "variable_sizes_length",
+                value: "0",
+                description: "Total bytes used by variable sample info sizes",
+                byteRange: nil
+            ))
+        }
+
+        let detail = ParsedBoxPayload.SampleAuxInfoSizesBox(
+            version: fullHeader.version,
+            flags: fullHeader.flags,
+            defaultSampleInfoSize: defaultSize,
+            entryCount: entryCount,
+            auxInfoType: auxInfoType,
+            auxInfoTypeParameter: auxInfoTypeParameter,
+            variableEntriesRange: variableEntriesRange,
+            variableEntriesByteLength: variableEntriesByteLength
+        )
+
+        return ParsedBoxPayload(fields: fields, detail: .sampleAuxInfoSizes(detail))
+    }
+
     static func trackFragment(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard header.payloadRange.lowerBound <= header.payloadRange.upperBound else { return nil }
         return ParsedBoxPayload()

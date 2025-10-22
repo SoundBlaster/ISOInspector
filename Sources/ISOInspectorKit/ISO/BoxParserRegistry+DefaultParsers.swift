@@ -48,6 +48,15 @@ extension BoxParserRegistry {
             if let traf = try? FourCharCode("traf") {
                 registry.register(parser: trackFragment, for: traf)
             }
+            if let senc = try? FourCharCode("senc") {
+                registry.register(parser: sampleEncryption, for: senc)
+            }
+            if let saio = try? FourCharCode("saio") {
+                registry.register(parser: sampleAuxInfoOffsets, for: saio)
+            }
+            if let saiz = try? FourCharCode("saiz") {
+                registry.register(parser: sampleAuxInfoSizes, for: saiz)
+            }
             if let tfra = try? FourCharCode("tfra") {
                 registry.register(parser: trackFragmentRandomAccess, for: tfra)
             }

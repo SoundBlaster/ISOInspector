@@ -11,6 +11,9 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         case trackFragmentHeader(TrackFragmentHeaderBox)
         case trackFragmentDecodeTime(TrackFragmentDecodeTimeBox)
         case trackRun(TrackRunBox)
+        case sampleEncryption(SampleEncryptionBox)
+        case sampleAuxInfoOffsets(SampleAuxInfoOffsetsBox)
+        case sampleAuxInfoSizes(SampleAuxInfoSizesBox)
         case trackFragment(TrackFragmentBox)
         case movieFragmentHeader(MovieFragmentHeaderBox)
         case movieFragmentRandomAccess(MovieFragmentRandomAccessBox)
@@ -419,6 +422,125 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             self.runIndex = runIndex
             self.firstSampleGlobalIndex = firstSampleGlobalIndex
         }
+    }
+
+    public struct SampleEncryptionBox: Equatable, Sendable {
+        public let version: UInt8
+        public let flags: UInt32
+        public let sampleCount: UInt32
+        public let algorithmIdentifier: UInt32?
+        public let perSampleIVSize: UInt8?
+        public let keyIdentifierRange: Range<Int64>?
+        public let sampleInfoRange: Range<Int64>?
+        public let sampleInfoByteLength: Int64?
+        public let constantIVRange: Range<Int64>?
+        public let constantIVByteLength: Int64?
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            sampleCount: UInt32,
+            algorithmIdentifier: UInt32?,
+            perSampleIVSize: UInt8?,
+            keyIdentifierRange: Range<Int64>?,
+            sampleInfoRange: Range<Int64>?,
+            sampleInfoByteLength: Int64?,
+            constantIVRange: Range<Int64>?,
+            constantIVByteLength: Int64?
+        ) {
+            self.version = version
+            self.flags = flags
+            self.sampleCount = sampleCount
+            self.algorithmIdentifier = algorithmIdentifier
+            self.perSampleIVSize = perSampleIVSize
+            self.keyIdentifierRange = keyIdentifierRange
+            self.sampleInfoRange = sampleInfoRange
+            self.sampleInfoByteLength = sampleInfoByteLength
+            self.constantIVRange = constantIVRange
+            self.constantIVByteLength = constantIVByteLength
+        }
+
+        public var overrideTrackEncryptionDefaults: Bool { (flags & 0x000001) != 0 }
+
+        public var usesSubsampleEncryption: Bool { (flags & 0x000002) != 0 }
+    }
+
+    public struct SampleAuxInfoOffsetsBox: Equatable, Sendable {
+        public enum EntrySize: Equatable, Sendable {
+            case fourBytes
+            case eightBytes
+        }
+
+        public let version: UInt8
+        public let flags: UInt32
+        public let entryCount: UInt32
+        public let auxInfoType: FourCharCode?
+        public let auxInfoTypeParameter: UInt32?
+        public let entrySize: EntrySize
+        public let entriesRange: Range<Int64>?
+        public let entriesByteLength: Int64?
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            entryCount: UInt32,
+            auxInfoType: FourCharCode?,
+            auxInfoTypeParameter: UInt32?,
+            entrySize: EntrySize,
+            entriesRange: Range<Int64>?,
+            entriesByteLength: Int64?
+        ) {
+            self.version = version
+            self.flags = flags
+            self.entryCount = entryCount
+            self.auxInfoType = auxInfoType
+            self.auxInfoTypeParameter = auxInfoTypeParameter
+            self.entrySize = entrySize
+            self.entriesRange = entriesRange
+            self.entriesByteLength = entriesByteLength
+        }
+
+        public var entrySizeBytes: Int {
+            switch entrySize {
+            case .fourBytes:
+                return 4
+            case .eightBytes:
+                return 8
+            }
+        }
+    }
+
+    public struct SampleAuxInfoSizesBox: Equatable, Sendable {
+        public let version: UInt8
+        public let flags: UInt32
+        public let defaultSampleInfoSize: UInt8
+        public let entryCount: UInt32
+        public let auxInfoType: FourCharCode?
+        public let auxInfoTypeParameter: UInt32?
+        public let variableEntriesRange: Range<Int64>?
+        public let variableEntriesByteLength: Int64?
+
+        public init(
+            version: UInt8,
+            flags: UInt32,
+            defaultSampleInfoSize: UInt8,
+            entryCount: UInt32,
+            auxInfoType: FourCharCode?,
+            auxInfoTypeParameter: UInt32?,
+            variableEntriesRange: Range<Int64>?,
+            variableEntriesByteLength: Int64?
+        ) {
+            self.version = version
+            self.flags = flags
+            self.defaultSampleInfoSize = defaultSampleInfoSize
+            self.entryCount = entryCount
+            self.auxInfoType = auxInfoType
+            self.auxInfoTypeParameter = auxInfoTypeParameter
+            self.variableEntriesRange = variableEntriesRange
+            self.variableEntriesByteLength = variableEntriesByteLength
+        }
+
+        public var usesUniformSampleInfoSize: Bool { defaultSampleInfoSize != 0 }
     }
 
     public struct TrackFragmentBox: Equatable, Sendable {
@@ -1174,6 +1296,21 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
     public var trackRun: TrackRunBox? {
         guard case let .trackRun(box) = detail else { return nil }
+        return box
+    }
+
+    public var sampleEncryption: SampleEncryptionBox? {
+        guard case let .sampleEncryption(box) = detail else { return nil }
+        return box
+    }
+
+    public var sampleAuxInfoOffsets: SampleAuxInfoOffsetsBox? {
+        guard case let .sampleAuxInfoOffsets(box) = detail else { return nil }
+        return box
+    }
+
+    public var sampleAuxInfoSizes: SampleAuxInfoSizesBox? {
+        guard case let .sampleAuxInfoSizes(box) = detail else { return nil }
         return box
     }
 
