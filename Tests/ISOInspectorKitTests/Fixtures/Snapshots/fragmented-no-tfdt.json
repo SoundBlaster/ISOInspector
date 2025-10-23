@@ -1,15 +1,20 @@
 {
+  "format" : {
+    "byte_size" : 640
+  },
   "nodes" : [
     {
       "children" : [
 
       ],
       "fourcc" : "styp",
+      "header_size" : 8,
       "metadata" : {
         "name" : "Segment Type Box",
         "specification" : "ISO",
         "summary" : "Segment Type Box"
       },
+      "name" : "styp",
       "offsets" : {
         "end" : 24,
         "payloadEnd" : 24,
@@ -37,6 +42,7 @@
           "value" : "8..<24"
         }
       ],
+      "size" : 24,
       "sizes" : {
         "header" : 8,
         "payload" : 16,
@@ -57,11 +63,13 @@
 
           ],
           "fourcc" : "mfhd",
+          "header_size" : 8,
           "metadata" : {
             "name" : "Movie Fragment Header",
             "specification" : "ISO",
             "summary" : "movie fragment header"
           },
+          "name" : "mfhd",
           "offsets" : {
             "end" : 52,
             "payloadEnd" : 52,
@@ -97,6 +105,7 @@
               "value" : "0"
             }
           ],
+          "size" : 20,
           "sizes" : {
             "header" : 8,
             "payload" : 12,
@@ -124,11 +133,13 @@
 
               ],
               "fourcc" : "tfhd",
+              "header_size" : 8,
               "metadata" : {
                 "name" : "Track Fragment Header",
                 "specification" : "ISO",
                 "summary" : "Track fragment header"
               },
+              "name" : "tfhd",
               "offsets" : {
                 "end" : 84,
                 "payloadEnd" : 84,
@@ -192,6 +203,7 @@
                   "value" : "true"
                 }
               ],
+              "size" : 24,
               "sizes" : {
                 "header" : 8,
                 "payload" : 16,
@@ -217,11 +229,13 @@
 
               ],
               "fourcc" : "trun",
+              "header_size" : 8,
               "metadata" : {
                 "name" : "Track Fragment Run",
                 "specification" : "ISO",
                 "summary" : "track fragment run"
               },
+              "name" : "trun",
               "offsets" : {
                 "end" : 120,
                 "payloadEnd" : 120,
@@ -302,6 +316,7 @@
                   "value" : "220"
                 }
               ],
+              "size" : 36,
               "sizes" : {
                 "header" : 8,
                 "payload" : 28,
@@ -351,17 +366,20 @@
             }
           ],
           "fourcc" : "traf",
+          "header_size" : 8,
           "metadata" : {
             "name" : "Track Fragment",
             "specification" : "ISO",
             "summary" : "Track fragment"
           },
+          "name" : "traf",
           "offsets" : {
             "end" : 120,
             "payloadEnd" : 120,
             "payloadStart" : 60,
             "start" : 52
           },
+          "size" : 68,
           "sizes" : {
             "header" : 8,
             "payload" : 60,
@@ -429,17 +447,20 @@
         }
       ],
       "fourcc" : "moof",
+      "header_size" : 8,
       "metadata" : {
         "name" : "Movie Fragment",
         "specification" : "ISO",
         "summary" : "movie fragment"
       },
+      "name" : "moof",
       "offsets" : {
         "end" : 120,
         "payloadEnd" : 120,
         "payloadStart" : 32,
         "start" : 24
       },
+      "size" : 96,
       "sizes" : {
         "header" : 8,
         "payload" : 88,
@@ -458,17 +479,20 @@
 
       ],
       "fourcc" : "mdat",
+      "header_size" : 8,
       "metadata" : {
         "name" : "Media Data Container",
         "specification" : "ISO\/IEC 14496-12",
         "summary" : "Holds the raw media samples referenced by the track sample tables."
       },
+      "name" : "mdat",
       "offsets" : {
         "end" : 640,
         "payloadEnd" : 640,
         "payloadStart" : 128,
         "start" : 120
       },
+      "size" : 520,
       "sizes" : {
         "header" : 8,
         "payload" : 512,

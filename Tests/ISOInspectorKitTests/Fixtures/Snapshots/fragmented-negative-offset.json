@@ -1,15 +1,20 @@
 {
+  "format" : {
+    "byte_size" : 664
+  },
   "nodes" : [
     {
       "children" : [
 
       ],
       "fourcc" : "styp",
+      "header_size" : 8,
       "metadata" : {
         "name" : "Segment Type Box",
         "specification" : "ISO",
         "summary" : "Segment Type Box"
       },
+      "name" : "styp",
       "offsets" : {
         "end" : 24,
         "payloadEnd" : 24,
@@ -37,6 +42,7 @@
           "value" : "8..<24"
         }
       ],
+      "size" : 24,
       "sizes" : {
         "header" : 8,
         "payload" : 16,
@@ -57,11 +63,13 @@
 
           ],
           "fourcc" : "mfhd",
+          "header_size" : 8,
           "metadata" : {
             "name" : "Movie Fragment Header",
             "specification" : "ISO",
             "summary" : "movie fragment header"
           },
+          "name" : "mfhd",
           "offsets" : {
             "end" : 52,
             "payloadEnd" : 52,
@@ -97,6 +105,7 @@
               "value" : "0"
             }
           ],
+          "size" : 20,
           "sizes" : {
             "header" : 8,
             "payload" : 12,
@@ -124,11 +133,13 @@
 
               ],
               "fourcc" : "tfhd",
+              "header_size" : 8,
               "metadata" : {
                 "name" : "Track Fragment Header",
                 "specification" : "ISO",
                 "summary" : "Track fragment header"
               },
+              "name" : "tfhd",
               "offsets" : {
                 "end" : 92,
                 "payloadEnd" : 92,
@@ -201,6 +212,7 @@
                   "value" : "false"
                 }
               ],
+              "size" : 32,
               "sizes" : {
                 "header" : 8,
                 "payload" : 24,
@@ -227,11 +239,13 @@
 
               ],
               "fourcc" : "tfdt",
+              "header_size" : 8,
               "metadata" : {
                 "name" : "Track Fragment Decode Time",
                 "specification" : "ISO",
                 "summary" : "Track fragment decode time"
               },
+              "name" : "tfdt",
               "offsets" : {
                 "end" : 112,
                 "payloadEnd" : 112,
@@ -267,6 +281,7 @@
                   "value" : "2000"
                 }
               ],
+              "size" : 20,
               "sizes" : {
                 "header" : 8,
                 "payload" : 12,
@@ -289,11 +304,13 @@
 
               ],
               "fourcc" : "trun",
+              "header_size" : 8,
               "metadata" : {
                 "name" : "Track Fragment Run",
                 "specification" : "ISO",
                 "summary" : "track fragment run"
               },
+              "name" : "trun",
               "offsets" : {
                 "end" : 144,
                 "payloadEnd" : 144,
@@ -365,6 +382,7 @@
                   "value" : "-20"
                 }
               ],
+              "size" : 32,
               "sizes" : {
                 "header" : 8,
                 "payload" : 24,
@@ -408,17 +426,20 @@
             }
           ],
           "fourcc" : "traf",
+          "header_size" : 8,
           "metadata" : {
             "name" : "Track Fragment",
             "specification" : "ISO",
             "summary" : "Track fragment"
           },
+          "name" : "traf",
           "offsets" : {
             "end" : 144,
             "payloadEnd" : 144,
             "payloadStart" : 60,
             "start" : 52
           },
+          "size" : 92,
           "sizes" : {
             "header" : 8,
             "payload" : 84,
@@ -486,17 +507,20 @@
         }
       ],
       "fourcc" : "moof",
+      "header_size" : 8,
       "metadata" : {
         "name" : "Movie Fragment",
         "specification" : "ISO",
         "summary" : "movie fragment"
       },
+      "name" : "moof",
       "offsets" : {
         "end" : 144,
         "payloadEnd" : 144,
         "payloadStart" : 32,
         "start" : 24
       },
+      "size" : 120,
       "sizes" : {
         "header" : 8,
         "payload" : 112,
@@ -515,17 +539,20 @@
 
       ],
       "fourcc" : "mdat",
+      "header_size" : 8,
       "metadata" : {
         "name" : "Media Data Container",
         "specification" : "ISO\/IEC 14496-12",
         "summary" : "Holds the raw media samples referenced by the track sample tables."
       },
+      "name" : "mdat",
       "offsets" : {
         "end" : 664,
         "payloadEnd" : 664,
         "payloadStart" : 152,
         "start" : 144
       },
+      "size" : 520,
       "sizes" : {
         "header" : 8,
         "payload" : 512,
