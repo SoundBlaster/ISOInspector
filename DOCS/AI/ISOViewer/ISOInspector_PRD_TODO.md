@@ -223,7 +223,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] D6. Recognize `senc/saio/saiz` (CENC placeholders), capture sizes/offsets only. _(Completed — implementation recap lives in `DOCS/TASK_ARCHIVE/150_Summary_of_Work_2025-10-22_Sample_Encryption_Metadata/Summary_of_Work.md`, with detailed PRDs retained under `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/`.)_
 
 ### Phase E — Validation
-- [ ] E1. Enforce parent containment and non-overlap. _(In Progress — see `DOCS/INPROGRESS/E1_Enforce_Parent_Containment_and_Non_Overlap.md` for the active lightweight PRD; historical context remains in `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/E1_Enforce_Parent_Containment_and_Non_Overlap.md` with follow-up pointers in `DOCS/INPROGRESS/next_tasks.md`.)_
+- [x] E1. Enforce parent containment and non-overlap. _(Completed — see `DOCS/TASK_ARCHIVE/159_E1_Enforce_Parent_Containment_and_Non_Overlap/Summary_of_Work.md` for validation details; historical context remains in `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/E1_Enforce_Parent_Containment_and_Non_Overlap.md`.)_
 - [ ] E2. Detect zero/negative progress loops; cap nesting depth. _(In Progress — alignment with app shell wiring to surface live parser progress.)_
 - [x] E3. Warn on unusual top-level ordering (advisory). _(Completed — summary in `DOCS/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/Summary_of_Work.md`.)_
 - [x] E4. Verify `avcC/hvcC` invariants; flag inconsistencies. _(Completed — validation summary recorded in `DOCS/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/Summary_of_Work.md`.)_

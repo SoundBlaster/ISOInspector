@@ -193,6 +193,63 @@ final class BoxValidatorTests: XCTestCase {
         XCTAssertTrue(vr002Issues.isEmpty)
     }
 
+    func testContainerRuleReportsChildOverflowBeyondParentPayload() throws {
+        let reader = InMemoryRandomAccessReader(data: Data(count: 64))
+        let moov = try makeHeader(type: ContainerTypes.movie, totalSize: 28, headerSize: 8, offset: 0)
+        let oversizedChild = try makeHeader(type: ContainerTypes.track, totalSize: 24, headerSize: 8, offset: 8)
+
+        let validator = BoxValidator()
+
+        _ = validator.annotate(
+            event: ParseEvent(kind: .willStartBox(header: moov, depth: 0), offset: moov.startOffset),
+            reader: reader
+        )
+
+        let annotatedChildStart = validator.annotate(
+            event: ParseEvent(kind: .willStartBox(header: oversizedChild, depth: 1), offset: oversizedChild.startOffset),
+            reader: reader
+        )
+
+        let vr002Issues = annotatedChildStart.validationIssues.filter { $0.ruleID == "VR-002" }
+        XCTAssertEqual(vr002Issues.count, 1)
+        XCTAssertEqual(vr002Issues.first?.severity, .error)
+        let message = try XCTUnwrap(vr002Issues.first?.message)
+        XCTAssertTrue(message.contains("extends beyond parent"))
+    }
+
+    func testContainerRuleReportsChildOverlapWithSibling() throws {
+        let reader = InMemoryRandomAccessReader(data: Data(count: 64))
+        let moov = try makeHeader(type: ContainerTypes.movie, totalSize: 40, headerSize: 8, offset: 0)
+        let firstChild = try makeHeader(type: ContainerTypes.track, totalSize: 16, headerSize: 8, offset: 8)
+        let overlappingChild = try makeHeader(type: ContainerTypes.track, totalSize: 16, headerSize: 8, offset: 20)
+
+        let validator = BoxValidator()
+
+        _ = validator.annotate(
+            event: ParseEvent(kind: .willStartBox(header: moov, depth: 0), offset: moov.startOffset),
+            reader: reader
+        )
+        _ = validator.annotate(
+            event: ParseEvent(kind: .willStartBox(header: firstChild, depth: 1), offset: firstChild.startOffset),
+            reader: reader
+        )
+        _ = validator.annotate(
+            event: ParseEvent(kind: .didFinishBox(header: firstChild, depth: 1), offset: firstChild.endOffset),
+            reader: reader
+        )
+
+        let annotatedChildStart = validator.annotate(
+            event: ParseEvent(kind: .willStartBox(header: overlappingChild, depth: 1), offset: overlappingChild.startOffset),
+            reader: reader
+        )
+
+        let vr002Issues = annotatedChildStart.validationIssues.filter { $0.ruleID == "VR-002" }
+        XCTAssertEqual(vr002Issues.count, 1)
+        XCTAssertEqual(vr002Issues.first?.severity, .error)
+        let message = try XCTUnwrap(vr002Issues.first?.message)
+        XCTAssertTrue(message.contains("overlaps previous child"))
+    }
+
     func testFragmentSequenceRuleWarnsOnNonMonotonicSequenceNumbers() throws {
         let reader = InMemoryRandomAccessReader(data: Data(count: 64))
         let validator = BoxValidator()
