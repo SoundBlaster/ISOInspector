@@ -127,6 +127,7 @@
 		74F08A27B38169C6352277FB /* BoxParserRegistry+DefaultParsers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D46B29E244EF774AF44382C /* BoxParserRegistry+DefaultParsers.swift */; };
 		753B91A3E2C4AB0110487DFE /* ParseTreeAccessibilityID.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE8E4A4DC303AFF6BCE115 /* ParseTreeAccessibilityID.swift */; };
 		75B172717DDBB2CD73577B39 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = B203B2B399DEA61EDF375406 /* AppIcon.icon */; };
+		761B0D654B43309EE136FB85 /* BoxNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB513FD5C9B8A3F781F4DF9 /* BoxNode.swift */; };
 		766F5885A36890CF7CF58CD4 /* DocumentRecentsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09E4867B52AD8CDF2C20D1A /* DocumentRecentsStore.swift */; };
 		772AD4D3C960410596D52FFE /* ParseEventCaptureDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 958F0BA20DF5766AE868440F /* ParseEventCaptureDecoder.swift */; };
 		781CC94CF484A6D4BDF4738E /* HexSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E4B36BBCA953B1DB84BF5 /* HexSlice.swift */; };
@@ -376,6 +377,7 @@
 		049756A04BDD0C4962FC7559 /* FilesystemDocumentPickerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesystemDocumentPickerPresenter.swift; sourceTree = "<group>"; };
 		05043D92689718753BEA16A1 /* MP4RACatalogRefresher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MP4RACatalogRefresher.swift; sourceTree = "<group>"; };
 		093A8BC7169A56A62A209090 /* BoxParserRegistry+EditList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BoxParserRegistry+EditList.swift"; sourceTree = "<group>"; };
+		0BB513FD5C9B8A3F781F4DF9 /* BoxNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxNode.swift; sourceTree = "<group>"; };
 		0D28E0A149E31A82169CA5F7 /* BoxClassifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxClassifier.swift; sourceTree = "<group>"; };
 		0DACBC298A1C81567875D980 /* ParseTreeStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTreeStore.swift; sourceTree = "<group>"; };
 		0F4D1DD96425D2CA613C00E7 /* TuistBundle+ISOInspectorAppIOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+ISOInspectorAppIOS.swift"; sourceTree = "<group>"; };
@@ -632,6 +634,7 @@
 				91B483777CC66074C18FECD4 /* BoxHeader.swift */,
 				19612B88415324608FBF01DD /* BoxHeader+Identifier.swift */,
 				1B15415AD5137B028304C68D /* BoxHeaderDecoder.swift */,
+				0BB513FD5C9B8A3F781F4DF9 /* BoxNode.swift */,
 				9B4375801992F96F39B73543 /* BoxParserRegistry.swift */,
 				5D46B29E244EF774AF44382C /* BoxParserRegistry+DefaultParsers.swift */,
 				093A8BC7169A56A62A209090 /* BoxParserRegistry+EditList.swift */,
@@ -1449,6 +1452,7 @@
 				AD025C1188EA52880D5CDF15 /* BoxHeader+Identifier.swift in Sources */,
 				84147E6B2CF64CFE23D5E879 /* BoxHeader.swift in Sources */,
 				E57654EEA989DA89007CE5C4 /* BoxHeaderDecoder.swift in Sources */,
+				761B0D654B43309EE136FB85 /* BoxNode.swift in Sources */,
 				74F08A27B38169C6352277FB /* BoxParserRegistry+DefaultParsers.swift in Sources */,
 				749E1890A9ACC112A883BDE2 /* BoxParserRegistry+EditList.swift in Sources */,
 				F0A8B1CEB97935FFCF9CA25F /* BoxParserRegistry+FileTypeAndSampleSizes.swift in Sources */,
