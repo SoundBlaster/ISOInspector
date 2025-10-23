@@ -71,5 +71,13 @@ let project = Project(
     targets: [
         foundationUIFramework(),
         foundationUITests()
+    ],
+    schemes: [
+        .scheme(
+            name: "FoundationUI",
+            shared: true,
+            buildAction: .buildAction(targets: ["FoundationUI"]),
+            testAction: .targets(["FoundationUITests"])
+        )
     ]
 )
