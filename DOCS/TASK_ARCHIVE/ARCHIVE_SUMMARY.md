@@ -200,6 +200,12 @@
 - **Highlights:** Documents the CoreData migration strategy for session persistence, including schema evolution paths, lightweight migration safeguards, and testing plus tooling implications for Task E3.
 - **Next steps carried forward:** Implement Task E3 with versioned model loading, migration coverage, and updated DocC articles describing session restoration workflows, coordinating migration rehearsals once macOS automation hardware is online.
 
+## 154_G7_State_Management_ViewModels
+- **Archived files:** `G7_State_Management_ViewModels.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/154_G7_State_Management_ViewModels/`.
+- **Highlights:** Captures the SwiftUI document, node, and hex view model layer that coordinates streaming parse tree state, validation badge counts, export affordances, and selection synchronization across outline/detail panes.
+- **Next steps carried forward:** Continue structural containment validation for Task E1 alongside licensing and fixture maintenance follow-ups enumerated in `DOCS/INPROGRESS/next_tasks.md`.
+
 ## 137_D3_traf_tfhd_tfdt_trun_Parsing
 - **Archived files:** `D3_traf_tfhd_tfdt_trun_Parsing.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/`.
