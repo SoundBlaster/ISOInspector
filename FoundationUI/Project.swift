@@ -73,21 +73,19 @@ let project = Project(
         foundationUITests()
     ],
     schemes: [
-        .scheme(
+        Scheme(
             name: "FoundationUI",
             shared: true,
-            buildAction: .buildAction(targets: ["FoundationUI"]),
-            testAction: .testAction(
-                targets: [
-                    .testableTarget(target: .target("FoundationUITests"))
-                ],
+            buildAction: BuildAction(targets: ["FoundationUI"]),
+            testAction: TestAction.targets(
+                ["FoundationUITests"],
                 configuration: .debug,
                 options: .options(coverage: true)
             ),
-            runAction: .runAction(configuration: .debug),
-            archiveAction: .archiveAction(configuration: .release),
-            profileAction: .profileAction(configuration: .release),
-            analyzeAction: .analyzeAction(configuration: .debug)
+            runAction: RunAction(configuration: .debug),
+            archiveAction: ArchiveAction(configuration: .release),
+            profileAction: ProfileAction(configuration: .release),
+            analyzeAction: AnalyzeAction(configuration: .debug)
         )
     ]
 )
