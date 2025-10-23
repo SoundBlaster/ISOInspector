@@ -4,4 +4,14 @@
    <FileRef
       location = "group:ISOInspector.xcodeproj">
    </FileRef>
+   <Group
+      location = "group:Examples"
+      name = "Examples">
+      <FileRef
+         location = "group:ComponentTestApp/ComponentTestApp.xcodeproj">
+      </FileRef>
+   </Group>
+   <FileRef
+      location = "group:FoundationUI/FoundationUI.xcodeproj">
+   </FileRef>
 </Workspace>
