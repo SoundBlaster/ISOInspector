@@ -89,12 +89,22 @@ private final class ContainerBoundaryRule: BoxValidationRule, @unchecked Sendabl
 
             if let parentIndex = stack.indices.last {
                 var parent = stack[parentIndex]
-                if parent.nextChildOffset != header.startOffset {
-                    let message = "Container \(parent.header.identifierString) expected child to start at offset \(parent.nextChildOffset) but found \(header.startOffset)."
+                let expectedStart = parent.nextChildOffset
+                if header.startOffset < expectedStart {
+                    let message = "Child \(header.identifierString) overlaps previous child inside \(parent.header.identifierString): starts at offset \(header.startOffset) before expected next child at \(expectedStart)."
                     issues.append(ValidationIssue(ruleID: "VR-002", message: message, severity: .error))
-                    parent.nextChildOffset = header.startOffset
+                } else if header.startOffset > expectedStart {
+                    let message = "Container \(parent.header.identifierString) expected child to start at offset \(expectedStart) but found \(header.startOffset)."
+                    issues.append(ValidationIssue(ruleID: "VR-002", message: message, severity: .error))
                 }
-                parent.nextChildOffset = header.endOffset
+
+                let parentPayloadEnd = parent.header.payloadRange.upperBound
+                if header.endOffset > parentPayloadEnd {
+                    let message = "Child \(header.identifierString) extends beyond parent \(parent.header.identifierString) payload (child end \(header.endOffset), parent end \(parentPayloadEnd))."
+                    issues.append(ValidationIssue(ruleID: "VR-002", message: message, severity: .error))
+                }
+
+                parent.nextChildOffset = max(parent.nextChildOffset, header.endOffset)
                 parent.hasChildren = true
                 stack[parentIndex] = parent
             }
@@ -133,7 +143,7 @@ private final class ContainerBoundaryRule: BoxValidationRule, @unchecked Sendabl
 
             if let parentIndex = stack.indices.last {
                 var parent = stack[parentIndex]
-                parent.nextChildOffset = header.endOffset
+                parent.nextChildOffset = max(parent.nextChildOffset, header.endOffset)
                 parent.hasChildren = true
                 stack[parentIndex] = parent
             }
