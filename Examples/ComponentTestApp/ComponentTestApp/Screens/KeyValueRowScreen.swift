@@ -19,7 +19,6 @@ import FoundationUI
 struct KeyValueRowScreen: View {
     @State private var layout: KeyValueLayout = .horizontal
     @State private var isCopyable = true
-    @State private var useMonospaced = true
 
     var body: some View {
         ScrollView {
@@ -48,7 +47,6 @@ struct KeyValueRowScreen: View {
                     .pickerStyle(.segmented)
 
                     Toggle("Copyable Text", isOn: $isCopyable)
-                    Toggle("Monospaced Font", isOn: $useMonospaced)
                 }
 
                 Divider()
@@ -62,24 +60,21 @@ struct KeyValueRowScreen: View {
                         key: "Box Type",
                         value: "ftyp",
                         layout: layout,
-                        isCopyable: isCopyable,
-                        useMonospacedFont: useMonospaced
+                        copyable: isCopyable
                     )
 
                     KeyValueRow(
                         key: "Size",
                         value: "32 bytes",
                         layout: layout,
-                        isCopyable: isCopyable,
-                        useMonospacedFont: useMonospaced
+                        copyable: isCopyable
                     )
 
                     KeyValueRow(
                         key: "Offset",
                         value: "0x00000000",
                         layout: layout,
-                        isCopyable: isCopyable,
-                        useMonospacedFont: useMonospaced
+                        copyable: isCopyable
                     )
 
                     CodeSnippetView(code: """
@@ -87,7 +82,7 @@ struct KeyValueRowScreen: View {
                             key: "Box Type",
                             value: "ftyp",
                             layout: .\\(layout == .horizontal ? "horizontal" : "vertical"),
-                            isCopyable: \\(isCopyable)
+                            copyable: \\(isCopyable)
                         )
                         """)
                 }
@@ -103,16 +98,14 @@ struct KeyValueRowScreen: View {
                         key: "Description",
                         value: "This is a very long description that demonstrates how the component handles text wrapping and layout adjustments.",
                         layout: layout,
-                        isCopyable: isCopyable,
-                        useMonospacedFont: useMonospaced
+                        copyable: isCopyable
                     )
 
                     KeyValueRow(
                         key: "Hex Data",
                         value: "0x00 0x00 0x00 0x20 0x66 0x74 0x79 0x70 0x69 0x73 0x6F 0x6D",
                         layout: layout,
-                        isCopyable: isCopyable,
-                        useMonospacedFont: useMonospaced
+                        copyable: isCopyable
                     )
                 }
 
@@ -150,11 +143,11 @@ struct KeyValueRowScreen: View {
                         VStack(alignment: .leading, spacing: DS.Spacing.m) {
                             SectionHeader(title: "ISO Box Metadata", showDivider: false)
 
-                            KeyValueRow(key: "Box Type", value: "ftyp", isCopyable: true)
-                            KeyValueRow(key: "Size", value: "32 bytes", isCopyable: false)
-                            KeyValueRow(key: "Offset", value: "0x00000000", isCopyable: true, useMonospacedFont: true)
-                            KeyValueRow(key: "Major Brand", value: "isom", isCopyable: true)
-                            KeyValueRow(key: "Minor Version", value: "512", isCopyable: false)
+                            KeyValueRow(key: "Box Type", value: "ftyp", copyable: true)
+                            KeyValueRow(key: "Size", value: "32 bytes", copyable: false)
+                            KeyValueRow(key: "Offset", value: "0x00000000", copyable: true)
+                            KeyValueRow(key: "Major Brand", value: "isom", copyable: true)
+                            KeyValueRow(key: "Minor Version", value: "512", copyable: false)
 
                             HStack {
                                 Badge(text: "Valid", level: .success, showIcon: true)
@@ -197,8 +190,7 @@ struct KeyValueRowScreen: View {
                             key: String,
                             value: String,
                             layout: KeyValueLayout,     // .horizontal, .vertical
-                            isCopyable: Bool,           // Default: false
-                            useMonospacedFont: Bool     // Default: true
+                            copyable: Bool              // Default: false
                         )
                         """)
                 }

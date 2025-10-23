@@ -15,7 +15,6 @@ import FoundationUI
 struct ModifiersScreen: View {
     @State private var selectedBadgeLevel: BadgeLevel = .info
     @State private var selectedCardElevation: CardElevation = .medium
-    @State private var isInteractive = true
 
     var body: some View {
         ScrollView {
@@ -114,9 +113,6 @@ struct ModifiersScreen: View {
                         .font(DS.Typography.body)
                         .foregroundStyle(.secondary)
 
-                    Toggle("Interactive", isOn: $isInteractive)
-                        .padding(.vertical, DS.Spacing.s)
-
                     // Interactive examples
                     HStack(spacing: DS.Spacing.m) {
                         Text("Hover Me")
@@ -124,14 +120,14 @@ struct ModifiersScreen: View {
                             .padding(DS.Spacing.l)
                             .background(DS.Color.accent.opacity(0.1))
                             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-                            .interactiveStyle(isEnabled: isInteractive)
+                            .interactiveStyle()
 
                         Text("Click Me")
                             .font(DS.Typography.body)
                             .padding(DS.Spacing.l)
                             .background(DS.Color.accent.opacity(0.1))
                             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-                            .interactiveStyle(isEnabled: isInteractive)
+                            .interactiveStyle()
                     }
 
                     // Code snippet
@@ -139,7 +135,7 @@ struct ModifiersScreen: View {
                         Text("Interactive")
                             .padding(DS.Spacing.l)
                             .background(DS.Color.accent.opacity(0.1))
-                            .interactiveStyle(isEnabled: \\(isInteractive))
+                            .interactiveStyle()
                         """)
                 }
 
