@@ -176,13 +176,22 @@ Every screen includes formatted code snippets demonstrating:
 ### Compilation Status
 ⚠️ **Not Tested**: Swift compiler not available in Linux environment. App designed for iOS 17+/macOS 14+ and will require Xcode for compilation.
 
-**Expected Build Steps** (on macOS with Xcode):
+**Build Steps Using Tuist** (on macOS with Xcode):
 ```bash
-cd Examples/ComponentTestApp
-open Package.swift          # Opens in Xcode
-# Select target: iOS Simulator or My Mac
+# From repository root
+cd /path/to/ISOInspector
+
+# Generate Xcode workspace
+tuist generate
+
+# Open workspace
+open ISOInspector.xcworkspace
+
+# Select ComponentTestApp-iOS or ComponentTestApp-macOS scheme
 # Press ⌘R to build and run
 ```
+
+**Note**: This project now uses Tuist for project generation instead of SPM Package.swift.
 
 ### SwiftLint Status
 ⚠️ **Not Run**: SwiftLint not available in current environment. Code follows FoundationUI conventions:

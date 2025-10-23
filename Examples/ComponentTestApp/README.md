@@ -46,55 +46,64 @@ ComponentTestApp/
 - **Xcode 15.0+** (for iOS/macOS development)
 - **Swift 6.0+** toolchain
 - **macOS 14+** or **iOS 17+** target device/simulator
+- **Tuist** (for project generation)
 
 ### Installation & Running
 
-#### Option 1: Swift Package Manager (Command Line)
+#### Using Tuist (Recommended)
 
-```bash
-# Navigate to the ComponentTestApp directory
-cd Examples/ComponentTestApp
+**This project uses Tuist for project generation.**
 
-# Build the app
-swift build
-
-# Run on macOS (if using executable target)
-swift run
-
-# Note: For iOS, use Xcode to run on simulator/device
-```
-
-#### Option 2: Xcode
-
-1. **Open the package:**
+1. **Generate the Xcode workspace:**
    ```bash
-   open Examples/ComponentTestApp/Package.swift
+   # From the repository root
+   cd /path/to/ISOInspector
+   tuist generate
    ```
 
-2. **Select a target device:**
-   - For iOS: Choose an iPhone/iPad simulator or connected device
-   - For macOS: Choose "My Mac"
+2. **Open the workspace:**
+   ```bash
+   open ISOInspector.xcworkspace
+   ```
 
-3. **Run the app:**
+3. **Select ComponentTestApp scheme:**
+   - For iOS: Select `ComponentTestApp-iOS` scheme + iPhone/iPad simulator
+   - For macOS: Select `ComponentTestApp-macOS` scheme + My Mac
+
+4. **Run the app:**
    - Press `⌘R` or click the Run button
    - The app will build and launch
+
+#### Installing Tuist
+
+If you don't have Tuist installed:
+
+```bash
+# Using Homebrew
+brew install tuist/tap/tuist
+
+# Or using Mise (recommended)
+mise install tuist
+```
+
+See [Tuist documentation](https://docs.tuist.io/guides/quick-start/install-tuist) for more options.
 
 ### Running on Different Platforms
 
 **iOS Simulator:**
-```bash
-# From Xcode: Product → Destination → iPhone 15 (or any iOS 17+ simulator)
-```
+1. Select `ComponentTestApp-iOS` scheme
+2. Choose destination: iPhone 15 (or any iOS 17+ simulator)
+3. Press `⌘R`
 
 **macOS:**
-```bash
-# From Xcode: Product → Destination → My Mac
-```
+1. Select `ComponentTestApp-macOS` scheme
+2. Choose destination: My Mac
+3. Press `⌘R`
 
 **iPad:**
-```bash
-# From Xcode: Product → Destination → iPad Pro (any size class)
-```
+1. Select `ComponentTestApp-iOS` scheme
+2. Choose destination: iPad Pro (any size class)
+3. Press `⌘R`
 
 ---
 
