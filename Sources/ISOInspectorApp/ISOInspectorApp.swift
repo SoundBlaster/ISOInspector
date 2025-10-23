@@ -17,6 +17,7 @@ struct ISOInspectorApp: App {
                 .a11yRoot(ParseTreeAccessibilityID.root)
         }
         .commands {
+            FocusCommands()
             CommandMenu("Export") {
                 Button("Export JSON…") {
                     Task { await controller.exportJSON(scope: .document) }
@@ -100,6 +101,29 @@ struct ISOInspectorApp: App {
         let directory = base.appendingPathComponent("ValidationConfiguration", isDirectory: true)
         try? FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
         return directory
+    }
+}
+
+private struct FocusCommands: Commands {
+    @FocusedValue(\.inspectorFocusTarget) private var focusTarget
+    private let catalog = InspectorFocusShortcutCatalog.default
+
+    var body: some Commands {
+        CommandMenu("Focus") {
+            if let focusTarget {
+                ForEach(catalog.shortcuts) { descriptor in
+                    Button(descriptor.title) {
+                        focusTarget.wrappedValue = descriptor.target
+                    }
+                    .keyboardShortcut(
+                        KeyEquivalent(descriptor.key.first ?? " "),
+                        modifiers: [.command, .option]
+                    )
+                }
+            } else {
+                Text("Open a parse session to enable focus shortcuts")
+            }
+        }
     }
 }
 #else

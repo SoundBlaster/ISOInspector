@@ -11,6 +11,7 @@ struct ParseTreeExplorerView: View {
     @ObservedObject private var annotations: AnnotationBookmarkSession
     @FocusState private var focusTarget: InspectorFocusTarget?
     let exportSelectionAction: ((ParseTreeNode.ID) -> Void)?
+    private let focusCatalog = InspectorFocusShortcutCatalog.default
 
     init(
         viewModel: DocumentViewModel,
@@ -54,6 +55,7 @@ struct ParseTreeExplorerView: View {
             focusTarget = .outline
         }
         .background(focusCommands)
+        .focusedSceneValue(\.inspectorFocusTarget, focusBinding)
     }
 
     private var header: some View {
@@ -77,19 +79,27 @@ struct ParseTreeExplorerView: View {
 
     private var focusCommands: some View {
         Group {
-            HiddenKeyboardShortcutButton(title: "Focus outline", key: "1", modifiers: [.command, .option]) {
-                focusTarget = .outline
-            }
-            HiddenKeyboardShortcutButton(title: "Focus detail", key: "2", modifiers: [.command, .option]) {
-                focusTarget = .detail
-            }
-            HiddenKeyboardShortcutButton(title: "Focus notes", key: "3", modifiers: [.command, .option]) {
-                focusTarget = .notes
-            }
-            HiddenKeyboardShortcutButton(title: "Focus hex", key: "4", modifiers: [.command, .option]) {
-                focusTarget = .hex
+            ForEach(focusCatalog.shortcuts) { descriptor in
+                HiddenKeyboardShortcutButton(
+                    title: LocalizedStringKey(descriptor.title),
+                    key: keyEquivalent(for: descriptor),
+                    modifiers: [.command, .option]
+                ) {
+                    focusTarget = descriptor.target
+                }
             }
         }
+    }
+
+    private var focusBinding: Binding<InspectorFocusTarget?> {
+        Binding(
+            get: { focusTarget },
+            set: { focusTarget = $0 }
+        )
+    }
+
+    private func keyEquivalent(for descriptor: InspectorFocusShortcutDescriptor) -> KeyEquivalent {
+        KeyEquivalent(descriptor.key.first ?? " ")
     }
 
     private var selectionBinding: Binding<ParseTreeNode.ID?> {

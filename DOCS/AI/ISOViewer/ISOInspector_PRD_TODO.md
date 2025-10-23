@@ -251,7 +251,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] G5. Search & filters; quick toggles (containers/codec/meta/frag). _(Expanded in [22_C2_Extend_Outline_Filters](../../TASK_ARCHIVE/22_C2_Extend_Outline_Filters/C2_Extend_Outline_Filters.md))._
 - [ ] G6. Export actions (JSON subtree/full). **(In Progress — see `DOCS/INPROGRESS/G6_Export_JSON_Actions.md`.)**
 - [x] G7. State management: `DocumentVM` holds root; `NodeVM` for selection; `HexVM` for slice & highlight. _(Completed — see `DOCS/TASK_ARCHIVE/154_G7_State_Management_ViewModels/Summary_of_Work.md` for orchestration details.)_
-- [ ] G8. Accessibility & keyboard shortcuts (macOS/iPadOS). _(In Progress — see [G8_Accessibility_and_Keyboard_Shortcuts](../../INPROGRESS/G8_Accessibility_and_Keyboard_Shortcuts.md))._
+- [x] G8. Accessibility & keyboard shortcuts (macOS/iPadOS). _(Completed — see [Summary_of_Work](../../INPROGRESS/Summary_of_Work.md))._
 - [x] Task E3. Implement session persistence so the app restores open files, annotations, and window layouts on relaunch. **(Completed — see `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/`.)**
 - [x] Task E6. Emit diagnostics for recents and session persistence failures once logging pipeline hooks land. **(Completed — see `DOCS/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/Summary_of_Work.md`.)**
 

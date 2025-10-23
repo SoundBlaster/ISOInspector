@@ -217,7 +217,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] G5. Search & filters; quick toggles (containers/codec/meta/frag).
 - [ ] G6. Export actions (JSON subtree/full).
 - [ ] G7. State management: `DocumentVM` holds root; `NodeVM` for selection; `HexVM` for slice & highlight.
-- [ ] G8. Accessibility & keyboard shortcuts (macOS/iPadOS).
+- [x] G8. Accessibility & keyboard shortcuts (macOS/iPadOS). _(Completed — see DOCS/INPROGRESS/Summary_of_Work.md.)_
 
 ### Phase H — Fixtures & Tests
 - [ ] H1. Fixture corpus: MP4 (non-frag), MOV, fMP4 segment, DASH init+media, huge `mdat`, malformed cases.

@@ -12,7 +12,9 @@
 - When adding new controls, mirror the identifier path conventions (`ParseTreeAccessibilityID`, `ResearchLogAccessibilityID`) and extend identifier tests accordingly.【F:Tests/ISOInspectorAppTests/ParseTreeAccessibilityIdentifierTests.swift†L41-L138】
 
 ### Keyboard and Focus Synchronization
-- Preserve the cross-pane focus commands (`⌘⌥1`–`⌘⌥4`) and `InspectorFocusTarget` routing so macOS VoiceOver and hardware keyboards can switch panes without pointer input.【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift†L121-L136】
+- Preserve the cross-pane focus commands (`⌘⌥1`–`⌘⌥4`) and `InspectorFocusTarget` routing so macOS VoiceOver and hardware keyboards can switch panes without pointer input.【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift†L32-L137】
+- Keep `InspectorFocusShortcutCatalog` as the source of truth for command ordering, titles, and key mappings so menus, discoverability HUDs, and hidden shortcuts stay synchronized across macOS and iPadOS.【F:Sources/ISOInspectorApp/Accessibility/InspectorFocusShortcuts.swift†L1-L31】【F:Sources/ISOInspectorApp/ISOInspectorApp.swift†L20-L48】
+- Share focus bindings with the scene using `focusedSceneValue` so the dedicated **Focus** command menu can hand control back to the outline, detail, notes, or hex panes while updating `.focused` modifiers within the explorer view.【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift†L72-L104】【F:Sources/ISOInspectorApp/Accessibility/FocusedValues+InspectorFocusTarget.swift†L1-L13】
 - Add focus cases for new panes and ensure `.focused` bindings and `.compatibilityFocusable()` wrappers are applied when introducing custom container views.【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift†L43-L47】【F:Sources/ISOInspectorApp/Detail/ParseTreeDetailView.swift†L221-L238】【F:Sources/ISOInspectorApp/Detail/ParseTreeDetailView.swift†L343-L376】
 
 ### Dynamic Type and Layout Scaling
