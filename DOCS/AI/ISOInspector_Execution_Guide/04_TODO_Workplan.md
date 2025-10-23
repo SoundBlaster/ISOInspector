@@ -145,7 +145,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed:** Task G2 – Persist FilesystemAccessKit bookmarks alongside recents/session storage while maintaining sandbox compliance. Notes archived in `DOCS/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/`; remaining sandbox, benchmark, and automation follow-ups continue in `DOCS/INPROGRESS/next_tasks.md`.
 
-> **In Progress:** Task **J2 — Persist Security-Scoped Bookmarks** revisits the bookmark ledger to align FilesystemAccessKit persistence with the refreshed session controller, adds stale bookmark remediation, and updates diagnostics coverage. Active planning lives in `DOCS/INPROGRESS/J2_Persist_Security_Scoped_Bookmarks.md`.
+> **Completed:** Task **J2 — Persist Security-Scoped Bookmarks** realigned the bookmark ledger with the refreshed session controller, added stale bookmark remediation, and expanded diagnostics coverage. Notes and verification are archived in `DOCS/TASK_ARCHIVE/157_J2_Persist_Security_Scoped_Bookmarks/`, with ongoing follow-ups tracked via `DOCS/INPROGRESS/next_tasks.md`.
 
 ## Phase H — Fixtures & Tests
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
