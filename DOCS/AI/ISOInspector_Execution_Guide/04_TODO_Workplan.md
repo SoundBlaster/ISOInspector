@@ -38,7 +38,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed:** Task **B7 — Validation Configuration Layer** now lives in `DOCS/TASK_ARCHIVE/145_B7_Validation_Rule_Preset_Configuration/`, establishing presets and per-rule toggles. CLI wiring (D7) shipped via `DOCS/TASK_ARCHIVE/148_D7_Validation_Preset_CLI_Wiring/Summary_of_Work.md`, and the UI settings flow (C19) is archived in `DOCS/TASK_ARCHIVE/147_Summary_of_Work_2025-10-22_Validation_Preset_UI_Settings_Integration/Summary_of_Work.md`.
 >
-> **In Progress:** Validation follow-up **E1 — Enforce Parent Containment and Non-Overlap** extends structural safeguards beyond VR-001/VR-002; tracked in `DOCS/INPROGRESS/E1_Enforce_Parent_Containment_and_Non_Overlap.md` for execution details.
+> **In Progress:** Validation follow-up **E1 — Enforce Parent Containment and Non-Overlap** extends structural safeguards beyond VR-001/VR-002; execution notes now live in the refreshed lightweight PRD at `DOCS/INPROGRESS/E1_Enforce_Parent_Containment_and_Non_Overlap.md`.
 
 > **Completed:** Backlog follow-up **B2 — Define BoxNode Aggregate** now lives in `DOCS/TASK_ARCHIVE/158_B2_Define_BoxNode/`, documenting the canonical tree aggregate shared by ISOInspectorKit, CLI, and export flows.
 >
