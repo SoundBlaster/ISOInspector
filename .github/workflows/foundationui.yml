@@ -6,13 +6,17 @@ on:
     branches:
       - "**"
     paths:
-      - 'FoundationUI/**'
+      - 'FoundationUI/**/*.swift'
+      - 'FoundationUI/**/Package.swift'
+      - 'FoundationUI/**/Package.resolved'
       - '.github/workflows/foundationui.yml'
   push:
     branches:
       - main
     paths:
-      - 'FoundationUI/**'
+      - 'FoundationUI/**/*.swift'
+      - 'FoundationUI/**/Package.swift'
+      - 'FoundationUI/**/Package.resolved'
       - '.github/workflows/foundationui.yml'
 
 jobs:
