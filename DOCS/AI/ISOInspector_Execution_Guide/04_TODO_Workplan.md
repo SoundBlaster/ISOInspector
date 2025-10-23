@@ -40,7 +40,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **In Progress:** Validation follow-up **E1 — Enforce Parent Containment and Non-Overlap** extends structural safeguards beyond VR-001/VR-002; tracked in `DOCS/INPROGRESS/E1_Enforce_Parent_Containment_and_Non_Overlap.md` for execution details.
 
-> **Newly started:** Backlog follow-up **B2 — Define BoxNode Aggregate** is now tracked via `DOCS/INPROGRESS/B2_Define_BoxNode.md` to formalize the parse tree node model for UI/CLI/export consumers.
+> **Completed:** Backlog follow-up **B2 — Define BoxNode Aggregate** now lives in `DOCS/TASK_ARCHIVE/158_B2_Define_BoxNode/`, documenting the canonical tree aggregate shared by ISOInspectorKit, CLI, and export flows.
 >
 > **Completed:** Advisory validation **E3 — Warn on Unusual Top-Level Ordering** now emits guidance when `ftyp`/`moov` sequences deviate from expectations while respecting streaming layouts; implementation recap in `DOCS/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/Summary_of_Work.md`.
 

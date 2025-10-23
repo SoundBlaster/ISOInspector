@@ -834,3 +834,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/157_J2_Persist_Security_Scoped_Bookmarks/`.
 - **Highlights:** Captures the bookmark ledger realignment that threads persistent identifiers through FilesystemAccessKit resolution, heals stale entries during session restoration, and expands audit logging plus documentation coverage for security-scoped flows.
 - **Next steps carried forward:** Structural containment validation (E1), the hardware-dependent VoiceOver regression pass, real-world asset licensing, and ongoing snapshot/CLI fixture maintenance remain listed in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 158_B2_Define_BoxNode
+- **Archived files:** `B2_Define_BoxNode.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/158_B2_Define_BoxNode/`.
+- **Highlights:** Establishes the canonical `BoxNode` aggregate shared by ISOInspectorKit, CLI, and export flows, including documentation of the tree model and verification via `swift test`.
+- **Next steps carried forward:** Continue validation follow-ups (E1 parent containment) plus hardware-dependent VoiceOver regression passes and fixture licensing, now tracked in `DOCS/INPROGRESS/next_tasks.md`.
