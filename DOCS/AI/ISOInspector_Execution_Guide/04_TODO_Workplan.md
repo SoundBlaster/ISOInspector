@@ -18,6 +18,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > **Recently archived:** Validator & CLI polish documentation captured in `DOCS/TASK_ARCHIVE/139_Validator_and_CLI_Polish/` alongside the fragment fixture coverage deliverable stored in `DOCS/TASK_ARCHIVE/138_Fragment_Fixture_Coverage/`. Task D3 — `traf/tfhd/tfdt/trun` fragment run parsing and validation scaffolding — remains documented in `DOCS/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/Summary_of_Work.md`, with historical planning notes retained in `DOCS/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/D3_traf_tfhd_tfdt_trun_Parsing.md`.
 
 > **Research initiative:** Task R3 cataloged VoiceOver, Dynamic Type, and keyboard guidance so future UI tasks stay aligned with accessibility requirements. Follow <doc:AccessibilityGuidelines> and the archived summary in `DOCS/TASK_ARCHIVE/91_R3_Accessibility_Guidelines/Summary_of_Work.md` when planning new UI stories.
+>
+> **In Progress:** Research task **R5 — Export Schema Standardization** evaluates industry JSON/report schemas (Bento4, ffprobe, mp4dump) to align ISOInspector exports. Track comparison notes in `DOCS/INPROGRESS/R5_Export_Schema_Standardization.md`.
 
 > **Completed research:** Task R4 — Large File Performance Benchmarks. Benchmark charter, fixture manifests, and instrumentation guidance live in `DOCS/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/R4_Large_File_Performance_Benchmarks.md`; macOS execution remains blocked pending hardware runners tracked in `DOCS/INPROGRESS/next_tasks.md`.
 

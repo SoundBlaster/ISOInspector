@@ -5,7 +5,7 @@ This log enumerates knowledge gaps and research activities required to ensure co
 ## Open Research Tasks
 | Task ID | Topic | Objective | Priority | Effort (days) | Dependencies | Research Approach | Acceptance Criteria |
 |---------|-------|-----------|----------|---------------|--------------|-------------------|---------------------|
-| R5 | Export Schema Standardization | Research industry-standard JSON schemas for MP4 inspection reports. | Medium | 1.5 | B6 | Survey existing tools (Bento4, ffprobe) for report formats; evaluate compatibility. | Proposal comparing schema options with recommendation and mapping to ISOInspector fields. |
+| R5 | Export Schema Standardization | Research industry-standard JSON schemas for MP4 inspection reports. | Medium | 1.5 | B6 | Survey existing tools (Bento4, ffprobe) for report formats; evaluate compatibility. | Proposal comparing schema options with recommendation and mapping to ISOInspector fields — 🔄 In Progress, see `DOCS/INPROGRESS/R5_Export_Schema_Standardization.md`. |
 | R6 | Annotation Persistence Strategy | Evaluate CoreData vs. JSON for cross-platform annotation storage. | Low | 1 | C4 | Review storage requirements, conflict resolution needs, and iCloud sync options. | Decision record outlining chosen storage mechanism with rationale. | ✅ CoreData selected; see `DOCS/INPROGRESS/C4_CoreData_Annotation_Persistence.md` |
 | R7 | CLI Distribution | Investigate best practices for distributing signed CLI binaries for macOS and Linux. | Low | 1.5 | D3 | Review notarization, Homebrew tap creation, and Linux package formats. | Distribution plan covering signing, packaging, and update strategy. |
 
