@@ -254,13 +254,13 @@ private struct FormatSummary: Encodable {
 
         let trackCount = trackCounter > 0 ? trackCounter : nil
 
-        if majorBrand == nil,
-           minorVersion == nil,
-           (compatibleBrands?.isEmpty ?? true),
-           durationSeconds == nil,
-           byteSize == nil,
-           bitrate == nil,
-           trackCount == nil {
+        if majorBrand == nil &&
+            minorVersion == nil &&
+            (compatibleBrands?.isEmpty ?? true) &&
+            durationSeconds == nil &&
+            byteSize == nil &&
+            bitrate == nil &&
+            trackCount == nil {
             return nil
         }
 
