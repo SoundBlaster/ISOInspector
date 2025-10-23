@@ -36,6 +36,7 @@
 
         let parseTreeStore: ParseTreeStore
         let annotations: AnnotationBookmarkSession
+        let documentViewModel: DocumentViewModel
 
         private let recentsStore: DocumentRecentsStoring
         private let pipelineFactory: () -> ParsePipeline
@@ -93,6 +94,7 @@
 
             self.parseTreeStore = resolvedParseTreeStore
             self.annotations = resolvedAnnotations
+            self.documentViewModel = DocumentViewModel(store: resolvedParseTreeStore, annotations: resolvedAnnotations)
             self.recentsStore = recentsStore
             self.sessionStore = sessionStore
             self.pipelineFactory = pipelineFactory

@@ -50,11 +50,15 @@ final class ParseTreeStreamingSelectionAutomationTests: XCTestCase {
         let outlineViewModel = ParseTreeOutlineViewModel()
         let detailViewModel = ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
 
-        let view = ParseTreeExplorerView(
+        let documentViewModel = DocumentViewModel(
             store: store,
             annotations: annotations,
             outlineViewModel: outlineViewModel,
             detailViewModel: detailViewModel
+        )
+
+        let view = ParseTreeExplorerView(
+            viewModel: documentViewModel
         )
         let hostingView = NSHostingView(rootView: view.frame(width: 800, height: 600))
         let window = NSWindow(
