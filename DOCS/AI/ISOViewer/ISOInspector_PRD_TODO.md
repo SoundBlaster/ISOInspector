@@ -222,6 +222,8 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] D5. `mfra/tfra/mfro`: random access table. _(Completed — see `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/Summary_of_Work.md` for implementation recap and remaining notes.)_
 - [x] D6. Recognize `senc/saio/saiz` (CENC placeholders), capture sizes/offsets only. _(Completed — implementation recap lives in `DOCS/TASK_ARCHIVE/150_Summary_of_Work_2025-10-22_Sample_Encryption_Metadata/Summary_of_Work.md`, with detailed PRDs retained under `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/`.)_
 
+> **In Progress Research:** Task R7 — CLI distribution strategy is underway to document notarized binary packaging, Homebrew tap publication, and Linux artifact distribution for the `isoinspect` tool. See `DOCS/INPROGRESS/R7_CLI_Distribution_Strategy.md` for the active PRD outline.
+
 ### Phase E — Validation
 - [x] E1. Enforce parent containment and non-overlap. _(Completed — see `DOCS/TASK_ARCHIVE/159_E1_Enforce_Parent_Containment_and_Non_Overlap/Summary_of_Work.md` for validation details; historical context remains in `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/E1_Enforce_Parent_Containment_and_Non_Overlap.md`.)_
 - [ ] E2. Detect zero/negative progress loops; cap nesting depth. _(In Progress — alignment with app shell wiring to surface live parser progress.)_
