@@ -71,21 +71,27 @@ public struct FilesystemAccess: Sendable {
     }
 
     /// Resolves bookmark data, returning an active security-scoped URL and stale-state flag.
-    public func resolveBookmarkData(_ data: Data) throws -> ResolvedSecurityScopedURL {
+    public func resolveBookmarkData(
+        _ data: Data,
+        bookmarkIdentifier: UUID? = nil
+    ) throws -> ResolvedSecurityScopedURL {
         do {
             let resolution = try bookmarkResolver(data)
             let scoped = try activateSecurityScope(for: resolution.url, category: .bookmarkResolve)
+            let pathHash = hashIdentifier(for: resolution.url)
             if resolution.isStale {
                 logger.log(
                     category: .bookmarkResolve,
                     outcome: .stale,
-                    pathHash: hashIdentifier(for: resolution.url)
+                    pathHash: pathHash,
+                    bookmarkIdentifier: bookmarkIdentifier
                 )
             } else {
                 logger.log(
                     category: .bookmarkResolve,
                     outcome: .success,
-                    pathHash: hashIdentifier(for: resolution.url)
+                    pathHash: pathHash,
+                    bookmarkIdentifier: bookmarkIdentifier
                 )
             }
             return ResolvedSecurityScopedURL(url: scoped, isStale: resolution.isStale)
@@ -93,6 +99,7 @@ public struct FilesystemAccess: Sendable {
             logger.log(
                 category: .bookmarkResolve,
                 outcome: .failure,
+                bookmarkIdentifier: bookmarkIdentifier,
                 errorDescription: sanitisedDescription(for: error)
             )
             throw FilesystemAccessError.bookmarkResolutionFailed(underlying: error)

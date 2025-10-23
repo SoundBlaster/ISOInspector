@@ -311,6 +311,87 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertTrue(filesystemStub.manager.stoppedURLs.isEmpty)
     }
 
+    func testOpenRecentRemovesBookmarkRecordWhenResolutionFails() throws {
+        struct SampleError: Error {}
+
+        let recentURL = URL(fileURLWithPath: "/tmp/failed.mp4")
+        let bookmarkData = Data(recentURL.path.utf8)
+        let bookmarkStore = BookmarkPersistenceStoreStub()
+        _ = try bookmarkStore.upsertBookmark(for: recentURL, bookmarkData: bookmarkData)
+        let recent = DocumentRecent(
+            url: recentURL,
+            bookmarkIdentifier: try bookmarkStore.record(for: recentURL)?.id,
+            bookmarkData: nil,
+            displayName: "Failed",
+            lastOpened: Date()
+        )
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [recent])
+        let filesystemStub = FilesystemAccessStub()
+        filesystemStub.resolutionError = FilesystemAccessError.bookmarkResolutionFailed(
+            underlying: SampleError()
+        )
+
+        let controller = makeController(
+            store: recentsStore,
+            bookmarkStore: bookmarkStore,
+            filesystemAccess: filesystemStub.makeAccess(),
+            workQueue: ImmediateWorkQueue()
+        )
+
+        controller.openRecent(recent)
+        RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.1))
+
+        XCTAssertTrue(controller.recents.isEmpty)
+        XCTAssertNotNil(controller.loadFailure)
+        XCTAssertEqual(
+            bookmarkStore.removedURLs.map { $0.standardizedFileURL },
+            [recentURL.standardizedFileURL]
+        )
+        XCTAssertEqual(
+            bookmarkStore.markedResolutions.map { $0.1 },
+            [.failed]
+        )
+    }
+
+    func testOpenRecentRefreshesStaleBookmarkRecord() throws {
+        let recentURL = URL(fileURLWithPath: "/tmp/stale.mp4")
+        let staleData = Data("stale".utf8)
+        let refreshedData = Data("refreshed".utf8)
+        let bookmarkStore = BookmarkPersistenceStoreStub()
+        let record = try bookmarkStore.upsertBookmark(for: recentURL, bookmarkData: staleData)
+        let recent = DocumentRecent(
+            url: recentURL,
+            bookmarkIdentifier: record.id,
+            bookmarkData: nil,
+            displayName: "Stale",
+            lastOpened: Date()
+        )
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [recent])
+        let filesystemStub = FilesystemAccessStub()
+        filesystemStub.resolutions[staleData] = BookmarkResolution(
+            url: recentURL,
+            isStale: true
+        )
+
+        let controller = makeController(
+            store: recentsStore,
+            bookmarkStore: bookmarkStore,
+            filesystemAccess: filesystemStub.makeAccess(),
+            bookmarkDataProvider: { _ in refreshedData },
+            workQueue: ImmediateWorkQueue()
+        )
+
+        controller.openRecent(recent)
+        RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.1))
+
+        XCTAssertEqual(bookmarkStore.upsertedURLs.map { $0.standardizedFileURL }, [recentURL.standardizedFileURL])
+        XCTAssertEqual(bookmarkStore.markedResolutions.count, 1)
+        XCTAssertEqual(bookmarkStore.markedResolutions.first?.1, .stale)
+        let refreshedRecord = try XCTUnwrap(bookmarkStore.record(for: recentURL))
+        XCTAssertEqual(refreshedRecord.bookmarkData, refreshedData)
+        XCTAssertEqual(controller.currentDocument?.bookmarkIdentifier, refreshedRecord.id)
+    }
+
     func testRetryingFailureClearsBannerAfterSuccessfulOpen() throws {
         let store = DocumentRecentsStoreStub(initialRecents: [])
         var shouldFail = true

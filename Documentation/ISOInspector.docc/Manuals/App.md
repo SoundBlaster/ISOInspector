@@ -23,6 +23,7 @@ ents are capped at ten entries; removing a row immediately updates the persisted
 wift†L59-L110】【F:Sources/ISOInspectorApp/State/DocumentSessionController.swift†L96-L146】
 3. Choosing a recent reopens the document, restores streaming state, and syncs the bookmark store so annotations remain availab
 le across sessions.【F:Sources/ISOInspectorApp/State/DocumentSessionController.swift†L52-L193】
+4. Stale or revoked bookmarks refresh automatically. The session controller requests new bookmark data through FilesystemAccessKit, records the resolution state, and removes invalid entries so future launches prompt for consent instead of leaving broken recents behind.【F:Sources/ISOInspectorApp/State/DocumentSessionController.swift†L566-L683】【F:Sources/ISOInspectorKit/FilesystemAccess/FilesystemAccess.swift†L60-L109】
 
 ## Interface tour
 
