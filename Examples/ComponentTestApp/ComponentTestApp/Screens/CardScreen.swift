@@ -16,10 +16,27 @@
 import SwiftUI
 import FoundationUI
 
+// MARK: - Material Wrapper
+
+/// Hashable wrapper for SwiftUI.Material to use with Picker
+private enum MaterialOption: String, CaseIterable, Hashable {
+    case thin
+    case regular
+    case thick
+
+    var material: Material {
+        switch self {
+        case .thin: return .thin
+        case .regular: return .regular
+        case .thick: return .thick
+        }
+    }
+}
+
 struct CardScreen: View {
     @State private var selectedElevation: CardElevation = .medium
     @State private var selectedRadius: CGFloat = DS.Radius.card
-    @State private var selectedMaterial: Material = .regular
+    @State private var selectedMaterial: MaterialOption = .regular
 
     var body: some View {
         ScrollView {
@@ -50,9 +67,9 @@ struct CardScreen: View {
                     .pickerStyle(.segmented)
 
                     Picker("Material", selection: $selectedMaterial) {
-                        Text("Thin").tag(Material.thin)
-                        Text("Regular").tag(Material.regular)
-                        Text("Thick").tag(Material.thick)
+                        Text("Thin").tag(MaterialOption.thin)
+                        Text("Regular").tag(MaterialOption.regular)
+                        Text("Thick").tag(MaterialOption.thick)
                     }
                     .pickerStyle(.segmented)
                 }
@@ -93,10 +110,10 @@ struct CardScreen: View {
                         .font(DS.Typography.subheadline)
 
                     HStack(spacing: DS.Spacing.m) {
-                        ForEach([Material.thin, .regular, .thick], id: \.self) { material in
-                            Card(elevation: .none, cornerRadius: DS.Radius.card, material: material) {
+                        ForEach(MaterialOption.allCases, id: \.self) { materialOption in
+                            Card(elevation: .none, cornerRadius: DS.Radius.card, material: materialOption.material) {
                                 VStack(spacing: DS.Spacing.s) {
-                                    Text(materialLabel(material))
+                                    Text(materialOption.rawValue.capitalized)
                                         .font(DS.Typography.caption)
                                     Text("Material")
                                         .font(DS.Typography.body)
@@ -205,14 +222,6 @@ struct CardScreen: View {
         }
     }
 
-    private func materialLabel(_ material: Material) -> String {
-        switch material {
-        case .thin: return "Thin"
-        case .regular: return "Regular"
-        case .thick: return "Thick"
-        default: return "Material"
-        }
-    }
 }
 
 // MARK: - Previews
