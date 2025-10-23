@@ -798,3 +798,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/150_Summary_of_Work_2025-10-22_Sample_Encryption_Metadata/`.
 - **Highlights:** Documents the follow-through on Task D6 with JSON exporter updates, CLI summaries, SwiftUI accessibility refinements, and fixture-driven regression coverage that surface `senc/saio/saiz` placeholder metadata end to end.
 - **Next steps carried forward:** Structural containment validation (E1) and the real-world fixture licensing backlog continue in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 151_R5_Export_Schema_Standardization
+- **Archived files:** `R5_Export_Schema_Standardization.md`, `R5_mp4dump_video-h264-001.json`, `R5_ffprobe_video-h264-001.json`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/151_R5_Export_Schema_Standardization/`.
+- **Highlights:** Captures the comparative analysis between ISOInspector exports and Bento4/ffprobe outputs, codifying canonical schema recommendations plus adapter guidance backed by reference JSON captures.
+- **Next steps carried forward:** Extend `JSONExportSnapshotTests` and CLI integration checks to exercise the proposed compatibility aliases and format summary block before landing production schema changes; structural containment validation (E1) and real-world fixture licensing remain tracked in `DOCS/INPROGRESS/next_tasks.md`.
