@@ -1,5 +1,6 @@
 # Next Tasks
 
+- 🚧 **B2 — Define BoxNode Aggregate** _(In Progress)_: Formalize the parse tree node model bridging streaming events to UI/CLI/export consumers. See `DOCS/INPROGRESS/B2_Define_BoxNode.md` for the lightweight PRD and immediate scope.
 - 🚧 **E1 — Enforce Parent Containment and Non-Overlap** _(In Progress)_: Extend structural validation so child boxes cannot exceed parent ranges, flagging overlapping payloads for CLI/UI surfaces. Planning notes remain in `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/E1_Enforce_Parent_Containment_and_Non_Overlap.md`.
 - ✅ **J2 — Persist Security-Scoped Bookmarks** _(Completed)_: FilesystemAccessKit now logs bookmark identifiers, refreshes stale ledger entries, and removes invalid recents. See `DOCS/TASK_ARCHIVE/157_J2_Persist_Security_Scoped_Bookmarks/Summary_of_Work.md` for coverage details.
 - 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(In Progress — blocked without hardware)_: Run manual VoiceOver verification on macOS and iPadOS hardware to confirm the new focus command menu announces controls and restores focus targets as expected. Tracking details now live in `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts.md`.
