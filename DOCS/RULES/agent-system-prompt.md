@@ -66,7 +66,7 @@ For every task/iteration:
 
 1. **Quality gates**
    - `swift build && swift test` for the whole workspace.
-- Lint Markdown (`markdownlint-cli2`) when the checks are reinstated. *(Currently disabled in CI.)*
+   - Lint Markdown (`markdownlint-cli2`) when the checks are reinstated. *(Currently disabled in CI.)*
    - Keep commits atomic; PR title = one clear outcome.
 
 1. **Outputs for each iteration**
