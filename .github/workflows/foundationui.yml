@@ -123,12 +123,6 @@ jobs:
           echo "=== Available Devices ==="
           xcrun simctl list devices available
 
-      - name: Pre-boot iOS Simulator
-        run: |
-          echo "Booting iPhone 16 simulator..."
-          xcrun simctl boot "iPhone 16" || echo "Simulator already booted or unavailable"
-          xcrun simctl bootstatus "iPhone 16" -b || true
-
       - name: Cache Tuist dependencies
         uses: actions/cache@v4
         with:
