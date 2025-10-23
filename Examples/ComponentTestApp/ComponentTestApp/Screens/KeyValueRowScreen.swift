@@ -146,7 +146,7 @@ struct KeyValueRowScreen: View {
                     Text("Real-World Use Cases")
                         .font(DS.Typography.subheadline)
 
-                    Card(elevation: .medium, cornerRadius: DS.Spacing.card) {
+                    Card(elevation: .medium, cornerRadius: DS.Radius.card) {
                         VStack(alignment: .leading, spacing: DS.Spacing.m) {
                             SectionHeader(title: "ISO Box Metadata", showDivider: false)
 
