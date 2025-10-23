@@ -11,6 +11,7 @@ Provide release managers and on-call engineers with a single checklist that cove
 - `scripts/notarize_app.sh`
 - `Documentation/ISOInspector.docc/Manuals/App.md`
 - `Documentation/ISOInspector.docc/Manuals/CLI.md`
+- `Documentation/ISOInspector.docc/Guides/CLIReleaseDistributionStrategy.md`
 - `DOCS/TASK_ARCHIVE/44_F2_Configure_Performance_Benchmarks/Summary_of_Work.md`
 - `DOCS/TASK_ARCHIVE/55_E4_Prepare_App_Distribution_Configuration/Summary_of_Work.md`
 - `DOCS/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/50_Combine_UI_Benchmark_macOS_Run.md`
@@ -33,6 +34,7 @@ Provide release managers and on-call engineers with a single checklist that cove
 - [ ] Update release notes with user-facing changes, benchmark deltas, and known issues.
 - [ ] Refresh README build badges or version tables if marketing version increments.
 - [ ] Ensure manuals highlight new workflows or migration notes before tagging the release.
+- [ ] Confirm the CLI distribution checklist in [`CLIReleaseDistributionStrategy`](CLIReleaseDistributionStrategy.md) is complete (notarized ZIP, Homebrew tap update, Linux tarballs, published checksums).
 - [ ] Notify stakeholders in the engineering channel with checklist status and expected release window.
 
 ### Distribution Metadata and Compliance
@@ -52,15 +54,15 @@ Provide release managers and on-call engineers with a single checklist that cove
 
 ### 2. Build Artifacts
 
-1. Build the CLI release binary: `swift build -c release --product ISOInspectorCLI`. Copy the binary into `Distribution/CLI/<version>/` for release packaging.
+1. Build the CLI release binary: `swift build -c release --product ISOInspectorCLI`. Copy the binary into `Distribution/CLI/<version>/` for release packaging and run `scripts/package_cli.sh --version <version>` to codesign, zip, notarize, and staple the CLI artifacts.
 1. Generate DocC archives: `scripts/generate_documentation.sh Documentation/DocC`. Zip each target directory for artifact upload.
 1. Archive the SwiftUI app via Xcode or `xcodebuild archive` using the Tuist-generated workspace. Export both a notarization-ready `.zip` and a TestFlight `.ipa`.
 
-### 3. Notarize and Distribute the macOS App
+### 3. Notarize and Distribute macOS Artifacts
 
-1. On macOS, run `scripts/notarize_app.sh --artifact <path-to-zip> --profile <keychain-profile>`. Use `--dry-run` from Linux hosts to validate arguments before submission.
-1. After notarization completes, staple the ticket: `xcrun stapler staple <path-to-app-or-dmg>`.
-1. Package the stapled app into a DMG or distribute the notarized `.zip` through GitHub Releases. Record SHA256 checksums for uploaded artifacts.
+1. On macOS, run `scripts/notarize_app.sh --artifact <path-to-zip> --profile <keychain-profile>` for the GUI build and verify notarization tickets before stapling.
+1. Run `scripts/package_cli.sh` (or follow the inline checklist in [`CLIReleaseDistributionStrategy`](CLIReleaseDistributionStrategy.md)) to submit the CLI ZIP for notarization, staple the result, and copy SHA256/SHA512 checksums into the release notes draft.
+1. Package the stapled app into a DMG or distribute the notarized `.zip` through GitHub Releases. Upload the CLI ZIP alongside DocC archives and retain checksum manifests under `releases/<version>/QA/`.
 
 ### 4. Publish iOS and iPadOS Builds
 
@@ -70,7 +72,7 @@ Provide release managers and on-call engineers with a single checklist that cove
 
 ### 5. Final Communications and Artifact Storage
 
-- Store CLI binaries, notarized DMGs/ZIPs, and DocC archives under the release tag in GitHub Releases. Use consistent naming: `ISOInspector-<version>-cli.zip`, `ISOInspector-<version>-app.dmg`, `DocC-<target>-<version>.zip`.
+- Store CLI binaries, notarized DMGs/ZIPs, Linux tarballs, and DocC archives under the release tag in GitHub Releases. Use consistent naming: `ISOInspector-<version>-cli-macos.zip`, `ISOInspector-<version>-cli-linux-gnu.tar.gz`, `ISOInspector-<version>-cli-linux-musl.tar.gz`, `ISOInspector-<version>-app.dmg`, `DocC-<target>-<version>.zip`.
 - Publish the QA summary (test logs, benchmark metrics) in the `releases/<version>/QA` folder or linked wiki page. Use `Documentation/Performance/2025-10-19-benchmark-summary.md` and the adjacent raw logs as the current baseline when compiling the evidence packet.
 - Circulate an internal announcement summarizing the release scope, artifacts, and any deferred items.
 
