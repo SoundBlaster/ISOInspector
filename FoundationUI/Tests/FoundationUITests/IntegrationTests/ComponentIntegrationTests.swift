@@ -364,13 +364,14 @@ final class ComponentIntegrationTests: XCTestCase {
             let card = Card(material: material) {
                 VStack {
                     SectionHeader(title: "Material Test")
-                    KeyValueRow(key: "Level", value: String(describing: material ?? "none"))
+                    KeyValueRow(key: "Level", value: material.map { String(describing: $0) } ?? "none")
                 }
                 .padding()
             }
 
             // Then: Each material level should work
-            XCTAssertNotNil(card, "Card with material \(String(describing: material)) should be valid")
+            let materialDescription = material.map { String(describing: $0) } ?? "none"
+            XCTAssertNotNil(card, "Card with material \(materialDescription) should be valid")
         }
     }
 
