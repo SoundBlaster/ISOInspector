@@ -42,7 +42,7 @@ extension User {
 
 ```
 
-### ❌ Incorrect Example
+### ❌ Incorrect Example — Rule 1
 
 ``` swift
 // File: Models.swift
@@ -130,14 +130,14 @@ Represent domain concepts and multi-field values with named types (`struct`, `cl
 - Prefer small immutable `struct`s for read-only aggregates that mirror ISO box payload entries.\
 - Update tests and fixtures to mirror production types instead of large tuples.
 
-### ❌ Incorrect Example
+### ❌ Incorrect Example — Rule 3
 
 ``` swift
 let entry: (UInt32, UInt32, UInt32, UInt32) = (1, 8, 3, 24) // ❌ No context for each element
 
 ```
 
-### ✅ Correct Example
+### ✅ Correct Example — Rule 3
 
 ``` swift
 struct SampleToChunkEntry {
