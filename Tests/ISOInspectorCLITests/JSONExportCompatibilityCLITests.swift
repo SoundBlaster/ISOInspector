@@ -410,7 +410,7 @@ private final class MutableBox<Value>: @unchecked Sendable {
 private struct StubReader: RandomAccessReader {
     func read(at offset: Int64, count: Int) throws -> Data { Data(count: count) }
 
-    func read<T>(at offset: Int64, into buffer: UnsafeMutableBufferPointer<T>) throws where T : FixedWidthInteger {
+    func read<T>(at offset: Int64, into buffer: UnsafeMutableBufferPointer<T>) throws where T: FixedWidthInteger {
         buffer.initialize(repeating: 0)
     }
 
