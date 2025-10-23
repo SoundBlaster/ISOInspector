@@ -10,7 +10,8 @@ final class ParseTreeAccessibilityIdentifierTests: XCTestCase {
     func testExplorerAppliesRootIdentifier() {
         let store = ParseTreeStore()
         let annotations = AnnotationBookmarkSession(store: nil)
-        let view = ParseTreeExplorerView(store: store, annotations: annotations)
+        let documentViewModel = DocumentViewModel(store: store, annotations: annotations)
+        let view = ParseTreeExplorerView(viewModel: documentViewModel)
             .frame(width: 1024, height: 768)
 
         let controller = UIHostingController(rootView: view)
@@ -26,7 +27,8 @@ final class ParseTreeAccessibilityIdentifierTests: XCTestCase {
     func testExplorerSearchFieldReceivesNestedIdentifier() {
         let store = ParseTreeStore()
         let annotations = AnnotationBookmarkSession(store: nil)
-        let view = ParseTreeExplorerView(store: store, annotations: annotations)
+        let documentViewModel = DocumentViewModel(store: store, annotations: annotations)
+        let view = ParseTreeExplorerView(viewModel: documentViewModel)
             .frame(width: 1024, height: 768)
 
         let controller = UIHostingController(rootView: view)

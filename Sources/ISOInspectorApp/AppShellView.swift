@@ -6,9 +6,14 @@ import ISOInspectorKit
 struct AppShellView: View {
     @Environment(\.scenePhase) private var scenePhase
     @ObservedObject var controller: DocumentSessionController
+    @ObservedObject private var documentViewModel: DocumentViewModel
     @State private var isImporterPresented = false
     @State private var importError: ImportError?
-    @State private var selectedNodeID: ParseTreeNode.ID?
+
+    init(controller: DocumentSessionController) {
+        self._controller = ObservedObject(wrappedValue: controller)
+        self._documentViewModel = ObservedObject(wrappedValue: controller.documentViewModel)
+    }
 
     @ViewBuilder
     var body: some View {
@@ -76,15 +81,15 @@ struct AppShellView: View {
                 } label: {
                     Label("Export JSON", systemImage: "square.and.arrow.down")
                 }
-                .disabled(!controller.canExportDocument)
+                .disabled(!documentViewModel.exportAvailability.canExportDocument)
 
                 Button {
-                    guard let nodeID = selectedNodeID else { return }
+                    guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
                     Task { await controller.exportJSON(scope: .selection(nodeID)) }
                 } label: {
                     Label("Export Selection", systemImage: "square.and.arrow.down.on.square")
                 }
-                .disabled(!controller.canExportSelection(nodeID: selectedNodeID))
+                .disabled(!documentViewModel.exportAvailability.canExportSelection)
             }
         }
     }
@@ -143,17 +148,12 @@ struct AppShellView: View {
         Group {
             if controller.currentDocument != nil {
                 ParseTreeExplorerView(
-                    store: controller.parseTreeStore,
-                    annotations: controller.annotations,
-                    outlineViewModel: ParseTreeOutlineViewModel(),
-                    detailViewModel: ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil),
-                    selectedNodeID: $selectedNodeID,
+                    viewModel: documentViewModel,
                     exportSelectionAction: exportSelectionHandler
                 )
                 .frame(minWidth: 640, minHeight: 480)
             } else {
                 OnboardingView(openAction: { isImporterPresented = true })
-                    .onAppear { selectedNodeID = nil }
             }
         }
     }

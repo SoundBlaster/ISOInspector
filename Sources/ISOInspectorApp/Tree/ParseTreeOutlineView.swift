@@ -5,27 +5,21 @@ import NestedA11yIDs
 import ISOInspectorKit
 
 struct ParseTreeExplorerView: View {
-    @ObservedObject var store: ParseTreeStore
-    @ObservedObject var annotations: AnnotationBookmarkSession
-    @StateObject private var outlineViewModel: ParseTreeOutlineViewModel
-    @StateObject private var detailViewModel: ParseTreeDetailViewModel
-    @Binding var selectedNodeID: ParseTreeNode.ID?
+    @ObservedObject var viewModel: DocumentViewModel
+    @ObservedObject private var outlineViewModel: ParseTreeOutlineViewModel
+    @ObservedObject private var detailViewModel: ParseTreeDetailViewModel
+    @ObservedObject private var annotations: AnnotationBookmarkSession
     @FocusState private var focusTarget: InspectorFocusTarget?
     let exportSelectionAction: ((ParseTreeNode.ID) -> Void)?
 
     init(
-        store: ParseTreeStore,
-        annotations: AnnotationBookmarkSession,
-        outlineViewModel: ParseTreeOutlineViewModel,
-        detailViewModel: ParseTreeDetailViewModel,
-        selectedNodeID: Binding<ParseTreeNode.ID?>,
+        viewModel: DocumentViewModel,
         exportSelectionAction: ((ParseTreeNode.ID) -> Void)? = nil
     ) {
-        self._store = ObservedObject(wrappedValue: store)
-        self._annotations = ObservedObject(wrappedValue: annotations)
-        self._outlineViewModel = StateObject(wrappedValue: outlineViewModel)
-        self._detailViewModel = StateObject(wrappedValue: detailViewModel)
-        self._selectedNodeID = selectedNodeID
+        self._viewModel = ObservedObject(wrappedValue: viewModel)
+        self._outlineViewModel = ObservedObject(wrappedValue: viewModel.outlineViewModel)
+        self._detailViewModel = ObservedObject(wrappedValue: viewModel.detailViewModel)
+        self._annotations = ObservedObject(wrappedValue: viewModel.annotations)
         self.exportSelectionAction = exportSelectionAction
     }
 
@@ -35,7 +29,7 @@ struct ParseTreeExplorerView: View {
             HStack(alignment: .top, spacing: 16) {
                 ParseTreeOutlineView(
                     viewModel: outlineViewModel,
-                    selectedNodeID: $selectedNodeID,
+                    selectedNodeID: selectionBinding,
                     annotationSession: annotations,
                     focusTarget: $focusTarget,
                     exportSelectionAction: exportSelectionAction
@@ -47,7 +41,7 @@ struct ParseTreeExplorerView: View {
                 ParseTreeDetailView(
                     viewModel: detailViewModel,
                     annotationSession: annotations,
-                    selectedNodeID: $selectedNodeID,
+                    selectedNodeID: selectionBinding,
                     focusTarget: $focusTarget
                 )
                     .frame(minWidth: 360)
@@ -56,43 +50,6 @@ struct ParseTreeExplorerView: View {
             }
         }
         .padding()
-        .onAppear {
-            outlineViewModel.bind(to: store.$snapshot.eraseToAnyPublisher())
-            detailViewModel.bind(to: store.$snapshot.eraseToAnyPublisher())
-            detailViewModel.update(
-                hexSliceProvider: store.makeHexSliceProvider(),
-                annotationProvider: store.makePayloadAnnotationProvider()
-            )
-            annotations.setFileURL(store.fileURL)
-            annotations.setSelectedNode(selectedNodeID)
-        }
-        .onChangeCompatibility(of: selectedNodeID) { newValue in
-            detailViewModel.select(nodeID: newValue)
-            annotations.setSelectedNode(newValue)
-        }
-        .onChangeCompatibility(of: store.state) { _ in
-            detailViewModel.update(
-                hexSliceProvider: store.makeHexSliceProvider(),
-                annotationProvider: store.makePayloadAnnotationProvider()
-            )
-        }
-        .onChangeCompatibility(of: store.fileURL) { newValue in
-            annotations.setFileURL(newValue)
-        }
-        .onReceive(store.$snapshot.removeDuplicates()) { snapshot in
-            if let current = selectedNodeID,
-               containsNode(withID: current, in: snapshot.nodes) {
-                return
-            }
-
-            if let next = outlineViewModel.firstVisibleNodeID() ?? snapshot.nodes.first?.id {
-                if selectedNodeID != next {
-                    selectedNodeID = next
-                }
-            } else if selectedNodeID != nil {
-                selectedNodeID = nil
-            }
-        }
         .onAppear {
             focusTarget = .outline
         }
@@ -112,7 +69,7 @@ struct ParseTreeExplorerView: View {
                     .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.subtitle)
             }
             Spacer()
-            ParseStateBadge(state: store.state)
+            ParseStateBadge(state: viewModel.parseState)
                 .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.parseState)
         }
         .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.root)
@@ -135,12 +92,11 @@ struct ParseTreeExplorerView: View {
         }
     }
 
-    private func containsNode(withID id: ParseTreeNode.ID, in nodes: [ParseTreeNode]) -> Bool {
-        for node in nodes {
-            if node.id == id { return true }
-            if containsNode(withID: id, in: node.children) { return true }
-        }
-        return false
+    private var selectionBinding: Binding<ParseTreeNode.ID?> {
+        Binding(
+            get: { viewModel.nodeViewModel.selectedNodeID },
+            set: { newValue in viewModel.nodeViewModel.select(nodeID: newValue) }
+        )
     }
 }
 
@@ -631,17 +587,18 @@ private struct ParseTreeOutlinePreview: View {
 }
 
 private struct ParseTreeExplorerPreview: View {
-    @StateObject private var store = ParseTreeStore()
-    @StateObject private var annotations = AnnotationBookmarkSession(store: nil)
-    @State private var selectedNodeID: ParseTreeNode.ID?
+    @StateObject private var documentViewModel: DocumentViewModel
+
+    init() {
+        let snapshot = ParseTreePreviewData.sampleSnapshot
+        let store = ParseTreeStore(initialSnapshot: snapshot, initialState: .finished)
+        let annotations = AnnotationBookmarkSession(store: nil)
+        _documentViewModel = StateObject(wrappedValue: DocumentViewModel(store: store, annotations: annotations))
+    }
 
     var body: some View {
         ParseTreeExplorerView(
-            store: store,
-            annotations: annotations,
-            outlineViewModel: ParseTreeOutlineViewModel(),
-            detailViewModel: ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil),
-            selectedNodeID: $selectedNodeID
+            viewModel: documentViewModel
         )
         .frame(width: 520, height: 520)
     }

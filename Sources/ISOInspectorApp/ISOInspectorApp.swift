@@ -21,13 +21,13 @@ struct ISOInspectorApp: App {
                 Button("Export JSON…") {
                     Task { await controller.exportJSON(scope: .document) }
                 }
-                .disabled(!controller.canExportDocument)
+                .disabled(!controller.documentViewModel.exportAvailability.canExportDocument)
 
                 Button("Export Selected JSON…") {
-                    guard let nodeID = controller.annotations.currentSelectedNodeID else { return }
+                    guard let nodeID = controller.documentViewModel.nodeViewModel.selectedNodeID else { return }
                     Task { await controller.exportJSON(scope: .selection(nodeID)) }
                 }
-                .disabled(!controller.canExportSelection(nodeID: controller.annotations.currentSelectedNodeID))
+                .disabled(!controller.documentViewModel.exportAvailability.canExportSelection)
             }
         }
 #if os(macOS)
