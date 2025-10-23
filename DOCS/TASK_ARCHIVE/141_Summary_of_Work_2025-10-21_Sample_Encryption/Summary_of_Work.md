@@ -15,4 +15,4 @@
 
 ## Notes
 - Regression fixture + snapshot live under `Tests/ISOInspectorKitTests/Fixtures/Media/sample_encryption_metadata.txt` and `Fixtures/Snapshots/sample-encryption-placeholder.json`.
-- Micro PRDs: `DOCS/INPROGRESS/2025-10-21-sample-encryption-parser-alignment.md`, `DOCS/INPROGRESS/2025-10-22-sample-encryption-metadata-surfacing.md`
+- Micro PRDs: `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/2025-10-21-sample-encryption-parser-alignment.md`, `DOCS/TASK_ARCHIVE/150_Summary_of_Work_2025-10-22_Sample_Encryption_Metadata/2025-10-22-sample-encryption-metadata-surfacing.md`
