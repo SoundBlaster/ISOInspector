@@ -1,12 +1,12 @@
 import Foundation
 
 public struct ParseTree: Equatable, Sendable {
-    public var nodes: [ParseTreeNode]
+    public var nodes: [BoxNode]
     public var validationIssues: [ValidationIssue]
     public var validationMetadata: ValidationMetadata?
 
     public init(
-        nodes: [ParseTreeNode] = [],
+        nodes: [BoxNode] = [],
         validationIssues: [ValidationIssue] = [],
         validationMetadata: ValidationMetadata? = nil
     ) {
