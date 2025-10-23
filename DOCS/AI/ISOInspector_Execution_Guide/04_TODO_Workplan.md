@@ -12,6 +12,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > **Current focus:** _Hardware validation follow-ups for Task A5’s random slice benchmarking deliverable._ See `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/Summary_of_Work.md` for the Task A5 wrap-up and refer to `DOCS/INPROGRESS/next_tasks.md` for hardware-dependent runs still outstanding.
 >
 > **Status:** _Blocked_ — benchmark harness implementation is archived and awaiting macOS hardware to execute random slice metrics, UI automation coverage, and Combine-backed UI benchmarks documented in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+> **Active engineering:** Task **E2 — Detect Zero/Negative Progress Loops** is now in progress; see `DOCS/INPROGRESS/E2_Detect_Progress_Loops.md` for the PRD outline and dependency status.
 >
 > **Archived (D5):** _`mfra/tfra/mfro` random access tables deliverable now lives in `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/`. Planning notes remain in `D5_mfra_tfra_mfro_Random_Access.md` with implementation details summarized in `Summary_of_Work.md`. Random access index integration shipped across ISOInspectorKit, CLI, and JSON exports; real-world codec fixture licensing follow-ups stay blocked in `DOCS/INPROGRESS/next_tasks.md`._
 >

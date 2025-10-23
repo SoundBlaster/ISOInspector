@@ -62,7 +62,7 @@
 
 ## Phase E — Validation
 - [ ] E1. Rules list: containment, non-overlap, overflow (documented in README)
-- [ ] E2. Add progress guard + max nesting depth constants
+- [ ] E2. Add progress guard + max nesting depth constants _(In Progress — tracked via `DOCS/INPROGRESS/E2_Detect_Progress_Loops.md`.)_
 - [ ] E3. Advisory order warnings (ftyp/moov/mdat)
 - [x] E4. avcC/hvcC invariants list _(Completed — validator coverage summarized in `DOCS/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/Summary_of_Work.md`.)_
 - [x] E5. Basic `stbl` coherence checks list _(Completed — see `DOCS/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/Summary_of_Work.md`.)_
