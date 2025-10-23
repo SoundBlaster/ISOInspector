@@ -828,3 +828,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/`.
 - **Highlights:** Documents the outstanding hardware-dependent VoiceOver verification, reiterating success criteria for macOS and iPadOS runs, the accessibility helpers to audit, and the regression status captured on 2025-10-23.
 - **Next steps carried forward:** Manual VoiceOver regression on physical hardware, structural containment validation (E1), real-world asset licensing, and snapshot/CLI fixture refresh workflows continue to track in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 157_J2_Persist_Security_Scoped_Bookmarks
+- **Archived files:** `J2_Persist_Security_Scoped_Bookmarks.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/157_J2_Persist_Security_Scoped_Bookmarks/`.
+- **Highlights:** Captures the bookmark ledger realignment that threads persistent identifiers through FilesystemAccessKit resolution, heals stale entries during session restoration, and expands audit logging plus documentation coverage for security-scoped flows.
+- **Next steps carried forward:** Structural containment validation (E1), the hardware-dependent VoiceOver regression pass, real-world asset licensing, and ongoing snapshot/CLI fixture maintenance remain listed in `DOCS/INPROGRESS/next_tasks.md`.
