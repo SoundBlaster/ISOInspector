@@ -1,5 +1,26 @@
 import Foundation
 
+public enum StreamingBoxWalkerError: Error, Equatable, Sendable {
+    case nonProgressingIteration(header: BoxHeader, depth: Int, previousCursor: Int64)
+    case exceededMaximumDepth(header: BoxHeader, depth: Int, limit: Int)
+
+    var header: BoxHeader {
+        switch self {
+        case let .nonProgressingIteration(header, _, _),
+             let .exceededMaximumDepth(header, _, _):
+            return header
+        }
+    }
+
+    var depth: Int {
+        switch self {
+        case let .nonProgressingIteration(_, depth, _),
+             let .exceededMaximumDepth(_, depth, _):
+            return depth
+        }
+    }
+}
+
 public struct StreamingBoxWalker: Sendable {
     public typealias CancellationCheck = () throws -> Void
     public typealias EventHandler = (ParseEvent) -> Void
@@ -46,10 +67,24 @@ public struct StreamingBoxWalker: Sendable {
                 at: offset,
                 inParentRange: parent.range
             )
+            if header.range.upperBound <= offset {
+                throw StreamingBoxWalkerError.nonProgressingIteration(
+                    header: header,
+                    depth: parent.depth + 1,
+                    previousCursor: offset
+                )
+            }
             parent.cursor = header.range.upperBound
             stack[stack.count - 1] = parent
 
             let depth = parent.depth + 1
+            if depth > ParserLimits.maximumBoxNestingDepth {
+                throw StreamingBoxWalkerError.exceededMaximumDepth(
+                    header: header,
+                    depth: depth,
+                    limit: ParserLimits.maximumBoxNestingDepth
+                )
+            }
             let startEvent = ParseEvent(
                 kind: .willStartBox(header: header, depth: depth),
                 offset: header.startOffset

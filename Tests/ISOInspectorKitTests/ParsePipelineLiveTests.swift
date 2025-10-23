@@ -120,6 +120,36 @@ final class ParsePipelineLiveTests: XCTestCase {
         try assertEvent(events[1], kind: .didFinish, type: mediaType, depth: 0, offset: Int64(largeBox.count))
     }
 
+    func testLivePipelineReportsValidationIssueWhenDepthLimitExceeded() async throws {
+        let limit = ParserLimits.maximumBoxNestingDepth
+        let leaf = makeBox(type: "free", payload: Data(count: 1))
+        var nested = leaf
+        for _ in 0..<(limit + 1) {
+            nested = makeContainer(type: ContainerTypes.track, children: [nested])
+        }
+        let root = makeContainer(type: ContainerTypes.movie, children: [nested])
+        let reader = InMemoryRandomAccessReader(data: root)
+        let pipeline = ParsePipeline.live()
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let guardEvent = try XCTUnwrap(events.last)
+
+        XCTAssertFalse(guardEvent.validationIssues.isEmpty)
+        let depthIssue = guardEvent.validationIssues.first(where: { issue in
+            issue.ruleID == ValidationRuleIdentifier.containerBoundary.rawValue
+        })
+        let unwrappedDepthIssue = try XCTUnwrap(depthIssue)
+        XCTAssertEqual(unwrappedDepthIssue.severity, .error)
+        XCTAssertTrue(unwrappedDepthIssue.message.contains("maximum nesting depth"))
+
+        if case let .willStartBox(header, depth) = guardEvent.kind {
+            XCTAssertEqual(header.type.rawValue, ContainerTypes.track)
+            XCTAssertEqual(depth, limit + 1)
+        } else {
+            XCTFail("Expected guard event to be willStartBox but received \(guardEvent.kind)")
+        }
+    }
+
     func testLivePipelineRecordsMediaDataOffsetsWithoutReadingPayload() async throws {
         let payloadLength = 256
         let mediaType = MediaAndIndexBoxCode.mediaData.rawValue

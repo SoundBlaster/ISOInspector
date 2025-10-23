@@ -26,3 +26,8 @@ Ensure the streaming parser always makes forward progress by detecting zero- or 
 - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES`](../RULES)
 - Any relevant archived context in [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+
+## ✅ Completion Notes
+- Introduced a shared `ParserLimits.maximumBoxNestingDepth` constant in ISOInspectorKit so the CLI and app inherit the same traversal ceiling.
+- Added `StreamingBoxWalkerError` reporting for non-progressing iterations and depth overflows, wiring `ParsePipeline` to convert those guard rails into VR-001/VR-002 validation issues with diagnostics logging.
+- Extended the test suite with regression coverage for the walker guard and the pipeline validation event to prevent silent hangs on adversarial inputs.
