@@ -118,6 +118,41 @@ final class FilesystemAccessTests: XCTestCase {
         XCTAssertEqual(events.last?.pathHash, expectedHash(for: expectedURL))
     }
 
+    func testResolveBookmarkDataLogsBookmarkIdentifierWhenProvided() throws {
+        let expectedURL = URL(fileURLWithPath: "/tmp/example.mp4")
+        let recordID = UUID()
+        let scopeManager = FilesystemAccessTestSecurityScope()
+        let bookmarkManager = FilesystemAccessTestBookmarkManager()
+        bookmarkManager.nextResolution = BookmarkResolution(url: expectedURL, isStale: false)
+        let diagnosticsLogger = FilesystemAccessTestLogger()
+        let auditTrail = FilesystemAccessAuditTrail(limit: 5)
+        let accessLogger = FilesystemAccessLogger(
+            diagnosticsLogger,
+            auditTrail: auditTrail,
+            makeDate: { Date(timeIntervalSinceReferenceDate: 3.5) }
+        )
+
+        let access = FilesystemAccess(
+            openFileHandler: { _ in expectedURL },
+            saveFileHandler: { _ in expectedURL },
+            bookmarkCreator: bookmarkManager.createBookmark(for:),
+            bookmarkResolver: bookmarkManager.resolveBookmark(data:),
+            securityScopeManager: scopeManager,
+            logger: accessLogger
+        )
+
+        let resolved = try access.resolveBookmarkData(
+            Data("bookmark".utf8),
+            bookmarkIdentifier: recordID
+        )
+
+        XCTAssertEqual(resolved.url.url, expectedURL)
+        let events = auditTrail.snapshot()
+        XCTAssertEqual(events.last?.category, .bookmarkResolve)
+        XCTAssertEqual(events.last?.outcome, .success)
+        XCTAssertEqual(events.last?.bookmarkIdentifier, recordID)
+    }
+
     func testResolveBookmarkDataPropagatesErrors() {
         struct SampleError: Error {}
 

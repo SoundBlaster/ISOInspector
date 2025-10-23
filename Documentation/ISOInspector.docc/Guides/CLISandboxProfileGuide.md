@@ -72,6 +72,7 @@ sandbox-exec -f isoinspector-automation.sb \
 ## Step 5. Rotate bookmarks safely
 
 - Refresh bookmarks whenever the source directory moves or permissions change. Stale bookmarks trigger the `bookmark.resolve.stale` log entry, after which automation should discard and recreate the credential.【F:Sources/ISOInspectorKit/FilesystemAccess/FilesystemAccess.swift†L42-L66】
+- Audit events now include a `bookmark_id` field derived from the persisted ledger so you can correlate CLI output with stored bookmark records when rotating credentials.【F:Sources/ISOInspectorKit/FilesystemAccess/FilesystemAccess.swift†L60-L109】【F:Sources/ISOInspectorApp/State/DocumentSessionController.swift†L566-L683】
 - Store bookmarks in the same secrets manager as other CI credentials and audit access; they grant filesystem reach beyond the sandbox defaults.
 - When revoking access, remove bookmark files and regenerate the sandbox profile to tighten the allowlist.
 

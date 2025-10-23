@@ -621,7 +621,11 @@
 
             if let blob = bookmarkBlob {
                 do {
-                    let resolution = try filesystemAccess.resolveBookmarkData(blob)
+                    let resolution = try filesystemAccess.resolveBookmarkData(
+                        blob,
+                        bookmarkIdentifier: candidateRecord?.id
+                            ?? preparedRecent.bookmarkIdentifier
+                    )
                     resolvedScope = resolution.url
                     preparedRecent.url = resolution.url.url
                     preparedRecent.displayName =
@@ -664,6 +668,7 @@
                             for: standardized,
                             state: .failed
                         )
+                        try? bookmarkStore.removeBookmark(for: standardized)
                     }
                     throw DocumentAccessError.unresolvedBookmark
                 }
