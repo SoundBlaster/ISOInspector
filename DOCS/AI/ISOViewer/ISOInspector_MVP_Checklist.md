@@ -58,7 +58,7 @@
 - [ ] D3. Stubs: `traf/tfhd/tfdt/trun` (flags map only). _(In Progress — see `DOCS/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/D3_traf_tfhd_tfdt_trun_Parsing.md`.)_
 - [x] D4. Stubs: `sidx`. _(Completed — see `DOCS/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md`.)_
 - [x] D5. Stubs: `mfra/tfra/mfro`
-- [ ] D6. Stubs: `senc/saio/saiz` placeholders _(In Progress — see `DOCS/INPROGRESS/D6_Recognize_senc_saio_saiz_Placeholders.md`.)_
+- [x] D6. Stubs: `senc/saio/saiz` placeholders _(Completed — see `DOCS/TASK_ARCHIVE/150_Summary_of_Work_2025-10-22_Sample_Encryption_Metadata/Summary_of_Work.md` for shipped behavior, with design notes kept under `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/`.)_
 
 ## Phase E — Validation
 - [ ] E1. Rules list: containment, non-overlap, overflow (documented in README)

@@ -792,3 +792,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/149_Codec_Validation_Coverage_Expansion/`.
 - **Highlights:** Extends VR-018 codec diagnostics across ParsePipeline live tests, CLI validate output, and JSON export snapshots using a new `codec-invalid-configs` fixture that encodes zero-length AVC/HEVC parameter sets. CLI integration asserts `VR-018` reporting with preset metadata, while snapshot baselines capture the emitted errors for regression.
 - **Next steps carried forward:** Sample encryption placeholder parsing, structural containment validation, and real-world codec fixture licensing remain active in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 150_Summary_of_Work_2025-10-22_Sample_Encryption_Metadata
+- **Archived files:** `Summary_of_Work.md`, `2025-10-22-sample-encryption-metadata-surfacing.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/150_Summary_of_Work_2025-10-22_Sample_Encryption_Metadata/`.
+- **Highlights:** Documents the follow-through on Task D6 with JSON exporter updates, CLI summaries, SwiftUI accessibility refinements, and fixture-driven regression coverage that surface `senc/saio/saiz` placeholder metadata end to end.
+- **Next steps carried forward:** Structural containment validation (E1) and the real-world fixture licensing backlog continue in `DOCS/INPROGRESS/next_tasks.md`.
