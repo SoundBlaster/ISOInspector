@@ -816,3 +816,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/153_Summary_of_Work_Export_Schema_Verification_Harness/`.
 - **Highlights:** Captures the wrap-up notes for the Export Schema Verification Harness follow-through, including the JSON exporter compatibility aliases, format summary field coverage, extended kit snapshots, and CLI regression harness guidance.
 - **Next steps carried forward:** Structural containment validation (E1), real-world codec fixture licensing, and snapshot/CLI fixture maintenance automation remain tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 155_G8_Accessibility_and_Keyboard_Shortcuts
+- **Archived files:** `G8_Accessibility_and_Keyboard_Shortcuts.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/155_G8_Accessibility_and_Keyboard_Shortcuts/`.
+- **Highlights:** Captures the shared focus shortcut catalog, macOS/iPadOS Focus command menu wiring, and synchronized SwiftUI focus scopes that keep outline, detail, notes, and hex panes aligned during keyboard navigation.
+- **Next steps carried forward:** Structural containment validation (E1), the manual VoiceOver regression pass, ongoing real-world asset licensing, and snapshot/CLI fixture maintenance are re-listed in `DOCS/INPROGRESS/next_tasks.md`.
