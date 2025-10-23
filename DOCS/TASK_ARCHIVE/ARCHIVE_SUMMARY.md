@@ -852,3 +852,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/162_Summary_of_Work_2025-10-23_CLI_Distribution_Follow_Up/`.
 - **Highlights:** Documents the release engineering recap for the CLI distribution strategy, linking the notarized macOS builds, Homebrew tap workflow, Linux packaging checklist, and supporting documentation that now live alongside automation helpers inside the archive.
 - **Next steps carried forward:** Manual VoiceOver regression validation, real-world codec asset licensing, and the snapshot/CLI fixture refresh workflow remain outstanding and continue in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 163_E2_Detect_Progress_Loops
+- **Archived files:** `E2_Detect_Progress_Loops.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
+- **Highlights:** Documents Task E2 requirements to ensure the streaming parser always makes forward progress by detecting zero- or negative-advance iterations and enforcing a safe maximum nesting depth, preventing malformed media from hanging or exhausting resources. The archive captures the context, success criteria, implementation notes, and source references that guided completion of this validation phase guard-rail.
+- **Next steps carried forward:** Manual VoiceOver regression validation on physical hardware, real-world codec asset licensing, and ongoing snapshot/CLI fixture maintenance workflows continue in the refreshed `DOCS/INPROGRESS/next_tasks.md`.

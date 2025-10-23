@@ -125,6 +125,38 @@ final class StreamingBoxWalkerTests: XCTestCase {
         XCTAssertEqual(events.count, 2)
     }
 
+    func testWalkerThrowsWhenExceedingMaximumDepth() {
+        let limit = ParserLimits.maximumBoxNestingDepth
+        let leaf = makeBox(type: "free", payload: Data(count: 1))
+        let trackType = FourCharContainerCode.trak.rawValue
+
+        var nested = leaf
+        for _ in 0..<(limit + 1) {
+            nested = makeBox(type: trackType, payload: nested)
+        }
+
+        let root = makeBox(type: FourCharContainerCode.moov.rawValue, payload: nested)
+        let reader = InMemoryRandomAccessReader(data: root)
+        let walker = StreamingBoxWalker()
+
+        XCTAssertThrowsError(
+            try walker.walk(
+                reader: reader,
+                cancellationCheck: {},
+                onEvent: { _ in },
+                onFinish: {}
+            )
+        ) { error in
+            guard case let StreamingBoxWalkerError.exceededMaximumDepth(header, depth, limitReached) = error else {
+                XCTFail("Unexpected error: \(error)")
+                return
+            }
+            XCTAssertEqual(limitReached, ParserLimits.maximumBoxNestingDepth)
+            XCTAssertEqual(depth, ParserLimits.maximumBoxNestingDepth + 1)
+            XCTAssertEqual(header.type.rawValue, trackType)
+        }
+    }
+
     private enum EventKind {
         case willStart
         case didFinish

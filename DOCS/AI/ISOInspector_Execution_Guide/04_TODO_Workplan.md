@@ -9,10 +9,10 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | A2 | Configure CI pipeline (GitHub Actions or similar) for build, test, lint. | High | 1.5 | A1 | GitHub Actions, swiftlint | CI runs on pull requests; failing tests block merge. (Completed ✅ — archived in `DOCS/ARCHIVE/01_A2_Configure_CI_Pipeline/`.) |
 | A3 | Set up DocC catalog and documentation publishing workflow. | Medium | 1 | A1 | DocC, SwiftPM | `docc` build succeeds; docs published artifact accessible. (Completed ✅ — generates archives via `scripts/generate_documentation.sh`, DocC catalogs live under `Sources/*/*.docc`, tutorials expanded in `DOCS/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/`, and CI publishing now delivered by the TODO #12-backed `docc-archives` job.) |
 
-> **Current focus:** _Hardware validation follow-ups for Task A5’s random slice benchmarking deliverable._ See `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/Summary_of_Work.md` for the Task A5 wrap-up and refer to `DOCS/INPROGRESS/next_tasks.md` for hardware-dependent runs still outstanding.
+> **Current focus:** _Hardware validation follow-ups for Task A5's random slice benchmarking deliverable._ See `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/Summary_of_Work.md` for the Task A5 wrap-up and refer to `DOCS/INPROGRESS/next_tasks.md` for hardware-dependent runs still outstanding.
 >
 > **Status:** _Blocked_ — benchmark harness implementation is archived and awaiting macOS hardware to execute random slice metrics, UI automation coverage, and Combine-backed UI benchmarks documented in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
-> **Active engineering:** Task **E2 — Detect Zero/Negative Progress Loops** is now in progress; see `DOCS/INPROGRESS/E2_Detect_Progress_Loops.md` for the PRD outline and dependency status.
+> **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >
 > **Archived (D5):** _`mfra/tfra/mfro` random access tables deliverable now lives in `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/`. Planning notes remain in `D5_mfra_tfra_mfro_Random_Access.md` with implementation details summarized in `Summary_of_Work.md`. Random access index integration shipped across ISOInspectorKit, CLI, and JSON exports; real-world codec fixture licensing follow-ups stay blocked in `DOCS/INPROGRESS/next_tasks.md`._
 >

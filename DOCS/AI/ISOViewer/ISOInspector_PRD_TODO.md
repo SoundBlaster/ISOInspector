@@ -226,7 +226,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 ### Phase E — Validation
 - [x] E1. Enforce parent containment and non-overlap. _(Completed — see `DOCS/TASK_ARCHIVE/159_E1_Enforce_Parent_Containment_and_Non_Overlap/Summary_of_Work.md` for validation details; historical context remains in `DOCS/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/E1_Enforce_Parent_Containment_and_Non_Overlap.md`.)_
-- [ ] E2. Detect zero/negative progress loops; cap nesting depth. _(In Progress — see `DOCS/INPROGRESS/E2_Detect_Progress_Loops.md` for the active PRD and parser alignment notes.)_
+- [x] E2. Detect zero/negative progress loops; cap nesting depth. _(Completed — see `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/E2_Detect_Progress_Loops.md` for archived implementation notes and `DOCS/INPROGRESS/Summary_of_Work.md` for the completion summary.)_
 - [x] E3. Warn on unusual top-level ordering (advisory). _(Completed — summary in `DOCS/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/Summary_of_Work.md`.)_
 - [x] E4. Verify `avcC/hvcC` invariants; flag inconsistencies. _(Completed — validation summary recorded in `DOCS/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/Summary_of_Work.md`.)_
 - [x] E5. Basic `stbl` coherence checks (counts nonzero, arrays parse). **(Completed — see `DOCS/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/Summary_of_Work.md` for validation rollout notes.)**

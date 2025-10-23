@@ -655,6 +655,50 @@ extension ParsePipeline {
                     let metadataCoordinator = MetadataEnvironmentCoordinator()
                     let fragmentCoordinator = FragmentEnvironmentCoordinator()
                     let randomAccessCoordinator = RandomAccessIndexCoordinator()
+
+                    func emitGuardFailureEvent(_ error: StreamingBoxWalkerError) {
+                        let header = error.header
+                        let depth = error.depth
+                        let issue: ValidationIssue
+                        let message: String
+
+                        switch error {
+                        case let .exceededMaximumDepth(_, _, limit):
+                            message = "Box \(header.identifierString) exceeded maximum nesting depth (\(limit)). Aborting parse to prevent runaway recursion."
+                            issue = ValidationIssue(
+                                ruleID: ValidationRuleIdentifier.containerBoundary.rawValue,
+                                message: message,
+                                severity: .error
+                            )
+                        case let .nonProgressingIteration(_, _, previousCursor):
+                            message = "Box \(header.identifierString) failed to advance parser cursor (stalled at offset \(previousCursor)). Aborting to avoid infinite loop."
+                            issue = ValidationIssue(
+                                ruleID: ValidationRuleIdentifier.structuralSize.rawValue,
+                                message: message,
+                                severity: .error
+                            )
+                        }
+
+                        logger.error(message)
+
+                        let descriptor = catalog.descriptor(for: header)
+                        let baseEvent = ParseEvent(
+                            kind: .willStartBox(header: header, depth: depth),
+                            offset: header.startOffset,
+                            metadata: descriptor
+                        )
+                        let validated = validator.annotate(event: baseEvent, reader: reader)
+                        let combinedIssues = [issue] + validated.validationIssues
+                        let combinedEvent = ParseEvent(
+                            kind: validated.kind,
+                            offset: validated.offset,
+                            metadata: validated.metadata,
+                            payload: validated.payload,
+                            validationIssues: combinedIssues
+                        )
+                        continuation.yield(combinedEvent)
+                        continuation.finish()
+                    }
                     do {
                         try walker.walk(
                             reader: reader,
@@ -743,6 +787,8 @@ extension ParsePipeline {
                                 continuation.finish()
                             }
                         )
+                    } catch let guardError as StreamingBoxWalkerError {
+                        emitGuardFailureEvent(guardError)
                     } catch {
                         continuation.finish(throwing: error)
                     }
