@@ -234,6 +234,45 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] E7. Validation rule presets and per-rule toggles spanning core, CLI, and UI. _(Completed — configuration layer archived in `DOCS/TASK_ARCHIVE/145_B7_Validation_Rule_Preset_Configuration/B7_Validation_Rule_Preset_Configuration.md`, CLI wiring summarized in `DOCS/TASK_ARCHIVE/148_D7_Validation_Preset_CLI_Wiring/Summary_of_Work.md` (with planning retained in `DOCS/TASK_ARCHIVE/148_D7_Validation_Preset_CLI_Wiring/D7_Validation_Preset_CLI_Wiring.md`), and UI settings integration captured in `DOCS/TASK_ARCHIVE/147_Summary_of_Work_2025-10-22_Validation_Preset_UI_Settings_Integration/Summary_of_Work.md`. Bundled JSON manifests seed default presets, Application Support stores user-authored sets, exports mark disabled rules as `skipped`, and CLI aliases (for example, `--structural-only`) complement the `--preset` flag.)_
 - [x] E6. Add streaming structural validation rules VR-001 (header sizing) and VR-002 (container closure).
 
+### Phase T — Tolerance Parsing (Corrupted Media Resilience)
+
+**Status:** Planning Phase Complete — Ready for Sprint 1 Entry
+**Documentation:** [`DOCS/AI/Tolerance_Parsing/`](../Tolerance_Parsing/README.md)
+
+This phase introduces **lenient parsing mode** that continues parsing corrupted media files while recording structural issues as `ParseIssue` events. Complements existing strict-mode validation (E1, E2, VR-*) to enable forensic workflows for QC operators, streaming SREs, and video engineers.
+
+**Key Deliverables:**
+- **T1:** Core parsing resiliency (Result-based decoder, issue recording, progress guards)
+- **T2:** Corruption aggregation (`ParseIssueStore`, event streaming, metrics)
+- **T3:** UI corruption views (badges, placeholders, "Integrity" tab, export actions)
+- **T4:** Diagnostics export (JSON/text with byte ranges, file metadata)
+- **T5:** Testing & fixtures (corrupt corpus, regression, performance, fuzzing)
+- **T6:** CLI & ecosystem parity (--tolerant flag, SDK API)
+- **T7:** Rollout (Prototype → Alpha → Beta → GA → Telemetry)
+
+**Full Workplan:** [`TODO.md`](../Tolerance_Parsing/TODO.md) (37 tasks across 7 phases)
+**Integration Guide:** [`IntegrationSummary.md`](../Tolerance_Parsing/IntegrationSummary.md)
+**Feature Analysis:** [`FeatureAnalysis.md`](../Tolerance_Parsing/FeatureAnalysis.md)
+
+**Current Status:**
+- [ ] T1.1. Define `ParseIssue` model (severity, code, message, byte range). _(Queued for Sprint 1 — see `DOCS/INPROGRESS/next_tasks.md`)_
+- [ ] T1.2. Extend `ParseTreeNode` with `issues` and `status` fields.
+- [ ] T1.3. Create `ParsePipeline.Options` for tolerance configuration.
+- [ ] T1.4. Refactor `BoxHeaderDecoder` to Result-based API.
+- [ ] T1.5. Update container iteration to handle errors gracefully.
+- [ ] T1.6. Implement binary reader guards (clamp to parent boundaries).
+- [ ] T1.7. Add progress/depth guards in lenient mode.
+
+**Success Metrics (from PRD):**
+- Coverage: ≥95% corrupt fixtures parse to completion
+- User Satisfaction: ≥4/5 on "inspect damaged files"
+- Crash-Free: 99.9% across corrupt suite
+- Performance: Lenient mode ≤1.2× strict mode
+
+**Related Tasks:**
+- Builds on: E1 (containment), E2 (progress guards), B7 (validation config)
+- Extends: G7 (UI state), B6 (JSON export), VR-001 to VR-015 (validation rules)
+
 ### Phase F — Export & Hex
 - [x] F1. JSON export: encode tree with offsets/sizes/parsed fields. _(Implemented by [28_B6_JSON_and_Binary_Export_Modules](../../TASK_ARCHIVE/28_B6_JSON_and_Binary_Export_Modules/28_B6_JSON_and_Binary_Export_Modules.md))._
 - [x] F2. Configure performance benchmarks for large files. **CLI validation and app bridge benchmarks enforce scaled latency budgets with XCTest metrics harnesses.** _(macOS Combine benchmark capture remains **Blocked** pending macOS hardware — see `DOCS/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/50_Combine_UI_Benchmark_macOS_Run.md` and `DOCS/INPROGRESS/next_tasks.md`.)_
