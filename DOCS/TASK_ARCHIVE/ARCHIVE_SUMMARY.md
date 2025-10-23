@@ -846,3 +846,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/160_Summary_of_Work_2025-10-23/`.
 - **Highlights:** Captures the October 23, 2025 validation wrap-up that enforced parent containment and overlap safeguards across the box hierarchy, with accompanying test fixtures and diagnostic updates documented alongside the verification commands.
 - **Next steps carried forward:** Manual VoiceOver regression coverage, real-world codec asset licensing, and ongoing snapshot/CLI fixture maintenance now live in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+
+## 162_Summary_of_Work_2025-10-23_CLI_Distribution_Follow_Up
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/162_Summary_of_Work_2025-10-23_CLI_Distribution_Follow_Up/`.
+- **Highlights:** Documents the release engineering recap for the CLI distribution strategy, linking the notarized macOS builds, Homebrew tap workflow, Linux packaging checklist, and supporting documentation that now live alongside automation helpers inside the archive.
+- **Next steps carried forward:** Manual VoiceOver regression validation, real-world codec asset licensing, and the snapshot/CLI fixture refresh workflow remain outstanding and continue in `DOCS/INPROGRESS/next_tasks.md`.
