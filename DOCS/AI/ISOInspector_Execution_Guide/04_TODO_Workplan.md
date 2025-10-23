@@ -139,6 +139,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | G4 | Implement zero-trust logging and audit trail for file access events. | Medium | 1 | G1 | Swift Logging | Access logs omit absolute paths, include hashed identifiers, and pass diagnostics tests. *(Completed — see `DOCS/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/G4_Zero_Trust_Logging.md`.)* |
 | G5 | Provide UIDocumentPicker integration for iOS/iPadOS platform adapters. | Medium | 1 | G1 | UIKit, Swift Concurrency | FilesystemAccessKit presents `UIDocumentPickerViewController`, returns security-scoped URLs, and ships regression coverage without regressing macOS adapters. **(Completed — FilesystemAccess.live selects the UIKit presenter by default on iOS/iPadOS.)** |
 
+> **In Progress:** Task **G7 — State Management View Models** formalizes DocumentVM/NodeVM/HexVM orchestration for the SwiftUI outline, detail, and export flows; see `DOCS/INPROGRESS/G7_State_Management_ViewModels.md` for the active PRD.
+
 > **Completed:** Task G2 – Persist FilesystemAccessKit bookmarks alongside recents/session storage while maintaining sandbox compliance. Notes archived in `DOCS/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/`; remaining sandbox, benchmark, and automation follow-ups continue in `DOCS/INPROGRESS/next_tasks.md`.
 
 ## Phase H — Fixtures & Tests
