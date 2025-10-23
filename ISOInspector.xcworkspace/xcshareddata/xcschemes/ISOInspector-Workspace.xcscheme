@@ -14,6 +14,62 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "A4BF59F1B896D3D407989599"
+               BuildableName = "ComponentTestApp_iOS.app"
+               BlueprintName = "ComponentTestApp-iOS"
+               ReferencedContainer = "container:Examples/ComponentTestApp/ComponentTestApp.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "D0FD0C0E9BB50BFC4ECA11CC"
+               BuildableName = "ComponentTestApp_macOS.app"
+               BlueprintName = "ComponentTestApp-macOS"
+               ReferencedContainer = "container:Examples/ComponentTestApp/ComponentTestApp.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F9433865E9F0532C0F4BE73D"
+               BuildableName = "FoundationUI.framework"
+               BlueprintName = "FoundationUI"
+               ReferencedContainer = "container:FoundationUI/FoundationUI.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DF15E8E09D2A4B01DCEB5911"
+               BuildableName = "FoundationUITests.xctest"
+               BlueprintName = "FoundationUITests"
+               ReferencedContainer = "container:FoundationUI/FoundationUI.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "97336DB0E111BB9614B2D9DF"
                BuildableName = "ISOInspectorApp_iOS.app"
                BlueprintName = "ISOInspectorApp-iOS"
@@ -98,6 +154,17 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "DF15E8E09D2A4B01DCEB5911"
+               BuildableName = "FoundationUITests.xctest"
+               BlueprintName = "FoundationUITests"
+               ReferencedContainer = "container:FoundationUI/FoundationUI.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
@@ -114,10 +181,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "97336DB0E111BB9614B2D9DF"
-            BuildableName = "ISOInspectorApp_iOS.app"
-            BlueprintName = "ISOInspectorApp-iOS"
-            ReferencedContainer = "container:ISOInspector.xcodeproj">
+            BlueprintIdentifier = "A4BF59F1B896D3D407989599"
+            BuildableName = "ComponentTestApp_iOS.app"
+            BlueprintName = "ComponentTestApp-iOS"
+            ReferencedContainer = "container:Examples/ComponentTestApp/ComponentTestApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -131,10 +198,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "97336DB0E111BB9614B2D9DF"
-            BuildableName = "ISOInspectorApp_iOS.app"
-            BlueprintName = "ISOInspectorApp-iOS"
-            ReferencedContainer = "container:ISOInspector.xcodeproj">
+            BlueprintIdentifier = "A4BF59F1B896D3D407989599"
+            BuildableName = "ComponentTestApp_iOS.app"
+            BlueprintName = "ComponentTestApp-iOS"
+            ReferencedContainer = "container:Examples/ComponentTestApp/ComponentTestApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
