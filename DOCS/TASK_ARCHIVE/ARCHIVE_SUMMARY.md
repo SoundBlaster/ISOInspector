@@ -822,3 +822,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/155_G8_Accessibility_and_Keyboard_Shortcuts/`.
 - **Highlights:** Captures the shared focus shortcut catalog, macOS/iPadOS Focus command menu wiring, and synchronized SwiftUI focus scopes that keep outline, detail, notes, and hex panes aligned during keyboard navigation.
 - **Next steps carried forward:** Structural containment validation (E1), the manual VoiceOver regression pass, ongoing real-world asset licensing, and snapshot/CLI fixture maintenance are re-listed in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts
+- **Archived files:** `G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/`.
+- **Highlights:** Documents the outstanding hardware-dependent VoiceOver verification, reiterating success criteria for macOS and iPadOS runs, the accessibility helpers to audit, and the regression status captured on 2025-10-23.
+- **Next steps carried forward:** Manual VoiceOver regression on physical hardware, structural containment validation (E1), real-world asset licensing, and snapshot/CLI fixture refresh workflows continue to track in `DOCS/INPROGRESS/next_tasks.md`.
