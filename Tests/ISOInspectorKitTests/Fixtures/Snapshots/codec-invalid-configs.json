@@ -1,15 +1,26 @@
 {
+  "format" : {
+    "byte_size" : 491,
+    "compatible_brands" : [
+      "isom"
+    ],
+    "major_brand" : "isom",
+    "minor_version" : 0,
+    "track_count" : 1
+  },
   "nodes" : [
     {
       "children" : [
 
       ],
       "fourcc" : "ftyp",
+      "header_size" : 8,
       "metadata" : {
         "name" : "File Type And Compatibility",
         "specification" : "ISO\/IEC 14496-12",
         "summary" : "Identifies the file type and compatibility brands for the bitstream."
       },
+      "name" : "ftyp",
       "offsets" : {
         "end" : 20,
         "payloadEnd" : 20,
@@ -45,6 +56,7 @@
           "value" : "isom"
         }
       ],
+      "size" : 20,
       "sizes" : {
         "header" : 8,
         "payload" : 12,
@@ -72,6 +84,7 @@
 
               ],
               "fourcc" : "tkhd",
+              "header_size" : 8,
               "metadata" : {
                 "flags" : 7,
                 "name" : "Track Header, Overall Information About The Track",
@@ -79,6 +92,7 @@
                 "summary" : "Defines the characteristics of a track, including ID, duration, and display parameters.",
                 "version" : 0
               },
+              "name" : "tkhd",
               "offsets" : {
                 "end" : 128,
                 "payloadEnd" : 128,
@@ -282,6 +296,7 @@
                   "value" : "true"
                 }
               ],
+              "size" : 92,
               "sizes" : {
                 "header" : 8,
                 "payload" : 84,
@@ -330,11 +345,13 @@
 
                   ],
                   "fourcc" : "mdhd",
+                  "header_size" : 8,
                   "metadata" : {
                     "name" : "Media Header, Overall Information About The Media",
                     "specification" : "ISO",
                     "summary" : "media header, overall information about the media"
                   },
+                  "name" : "mdhd",
                   "offsets" : {
                     "end" : 168,
                     "payloadEnd" : 168,
@@ -415,6 +432,7 @@
                       "value" : "0"
                     }
                   ],
+                  "size" : 32,
                   "sizes" : {
                     "header" : 8,
                     "payload" : 24,
@@ -429,11 +447,13 @@
 
                   ],
                   "fourcc" : "hdlr",
+                  "header_size" : 8,
                   "metadata" : {
                     "name" : "Handler, Declares The Media (handler) Type",
                     "specification" : "ISO",
                     "summary" : "handler, declares the media (handler) type"
                   },
+                  "name" : "hdlr",
                   "offsets" : {
                     "end" : 214,
                     "payloadEnd" : 214,
@@ -492,6 +512,7 @@
                       "value" : "Video Handler"
                     }
                   ],
+                  "size" : 46,
                   "sizes" : {
                     "header" : 8,
                     "payload" : 38,
@@ -508,11 +529,13 @@
 
                       ],
                       "fourcc" : "vmhd",
+                      "header_size" : 8,
                       "metadata" : {
                         "name" : "Video Media Header, Overall Information (video Track Only)",
                         "specification" : "ISO",
                         "summary" : "video media header, overall information (video track only)"
                       },
+                      "name" : "vmhd",
                       "offsets" : {
                         "end" : 242,
                         "payloadEnd" : 242,
@@ -611,6 +634,7 @@
                           "value" : "0"
                         }
                       ],
+                      "size" : 20,
                       "sizes" : {
                         "header" : 8,
                         "payload" : 12,
@@ -651,6 +675,8 @@
 
                               ],
                               "fourcc" : "\u0000\u0000\u0000\u0002",
+                              "header_size" : 8,
+                              "name" : "\u0000\u0000\u0000\u0002",
                               "offsets" : {
                                 "end" : 475,
                                 "payloadEnd" : 475,
@@ -678,6 +704,7 @@
                                   "value" : "266..<475"
                                 }
                               ],
+                              "size" : 217,
                               "sizes" : {
                                 "header" : 8,
                                 "payload" : 209,
@@ -693,11 +720,13 @@
                             }
                           ],
                           "fourcc" : "stsd",
+                          "header_size" : 8,
                           "metadata" : {
                             "name" : "Sample Descriptions (codec Types, Initialization Etc.)",
                             "specification" : "ISO",
                             "summary" : "sample descriptions (codec types, initialization etc.)"
                           },
+                          "name" : "stsd",
                           "offsets" : {
                             "end" : 475,
                             "payloadEnd" : 475,
@@ -823,6 +852,7 @@
                               "value" : "0"
                             }
                           ],
+                          "size" : 225,
                           "sizes" : {
                             "header" : 8,
                             "payload" : 217,
@@ -846,11 +876,13 @@
 
                           ],
                           "fourcc" : "stts",
+                          "header_size" : 8,
                           "metadata" : {
                             "name" : "(decoding) Time-to-sample",
                             "specification" : "ISO",
                             "summary" : "(decoding) time-to-sample"
                           },
+                          "name" : "stts",
                           "offsets" : {
                             "end" : 491,
                             "payloadEnd" : 491,
@@ -886,6 +918,7 @@
                               "value" : "0"
                             }
                           ],
+                          "size" : 16,
                           "sizes" : {
                             "header" : 8,
                             "payload" : 8,
@@ -907,11 +940,13 @@
                         }
                       ],
                       "fourcc" : "stbl",
+                      "header_size" : 8,
                       "metadata" : {
                         "name" : "Sample Table Box, Container For The Time\/space Map",
                         "specification" : "ISO",
                         "summary" : "sample table box, container for the time\/space map"
                       },
+                      "name" : "stbl",
                       "offsets" : {
                         "end" : 491,
                         "payloadEnd" : 491,
@@ -939,6 +974,7 @@
                           "value" : "250..<491"
                         }
                       ],
+                      "size" : 249,
                       "sizes" : {
                         "header" : 8,
                         "payload" : 241,
@@ -950,11 +986,13 @@
                     }
                   ],
                   "fourcc" : "minf",
+                  "header_size" : 8,
                   "metadata" : {
                     "name" : "Media Information Container",
                     "specification" : "ISO",
                     "summary" : "media information container"
                   },
+                  "name" : "minf",
                   "offsets" : {
                     "end" : 491,
                     "payloadEnd" : 491,
@@ -982,6 +1020,7 @@
                       "value" : "222..<491"
                     }
                   ],
+                  "size" : 277,
                   "sizes" : {
                     "header" : 8,
                     "payload" : 269,
@@ -993,11 +1032,13 @@
                 }
               ],
               "fourcc" : "mdia",
+              "header_size" : 8,
               "metadata" : {
                 "name" : "Container For The Media Information In A Track",
                 "specification" : "ISO",
                 "summary" : "container for the media information in a track"
               },
+              "name" : "mdia",
               "offsets" : {
                 "end" : 491,
                 "payloadEnd" : 491,
@@ -1025,6 +1066,7 @@
                   "value" : "136..<491"
                 }
               ],
+              "size" : 363,
               "sizes" : {
                 "header" : 8,
                 "payload" : 355,
@@ -1036,11 +1078,13 @@
             }
           ],
           "fourcc" : "trak",
+          "header_size" : 8,
           "metadata" : {
             "name" : "Container For An Individual Track Or Stream",
             "specification" : "ISO\/IEC 14496-12",
             "summary" : "Container describing a single track within the presentation."
           },
+          "name" : "trak",
           "offsets" : {
             "end" : 491,
             "payloadEnd" : 491,
@@ -1068,6 +1112,7 @@
               "value" : "36..<491"
             }
           ],
+          "size" : 463,
           "sizes" : {
             "header" : 8,
             "payload" : 455,
@@ -1079,11 +1124,13 @@
         }
       ],
       "fourcc" : "moov",
+      "header_size" : 8,
       "metadata" : {
         "name" : "Container For All The Meta-data",
         "specification" : "ISO\/IEC 14496-12",
         "summary" : "Top-level container for movie metadata including tracks and timing information."
       },
+      "name" : "moov",
       "offsets" : {
         "end" : 491,
         "payloadEnd" : 491,
@@ -1111,6 +1158,7 @@
           "value" : "28..<491"
         }
       ],
+      "size" : 471,
       "sizes" : {
         "header" : 8,
         "payload" : 463,

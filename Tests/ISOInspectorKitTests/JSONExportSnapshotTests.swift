@@ -61,6 +61,55 @@ final class JSONExportSnapshotTests: XCTestCase {
         try await assertSnapshotMatchesFixture(id: "sample-encryption-placeholder")
     }
 
+    func testBaselineSampleNodesExposeCompatibilityAliases() async throws {
+        let tree = try await makeParseTree(forFixtureID: "baseline-sample")
+        let object = try canonicalJSONObject(for: tree)
+        let nodes = try XCTUnwrap(object["nodes"] as? [[String: Any]], "nodes array missing from export")
+        let flattened = flatten(nodes: nodes)
+
+        for node in flattened {
+            let fourcc = node["fourcc"] as? String
+            let name = node["name"] as? String
+            XCTAssertEqual(name, fourcc, "Compatibility alias name should mirror fourcc for node \(String(describing: fourcc))")
+
+            let sizes = node["sizes"] as? [String: Any]
+            let header = Self.intValue(forKey: "header", in: sizes)
+            let total = Self.intValue(forKey: "total", in: sizes)
+            let headerAlias = Self.intValue(forKey: "header_size", in: node)
+            let sizeAlias = Self.intValue(forKey: "size", in: node)
+
+            XCTAssertEqual(headerAlias, header, "header_size alias should equal sizes.header for node \(String(describing: fourcc))")
+            XCTAssertEqual(sizeAlias, total, "size alias should equal sizes.total for node \(String(describing: fourcc))")
+        }
+    }
+
+    func testBaselineSampleFormatSummaryIncludesBrandsAndDuration() async throws {
+        let tree = try await makeParseTree(forFixtureID: "baseline-sample")
+        let object = try canonicalJSONObject(for: tree)
+        let format = try XCTUnwrap(object["format"] as? [String: Any], "format summary missing")
+
+        let fileType = try XCTUnwrap(findFileType(in: tree), "File type detail missing from parse tree")
+        XCTAssertEqual(format["major_brand"] as? String, fileType.majorBrand.rawValue)
+        XCTAssertEqual(Self.intValue(forKey: "minor_version", in: format), Int(fileType.minorVersion))
+        let compatible = try XCTUnwrap(format["compatible_brands"] as? [String])
+        XCTAssertEqual(compatible, fileType.compatibleBrands.map(\.rawValue))
+
+        let movieHeader = try XCTUnwrap(findMovieHeader(in: tree), "Movie header detail missing from parse tree")
+        let expectedDuration = Double(movieHeader.duration) / Double(movieHeader.timescale)
+        let duration = try XCTUnwrap(format["duration_seconds"] as? Double)
+        XCTAssertEqual(duration, expectedDuration, accuracy: 0.0001)
+
+        let trackCount = countTracks(in: tree.nodes)
+        XCTAssertEqual(Self.intValue(forKey: "track_count", in: format), trackCount)
+
+        let byteSize = Self.intValue(forKey: "byte_size", in: format)
+        let data = try treeData(forFixtureID: "baseline-sample")
+        XCTAssertEqual(byteSize, data.count)
+
+        let expectedBitrate = Int((Double(data.count) * 8.0 / expectedDuration).rounded())
+        XCTAssertEqual(Self.intValue(forKey: "bitrate", in: format), expectedBitrate)
+    }
+
     private func assertSnapshotMatchesFixture(id: String) async throws {
         let tree = try await makeParseTree(forFixtureID: id)
         let canonical = try canonicalJSONString(for: tree)
@@ -88,6 +137,13 @@ final class JSONExportSnapshotTests: XCTestCase {
             string.append("\n")
         }
         return string
+    }
+
+    private func canonicalJSONObject(for tree: ParseTree) throws -> [String: Any] {
+        let raw = try canonicalJSONString(for: tree)
+        let data = Data(raw.utf8)
+        let object = try JSONSerialization.jsonObject(with: data, options: [.fragmentsAllowed])
+        return try XCTUnwrap(object as? [String: Any], "Export root object must be a dictionary")
     }
 
     private func assertSnapshot(named name: String, matches json: String) throws {
@@ -129,5 +185,63 @@ final class JSONExportSnapshotTests: XCTestCase {
             .appendingPathComponent("Fixtures", isDirectory: true)
             .appendingPathComponent(snapshotsSubdirectory, isDirectory: true)
             .appendingPathComponent("\(name).json", isDirectory: false)
+    }
+
+    private func flatten(nodes: [[String: Any]]) -> [[String: Any]] {
+        var result: [[String: Any]] = []
+        for node in nodes {
+            result.append(node)
+            if let children = node["children"] as? [[String: Any]] {
+                result.append(contentsOf: flatten(nodes: children))
+            }
+        }
+        return result
+    }
+
+    private static func intValue(forKey key: String, in dictionary: [String: Any]?) -> Int {
+        guard let value = dictionary?[key] else { return 0 }
+        if let intValue = value as? Int { return intValue }
+        if let number = value as? NSNumber { return number.intValue }
+        return 0
+    }
+
+    private func findFileType(in tree: ParseTree) -> ParsedBoxPayload.FileTypeBox? {
+        for node in flatten(nodes: tree.nodes) {
+            if let fileType = node.payload?.fileType {
+                return fileType
+            }
+        }
+        return nil
+    }
+
+    private func findMovieHeader(in tree: ParseTree) -> ParsedBoxPayload.MovieHeaderBox? {
+        for node in flatten(nodes: tree.nodes) {
+            if let movieHeader = node.payload?.movieHeader {
+                return movieHeader
+            }
+        }
+        return nil
+    }
+
+    private func countTracks(in nodes: [ParseTreeNode]) -> Int {
+        nodes.reduce(0) { partialResult, node in
+            let childrenCount = countTracks(in: node.children)
+            let isTrack = node.header.type.rawValue == "trak" ? 1 : 0
+            return partialResult + isTrack + childrenCount
+        }
+    }
+
+    private func flatten(nodes: [ParseTreeNode]) -> [ParseTreeNode] {
+        var result: [ParseTreeNode] = []
+        for node in nodes {
+            result.append(node)
+            result.append(contentsOf: flatten(nodes: node.children))
+        }
+        return result
+    }
+
+    private func treeData(forFixtureID id: String) throws -> Data {
+        let fixture = try XCTUnwrap(catalog.fixture(withID: id))
+        return try fixture.data(in: .module)
     }
 }

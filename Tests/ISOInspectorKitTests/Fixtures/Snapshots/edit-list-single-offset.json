@@ -1,15 +1,29 @@
 {
+  "format" : {
+    "bitrate" : 1749,
+    "byte_size" : 328,
+    "compatible_brands" : [
+      "isom",
+      "iso2"
+    ],
+    "duration_seconds" : 1.5,
+    "major_brand" : "isom",
+    "minor_version" : 0,
+    "track_count" : 1
+  },
   "nodes" : [
     {
       "children" : [
 
       ],
       "fourcc" : "ftyp",
+      "header_size" : 8,
       "metadata" : {
         "name" : "File Type And Compatibility",
         "specification" : "ISO\/IEC 14496-12",
         "summary" : "Identifies the file type and compatibility brands for the bitstream."
       },
+      "name" : "ftyp",
       "offsets" : {
         "end" : 24,
         "payloadEnd" : 24,
@@ -54,6 +68,7 @@
           "value" : "iso2"
         }
       ],
+      "size" : 24,
       "sizes" : {
         "header" : 8,
         "payload" : 16,
@@ -80,11 +95,13 @@
 
           ],
           "fourcc" : "mvhd",
+          "header_size" : 8,
           "metadata" : {
             "name" : "Movie Header, Overall Declarations",
             "specification" : "ISO",
             "summary" : "movie header, overall declarations"
           },
+          "name" : "mvhd",
           "offsets" : {
             "end" : 140,
             "payloadEnd" : 140,
@@ -255,6 +272,7 @@
               "value" : "3"
             }
           ],
+          "size" : 108,
           "sizes" : {
             "header" : 8,
             "payload" : 100,
@@ -295,6 +313,7 @@
 
               ],
               "fourcc" : "tkhd",
+              "header_size" : 8,
               "metadata" : {
                 "flags" : 7,
                 "name" : "Track Header, Overall Information About The Track",
@@ -302,6 +321,7 @@
                 "summary" : "Defines the characteristics of a track, including ID, duration, and display parameters.",
                 "version" : 0
               },
+              "name" : "tkhd",
               "offsets" : {
                 "end" : 240,
                 "payloadEnd" : 240,
@@ -505,6 +525,7 @@
                   "value" : "true"
                 }
               ],
+              "size" : 92,
               "sizes" : {
                 "header" : 8,
                 "payload" : 84,
@@ -553,11 +574,13 @@
 
                   ],
                   "fourcc" : "elst",
+                  "header_size" : 8,
                   "metadata" : {
                     "name" : "An Edit List",
                     "specification" : "ISO",
                     "summary" : "an edit list"
                   },
+                  "name" : "elst",
                   "offsets" : {
                     "end" : 288,
                     "payloadEnd" : 288,
@@ -735,6 +758,7 @@
                       "value" : "1.500000"
                     }
                   ],
+                  "size" : 40,
                   "sizes" : {
                     "header" : 8,
                     "payload" : 32,
@@ -784,11 +808,13 @@
                 }
               ],
               "fourcc" : "edts",
+              "header_size" : 8,
               "metadata" : {
                 "name" : "Edit List Container",
                 "specification" : "ISO",
                 "summary" : "edit list container"
               },
+              "name" : "edts",
               "offsets" : {
                 "end" : 288,
                 "payloadEnd" : 288,
@@ -816,6 +842,7 @@
                   "value" : "248..<288"
                 }
               ],
+              "size" : 48,
               "sizes" : {
                 "header" : 8,
                 "payload" : 40,
@@ -832,11 +859,13 @@
 
                   ],
                   "fourcc" : "mdhd",
+                  "header_size" : 8,
                   "metadata" : {
                     "name" : "Media Header, Overall Information About The Media",
                     "specification" : "ISO",
                     "summary" : "media header, overall information about the media"
                   },
+                  "name" : "mdhd",
                   "offsets" : {
                     "end" : 328,
                     "payloadEnd" : 328,
@@ -917,6 +946,7 @@
                       "value" : "0"
                     }
                   ],
+                  "size" : 32,
                   "sizes" : {
                     "header" : 8,
                     "payload" : 24,
@@ -932,11 +962,13 @@
                 }
               ],
               "fourcc" : "mdia",
+              "header_size" : 8,
               "metadata" : {
                 "name" : "Container For The Media Information In A Track",
                 "specification" : "ISO",
                 "summary" : "container for the media information in a track"
               },
+              "name" : "mdia",
               "offsets" : {
                 "end" : 328,
                 "payloadEnd" : 328,
@@ -964,6 +996,7 @@
                   "value" : "296..<328"
                 }
               ],
+              "size" : 40,
               "sizes" : {
                 "header" : 8,
                 "payload" : 32,
@@ -975,11 +1008,13 @@
             }
           ],
           "fourcc" : "trak",
+          "header_size" : 8,
           "metadata" : {
             "name" : "Container For An Individual Track Or Stream",
             "specification" : "ISO\/IEC 14496-12",
             "summary" : "Container describing a single track within the presentation."
           },
+          "name" : "trak",
           "offsets" : {
             "end" : 328,
             "payloadEnd" : 328,
@@ -1007,6 +1042,7 @@
               "value" : "148..<328"
             }
           ],
+          "size" : 188,
           "sizes" : {
             "header" : 8,
             "payload" : 180,
@@ -1018,11 +1054,13 @@
         }
       ],
       "fourcc" : "moov",
+      "header_size" : 8,
       "metadata" : {
         "name" : "Container For All The Meta-data",
         "specification" : "ISO\/IEC 14496-12",
         "summary" : "Top-level container for movie metadata including tracks and timing information."
       },
+      "name" : "moov",
       "offsets" : {
         "end" : 328,
         "payloadEnd" : 328,
@@ -1050,6 +1088,7 @@
           "value" : "32..<328"
         }
       ],
+      "size" : 304,
       "sizes" : {
         "header" : 8,
         "payload" : 296,

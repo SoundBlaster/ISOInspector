@@ -19,6 +19,7 @@ private struct Payload: Encodable {
     let nodes: [Node]
     let validationIssues: [Issue]
     let validation: ValidationMetadataPayload?
+    let format: FormatSummary?
 
     init(tree: ParseTree) {
         self.nodes = tree.nodes.map(Node.init)
@@ -28,6 +29,7 @@ private struct Payload: Encodable {
         } else {
             self.validation = nil
         }
+        self.format = FormatSummary(tree: tree)
     }
 }
 
@@ -41,6 +43,9 @@ private struct Node: Encodable {
     let structured: StructuredPayload?
     let validationIssues: [Issue]
     let children: [Node]
+    let compatibilityName: String
+    let compatibilityHeaderSize: Int
+    let compatibilityTotalSize: Int
 
     init(node: ParseTreeNode) {
         self.fourcc = node.header.type.rawValue
@@ -58,6 +63,24 @@ private struct Node: Encodable {
         }
         self.validationIssues = node.validationIssues.map(Issue.init)
         self.children = node.children.map(Node.init)
+        self.compatibilityName = node.header.type.rawValue
+        self.compatibilityHeaderSize = Int(clamping: node.header.headerSize)
+        self.compatibilityTotalSize = Int(clamping: node.header.totalSize)
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case fourcc
+        case uuid
+        case offsets
+        case sizes
+        case metadata
+        case payload
+        case structured
+        case validationIssues
+        case children
+        case compatibilityName = "name"
+        case compatibilityHeaderSize = "header_size"
+        case compatibilityTotalSize = "size"
     }
 }
 
@@ -169,6 +192,104 @@ private struct ValidationMetadataPayload: Encodable {
     init(metadata: ValidationMetadata) {
         self.activePresetID = metadata.activePresetID
         self.disabledRules = metadata.disabledRuleIDs
+    }
+}
+
+private struct FormatSummary: Encodable {
+    let majorBrand: String?
+    let minorVersion: Int?
+    let compatibleBrands: [String]?
+    let durationSeconds: Double?
+    let byteSize: Int?
+    let bitrate: Int?
+    let trackCount: Int?
+
+    init?(tree: ParseTree) {
+        let flattenedNodes = FormatSummary.flatten(nodes: tree.nodes)
+
+        var fileTypeBox: ParsedBoxPayload.FileTypeBox?
+        var movieHeaderBox: ParsedBoxPayload.MovieHeaderBox?
+        var maximumEndOffset: Int64 = 0
+        var trackCounter = 0
+
+        for node in flattenedNodes {
+            if fileTypeBox == nil, let fileType = node.payload?.fileType {
+                fileTypeBox = fileType
+            }
+            if movieHeaderBox == nil, let movieHeader = node.payload?.movieHeader {
+                movieHeaderBox = movieHeader
+            }
+            if node.header.type.rawValue == "trak" {
+                trackCounter += 1
+            }
+            if node.header.endOffset > maximumEndOffset {
+                maximumEndOffset = node.header.endOffset
+            }
+        }
+
+        let majorBrand = fileTypeBox?.majorBrand.rawValue
+        let minorVersion = fileTypeBox.map { Int($0.minorVersion) }
+        let compatibleBrands = fileTypeBox?.compatibleBrands.map(\.rawValue)
+
+        let durationSeconds: Double?
+        if let header = movieHeaderBox, header.timescale > 0 {
+            durationSeconds = Double(header.duration) / Double(header.timescale)
+        } else {
+            durationSeconds = nil
+        }
+
+        let byteSize: Int?
+        if maximumEndOffset > 0 {
+            byteSize = Int(clamping: maximumEndOffset)
+        } else {
+            byteSize = nil
+        }
+
+        let bitrate: Int?
+        if let bytes = byteSize, let duration = durationSeconds, duration > 0 {
+            bitrate = Int((Double(bytes) * 8.0 / duration).rounded())
+        } else {
+            bitrate = nil
+        }
+
+        let trackCount = trackCounter > 0 ? trackCounter : nil
+
+        if majorBrand == nil,
+           minorVersion == nil,
+           (compatibleBrands?.isEmpty ?? true),
+           durationSeconds == nil,
+           byteSize == nil,
+           bitrate == nil,
+           trackCount == nil {
+            return nil
+        }
+
+        self.majorBrand = majorBrand
+        self.minorVersion = minorVersion
+        self.compatibleBrands = compatibleBrands
+        self.durationSeconds = durationSeconds
+        self.byteSize = byteSize
+        self.bitrate = bitrate
+        self.trackCount = trackCount
+    }
+
+    private static func flatten(nodes: [ParseTreeNode]) -> [ParseTreeNode] {
+        var result: [ParseTreeNode] = []
+        for node in nodes {
+            result.append(node)
+            result.append(contentsOf: flatten(nodes: node.children))
+        }
+        return result
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case majorBrand = "major_brand"
+        case minorVersion = "minor_version"
+        case compatibleBrands = "compatible_brands"
+        case durationSeconds = "duration_seconds"
+        case byteSize = "byte_size"
+        case bitrate
+        case trackCount = "track_count"
     }
 }
 
