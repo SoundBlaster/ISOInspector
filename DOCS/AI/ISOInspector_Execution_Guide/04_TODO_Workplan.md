@@ -20,6 +20,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > **Research initiative:** Task R3 cataloged VoiceOver, Dynamic Type, and keyboard guidance so future UI tasks stay aligned with accessibility requirements. Follow <doc:AccessibilityGuidelines> and the archived summary in `DOCS/TASK_ARCHIVE/91_R3_Accessibility_Guidelines/Summary_of_Work.md` when planning new UI stories.
 >
 > **Completed research:** Task **R5 — Export Schema Standardization** compared Bento4, ffprobe, and ISOInspector exports to propose a canonical schema plus compatibility adapters. Findings and follow-up verification notes now live in `DOCS/TASK_ARCHIVE/151_R5_Export_Schema_Standardization/R5_Export_Schema_Standardization.md` with the corresponding summary captured in `DOCS/TASK_ARCHIVE/151_R5_Export_Schema_Standardization/Summary_of_Work.md`.
+>
+> **In Progress:** _Export Schema Verification Harness_ — extend `JSONExportSnapshotTests` and add CLI coverage for the R5 compatibility aliases and format summary block before adjusting production schemas.
 
 > **Completed research:** Task R4 — Large File Performance Benchmarks. Benchmark charter, fixture manifests, and instrumentation guidance live in `DOCS/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/R4_Large_File_Performance_Benchmarks.md`; macOS execution remains blocked pending hardware runners tracked in `DOCS/INPROGRESS/next_tasks.md`.
 

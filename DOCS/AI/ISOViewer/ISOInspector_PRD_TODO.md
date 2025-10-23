@@ -237,6 +237,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [x] F2. Configure performance benchmarks for large files. **CLI validation and app bridge benchmarks enforce scaled latency budgets with XCTest metrics harnesses.** _(macOS Combine benchmark capture remains **Blocked** pending macOS hardware — see `DOCS/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/50_Combine_UI_Benchmark_macOS_Run.md` and `DOCS/INPROGRESS/next_tasks.md`.)_
 - [x] F3. Hex slice provider: bounded reads for selected node; window sizing and caching. _(Delivered via [23_C3_Detail_and_Hex_Inspectors](../../TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/23_C3_Detail_and_Hex_Inspectors.md) and refined in [24_C3_Highlight_Field_Subranges](../../TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/Summary_of_Work.md))._
 - [x] F4. Field-to-hex mapping metadata for details highlighting. _(See [24_C3_Highlight_Field_Subranges](../../TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/Summary_of_Work.md))._
+- [ ] F6. Export schema verification harness covering compatibility aliases and format summary output before production schema updates. _(In Progress — extend `JSONExportSnapshotTests` and add CLI regression coverage against Bento4/ffprobe fixtures per `DOCS/TASK_ARCHIVE/151_R5_Export_Schema_Standardization/Summary_of_Work.md`.)_
 
 ### Phase F — Documentation & Onboarding
 - [x] F3. Author developer onboarding guide and API reference. *(Completed — see `Docs/Guides/DeveloperOnboarding.md` and `DOCS/TASK_ARCHIVE/53_F3_Developer_Onboarding_Guide/`.)*
