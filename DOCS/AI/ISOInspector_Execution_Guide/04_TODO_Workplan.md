@@ -25,7 +25,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed research:** Task R4 — Large File Performance Benchmarks. Benchmark charter, fixture manifests, and instrumentation guidance live in `DOCS/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/R4_Large_File_Performance_Benchmarks.md`; macOS execution remains blocked pending hardware runners tracked in `DOCS/INPROGRESS/next_tasks.md`.
 
-> **In progress research:** Task R7 — CLI distribution strategy is now being developed to document signing, Homebrew tap, and Linux packaging guidance for the `isoinspect` tool. See `DOCS/INPROGRESS/R7_CLI_Distribution_Strategy.md` and the refreshed `DOCS/INPROGRESS/next_tasks.md` entry for status updates.
+> **Completed research:** Task R7 — CLI distribution strategy is archived in `DOCS/TASK_ARCHIVE/161_R7_CLI_Distribution_Strategy/`, delivering notarized macOS, Homebrew tap, and Linux packaging guidance plus an automation helper script.
 
 ## Phase B — Core Parsing Engine
 | Task ID | Description | Priority | Effort (days) | Dependencies | Tools | Acceptance Criteria |
