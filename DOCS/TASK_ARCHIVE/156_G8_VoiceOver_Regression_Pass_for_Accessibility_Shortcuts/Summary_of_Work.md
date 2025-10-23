@@ -6,7 +6,7 @@
 
 ## Notes
 
-- Documented the hardware limitation blocking the VoiceOver regression pass in `DOCS/INPROGRESS/G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts.md` so the next assignee knows why manual QA has not been executed.
+- Documented the hardware limitation blocking the VoiceOver regression pass in `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts.md` so the next assignee knows why manual QA has not been executed.
 - Confirmed automated regression coverage stays green by running `swift test` in the container environment to protect shortcut strings relied upon by VoiceOver announcements.
 
 ## Next Steps

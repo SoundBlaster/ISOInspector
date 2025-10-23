@@ -13,4 +13,4 @@
 - `swift test --filter InspectorFocusShortcutCatalogTests`
 
 ## Follow-Ups
-- Conduct a manual VoiceOver regression pass on macOS and iPadOS hardware to confirm discoverability strings and focus announcements align with the updated commands. *(In progress — see `DOCS/INPROGRESS/G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts.md` for the active PRD.)*
+- Conduct a manual VoiceOver regression pass on macOS and iPadOS hardware to confirm discoverability strings and focus announcements align with the updated commands. *(In progress — see `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts.md` for the active PRD.)*
