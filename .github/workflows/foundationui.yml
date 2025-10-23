@@ -115,6 +115,11 @@ jobs:
       - name: Show Swift version
         run: swift --version
 
+      - name: List available simulators
+        run: |
+          echo "Available iOS Simulators:"
+          xcrun simctl list devices available | grep "iPhone"
+
       - name: Cache Tuist dependencies
         uses: actions/cache@v4
         with:
@@ -154,7 +159,7 @@ jobs:
           xcodebuild build \
             -workspace ISOInspector.xcworkspace \
             -scheme FoundationUI \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
             -configuration Debug \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_ALLOWED=NO \
@@ -180,7 +185,7 @@ jobs:
           xcodebuild test \
             -workspace ISOInspector.xcworkspace \
             -scheme FoundationUI \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
             -configuration Debug \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_ALLOWED=NO \
@@ -206,7 +211,7 @@ jobs:
           xcodebuild build \
             -workspace ISOInspector.xcworkspace \
             -scheme ComponentTestApp-iOS \
-            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
             -configuration Debug \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_ALLOWED=NO \
@@ -233,12 +238,12 @@ jobs:
       #     xcodebuild test \
       #       -workspace ISOInspector.xcworkspace \
       #       -scheme ComponentTestApp-iOS \
-      #       -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+      #       -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
       #       -configuration Debug \
-      #       -only-testing:ComponentTestAppUITests \
+      #       -only-testing:ComponentTestApp-iOS-UITests \
       #       CODE_SIGN_IDENTITY="" \
       #       CODE_SIGNING_ALLOWED=NO \
-      #       CODE_SIGNING_REQUIRED=NO | xcpretty || exit 1
+      #       CODE_SIGNING_REQUIRED=NO
 
       - name: Upload test results
         if: always()

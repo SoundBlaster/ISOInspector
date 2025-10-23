@@ -291,7 +291,7 @@ Uncomment the UI tests section in `.github/workflows/foundationui.yml`:
     xcodebuild test \
       -workspace ISOInspector.xcworkspace \
       -scheme ComponentTestApp-iOS \
-      -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+      -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
       -configuration Debug \
       -only-testing:ComponentTestApp-iOS-UITests \
       CODE_SIGN_IDENTITY="" \
