@@ -9,11 +9,13 @@ final class BoxHeaderDecoderTests: XCTestCase {
         data.append(contentsOf: Array(repeating: 0x00, count: 16))
         let reader = InMemoryRandomAccessReader(data: data)
 
-        let header = try BoxHeaderDecoder.readHeader(
+        let result = BoxHeaderDecoder.readHeader(
             from: reader,
             at: 0,
             inParentRange: 0..<Int64(data.count)
         )
+
+        let header = try result.get()
 
         XCTAssertEqual(header.type.rawValue, "ftyp")
         XCTAssertEqual(header.totalSize, 24)
@@ -30,11 +32,13 @@ final class BoxHeaderDecoderTests: XCTestCase {
         data.append(contentsOf: Array(repeating: 0xFF, count: 64 - 16))
         let reader = InMemoryRandomAccessReader(data: data)
 
-        let header = try BoxHeaderDecoder.readHeader(
+        let result = BoxHeaderDecoder.readHeader(
             from: reader,
             at: 0,
             inParentRange: 0..<Int64(data.count)
         )
+
+        let header = try result.get()
 
         XCTAssertEqual(header.type.rawValue, FourCharContainerCode.moov.rawValue)
         XCTAssertEqual(header.totalSize, 64)
@@ -56,11 +60,13 @@ final class BoxHeaderDecoderTests: XCTestCase {
         data.append(contentsOf: Array(repeating: 0x00, count: 40 - 24))
         let reader = InMemoryRandomAccessReader(data: data)
 
-        let header = try BoxHeaderDecoder.readHeader(
+        let result = BoxHeaderDecoder.readHeader(
             from: reader,
             at: 0,
             inParentRange: 0..<Int64(data.count)
         )
+
+        let header = try result.get()
 
         XCTAssertEqual(header.type.rawValue, "uuid")
         XCTAssertEqual(header.headerSize, 24)
@@ -80,11 +86,13 @@ final class BoxHeaderDecoderTests: XCTestCase {
         data.append(contentsOf: [0x6D, 0x64, 0x61, 0x74]) // mdat
         let reader = InMemoryRandomAccessReader(data: data + Data(repeating: 0xAA, count: 24))
 
-        let header = try BoxHeaderDecoder.readHeader(
+        let result = BoxHeaderDecoder.readHeader(
             from: reader,
             at: 0,
             inParentRange: 0..<Int64(32)
         )
+
+        let header = try result.get()
 
         XCTAssertEqual(header.totalSize, 32)
         XCTAssertEqual(header.headerSize, 8)
@@ -97,13 +105,16 @@ final class BoxHeaderDecoderTests: XCTestCase {
         data.append(contentsOf: [0x6D, 0x64, 0x61, 0x74])
         let reader = InMemoryRandomAccessReader(data: data)
 
-        XCTAssertThrowsError(
-            try BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: nil)
-        ) { error in
-            guard case BoxHeaderDecodingError.zeroSizeWithoutParent = error else {
-                XCTFail("Unexpected error: \(error)")
-                return
-            }
+        let result = BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: nil)
+
+        guard case let .failure(error) = result else {
+            XCTFail("Expected failure, received: \(result)")
+            return
+        }
+
+        guard case BoxHeaderDecodingError.zeroSizeWithoutParent = error else {
+            XCTFail("Unexpected error: \(error)")
+            return
         }
     }
 
@@ -114,16 +125,19 @@ final class BoxHeaderDecoderTests: XCTestCase {
         data.append(contentsOf: Array(repeating: 0x00, count: 32 - 8))
         let reader = InMemoryRandomAccessReader(data: data)
 
-        XCTAssertThrowsError(
-            try BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(16))
-        ) { error in
-            guard case let BoxHeaderDecodingError.exceedsParent(expectedEnd, parentEnd) = error else {
-                XCTFail("Unexpected error: \(error)")
-                return
-            }
-            XCTAssertEqual(expectedEnd, 32)
-            XCTAssertEqual(parentEnd, 16)
+        let result = BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(16))
+
+        guard case let .failure(error) = result else {
+            XCTFail("Expected failure, received: \(result)")
+            return
         }
+
+        guard case let BoxHeaderDecodingError.exceedsParent(expectedEnd, parentEnd) = error else {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+        XCTAssertEqual(expectedEnd, 32)
+        XCTAssertEqual(parentEnd, 16)
     }
 
     func testTruncatedHeaderThrows() throws {
@@ -133,16 +147,19 @@ final class BoxHeaderDecoderTests: XCTestCase {
         data.append(contentsOf: [0x00, 0x00, 0x00]) // truncated largesize
         let reader = InMemoryRandomAccessReader(data: data)
 
-        XCTAssertThrowsError(
-            try BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(64))
-        ) { error in
-            guard case let BoxHeaderDecodingError.truncatedField(expected, actual) = error else {
-                XCTFail("Unexpected error: \(error)")
-                return
-            }
-            XCTAssertEqual(expected, 8)
-            XCTAssertEqual(actual, 3)
+        let result = BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(64))
+
+        guard case let .failure(error) = result else {
+            XCTFail("Expected failure, received: \(result)")
+            return
         }
+
+        guard case let BoxHeaderDecodingError.truncatedField(expected, actual) = error else {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+        XCTAssertEqual(expected, 8)
+        XCTAssertEqual(actual, 3)
     }
 
     func testDeclaredSizeSmallerThanHeaderThrows() {
@@ -151,16 +168,19 @@ final class BoxHeaderDecoderTests: XCTestCase {
         data.append(contentsOf: [0x66, 0x72, 0x65, 0x65])
         let reader = InMemoryRandomAccessReader(data: data)
 
-        XCTAssertThrowsError(
-            try BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(data.count))
-        ) { error in
-            guard case let BoxHeaderDecodingError.invalidSize(totalSize, headerSize) = error else {
-                XCTFail("Unexpected error: \(error)")
-                return
-            }
-            XCTAssertEqual(totalSize, 4)
-            XCTAssertEqual(headerSize, 8)
+        let result = BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(data.count))
+
+        guard case let .failure(error) = result else {
+            XCTFail("Expected failure, received: \(result)")
+            return
         }
+
+        guard case let BoxHeaderDecodingError.invalidSize(totalSize, headerSize) = error else {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+        XCTAssertEqual(totalSize, 4)
+        XCTAssertEqual(headerSize, 8)
     }
 
     func testHeaderExtendingBeyondReaderLengthThrows() {
@@ -170,48 +190,57 @@ final class BoxHeaderDecoderTests: XCTestCase {
         data.append(contentsOf: Array(repeating: 0x00, count: 4))
         let reader = InMemoryRandomAccessReader(data: Data(data.prefix(12)))
 
-        XCTAssertThrowsError(
-            try BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(16))
-        ) { error in
-            guard case let BoxHeaderDecodingError.exceedsReader(expectedEnd, readerLength) = error else {
-                XCTFail("Unexpected error: \(error)")
-                return
-            }
-            XCTAssertEqual(expectedEnd, 16)
-            XCTAssertEqual(readerLength, 12)
+        let result = BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(16))
+
+        guard case let .failure(error) = result else {
+            XCTFail("Expected failure, received: \(result)")
+            return
         }
+
+        guard case let BoxHeaderDecodingError.exceedsReader(expectedEnd, readerLength) = error else {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+        XCTAssertEqual(expectedEnd, 16)
+        XCTAssertEqual(readerLength, 12)
     }
 
     func testOffsetOutsideParentRangeThrows() {
         let data = Data(count: 16)
         let reader = InMemoryRandomAccessReader(data: data)
 
-        XCTAssertThrowsError(
-            try BoxHeaderDecoder.readHeader(from: reader, at: 16, inParentRange: 0..<Int64(16))
-        ) { error in
-            guard case let BoxHeaderDecodingError.offsetOutsideParent(offset, parentRange) = error else {
-                XCTFail("Unexpected error: \(error)")
-                return
-            }
-            XCTAssertEqual(offset, 16)
-            XCTAssertEqual(parentRange, 0..<Int64(16))
+        let result = BoxHeaderDecoder.readHeader(from: reader, at: 16, inParentRange: 0..<Int64(16))
+
+        guard case let .failure(error) = result else {
+            XCTFail("Expected failure, received: \(result)")
+            return
         }
+
+        guard case let BoxHeaderDecodingError.offsetOutsideParent(offset, parentRange) = error else {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+        XCTAssertEqual(offset, 16)
+        XCTAssertEqual(parentRange, 0..<Int64(16))
     }
 
     func testOffsetBeyondReaderThrows() {
         let data = Data(count: 16)
         let reader = InMemoryRandomAccessReader(data: data)
 
-        XCTAssertThrowsError(
-            try BoxHeaderDecoder.readHeader(from: reader, at: 16, inParentRange: 0..<Int64(32))
-        ) { error in
-            guard case let BoxHeaderDecodingError.offsetBeyondReader(length, offset) = error else {
-                XCTFail("Unexpected error: \(error)")
-                return
-            }
-            XCTAssertEqual(length, 16)
-            XCTAssertEqual(offset, 16)
+        let result = BoxHeaderDecoder.readHeader(from: reader, at: 16, inParentRange: 0..<Int64(32))
+
+        guard case let .failure(error) = result else {
+            XCTFail("Expected failure, received: \(result)")
+            return
         }
+
+        guard case let BoxHeaderDecodingError.offsetBeyondReader(length, offset) = error else {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+        XCTAssertEqual(length, 16)
+        XCTAssertEqual(offset, 16)
     }
 
     func testLargeSizeGreaterThanInt64Throws() {
@@ -222,15 +251,18 @@ final class BoxHeaderDecoderTests: XCTestCase {
         data.append(contentsOf: largeSize.bigEndianBytes)
         let reader = InMemoryRandomAccessReader(data: data)
 
-        XCTAssertThrowsError(
-            try BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(data.count))
-        ) { error in
-            guard case let BoxHeaderDecodingError.sizeOutOfRange(value) = error else {
-                XCTFail("Unexpected error: \(error)")
-                return
-            }
-            XCTAssertEqual(value, largeSize)
+        let result = BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(data.count))
+
+        guard case let .failure(error) = result else {
+            XCTFail("Expected failure, received: \(result)")
+            return
         }
+
+        guard case let BoxHeaderDecodingError.sizeOutOfRange(value) = error else {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+        XCTAssertEqual(value, largeSize)
     }
 
     func testUUIDBoxWithTruncatedExtendedTypeThrows() {
@@ -240,16 +272,19 @@ final class BoxHeaderDecoderTests: XCTestCase {
         data.append(contentsOf: Array(repeating: 0xAA, count: 8)) // truncated UUID payload
         let reader = InMemoryRandomAccessReader(data: data)
 
-        XCTAssertThrowsError(
-            try BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(24))
-        ) { error in
-            guard case let BoxHeaderDecodingError.truncatedField(expected, actual) = error else {
-                XCTFail("Unexpected error: \(error)")
-                return
-            }
-            XCTAssertEqual(expected, 16)
-            XCTAssertEqual(actual, 8)
+        let result = BoxHeaderDecoder.readHeader(from: reader, at: 0, inParentRange: 0..<Int64(24))
+
+        guard case let .failure(error) = result else {
+            XCTFail("Expected failure, received: \(result)")
+            return
         }
+
+        guard case let BoxHeaderDecodingError.truncatedField(expected, actual) = error else {
+            XCTFail("Unexpected error: \(error)")
+            return
+        }
+        XCTAssertEqual(expected, 16)
+        XCTAssertEqual(actual, 8)
     }
 }
 
