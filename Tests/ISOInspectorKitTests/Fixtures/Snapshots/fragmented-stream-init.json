@@ -8,6 +8,12 @@
     "major_brand" : "iso5",
     "minor_version" : 512
   },
+  "issue_metrics" : {
+    "deepest_affected_depth" : 0,
+    "error_count" : 0,
+    "info_count" : 0,
+    "warning_count" : 0
+  },
   "nodes" : [
     {
       "children" : [

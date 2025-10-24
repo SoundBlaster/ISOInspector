@@ -76,6 +76,11 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
             exportFormat: try XCTUnwrap(exportJSON["format"] as? [String: Any], "Format summary missing"),
             ffprobeBaseline: ffprobeFormat
         )
+
+        try assertIssueMetrics(
+            exportJSON: exportJSON,
+            exportNodes: try XCTUnwrap(exportJSON["nodes"] as? [[String: Any]], "Nodes missing from export")
+        )
     }
 
     private func assertCompatibilityAliases(
@@ -333,6 +338,74 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
         return result
     }
 
+    private func assertIssueMetrics(exportJSON: [String: Any], exportNodes: [[String: Any]]) throws {
+        let metrics = try XCTUnwrap(
+            exportJSON["issue_metrics"] as? [String: Any],
+            "Issue metrics missing from export"
+        )
+        let expected = computeIssueMetrics(from: exportNodes)
+
+        XCTAssertEqual(
+            Self.intValue(forKey: "error_count", in: metrics),
+            expected.errorCount,
+            "Error count mismatch"
+        )
+        XCTAssertEqual(
+            Self.intValue(forKey: "warning_count", in: metrics),
+            expected.warningCount,
+            "Warning count mismatch"
+        )
+        XCTAssertEqual(
+            Self.intValue(forKey: "info_count", in: metrics),
+            expected.infoCount,
+            "Info count mismatch"
+        )
+        XCTAssertEqual(
+            Self.intValue(forKey: "deepest_affected_depth", in: metrics),
+            expected.deepestAffectedDepth,
+            "Deepest affected depth mismatch"
+        )
+    }
+
+    private func computeIssueMetrics(from nodes: [[String: Any]]) -> IssueMetrics {
+        var metrics = IssueMetrics()
+        accumulateIssues(in: nodes, depth: 0, metrics: &metrics)
+        return metrics
+    }
+
+    private func accumulateIssues(
+        in nodes: [[String: Any]],
+        depth: Int,
+        metrics: inout IssueMetrics
+    ) {
+        for node in nodes {
+            if let issues = node["issues"] as? [[String: Any]], !issues.isEmpty {
+                for issue in issues {
+                    let identifier = IssueIdentifier(issue: issue)
+                    let previousDepth = metrics.trackedIssues[identifier]
+                    if previousDepth == nil {
+                        switch issue["severity"] as? String {
+                        case "error":
+                            metrics.errorCount += 1
+                        case "warning":
+                            metrics.warningCount += 1
+                        case "info":
+                            metrics.infoCount += 1
+                        default:
+                            break
+                        }
+                    }
+                    let resolvedDepth = max(previousDepth ?? depth, depth)
+                    metrics.trackedIssues[identifier] = resolvedDepth
+                    metrics.deepestAffectedDepth = max(metrics.deepestAffectedDepth, resolvedDepth)
+                }
+            }
+            if let children = node["children"] as? [[String: Any]] {
+                accumulateIssues(in: children, depth: depth + 1, metrics: &metrics)
+            }
+        }
+    }
+
     private func repositoryRoot() -> URL {
         var url = URL(fileURLWithPath: #filePath)
         while url.lastPathComponent != "ISOInspector", url.pathComponents.count > 1 {
@@ -383,6 +456,56 @@ private struct Alias: Equatable {
     let name: String
     let headerSize: Int
     let size: Int
+}
+
+private struct IssueMetrics {
+    var errorCount: Int = 0
+    var warningCount: Int = 0
+    var infoCount: Int = 0
+    var deepestAffectedDepth: Int = 0
+    var trackedIssues: [IssueIdentifier: Int] = [:]
+}
+
+private struct IssueIdentifier: Hashable {
+    let severity: String?
+    let code: String?
+    let message: String?
+    let byteRangeLowerBound: Int64?
+    let byteRangeUpperBound: Int64?
+    let affectedNodeIDs: [Int64]
+
+    init(issue: [String: Any]) {
+        severity = issue["severity"] as? String
+        code = issue["code"] as? String
+        message = issue["message"] as? String
+        if let range = issue["byte_range"] as? [String: Any] {
+            byteRangeLowerBound = Self.int64Value(forKey: "start", in: range)
+            byteRangeUpperBound = Self.int64Value(forKey: "end", in: range)
+        } else {
+            byteRangeLowerBound = nil
+            byteRangeUpperBound = nil
+        }
+        if let nodeIDs = issue["affected_node_ids"] as? [Int64] {
+            affectedNodeIDs = nodeIDs
+        } else if let nodeIDs = issue["affected_node_ids"] as? [NSNumber] {
+            affectedNodeIDs = nodeIDs.map { $0.int64Value }
+        } else {
+            affectedNodeIDs = []
+        }
+    }
+
+    private static func int64Value(forKey key: String, in dictionary: [String: Any]) -> Int64? {
+        if let value = dictionary[key] as? NSNumber {
+            return value.int64Value
+        }
+        if let value = dictionary[key] as? Int64 {
+            return value
+        }
+        if let value = dictionary[key] as? Int {
+            return Int64(value)
+        }
+        return nil
+    }
 }
 }
 
