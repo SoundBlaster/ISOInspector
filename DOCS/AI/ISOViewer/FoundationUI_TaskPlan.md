@@ -7,13 +7,13 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 21/111 tasks completed (19%)**
+**Total: 22/111 tasks completed (20%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | Not Started | 0/15 (0%) |
 | Phase 2: Core Components | Complete | 20/22 (91%) |
-| Phase 3: Patterns & Platform Adaptation | In Progress | 1/16 (6%) |
+| Phase 3: Patterns & Platform Adaptation | In Progress | 2/16 (12%) |
 | Phase 4: Agent Support & Polish | Not Started | 0/13 (0%) |
 | Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
@@ -349,10 +349,10 @@
 
 ## Phase 3: Patterns & Platform Adaptation (Week 5-6)
 **Priority: P0-P1**
-**Progress: 1/16 tasks completed (6%)**
+**Progress: 2/16 tasks completed (12%)**
 
 ### 3.1 Layer 3: UI Patterns (Organisms)
-**Progress: 1/8 tasks → IN PROGRESS**
+**Progress: 2/8 tasks → IN PROGRESS**
 
 - [x] **P0** Implement InspectorPattern → **Completed 2025-10-24 (Linux QA complete; Apple platform QA pending)**
   - Files: `Sources/FoundationUI/Patterns/InspectorPattern.swift`, unit and integration tests under `Tests/FoundationUITests`
@@ -361,13 +361,13 @@
   - Preview catalogue for metadata and status dashboards
   - Next Steps: Run SwiftLint on macOS, verify previews on Apple platforms, profile large inspector payloads
 
-- [ ] **P0** Implement SidebarPattern
-  - File: `Sources/Patterns/SidebarPattern.swift`
-  - Navigation list with sections
-  - Platform-specific width (macOS: 250pt, iPad: adaptive)
-  - Selection state management
-  - Keyboard navigation support
-  - macOS/iPad conditional compilation
+- [x] **P0** Implement SidebarPattern → **Completed 2025-10-24 (Unit tests authored; Apple platform QA pending)**
+  - File: `Sources/FoundationUI/Patterns/SidebarPattern.swift`
+  - NavigationSplitView-powered sidebar with section headers using DS tokens
+  - macOS-specific column width derived from DS spacing tokens; adaptive layout elsewhere
+  - Selection binding surfaced publicly for integration and keyboard navigation via native List behaviour
+  - VoiceOver labels sourced from semantic item metadata with DS-styled rows
+  - @todo: Record snapshot baselines on macOS/iPad and exercise SwiftLint on Apple toolchain
 
 - [ ] **P1** Implement ToolbarPattern
   - File: `Sources/Patterns/ToolbarPattern.swift`

@@ -11,9 +11,10 @@
 ## 🎯 Immediate Priorities
 
 ### 1. SidebarPattern
-- [ ] Implement navigable sidebar pattern with section grouping and selection state
-- [ ] Provide keyboard navigation support and VoiceOver labels
+- [x] Implement navigable sidebar pattern with section grouping and selection state
+- [x] Provide keyboard navigation support and VoiceOver labels (unit-level validation in `SidebarPatternTests`)
 - [ ] Author unit, integration, and snapshot tests covering representative data sets
+  - ✅ Unit tests merged (selection binding + accessibility) — integration + snapshot suites pending
 - [ ] Document platform adaptations and Dynamic Type behavior
 
 ### 2. ToolbarPattern
