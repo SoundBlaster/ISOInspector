@@ -4,7 +4,8 @@
   - Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets. Reference `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/`.
 - ⏳ **Real-World Assets** _(Blocked — awaiting licensing approvals)_:
   - Secure Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures so regression baselines can shift from synthetic payloads once approvals land.
-- ♻️ **Snapshot & CLI Fixture Maintenance** _(Ongoing)_:
+- ♻️ **Snapshot & CLI Fixture Maintenance** _(In Progress — see `178_Snapshot_and_CLI_Fixture_Maintenance.md`)_:
   - Refresh snapshots and CLI fixtures whenever schema updates are intentional via `ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests`.
+  - Prioritize schema-altering commits to ensure JSON baselines and CLI expectations stay synchronized across app and tooling outputs.
 - 🎯 **Tolerant Parsing — Surface Issue Metrics in SwiftUI** _(Pending design sign-off)_:
   - Surface `ParseIssueStore` metrics in SwiftUI ribbons once tolerant parsing UI specs are finalized. Track via `@todo PDD:45m` in `ParseTreeStore.swift` and the open item in `todo.md`.

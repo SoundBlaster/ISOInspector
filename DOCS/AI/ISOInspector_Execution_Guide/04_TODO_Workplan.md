@@ -11,6 +11,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Current focus:** _Hardware validation follow-ups for Task A5's random slice benchmarking deliverable._ See `DOCS/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/Summary_of_Work.md` for the Task A5 wrap-up and refer to `DOCS/INPROGRESS/next_tasks.md` for hardware-dependent runs still outstanding.
 >
+> **In Progress (2025-10-26):** _Snapshot & CLI Fixture Maintenance_ keeps JSON export baselines and CLI expectations aligned with intentional schema changes. Coordination details live in `DOCS/INPROGRESS/178_Snapshot_and_CLI_Fixture_Maintenance.md`.
+>
 > **Status:** _Blocked_ — benchmark harness implementation is archived and awaiting macOS hardware to execute random slice metrics, UI automation coverage, and Combine-backed UI benchmarks documented in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
 >
 > **Completed (2025-10-24):** Task **T1.3 — ParsePipeline Options** added strict/tolerant presets with shared defaults. Integration notes captured in `DOCS/TASK_ARCHIVE/166_T1_3_ParsePipeline_Options/Summary_of_Work.md`.
