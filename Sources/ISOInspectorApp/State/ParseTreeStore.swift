@@ -70,21 +70,23 @@ public final class ParseTreeStore: ObservableObject {
         builder = Builder()
         snapshot = .empty
         state = .parsing
-        resources.streamingTask = Task { [weak self] in
+        let taskIdentifier = UUID()
+        let task = Task { [weak self] in
             guard let self else { return }
             do {
                 for try await event in stream {
                     await self.consume(event)
                 }
-                await self.finishStreaming()
+                await self.finishStreaming(taskIdentifier: taskIdentifier)
             } catch {
                 if error is CancellationError {
-                    await self.finishStreaming()
+                    await self.finishStreaming(taskIdentifier: taskIdentifier)
                 } else {
-                    await self.failStreaming(error)
+                    await self.failStreaming(error, taskIdentifier: taskIdentifier)
                 }
             }
         }
+        resources.setStreamingTask(task, identifier: taskIdentifier)
     }
 
     @MainActor
@@ -94,16 +96,16 @@ public final class ParseTreeStore: ObservableObject {
     }
 
     @MainActor
-    private func finishStreaming() {
-        resources.streamingTask = nil
+    private func finishStreaming(taskIdentifier: UUID) {
+        resources.clearStreamingTask(matching: taskIdentifier)
         if state == .parsing {
             state = .finished
         }
     }
 
     @MainActor
-    private func failStreaming(_ error: Error) {
-        resources.streamingTask = nil
+    private func failStreaming(_ error: Error, taskIdentifier: UUID) {
+        resources.clearStreamingTask(matching: taskIdentifier)
         state = .failed(makeErrorMessage(from: error))
     }
 
@@ -145,15 +147,32 @@ extension ParseTreeStore {
 
 @MainActor
 private final class ResourceBag {
-    var streamingTask: Task<Void, Never>? {
+    private(set) var streamingTask: Task<Void, Never>? {
         didSet { oldValue?.cancel() }
     }
+    private var streamingTaskIdentifier: UUID?
 
     var reader: RandomAccessReader?
 
-    func stop() {
+    func setStreamingTask(_ task: Task<Void, Never>?, identifier: UUID) {
+        streamingTaskIdentifier = identifier
+        streamingTask = task
+    }
+
+    func clearStreamingTask(matching identifier: UUID) {
+        guard streamingTaskIdentifier == identifier else { return }
+        streamingTask = nil
+        streamingTaskIdentifier = nil
+    }
+
+    func clearStreamingTask() {
         streamingTask?.cancel()
         streamingTask = nil
+        streamingTaskIdentifier = nil
+    }
+
+    func stop() {
+        clearStreamingTask()
         reader = nil
     }
 }
