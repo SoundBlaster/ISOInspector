@@ -12,6 +12,8 @@
   menus.【F:Sources/ISOInspectorApp/AppShellView.swift†L5-L116】【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift†L1-L460】
 - Added unit coverage validating exporter output and selection gating logic for the new
   flows.【F:Tests/ISOInspectorAppTests/DocumentSessionControllerTests.swift†L1-L560】
+- Extended regression tests assert failure messaging and diagnostics when the selected node
+  disappears or the save dialog fails, preventing silent export regressions.【F:Tests/ISOInspectorAppTests/DocumentSessionControllerTests.swift†L454-L520】
 
 ## Tests
 

@@ -3,6 +3,8 @@
 ## 🎯 Objective
 Deliver app-level export commands that let ISOInspector users save the entire parse tree or the currently selected node as JSON directly from SwiftUI controls.
 
+> **Status:** Completed on 2025-10-27 — see `DOCS/INPROGRESS/Summary_of_Work.md` for verification details and regression coverage notes.
+
 ## 🧩 Context
 - Backlog item **G6** calls for JSON export affordances that mirror the CLI’s export coverage and bridge the shared `JSONParseTreeExporter` APIs into the app experience.
 - The product manual specifies toolbar, context menu, and menu bar entries for **Export JSON…** and **Export Selection…**, establishing the UX contract we need to fulfill.

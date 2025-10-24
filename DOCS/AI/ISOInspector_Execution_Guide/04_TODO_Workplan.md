@@ -165,7 +165,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed:** Task **G8 — Accessibility & Keyboard Shortcuts** unified hardware focus commands and VoiceOver-friendly navigation across macOS and iPadOS. Notes and summary are archived in `DOCS/TASK_ARCHIVE/155_G8_Accessibility_and_Keyboard_Shortcuts/`, and the follow-up VoiceOver verification pass remains tracked under `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts.md` with status carried forward via `DOCS/INPROGRESS/next_tasks.md`.
 
-> **In Progress (2025-10-27):** Task **G6 — Export JSON Actions** is now tracked in `DOCS/INPROGRESS/G6_Export_JSON_Actions.md`, covering toolbar, command menu, and outline context flows that trigger JSON exports for the full tree or selected nodes.
+> **Completed (2025-10-27):** Task **G6 — Export JSON Actions** shipped SwiftUI export controls, shared exporter wiring, and diagnostics-backed error handling. See `DOCS/INPROGRESS/Summary_of_Work.md` for the latest verification notes.
 
 > **Completed:** Task **G7 — State Management View Models** formalized DocumentVM/NodeVM/HexVM orchestration for the SwiftUI outline, detail, and export flows; see `DOCS/TASK_ARCHIVE/154_G7_State_Management_ViewModels/Summary_of_Work.md` for the archived implementation notes.
 
