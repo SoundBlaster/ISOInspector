@@ -870,3 +870,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/165_T1_2_Extend_ParseTreeNode_Status_and_Issues/`.
 - **Highlights:** Captures the tolerant parsing rollout that threads `status` and `issues` fields through `ParseTreeNode`, builder pipelines, and JSON exports so UI and tooling can surface recovery metadata without breaking compatibility.
 - **Next steps carried forward:** Continue tracking the hardware-dependent VoiceOver regression sweep, real-world codec asset licensing, and snapshot/CLI fixture maintenance via `DOCS/INPROGRESS/next_tasks.md`.
+
+## 166_T1_3_ParsePipeline_Options
+- **Archived files:** `Summary_of_Work.md`, `T1_3_ParsePipeline_Options.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/166_T1_3_ParsePipeline_Options/`.
+- **Highlights:** Documents delivery of `ParsePipeline.Options` with strict/tolerant presets, default option propagation across the CLI and app controllers, and verification via `swift test` while closing out the tolerant parsing configuration milestone.
+- **Next steps carried forward:** Hardware-dependent VoiceOver regression validation, real-world codec asset licensing, and the ongoing snapshot/CLI fixture maintenance workflow now persist in `DOCS/INPROGRESS/next_tasks.md`.

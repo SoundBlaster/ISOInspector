@@ -257,7 +257,7 @@ This phase introduces **lenient parsing mode** that continues parsing corrupted 
 **Current Status:**
 - [x] T1.1. Define `ParseIssue` model (severity, code, message, byte range). _(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`)_
 - [x] T1.2. Extend `ParseTreeNode` with `issues` and `status` fields. _(Completed — see `DOCS/TASK_ARCHIVE/165_T1_2_Extend_ParseTreeNode_Status_and_Issues/Summary_of_Work.md` for the latest status.)_
-- [x] T1.3. Create `ParsePipeline.Options` for tolerance configuration. _(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md` for strict vs. tolerant defaults and wiring notes.)_
+- [x] T1.3. Create `ParsePipeline.Options` for tolerance configuration. _(Completed — see `DOCS/TASK_ARCHIVE/166_T1_3_ParsePipeline_Options/Summary_of_Work.md` for strict vs. tolerant defaults and wiring notes.)_
 - [ ] T1.4. Refactor `BoxHeaderDecoder` to Result-based API.
 - [ ] T1.5. Update container iteration to handle errors gracefully.
 - [ ] T1.6. Implement binary reader guards (clamp to parent boundaries).

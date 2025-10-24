@@ -13,7 +13,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Status:** _Blocked_ — benchmark harness implementation is archived and awaiting macOS hardware to execute random slice metrics, UI automation coverage, and Combine-backed UI benchmarks documented in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
 >
-> **Completed (2025-10-24):** Task **T1.3 — ParsePipeline Options** added strict/tolerant presets with shared defaults. Integration notes captured in `DOCS/INPROGRESS/Summary_of_Work.md`.
+> **Completed (2025-10-24):** Task **T1.3 — ParsePipeline Options** added strict/tolerant presets with shared defaults. Integration notes captured in `DOCS/TASK_ARCHIVE/166_T1_3_ParsePipeline_Options/Summary_of_Work.md`.
 >
 > **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >
