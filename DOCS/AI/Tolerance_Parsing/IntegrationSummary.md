@@ -43,7 +43,7 @@ func decode(at offset: Int64, reader: RandomAccessReader) -> Result<BoxHeader, B
 
 **Migration Strategy:**
 - Refactor to return `Result` instead of throwing (T1.4).
-- Update all callsites in `BoxParser.parseContainer()` to handle `.failure` case.
+- Update all callsites in `StreamingBoxWalker.walk(_:cancellationCheck:onEvent:onFinish:)` to handle `.failure` case.
 - In **strict mode**: unwrap result with `try result.get()` (preserves existing behavior).
 - In **lenient mode**: match on `.failure`, attach `ParseIssue`, skip to next sibling.
 
@@ -55,19 +55,19 @@ func decode(at offset: Int64, reader: RandomAccessReader) -> Result<BoxHeader, B
 
 ---
 
-#### 2. `BoxParser.parseContainer()`
+#### 2. `StreamingBoxWalker.walk`
 
-**Location:** `Sources/ISOInspectorKit/Core/BoxParser.swift`
+**Location:** `Sources/ISOInspectorKit/ISO/StreamingBoxWalker.swift`
 
 **Current Behavior:**
 ```swift
-func parseContainer(parentRange: Range<Int64>) throws -> [BoxNode]
+func walk(reader: RandomAccessReader, cancellationCheck: CancellationCheck, onEvent: EventHandler, onFinish: FinishHandler) throws
 ```
 Iterates children; throws on first decoder error; halts parsing.
 
 **Tolerance Integration:**
 ```swift
-func parseContainer(parentRange: Range<Int64>, options: ParsePipeline.Options) -> ([BoxNode], [ParseIssue])
+func walk(reader: RandomAccessReader, cancellationCheck: CancellationCheck, options: ParsePipeline.Options, onEvent: EventHandler, onIssue: (ParseIssue) -> Void, onFinish: FinishHandler) throws
 ```
 
 **Changes:**
@@ -76,7 +76,7 @@ func parseContainer(parentRange: Range<Int64>, options: ParsePipeline.Options) -
 3. On decoder `.failure`:
    - If **strict mode**: throw error (existing behavior).
    - If **lenient mode**:
-     - Create `ParseIssue` with byte range and reason code.
+     - Create `ParseIssue` with byte range and reason code via `onIssue`.
      - Seek to `currentOffset + estimatedSkipSize` or `parentRange.upperBound` (whichever is closer).
      - Continue iteration to next sibling.
 4. Enforce `maxCorruptionEvents` cap; stop emitting issues beyond threshold (log warning).
@@ -547,7 +547,7 @@ enum FeatureFlags {
 ```
 
 **Guarded Code Paths:**
-- `BoxParser.parseContainer()`: check flag before enabling lenient mode.
+- `ParsePipeline.live(...)`: check flag before enabling lenient mode.
 - UI corruption views: hide if flag disabled.
 
 **Removal:** Sprint 6 (GA) — delete flag; lenient mode always available.

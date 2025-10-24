@@ -151,7 +151,7 @@
    - **Risk:** Medium — requires careful refactor to avoid silent failures
    - **Mitigation:** Comprehensive unit tests (T5.2)
 
-2. **`BoxParser.parseContainer()`**
+2. **`StreamingBoxWalker.walk(_:cancellationCheck:onEvent:onFinish:)`**
    - **Change:** Catch decoder errors, attach issues, continue to next sibling
    - **Impact:** Container iteration logic becomes stateful (tracks furthest offset)
    - **Risk:** High — subtle bugs could cause data loss or hangs

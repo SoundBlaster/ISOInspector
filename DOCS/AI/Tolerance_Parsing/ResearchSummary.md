@@ -161,7 +161,7 @@ DOCS/AI/Tolerance_Parsing/
 
 ### High-Risk Dependencies
 
-1. **`BoxParser.parseContainer()` Refactor (T1.4-T1.5)**
+1. **`StreamingBoxWalker.walk(_:cancellationCheck:onEvent:onFinish:)` Refactor (T1.4-T1.5)**
    - **Risk:** Core parsing logic change; subtle bugs could cause data loss or hangs.
    - **Mitigation:** Comprehensive unit tests, fuzzing (T5.5), golden-file regression tests (T5.2).
    - **Blocking:** All subsequent phases depend on stable lenient parsing.
