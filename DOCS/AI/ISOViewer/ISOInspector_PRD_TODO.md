@@ -244,6 +244,7 @@ This phase introduces **lenient parsing mode** that continues parsing corrupted 
 **Key Deliverables:**
 - **T1:** Core parsing resiliency (Result-based decoder, issue recording, progress guards)
 - **T2:** Corruption aggregation (`ParseIssueStore`, event streaming, metrics)
+  - [ ] T2.1. `ParseIssueStore` aggregate and query APIs. _(In Progress — see `DOCS/INPROGRESS/T2_1_ParseIssueStore_Aggregation.md` for current scope.)_
 - **T3:** UI corruption views (badges, placeholders, "Integrity" tab, export actions)
 - **T4:** Diagnostics export (JSON/text with byte ranges, file metadata)
 - **T5:** Testing & fixtures (corrupt corpus, regression, performance, fuzzing)
