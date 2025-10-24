@@ -25,6 +25,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-24):** Task **T1.8 — Traversal Guard Implementation** is archived in `DOCS/TASK_ARCHIVE/173_T1_8_Traversal_Guard_Implementation/`, detailing guard enforcement in `StreamingBoxWalker`, option preset updates, and verification coverage documented in `Summary_of_Work.md`.
 >
+> **In Progress (2025-10-26):** Task **T2.1 — ParseIssueStore Aggregation** is now active to unlock tolerant parsing summaries. See `DOCS/INPROGRESS/T2_1_ParseIssueStore_Aggregation.md` for the PRD outline and integration checkpoints.
+>
 > **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >
 > **Archived (D5):** _`mfra/tfra/mfro` random access tables deliverable now lives in `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/`. Planning notes remain in `D5_mfra_tfra_mfro_Random_Access.md` with implementation details summarized in `Summary_of_Work.md`. Random access index integration shipped across ISOInspectorKit, CLI, and JSON exports; real-world codec fixture licensing follow-ups stay blocked in `DOCS/INPROGRESS/next_tasks.md`._
