@@ -11,19 +11,22 @@ public struct ParseEvent: Equatable, Sendable {
     public let metadata: BoxDescriptor?
     public let payload: ParsedBoxPayload?
     public let validationIssues: [ValidationIssue]
+    public let issues: [ParseIssue]
 
     public init(
         kind: Kind,
         offset: Int64,
         metadata: BoxDescriptor? = nil,
         payload: ParsedBoxPayload? = nil,
-        validationIssues: [ValidationIssue] = []
+        validationIssues: [ValidationIssue] = [],
+        issues: [ParseIssue] = []
     ) {
         self.kind = kind
         self.offset = offset
         self.metadata = metadata
         self.payload = payload
         self.validationIssues = validationIssues
+        self.issues = issues
     }
 }
 
@@ -719,10 +722,12 @@ extension ParsePipeline {
                     let metadataCoordinator = MetadataEnvironmentCoordinator()
                     let fragmentCoordinator = FragmentEnvironmentCoordinator()
                     let randomAccessCoordinator = RandomAccessIndexCoordinator()
+                    var issuesByNodeID: [Int64: [ParseIssue]] = [:]
                     do {
                         try walker.walk(
                             reader: reader,
                             cancellationCheck: { try Task.checkCancellation() },
+                            options: context.options,
                             onEvent: { event in
                                 let enriched: ParseEvent
                                 switch event.kind {
@@ -781,7 +786,8 @@ extension ParsePipeline {
                                         kind: event.kind,
                                         offset: event.offset,
                                         metadata: descriptor,
-                                        payload: payload
+                                        payload: payload,
+                                        issues: issuesByNodeID[header.startOffset] ?? []
                                     )
                                 case .didFinishBox(let header, _):
                                     let descriptor =
@@ -797,11 +803,18 @@ extension ParsePipeline {
                                         kind: event.kind,
                                         offset: event.offset,
                                         metadata: descriptor,
-                                        payload: randomAccessPayload ?? fragmentPayload
+                                        payload: randomAccessPayload ?? fragmentPayload,
+                                        issues: issuesByNodeID[header.startOffset] ?? []
                                     )
+                                    issuesByNodeID.removeValue(forKey: header.startOffset)
                                 }
                                 let validated = validator.annotate(event: enriched, reader: reader)
                                 continuation.yield(validated)
+                            },
+                            onIssue: { issue in
+                                for nodeID in issue.affectedNodeIDs {
+                                    issuesByNodeID[nodeID, default: []].append(issue)
+                                }
                             },
                             onFinish: {
                                 continuation.finish()

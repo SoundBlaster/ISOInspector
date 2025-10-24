@@ -183,7 +183,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed:** Task **T1.4 — Refactor BoxHeaderDecoder to Result-based API** now lives in `DOCS/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/`, providing tolerant parsing flows with recoverable header diagnostics and updated call sites/tests.
 >
-> **In Progress:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** continues the tolerant parsing pipeline by capturing decoder failures as issues and resuming iteration. Refer to `DOCS/INPROGRESS/T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing.md` for the working brief and `DOCS/AI/Tolerance_Parsing/TODO.md` for acceptance criteria.
+> **Completed:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** now emits structured `ParseIssue` records for decoder failures and resumes tolerant traversal without aborting strict mode. See `DOCS/INPROGRESS/Summary_of_Work.md` for verification details and updated test coverage notes.
 
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.

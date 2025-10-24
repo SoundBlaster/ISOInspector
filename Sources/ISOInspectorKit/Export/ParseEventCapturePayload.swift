@@ -26,6 +26,7 @@ struct ParseEventCapturePayload: Codable {
         let metadata: Metadata?
         let payload: Payload?
         let validationIssues: [Issue]
+        let parseIssues: [ParseIssuePayload]
 
         init(event: ParseEvent) {
             switch event.kind {
@@ -42,13 +43,41 @@ struct ParseEventCapturePayload: Codable {
             self.metadata = event.metadata.map(Metadata.init)
             self.payload = event.payload.map(Payload.init)
             self.validationIssues = event.validationIssues.map(Issue.init)
+            self.parseIssues = event.issues.map(ParseIssuePayload.init)
+        }
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            self.kind = try container.decode(Kind.self, forKey: .kind)
+            self.header = try container.decode(Header.self, forKey: .header)
+            self.depth = try container.decode(Int.self, forKey: .depth)
+            self.offset = try container.decode(Int64.self, forKey: .offset)
+            self.metadata = try container.decodeIfPresent(Metadata.self, forKey: .metadata)
+            self.payload = try container.decodeIfPresent(Payload.self, forKey: .payload)
+            self.validationIssues = try container.decodeIfPresent([Issue].self, forKey: .validationIssues) ?? []
+            self.parseIssues = try container.decodeIfPresent([ParseIssuePayload].self, forKey: .parseIssues) ?? []
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(kind, forKey: .kind)
+            try container.encode(header, forKey: .header)
+            try container.encode(depth, forKey: .depth)
+            try container.encode(offset, forKey: .offset)
+            try container.encodeIfPresent(metadata, forKey: .metadata)
+            try container.encodeIfPresent(payload, forKey: .payload)
+            try container.encode(validationIssues, forKey: .validationIssues)
+            if !parseIssues.isEmpty {
+                try container.encode(parseIssues, forKey: .parseIssues)
+            }
         }
 
         func makeEvent() throws -> ParseEvent {
             let header = try self.header.makeHeader()
             let metadata = try self.metadata?.makeDescriptor()
             let payload = self.payload?.makePayload()
-            let issues = validationIssues.map { $0.makeIssue() }
+            let validationIssues = self.validationIssues.map { $0.makeIssue() }
+            let parseIssues = self.parseIssues.map { $0.makeIssue() }
             switch kind {
             case .willStart:
                 return ParseEvent(
@@ -56,7 +85,8 @@ struct ParseEventCapturePayload: Codable {
                     offset: offset,
                     metadata: metadata,
                     payload: payload,
-                    validationIssues: issues
+                    validationIssues: validationIssues,
+                    issues: parseIssues
                 )
             case .didFinish:
                 return ParseEvent(
@@ -64,9 +94,21 @@ struct ParseEventCapturePayload: Codable {
                     offset: offset,
                     metadata: metadata,
                     payload: payload,
-                    validationIssues: issues
+                    validationIssues: validationIssues,
+                    issues: parseIssues
                 )
             }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kind
+            case header
+            case depth
+            case offset
+            case metadata
+            case payload
+            case validationIssues
+            case parseIssues
         }
     }
 
@@ -207,6 +249,46 @@ struct ParseEventCapturePayload: Codable {
                 ruleID: ruleID,
                 message: message,
                 severity: ValidationIssue.Severity(rawValue: severity) ?? .info
+            )
+        }
+    }
+
+    struct ParseIssuePayload: Codable {
+        let severity: String
+        let code: String
+        let message: String
+        let start: Int64?
+        let end: Int64?
+        let affectedNodeIDs: [Int64]
+
+        init(issue: ParseIssue) {
+            severity = issue.severity.rawValue
+            code = issue.code
+            message = issue.message
+            if let range = issue.byteRange {
+                start = range.lowerBound
+                end = range.upperBound
+            } else {
+                start = nil
+                end = nil
+            }
+            affectedNodeIDs = issue.affectedNodeIDs
+        }
+
+        func makeIssue() -> ParseIssue {
+            let severityValue = ParseIssue.Severity(rawValue: severity) ?? .error
+            let range: Range<Int64>?
+            if let start, let end, end > start {
+                range = start..<end
+            } else {
+                range = nil
+            }
+            return ParseIssue(
+                severity: severityValue,
+                code: code,
+                message: message,
+                byteRange: range,
+                affectedNodeIDs: affectedNodeIDs
             )
         }
     }
