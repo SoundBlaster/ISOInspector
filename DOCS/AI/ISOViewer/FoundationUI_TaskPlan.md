@@ -7,13 +7,13 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 22/111 tasks completed (20%)**
+**Total: 23/111 tasks completed (21%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | Not Started | 0/15 (0%) |
 | Phase 2: Core Components | Complete | 20/22 (91%) |
-| Phase 3: Patterns & Platform Adaptation | In Progress | 2/16 (12%) |
+| Phase 3: Patterns & Platform Adaptation | In Progress | 3/16 (19%) |
 | Phase 4: Agent Support & Polish | Not Started | 0/13 (0%) |
 | Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
@@ -349,10 +349,10 @@
 
 ## Phase 3: Patterns & Platform Adaptation (Week 5-6)
 **Priority: P0-P1**
-**Progress: 2/16 tasks completed (12%)**
+**Progress: 3/16 tasks completed (19%)**
 
 ### 3.1 Layer 3: UI Patterns (Organisms)
-**Progress: 2/8 tasks → IN PROGRESS**
+**Progress: 3/8 tasks → IN PROGRESS**
 
 - [x] **P0** Implement InspectorPattern → **Completed 2025-10-24 (Linux QA complete; Apple platform QA pending)**
   - Files: `Sources/FoundationUI/Patterns/InspectorPattern.swift`, unit and integration tests under `Tests/FoundationUITests`
@@ -384,11 +384,12 @@
   - Selection and navigation
   - Performance optimization for large trees (1000+ nodes)
 
-- [ ] **P0** Write pattern unit tests → **IN PROGRESS**
+- [x] **P0** Write pattern unit tests ✅ Completed 2025-10-24 (Linux validation)
   - Test InspectorPattern composition
   - Test SidebarPattern selection logic
   - Test ToolbarPattern keyboard shortcuts
   - Test BoxTreePattern hierarchy
+  - Archive: `TASK_ARCHIVE/11_Phase3.1_PatternUnitTests/`
 
 - [ ] **P0** Create pattern integration tests
   - Test pattern combinations (Sidebar + Inspector)
