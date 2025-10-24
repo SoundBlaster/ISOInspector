@@ -369,8 +369,8 @@
   - VoiceOver labels sourced from semantic item metadata with DS-styled rows
   - @todo: Record snapshot baselines on macOS/iPad and exercise SwiftLint on Apple toolchain
 
-- [ ] **P1** Implement ToolbarPattern
-  - File: `Sources/Patterns/ToolbarPattern.swift`
+- [ ] **P1** Implement ToolbarPattern → **IN PROGRESS**
+  - File: `Sources/FoundationUI/Patterns/ToolbarPattern.swift`
   - Platform-adaptive toolbar items
   - Icon + label support with SF Symbols
   - Keyboard shortcut integration
