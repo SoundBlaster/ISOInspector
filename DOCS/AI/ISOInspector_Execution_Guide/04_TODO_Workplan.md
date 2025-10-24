@@ -17,7 +17,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-24):** Task **T1.4 — Refactor BoxHeaderDecoder to Result-based API** is archived in `DOCS/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/`, enabling tolerant parsing flows to record malformed header diagnostics without aborting sibling traversal.
 >
-> **Next focus:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** will attach issues to the current node and continue iteration when headers fail decoding. Status tracking now lives in `DOCS/INPROGRESS/next_tasks.md` and `DOCS/AI/Tolerance_Parsing/TODO.md`.
+> **In Progress:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** is now active. Track execution details in `DOCS/INPROGRESS/T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing.md`, with schedule context mirrored in `DOCS/INPROGRESS/next_tasks.md` and `DOCS/AI/Tolerance_Parsing/TODO.md`.
 >
 > **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >
@@ -183,7 +183,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed:** Task **T1.4 — Refactor BoxHeaderDecoder to Result-based API** now lives in `DOCS/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/`, providing tolerant parsing flows with recoverable header diagnostics and updated call sites/tests.
 >
-> **Upcoming:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** will attach issues to the active node and continue iteration when headers fail decoding. See `DOCS/INPROGRESS/next_tasks.md` for scheduling notes.
+> **In Progress:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** continues the tolerant parsing pipeline by capturing decoder failures as issues and resuming iteration. Refer to `DOCS/INPROGRESS/T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing.md` for the working brief and `DOCS/AI/Tolerance_Parsing/TODO.md` for acceptance criteria.
 
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
