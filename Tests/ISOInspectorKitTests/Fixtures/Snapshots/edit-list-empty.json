@@ -11,6 +11,12 @@
     "minor_version" : 0,
     "track_count" : 1
   },
+  "issue_metrics" : {
+    "deepest_affected_depth" : 0,
+    "error_count" : 0,
+    "info_count" : 0,
+    "warning_count" : 0
+  },
   "nodes" : [
     {
       "children" : [

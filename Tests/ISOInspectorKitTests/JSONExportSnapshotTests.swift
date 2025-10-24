@@ -61,6 +61,66 @@ final class JSONExportSnapshotTests: XCTestCase {
         try await assertSnapshotMatchesFixture(id: "sample-encryption-placeholder")
     }
 
+    func testFragmentedNoTfdtIssueMetricsMatchCounts() async throws {
+        let tree = try await makeParseTree(forFixtureID: "fragmented-no-tfdt")
+        let object = try canonicalJSONObject(for: tree)
+        let metrics = try XCTUnwrap(
+            object["issue_metrics"] as? [String: Any],
+            "Issue metrics summary missing from export"
+        )
+
+        let expected = issueMetrics(for: tree)
+
+        XCTAssertEqual(
+            Self.intValue(forKey: "error_count", in: metrics),
+            expected.errorCount,
+            "Error count mismatch"
+        )
+        XCTAssertEqual(
+            Self.intValue(forKey: "warning_count", in: metrics),
+            expected.warningCount,
+            "Warning count mismatch"
+        )
+        XCTAssertEqual(
+            Self.intValue(forKey: "info_count", in: metrics),
+            expected.infoCount,
+            "Info count mismatch"
+        )
+        XCTAssertEqual(
+            Self.intValue(forKey: "deepest_affected_depth", in: metrics),
+            expected.deepestAffectedDepth,
+            "Deepest affected depth mismatch"
+        )
+    }
+
+    func testIssueMetricsDeduplicatesIssuesRecordedAcrossNodes() throws {
+        let issue = ParseIssue(
+            severity: .error,
+            code: "guard.recursion_depth_exceeded",
+            message: "Depth budget exceeded",
+            byteRange: 0..<4,
+            affectedNodeIDs: [0, 8]
+        )
+
+        let childHeader = try makeHeader(type: "trak", start: 8, size: 16)
+        let childNode = ParseTreeNode(header: childHeader, issues: [issue])
+
+        let rootHeader = try makeHeader(type: "moov", start: 0, size: 32)
+        let rootNode = ParseTreeNode(header: rootHeader, issues: [issue], children: [childNode])
+
+        let tree = ParseTree(nodes: [rootNode])
+        let data = try exporter.export(tree: tree)
+        let object = try XCTUnwrap(
+            JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+        )
+        let metrics = try XCTUnwrap(object["issue_metrics"] as? [String: Any])
+
+        XCTAssertEqual(Self.intValue(forKey: "error_count", in: metrics), 1)
+        XCTAssertEqual(Self.intValue(forKey: "warning_count", in: metrics), 0)
+        XCTAssertEqual(Self.intValue(forKey: "info_count", in: metrics), 0)
+        XCTAssertEqual(Self.intValue(forKey: "deepest_affected_depth", in: metrics), 1)
+    }
+
     func testBaselineSampleNodesExposeCompatibilityAliases() async throws {
         let tree = try await makeParseTree(forFixtureID: "baseline-sample")
         let object = try canonicalJSONObject(for: tree)
@@ -231,6 +291,41 @@ final class JSONExportSnapshotTests: XCTestCase {
         }
     }
 
+    private func issueMetrics(for tree: ParseTree) -> IssueMetrics {
+        var accumulator = IssueMetrics()
+        accumulateIssues(in: tree.nodes, depth: 0, metrics: &accumulator)
+        return accumulator
+    }
+
+    private func accumulateIssues(
+        in nodes: [ParseTreeNode],
+        depth: Int,
+        metrics: inout IssueMetrics
+    ) {
+        for node in nodes {
+            if !node.issues.isEmpty {
+                for issue in node.issues {
+                    let identifier = IssueIdentifier(issue: issue)
+                    let previousDepth = metrics.trackedIssues[identifier]
+                    if previousDepth == nil {
+                        switch issue.severity {
+                        case .error:
+                            metrics.errorCount += 1
+                        case .warning:
+                            metrics.warningCount += 1
+                        case .info:
+                            metrics.infoCount += 1
+                        }
+                    }
+                    let resolvedDepth = max(previousDepth ?? depth, depth)
+                    metrics.trackedIssues[identifier] = resolvedDepth
+                    metrics.deepestAffectedDepth = max(metrics.deepestAffectedDepth, resolvedDepth)
+                }
+            }
+            accumulateIssues(in: node.children, depth: depth + 1, metrics: &metrics)
+        }
+    }
+
     private func flatten(nodes: [ParseTreeNode]) -> [ParseTreeNode] {
         var result: [ParseTreeNode] = []
         for node in nodes {
@@ -243,5 +338,45 @@ final class JSONExportSnapshotTests: XCTestCase {
     private func treeData(forFixtureID id: String) throws -> Data {
         let fixture = try XCTUnwrap(catalog.fixture(withID: id))
         return try fixture.data(in: .module)
+    }
+
+    private func makeHeader(type: String, start: Int64, size: Int64) throws -> BoxHeader {
+        let fourcc = try FourCharCode(type)
+        let headerSize: Int64 = 8
+        let end = start + size
+        return BoxHeader(
+            type: fourcc,
+            totalSize: size,
+            headerSize: headerSize,
+            payloadRange: (start + headerSize)..<end,
+            range: start..<end,
+            uuid: nil
+        )
+    }
+}
+
+private struct IssueMetrics {
+    var errorCount: Int = 0
+    var warningCount: Int = 0
+    var infoCount: Int = 0
+    var deepestAffectedDepth: Int = 0
+    var trackedIssues: [IssueIdentifier: Int] = [:]
+}
+
+private struct IssueIdentifier: Hashable {
+    let severity: String
+    let code: String
+    let message: String
+    let byteRangeLowerBound: Int64?
+    let byteRangeUpperBound: Int64?
+    let affectedNodeIDs: [Int64]
+
+    init(issue: ParseIssue) {
+        severity = issue.severity.rawValue
+        code = issue.code
+        message = issue.message
+        byteRangeLowerBound = issue.byteRange?.lowerBound
+        byteRangeUpperBound = issue.byteRange?.upperBound
+        affectedNodeIDs = issue.affectedNodeIDs
     }
 }
