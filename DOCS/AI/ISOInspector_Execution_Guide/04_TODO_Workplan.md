@@ -15,6 +15,10 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-24):** Task **T1.3 — ParsePipeline Options** added strict/tolerant presets with shared defaults. Integration notes captured in `DOCS/TASK_ARCHIVE/166_T1_3_ParsePipeline_Options/Summary_of_Work.md`.
 >
+> **Completed (2025-10-24):** Task **T1.4 — Refactor BoxHeaderDecoder to Result-based API** is archived in `DOCS/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/`, enabling tolerant parsing flows to record malformed header diagnostics without aborting sibling traversal.
+>
+> **Next focus:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** will attach issues to the current node and continue iteration when headers fail decoding. Status tracking now lives in `DOCS/INPROGRESS/next_tasks.md` and `DOCS/AI/Tolerance_Parsing/TODO.md`.
+>
 > **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >
 > **Archived (D5):** _`mfra/tfra/mfro` random access tables deliverable now lives in `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/`. Planning notes remain in `D5_mfra_tfra_mfro_Random_Access.md` with implementation details summarized in `Summary_of_Work.md`. Random access index integration shipped across ISOInspectorKit, CLI, and JSON exports; real-world codec fixture licensing follow-ups stay blocked in `DOCS/INPROGRESS/next_tasks.md`._
@@ -177,7 +181,9 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed:** Task **T1.2 — Extend ParseTreeNode with Issues and Status Fields** wrapped tolerant parsing metadata through `ParseTreeNode`, builder pipelines, and JSON exports. See `DOCS/TASK_ARCHIVE/165_T1_2_Extend_ParseTreeNode_Status_and_Issues/` for the archived PRD and summary, plus `DOCS/AI/Tolerance_Parsing/TODO.md` for remaining phase follow-ups.
 >
-> **In Progress:** Task **T1.4 — Refactor BoxHeaderDecoder to Result-based API** is now tracked in `DOCS/INPROGRESS/T1_4_BoxHeaderDecoder_Result_API.md`, enabling tolerant parsing flows to capture malformed header issues without aborting sibling traversal.
+> **Completed:** Task **T1.4 — Refactor BoxHeaderDecoder to Result-based API** now lives in `DOCS/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/`, providing tolerant parsing flows with recoverable header diagnostics and updated call sites/tests.
+>
+> **Upcoming:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** will attach issues to the active node and continue iteration when headers fail decoding. See `DOCS/INPROGRESS/next_tasks.md` for scheduling notes.
 
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
