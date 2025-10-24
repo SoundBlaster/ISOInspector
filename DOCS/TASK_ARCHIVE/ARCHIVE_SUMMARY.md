@@ -858,3 +858,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 - **Highlights:** Documents Task E2 requirements to ensure the streaming parser always makes forward progress by detecting zero- or negative-advance iterations and enforcing a safe maximum nesting depth, preventing malformed media from hanging or exhausting resources. The archive captures the context, success criteria, implementation notes, and source references that guided completion of this validation phase guard-rail.
 - **Next steps carried forward:** Manual VoiceOver regression validation on physical hardware, real-world codec asset licensing, and ongoing snapshot/CLI fixture maintenance workflows continue in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+
+## 164_Summary_of_Work_ParseIssue_Model
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/164_Summary_of_Work_ParseIssue_Model/`.
+- **Highlights:** Summarizes delivery of the tolerant `ParseIssue` model with severity, code, byte range, and node reference support plus JSON round-trip coverage so CLI, app, and export layers capture corruption without halting traversal.
+- **Next steps carried forward:** Continue tolerant parsing integration by wiring `ParseTreeNode` issue storage and validation flows per `DOCS/AI/Tolerance_Parsing/TODO.md`, while tracking VoiceOver accessibility verification, real-world asset licensing, and fixture maintenance in `DOCS/INPROGRESS/next_tasks.md`.
