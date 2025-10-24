@@ -906,3 +906,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/173_T1_8_Traversal_Guard_Implementation/`.
 - **Highlights:** Documents the traversal guard enforcement rollout that adds forward-progress, zero-length flood, recursion depth, and per-frame issue budget clamps to `StreamingBoxWalker`, propagates guard diagnostics through `ParseTreeBuilder`, and refreshes tolerant vs. strict `ParsePipeline.Options` presets.
 - **Next steps carried forward:** Maintain the tolerant parsing presentation follow-up, VoiceOver hardware regression sweep, real-world codec asset licensing, and snapshot/CLI fixture maintenance now reset in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 175_Summary_of_Work_2025-10-26_ParseIssueStore_Aggregation
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/175_Summary_of_Work_2025-10-26_ParseIssueStore_Aggregation/`.
+- **Highlights:** Records the ParseIssueStore aggregation recap covering the shared store implementation, pipeline threading, and verification runs that closed Task **T2.1** and kept tolerant parsing metrics flowing through CLI and SwiftUI entry points.
+- **Next steps carried forward:** Track SwiftUI ribbon surfacing for ParseIssueStore metrics, hardware-dependent VoiceOver regression validation, real-world codec asset licensing, and snapshot/CLI fixture maintenance via the refreshed `DOCS/INPROGRESS/next_tasks.md`.
