@@ -882,3 +882,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/168_Summary_of_Work_2025-10-24/`.
 - **Highlights:** Records closure of the tolerant parsing refactor that moved `BoxHeaderDecoder` to a `Result`-based API, verified downstream call sites, and documented verification via `swift test` alongside cross-references to the broader tolerance parsing backlog.
 - **Next steps carried forward:** Kick off Task **T1.5** to surface decoder failures as recoverable issues, and continue the VoiceOver hardware regression pass, real-world codec asset licensing, and snapshot/CLI fixture maintenance now restated in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing
+- **Archived files:** `Summary_of_Work.md`, `T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/`.
+- **Highlights:** Documents the tolerant parsing enhancement that converts decoder failures into `ParseIssue` records, preserves traversal within parent boundaries, and threads issue payloads through parse events, builders, and capture consumers with full regression coverage.
+- **Next steps carried forward:** Implement downstream presentation of the captured issues plus the ongoing VoiceOver regression sweep, real-world asset licensing, and snapshot/CLI fixture maintenance now listed in the refreshed `DOCS/INPROGRESS/next_tasks.md`.

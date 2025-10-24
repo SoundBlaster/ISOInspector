@@ -17,7 +17,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-24):** Task **T1.4 — Refactor BoxHeaderDecoder to Result-based API** is archived in `DOCS/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/`, enabling tolerant parsing flows to record malformed header diagnostics without aborting sibling traversal.
 >
-> **In Progress:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** is now active. Track execution details in `DOCS/INPROGRESS/T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing.md`, with schedule context mirrored in `DOCS/INPROGRESS/next_tasks.md` and `DOCS/AI/Tolerance_Parsing/TODO.md`.
+> **Completed (2025-10-24):** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** is archived in `DOCS/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/`, documenting how decoder failures now surface as `ParseIssue` records without halting tolerant traversal.
 >
 > **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >
@@ -183,7 +183,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed:** Task **T1.4 — Refactor BoxHeaderDecoder to Result-based API** now lives in `DOCS/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/`, providing tolerant parsing flows with recoverable header diagnostics and updated call sites/tests.
 >
-> **Completed:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** now emits structured `ParseIssue` records for decoder failures and resumes tolerant traversal without aborting strict mode. See `DOCS/INPROGRESS/Summary_of_Work.md` for verification details and updated test coverage notes.
+> **Completed:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** now emits structured `ParseIssue` records for decoder failures and resumes tolerant traversal without aborting strict mode. See `DOCS/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/Summary_of_Work.md` for verification details and updated test coverage notes.
 
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
