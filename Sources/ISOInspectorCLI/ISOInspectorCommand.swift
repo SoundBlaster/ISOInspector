@@ -384,7 +384,11 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
 
                     let events = environment.parsePipeline.events(
                         for: reader,
-                        context: .init(source: fileURL, researchLog: researchLog)
+                        context: .init(
+                            source: fileURL,
+                            researchLog: researchLog,
+                            issueStore: environment.issueStore
+                        )
                     )
 
                     do {
@@ -437,7 +441,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                     let reader = try environment.makeReader(fileURL)
                     let events = environment.parsePipeline.events(
                         for: reader,
-                        context: .init(source: fileURL)
+                        context: .init(source: fileURL, issueStore: environment.issueStore)
                     )
 
                     ISOInspectorCommand.printValidationMetadataIfNeeded(
@@ -624,7 +628,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                     let reader = try environment.makeReader(fileURL)
                     let events = environment.parsePipeline.events(
                         for: reader,
-                        context: .init(source: fileURL)
+                        context: .init(source: fileURL, issueStore: environment.issueStore)
                     )
 
                     var builder = ParseTreeBuilder()
@@ -755,7 +759,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                             var severityCounts: [ValidationIssue.Severity: Int] = [:]
                             let events = environment.parsePipeline.events(
                                 for: reader,
-                                context: .init(source: fileURL)
+                                context: .init(source: fileURL, issueStore: environment.issueStore)
                             )
 
                             do {

@@ -7,6 +7,7 @@ public struct ISOInspectorCLIEnvironment: Sendable {
     public var makeReader: @Sendable (_ url: URL) throws -> RandomAccessReader
     public var parsePipeline: ParsePipeline
     public var formatter: EventConsoleFormatter
+    public var issueStore: ParseIssueStore { issueStoreBox.value }
     public var print: @Sendable (String) -> Void
     public var printError: @Sendable (String) -> Void
     public var makeResearchLogWriter: @Sendable (_ location: URL) throws -> any ResearchLogRecording
@@ -17,6 +18,7 @@ public struct ISOInspectorCLIEnvironment: Sendable {
     public var auditError: @Sendable (String) -> Void
     public var filesystemAccessAuditTrail: FilesystemAccessAuditTrail
     public var makeFilesystemAccessInstance: @Sendable (_ logger: FilesystemAccessLogger) -> FilesystemAccess
+    private var issueStoreBox: UncheckedSendableValue<ParseIssueStore>
 
     public init(
         refreshCatalog: @escaping @Sendable (_ source: URL, _ output: URL) throws -> Void,
@@ -24,6 +26,7 @@ public struct ISOInspectorCLIEnvironment: Sendable {
             try ChunkedFileReader(fileURL: url)
         },
         parsePipeline: ParsePipeline = .live(options: .strict),
+        issueStore: ParseIssueStore? = nil,
         formatter: EventConsoleFormatter = EventConsoleFormatter(),
         print: @escaping @Sendable (String) -> Void = { Swift.print($0) },
         printError: @escaping @Sendable (String) -> Void = { message in
@@ -53,6 +56,13 @@ public struct ISOInspectorCLIEnvironment: Sendable {
         self.refreshCatalog = refreshCatalog
         self.makeReader = makeReader
         self.parsePipeline = parsePipeline
+        if let issueStore {
+            self.issueStoreBox = .init(value: issueStore)
+        } else if Thread.isMainThread {
+            self.issueStoreBox = .init(value: ParseIssueStore())
+        } else {
+            self.issueStoreBox = .init(value: DispatchQueue.main.sync { ParseIssueStore() })
+        }
         self.formatter = formatter
         self.print = print
         self.printError = printError
@@ -107,6 +117,10 @@ public struct ISOInspectorCLIEnvironment: Sendable {
             return makeFilesystemAccessInstance(logger)
         }
     }
+}
+
+private struct UncheckedSendableValue<Value>: @unchecked Sendable {
+    var value: Value
 }
 
 public enum ISOInspectorCLIRunner {

@@ -9,6 +9,8 @@ public final class ParseTreeStore: ObservableObject {
     @Published public private(set) var snapshot: ParseTreeSnapshot
     @Published public private(set) var state: ParseTreeStoreState
     @Published public private(set) var fileURL: URL?
+    public let issueStore: ParseIssueStore
+    // @todo PDD:45m Surface tolerant parsing issue metrics in SwiftUI once the ribbon spec lands.
 
     private let bridge: ParsePipelineEventBridge
     private let resources = ResourceBag()
@@ -17,10 +19,12 @@ public final class ParseTreeStore: ObservableObject {
 
     public init(
         bridge: ParsePipelineEventBridge = ParsePipelineEventBridge(),
+        issueStore: ParseIssueStore = ParseIssueStore(),
         initialSnapshot: ParseTreeSnapshot = .empty,
         initialState: ParseTreeStoreState = .idle
     ) {
         self.bridge = bridge
+        self.issueStore = issueStore
         self.snapshot = initialSnapshot
         self.state = initialState
         self.fileURL = nil
@@ -31,9 +35,14 @@ public final class ParseTreeStore: ObservableObject {
         reader: RandomAccessReader,
         context: ParsePipeline.Context = .init()
     ) {
+        issueStore.reset()
         resources.reader = reader
         fileURL = context.source?.standardizedFileURL
-        let connection = bridge.makeConnection(pipeline: pipeline, reader: reader, context: context)
+        var enrichedContext = context
+        if enrichedContext.issueStore == nil {
+            enrichedContext.issueStore = issueStore
+        }
+        let connection = bridge.makeConnection(pipeline: pipeline, reader: reader, context: enrichedContext)
         bind(to: connection)
     }
 

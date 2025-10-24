@@ -104,7 +104,7 @@ final class StreamingBoxWalkerTests: XCTestCase {
             onEvent: { event in
                 events.append(event)
             },
-            onIssue: { issue in
+            onIssue: { issue, _ in
                 recordedIssues.append(issue)
             },
             onFinish: {
@@ -146,7 +146,7 @@ final class StreamingBoxWalkerTests: XCTestCase {
             onEvent: { event in
                 events.append(event)
             },
-            onIssue: { issue in
+            onIssue: { issue, _ in
                 recordedIssues.append(issue)
             },
             onFinish: {
@@ -190,7 +190,7 @@ final class StreamingBoxWalkerTests: XCTestCase {
             cancellationCheck: {},
             options: options,
             onEvent: { events.append($0) },
-            onIssue: { issues.append($0) },
+            onIssue: { issue, _ in issues.append(issue) },
             onFinish: { finished = true }
         )
 
@@ -228,7 +228,7 @@ final class StreamingBoxWalkerTests: XCTestCase {
             cancellationCheck: {},
             options: options,
             onEvent: { events.append($0) },
-            onIssue: { issues.append($0) },
+            onIssue: { issue, _ in issues.append(issue) },
             onFinish: { finished = true }
         )
 
