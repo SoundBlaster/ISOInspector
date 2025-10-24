@@ -261,7 +261,7 @@ This phase introduces **lenient parsing mode** that continues parsing corrupted 
 - [x] T1.4. Refactor `BoxHeaderDecoder` to Result-based API. _(Completed — see `DOCS/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/Summary_of_Work.md`.)_
 - [x] T1.5. Update container iteration to handle errors gracefully. **(Completed — see `DOCS/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/` for implementation details.)**
 - [x] T1.6. Implement binary reader guards (clamp to parent boundaries). _(Completed — see `DOCS/TASK_ARCHIVE/170_T1_6_Implement_Binary_Reader_Guards/Summary_of_Work.md` for truncation guard coverage.)_
-- [ ] T1.7. Add progress/depth guards in lenient mode. **(In Progress — see `DOCS/INPROGRESS/T1_7_Finalize_Traversal_Guard_Requirements.md`.)**
+- [x] T1.7. Add progress/depth guards in lenient mode. _(Completed — see `DOCS/TASK_ARCHIVE/171_T1_7_Finalize_Traversal_Guard_Requirements/Summary_of_Work.md` and `DOCS/AI/Tolerance_Parsing/Traversal_Guard_Requirements.md` for the guard specification.)_
 
 **Success Metrics (from PRD):**
 - Coverage: ≥95% corrupt fixtures parse to completion
