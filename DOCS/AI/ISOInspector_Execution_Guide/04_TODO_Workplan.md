@@ -21,6 +21,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-25):** Task **T1.6 — Implement Binary Reader Guards** is archived in `DOCS/TASK_ARCHIVE/170_T1_6_Implement_Binary_Reader_Guards/`, documenting the traversal guard clamps and tolerant parsing regression coverage captured in `Summary_of_Work.md`.
 >
+> **In Progress (2025-10-26):** Task **T1.7 — Finalize Traversal Guard Requirements** is now tracked in `DOCS/INPROGRESS/T1_7_Finalize_Traversal_Guard_Requirements.md`, where the remaining progress and depth guard decisions are being codified for downstream tolerant parsing consumers.
+>
 > **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >
 > **Archived (D5):** _`mfra/tfra/mfro` random access tables deliverable now lives in `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/`. Planning notes remain in `D5_mfra_tfra_mfro_Random_Access.md` with implementation details summarized in `Summary_of_Work.md`. Random access index integration shipped across ISOInspectorKit, CLI, and JSON exports; real-world codec fixture licensing follow-ups stay blocked in `DOCS/INPROGRESS/next_tasks.md`._
