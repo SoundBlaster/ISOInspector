@@ -594,7 +594,8 @@ private final class RandomAccessIndexCoordinator: @unchecked Sendable {
     }
 }
 
-private struct UnsafeSendable<Value>: @unchecked Sendable {
+@usableFromInline
+struct UnsafeSendable<Value>: @unchecked Sendable {
     let value: Value
 }
 
@@ -660,19 +661,26 @@ public struct ParsePipeline: Sendable {
                 usesAutomaticOptions = false
             }
         }
+        public var issueStore: ParseIssueStore? {
+            get { issueStoreBox?.value }
+            set { issueStoreBox = newValue.map(UnsafeSendable.init) }
+        }
 
         @usableFromInline
         internal private(set) var usesAutomaticOptions: Bool
+        internal var issueStoreBox: UnsafeSendable<ParseIssueStore>?
 
         public init(
             source: URL? = nil,
             researchLog: (any ResearchLogRecording)? = nil,
-            options: Options? = nil
+            options: Options? = nil,
+            issueStore: ParseIssueStore? = nil
         ) {
             self.source = source
             self.researchLog = researchLog
             self.options = options ?? .strict
             self.usesAutomaticOptions = options == nil
+            self.issueStoreBox = issueStore.map(UnsafeSendable.init)
         }
 
         @usableFromInline
@@ -743,6 +751,8 @@ extension ParsePipeline {
                     let fragmentCoordinator = FragmentEnvironmentCoordinator()
                     let randomAccessCoordinator = RandomAccessIndexCoordinator()
                     var issuesByNodeID: [Int64: [ParseIssue]] = [:]
+                    let issueStore = context.issueStore
+                    issueStore?.reset()
                     do {
                         try walker.walk(
                             reader: reader,
@@ -831,7 +841,8 @@ extension ParsePipeline {
                                 let validated = validator.annotate(event: enriched, reader: reader)
                                 continuation.yield(validated)
                             },
-                            onIssue: { issue in
+                            onIssue: { issue, depth in
+                                issueStore?.record(issue, depth: depth)
                                 for nodeID in issue.affectedNodeIDs {
                                     issuesByNodeID[nodeID, default: []].append(issue)
                                 }

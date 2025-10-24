@@ -3,7 +3,7 @@ import Foundation
 public struct StreamingBoxWalker: Sendable {
     public typealias CancellationCheck = () throws -> Void
     public typealias EventHandler = (ParseEvent) -> Void
-    public typealias IssueHandler = (ParseIssue) -> Void
+    public typealias IssueHandler = (ParseIssue, Int) -> Void
     public typealias FinishHandler = () -> Void
 
     public init() {}
@@ -13,7 +13,7 @@ public struct StreamingBoxWalker: Sendable {
         cancellationCheck: CancellationCheck,
         options: ParsePipeline.Options = .strict,
         onEvent: EventHandler,
-        onIssue: IssueHandler = { _ in },
+        onIssue: IssueHandler = { _, _ in },
         onFinish: FinishHandler
     ) throws {
         var stack: [Frame] = [Frame(
@@ -24,8 +24,8 @@ public struct StreamingBoxWalker: Sendable {
             shouldParseChildren: true
         )]
 
-        func emitIssue(_ issue: ParseIssue, targeting index: Int?) {
-            onIssue(issue)
+        func emitIssue(_ issue: ParseIssue, targeting index: Int?, depth: Int) {
+            onIssue(issue, depth)
             guard let index else { return }
 
             stack[index].issueCount += 1
@@ -36,7 +36,7 @@ public struct StreamingBoxWalker: Sendable {
 
             stack[index].hasEmittedBudgetIssue = true
             if let budgetIssue = Self.guardIssueBudget(for: stack[index]) {
-                onIssue(budgetIssue)
+                onIssue(budgetIssue, depth)
             }
             stack[index].cursor = stack[index].range.upperBound
             stack[index].furthestCursor = max(stack[index].furthestCursor, stack[index].cursor)
@@ -67,7 +67,7 @@ public struct StreamingBoxWalker: Sendable {
                     for: frame,
                     attemptedOffset: frame.cursor
                 )
-                emitIssue(issue, targeting: frame.header == nil ? nil : index)
+                emitIssue(issue, targeting: frame.header == nil ? nil : index, depth: frame.depth)
                 var updatedFrame = stack[index]
                 updatedFrame.cursor = updatedFrame.range.upperBound
                 updatedFrame.furthestCursor = max(updatedFrame.furthestCursor, updatedFrame.cursor)
@@ -98,7 +98,7 @@ public struct StreamingBoxWalker: Sendable {
                     attemptedOffset: offset,
                     readerLength: reader.length
                 )
-                emitIssue(issue, targeting: frame.header == nil ? nil : index)
+                emitIssue(issue, targeting: frame.header == nil ? nil : index, depth: frame.depth)
                 var updatedFrame = stack[index]
                 updatedFrame.cursor = updatedFrame.range.upperBound
                 updatedFrame.furthestCursor = max(updatedFrame.furthestCursor, updatedFrame.cursor)
@@ -120,7 +120,7 @@ public struct StreamingBoxWalker: Sendable {
                         attemptedOffset: offset,
                         advancedTo: advancedCursor
                     )
-                    emitIssue(issue, targeting: frame.header == nil ? nil : index)
+                    emitIssue(issue, targeting: frame.header == nil ? nil : index, depth: frame.depth)
                     var updatedFrame = stack[index]
                     updatedFrame.cursor = updatedFrame.range.upperBound
                     updatedFrame.furthestCursor = max(updatedFrame.furthestCursor, updatedFrame.cursor)
@@ -147,7 +147,7 @@ public struct StreamingBoxWalker: Sendable {
                         frame.hasEmittedZeroLengthGuard = true
                         stack[index] = frame
                         let issue = Self.guardZeroLengthIssue(parent: frame, header: header)
-                        emitIssue(issue, targeting: frame.header == nil ? nil : index)
+                        emitIssue(issue, targeting: frame.header == nil ? nil : index, depth: frame.depth)
                     } else {
                         stack[index] = frame
                     }
@@ -164,7 +164,7 @@ public struct StreamingBoxWalker: Sendable {
                     frame: frame,
                     childHeader: header
                 )
-                emitIssue(issue, targeting: frame.header == nil ? nil : index)
+                emitIssue(issue, targeting: frame.header == nil ? nil : index, depth: frame.depth)
                 stack[index].cursor = stack[index].range.upperBound
                 stack[index].furthestCursor = max(stack[index].furthestCursor, stack[index].cursor)
                 continue
