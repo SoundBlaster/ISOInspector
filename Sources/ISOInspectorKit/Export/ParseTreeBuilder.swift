@@ -20,6 +20,9 @@ public struct ParseTreeBuilder {
             )
             if !event.issues.isEmpty {
                 node.issues = event.issues
+                if Self.containsGuardIssues(event.issues) {
+                    node.status = .partial
+                }
             }
             if let parent = stack.last {
                 parent.children.append(node)
@@ -55,6 +58,9 @@ public struct ParseTreeBuilder {
                 }
                 if !event.issues.isEmpty {
                     node.issues = event.issues
+                    if Self.containsGuardIssues(event.issues) {
+                        node.status = .partial
+                    }
                 }
             } else {
                 stack.append(node)
@@ -64,6 +70,12 @@ public struct ParseTreeBuilder {
 
     public func makeTree() -> ParseTree {
         ParseTree(nodes: rootNodes.map { $0.snapshot() }, validationIssues: aggregatedIssues)
+    }
+}
+
+private extension ParseTreeBuilder {
+    static func containsGuardIssues(_ issues: [ParseIssue]) -> Bool {
+        issues.contains { $0.code.hasPrefix("guard.") }
     }
 }
 

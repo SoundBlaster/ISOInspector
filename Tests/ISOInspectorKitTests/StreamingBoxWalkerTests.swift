@@ -169,6 +169,82 @@ final class StreamingBoxWalkerTests: XCTestCase {
         XCTAssertEqual(range.upperBound, Int64(moov.count))
     }
 
+    func testWalkerEmitsZeroLengthGuardAfterLimit() throws {
+        let containerType = FourCharContainerCode.moov.rawValue
+        let zeroLength = makeBox(type: "free", payload: Data())
+        let payload = zeroLength + zeroLength + zeroLength
+        let container = makeBox(type: containerType, payload: payload)
+
+        let reader = InMemoryRandomAccessReader(data: container)
+        let walker = StreamingBoxWalker()
+
+        var events: [ParseEvent] = []
+        var issues: [ParseIssue] = []
+        var finished = false
+
+        var options = ParsePipeline.Options.tolerant
+        options.maxZeroLengthBoxesPerParent = 1
+
+        try walker.walk(
+            reader: reader,
+            cancellationCheck: {},
+            options: options,
+            onEvent: { events.append($0) },
+            onIssue: { issues.append($0) },
+            onFinish: { finished = true }
+        )
+
+        XCTAssertTrue(finished)
+        XCTAssertEqual(events.count, 4)
+        try assertEvent(events[0], kind: .willStart, type: containerType, depth: 0, offset: 0)
+        try assertEvent(events[1], kind: .willStart, type: "free", depth: 1, offset: 8)
+        try assertEvent(events[2], kind: .didFinish, type: "free", depth: 1, offset: 16)
+        try assertEvent(events[3], kind: .didFinish, type: containerType, depth: 0, offset: Int64(container.count))
+
+        XCTAssertEqual(issues.count, 1)
+        let issue = try XCTUnwrap(issues.first)
+        XCTAssertEqual(issue.code, "guard.zero_size_loop")
+        XCTAssertEqual(issue.severity, .warning)
+        XCTAssertEqual(issue.affectedNodeIDs, [0])
+        let range = try XCTUnwrap(issue.byteRange)
+        XCTAssertEqual(range.lowerBound, 16)
+        XCTAssertEqual(range.upperBound, 24)
+    }
+
+    func testWalkerEnforcesRecursionDepthLimit() throws {
+        let nested = makeNestedContainer(depth: 3)
+        let reader = InMemoryRandomAccessReader(data: nested)
+        let walker = StreamingBoxWalker()
+
+        var events: [ParseEvent] = []
+        var issues: [ParseIssue] = []
+        var finished = false
+
+        var options = ParsePipeline.Options.tolerant
+        options.maxTraversalDepth = 2
+
+        try walker.walk(
+            reader: reader,
+            cancellationCheck: {},
+            options: options,
+            onEvent: { events.append($0) },
+            onIssue: { issues.append($0) },
+            onFinish: { finished = true }
+        )
+
+        XCTAssertTrue(finished)
+        XCTAssertFalse(events.isEmpty)
+        XCTAssertEqual(issues.count, 1)
+        let issue = try XCTUnwrap(issues.first)
+        XCTAssertEqual(issue.code, "guard.recursion_depth_exceeded")
+        XCTAssertEqual(issue.severity, .error)
+        XCTAssertFalse(issue.affectedNodeIDs.isEmpty)
+        XCTAssertEqual(issue.affectedNodeIDs.first, 0)
+        let range = try XCTUnwrap(issue.byteRange)
+        XCTAssertEqual(range.lowerBound, 16)
+        XCTAssertGreaterThan(range.upperBound, range.lowerBound)
+    }
+
     func testWalkerStopsWhenCancellationCheckThrows() {
         let payload = Data(repeating: 0xAA, count: 8)
         let free = makeBox(type: "free", payload: payload)
@@ -252,6 +328,23 @@ final class StreamingBoxWalkerTests: XCTestCase {
         }
         data.append(payload)
         return data
+    }
+
+    private func makeNestedContainer(depth: Int) -> Data {
+        precondition(depth >= 1)
+        let containerTypes = [
+            FourCharContainerCode.moov.rawValue,
+            FourCharContainerCode.trak.rawValue,
+            FourCharContainerCode.mdia.rawValue,
+            FourCharContainerCode.minf.rawValue
+        ]
+
+        var payload = makeBox(type: "free", payload: Data())
+        for index in 0..<depth {
+            let type = containerTypes[index % containerTypes.count]
+            payload = makeBox(type: type, payload: payload)
+        }
+        return payload
     }
 }
 

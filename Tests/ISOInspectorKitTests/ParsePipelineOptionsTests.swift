@@ -9,6 +9,10 @@ final class ParsePipelineOptionsTests: XCTestCase {
         XCTAssertTrue(options.abortOnStructuralError)
         XCTAssertEqual(options.maxCorruptionEvents, 0)
         XCTAssertEqual(options.payloadValidationLevel, .full)
+        XCTAssertEqual(options.maxTraversalDepth, 64)
+        XCTAssertEqual(options.maxStalledIterationsPerFrame, 3)
+        XCTAssertEqual(options.maxZeroLengthBoxesPerParent, 2)
+        XCTAssertEqual(options.maxIssuesPerFrame, 256)
     }
 
     func testTolerantDefaultsMatchExpectations() {
@@ -17,6 +21,10 @@ final class ParsePipelineOptionsTests: XCTestCase {
         XCTAssertFalse(options.abortOnStructuralError)
         XCTAssertEqual(options.maxCorruptionEvents, 500)
         XCTAssertEqual(options.payloadValidationLevel, .structureOnly)
+        XCTAssertEqual(options.maxTraversalDepth, 64)
+        XCTAssertEqual(options.maxStalledIterationsPerFrame, 3)
+        XCTAssertEqual(options.maxZeroLengthBoxesPerParent, 2)
+        XCTAssertEqual(options.maxIssuesPerFrame, 256)
     }
 
     func testPipelineAppliesDefaultOptionsWhenContextUsesAutomaticSettings() {
