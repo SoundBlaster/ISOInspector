@@ -41,11 +41,18 @@ public struct StreamingBoxWalker: Sendable {
 
             var parent = frame
             let offset = parent.cursor
-            let header = try BoxHeaderDecoder.readHeader(
+            let headerResult = BoxHeaderDecoder.readHeader(
                 from: reader,
                 at: offset,
                 inParentRange: parent.range
             )
+            let header: BoxHeader
+            switch headerResult {
+            case let .success(decodedHeader):
+                header = decodedHeader
+            case let .failure(error):
+                throw error
+            }
             parent.cursor = header.range.upperBound
             stack[stack.count - 1] = parent
 

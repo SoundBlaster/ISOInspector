@@ -148,7 +148,8 @@ final class FixtureCatalogExpandedCoverageTests: XCTestCase {
         var offset: Int64 = 0
         var types: [String] = []
         while offset < reader.length {
-            let header = try BoxHeaderDecoder.readHeader(from: reader, at: offset)
+            let result = BoxHeaderDecoder.readHeader(from: reader, at: offset)
+            let header = try result.get()
             types.append(header.type.rawValue)
             let nextOffset = header.range.upperBound
             guard nextOffset > offset else {

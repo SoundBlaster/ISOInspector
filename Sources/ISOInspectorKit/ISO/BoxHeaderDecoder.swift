@@ -18,6 +18,33 @@ public enum BoxHeaderDecoder {
         from reader: RandomAccessReader,
         at offset: Int64,
         inParentRange parentRange: Range<Int64>? = nil
+    ) -> Result<BoxHeader, BoxHeaderDecodingError> {
+        do {
+            return .success(try decodeHeader(
+                from: reader,
+                at: offset,
+                inParentRange: parentRange
+            ))
+        } catch let error as BoxHeaderDecodingError {
+            return .failure(error)
+        } catch {
+            return .failure(.readerError(underlying: error))
+        }
+    }
+
+    @available(*, deprecated, message: "Use result-based readHeader(_:at:inParentRange:) API")
+    public static func readHeaderStrict(
+        from reader: RandomAccessReader,
+        at offset: Int64,
+        inParentRange parentRange: Range<Int64>? = nil
+    ) throws -> BoxHeader {
+        try readHeader(from: reader, at: offset, inParentRange: parentRange).get()
+    }
+
+    private static func decodeHeader(
+        from reader: RandomAccessReader,
+        at offset: Int64,
+        inParentRange parentRange: Range<Int64>? = nil
     ) throws -> BoxHeader {
         let parent = parentRange ?? (Int64(0)..<reader.length)
         guard parent.contains(offset) else {
