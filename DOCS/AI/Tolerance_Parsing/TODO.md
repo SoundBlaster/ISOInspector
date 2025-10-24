@@ -27,7 +27,7 @@ Transform the parsing pipeline to support lenient mode while preserving strict m
 | T1.4 | Refactor `BoxHeaderDecoder` to return `Result<BoxHeader, BoxHeaderDecodingError>` instead of throwing. | High | 2d | T1.1, T1.2 | ✅ Complete — decoder now returns `Result` values; see `DOCS/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/Summary_of_Work.md`. |
 | T1.5 | Update container iteration logic to catch decoder errors, attach issues to node, and skip to next sibling using parent boundary. | High | 2d | T1.4 | ✅ Complete — tolerant mode records decoder failures as `ParseIssue` entries and resumes traversal without regressing strict parsing. |
 | T1.6 | Implement binary reader guards: clamp reads to parent boundaries, record `truncatedPayload` issue when size exceeds available bytes. | High | 2d | T1.1 | ✅ Complete — Streaming walker now clamps child traversal to parent bounds and emits `payload.truncated` issues (see `DOCS/TASK_ARCHIVE/170_T1_6_Implement_Binary_Reader_Guards/Summary_of_Work.md`). |
-| T1.7 | Add progress and depth guards in lenient mode to prevent infinite loops even with malformed sizes. | High | 1d | T1.6 | Fuzzing tests with zero-size and overlapping boxes complete without hanging. |
+| T1.7 | Add progress and depth guards in lenient mode to prevent infinite loops even with malformed sizes. | High | 1d | T1.6 | ✅ Complete — guard specification published in `DOCS/AI/Tolerance_Parsing/Traversal_Guard_Requirements.md`; implementation tasks tracked in `DOCS/TASK_ARCHIVE/171_T1_7_Finalize_Traversal_Guard_Requirements/next_tasks.md`. |
 
 **Verification:**
 - Unit tests for `ParseIssue` and updated node model
