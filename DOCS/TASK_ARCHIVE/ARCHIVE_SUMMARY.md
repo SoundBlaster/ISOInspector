@@ -918,3 +918,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/177_Summary_of_Work_2025-10-24/`.
 - **Highlights:** Captures the October 24, 2025 async streaming milestone wrap-up that rewired `ParseTreeStore` to consume `ParsePipeline.events(for:context:)`, removed the legacy Combine bridge, and refreshed verification to validate the concurrency-based pipeline.
 - **Next steps carried forward:** Surface tolerant parsing issue metrics in SwiftUI once ribbon specs land, complete the hardware-dependent VoiceOver regression sweep, continue real-world codec asset licensing, and keep snapshot plus CLI fixture maintenance current — all restated in `DOCS/INPROGRESS/next_tasks.md` and the open item in `todo.md`.
+
+## 178_Snapshot_and_CLI_Fixture_Maintenance
+- **Archived files:** `178_Snapshot_and_CLI_Fixture_Maintenance.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/178_Snapshot_and_CLI_Fixture_Maintenance/`.
+- **Highlights:** Documents the refreshed issue metrics export that now accompanies JSON parse trees, updated CLI compatibility coverage asserting the new metrics, and regenerated snapshot fixtures to align downstream consumers.
+- **Next steps carried forward:** Follow the regenerated `DOCS/INPROGRESS/next_tasks.md` for hardware-dependent VoiceOver regression validation, real-world codec asset acquisition, and the tolerant parsing SwiftUI ribbon surfacing once design sign-off lands. Future schema updates should continue using `ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests`.
