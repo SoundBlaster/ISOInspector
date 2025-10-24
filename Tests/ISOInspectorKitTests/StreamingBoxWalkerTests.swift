@@ -124,6 +124,51 @@ final class StreamingBoxWalkerTests: XCTestCase {
         XCTAssertGreaterThan(range.upperBound, range.lowerBound)
     }
 
+    func testWalkerClampsTruncatedChildPayloadInTolerantMode() throws {
+        let moovType = FourCharContainerCode.moov.rawValue
+        var truncatedChild = Data()
+        truncatedChild.append(contentsOf: UInt32(32).bigEndianBytes)
+        truncatedChild.append(contentsOf: moovType.utf8)
+        truncatedChild.append(Data(repeating: 0, count: 4))
+        let moov = makeBox(type: moovType, payload: truncatedChild)
+
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let walker = StreamingBoxWalker()
+
+        var events: [ParseEvent] = []
+        var recordedIssues: [ParseIssue] = []
+        var finished = false
+
+        try walker.walk(
+            reader: reader,
+            cancellationCheck: {},
+            options: .tolerant,
+            onEvent: { event in
+                events.append(event)
+            },
+            onIssue: { issue in
+                recordedIssues.append(issue)
+            },
+            onFinish: {
+                finished = true
+            }
+        )
+
+        XCTAssertTrue(finished)
+        XCTAssertEqual(events.count, 2)
+        try assertEvent(events[0], kind: .willStart, type: moovType, depth: 0, offset: 0)
+        try assertEvent(events[1], kind: .didFinish, type: moovType, depth: 0, offset: Int64(moov.count))
+
+        let issue = try XCTUnwrap(recordedIssues.first)
+        XCTAssertEqual(recordedIssues.count, 1)
+        XCTAssertEqual(issue.severity, .error)
+        XCTAssertEqual(issue.code, "payload.truncated")
+        XCTAssertEqual(issue.affectedNodeIDs, [0])
+        let range = try XCTUnwrap(issue.byteRange)
+        XCTAssertEqual(range.lowerBound, 8)
+        XCTAssertEqual(range.upperBound, Int64(moov.count))
+    }
+
     func testWalkerStopsWhenCancellationCheckThrows() {
         let payload = Data(repeating: 0xAA, count: 8)
         let free = makeBox(type: "free", payload: payload)
