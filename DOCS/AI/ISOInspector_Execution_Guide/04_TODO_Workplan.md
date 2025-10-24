@@ -172,6 +172,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed:** Task I5 – Drafted v0.1.0 release notes and validated distribution packaging inputs. See `Distribution/ReleaseNotes/v0.1.0.md` and the archive folder `DOCS/TASK_ARCHIVE/82_I5_v0_1_0_Release_Notes/` for outputs; macOS-only verification remains tracked under `DOCS/INPROGRESS/next_tasks.md`.
 
+> **In Progress:** Task **T1.2 — Extend ParseTreeNode with Issues and Status Fields** (Corrupted Media Tolerance phase) is now active. See `DOCS/INPROGRESS/T1_2_Extend_ParseTreeNode_Status_and_Issues.md` for the lightweight PRD and `DOCS/AI/Tolerance_Parsing/TODO.md` for the full initiative backlog.
+
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
 - Within Phase B, tasks B1–B3 and B4–B6 follow sequential order; B4 can start once B3 has event emission stubs.
