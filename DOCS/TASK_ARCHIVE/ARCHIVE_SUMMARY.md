@@ -912,3 +912,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/175_Summary_of_Work_2025-10-26_ParseIssueStore_Aggregation/`.
 - **Highlights:** Records the ParseIssueStore aggregation recap covering the shared store implementation, pipeline threading, and verification runs that closed Task **T2.1** and kept tolerant parsing metrics flowing through CLI and SwiftUI entry points.
 - **Next steps carried forward:** Track SwiftUI ribbon surfacing for ParseIssueStore metrics, hardware-dependent VoiceOver regression validation, real-world codec asset licensing, and snapshot/CLI fixture maintenance via the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+
+## 177_Summary_of_Work_2025-10-24
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/177_Summary_of_Work_2025-10-24/`.
+- **Highlights:** Captures the October 24, 2025 async streaming milestone wrap-up that rewired `ParseTreeStore` to consume `ParsePipeline.events(for:context:)`, removed the legacy Combine bridge, and refreshed verification to validate the concurrency-based pipeline.
+- **Next steps carried forward:** Surface tolerant parsing issue metrics in SwiftUI once ribbon specs land, complete the hardware-dependent VoiceOver regression sweep, continue real-world codec asset licensing, and keep snapshot plus CLI fixture maintenance current — all restated in `DOCS/INPROGRESS/next_tasks.md` and the open item in `todo.md`.
