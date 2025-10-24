@@ -900,3 +900,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/172_Summary_of_Work_2025-10-26/`.
 - **Highlights:** Captures the October 26 status report that closed out Task **T1.7 Traversal Guard Requirements**, linking to the finalized guard specification and documenting the remaining tolerant parsing integration roadmap.
 - **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` to continue tracking the traversal guard implementation follow-up, downstream tolerant parsing surfacing, VoiceOver hardware regression validation, real-world codec asset licensing, and ongoing snapshot/CLI fixture maintenance.
+
+## 173_T1_8_Traversal_Guard_Implementation
+- **Archived files:** `Summary_of_Work.md`, `Traversal_Guard_Implementation.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/173_T1_8_Traversal_Guard_Implementation/`.
+- **Highlights:** Documents the traversal guard enforcement rollout that adds forward-progress, zero-length flood, recursion depth, and per-frame issue budget clamps to `StreamingBoxWalker`, propagates guard diagnostics through `ParseTreeBuilder`, and refreshes tolerant vs. strict `ParsePipeline.Options` presets.
+- **Next steps carried forward:** Maintain the tolerant parsing presentation follow-up, VoiceOver hardware regression sweep, real-world codec asset licensing, and snapshot/CLI fixture maintenance now reset in `DOCS/INPROGRESS/next_tasks.md`.
