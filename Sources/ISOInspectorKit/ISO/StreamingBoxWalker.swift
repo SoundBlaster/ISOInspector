@@ -214,17 +214,23 @@ private extension StreamingBoxWalker {
                 byteRange: range
             )
         case let .exceedsParent(expectedEnd, parentEnd):
-            let range = makeRange(start: parentEnd, end: expectedEnd)
+            let range = makeRange(
+                start: attemptedOffset,
+                end: min(expectedEnd, parentRange.upperBound)
+            )
             return IssueDetails(
-                code: "header.exceeds_parent",
-                message: "Box extends past parent boundary (expected end \(expectedEnd), parent end \(parentEnd)).",
+                code: "payload.truncated",
+                message: "Box payload truncated by parent boundary (expected end \(expectedEnd), parent end \(parentEnd)).",
                 byteRange: range
             )
         case let .exceedsReader(expectedEnd, readerLength):
-            let range = makeRange(start: readerLength, end: expectedEnd)
+            let range = makeRange(
+                start: attemptedOffset,
+                end: min(expectedEnd, min(readerLength, parentRange.upperBound))
+            )
             return IssueDetails(
-                code: "header.exceeds_reader",
-                message: "Box extends past reader length (expected end \(expectedEnd), reader length \(readerLength)).",
+                code: "payload.truncated",
+                message: "Box payload truncated by reader length (expected end \(expectedEnd), reader length \(readerLength)).",
                 byteRange: range
             )
         case let .readerError(underlying):
