@@ -1,5 +1,7 @@
 # Next Tasks
 
+- 🚀 **G6 — Export JSON Actions** _(In Progress — see `DOCS/INPROGRESS/G6_Export_JSON_Actions.md`)_:
+  - Build out the SwiftUI toolbar, command menu, and outline context menu flows that trigger JSON exports for the full tree or the selected node.
 - 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(Blocked — pending hardware)_:
   - Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets. Reference `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/`.
 - ⏳ **Real-World Assets** _(Blocked — awaiting licensing approvals)_:
