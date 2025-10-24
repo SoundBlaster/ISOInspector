@@ -19,7 +19,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-24):** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** is archived in `DOCS/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/`, documenting how decoder failures now surface as `ParseIssue` records without halting tolerant traversal.
 >
-> **In Progress (2025-10-25):** Task **T1.6 — Implement Binary Reader Guards** is now active to clamp reads to parent boundaries and emit truncation issues; see `DOCS/INPROGRESS/T1_6_Implement_Binary_Reader_Guards.md` for the active PRD outline.
+> **Completed (2025-10-25):** Task **T1.6 — Implement Binary Reader Guards** is archived in `DOCS/TASK_ARCHIVE/170_T1_6_Implement_Binary_Reader_Guards/`, documenting the traversal guard clamps and tolerant parsing regression coverage captured in `Summary_of_Work.md`.
 >
 > **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >

@@ -888,3 +888,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/`.
 - **Highlights:** Documents the tolerant parsing enhancement that converts decoder failures into `ParseIssue` records, preserves traversal within parent boundaries, and threads issue payloads through parse events, builders, and capture consumers with full regression coverage.
 - **Next steps carried forward:** Implement downstream presentation of the captured issues plus the ongoing VoiceOver regression sweep, real-world asset licensing, and snapshot/CLI fixture maintenance now listed in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+
+## 170_T1_6_Implement_Binary_Reader_Guards
+- **Archived files:** `Summary_of_Work.md`, `T1_6_Implement_Binary_Reader_Guards.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/170_T1_6_Implement_Binary_Reader_Guards/`.
+- **Highlights:** Captures the traversal guard hardening that clamps `StreamingBoxWalker` iteration to active parent ranges, maps over-read scenarios into `payload.truncated` issues, and verifies tolerant parsing resilience via `StreamingBoxWalkerTests`.
+- **Next steps carried forward:** Finalize the T1.7 traversal guard requirements and continue the tolerant parsing issue surfacing, VoiceOver hardware regression sweep, real-world asset licensing, and snapshot/CLI fixture maintenance noted in `DOCS/INPROGRESS/next_tasks.md`.
