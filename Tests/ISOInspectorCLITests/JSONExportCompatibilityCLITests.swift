@@ -76,6 +76,11 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
             exportFormat: try XCTUnwrap(exportJSON["format"] as? [String: Any], "Format summary missing"),
             ffprobeBaseline: ffprobeFormat
         )
+
+        try assertIssueMetrics(
+            exportJSON: exportJSON,
+            exportNodes: try XCTUnwrap(exportJSON["nodes"] as? [[String: Any]], "Nodes missing from export")
+        )
     }
 
     private func assertCompatibilityAliases(
@@ -333,6 +338,69 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
         return result
     }
 
+    private func assertIssueMetrics(exportJSON: [String: Any], exportNodes: [[String: Any]]) throws {
+        let metrics = try XCTUnwrap(
+            exportJSON["issue_metrics"] as? [String: Any],
+            "Issue metrics missing from export"
+        )
+        let expected = computeIssueMetrics(from: exportNodes)
+
+        XCTAssertEqual(
+            Self.intValue(forKey: "error_count", in: metrics),
+            expected.errorCount,
+            "Error count mismatch"
+        )
+        XCTAssertEqual(
+            Self.intValue(forKey: "warning_count", in: metrics),
+            expected.warningCount,
+            "Warning count mismatch"
+        )
+        XCTAssertEqual(
+            Self.intValue(forKey: "info_count", in: metrics),
+            expected.infoCount,
+            "Info count mismatch"
+        )
+        XCTAssertEqual(
+            Self.intValue(forKey: "deepest_affected_depth", in: metrics),
+            expected.deepestAffectedDepth,
+            "Deepest affected depth mismatch"
+        )
+    }
+
+    private func computeIssueMetrics(from nodes: [[String: Any]]) -> IssueMetrics {
+        var metrics = IssueMetrics()
+        accumulateIssues(in: nodes, depth: 0, metrics: &metrics)
+        return metrics
+    }
+
+    private func accumulateIssues(
+        in nodes: [[String: Any]],
+        depth: Int,
+        metrics: inout IssueMetrics
+    ) {
+        for node in nodes {
+            if let issues = node["issues"] as? [[String: Any]], !issues.isEmpty {
+                for issue in issues {
+                    let severity = issue["severity"] as? String
+                    switch severity {
+                    case "error":
+                        metrics.errorCount += 1
+                    case "warning":
+                        metrics.warningCount += 1
+                    case "info":
+                        metrics.infoCount += 1
+                    default:
+                        break
+                    }
+                }
+                metrics.deepestAffectedDepth = max(metrics.deepestAffectedDepth, depth)
+            }
+            if let children = node["children"] as? [[String: Any]] {
+                accumulateIssues(in: children, depth: depth + 1, metrics: &metrics)
+            }
+        }
+    }
+
     private func repositoryRoot() -> URL {
         var url = URL(fileURLWithPath: #filePath)
         while url.lastPathComponent != "ISOInspector", url.pathComponents.count > 1 {
@@ -383,6 +451,13 @@ private struct Alias: Equatable {
     let name: String
     let headerSize: Int
     let size: Int
+}
+
+private struct IssueMetrics {
+    var errorCount: Int = 0
+    var warningCount: Int = 0
+    var infoCount: Int = 0
+    var deepestAffectedDepth: Int = 0
 }
 }
 
