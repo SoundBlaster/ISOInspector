@@ -864,3 +864,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/164_Summary_of_Work_ParseIssue_Model/`.
 - **Highlights:** Summarizes delivery of the tolerant `ParseIssue` model with severity, code, byte range, and node reference support plus JSON round-trip coverage so CLI, app, and export layers capture corruption without halting traversal.
 - **Next steps carried forward:** Continue tolerant parsing integration by wiring `ParseTreeNode` issue storage and validation flows per `DOCS/AI/Tolerance_Parsing/TODO.md`, while tracking VoiceOver accessibility verification, real-world asset licensing, and fixture maintenance in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 165_T1_2_Extend_ParseTreeNode_Status_and_Issues
+- **Archived files:** `T1_2_Extend_ParseTreeNode_Status_and_Issues.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/165_T1_2_Extend_ParseTreeNode_Status_and_Issues/`.
+- **Highlights:** Captures the tolerant parsing rollout that threads `status` and `issues` fields through `ParseTreeNode`, builder pipelines, and JSON exports so UI and tooling can surface recovery metadata without breaking compatibility.
+- **Next steps carried forward:** Continue tracking the hardware-dependent VoiceOver regression sweep, real-world codec asset licensing, and snapshot/CLI fixture maintenance via `DOCS/INPROGRESS/next_tasks.md`.
