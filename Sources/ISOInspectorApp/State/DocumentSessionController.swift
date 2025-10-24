@@ -76,7 +76,7 @@
             annotations: AnnotationBookmarkSession? = nil,
             recentsStore: DocumentRecentsStoring,
             sessionStore: WorkspaceSessionStoring? = nil,
-            pipelineFactory: @escaping () -> ParsePipeline = { .live() },
+            pipelineFactory: @escaping () -> ParsePipeline = { .live(options: .tolerant) },
             readerFactory: @escaping (URL) throws -> RandomAccessReader = {
                 try ChunkedFileReader(fileURL: $0)
             },
