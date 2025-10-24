@@ -10,6 +10,7 @@ Establish comprehensive unit test coverage for FoundationUI patterns to unblock 
 
 ## 🔬 Test-First Plan
 1. Define XCTest cases for Sidebar, Toolbar, and BoxTree patterns capturing layout state, DS token usage, and accessibility expectations.
+   - ✅ Sidebar selection binding and detail builder coverage landed in `Tests/FoundationUITests/PatternsTests/SidebarPatternTests.swift` (2025-10-24)
 2. Expand InspectorPattern tests where gaps exist for regression coverage (e.g., material overrides, dynamic content sizing).
 3. Introduce reusable test fixtures to simulate representative ISO inspector data sets shared across pattern suites.
 4. Ensure new tests fail prior to implementation, validating TDD workflow adherence.
@@ -21,7 +22,7 @@ Establish comprehensive unit test coverage for FoundationUI patterns to unblock 
 
 ## 🔁 Next Steps
 1. Audit existing InspectorPattern tests for coverage gaps and document required additions.
-2. Draft SidebarPattern unit tests detailing navigation state handling prior to implementation work.
+2. Draft SidebarPattern unit tests detailing navigation state handling prior to implementation work. ✅ Completed 2025-10-24; next focus: ToolbarPattern coverage.
 3. Coordinate with integration and preview tasks to ensure assertions align with forthcoming UI behavior.
 
 ## 🔗 References
