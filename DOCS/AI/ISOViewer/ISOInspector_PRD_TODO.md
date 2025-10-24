@@ -255,7 +255,7 @@ This phase introduces **lenient parsing mode** that continues parsing corrupted 
 **Feature Analysis:** [`FeatureAnalysis.md`](../Tolerance_Parsing/FeatureAnalysis.md)
 
 **Current Status:**
-- [ ] T1.1. Define `ParseIssue` model (severity, code, message, byte range). _(Queued for Sprint 1 — see `DOCS/INPROGRESS/next_tasks.md`)_
+- [x] T1.1. Define `ParseIssue` model (severity, code, message, byte range). _(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md`)_
 - [ ] T1.2. Extend `ParseTreeNode` with `issues` and `status` fields.
 - [ ] T1.3. Create `ParsePipeline.Options` for tolerance configuration.
 - [ ] T1.4. Refactor `BoxHeaderDecoder` to Result-based API.
