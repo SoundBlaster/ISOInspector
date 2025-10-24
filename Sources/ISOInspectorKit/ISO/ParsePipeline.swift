@@ -608,27 +608,47 @@ public struct ParsePipeline: Sendable {
         public var abortOnStructuralError: Bool
         public var maxCorruptionEvents: Int
         public var payloadValidationLevel: PayloadValidationLevel
+        public var maxTraversalDepth: Int
+        public var maxStalledIterationsPerFrame: Int
+        public var maxZeroLengthBoxesPerParent: Int
+        public var maxIssuesPerFrame: Int
 
         public init(
             abortOnStructuralError: Bool = true,
             maxCorruptionEvents: Int = 0,
-            payloadValidationLevel: PayloadValidationLevel = .full
+            payloadValidationLevel: PayloadValidationLevel = .full,
+            maxTraversalDepth: Int = 64,
+            maxStalledIterationsPerFrame: Int = 3,
+            maxZeroLengthBoxesPerParent: Int = 2,
+            maxIssuesPerFrame: Int = 256
         ) {
             self.abortOnStructuralError = abortOnStructuralError
             self.maxCorruptionEvents = maxCorruptionEvents
             self.payloadValidationLevel = payloadValidationLevel
+            self.maxTraversalDepth = maxTraversalDepth
+            self.maxStalledIterationsPerFrame = maxStalledIterationsPerFrame
+            self.maxZeroLengthBoxesPerParent = maxZeroLengthBoxesPerParent
+            self.maxIssuesPerFrame = maxIssuesPerFrame
         }
 
         public static let strict = Options(
             abortOnStructuralError: true,
             maxCorruptionEvents: 0,
-            payloadValidationLevel: .full
+            payloadValidationLevel: .full,
+            maxTraversalDepth: 64,
+            maxStalledIterationsPerFrame: 3,
+            maxZeroLengthBoxesPerParent: 2,
+            maxIssuesPerFrame: 256
         )
 
         public static let tolerant = Options(
             abortOnStructuralError: false,
             maxCorruptionEvents: 500,
-            payloadValidationLevel: .structureOnly
+            payloadValidationLevel: .structureOnly,
+            maxTraversalDepth: 64,
+            maxStalledIterationsPerFrame: 3,
+            maxZeroLengthBoxesPerParent: 2,
+            maxIssuesPerFrame: 256
         )
     }
 
