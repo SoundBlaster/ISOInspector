@@ -71,6 +71,7 @@ public final class ParseTreeStore: ObservableObject {
         snapshot = .empty
         state = .parsing
         let taskIdentifier = UUID()
+        resources.reserveStreamingTaskIdentifier(taskIdentifier)
         let task = Task { [weak self] in
             guard let self else { return }
             do {
@@ -157,6 +158,10 @@ private final class ResourceBag {
     func setStreamingTask(_ task: Task<Void, Never>?, identifier: UUID) {
         streamingTaskIdentifier = identifier
         streamingTask = task
+    }
+
+    func reserveStreamingTaskIdentifier(_ identifier: UUID) {
+        streamingTaskIdentifier = identifier
     }
 
     @discardableResult
