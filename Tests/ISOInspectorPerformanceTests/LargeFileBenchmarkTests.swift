@@ -56,43 +56,47 @@ final class LargeFileBenchmarkTests: XCTestCase {
     }
 
     #if canImport(Combine)
-    func testAppEventBridgeDeliversUpdatesWithinLatencyBudget() throws {
+    func testAppStreamingPipelineDeliversUpdatesWithinLatencyBudget() throws {
         let fixture = try LargeFileBenchmarkFixture.make(configuration: configuration)
 
         performBenchmark(iterations: configuration.iterationCount) {
             let pipeline = ParsePipeline.live()
             let reader = try ChunkedFileReader(fileURL: fixture.url)
-            let bridge = ParsePipelineEventBridge()
-            let connection = bridge.makeConnection(
-                pipeline: pipeline,
-                reader: reader
-            )
+            let store = ParseTreeStore()
             let expectation = expectation(description: "Stream completed")
-            var cancellable: AnyCancellable?
-            var eventCount = 0
+            var cancellables: Set<AnyCancellable> = []
             var firstEventLatency: TimeInterval?
             let start = Date()
 
-            cancellable = connection.events.sink(
-                receiveCompletion: { completion in
-                    if case .failure(let error) = completion {
-                        XCTFail("Stream failed with error: \(error)")
-                    }
-                    expectation.fulfill()
-                },
-                receiveValue: { _ in
-                    eventCount += 1
-                    if firstEventLatency == nil {
+            store.$snapshot
+                .dropFirst()
+                .sink { snapshot in
+                    if firstEventLatency == nil,
+                       snapshot.lastUpdatedAt > .distantPast {
                         firstEventLatency = Date().timeIntervalSince(start)
                     }
                 }
+                .store(in: &cancellables)
+
+            store.$state
+                .dropFirst()
+                .sink { state in
+                    if state == .finished {
+                        expectation.fulfill()
+                    }
+                }
+                .store(in: &cancellables)
+
+            store.start(
+                pipeline: pipeline,
+                reader: reader,
+                context: .init(source: fixture.url)
             )
 
             wait(for: [expectation], timeout: configuration.cliDurationBudgetSeconds() * 2)
-            cancellable?.cancel()
-            connection.cancel()
 
-            XCTAssertEqual(eventCount, fixture.expectedEventCount)
+            XCTAssertEqual(store.state, .finished)
+            XCTAssertFalse(store.snapshot.nodes.isEmpty)
             if let latency = firstEventLatency {
                 XCTAssertLessThanOrEqual(
                     latency,
@@ -105,7 +109,7 @@ final class LargeFileBenchmarkTests: XCTestCase {
         }
     }
     #else
-    func testAppEventBridgeDeliversUpdatesWithinLatencyBudget() throws {
+    func testAppStreamingPipelineDeliversUpdatesWithinLatencyBudget() throws {
         throw XCTSkip("Combine unavailable on this platform")
     }
     #endif

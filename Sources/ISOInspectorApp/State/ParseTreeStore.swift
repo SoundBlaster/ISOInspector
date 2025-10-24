@@ -12,18 +12,15 @@ public final class ParseTreeStore: ObservableObject {
     public let issueStore: ParseIssueStore
     // @todo PDD:45m Surface tolerant parsing issue metrics in SwiftUI once the ribbon spec lands.
 
-    private let bridge: ParsePipelineEventBridge
     private let resources = ResourceBag()
     private var builder = Builder()
     private var issueFilter: ((ValidationIssue) -> Bool)?
 
     public init(
-        bridge: ParsePipelineEventBridge = ParsePipelineEventBridge(),
         issueStore: ParseIssueStore = ParseIssueStore(),
         initialSnapshot: ParseTreeSnapshot = .empty,
         initialState: ParseTreeStoreState = .idle
     ) {
-        self.bridge = bridge
         self.issueStore = issueStore
         self.snapshot = initialSnapshot
         self.state = initialState
@@ -42,31 +39,8 @@ public final class ParseTreeStore: ObservableObject {
         if enrichedContext.issueStore == nil {
             enrichedContext.issueStore = issueStore
         }
-        let connection = bridge.makeConnection(pipeline: pipeline, reader: reader, context: enrichedContext)
-        bind(to: connection)
-    }
-
-    public func bind(to connection: ParsePipelineEventBridge.Connection) {
-        disconnect()
-        builder = Builder()
-        snapshot = .empty
-        state = .parsing
-        resources.connection = connection
-        resources.cancellable = connection.events
-            .receive(on: DispatchQueue.main)
-            .sink(receiveCompletion: { [weak self] completion in
-                guard let self else { return }
-                switch completion {
-                case .finished:
-                    self.state = .finished
-                case let .failure(error):
-                    self.state = .failed(self.makeErrorMessage(from: error))
-                }
-            }, receiveValue: { [weak self] event in
-                guard let self else { return }
-                self.builder.consume(event)
-                self.snapshot = self.builder.snapshot(filter: self.issueFilter)
-            })
+        let stream = pipeline.events(for: reader, context: enrichedContext)
+        startConsuming(stream)
     }
 
     public func setValidationIssueFilter(_ filter: ((ValidationIssue) -> Bool)?) {
@@ -89,6 +63,48 @@ public final class ParseTreeStore: ObservableObject {
 
     private func disconnect() {
         resources.stop()
+    }
+
+    private func startConsuming(_ stream: ParsePipeline.EventStream) {
+        disconnect()
+        builder = Builder()
+        snapshot = .empty
+        state = .parsing
+        resources.streamingTask = Task { [weak self] in
+            guard let self else { return }
+            do {
+                for try await event in stream {
+                    await self.consume(event)
+                }
+                await self.finishStreaming()
+            } catch {
+                if error is CancellationError {
+                    await self.finishStreaming()
+                } else {
+                    await self.failStreaming(error)
+                }
+            }
+        }
+    }
+
+    @MainActor
+    private func consume(_ event: ParseEvent) {
+        builder.consume(event)
+        snapshot = builder.snapshot(filter: issueFilter)
+    }
+
+    @MainActor
+    private func finishStreaming() {
+        resources.streamingTask = nil
+        if state == .parsing {
+            state = .finished
+        }
+    }
+
+    @MainActor
+    private func failStreaming(_ error: Error) {
+        resources.streamingTask = nil
+        state = .failed(makeErrorMessage(from: error))
     }
 
     private func makeErrorMessage(from error: Error) -> String {
@@ -129,19 +145,15 @@ extension ParseTreeStore {
 
 @MainActor
 private final class ResourceBag {
-    var connection: ParsePipelineEventBridge.Connection? {
-        didSet { oldValue?.cancel() }
-    }
-
-    var cancellable: AnyCancellable? {
+    var streamingTask: Task<Void, Never>? {
         didSet { oldValue?.cancel() }
     }
 
     var reader: RandomAccessReader?
 
     func stop() {
-        cancellable = nil
-        connection = nil
+        streamingTask?.cancel()
+        streamingTask = nil
         reader = nil
     }
 }

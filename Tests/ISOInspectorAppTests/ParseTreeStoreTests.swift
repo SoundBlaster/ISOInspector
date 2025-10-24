@@ -6,71 +6,20 @@ import XCTest
 @testable import ISOInspectorKit
 
 final class ParseTreeStoreTests: XCTestCase {
-    func testBridgeDeliversEventsToMultipleSubscribers() {
-        let events = makeSampleEvents()
-        let bridge = ParsePipelineEventBridge()
-        let stream = AsyncThrowingStream<ParseEvent, Error> { continuation in
-            Task {
-                try? await Task.sleep(nanoseconds: 20_000_000)
-                for event in events {
-                    continuation.yield(event)
-                    try? await Task.sleep(nanoseconds: 5_000_000)
-                }
-                continuation.finish()
-            }
-        }
-        let connection = bridge.makeConnection(stream: stream)
-
-        let expectationA = expectation(description: "Subscriber A completed")
-        let expectationB = expectation(description: "Subscriber B completed")
-        var receivedA: [ParseEvent] = []
-        var receivedB: [ParseEvent] = []
-        var cancellables: Set<AnyCancellable> = []
-
-        connection.events
-            .sink(receiveCompletion: { completion in
-                if case .finished = completion {
-                    expectationA.fulfill()
-                } else {
-                    XCTFail("Unexpected completion: \(completion)")
-                }
-            }, receiveValue: { event in
-                receivedA.append(event)
-            })
-            .store(in: &cancellables)
-
-        connection.events
-            .sink(receiveCompletion: { completion in
-                if case .finished = completion {
-                    expectationB.fulfill()
-                } else {
-                    XCTFail("Unexpected completion: \(completion)")
-                }
-            }, receiveValue: { event in
-                receivedB.append(event)
-            })
-            .store(in: &cancellables)
-
-        wait(for: [expectationA, expectationB], timeout: 2.0)
-
-        XCTAssertEqual(receivedA, events)
-        XCTAssertEqual(receivedB, events)
-    }
-
     @MainActor
     func testFilteringValidationIssuesUpdatesSnapshot() {
         let filteredIssue = ValidationIssue(ruleID: "VR-006", message: "research", severity: .info)
         let retainedIssue = ValidationIssue(ruleID: "VR-001", message: "structure", severity: .error)
         let events = makeSampleEvents(childIssues: [filteredIssue, retainedIssue])
-        let bridge = ParsePipelineEventBridge()
         let stream = AsyncThrowingStream<ParseEvent, Error> { continuation in
             for event in events {
                 continuation.yield(event)
             }
             continuation.finish()
         }
-        let connection = bridge.makeConnection(stream: stream)
-        let store = ParseTreeStore(bridge: bridge)
+        let pipeline = ParsePipeline { _, _ in stream }
+        let reader = InMemoryRandomAccessReader(data: Data())
+        let store = ParseTreeStore()
         let finished = expectation(description: "Parsing finished")
         var cancellables: Set<AnyCancellable> = []
 
@@ -83,7 +32,7 @@ final class ParseTreeStoreTests: XCTestCase {
             }
             .store(in: &cancellables)
 
-        store.bind(to: connection)
+        store.start(pipeline: pipeline, reader: reader)
         wait(for: [finished], timeout: 2.0)
 
         XCTAssertEqual(store.snapshot.validationIssues.count, 4)
@@ -109,15 +58,15 @@ final class ParseTreeStoreTests: XCTestCase {
         let events = makeSampleEvents(
             childIssues: [ValidationIssue(ruleID: "VR-999", message: "Stub issue", severity: .warning)]
         )
-        let bridge = ParsePipelineEventBridge()
         let stream = AsyncThrowingStream<ParseEvent, Error> { continuation in
             for event in events {
                 continuation.yield(event)
             }
             continuation.finish()
         }
-        let connection = bridge.makeConnection(stream: stream)
-        let store = ParseTreeStore(bridge: bridge)
+        let pipeline = ParsePipeline { _, _ in stream }
+        let reader = InMemoryRandomAccessReader(data: Data())
+        let store = ParseTreeStore()
         let finished = expectation(description: "Parsing finished")
         var cancellables: Set<AnyCancellable> = []
 
@@ -130,7 +79,7 @@ final class ParseTreeStoreTests: XCTestCase {
             }
             .store(in: &cancellables)
 
-        store.bind(to: connection)
+        store.start(pipeline: pipeline, reader: reader)
         wait(for: [finished], timeout: 2.0)
 
         XCTAssertEqual(store.state, .finished)
@@ -150,7 +99,6 @@ final class ParseTreeStoreTests: XCTestCase {
     func testTreeStoreSurfacesFailures() {
         enum SampleError: Error { case failure }
         let events = makeSampleEvents()
-        let bridge = ParsePipelineEventBridge()
         let stream = AsyncThrowingStream<ParseEvent, Error> { continuation in
             for (index, event) in events.enumerated() {
                 continuation.yield(event)
@@ -161,8 +109,9 @@ final class ParseTreeStoreTests: XCTestCase {
             }
             continuation.finish()
         }
-        let connection = bridge.makeConnection(stream: stream)
-        let store = ParseTreeStore(bridge: bridge)
+        let pipeline = ParsePipeline { _, _ in stream }
+        let reader = InMemoryRandomAccessReader(data: Data())
+        let store = ParseTreeStore()
         let failed = expectation(description: "Parsing failed")
         var cancellables: Set<AnyCancellable> = []
 
@@ -176,7 +125,7 @@ final class ParseTreeStoreTests: XCTestCase {
             }
             .store(in: &cancellables)
 
-        store.bind(to: connection)
+        store.start(pipeline: pipeline, reader: reader)
         wait(for: [failed], timeout: 2.0)
     }
 

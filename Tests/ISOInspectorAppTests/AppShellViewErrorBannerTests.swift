@@ -13,7 +13,7 @@ final class AppShellViewErrorBannerTests: XCTestCase {
         var shouldFail = true
         let filesystemAccessStub = FilesystemAccessStub()
         let controller = DocumentSessionController(
-            parseTreeStore: ParseTreeStore(bridge: ParsePipelineEventBridge()),
+            parseTreeStore: ParseTreeStore(),
             annotations: AnnotationBookmarkSession(store: nil),
             recentsStore: recentsStore,
             sessionStore: nil,
