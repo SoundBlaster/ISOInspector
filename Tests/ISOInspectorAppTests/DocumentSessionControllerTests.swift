@@ -495,6 +495,65 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertEqual(status.destinationURL?.standardizedFileURL, destination.standardizedFileURL)
     }
 
+    func testExportJSONSelectionMissingNodeEmitsFailureStatus() async throws {
+        let node = makeNode(identifier: 0, type: "moov")
+        let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [])
+        let parseTreeStore = ParseTreeStore(initialSnapshot: snapshot, initialState: .finished)
+        let diagnostics = DiagnosticsLoggerStub()
+        let controller = makeController(
+            store: DocumentRecentsStoreStub(initialRecents: []),
+            diagnostics: diagnostics,
+            parseTreeStore: parseTreeStore
+        )
+
+        await controller.exportJSON(scope: .selection(node.id + 1))
+
+        let status = try XCTUnwrap(controller.exportStatus)
+        XCTAssertFalse(status.isSuccess)
+        XCTAssertEqual(status.title, "Export Failed")
+        XCTAssertNil(status.destinationURL)
+        XCTAssertEqual(
+            status.message,
+            "The selected box is no longer available. Refresh the selection and try again."
+        )
+        XCTAssertTrue(diagnostics.errors.contains { $0.contains("selection-missing") })
+    }
+
+    func testExportJSONDestinationFailureEmitsStatusAndDiagnostics() async throws {
+        enum SampleError: LocalizedError {
+            case failed
+
+            var errorDescription: String? { "Simulated failure" }
+        }
+
+        let node = makeNode(identifier: 0, type: "moov")
+        let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [])
+        let parseTreeStore = ParseTreeStore(initialSnapshot: snapshot, initialState: .finished)
+        let filesystemStub = FilesystemAccessStub()
+        filesystemStub.saveHandler = { _ in throw SampleError.failed }
+        let diagnostics = DiagnosticsLoggerStub()
+
+        let controller = makeController(
+            store: DocumentRecentsStoreStub(initialRecents: []),
+            filesystemAccess: filesystemStub.makeAccess(),
+            diagnostics: diagnostics,
+            parseTreeStore: parseTreeStore
+        )
+
+        await controller.exportJSON(scope: .document)
+
+        let status = try XCTUnwrap(controller.exportStatus)
+        XCTAssertFalse(status.isSuccess)
+        XCTAssertEqual(status.title, "Export Failed")
+        XCTAssertNil(status.destinationURL)
+        XCTAssertEqual(
+            status.message,
+            "ISO Inspector couldn't access the chosen destination. Simulated failure"
+        )
+        XCTAssertEqual(filesystemStub.lastSaveConfiguration?.allowedContentTypes, [UTType.json.identifier])
+        XCTAssertTrue(diagnostics.errors.contains { $0.contains("destination-unavailable") })
+    }
+
     func testCanExportSelectionReflectsSnapshotMembership() throws {
         let node = makeNode(identifier: 0, type: "moov")
         let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [])
