@@ -894,3 +894,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/170_T1_6_Implement_Binary_Reader_Guards/`.
 - **Highlights:** Captures the traversal guard hardening that clamps `StreamingBoxWalker` iteration to active parent ranges, maps over-read scenarios into `payload.truncated` issues, and verifies tolerant parsing resilience via `StreamingBoxWalkerTests`.
 - **Next steps carried forward:** Finalize the T1.7 traversal guard requirements and continue the tolerant parsing issue surfacing, VoiceOver hardware regression sweep, real-world asset licensing, and snapshot/CLI fixture maintenance noted in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 172_Summary_of_Work_2025-10-26
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/172_Summary_of_Work_2025-10-26/`.
+- **Highlights:** Captures the October 26 status report that closed out Task **T1.7 Traversal Guard Requirements**, linking to the finalized guard specification and documenting the remaining tolerant parsing integration roadmap.
+- **Next steps carried forward:** Recreated `DOCS/INPROGRESS/next_tasks.md` to continue tracking the traversal guard implementation follow-up, downstream tolerant parsing surfacing, VoiceOver hardware regression validation, real-world codec asset licensing, and ongoing snapshot/CLI fixture maintenance.
