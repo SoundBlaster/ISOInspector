@@ -1,7 +1,6 @@
 # Next Tasks
 
-- ✅ **T1.4 — BoxHeaderDecoder Result Refactor** _(Completed — see `DOCS/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/Summary_of_Work.md`)_:
-  Decoder now returns `Result` values so tolerant parsing can record malformed header diagnostics.
-- 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(In Progress — blocked without hardware)_: Track manual VoiceOver verification on macOS and iPadOS hardware to confirm the focus command menu announces controls and restores focus targets as expected. Reference historical notes in `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/`.
-- ⏳ **Real-World Assets** _(Blocked — awaiting external licensing approvals)_: Secure Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures so regression baselines can shift from synthetic payloads once approvals land.
+- 🚀 **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** _(Ready to Start)_: Update streaming iteration to capture `BoxHeaderDecoder` failures, attach diagnostics to the current node, and continue traversal per the acceptance criteria tracked in `DOCS/AI/Tolerance_Parsing/TODO.md`.
+- 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(In Progress — blocked pending hardware)_: Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets. Reference the context in `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/`.
+- ⏳ **Real-World Assets** _(Blocked — awaiting licensing approvals)_: Secure Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures so regression baselines can shift from synthetic payloads once approvals land.
 - 🔄 **Snapshot & CLI Fixture Maintenance** _(Ongoing)_: Refresh snapshots and CLI fixtures whenever schema updates are intentional via `ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests`.

@@ -876,3 +876,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/166_T1_3_ParsePipeline_Options/`.
 - **Highlights:** Documents delivery of `ParsePipeline.Options` with strict/tolerant presets, default option propagation across the CLI and app controllers, and verification via `swift test` while closing out the tolerant parsing configuration milestone.
 - **Next steps carried forward:** Hardware-dependent VoiceOver regression validation, real-world codec asset licensing, and the ongoing snapshot/CLI fixture maintenance workflow now persist in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 168_Summary_of_Work_2025-10-24
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/168_Summary_of_Work_2025-10-24/`.
+- **Highlights:** Records closure of the tolerant parsing refactor that moved `BoxHeaderDecoder` to a `Result`-based API, verified downstream call sites, and documented verification via `swift test` alongside cross-references to the broader tolerance parsing backlog.
+- **Next steps carried forward:** Kick off Task **T1.5** to surface decoder failures as recoverable issues, and continue the VoiceOver hardware regression pass, real-world codec asset licensing, and snapshot/CLI fixture maintenance now restated in `DOCS/INPROGRESS/next_tasks.md`.
