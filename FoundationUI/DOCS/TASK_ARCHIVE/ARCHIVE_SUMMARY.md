@@ -968,21 +968,56 @@ This document provides an index and summary of all archived FoundationUI impleme
 - **Standards**: Establishes quality baseline for all future FoundationUI development
 
 ---
+### 10_Phase3.1_InspectorPattern
+**Completed**: 2025-10-24
+**Phase**: 3.1 Layer 3: UI Patterns (Organisms)
+**Component**: InspectorPattern (Inspector layout pattern)
+
+**Implemented**:
+- InspectorPattern SwiftUI layout combining fixed header and scrollable content with DS-driven spacing and material styling.
+- Platform-aware `platformPadding` helper adapting between macOS and iOS family devices.
+- Public `material(_:)` modifier retaining captured content while allowing background customization.
+- Preview catalogue covering metadata and status dashboards for DocC and demo app references.
+
+**Tests & Verification**:
+- `swift test` (345 tests, 0 failures, 1 skipped) executed on Linux toolchain.
+- `swift test --enable-code-coverage` to refresh coverage data pre-archive.
+- Manual SwiftLint compliance review (binary unavailable in container) guided by Phase 2.2 audit baselines.
+
+**Accessibility & DS Compliance**:
+- Header adds `.accessibilityAddTraits(.isHeader)` and aggregates inspector label semantics.
+- Layout exclusively uses DS tokens for spacing (`DS.Spacing`), typography (`DS.Typography`), and corner radius (`DS.Radius`).
+
+**Outstanding Follow-Up**:
+- Run SwiftLint and platform UI validation on macOS/iOS hardware.
+- Profile ScrollView performance with large inspector payloads once editor workflows land.
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/10_Phase3.1_InspectorPattern/`
+
+**Task Plan Updated**: Yes, Phase 3.1 progress now records InspectorPattern as completed (Apple platform QA pending).
+
+**Impact**:
+- Establishes first Layer 3 pattern, unlocking Sidebar/Toolbar/BoxTree implementation.
+- Demonstrates reuse of Layer 2 components within composable inspector layout.
+- Provides documentation baseline for future DocC and demo application updates.
+
+---
 
 ## Archive Statistics
 
-**Total Archives**: 9
-**Total Tasks Completed**: 15
-**Total Files Created**: 38 (8 source + 8 component tests + 4 snapshot tests + 6 accessibility test files + 7 performance test files + 1 integration test file + 1 README + 3 code quality files)
-**Total Lines of Code**: ~13,220+ lines (sources + tests + documentation + quality reports)
+**Total Archives**: 10
+**Total Tasks Completed**: 16
+**Total Files Created**: 42 (8 source + 8 component tests + 4 snapshot tests + 6 accessibility test files + 7 performance test files + 1 integration test file + 1 README + 3 code quality files + 4 pattern docs)
+**Total Lines of Code**: ~14,200+ lines (sources + tests + documentation + quality reports)
 **Total Test Cases**: 540+ tests (166 unit tests + 120+ snapshot tests + 123 accessibility tests + 98 performance tests + 33 integration tests)
-**Total Previews**: 45 SwiftUI previews
+**Total Previews**: 47 SwiftUI previews
 
 **Phase Breakdown**:
 - Phase 2.1 (View Modifiers): 1 archive, 6 tasks complete
 - Phase 2.2 (Components): 8 archives, 10 tasks complete (4 components + snapshot tests + accessibility tests + performance tests + integration tests + code quality verification)
+- Phase 3.1 (Patterns): 1 archive, 1 task complete (InspectorPattern)
 
 ---
 
-**Last Updated**: 2025-10-23
-**Maintained By**: Claude (FoundationUI Agent)
+**Last Updated**: 2025-10-24
+**Maintained By**: FoundationUI Agent Team
