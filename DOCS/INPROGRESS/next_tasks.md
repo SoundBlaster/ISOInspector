@@ -1,7 +1,5 @@
 # Next Tasks
 
-- 🚀 **B2+ — AsyncSequence Event Stream Integration** _(In Progress)_:
-  - Finalize the `ParsePipeline.live()` AsyncThrowingStream wiring so CLI and SwiftUI consumers can iterate events directly per `DOCS/INPROGRESS/B2_Plus_AsyncSequence_Event_Stream.md`.
 - 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(Blocked — pending hardware)_:
   - Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets. Reference `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/`.
 - ⏳ **Real-World Assets** _(Blocked — awaiting licensing approvals)_:

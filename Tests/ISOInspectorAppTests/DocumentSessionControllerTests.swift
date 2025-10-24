@@ -573,7 +573,7 @@ final class DocumentSessionControllerTests: XCTestCase {
                 rules: [ValidationPreset.RuleState(ruleID: .researchLogRecording, isEnabled: false)]
             )
         ]
-        let parseTreeStore = ParseTreeStore(bridge: ParsePipelineEventBridge())
+        let parseTreeStore = ParseTreeStore()
         let eventStream = makeValidationEventStream()
         let pipeline = ParsePipeline { _, _ in eventStream }
         let controller = makeController(
@@ -638,7 +638,7 @@ final class DocumentSessionControllerTests: XCTestCase {
                 rules: [ValidationPreset.RuleState(ruleID: .researchLogRecording, isEnabled: false)]
             )
         ]
-        let parseTreeStore = ParseTreeStore(bridge: ParsePipelineEventBridge())
+        let parseTreeStore = ParseTreeStore()
         let eventStream = makeValidationEventStream()
         let pipeline = ParsePipeline { _, _ in eventStream }
         let controller = makeController(
@@ -724,7 +724,7 @@ final class DocumentSessionControllerTests: XCTestCase {
             let resolvedDiagnostics: (any DiagnosticsLogging)? = diagnostics
             let access = filesystemAccess ?? FilesystemAccessStub().makeAccess()
             return DocumentSessionController(
-                parseTreeStore: parseTreeStore ?? ParseTreeStore(bridge: ParsePipelineEventBridge()),
+                parseTreeStore: parseTreeStore ?? ParseTreeStore(),
                 annotations: AnnotationBookmarkSession(store: annotationsStore),
                 recentsStore: store,
                 sessionStore: sessionStore,
