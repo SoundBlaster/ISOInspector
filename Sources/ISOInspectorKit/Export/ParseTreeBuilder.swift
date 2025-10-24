@@ -18,6 +18,9 @@ public struct ParseTreeBuilder {
                 payload: event.payload,
                 validationIssues: event.validationIssues
             )
+            if !event.issues.isEmpty {
+                node.issues = event.issues
+            }
             if let parent = stack.last {
                 parent.children.append(node)
             } else {
@@ -49,6 +52,9 @@ public struct ParseTreeBuilder {
                 }
                 if !event.validationIssues.isEmpty {
                     node.validationIssues.append(contentsOf: event.validationIssues)
+                }
+                if !event.issues.isEmpty {
+                    node.issues = event.issues
                 }
             } else {
                 stack.append(node)

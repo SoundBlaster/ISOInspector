@@ -233,6 +233,37 @@ final class ParseExportTests: XCTestCase {
         XCTAssertEqual(disabled, ["VR-006"])
     }
 
+    func testParseTreeBuilderCapturesParseIssues() throws {
+        let header = try makeHeader(type: "ftyp", size: 24)
+        let issue = ParseIssue(
+            severity: .error,
+            code: "header.truncated_field",
+            message: "Truncated header field",
+            byteRange: 0..<8,
+            affectedNodeIDs: [header.startOffset]
+        )
+
+        var builder = ParseTreeBuilder()
+        builder.consume(
+            ParseEvent(
+                kind: .willStartBox(header: header, depth: 0),
+                offset: header.startOffset,
+                issues: [issue]
+            )
+        )
+        builder.consume(
+            ParseEvent(
+                kind: .didFinishBox(header: header, depth: 0),
+                offset: header.endOffset,
+                issues: [issue]
+            )
+        )
+
+        let tree = builder.makeTree()
+        let node = try XCTUnwrap(tree.nodes.first)
+        XCTAssertEqual(node.issues, [issue])
+    }
+
     func testJSONExporterIncludesPaddingBoxes() async throws {
         let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
         let freePayload = Data(count: 12)

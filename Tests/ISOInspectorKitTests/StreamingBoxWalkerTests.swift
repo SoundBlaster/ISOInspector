@@ -78,12 +78,50 @@ final class StreamingBoxWalkerTests: XCTestCase {
             try walker.walk(
                 reader: reader,
                 cancellationCheck: {},
+                options: .strict,
                 onEvent: { _ in },
                 onFinish: {}
             )
         ) { error in
             XCTAssertTrue(error is BoxHeaderDecodingError)
         }
+    }
+
+    func testWalkerRecoversFromHeaderErrorsInTolerantMode() throws {
+        var corrupted = Data()
+        corrupted.append(contentsOf: UInt16(1).bigEndianBytes)
+        let reader = InMemoryRandomAccessReader(data: corrupted)
+        let walker = StreamingBoxWalker()
+
+        var events: [ParseEvent] = []
+        var recordedIssues: [ParseIssue] = []
+        var finished = false
+
+        try walker.walk(
+            reader: reader,
+            cancellationCheck: {},
+            options: .tolerant,
+            onEvent: { event in
+                events.append(event)
+            },
+            onIssue: { issue in
+                recordedIssues.append(issue)
+            },
+            onFinish: {
+                finished = true
+            }
+        )
+
+        XCTAssertTrue(finished)
+        XCTAssertTrue(events.isEmpty)
+        XCTAssertEqual(recordedIssues.count, 1)
+        let issue = try XCTUnwrap(recordedIssues.first)
+        XCTAssertEqual(issue.severity, .error)
+        XCTAssertEqual(issue.code, "header.truncated_field")
+        XCTAssertEqual(issue.affectedNodeIDs, [])
+        let range = try XCTUnwrap(issue.byteRange)
+        XCTAssertEqual(range.lowerBound, 0)
+        XCTAssertGreaterThan(range.upperBound, range.lowerBound)
     }
 
     func testWalkerStopsWhenCancellationCheckThrows() {
