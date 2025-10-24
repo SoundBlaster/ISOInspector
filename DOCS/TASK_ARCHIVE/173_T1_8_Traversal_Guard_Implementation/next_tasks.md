@@ -1,5 +1,7 @@
 # Next Tasks
 
+- ✅ **Traversal Guard Implementation** _(Completed 2025-10-24 — follow-up to T1.7)_:
+  - Guard logic, fixtures, and telemetry hooks implemented per `DOCS/AI/Tolerance_Parsing/Traversal_Guard_Requirements.md`; see `DOCS/INPROGRESS/Summary_of_Work.md` for verification highlights.
 - 🔄 **Tolerant Parsing — Surface Issues in Downstream Consumers** _(Follow-up to T1.5)_:
   - Wire decoder failure issues into CLI/app summaries once aggregation APIs land. Track roadmap context in `DOCS/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/Summary_of_Work.md` and `DOCS/AI/Tolerance_Parsing/TODO.md`.
 - 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(Blocked — pending hardware)_:
