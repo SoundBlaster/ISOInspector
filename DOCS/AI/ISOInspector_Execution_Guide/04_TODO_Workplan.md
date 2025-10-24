@@ -54,6 +54,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | B6 | Add JSON and binary export modules with regression tests. | Medium | 1.5 | B3 | Swift Codable | Exported files re-import successfully; CLI smoke tests pass. |
 | B7 | Introduce validation configuration layer with per-rule toggles and preset registry. | Medium | 1.5 | B5 | Swift, XCTest | `ValidationConfiguration`/`ValidationPreset` types serialize settings, load bundled preset manifests, persist user-authored presets under Application Support, annotate exports with `skipped` disabled rules, and default to all rules enabled per `13_Validation_Rule_Toggle_Presets_PRD.md`. (Completed ✅ — archived in `DOCS/TASK_ARCHIVE/145_B7_Validation_Rule_Preset_Configuration/`.) |
 
+> **In Progress:** Task **B2+ — AsyncSequence Event Stream Integration** is tracked in `DOCS/INPROGRESS/B2_Plus_AsyncSequence_Event_Stream.md`, finalizing the live `ParsePipeline` event stream for CLI and SwiftUI consumers.
+
 > **Completed:** Task **B7 — Validation Configuration Layer** now lives in `DOCS/TASK_ARCHIVE/145_B7_Validation_Rule_Preset_Configuration/`, establishing presets and per-rule toggles. CLI wiring (D7) shipped via `DOCS/TASK_ARCHIVE/148_D7_Validation_Preset_CLI_Wiring/Summary_of_Work.md`, and the UI settings flow (C19) is archived in `DOCS/TASK_ARCHIVE/147_Summary_of_Work_2025-10-22_Validation_Preset_UI_Settings_Integration/Summary_of_Work.md`.
 >
 > **Completed (2025-10-23):** Validation follow-up **E1 — Enforce Parent Containment and Non-Overlap** now enforces child containment and sibling spacing; see `DOCS/TASK_ARCHIVE/159_E1_Enforce_Parent_Containment_and_Non_Overlap/Summary_of_Work.md` for validation updates and regression notes.
