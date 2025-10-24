@@ -1,15 +1,15 @@
 # Next Tasks for FoundationUI
 
-**Last Updated**: 2025-10-24
+**Last Updated**: 2025-10-24 (post-ToolbarPattern implementation)
 **Current Focus**: Phase 3.1 – UI Patterns (Layer 3)
 
 ## 🎯 Immediate Priorities
 
 ### 1. ToolbarPattern
-- [ ] Build adaptive toolbar layout supporting icon + label configurations across iOS, iPadOS, and macOS
-- [ ] Ensure shortcut metadata is exposed via accessibility labels, VoiceOver hints, and documentation callouts
-- [ ] Validate layout with Dynamic Type, keyboard navigation, and reduced motion settings
-- [ ] Expand `ToolbarPatternTests` to cover platform-conditional behaviours once implementation lands
+- [x] Build adaptive toolbar layout supporting icon + label configurations across iOS, iPadOS, and macOS
+- [x] Ensure shortcut metadata is exposed via accessibility labels, VoiceOver hints, and documentation callouts
+- [ ] Validate layout with Dynamic Type, keyboard navigation, and reduced motion settings (blocked by missing SwiftUI runtime in CI container)
+- [x] Expand `ToolbarPatternTests` to cover platform-conditional behaviours once implementation lands
 
 ### 2. BoxTreePattern
 - [ ] Implement hierarchical tree view with expand/collapse interactions backed by DS spacing tokens
