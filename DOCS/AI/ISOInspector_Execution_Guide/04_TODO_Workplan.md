@@ -23,6 +23,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-26):** Task **T1.7 — Finalize Traversal Guard Requirements** is archived in `DOCS/TASK_ARCHIVE/171_T1_7_Finalize_Traversal_Guard_Requirements/`, with the guard specification published at `DOCS/AI/Tolerance_Parsing/Traversal_Guard_Requirements.md`.
 >
+> **In Progress (2025-10-26):** Traversal guard implementation is underway; see `DOCS/INPROGRESS/Traversal_Guard_Implementation.md` for current objectives and verification checkpoints.
+>
 > **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >
 > **Archived (D5):** _`mfra/tfra/mfro` random access tables deliverable now lives in `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/`. Planning notes remain in `D5_mfra_tfra_mfro_Random_Access.md` with implementation details summarized in `Summary_of_Work.md`. Random access index integration shipped across ISOInspectorKit, CLI, and JSON exports; real-world codec fixture licensing follow-ups stay blocked in `DOCS/INPROGRESS/next_tasks.md`._

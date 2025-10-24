@@ -29,6 +29,8 @@ Transform the parsing pipeline to support lenient mode while preserving strict m
 | T1.6 | Implement binary reader guards: clamp reads to parent boundaries, record `truncatedPayload` issue when size exceeds available bytes. | High | 2d | T1.1 | ✅ Complete — Streaming walker now clamps child traversal to parent bounds and emits `payload.truncated` issues (see `DOCS/TASK_ARCHIVE/170_T1_6_Implement_Binary_Reader_Guards/Summary_of_Work.md`). |
 | T1.7 | Add progress and depth guards in lenient mode to prevent infinite loops even with malformed sizes. | High | 1d | T1.6 | ✅ Complete — guard specification published in `DOCS/AI/Tolerance_Parsing/Traversal_Guard_Requirements.md`; implementation tasks tracked in `DOCS/TASK_ARCHIVE/171_T1_7_Finalize_Traversal_Guard_Requirements/next_tasks.md`. |
 
+> **In Progress:** Traversal guard implementation for `StreamingBoxWalker` is active; see `DOCS/INPROGRESS/Traversal_Guard_Implementation.md` for objectives and guard verification coverage.
+
 **Verification:**
 - Unit tests for `ParseIssue` and updated node model
 - Integration tests with corrupt fixtures (truncated, oversized, overlapping boxes)
