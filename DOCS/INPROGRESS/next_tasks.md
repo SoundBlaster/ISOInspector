@@ -1,5 +1,7 @@
 # Next Tasks
 
+- 🟢 **T1.6 — Implement Binary Reader Guards** _(In Progress)_:
+  - Enforce parent-boundary clamping in the streaming reader and emit `truncatedPayload` issues so tolerant mode can keep parsing corrupted files. Track deliverable in `DOCS/INPROGRESS/T1_6_Implement_Binary_Reader_Guards.md` and coordinate with the Phase T1 workplan in `DOCS/AI/Tolerance_Parsing/TODO.md`.
 - 🔄 **Tolerant Parsing — Surface Issues in Downstream Consumers** _(Follow-up to T1.5)_:
   - Wire the newly archived decoder failure issues into CLI/app summaries once the issue aggregation APIs land. Track roadmap context in `DOCS/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/Summary_of_Work.md` and the tolerance parsing backlog at `DOCS/AI/Tolerance_Parsing/TODO.md`.
 - 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(Blocked — pending hardware)_:

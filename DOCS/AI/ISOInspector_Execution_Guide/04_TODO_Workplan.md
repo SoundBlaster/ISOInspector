@@ -19,6 +19,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-24):** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** is archived in `DOCS/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/`, documenting how decoder failures now surface as `ParseIssue` records without halting tolerant traversal.
 >
+> **In Progress (2025-10-25):** Task **T1.6 — Implement Binary Reader Guards** is now active to clamp reads to parent boundaries and emit truncation issues; see `DOCS/INPROGRESS/T1_6_Implement_Binary_Reader_Guards.md` for the active PRD outline.
+>
 > **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >
 > **Archived (D5):** _`mfra/tfra/mfro` random access tables deliverable now lives in `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/`. Planning notes remain in `D5_mfra_tfra_mfro_Random_Access.md` with implementation details summarized in `Summary_of_Work.md`. Random access index integration shipped across ISOInspectorKit, CLI, and JSON exports; real-world codec fixture licensing follow-ups stay blocked in `DOCS/INPROGRESS/next_tasks.md`._
