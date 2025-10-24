@@ -93,6 +93,8 @@ final class ParseTreeDetailViewModel: ObservableObject {
             metadata: metadata,
             payload: node.payload,
             validationIssues: node.validationIssues,
+            issues: node.issues,
+            status: node.status,
             snapshotTimestamp: snapshot.lastUpdatedAt,
             hexSlice: nil
         )

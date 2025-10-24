@@ -9,6 +9,9 @@
       ],
       "fourcc" : "styp",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "Segment Type Box",
         "specification" : "ISO",
@@ -48,6 +51,7 @@
         "payload" : 16,
         "total" : 24
       },
+      "status" : "valid",
       "validationIssues" : [
         {
           "message" : "Encountered styp before required file type box (ftyp).",
@@ -62,6 +66,9 @@
       ],
       "fourcc" : "sidx",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "Segment Index Box",
         "specification" : "ISO",
@@ -101,6 +108,7 @@
         "payload" : 32,
         "total" : 40
       },
+      "status" : "valid",
       "validationIssues" : [
         {
           "message" : "Encountered sidx before required file type box (ftyp).",
@@ -117,6 +125,9 @@
           ],
           "fourcc" : "mfhd",
           "header_size" : 8,
+          "issues" : [
+
+          ],
           "metadata" : {
             "name" : "Movie Fragment Header",
             "specification" : "ISO",
@@ -164,6 +175,7 @@
             "payload" : 8,
             "total" : 16
           },
+          "status" : "valid",
           "structured" : {
             "movie_fragment_header" : {
               "flags" : 0,
@@ -183,6 +195,9 @@
               ],
               "fourcc" : "tfhd",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Track Fragment Header",
                 "specification" : "ISO",
@@ -240,6 +255,7 @@
                 "payload" : 8,
                 "total" : 16
               },
+              "status" : "valid",
               "structured" : {
                 "track_fragment_header" : {
                   "default_base_is_moof" : false,
@@ -259,6 +275,9 @@
               ],
               "fourcc" : "tfdt",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Track Fragment Decode Time",
                 "specification" : "ISO",
@@ -306,6 +325,7 @@
                 "payload" : 16,
                 "total" : 24
               },
+              "status" : "valid",
               "structured" : {
                 "track_fragment_decode_time" : {
                   "base_media_decode_time" : 0,
@@ -324,6 +344,9 @@
               ],
               "fourcc" : "trun",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Track Fragment Run",
                 "specification" : "ISO",
@@ -398,6 +421,7 @@
                 "payload" : 20,
                 "total" : 28
               },
+              "status" : "valid",
               "structured" : {
                 "track_run" : {
                   "data_offset" : 0,
@@ -439,6 +463,9 @@
           ],
           "fourcc" : "traf",
           "header_size" : 8,
+          "issues" : [
+
+          ],
           "metadata" : {
             "name" : "Track Fragment",
             "specification" : "ISO",
@@ -457,6 +484,7 @@
             "payload" : 68,
             "total" : 76
           },
+          "status" : "valid",
           "structured" : {
             "track_fragment" : {
               "base_decode_time" : 0,
@@ -519,6 +547,9 @@
       ],
       "fourcc" : "moof",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "Movie Fragment",
         "specification" : "ISO",
@@ -537,6 +568,7 @@
         "payload" : 92,
         "total" : 100
       },
+      "status" : "valid",
       "validationIssues" : [
         {
           "message" : "Encountered moof before required file type box (ftyp).",
@@ -551,6 +583,9 @@
       ],
       "fourcc" : "mdat",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "Media Data Container",
         "specification" : "ISO\/IEC 14496-12",
@@ -569,6 +604,7 @@
         "payload" : 512,
         "total" : 520
       },
+      "status" : "valid",
       "structured" : {
         "media_data" : {
           "headerEndOffset" : 172,

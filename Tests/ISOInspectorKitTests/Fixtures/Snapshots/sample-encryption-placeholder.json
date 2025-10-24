@@ -18,6 +18,9 @@
       ],
       "fourcc" : "ftyp",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "File Type And Compatibility",
         "specification" : "ISO\/IEC 14496-12",
@@ -74,6 +77,7 @@
         "payload" : 16,
         "total" : 24
       },
+      "status" : "valid",
       "structured" : {
         "file_type" : {
           "compatible_brands" : [
@@ -96,6 +100,9 @@
           ],
           "fourcc" : "mvhd",
           "header_size" : 8,
+          "issues" : [
+
+          ],
           "metadata" : {
             "name" : "Movie Header, Overall Declarations",
             "specification" : "ISO",
@@ -278,6 +285,7 @@
             "payload" : 100,
             "total" : 108
           },
+          "status" : "valid",
           "structured" : {
             "movie_header" : {
               "creation_time" : 0,
@@ -314,6 +322,9 @@
               ],
               "fourcc" : "tkhd",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "flags" : 7,
                 "name" : "Track Header, Overall Information About The Track",
@@ -531,6 +542,7 @@
                 "payload" : 84,
                 "total" : 92
               },
+              "status" : "valid",
               "structured" : {
                 "track_header" : {
                   "alternate_group" : 0,
@@ -575,6 +587,9 @@
                   ],
                   "fourcc" : "mdhd",
                   "header_size" : 8,
+                  "issues" : [
+
+                  ],
                   "metadata" : {
                     "name" : "Media Header, Overall Information About The Media",
                     "specification" : "ISO",
@@ -667,6 +682,7 @@
                     "payload" : 24,
                     "total" : 32
                   },
+                  "status" : "valid",
                   "validationIssues" : [
 
                   ]
@@ -674,6 +690,9 @@
               ],
               "fourcc" : "mdia",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Container For The Media Information In A Track",
                 "specification" : "ISO",
@@ -713,6 +732,7 @@
                 "payload" : 32,
                 "total" : 40
               },
+              "status" : "valid",
               "validationIssues" : [
 
               ]
@@ -720,6 +740,9 @@
           ],
           "fourcc" : "trak",
           "header_size" : 8,
+          "issues" : [
+
+          ],
           "metadata" : {
             "name" : "Container For An Individual Track Or Stream",
             "specification" : "ISO\/IEC 14496-12",
@@ -759,6 +782,7 @@
             "payload" : 132,
             "total" : 140
           },
+          "status" : "valid",
           "validationIssues" : [
 
           ]
@@ -766,6 +790,9 @@
       ],
       "fourcc" : "moov",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "Container For All The Meta-data",
         "specification" : "ISO\/IEC 14496-12",
@@ -805,6 +832,7 @@
         "payload" : 248,
         "total" : 256
       },
+      "status" : "valid",
       "validationIssues" : [
 
       ]
@@ -817,6 +845,9 @@
           ],
           "fourcc" : "mfhd",
           "header_size" : 8,
+          "issues" : [
+
+          ],
           "metadata" : {
             "name" : "Movie Fragment Header",
             "specification" : "ISO",
@@ -864,6 +895,7 @@
             "payload" : 12,
             "total" : 20
           },
+          "status" : "valid",
           "structured" : {
             "movie_fragment_header" : {
               "flags" : 0,
@@ -887,6 +919,9 @@
               ],
               "fourcc" : "tfhd",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Track Fragment Header",
                 "specification" : "ISO",
@@ -980,6 +1015,7 @@
                 "payload" : 28,
                 "total" : 36
               },
+              "status" : "valid",
               "structured" : {
                 "track_fragment_header" : {
                   "base_data_offset" : 512,
@@ -1003,6 +1039,9 @@
               ],
               "fourcc" : "tfdt",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Track Fragment Decode Time",
                 "specification" : "ISO",
@@ -1050,6 +1089,7 @@
                 "payload" : 12,
                 "total" : 20
               },
+              "status" : "valid",
               "structured" : {
                 "track_fragment_decode_time" : {
                   "base_media_decode_time" : 1000,
@@ -1068,6 +1108,9 @@
               ],
               "fourcc" : "trun",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Track Fragment Run",
                 "specification" : "ISO",
@@ -1160,6 +1203,7 @@
                 "payload" : 28,
                 "total" : 36
               },
+              "status" : "valid",
               "structured" : {
                 "track_run" : {
                   "data_offset" : 128,
@@ -1216,6 +1260,9 @@
               ],
               "fourcc" : "senc",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Sample Specific Encryption Data",
                 "specification" : "ISO Common Encryption",
@@ -1314,6 +1361,7 @@
                 "payload" : 66,
                 "total" : 74
               },
+              "status" : "valid",
               "structured" : {
                 "sample_encryption" : {
                   "algorithm_identifier" : "0x010203",
@@ -1346,6 +1394,9 @@
               ],
               "fourcc" : "saio",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Sample Auxiliary Information Offsets",
                 "specification" : "ISO",
@@ -1435,6 +1486,7 @@
                 "payload" : 32,
                 "total" : 40
               },
+              "status" : "valid",
               "structured" : {
                 "sample_aux_info_offsets" : {
                   "aux_info_type" : "cenc",
@@ -1462,6 +1514,9 @@
               ],
               "fourcc" : "saiz",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Sample Auxiliary Information Sizes",
                 "specification" : "ISO",
@@ -1555,6 +1610,7 @@
                 "payload" : 19,
                 "total" : 27
               },
+              "status" : "valid",
               "structured" : {
                 "sample_aux_info_sizes" : {
                   "aux_info_type" : "cenc",
@@ -1579,6 +1635,9 @@
           ],
           "fourcc" : "traf",
           "header_size" : 8,
+          "issues" : [
+
+          ],
           "metadata" : {
             "name" : "Track Fragment",
             "specification" : "ISO",
@@ -1597,6 +1656,7 @@
             "payload" : 233,
             "total" : 241
           },
+          "status" : "valid",
           "structured" : {
             "track_fragment" : {
               "base_data_offset" : 512,
@@ -1670,6 +1730,9 @@
       ],
       "fourcc" : "moof",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "Movie Fragment",
         "specification" : "ISO",
@@ -1688,6 +1751,7 @@
         "payload" : 261,
         "total" : 269
       },
+      "status" : "valid",
       "validationIssues" : [
 
       ]
@@ -1698,6 +1762,9 @@
       ],
       "fourcc" : "mdat",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "Media Data Container",
         "specification" : "ISO\/IEC 14496-12",
@@ -1716,6 +1783,7 @@
         "payload" : 256,
         "total" : 264
       },
+      "status" : "valid",
       "structured" : {
         "media_data" : {
           "headerEndOffset" : 557,

@@ -203,6 +203,8 @@ extension ParseTreeStore {
         var metadata: BoxDescriptor?
         var payload: ParsedBoxPayload?
         var validationIssues: [ValidationIssue]
+        var issues: [ParseIssue]
+        var status: ParseTreeNode.Status
         var children: [MutableNode]
 
         init(header: BoxHeader, metadata: BoxDescriptor?, payload: ParsedBoxPayload?, validationIssues: [ValidationIssue]) {
@@ -210,6 +212,8 @@ extension ParseTreeStore {
             self.metadata = metadata
             self.payload = payload
             self.validationIssues = validationIssues
+            self.issues = []
+            self.status = .valid
             self.children = []
         }
 
@@ -220,6 +224,8 @@ extension ParseTreeStore {
                 metadata: metadata,
                 payload: payload,
                 validationIssues: filteredIssues,
+                issues: issues,
+                status: status,
                 children: children.map { $0.snapshot(filter: filter) }
             )
         }

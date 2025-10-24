@@ -42,6 +42,8 @@ private struct Node: Encodable {
     let payload: [PayloadField]?
     let structured: StructuredPayload?
     let validationIssues: [Issue]
+    let status: String
+    let issues: [ParseIssuePayload]
     let children: [Node]
     let compatibilityName: String
     let compatibilityHeaderSize: Int
@@ -62,6 +64,8 @@ private struct Node: Encodable {
             self.structured = nil
         }
         self.validationIssues = node.validationIssues.map(Issue.init)
+        self.status = node.status.rawValue
+        self.issues = node.issues.map(ParseIssuePayload.init)
         self.children = node.children.map(Node.init)
         self.compatibilityName = node.header.type.rawValue
         self.compatibilityHeaderSize = Int(clamping: node.header.headerSize)
@@ -77,6 +81,8 @@ private struct Node: Encodable {
         case payload
         case structured
         case validationIssues
+        case status
+        case issues
         case children
         case compatibilityName = "name"
         case compatibilityHeaderSize = "header_size"
@@ -182,6 +188,26 @@ private struct Issue: Encodable {
         self.ruleID = issue.ruleID
         self.message = issue.message
         self.severity = issue.severity.rawValue
+    }
+}
+
+private struct ParseIssuePayload: Encodable {
+    let severity: String
+    let code: String
+    let message: String
+    let byteRange: ByteRange?
+    let affectedNodeIDs: [Int64]
+
+    init(issue: ParseIssue) {
+        self.severity = issue.severity.rawValue
+        self.code = issue.code
+        self.message = issue.message
+        if let range = issue.byteRange {
+            self.byteRange = ByteRange(range: range)
+        } else {
+            self.byteRange = nil
+        }
+        self.affectedNodeIDs = issue.affectedNodeIDs
     }
 }
 

@@ -105,6 +105,7 @@ struct ParseTreeDetailView: View {
     private func metadataGrid(detail: ParseTreeNodeDetail) -> some View {
         Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 6) {
             metadataRow(label: "Type", value: detail.header.identifierString)
+            metadataRow(label: "Status", value: detail.status.rawValue.capitalized)
             metadataRow(label: "Range", value: byteRangeString(for: detail.header.range))
             metadataRow(label: "Payload", value: byteRangeString(for: detail.header.payloadRange))
             if let name = detail.metadata?.name, !name.isEmpty {
