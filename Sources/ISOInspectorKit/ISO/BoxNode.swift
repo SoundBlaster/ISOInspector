@@ -8,10 +8,19 @@ import Foundation
 /// freely share snapshots across concurrency domains (CLI formatting,
 /// SwiftUI stores, exporters).
 public struct BoxNode: Equatable, Sendable {
+    public enum Status: String, Equatable, Sendable, Codable {
+        case valid
+        case partial
+        case corrupt
+        case skipped
+    }
+
     public let header: BoxHeader
     public var metadata: BoxDescriptor?
     public var payload: ParsedBoxPayload?
     public var validationIssues: [ValidationIssue]
+    public var issues: [ParseIssue]
+    public var status: Status
     public var children: [BoxNode]
 
     public init(
@@ -19,12 +28,16 @@ public struct BoxNode: Equatable, Sendable {
         metadata: BoxDescriptor? = nil,
         payload: ParsedBoxPayload? = nil,
         validationIssues: [ValidationIssue] = [],
+        issues: [ParseIssue] = [],
+        status: Status = .valid,
         children: [BoxNode] = []
     ) {
         self.header = header
         self.metadata = metadata
         self.payload = payload
         self.validationIssues = validationIssues
+        self.issues = issues
+        self.status = status
         self.children = children
     }
 }

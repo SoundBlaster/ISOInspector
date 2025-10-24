@@ -15,6 +15,9 @@
       ],
       "fourcc" : "ftyp",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "File Type And Compatibility",
         "specification" : "ISO\/IEC 14496-12",
@@ -62,6 +65,7 @@
         "payload" : 12,
         "total" : 20
       },
+      "status" : "valid",
       "structured" : {
         "file_type" : {
           "compatible_brands" : [
@@ -85,6 +89,9 @@
               ],
               "fourcc" : "tkhd",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "flags" : 7,
                 "name" : "Track Header, Overall Information About The Track",
@@ -302,6 +309,7 @@
                 "payload" : 84,
                 "total" : 92
               },
+              "status" : "valid",
               "structured" : {
                 "track_header" : {
                   "alternate_group" : 0,
@@ -346,6 +354,9 @@
                   ],
                   "fourcc" : "mdhd",
                   "header_size" : 8,
+                  "issues" : [
+
+                  ],
                   "metadata" : {
                     "name" : "Media Header, Overall Information About The Media",
                     "specification" : "ISO",
@@ -438,6 +449,7 @@
                     "payload" : 24,
                     "total" : 32
                   },
+                  "status" : "valid",
                   "validationIssues" : [
 
                   ]
@@ -448,6 +460,9 @@
                   ],
                   "fourcc" : "hdlr",
                   "header_size" : 8,
+                  "issues" : [
+
+                  ],
                   "metadata" : {
                     "name" : "Handler, Declares The Media (handler) Type",
                     "specification" : "ISO",
@@ -518,6 +533,7 @@
                     "payload" : 38,
                     "total" : 46
                   },
+                  "status" : "valid",
                   "validationIssues" : [
 
                   ]
@@ -530,6 +546,9 @@
                       ],
                       "fourcc" : "vmhd",
                       "header_size" : 8,
+                      "issues" : [
+
+                      ],
                       "metadata" : {
                         "name" : "Video Media Header, Overall Information (video Track Only)",
                         "specification" : "ISO",
@@ -640,6 +659,7 @@
                         "payload" : 12,
                         "total" : 20
                       },
+                      "status" : "valid",
                       "structured" : {
                         "video_media_header" : {
                           "flags" : 1,
@@ -676,6 +696,9 @@
                               ],
                               "fourcc" : "\u0000\u0000\u0000\u0002",
                               "header_size" : 8,
+                              "issues" : [
+
+                              ],
                               "name" : "\u0000\u0000\u0000\u0002",
                               "offsets" : {
                                 "end" : 475,
@@ -710,6 +733,7 @@
                                 "payload" : 209,
                                 "total" : 217
                               },
+                              "status" : "valid",
                               "validationIssues" : [
                                 {
                                   "message" : "Unknown box type \u0000\u0000\u0000\u0002 encountered; schedule catalog research.",
@@ -721,6 +745,9 @@
                           ],
                           "fourcc" : "stsd",
                           "header_size" : 8,
+                          "issues" : [
+
+                          ],
                           "metadata" : {
                             "name" : "Sample Descriptions (codec Types, Initialization Etc.)",
                             "specification" : "ISO",
@@ -858,6 +885,7 @@
                             "payload" : 217,
                             "total" : 225
                           },
+                          "status" : "valid",
                           "validationIssues" : [
                             {
                               "message" : "Track 1 sample description entry 0 (format avc1) avcC sequence parameter set #0 has zero length.",
@@ -877,6 +905,9 @@
                           ],
                           "fourcc" : "stts",
                           "header_size" : 8,
+                          "issues" : [
+
+                          ],
                           "metadata" : {
                             "name" : "(decoding) Time-to-sample",
                             "specification" : "ISO",
@@ -924,6 +955,7 @@
                             "payload" : 8,
                             "total" : 16
                           },
+                          "status" : "valid",
                           "structured" : {
                             "time_to_sample" : {
                               "entries" : [
@@ -941,6 +973,9 @@
                       ],
                       "fourcc" : "stbl",
                       "header_size" : 8,
+                      "issues" : [
+
+                      ],
                       "metadata" : {
                         "name" : "Sample Table Box, Container For The Time\/space Map",
                         "specification" : "ISO",
@@ -980,6 +1015,7 @@
                         "payload" : 241,
                         "total" : 249
                       },
+                      "status" : "valid",
                       "validationIssues" : [
 
                       ]
@@ -987,6 +1023,9 @@
                   ],
                   "fourcc" : "minf",
                   "header_size" : 8,
+                  "issues" : [
+
+                  ],
                   "metadata" : {
                     "name" : "Media Information Container",
                     "specification" : "ISO",
@@ -1026,6 +1065,7 @@
                     "payload" : 269,
                     "total" : 277
                   },
+                  "status" : "valid",
                   "validationIssues" : [
 
                   ]
@@ -1033,6 +1073,9 @@
               ],
               "fourcc" : "mdia",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Container For The Media Information In A Track",
                 "specification" : "ISO",
@@ -1072,6 +1115,7 @@
                 "payload" : 355,
                 "total" : 363
               },
+              "status" : "valid",
               "validationIssues" : [
 
               ]
@@ -1079,6 +1123,9 @@
           ],
           "fourcc" : "trak",
           "header_size" : 8,
+          "issues" : [
+
+          ],
           "metadata" : {
             "name" : "Container For An Individual Track Or Stream",
             "specification" : "ISO\/IEC 14496-12",
@@ -1118,6 +1165,7 @@
             "payload" : 455,
             "total" : 463
           },
+          "status" : "valid",
           "validationIssues" : [
 
           ]
@@ -1125,6 +1173,9 @@
       ],
       "fourcc" : "moov",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "Container For All The Meta-data",
         "specification" : "ISO\/IEC 14496-12",
@@ -1164,6 +1215,7 @@
         "payload" : 463,
         "total" : 471
       },
+      "status" : "valid",
       "validationIssues" : [
 
       ]

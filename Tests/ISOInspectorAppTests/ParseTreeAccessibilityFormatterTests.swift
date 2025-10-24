@@ -72,6 +72,8 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
             validationIssues: [
                 ValidationIssue(ruleID: "VR-101", message: "Duration missing", severity: .error)
             ],
+            issues: [],
+            status: .valid,
             snapshotTimestamp: Date(timeIntervalSince1970: 0),
             hexSlice: nil
         )
@@ -83,6 +85,7 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
         XCTAssertTrue(summary.contains("Range 100 – 300"))
         XCTAssertTrue(summary.contains("Payload 12 – 200"))
         XCTAssertTrue(summary.contains("error"))
+        XCTAssertTrue(summary.contains("Status Valid"))
     }
 
     func testDetailSummaryMentionsSampleEncryptionMetadata() throws {
@@ -113,6 +116,8 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
             metadata: nil,
             payload: payload,
             validationIssues: [],
+            issues: [],
+            status: .valid,
             snapshotTimestamp: Date(timeIntervalSince1970: 0),
             hexSlice: nil
         )
@@ -150,6 +155,8 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
             metadata: nil,
             payload: payload,
             validationIssues: [],
+            issues: [],
+            status: .valid,
             snapshotTimestamp: Date(timeIntervalSince1970: 0),
             hexSlice: nil
         )
@@ -187,6 +194,8 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
             metadata: nil,
             payload: payload,
             validationIssues: [],
+            issues: [],
+            status: .valid,
             snapshotTimestamp: Date(timeIntervalSince1970: 0),
             hexSlice: nil
         )

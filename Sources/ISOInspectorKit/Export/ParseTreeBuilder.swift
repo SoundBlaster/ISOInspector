@@ -66,6 +66,8 @@ private final class MutableNode {
     var metadata: BoxDescriptor?
     var payload: ParsedBoxPayload?
     var validationIssues: [ValidationIssue]
+    var issues: [ParseIssue]
+    var status: BoxNode.Status
     var children: [MutableNode]
 
     init(header: BoxHeader, metadata: BoxDescriptor?, payload: ParsedBoxPayload?, validationIssues: [ValidationIssue]) {
@@ -73,6 +75,8 @@ private final class MutableNode {
         self.metadata = metadata
         self.payload = payload
         self.validationIssues = validationIssues
+        self.issues = []
+        self.status = .valid
         self.children = []
     }
 
@@ -82,6 +86,8 @@ private final class MutableNode {
             metadata: metadata,
             payload: payload,
             validationIssues: validationIssues,
+            issues: issues,
+            status: status,
             children: children.map { $0.snapshot() }
         )
     }

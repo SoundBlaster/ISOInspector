@@ -69,6 +69,7 @@ extension ParseTreeNodeDetail {
         if let summary = metadata?.summary, !summary.isEmpty {
             components.append(summary)
         }
+        components.append("Status \(status.rawValue.capitalized)")
 
         let rangeDescription = "Range \(header.range.lowerBound) – \(header.range.upperBound)"
         let payloadDescription = "Payload \(header.payloadRange.lowerBound) – \(header.payloadRange.upperBound)"

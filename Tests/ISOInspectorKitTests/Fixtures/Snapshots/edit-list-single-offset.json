@@ -18,6 +18,9 @@
       ],
       "fourcc" : "ftyp",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "File Type And Compatibility",
         "specification" : "ISO\/IEC 14496-12",
@@ -74,6 +77,7 @@
         "payload" : 16,
         "total" : 24
       },
+      "status" : "valid",
       "structured" : {
         "file_type" : {
           "compatible_brands" : [
@@ -96,6 +100,9 @@
           ],
           "fourcc" : "mvhd",
           "header_size" : 8,
+          "issues" : [
+
+          ],
           "metadata" : {
             "name" : "Movie Header, Overall Declarations",
             "specification" : "ISO",
@@ -278,6 +285,7 @@
             "payload" : 100,
             "total" : 108
           },
+          "status" : "valid",
           "structured" : {
             "movie_header" : {
               "creation_time" : 0,
@@ -314,6 +322,9 @@
               ],
               "fourcc" : "tkhd",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "flags" : 7,
                 "name" : "Track Header, Overall Information About The Track",
@@ -531,6 +542,7 @@
                 "payload" : 84,
                 "total" : 92
               },
+              "status" : "valid",
               "structured" : {
                 "track_header" : {
                   "alternate_group" : 0,
@@ -575,6 +587,9 @@
                   ],
                   "fourcc" : "elst",
                   "header_size" : 8,
+                  "issues" : [
+
+                  ],
                   "metadata" : {
                     "name" : "An Edit List",
                     "specification" : "ISO",
@@ -764,6 +779,7 @@
                     "payload" : 32,
                     "total" : 40
                   },
+                  "status" : "valid",
                   "structured" : {
                     "edit_list" : {
                       "entries" : [
@@ -809,6 +825,9 @@
               ],
               "fourcc" : "edts",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Edit List Container",
                 "specification" : "ISO",
@@ -848,6 +867,7 @@
                 "payload" : 40,
                 "total" : 48
               },
+              "status" : "valid",
               "validationIssues" : [
 
               ]
@@ -860,6 +880,9 @@
                   ],
                   "fourcc" : "mdhd",
                   "header_size" : 8,
+                  "issues" : [
+
+                  ],
                   "metadata" : {
                     "name" : "Media Header, Overall Information About The Media",
                     "specification" : "ISO",
@@ -952,6 +975,7 @@
                     "payload" : 24,
                     "total" : 32
                   },
+                  "status" : "valid",
                   "validationIssues" : [
                     {
                       "message" : "Track 2 edit list consumes 62400 media ticks but media duration is 64000 (short by 1600 > 1 tick).",
@@ -963,6 +987,9 @@
               ],
               "fourcc" : "mdia",
               "header_size" : 8,
+              "issues" : [
+
+              ],
               "metadata" : {
                 "name" : "Container For The Media Information In A Track",
                 "specification" : "ISO",
@@ -1002,6 +1029,7 @@
                 "payload" : 32,
                 "total" : 40
               },
+              "status" : "valid",
               "validationIssues" : [
 
               ]
@@ -1009,6 +1037,9 @@
           ],
           "fourcc" : "trak",
           "header_size" : 8,
+          "issues" : [
+
+          ],
           "metadata" : {
             "name" : "Container For An Individual Track Or Stream",
             "specification" : "ISO\/IEC 14496-12",
@@ -1048,6 +1079,7 @@
             "payload" : 180,
             "total" : 188
           },
+          "status" : "valid",
           "validationIssues" : [
 
           ]
@@ -1055,6 +1087,9 @@
       ],
       "fourcc" : "moov",
       "header_size" : 8,
+      "issues" : [
+
+      ],
       "metadata" : {
         "name" : "Container For All The Meta-data",
         "specification" : "ISO\/IEC 14496-12",
@@ -1094,6 +1129,7 @@
         "payload" : 296,
         "total" : 304
       },
+      "status" : "valid",
       "validationIssues" : [
 
       ]

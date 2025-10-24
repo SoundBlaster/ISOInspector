@@ -6,6 +6,8 @@ struct ParseTreeNodeDetail: Equatable {
     let metadata: BoxDescriptor?
     let payload: ParsedBoxPayload?
     let validationIssues: [ValidationIssue]
+    let issues: [ParseIssue]
+    let status: ParseTreeNode.Status
     let snapshotTimestamp: Date
     var hexSlice: HexSlice?
 }

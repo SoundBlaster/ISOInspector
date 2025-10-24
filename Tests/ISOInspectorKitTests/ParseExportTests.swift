@@ -63,12 +63,16 @@ final class ParseExportTests: XCTestCase {
         XCTAssertEqual(root.metadata, metadata)
         XCTAssertEqual(root.payload, parsedPayload)
         XCTAssertEqual(root.validationIssues, [issue])
+        XCTAssertEqual(root.issues, [])
+        XCTAssertEqual(root.status, .valid)
         XCTAssertEqual(root.children.count, 1)
         let child = try XCTUnwrap(root.children.first)
         XCTAssertEqual(child.header, childHeader)
         XCTAssertNil(child.metadata)
         XCTAssertNil(child.payload)
         XCTAssertTrue(child.validationIssues.isEmpty)
+        XCTAssertEqual(child.issues, [])
+        XCTAssertEqual(child.status, .valid)
         XCTAssertTrue(child.children.isEmpty)
     }
 
@@ -140,6 +144,53 @@ final class ParseExportTests: XCTestCase {
         XCTAssertTrue(compatible.isEmpty)
         let issues = try XCTUnwrap(json["validationIssues"] as? [[String: Any]])
         XCTAssertTrue(issues.isEmpty)
+        XCTAssertEqual(node["status"] as? String, "valid")
+        let parseIssues = try XCTUnwrap(node["issues"] as? [[String: Any]])
+        XCTAssertTrue(parseIssues.isEmpty)
+    }
+
+    func testJSONExporterIncludesStatusAndIssues() throws {
+        var node = ParseTreeNode(
+            header: try makeHeader(type: "mdat", size: 32),
+            validationIssues: [],
+            issues: [
+                ParseIssue(
+                    severity: .error,
+                    code: "corrupt_payload",
+                    message: "Media data truncated",
+                    byteRange: 24..<32,
+                    affectedNodeIDs: []
+                )
+            ],
+            status: .corrupt,
+            children: []
+        )
+        node.metadata = BoxDescriptor(
+            identifier: .init(type: node.header.type, extendedType: nil),
+            name: "Media Data",
+            summary: "Raw media payload",
+            category: "Media",
+            specification: nil,
+            version: nil,
+            flags: nil
+        )
+        let tree = ParseTree(nodes: [node])
+        let exporter = JSONParseTreeExporter()
+        let data = try exporter.export(tree: tree)
+        let root = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let nodes = try XCTUnwrap(root["nodes"] as? [[String: Any]])
+        XCTAssertEqual(nodes.count, 1)
+        let exported = try XCTUnwrap(nodes.first)
+        XCTAssertEqual(exported["status"] as? String, "corrupt")
+        let exportedIssues = try XCTUnwrap(exported["issues"] as? [[String: Any]])
+        XCTAssertEqual(exportedIssues.count, 1)
+        let exportedIssue = try XCTUnwrap(exportedIssues.first)
+        XCTAssertEqual(exportedIssue["severity"] as? String, "error")
+        XCTAssertEqual(exportedIssue["code"] as? String, "corrupt_payload")
+        XCTAssertEqual(exportedIssue["message"] as? String, "Media data truncated")
+        let byteRange = try XCTUnwrap(exportedIssue["byteRange"] as? [String: Any])
+        XCTAssertEqual(byteRange["start"] as? Int, 24)
+        XCTAssertEqual(byteRange["end"] as? Int, 32)
     }
 
     func testJSONExporterIncludesValidationMetadata() throws {
