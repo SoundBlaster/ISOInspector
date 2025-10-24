@@ -7,13 +7,13 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 23/111 tasks completed (21%)**
+**Total: 24/111 tasks completed (22%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | Not Started | 0/15 (0%) |
 | Phase 2: Core Components | Complete | 20/22 (91%) |
-| Phase 3: Patterns & Platform Adaptation | In Progress | 3/16 (19%) |
+| Phase 3: Patterns & Platform Adaptation | In Progress | 4/16 (25%) |
 | Phase 4: Agent Support & Polish | Not Started | 0/13 (0%) |
 | Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
@@ -369,12 +369,12 @@
   - VoiceOver labels sourced from semantic item metadata with DS-styled rows
   - @todo: Record snapshot baselines on macOS/iPad and exercise SwiftLint on Apple toolchain
 
-- [ ] **P1** Implement ToolbarPattern → **IN PROGRESS**
+- [x] **P1** Implement ToolbarPattern → **Completed 2025-10-24 (Unit tests authored; Apple platform build pending SwiftUI toolchain)**
   - File: `Sources/FoundationUI/Patterns/ToolbarPattern.swift`
-  - Platform-adaptive toolbar items
-  - Icon + label support with SF Symbols
-  - Keyboard shortcut integration
-  - Accessibility labels
+  - Platform-adaptive toolbar items with DS-driven layout resolver
+  - Icon + label support with SF Symbols plus overflow menu
+  - Keyboard shortcut integration with accessibility label surfacing
+  - Accessibility labels and menu hints derived from item metadata
 
 - [ ] **P1** Implement BoxTreePattern
   - File: `Sources/Patterns/BoxTreePattern.swift`

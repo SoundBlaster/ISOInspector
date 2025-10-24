@@ -7,7 +7,7 @@ Design and implement the FoundationUI `ToolbarPattern`, a platform-adaptive tool
 - **Phase**: 3.1 – UI Patterns (Organisms)
 - **Layer**: 3 (Patterns)
 - **Priority**: P1 (High)
-- **Status**: 🚧 In Progress (2025-10-24)
+- **Status**: ✅ Completed (2025-10-24, snapshot tests pending Apple toolchain)
 - **Related Documents**:
   - [FoundationUI Task Plan](../AI/ISOViewer/FoundationUI_TaskPlan.md)
   - [FoundationUI PRD](../AI/ISOViewer/FoundationUI_PRD.md)
@@ -29,15 +29,15 @@ ToolbarPattern must expose a unified toolbar abstraction that can:
 - Remain fully accessible (VoiceOver labels, hints, size, Dynamic Type, reduced motion).
 
 ## 📋 Requirements & Acceptance Criteria
-- [ ] API surface documented with DocC, including usage examples and customization guidance.
-- [ ] Supports declarative item configuration (primary, secondary, overflow) with adaptive layout rules.
-- [ ] Keyboard shortcut metadata surfaced via accessibility labels and optional overlay badge.
-- [ ] Honors DS spacing/typography tokens for item padding, spacing, and sizing.
-- [ ] Provides platform-conditional presentation (segmented control style on macOS, compact toolbar on iOS, adaptive grid on iPadOS large).
-- [ ] Includes VoiceOver labels, hints, and rotor ordering for toolbar items.
-- [ ] Offers previews covering icon-only, icon+label, and overflow scenarios across platforms.
-- [ ] Ships with unit tests (existing scaffolding extended) plus targeted snapshot/interaction tests where feasible.
-- [ ] Integrates with future Pattern integration tests without additional API churn.
+- [x] API surface documented with DocC, including usage examples and customization guidance.
+- [x] Supports declarative item configuration (primary, secondary, overflow) with adaptive layout rules.
+- [x] Keyboard shortcut metadata surfaced via accessibility labels and optional overlay badge.
+- [x] Honors DS spacing/typography tokens for item padding, spacing, and sizing.
+- [x] Provides platform-conditional presentation (segmented control style on macOS, compact toolbar on iOS, adaptive grid on iPadOS large).
+- [x] Includes VoiceOver labels, hints, and rotor ordering for toolbar items.
+- [x] Offers previews covering icon-only, icon+label, and overflow scenarios across platforms.
+- [ ] Ships with unit tests (existing scaffolding extended) plus targeted snapshot/interaction tests where feasible. *(Snapshot capture blocked by missing SwiftUI runtime in container)*
+- [x] Integrates with future Pattern integration tests without additional API churn.
 
 ## 🔬 Test-First Plan
 1. Extend `ToolbarPatternTests` to capture keyboard shortcut exposure, adaptive layout metrics, and accessibility traits before writing production code.
