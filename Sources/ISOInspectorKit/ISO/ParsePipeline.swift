@@ -596,13 +596,68 @@ private struct UnsafeSendable<Value>: @unchecked Sendable {
 }
 
 public struct ParsePipeline: Sendable {
+    public struct Options: Equatable, Sendable {
+        public enum PayloadValidationLevel: Equatable, Sendable {
+            case full
+            case structureOnly
+        }
+
+        public var abortOnStructuralError: Bool
+        public var maxCorruptionEvents: Int
+        public var payloadValidationLevel: PayloadValidationLevel
+
+        public init(
+            abortOnStructuralError: Bool = true,
+            maxCorruptionEvents: Int = 0,
+            payloadValidationLevel: PayloadValidationLevel = .full
+        ) {
+            self.abortOnStructuralError = abortOnStructuralError
+            self.maxCorruptionEvents = maxCorruptionEvents
+            self.payloadValidationLevel = payloadValidationLevel
+        }
+
+        public static let strict = Options(
+            abortOnStructuralError: true,
+            maxCorruptionEvents: 0,
+            payloadValidationLevel: .full
+        )
+
+        public static let tolerant = Options(
+            abortOnStructuralError: false,
+            maxCorruptionEvents: 500,
+            payloadValidationLevel: .structureOnly
+        )
+    }
+
     public struct Context: Sendable {
         public var source: URL?
         public var researchLog: (any ResearchLogRecording)?
+        public var options: Options {
+            didSet {
+                usesAutomaticOptions = false
+            }
+        }
 
-        public init(source: URL? = nil, researchLog: (any ResearchLogRecording)? = nil) {
+        @usableFromInline
+        internal private(set) var usesAutomaticOptions: Bool
+
+        public init(
+            source: URL? = nil,
+            researchLog: (any ResearchLogRecording)? = nil,
+            options: Options? = nil
+        ) {
             self.source = source
             self.researchLog = researchLog
+            self.options = options ?? .strict
+            self.usesAutomaticOptions = options == nil
+        }
+
+        @usableFromInline
+        internal mutating func applyDefaultOptions(_ defaultOptions: Options) {
+            if usesAutomaticOptions {
+                options = defaultOptions
+                usesAutomaticOptions = false
+            }
         }
     }
 
@@ -611,21 +666,29 @@ public struct ParsePipeline: Sendable {
         @Sendable (_ reader: RandomAccessReader, _ context: Context) -> EventStream
 
     private let buildStream: Builder
+    private let defaultOptions: Options
+
+    public init(options: Options = .strict, buildStream: @escaping Builder) {
+        self.defaultOptions = options
+        self.buildStream = buildStream
+    }
 
     public init(buildStream: @escaping Builder) {
-        self.buildStream = buildStream
+        self.init(options: .strict, buildStream: buildStream)
     }
 
     public init(_ buildStream: @escaping Builder) {
-        self.buildStream = buildStream
+        self.init(options: .strict, buildStream: buildStream)
     }
 
     public init(buildStream: @escaping @Sendable (_ reader: RandomAccessReader) -> EventStream) {
-        self.buildStream = { reader, _ in buildStream(reader) }
+        self.init(options: .strict) { reader, _ in buildStream(reader) }
     }
 
     public func events(for reader: RandomAccessReader, context: Context = .init()) -> EventStream {
-        buildStream(reader, context)
+        var resolvedContext = context
+        resolvedContext.applyDefaultOptions(defaultOptions)
+        return buildStream(reader, resolvedContext)
     }
 }
 
@@ -633,9 +696,10 @@ extension ParsePipeline {
     public static func live(
         catalog: BoxCatalog = .shared,
         researchLog: (any ResearchLogRecording)? = nil,
-        registry: BoxParserRegistry = .shared
+        registry: BoxParserRegistry = .shared,
+        options: Options = .strict
     ) -> ParsePipeline {
-        ParsePipeline(buildStream: { reader, context in
+        ParsePipeline(options: options, buildStream: { reader, context in
             let readerBox = UnsafeSendable(value: reader)
             let contextBox = UnsafeSendable(value: context)
 

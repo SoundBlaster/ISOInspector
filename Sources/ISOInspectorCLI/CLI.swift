@@ -23,7 +23,7 @@ public struct ISOInspectorCLIEnvironment: Sendable {
         makeReader: @escaping @Sendable (_ url: URL) throws -> RandomAccessReader = { url in
             try ChunkedFileReader(fileURL: url)
         },
-        parsePipeline: ParsePipeline = .live(),
+        parsePipeline: ParsePipeline = .live(options: .strict),
         formatter: EventConsoleFormatter = EventConsoleFormatter(),
         print: @escaping @Sendable (String) -> Void = { Swift.print($0) },
         printError: @escaping @Sendable (String) -> Void = { message in
