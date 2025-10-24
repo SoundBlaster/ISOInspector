@@ -97,7 +97,7 @@ public final class ParseTreeStore: ObservableObject {
 
     @MainActor
     private func finishStreaming(taskIdentifier: UUID) {
-        resources.clearStreamingTask(matching: taskIdentifier)
+        guard resources.clearStreamingTask(matching: taskIdentifier) else { return }
         if state == .parsing {
             state = .finished
         }
@@ -105,7 +105,7 @@ public final class ParseTreeStore: ObservableObject {
 
     @MainActor
     private func failStreaming(_ error: Error, taskIdentifier: UUID) {
-        resources.clearStreamingTask(matching: taskIdentifier)
+        guard resources.clearStreamingTask(matching: taskIdentifier) else { return }
         state = .failed(makeErrorMessage(from: error))
     }
 
@@ -159,10 +159,12 @@ private final class ResourceBag {
         streamingTask = task
     }
 
-    func clearStreamingTask(matching identifier: UUID) {
-        guard streamingTaskIdentifier == identifier else { return }
+    @discardableResult
+    func clearStreamingTask(matching identifier: UUID) -> Bool {
+        guard streamingTaskIdentifier == identifier else { return false }
         streamingTask = nil
         streamingTaskIdentifier = nil
+        return true
     }
 
     func clearStreamingTask() {
