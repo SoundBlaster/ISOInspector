@@ -384,7 +384,7 @@
   - Selection and navigation
   - Performance optimization for large trees (1000+ nodes)
 
-- [ ] **P0** Write pattern unit tests
+- [ ] **P0** Write pattern unit tests → **IN PROGRESS**
   - Test InspectorPattern composition
   - Test SidebarPattern selection logic
   - Test ToolbarPattern keyboard shortcuts

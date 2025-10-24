@@ -3,6 +3,9 @@
 **Last Updated**: 2025-10-24
 **Current Focus**: Phase 3.1 – UI Patterns (Layer 3)
 
+## 🚧 In Progress
+- [ ] Phase 3.1 – **P0** Pattern unit tests → Tracked in `Phase3.1_PatternUnitTests.md`
+
 ---
 
 ## 🎯 Immediate Priorities
