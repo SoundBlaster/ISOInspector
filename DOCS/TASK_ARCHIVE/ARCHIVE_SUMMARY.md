@@ -935,10 +935,16 @@
 - **Archived files:** `Summary_of_Work.md`, `T2_2_Emit_Parse_Events.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/180_T2_2_Emit_Parse_Events/`.
 - **Highlights:** Documents the tolerant parsing streaming update that propagates `ParseIssue` severity, offsets, and reason codes through `ParsePipeline.live()` and the CLI formatter, backed by targeted regression tests to guard the new metadata flow.
-- **Next steps carried forward:** Track the T2.3 metrics aggregation follow-up, tolerant parsing SwiftUI ribbon surfacing, VoiceOver hardware regression sweep, and real-world codec asset acquisition in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+- **Next steps carried forward:** Continue surfacing tolerant parsing metrics in SwiftUI, complete the VoiceOver hardware regression sweep, and unblock real-world codec asset acquisition as detailed in `DOCS/INPROGRESS/next_tasks.md`.
 
 ## 183_T2_4_Validation_Rule_Dual_Mode_Support
 - **Archived files:** `T2_4_Validation_Rule_Dual_Mode_Support.md`, `Summary_of_Work.md`, and the prior `next_tasks.md` checklist.
 - **Archived location:** `DOCS/TASK_ARCHIVE/183_T2_4_Validation_Rule_Dual_Mode_Support/`.
 - **Highlights:** Documents completion of tolerant parsing dual-mode validation, including the shared `ValidationContext` helper, streamed `ParseIssue` recording for VR-001…VR-015, and the expanded integration tests captured in the summary report.
-- **Next steps carried forward:** Continue with Task T2.3 aggregation metrics plus accessibility, fixture licensing, and SwiftUI ribbon follow-ups now tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+- **Next steps carried forward:** Leverage the new metrics archive while focusing on SwiftUI ribbon wiring, accessibility validation, and fixture licensing follow-ups tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons
+- **Archived files:** `T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons/`.
+- **Highlights:** Captures the tolerant parsing metrics aggregation delivering `ParseIssueStore.metricsSnapshot()` and `makeIssueSummary()` so SwiftUI ribbons, CLI summaries, and downstream docs can reuse per-severity counts, totals, and depth analytics without recomputation.
+- **Next steps carried forward:** SwiftUI ribbon surfacing, VoiceOver regression validation, and real-world codec fixture acquisition remain active in `DOCS/INPROGRESS/next_tasks.md` while UI wiring continues under `@todo PDD:45m` in `Sources/ISOInspectorApp/State/ParseTreeStore.swift`.

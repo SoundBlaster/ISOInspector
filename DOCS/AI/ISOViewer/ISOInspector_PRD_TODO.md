@@ -249,7 +249,7 @@ This phase introduces **lenient parsing mode** that continues parsing corrupted 
 - **T2:** Corruption aggregation (`ParseIssueStore`, event streaming, metrics)
 - [x] T2.1. `ParseIssueStore` aggregate and query APIs. _(Completed — see `DOCS/TASK_ARCHIVE/175_Summary_of_Work_2025-10-26_ParseIssueStore_Aggregation/Summary_of_Work.md` for aggregation recap.)_
 - [x] T2.2. Emit parse events with severity metadata for tolerant parsing. _(Completed — see `DOCS/TASK_ARCHIVE/180_T2_2_Emit_Parse_Events/Summary_of_Work.md` for implementation details.)_
-- [ ] T2.3. Aggregate parse issue metrics for UI and CLI ribbons. _(In Progress — backend metrics aggregation underway; coordinate with ribbon design notes in `DOCS/INPROGRESS/next_tasks.md`.)_
+- [x] T2.3. Aggregate parse issue metrics for UI and CLI ribbons. _(Completed — archived in `DOCS/TASK_ARCHIVE/184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons/`; ribbon design follow-ups remain in `DOCS/INPROGRESS/next_tasks.md`.)_
 - [x] 🛠️ T2.4. Validation rules emit `ParseIssue` diagnostics in lenient mode. _(Completed — tolerant mode now records VR-001…VR-015 issues via `ParseIssueStore`; see `DOCS/TASK_ARCHIVE/183_T2_4_Validation_Rule_Dual_Mode_Support/Summary_of_Work.md` for details.)_
 - **T3:** UI corruption views (badges, placeholders, "Integrity" tab, export actions)
 - **T4:** Diagnostics export (JSON/text with byte ranges, file metadata)

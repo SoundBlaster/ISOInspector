@@ -49,7 +49,7 @@ Persist and aggregate corruption events for UI/CLI/export consumption.
 | T2.3 | Add severity metrics aggregation (count per severity, deepest affected depth) for summary views. | Medium | 1d | T2.1 | ✅ Completed — `ParseIssueStore.metricsSnapshot()` and `makeIssueSummary()` expose per-severity counts, totals, and depth analytics for UI/CLI ribbons. |
 | T2.4 | Extend validation rules (VR-001 to VR-015) to produce `ParseIssue` objects instead of throwing when in lenient mode. | High | 2d | T1.1, T1.3 | Validation rules check pipeline options; generate issues for lenient, throw for strict. *(Completed — see `DOCS/TASK_ARCHIVE/183_T2_4_Validation_Rule_Dual_Mode_Support/Summary_of_Work.md`.)* |
 
-> **Status (2025-10-27):** T2.4 — Validation rule dual-mode support is **Completed** (see `DOCS/TASK_ARCHIVE/183_T2_4_Validation_Rule_Dual_Mode_Support/Summary_of_Work.md`); tolerant runs now record VR-001…VR-015 diagnostics while strict mode remains unchanged. T2.3 is now **In Progress**, focusing on metric aggregation needed before ribbon design assets wire into the UI.
+> **Status (2025-10-27):** T2.4 — Validation rule dual-mode support is **Completed** (see `DOCS/TASK_ARCHIVE/183_T2_4_Validation_Rule_Dual_Mode_Support/Summary_of_Work.md`); tolerant runs now record VR-001…VR-015 diagnostics while strict mode remains unchanged. T2.3 is now **Completed** — see `DOCS/TASK_ARCHIVE/184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons/` for aggregation details powering upcoming ribbon design handoff.
 
 **Verification:**
 - Tests verify issue store accumulates events during streaming parse
