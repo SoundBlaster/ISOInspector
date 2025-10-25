@@ -1,6 +1,6 @@
 # T3.2 Corruption Badges for Tree View Nodes
 
-> ✅ **Status:** Completed — see `DOCS/INPROGRESS/Summary_of_Work.md` for implementation notes.
+> ✅ **Status:** Completed — see `DOCS/TASK_ARCHIVE/187_T3_2_Corruption_Badges_for_Tree_View_Nodes/Summary_of_Work.md` for implementation notes.
 
 ## 🎯 Objective
 

@@ -1,7 +1,7 @@
 # Next Tasks
 
-- 🧭 **T3.3 Integrity Detail Pane** _(Next)_:
-  - Extend the tolerant parsing roadmap with the integrity detail pane so operators can drill into corruption context per node. Coordinate requirements in `DOCS/AI/Tolerance_Parsing/TODO.md` and related roadmap notes.
+- ✅ **Completed — T3.2 Corruption Badges for Tree View Nodes**:
+  - Surface tolerant parsing issue badges in the outline so operators can immediately spot corrupt structures. See `DOCS/TASK_ARCHIVE/187_T3_2_Corruption_Badges_for_Tree_View_Nodes/Summary_of_Work.md` for implementation notes.
 - 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(Blocked — pending hardware)_:
   - Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets. Reference `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/`.
 - ⏳ **Real-World Assets** _(Blocked — awaiting licensing approvals)_:

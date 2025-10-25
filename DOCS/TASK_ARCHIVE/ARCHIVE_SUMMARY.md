@@ -958,3 +958,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/186_Summary_of_Work_2025-10-25/`.
 - **Highlights:** Captures the October 25, 2025 tolerant parsing wrap-up that connected `ParseTreeStore` metrics to the SwiftUI corruption ribbon, introduced persisted dismissal plus accessibility copy, and verified lifecycle resets alongside host-based UI coverage.
 - **Next steps carried forward:** Await Integrity tab navigation support so `DocumentSessionController.focusIntegrityDiagnostics()` can drive deeper issue review, and continue hardware-dependent VoiceOver validation plus real-world asset licensing per `DOCS/INPROGRESS/next_tasks.md`.
+
+## 187_T3_2_Corruption_Badges_for_Tree_View_Nodes
+- **Archived files:** `Summary_of_Work.md`, `T3_2_Corruption_Badges_for_Tree_View.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/187_T3_2_Corruption_Badges_for_Tree_View_Nodes/`.
+- **Highlights:** Documents the SwiftUI tree corruption badges that surface `ParseIssue` counts per node, align severity styling with the tolerant parsing ribbon, and harden accessibility/tooltip affordances backed by `swift test` verification.
+- **Next steps carried forward:** Continue the tolerant parsing roadmap with the T3.3 integrity detail pane and track hardware plus licensing dependencies in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
