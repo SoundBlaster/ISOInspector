@@ -7,7 +7,7 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 26/111 tasks completed (23%)**
+**Total: 27/111 tasks completed (24%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
@@ -349,10 +349,10 @@
 
 ## Phase 3: Patterns & Platform Adaptation (Week 5-6)
 **Priority: P0-P1**
-**Progress: 4/16 tasks completed (25%)**
+**Progress: 5/16 tasks completed (31%)**
 
 ### 3.1 Layer 3: UI Patterns (Organisms)
-**Progress: 4/8 tasks (50%) → IN PROGRESS**
+**Progress: 5/8 tasks (63%) → IN PROGRESS**
 
 - [x] **P0** Implement InspectorPattern → **Completed 2025-10-24 (Linux QA complete; Apple platform QA pending)**
   - Files: `Sources/FoundationUI/Patterns/InspectorPattern.swift`, unit and integration tests under `Tests/FoundationUITests`
@@ -397,7 +397,8 @@
   - Test Environment value propagation
   - Test platform-specific rendering
   - Test navigation flows
-  - @todo: Validate visual rendering on Apple platforms once SwiftUI previews available
+  - Archive: `TASK_ARCHIVE/13_Phase3.1_PatternIntegrationTests/`
+  - Next Steps: Validate visual rendering on Apple platforms once SwiftUI previews available
 
 - [ ] **P0** Pattern preview catalog
   - Complete visual examples for all patterns
