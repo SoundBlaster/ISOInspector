@@ -14,13 +14,13 @@ Author the integration test suite covering composition flows between existing Fo
   - Pattern unit test infrastructure (`Tests/FoundationUITests/PatternsTests/`)
 
 ## ✅ Success Criteria
-- [ ] Integration tests authored for pattern combinations (Sidebar + Inspector)
-- [ ] Environment value propagation covered by tests
-- [ ] Platform-specific rendering cases validated (iOS, macOS, iPadOS)
-- [ ] Accessibility interactions (keyboard navigation, VoiceOver labels) asserted
-- [ ] Tests use DS tokens exclusively (zero magic numbers)
-- [ ] SwiftLint passes with 0 violations
-- [ ] `swift test` passes on Linux
+- [x] Integration tests authored for pattern combinations (Sidebar + Inspector)
+- [x] Environment value propagation covered by tests
+- [ ] Platform-specific rendering cases validated (iOS, macOS, iPadOS) — @todo capture snapshots on Apple toolchains
+- [x] Accessibility interactions (keyboard navigation, VoiceOver labels) asserted
+- [x] Tests use DS tokens exclusively (zero magic numbers)
+- [ ] SwiftLint passes with 0 violations — @todo rerun once SwiftLint binary available in container
+- [ ] `swift test` passes on Linux — blocked by missing SwiftUI runtime in container
 
 ## 🔧 Implementation Notes
 - Focus on verifying how patterns coordinate shared state (selection, inspector content, toolbar actions).
@@ -43,15 +43,15 @@ Author the integration test suite covering composition flows between existing Fo
 - [FoundationUI Test Plan § Integration Tests](../AI/ISOViewer/FoundationUI_TestPlan.md#integration-tests)
 
 ## 📋 Checklist
-- [ ] Read task requirements from Task Plan
-- [ ] Outline integration scenarios covering Inspector + Sidebar + Toolbar interactions
-- [ ] Add new integration test target folder structure
-- [ ] Write failing integration tests using DS tokens
-- [ ] Run `swift test` to confirm failures
-- [ ] Implement necessary scaffolding or fixes to pass tests
-- [ ] Verify accessibility assertions
-- [ ] Run `swift test` until all tests pass
-- [ ] Run `swiftlint` (0 violations)
-- [ ] Capture platform-specific notes for Apple verification
-- [ ] Update Task Plan with completion mark
+- [x] Read task requirements from Task Plan
+- [x] Outline integration scenarios covering Inspector + Sidebar + Toolbar interactions
+- [x] Add new integration test target folder structure
+- [x] Write failing integration tests using DS tokens
+- [ ] Run `swift test` to confirm failures — blocked by missing SwiftUI runtime on Linux
+- [x] Implement necessary scaffolding or fixes to pass tests
+- [x] Verify accessibility assertions
+- [ ] Run `swift test` until all tests pass — pending Apple toolchain availability
+- [ ] Run `swiftlint` (0 violations) — @todo execute once SwiftLint is installed
+- [x] Capture platform-specific notes for Apple verification
+- [x] Update Task Plan with completion mark
 - [ ] Archive task document when done
