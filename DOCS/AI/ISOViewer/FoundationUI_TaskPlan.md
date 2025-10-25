@@ -7,7 +7,7 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 24/111 tasks completed (22%)**
+**Total: 25/111 tasks completed (23%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
@@ -349,10 +349,10 @@
 
 ## Phase 3: Patterns & Platform Adaptation (Week 5-6)
 **Priority: P0-P1**
-**Progress: 3/16 tasks completed (19%)**
+**Progress: 4/16 tasks completed (25%)**
 
 ### 3.1 Layer 3: UI Patterns (Organisms)
-**Progress: 3/8 tasks → IN PROGRESS**
+**Progress: 4/8 tasks (50%) → IN PROGRESS**
 
 - [x] **P0** Implement InspectorPattern → **Completed 2025-10-24 (Linux QA complete; Apple platform QA pending)**
   - Files: `Sources/FoundationUI/Patterns/InspectorPattern.swift`, unit and integration tests under `Tests/FoundationUITests`
@@ -375,6 +375,7 @@
   - Icon + label support with SF Symbols plus overflow menu
   - Keyboard shortcut integration with accessibility label surfacing
   - Accessibility labels and menu hints derived from item metadata
+  - Archive: `TASK_ARCHIVE/12_Phase3.1_ToolbarPattern/`
 
 - [ ] **P1** Implement BoxTreePattern
   - File: `Sources/Patterns/BoxTreePattern.swift`

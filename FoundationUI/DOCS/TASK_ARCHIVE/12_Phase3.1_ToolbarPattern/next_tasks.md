@@ -1,16 +1,17 @@
 # Next Tasks for FoundationUI
 
-**Updated**: 2025-10-25
+**Last Updated**: 2025-10-24 (post-ToolbarPattern implementation)
 **Current Focus**: Phase 3.1 – UI Patterns (Layer 3)
 
 ## 🎯 Immediate Priorities
 
-### ToolbarPattern Verification
-- [ ] Validate layout with Dynamic Type, keyboard navigation, and reduced motion settings once SwiftUI runtime is available
-- [ ] Capture platform preview snapshots (iOS, iPadOS, macOS) for documentation
-- [ ] Re-run SwiftLint on macOS toolchain to confirm zero violations
+### 1. ToolbarPattern
+- [x] Build adaptive toolbar layout supporting icon + label configurations across iOS, iPadOS, and macOS
+- [x] Ensure shortcut metadata is exposed via accessibility labels, VoiceOver hints, and documentation callouts
+- [ ] Validate layout with Dynamic Type, keyboard navigation, and reduced motion settings (blocked by missing SwiftUI runtime in CI container)
+- [x] Expand `ToolbarPatternTests` to cover platform-conditional behaviours once implementation lands
 
-### BoxTreePattern Implementation
+### 2. BoxTreePattern
 - [ ] Implement hierarchical tree view with expand/collapse interactions backed by DS spacing tokens
 - [ ] Optimize rendering for 1k+ node data sets and persist selection state between sessions
 - [ ] Add performance benchmarks mirroring LargeFile fixtures and assert zero-magic-number compliance
@@ -26,9 +27,9 @@
 ---
 
 ## ✅ Recently Completed
-- ToolbarPattern documentation and QA summary archived in `TASK_ARCHIVE/12_Phase3.1_ToolbarPattern/`
-- InspectorPattern implementation archived in `TASK_ARCHIVE/10_Phase3.1_InspectorPattern/`
-- Pattern unit test suite for InspectorPattern, SidebarPattern, and ToolbarPattern archived in `TASK_ARCHIVE/11_Phase3.1_PatternUnitTests/`
+- Pattern unit test suite for InspectorPattern and SidebarPattern (archived in `TASK_ARCHIVE/11_Phase3.1_PatternUnitTests/`)
+- InspectorPattern implementation (archived in `TASK_ARCHIVE/10_Phase3.1_InspectorPattern/`)
+- Phase 2 deliverables (Badge, Card, SectionHeader, KeyValueRow, Demo Application)
 
 ---
 
