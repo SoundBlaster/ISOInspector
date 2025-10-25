@@ -7,13 +7,13 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 25/111 tasks completed (23%)**
+**Total: 26/111 tasks completed (23%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | Not Started | 0/15 (0%) |
 | Phase 2: Core Components | Complete | 20/22 (91%) |
-| Phase 3: Patterns & Platform Adaptation | In Progress | 4/16 (25%) |
+| Phase 3: Patterns & Platform Adaptation | In Progress | 5/16 (31%) |
 | Phase 4: Agent Support & Polish | Not Started | 0/13 (0%) |
 | Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
@@ -392,11 +392,12 @@
   - Test BoxTreePattern hierarchy
   - Archive: `TASK_ARCHIVE/11_Phase3.1_PatternUnitTests/`
 
-- [ ] **P0** Create pattern integration tests → **IN PROGRESS**
+- [x] **P0** Create pattern integration tests → **Completed 2025-10-25 (Linux coverage; Apple snapshot verification pending)**
   - Test pattern combinations (Sidebar + Inspector)
   - Test Environment value propagation
   - Test platform-specific rendering
   - Test navigation flows
+  - @todo: Validate visual rendering on Apple platforms once SwiftUI previews available
 
 - [ ] **P0** Pattern preview catalog
   - Complete visual examples for all patterns
