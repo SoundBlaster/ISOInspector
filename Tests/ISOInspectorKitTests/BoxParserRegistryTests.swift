@@ -1,5 +1,6 @@
 import Foundation
 import XCTest
+
 @testable import ISOInspectorKit
 
 final class BoxParserRegistryTests: XCTestCase {
@@ -22,7 +23,8 @@ final class BoxParserRegistryTests: XCTestCase {
         let registry = BoxParserRegistry.shared
         let parsed = try XCTUnwrap(registry.parse(header: header, reader: reader))
 
-        XCTAssertEqual(parsed.fields.map(\.name), ["major_brand", "minor_version", "compatible_brand[0]"])
+        XCTAssertEqual(
+            parsed.fields.map(\.name), ["major_brand", "minor_version", "compatible_brand[0]"])
         XCTAssertEqual(parsed.fields[0].value, "isom")
         XCTAssertEqual(parsed.fields[0].byteRange, 8..<12)
         XCTAssertEqual(parsed.fields[1].value, "512")
@@ -56,13 +58,13 @@ final class BoxParserRegistryTests: XCTestCase {
 
     func testDefaultRegistryParsesTrackExtendsDefaultsBox() throws {
         var payload = Data()
-        payload.append(0x00) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x01]) // flags
-        payload.append(contentsOf: UInt32(3).bigEndianBytes) // track_ID
-        payload.append(contentsOf: UInt32(2).bigEndianBytes) // default_sample_description_index
-        payload.append(contentsOf: UInt32(600).bigEndianBytes) // default_sample_duration
-        payload.append(contentsOf: UInt32(1024).bigEndianBytes) // default_sample_size
-        payload.append(contentsOf: UInt32(0x01020304).bigEndianBytes) // default_sample_flags
+        payload.append(0x00)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x01])  // flags
+        payload.append(contentsOf: UInt32(3).bigEndianBytes)  // track_ID
+        payload.append(contentsOf: UInt32(2).bigEndianBytes)  // default_sample_description_index
+        payload.append(contentsOf: UInt32(600).bigEndianBytes)  // default_sample_duration
+        payload.append(contentsOf: UInt32(1024).bigEndianBytes)  // default_sample_size
+        payload.append(contentsOf: UInt32(0x0102_0304).bigEndianBytes)  // default_sample_flags
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
@@ -95,7 +97,7 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(detail.defaultSampleDescriptionIndex, 2)
         XCTAssertEqual(detail.defaultSampleDuration, 600)
         XCTAssertEqual(detail.defaultSampleSize, 1024)
-        XCTAssertEqual(detail.defaultSampleFlags, 0x01020304)
+        XCTAssertEqual(detail.defaultSampleFlags, 0x0102_0304)
     }
 
     func testDefaultFallbackProvidesPlaceholderPayloadForUnknownBox() throws {
@@ -123,34 +125,36 @@ final class BoxParserRegistryTests: XCTestCase {
             value(named: "payload_range", in: parsed),
             String(describing: header.payloadRange)
         )
-        let payloadRangeField = try XCTUnwrap(parsed.fields.first(where: { $0.name == "payload_range" }))
+        let payloadRangeField = try XCTUnwrap(
+            parsed.fields.first(where: { $0.name == "payload_range" }))
         XCTAssertEqual(payloadRangeField.byteRange, header.payloadRange)
     }
 
     func testDefaultRegistryParsesMovieHeaderBox() throws {
         var payload = Data()
-        payload.append(0x00) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x07]) // flags
-        payload.append(contentsOf: UInt32(1).bigEndianBytes) // creation
-        payload.append(contentsOf: UInt32(2).bigEndianBytes) // modification
-        payload.append(contentsOf: UInt32(600).bigEndianBytes) // timescale
-        payload.append(contentsOf: UInt32(1200).bigEndianBytes) // duration
-        payload.append(contentsOf: UInt32(0x00010000).bigEndianBytes) // rate 1.0
-        payload.append(contentsOf: UInt16(0x0100).bigEndianBytes) // volume 1.0
-        payload.append(contentsOf: Data(count: 10)) // reserved
-        payload.append(contentsOf: [
-            UInt32(0x00010000), // a
-            0, // b
-            0, // u
-            0, // c
-            UInt32(0x00010000), // d
-            0, // v
-            0, // x
-            0, // y
-            UInt32(0x40000000) // w
-        ].flatMap { $0.bigEndianBytes })
-        payload.append(contentsOf: Data(count: 24)) // pre-defined
-        payload.append(contentsOf: UInt32(99).bigEndianBytes) // next track id
+        payload.append(0x00)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x07])  // flags
+        payload.append(contentsOf: UInt32(1).bigEndianBytes)  // creation
+        payload.append(contentsOf: UInt32(2).bigEndianBytes)  // modification
+        payload.append(contentsOf: UInt32(600).bigEndianBytes)  // timescale
+        payload.append(contentsOf: UInt32(1200).bigEndianBytes)  // duration
+        payload.append(contentsOf: UInt32(0x0001_0000).bigEndianBytes)  // rate 1.0
+        payload.append(contentsOf: UInt16(0x0100).bigEndianBytes)  // volume 1.0
+        payload.append(contentsOf: Data(count: 10))  // reserved
+        payload.append(
+            contentsOf: [
+                UInt32(0x0001_0000),  // a
+                0,  // b
+                0,  // u
+                0,  // c
+                UInt32(0x0001_0000),  // d
+                0,  // v
+                0,  // x
+                0,  // y
+                UInt32(0x4000_0000),  // w
+            ].flatMap { $0.bigEndianBytes })
+        payload.append(contentsOf: Data(count: 24))  // pre-defined
+        payload.append(contentsOf: UInt32(99).bigEndianBytes)  // next track id
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
@@ -168,26 +172,28 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let registry = BoxParserRegistry.shared
         let parsed = try XCTUnwrap(registry.parse(header: header, reader: reader))
-        XCTAssertEqual(parsed.fields.map(\.name), [
-            "version",
-            "flags",
-            "creation_time",
-            "modification_time",
-            "timescale",
-            "duration",
-            "rate",
-            "volume",
-            "matrix.a",
-            "matrix.b",
-            "matrix.u",
-            "matrix.c",
-            "matrix.d",
-            "matrix.v",
-            "matrix.x",
-            "matrix.y",
-            "matrix.w",
-            "next_track_ID"
-        ])
+        XCTAssertEqual(
+            parsed.fields.map(\.name),
+            [
+                "version",
+                "flags",
+                "creation_time",
+                "modification_time",
+                "timescale",
+                "duration",
+                "rate",
+                "volume",
+                "matrix.a",
+                "matrix.b",
+                "matrix.u",
+                "matrix.c",
+                "matrix.d",
+                "matrix.v",
+                "matrix.x",
+                "matrix.y",
+                "matrix.w",
+                "next_track_ID",
+            ])
         XCTAssertEqual(value(named: "timescale", in: parsed), "600")
         XCTAssertEqual(value(named: "duration", in: parsed), "1200")
         XCTAssertEqual(value(named: "rate", in: parsed), "1.00")
@@ -211,29 +217,30 @@ final class BoxParserRegistryTests: XCTestCase {
 
     func testDefaultRegistryParsesMovieHeaderVersion1Box() throws {
         var payload = Data()
-        payload.append(0x01) // version 1 triggers 64-bit fields
+        payload.append(0x01)  // version 1 triggers 64-bit fields
         payload.append(contentsOf: [0x00, 0x00, 0x07])
-        payload.append(contentsOf: UInt64(1).bigEndianBytes) // creation
-        payload.append(contentsOf: UInt64(2).bigEndianBytes) // modification
-        payload.append(contentsOf: UInt32(600).bigEndianBytes) // timescale
-        payload.append(contentsOf: UInt64(1200).bigEndianBytes) // duration
-        payload.append(contentsOf: UInt32(0x00018000).bigEndianBytes) // rate 1.5
-        payload.append(contentsOf: UInt16(0x0100).bigEndianBytes) // volume 1.0
-        payload.append(contentsOf: Data(count: 2)) // reserved
-        payload.append(contentsOf: Data(count: 8)) // reserved 32-bit fields
-        payload.append(contentsOf: [
-            UInt32(0x00020000),
-            UInt32(0xFFFF0000),
-            UInt32(0x20000000),
-            UInt32(0x00008000),
-            UInt32(0x00010000),
-            UInt32(0xE0000000),
-            UInt32(0x00000000),
-            UInt32(0x00010000),
-            UInt32(0x40000000)
-        ].flatMap { $0.bigEndianBytes })
-        payload.append(contentsOf: Data(count: 24)) // predefined
-        payload.append(contentsOf: UInt32(42).bigEndianBytes) // next track id
+        payload.append(contentsOf: UInt64(1).bigEndianBytes)  // creation
+        payload.append(contentsOf: UInt64(2).bigEndianBytes)  // modification
+        payload.append(contentsOf: UInt32(600).bigEndianBytes)  // timescale
+        payload.append(contentsOf: UInt64(1200).bigEndianBytes)  // duration
+        payload.append(contentsOf: UInt32(0x0001_8000).bigEndianBytes)  // rate 1.5
+        payload.append(contentsOf: UInt16(0x0100).bigEndianBytes)  // volume 1.0
+        payload.append(contentsOf: Data(count: 2))  // reserved
+        payload.append(contentsOf: Data(count: 8))  // reserved 32-bit fields
+        payload.append(
+            contentsOf: [
+                UInt32(0x0002_0000),
+                UInt32(0xFFFF_0000),
+                UInt32(0x2000_0000),
+                UInt32(0x0000_8000),
+                UInt32(0x0001_0000),
+                UInt32(0xE000_0000),
+                UInt32(0x0000_0000),
+                UInt32(0x0001_0000),
+                UInt32(0x4000_0000),
+            ].flatMap { $0.bigEndianBytes })
+        payload.append(contentsOf: Data(count: 24))  // predefined
+        payload.append(contentsOf: UInt32(42).bigEndianBytes)  // next track id
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
@@ -298,7 +305,8 @@ final class BoxParserRegistryTests: XCTestCase {
         )
 
         var data = Data(count: Int(startOffset) + totalSize)
-        data.replaceSubrange(Int(startOffset) + 8..<(Int(startOffset) + totalSize), with: Data(count: payloadLength))
+        data.replaceSubrange(
+            Int(startOffset) + 8..<(Int(startOffset) + totalSize), with: Data(count: payloadLength))
         let reader = InMemoryRandomAccessReader(data: data)
 
         let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
@@ -328,7 +336,8 @@ final class BoxParserRegistryTests: XCTestCase {
 
         var data = Data(count: Int(startOffset + totalSize))
         let payloadStart = Int(startOffset + headerSize)
-        data.replaceSubrange(payloadStart..<payloadStart + payloadLength, with: Data(count: payloadLength))
+        data.replaceSubrange(
+            payloadStart..<payloadStart + payloadLength, with: Data(count: payloadLength))
         let reader = InMemoryRandomAccessReader(data: data)
 
         let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
@@ -337,7 +346,8 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(mediaData.headerStartOffset, startOffset)
         XCTAssertEqual(mediaData.headerEndOffset, startOffset + headerSize)
         XCTAssertEqual(mediaData.totalSize, totalSize)
-        XCTAssertEqual(mediaData.payloadRange, (startOffset + headerSize)..<(startOffset + totalSize))
+        XCTAssertEqual(
+            mediaData.payloadRange, (startOffset + headerSize)..<(startOffset + totalSize))
         XCTAssertEqual(mediaData.payloadLength, Int64(payloadLength))
         XCTAssertTrue(parsed.fields.isEmpty)
     }
@@ -356,7 +366,8 @@ final class BoxParserRegistryTests: XCTestCase {
         )
 
         var data = Data(count: Int(startOffset) + totalSize)
-        data.replaceSubrange(Int(startOffset) + 8..<(Int(startOffset) + totalSize), with: Data(count: payloadLength))
+        data.replaceSubrange(
+            Int(startOffset) + 8..<(Int(startOffset) + totalSize), with: Data(count: payloadLength))
         let reader = InMemoryRandomAccessReader(data: data)
 
         let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(header: header, reader: reader))
@@ -401,10 +412,10 @@ final class BoxParserRegistryTests: XCTestCase {
 
     func testDefaultRegistryParsesSoundMediaHeaderBox() throws {
         var payload = Data()
-        payload.append(0x00) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
-        payload.append(contentsOf: UInt16(0x0180).bigEndianBytes) // balance 1.5 in 8.8 fixed
-        payload.append(contentsOf: UInt16(0x0000).bigEndianBytes) // reserved
+        payload.append(0x00)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00])  // flags
+        payload.append(contentsOf: UInt16(0x0180).bigEndianBytes)  // balance 1.5 in 8.8 fixed
+        payload.append(contentsOf: UInt16(0x0000).bigEndianBytes)  // reserved
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
@@ -437,12 +448,12 @@ final class BoxParserRegistryTests: XCTestCase {
 
     func testDefaultRegistryParsesVideoMediaHeaderBox() throws {
         var payload = Data()
-        payload.append(0x00) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x01]) // flags with single low bit set
-        payload.append(contentsOf: UInt16(0x0002).bigEndianBytes) // graphics mode (component alpha)
-        payload.append(contentsOf: UInt16(0x8000).bigEndianBytes) // opcolor red
-        payload.append(contentsOf: UInt16(0x4000).bigEndianBytes) // opcolor green
-        payload.append(contentsOf: UInt16(0xFFFF).bigEndianBytes) // opcolor blue
+        payload.append(0x00)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x01])  // flags with single low bit set
+        payload.append(contentsOf: UInt16(0x0002).bigEndianBytes)  // graphics mode (component alpha)
+        payload.append(contentsOf: UInt16(0x8000).bigEndianBytes)  // opcolor red
+        payload.append(contentsOf: UInt16(0x4000).bigEndianBytes)  // opcolor green
+        payload.append(contentsOf: UInt16(0xFFFF).bigEndianBytes)  // opcolor blue
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
@@ -492,10 +503,10 @@ final class BoxParserRegistryTests: XCTestCase {
         payload.append(contentsOf: UInt32(1).bigEndianBytes)
         payload.append(contentsOf: UInt32(90).bigEndianBytes)
         payload.append(contentsOf: UInt32(120).bigEndianBytes)
-        payload.append(contentsOf: UInt32(0x00010000).bigEndianBytes)
+        payload.append(contentsOf: UInt32(0x0001_0000).bigEndianBytes)
         payload.append(contentsOf: UInt16(0x0100).bigEndianBytes)
         payload.append(contentsOf: Data(count: 10))
-        payload.append(contentsOf: Data(count: 20)) // truncated matrix data
+        payload.append(contentsOf: Data(count: 20))  // truncated matrix data
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
@@ -516,14 +527,14 @@ final class BoxParserRegistryTests: XCTestCase {
 
     func testDefaultRegistryParsesMediaHeaderBoxVersion0() throws {
         var payload = Data()
-        payload.append(0x00) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
-        payload.append(contentsOf: UInt32(100).bigEndianBytes) // creation
-        payload.append(contentsOf: UInt32(200).bigEndianBytes) // modification
-        payload.append(contentsOf: UInt32(1000).bigEndianBytes) // timescale
-        payload.append(contentsOf: UInt32(5000).bigEndianBytes) // duration
-        payload.append(contentsOf: languageBytes("eng")) // language
-        payload.append(contentsOf: UInt16(0).bigEndianBytes) // pre-defined
+        payload.append(0x00)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00])  // flags
+        payload.append(contentsOf: UInt32(100).bigEndianBytes)  // creation
+        payload.append(contentsOf: UInt32(200).bigEndianBytes)  // modification
+        payload.append(contentsOf: UInt32(1000).bigEndianBytes)  // timescale
+        payload.append(contentsOf: UInt32(5000).bigEndianBytes)  // duration
+        payload.append(contentsOf: languageBytes("eng"))  // language
+        payload.append(contentsOf: UInt16(0).bigEndianBytes)  // pre-defined
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
@@ -552,14 +563,14 @@ final class BoxParserRegistryTests: XCTestCase {
 
     func testDefaultRegistryParsesMediaHeaderBoxVersion1() throws {
         var payload = Data()
-        payload.append(0x01) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
-        payload.append(contentsOf: UInt64(0x0102030405060708).bigEndianBytes) // creation
-        payload.append(contentsOf: UInt64(0x1112131415161718).bigEndianBytes) // modification
-        payload.append(contentsOf: UInt32(48000).bigEndianBytes) // timescale
-        payload.append(contentsOf: UInt64(96000).bigEndianBytes) // duration
-        payload.append(contentsOf: languageBytes("jpn")) // language
-        payload.append(contentsOf: UInt16(1).bigEndianBytes) // pre-defined
+        payload.append(0x01)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00])  // flags
+        payload.append(contentsOf: UInt64(0x0102_0304_0506_0708).bigEndianBytes)  // creation
+        payload.append(contentsOf: UInt64(0x1112_1314_1516_1718).bigEndianBytes)  // modification
+        payload.append(contentsOf: UInt32(48000).bigEndianBytes)  // timescale
+        payload.append(contentsOf: UInt64(96000).bigEndianBytes)  // duration
+        payload.append(contentsOf: languageBytes("jpn"))  // language
+        payload.append(contentsOf: UInt16(1).bigEndianBytes)  // pre-defined
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
@@ -606,13 +617,13 @@ final class BoxParserRegistryTests: XCTestCase {
 
     func testDefaultRegistryParsesHandlerBoxWithNullTerminatedName() throws {
         var payload = Data()
-        payload.append(0x00) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
-        payload.append(contentsOf: UInt32(0).bigEndianBytes) // pre-defined
-        payload.append(contentsOf: "vide".utf8) // handler type
-        payload.append(contentsOf: Data(count: 12)) // reserved
+        payload.append(0x00)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00])  // flags
+        payload.append(contentsOf: UInt32(0).bigEndianBytes)  // pre-defined
+        payload.append(contentsOf: "vide".utf8)  // handler type
+        payload.append(contentsOf: Data(count: 12))  // reserved
         payload.append(contentsOf: "Video Handler".utf8)
-        payload.append(0x00) // null terminator
+        payload.append(0x00)  // null terminator
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
@@ -640,11 +651,11 @@ final class BoxParserRegistryTests: XCTestCase {
 
     func testDefaultRegistryParsesHandlerBoxWithoutTerminator() throws {
         var payload = Data()
-        payload.append(0x00) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
-        payload.append(contentsOf: UInt32(0).bigEndianBytes) // pre-defined
-        payload.append(contentsOf: "soun".utf8) // handler type
-        payload.append(contentsOf: Data(count: 12)) // reserved
+        payload.append(0x00)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00])  // flags
+        payload.append(contentsOf: UInt32(0).bigEndianBytes)  // pre-defined
+        payload.append(contentsOf: "soun".utf8)  // handler type
+        payload.append(contentsOf: Data(count: 12))  // reserved
         payload.append(contentsOf: "Sound Handler".utf8)
 
         let totalSize = 8 + payload.count
@@ -671,7 +682,7 @@ final class BoxParserRegistryTests: XCTestCase {
     func testRegistryAllowsOverrides() throws {
         var registry = BoxParserRegistry()
         let customType = try FourCharCode("cust")
-        registry.register(parser: { header, _ in
+        let parser: BoxParserRegistry.Parser = { header, _ in
             ParsedBoxPayload(fields: [
                 ParsedBoxPayload.Field(
                     name: "identifier",
@@ -680,7 +691,8 @@ final class BoxParserRegistryTests: XCTestCase {
                     byteRange: nil
                 )
             ])
-        }, for: customType)
+        }
+        registry.register(parser: parser, for: customType)
 
         let header = BoxHeader(
             type: customType,
@@ -710,10 +722,11 @@ final class BoxParserRegistryTests: XCTestCase {
             volumeRaw: 0x0100
         )
 
-        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(
-            header: headerAndReader.header,
-            reader: headerAndReader.reader
-        ))
+        let parsed = try XCTUnwrap(
+            BoxParserRegistry.shared.parse(
+                header: headerAndReader.header,
+                reader: headerAndReader.reader
+            ))
 
         XCTAssertEqual(value(named: "version", in: parsed), "0")
         XCTAssertEqual(value(named: "flags", in: parsed), "0x000001")
@@ -778,10 +791,11 @@ final class BoxParserRegistryTests: XCTestCase {
             alternateGroup: 2
         )
 
-        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(
-            header: headerAndReader.header,
-            reader: headerAndReader.reader
-        ))
+        let parsed = try XCTUnwrap(
+            BoxParserRegistry.shared.parse(
+                header: headerAndReader.header,
+                reader: headerAndReader.reader
+            ))
 
         XCTAssertEqual(value(named: "version", in: parsed), "1")
         XCTAssertEqual(value(named: "flags", in: parsed), "0x000007")
@@ -861,10 +875,11 @@ final class BoxParserRegistryTests: XCTestCase {
             volumeRaw: 0x0000
         )
 
-        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(
-            header: headerAndReader.header,
-            reader: headerAndReader.reader
-        ))
+        let parsed = try XCTUnwrap(
+            BoxParserRegistry.shared.parse(
+                header: headerAndReader.header,
+                reader: headerAndReader.reader
+            ))
 
         let detail = try XCTUnwrap(parsed.trackHeader)
         XCTAssertFalse(detail.isEnabled)
@@ -878,10 +893,11 @@ final class BoxParserRegistryTests: XCTestCase {
     func testDataReferenceParserEmitsEntries() throws {
         let fixture = try makeDataReferenceFixture()
 
-        let parsed = try XCTUnwrap(BoxParserRegistry.shared.parse(
-            header: fixture.header,
-            reader: fixture.reader
-        ))
+        let parsed = try XCTUnwrap(
+            BoxParserRegistry.shared.parse(
+                header: fixture.header,
+                reader: fixture.reader
+            ))
 
         XCTAssertEqual(value(named: "version", in: parsed), "0")
         XCTAssertEqual(value(named: "flags", in: parsed), "0x000000")
@@ -916,7 +932,7 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(urnEntry.type.rawValue, "urn ")
         XCTAssertEqual(urnEntry.version, 0)
         XCTAssertEqual(urnEntry.flags, 0x000000)
-        guard case let .urn(name, location) = urnEntry.location else {
+        guard case .urn(let name, let location) = urnEntry.location else {
             XCTFail("Expected URN location")
             return
         }
@@ -926,14 +942,14 @@ final class BoxParserRegistryTests: XCTestCase {
 
     func testMetadataKeysParserEmitsEntries() throws {
         var payload = Data()
-        payload.append(0x00) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(0x00)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00])  // flags
 
         payload.append(contentsOf: UInt32(2).bigEndianBytes)
 
         let entries: [(namespace: String, name: String)] = [
             ("mdta", "com.example.title"),
-            ("mdta", "com.example.year")
+            ("mdta", "com.example.year"),
         ]
 
         for entry in entries {
@@ -1030,7 +1046,8 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(value(named: "handler_type", in: payloadResult), "mdir")
         XCTAssertEqual(value(named: "entry_count", in: payloadResult), "2")
         XCTAssertEqual(value(named: "entries[0].identifier", in: payloadResult), "©nam")
-        XCTAssertEqual(value(named: "entries[0].values[0].value", in: payloadResult), "Example Title")
+        XCTAssertEqual(
+            value(named: "entries[0].values[0].value", in: payloadResult), "Example Title")
         XCTAssertEqual(value(named: "entries[1].identifier", in: payloadResult), "key[1]")
         XCTAssertEqual(value(named: "entries[1].name", in: payloadResult), "com.example.rating")
         XCTAssertEqual(value(named: "entries[1].values[0].value", in: payloadResult), "120")
@@ -1056,7 +1073,8 @@ final class BoxParserRegistryTests: XCTestCase {
         let float32Entry = makeMetadataItemEntry(
             identifierBytes: [0xA9, 0x74, 0x6D, 0x70],
             dataBoxes: [
-                makeMetadataDataBox(type: 23, locale: 0, data: Data(float32Value.bitPattern.bigEndianBytes))
+                makeMetadataDataBox(
+                    type: 23, locale: 0, data: Data(float32Value.bitPattern.bigEndianBytes))
             ]
         )
 
@@ -1064,7 +1082,8 @@ final class BoxParserRegistryTests: XCTestCase {
         let float64Entry = makeMetadataItemEntry(
             identifierBytes: [0xA9, 0x70, 0x72, 0x66],
             dataBoxes: [
-                makeMetadataDataBox(type: 24, locale: 0, data: Data(float64Value.bitPattern.bigEndianBytes))
+                makeMetadataDataBox(
+                    type: 24, locale: 0, data: Data(float64Value.bitPattern.bigEndianBytes))
             ]
         )
 
@@ -1143,11 +1162,14 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(value(named: "entries[1].values[0].type", in: parsed), "Float32")
         XCTAssertEqual(value(named: "entries[2].values[0].value", in: parsed), "273.15")
         XCTAssertEqual(value(named: "entries[2].values[0].type", in: parsed), "Float64")
-        XCTAssertEqual(value(named: "entries[3].values[0].value", in: parsed), "JPEG data (4 bytes)")
+        XCTAssertEqual(
+            value(named: "entries[3].values[0].value", in: parsed), "JPEG data (4 bytes)")
         XCTAssertEqual(value(named: "entries[3].values[0].type", in: parsed), "JPEG Data")
-        XCTAssertEqual(value(named: "entries[4].values[0].value", in: parsed), "GIF data (10 bytes)")
+        XCTAssertEqual(
+            value(named: "entries[4].values[0].value", in: parsed), "GIF data (10 bytes)")
         XCTAssertEqual(value(named: "entries[4].values[0].type", in: parsed), "GIF Data")
-        XCTAssertEqual(value(named: "entries[5].values[0].value", in: parsed), "TIFF data (8 bytes)")
+        XCTAssertEqual(
+            value(named: "entries[5].values[0].value", in: parsed), "TIFF data (8 bytes)")
         XCTAssertEqual(value(named: "entries[5].values[0].type", in: parsed), "TIFF Data")
         XCTAssertEqual(value(named: "entries[6].values[0].value", in: parsed), "1.5")
         XCTAssertEqual(value(named: "entries[6].values[0].type", in: parsed), "Signed Fixed 16.16")
@@ -1163,7 +1185,7 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(detail.entries[4].values.first?.kind, .data(format: .gif, data: gifData))
         XCTAssertEqual(detail.entries[5].values.first?.kind, .data(format: .tiff, data: tiffData))
         let fixedPointKind = try XCTUnwrap(detail.entries[6].values.first?.kind)
-        guard case let .signedFixedPoint(point) = fixedPointKind else {
+        guard case .signedFixedPoint(let point) = fixedPointKind else {
             XCTFail("Expected signed fixed-point value")
             return
         }
@@ -1172,7 +1194,7 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(point.value, 1.5)
 
         let fixedPoint88Kind = try XCTUnwrap(detail.entries[7].values.first?.kind)
-        guard case let .signedFixedPoint(point88) = fixedPoint88Kind else {
+        guard case .signedFixedPoint(let point88) = fixedPoint88Kind else {
             XCTFail("Expected signed fixed-point 8.8 value")
             return
         }
@@ -1195,7 +1217,7 @@ final class BoxParserRegistryTests: XCTestCase {
         var box = Data()
         box.append(contentsOf: UInt32(16 + data.count).bigEndianBytes)
         box.append(contentsOf: "data".utf8)
-        box.append(0x00) // version
+        box.append(0x00)  // version
         box.append(UInt8((type >> 16) & 0xFF))
         box.append(UInt8((type >> 8) & 0xFF))
         box.append(UInt8(type & 0xFF))
@@ -1222,7 +1244,9 @@ final class BoxParserRegistryTests: XCTestCase {
 
         var payload = Data()
         payload.append(version)
-        payload.append(contentsOf: [UInt8((flags >> 16) & 0xFF), UInt8((flags >> 8) & 0xFF), UInt8(flags & 0xFF)])
+        payload.append(contentsOf: [
+            UInt8((flags >> 16) & 0xFF), UInt8((flags >> 8) & 0xFF), UInt8(flags & 0xFF),
+        ])
 
         if version == 1 {
             payload.append(contentsOf: creationTime.bigEndianBytes)
@@ -1233,7 +1257,7 @@ final class BoxParserRegistryTests: XCTestCase {
         }
 
         payload.append(contentsOf: trackID.bigEndianBytes)
-        payload.append(contentsOf: UInt32(0).bigEndianBytes) // reserved
+        payload.append(contentsOf: UInt32(0).bigEndianBytes)  // reserved
 
         if version == 1 {
             payload.append(contentsOf: duration.bigEndianBytes)
@@ -1247,7 +1271,7 @@ final class BoxParserRegistryTests: XCTestCase {
         payload.append(contentsOf: layer.bigEndianBytes)
         payload.append(contentsOf: alternateGroup.bigEndianBytes)
         payload.append(contentsOf: volumeRaw.bigEndianBytes)
-        payload.append(contentsOf: UInt16(0).bigEndianBytes) // reserved
+        payload.append(contentsOf: UInt16(0).bigEndianBytes)  // reserved
 
         let matrixRaw = matrix.fixedPointRepresentation()
         payload.append(contentsOf: matrixRaw.flatMap { $0.bigEndianBytes })
@@ -1270,17 +1294,19 @@ final class BoxParserRegistryTests: XCTestCase {
         return (header, InMemoryRandomAccessReader(data: data))
     }
 
-    private func trackHeaders(in reader: InMemoryRandomAccessReader) throws -> [ParsedBoxPayload.TrackHeaderBox] {
+    private func trackHeaders(in reader: InMemoryRandomAccessReader) throws -> [ParsedBoxPayload
+        .TrackHeaderBox] {
         let walker = StreamingBoxWalker()
         var headers: [ParsedBoxPayload.TrackHeaderBox] = []
         try walker.walk(
             reader: reader,
             cancellationCheck: {},
             onEvent: { event in
-                guard case let .willStartBox(header, _) = event.kind else { return }
+                guard case .willStartBox(let header, _) = event.kind else { return }
                 guard header.type.rawValue == "tkhd" else { return }
-                if let payload = try? BoxParserRegistry.shared.parse(header: header, reader: reader),
-                   let detail = payload.trackHeader {
+                if let payload = try? BoxParserRegistry.shared.parse(
+                    header: header, reader: reader),
+                    let detail = payload.trackHeader {
                     headers.append(detail)
                 }
             },
@@ -1292,7 +1318,8 @@ final class BoxParserRegistryTests: XCTestCase {
     private func languageBytes(_ code: String) -> [UInt8] {
         precondition(code.count == 3, "language code must be 3 letters")
         let scalars = code.unicodeScalars.map { UInt16($0.value) - 0x60 }
-        let packed = UInt16(((scalars[0] & 0x1F) << 10) | ((scalars[1] & 0x1F) << 5) | (scalars[2] & 0x1F))
+        let packed = UInt16(
+            ((scalars[0] & 0x1F) << 10) | ((scalars[1] & 0x1F) << 5) | (scalars[2] & 0x1F))
         return packed.bigEndianBytes
     }
 
@@ -1301,26 +1328,28 @@ final class BoxParserRegistryTests: XCTestCase {
     }
 }
 
-private extension FixedWidthInteger {
-    var bigEndianBytes: [UInt8] {
+extension FixedWidthInteger {
+    fileprivate var bigEndianBytes: [UInt8] {
         withUnsafeBytes(of: self.bigEndian, Array.init)
     }
 }
 
-private extension BoxParserRegistryTests {
-    func makeDataReferenceFixture() throws -> (header: BoxHeader, reader: InMemoryRandomAccessReader) {
+extension BoxParserRegistryTests {
+    fileprivate func makeDataReferenceFixture() throws -> (
+        header: BoxHeader, reader: InMemoryRandomAccessReader
+    ) {
         let entryCount: UInt32 = 2
 
         var payload = Data()
-        payload.append(0x00) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(0x00)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00])  // flags
         payload.append(contentsOf: entryCount.bigEndianBytes)
 
         // Entry 0: url , self-contained (no location payload)
         payload.append(contentsOf: UInt32(12).bigEndianBytes)
         payload.append(contentsOf: "url ".utf8)
-        payload.append(0x00) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x01]) // flags (self-contained)
+        payload.append(0x00)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x01])  // flags (self-contained)
 
         // Entry 1: urn with name + location strings
         let name = Data("external-aac".utf8)
@@ -1333,8 +1362,8 @@ private extension BoxParserRegistryTests {
         let urnSize = UInt32(12 + urnEntry.count)
         payload.append(contentsOf: urnSize.bigEndianBytes)
         payload.append(contentsOf: "urn ".utf8)
-        payload.append(0x00) // version
-        payload.append(contentsOf: [0x00, 0x00, 0x00]) // flags
+        payload.append(0x00)  // version
+        payload.append(contentsOf: [0x00, 0x00, 0x00])  // flags
         payload.append(urnEntry)
 
         let totalSize = 8 + payload.count
@@ -1353,8 +1382,8 @@ private extension BoxParserRegistryTests {
     }
 }
 
-private extension ParsedBoxPayload.TransformationMatrix {
-    func fixedPointRepresentation() -> [Int32] {
+extension ParsedBoxPayload.TransformationMatrix {
+    fileprivate func fixedPointRepresentation() -> [Int32] {
         [
             Int32((a * 65536.0).rounded()),
             Int32((b * 65536.0).rounded()),
@@ -1364,7 +1393,7 @@ private extension ParsedBoxPayload.TransformationMatrix {
             Int32((v * Double(1 << 30)).rounded()),
             Int32((x * 65536.0).rounded()),
             Int32((y * 65536.0).rounded()),
-            Int32((w * Double(1 << 30)).rounded())
+            Int32((w * Double(1 << 30)).rounded()),
         ]
     }
 }

@@ -1,7 +1,7 @@
 import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
-    static func trackHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func trackHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         let start = header.payloadRange.lowerBound

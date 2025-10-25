@@ -1,12 +1,12 @@
 import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
-    static func movieFragmentRandomAccess(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func movieFragmentRandomAccess(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard header.payloadRange.lowerBound <= header.payloadRange.upperBound else { return nil }
         return ParsedBoxPayload()
     }
 
-    static func movieFragmentRandomAccessOffset(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func movieFragmentRandomAccessOffset(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         let payloadStart = header.payloadRange.lowerBound
@@ -40,7 +40,7 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: .movieFragmentRandomAccessOffset(detail))
     }
 
-    static func trackFragmentRandomAccess(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func trackFragmentRandomAccess(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         let payloadStart = header.payloadRange.lowerBound

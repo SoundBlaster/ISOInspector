@@ -1,12 +1,12 @@
 import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
-    static func movieExtends(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func movieExtends(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard header.payloadRange.lowerBound <= header.payloadRange.upperBound else { return nil }
         return ParsedBoxPayload()
     }
 
-    static func trackExtends(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func trackExtends(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         let payloadStart = header.payloadRange.lowerBound

@@ -1,7 +1,7 @@
 import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
-    static func movieHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func movieHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         var fields: [ParsedBoxPayload.Field] = []

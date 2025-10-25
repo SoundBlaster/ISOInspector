@@ -1,7 +1,7 @@
 import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
-    static func mediaData(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func mediaData(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
         let payloadRange = header.payloadRange
         guard payloadRange.lowerBound <= payloadRange.upperBound else { return nil }
         let headerEndOffset = header.startOffset + header.headerSize
@@ -14,7 +14,7 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: [], detail: .mediaData(detail))
     }
 
-    static func padding(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func padding(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
         let payloadRange = header.payloadRange
         guard payloadRange.lowerBound <= payloadRange.upperBound else { return nil }
         let headerEndOffset = header.startOffset + header.headerSize

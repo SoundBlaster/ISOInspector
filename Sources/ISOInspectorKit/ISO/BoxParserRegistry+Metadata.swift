@@ -1,12 +1,12 @@
 import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
-    static func userData(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func userData(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard header.payloadRange.lowerBound <= header.payloadRange.upperBound else { return nil }
         return ParsedBoxPayload()
     }
 
-    static func metadata(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func metadata(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         var fields: [ParsedBoxPayload.Field] = []
@@ -49,7 +49,7 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: detail)
     }
 
-    static func metadataKeys(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func metadataKeys(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         var fields: [ParsedBoxPayload.Field] = []
@@ -163,7 +163,7 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: detail)
     }
 
-    static func metadataItemList(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func metadataItemList(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         let payloadStart = header.payloadRange.lowerBound
         let payloadEnd = header.payloadRange.upperBound
         guard payloadStart <= payloadEnd else { return nil }
