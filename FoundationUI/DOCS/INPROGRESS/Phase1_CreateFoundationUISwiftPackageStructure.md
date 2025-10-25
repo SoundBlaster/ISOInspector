@@ -10,11 +10,11 @@ Establish the dedicated FoundationUI Swift package scaffold so that future desig
 - **Dependencies**: None
 
 ## ✅ Success Criteria
-- [ ] `Package.swift` updated with a `FoundationUI` library target and corresponding test target
-- [ ] Source and test directories created (`Sources/FoundationUI`, `Tests/FoundationUITests`)
-- [ ] Initial module structure compiles with `swift build`
-- [ ] SwiftPM resources (if any) scoped to FoundationUI only
-- [ ] Workspace documentation references new package location
+- [x] `Package.swift` updated with a `FoundationUI` library target and corresponding test target
+- [x] Source and test directories created (`Sources/FoundationUI`, `Tests/FoundationUITests`)
+- [x] Initial module structure compiles with `swift build`
+- [x] SwiftPM resources (if any) scoped to FoundationUI only
+- [x] Workspace documentation references new package location
 
 ## 🔧 Implementation Notes
 - Follow the Task Plan guidance to keep FoundationUI isolated from ISOInspectorKit runtime code until integration tasks begin.
@@ -35,7 +35,8 @@ Establish the dedicated FoundationUI Swift package scaffold so that future desig
 - `Tests/FoundationUITests/ComponentsTests/.gitkeep`
 - `Tests/FoundationUITests/PatternsTests/.gitkeep`
 - `Tests/FoundationUITests/ContextsTests/.gitkeep`
-- `Tests/FoundationUITests/FoundationUITests.swift`
+- `Tests/FoundationUITests/FoundationUIPackageConfigurationTests.swift`
+- `Sources/FoundationUI/FoundationUI.swift`
 
 ### Design Token Usage
 - Not applicable for this setup task; future implementation tasks must rely on DS tokens exclusively.
@@ -45,11 +46,11 @@ Establish the dedicated FoundationUI Swift package scaffold so that future desig
 - [FoundationUI PRD § 2.1 Architecture Overview](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md#21-architecture-overview)
 
 ## 📋 Checklist
-- [ ] Read task requirements from Task Plan
-- [ ] Update `Package.swift` with FoundationUI targets
-- [ ] Scaffold source and test directory structure
-- [ ] Add placeholder files to ensure directories exist in Git
-- [ ] Run `swift build` to confirm the package compiles
-- [ ] Run `swift test` to confirm the test target links
-- [ ] Update documentation references pointing to FoundationUI package
-- [ ] Commit with descriptive message
+- [x] Read task requirements from Task Plan
+- [x] Update `Package.swift` with FoundationUI targets
+- [x] Scaffold source and test directory structure
+- [x] Add placeholder files to ensure directories exist in Git
+- [x] Run `swift build` to confirm the package compiles
+- [x] Run `swift test` to confirm the test target links
+- [x] Update documentation references pointing to FoundationUI package
+- [x] Commit with descriptive message
