@@ -1,19 +1,19 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-10-25
-**Current Focus**: Phase 3.1 – UI Patterns (Layer 3) - 75% Complete
+**Current Focus**: Phase 1.2 – Design System Foundation (Layer 0) – Test-first initialization
 
 ## 🎯 Immediate Priorities
 
-### ToolbarPattern Verification
-- [ ] Validate layout with Dynamic Type, keyboard navigation, and reduced motion settings once SwiftUI runtime is available
-- [ ] Capture platform preview snapshots (iOS, iPadOS, macOS) for documentation
-- [ ] Re-run SwiftLint on macOS toolchain to confirm zero violations
+### Design Tokens Validation Suite
+- [ ] Draft `TokenValidationTests` covering namespace structure, spacing, typography, colors, radius, and animation constants
+- [ ] Encode platform-conditional expectations (iOS, iPadOS, macOS) with Linux skips where necessary
+- [ ] Execute `swift test` to record the expected failing state before implementation work begins
 
 ## 🔭 Upcoming Considerations
-- Align all patterns with DS tokens to preserve zero-magic-number policy
-- Extend preview catalog to include complex inspector workspaces and toolbar configurations
-- Prepare integration and snapshot smoke tests once remaining patterns are complete
+- After validation tests exist, proceed with implementing DS namespace and concrete token files (Spacing, Typography, Colors, Radius, Animation)
+- Revisit Pattern verification tasks once Phase 1 foundational work is complete
+- Maintain zero-magic-number policy and DocC documentation alignment for all new tokens
 
 ## ✅ Recently Completed
 - BoxTreePattern implementation with expand/collapse, selection, and lazy rendering archived in `TASK_ARCHIVE/14_Phase3.1_BoxTreePattern/` (2025-10-25)
