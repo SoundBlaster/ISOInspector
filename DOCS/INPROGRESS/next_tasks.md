@@ -6,3 +6,5 @@
   - Secure Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures so regression baselines can shift from synthetic payloads once approvals land.
 - 🎯 **Tolerant Parsing — Surface Issue Metrics in SwiftUI** _(Pending design sign-off)_:
   - Surface `ParseIssueStore` metrics in SwiftUI ribbons once tolerant parsing UI specs are finalized. Track via `@todo PDD:45m` in `ParseTreeStore.swift` and the open item in `todo.md`.
+- 🛠️ **T2.2 — Emit Parse Events with Severity Metadata** _(In Progress)_:
+  - Extend the tolerant parsing event stream so UI and CLI consumers receive issue severity, offsets, and reason codes alongside streaming parse updates.

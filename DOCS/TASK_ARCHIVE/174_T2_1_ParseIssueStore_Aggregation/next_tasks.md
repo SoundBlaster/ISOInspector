@@ -2,8 +2,8 @@
 
 - ✅ **T2.1 ParseIssueStore Aggregation** _(Completed — see `Summary_of_Work.md`)_:
   - Shared aggregation store, metrics, and tests landed across ISOInspectorKit, CLI, and SwiftUI scaffolding.
-- 🔄 **T2.2 Issue Metrics Presentation** _(Follow-up)_:
-  - Surface `ParseIssueStore` metrics in SwiftUI ribbons and CLI summaries once the UI spec lands. Track via `@todo PDD:45m` in `ParseTreeStore.swift` and `todo.md`.
+- 🛠️ **T2.2 Issue Metrics Presentation** _(In Progress)_:
+  - Extend the tolerant parsing event stream with severity, offset, and reason metadata to unblock downstream UI and CLI surfacing work. Active planning documented in `DOCS/INPROGRESS/T2_2_Emit_Parse_Events.md`.
 - 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(Blocked — pending hardware)_:
   - Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets. Reference `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/`.
 - ⏳ **Real-World Assets** _(Blocked — awaiting licensing approvals)_:
