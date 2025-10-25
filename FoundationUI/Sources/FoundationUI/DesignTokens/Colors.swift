@@ -3,7 +3,7 @@ import SwiftUI
 
 #if canImport(UIKit)
 import UIKit
-#elseif canImport(AppKit)
+#elif canImport(AppKit)
 import AppKit
 #endif
 
@@ -39,6 +39,10 @@ import AppKit
 /// - `warnBG`: Warning or caution state (orange)
 /// - `errorBG`: Error or failure state (red)
 /// - `successBG`: Success or completion state (green)
+/// - `surfaceBackground`: Neutral background for container surfaces
+/// - `selectionBackground`: Highlight for selected rows and tree items
+/// - `textPrimary`: Primary text color for content
+/// - `textSecondary`: Secondary text color for subtitles and metadata
 ///
 /// ## Dark Mode
 /// Colors automatically adapt to the system color scheme:
@@ -84,7 +88,35 @@ public extension DS {
         /// **Usage**: SUCCESS badges, confirmations, valid states
         public static let successBG = SwiftUI.Color.green.opacity(0.20)
 
-        // MARK: - Additional Semantic Colors
+        /// Neutral surface background for cards, lists, and tree containers
+        ///
+        /// Provides a subtle background that adapts to light and dark appearances while
+        /// maintaining sufficient contrast with row separators and outlines.
+        public static let surfaceBackground: SwiftUI.Color = {
+            #if canImport(UIKit)
+            return SwiftUI.Color(uiColor: .secondarySystemBackground)
+            #elseif canImport(AppKit)
+            return SwiftUI.Color(nsColor: .windowBackgroundColor)
+            #else
+            return SwiftUI.Color.gray.opacity(0.08)
+            #endif
+        }()
+
+        /// Selection highlight background color for list and tree rows
+        ///
+        /// This color mirrors native platform selection behaviour while ensuring
+        /// contrast compliance across light and dark modes.
+        public static let selectionBackground: SwiftUI.Color = {
+            #if canImport(UIKit)
+            return SwiftUI.Color(uiColor: .tertiarySystemFill)
+            #elseif canImport(AppKit)
+            return SwiftUI.Color(nsColor: .selectedContentBackgroundColor)
+            #else
+            return SwiftUI.Color.blue.opacity(0.18)
+            #endif
+        }()
+
+        // MARK: - Foreground Colors
 
         /// Primary accent color for interactive elements
         ///
@@ -114,8 +146,6 @@ public extension DS {
             return SwiftUI.Color.gray.opacity(0.1)
             #endif
         }()
-
-        // MARK: - Foreground Colors
 
         /// Primary text color
         ///

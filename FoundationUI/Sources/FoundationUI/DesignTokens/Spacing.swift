@@ -26,16 +26,21 @@ import CoreGraphics
 /// - iOS/iPadOS: Uses `l` (16pt) for touch-friendly spacing
 ///
 /// ## Tokens
+/// - `xs` (4pt): Micro spacing for tight vertical rhythm adjustments
 /// - `s` (8pt): Tight spacing for compact layouts
 /// - `m` (12pt): Standard spacing for macOS
 /// - `l` (16pt): Standard spacing for iOS/iPadOS
 /// - `xl` (24pt): Large spacing for section separators
+/// - `levelIndentation` (16pt): Indentation applied per depth level in tree patterns
 ///
 /// ## Accessibility
 /// All spacing tokens work correctly with Dynamic Type and maintain
 /// minimum touch target sizes of 44×44pt on iOS.
 public extension DS {
     enum Spacing {
+        /// Extra small spacing (4pt) - for subtle layout adjustments
+        public static let xs: CGFloat = 4
+
         /// Small spacing (8pt) - for compact layouts and tight grouping
         public static let s: CGFloat = 8
 
@@ -48,6 +53,9 @@ public extension DS {
         /// Extra large spacing (24pt) - for section separators and visual breathing room
         public static let xl: CGFloat = 24
 
+        /// Indentation applied per hierarchy depth in tree-based patterns
+        public static let levelIndentation: CGFloat = l
+
         /// Platform-adaptive default spacing
         ///
         /// Returns the appropriate default spacing for the current platform:
@@ -59,6 +67,13 @@ public extension DS {
             #else
             return l
             #endif
+        }
+
+        /// Computes indentation for a hierarchical depth using ``levelIndentation``.
+        /// - Parameter depth: The hierarchy depth (root starts at zero).
+        /// - Returns: The cumulative indentation applied to match the design system spacing.
+        public static func indentation(forDepth depth: Int) -> CGFloat {
+            levelIndentation * CGFloat(depth)
         }
     }
 }

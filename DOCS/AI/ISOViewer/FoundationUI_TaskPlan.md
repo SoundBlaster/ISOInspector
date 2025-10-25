@@ -7,13 +7,13 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 29/111 tasks completed (26%)**
+**Total: 30/111 tasks completed (27%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | In Progress | 1/15 (7%) |
 | Phase 2: Core Components | Complete | 20/22 (91%) |
-| Phase 3: Patterns & Platform Adaptation | In Progress | 5/16 (31%) |
+| Phase 3: Patterns & Platform Adaptation | In Progress | 6/16 (38%) |
 | Phase 4: Agent Support & Polish | Not Started | 0/13 (0%) |
 | Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
@@ -378,13 +378,13 @@
   - Accessibility labels and menu hints derived from item metadata
   - Archive: `TASK_ARCHIVE/12_Phase3.1_ToolbarPattern/`
 
-- [ ] **P1** Implement BoxTreePattern → **IN PROGRESS**
-  - File: `Sources/Patterns/BoxTreePattern.swift`
-  - Hierarchical tree view for ISO box structure
-  - Expand/collapse functionality
-  - Indentation via DS.Spacing
-  - Selection and navigation
-  - Performance optimization for large trees (1000+ nodes)
+- [x] **P1** Implement BoxTreePattern → **Completed 2025-10-25 (Linux validation; Apple previews pending)**
+  - File: `FoundationUI/Sources/FoundationUI/Patterns/BoxTreePattern.swift`
+  - Adds BoxTreeController for expand/collapse, selection, and large dataset flattening
+  - Hierarchical SwiftUI pattern leveraging DS.Spacing indentation tokens and DS.Colors backgrounds
+  - Selection binding synchronization with accessibility announcements
+  - Performance fixtures covering 1000+ node trees with lazy flattening logic
+  - Preview catalog placeholders available; Apple runtime validation still required
 
 - [x] **P0** Write pattern unit tests ✅ Completed 2025-10-24 (Linux validation)
   - Test InspectorPattern composition
