@@ -213,9 +213,59 @@ final class ParseTreeStoreTests: XCTestCase {
         XCTAssertEqual(child?.issues.first?.affectedNodeIDs, parseIssue.affectedNodeIDs)
     }
 
+    @MainActor
+    func testFinishingBoxDoesNotDuplicateParseIssues() {
+        let initialIssue = ParseIssue(
+            severity: .warning,
+            code: "VR-901",
+            message: "Initial issue",
+            byteRange: 0..<4,
+            affectedNodeIDs: [2]
+        )
+        let additionalIssue = ParseIssue(
+            severity: .error,
+            code: "VR-902",
+            message: "Additional issue",
+            byteRange: 4..<8,
+            affectedNodeIDs: [2]
+        )
+        let events = makeSampleEvents(
+            childParseIssues: [initialIssue],
+            childFinishParseIssues: [initialIssue, additionalIssue]
+        )
+        let stream = AsyncThrowingStream<ParseEvent, Error> { continuation in
+            for event in events {
+                continuation.yield(event)
+            }
+            continuation.finish()
+        }
+        let pipeline = ParsePipeline { _, _ in stream }
+        let reader = InMemoryRandomAccessReader(data: Data())
+        let store = ParseTreeStore()
+        let finished = expectation(description: "Parsing finished")
+        var cancellables: Set<AnyCancellable> = []
+
+        store.$state
+            .dropFirst()
+            .sink { state in
+                if state == .finished {
+                    finished.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        store.start(pipeline: pipeline, reader: reader)
+        wait(for: [finished], timeout: 2.0)
+
+        let childIssues = store.snapshot.nodes.first?.children.first?.issues ?? []
+        XCTAssertEqual(childIssues.count, 2)
+        XCTAssertEqual(Set(childIssues.map(\.code)), Set([initialIssue.code, additionalIssue.code]))
+    }
+
     private func makeSampleEvents(
         childIssues: [ValidationIssue] = [],
-        childParseIssues: [ParseIssue] = []
+        childParseIssues: [ParseIssue] = [],
+        childFinishParseIssues: [ParseIssue]? = nil
     ) -> [ParseEvent] {
         let parentHeader = BoxHeader(
             type: try! FourCharCode("root"),
@@ -248,7 +298,7 @@ final class ParseTreeStoreTests: XCTestCase {
                 offset: 24,
                 metadata: nil,
                 validationIssues: childIssues,
-                issues: childParseIssues
+                issues: childFinishParseIssues ?? childParseIssues
             ),
             ParseEvent(kind: .didFinishBox(header: parentHeader, depth: 0), offset: 32, metadata: nil, validationIssues: [])
         ]
