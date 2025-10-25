@@ -930,3 +930,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/179_Summary_of_Work_2025-10-27_G6_Export_JSON_Actions/`.
 - **Highlights:** Captures the regression hardening pass for the SwiftUI export pipeline, including new tests for missing selection handling, save-panel failure diagnostics, and alignment between exporter outcomes and user-facing alerts.
 - **Next steps carried forward:** VoiceOver regression validation, real-world asset acquisition, and tolerant parsing issue metrics remain active in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 180_T2_2_Emit_Parse_Events
+- **Archived files:** `Summary_of_Work.md`, `T2_2_Emit_Parse_Events.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/180_T2_2_Emit_Parse_Events/`.
+- **Highlights:** Documents the tolerant parsing streaming update that propagates `ParseIssue` severity, offsets, and reason codes through `ParsePipeline.live()` and the CLI formatter, backed by targeted regression tests to guard the new metadata flow.
+- **Next steps carried forward:** Track the T2.3 metrics aggregation follow-up, tolerant parsing SwiftUI ribbon surfacing, VoiceOver hardware regression sweep, and real-world codec asset acquisition in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
