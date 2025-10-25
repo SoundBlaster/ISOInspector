@@ -295,7 +295,7 @@ This phase introduces **lenient parsing mode** that continues parsing corrupted 
 - [x] G3. Details view: sectioned fields; copy actions (fourcc/offset/size). _(Delivered in [23_C3_Detail_and_Hex_Inspectors](../../TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/23_C3_Detail_and_Hex_Inspectors.md))._
 - [x] G4. Hex view: offset gutter, ASCII column, selection; fetch via `HexSliceProvider`. _(Refined through [24_C3_Highlight_Field_Subranges](../../TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/Summary_of_Work.md))._
 - [x] G5. Search & filters; quick toggles (containers/codec/meta/frag). _(Expanded in [22_C2_Extend_Outline_Filters](../../TASK_ARCHIVE/22_C2_Extend_Outline_Filters/C2_Extend_Outline_Filters.md))._
-- [ ] G6. Export actions (JSON subtree/full). **(In Progress — see `DOCS/INPROGRESS/G6_Export_JSON_Actions.md` for the active PRD outline.)**
+- [x] G6. Export actions (JSON subtree/full). **(Completed — see `DOCS/TASK_ARCHIVE/179_Summary_of_Work_2025-10-27_G6_Export_JSON_Actions/G6_Export_JSON_Actions.md` for the archived PRD and `Summary_of_Work.md` for verification notes.)**
 - [x] G7. State management: `DocumentVM` holds root; `NodeVM` for selection; `HexVM` for slice & highlight. _(Completed — see `DOCS/TASK_ARCHIVE/154_G7_State_Management_ViewModels/Summary_of_Work.md` for orchestration details.)_
 - [x] G8. Accessibility & keyboard shortcuts (macOS/iPadOS). _(Completed — see [Summary_of_Work](../../TASK_ARCHIVE/155_G8_Accessibility_and_Keyboard_Shortcuts/Summary_of_Work.md))._
 - [x] Task E3. Implement session persistence so the app restores open files, annotations, and window layouts on relaunch. **(Completed — see `DOCS/TASK_ARCHIVE/52_E3_Session_Persistence/`.)**

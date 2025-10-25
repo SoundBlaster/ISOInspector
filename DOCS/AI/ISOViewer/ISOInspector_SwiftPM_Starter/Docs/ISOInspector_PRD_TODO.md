@@ -215,7 +215,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 - [ ] G3. Details view: sectioned fields; copy actions (fourcc/offset/size).
 - [ ] G4. Hex view: offset gutter, ASCII column, selection; fetch via `HexSliceProvider`.
 - [ ] G5. Search & filters; quick toggles (containers/codec/meta/frag).
-- [ ] G6. Export actions (JSON subtree/full). _(In Progress — see `DOCS/INPROGRESS/G6_Export_JSON_Actions.md`.)_
+- [x] G6. Export actions (JSON subtree/full). _(Completed — see `DOCS/TASK_ARCHIVE/179_Summary_of_Work_2025-10-27_G6_Export_JSON_Actions/G6_Export_JSON_Actions.md` and the paired `Summary_of_Work.md` for verification notes.)_
 - [ ] G7. State management: `DocumentVM` holds root; `NodeVM` for selection; `HexVM` for slice & highlight.
 - [x] G8. Accessibility & keyboard shortcuts (macOS/iPadOS). _(Completed — see `DOCS/TASK_ARCHIVE/155_G8_Accessibility_and_Keyboard_Shortcuts/Summary_of_Work.md`.)_
 
