@@ -1047,21 +1047,64 @@ This document provides an index and summary of all archived FoundationUI impleme
 
 ---
 
+### 12_Phase3.1_ToolbarPattern
+**Completed**: 2025-10-24
+**Phase**: 3.1 Layer 3: UI Patterns (Organisms)
+**Component**: ToolbarPattern implementation and documentation
+
+**Implemented**:
+- Adaptive toolbar layout balancing icon-only, icon+label, and overflow groupings for iOS, iPadOS, and macOS idioms
+- Declarative toolbar item model with primary/secondary groups and keyboard shortcut metadata surfacing
+- Accessibility affordances (VoiceOver labels, hints, rotor ordering) sourced from semantic toolbar descriptors
+- Preview catalogue guidance for cross-platform toolbar arrangements documented in design notes
+
+**Files Archived**:
+- `FoundationUI/DOCS/TASK_ARCHIVE/12_Phase3.1_ToolbarPattern/Phase3.1_ToolbarPattern.md`
+- `FoundationUI/DOCS/TASK_ARCHIVE/12_Phase3.1_ToolbarPattern/Summary_of_Work.md`
+- `FoundationUI/DOCS/TASK_ARCHIVE/12_Phase3.1_ToolbarPattern/next_tasks.md`
+
+**Tests & Quality Checks**:
+- `swift test` (Linux) — 347 tests executed, 0 failures, 1 skipped (Combine unavailable)【3e7a01†L1-L66】【7c5789†L1-L42】
+- `swift test --enable-code-coverage` (Linux) — 347 tests executed, 0 failures, 1 skipped, coverage data generated for reporting【87e45b†L1-L12】【694bb5†L1-L83】
+- `swift build` (Linux) — succeeded, confirming package integrity【b3ebb7†L1-L5】
+- SwiftLint — pending (requires macOS toolchain) and tracked in recreated `next_tasks.md`
+
+**Accessibility & Platform Notes**:
+- VoiceOver labels and hints derived from toolbar item metadata ensure descriptive announcements
+- Keyboard shortcut catalog exposed through accessibility APIs for discoverability
+- Dynamic Type, Reduced Motion, and high-contrast verification queued for Apple simulator runs
+
+**Lessons Learned**:
+1. Shared toolbar item models simplify platform-conditional layout logic
+2. Documenting keyboard shortcut metadata early prevents regressions in accessibility announcements
+3. Running full Linux regression suites before archiving preserves a stable baseline for follow-up work
+
+**Next Steps**:
+- Validate ToolbarPattern on Apple toolchains (Dynamic Type, snapshots, SwiftLint)
+- Implement BoxTreePattern and associated performance instrumentation (captured in `FoundationUI/DOCS/INPROGRESS/next_tasks.md`)
+- Expand pattern integration tests to cover combined Inspector + Toolbar workflows
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/12_Phase3.1_ToolbarPattern/`
+
+**Task Plan Updated**: Yes, ToolbarPattern marked complete and progress counters refreshed.
+
+---
+
 ## Archive Statistics
 
-**Total Archives**: 11
-**Total Tasks Completed**: 17
-**Total Files Touched in Archives**: 48 (8 source + 12 component/pattern tests + 4 snapshot tests + 6 accessibility test files + 7 performance test files + 1 integration test file + 1 README + 3 code quality files + 6 pattern docs)
-**Total Lines of Code**: ~14,600+ lines (sources + tests + documentation + quality reports)
+**Total Archives**: 12
+**Total Tasks Completed**: 18
+**Total Files Touched in Archives**: 51 (8 source + 12 component/pattern tests + 4 snapshot tests + 6 accessibility test files + 7 performance test files + 1 integration test file + 1 README + 3 code quality files + 7 pattern docs + 2 planning docs)
+**Total Lines of Code**: ~15,000+ lines (sources + tests + documentation + quality reports)
 **Total Test Cases**: 560+ tests (180 unit tests + 120+ snapshot tests + 123 accessibility tests + 98 performance tests + 39 integration/pattern tests)
-**Total Previews**: 47 SwiftUI previews
+**Total Previews**: 50 SwiftUI previews
 
 **Phase Breakdown**:
 - Phase 2.1 (View Modifiers): 1 archive, 6 tasks complete
 - Phase 2.2 (Components): 8 archives, 10 tasks complete (4 components + snapshot tests + accessibility tests + performance tests + integration tests + code quality verification)
-- Phase 3.1 (Patterns): 2 archives, 2 tasks complete (InspectorPattern, Pattern Unit Tests)
+- Phase 3.1 (Patterns): 3 archives, 3 tasks complete (InspectorPattern, Pattern Unit Tests, ToolbarPattern)
 
 ---
 
-**Last Updated**: 2025-10-24
+**Last Updated**: 2025-10-25
 **Maintained By**: FoundationUI Agent Team
