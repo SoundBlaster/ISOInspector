@@ -64,7 +64,7 @@ Extend SwiftUI views to surface corruption badges, placeholders, and diagnostic 
 
 | Task ID | Description | Priority | Effort | Dependencies | Acceptance Criteria |
 |---------|-------------|----------|--------|--------------|---------------------|
-| T3.1 | Replace blocking load-failure banner with non-modal warning ribbon showing corruption counts. | High | 1.5d | T2.1 | Document loads with warnings visible; banner dismissible; tapping opens "Integrity" tab. |
+| T3.1 | Replace blocking load-failure banner with non-modal warning ribbon showing corruption counts. **(🚧 In Progress — see `DOCS/INPROGRESS/T3_1_Tolerant_Parsing_Warning_Ribbon.md`)** | High | 1.5d | T2.1 | Document loads with warnings visible; banner dismissible; tapping opens "Integrity" tab. |
 | T3.2 | Add corruption badges (warning triangle icon) to tree view nodes; tooltip shows issue summary. | High | 1.5d | T1.2, T2.1 | Nodes with issues display badge; VoiceOver announces corruption state. |
 | T3.3 | Extend details pane with "Corruption" section: error code, byte offsets, affected range, suggested actions. | High | 2d | T2.1 | Selecting corrupt node shows detailed diagnostics; fields copyable. |
 | T3.4 | Implement placeholder nodes for missing/required children: expected fourcc, attach issues, link to hex viewer. | Medium | 2d | T1.2 | Missing `stbl` child renders placeholder with "expected but absent" message. |
