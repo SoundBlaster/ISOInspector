@@ -232,6 +232,12 @@ SidebarPattern(...) { selection in
 }
 ```
 
+### AnyView Wrapping Considerations
+1. Wrapping the builder body in `AnyView(Group { ... })` is a pragmatic, preview-scoped fix that keeps conditional logic local while satisfying `SidebarPattern<Selection, AnyView>` requirements.
+2. The trade-offs persist: `AnyView` erases identity, can hurt diffing-based features (transitions, matched-geometry) and introduces a small allocation overhead, so it should stay out of hot production paths.
+3. Longer term, consider extracting a concrete `Detail` view (e.g. `SidebarWorkflowDetailView`) or providing helper initializers that return `some View` to keep previews strongly typed and avoid type erasure altogether.
+4. Keep this pattern on the radar—if previews start layering modifiers that rely on view identity, reevaluate whether `AnyView` remains appropriate there.
+
 ## References
 
 ### Related Documentation
