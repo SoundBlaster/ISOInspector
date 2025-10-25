@@ -258,7 +258,7 @@ This phase introduces **lenient parsing mode** that continues parsing corrupted 
 - **T7:** Rollout (Prototype → Alpha → Beta → GA → Telemetry)
 
 **Active Work:**
-- [ ] **T3.1 — Non-modal warning ribbon for tolerant parsing metrics.** _(In Progress — see `DOCS/INPROGRESS/T3_1_Tolerant_Parsing_Warning_Ribbon.md`; depends on `ParseIssueStore.metricsSnapshot()` delivered in `DOCS/TASK_ARCHIVE/184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons/`.)_
+- [x] **T3.1 — Non-modal warning ribbon for tolerant parsing metrics.** _(Completed — archived in `DOCS/TASK_ARCHIVE/185_T3_1_Tolerant_Parsing_Warning_Ribbon/`; ribbon now presents `ParseIssueStore` metrics with dismissal persistence and accessibility hooks.)_
 
 **Full Workplan:** [`TODO.md`](../Tolerance_Parsing/TODO.md) (37 tasks across 7 phases)
 **Integration Guide:** [`IntegrationSummary.md`](../Tolerance_Parsing/IntegrationSummary.md)

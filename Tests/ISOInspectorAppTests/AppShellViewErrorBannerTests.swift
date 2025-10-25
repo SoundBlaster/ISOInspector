@@ -68,6 +68,41 @@ final class AppShellViewErrorBannerTests: XCTestCase {
 
         XCTAssertFalse(hostingView.containsText("Unable to open"))
     }
+
+    func testCorruptionWarningRibbonAppearsForIssueMetrics() throws {
+        let defaultsKey = AppShellView.corruptionRibbonDismissedDefaultsKey
+        UserDefaults.standard.removeObject(forKey: defaultsKey)
+
+        let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
+        let controller = DocumentSessionController(
+            parseTreeStore: ParseTreeStore(),
+            annotations: AnnotationBookmarkSession(store: nil),
+            recentsStore: recentsStore,
+            sessionStore: nil,
+            pipelineFactory: { ParsePipeline(buildStream: { _, _ in .finishedStream }) },
+            readerFactory: { _ in StubRandomAccessReader() },
+            workQueue: ImmediateWorkQueue(),
+            filesystemAccess: FilesystemAccessStub().makeAccess()
+        )
+
+        let view = AppShellView(controller: controller)
+        let hostingView = NSHostingView(rootView: view.frame(width: 800, height: 600))
+
+        controller.parseTreeStore.issueStore.record(
+            ParseIssue(
+                severity: .warning,
+                code: "VR-100",
+                message: "Simulated warning",
+                affectedNodeIDs: [1],
+                byteRange: 0..<8
+            ),
+            depth: 1
+        )
+
+        RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.1))
+
+        XCTAssertTrue(hostingView.containsText("View Integrity Report"))
+    }
 }
 
 private extension NSView {

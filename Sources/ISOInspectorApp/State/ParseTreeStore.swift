@@ -9,12 +9,13 @@ public final class ParseTreeStore: ObservableObject {
     @Published public private(set) var snapshot: ParseTreeSnapshot
     @Published public private(set) var state: ParseTreeStoreState
     @Published public private(set) var fileURL: URL?
+    @Published public private(set) var issueMetrics: ParseIssueStore.IssueMetrics
     public let issueStore: ParseIssueStore
-    // @todo PDD:45m Surface tolerant parsing issue metrics in SwiftUI once the ribbon spec lands.
 
     private let resources = ResourceBag()
     private var builder = Builder()
     private var issueFilter: ((ValidationIssue) -> Bool)?
+    private var cancellables: Set<AnyCancellable> = []
 
     public init(
         issueStore: ParseIssueStore = ParseIssueStore(),
@@ -25,6 +26,8 @@ public final class ParseTreeStore: ObservableObject {
         self.snapshot = initialSnapshot
         self.state = initialState
         self.fileURL = nil
+        self.issueMetrics = issueStore.metricsSnapshot()
+        bindIssueStore()
     }
 
     public func start(
@@ -59,10 +62,20 @@ public final class ParseTreeStore: ObservableObject {
         snapshot = .empty
         state = .idle
         fileURL = nil
+        issueStore.reset()
     }
 
     private func disconnect() {
         resources.stop()
+    }
+
+    private func bindIssueStore() {
+        issueStore.$metrics
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] metrics in
+                self?.issueMetrics = metrics
+            }
+            .store(in: &cancellables)
     }
 
     private func startConsuming(_ stream: ParsePipeline.EventStream) {

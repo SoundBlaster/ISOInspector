@@ -257,6 +257,12 @@
             exportStatus = nil
         }
 
+        func focusIntegrityDiagnostics() {
+            if let nodeID = parseTreeStore.issueStore.issues.first?.affectedNodeIDs.first {
+                documentViewModel.nodeViewModel.select(nodeID: nodeID)
+            }
+        }
+
         func selectValidationPreset(_ presetID: String, scope: ValidationConfigurationScope) {
             guard presetByID[presetID] != nil else { return }
             switch scope {
