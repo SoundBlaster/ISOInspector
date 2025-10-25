@@ -63,6 +63,7 @@ public struct BoxTreePattern<Data, ID, Content>: View
 where Data: RandomAccessCollection,
       Data.Element: Identifiable,
       ID == Data.Element.ID,
+      ID: Hashable,
       Content: View
 {
     // MARK: - Properties
