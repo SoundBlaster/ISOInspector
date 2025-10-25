@@ -23,8 +23,8 @@ final class FilesystemAccessTests: XCTestCase {
         let access = FilesystemAccess(
             openFileHandler: openDialog.open,
             saveFileHandler: { _ in expectedURL },
-            bookmarkCreator: bookmarkManager.createBookmark(for:),
-            bookmarkResolver: bookmarkManager.resolveBookmark(data:),
+            bookmarkCreator: { url in try bookmarkManager.createBookmark(for: url) },
+            bookmarkResolver: { data in try bookmarkManager.resolveBookmark(data: data) },
             securityScopeManager: scopeManager,
             logger: accessLogger
         )
@@ -61,8 +61,8 @@ final class FilesystemAccessTests: XCTestCase {
         let access = FilesystemAccess(
             openFileHandler: { _ in expectedURL },
             saveFileHandler: { _ in expectedURL },
-            bookmarkCreator: bookmarkManager.createBookmark(for:),
-            bookmarkResolver: bookmarkManager.resolveBookmark(data:),
+            bookmarkCreator: { url in try bookmarkManager.createBookmark(for: url) },
+            bookmarkResolver: { data in try bookmarkManager.resolveBookmark(data: data) },
             securityScopeManager: scopeManager,
             logger: accessLogger
         )
@@ -97,8 +97,8 @@ final class FilesystemAccessTests: XCTestCase {
         let access = FilesystemAccess(
             openFileHandler: { _ in expectedURL },
             saveFileHandler: { _ in expectedURL },
-            bookmarkCreator: bookmarkManager.createBookmark(for:),
-            bookmarkResolver: bookmarkManager.resolveBookmark(data:),
+            bookmarkCreator: { url in try bookmarkManager.createBookmark(for: url) },
+            bookmarkResolver: { data in try bookmarkManager.resolveBookmark(data: data) },
             securityScopeManager: scopeManager,
             logger: accessLogger
         )
@@ -135,8 +135,8 @@ final class FilesystemAccessTests: XCTestCase {
         let access = FilesystemAccess(
             openFileHandler: { _ in expectedURL },
             saveFileHandler: { _ in expectedURL },
-            bookmarkCreator: bookmarkManager.createBookmark(for:),
-            bookmarkResolver: bookmarkManager.resolveBookmark(data:),
+            bookmarkCreator: { url in try bookmarkManager.createBookmark(for: url) },
+            bookmarkResolver: { data in try bookmarkManager.resolveBookmark(data: data) },
             securityScopeManager: scopeManager,
             logger: accessLogger
         )
@@ -171,8 +171,8 @@ final class FilesystemAccessTests: XCTestCase {
         let access = FilesystemAccess(
             openFileHandler: { _ in expectedURL },
             saveFileHandler: { _ in expectedURL },
-            bookmarkCreator: bookmarkManager.createBookmark(for:),
-            bookmarkResolver: bookmarkManager.resolveBookmark(data:),
+            bookmarkCreator: { url in try bookmarkManager.createBookmark(for: url) },
+            bookmarkResolver: { data in try bookmarkManager.resolveBookmark(data: data) },
             securityScopeManager: scopeManager,
             logger: accessLogger
         )
@@ -210,8 +210,8 @@ final class FilesystemAccessTests: XCTestCase {
         let access = FilesystemAccess(
             openFileHandler: openDialog.open,
             saveFileHandler: { _ in expectedURL },
-            bookmarkCreator: bookmarkManager.createBookmark(for:),
-            bookmarkResolver: bookmarkManager.resolveBookmark(data:),
+            bookmarkCreator: { url in try bookmarkManager.createBookmark(for: url) },
+            bookmarkResolver: { data in try bookmarkManager.resolveBookmark(data: data) },
             securityScopeManager: scopeManager,
             logger: accessLogger
         )
@@ -248,8 +248,8 @@ final class FilesystemAccessTests: XCTestCase {
         let access = FilesystemAccess(
             openFileHandler: { _ in expectedURL },
             saveFileHandler: { _ in expectedURL },
-            bookmarkCreator: bookmarkManager.createBookmark(for:),
-            bookmarkResolver: bookmarkManager.resolveBookmark(data:),
+            bookmarkCreator: { url in try bookmarkManager.createBookmark(for: url) },
+            bookmarkResolver: { data in try bookmarkManager.resolveBookmark(data: data) },
             securityScopeManager: scopeManager,
             logger: accessLogger
         )

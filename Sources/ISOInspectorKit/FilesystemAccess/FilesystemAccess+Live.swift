@@ -50,8 +50,8 @@ extension FilesystemAccess {
         return FilesystemAccess(
             openFileHandler: openHandler,
             saveFileHandler: saveHandler,
-            bookmarkCreator: bookmarkManager.createBookmark(for:),
-            bookmarkResolver: bookmarkManager.resolveBookmark(data:),
+            bookmarkCreator: { url in try bookmarkManager.createBookmark(for: url) },
+            bookmarkResolver: { data in try bookmarkManager.resolveBookmark(data: data) },
             securityScopeManager: securityScopeManager,
             logger: logger
         )

@@ -11,7 +11,7 @@ public struct FilesystemAccessLogger: Sendable {
         info: @escaping @Sendable (String) -> Void,
         error: @escaping @Sendable (String) -> Void,
         auditTrail: FilesystemAccessAuditTrail = FilesystemAccessAuditTrail(),
-        makeDate: @escaping @Sendable () -> Date = Date.init
+        makeDate: @escaping @Sendable () -> Date
     ) {
         self.info = info
         self.error = error
@@ -22,7 +22,7 @@ public struct FilesystemAccessLogger: Sendable {
     public init(
         _ logger: DiagnosticsLogging,
         auditTrail: FilesystemAccessAuditTrail = FilesystemAccessAuditTrail(),
-        makeDate: @escaping @Sendable () -> Date = Date.init
+        makeDate: @escaping @Sendable () -> Date
     ) {
         self.init(
             info: { message in logger.info(message) },
@@ -59,6 +59,9 @@ public struct FilesystemAccessLogger: Sendable {
     public static let disabled = FilesystemAccessLogger(
         info: { _ in },
         error: { _ in },
-        auditTrail: FilesystemAccessAuditTrail(limit: 0)
+        auditTrail: FilesystemAccessAuditTrail(limit: 0),
+        makeDate: {
+            Date.init()
+        }
     )
 }

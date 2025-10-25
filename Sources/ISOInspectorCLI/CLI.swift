@@ -17,7 +17,8 @@ public struct ISOInspectorCLIEnvironment: Sendable {
     public var auditInfo: @Sendable (String) -> Void
     public var auditError: @Sendable (String) -> Void
     public var filesystemAccessAuditTrail: FilesystemAccessAuditTrail
-    public var makeFilesystemAccessInstance: @Sendable (_ logger: FilesystemAccessLogger) -> FilesystemAccess
+    public var makeFilesystemAccessInstance:
+        @Sendable (_ logger: FilesystemAccessLogger) -> FilesystemAccess
     private var issueStoreBox: UncheckedSendableValue<ParseIssueStore>
 
     public init(
@@ -33,9 +34,10 @@ public struct ISOInspectorCLIEnvironment: Sendable {
             let data = Data((message + "\n").utf8)
             FileHandle.standardError.write(data)
         },
-        makeResearchLogWriter: @escaping @Sendable (_ location: URL) throws -> any ResearchLogRecording = { url in
-            try ResearchLogWriter(fileURL: url)
-        },
+        makeResearchLogWriter:
+            @escaping @Sendable (_ location: URL) throws -> any ResearchLogRecording = { url in
+                try ResearchLogWriter(fileURL: url)
+            },
         defaultResearchLogURL: @escaping @Sendable () -> URL = {
             ResearchLogWriter.defaultLogURL()
         },
@@ -49,9 +51,10 @@ public struct ISOInspectorCLIEnvironment: Sendable {
             FileHandle.standardError.write(data)
         },
         filesystemAccessAuditTrail: FilesystemAccessAuditTrail = FilesystemAccessAuditTrail(),
-        makeFilesystemAccess: @escaping @Sendable (_ logger: FilesystemAccessLogger) -> FilesystemAccess = { logger in
-            FilesystemAccess.live(logger: logger)
-        }
+        makeFilesystemAccess:
+            @escaping @Sendable (_ logger: FilesystemAccessLogger) -> FilesystemAccess = { logger in
+                FilesystemAccess.live(logger: logger)
+            }
     ) {
         self.refreshCatalog = refreshCatalog
         self.makeReader = makeReader
@@ -105,14 +108,20 @@ public struct ISOInspectorCLIEnvironment: Sendable {
             let logger = FilesystemAccessLogger(
                 info: { infoSink($0) },
                 error: { errorSink($0) },
-                auditTrail: filesystemAccessAuditTrail
+                auditTrail: filesystemAccessAuditTrail,
+                makeDate: {
+                    Date.init()
+                }
             )
             return makeFilesystemAccessInstance(logger)
         } else {
             let logger = FilesystemAccessLogger(
                 info: { _ in },
                 error: { _ in },
-                auditTrail: FilesystemAccessAuditTrail(limit: 0)
+                auditTrail: FilesystemAccessAuditTrail(limit: 0),
+                makeDate: {
+                    Date.init()
+                }
             )
             return makeFilesystemAccessInstance(logger)
         }
@@ -163,16 +172,16 @@ public enum ISOInspectorCLIRunner {
     }
 
     public static func helpText() -> String {
-        "isoinspect — ISO BMFF (MP4/QuickTime) inspector CLI\n" +
-            "  --help, -h    Show this help message.\n" +
-            "  inspect <file> [--research-log <path>]\n" +
-            "                Stream parse events with metadata, validation summaries, and VR-006 research log entries.\n" +
-            "  export-json <file> [--output <path>]\n" +
-            "                Persist a JSON parse tree exported from streaming parse events.\n" +
-            "  export-capture <file> [--output <path>]\n" +
-            "                Save a binary capture of parse events for later replay.\n" +
-            "  mp4ra refresh [--output <path>] [--source <url>]\n" +
-            "                Refresh the bundled MP4RABoxes.json using the latest registry export."
+        "isoinspect — ISO BMFF (MP4/QuickTime) inspector CLI\n"
+            + "  --help, -h    Show this help message.\n"
+            + "  inspect <file> [--research-log <path>]\n"
+            + "                Stream parse events with metadata, validation summaries, and VR-006 research log entries.\n"
+            + "  export-json <file> [--output <path>]\n"
+            + "                Persist a JSON parse tree exported from streaming parse events.\n"
+            + "  export-capture <file> [--output <path>]\n"
+            + "                Save a binary capture of parse events for later replay.\n"
+            + "  mp4ra refresh [--output <path>] [--source <url>]\n"
+            + "                Refresh the bundled MP4RABoxes.json using the latest registry export."
     }
 
     private static func handleMP4RACommand(
@@ -327,7 +336,8 @@ public enum ISOInspectorCLIRunner {
         var iterator = arguments.makeIterator()
         var source = MP4RARegistryEndpoints.boxes
         let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
-        var output = cwd
+        var output =
+            cwd
             .appendingPathComponent("Sources")
             .appendingPathComponent("ISOInspectorKit")
             .appendingPathComponent("Resources")
@@ -532,7 +542,8 @@ public enum ISOInspectorCLIRunner {
         let parent = url.deletingLastPathComponent()
         var isDirectory: ObjCBool = false
         guard FileManager.default.fileExists(atPath: parent.path, isDirectory: &isDirectory),
-              isDirectory.boolValue else {
+            isDirectory.boolValue
+        else {
             throw ExportExecutionError.unwritableDestination(parent.path)
         }
 
