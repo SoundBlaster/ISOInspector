@@ -1214,3 +1214,30 @@ This document provides an index and summary of all archived FoundationUI impleme
 **Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/15_Phase3.1_BoxTreePatternQA/`
 
 ---
+
+### 18_Phase3.1_PatternPreviewCatalog
+**Completed**: 2025-10-25
+**Phase**: 3.1 Layer 3: UI Patterns (Organisms)
+**Component**: Pattern Preview Catalog documentation snapshot
+
+**Archived Files**:
+- `Phase3_PatternPreviewCatalog.md`
+- `next_tasks.md` (pre-archive snapshot of follow-up work)
+
+**Highlights**:
+- Documented objectives, success criteria, and implementation notes for the cross-platform preview catalog.
+- Preserved immediate ToolbarPattern verification follow-ups and broader pattern QA backlog from `next_tasks.md`.
+- Linux validation confirmed via `swift test` (354 tests, 0 failures, 1 skipped) prior to archival.
+
+**Quality Metrics**:
+- SwiftLint: Pending (binary unavailable in container; rerun on macOS host).
+- Magic Numbers: 0 (documentation reaffirms DS token usage across previews).
+- Accessibility: Outstanding verification tasks captured for macOS/iOS preview runtime sessions.
+
+**Lessons Learned**:
+- Capture preview catalog insights in documentation to accelerate future UI verification work.
+- Maintaining `next_tasks.md` continuity ensures ToolbarPattern QA remains visible post-archive.
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/18_Phase3.1_PatternPreviewCatalog/`
+
+---

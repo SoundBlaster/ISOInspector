@@ -415,7 +415,7 @@
   - Dynamic Type support (XS to XXXL)
   - Empty states and edge cases
   - 100% DS token usage (zero magic numbers)
-  - Archive: `TASK_ARCHIVE/16_Phase3.1_PatternPreviewCatalog/`
+  - Archive: `TASK_ARCHIVE/18_Phase3.1_PatternPreviewCatalog/`
 
 - [ ] **P1** Pattern performance optimization
   - Lazy loading for BoxTreePattern
