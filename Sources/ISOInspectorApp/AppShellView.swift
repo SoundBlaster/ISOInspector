@@ -44,7 +44,7 @@ struct AppShellView: View {
             VStack(spacing: 12) {
                 if shouldShowCorruptionRibbon {
                     CorruptionWarningRibbon(
-                        metrics: controller.parseTreeStore.issueMetrics,
+                        metrics: controller.issueMetrics,
                         onTap: controller.focusIntegrityDiagnostics,
                         onDismiss: dismissCorruptionRibbon
                     )
@@ -90,7 +90,7 @@ struct AppShellView: View {
         .onOpenURL { url in
             controller.openDocument(at: url)
         }
-        .onChange(of: controller.parseTreeStore.issueMetrics.totalCount) { _, newValue in
+        .onChange(of: controller.issueMetrics.totalCount) { _, newValue in
             if newValue == 0 {
                 isCorruptionRibbonDismissed = false
             }
@@ -218,7 +218,7 @@ struct AppShellView: View {
     }
 
     private var shouldShowCorruptionRibbon: Bool {
-        controller.parseTreeStore.issueMetrics.totalCount > 0 && !isCorruptionRibbonDismissed
+        controller.issueMetrics.totalCount > 0 && !isCorruptionRibbonDismissed
     }
 
     private func dismissCorruptionRibbon() {
