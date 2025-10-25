@@ -383,9 +383,8 @@ final class ParsePipelineLiveTests: XCTestCase {
         })
 
         XCTAssertFalse(finishEvent.issues.isEmpty)
-        let issue = try XCTUnwrap(finishEvent.issues.first)
+        let issue = try XCTUnwrap(finishEvent.issues.first { $0.code == "payload.truncated" })
         XCTAssertEqual(issue.severity, .error)
-        XCTAssertEqual(issue.code, "payload.truncated")
         let range = try XCTUnwrap(issue.byteRange)
         XCTAssertEqual(range.lowerBound, 8)
         XCTAssertEqual(range.upperBound, Int64(container.count))
@@ -684,6 +683,40 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertTrue(mismatches.allSatisfy { $0.severity == .warning })
         XCTAssertTrue(mismatches.contains(where: { $0.message.contains("version") }))
         XCTAssertTrue(mismatches.contains(where: { $0.message.contains("flags") }))
+    }
+
+    func testTolerantModeEmitsParseIssuesForValidationWarnings() async throws {
+        let mismatchTkhd = makeBox(
+            type: "tkhd",
+            payload: Data([0x01, 0x00, 0x00, 0x00]) + Data(repeating: 0, count: 28)
+        )
+        let trak = makeBox(type: ContainerTypes.track, payload: mismatchTkhd)
+        let moov = makeBox(type: ContainerTypes.movie, payload: trak)
+        let reader = InMemoryRandomAccessReader(data: moov)
+        let pipeline = ParsePipeline.live(options: .tolerant)
+        let store = ParseIssueStore()
+        let context = ParsePipeline.Context(options: .tolerant, issueStore: store)
+
+        let events = try await collectEvents(from: pipeline.events(for: reader, context: context))
+        let tkhdEvent = try XCTUnwrap(events.first(where: { event in
+            if case let .willStartBox(header, _) = event.kind {
+                return header.type.rawValue == "tkhd"
+            }
+            return false
+        }))
+
+        let mismatches = tkhdEvent.validationIssues.filter { $0.ruleID == "VR-003" }
+        XCTAssertEqual(mismatches.count, 2)
+
+        let parseIssues = tkhdEvent.issues.filter { $0.code == "VR-003" }
+        XCTAssertEqual(parseIssues.count, 2)
+        XCTAssertTrue(parseIssues.allSatisfy { $0.severity == .warning })
+        XCTAssertTrue(parseIssues.contains(where: { $0.message.contains("version") }))
+        XCTAssertTrue(parseIssues.contains(where: { $0.message.contains("flags") }))
+
+        await MainActor.run {}
+        let storedIssues = store.issues.filter { $0.code == "VR-003" }
+        XCTAssertEqual(storedIssues.count, 2)
     }
 
     func testLivePipelineLeavesMatchingVersionAndFlagsUnchanged() async throws {

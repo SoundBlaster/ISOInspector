@@ -1,5 +1,7 @@
 # T2.4 — Validation Rule Dual-Mode Support
 
+> ✅ **Status:** Completed — tolerant parses now record VR-001…VR-015 diagnostics via `ParseIssueStore`. See `Summary_of_Work.md` for verification notes.
+
 ## 🎯 Objective
 Ensure validation rules VR-001 through VR-015 emit `ParseIssue` diagnostics whenever tolerant parsing is enabled while preserving strict-mode exception behavior for regression parity.
 
