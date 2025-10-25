@@ -29,6 +29,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-26):** Task **T2.1 — ParseIssueStore Aggregation** is archived in `DOCS/TASK_ARCHIVE/175_Summary_of_Work_2025-10-26_ParseIssueStore_Aggregation/`, summarizing the shared store implementation, pipeline wiring, and verification runs that closed the tolerant parsing aggregation milestone.
 >
+> **In Progress (2025-10-27):** Task **T2.3 — Aggregate Parse Issue Metrics for UI and CLI Ribbons** kicked off to extend `ParseIssueStore` with per-severity counters and depth analytics needed by the tolerant parsing ribbons and CLI summaries. Coordinate with design deliverables before wiring UI badges.
+>
 > **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >
 > **Archived (D5):** _`mfra/tfra/mfro` random access tables deliverable now lives in `DOCS/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/`. Planning notes remain in `D5_mfra_tfra_mfro_Random_Access.md` with implementation details summarized in `Summary_of_Work.md`. Random access index integration shipped across ISOInspectorKit, CLI, and JSON exports; real-world codec fixture licensing follow-ups stay blocked in `DOCS/INPROGRESS/next_tasks.md`._
