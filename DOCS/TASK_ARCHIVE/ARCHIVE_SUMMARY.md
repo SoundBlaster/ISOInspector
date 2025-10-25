@@ -952,3 +952,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/185_T3_1_Tolerant_Parsing_Warning_Ribbon/`.
 - **Highlights:** Implements the SwiftUI corruption ribbon, adds persisted dismissal, binds `ParseTreeStore` metrics to the UI, and introduces `DocumentSessionController.focusIntegrityDiagnostics()` along with new unit and host-based coverage.
 - **Next steps carried forward:** Integrity tab navigation wiring and ribbon snapshot automation remain tracked in this folder's `next_tasks.md` while broader accessibility and fixture follow-ups live in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 186_Summary_of_Work_2025-10-25
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/186_Summary_of_Work_2025-10-25/`.
+- **Highlights:** Captures the October 25, 2025 tolerant parsing wrap-up that connected `ParseTreeStore` metrics to the SwiftUI corruption ribbon, introduced persisted dismissal plus accessibility copy, and verified lifecycle resets alongside host-based UI coverage.
+- **Next steps carried forward:** Await Integrity tab navigation support so `DocumentSessionController.focusIntegrityDiagnostics()` can drive deeper issue review, and continue hardware-dependent VoiceOver validation plus real-world asset licensing per `DOCS/INPROGRESS/next_tasks.md`.
