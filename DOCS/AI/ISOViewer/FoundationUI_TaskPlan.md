@@ -378,7 +378,7 @@
   - Accessibility labels and menu hints derived from item metadata
   - Archive: `TASK_ARCHIVE/12_Phase3.1_ToolbarPattern/`
 
-- [ ] **P1** Implement BoxTreePattern
+- [ ] **P1** Implement BoxTreePattern → **IN PROGRESS**
   - File: `Sources/Patterns/BoxTreePattern.swift`
   - Hierarchical tree view for ISO box structure
   - Expand/collapse functionality

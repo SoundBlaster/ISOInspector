@@ -11,7 +11,7 @@
 - [ ] Re-run SwiftLint on macOS toolchain to confirm zero violations
 
 ### BoxTreePattern Implementation
-- [ ] Implement hierarchical tree view with expand/collapse interactions backed by DS spacing tokens
+- [ ] Implement hierarchical tree view with expand/collapse interactions backed by DS spacing tokens → **IN PROGRESS** (2025-10-26)
 - [ ] Optimize rendering for 1k+ node data sets and persist selection state between sessions
 - [ ] Add performance benchmarks mirroring LargeFile fixtures and assert zero-magic-number compliance
 - [ ] Author comprehensive unit tests for tree mutations and accessibility announcements
