@@ -1,4 +1,5 @@
 // swift-tools-version: 6.0
+#if canImport(SwiftUI)
 import SwiftUI
 @testable import FoundationUI
 
@@ -170,3 +171,4 @@ struct PatternContent: View {
         .accessibilityElement(children: .contain)
     }
 }
+#endif

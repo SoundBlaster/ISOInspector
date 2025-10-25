@@ -1,4 +1,5 @@
 // swift-tools-version: 6.0
+#if canImport(SwiftUI)
 import XCTest
 import SwiftUI
 @testable import FoundationUI
@@ -98,3 +99,4 @@ final class PatternIntegrationTests: XCTestCase {
         ]
     }
 }
+#endif
