@@ -390,6 +390,7 @@
   - 6 SwiftUI Previews covering all use cases (simple, deep, multi-select, large, dark mode, inspector integration)
   - Complete DocC documentation with usage examples
   - Archive: `TASK_ARCHIVE/14_Phase3.1_BoxTreePattern/`
+  - QA & workflow archive: `TASK_ARCHIVE/15_Phase3.1_BoxTreePatternQA/`
 
 - [x] **P0** Write pattern unit tests ✅ Completed 2025-10-24 (Linux validation)
   - Test InspectorPattern composition

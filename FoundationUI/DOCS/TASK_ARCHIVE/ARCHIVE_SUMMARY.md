@@ -1183,3 +1183,34 @@ This document provides an index and summary of all archived FoundationUI impleme
 - Continue migrating pending pattern work outlined in `INPROGRESS/next_tasks.md`
 
 ---
+
+### 15_Phase3.1_BoxTreePatternQA
+**Completed**: 2025-10-25
+**Phase**: 3.1 Layer 3: UI Patterns (Organisms)
+**Component**: BoxTreePattern QA & documentation sync
+
+**Archived Files**:
+- `next_tasks.md` (snapshot of immediate priorities and recently completed milestones)
+
+**Highlights**:
+- Captured outstanding ToolbarPattern verification tasks awaiting Apple platform tooling.
+- Recorded completion context for BoxTreePattern implementation and related pattern deliverables.
+- Confirmed Linux test suite health (`swift test` → 354 tests, 0 failures, 1 skipped) prior to archival.
+
+**Quality Metrics**:
+- SwiftLint: Pending (tool unavailable on Linux; rerun on macOS toolchain).
+- Magic Numbers: 0 (policy reaffirmed via DS token usage notes).
+- Accessibility: Follow-up validation scheduled alongside Dynamic Type and reduced motion QA.
+
+**Next Steps**:
+- Validate ToolbarPattern layout with Dynamic Type and accessibility settings on SwiftUI runtime.
+- Capture iOS, iPadOS, and macOS preview snapshots for documentation.
+- Re-run SwiftLint on macOS to confirm zero violations.
+
+**Lessons Learned**:
+- Preserve `next_tasks` history per archive cycle to maintain continuity between implementation phases.
+- Document platform-specific follow-ups when tooling gaps exist on Linux runners.
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/15_Phase3.1_BoxTreePatternQA/`
+
+---
