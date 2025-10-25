@@ -37,11 +37,21 @@ enum ParseTreePreviewData {
     ) -> ParseTreeNode {
         let header = makeHeader(type: type, start: start, size: 180)
         let metadata = BoxCatalog.shared.descriptor(for: header)
+        let parseIssues = issues.map { issue -> ParseIssue in
+            ParseIssue(
+                severity: ParseIssue.Severity(issue.severity),
+                code: issue.ruleID,
+                message: issue.message,
+                byteRange: header.range,
+                affectedNodeIDs: [header.startOffset]
+            )
+        }
         return ParseTreeNode(
             header: header,
             metadata: metadata,
             payload: nil,
             validationIssues: issues,
+            issues: parseIssues,
             children: children
         )
     }
@@ -62,6 +72,19 @@ enum ParseTreePreviewData {
 
     private static func collectIssues(from node: ParseTreeNode) -> [ValidationIssue] {
         node.validationIssues + node.children.flatMap(collectIssues)
+    }
+}
+
+private extension ParseIssue.Severity {
+    init(_ validationSeverity: ValidationIssue.Severity) {
+        switch validationSeverity {
+        case .info:
+            self = .info
+        case .warning:
+            self = .warning
+        case .error:
+            self = .error
+        }
     }
 }
 #endif
