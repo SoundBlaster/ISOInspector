@@ -1,12 +1,12 @@
 import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
-    static func movieFragment(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func movieFragment(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard header.payloadRange.lowerBound <= header.payloadRange.upperBound else { return nil }
         return ParsedBoxPayload()
     }
 
-    static func movieFragmentHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func movieFragmentHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         let payloadStart = header.payloadRange.lowerBound
@@ -48,7 +48,7 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: detail)
     }
 
-    static func trackFragmentHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func trackFragmentHeader(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         let payloadStart = header.payloadRange.lowerBound
@@ -186,7 +186,7 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: detail)
     }
 
-    static func trackFragmentDecodeTime(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func trackFragmentDecodeTime(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         let payloadStart = header.payloadRange.lowerBound
@@ -251,7 +251,7 @@ extension BoxParserRegistry.DefaultParsers {
         }
     }
 
-    static func trackRun(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func trackRun(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         let payloadStart = header.payloadRange.lowerBound
@@ -568,7 +568,7 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: .trackRun(runDetail))
     }
 
-    static func sampleEncryption(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func sampleEncryption(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         let payloadStart = header.payloadRange.lowerBound
@@ -718,7 +718,7 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: .sampleEncryption(detail))
     }
 
-    static func sampleAuxInfoOffsets(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func sampleAuxInfoOffsets(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         let payloadStart = header.payloadRange.lowerBound
@@ -838,7 +838,7 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: .sampleAuxInfoOffsets(detail))
     }
 
-    static func sampleAuxInfoSizes(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func sampleAuxInfoSizes(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         let payloadStart = header.payloadRange.lowerBound
@@ -963,7 +963,7 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: .sampleAuxInfoSizes(detail))
     }
 
-    static func trackFragment(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func trackFragment(header: BoxHeader, reader _: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard header.payloadRange.lowerBound <= header.payloadRange.upperBound else { return nil }
         return ParsedBoxPayload()
     }

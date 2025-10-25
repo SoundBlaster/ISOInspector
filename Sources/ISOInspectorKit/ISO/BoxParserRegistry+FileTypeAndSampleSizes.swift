@@ -1,7 +1,7 @@
 import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
-    static func fileType(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func fileType(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         let payloadRange = header.payloadRange
         guard payloadRange.lowerBound < payloadRange.upperBound else { return nil }
         let payloadLength = payloadRange.upperBound - payloadRange.lowerBound
@@ -63,7 +63,7 @@ extension BoxParserRegistry.DefaultParsers {
         return ParsedBoxPayload(fields: fields, detail: detail)
     }
 
-    static func sampleSize(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func sampleSize(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         var fields: [ParsedBoxPayload.Field] = []
@@ -189,7 +189,7 @@ extension BoxParserRegistry.DefaultParsers {
         }
     }
 
-    static func compactSampleSize(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
+    @Sendable static func compactSampleSize(header: BoxHeader, reader: RandomAccessReader) throws -> ParsedBoxPayload? {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else { return nil }
 
         var fields: [ParsedBoxPayload.Field] = []
