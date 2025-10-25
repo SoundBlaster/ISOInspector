@@ -760,6 +760,7 @@ extension ParsePipeline {
                             options: context.options,
                             onEvent: { event in
                                 let enriched: ParseEvent
+                                var nodeIDToRemove: Int64?
                                 switch event.kind {
                                 case .willStartBox(let header, _):
                                     editListCoordinator.willStartBox(header: header)
@@ -836,10 +837,19 @@ extension ParsePipeline {
                                         payload: randomAccessPayload ?? fragmentPayload,
                                         issues: issuesByNodeID[header.startOffset] ?? []
                                     )
-                                    issuesByNodeID.removeValue(forKey: header.startOffset)
+                                    nodeIDToRemove = header.startOffset
                                 }
                                 let validated = validator.annotate(event: enriched, reader: reader)
-                                continuation.yield(validated)
+                                let finalEvent = ParsePipeline.attachParseIssuesIfNeeded(
+                                    to: validated,
+                                    options: context.options,
+                                    issueStore: issueStore,
+                                    issuesByNodeID: &issuesByNodeID
+                                )
+                                if let nodeID = nodeIDToRemove {
+                                    issuesByNodeID.removeValue(forKey: nodeID)
+                                }
+                                continuation.yield(finalEvent)
                             },
                             onIssue: { issue, depth in
                                 issueStore?.record(issue, depth: depth)
@@ -861,5 +871,84 @@ extension ParsePipeline {
                 }
             }
         })
+    }
+
+    private static func attachParseIssuesIfNeeded(
+        to event: ParseEvent,
+        options: Options,
+        issueStore: ParseIssueStore?,
+        issuesByNodeID: inout [Int64: [ParseIssue]]
+    ) -> ParseEvent {
+        guard !event.validationIssues.isEmpty else {
+            return event
+        }
+        guard !options.abortOnStructuralError else {
+            return event
+        }
+
+        let header: BoxHeader
+        let depth: Int
+        switch event.kind {
+        case let .willStartBox(resolvedHeader, resolvedDepth):
+            header = resolvedHeader
+            depth = resolvedDepth
+        case let .didFinishBox(resolvedHeader, resolvedDepth):
+            header = resolvedHeader
+            depth = resolvedDepth
+        }
+
+        let promotableIssues = event.validationIssues.filter(shouldPromoteToParseIssue)
+        guard !promotableIssues.isEmpty else {
+            return event
+        }
+
+        let parseIssues = promotableIssues.map { issue in
+            ParseIssue(
+                severity: ParseIssue.Severity(validationSeverity: issue.severity),
+                code: issue.ruleID,
+                message: issue.message,
+                byteRange: header.range,
+                affectedNodeIDs: [header.startOffset]
+            )
+        }
+
+        for issue in parseIssues {
+            issuesByNodeID[header.startOffset, default: []].append(issue)
+        }
+        if let issueStore {
+            issueStore.record(parseIssues) { _ in depth }
+        }
+
+        let combinedIssues = issuesByNodeID[header.startOffset] ?? []
+        return ParseEvent(
+            kind: event.kind,
+            offset: event.offset,
+            metadata: event.metadata,
+            payload: event.payload,
+            validationIssues: event.validationIssues,
+            issues: combinedIssues
+        )
+    }
+
+    private static func shouldPromoteToParseIssue(_ issue: ValidationIssue) -> Bool {
+        guard issue.ruleID.hasPrefix("VR-") else { return false }
+        let suffix = issue.ruleID.dropFirst(3)
+        guard let number = Int(suffix), (1...15).contains(number) else {
+            return false
+        }
+        return true
+    }
+}
+
+private extension ParseIssue.Severity {
+    init(validationSeverity: ValidationIssue.Severity) {
+        switch validationSeverity {
+        case .info:
+            self = .info
+        case .warning:
+            self = .warning
+        case .error:
+            self = .error
+        }
     }
 }
