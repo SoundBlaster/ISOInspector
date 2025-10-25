@@ -242,13 +242,7 @@ extension ParseTreeStore {
                     if !event.validationIssues.isEmpty {
                         node.validationIssues.append(contentsOf: event.validationIssues)
                     }
-                    if !event.issues.isEmpty {
-                        if node.issues.isEmpty {
-                            node.issues = event.issues
-                        } else {
-                            node.issues.append(contentsOf: event.issues)
-                        }
-                    }
+                    node.issues = event.issues
                 } else {
                     stack.append(node)
                 }
