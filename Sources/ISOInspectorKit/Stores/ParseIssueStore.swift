@@ -15,10 +15,20 @@ import Foundation
 
 public final class ParseIssueStore: ObservableObject {
     public struct IssueMetrics: Equatable, Sendable {
-        public let errorCount: Int
-        public let warningCount: Int
-        public let infoCount: Int
+        private let counts: [ParseIssue.Severity: Int]
         public let deepestAffectedDepth: Int
+
+        public init(
+            countsBySeverity: [ParseIssue.Severity: Int] = [:],
+            deepestAffectedDepth: Int = 0
+        ) {
+            var normalized: [ParseIssue.Severity: Int] = [:]
+            for severity in ParseIssue.Severity.allCases {
+                normalized[severity] = countsBySeverity[severity, default: 0]
+            }
+            self.counts = normalized
+            self.deepestAffectedDepth = deepestAffectedDepth
+        }
 
         public init(
             errorCount: Int = 0,
@@ -26,10 +36,53 @@ public final class ParseIssueStore: ObservableObject {
             infoCount: Int = 0,
             deepestAffectedDepth: Int = 0
         ) {
-            self.errorCount = errorCount
-            self.warningCount = warningCount
-            self.infoCount = infoCount
-            self.deepestAffectedDepth = deepestAffectedDepth
+            self.init(
+                countsBySeverity: [
+                    .error: errorCount,
+                    .warning: warningCount,
+                    .info: infoCount,
+                ],
+                deepestAffectedDepth: deepestAffectedDepth
+            )
+        }
+
+        public var countsBySeverity: [ParseIssue.Severity: Int] { counts }
+
+        public func count(for severity: ParseIssue.Severity) -> Int {
+            counts[severity, default: 0]
+        }
+
+        public var errorCount: Int { count(for: .error) }
+        public var warningCount: Int { count(for: .warning) }
+        public var infoCount: Int { count(for: .info) }
+
+        public var totalCount: Int {
+            counts.values.reduce(0, +)
+        }
+    }
+
+    public struct IssueSummary: Equatable, Sendable {
+        public let metrics: IssueMetrics
+        public let totalCount: Int
+
+        public init(
+            metrics: IssueMetrics = IssueMetrics(),
+            totalCount: Int = 0
+        ) {
+            self.metrics = metrics
+            self.totalCount = totalCount
+        }
+
+        public var countsBySeverity: [ParseIssue.Severity: Int] {
+            metrics.countsBySeverity
+        }
+
+        public var deepestAffectedDepth: Int {
+            metrics.deepestAffectedDepth
+        }
+
+        public func count(for severity: ParseIssue.Severity) -> Int {
+            metrics.count(for: severity)
         }
     }
 
@@ -96,6 +149,19 @@ public final class ParseIssueStore: ObservableObject {
                 guard let byteRange = issue.byteRange else { return false }
                 return Self.intersects(byteRange, range)
             }
+        }
+    }
+
+    public func metricsSnapshot() -> IssueMetrics {
+        readOnMain { metrics }
+    }
+
+    public func makeIssueSummary() -> IssueSummary {
+        readOnMain {
+            IssueSummary(
+                metrics: metrics,
+                totalCount: issues.count
+            )
         }
     }
 

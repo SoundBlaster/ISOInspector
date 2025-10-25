@@ -196,18 +196,25 @@ func validate(node: BoxNode, context: ValidationContext) {
 ```swift
 class ParseIssueStore: ObservableObject {
     @Published private(set) var issues: [ParseIssue] = []
+    @Published private(set) var metrics: IssueMetrics
 
     func record(_ issue: ParseIssue)
     func issues(forNode nodeID: String) -> [ParseIssue]
     func issues(inRange range: Range<Int64>) -> [ParseIssue]
-    func metrics() -> IssueMetrics  // Counts by severity, deepest depth
+    func metricsSnapshot() -> IssueMetrics  // Counts by severity, deepest depth
+    func makeIssueSummary() -> IssueSummary // DTO for CLI/UI summaries
 }
 
 struct IssueMetrics {
-    let errorCount: Int
-    let warningCount: Int
-    let infoCount: Int
+    let countsBySeverity: [ParseIssue.Severity: Int]
     let deepestAffectedDepth: Int
+    var totalCount: Int { get }
+    func count(for severity: ParseIssue.Severity) -> Int
+}
+
+struct IssueSummary {
+    let metrics: IssueMetrics
+    let totalCount: Int
 }
 ```
 
