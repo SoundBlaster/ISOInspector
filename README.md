@@ -55,7 +55,7 @@ The pre-commit hook requires Docker (recommended), or a local `swiftlint` binary
 ```sh
 scripts/swiftlint-format.sh   # falls back to local `swiftlint --fix` if Docker is missing
 npx markdownlint-cli2 --fix 'DOCS/INPROGRESS/**/*.md' 'DOCS/COMMANDS/**/*.md' 'DOCS/RULES/**/*.md'
-scripts/check_yaml.py
+scripts/check_yaml.py         # requires PyYAML (`python3 -m pip install pyyaml`)
 ```
 
 Re-run the command if your local configuration resets `core.hooksPath`.
