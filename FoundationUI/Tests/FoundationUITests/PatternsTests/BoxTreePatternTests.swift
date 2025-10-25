@@ -112,13 +112,13 @@ final class BoxTreePatternTests: XCTestCase {
     func testBoxTreePatternInitializesWithSelectionBinding() {
         // Given
         let tree = makeSimpleTree()
-        @State var selection: UUID? = nil
+        var selection: UUID? = nil
 
         // When
         let pattern = BoxTreePattern(
             data: tree,
             children: { $0.children },
-            selection: $selection,
+            selection: Binding(get: { selection }, set: { selection = $0 }),
             content: { node in Text(node.title) }
         )
 
@@ -131,13 +131,13 @@ final class BoxTreePatternTests: XCTestCase {
     func testBoxTreePatternExpandsNode() {
         // Given
         let tree = makeSimpleTree()
-        @State var expandedNodes: Set<UUID> = []
+        var expandedNodes: Set<UUID> = []
 
         // When
         let pattern = BoxTreePattern(
             data: tree,
             children: { $0.children },
-            expandedNodes: $expandedNodes,
+            expandedNodes: Binding(get: { expandedNodes }, set: { expandedNodes = $0 }),
             content: { node in Text(node.title) }
         )
 
@@ -149,7 +149,7 @@ final class BoxTreePatternTests: XCTestCase {
         // Given
         let tree = makeSimpleTree()
         let rootId = tree[0].id
-        @State var expandedNodes: Set<UUID> = [rootId]
+        var expandedNodes: Set<UUID> = [rootId]
 
         // When - initially expanded
         XCTAssertTrue(expandedNodes.contains(rootId), "Root should be initially expanded")
@@ -163,13 +163,13 @@ final class BoxTreePatternTests: XCTestCase {
         // Given
         let tree = makeSimpleTree()
         let rootId = tree[0].id
-        @State var expandedNodes: Set<UUID> = [rootId]
+        var expandedNodes: Set<UUID> = [rootId]
 
         // When - pattern is recreated with same expanded state
         let pattern = BoxTreePattern(
             data: tree,
             children: { $0.children },
-            expandedNodes: $expandedNodes,
+            expandedNodes: Binding(get: { expandedNodes }, set: { expandedNodes = $0 }),
             content: { node in Text(node.title) }
         )
 
@@ -184,7 +184,7 @@ final class BoxTreePatternTests: XCTestCase {
         // Given
         let tree = makeSimpleTree()
         let targetId = tree[0].id
-        @State var selection: UUID? = nil
+        var selection: UUID? = nil
 
         // When
         selection = targetId
@@ -196,7 +196,7 @@ final class BoxTreePatternTests: XCTestCase {
     func testBoxTreePatternSupportsNilSelection() {
         // Given
         let tree = makeSimpleTree()
-        @State var selection: UUID? = tree[0].id
+        var selection: UUID? = tree[0].id
 
         // When
         selection = nil
@@ -208,7 +208,7 @@ final class BoxTreePatternTests: XCTestCase {
     func testBoxTreePatternSupportsMultiSelection() {
         // Given
         let tree = makeSimpleTree()
-        @State var selection: Set<UUID> = []
+        var selection: Set<UUID> = []
 
         // When
         selection.insert(tree[0].id)
@@ -274,7 +274,7 @@ final class BoxTreePatternTests: XCTestCase {
         // Given
         let tree = makeSimpleTree()
         let rootId = tree[0].id
-        @State var expandedNodes: Set<UUID> = []
+        var expandedNodes: Set<UUID> = []
 
         // When - toggle expansion
         let wasExpanded = expandedNodes.contains(rootId)
@@ -309,7 +309,7 @@ final class BoxTreePatternTests: XCTestCase {
     func testBoxTreePatternUsesLazyRenderingForPerformance() {
         // Given
         let largeTree = makeLargeTree()
-        @State var expandedNodes: Set<UUID> = []
+        var expandedNodes: Set<UUID> = []
 
         // When - only root nodes are expanded
         // LazyVStack should only render visible nodes
@@ -317,7 +317,7 @@ final class BoxTreePatternTests: XCTestCase {
         let pattern = BoxTreePattern(
             data: largeTree,
             children: { $0.children },
-            expandedNodes: $expandedNodes,
+            expandedNodes: Binding(get: { expandedNodes }, set: { expandedNodes = $0 }),
             content: { node in Text(node.title) }
         )
 
@@ -367,7 +367,7 @@ final class BoxTreePatternTests: XCTestCase {
     func testBoxTreePatternUsesDesignSystemAnimation() {
         // Given
         let tree = makeSimpleTree()
-        @State var expandedNodes: Set<UUID> = []
+        var expandedNodes: Set<UUID> = []
 
         // When - animations should use DS.Animation tokens
         let animation = DS.Animation.medium
@@ -380,7 +380,7 @@ final class BoxTreePatternTests: XCTestCase {
         // Given
         let tree = makeSimpleTree()
         let rootId = tree[0].id
-        @State var expandedNodes: Set<UUID> = []
+        var expandedNodes: Set<UUID> = []
 
         // When - expand with animation
         withAnimation(DS.Animation.medium) {
