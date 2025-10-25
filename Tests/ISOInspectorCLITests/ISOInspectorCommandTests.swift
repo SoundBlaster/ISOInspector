@@ -878,6 +878,36 @@ final class ISOInspectorCommandTests: XCTestCase {
             ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
         }
     }
+
+    func testFilteredEventPreservesParseIssueMetadata() throws {
+        let header = try makeHeader(type: "ftyp", size: 24)
+        let parseIssue = ParseIssue(
+            severity: .warning,
+            code: "guard.zero_size_loop",
+            message: "Repeated zero-sized box",
+            byteRange: 16..<24,
+            affectedNodeIDs: [header.startOffset]
+        )
+        let validationIssue = ValidationIssue(
+            ruleID: ValidationRuleIdentifier.researchLogRecording.rawValue,
+            message: "Filtered",
+            severity: .info
+        )
+        let event = ParseEvent(
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            validationIssues: [validationIssue],
+            issues: [parseIssue]
+        )
+
+        let filtered = ISOInspectorCommand.filteredEvent(
+            event,
+            removing: [validationIssue.ruleID]
+        )
+
+        XCTAssertTrue(filtered.validationIssues.isEmpty)
+        XCTAssertEqual(filtered.issues, [parseIssue])
+    }
 }
 
 private func loadFixtureData(named name: String) throws -> Data {

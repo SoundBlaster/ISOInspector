@@ -1011,7 +1011,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
     }
 }
 
-private extension ISOInspectorCommand {
+extension ISOInspectorCommand {
     static func validationMetadata(
         configuration: ValidationConfiguration,
         presets: [ValidationPreset]
@@ -1037,7 +1037,8 @@ private extension ISOInspectorCommand {
             offset: event.offset,
             metadata: event.metadata,
             payload: event.payload,
-            validationIssues: filtered
+            validationIssues: filtered,
+            issues: event.issues
         )
     }
 

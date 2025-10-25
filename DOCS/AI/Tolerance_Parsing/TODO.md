@@ -45,7 +45,7 @@ Persist and aggregate corruption events for UI/CLI/export consumption.
 | Task ID | Description | Priority | Effort | Dependencies | Acceptance Criteria |
 |---------|-------------|----------|--------|--------------|---------------------|
 | T2.1 | Create `ParseIssueStore` to aggregate issues keyed by node identifier and byte ranges. | High | 1.5d | T1.1 | Store accepts issues during streaming parse; exposes query APIs (by severity, by node, by range). *(Completed — see `DOCS/TASK_ARCHIVE/175_Summary_of_Work_2025-10-26_ParseIssueStore_Aggregation/Summary_of_Work.md`.)* |
-| T2.2 | Emit parse events with severity, offsets, and reason codes; integrate with existing streaming event system. | High | 1.5d | T2.1, existing `ParsePipeline` | Events flow to Combine bridge; `ParseTreeStore` observes and updates UI state. *(In Progress — see `DOCS/INPROGRESS/T2_2_Emit_Parse_Events.md` for active planning.)* |
+| T2.2 | Emit parse events with severity, offsets, and reason codes; integrate with existing streaming event system. | High | 1.5d | T2.1, existing `ParsePipeline` | Events flow to Combine bridge; `ParseTreeStore` observes and updates UI state. *(Completed — see `DOCS/INPROGRESS/Summary_of_Work.md` for verification highlights.)* |
 | T2.3 | Add severity metrics aggregation (count per severity, deepest affected depth) for summary views. | Medium | 1d | T2.1 | Store computes real-time metrics; accessible via property/computed fields. |
 | T2.4 | Extend validation rules (VR-001 to VR-015) to produce `ParseIssue` objects instead of throwing when in lenient mode. | High | 2d | T1.1, T1.3 | Validation rules check pipeline options; generate issues for lenient, throw for strict. |
 
