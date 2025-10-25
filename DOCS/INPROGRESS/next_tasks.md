@@ -1,5 +1,8 @@
 # Next Tasks
 
+- 🚀 **T2.4 — Validation Rules Emit Parse Issues in Lenient Mode** _(In Progress — enabling dual-mode diagnostics)_:
+  - Refactor validation rules VR-001…VR-015 to emit `ParseIssue` records when tolerant parsing is enabled while preserving strict-mode exceptions.
+  - Coordinate with the shared validation helper proposed in the tolerance parsing integration notes so downstream consumers receive consistent issue payloads.
 - 🎯 **T2.3 — Aggregate Parse Issue Metrics for UI and CLI Ribbons** _(Pending design handoff)_:
   - Extend `ParseIssueStore` aggregation to expose per-severity counts for tolerant parsing dashboards and streaming summaries.
   - Coordinate with design deliverables noted in `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md` to confirm ribbon layout requirements.
