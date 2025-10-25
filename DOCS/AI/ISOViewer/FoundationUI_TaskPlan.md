@@ -7,13 +7,13 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 30/111 tasks completed (27%)**
+**Total: 31/111 tasks completed (28%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | In Progress | 1/15 (7%) |
 | Phase 2: Core Components | Complete | 20/22 (91%) |
-| Phase 3: Patterns & Platform Adaptation | In Progress | 6/16 (38%) |
+| Phase 3: Patterns & Platform Adaptation | In Progress | 7/16 (44%) |
 | Phase 4: Agent Support & Polish | Not Started | 0/13 (0%) |
 | Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
@@ -350,10 +350,10 @@
 
 ## Phase 3: Patterns & Platform Adaptation (Week 5-6)
 **Priority: P0-P1**
-**Progress: 6/16 tasks completed (38%)**
+**Progress: 7/16 tasks completed (44%)**
 
 ### 3.1 Layer 3: UI Patterns (Organisms)
-**Progress: 6/8 tasks (75%) → IN PROGRESS**
+**Progress: 7/8 tasks (88%) → IN PROGRESS**
 
 - [x] **P0** Implement InspectorPattern → **Completed 2025-10-24 (Linux QA complete; Apple platform QA pending)**
   - Files: `Sources/FoundationUI/Patterns/InspectorPattern.swift`, unit and integration tests under `Tests/FoundationUITests`
@@ -407,11 +407,15 @@
   - Archive: `TASK_ARCHIVE/13_Phase3.1_PatternIntegrationTests/`
   - Next Steps: Validate visual rendering on Apple platforms once SwiftUI previews available
 
-- [ ] **P0** Pattern preview catalog → **IN PROGRESS**
-  - Complete visual examples for all patterns
-  - Real-world usage scenarios
-  - Platform comparison views
-  - Dark mode variations
+- [x] **P0** Pattern preview catalog → **Completed 2025-10-25**
+  - Complete visual examples for all patterns (41 total previews)
+  - Real-world usage scenarios (ISO Inspector workflows)
+  - Platform comparison views (macOS/iOS adaptive layouts)
+  - Dark mode variations (all 4 patterns)
+  - Dynamic Type support (XS to XXXL)
+  - Empty states and edge cases
+  - 100% DS token usage (zero magic numbers)
+  - Archive: `TASK_ARCHIVE/16_Phase3.1_PatternPreviewCatalog/`
 
 - [ ] **P1** Pattern performance optimization
   - Lazy loading for BoxTreePattern
