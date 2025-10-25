@@ -607,6 +607,148 @@ public extension BoxTreePattern {
     .frame(width: 600, height: 600)
 }
 
+#Preview("Dynamic Type - Small") {
+    struct PreviewNode: Identifiable {
+        let id = UUID()
+        let title: String
+        var children: [PreviewNode]
+    }
+
+    @Previewable @State var expandedNodes: Set<UUID> = []
+
+    let sampleData = [
+        PreviewNode(title: "Root 1", children: [
+            PreviewNode(title: "Child 1.1", children: []),
+            PreviewNode(title: "Child 1.2", children: [])
+        ]),
+        PreviewNode(title: "Root 2", children: [])
+    ]
+
+    return ScrollView {
+        BoxTreePattern(
+            data: sampleData,
+            children: { $0.children.isEmpty ? nil : $0.children },
+            expandedNodes: $expandedNodes
+        ) { node in
+            Text(node.title)
+                .font(DS.Typography.body)
+        }
+        .padding(DS.Spacing.l)
+    }
+    .frame(width: 400, height: 600)
+    .environment(\.dynamicTypeSize, .xSmall)
+}
+
+#Preview("Dynamic Type - Large") {
+    struct PreviewNode: Identifiable {
+        let id = UUID()
+        let title: String
+        var children: [PreviewNode]
+    }
+
+    @Previewable @State var expandedNodes: Set<UUID> = []
+
+    let sampleData = [
+        PreviewNode(title: "Root Node", children: [
+            PreviewNode(title: "Child Node", children: [])
+        ])
+    ]
+
+    return ScrollView {
+        BoxTreePattern(
+            data: sampleData,
+            children: { $0.children.isEmpty ? nil : $0.children },
+            expandedNodes: $expandedNodes
+        ) { node in
+            Text(node.title)
+                .font(DS.Typography.body)
+        }
+        .padding(DS.Spacing.l)
+    }
+    .frame(width: 500, height: 600)
+    .environment(\.dynamicTypeSize, .xxxLarge)
+}
+
+#Preview("Empty Tree") {
+    struct PreviewNode: Identifiable {
+        let id = UUID()
+        let title: String
+        var children: [PreviewNode]
+    }
+
+    @Previewable @State var expandedNodes: Set<UUID> = []
+
+    let emptyData: [PreviewNode] = []
+
+    return VStack(spacing: DS.Spacing.l) {
+        Text("Empty tree state")
+            .font(DS.Typography.caption)
+            .foregroundStyle(.secondary)
+
+        ScrollView {
+            if emptyData.isEmpty {
+                VStack(spacing: DS.Spacing.l) {
+                    Image(systemName: "tray")
+                        .font(.system(size: DS.Spacing.xl * 2))
+                        .foregroundStyle(.secondary)
+                    Text("No items in tree")
+                        .font(DS.Typography.body)
+                        .foregroundStyle(.secondary)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .padding(DS.Spacing.xl)
+            } else {
+                BoxTreePattern(
+                    data: emptyData,
+                    children: { $0.children.isEmpty ? nil : $0.children },
+                    expandedNodes: $expandedNodes
+                ) { node in
+                    Text(node.title)
+                        .font(DS.Typography.body)
+                }
+            }
+        }
+    }
+    .frame(width: 400, height: 400)
+}
+
+#Preview("Flat List (No Nesting)") {
+    struct PreviewNode: Identifiable {
+        let id = UUID()
+        let title: String
+        var children: [PreviewNode]
+    }
+
+    @Previewable @State var expandedNodes: Set<UUID> = []
+    @Previewable @State var selection: UUID? = nil
+
+    let flatData = [
+        PreviewNode(title: "Item 1", children: []),
+        PreviewNode(title: "Item 2", children: []),
+        PreviewNode(title: "Item 3", children: []),
+        PreviewNode(title: "Item 4", children: []),
+        PreviewNode(title: "Item 5", children: [])
+    ]
+
+    return ScrollView {
+        BoxTreePattern(
+            data: flatData,
+            children: { $0.children.isEmpty ? nil : $0.children },
+            expandedNodes: $expandedNodes,
+            selection: $selection
+        ) { node in
+            HStack {
+                Text(node.title)
+                    .font(DS.Typography.body)
+                Spacer()
+                Badge(text: "ITEM", level: .info)
+            }
+        }
+        .padding(DS.Spacing.l)
+    }
+    .frame(width: 400, height: 600)
+}
+
 // Helper function for preview
 private func findNode(id: UUID, in nodes: [any Identifiable]) -> PreviewNode? {
     for node in nodes {
