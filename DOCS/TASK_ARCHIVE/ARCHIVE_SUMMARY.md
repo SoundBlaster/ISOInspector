@@ -924,3 +924,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/178_Snapshot_and_CLI_Fixture_Maintenance/`.
 - **Highlights:** Documents the refreshed issue metrics export that now accompanies JSON parse trees, updated CLI compatibility coverage asserting the new metrics, and regenerated snapshot fixtures to align downstream consumers.
 - **Next steps carried forward:** Follow the regenerated `DOCS/INPROGRESS/next_tasks.md` for hardware-dependent VoiceOver regression validation, real-world codec asset acquisition, and the tolerant parsing SwiftUI ribbon surfacing once design sign-off lands. Future schema updates should continue using `ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests`.
+
+## 179_Summary_of_Work_2025-10-27_G6_Export_JSON_Actions
+- **Archived files:** `G6_Export_JSON_Actions.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/179_Summary_of_Work_2025-10-27_G6_Export_JSON_Actions/`.
+- **Highlights:** Captures the regression hardening pass for the SwiftUI export pipeline, including new tests for missing selection handling, save-panel failure diagnostics, and alignment between exporter outcomes and user-facing alerts.
+- **Next steps carried forward:** VoiceOver regression validation, real-world asset acquisition, and tolerant parsing issue metrics remain active in `DOCS/INPROGRESS/next_tasks.md`.
