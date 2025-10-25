@@ -5,10 +5,14 @@ let package = Package(
     name: "ISOInspector",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v16),
+        .iOS(.v17),
         .macOS(.v14)
     ],
     products: [
+        .library(
+            name: "FoundationUI",
+            targets: ["FoundationUI"]
+        ),
         .library(
             name: "ISOInspectorKit",
             targets: ["ISOInspectorKit"]
@@ -62,11 +66,20 @@ let package = Package(
                 .process("Resources")
             ]
         ),
+        .target(
+            name: "FoundationUI"
+        ),
         .testTarget(
             name: "ISOInspectorKitTests",
             dependencies: ["ISOInspectorKit"],
             resources: [
                 .process("Fixtures")
+            ]
+        ),
+        .testTarget(
+            name: "FoundationUITests",
+            dependencies: [
+                "FoundationUI"
             ]
         ),
         .testTarget(

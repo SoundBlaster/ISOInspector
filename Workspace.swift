@@ -4,7 +4,7 @@ import ProjectDescription
 ///
 /// Unified workspace containing:
 /// - ISOInspector: Main application (iOS, iPadOS, macOS) and CLI tools
-/// - FoundationUI: SwiftUI component library
+/// - FoundationUI: SwiftUI component library (Sources/FoundationUI, Tests/FoundationUITests)
 /// - ComponentTestApp: Demo app for FoundationUI testing
 ///
 /// ## Usage
