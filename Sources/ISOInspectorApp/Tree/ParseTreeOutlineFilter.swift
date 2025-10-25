@@ -25,8 +25,18 @@ struct ParseTreeOutlineFilter: Equatable {
 
     func matches(node: ParseTreeNode) -> Bool {
         if !focusedSeverities.isEmpty {
-            let hasMatchingSeverity = node.validationIssues.contains { focusedSeverities.contains($0.severity) }
-            if !hasMatchingSeverity {
+            let hasMatchingValidationSeverity = node.validationIssues.contains { focusedSeverities.contains($0.severity) }
+            let hasMatchingParseSeverity = node.issues.contains { issue in
+                switch issue.severity {
+                case .error:
+                    return focusedSeverities.contains(.error)
+                case .warning:
+                    return focusedSeverities.contains(.warning)
+                case .info:
+                    return focusedSeverities.contains(.info)
+                }
+            }
+            if !(hasMatchingValidationSeverity || hasMatchingParseSeverity) {
                 return false
             }
         }

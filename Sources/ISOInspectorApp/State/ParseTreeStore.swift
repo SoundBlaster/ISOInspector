@@ -213,7 +213,8 @@ extension ParseTreeStore {
                     header: header,
                     metadata: event.metadata,
                     payload: event.payload,
-                    validationIssues: event.validationIssues
+                    validationIssues: event.validationIssues,
+                    issues: event.issues
                 )
                 if let parent = stack.last {
                     parent.children.append(node)
@@ -240,6 +241,9 @@ extension ParseTreeStore {
                     }
                     if !event.validationIssues.isEmpty {
                         node.validationIssues.append(contentsOf: event.validationIssues)
+                    }
+                    if !event.issues.isEmpty {
+                        node.issues = event.issues
                     }
                 } else {
                     stack.append(node)
@@ -269,13 +273,13 @@ extension ParseTreeStore {
 
         init(
             header: BoxHeader, metadata: BoxDescriptor?, payload: ParsedBoxPayload?,
-            validationIssues: [ValidationIssue]
+            validationIssues: [ValidationIssue], issues: [ParseIssue]
         ) {
             self.header = header
             self.metadata = metadata
             self.payload = payload
             self.validationIssues = validationIssues
-            self.issues = []
+            self.issues = issues
             self.status = .valid
             self.children = []
         }

@@ -185,6 +185,38 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.containsStreamingIndicators)
     }
 
+    func testRowsExposeCorruptionSummaryFromParseIssues() throws {
+        let parseIssues = [
+            ParseIssue(
+                severity: .error,
+                code: "VR-900",
+                message: "Stub error",
+                byteRange: 0..<8,
+                affectedNodeIDs: [1]
+            ),
+            ParseIssue(
+                severity: .warning,
+                code: "VR-901",
+                message: "Stub warning",
+                byteRange: 8..<16,
+                affectedNodeIDs: [1]
+            )
+        ]
+        let node = makeNode(identifier: 1, type: "trak", parseIssues: parseIssues)
+        let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+
+        viewModel.apply(snapshot: snapshot)
+
+        let row = try XCTUnwrap(viewModel.rows.first)
+        let summary = try XCTUnwrap(row.corruptionSummary)
+        XCTAssertEqual(summary.totalCount, 2)
+        XCTAssertEqual(summary.count(for: .error), 1)
+        XCTAssertEqual(summary.count(for: .warning), 1)
+        XCTAssertEqual(summary.dominantSeverity, .error)
+        XCTAssertEqual(summary.primaryIssue?.code, "VR-900")
+    }
+
     func testFirstVisibleNodeIDDefaultsToRoot() throws {
         let child = makeNode(identifier: 2, type: "trak")
         let root = makeNode(identifier: 1, type: "moov", children: [child])
@@ -265,6 +297,7 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         identifier: Int64,
         type: String,
         issues: [ValidationIssue] = [],
+        parseIssues: [ParseIssue] = [],
         children: [ParseTreeNode] = []
     ) -> ParseTreeNode {
         let start = identifier
@@ -283,6 +316,7 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
             metadata: nil,
             payload: nil,
             validationIssues: issues,
+            issues: parseIssues,
             children: children
         )
     }

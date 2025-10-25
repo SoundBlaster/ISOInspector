@@ -1,5 +1,7 @@
 # T3.2 Corruption Badges for Tree View Nodes
 
+> ✅ **Status:** Completed — see `DOCS/INPROGRESS/Summary_of_Work.md` for implementation notes.
+
 ## 🎯 Objective
 Highlight corrupt or degraded structures directly inside the outline tree so operators can triage tolerant parsing results without leaving their navigation workflow.
 

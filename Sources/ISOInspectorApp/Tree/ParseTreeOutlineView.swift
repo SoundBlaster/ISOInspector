@@ -403,7 +403,9 @@ private struct ParseTreeOutlineRowView: View {
                 }
             }
             Spacer()
-            if let severity = row.dominantSeverity {
+            if let corruption = row.corruptionSummary {
+                CorruptionBadge(summary: corruption)
+            } else if let severity = row.dominantSeverity {
                 SeverityBadge(severity: severity)
             } else if row.hasValidationIssues {
                 SeverityBadge(severity: .info)
@@ -477,6 +479,34 @@ private struct ParseTreeOutlineRowView: View {
     }
 }
 
+private struct CorruptionBadge: View {
+    let summary: ParseTreeOutlineRow.CorruptionSummary
+
+    var body: some View {
+        HStack(spacing: 4) {
+            Image(systemName: summary.dominantSeverity.iconName)
+                .font(.caption2.weight(.bold))
+                .accessibilityHidden(true)
+            Text(summary.badgeText)
+                .font(.caption2)
+                .fontWeight(.semibold)
+        }
+        .padding(.horizontal, 8)
+        .padding(.vertical, 4)
+        .foregroundColor(summary.dominantSeverity.color)
+        .background(summary.dominantSeverity.color.opacity(0.2))
+        .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+        .contentShape(Rectangle())
+        .help(summary.tooltipText ?? summary.badgeText)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(summary.accessibilityLabel)
+        .accessibilityHint(optional: summary.accessibilityHint)
+#if os(macOS)
+        .focusable(true)
+#endif
+    }
+}
+
 private struct SeverityBadge: View {
     let severity: ValidationIssue.Severity
 
@@ -520,6 +550,32 @@ private struct ParseStateBadge: View {
         case .parsing: return .blue
         case .finished: return .green
         case .failed: return .red
+        }
+    }
+}
+
+private extension ParseIssue.Severity {
+    var label: String {
+        switch self {
+        case .info: return "Info"
+        case .warning: return "Warning"
+        case .error: return "Error"
+        }
+    }
+
+    var color: Color {
+        switch self {
+        case .info: return .blue
+        case .warning: return .orange
+        case .error: return .red
+        }
+    }
+
+    var iconName: String {
+        switch self {
+        case .info: return "info.circle.fill"
+        case .warning: return "exclamationmark.triangle.fill"
+        case .error: return "xmark.octagon.fill"
         }
     }
 }
