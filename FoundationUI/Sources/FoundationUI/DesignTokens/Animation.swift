@@ -130,5 +130,13 @@ public extension DS {
             // For now, we return the animation as-is since SwiftUI handles this
             return animation
         }
+
+        /// Resolves the quick animation token based on the Reduce Motion preference.
+        ///
+        /// - Parameter prefersReducedMotion: Indicates whether the user has enabled Reduce Motion.
+        /// - Returns: The quick animation when motion is allowed, otherwise `nil` for instant updates.
+        public static func resolvedQuick(prefersReducedMotion: Bool) -> SwiftUI.Animation? {
+            prefersReducedMotion ? nil : quick
+        }
     }
 }

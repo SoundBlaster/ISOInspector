@@ -90,5 +90,13 @@ public extension DS {
         ///
         /// **Usage**: Subsection titles, grouped list headers
         public static let subheadline = Font.subheadline
+
+        /// Icon font for disclosure indicators and glyph-based controls
+        ///
+        /// Provides a consistent typographic baseline for SF Symbols used within
+        /// interactive controls such as tree disclosure chevrons and toolbar glyphs.
+        ///
+        /// **Usage**: Chevron buttons, accessory icons, compact action affordances
+        public static let icon = Font.caption2.weight(.semibold)
     }
 }
