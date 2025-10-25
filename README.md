@@ -50,9 +50,10 @@ Enable the repository-managed hooks to automatically format Markdown documentati
 git config core.hooksPath .githooks
 ```
 
-The pre-commit hook requires `npx`, `python3`, and [`PyYAML`](https://pyyaml.org/) and runs:
+The pre-commit hook requires Docker (recommended), or a local `swiftlint` binary, plus `npx`, `python3`, and [`PyYAML`](https://pyyaml.org/). It runs:
 
 ```sh
+scripts/swiftlint-format.sh   # falls back to local `swiftlint --fix` if Docker is missing
 npx markdownlint-cli2 --fix 'DOCS/INPROGRESS/**/*.md' 'DOCS/COMMANDS/**/*.md' 'DOCS/RULES/**/*.md'
 scripts/check_yaml.py
 ```

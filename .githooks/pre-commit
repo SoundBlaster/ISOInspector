@@ -3,6 +3,19 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
+echo "Running SwiftLint autofix..."
+if command -v docker >/dev/null 2>&1; then
+  "$REPO_ROOT/scripts/swiftlint-format.sh"
+elif command -v swiftlint >/dev/null 2>&1; then
+  (
+    cd "$REPO_ROOT"
+    rm -f "$REPO_ROOT/.swiftlint.cache"
+    swiftlint --fix --no-cache --config "$REPO_ROOT/.swiftlint.yml"
+  )
+else
+  echo "SwiftLint formatting skipped: install Docker or SwiftLint to match CI." >&2
+fi
+
 if ! command -v npx >/dev/null 2>&1; then
   echo "pre-commit markdownlint skipped: npx is required but was not found." >&2
   exit 1
