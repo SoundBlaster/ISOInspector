@@ -129,6 +129,49 @@ final class ParseTreeStoreTests: XCTestCase {
         wait(for: [failed], timeout: 2.0)
     }
 
+    @MainActor
+    func testIssueMetricsPublishesAggregatedCounts() {
+        let store = ParseTreeStore()
+        XCTAssertEqual(store.issueMetrics.totalCount, 0)
+
+        let expectation = expectation(description: "Issue metrics updated")
+        var cancellables: Set<AnyCancellable> = []
+
+        store.$issueMetrics
+            .dropFirst()
+            .sink { metrics in
+                XCTAssertEqual(metrics.errorCount, 1)
+                XCTAssertEqual(metrics.warningCount, 1)
+                XCTAssertEqual(metrics.deepestAffectedDepth, 2)
+                expectation.fulfill()
+            }
+            .store(in: &cancellables)
+
+        let issue = ParseIssue(
+            severity: .error,
+            code: "VR-999",
+            message: "Stub issue",
+            byteRange: 0..<8,
+            affectedNodeIDs: [1, 2]
+        )
+        let warning = ParseIssue(
+            severity: .warning,
+            code: "VR-998",
+            message: "Stub warning",
+            byteRange: 8..<16,
+            affectedNodeIDs: [1]
+        )
+        store.issueStore.record(issue, depth: 2)
+        store.issueStore.record(warning, depth: 1)
+
+        wait(for: [expectation], timeout: 1.0)
+
+        store.shutdown()
+
+        XCTAssertEqual(store.issueMetrics.totalCount, 0)
+        XCTAssertEqual(store.issueMetrics.deepestAffectedDepth, 0)
+    }
+
     private func makeSampleEvents(childIssues: [ValidationIssue] = []) -> [ParseEvent] {
         let parentHeader = BoxHeader(
             type: try! FourCharCode("root"),

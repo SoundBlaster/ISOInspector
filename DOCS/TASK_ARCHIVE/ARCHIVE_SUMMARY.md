@@ -946,5 +946,9 @@
 ## 184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons
 - **Archived files:** `T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons/`.
-- **Highlights:** Captures the tolerant parsing metrics aggregation delivering `ParseIssueStore.metricsSnapshot()` and `makeIssueSummary()` so SwiftUI ribbons, CLI summaries, and downstream docs can reuse per-severity counts, totals, and depth analytics without recomputation.
-- **Next steps carried forward:** SwiftUI ribbon surfacing, VoiceOver regression validation, and real-world codec fixture acquisition remain active in `DOCS/INPROGRESS/next_tasks.md` while UI wiring continues under `@todo PDD:45m` in `Sources/ISOInspectorApp/State/ParseTreeStore.swift`.
+
+## 185_T3_1_Tolerant_Parsing_Warning_Ribbon
+- **Archived files:** `T3_1_Tolerant_Parsing_Warning_Ribbon.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/185_T3_1_Tolerant_Parsing_Warning_Ribbon/`.
+- **Highlights:** Implements the SwiftUI corruption ribbon, adds persisted dismissal, binds `ParseTreeStore` metrics to the UI, and introduces `DocumentSessionController.focusIntegrityDiagnostics()` along with new unit and host-based coverage.
+- **Next steps carried forward:** Integrity tab navigation wiring and ribbon snapshot automation remain tracked in this folder's `next_tasks.md` while broader accessibility and fixture follow-ups live in `DOCS/INPROGRESS/next_tasks.md`.
