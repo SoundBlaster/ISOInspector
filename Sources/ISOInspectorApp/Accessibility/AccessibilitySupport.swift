@@ -27,7 +27,9 @@ extension AccessibilityDescriptor {
             components.append(summary)
         }
 
-        if let severity = row.dominantSeverity {
+        if let corruption = row.corruptionSummary {
+            components.append(corruption.accessibilityLabel)
+        } else if let severity = row.dominantSeverity {
             components.append(severity.accessibilityDescription)
         } else if row.hasValidationIssues {
             components.append("Additional validation notes available")

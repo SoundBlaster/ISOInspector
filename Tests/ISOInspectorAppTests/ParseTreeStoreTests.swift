@@ -172,7 +172,51 @@ final class ParseTreeStoreTests: XCTestCase {
         XCTAssertEqual(store.issueMetrics.deepestAffectedDepth, 0)
     }
 
-    private func makeSampleEvents(childIssues: [ValidationIssue] = []) -> [ParseEvent] {
+    @MainActor
+    func testSnapshotIncludesParseIssuesFromEvents() {
+        let parseIssue = ParseIssue(
+            severity: .error,
+            code: "VR-900",
+            message: "Stub parse issue",
+            byteRange: 8..<16,
+            affectedNodeIDs: [1, 2]
+        )
+        let events = makeSampleEvents(childIssues: [], childParseIssues: [parseIssue])
+        let stream = AsyncThrowingStream<ParseEvent, Error> { continuation in
+            for event in events {
+                continuation.yield(event)
+            }
+            continuation.finish()
+        }
+        let pipeline = ParsePipeline { _, _ in stream }
+        let reader = InMemoryRandomAccessReader(data: Data())
+        let store = ParseTreeStore()
+        let finished = expectation(description: "Parsing finished")
+        var cancellables: Set<AnyCancellable> = []
+
+        store.$state
+            .dropFirst()
+            .sink { state in
+                if state == .finished {
+                    finished.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        store.start(pipeline: pipeline, reader: reader)
+        wait(for: [finished], timeout: 2.0)
+
+        let child = store.snapshot.nodes.first?.children.first
+        XCTAssertEqual(child?.issues.count, 1)
+        XCTAssertEqual(child?.issues.first?.code, parseIssue.code)
+        XCTAssertEqual(child?.issues.first?.severity, .error)
+        XCTAssertEqual(child?.issues.first?.affectedNodeIDs, parseIssue.affectedNodeIDs)
+    }
+
+    private func makeSampleEvents(
+        childIssues: [ValidationIssue] = [],
+        childParseIssues: [ParseIssue] = []
+    ) -> [ParseEvent] {
         let parentHeader = BoxHeader(
             type: try! FourCharCode("root"),
             totalSize: 32,
@@ -192,8 +236,20 @@ final class ParseTreeStoreTests: XCTestCase {
 
         return [
             ParseEvent(kind: .willStartBox(header: parentHeader, depth: 0), offset: 0, metadata: nil, validationIssues: []),
-            ParseEvent(kind: .willStartBox(header: childHeader, depth: 1), offset: 8, metadata: nil, validationIssues: childIssues),
-            ParseEvent(kind: .didFinishBox(header: childHeader, depth: 1), offset: 24, metadata: nil, validationIssues: childIssues),
+            ParseEvent(
+                kind: .willStartBox(header: childHeader, depth: 1),
+                offset: 8,
+                metadata: nil,
+                validationIssues: childIssues,
+                issues: childParseIssues
+            ),
+            ParseEvent(
+                kind: .didFinishBox(header: childHeader, depth: 1),
+                offset: 24,
+                metadata: nil,
+                validationIssues: childIssues,
+                issues: childParseIssues
+            ),
             ParseEvent(kind: .didFinishBox(header: parentHeader, depth: 0), offset: 32, metadata: nil, validationIssues: [])
         ]
     }
