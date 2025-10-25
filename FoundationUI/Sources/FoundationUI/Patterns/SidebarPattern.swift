@@ -248,10 +248,12 @@ private enum Layout {
     struct PreviewContainer: View {
         @State private var selection: UUID? = UUID()
 
-        private let sections = {
+        // Note: Explicit AnyView type annotation is required for previews with multiple
+        // detail view types. This allows type-erased detail builder for demonstration purposes.
+        private let sections: [SidebarPattern<UUID, AnyView>.Section] = {
             let overviewId = UUID()
             return [
-                SidebarPattern.Section(
+                .init(
                     title: "Analysis",
                     items: [
                         .init(id: overviewId, title: "Overview", iconSystemName: "doc.text"),
@@ -259,7 +261,7 @@ private enum Layout {
                         .init(id: UUID(), title: "Validation", iconSystemName: "checkmark.seal")
                     ]
                 ),
-                SidebarPattern.Section(
+                .init(
                     title: "Media",
                     items: [
                         .init(id: UUID(), title: "Video Tracks", iconSystemName: "video"),
@@ -275,12 +277,14 @@ private enum Layout {
                 sections: sections,
                 selection: $selection
             ) { _ in
-                InspectorPattern(title: "Track Details") {
-                    SectionHeader(title: "Codec Info")
-                    KeyValueRow(key: "Codec", value: "H.264")
-                    KeyValueRow(key: "Bitrate", value: "5 Mbps")
-                }
-                .material(.regular)
+                AnyView(
+                    InspectorPattern(title: "Track Details") {
+                        SectionHeader(title: "Codec Info")
+                        KeyValueRow(key: "Codec", value: "H.264")
+                        KeyValueRow(key: "Bitrate", value: "5 Mbps")
+                    }
+                    .material(.regular)
+                )
             }
             .preferredColorScheme(.dark)
         }
@@ -293,8 +297,10 @@ private enum Layout {
     struct PreviewContainer: View {
         @State private var selection: String? = "overview"
 
-        private let sections = [
-            SidebarPattern.Section(
+        // Note: Explicit AnyView type annotation is required for previews with multiple
+        // detail view types. The switch statement returns different view types per case.
+        private let sections: [SidebarPattern<String, AnyView>.Section] = [
+            .init(
                 title: "File Analysis",
                 items: [
                     .init(id: "overview", title: "Overview", iconSystemName: "doc.text"),
@@ -302,7 +308,7 @@ private enum Layout {
                     .init(id: "validation", title: "Validation", iconSystemName: "checkmark.seal")
                 ]
             ),
-            SidebarPattern.Section(
+            .init(
                 title: "Media Tracks",
                 items: [
                     .init(id: "video", title: "Video Tracks", iconSystemName: "video"),
@@ -310,7 +316,7 @@ private enum Layout {
                     .init(id: "text", title: "Text Tracks", iconSystemName: "text.bubble")
                 ]
             ),
-            SidebarPattern.Section(
+            .init(
                 title: "Advanced",
                 items: [
                     .init(id: "hex", title: "Hex Viewer", iconSystemName: "number"),
@@ -326,72 +332,80 @@ private enum Layout {
             ) { currentSelection in
                 switch currentSelection {
                 case "overview":
-                    InspectorPattern(title: "File Overview") {
-                        SectionHeader(title: "General Information", showDivider: true)
-                        KeyValueRow(key: "File Name", value: "sample_video.mp4")
-                        KeyValueRow(key: "Size", value: "125.4 MB")
-                        KeyValueRow(key: "Format", value: "ISO Base Media File")
+                    AnyView(
+                        InspectorPattern(title: "File Overview") {
+                            SectionHeader(title: "General Information", showDivider: true)
+                            KeyValueRow(key: "File Name", value: "sample_video.mp4")
+                            KeyValueRow(key: "Size", value: "125.4 MB")
+                            KeyValueRow(key: "Format", value: "ISO Base Media File")
 
-                        SectionHeader(title: "Status", showDivider: true)
-                        HStack(spacing: DS.Spacing.s) {
-                            Badge(text: "Valid", level: .success)
-                            Badge(text: "ISO 14496-12", level: .info)
+                            SectionHeader(title: "Status", showDivider: true)
+                            HStack(spacing: DS.Spacing.s) {
+                                Badge(text: "Valid", level: .success)
+                                Badge(text: "ISO 14496-12", level: .info)
+                            }
                         }
-                    }
-                    .material(.regular)
+                        .material(.regular)
+                    )
 
                 case "structure":
-                    InspectorPattern(title: "Box Structure") {
-                        SectionHeader(title: "Root Boxes", showDivider: true)
-                        VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                            HStack {
-                                Text("ftyp")
-                                    .font(DS.Typography.code)
-                                Spacer()
-                                Badge(text: "File Type", level: .info)
-                            }
-                            HStack {
-                                Text("moov")
-                                    .font(DS.Typography.code)
-                                Spacer()
-                                Badge(text: "Movie", level: .info)
-                            }
-                            HStack {
-                                Text("mdat")
-                                    .font(DS.Typography.code)
-                                Spacer()
-                                Badge(text: "Media Data", level: .info)
+                    AnyView(
+                        InspectorPattern(title: "Box Structure") {
+                            SectionHeader(title: "Root Boxes", showDivider: true)
+                            VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                                HStack {
+                                    Text("ftyp")
+                                        .font(DS.Typography.code)
+                                    Spacer()
+                                    Badge(text: "File Type", level: .info)
+                                }
+                                HStack {
+                                    Text("moov")
+                                        .font(DS.Typography.code)
+                                    Spacer()
+                                    Badge(text: "Movie", level: .info)
+                                }
+                                HStack {
+                                    Text("mdat")
+                                        .font(DS.Typography.code)
+                                    Spacer()
+                                    Badge(text: "Media Data", level: .info)
+                                }
                             }
                         }
-                    }
-                    .material(.regular)
+                        .material(.regular)
+                    )
 
                 case "video":
-                    InspectorPattern(title: "Video Track") {
-                        SectionHeader(title: "Codec Information", showDivider: true)
-                        KeyValueRow(key: "Codec", value: "H.264/AVC")
-                        KeyValueRow(key: "Resolution", value: "1920x1080")
-                        KeyValueRow(key: "Frame Rate", value: "29.97 fps")
-                        KeyValueRow(key: "Bitrate", value: "5 Mbps")
+                    AnyView(
+                        InspectorPattern(title: "Video Track") {
+                            SectionHeader(title: "Codec Information", showDivider: true)
+                            KeyValueRow(key: "Codec", value: "H.264/AVC")
+                            KeyValueRow(key: "Resolution", value: "1920x1080")
+                            KeyValueRow(key: "Frame Rate", value: "29.97 fps")
+                            KeyValueRow(key: "Bitrate", value: "5 Mbps")
 
-                        SectionHeader(title: "Quality", showDivider: true)
-                        HStack(spacing: DS.Spacing.s) {
-                            Badge(text: "HD", level: .success)
-                            Badge(text: "1080p", level: .info)
+                            SectionHeader(title: "Quality", showDivider: true)
+                            HStack(spacing: DS.Spacing.s) {
+                                Badge(text: "HD", level: .success)
+                                Badge(text: "1080p", level: .info)
+                            }
                         }
-                    }
-                    .material(.regular)
+                        .material(.regular)
+                    )
 
                 default:
-                    VStack(alignment: .center, spacing: DS.Spacing.l) {
-                        Image(systemName: "doc.questionmark")
-                            .font(.system(size: DS.Spacing.xl * 2))
-                            .foregroundStyle(.secondary)
-                        Text("Select a category from the sidebar")
-                            .font(DS.Typography.body)
-                            .foregroundStyle(.secondary)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    AnyView(
+                        VStack(alignment: .center, spacing: DS.Spacing.l) {
+                            Image(systemName: "doc.questionmark")
+                                .font(.system(size: DS.Spacing.xl * 2))
+                                .foregroundStyle(.secondary)
+                            Text("Select a category from the sidebar")
+                                .font(DS.Typography.body)
+                                .foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    )
                 }
             }
         }
@@ -405,8 +419,10 @@ private enum Layout {
     struct PreviewContainer: View {
         @State private var selection: Int? = 1
 
-        private let sections = [
-            SidebarPattern.Section(
+        // Note: Explicit AnyView type annotation is required for previews with multiple
+        // detail view types. The if-else statement returns different view types per branch.
+        private let sections: [SidebarPattern<Int, AnyView>.Section] = [
+            .init(
                 title: "Containers",
                 items: [
                     .init(id: 1, title: "ftyp", iconSystemName: "doc", accessibilityLabel: "File Type Box"),
@@ -414,14 +430,14 @@ private enum Layout {
                     .init(id: 3, title: "mdat", iconSystemName: "cube", accessibilityLabel: "Media Data Box")
                 ]
             ),
-            SidebarPattern.Section(
+            .init(
                 title: "Metadata",
                 items: [
                     .init(id: 4, title: "mvhd", iconSystemName: "info.circle", accessibilityLabel: "Movie Header"),
                     .init(id: 5, title: "iods", iconSystemName: "gearshape", accessibilityLabel: "Object Descriptor")
                 ]
             ),
-            SidebarPattern.Section(
+            .init(
                 title: "Tracks",
                 items: [
                     .init(id: 6, title: "trak (Video)", iconSystemName: "video"),
@@ -437,15 +453,19 @@ private enum Layout {
                 selection: $selection
             ) { currentSelection in
                 if let selected = currentSelection {
-                    InspectorPattern(title: "Box Details") {
-                        KeyValueRow(key: "Box ID", value: "\(selected)")
-                        KeyValueRow(key: "Type", value: "ISO Box")
-                    }
-                    .material(.regular)
+                    AnyView(
+                        InspectorPattern(title: "Box Details") {
+                            KeyValueRow(key: "Box ID", value: "\(selected)")
+                            KeyValueRow(key: "Type", value: "ISO Box")
+                        }
+                        .material(.regular)
+                    )
                 } else {
-                    Text("No selection")
-                        .font(DS.Typography.body)
-                        .foregroundStyle(.secondary)
+                    AnyView(
+                        Text("No selection")
+                            .font(DS.Typography.body)
+                            .foregroundStyle(.secondary)
+                    )
                 }
             }
         }
