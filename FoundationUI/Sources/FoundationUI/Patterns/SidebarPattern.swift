@@ -275,12 +275,14 @@ private enum Layout {
                 sections: sections,
                 selection: $selection
             ) { _ in
-                InspectorPattern(title: "Track Details") {
-                    SectionHeader(title: "Codec Info")
-                    KeyValueRow(key: "Codec", value: "H.264")
-                    KeyValueRow(key: "Bitrate", value: "5 Mbps")
-                }
-                .material(.regular)
+                AnyView(
+                    InspectorPattern(title: "Track Details") {
+                        SectionHeader(title: "Codec Info")
+                        KeyValueRow(key: "Codec", value: "H.264")
+                        KeyValueRow(key: "Bitrate", value: "5 Mbps")
+                    }
+                    .material(.regular)
+                )
             }
             .preferredColorScheme(.dark)
         }
@@ -326,72 +328,80 @@ private enum Layout {
             ) { currentSelection in
                 switch currentSelection {
                 case "overview":
-                    InspectorPattern(title: "File Overview") {
-                        SectionHeader(title: "General Information", showDivider: true)
-                        KeyValueRow(key: "File Name", value: "sample_video.mp4")
-                        KeyValueRow(key: "Size", value: "125.4 MB")
-                        KeyValueRow(key: "Format", value: "ISO Base Media File")
+                    AnyView(
+                        InspectorPattern(title: "File Overview") {
+                            SectionHeader(title: "General Information", showDivider: true)
+                            KeyValueRow(key: "File Name", value: "sample_video.mp4")
+                            KeyValueRow(key: "Size", value: "125.4 MB")
+                            KeyValueRow(key: "Format", value: "ISO Base Media File")
 
-                        SectionHeader(title: "Status", showDivider: true)
-                        HStack(spacing: DS.Spacing.s) {
-                            Badge(text: "Valid", level: .success)
-                            Badge(text: "ISO 14496-12", level: .info)
+                            SectionHeader(title: "Status", showDivider: true)
+                            HStack(spacing: DS.Spacing.s) {
+                                Badge(text: "Valid", level: .success)
+                                Badge(text: "ISO 14496-12", level: .info)
+                            }
                         }
-                    }
-                    .material(.regular)
+                        .material(.regular)
+                    )
 
                 case "structure":
-                    InspectorPattern(title: "Box Structure") {
-                        SectionHeader(title: "Root Boxes", showDivider: true)
-                        VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                            HStack {
-                                Text("ftyp")
-                                    .font(DS.Typography.code)
-                                Spacer()
-                                Badge(text: "File Type", level: .info)
-                            }
-                            HStack {
-                                Text("moov")
-                                    .font(DS.Typography.code)
-                                Spacer()
-                                Badge(text: "Movie", level: .info)
-                            }
-                            HStack {
-                                Text("mdat")
-                                    .font(DS.Typography.code)
-                                Spacer()
-                                Badge(text: "Media Data", level: .info)
+                    AnyView(
+                        InspectorPattern(title: "Box Structure") {
+                            SectionHeader(title: "Root Boxes", showDivider: true)
+                            VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                                HStack {
+                                    Text("ftyp")
+                                        .font(DS.Typography.code)
+                                    Spacer()
+                                    Badge(text: "File Type", level: .info)
+                                }
+                                HStack {
+                                    Text("moov")
+                                        .font(DS.Typography.code)
+                                    Spacer()
+                                    Badge(text: "Movie", level: .info)
+                                }
+                                HStack {
+                                    Text("mdat")
+                                        .font(DS.Typography.code)
+                                    Spacer()
+                                    Badge(text: "Media Data", level: .info)
+                                }
                             }
                         }
-                    }
-                    .material(.regular)
+                        .material(.regular)
+                    )
 
                 case "video":
-                    InspectorPattern(title: "Video Track") {
-                        SectionHeader(title: "Codec Information", showDivider: true)
-                        KeyValueRow(key: "Codec", value: "H.264/AVC")
-                        KeyValueRow(key: "Resolution", value: "1920x1080")
-                        KeyValueRow(key: "Frame Rate", value: "29.97 fps")
-                        KeyValueRow(key: "Bitrate", value: "5 Mbps")
+                    AnyView(
+                        InspectorPattern(title: "Video Track") {
+                            SectionHeader(title: "Codec Information", showDivider: true)
+                            KeyValueRow(key: "Codec", value: "H.264/AVC")
+                            KeyValueRow(key: "Resolution", value: "1920x1080")
+                            KeyValueRow(key: "Frame Rate", value: "29.97 fps")
+                            KeyValueRow(key: "Bitrate", value: "5 Mbps")
 
-                        SectionHeader(title: "Quality", showDivider: true)
-                        HStack(spacing: DS.Spacing.s) {
-                            Badge(text: "HD", level: .success)
-                            Badge(text: "1080p", level: .info)
+                            SectionHeader(title: "Quality", showDivider: true)
+                            HStack(spacing: DS.Spacing.s) {
+                                Badge(text: "HD", level: .success)
+                                Badge(text: "1080p", level: .info)
+                            }
                         }
-                    }
-                    .material(.regular)
+                        .material(.regular)
+                    )
 
                 default:
-                    VStack(alignment: .center, spacing: DS.Spacing.l) {
-                        Image(systemName: "doc.questionmark")
-                            .font(.system(size: DS.Spacing.xl * 2))
-                            .foregroundStyle(.secondary)
-                        Text("Select a category from the sidebar")
-                            .font(DS.Typography.body)
-                            .foregroundStyle(.secondary)
-                    }
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    AnyView(
+                        VStack(alignment: .center, spacing: DS.Spacing.l) {
+                            Image(systemName: "doc.questionmark")
+                                .font(.system(size: DS.Spacing.xl * 2))
+                                .foregroundStyle(.secondary)
+                            Text("Select a category from the sidebar")
+                                .font(DS.Typography.body)
+                                .foregroundStyle(.secondary)
+                        }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    )
                 }
             }
         }
@@ -437,15 +447,19 @@ private enum Layout {
                 selection: $selection
             ) { currentSelection in
                 if let selected = currentSelection {
-                    InspectorPattern(title: "Box Details") {
-                        KeyValueRow(key: "Box ID", value: "\(selected)")
-                        KeyValueRow(key: "Type", value: "ISO Box")
-                    }
-                    .material(.regular)
+                    AnyView(
+                        InspectorPattern(title: "Box Details") {
+                            KeyValueRow(key: "Box ID", value: "\(selected)")
+                            KeyValueRow(key: "Type", value: "ISO Box")
+                        }
+                        .material(.regular)
+                    )
                 } else {
-                    Text("No selection")
-                        .font(DS.Typography.body)
-                        .foregroundStyle(.secondary)
+                    AnyView(
+                        Text("No selection")
+                            .font(DS.Typography.body)
+                            .foregroundStyle(.secondary)
+                    )
                 }
             }
         }
