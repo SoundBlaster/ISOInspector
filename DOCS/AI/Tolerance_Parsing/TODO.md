@@ -49,6 +49,8 @@ Persist and aggregate corruption events for UI/CLI/export consumption.
 | T2.3 | Add severity metrics aggregation (count per severity, deepest affected depth) for summary views. | Medium | 1d | T2.1 | Store computes real-time metrics; accessible via property/computed fields. |
 | T2.4 | Extend validation rules (VR-001 to VR-015) to produce `ParseIssue` objects instead of throwing when in lenient mode. | High | 2d | T1.1, T1.3 | Validation rules check pipeline options; generate issues for lenient, throw for strict. |
 
+> **Status (2025-10-27):** T2.4 — Validation rule dual-mode support is **In Progress** to ensure lenient parses emit `ParseIssue` diagnostics while strict mode continues to throw. T2.3 remains pending design handoff for ribbon metrics.
+
 **Verification:**
 - Tests verify issue store accumulates events during streaming parse
 - CLI smoke tests confirm metrics appear in summary output
