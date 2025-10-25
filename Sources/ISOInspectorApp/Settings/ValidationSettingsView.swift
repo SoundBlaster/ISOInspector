@@ -5,7 +5,7 @@ import ISOInspectorKit
 struct ValidationSettingsView: View {
     @ObservedObject var controller: DocumentSessionController
     @State private var selectedScope: DocumentSessionController.ValidationConfigurationScope
-
+    
     init(controller: DocumentSessionController) {
         self.controller = controller
         if controller.currentDocument != nil {
@@ -14,7 +14,7 @@ struct ValidationSettingsView: View {
             _selectedScope = State(initialValue: .global)
         }
     }
-
+    
     var body: some View {
         Form {
             scopeSection
@@ -25,28 +25,30 @@ struct ValidationSettingsView: View {
             }
         }
         .padding()
-        .onChange(of: controller.currentDocument) { _, document in
+        .onChange(of: controller.currentDocument) { document in
             if document == nil {
                 selectedScope = .global
             }
         }
     }
-
+    
     private var scopeSection: some View {
         Section("Scope") {
             Picker("Apply changes to", selection: $selectedScope) {
-                Text("Global Defaults").tag(DocumentSessionController.ValidationConfigurationScope.global)
-                Text("Current Workspace").tag(DocumentSessionController.ValidationConfigurationScope.workspace)
+                Text("Global Defaults").tag(
+                    DocumentSessionController.ValidationConfigurationScope.global)
+                Text("Current Workspace").tag(
+                    DocumentSessionController.ValidationConfigurationScope.workspace)
             }
             .pickerStyle(.segmented)
             .disabled(!workspaceAvailable)
-
+            
             Text(scopeDescription)
                 .font(.footnote)
                 .foregroundColor(.secondary)
         }
     }
-
+    
     private var presetSection: some View {
         Section("Presets") {
             if controller.validationPresets.isEmpty {
@@ -60,7 +62,9 @@ struct ValidationSettingsView: View {
                         HStack(alignment: .top) {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(preset.name)
-                                    .fontWeight(preset.id == activeConfiguration.activePresetID ? .semibold : .regular)
+                                    .fontWeight(
+                                        preset.id == activeConfiguration.activePresetID
+                                        ? .semibold : .regular)
                                 Text(preset.summary)
                                     .font(.caption)
                                     .foregroundColor(.secondary)
@@ -87,7 +91,7 @@ struct ValidationSettingsView: View {
             }
         }
     }
-
+    
     private var ruleSection: some View {
         Section("Rules") {
             ForEach(ValidationRuleIdentifier.allCases, id: \.self) { rule in
@@ -102,7 +106,7 @@ struct ValidationSettingsView: View {
             }
         }
     }
-
+    
     private var resetSection: some View {
         Section {
             Button("Reset to Global") {
@@ -111,15 +115,15 @@ struct ValidationSettingsView: View {
             .disabled(!controller.isUsingWorkspaceValidationOverride)
         }
     }
-
+    
     private var workspaceAvailable: Bool {
         controller.currentDocument != nil
     }
-
+    
     private var effectiveScope: DocumentSessionController.ValidationConfigurationScope {
         workspaceAvailable ? selectedScope : .global
     }
-
+    
     private var activeConfiguration: ValidationConfiguration {
         switch effectiveScope {
         case .global:
@@ -128,11 +132,11 @@ struct ValidationSettingsView: View {
             return controller.validationConfiguration
         }
     }
-
+    
     private var isCustomSelection: Bool {
         effectiveScope == .workspace && controller.isUsingWorkspaceValidationOverride
     }
-
+    
     private var scopeDescription: String {
         if !workspaceAvailable {
             return "Open a document to configure workspace overrides."
@@ -144,7 +148,7 @@ struct ValidationSettingsView: View {
             return "Changes apply to \(controller.currentDocument?.displayName ?? "this workspace")."
         }
     }
-
+    
     private func binding(for rule: ValidationRuleIdentifier) -> Binding<Bool> {
         Binding(
             get: {
