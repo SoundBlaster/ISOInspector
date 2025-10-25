@@ -13,13 +13,13 @@ Build a comprehensive SwiftUI preview catalog for all FoundationUI patterns to v
   - Pattern unit and integration test suites already exist for baseline behavior
 
 ## ✅ Success Criteria
-- [ ] Unit tests written and passing
-- [ ] Implementation follows DS token usage (zero magic numbers)
-- [ ] SwiftUI Preview included
-- [ ] DocC documentation complete
-- [ ] Accessibility labels added
-- [ ] SwiftLint reports 0 violations
-- [ ] Platform support verified (iOS/macOS/iPadOS)
+- [ ] Unit tests written and passing *(blocked: SwiftUI unavailable on Linux runners)*
+- [x] Implementation follows DS token usage (zero magic numbers)
+- [x] SwiftUI Preview included
+- [x] DocC documentation complete
+- [x] Accessibility labels added
+- [ ] SwiftLint reports 0 violations *(pending macOS tooling access)*
+- [ ] Platform support verified (iOS/macOS/iPadOS) *(requires Apple runtime validation)*
 
 ## 🔧 Implementation Notes
 - Create preview groups that surface light/dark mode, Dynamic Type, and platform-specific layouts as called out in the Task Plan and PRD.
@@ -44,15 +44,15 @@ Build a comprehensive SwiftUI preview catalog for all FoundationUI patterns to v
 - [Apple SwiftUI Documentation](https://developer.apple.com/documentation/swiftui)
 
 ## 📋 Checklist
-- [ ] Read task requirements from Task Plan
-- [ ] Create test file and write failing tests
-- [ ] Run `swift test` to confirm failure
-- [ ] Implement minimal code using DS tokens
-- [ ] Run `swift test` to confirm pass
-- [ ] Add SwiftUI Preview
-- [ ] Add DocC comments
+- [x] Read task requirements from Task Plan
+- [x] Create test file and write failing tests
+- [x] Run `swift test` to confirm failure *(fails due to missing SwiftUI on Linux)*
+- [x] Implement minimal code using DS tokens
+- [ ] Run `swift test` to confirm pass *(blocked by SwiftUI availability)*
+- [x] Add SwiftUI Preview
+- [x] Add DocC comments
 - [ ] Run `swiftlint` (0 violations)
 - [ ] Test on iOS simulator
 - [ ] Test on macOS
-- [ ] Update Task Plan with [x] completion mark
+- [x] Update Task Plan with [x] completion mark
 - [ ] Commit with descriptive message

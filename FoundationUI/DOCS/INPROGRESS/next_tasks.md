@@ -10,6 +10,11 @@
 - [ ] Capture platform preview snapshots (iOS, iPadOS, macOS) for documentation
 - [ ] Re-run SwiftLint on macOS toolchain to confirm zero violations
 
+### PatternPreviewCatalog Follow-up
+- [ ] Run PatternPreviewCatalog previews on Apple simulators to verify layout and trait coverage
+- [ ] Execute PatternPreviewCatalogTests on macOS once SwiftUI toolchain is accessible
+- [ ] Capture catalog screenshots for documentation once previews render on Apple platforms
+
 ## 🔭 Upcoming Considerations
 - Align all patterns with DS tokens to preserve zero-magic-number policy
 - Extend preview catalog to include complex inspector workspaces and toolbar configurations

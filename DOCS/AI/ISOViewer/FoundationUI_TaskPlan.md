@@ -407,11 +407,11 @@
   - Archive: `TASK_ARCHIVE/13_Phase3.1_PatternIntegrationTests/`
   - Next Steps: Validate visual rendering on Apple platforms once SwiftUI previews available
 
-- [ ] **P0** Pattern preview catalog → **IN PROGRESS**
-  - Complete visual examples for all patterns
-  - Real-world usage scenarios
-  - Platform comparison views
-  - Dark mode variations
+- [x] **P0** Pattern preview catalog → **Completed 2025-10-25 (Linux previews authored; Apple runtime validation pending)**
+  - PatternPreviewCatalog aggregates Inspector, Sidebar, Toolbar, and BoxTree scenarios with DS tokens
+  - Added accessibility, Dynamic Type, platform, and Dark Mode coverage in catalogue metadata
+  - Summary previews with reusable sample data for inspector/toolbar/tree combinations
+  - Follow-up: Validate previews on Apple platforms once SwiftUI runtime available
 
 - [ ] **P1** Pattern performance optimization
   - Lazy loading for BoxTreePattern
