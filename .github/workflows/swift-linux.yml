@@ -4,9 +4,31 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'Sources/**'
+      - 'Tests/**'
+      - 'scripts/**'
+      - 'Package.swift'
+      - 'Package.resolved'
+      - 'Project.swift'
+      - 'Workspace.swift'
+      - 'ISOInspector.xcodeproj/**'
+      - 'ISOInspector.xcworkspace/**'
+      - '.github/workflows/*.yml'
   pull_request:
     branches:
       - '**'
+    paths:
+      - 'Sources/**'
+      - 'Tests/**'
+      - 'scripts/**'
+      - 'Package.swift'
+      - 'Package.resolved'
+      - 'Project.swift'
+      - 'Workspace.swift'
+      - 'ISOInspector.xcodeproj/**'
+      - 'ISOInspector.xcworkspace/**'
+      - '.github/workflows/*.yml'
 
 jobs:
   lint-build-test:
