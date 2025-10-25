@@ -33,6 +33,7 @@
         @Published private(set) var globalValidationConfiguration: ValidationConfiguration
         @Published private(set) var validationPresets: [ValidationPreset]
         @Published private(set) var isUsingWorkspaceValidationOverride: Bool
+        @Published private(set) var issueMetrics: ParseIssueStore.IssueMetrics
 
         let parseTreeStore: ParseTreeStore
         let annotations: AnnotationBookmarkSession
@@ -59,6 +60,7 @@
         private var sessionBookmarkDiffs: [String: [WorkspaceSessionBookmarkDiff]] = [:]
         private var pendingSessionSnapshot: WorkspaceSessionSnapshot?
         private var annotationsSelectionCancellable: AnyCancellable?
+        private var issueMetricsCancellable: AnyCancellable?
         private var lastFailedRecent: DocumentRecent?
         private var activeSecurityScopedURL: SecurityScopedURL?
         private var sessionValidationConfigurations: [String: ValidationConfiguration] = [:]
@@ -95,6 +97,7 @@
             self.parseTreeStore = resolvedParseTreeStore
             self.annotations = resolvedAnnotations
             self.documentViewModel = DocumentViewModel(store: resolvedParseTreeStore, annotations: resolvedAnnotations)
+            self.issueMetrics = resolvedParseTreeStore.issueMetrics
             self.recentsStore = recentsStore
             self.sessionStore = sessionStore
             self.pipelineFactory = pipelineFactory
@@ -162,6 +165,12 @@
                 .sink { [weak self] _ in
                     guard let self, !self.recents.isEmpty else { return }
                     self.persistSession()
+                }
+
+            issueMetricsCancellable = resolvedParseTreeStore.$issueMetrics
+                .receive(on: DispatchQueue.main)
+                .sink { [weak self] metrics in
+                    self?.issueMetrics = metrics
                 }
 
             applyValidationConfigurationFilter()
