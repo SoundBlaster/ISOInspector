@@ -363,6 +363,34 @@ final class ParsePipelineLiveTests: XCTestCase {
         XCTAssertTrue(mediaIssues.contains(where: { $0.message.contains("media duration") }))
     }
 
+    func testLivePipelineStreamsParseIssueMetadata() async throws {
+        let containerType = FourCharContainerCode.moov.rawValue
+        var truncatedChild = Data()
+        truncatedChild.append(contentsOf: UInt32(32).bigEndianBytes)
+        truncatedChild.append(contentsOf: containerType.utf8)
+        truncatedChild.append(Data(repeating: 0, count: 4))
+        let container = makeBox(type: containerType, payload: truncatedChild)
+
+        let reader = InMemoryRandomAccessReader(data: container)
+        let pipeline = ParsePipeline.live(options: .tolerant)
+
+        let events = try await collectEvents(from: pipeline.events(for: reader))
+        let finishEvent = try XCTUnwrap(events.first { event in
+            if case let .didFinishBox(header, _) = event.kind {
+                return header.type.rawValue == containerType
+            }
+            return false
+        })
+
+        XCTAssertFalse(finishEvent.issues.isEmpty)
+        let issue = try XCTUnwrap(finishEvent.issues.first)
+        XCTAssertEqual(issue.severity, .error)
+        XCTAssertEqual(issue.code, "payload.truncated")
+        let range = try XCTUnwrap(issue.byteRange)
+        XCTAssertEqual(range.lowerBound, 8)
+        XCTAssertEqual(range.upperBound, Int64(container.count))
+    }
+
     func testEditListValidationFlagsUnsupportedRates() async throws {
         let mvhd = makeMovieHeaderBox(timescale: 600, duration: 600)
         let tkhd = makeTrackHeaderBox(trackID: 3, duration: 600, width: 0, height: 0)
