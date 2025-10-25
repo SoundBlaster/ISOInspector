@@ -407,7 +407,7 @@
   - Archive: `TASK_ARCHIVE/13_Phase3.1_PatternIntegrationTests/`
   - Next Steps: Validate visual rendering on Apple platforms once SwiftUI previews available
 
-- [ ] **P0** Pattern preview catalog
+- [ ] **P0** Pattern preview catalog → **IN PROGRESS**
   - Complete visual examples for all patterns
   - Real-world usage scenarios
   - Platform comparison views
