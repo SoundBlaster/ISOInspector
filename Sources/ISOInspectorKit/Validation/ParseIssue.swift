@@ -35,3 +35,5 @@ public struct ParseIssue: Equatable, Sendable, Codable {
         self.affectedNodeIDs = affectedNodeIDs
     }
 }
+
+extension ParseIssue.Severity: CaseIterable {}

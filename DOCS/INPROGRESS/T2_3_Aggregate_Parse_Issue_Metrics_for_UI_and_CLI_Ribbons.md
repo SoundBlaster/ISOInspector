@@ -17,6 +17,7 @@ Deliver shared tolerant parsing analytics that expose per-severity issue counts,
 
 ## 🔧 Implementation Notes
 - Extend `ParseIssueStore` (or companion types) with cached aggregations keyed by severity enum and track maximum depth as issues register.
+- 2025-10-27: Implemented `ParseIssueStore.metricsSnapshot()` and `ParseIssueStore.IssueSummary` to publish `countsBySeverity`, `totalCount`, and `deepestAffectedDepth` snapshots for SwiftUI ribbons and CLI summaries. Tests cover thread-safe snapshots (`ParseIssueStoreTests`).
 - Ensure aggregation APIs are concurrency-safe for the existing streaming pipeline (Combine publishers driving `ParseTreeStore`).
 - Provide SwiftUI-friendly bindings (e.g., `ParseIssueMetrics` struct) so ribbons can bind without duplicating computation.
 - For CLI integration, expose formatting-ready data that T6.2 will consume, keeping serialization detached from UI-specific styling.

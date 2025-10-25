@@ -106,4 +106,75 @@ final class ParseIssueStoreTests: XCTestCase {
         XCTAssertEqual(metrics.infoCount, 0)
         XCTAssertEqual(metrics.deepestAffectedDepth, 0)
     }
+
+    func testMetricsExposeCountsBySeverityAndTotal() {
+        let store = ParseIssueStore()
+        let error = ParseIssue(
+            severity: .error,
+            code: "walker.error",
+            message: "Failure"
+        )
+        let warning = ParseIssue(
+            severity: .warning,
+            code: "walker.warning",
+            message: "Corruption"
+        )
+        let info = ParseIssue(
+            severity: .info,
+            code: "walker.info",
+            message: "Advisory"
+        )
+
+        store.record(error)
+        store.record(warning)
+        store.record(info)
+
+        let metrics = store.metrics
+        XCTAssertEqual(metrics.count(for: .error), 1)
+        XCTAssertEqual(metrics.count(for: .warning), 1)
+        XCTAssertEqual(metrics.count(for: .info), 1)
+        XCTAssertEqual(metrics.countsBySeverity[.error], 1)
+        XCTAssertEqual(metrics.countsBySeverity[.warning], 1)
+        XCTAssertEqual(metrics.countsBySeverity[.info], 1)
+        XCTAssertEqual(metrics.totalCount, 3)
+    }
+
+    func testMetricsSnapshotReturnsLatestCountsFromBackgroundQueue() {
+        let store = ParseIssueStore()
+        let issue = ParseIssue(
+            severity: .warning,
+            code: "walker.warning",
+            message: "Corruption"
+        )
+
+        store.record(issue)
+
+        let expectation = expectation(description: "Metrics snapshot resolved")
+
+        DispatchQueue.global().async {
+            let metrics = store.metricsSnapshot()
+            XCTAssertEqual(metrics.count(for: .warning), 1)
+            XCTAssertEqual(metrics.deepestAffectedDepth, 0)
+            expectation.fulfill()
+        }
+
+        wait(for: [expectation], timeout: 1)
+    }
+
+    func testIssueSummaryReturnsAggregatedCounts() {
+        let store = ParseIssueStore()
+        let issue = ParseIssue(
+            severity: .error,
+            code: "walker.error",
+            message: "Failure",
+            affectedNodeIDs: [1, 2, 3]
+        )
+
+        store.record(issue, depth: 5)
+
+        let summary = store.makeIssueSummary()
+        XCTAssertEqual(summary.count(for: .error), 1)
+        XCTAssertEqual(summary.totalCount, 1)
+        XCTAssertEqual(summary.deepestAffectedDepth, 5)
+    }
 }
