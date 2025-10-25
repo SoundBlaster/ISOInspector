@@ -9,6 +9,7 @@ struct AppShellView: View {
     @Environment(\.scenePhase) private var scenePhase
     @ObservedObject var controller: DocumentSessionController
     @ObservedObject private var documentViewModel: DocumentViewModel
+    @ObservedObject private var parseTreeStore: ParseTreeStore
     @State private var isImporterPresented = false
     @State private var importError: ImportError?
     @AppStorage(Self.corruptionRibbonDismissedDefaultsKey) private var isCorruptionRibbonDismissed = false
@@ -16,6 +17,7 @@ struct AppShellView: View {
     init(controller: DocumentSessionController) {
         self._controller = ObservedObject(wrappedValue: controller)
         self._documentViewModel = ObservedObject(wrappedValue: controller.documentViewModel)
+        self._parseTreeStore = ObservedObject(wrappedValue: controller.parseTreeStore)
     }
 
     @ViewBuilder
@@ -44,7 +46,7 @@ struct AppShellView: View {
             VStack(spacing: 12) {
                 if shouldShowCorruptionRibbon {
                     CorruptionWarningRibbon(
-                        metrics: controller.parseTreeStore.issueMetrics,
+                        metrics: parseTreeStore.issueMetrics,
                         onTap: controller.focusIntegrityDiagnostics,
                         onDismiss: dismissCorruptionRibbon
                     )
@@ -90,7 +92,7 @@ struct AppShellView: View {
         .onOpenURL { url in
             controller.openDocument(at: url)
         }
-        .onChange(of: controller.parseTreeStore.issueMetrics.totalCount) { _, newValue in
+        .onChange(of: parseTreeStore.issueMetrics.totalCount) { _, newValue in
             if newValue == 0 {
                 isCorruptionRibbonDismissed = false
             }
@@ -218,7 +220,7 @@ struct AppShellView: View {
     }
 
     private var shouldShowCorruptionRibbon: Bool {
-        controller.parseTreeStore.issueMetrics.totalCount > 0 && !isCorruptionRibbonDismissed
+        parseTreeStore.issueMetrics.totalCount > 0 && !isCorruptionRibbonDismissed
     }
 
     private func dismissCorruptionRibbon() {
