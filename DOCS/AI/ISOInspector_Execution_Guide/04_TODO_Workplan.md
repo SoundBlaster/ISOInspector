@@ -205,7 +205,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Completed (2025-10-28):** Task **T3.3 — Integrity Detail Pane** delivered the corruption diagnostics section in the inspector. Review outcomes in `DOCS/TASK_ARCHIVE/188_T3_3_Integrity_Detail_Pane/Summary_of_Work.md` alongside the tolerance parsing roadmap in `DOCS/AI/Tolerance_Parsing/TODO.md`.
 >
-> **Completed (2025-10-26):** Task **T3.4 — Placeholder Nodes for Missing Children** now surfaces expected-but-absent structures with synthetic nodes so Integrity diagnostics can deep-link into the tree. See `DOCS/INPROGRESS/Summary_of_Work.md` for the delivery recap and follow-on notes.
+> **Completed (2025-10-26):** Task **T3.4 — Placeholder Nodes for Missing Children** now surfaces expected-but-absent structures with synthetic nodes so Integrity diagnostics can deep-link into the tree. See `DOCS/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/Summary_of_Work.md` for the delivery recap and follow-on notes.
 
 > **In Progress (2025-10-28):** Task **T3.5 — Contextual Status Labels** kicks off to surface the node status metadata (`Invalid`, `Empty`, `Corrupted`, `Partial`, `Trimmed`) directly in the outline and detail inspector, aligning with the tolerant parsing UI roadmap in `DOCS/AI/Tolerance_Parsing/TODO.md` and the active brief in `DOCS/INPROGRESS/T3_5_Contextual_Status_Labels.md`.
 
