@@ -17,12 +17,9 @@ disabled_rules:
 
 excluded:
   - .build
+  - .git
   - DOCS
   - FoundationUI
-
-line_length:
-  ignores_comments: true
-  ignores_urls: true
 
 identifier_name:
   excluded:
