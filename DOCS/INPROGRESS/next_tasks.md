@@ -1,6 +1,6 @@
 # Next Tasks
 
-- 🚀 **T3.4 Placeholder Nodes for Missing Children** _(Pending — see `DOCS/AI/Tolerance_Parsing/TODO.md`)_:
+- 🛠️ **T3.4 Placeholder Nodes for Missing Children** _(In Progress — see `DOCS/AI/Tolerance_Parsing/TODO.md`)_:
   - Follow T3.3 with placeholder affordances so tolerant parsing issues can guide operators toward absent structures and hex jumps remain contextual.
 - 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(Blocked — pending hardware)_:
   - Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets. Reference `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/`.
