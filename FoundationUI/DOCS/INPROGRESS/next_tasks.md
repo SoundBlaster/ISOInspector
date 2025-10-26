@@ -1,14 +1,15 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-10-26
-**Current Status**: Phase 3.2 ColorSchemeAdapter Complete, Context Tests Next
+**Current Status**: Phase 3.2 Context Integration Tests In Progress
 
 ## 🎯 Immediate Priorities (P0 - Critical)
 
-### Phase 3.2: Layer 4 - Contexts & Platform Adaptation ✅ IN PROGRESS
+### Phase 3.2: Layer 4 - Contexts & Platform Adaptation 🚧 IN PROGRESS
 **Goal**: Implement environment keys and platform-specific behavior
 **Status**: 3/8 tasks complete (37.5%)
 **Priority**: P0
+**Current Task**: Context Integration Tests (P0)
 
 - [x] **Implement SurfaceStyleKey environment key** ✅ Completed 2025-10-26
   - EnvironmentKey for SurfaceMaterial type
@@ -48,7 +49,22 @@
   - File: `Sources/FoundationUI/Contexts/ColorSchemeAdapter.swift`
   - Archive: `TASK_ARCHIVE/24_Phase3.2_ColorSchemeAdapter/`
 
-- [ ] **Create platform-specific extensions** 🎯 **NEXT PRIORITY**
+- [ ] **Context Integration Tests** 🚧 **IN PROGRESS** (P0)
+  - Test environment key propagation across component hierarchies
+  - Test platform detection logic integration
+  - Test color scheme adaptation with Environment changes
+  - Test size class handling (compact/regular)
+  - Test cross-context interactions
+  - File: `Tests/FoundationUITests/ContextsTests/ContextIntegrationTests.swift`
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase3.2_ContextIntegrationTests.md`
+
+- [ ] **Platform adaptation integration tests** (P0) - NEXT after Context Tests
+  - Test macOS-specific behavior in real components
+  - Test iOS-specific behavior in real components
+  - Test iPad adaptive layout (size classes)
+  - Cross-platform consistency verification
+
+- [ ] **Create platform-specific extensions** (P1)
   - macOS-specific keyboard shortcuts
   - iOS-specific gestures
   - iPadOS pointer interactions

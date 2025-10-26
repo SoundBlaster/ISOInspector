@@ -489,11 +489,14 @@
   - iOS-specific gestures
   - iPadOS pointer interactions
 
-- [ ] **P0** Context unit tests
+- [ ] **P0** Context unit tests → **IN PROGRESS**
   - Test environment key propagation
   - Test platform detection logic
   - Test color scheme adaptation
   - Test size class handling
+  - Test cross-context interactions
+  - File: `Tests/FoundationUITests/ContextsTests/ContextIntegrationTests.swift`
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase3.2_ContextIntegrationTests.md`
 
 - [ ] **P0** Platform adaptation integration tests
   - Test macOS-specific behavior
