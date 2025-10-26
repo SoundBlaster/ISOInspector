@@ -204,7 +204,13 @@ public struct ColorSchemeAdapter {
     /// - ``adaptiveSecondaryBackground``
     /// - ``adaptiveElevatedSurface``
     public var adaptiveBackground: Color {
-        Color(uiColor: .systemBackground)
+        #if os(iOS)
+        return Color(uiColor: .systemBackground)
+        #elseif os(macOS)
+        return Color(nsColor: .windowBackgroundColor)
+        #else
+        return Color(uiColor: .systemBackground)
+        #endif
     }
 
     /// Secondary adaptive background color
@@ -235,7 +241,13 @@ public struct ColorSchemeAdapter {
     /// - ``adaptiveBackground``
     /// - ``adaptiveElevatedSurface``
     public var adaptiveSecondaryBackground: Color {
-        Color(uiColor: .secondarySystemBackground)
+        #if os(iOS)
+        return Color(uiColor: .secondarySystemBackground)
+        #elseif os(macOS)
+        return Color(nsColor: .controlBackgroundColor)
+        #else
+        return Color(uiColor: .secondarySystemBackground)
+        #endif
     }
 
     /// Elevated surface color for cards and panels
@@ -302,7 +314,13 @@ public struct ColorSchemeAdapter {
     /// - ``adaptiveSecondaryTextColor``
     /// - ``DS/Typography``
     public var adaptiveTextColor: Color {
-        Color(uiColor: .label)
+        #if os(iOS)
+        return Color(uiColor: .label)
+        #elseif os(macOS)
+        return Color(nsColor: .labelColor)
+        #else
+        return Color(uiColor: .label)
+        #endif
     }
 
     /// Secondary adaptive text color
@@ -335,7 +353,13 @@ public struct ColorSchemeAdapter {
     /// ## See Also
     /// - ``adaptiveTextColor``
     public var adaptiveSecondaryTextColor: Color {
-        Color(uiColor: .secondaryLabel)
+        #if os(iOS)
+        return Color(uiColor: .secondaryLabel)
+        #elseif os(macOS)
+        return Color(nsColor: .secondaryLabelColor)
+        #else
+        return Color(uiColor: .secondaryLabel)
+        #endif
     }
 
     // MARK: - Adaptive Border and Divider Colors
@@ -366,7 +390,13 @@ public struct ColorSchemeAdapter {
     /// ## See Also
     /// - ``adaptiveDividerColor``
     public var adaptiveBorderColor: Color {
-        Color(uiColor: .separator)
+        #if os(iOS)
+        return Color(uiColor: .separator)
+        #elseif os(macOS)
+        return Color(nsColor: .separatorColor)
+        #else
+        return Color(uiColor: .separator)
+        #endif
     }
 
     /// Adaptive divider color
@@ -393,12 +423,19 @@ public struct ColorSchemeAdapter {
     ///
     /// ## Visual Design
     /// Dividers are more subtle than borders, providing gentle
-    /// visual separation without strong contrast.
+    /// visual separation without strong contrast. Uses the most
+    /// subtle system label color (quaternary) for minimal visual weight.
     ///
     /// ## See Also
     /// - ``adaptiveBorderColor``
     public var adaptiveDividerColor: Color {
-        Color(uiColor: .separator).opacity(0.5)
+        #if os(iOS)
+        return Color(uiColor: .quaternaryLabel)
+        #elseif os(macOS)
+        return Color(nsColor: .quaternaryLabelColor)
+        #else
+        return Color(uiColor: .quaternaryLabel)
+        #endif
     }
 }
 
@@ -472,22 +509,6 @@ private struct AdaptiveColorSchemeModifier: ViewModifier {
             .background(adapter.adaptiveBackground)
     }
 }
-
-// MARK: - UIColor/NSColor Bridge
-
-#if os(iOS)
-private extension Color {
-    init(uiColor: UIColor) {
-        self = Color(uiColor)
-    }
-}
-#elseif os(macOS)
-private extension Color {
-    init(uiColor: NSColor) {
-        self = Color(nsColor: uiColor)
-    }
-}
-#endif
 
 // MARK: - SwiftUI Previews
 
@@ -735,8 +756,11 @@ private extension Color {
 private struct ColorSwatch: View {
     let label: String
     let color: Color
+    @Environment(\.colorScheme) var colorScheme
 
     var body: some View {
+        let adapter = ColorSchemeAdapter(colorScheme: colorScheme)
+
         HStack {
             Text(label)
                 .font(DS.Typography.body)
@@ -747,7 +771,7 @@ private struct ColorSwatch: View {
                 .frame(height: 30)
                 .overlay(
                     RoundedRectangle(cornerRadius: DS.Radius.small)
-                        .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        .stroke(adapter.adaptiveDividerColor, lineWidth: 1)
                 )
         }
     }
