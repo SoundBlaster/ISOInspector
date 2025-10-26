@@ -1,13 +1,13 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-10-26
-**Current Status**: Phase 1.1 Build Configuration Complete, Phase 3.2 Contexts Next
+**Current Status**: Phase 3.2 PlatformAdaptation Complete, ColorSchemeAdapter Next
 
 ## 🎯 Immediate Priorities (P0 - Critical)
 
 ### Phase 3.2: Layer 4 - Contexts & Platform Adaptation ✅ IN PROGRESS
 **Goal**: Implement environment keys and platform-specific behavior
-**Status**: 1/8 tasks complete (13%)
+**Status**: 2/8 tasks complete (25%)
 **Priority**: P0
 
 - [x] **Implement SurfaceStyleKey environment key** ✅ Completed 2025-10-26
@@ -20,14 +20,21 @@
   - File: `Sources/FoundationUI/Contexts/SurfaceStyleKey.swift`
   - Archive: `TASK_ARCHIVE/22_Phase3.2_SurfaceStyleKey/`
 
-- [ ] **Implement PlatformAdaptation modifiers** 🚧 **IN PROGRESS** (Started 2025-10-26)
-  - PlatformAdaptiveModifier for spacing
-  - Conditional compilation for macOS vs iOS
-  - Size class adaptation for iPad
+- [x] **Implement PlatformAdaptation modifiers** ✅ Completed 2025-10-26
+  - PlatformAdapter enum with platform detection (`isMacOS`, `isIOS`)
+  - PlatformAdaptiveModifier for spacing adaptation
+  - Conditional compilation for macOS (12pt) vs iOS (16pt)
+  - Size class adaptation for iPad (compact/regular)
+  - View extensions: `.platformAdaptive()`, `.platformSpacing()`, `.platformPadding()`
+  - iOS minimum touch target constant (44pt per Apple HIG)
+  - 28 comprehensive unit tests (260 lines)
+  - 6 SwiftUI Previews covering all use cases
+  - 100% DocC documentation (572 lines)
+  - Zero magic numbers (100% DS token usage)
   - File: `Sources/FoundationUI/Contexts/PlatformAdaptation.swift`
-  - Task Document: `DOCS/INPROGRESS/Phase3.2_PlatformAdaptation.md`
+  - Archive: `TASK_ARCHIVE/23_Phase3.2_PlatformAdaptation/`
 
-- [ ] **Implement ColorSchemeAdapter**
+- [ ] **Implement ColorSchemeAdapter** 🎯 **NEXT PRIORITY**
   - Automatic Dark Mode adaptation
   - Color scheme detection
   - File: `Sources/FoundationUI/Contexts/ColorSchemeAdapter.swift`
@@ -63,6 +70,20 @@
 
 ## ✅ Recently Completed
 
+### Phase 3.2: PlatformAdaptation Modifiers ✅ COMPLETE (2025-10-26)
+- PlatformAdapter enum with platform detection (`isMacOS`, `isIOS`)
+- PlatformAdaptiveModifier for platform and size class-based spacing
+- Conditional compilation for macOS (12pt) vs iOS (16pt) spacing
+- Size class adaptation (compact: 12pt, regular: 16pt)
+- View extensions: `.platformAdaptive()`, `.platformSpacing()`, `.platformPadding()`
+- iOS minimum touch target constant (44pt per Apple HIG)
+- 28 comprehensive unit tests (260 lines)
+- 6 SwiftUI Previews (default, custom spacing, size classes, extensions, comparison, dark mode)
+- 100% DocC documentation (572 lines)
+- Zero magic numbers (100% DS token usage)
+- **Archived**: `TASK_ARCHIVE/23_Phase3.2_PlatformAdaptation/`
+- **Phase 3.2 Status**: Now 2/8 tasks complete (25%)
+
 ### Phase 3.2: SurfaceStyleKey Environment Key ✅ COMPLETE (2025-10-26)
 - SwiftUI EnvironmentKey for surface material propagation
 - Default value `.regular` for balanced translucency
@@ -72,7 +93,6 @@
 - 100% DocC documentation (237 lines, 50.3% documentation ratio)
 - Zero magic numbers (100% DS token usage)
 - **Archived**: `TASK_ARCHIVE/22_Phase3.2_SurfaceStyleKey/`
-- **Phase 3.2 Status**: Now 1/8 tasks complete (13%)
 
 ### Phase 1.1: Build Configuration & Infrastructure ✅ COMPLETE (2025-10-26)
 - Swift compiler settings with strict concurrency and warnings-as-errors
@@ -119,11 +139,11 @@
 | Phase 1.2: Design Tokens | 7/7 (100%) | ✅ Complete |
 | Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
 | Phase 3.1: Patterns | 7/8 (88%) | In progress |
-| Phase 3.2: Contexts | 1/8 (13%) | 🚧 **IN PROGRESS** |
+| Phase 3.2: Contexts | 2/8 (25%) | 🚧 **IN PROGRESS** |
 
-**Overall Progress**: 42/111 tasks (38%)**
+**Overall Progress**: 43/111 tasks (39%)**
 
 **Latest Completions**:
+- Phase 3.2 PlatformAdaptation (2025-10-26) - Platform-adaptive spacing & modifiers
 - Phase 3.2 SurfaceStyleKey (2025-10-26) - Environment key for material propagation
 - Phase 1.1 Build Configuration (2025-10-26) - Automated tooling & quality gates
-- Phase 2.2 CopyableText utility (2025-10-25) - Final Phase 2 component
