@@ -498,11 +498,12 @@
   - File: `Tests/FoundationUITests/ContextsTests/ContextIntegrationTests.swift`
   - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase3.2_ContextIntegrationTests.md`
 
-- [ ] **P0** Platform adaptation integration tests
+- [ ] **P0** Platform adaptation integration tests → **IN PROGRESS**
   - Test macOS-specific behavior
   - Test iOS-specific behavior
   - Test iPad adaptive layout
   - Cross-platform consistency verification
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase3.2_PlatformAdaptationIntegrationTests.md`
 
 - [ ] **P1** Create platform comparison previews
   - Side-by-side platform previews
