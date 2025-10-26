@@ -442,13 +442,14 @@
   - Memory usage optimization
 
 ### 3.2 Layer 4: Contexts & Platform Adaptation
-**Progress: 0/8 tasks**
+**Progress: 0/8 tasks → IN PROGRESS**
 
-- [ ] **P0** Implement SurfaceStyleKey environment key
-  - File: `Sources/Contexts/SurfaceStyleKey.swift`
+- [ ] **P0** Implement SurfaceStyleKey environment key → **IN PROGRESS**
+  - File: `Sources/FoundationUI/Contexts/SurfaceStyleKey.swift`
   - Define EnvironmentKey for Material
   - Default value: .regular
   - Extension for EnvironmentValues
+  - Task document: `DOCS/INPROGRESS/Phase3.2_SurfaceStyleKey.md`
 
 - [ ] **P0** Implement PlatformAdaptation modifiers
   - File: `Sources/Contexts/PlatformAdaptation.swift`
