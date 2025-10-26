@@ -5,16 +5,20 @@
 
 ## 🎯 Immediate Priorities (P0 - Critical)
 
-### Phase 3.2: Layer 4 - Contexts & Platform Adaptation
+### Phase 3.2: Layer 4 - Contexts & Platform Adaptation ✅ IN PROGRESS
 **Goal**: Implement environment keys and platform-specific behavior
-**Status**: Not started (0/8 tasks)
+**Status**: 1/8 tasks complete (13%)
 **Priority**: P0
 
-- [ ] **Implement SurfaceStyleKey environment key**
-  - Define EnvironmentKey for Material backgrounds
-  - Default value: .regular
-  - Extension for EnvironmentValues
+- [x] **Implement SurfaceStyleKey environment key** ✅ Completed 2025-10-26
+  - EnvironmentKey for SurfaceMaterial type
+  - Default value: `.regular`
+  - EnvironmentValues extension with `surfaceStyle` property
+  - 12 comprehensive unit tests, 6 SwiftUI Previews
+  - 100% DocC documentation (237 lines)
+  - Zero magic numbers (100% DS token usage)
   - File: `Sources/FoundationUI/Contexts/SurfaceStyleKey.swift`
+  - Archive: `TASK_ARCHIVE/22_Phase3.2_SurfaceStyleKey/`
 
 - [ ] **Implement PlatformAdaptation modifiers**
   - PlatformAdaptiveModifier for spacing
@@ -57,6 +61,17 @@
 - Deferred until foundational work complete
 
 ## ✅ Recently Completed
+
+### Phase 3.2: SurfaceStyleKey Environment Key ✅ COMPLETE (2025-10-26)
+- SwiftUI EnvironmentKey for surface material propagation
+- Default value `.regular` for balanced translucency
+- EnvironmentValues extension with `surfaceStyle` property
+- 12 comprehensive unit tests (316 lines)
+- 6 SwiftUI Previews (default, custom, propagation, inspector, modals, dark mode)
+- 100% DocC documentation (237 lines, 50.3% documentation ratio)
+- Zero magic numbers (100% DS token usage)
+- **Archived**: `TASK_ARCHIVE/22_Phase3.2_SurfaceStyleKey/`
+- **Phase 3.2 Status**: Now 1/8 tasks complete (13%)
 
 ### Phase 1.1: Build Configuration & Infrastructure ✅ COMPLETE (2025-10-26)
 - Swift compiler settings with strict concurrency and warnings-as-errors
@@ -103,11 +118,11 @@
 | Phase 1.2: Design Tokens | 7/7 (100%) | ✅ Complete |
 | Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
 | Phase 3.1: Patterns | 7/8 (88%) | In progress |
-| Phase 3.2: Contexts | 0/8 (0%) | 🚧 **NEXT PRIORITY** |
+| Phase 3.2: Contexts | 1/8 (13%) | 🚧 **IN PROGRESS** |
 
-**Overall Progress**: 41/111 tasks (37%)**
+**Overall Progress**: 42/111 tasks (38%)**
 
 **Latest Completions**:
+- Phase 3.2 SurfaceStyleKey (2025-10-26) - Environment key for material propagation
 - Phase 1.1 Build Configuration (2025-10-26) - Automated tooling & quality gates
 - Phase 2.2 CopyableText utility (2025-10-25) - Final Phase 2 component
-- Phase 1.2 Design Tokens validation (2025-10-25) - Foundation complete
