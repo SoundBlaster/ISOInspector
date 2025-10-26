@@ -969,4 +969,10 @@
 - **Archived files:** `Summary_of_Work.md`, `T3_3_Integrity_Detail_Pane.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/188_T3_3_Integrity_Detail_Pane/`.
 - **Highlights:** Captures the dedicated corruption diagnostics section in the detail inspector, adaptive hex slice re-centering for issue ranges, and accessibility summary updates driven by `ParseIssue` severity counts.
-- **Next steps carried forward:** Integrate placeholder nodes (T3.4) and broaden tolerant parsing fixtures for deep offset corruption, as outlined in this folder's `next_tasks.md` and `DOCS/INPROGRESS/Summary_of_Work.md` follow-ups.
+- **Next steps carried forward:** Integrate placeholder nodes (T3.4) and broaden tolerant parsing fixtures for deep offset corruption, as outlined in this folder's `next_tasks.md` and the session recap preserved in `DOCS/TASK_ARCHIVE/189_Summary_of_Work_2025-10-25_Integrity_Follow_Ups/Summary_of_Work.md`.
+
+## 189_Summary_of_Work_2025-10-25_Integrity_Follow_Ups
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/189_Summary_of_Work_2025-10-25_Integrity_Follow_Ups/`.
+- **Highlights:** Recaps the October 25 tolerance parsing session that wrapped T3.3 integrity pane work, verified updates with `swift test`, and documented outstanding placeholder affordance plus fixture coverage efforts.
+- **Next steps carried forward:** Tackle T3.4 placeholder node integration, schedule VoiceOver regression hardware passes, and unblock real-world asset licensing — all tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
