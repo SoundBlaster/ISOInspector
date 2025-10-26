@@ -1,4 +1,5 @@
 // swift-tools-version: 6.0
+#if canImport(SwiftUI)
 import SwiftUI
 import XCTest
 @testable import FoundationUI
@@ -314,3 +315,4 @@ final class SurfaceStyleKeyIntegrationTests: XCTestCase {
         XCTAssertNotNil(view, "Sidebar view should be created successfully")
     }
 }
+#endif

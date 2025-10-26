@@ -1,3 +1,4 @@
+#if canImport(SwiftUI)
 import XCTest
 @testable import FoundationUI
 
@@ -6,3 +7,4 @@ final class FoundationUIPackageConfigurationTests: XCTestCase {
         XCTAssertEqual(FoundationUI.moduleIdentifier, "FoundationUI")
     }
 }
+#endif
