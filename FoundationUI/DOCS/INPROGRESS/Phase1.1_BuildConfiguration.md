@@ -85,7 +85,7 @@ echo "🔍 Checking SwiftLint..."
 swiftlint --strict
 
 echo "📊 Generating coverage report..."
-xcrun llvm-cov report .build/debug/FoundationUIPackageTests.xctest/Contents/MacOS/FoundationUIPackageTests \
+xcrun llvm-cov report .build/debug/FoundationUITests.xctest/Contents/MacOS/FoundationUITests \
   -instr-profile .build/debug/codecov/default.profdata \
   -ignore-filename-regex=".build|Tests"
 
@@ -146,7 +146,7 @@ jobs:
       run: |
         cd FoundationUI
         xcrun llvm-cov export -format="lcov" \
-          .build/debug/FoundationUIPackageTests.xctest/Contents/MacOS/FoundationUIPackageTests \
+          .build/debug/FoundationUITests.xctest/Contents/MacOS/FoundationUITests \
           -instr-profile .build/debug/codecov/default.profdata \
           > coverage.lcov
 
