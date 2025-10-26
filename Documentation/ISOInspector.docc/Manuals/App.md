@@ -74,6 +74,7 @@ Detail/ParseTreeDetailView.swift†L327-L374】
 - The main window toolbar now exposes **Export JSON…** and **Export Selection…** buttons. The former serializes the entire parse tree, while the latter activates when a node is selected and captures only that subtree.【F:Sources/ISOInspectorApp/AppShellView.swift†L18-L116】
 - The outline row context menu mirrors the selection export so you can right-click a box and immediately persist its JSON snapshot without changing focus.【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift†L215-L288】
 - The app-level **Export** command menu adds keyboard-accessible entries for the same flows, keeping menu bar parity with the CLI exporters.【F:Sources/ISOInspectorApp/ISOInspectorApp.swift†L1-L71】
+- When tolerant parsing diagnostics are present, exports add a `schema.version` value of `2` alongside each node’s `issues` array so downstream automation can detect the richer payload while strict-mode files remain byte-for-byte compatible.【F:Sources/ISOInspectorKit/Export/JSONParseTreeExporter.swift†L17-L120】【F:Tests/ISOInspectorKitTests/Fixtures/Snapshots/tolerant-issues.json†L1-L74】
 
 ### Keyboard shortcuts
 
