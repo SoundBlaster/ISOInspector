@@ -1,4 +1,3 @@
-// swift-tools-version: 6.0
 import SwiftUI
 
 // MARK: - SurfaceStyleKey Environment Key
