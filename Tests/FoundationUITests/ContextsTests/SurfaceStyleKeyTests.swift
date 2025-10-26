@@ -1,6 +1,6 @@
 // swift-tools-version: 6.0
-import XCTest
 import SwiftUI
+import XCTest
 @testable import FoundationUI
 
 /// Unit tests for SurfaceStyleKey environment key
