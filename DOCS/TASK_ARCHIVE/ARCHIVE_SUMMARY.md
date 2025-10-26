@@ -976,3 +976,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/189_Summary_of_Work_2025-10-25_Integrity_Follow_Ups/`.
 - **Highlights:** Recaps the October 25 tolerance parsing session that wrapped T3.3 integrity pane work, verified updates with `swift test`, and documented outstanding placeholder affordance plus fixture coverage efforts.
 - **Next steps carried forward:** Tackle T3.4 placeholder node integration, schedule VoiceOver regression hardware passes, and unblock real-world asset licensing — all tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+
+## 190_T3_4_Placeholder_Nodes_for_Missing_Children
+- **Archived files:** `T3_4_Placeholder_Nodes_for_Missing_Children.md`, `Summary_of_Work.md`, `Phase3.2_SurfaceStyleKey.md`, `T3_5_Contextual_Status_Labels.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/`.
+- **Highlights:** Captures the tolerant parsing placeholder synthesis that emits `.corrupt` stand-ins for required-but-missing children, wires the issues through `ParseIssueStore`, and extends regression coverage for the new corruption cases.
+- **Next steps carried forward:** Continue contextual status label wiring (T3.5) alongside VoiceOver regression validation and real-world fixture acquisition, now tracked in `DOCS/INPROGRESS/next_tasks.md`.

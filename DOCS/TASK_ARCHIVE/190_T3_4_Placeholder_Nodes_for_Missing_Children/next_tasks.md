@@ -1,5 +1,6 @@
 # Next Tasks
 
+- ✅ **T3.4 Placeholder Nodes for Missing Children** _(Completed — synthetic nodes surface expected-but-absent structures; see `DOCS/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/Summary_of_Work.md`)_
 - 🚀 **T3.5 Contextual Status Labels** _(In Progress — see `DOCS/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/T3_5_Contextual_Status_Labels.md`)_:
   - Thread tolerant parsing status metadata (Invalid, Empty, Corrupted, Partial, Trimmed) through the outline rows and detail inspector so operators can distinguish issue severity at a glance.
 - 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(Blocked — pending hardware)_:

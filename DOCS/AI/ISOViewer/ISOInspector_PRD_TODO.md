@@ -163,7 +163,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 
 ### 🚧 In Progress
-- [x] T3.4 — Placeholder Nodes for Missing Children. _(Completed — synthetic nodes surface expected-but-absent structures with tolerant parsing issues; see `DOCS/INPROGRESS/Summary_of_Work.md` for the delivery recap.)_
+- [x] T3.4 — Placeholder Nodes for Missing Children. _(Completed — synthetic nodes surface expected-but-absent structures with tolerant parsing issues; see `DOCS/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/Summary_of_Work.md` for the delivery recap.)_
   - Ensure placeholder nodes cooperate with the contextual status labeling pass (T3.5) so severity and remediation copy stay aligned across the outline and Integrity panes.
   - Capture validation-driven heuristics for which children warrant placeholders and document the fallback behaviors in the PRD to unblock parser wiring.
 - [ ] T3.5 — Contextual Status Labels. _(In Progress — thread status metadata into the outline rows and detail inspector; see `DOCS/INPROGRESS/T3_5_Contextual_Status_Labels.md` for scope.)_
