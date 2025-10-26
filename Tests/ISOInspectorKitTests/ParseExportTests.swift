@@ -264,6 +264,58 @@ final class ParseExportTests: XCTestCase {
         XCTAssertEqual(node.issues, [issue])
     }
 
+    func testParseTreeBuilderSynthesizesPlaceholderForMissingRequiredChild() throws {
+        let parent = try makeHeader(type: "minf", size: 64)
+        let presentChild = try makeHeader(type: "smhd", size: 16, offset: parent.payloadRange.lowerBound)
+
+        var builder = ParseTreeBuilder()
+        builder.consume(
+            ParseEvent(
+                kind: .willStartBox(header: parent, depth: 0),
+                offset: parent.startOffset
+            )
+        )
+        builder.consume(
+            ParseEvent(
+                kind: .willStartBox(header: presentChild, depth: 1),
+                offset: presentChild.startOffset
+            )
+        )
+        builder.consume(
+            ParseEvent(
+                kind: .didFinishBox(header: presentChild, depth: 1),
+                offset: presentChild.endOffset
+            )
+        )
+        builder.consume(
+            ParseEvent(
+                kind: .didFinishBox(header: parent, depth: 0),
+                offset: parent.endOffset
+            )
+        )
+
+        let tree = builder.makeTree()
+        let root = try XCTUnwrap(tree.nodes.first)
+        XCTAssertEqual(root.header.type.rawValue, "minf")
+        XCTAssertEqual(root.status, .partial)
+        XCTAssertEqual(root.children.count, 2)
+
+        let placeholder = try XCTUnwrap(root.children.first(where: { $0.header.type.rawValue == "stbl" }))
+        XCTAssertLessThan(placeholder.header.startOffset, 0)
+        XCTAssertEqual(placeholder.status, .corrupt)
+        XCTAssertEqual(placeholder.children.count, 0)
+
+        let placeholderIssue = try XCTUnwrap(placeholder.issues.first)
+        XCTAssertEqual(placeholderIssue.code, "structure.missing_child")
+        XCTAssertEqual(placeholderIssue.severity, .error)
+        XCTAssertTrue(placeholderIssue.message.contains("minf"))
+        XCTAssertTrue(placeholderIssue.message.contains("stbl"))
+        XCTAssertEqual(
+            Set(placeholderIssue.affectedNodeIDs),
+            Set([parent.startOffset, placeholder.header.startOffset])
+        )
+    }
+
     func testJSONExporterIncludesPaddingBoxes() async throws {
         let ftyp = makeBox(type: "ftyp", payload: Data(count: 16))
         let freePayload = Data(count: 12)
