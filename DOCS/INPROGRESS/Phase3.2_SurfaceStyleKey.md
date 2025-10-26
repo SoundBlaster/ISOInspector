@@ -35,7 +35,7 @@ The `SurfaceStyleKey` provides a centralized way to propagate Material backgroun
 
 ### Architecture
 
-```
+```text
 Environment propagation:
   ParentView
     .environment(\.surfaceStyle, .thick)
