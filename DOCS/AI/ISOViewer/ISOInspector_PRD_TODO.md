@@ -163,6 +163,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 
 ### 🚧 In Progress
+- [ ] T3.4 — Placeholder Nodes for Missing Children. _(In Progress — synthetic nodes surface expected-but-absent structures with tolerant parsing issues; see `DOCS/INPROGRESS/T3_4_Placeholder_Nodes_for_Missing_Children.md` for the active PRD.)_
 - [x] T3.3 — Integrity Detail Pane. _(Completed — see `DOCS/TASK_ARCHIVE/188_T3_3_Integrity_Detail_Pane/Summary_of_Work.md` for implementation recap.)_
 - [x] D3 — `traf/tfhd/tfdt/trun` fragment run parsing and validation scaffolding. _(Completed — see `DOCS/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/Summary_of_Work.md` for the latest fragment parsing delivery and follow-up notes.)_
 - [x] B5 — Introduce `FullBoxReader` for (version,flags) extraction. **(Completed — helper, tests, and parser refactors documented in `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/B5_FullBoxReader.md` and `DOCS/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/Summary_of_Work.md`.)**

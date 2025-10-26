@@ -204,6 +204,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > **Completed:** Task **T1.5 — Propagate Decoder Failures Through Tolerant Parsing** now emits structured `ParseIssue` records for decoder failures and resumes tolerant traversal without aborting strict mode. See `DOCS/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/Summary_of_Work.md` for verification details and updated test coverage notes.
 
 > **Completed (2025-10-28):** Task **T3.3 — Integrity Detail Pane** delivered the corruption diagnostics section in the inspector. Review outcomes in `DOCS/TASK_ARCHIVE/188_T3_3_Integrity_Detail_Pane/Summary_of_Work.md` alongside the tolerance parsing roadmap in `DOCS/AI/Tolerance_Parsing/TODO.md`.
+>
+> **In Progress (2025-10-28):** Task **T3.4 — Placeholder Nodes for Missing Children** is now active to surface expected-but-absent structures with synthetic nodes so Integrity diagnostics can deep-link into the tree. Track implementation details in `DOCS/AI/Tolerance_Parsing/TODO.md` and the new `DOCS/INPROGRESS/T3_4_Placeholder_Nodes_for_Missing_Children.md` brief.
 
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
