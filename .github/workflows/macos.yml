@@ -16,6 +16,7 @@ on:
       - 'ISOInspector.xcodeproj/**'
       - 'ISOInspector.xcworkspace/**'
       - '.github/workflows/*.yml'
+
   push:
     branches:
       - main
@@ -31,6 +32,9 @@ on:
       - 'ISOInspector.xcworkspace/**'
       - '.github/workflows/*.yml'
 
+permissions:
+  contents: write
+
 jobs:
   macos-builds:
     name: macOS Archive & CLI Binary
@@ -38,6 +42,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
+          repository: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
 
       - name: Determine Tuist CLI release
         id: tuist-version
@@ -142,6 +151,16 @@ PY
           fi
           echo "${INSTALL_DIR}" >> "$GITHUB_PATH"
 
+      - name: Install SwiftLint
+        run: |
+          set -euo pipefail
+          if ! brew install swiftlint; then
+            echo "Initial SwiftLint install failed; updating Homebrew metadata and retrying..."
+            brew update
+            brew install swiftlint
+          fi
+          swiftlint version
+
       - name: Show Tuist version
         run: tuist version
 
@@ -161,6 +180,28 @@ PY
 
       - name: Generate Xcode project with Tuist
         run: tuist generate --no-open
+
+      - name: SwiftLint (auto-fix)
+        run: |
+          set -euo pipefail
+          swiftlint --fix --strict --quiet || true
+          swiftlint --quiet || true
+
+      - name: Commit Tuist/SwiftLint updates
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'github-actions[bot]'
+        env:
+          GITHUB_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(ci): tuist generate + swiftlint --fix [skip ci]"
+          git push origin "HEAD:${GITHUB_HEAD_REF}"
 
       - name: Archive ISOInspectorApp (unsigned)
         run: |
