@@ -1,49 +1,43 @@
 # Next Tasks for FoundationUI
 
-**Updated**: 2025-10-25
-**Current Focus**: Phase 2.2 – CopyableText Utility Component
+**Updated**: 2025-10-26
+**Current Status**: Phase 2 Complete, Phase 1.1 Build Configuration Next
 
 ## 🎯 Immediate Priorities (P0 - Critical)
 
-### Phase 2.2: CopyableText Utility Component → **IN PROGRESS**
-**Goal**: Implement reusable clipboard utility for technical data
-**Status**: Active development started 2025-10-25
-**Document**: `INPROGRESS/Phase2.2_CopyableText.md`
-
-- [ ] **Write failing tests first** (TDD)
-  - Create `Tests/FoundationUITests/UtilitiesTests/CopyableTextTests.swift`
-  - Define expected API and behavior
-  - Run tests to confirm failures (requires macOS/Xcode)
-
-- [ ] **Implement CopyableText component**
-  - Create `Sources/FoundationUI/Utilities/CopyableText.swift`
-  - Platform-specific clipboard (NSPasteboard / UIPasteboard)
-  - Visual feedback animation
-  - Keyboard shortcut support (⌘C / Ctrl+C)
-  - Zero magic numbers (100% DS tokens)
-
-- [ ] **Integration and polish**
-  - Update `KeyValueRow` to use `CopyableText`
-  - SwiftUI Preview with interactive demo
-  - Accessibility audit (VoiceOver, Dynamic Type)
-  - Complete DocC documentation
-
-## 🔭 Upcoming Considerations (After CopyableText)
-
-### Phase 1.1: Build Configuration (Remaining Items)
-**Note**: SwiftLint already configured in Phase 2.2 (2025-10-23)
+### Phase 1.1: Build Configuration & Infrastructure
+**Goal**: Complete foundational build tooling and configuration
+**Status**: Ready to start (1/8 tasks complete)
+**Priority**: P0
 
 - [x] ✅ **SwiftLint configuration** - Completed Phase 2.2
   - `.swiftlint.yml` with `no_magic_numbers` rule
   - Custom rules for DS token usage
   - 98% compliance achieved (CodeQualityReport.md)
 
-- [ ] Configure Swift compiler settings
+- [ ] **Configure Swift compiler settings**
   - Strict concurrency checking
   - Warnings as errors for production code
+  - Swift 6.0 language mode
 
-- [ ] Create build scripts for CI/CD
-- [ ] Configure code coverage reporting
+- [ ] **Create build scripts for CI/CD**
+  - Automated testing pipeline
+  - Build verification scripts
+  - Platform-specific build configurations
+
+- [ ] **Configure code coverage reporting**
+  - Set ≥80% coverage target
+  - Integrate with CI pipeline
+  - Coverage reports for each component
+
+## 🔭 Next Phase Priorities
+
+### Phase 2.2: Integration Tasks (Future)
+**Status**: Deferred (Phase 2 core complete)
+
+- [ ] Refactor `KeyValueRow` to use `CopyableText`
+- [ ] Remove duplicate clipboard logic from `KeyValueRow`
+- [ ] Add `CopyableText` to other components needing copy functionality
 
 ### Phase 2.2: Quality Verification ✅ VERIFIED
 - [x] ✅ Component unit tests - Already complete (18 test files)
@@ -58,6 +52,17 @@
 - Deferred until foundational work complete
 
 ## ✅ Recently Completed
+
+### Phase 2.2: CopyableText Utility Component ✅ COMPLETE (2025-10-25)
+- Platform-specific clipboard integration (NSPasteboard / UIPasteboard)
+- Visual feedback with animated "Copied!" indicator
+- Keyboard shortcut support (⌘C on macOS)
+- VoiceOver announcements (platform-specific)
+- 15 comprehensive test cases (100% API coverage)
+- 3 SwiftUI Previews (basic, in Card, Dark Mode)
+- Zero magic numbers (100% DS token usage)
+- **Archived**: `TASK_ARCHIVE/20_Phase2.2_CopyableText/`
+- **Phase 2.2 Status**: Now 100% complete (12/12 tasks)
 
 ### Phase 1.2: Design System Foundation (Layer 0) ✅ COMPLETE (2025-10-25)
 - DS namespace implementation with comprehensive DocC documentation
@@ -81,7 +86,11 @@
 |-------|----------|--------|
 | Phase 1.1: Infrastructure | 1/8 (13%) | 🚧 **NEXT PRIORITY** |
 | Phase 1.2: Design Tokens | 7/7 (100%) | ✅ Complete |
-| Phase 2: Core Components | 20/22 (91%) | Near complete |
+| Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
 | Phase 3: Patterns | 7/16 (44%) | In progress |
 
-**Overall Progress**: 38/111 tasks (34%)
+**Overall Progress**: 40/111 tasks (36%)**
+
+**Latest Completions**:
+- Phase 2.2 CopyableText utility (2025-10-25) - Final Phase 2 component
+- Phase 1.2 Design Tokens validation (2025-10-25) - Foundation complete

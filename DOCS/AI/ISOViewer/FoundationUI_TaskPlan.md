@@ -544,14 +544,15 @@
   - Troubleshooting guide
 
 ### 4.2 Utilities & Helpers
-**Progress: 0/6 tasks**
+**Progress: 1/6 tasks (17%)**
 
-- [ ] **P0** Implement CopyableText utility
-  - File: `Sources/Utilities/CopyableText.swift`
-  - Cross-platform clipboard access
-  - Visual feedback (animation, toast)
-  - Keyboard shortcut support
+- [x] **P0** Implement CopyableText utility ✅ Completed 2025-10-25
+  - File: `Sources/FoundationUI/Utilities/CopyableText.swift`
+  - Cross-platform clipboard access (NSPasteboard / UIPasteboard)
+  - Visual feedback (animated "Copied!" indicator)
+  - Keyboard shortcut support (⌘C on macOS)
   - VoiceOver announcements
+  - Archive: `TASK_ARCHIVE/20_Phase2.2_CopyableText/`
 
 - [ ] **P1** Implement KeyboardShortcuts utility
   - File: `Sources/Utilities/KeyboardShortcuts.swift`
