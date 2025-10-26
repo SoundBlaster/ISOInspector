@@ -33,6 +33,14 @@ its scope.
 
   supplying segment-based names without dots inside the app target.
 
+- [10_Apple_Documentation_in_readable_format.md](./10_Apple_Documentation_in_readable_format.md) — guidelines for
+
+  accessing and formatting Apple developer documentation.
+
+- [11_SwiftUI_Testing.md](./11_SwiftUI_Testing.md) — comprehensive testing guidelines for SwiftUI components,
+
+  emphasizing observable property verification over no-op assertions.
+
 - [agent-system-prompt.md](./agent-system-prompt.md) — system prompt for AI agents that reflects repository components
 
   and the PDD approach.
