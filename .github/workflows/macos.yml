@@ -74,7 +74,7 @@ if auth_header:
             sys.stderr.write("Authorization header does not start with 'Bearer '\n")
             sys.exit(1)
 request = urllib.request.Request(
-    "https://api.github.com/repos/tuist/tuist/releases?per_page=100",
+    "https://api.github.com/repos/tuist/tuist/releases?per_page=30",
     headers=headers,
 )
 try:
