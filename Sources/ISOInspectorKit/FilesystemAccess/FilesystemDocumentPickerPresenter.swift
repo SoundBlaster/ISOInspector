@@ -61,8 +61,7 @@ extension FilesystemDocumentPickerPresenter {
     }
 
     private static func defaultPresentingViewControllerProvider()
-        -> PresentingViewControllerProvider
-    {
+        -> PresentingViewControllerProvider {
         { defaultPresentingViewController() }
     }
 }
