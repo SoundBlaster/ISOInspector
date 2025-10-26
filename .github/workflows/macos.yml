@@ -16,6 +16,7 @@ on:
       - 'ISOInspector.xcodeproj/**'
       - 'ISOInspector.xcworkspace/**'
       - '.github/workflows/*.yml'
+
   push:
     branches:
       - main
@@ -31,6 +32,9 @@ on:
       - 'ISOInspector.xcworkspace/**'
       - '.github/workflows/*.yml'
 
+permissions:
+  contents: write
+
 jobs:
   macos-builds:
     name: macOS Archive & CLI Binary
@@ -38,6 +42,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref }}
+          repository: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name || github.repository }}
 
       - name: Determine Tuist CLI release
         id: tuist-version
@@ -52,70 +61,70 @@ jobs:
             export AUTH_HEADER
           fi
           python3 <<'PY'
-import json
-import os
-import sys
-import urllib.error
-import urllib.request
-
-headers = {
-    "Accept": "application/vnd.github+json",
-    "User-Agent": "isoinspector-ci",
-    "X-GitHub-Api-Version": "2022-11-28",
-}
-auth_header = os.environ.get("AUTH_HEADER")
-if auth_header:
-    # Explicitly handle 'Authorization: Bearer ...' and 'Authorization:Bearer ...'
-    if auth_header.startswith("Authorization:"):
-        value = auth_header[len("Authorization:"):].strip()
-        if value.startswith("Bearer "):
-            headers["Authorization"] = value
-        else:
-            sys.stderr.write("Authorization header does not start with 'Bearer '\n")
-            sys.exit(1)
-request = urllib.request.Request(
-    "https://api.github.com/repos/tuist/tuist/releases?per_page=30",
-    headers=headers,
-)
-try:
-    with urllib.request.urlopen(request) as response:
-        payload = json.load(response)
-except urllib.error.HTTPError as exc:  # pragma: no cover - network failure guard
-    sys.stderr.write("Failed to determine Tuist CLI release\n")
-    sys.stderr.write(f"HTTP error: {exc.code}\n")
-    try:
-        details = exc.read().decode("utf-8")
-        data = json.loads(details)
-        error_data = data if isinstance(data, dict) else None
-        message = error_data.get("message") if error_data else None
-        if message:
-            sys.stderr.write(message + "\n")
-    except Exception:  # pragma: no cover - best effort diagnostics
-        pass
-    sys.exit(1)
-
-version = None
-for release in payload:
-    tag = release.get("tag_name")
-    if not tag:
-        continue
-    for asset in release.get("assets", []):
-        if asset.get("name") == "tuist.zip":
-            version = tag
-            break
-    if version:
-        break
-
-if not version:
-    sys.stderr.write("Failed to determine Tuist CLI release\n")
-    error_data = payload if isinstance(payload, dict) else None
-    if error_data and "message" in error_data:
-        sys.stderr.write(str(error_data["message"]) + "\n")
-    sys.exit(1)
-
-with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
-    fh.write(f"tuist_version={version}\n")
-PY
+          import json
+          import os
+          import sys
+          import urllib.error
+          import urllib.request
+          
+          headers = {
+              "Accept": "application/vnd.github+json",
+              "User-Agent": "isoinspector-ci",
+              "X-GitHub-Api-Version": "2022-11-28",
+          }
+          auth_header = os.environ.get("AUTH_HEADER")
+          if auth_header:
+              # Explicitly handle 'Authorization: Bearer ...' and 'Authorization:Bearer ...'
+              if auth_header.startswith("Authorization:"):
+                  value = auth_header[len("Authorization:"):].strip()
+                  if value.startswith("Bearer "):
+                      headers["Authorization"] = value
+                  else:
+                      sys.stderr.write("Authorization header does not start with 'Bearer '\n")
+                      sys.exit(1)
+          request = urllib.request.Request(
+              "https://api.github.com/repos/tuist/tuist/releases?per_page=30",
+              headers=headers,
+          )
+          try:
+              with urllib.request.urlopen(request) as response:
+                  payload = json.load(response)
+          except urllib.error.HTTPError as exc:  # pragma: no cover - network failure guard
+              sys.stderr.write("Failed to determine Tuist CLI release\n")
+              sys.stderr.write(f"HTTP error: {exc.code}\n")
+              try:
+                  details = exc.read().decode("utf-8")
+                  data = json.loads(details)
+                  error_data = data if isinstance(data, dict) else None
+                  message = error_data.get("message") if error_data else None
+                  if message:
+                      sys.stderr.write(message + "\n")
+              except Exception:  # pragma: no cover - best effort diagnostics
+                  pass
+              sys.exit(1)
+          
+          version = None
+          for release in payload:
+              tag = release.get("tag_name")
+              if not tag:
+                  continue
+              for asset in release.get("assets", []):
+                  if asset.get("name") == "tuist.zip":
+                      version = tag
+                      break
+              if version:
+                  break
+          
+          if not version:
+              sys.stderr.write("Failed to determine Tuist CLI release\n")
+              error_data = payload if isinstance(payload, dict) else None
+              if error_data and "message" in error_data:
+                  sys.stderr.write(str(error_data["message"]) + "\n")
+              sys.exit(1)
+          
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+              fh.write(f"tuist_version={version}\n")
+          PY
 
       - name: Cache Tuist binary
         id: cache-tuist
@@ -142,6 +151,16 @@ PY
           fi
           echo "${INSTALL_DIR}" >> "$GITHUB_PATH"
 
+      - name: Install SwiftLint
+        run: |
+          set -euo pipefail
+          if ! brew install swiftlint; then
+            echo "Initial SwiftLint install failed; updating Homebrew metadata and retrying..."
+            brew update
+            brew install swiftlint
+          fi
+          swiftlint version
+
       - name: Show Tuist version
         run: tuist version
 
@@ -161,6 +180,28 @@ PY
 
       - name: Generate Xcode project with Tuist
         run: tuist generate --no-open
+
+      - name: SwiftLint (auto-fix)
+        run: |
+          set -euo pipefail
+          swiftlint --fix --strict --quiet || true
+          swiftlint --quiet || true
+
+      - name: Commit Tuist/SwiftLint updates
+        if: github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'github-actions[bot]'
+        env:
+          GITHUB_HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "chore(ci): tuist generate + swiftlint --fix [skip ci]"
+          git push origin "HEAD:${GITHUB_HEAD_REF}"
 
       - name: Archive ISOInspectorApp (unsigned)
         run: |
