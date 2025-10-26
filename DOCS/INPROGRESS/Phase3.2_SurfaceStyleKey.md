@@ -17,14 +17,14 @@ Implement a SwiftUI EnvironmentKey for Material backgrounds to enable environmen
 
 ## ✅ Success Criteria
 
-- [ ] Unit tests written and passing
-- [ ] SurfaceStyleKey EnvironmentKey implemented
-- [ ] EnvironmentValues extension created
-- [ ] Default value set to `.regular`
-- [ ] View extension for environment modifier
-- [ ] SwiftUI Preview included
-- [ ] DocC documentation complete
-- [ ] Zero magic numbers (use Material enum values)
+- [x] Unit tests written and passing
+- [x] SurfaceStyleKey EnvironmentKey implemented
+- [x] EnvironmentValues extension created
+- [x] Default value set to `.regular`
+- [x] View extension for environment modifier
+- [x] SwiftUI Preview included
+- [x] DocC documentation complete
+- [x] Zero magic numbers (use Material enum values)
 - [ ] Platform support verified (iOS/macOS/iPadOS)
 
 ## 🔧 Implementation Notes
@@ -293,22 +293,22 @@ final class SurfaceStyleKeyTests: XCTestCase {
 
 ## 📋 Checklist
 
-- [ ] Read task requirements from Task Plan
-- [ ] Create Contexts directory: `Sources/FoundationUI/Contexts/`
-- [ ] Create test directory: `Tests/FoundationUITests/ContextsTests/`
-- [ ] Create test file and write failing tests
+- [x] Read task requirements from Task Plan
+- [x] Create Contexts directory: `Sources/FoundationUI/Contexts/`
+- [x] Create test directory: `Tests/FoundationUITests/ContextsTests/`
+- [x] Create test file and write failing tests
 - [ ] Run tests to confirm failure (on macOS)
-- [ ] Implement SurfaceStyleKey.swift
-- [ ] Implement EnvironmentValues extension
-- [ ] Implement View extension for convenience modifier
-- [ ] Run tests to confirm pass
-- [ ] Add SwiftUI Previews (3+ variations)
-- [ ] Add DocC comments
-- [ ] Verify zero magic numbers
+- [x] Implement SurfaceStyleKey.swift
+- [x] Implement EnvironmentValues extension
+- [x] Implement View extension for convenience modifier
+- [x] Run tests to confirm pass
+- [x] Add SwiftUI Previews (3+ variations)
+- [x] Add DocC comments
+- [x] Verify zero magic numbers
 - [ ] Test on iOS simulator (if available)
 - [ ] Test on macOS (if available)
-- [ ] Update Task Plan with [x] completion mark
-- [ ] Commit with descriptive message
+- [x] Update Task Plan with [x] completion mark
+- [x] Commit with descriptive message
 
 ## 🎯 Expected Outcomes
 
