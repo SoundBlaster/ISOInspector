@@ -1,15 +1,15 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-10-26
-**Current Status**: Phase 3.2 Context Integration Tests Complete ✅
+**Current Status**: Phase 3.2 Platform Adaptation Integration Tests Complete ✅
 
 ## 🎯 Immediate Priorities (P0 - Critical)
 
 ### Phase 3.2: Layer 4 - Contexts & Platform Adaptation 🚧 IN PROGRESS
 **Goal**: Implement environment keys and platform-specific behavior
 **Status**: 4/8 tasks complete (50%)
-**Priority**: P0
-**Next Task**: Platform adaptation integration tests (P0)
+**Priority**: P1
+**Next Task**: Create platform-specific extensions (P1)
 
 - [x] **Implement SurfaceStyleKey environment key** ✅ Completed 2025-10-26
   - EnvironmentKey for SurfaceMaterial type
@@ -63,11 +63,17 @@
   - File: `Tests/FoundationUITests/ContextsTests/ContextIntegrationTests.swift`
   - Archive: `TASK_ARCHIVE/25_Phase3.2_ContextIntegrationTests/`
 
-- [ ] **Platform adaptation integration tests** (P0) - NEXT after Context Tests
-  - Test macOS-specific behavior in real components
-  - Test iOS-specific behavior in real components
-  - Test iPad adaptive layout (size classes)
-  - Cross-platform consistency verification
+- [x] **Platform adaptation integration tests** ✅ Completed 2025-10-26 (P0)
+  - File: `Tests/FoundationUITests/ContextsTests/PlatformAdaptationIntegrationTests.swift`
+  - 28 comprehensive integration tests (1068 lines)
+  - macOS-specific tests (6): spacing, keyboard shortcuts, clipboard, hover effects, sidebar
+  - iOS-specific tests (6): touch targets (44pt), gestures, clipboard, inspector
+  - iPad adaptive tests (6): size classes, split view, pointer interaction, sidebar adaptation
+  - Cross-platform consistency tests (6): DS tokens, dark mode, accessibility, environment
+  - Edge case tests (4): nil size class, unknown variants, complex hierarchies
+  - 274 DocC comment lines (100% coverage)
+  - Zero magic numbers (100% DS token usage, only documented constant: 44pt iOS touch target)
+  - Archive: `TASK_ARCHIVE/26_Phase3.2_PlatformAdaptationIntegrationTests/`
 
 - [ ] **Create platform-specific extensions** (P1)
   - macOS-specific keyboard shortcuts
@@ -212,6 +218,7 @@
 **Overall Progress**: 45/111 tasks (40.5%)**
 
 **Latest Completions**:
+- Phase 3.2 Platform Adaptation Integration Tests (2025-10-26) - 28 integration tests for platform-specific behavior
 - Phase 3.2 Context Integration Tests (2025-10-26) - 24 integration tests for all Context layer components
 - Phase 3.2 ColorSchemeAdapter (2025-10-26) - Automatic Dark Mode adaptation & adaptive colors
 - Phase 3.2 PlatformAdaptation (2025-10-26) - Platform-adaptive spacing & modifiers
