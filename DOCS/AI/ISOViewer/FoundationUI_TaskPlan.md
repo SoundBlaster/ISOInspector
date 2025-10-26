@@ -7,13 +7,13 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 44/111 tasks completed (40%)**
+**Total: 45/111 tasks completed (40.5%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | In Progress | 9/15 (60%) |
 | Phase 2: Core Components | ✅ Complete | 22/22 (100%) |
-| Phase 3: Patterns & Platform Adaptation | In Progress | 10/16 (62.5%) |
+| Phase 3: Patterns & Platform Adaptation | In Progress | 11/16 (68.75%) |
 | Phase 4: Agent Support & Polish | Not Started | 0/13 (0%) |
 | Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
@@ -442,7 +442,7 @@
   - Memory usage optimization
 
 ### 3.2 Layer 4: Contexts & Platform Adaptation
-**Progress: 3/8 tasks (37.5%) → IN PROGRESS**
+**Progress: 4/8 tasks (50%) → IN PROGRESS**
 
 - [x] **P0** Implement SurfaceStyleKey environment key → **Completed 2025-10-26**
   - File: `Sources/FoundationUI/Contexts/SurfaceStyleKey.swift`
@@ -498,12 +498,17 @@
   - File: `Tests/FoundationUITests/ContextsTests/ContextIntegrationTests.swift`
   - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase3.2_ContextIntegrationTests.md`
 
-- [ ] **P0** Platform adaptation integration tests → **IN PROGRESS**
-  - Test macOS-specific behavior
-  - Test iOS-specific behavior
-  - Test iPad adaptive layout
-  - Cross-platform consistency verification
-  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase3.2_PlatformAdaptationIntegrationTests.md`
+- [x] **P0** Platform adaptation integration tests ✅ Completed 2025-10-26
+  - File: `Tests/FoundationUITests/ContextsTests/PlatformAdaptationIntegrationTests.swift`
+  - 28 comprehensive integration tests (1068 lines)
+  - macOS-specific tests (6): spacing, keyboard shortcuts, clipboard, hover effects, sidebar
+  - iOS-specific tests (6): touch targets (44pt), gestures, clipboard, inspector
+  - iPad adaptive tests (6): size classes, split view, pointer interaction, sidebar adaptation
+  - Cross-platform consistency tests (6): DS tokens, dark mode, accessibility, environment
+  - Edge case tests (4): nil size class, unknown variants, complex hierarchies
+  - 274 DocC comment lines (100% coverage)
+  - Zero magic numbers (100% DS token usage, only documented constant: 44pt iOS touch target)
+  - Archive: `TASK_ARCHIVE/26_Phase3.2_PlatformAdaptationIntegrationTests/`
 
 - [ ] **P1** Create platform comparison previews
   - Side-by-side platform previews
