@@ -375,7 +375,7 @@ public extension EnvironmentValues {
             Spacer()
         }
         .padding()
-        .frame(width: 250, maxHeight: .infinity)
+        .frame(minWidth: 250, maxHeight: .infinity)
         .surfaceStyle(material: .thick)
         .environment(\.surfaceStyle, .thick)
     }
