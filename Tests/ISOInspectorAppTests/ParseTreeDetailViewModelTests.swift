@@ -293,6 +293,53 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         XCTAssertEqual(encryption.sampleInfoByteLength, encryption.sampleInfoRange?.count)
     }
 
+    func testFocusingIssueHighlightsRangeAndRequestsSlice() async throws {
+        let header = makeHeader(identifier: 9, type: "trak", payloadLength: 256)
+        let issueRange = (header.payloadRange.lowerBound + 120)..<(header.payloadRange.lowerBound + 144)
+        let issue = ParseIssue(
+            severity: .error,
+            code: "TP001",
+            message: "Corrupt atom",
+            byteRange: issueRange
+        )
+        let node = ParseTreeNode(
+            header: header,
+            metadata: nil,
+            payload: nil,
+            validationIssues: [],
+            issues: [issue],
+            children: []
+        )
+        let snapshot = ParseTreeSnapshot(
+            nodes: [node],
+            validationIssues: [],
+            lastUpdatedAt: Date()
+        )
+        let subject = PassthroughSubject<ParseTreeSnapshot, Never>()
+        let provider = HexSliceProviderStub(result: HexSlice(offset: header.payloadRange.lowerBound, bytes: Data(repeating: 0, count: 256)))
+        let viewModel = ParseTreeDetailViewModel(hexSliceProvider: provider, annotationProvider: nil, windowSize: 64)
+
+        viewModel.bind(to: subject.eraseToAnyPublisher())
+        subject.send(snapshot)
+        await Task.yield()
+
+        viewModel.select(nodeID: node.id)
+        try await Task.sleep(nanoseconds: 30_000_000)
+
+        XCTAssertEqual(viewModel.detail?.issues, [issue])
+        XCTAssertEqual(provider.requests.count, 1)
+
+        viewModel.focusIssue(on: issueRange)
+        try await Task.sleep(nanoseconds: 30_000_000)
+
+        XCTAssertEqual(viewModel.highlightedRange, issueRange)
+        XCTAssertNil(viewModel.selectedAnnotationID)
+        XCTAssertEqual(provider.requests.count, 2)
+        let window = try XCTUnwrap(provider.requests.last?.window)
+        XCTAssertLessThanOrEqual(window.offset, issueRange.lowerBound)
+        XCTAssertGreaterThanOrEqual(window.offset + Int64(window.length), issueRange.upperBound)
+    }
+
     // MARK: - Helpers
 
     private func makeHeader(identifier: Int64, type: String, payloadLength: Int64) -> BoxHeader {

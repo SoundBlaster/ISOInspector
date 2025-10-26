@@ -122,12 +122,30 @@ final class ParseTreeDetailViewModel: ObservableObject {
         loadHexSlice(for: node, detail: detail)
     }
 
-    private func loadHexSlice(for node: ParseTreeNode, detail: ParseTreeNodeDetail) {
+    func focusIssue(on range: Range<Int64>) {
+        highlightedRange = range
+        selectedAnnotationID = nil
+
+        guard let selectedID,
+              let node = findNode(with: selectedID, in: snapshot.nodes),
+              let detail
+        else {
+            return
+        }
+
+        loadHexSlice(for: node, detail: detail, focusRange: range)
+    }
+
+    private func loadHexSlice(
+        for node: ParseTreeNode,
+        detail: ParseTreeNodeDetail,
+        focusRange: Range<Int64>? = nil
+    ) {
         guard let provider = hexSliceProvider else {
             return
         }
 
-        let window = makeWindow(for: node.header)
+        let window = makeWindow(for: node.header, focusRange: focusRange)
         guard window.length > 0 else {
             return
         }
@@ -135,6 +153,7 @@ final class ParseTreeDetailViewModel: ObservableObject {
         let request = HexSliceRequest(header: node.header, window: window)
         let currentSelection = selectedID
 
+        hexTask?.cancel()
         hexTask = Task { [weak self] in
             do {
                 let slice = try await provider.loadSlice(for: request)
@@ -208,12 +227,43 @@ final class ParseTreeDetailViewModel: ObservableObject {
         return mapped.isEmpty ? nil : mapped
     }
 
-    private func makeWindow(for header: BoxHeader) -> HexSliceRequest.Window {
+    private func makeWindow(
+        for header: BoxHeader,
+        focusRange: Range<Int64>? = nil
+    ) -> HexSliceRequest.Window {
         let payloadStart = header.payloadRange.lowerBound
-        let payloadLength64 = max(0, header.payloadRange.upperBound - header.payloadRange.lowerBound)
+        let payloadEnd = header.payloadRange.upperBound
+        let payloadLength64 = max(0, payloadEnd - payloadStart)
         let payloadLength = clampToInt(payloadLength64)
+        guard payloadLength > 0 else {
+            return HexSliceRequest.Window(offset: payloadStart, length: 0)
+        }
+
         let length = min(windowSize, payloadLength)
-        return HexSliceRequest.Window(offset: payloadStart, length: length)
+
+        guard let focusRange else {
+            return HexSliceRequest.Window(offset: payloadStart, length: length)
+        }
+
+        let clampedStart = max(focusRange.lowerBound, payloadStart)
+        let clampedEnd = min(focusRange.upperBound, payloadEnd)
+        let focusLength = max(0, clampedEnd - clampedStart)
+        var offset = clampedStart
+
+        if focusLength < Int64(length) {
+            let slack = Int64(length) - focusLength
+            offset -= slack / 2
+        }
+
+        let minOffset = payloadStart
+        let maxOffset = max(payloadStart, payloadEnd - Int64(length))
+        if maxOffset <= minOffset {
+            offset = minOffset
+        } else {
+            offset = min(max(offset, minOffset), maxOffset)
+        }
+
+        return HexSliceRequest.Window(offset: offset, length: length)
     }
 
     private func findNode(with id: ParseTreeNode.ID, in nodes: [ParseTreeNode]) -> ParseTreeNode? {

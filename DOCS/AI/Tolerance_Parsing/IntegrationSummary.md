@@ -309,7 +309,7 @@ HStack {
 - Displays parsed fields, validation results.
 
 **Tolerance Integration:**
-- Add **"Corruption" section** when `node.issues.isEmpty == false` (T3.3):
+- Add **"Corruption" section** when `node.issues.isEmpty == false` (T3.3). ✅ Completed — see `DOCS/TASK_ARCHIVE/188_T3_3_Integrity_Detail_Pane/Summary_of_Work.md` for implementation details:
   - List each issue with severity icon, error code, message.
   - Show byte offsets and affected range length.
   - Suggest actions (e.g., "View in hex editor", "Export diagnostics").

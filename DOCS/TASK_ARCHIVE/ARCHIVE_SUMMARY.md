@@ -964,3 +964,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/187_T3_2_Corruption_Badges_for_Tree_View_Nodes/`.
 - **Highlights:** Documents the SwiftUI tree corruption badges that surface `ParseIssue` counts per node, align severity styling with the tolerant parsing ribbon, and harden accessibility/tooltip affordances backed by `swift test` verification.
 - **Next steps carried forward:** Continue the tolerant parsing roadmap with the T3.3 integrity detail pane and track hardware plus licensing dependencies in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+
+## 188_T3_3_Integrity_Detail_Pane
+- **Archived files:** `Summary_of_Work.md`, `T3_3_Integrity_Detail_Pane.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/188_T3_3_Integrity_Detail_Pane/`.
+- **Highlights:** Captures the dedicated corruption diagnostics section in the detail inspector, adaptive hex slice re-centering for issue ranges, and accessibility summary updates driven by `ParseIssue` severity counts.
+- **Next steps carried forward:** Integrate placeholder nodes (T3.4) and broaden tolerant parsing fixtures for deep offset corruption, as outlined in this folder's `next_tasks.md` and `DOCS/INPROGRESS/Summary_of_Work.md` follow-ups.
