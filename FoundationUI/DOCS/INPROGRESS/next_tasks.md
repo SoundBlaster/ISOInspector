@@ -1,13 +1,13 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-10-26
-**Current Status**: Phase 3.2 PlatformAdaptation Complete, ColorSchemeAdapter Next
+**Current Status**: Phase 3.2 ColorSchemeAdapter Complete, Context Tests Next
 
 ## 🎯 Immediate Priorities (P0 - Critical)
 
 ### Phase 3.2: Layer 4 - Contexts & Platform Adaptation ✅ IN PROGRESS
 **Goal**: Implement environment keys and platform-specific behavior
-**Status**: 2/8 tasks complete (25%)
+**Status**: 3/8 tasks complete (37.5%)
 **Priority**: P0
 
 - [x] **Implement SurfaceStyleKey environment key** ✅ Completed 2025-10-26
@@ -34,10 +34,25 @@
   - File: `Sources/FoundationUI/Contexts/PlatformAdaptation.swift`
   - Archive: `TASK_ARCHIVE/23_Phase3.2_PlatformAdaptation/`
 
-- [ ] **Implement ColorSchemeAdapter** 🎯 **NEXT PRIORITY**
-  - Automatic Dark Mode adaptation
-  - Color scheme detection
+- [x] **Implement ColorSchemeAdapter** ✅ Completed 2025-10-26
+  - Automatic Dark Mode adaptation via system colors
+  - Color scheme detection with `isDarkMode` property
+  - Adaptive color properties: background, text, border, divider, elevated surface
+  - View modifier `.adaptiveColorScheme()` for convenient usage
+  - Platform-specific color handling (iOS UIColor / macOS NSColor)
+  - 24 comprehensive unit tests + 5 integration tests (403 lines)
+  - 6 SwiftUI Previews covering all use cases (light/dark, cards, inspector, side-by-side)
+  - 100% DocC documentation (754 lines total, extensive API documentation)
+  - Zero magic numbers (uses system colors and DS tokens)
+  - Future: Custom theme support ready for extension
   - File: `Sources/FoundationUI/Contexts/ColorSchemeAdapter.swift`
+  - Archive: `TASK_ARCHIVE/24_Phase3.2_ColorSchemeAdapter/`
+
+- [ ] **Create platform-specific extensions** 🎯 **NEXT PRIORITY**
+  - macOS-specific keyboard shortcuts
+  - iOS-specific gestures
+  - iPadOS pointer interactions
+  - File: `Sources/FoundationUI/Contexts/PlatformExtensions.swift`
 
 ### Phase 1.1: Build Configuration & Infrastructure ✅ COMPLETE (2025-10-26)
 - [x] ✅ **SwiftLint configuration** - Completed Phase 2.2
@@ -69,6 +84,22 @@
 - Deferred until foundational work complete
 
 ## ✅ Recently Completed
+
+### Phase 3.2: ColorSchemeAdapter ✅ COMPLETE (2025-10-26)
+- ColorSchemeAdapter struct with automatic Dark Mode adaptation
+- Color scheme detection with `isDarkMode` computed property
+- Adaptive color properties: `adaptiveBackground`, `adaptiveSecondaryBackground`, `adaptiveElevatedSurface`
+- Text color properties: `adaptiveTextColor`, `adaptiveSecondaryTextColor`
+- Border and divider colors: `adaptiveBorderColor`, `adaptiveDividerColor`
+- View modifier `.adaptiveColorScheme()` for convenient usage
+- Platform-specific color handling (iOS UIColor / macOS NSColor)
+- 24 comprehensive unit tests + 5 integration tests (403 lines total)
+- 6 SwiftUI Previews (light mode, dark mode, cards, inspector, modifier, side-by-side)
+- 100% DocC documentation (754 lines total, extensive API documentation)
+- Zero magic numbers (uses system colors and DS tokens exclusively)
+- WCAG 2.1 AA compliance (≥4.5:1 contrast) for all adaptive colors
+- **Archived**: `TASK_ARCHIVE/24_Phase3.2_ColorSchemeAdapter/`
+- **Phase 3.2 Status**: Now 3/8 tasks complete (37.5%)
 
 ### Phase 3.2: PlatformAdaptation Modifiers ✅ COMPLETE (2025-10-26)
 - PlatformAdapter enum with platform detection (`isMacOS`, `isIOS`)
@@ -139,11 +170,12 @@
 | Phase 1.2: Design Tokens | 7/7 (100%) | ✅ Complete |
 | Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
 | Phase 3.1: Patterns | 7/8 (88%) | In progress |
-| Phase 3.2: Contexts | 2/8 (25%) | 🚧 **IN PROGRESS** |
+| Phase 3.2: Contexts | 3/8 (37.5%) | 🚧 **IN PROGRESS** |
 
-**Overall Progress**: 43/111 tasks (39%)**
+**Overall Progress**: 44/111 tasks (40%)**
 
 **Latest Completions**:
+- Phase 3.2 ColorSchemeAdapter (2025-10-26) - Automatic Dark Mode adaptation & adaptive colors
 - Phase 3.2 PlatformAdaptation (2025-10-26) - Platform-adaptive spacing & modifiers
 - Phase 3.2 SurfaceStyleKey (2025-10-26) - Environment key for material propagation
 - Phase 1.1 Build Configuration (2025-10-26) - Automated tooling & quality gates
