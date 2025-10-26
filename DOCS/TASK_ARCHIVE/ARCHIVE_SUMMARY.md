@@ -982,3 +982,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/`.
 - **Highlights:** Captures the tolerant parsing placeholder synthesis that emits `.corrupt` stand-ins for required-but-missing children, wires the issues through `ParseIssueStore`, and extends regression coverage for the new corruption cases.
 - **Next steps carried forward:** Continue contextual status label wiring (T3.5) alongside VoiceOver regression validation and real-world fixture acquisition, now tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 191_T3_5_Contextual_Status_Labels
+- **Archived files:** `Summary_of_Work.md`, `T3_5_Contextual_Status_Labels.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/191_T3_5_Contextual_Status_Labels/`.
+- **Highlights:** Documents the synchronized tolerant parsing status badges shared between the outline and detail inspectors, the expanded `ParseTreeStatusDescriptor`, and verification via the Linux `swift test` suite (358 tests, 0 failures, 1 skipped).
+- **Next steps carried forward:** Blocked VoiceOver regression hardware checks and licensed real-world fixture acquisition remain open; both are now tracked in `DOCS/INPROGRESS/next_tasks.md`.
