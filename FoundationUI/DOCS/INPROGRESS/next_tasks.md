@@ -20,11 +20,12 @@
   - File: `Sources/FoundationUI/Contexts/SurfaceStyleKey.swift`
   - Archive: `TASK_ARCHIVE/22_Phase3.2_SurfaceStyleKey/`
 
-- [ ] **Implement PlatformAdaptation modifiers**
+- [ ] **Implement PlatformAdaptation modifiers** 🚧 **IN PROGRESS** (Started 2025-10-26)
   - PlatformAdaptiveModifier for spacing
   - Conditional compilation for macOS vs iOS
   - Size class adaptation for iPad
   - File: `Sources/FoundationUI/Contexts/PlatformAdaptation.swift`
+  - Task Document: `DOCS/INPROGRESS/Phase3.2_PlatformAdaptation.md`
 
 - [ ] **Implement ColorSchemeAdapter**
   - Automatic Dark Mode adaptation
