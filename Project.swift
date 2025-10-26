@@ -68,6 +68,23 @@ let baseSettings: SettingsDictionary = [
     "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber)
 ]
 
+let buildConfigurations: [Configuration] = [
+    .debug(
+        name: .debug,
+        settings: [
+            "SWIFT_OPTIMIZATION_LEVEL": .string("-Onone"),
+            "SWIFT_COMPILATION_MODE": .string("singlefile")
+        ]
+    ),
+    .release(
+        name: .release,
+        settings: [
+            "SWIFT_OPTIMIZATION_LEVEL": .string("-O"),
+            "SWIFT_COMPILATION_MODE": .string("wholemodule")
+        ]
+    )
+]
+
 func destinations(for platform: DistributionPlatform) -> Destinations {
     switch platform {
     case .macOS:
@@ -98,7 +115,7 @@ func kitTarget() -> Target {
         infoPlist: .default,
         sources: ["Sources/ISOInspectorKit/**"],
         resources: ["Sources/ISOInspectorKit/Resources/**"],
-        settings: .settings(base: baseSettings)
+        settings: .settings(base: baseSettings, configurations: buildConfigurations)
     )
 }
 
@@ -135,7 +152,7 @@ func appTarget(for platform: DistributionPlatform) -> Target {
         resources: ["Sources/ISOInspectorApp/Resources/**"],
         entitlements: entitlements,
         dependencies: dependencies,
-        settings: .settings(base: baseSettings)
+        settings: .settings(base: baseSettings, configurations: buildConfigurations)
     )
 }
 
@@ -191,7 +208,7 @@ func cliLibraryTarget() -> Target {
             .target(name: "ISOInspectorKit"),
             .package(product: "ArgumentParser")
         ],
-        settings: .settings(base: baseSettings)
+        settings: .settings(base: baseSettings, configurations: buildConfigurations)
     )
 }
 
@@ -208,7 +225,7 @@ func cliRunnerTarget() -> Target {
             .target(name: "ISOInspectorCLI"),
             .package(product: "ArgumentParser")
         ],
-        settings: .settings(base: baseSettings)
+        settings: .settings(base: baseSettings, configurations: buildConfigurations)
     )
 }
 
