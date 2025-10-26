@@ -90,6 +90,8 @@ Enable exportable corruption reports for external analysis.
 | T4.3 | Include file metadata (size, hash, analysis timestamp) in all exports. | Medium | 0.5d | Existing export infrastructure | Exports include SHA-256 hash, file size, ISO timestamp. |
 | T4.4 | Ensure exports omit raw binary snippets to minimize security/privacy exposure. | High | 0.5d | T4.1, T4.2 | Only byte ranges and issue codes exported; no payload bytes. |
 
+> **In Progress:** T4.1 — Extend JSON export schema for issues. See `DOCS/INPROGRESS/T4_1_Extend_JSON_Export_Schema_for_Issues.md` for the active PRD outline.
+
 **Verification:**
 - Golden-file tests for corrupt fixture exports
 - Validate JSON schema with external validator
