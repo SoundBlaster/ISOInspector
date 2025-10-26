@@ -203,7 +203,7 @@ final class SurfaceStyleKeyTests: XCTestCase {
 
         // This will compile only if SurfaceMaterial is Sendable
         Task {
-            let _ = material
+            _ = material
         }
 
         XCTAssertEqual(material, .regular)

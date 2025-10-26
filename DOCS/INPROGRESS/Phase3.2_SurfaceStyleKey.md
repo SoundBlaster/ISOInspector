@@ -47,12 +47,14 @@ Environment propagation:
 ### Files to Create/Modify
 
 #### Create
+
 - `Sources/FoundationUI/Contexts/SurfaceStyleKey.swift` - Main EnvironmentKey implementation
 - `Tests/FoundationUITests/ContextsTests/SurfaceStyleKeyTests.swift` - Unit tests
 
 ### Design Token Usage
 
 This feature uses SwiftUI's built-in `Material` type:
+
 - `.thin` - Lightweight backgrounds
 - `.regular` - Standard backgrounds (default)
 - `.thick` - Prominent backgrounds
