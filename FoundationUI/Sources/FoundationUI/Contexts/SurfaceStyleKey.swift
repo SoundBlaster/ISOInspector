@@ -240,7 +240,7 @@ public extension EnvironmentValues {
     /// - ``SurfaceStyleKey``: The environment key definition
     /// - ``SurfaceMaterial``: Available material types
     /// - ``View/surfaceStyle(material:allowFallback:)``: Modifier to apply materials
-    var surfaceStyle: SurfaceMaterial {
+    public var surfaceStyle: SurfaceMaterial {
         get { self[SurfaceStyleKey.self] }
         set { self[SurfaceStyleKey.self] = newValue }
     }
