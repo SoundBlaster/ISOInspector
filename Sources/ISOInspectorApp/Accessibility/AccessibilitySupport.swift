@@ -159,6 +159,29 @@ extension ParseTreeNodeDetail {
             }
         }
 
+        if !issues.isEmpty {
+            var counts: [ParseIssue.Severity: Int] = [:]
+            for issue in issues {
+                counts[issue.severity, default: 0] += 1
+            }
+            let segments = ParseIssue.Severity.allCases.compactMap { severity -> String? in
+                guard let count = counts[severity] else { return nil }
+                let descriptor: String
+                switch severity {
+                case .info:
+                    descriptor = "informational"
+                case .warning:
+                    descriptor = "warning"
+                case .error:
+                    descriptor = "error"
+                }
+                return count == 1 ? "1 \(descriptor) issue" : "\(count) \(descriptor) issues"
+            }
+            if !segments.isEmpty {
+                components.append("Corruption diagnostics: \(segments.joined(separator: ", ")).")
+            }
+        }
+
         if validationIssues.isEmpty {
             components.append("No validation issues")
         } else {

@@ -1,5 +1,7 @@
 # T3.3 Integrity Detail Pane
 
+> ✅ **Status:** Completed — see `DOCS/TASK_ARCHIVE/188_T3_3_Integrity_Detail_Pane/Summary_of_Work.md` for implementation notes.
+
 ## 🎯 Objective
 Deliver a dedicated "Corruption" section in the inspector detail pane so investigators can review tolerant parsing diagnostics for the selected node without leaving the primary workflow.
 
