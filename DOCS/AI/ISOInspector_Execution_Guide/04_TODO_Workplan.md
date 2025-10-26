@@ -207,6 +207,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **In Progress (2025-10-28):** Task **T3.4 — Placeholder Nodes for Missing Children** is now active to surface expected-but-absent structures with synthetic nodes so Integrity diagnostics can deep-link into the tree. Track implementation details in `DOCS/AI/Tolerance_Parsing/TODO.md` and the new `DOCS/INPROGRESS/T3_4_Placeholder_Nodes_for_Missing_Children.md` brief.
 
+> **In Progress (2025-10-28):** Task **T3.5 — Contextual Status Labels** kicks off to surface the node status metadata (`Invalid`, `Empty`, `Corrupted`, `Partial`, `Trimmed`) directly in the outline and detail inspector, aligning with the tolerant parsing UI roadmap in `DOCS/AI/Tolerance_Parsing/TODO.md` and the active brief in `DOCS/INPROGRESS/T3_5_Contextual_Status_Labels.md`.
+
 ## Parallelization Notes
 - Phase A must complete before downstream phases begin.
 - Within Phase B, tasks B1–B3 and B4–B6 follow sequential order; B4 can start once B3 has event emission stubs.
