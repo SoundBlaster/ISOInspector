@@ -16,8 +16,8 @@ import SwiftUI
 /// - Real-world UI patterns (Inspector, Sidebar, etc.)
 ///
 /// ## Test Strategy
-/// - Follow TDD: Tests written before/alongside implementation
-/// - Test isolation: Each test is independent
+/// - Verify observable properties (PlatformAdapter, ColorSchemeAdapter)
+/// - Test environment values with captured state
 /// - Platform coverage: Conditional compilation for platform-specific tests
 /// - Zero magic numbers: All values use DS tokens
 ///
@@ -26,439 +26,351 @@ final class ContextIntegrationTests: XCTestCase {
 
     // MARK: - Environment Propagation Tests
 
-    /// Test that SurfaceStyleKey propagates through nested view hierarchies
+    /// Test that SurfaceStyleKey default value is correct
     ///
-    /// Verifies that surface material set at parent level is inherited by
-    /// all children unless explicitly overridden.
-    @MainActor
-    func testSurfaceStylePropagation_NestedComponents() {
-        struct ParentView: View {
-            @Environment(\.surfaceStyle) var surfaceStyle
-
-            var body: some View {
-                VStack {
-                    // Child component should inherit parent's surface style
-                    Text("Child")
-                }
-                .environment(\.surfaceStyle, .thick)
-            }
-        }
-
-        let view = ParentView()
-        XCTAssertNotNil(view, "View hierarchy should be created successfully")
+    /// Verifies that the default surface material is .regular as specified in PRD.
+    func testSurfaceStyleKey_DefaultValue() {
+        let defaultValue = SurfaceStyleKey.defaultValue
+        XCTAssertEqual(defaultValue, .regular,
+                      "SurfaceStyleKey default value should be .regular")
     }
 
-    /// Test that SurfaceStyleKey propagates through Pattern components
+    /// Test that environment values can store all SurfaceMaterial types
     ///
-    /// Verifies that patterns correctly inherit and propagate surface styles
-    /// to their child components.
-    @MainActor
-    func testSurfaceStylePropagation_ThroughPatterns() {
-        struct TestView: View {
-            var body: some View {
-                InspectorPattern(title: "Test") {
-                    VStack {
-                        Text("Content")
-                    }
-                }
-                .environment(\.surfaceStyle, .thin)
-            }
-        }
+    /// Verifies that all material types can be stored and retrieved from
+    /// EnvironmentValues without data loss.
+    func testSurfaceStylePropagation_AllMaterialTypes() {
+        let materials: [SurfaceMaterial] = [.thin, .regular, .thick, .ultra]
 
-        let view = TestView()
-        XCTAssertNotNil(view, "Pattern should propagate surface style to children")
+        for material in materials {
+            var environment = EnvironmentValues()
+            environment.surfaceStyle = material
+
+            XCTAssertEqual(environment.surfaceStyle, material,
+                          "Environment should preserve \(material) material")
+        }
     }
 
-    /// Test that multiple environment keys propagate independently
+    /// Test that environment values can be set and retrieved
     ///
-    /// Verifies that setting multiple environment values doesn't create conflicts
-    /// and each propagates correctly through the hierarchy.
-    @MainActor
-    func testMultipleEnvironmentKeys_Propagation() {
-        struct TestView: View {
-            @Environment(\.surfaceStyle) var surfaceStyle
-            @Environment(\.colorScheme) var colorScheme
+    /// Verifies that surface style can be set on EnvironmentValues and
+    /// retrieved without modification.
+    func testEnvironmentValues_SetAndGet() {
+        var environment = EnvironmentValues()
 
-            var body: some View {
-                VStack {
-                    Text("Multi-context view")
-                }
-                .environment(\.surfaceStyle, .regular)
-                .preferredColorScheme(.dark)
-            }
-        }
+        // Test setting to non-default value
+        environment.surfaceStyle = .thick
+        XCTAssertEqual(environment.surfaceStyle, .thick,
+                      "Environment should return the set surface style")
 
-        let view = TestView()
-        XCTAssertNotNil(view, "Multiple environment keys should propagate independently")
+        // Test changing to different value
+        environment.surfaceStyle = .thin
+        XCTAssertEqual(environment.surfaceStyle, .thin,
+                      "Environment should update surface style correctly")
     }
 
-    /// Test that environment values can be overridden at nested levels
+    /// Test that SurfaceMaterial has correct descriptions
     ///
-    /// Verifies that child views can override environment values from parents
-    /// without affecting siblings.
-    @MainActor
-    func testEnvironmentPropagation_NestedOverrides() {
-        struct ParentView: View {
-            var body: some View {
-                VStack {
-                    // Child 1 inherits .regular
-                    Text("Child 1")
+    /// Verifies that all material types have non-empty descriptions
+    /// and accessibility labels for proper UI representation.
+    func testSurfaceMaterial_Descriptions() {
+        let materials: [SurfaceMaterial] = [.thin, .regular, .thick, .ultra]
 
-                    // Child 2 overrides to .thick
-                    VStack {
-                        Text("Child 2")
-                    }
-                    .environment(\.surfaceStyle, .thick)
-                }
-                .environment(\.surfaceStyle, .regular)
-            }
+        for material in materials {
+            XCTAssertFalse(material.description.isEmpty,
+                          "\(material) should have non-empty description")
+            XCTAssertFalse(material.accessibilityLabel.isEmpty,
+                          "\(material) should have non-empty accessibility label")
         }
-
-        let view = ParentView()
-        XCTAssertNotNil(view, "Nested overrides should work correctly")
     }
 
-    /// Test that environment values propagate through deep hierarchies
+    /// Test that SurfaceMaterial types are Equatable
     ///
-    /// Verifies that environment values can propagate through arbitrarily
-    /// deep view hierarchies without loss.
-    @MainActor
-    func testEnvironmentPropagation_DeepHierarchy() {
-        struct DeepView: View {
-            @Environment(\.surfaceStyle) var surfaceStyle
+    /// Verifies that material types can be compared for equality,
+    /// which is essential for conditional logic and state management.
+    func testSurfaceMaterial_Equatable() {
+        XCTAssertEqual(SurfaceMaterial.thin, .thin)
+        XCTAssertEqual(SurfaceMaterial.regular, .regular)
+        XCTAssertEqual(SurfaceMaterial.thick, .thick)
+        XCTAssertEqual(SurfaceMaterial.ultra, .ultra)
 
-            var body: some View {
-                VStack {
-                    VStack {
-                        VStack {
-                            VStack {
-                                Text("Deep child")
-                            }
-                        }
-                    }
-                }
-                .environment(\.surfaceStyle, .ultra)
-            }
-        }
-
-        let view = DeepView()
-        XCTAssertNotNil(view, "Deep hierarchies should preserve environment values")
+        XCTAssertNotEqual(SurfaceMaterial.thin, .thick)
+        XCTAssertNotEqual(SurfaceMaterial.regular, .ultra)
     }
 
     // MARK: - Platform Adaptation Integration Tests
 
-    /// Test that PlatformAdapter integrates correctly with InspectorPattern
+    /// Test that PlatformAdapter detects correct platform
     ///
-    /// Verifies that platform-adaptive spacing is applied correctly when
-    /// combined with InspectorPattern.
-    @MainActor
-    func testPlatformAdapter_WithInspectorPattern() {
-        struct TestView: View {
-            var body: some View {
-                InspectorPattern(title: "Details") {
-                    VStack {
-                        Text("Content")
-                    }
-                }
-                .platformAdaptive()
-            }
-        }
+    /// Verifies that platform detection flags are mutually exclusive
+    /// and one is always true.
+    func testPlatformAdapter_PlatformDetection() {
+        #if os(macOS)
+        XCTAssertTrue(PlatformAdapter.isMacOS, "Should detect macOS platform")
+        XCTAssertFalse(PlatformAdapter.isIOS, "Should not detect iOS on macOS")
+        #elseif os(iOS)
+        XCTAssertTrue(PlatformAdapter.isIOS, "Should detect iOS platform")
+        XCTAssertFalse(PlatformAdapter.isMacOS, "Should not detect macOS on iOS")
+        #endif
 
-        let view = TestView()
-        XCTAssertNotNil(view, "PlatformAdapter should integrate with InspectorPattern")
+        // Verify exactly one platform is detected
+        let platformCount = (PlatformAdapter.isMacOS ? 1 : 0) + (PlatformAdapter.isIOS ? 1 : 0)
+        XCTAssertEqual(platformCount, 1, "Exactly one platform should be detected")
     }
 
-    /// Test that PlatformAdapter integrates correctly with SidebarPattern
+    /// Test that PlatformAdapter provides correct default spacing
     ///
-    /// Verifies that platform-adaptive spacing works correctly in sidebar layouts.
-    @MainActor
-    func testPlatformAdapter_WithSidebarPattern() {
-        struct TestView: View {
-            var body: some View {
-                SidebarPattern(
-                    sidebarContent: {
-                        VStack {
-                            Text("Sidebar")
-                        }
-                    },
-                    mainContent: {
-                        VStack {
-                            Text("Main")
-                        }
-                    }
-                )
-                .platformAdaptive()
-            }
-        }
+    /// Verifies that default spacing matches platform-specific values
+    /// defined in the PRD (macOS: 12pt, iOS: 16pt).
+    func testPlatformAdapter_DefaultSpacing() {
+        let spacing = PlatformAdapter.defaultSpacing
 
-        let view = TestView()
-        XCTAssertNotNil(view, "PlatformAdapter should integrate with SidebarPattern")
+        #if os(macOS)
+        XCTAssertEqual(spacing, DS.Spacing.m,
+                      "macOS default spacing should be DS.Spacing.m (12pt)")
+        XCTAssertEqual(spacing, 12.0, "macOS spacing should be 12pt")
+        #elseif os(iOS)
+        XCTAssertEqual(spacing, DS.Spacing.l,
+                      "iOS default spacing should be DS.Spacing.l (16pt)")
+        XCTAssertEqual(spacing, 16.0, "iOS spacing should be 16pt")
+        #endif
+
+        XCTAssertGreaterThan(spacing, 0, "Spacing should always be positive")
     }
 
-    /// Test that platform-adaptive spacing works in complex hierarchies
+    /// Test that PlatformAdapter spacing adapts to size classes
     ///
-    /// Verifies that platform spacing adapts correctly through nested components
-    /// with different spacing requirements.
-    @MainActor
-    func testPlatformSpacing_InComplexHierarchy() {
-        struct ComplexView: View {
-            var body: some View {
-                VStack(spacing: PlatformAdapter.defaultSpacing) {
-                    Card {
-                        VStack(spacing: PlatformAdapter.defaultSpacing) {
-                            KeyValueRow(key: "Item 1", value: "Value 1")
-                            KeyValueRow(key: "Item 2", value: "Value 2")
-                        }
-                    }
+    /// Verifies that spacing changes appropriately for compact vs regular
+    /// size classes on iPad.
+    func testPlatformAdapter_SizeClassSpacing() {
+        let compactSpacing = PlatformAdapter.spacing(for: .compact)
+        let regularSpacing = PlatformAdapter.spacing(for: .regular)
 
-                    Badge(text: "Status", level: .info)
-                }
-                .platformAdaptive()
-            }
-        }
+        XCTAssertEqual(compactSpacing, DS.Spacing.m,
+                      "Compact size class should use medium spacing (12pt)")
+        XCTAssertEqual(regularSpacing, DS.Spacing.l,
+                      "Regular size class should use large spacing (16pt)")
 
-        let view = ComplexView()
-        XCTAssertNotNil(view, "Complex hierarchies should use platform spacing correctly")
+        XCTAssertLessThan(compactSpacing, regularSpacing,
+                         "Compact spacing should be less than regular spacing")
     }
 
-    /// Test that platform adaptation respects size classes
+    /// Test that PlatformAdapter handles nil size class correctly
     ///
-    /// Verifies that platform spacing adapts to compact vs regular size classes
-    /// on iPadOS.
-    @MainActor
-    func testPlatformAdapter_WithSizeClasses() {
-        struct TestView: View {
-            @Environment(\.horizontalSizeClass) var sizeClass
+    /// Verifies that nil size class falls back to platform default spacing.
+    func testPlatformAdapter_NilSizeClass() {
+        let spacing = PlatformAdapter.spacing(for: nil)
+        let defaultSpacing = PlatformAdapter.defaultSpacing
 
-            var body: some View {
-                VStack {
-                    Text("Size class aware")
-                }
-                .platformAdaptive(sizeClass: sizeClass)
-            }
-        }
-
-        let view = TestView()
-        XCTAssertNotNil(view, "Platform adapter should respect size classes")
+        XCTAssertEqual(spacing, defaultSpacing,
+                      "Nil size class should fall back to platform default")
     }
 
-    /// Test that platform-specific behavior is consistent
+    /// Test that PlatformAdapter spacing uses only DS tokens
     ///
-    /// Verifies that platform detection and spacing are consistent across
-    /// multiple component instances.
-    @MainActor
-    func testPlatformAdapter_ConsistentBehavior() {
-        let spacing1 = PlatformAdapter.defaultSpacing
-        let spacing2 = PlatformAdapter.defaultSpacing
-
-        XCTAssertEqual(spacing1, spacing2, "Platform spacing should be consistent")
-
-        // Verify spacing uses DS tokens
+    /// Verifies zero magic numbers requirement - all spacing values
+    /// must come from design system tokens.
+    func testPlatformAdapter_NoMagicNumbers() {
         let validTokens: Set<CGFloat> = [
-            DS.Spacing.s,
-            DS.Spacing.m,
-            DS.Spacing.l,
-            DS.Spacing.xl
+            DS.Spacing.s,   // 8pt
+            DS.Spacing.m,   // 12pt
+            DS.Spacing.l,   // 16pt
+            DS.Spacing.xl   // 24pt
         ]
-        XCTAssertTrue(validTokens.contains(spacing1), "Platform spacing should use DS tokens")
+
+        // Test default spacing
+        let defaultSpacing = PlatformAdapter.defaultSpacing
+        XCTAssertTrue(validTokens.contains(defaultSpacing),
+                     "Default spacing must be a DS token, got \(defaultSpacing)")
+
+        // Test size class spacing
+        let compactSpacing = PlatformAdapter.spacing(for: .compact)
+        let regularSpacing = PlatformAdapter.spacing(for: .regular)
+
+        XCTAssertTrue(validTokens.contains(compactSpacing),
+                     "Compact spacing must be a DS token, got \(compactSpacing)")
+        XCTAssertTrue(validTokens.contains(regularSpacing),
+                     "Regular spacing must be a DS token, got \(regularSpacing)")
     }
 
     // MARK: - Color Scheme Integration Tests
 
-    /// Test that ColorSchemeAdapter responds to environment changes
+    /// Test that ColorSchemeAdapter detects dark mode correctly
     ///
-    /// Verifies that color scheme adapter correctly detects and responds
-    /// to changes in the color scheme environment value.
-    @MainActor
-    func testColorSchemeAdapter_WithEnvironmentChange() {
-        struct TestView: View {
-            @Environment(\.colorScheme) var colorScheme
+    /// Verifies that isDarkMode property returns true for dark color scheme
+    /// and false for light color scheme.
+    func testColorSchemeAdapter_DarkModeDetection() {
+        let darkAdapter = ColorSchemeAdapter(colorScheme: .dark)
+        let lightAdapter = ColorSchemeAdapter(colorScheme: .light)
 
-            var body: some View {
-                VStack {
-                    Text("Dark mode test")
-                        .foregroundStyle(ColorSchemeAdapter.adaptiveTextColor(for: colorScheme))
-                }
-                .preferredColorScheme(.dark)
-            }
-        }
-
-        let view = TestView()
-        XCTAssertNotNil(view, "ColorSchemeAdapter should respond to environment changes")
+        XCTAssertTrue(darkAdapter.isDarkMode,
+                     "Dark color scheme should be detected as dark mode")
+        XCTAssertFalse(lightAdapter.isDarkMode,
+                      "Light color scheme should not be detected as dark mode")
     }
 
-    /// Test that ColorSchemeAdapter works with all components
+    /// Test that ColorSchemeAdapter provides different colors for light/dark modes
     ///
-    /// Verifies that color scheme adaptation is compatible with all
-    /// FoundationUI components.
-    @MainActor
-    func testColorSchemeAdapter_WithAllComponents() {
-        struct TestView: View {
-            @Environment(\.colorScheme) var colorScheme
+    /// Verifies that adaptive colors differ between light and dark modes
+    /// to ensure proper contrast.
+    func testColorSchemeAdapter_AdaptiveColors() {
+        let darkAdapter = ColorSchemeAdapter(colorScheme: .dark)
+        let lightAdapter = ColorSchemeAdapter(colorScheme: .light)
 
-            var body: some View {
-                VStack {
-                    Card {
-                        SectionHeader("Header")
-                        KeyValueRow(key: "Key", value: "Value")
-                        Badge(text: "Badge", level: .success)
-                    }
-                }
-                .adaptiveColorScheme()
-            }
-        }
+        // Text colors should differ
+        let darkText = darkAdapter.adaptiveTextColor
+        let lightText = lightAdapter.adaptiveTextColor
+        XCTAssertNotEqual(darkText, lightText,
+                         "Text colors should differ between light and dark modes")
 
-        let view = TestView()
-        XCTAssertNotNil(view, "ColorSchemeAdapter should work with all components")
+        // Background colors should differ
+        let darkBg = darkAdapter.adaptiveBackground
+        let lightBg = lightAdapter.adaptiveBackground
+        XCTAssertNotEqual(darkBg, lightBg,
+                         "Background colors should differ between light and dark modes")
+
+        // Border colors should differ
+        let darkBorder = darkAdapter.adaptiveBorderColor
+        let lightBorder = lightAdapter.adaptiveBorderColor
+        XCTAssertNotEqual(darkBorder, lightBorder,
+                         "Border colors should differ between light and dark modes")
     }
 
-    /// Test that dark mode propagates through hierarchies
+    /// Test that ColorSchemeAdapter provides non-nil colors
     ///
-    /// Verifies that dark mode color adaptation propagates correctly
-    /// through nested component hierarchies.
-    @MainActor
-    func testColorSchemeAdapter_DarkModePropagation() {
-        struct DarkModeView: View {
-            var body: some View {
-                VStack {
-                    Card {
-                        VStack {
-                            Text("Dark mode content")
-                        }
-                    }
-                }
-                .preferredColorScheme(.dark)
-                .adaptiveColorScheme()
-            }
-        }
+    /// Verifies that all adaptive color properties return valid colors
+    /// and never fail.
+    func testColorSchemeAdapter_ColorsNotNil() {
+        let adapter = ColorSchemeAdapter(colorScheme: .light)
 
-        let view = DarkModeView()
-        XCTAssertNotNil(view, "Dark mode should propagate through hierarchies")
+        // Verify all color properties are accessible
+        _ = adapter.adaptiveBackground
+        _ = adapter.adaptiveSecondaryBackground
+        _ = adapter.adaptiveTextColor
+        _ = adapter.adaptiveSecondaryTextColor
+        _ = adapter.adaptiveBorderColor
+        _ = adapter.adaptiveDividerColor
+        _ = adapter.adaptiveElevatedSurface
+
+        // If we reach here without crashes, colors are valid
+        XCTAssertTrue(true, "All adaptive colors should be accessible")
     }
 
-    /// Test that light mode works correctly
+    /// Test that ColorSchemeAdapter works with both light and dark schemes
     ///
-    /// Verifies that color scheme adapter handles light mode correctly.
-    @MainActor
-    func testColorSchemeAdapter_LightMode() {
-        struct LightModeView: View {
-            var body: some View {
-                VStack {
-                    Card {
-                        Text("Light mode content")
-                    }
-                }
-                .preferredColorScheme(.light)
-                .adaptiveColorScheme()
-            }
-        }
+    /// Verifies that the adapter can be initialized with both color schemes
+    /// and provides appropriate colors for each.
+    func testColorSchemeAdapter_BothSchemes() {
+        let schemes: [ColorScheme] = [.light, .dark]
 
-        let view = LightModeView()
-        XCTAssertNotNil(view, "Light mode should work correctly")
+        for scheme in schemes {
+            let adapter = ColorSchemeAdapter(colorScheme: scheme)
+
+            // Verify isDarkMode matches scheme
+            if scheme == .dark {
+                XCTAssertTrue(adapter.isDarkMode,
+                             "Dark scheme should set isDarkMode to true")
+            } else {
+                XCTAssertFalse(adapter.isDarkMode,
+                              "Light scheme should set isDarkMode to false")
+            }
+
+            // Verify colors are accessible
+            _ = adapter.adaptiveTextColor
+            _ = adapter.adaptiveBackground
+        }
     }
 
-    /// Test that color scheme adapts with patterns
+    /// Test that ColorSchemeAdapter elevated surface differs from background
     ///
-    /// Verifies that color scheme adaptation works correctly with
-    /// Pattern components.
-    @MainActor
-    func testColorSchemeAdapter_WithPatterns() {
-        struct TestView: View {
-            var body: some View {
-                InspectorPattern(title: "Inspector") {
-                    VStack {
-                        Text("Content")
-                    }
-                }
-                .adaptiveColorScheme()
-                .preferredColorScheme(.dark)
-            }
-        }
+    /// Verifies that elevated surfaces have visual distinction from regular
+    /// backgrounds for proper UI hierarchy.
+    func testColorSchemeAdapter_ElevatedSurface() {
+        let lightAdapter = ColorSchemeAdapter(colorScheme: .light)
+        let darkAdapter = ColorSchemeAdapter(colorScheme: .dark)
 
-        let view = TestView()
-        XCTAssertNotNil(view, "ColorSchemeAdapter should work with patterns")
+        let lightBg = lightAdapter.adaptiveBackground
+        let lightElevated = lightAdapter.adaptiveElevatedSurface
+
+        let darkBg = darkAdapter.adaptiveBackground
+        let darkElevated = darkAdapter.adaptiveElevatedSurface
+
+        // Elevated should differ from background in both modes
+        XCTAssertNotEqual(lightBg, lightElevated,
+                         "Light mode elevated surface should differ from background")
+        XCTAssertNotEqual(darkBg, darkElevated,
+                         "Dark mode elevated surface should differ from background")
     }
 
     // MARK: - Cross-Context Interaction Tests
 
-    /// Test that all contexts work together without conflicts
+    /// Test that SurfaceStyleKey and PlatformAdapter work together
+    ///
+    /// Verifies that environment values and platform spacing can be used
+    /// simultaneously without interference.
+    func testCrossContext_SurfaceStyleAndPlatform() {
+        var environment = EnvironmentValues()
+        environment.surfaceStyle = .thick
+
+        let spacing = PlatformAdapter.defaultSpacing
+
+        // Both should provide valid values independently
+        XCTAssertEqual(environment.surfaceStyle, .thick,
+                      "Surface style should be preserved")
+        XCTAssertGreaterThan(spacing, 0,
+                            "Platform spacing should be positive")
+
+        // Verify they use different types and don't interfere
+        XCTAssertTrue(environment.surfaceStyle == .thick)
+        XCTAssertTrue(spacing == DS.Spacing.m || spacing == DS.Spacing.l)
+    }
+
+    /// Test that all context types provide independent values
     ///
     /// Verifies that SurfaceStyleKey, PlatformAdapter, and ColorSchemeAdapter
-    /// can all be applied to the same view hierarchy without issues.
-    @MainActor
-    func testAllContexts_WorkTogether() {
-        struct MultiContextView: View {
-            @Environment(\.surfaceStyle) var surfaceStyle
-            @Environment(\.colorScheme) var colorScheme
+    /// all return valid values when accessed together.
+    func testCrossContext_AllThreeContexts() {
+        // Surface style context
+        let surfaceStyle = SurfaceStyleKey.defaultValue
+        XCTAssertEqual(surfaceStyle, .regular)
 
-            var body: some View {
-                InspectorPattern(title: "Multi-Context") {
-                    Card {
-                        KeyValueRow(key: "Test", value: "Value")
-                    }
-                }
-                .environment(\.surfaceStyle, .thick)
-                .platformAdaptive()
-                .adaptiveColorScheme()
-                .preferredColorScheme(.dark)
-            }
-        }
+        // Platform adaptation context
+        let platformSpacing = PlatformAdapter.defaultSpacing
+        XCTAssertGreaterThan(platformSpacing, 0)
 
-        let view = MultiContextView()
-        XCTAssertNotNil(view, "All contexts should work together without conflicts")
+        // Color scheme context
+        let lightAdapter = ColorSchemeAdapter(colorScheme: .light)
+        let darkAdapter = ColorSchemeAdapter(colorScheme: .dark)
+        XCTAssertFalse(lightAdapter.isDarkMode)
+        XCTAssertTrue(darkAdapter.isDarkMode)
+
+        // All three contexts should provide valid, independent values
+        XCTAssertTrue(surfaceStyle == .regular)
+        XCTAssertTrue(platformSpacing > 0)
+        XCTAssertNotEqual(lightAdapter.adaptiveTextColor,
+                         darkAdapter.adaptiveTextColor)
     }
 
-    /// Test that contexts don't conflict with each other
+    /// Test that contexts use different value types
     ///
-    /// Verifies that applying multiple context modifiers doesn't create
-    /// unexpected behavior or conflicts.
-    @MainActor
-    func testContexts_NoConflicts() {
-        struct TestView: View {
-            var body: some View {
-                VStack {
-                    Badge(text: "Test", level: .warning)
-                }
-                .environment(\.surfaceStyle, .regular)
-                .platformAdaptive()
-                .adaptiveColorScheme()
-            }
-        }
+    /// Verifies type safety - each context uses its own distinct types
+    /// preventing accidental mixing or confusion.
+    func testCrossContext_TypeSafety() {
+        // Surface style uses SurfaceMaterial enum
+        let material: SurfaceMaterial = .regular
+        XCTAssertTrue(type(of: material) == SurfaceMaterial.self)
 
-        let view = TestView()
-        XCTAssertNotNil(view, "Contexts should not conflict")
-    }
+        // Platform spacing uses CGFloat
+        let spacing: CGFloat = PlatformAdapter.defaultSpacing
+        XCTAssertTrue(type(of: spacing) == CGFloat.self)
 
-    /// Test that context order doesn't matter
-    ///
-    /// Verifies that the order in which context modifiers are applied
-    /// doesn't affect the final result.
-    @MainActor
-    func testContexts_OrderIndependence() {
-        struct View1: View {
-            var body: some View {
-                Text("Test")
-                    .environment(\.surfaceStyle, .thin)
-                    .platformAdaptive()
-                    .adaptiveColorScheme()
-            }
-        }
+        // Color scheme uses ColorScheme enum
+        let scheme: ColorScheme = .light
+        XCTAssertTrue(type(of: scheme) == ColorScheme.self)
 
-        struct View2: View {
-            var body: some View {
-                Text("Test")
-                    .platformAdaptive()
-                    .environment(\.surfaceStyle, .thin)
-                    .adaptiveColorScheme()
-            }
-        }
-
-        let view1 = View1()
-        let view2 = View2()
-
-        XCTAssertNotNil(view1, "View1 should be created")
-        XCTAssertNotNil(view2, "View2 should be created")
-        // Order should not affect functionality
+        // Types are distinct and cannot be confused
+        XCTAssertNotEqual(String(describing: type(of: material)),
+                         String(describing: type(of: spacing)))
     }
 
     // MARK: - Size Class Adaptation Tests
@@ -466,140 +378,116 @@ final class ContextIntegrationTests: XCTestCase {
     /// Test that compact size class spacing is correct
     ///
     /// Verifies that compact size class (iPhone in portrait, iPad split view)
-    /// uses the correct spacing value.
+    /// uses the correct spacing value (12pt).
     func testSizeClass_CompactAdaptation() {
         let compactSpacing = PlatformAdapter.spacing(for: .compact)
-        XCTAssertEqual(compactSpacing, DS.Spacing.m, "Compact size class should use medium spacing")
-        XCTAssertGreaterThan(compactSpacing, 0, "Spacing should be positive")
+
+        XCTAssertEqual(compactSpacing, DS.Spacing.m,
+                      "Compact size class should use medium spacing (12pt)")
+        XCTAssertEqual(compactSpacing, 12.0,
+                      "Compact spacing should be exactly 12pt")
+        XCTAssertGreaterThan(compactSpacing, 0,
+                            "Spacing should be positive")
     }
 
     /// Test that regular size class spacing is correct
     ///
     /// Verifies that regular size class (iPad, iPhone landscape)
-    /// uses the correct spacing value.
+    /// uses the correct spacing value (16pt).
     func testSizeClass_RegularAdaptation() {
         let regularSpacing = PlatformAdapter.spacing(for: .regular)
-        XCTAssertEqual(regularSpacing, DS.Spacing.l, "Regular size class should use large spacing")
-        XCTAssertGreaterThan(regularSpacing, 0, "Spacing should be positive")
+
+        XCTAssertEqual(regularSpacing, DS.Spacing.l,
+                      "Regular size class should use large spacing (16pt)")
+        XCTAssertEqual(regularSpacing, 16.0,
+                      "Regular spacing should be exactly 16pt")
+        XCTAssertGreaterThan(regularSpacing, 0,
+                            "Spacing should be positive")
+
+        // Regular should be larger than compact
+        let compactSpacing = PlatformAdapter.spacing(for: .compact)
+        XCTAssertGreaterThan(regularSpacing, compactSpacing,
+                            "Regular spacing should exceed compact spacing")
     }
 
-    // MARK: - Real-World Scenario Tests
+    // MARK: - Integration Verification Tests
 
-    /// Test Inspector pattern with all contexts
+    /// Test that all context defaults are sensible
     ///
-    /// Verifies that a realistic inspector screen with all context
-    /// adaptations works correctly.
-    @MainActor
-    func testInspectorScreen_AllContexts() {
-        struct InspectorScreen: View {
-            @Environment(\.surfaceStyle) var surfaceStyle
-            @Environment(\.colorScheme) var colorScheme
-            @Environment(\.horizontalSizeClass) var sizeClass
+    /// Verifies that default values across all contexts are appropriate
+    /// for real-world use without configuration.
+    func testIntegration_SensibleDefaults() {
+        // Surface style default
+        let defaultMaterial = SurfaceStyleKey.defaultValue
+        XCTAssertEqual(defaultMaterial, .regular,
+                      "Default material should be .regular for balanced translucency")
 
-            var body: some View {
-                InspectorPattern(title: "File Details") {
-                    VStack(spacing: PlatformAdapter.defaultSpacing) {
-                        Card {
-                            SectionHeader("Properties")
-                            KeyValueRow(key: "Name", value: "video.mp4")
-                            KeyValueRow(key: "Size", value: "1.2 MB")
-                            KeyValueRow(key: "Duration", value: "00:05:30")
-                        }
+        // Platform spacing default
+        let defaultSpacing = PlatformAdapter.defaultSpacing
+        XCTAssertTrue(defaultSpacing == 12.0 || defaultSpacing == 16.0,
+                     "Default spacing should be 12pt (macOS) or 16pt (iOS)")
 
-                        Card {
-                            SectionHeader("Status")
-                            Badge(text: "Valid", level: .success)
-                        }
-                    }
-                }
-                .environment(\.surfaceStyle, .thick)
-                .platformAdaptive(sizeClass: sizeClass)
-                .adaptiveColorScheme()
-            }
-        }
-
-        let view = InspectorScreen()
-        XCTAssertNotNil(view, "Inspector screen should work with all contexts")
+        // Verify defaults allow immediate use
+        XCTAssertNotEqual(defaultMaterial.description, "")
+        XCTAssertGreaterThan(defaultSpacing, 0)
     }
 
-    /// Test Sidebar layout with platform adaptation
+    /// Test that all contexts support Equatable where needed
     ///
-    /// Verifies that a sidebar layout adapts correctly across platforms
-    /// with all context layers.
-    @MainActor
-    func testSidebarLayout_PlatformAdaptive() {
-        struct SidebarScreen: View {
-            var body: some View {
-                SidebarPattern(
-                    sidebarContent: {
-                        VStack(spacing: PlatformAdapter.defaultSpacing) {
-                            SectionHeader("Navigation")
-                            Text("Item 1")
-                            Text("Item 2")
-                            Text("Item 3")
-                        }
-                        .environment(\.surfaceStyle, .thin)
-                    },
-                    mainContent: {
-                        VStack(spacing: PlatformAdapter.defaultSpacing) {
-                            Card {
-                                SectionHeader("Content")
-                                KeyValueRow(key: "Title", value: "Main View")
-                            }
-                        }
-                        .environment(\.surfaceStyle, .regular)
-                    }
-                )
-                .platformAdaptive()
-                .adaptiveColorScheme()
-            }
-        }
+    /// Verifies that value types can be compared for equality,
+    /// enabling conditional logic and state management.
+    func testIntegration_EquatableSupport() {
+        // SurfaceMaterial is Equatable
+        let material1: SurfaceMaterial = .regular
+        let material2: SurfaceMaterial = .regular
+        let material3: SurfaceMaterial = .thick
 
-        let view = SidebarScreen()
-        XCTAssertNotNil(view, "Sidebar layout should adapt to platform")
+        XCTAssertEqual(material1, material2)
+        XCTAssertNotEqual(material1, material3)
+
+        // CGFloat (spacing) is Equatable
+        let spacing1 = PlatformAdapter.defaultSpacing
+        let spacing2 = PlatformAdapter.defaultSpacing
+
+        XCTAssertEqual(spacing1, spacing2)
+
+        // ColorScheme is Equatable
+        let scheme1: ColorScheme = .light
+        let scheme2: ColorScheme = .light
+        let scheme3: ColorScheme = .dark
+
+        XCTAssertEqual(scheme1, scheme2)
+        XCTAssertNotEqual(scheme1, scheme3)
     }
 
-    // MARK: - Edge Cases and Validation
-
-    /// Test that nil size class falls back to platform default
+    /// Test that all context values are within expected ranges
     ///
-    /// Verifies correct fallback behavior when size class is not available.
-    func testEdgeCase_NilSizeClass() {
-        let spacing = PlatformAdapter.spacing(for: nil)
-
-        #if os(macOS)
-        XCTAssertEqual(spacing, DS.Spacing.m, "Nil size class should use macOS default")
-        #else
-        XCTAssertEqual(spacing, DS.Spacing.l, "Nil size class should use iOS default")
-        #endif
-
-        XCTAssertGreaterThan(spacing, 0, "Fallback spacing should be positive")
-    }
-
-    /// Test that all spacing values are valid DS tokens
-    ///
-    /// Verifies zero magic numbers requirement - all spacing must come
-    /// from design system tokens.
-    func testValidation_NoMagicNumbers() {
-        let validTokens: Set<CGFloat> = [
-            DS.Spacing.s,
-            DS.Spacing.m,
-            DS.Spacing.l,
-            DS.Spacing.xl
+    /// Verifies that all numeric values (spacing, etc.) are within
+    /// reasonable bounds for UI use.
+    func testIntegration_ValueRanges() {
+        // Spacing should be between 0 and 50 points
+        let spacingValues = [
+            PlatformAdapter.defaultSpacing,
+            PlatformAdapter.spacing(for: .compact),
+            PlatformAdapter.spacing(for: .regular)
         ]
 
-        // Platform default spacing
-        let platformSpacing = PlatformAdapter.defaultSpacing
-        XCTAssertTrue(validTokens.contains(platformSpacing),
-                     "Platform spacing must be a DS token")
+        for spacing in spacingValues {
+            XCTAssertGreaterThan(spacing, 0, "Spacing should be positive")
+            XCTAssertLessThan(spacing, 50, "Spacing should be reasonable (<50pt)")
+        }
 
-        // Size class spacing
-        let compactSpacing = PlatformAdapter.spacing(for: .compact)
-        let regularSpacing = PlatformAdapter.spacing(for: .regular)
+        // All spacing should use known DS tokens
+        let validTokens: Set<CGFloat> = [
+            DS.Spacing.s,   // 8pt
+            DS.Spacing.m,   // 12pt
+            DS.Spacing.l,   // 16pt
+            DS.Spacing.xl   // 24pt
+        ]
 
-        XCTAssertTrue(validTokens.contains(compactSpacing),
-                     "Compact spacing must be a DS token")
-        XCTAssertTrue(validTokens.contains(regularSpacing),
-                     "Regular spacing must be a DS token")
+        for spacing in spacingValues {
+            XCTAssertTrue(validTokens.contains(spacing),
+                         "Spacing \(spacing) should be a DS token")
+        }
     }
 }
