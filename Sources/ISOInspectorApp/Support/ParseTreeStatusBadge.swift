@@ -1,25 +1,32 @@
 #if canImport(SwiftUI)
 import SwiftUI
-import FoundationUI
 
 struct ParseTreeStatusBadge: View {
     let descriptor: ParseTreeStatusDescriptor
 
     var body: some View {
-        Badge(text: descriptor.text.uppercased(), level: badgeLevel)
+        Text(descriptor.text.uppercased())
+            .font(.caption2.weight(.semibold))
+            .padding(.horizontal, 6)
+            .padding(.vertical, 3)
+            .foregroundStyle(colors.foreground)
+            .background(
+                RoundedRectangle(cornerRadius: 6, style: .continuous)
+                    .fill(colors.background)
+            )
             .accessibilityLabel(descriptor.accessibilityLabel)
     }
 
-    private var badgeLevel: BadgeLevel {
+    private var colors: (foreground: Color, background: Color) {
         switch descriptor.level {
         case .info:
-            return .info
+            return (.blue, Color.blue.opacity(0.15))
         case .warning:
-            return .warning
+            return (.orange, Color.orange.opacity(0.2))
         case .error:
-            return .error
+            return (.red, Color.red.opacity(0.2))
         case .success:
-            return .success
+            return (.green, Color.green.opacity(0.2))
         }
     }
 }

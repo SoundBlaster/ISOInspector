@@ -10,10 +10,6 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "FoundationUI",
-            targets: ["FoundationUI"]
-        ),
-        .library(
             name: "ISOInspectorKit",
             targets: ["ISOInspectorKit"]
         ),
@@ -56,7 +52,6 @@ let package = Package(
             name: "ISOInspectorApp",
             dependencies: [
                 "ISOInspectorKit",
-                "FoundationUI",
                 .product(
                     name: "NestedA11yIDs",
                     package: "NestedA11yIDs",
@@ -67,20 +62,11 @@ let package = Package(
                 .process("Resources")
             ]
         ),
-        .target(
-            name: "FoundationUI"
-        ),
         .testTarget(
             name: "ISOInspectorKitTests",
             dependencies: ["ISOInspectorKit"],
             resources: [
                 .process("Fixtures")
-            ]
-        ),
-        .testTarget(
-            name: "FoundationUITests",
-            dependencies: [
-                "FoundationUI"
             ]
         ),
         .testTarget(
@@ -97,8 +83,7 @@ let package = Package(
             name: "ISOInspectorAppTests",
             dependencies: [
                 "ISOInspectorApp",
-                "ISOInspectorKit",
-                "FoundationUI"
+                "ISOInspectorKit"
             ]
         ),
         .testTarget(

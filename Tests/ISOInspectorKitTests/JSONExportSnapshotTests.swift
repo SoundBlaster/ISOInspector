@@ -37,6 +37,12 @@ final class JSONExportSnapshotTests: XCTestCase {
         try await assertSnapshotMatchesFixture(id: "fragmented-no-tfdt")
     }
 
+    func testTolerantIssuesSnapshotMatchesFixture() throws {
+        let tree = try makeIssuesParseTree()
+        let canonical = try canonicalJSONString(for: tree)
+        try assertSnapshot(named: "tolerant-issues", matches: canonical)
+    }
+
     func testEditListEmptySnapshotMatchesFixture() async throws {
         try await assertSnapshotMatchesFixture(id: "edit-list-empty")
     }
@@ -338,6 +344,71 @@ final class JSONExportSnapshotTests: XCTestCase {
     private func treeData(forFixtureID id: String) throws -> Data {
         let fixture = try XCTUnwrap(catalog.fixture(withID: id))
         return try fixture.data(in: .module)
+    }
+
+    private func makeIssuesParseTree() throws -> ParseTree {
+        let rootHeader = try makeHeader(type: "moov", start: 0, size: 96)
+        let childHeader = try makeHeader(type: "trak", start: 8, size: 40)
+        let siblingHeader = try makeHeader(type: "free", start: 56, size: 32)
+
+        let rootIssues = [
+            ParseIssue(
+                severity: .error,
+                code: "guard.recursion_depth_exceeded",
+                message: "Traversal depth budget exceeded for moov subtree.",
+                byteRange: rootHeader.range.lowerBound..<(rootHeader.range.lowerBound + 16),
+                affectedNodeIDs: [rootHeader.startOffset]
+            ),
+            ParseIssue(
+                severity: .warning,
+                code: "structure.missing_child",
+                message: "trak is missing required child boxes.",
+                byteRange: nil,
+                affectedNodeIDs: [rootHeader.startOffset, childHeader.startOffset]
+            )
+        ]
+
+        let childIssues = [
+            ParseIssue(
+                severity: .info,
+                code: "payload.placeholder_field",
+                message: "Field was synthesized as placeholder.",
+                byteRange: childHeader.payloadRange.lowerBound..<(childHeader.payloadRange.lowerBound + 8),
+                affectedNodeIDs: [childHeader.startOffset]
+            )
+        ]
+
+        let childNode = ParseTreeNode(
+            header: childHeader,
+            metadata: nil,
+            payload: nil,
+            validationIssues: [],
+            issues: childIssues,
+            status: .partial,
+            children: []
+        )
+
+        let siblingNode = ParseTreeNode(
+            header: siblingHeader,
+            metadata: nil,
+            payload: nil,
+            validationIssues: [],
+            issues: [],
+            status: .valid,
+            children: []
+        )
+
+        let rootNode = ParseTreeNode(
+            header: rootHeader,
+            metadata: nil,
+            payload: nil,
+            validationIssues: [],
+            issues: rootIssues,
+            status: .partial,
+            children: [childNode, siblingNode]
+        )
+
+        return ParseTree(nodes: [rootNode])
     }
 
     private func makeHeader(type: String, start: Int64, size: Int64) throws -> BoxHeader {
