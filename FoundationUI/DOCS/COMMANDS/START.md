@@ -56,6 +56,7 @@ Before starting implementation, ensure:
 - **Tests directory is set up** (`Tests/FoundationUITests/`)
 - **SwiftLint is configured** (zero violations policy)
 - **Package.swift is current** (Swift 5.9+, platforms iOS 17+/macOS 14+)
+- **Linux Swift toolchain is known** — The container runs Swift 6.1 on x86_64 Linux, where SwiftUI frameworks are unavailable; use `swift test` and cross-platform compilation checks for validation.
 
 ### Step 3. Apply TDD Cycle (Outside-In)
 
