@@ -10,10 +10,6 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "FoundationUI",
-            targets: ["FoundationUI"]
-        ),
-        .library(
             name: "ISOInspectorKit",
             targets: ["ISOInspectorKit"]
         ),
@@ -29,7 +25,8 @@ let package = Package(
     dependencies: [
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0"),
         .package(url: "https://github.com/SoundBlaster/NestedA11yIDs", from: "1.0.0"),
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0")
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
+        .package(path: "./FoundationUI")
     ],
     targets: [
         .target(
@@ -56,10 +53,14 @@ let package = Package(
             name: "ISOInspectorApp",
             dependencies: [
                 "ISOInspectorKit",
-                "FoundationUI",
                 .product(
                     name: "NestedA11yIDs",
                     package: "NestedA11yIDs",
+                    condition: .when(platforms: [.iOS, .macOS])
+                ),
+                .product(
+                    name: "FoundationUI",
+                    package: "FoundationUI",
                     condition: .when(platforms: [.iOS, .macOS])
                 )
             ],
@@ -67,20 +68,11 @@ let package = Package(
                 .process("Resources")
             ]
         ),
-        .target(
-            name: "FoundationUI"
-        ),
         .testTarget(
             name: "ISOInspectorKitTests",
             dependencies: ["ISOInspectorKit"],
             resources: [
                 .process("Fixtures")
-            ]
-        ),
-        .testTarget(
-            name: "FoundationUITests",
-            dependencies: [
-                "FoundationUI"
             ]
         ),
         .testTarget(
@@ -97,8 +89,7 @@ let package = Package(
             name: "ISOInspectorAppTests",
             dependencies: [
                 "ISOInspectorApp",
-                "ISOInspectorKit",
-                "FoundationUI"
+                "ISOInspectorKit"
             ]
         ),
         .testTarget(

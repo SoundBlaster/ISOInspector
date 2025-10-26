@@ -22,6 +22,7 @@ let package = Package(
         .target(
             name: "FoundationUI",
             dependencies: [],
+            exclude: ["README.md"],
             swiftSettings: [
                 .enableUpcomingFeature("StrictConcurrency"),
                 .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))

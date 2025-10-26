@@ -16,6 +16,7 @@ public struct JSONParseTreeExporter {
 }
 
 private struct Payload: Encodable {
+    let schema: SchemaDescriptor?
     let nodes: [Node]
     let validationIssues: [Issue]
     let validation: ValidationMetadataPayload?
@@ -31,16 +32,29 @@ private struct Payload: Encodable {
             self.validation = nil
         }
         self.format = FormatSummary(tree: tree)
-        self.issueMetrics = IssueMetricsSummary(tree: tree)
+        let metrics = IssueMetricsSummary(tree: tree)
+        self.issueMetrics = metrics
+        if metrics.totalCount > 0 {
+            self.schema = .tolerantIssuesV2
+        } else {
+            self.schema = nil
+        }
     }
 
     private enum CodingKeys: String, CodingKey {
+        case schema
         case nodes
         case validationIssues
         case validation
         case format
         case issueMetrics = "issue_metrics"
     }
+}
+
+private struct SchemaDescriptor: Encodable {
+    let version: Int
+
+    static let tolerantIssuesV2 = SchemaDescriptor(version: 2)
 }
 
 private struct Node: Encodable {
@@ -236,6 +250,10 @@ private struct IssueMetricsSummary: Encodable {
     let warningCount: Int
     let infoCount: Int
     let deepestAffectedDepth: Int
+
+    var totalCount: Int {
+        errorCount + warningCount + infoCount
+    }
 
     init(tree: ParseTree) {
         var counter = IssueMetricsCounter()
