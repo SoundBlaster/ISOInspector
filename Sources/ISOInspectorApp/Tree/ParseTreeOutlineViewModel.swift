@@ -215,7 +215,8 @@ final class ParseTreeOutlineViewModel: ObservableObject {
             isSearchMatch: matchesSearch,
             hasMatchingDescendant: anyChildMatchesSearch,
             hasValidationIssues: !node.validationIssues.isEmpty,
-            corruptionSummary: ParseTreeOutlineRow.CorruptionSummary(issues: node.issues)
+            corruptionSummary: ParseTreeOutlineRow.CorruptionSummary(issues: node.issues),
+            statusDescriptor: ParseTreeStatusDescriptor(status: node.status)
         )
 
         var rows: [ParseTreeOutlineRow] = [row]

@@ -56,6 +56,7 @@ let package = Package(
             name: "ISOInspectorApp",
             dependencies: [
                 "ISOInspectorKit",
+                "FoundationUI",
                 .product(
                     name: "NestedA11yIDs",
                     package: "NestedA11yIDs",
@@ -96,7 +97,8 @@ let package = Package(
             name: "ISOInspectorAppTests",
             dependencies: [
                 "ISOInspectorApp",
-                "ISOInspectorKit"
+                "ISOInspectorKit",
+                "FoundationUI"
             ]
         ),
         .testTarget(

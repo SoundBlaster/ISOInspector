@@ -403,6 +403,9 @@ private struct ParseTreeOutlineRowView: View {
                 }
             }
             Spacer()
+            if let statusDescriptor = row.statusDescriptor {
+                ParseTreeStatusBadge(descriptor: statusDescriptor)
+            }
             if let corruption = row.corruptionSummary {
                 CorruptionBadge(summary: corruption)
             } else if let severity = row.dominantSeverity {
