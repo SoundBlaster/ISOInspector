@@ -188,7 +188,7 @@ final class ContextIntegrationTests: XCTestCase {
         XCTAssertNotNil(borderView, "Border should use adaptive color")
     }
 
-    // MARK: - Cross-Context Interaction Tests
+    // MARK: - Cross-Context Integration Tests
 
     /// Test all three contexts working together
     ///
