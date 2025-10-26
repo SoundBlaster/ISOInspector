@@ -46,6 +46,7 @@ struct ParseTreeDetailView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 16) {
                     metadataSection(detail: detail)
+                    corruptionSection(detail: detail)
                     encryptionSection(detail: detail)
                     userNotesSection()
                     fieldAnnotationSection()
@@ -160,6 +161,25 @@ struct ParseTreeDetailView: View {
         }
     }
 
+    @ViewBuilder
+    private func corruptionSection(detail: ParseTreeNodeDetail) -> some View {
+        if detail.issues.isEmpty {
+            EmptyView()
+        } else {
+            CorruptionIssueSection(
+                header: AnyView(sectionHeader(title: "Corruption", icon: "exclamationmark.triangle")),
+                issues: detail.issues,
+                focusTarget: focusTarget,
+                onCopy: copyToClipboard,
+                onViewInHex: { range in
+                    viewModel.focusIssue(on: range)
+                },
+                rangeFormatter: corruptionRangeDescription(for:)
+            )
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.corruption)
+        }
+    }
+
     private func encryptionSubsection(title: String, rows: [(String, String)]) -> some View {
         VStack(alignment: .leading, spacing: 8) {
             Text(title)
@@ -170,6 +190,110 @@ struct ParseTreeDetailView: View {
                     metadataRow(label: row.0, value: row.1)
                 }
             }
+        }
+    }
+
+    private struct CorruptionIssueSection: View {
+        let header: AnyView
+        let issues: [ParseIssue]
+        let focusTarget: FocusState<InspectorFocusTarget?>.Binding
+        let onCopy: (String) -> Void
+        let onViewInHex: (Range<Int64>) -> Void
+        let rangeFormatter: (Range<Int64>) -> String
+
+        var body: some View {
+            VStack(alignment: .leading, spacing: 8) {
+                header
+                VStack(alignment: .leading, spacing: 8) {
+                    ForEach(Array(issues.enumerated()), id: \.offset) { _, issue in
+                        CorruptionIssueRow(
+                            issue: issue,
+                            focusTarget: focusTarget,
+                            onCopy: onCopy,
+                            onViewInHex: onViewInHex,
+                            rangeFormatter: rangeFormatter
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private struct CorruptionIssueRow: View {
+        let issue: ParseIssue
+        let focusTarget: FocusState<InspectorFocusTarget?>.Binding
+        let onCopy: (String) -> Void
+        let onViewInHex: (Range<Int64>) -> Void
+        let rangeFormatter: (Range<Int64>) -> String
+
+        var body: some View {
+            VStack(alignment: .leading, spacing: 6) {
+                HStack(alignment: .firstTextBaseline, spacing: 8) {
+                    Image(systemName: issue.severity.iconName)
+                        .foregroundColor(issue.severity.color)
+                        .font(.title3.weight(.semibold))
+                        .accessibilityHidden(true)
+                    Text(issue.code)
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .textSelection(.enabled)
+                    Spacer()
+                    if let range = issue.byteRange {
+                        Button {
+                            focusTarget.wrappedValue = .hex
+                            onViewInHex(range)
+                        } label: {
+                            Label("View in Hex", systemImage: "viewfinder")
+                        }
+                        .buttonStyle(.borderless)
+                        .font(.caption)
+                    }
+                    Button {
+                        onCopy(issue.message)
+                    } label: {
+                        Label("Copy Message", systemImage: "doc.on.doc")
+                    }
+                    .buttonStyle(.borderless)
+                    .font(.caption)
+                }
+                Text(issue.message)
+                    .font(.body)
+                    .textSelection(.enabled)
+                if let range = issue.byteRange {
+                    Text(rangeFormatter(range))
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .textSelection(.enabled)
+                } else {
+                    Text("No byte range reported.")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                }
+            }
+            .padding(8)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(issue.severity.color.opacity(0.08), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .overlay {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .stroke(issue.severity.color.opacity(0.3), lineWidth: 1)
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(accessibilityLabel)
+            .accessibilityHint(issue.byteRange != nil ? "Double-tap to view the highlighted hex range." : nil)
+        }
+
+        private var accessibilityLabel: String {
+            var components: [String] = [
+                "\(issue.severity.accessibilityDescription) issue",
+                issue.code,
+                issue.message
+            ]
+            if let range = issue.byteRange {
+                components.append(rangeFormatter(range))
+            } else {
+                components.append("Byte range unavailable")
+            }
+            return components.joined(separator: ". ")
         }
     }
 
@@ -419,6 +543,11 @@ struct ParseTreeDetailView: View {
 
     private func byteRangeString(for range: Range<Int64>) -> String {
         "\(range.lowerBound) – \(range.upperBound)"
+    }
+
+    private func corruptionRangeDescription(for range: Range<Int64>) -> String {
+        let length = max(0, range.upperBound - range.lowerBound)
+        return "Bytes \(range.lowerBound) – \(range.upperBound) (length \(length))"
     }
 
     private func copyToClipboard(_ text: String) {
@@ -867,6 +996,41 @@ private struct SeverityBadge: View {
             .background(severity.color.opacity(0.2))
             .foregroundColor(severity.color)
             .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+    }
+}
+
+private extension ParseIssue.Severity {
+    var color: Color {
+        switch self {
+        case .info:
+            return .blue
+        case .warning:
+            return .orange
+        case .error:
+            return .red
+        }
+    }
+
+    var iconName: String {
+        switch self {
+        case .info:
+            return "info.circle.fill"
+        case .warning:
+            return "exclamationmark.triangle.fill"
+        case .error:
+            return "xmark.octagon.fill"
+        }
+    }
+
+    var accessibilityDescription: String {
+        switch self {
+        case .info:
+            return "Informational"
+        case .warning:
+            return "Warning"
+        case .error:
+            return "Error"
+        }
     }
 }
 
