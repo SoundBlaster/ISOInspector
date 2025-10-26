@@ -1,18 +1,21 @@
 # Summary of Work — 2025-10-26
 
 ## Completed
-- **Phase 3.2: Context Integration Tests**
+- **Phase 3.2: Context Integration Tests** (Fixed - CI Issue)
   - Created comprehensive integration test suite for FoundationUI Context layer (Layer 4)
-  - File: `Tests/FoundationUITests/ContextsTests/ContextIntegrationTests.swift` (580+ lines)
+  - File: `Tests/FoundationUITests/ContextsTests/ContextIntegrationTests.swift` (493 lines)
+  - **Fixed CI Issue**: Replaced no-op assertions with real behavior verification
+    - ✅ All tests now verify observable properties (PlatformAdapter, ColorSchemeAdapter)
+    - ✅ All tests can actually fail when behavior regresses
+    - ✅ Tests verify environment values, spacing calculations, color adaptation
   - Test Coverage:
-    - 5 Environment propagation tests (SurfaceStyleKey through hierarchies, patterns, nested overrides)
-    - 5 Platform adaptation integration tests (with InspectorPattern, SidebarPattern, complex hierarchies)
-    - 5 Color scheme integration tests (environment changes, dark mode propagation, light mode)
-    - 3 Cross-context interaction tests (all contexts working together, no conflicts, order independence)
-    - 2 Size class adaptation tests (compact and regular size classes)
-    - 2 Real-world scenario tests (Inspector screen and Sidebar layout with all contexts)
-    - 2 Edge case and validation tests (nil size class fallback, zero magic numbers verification)
-  - Total: 24 integration test cases covering ≥90% of integration scenarios
+    - 5 Environment propagation tests (SurfaceStyleKey default value, all material types, set/get, descriptions, Equatable)
+    - 5 Platform adaptation tests (platform detection, default spacing, size class spacing, nil fallback, no magic numbers)
+    - 5 Color scheme tests (dark mode detection, adaptive colors differ, colors not nil, both schemes, elevated surface)
+    - 3 Cross-context interaction tests (SurfaceStyle+Platform, all three contexts, type safety)
+    - 2 Size class adaptation tests (compact 12pt, regular 16pt with validation)
+    - 3 Integration verification tests (sensible defaults, Equatable support, value ranges)
+  - Total: 23 real integration test cases with actual assertions
   - All tests use DS tokens (zero magic numbers requirement met)
   - DocC documentation included for all test methods
   - Tests verify correct interaction between:
@@ -23,19 +26,19 @@
   - Task document archived to `TASK_ARCHIVE/25_Phase3.2_ContextIntegrationTests/`
 
 ## Implementation Details
-The integration tests verify that all Context layer components work correctly together in realistic scenarios:
+The integration tests verify observable properties and actual behavior (not just view construction):
 
-1. **Environment Propagation**: Tests ensure that environment values (surface styles, color schemes) propagate correctly through complex view hierarchies without loss or corruption.
+1. **Environment Propagation Tests**: Verify SurfaceStyleKey default values, EnvironmentValues get/set, material type equality, descriptions, and accessibility labels. All tests check actual enum values and strings.
 
-2. **Platform Integration**: Tests verify that platform-adaptive spacing integrates correctly with all FoundationUI components and patterns (Card, Badge, KeyValueRow, InspectorPattern, SidebarPattern, etc.).
+2. **Platform Adaptation Tests**: Verify PlatformAdapter.isMacOS/isIOS flags, defaultSpacing values (12pt macOS, 16pt iOS), size class spacing (compact 12pt, regular 16pt), nil handling, and DS token usage. All tests check concrete CGFloat values.
 
-3. **Color Scheme Adaptation**: Tests confirm that color scheme changes propagate correctly and that all components adapt their colors appropriately for light and dark modes.
+3. **Color Scheme Tests**: Verify ColorSchemeAdapter.isDarkMode detection, color differences between light/dark modes, color property accessibility, and elevated surface distinction. All tests check actual Color values and boolean state.
 
-4. **Cross-Context Interactions**: Tests validate that multiple contexts can be applied simultaneously without conflicts and that the order of modifier application doesn't affect functionality.
+4. **Cross-Context Tests**: Verify that SurfaceStyleKey, PlatformAdapter, and ColorSchemeAdapter provide independent values simultaneously, use distinct types, and don't interfere with each other. Tests verify type safety and value independence.
 
-5. **Size Class Handling**: Tests verify correct spacing adaptation for compact (iPhone portrait, iPad split view) and regular (iPad, iPhone landscape) size classes.
+5. **Size Class Tests**: Verify compact class returns 12pt and regular returns 16pt, with regular > compact validation. Tests check actual numeric values.
 
-6. **Real-World Scenarios**: Tests include complete Inspector and Sidebar implementations with all contexts applied, demonstrating real-world usage patterns.
+6. **Integration Verification Tests**: Verify sensible defaults across all contexts, Equatable conformance for state management, and value ranges (spacing 0-50pt, all DS tokens). Tests validate cross-cutting concerns.
 
 ## Follow-ups
 - @todo #FoundationUI Run integration tests on macOS: `swift test --filter ContextIntegrationTests`
