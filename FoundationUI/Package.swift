@@ -21,13 +21,20 @@ let package = Package(
     targets: [
         .target(
             name: "FoundationUI",
-            dependencies: []
+            dependencies: [],
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency"),
+                .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
+            ]
         ),
         .testTarget(
             name: "FoundationUITests",
             dependencies: [
                 "FoundationUI",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
             ]
         ),
     ]

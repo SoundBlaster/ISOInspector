@@ -1,34 +1,39 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-10-26
-**Current Status**: Phase 2 Complete, Phase 1.1 Build Configuration Next
+**Current Status**: Phase 1.1 Build Configuration Complete, Phase 3.2 Contexts Next
 
 ## 🎯 Immediate Priorities (P0 - Critical)
 
-### Phase 1.1: Build Configuration & Infrastructure
-**Goal**: Complete foundational build tooling and configuration
-**Status**: Ready to start (1/8 tasks complete)
+### Phase 3.2: Layer 4 - Contexts & Platform Adaptation
+**Goal**: Implement environment keys and platform-specific behavior
+**Status**: Not started (0/8 tasks)
 **Priority**: P0
 
+- [ ] **Implement SurfaceStyleKey environment key**
+  - Define EnvironmentKey for Material backgrounds
+  - Default value: .regular
+  - Extension for EnvironmentValues
+  - File: `Sources/FoundationUI/Contexts/SurfaceStyleKey.swift`
+
+- [ ] **Implement PlatformAdaptation modifiers**
+  - PlatformAdaptiveModifier for spacing
+  - Conditional compilation for macOS vs iOS
+  - Size class adaptation for iPad
+  - File: `Sources/FoundationUI/Contexts/PlatformAdaptation.swift`
+
+- [ ] **Implement ColorSchemeAdapter**
+  - Automatic Dark Mode adaptation
+  - Color scheme detection
+  - File: `Sources/FoundationUI/Contexts/ColorSchemeAdapter.swift`
+
+### Phase 1.1: Build Configuration & Infrastructure ✅ COMPLETE (2025-10-26)
 - [x] ✅ **SwiftLint configuration** - Completed Phase 2.2
-  - `.swiftlint.yml` with `no_magic_numbers` rule
-  - Custom rules for DS token usage
-  - 98% compliance achieved (CodeQualityReport.md)
-
-- [ ] **Configure Swift compiler settings**
-  - Strict concurrency checking
-  - Warnings as errors for production code
-  - Swift 6.0 language mode
-
-- [ ] **Create build scripts for CI/CD**
-  - Automated testing pipeline
-  - Build verification scripts
-  - Platform-specific build configurations
-
-- [ ] **Configure code coverage reporting**
-  - Set ≥80% coverage target
-  - Integrate with CI pipeline
-  - Coverage reports for each component
+- [x] ✅ **Swift compiler settings** - Strict concurrency, warnings-as-errors
+- [x] ✅ **Build scripts** - build.sh and coverage.sh created
+- [x] ✅ **Code coverage reporting** - ≥80% threshold, HTML/LCOV exports
+- [x] ✅ **BUILD.md documentation** - Comprehensive developer guide
+- **Archived**: `TASK_ARCHIVE/21_Phase1.1_BuildConfiguration/`
 
 ## 🔭 Next Phase Priorities
 
@@ -52,6 +57,16 @@
 - Deferred until foundational work complete
 
 ## ✅ Recently Completed
+
+### Phase 1.1: Build Configuration & Infrastructure ✅ COMPLETE (2025-10-26)
+- Swift compiler settings with strict concurrency and warnings-as-errors
+- Build automation scripts (build.sh for validation, coverage.sh for reports)
+- Code coverage reporting with ≥80% threshold enforcement
+- Comprehensive BUILD.md developer guide (450+ lines)
+- GitHub Actions workflow verified (already configured)
+- Quality gates established (compiler, linter, tests, coverage)
+- **Archived**: `TASK_ARCHIVE/21_Phase1.1_BuildConfiguration/`
+- **Phase 1.1 Status**: Now 2/8 tasks complete (25%)
 
 ### Phase 2.2: CopyableText Utility Component ✅ COMPLETE (2025-10-25)
 - Platform-specific clipboard integration (NSPasteboard / UIPasteboard)
@@ -84,13 +99,15 @@
 
 | Phase | Progress | Status |
 |-------|----------|--------|
-| Phase 1.1: Infrastructure | 1/8 (13%) | 🚧 **NEXT PRIORITY** |
+| Phase 1.1: Infrastructure | 2/8 (25%) | In progress |
 | Phase 1.2: Design Tokens | 7/7 (100%) | ✅ Complete |
 | Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
-| Phase 3: Patterns | 7/16 (44%) | In progress |
+| Phase 3.1: Patterns | 7/8 (88%) | In progress |
+| Phase 3.2: Contexts | 0/8 (0%) | 🚧 **NEXT PRIORITY** |
 
-**Overall Progress**: 40/111 tasks (36%)**
+**Overall Progress**: 41/111 tasks (37%)**
 
 **Latest Completions**:
+- Phase 1.1 Build Configuration (2025-10-26) - Automated tooling & quality gates
 - Phase 2.2 CopyableText utility (2025-10-25) - Final Phase 2 component
 - Phase 1.2 Design Tokens validation (2025-10-25) - Foundation complete
