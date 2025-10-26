@@ -11,26 +11,19 @@ struct AppShellView: View {
     @ObservedObject private var documentViewModel: DocumentViewModel
     @State private var isImporterPresented = false
     @State private var importError: ImportError?
-    @AppStorage(Self.corruptionRibbonDismissedDefaultsKey) private var isCorruptionRibbonDismissed = false
+    @AppStorage(Self.corruptionRibbonDismissedDefaultsKey) private
+    var isCorruptionRibbonDismissed = false
 
     init(controller: DocumentSessionController) {
         self._controller = ObservedObject(wrappedValue: controller)
         self._documentViewModel = ObservedObject(wrappedValue: controller.documentViewModel)
     }
 
-    @ViewBuilder
     var body: some View {
-        if #available(iOS 17, macOS 14, *) {
-            content
-                .onChange(of: scenePhase, initial: false) { _, phase in
-                    handleScenePhaseChange(phase)
-                }
-        } else {
-            content
-                .onChange(of: scenePhase) { phase in
-                    handleScenePhaseChange(phase)
-                }
-        }
+        content
+            .onChangeCompat(of: scenePhase) { phase in
+                handleScenePhaseChange(phase)
+            }
     }
 
     private var content: some View {
@@ -65,8 +58,12 @@ struct AppShellView: View {
             }
             .padding(.top)
         }
-        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: controller.loadFailure?.id)
-        .animation(.spring(response: 0.4, dampingFraction: 0.85), value: shouldShowCorruptionRibbon)
+        .animation(
+            .spring(response: 0.4, dampingFraction: 0.85), value: controller.loadFailure?.id
+        )
+        .animation(
+            .spring(response: 0.4, dampingFraction: 0.85), value: shouldShowCorruptionRibbon
+        )
         .fileImporter(
             isPresented: $isImporterPresented,
             allowedContentTypes: controller.allowedContentTypes,
@@ -90,7 +87,7 @@ struct AppShellView: View {
         .onOpenURL { url in
             controller.openDocument(at: url)
         }
-        .onChange(of: controller.issueMetrics.totalCount) { _, newValue in
+        .onChangeCompat(of: controller.issueMetrics.totalCount) { newValue in
             if newValue == 0 {
                 isCorruptionRibbonDismissed = false
             }
@@ -105,7 +102,9 @@ struct AppShellView: View {
                 .disabled(!documentViewModel.exportAvailability.canExportDocument)
 
                 Button {
-                    guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
+                    guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else {
+                        return
+                    }
                     Task { await controller.exportJSON(scope: .selection(nodeID)) }
                 } label: {
                     Label("Export Selection", systemImage: "square.and.arrow.down.on.square")
@@ -181,11 +180,12 @@ struct AppShellView: View {
 
     private func handleImportResult(_ result: Result<[URL], Error>) {
         switch result {
-        case let .success(urls):
+        case .success(let urls):
             guard let url = urls.first else { return }
             controller.openDocument(at: url)
-        case let .failure(error):
-            importError = ImportError(title: "Failed to open file", message: error.localizedDescription)
+        case .failure(let error):
+            importError = ImportError(
+                title: "Failed to open file", message: error.localizedDescription)
         }
     }
 
@@ -235,7 +235,7 @@ private struct CorruptionWarningRibbon: View {
         let components = [
             makeCountText(count: metrics.errorCount, label: "error"),
             makeCountText(count: metrics.warningCount, label: "warning"),
-            makeCountText(count: metrics.infoCount, label: "info")
+            makeCountText(count: metrics.infoCount, label: "info"),
         ].compactMap { $0 }
         return components.joined(separator: ", ")
     }
@@ -355,6 +355,24 @@ private struct CorruptionWarningRibbon_Previews: PreviewProvider {
         }
     }
 }
+
+extension View {
+    @ViewBuilder
+    fileprivate func onChangeCompat<Value: Equatable>(
+        of value: Value,
+        perform action: @escaping (Value) -> Void
+    ) -> some View {
+        if #available(iOS 17.0, macOS 14.0, *) {
+            self.onChange(of: value, initial: false) { _, newValue in
+                action(newValue)
+            }
+        } else {
+            self.onChange(of: value) { newValue in
+                action(newValue)
+            }
+        }
+    }
+}
 #endif
 
 private struct DocumentLoadFailureBanner: View {
@@ -464,11 +482,13 @@ private struct OnboardingView: View {
                 Text("Open an MP4 or QuickTime file to begin")
                     .font(.title2)
                     .bold()
-                Text("Use the Open File button to select a document. Recently opened files will appear in the sidebar for quick access.")
-                    .font(.body)
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.secondary)
-                    .padding(.horizontal)
+                Text(
+                    "Use the Open File button to select a document. Recently opened files will appear in the sidebar for quick access."
+                )
+                .font(.body)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.secondary)
+                .padding(.horizontal)
             }
             Button(action: openAction) {
                 Label("Open File…", systemImage: "folder")
