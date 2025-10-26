@@ -13,7 +13,7 @@ public final class ParseTreeStore: ObservableObject {
     public let issueStore: ParseIssueStore
 
     private let resources = ResourceBag()
-    private var builder = Builder()
+    private var builder: Builder
     private var issueFilter: ((ValidationIssue) -> Bool)?
     private var cancellables: Set<AnyCancellable> = []
 
@@ -27,6 +27,7 @@ public final class ParseTreeStore: ObservableObject {
         self.state = initialState
         self.fileURL = nil
         self.issueMetrics = issueStore.metricsSnapshot()
+        self.builder = makeBuilder()
         bindIssueStore()
     }
 
@@ -58,7 +59,7 @@ public final class ParseTreeStore: ObservableObject {
 
     public func shutdown() {
         disconnect()
-        builder = Builder()
+        builder = makeBuilder()
         snapshot = .empty
         state = .idle
         fileURL = nil
@@ -67,6 +68,12 @@ public final class ParseTreeStore: ObservableObject {
 
     private func disconnect() {
         resources.stop()
+    }
+
+    private func makeBuilder() -> Builder {
+        Builder(issueRecorder: { [issueStore] issue, depth in
+            issueStore.record(issue, depth: depth)
+        })
     }
 
     private func bindIssueStore() {
@@ -80,7 +87,7 @@ public final class ParseTreeStore: ObservableObject {
 
     private func startConsuming(_ stream: ParsePipeline.EventStream) {
         disconnect()
-        builder = Builder()
+        builder = makeBuilder()
         snapshot = .empty
         state = .parsing
         let taskIdentifier = UUID()
@@ -203,18 +210,25 @@ extension ParseTreeStore {
         private var stack: [MutableNode] = []
         private var aggregatedIssues: [ValidationIssue] = []
         private var lastUpdatedAt: Date = .distantPast
+        private var placeholderIDGenerator = ParseTreePlaceholderIDGenerator()
+        private let issueRecorder: ((ParseIssue, Int) -> Void)?
+
+        init(issueRecorder: ((ParseIssue, Int) -> Void)? = nil) {
+            self.issueRecorder = issueRecorder
+        }
 
         mutating func consume(_ event: ParseEvent) {
             aggregatedIssues.append(contentsOf: event.validationIssues)
             lastUpdatedAt = Date()
             switch event.kind {
-            case .willStartBox(let header, _):
+            case .willStartBox(let header, let depth):
                 let node = MutableNode(
                     header: header,
                     metadata: event.metadata,
                     payload: event.payload,
                     validationIssues: event.validationIssues,
-                    issues: event.issues
+                    issues: event.issues,
+                    depth: depth
                 )
                 if let parent = stack.last {
                     parent.children.append(node)
@@ -243,6 +257,7 @@ extension ParseTreeStore {
                         node.validationIssues.append(contentsOf: event.validationIssues)
                     }
                     node.issues = event.issues
+                    synthesizePlaceholdersIfNeeded(for: node)
                 } else {
                     stack.append(node)
                 }
@@ -258,6 +273,51 @@ extension ParseTreeStore {
                 lastUpdatedAt: lastUpdatedAt
             )
         }
+
+        private mutating func synthesizePlaceholdersIfNeeded(for node: MutableNode) {
+            var existingTypes = Set(node.children.map { $0.header.type })
+            let requirements = ParseTreePlaceholderPlanner.missingRequirements(
+                for: node.header,
+                existingChildTypes: existingTypes
+            )
+            guard !requirements.isEmpty else { return }
+
+            if node.status != .corrupt {
+                node.status = .partial
+            }
+
+            for requirement in requirements {
+                existingTypes.insert(requirement.childType)
+                let startOffset = placeholderIDGenerator.next()
+                let placeholderRange = startOffset..<startOffset
+                let placeholderHeader = BoxHeader(
+                    type: requirement.childType,
+                    totalSize: 0,
+                    headerSize: 0,
+                    payloadRange: placeholderRange,
+                    range: placeholderRange,
+                    uuid: nil
+                )
+                let placeholderNode = MutableNode(
+                    header: placeholderHeader,
+                    metadata: ParseTreePlaceholderPlanner.metadata(for: placeholderHeader),
+                    payload: nil,
+                    validationIssues: [],
+                    issues: [],
+                    depth: node.depth + 1
+                )
+                placeholderNode.status = .corrupt
+                let issue = ParseTreePlaceholderPlanner.makeIssue(
+                    for: requirement,
+                    parent: node.header,
+                    placeholder: placeholderHeader
+                )
+                placeholderNode.issues = [issue]
+                node.issues.append(issue)
+                node.children.append(placeholderNode)
+                issueRecorder?(issue, node.depth + 1)
+            }
+        }
     }
 
     fileprivate final class MutableNode {
@@ -268,10 +328,15 @@ extension ParseTreeStore {
         var issues: [ParseIssue]
         var status: ParseTreeNode.Status
         var children: [MutableNode]
+        let depth: Int
 
         init(
-            header: BoxHeader, metadata: BoxDescriptor?, payload: ParsedBoxPayload?,
-            validationIssues: [ValidationIssue], issues: [ParseIssue]
+            header: BoxHeader,
+            metadata: BoxDescriptor?,
+            payload: ParsedBoxPayload?,
+            validationIssues: [ValidationIssue],
+            issues: [ParseIssue],
+            depth: Int
         ) {
             self.header = header
             self.metadata = metadata
@@ -280,6 +345,7 @@ extension ParseTreeStore {
             self.issues = issues
             self.status = .valid
             self.children = []
+            self.depth = depth
         }
 
         func snapshot(filter: ((ValidationIssue) -> Bool)?) -> ParseTreeNode {

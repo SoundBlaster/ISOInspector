@@ -262,6 +262,87 @@ final class ParseTreeStoreTests: XCTestCase {
         XCTAssertEqual(Set(childIssues.map(\.code)), Set([initialIssue.code, additionalIssue.code]))
     }
 
+    @MainActor
+    func testPlaceholderNodesRecordedForMissingRequiredChildren() throws {
+        let minfType = try FourCharCode("minf")
+        let smhdType = try FourCharCode("smhd")
+
+        let minfHeader = BoxHeader(
+            type: minfType,
+            totalSize: 64,
+            headerSize: 8,
+            payloadRange: 8..<64,
+            range: 0..<64,
+            uuid: nil
+        )
+        let smhdHeader = BoxHeader(
+            type: smhdType,
+            totalSize: 16,
+            headerSize: 8,
+            payloadRange: 8..<16,
+            range: 8..<24,
+            uuid: nil
+        )
+
+        let events: [ParseEvent] = [
+            ParseEvent(kind: .willStartBox(header: minfHeader, depth: 0), offset: minfHeader.startOffset),
+            ParseEvent(kind: .willStartBox(header: smhdHeader, depth: 1), offset: smhdHeader.startOffset),
+            ParseEvent(kind: .didFinishBox(header: smhdHeader, depth: 1), offset: smhdHeader.endOffset),
+            ParseEvent(kind: .didFinishBox(header: minfHeader, depth: 0), offset: minfHeader.endOffset)
+        ]
+
+        let stream = AsyncThrowingStream<ParseEvent, Error> { continuation in
+            for event in events {
+                continuation.yield(event)
+            }
+            continuation.finish()
+        }
+
+        let pipeline = ParsePipeline { _, _ in stream }
+        let reader = InMemoryRandomAccessReader(data: Data())
+        let store = ParseTreeStore()
+        let finished = expectation(description: "Parsing finished")
+        var cancellables: Set<AnyCancellable> = []
+
+        store.$state
+            .dropFirst()
+            .sink { state in
+                if state == .finished {
+                    finished.fulfill()
+                }
+            }
+            .store(in: &cancellables)
+
+        store.start(pipeline: pipeline, reader: reader)
+        wait(for: [finished], timeout: 2.0)
+
+        let root = try XCTUnwrap(store.snapshot.nodes.first)
+        XCTAssertEqual(root.header.type.rawValue, "minf")
+        XCTAssertEqual(root.status, .partial)
+        XCTAssertEqual(root.children.count, 2)
+
+        let placeholder = try XCTUnwrap(root.children.first(where: { $0.header.type.rawValue == "stbl" }))
+        XCTAssertEqual(placeholder.status, .corrupt)
+        XCTAssertEqual(placeholder.children.count, 0)
+        XCTAssertLessThan(placeholder.header.startOffset, 0)
+
+        let issue = try XCTUnwrap(placeholder.issues.first)
+        XCTAssertEqual(issue.code, "structure.missing_child")
+        XCTAssertEqual(issue.severity, .error)
+        XCTAssertTrue(issue.message.contains("stbl"))
+        XCTAssertTrue(issue.message.contains("minf"))
+
+        let placeholderStoreIssues = store.issueStore.issues(forNodeID: placeholder.id)
+        XCTAssertTrue(placeholderStoreIssues.contains(issue))
+
+        let parentIssues = store.issueStore.issues(forNodeID: root.id)
+        XCTAssertTrue(parentIssues.contains(issue))
+
+        let metrics = store.issueStore.metricsSnapshot()
+        XCTAssertEqual(metrics.errorCount, 1)
+        XCTAssertGreaterThanOrEqual(metrics.deepestAffectedDepth, 1)
+    }
+
     private func makeSampleEvents(
         childIssues: [ValidationIssue] = [],
         childParseIssues: [ParseIssue] = [],

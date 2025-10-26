@@ -4,6 +4,7 @@ public struct ParseTreeBuilder {
     private var rootNodes: [MutableNode] = []
     private var stack: [MutableNode] = []
     private var aggregatedIssues: [ValidationIssue] = []
+    private var placeholderIDGenerator = ParseTreePlaceholderIDGenerator()
 
     public init() {}
 
@@ -11,12 +12,13 @@ public struct ParseTreeBuilder {
         aggregatedIssues.append(contentsOf: event.validationIssues)
 
         switch event.kind {
-        case let .willStartBox(header, _):
+        case let .willStartBox(header, depth):
             let node = MutableNode(
                 header: header,
                 metadata: event.metadata,
                 payload: event.payload,
-                validationIssues: event.validationIssues
+                validationIssues: event.validationIssues,
+                depth: depth
             )
             if !event.issues.isEmpty {
                 node.issues = event.issues
@@ -62,6 +64,7 @@ public struct ParseTreeBuilder {
                         node.status = .partial
                     }
                 }
+                synthesizePlaceholdersIfNeeded(for: node)
             } else {
                 stack.append(node)
             }
@@ -87,8 +90,15 @@ private final class MutableNode {
     var issues: [ParseIssue]
     var status: BoxNode.Status
     var children: [MutableNode]
+    let depth: Int
 
-    init(header: BoxHeader, metadata: BoxDescriptor?, payload: ParsedBoxPayload?, validationIssues: [ValidationIssue]) {
+    init(
+        header: BoxHeader,
+        metadata: BoxDescriptor?,
+        payload: ParsedBoxPayload?,
+        validationIssues: [ValidationIssue],
+        depth: Int
+    ) {
         self.header = header
         self.metadata = metadata
         self.payload = payload
@@ -96,6 +106,7 @@ private final class MutableNode {
         self.issues = []
         self.status = .valid
         self.children = []
+        self.depth = depth
     }
 
     func snapshot() -> ParseTreeNode {
@@ -108,5 +119,50 @@ private final class MutableNode {
             status: status,
             children: children.map { $0.snapshot() }
         )
+    }
+}
+
+private extension ParseTreeBuilder {
+    mutating func synthesizePlaceholdersIfNeeded(for node: MutableNode) {
+        var existingTypes = Set(node.children.map { $0.header.type })
+        let requirements = ParseTreePlaceholderPlanner.missingRequirements(
+            for: node.header,
+            existingChildTypes: existingTypes
+        )
+        guard !requirements.isEmpty else { return }
+
+        if node.status != .corrupt {
+            node.status = .partial
+        }
+
+        for requirement in requirements {
+            existingTypes.insert(requirement.childType)
+            let startOffset = placeholderIDGenerator.next()
+            let placeholderRange = startOffset..<startOffset
+            let placeholderHeader = BoxHeader(
+                type: requirement.childType,
+                totalSize: 0,
+                headerSize: 0,
+                payloadRange: placeholderRange,
+                range: placeholderRange,
+                uuid: nil
+            )
+            let placeholderNode = MutableNode(
+                header: placeholderHeader,
+                metadata: ParseTreePlaceholderPlanner.metadata(for: placeholderHeader),
+                payload: nil,
+                validationIssues: [],
+                depth: node.depth + 1
+            )
+            placeholderNode.status = .corrupt
+            let issue = ParseTreePlaceholderPlanner.makeIssue(
+                for: requirement,
+                parent: node.header,
+                placeholder: placeholderHeader
+            )
+            placeholderNode.issues = [issue]
+            node.issues.append(issue)
+            node.children.append(placeholderNode)
+        }
     }
 }
