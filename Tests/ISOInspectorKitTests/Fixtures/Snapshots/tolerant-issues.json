@@ -1,0 +1,131 @@
+{
+  "format" : {
+    "byte_size" : 96,
+    "track_count" : 1
+  },
+  "issue_metrics" : {
+    "deepest_affected_depth" : 1,
+    "error_count" : 1,
+    "info_count" : 1,
+    "warning_count" : 1
+  },
+  "nodes" : [
+    {
+      "children" : [
+        {
+          "children" : [
+
+          ],
+          "fourcc" : "trak",
+          "header_size" : 8,
+          "issues" : [
+            {
+              "affectedNodeIDs" : [
+                8
+              ],
+              "byteRange" : {
+                "end" : 24,
+                "start" : 16
+              },
+              "code" : "payload.placeholder_field",
+              "message" : "Field was synthesized as placeholder.",
+              "severity" : "info"
+            }
+          ],
+          "name" : "trak",
+          "offsets" : {
+            "end" : 48,
+            "payloadEnd" : 48,
+            "payloadStart" : 16,
+            "start" : 8
+          },
+          "size" : 40,
+          "sizes" : {
+            "header" : 8,
+            "payload" : 32,
+            "total" : 40
+          },
+          "status" : "partial",
+          "validationIssues" : [
+
+          ]
+        },
+        {
+          "children" : [
+
+          ],
+          "fourcc" : "free",
+          "header_size" : 8,
+          "issues" : [
+
+          ],
+          "name" : "free",
+          "offsets" : {
+            "end" : 88,
+            "payloadEnd" : 88,
+            "payloadStart" : 64,
+            "start" : 56
+          },
+          "size" : 32,
+          "sizes" : {
+            "header" : 8,
+            "payload" : 24,
+            "total" : 32
+          },
+          "status" : "valid",
+          "validationIssues" : [
+
+          ]
+        }
+      ],
+      "fourcc" : "moov",
+      "header_size" : 8,
+      "issues" : [
+        {
+          "affectedNodeIDs" : [
+            0
+          ],
+          "byteRange" : {
+            "end" : 16,
+            "start" : 0
+          },
+          "code" : "guard.recursion_depth_exceeded",
+          "message" : "Traversal depth budget exceeded for moov subtree.",
+          "severity" : "error"
+        },
+        {
+          "affectedNodeIDs" : [
+            0,
+            8
+          ],
+          "code" : "structure.missing_child",
+          "message" : "trak is missing required child boxes.",
+          "severity" : "warning"
+        }
+      ],
+      "name" : "moov",
+      "offsets" : {
+        "end" : 96,
+        "payloadEnd" : 96,
+        "payloadStart" : 8,
+        "start" : 0
+      },
+      "size" : 96,
+      "sizes" : {
+        "header" : 8,
+        "payload" : 88,
+        "total" : 96
+      },
+      "status" : "partial",
+      "validationIssues" : [
+
+      ]
+    }
+  ],
+  "schema" : {
+    "version" : 2
+  },
+  "validationIssues" : [
+
+  ]
+}

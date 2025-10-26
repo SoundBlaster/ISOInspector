@@ -56,31 +56,34 @@ let package = Package(
             name: "ISOInspectorApp",
             dependencies: [
                 "ISOInspectorKit",
-                "FoundationUI",
                 .product(
                     name: "NestedA11yIDs",
                     package: "NestedA11yIDs",
                     condition: .when(platforms: [.iOS, .macOS])
-                )
+                ),
+                .target(name: "FoundationUI", condition: .when(platforms: [.iOS, .macOS]))
             ],
             resources: [
                 .process("Resources")
             ]
         ),
         .target(
-            name: "FoundationUI"
+            name: "FoundationUI",
+            path: "FoundationUI/Sources/FoundationUI",
+            exclude: [
+                "README.md",
+                ".swiftlint.yml"
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency"),
+                .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
+            ]
         ),
         .testTarget(
             name: "ISOInspectorKitTests",
             dependencies: ["ISOInspectorKit"],
             resources: [
                 .process("Fixtures")
-            ]
-        ),
-        .testTarget(
-            name: "FoundationUITests",
-            dependencies: [
-                "FoundationUI"
             ]
         ),
         .testTarget(
@@ -97,8 +100,7 @@ let package = Package(
             name: "ISOInspectorAppTests",
             dependencies: [
                 "ISOInspectorApp",
-                "ISOInspectorKit",
-                "FoundationUI"
+                "ISOInspectorKit"
             ]
         ),
         .testTarget(
