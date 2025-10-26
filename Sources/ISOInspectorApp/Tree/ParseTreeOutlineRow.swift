@@ -10,6 +10,7 @@ struct ParseTreeOutlineRow: Identifiable, Equatable {
     let hasMatchingDescendant: Bool
     let hasValidationIssues: Bool
     let corruptionSummary: CorruptionSummary?
+    let statusDescriptor: ParseTreeStatusDescriptor?
 
     var id: ParseTreeNode.ID { node.id }
     var typeDescription: String { node.header.type.description }

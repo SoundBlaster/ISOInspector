@@ -217,6 +217,18 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         XCTAssertEqual(summary.primaryIssue?.code, "VR-900")
     }
 
+    func testRowsIncludeStatusDescriptorForPartialNodes() throws {
+        let node = makeNode(identifier: 1, type: "trak", status: .partial)
+        let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+
+        viewModel.apply(snapshot: snapshot)
+
+        let descriptor = try XCTUnwrap(viewModel.rows.first?.statusDescriptor)
+        XCTAssertEqual(descriptor.text, "Partial")
+        XCTAssertEqual(descriptor.level, .warning)
+    }
+
     func testFirstVisibleNodeIDDefaultsToRoot() throws {
         let child = makeNode(identifier: 2, type: "trak")
         let root = makeNode(identifier: 1, type: "moov", children: [child])
@@ -298,6 +310,7 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         type: String,
         issues: [ValidationIssue] = [],
         parseIssues: [ParseIssue] = [],
+        status: ParseTreeNode.Status = .valid,
         children: [ParseTreeNode] = []
     ) -> ParseTreeNode {
         let start = identifier
@@ -317,6 +330,7 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
             payload: nil,
             validationIssues: issues,
             issues: parseIssues,
+            status: status,
             children: children
         )
     }

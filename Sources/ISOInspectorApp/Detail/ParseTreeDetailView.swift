@@ -106,7 +106,7 @@ struct ParseTreeDetailView: View {
     private func metadataGrid(detail: ParseTreeNodeDetail) -> some View {
         Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 6) {
             metadataRow(label: "Type", value: detail.header.identifierString)
-            metadataRow(label: "Status", value: detail.status.rawValue.capitalized)
+            metadataStatusRow(status: detail.status)
             metadataRow(label: "Range", value: byteRangeString(for: detail.header.range))
             metadataRow(label: "Payload", value: byteRangeString(for: detail.header.payloadRange))
             if let name = detail.metadata?.name, !name.isEmpty {
@@ -124,6 +124,23 @@ struct ParseTreeDetailView: View {
             if let flags = detail.metadata?.flags {
                 metadataRow(label: "Flags", value: "0x\(String(flags, radix: 16, uppercase: true))")
             }
+        }
+    }
+
+    @ViewBuilder
+    private func metadataStatusRow(status: ParseTreeNode.Status) -> some View {
+        if let descriptor = ParseTreeStatusDescriptor(status: status) {
+            GridRow {
+                Text("Status")
+                    .font(.caption)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.secondary)
+                ParseTreeStatusBadge(descriptor: descriptor)
+            }
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel(descriptor.accessibilityLabel)
+        } else {
+            metadataRow(label: "Status", value: status.rawValue.capitalized)
         }
     }
 
@@ -168,6 +185,7 @@ struct ParseTreeDetailView: View {
         } else {
             CorruptionIssueSection(
                 header: AnyView(sectionHeader(title: "Corruption", icon: "exclamationmark.triangle")),
+                statusDescriptor: ParseTreeStatusDescriptor(status: detail.status),
                 issues: detail.issues,
                 focusTarget: focusTarget,
                 onCopy: copyToClipboard,
@@ -195,6 +213,7 @@ struct ParseTreeDetailView: View {
 
     private struct CorruptionIssueSection: View {
         let header: AnyView
+        let statusDescriptor: ParseTreeStatusDescriptor?
         let issues: [ParseIssue]
         let focusTarget: FocusState<InspectorFocusTarget?>.Binding
         let onCopy: (String) -> Void
@@ -203,7 +222,12 @@ struct ParseTreeDetailView: View {
 
         var body: some View {
             VStack(alignment: .leading, spacing: 8) {
-                header
+                HStack(alignment: .center, spacing: 8) {
+                    header
+                    if let statusDescriptor {
+                        ParseTreeStatusBadge(descriptor: statusDescriptor)
+                    }
+                }
                 VStack(alignment: .leading, spacing: 8) {
                     ForEach(Array(issues.enumerated()), id: \.offset) { _, issue in
                         CorruptionIssueRow(

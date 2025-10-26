@@ -13,6 +13,9 @@ public struct BoxNode: Equatable, Sendable {
         case partial
         case corrupt
         case skipped
+        case invalid
+        case empty
+        case trimmed
     }
 
     public let header: BoxHeader
