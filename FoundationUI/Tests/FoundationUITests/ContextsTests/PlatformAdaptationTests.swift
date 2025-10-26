@@ -100,6 +100,7 @@ final class PlatformAdaptationTests: XCTestCase {
 
     // MARK: - ViewModifier Integration Tests
 
+    @MainActor
     func testPlatformAdaptiveModifier_AppliesPlatformSpacing() {
         let view = Text("Test")
             .platformAdaptive()
@@ -108,6 +109,7 @@ final class PlatformAdaptationTests: XCTestCase {
         XCTAssertNotNil(view, "platformAdaptive() modifier should be applicable")
     }
 
+    @MainActor
     func testPlatformAdaptiveModifier_WithCustomSpacing() {
         let customSpacing = DS.Spacing.xl
         let view = Text("Test")
@@ -116,6 +118,7 @@ final class PlatformAdaptationTests: XCTestCase {
         XCTAssertNotNil(view, "platformAdaptive(spacing:) modifier should accept custom spacing")
     }
 
+    @MainActor
     func testPlatformAdaptiveModifier_WithSizeClass() {
         let view = Text("Test")
             .platformAdaptive(sizeClass: .compact)
@@ -125,6 +128,7 @@ final class PlatformAdaptationTests: XCTestCase {
 
     // MARK: - View Extension Tests
 
+    @MainActor
     func testViewExtension_PlatformSpacing() {
         let view = Text("Test")
             .platformSpacing()
@@ -132,6 +136,7 @@ final class PlatformAdaptationTests: XCTestCase {
         XCTAssertNotNil(view, "platformSpacing() extension should be applicable")
     }
 
+    @MainActor
     func testViewExtension_PlatformSpacingWithValue() {
         let customValue = DS.Spacing.xl
         let view = Text("Test")
@@ -140,6 +145,7 @@ final class PlatformAdaptationTests: XCTestCase {
         XCTAssertNotNil(view, "platformSpacing(_:) extension should accept custom value")
     }
 
+    @MainActor
     func testViewExtension_PlatformPadding() {
         let view = Text("Test")
             .platformPadding()
@@ -147,6 +153,7 @@ final class PlatformAdaptationTests: XCTestCase {
         XCTAssertNotNil(view, "platformPadding() extension should be applicable")
     }
 
+    @MainActor
     func testViewExtension_PlatformPaddingWithEdges() {
         let view = Text("Test")
             .platformPadding(.horizontal)
@@ -171,6 +178,7 @@ final class PlatformAdaptationTests: XCTestCase {
 
     // MARK: - Integration Tests
 
+    @MainActor
     func testPlatformAdaptation_IntegrationWithComponents() {
         // Test that platform adaptation works with real components
         let badge = Text("Test")
