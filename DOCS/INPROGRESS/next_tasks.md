@@ -2,6 +2,8 @@
 
 - 🚧 **T3.6 — Integrity Summary Tab** _(In Progress — see `DOCS/INPROGRESS/T3_6_Integrity_Summary_Tab.md`)_:
   - Build the Integrity tab listing all `ParseIssue` entries with sort/filter controls and export actions that stay in sync with ribbons and detail panes.
+- 🚧 **T4.2 — Plaintext Integrity Issue Export** _(In Progress — see `DOCS/INPROGRESS/T4_2_Text_Issue_Summary_Export.md`)_:
+  - Add a UTF-8 plaintext export option for tolerant parsing issues that lists file metadata and grouped diagnostics for UI Share sheets and CLI workflows.
 - 🚧 **VoiceOver Regression Pass for Accessibility Shortcuts** _(Blocked — pending hardware)_:
   - Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets. Reference `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/`.
 - ⏳ **Real-World Assets** _(Blocked — awaiting licensing approvals)_:

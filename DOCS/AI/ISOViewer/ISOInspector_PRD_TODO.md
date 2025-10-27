@@ -260,6 +260,7 @@ This phase introduces **lenient parsing mode** that continues parsing corrupted 
 - **T3:** UI corruption views (badges, placeholders, "Integrity" tab, export actions) — **~71% complete** _(5/7 tasks finished; Integrity summary tab (T3.6) and issue navigation filters (T3.7) remain)_
 - **T4:** Diagnostics export (JSON/text with byte ranges, file metadata)
   - [x] **T4.1 Extend JSON export schema for issues.** _(Completed — see `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/` for implementation notes, schema documentation updates, and verification summary.)_
+  - 🚧 **T4.2 — Plaintext Integrity Issue Export.** _(In Progress — PRD captured in `DOCS/INPROGRESS/T4_2_Text_Issue_Summary_Export.md`.)_
 - **T5:** Testing & fixtures (corrupt corpus, regression, performance, fuzzing)
 - **T6:** CLI & ecosystem parity (--tolerant flag, SDK API)
 - **T7:** Rollout (Prototype → Alpha → Beta → GA → Telemetry)
