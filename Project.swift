@@ -101,7 +101,7 @@ func deploymentTargets(for platform: DistributionPlatform) -> DeploymentTargets 
     case .macOS:
         return .macOS("14.0")
     case .iPadOS, .iOS:
-        return .iOS("16.0")
+        return .iOS("17.0")
     }
 }
 

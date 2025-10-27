@@ -484,7 +484,7 @@
   - Archive: `TASK_ARCHIVE/24_Phase3.2_ColorSchemeAdapter/`
 
 - [ ] **P1** Create platform-specific extensions
-  - File: `Sources/Contexts/PlatformExtensions.swift`
+  - File: `Sources/FoundationUI/Contexts/PlatformExtensions.swift`
   - macOS-specific keyboard shortcuts
   - iOS-specific gestures
   - iPadOS pointer interactions
