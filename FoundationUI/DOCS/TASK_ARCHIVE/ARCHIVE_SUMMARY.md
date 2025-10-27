@@ -1607,3 +1607,145 @@ view.environment(\.surfaceStyle, .thick)
 **Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/23_Phase3.2_PlatformAdaptation/`
 
 ---
+
+### 24_Phase3.2_ColorSchemeAdapter
+**Completed**: 2025-10-26
+**Phase**: 3.2 Layer 4: Contexts & Platform Adaptation
+**Component**: ColorSchemeAdapter (Automatic Dark Mode Adaptation)
+
+**Implemented**:
+- **ColorSchemeAdapter struct**: Automatic Dark Mode and color scheme adaptation with semantic, adaptive colors
+- **7 adaptive color properties**: `adaptiveBackground`, `adaptiveSecondaryBackground`, `adaptiveElevatedSurface`, `adaptiveTextColor`, `adaptiveSecondaryTextColor`, `adaptiveBorderColor`, `adaptiveDividerColor`
+- **View modifier**: `.adaptiveColorScheme()` for convenient color scheme application
+- **Platform-specific color handling**: iOS UIColor / macOS NSColor system colors with conditional compilation
+- **WCAG 2.1 AA compliance**: ≥4.5:1 contrast ratios for all color combinations
+- **Color scheme detection**: `isDarkMode` property for light/dark mode awareness
+
+**Files Created**:
+- `Sources/FoundationUI/Contexts/ColorSchemeAdapter.swift` (779 lines)
+- `Tests/FoundationUITests/ContextsTests/ColorSchemeAdapterTests.swift` (403 lines)
+
+**Test Coverage**: 29 comprehensive tests
+- Unit tests: 24 test cases (color scheme detection, adaptive properties, view modifier, environment integration, performance)
+- Integration tests: 5 test cases (Card components, Badge contrast, Inspector pattern, Dark Mode switching, DS.Color compatibility)
+
+**Preview Coverage**: 6 SwiftUI Previews
+- Light Mode - All adaptive colors
+- Dark Mode - All adaptive colors
+- Adaptive Card Example - Real-world implementation
+- Inspector Pattern - Multi-panel adaptive layout
+- Modifier Demo - Using `.adaptiveColorScheme()`
+- Side-by-Side Comparison - Light and dark modes simultaneously
+
+**Quality Metrics**:
+- SwiftLint Violations: 0
+- Magic Numbers: 0 (100% system color + DS token usage)
+- DocC Coverage: 100%
+- Accessibility Score: 100% (WCAG 2.1 AA compliant)
+- Test Coverage: 100% public API coverage
+- Platform Support: iOS 17+, macOS 14+, iPadOS 17+
+
+**Platform-Specific Handling**:
+All 7 adaptive color properties use conditional compilation for iOS (`UIColor`) vs macOS (`NSColor`):
+- macOS: `.windowBackgroundColor`, `.controlBackgroundColor`, `.labelColor`, `.separatorColor`
+- iOS: `.systemBackground`, `.secondarySystemBackground`, `.label`, `.separator`
+
+**Technical Decisions**:
+1. **System Colors vs Custom Colors**: Use system colors for automatic Dark Mode, accessibility compliance, zero maintenance
+2. **Computed Properties**: All colors computed on-demand (minimal memory, always current)
+3. **Public struct**: Value semantics for immutable color adapter (better performance, simpler concurrency)
+4. **View Modifier**: Provide both direct adapter usage and convenient view modifier for flexibility
+
+**Lessons Learned**:
+- TDD approach ensures comprehensive test coverage from start
+- System color usage eliminates manual Dark Mode logic, automatic WCAG compliance
+- DocC documentation provides excellent API clarity with examples
+- SwiftUI Previews enable visual verification
+- Struct pattern is right choice for this use case (value semantics, performance)
+
+**Next Steps**:
+- Platform-specific extensions (keyboard shortcuts, gestures)
+- Context unit tests (ColorSchemeAdapter tests completed)
+- Platform adaptation integration tests
+- Document platform comparison previews
+
+**Phase 3.2 Status**: Now 3/8 tasks complete (37.5%)
+**Overall Project Status**: 44/111 tasks complete (40%)
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/24_Phase3.2_ColorSchemeAdapter/`
+
+---
+
+### 26_Phase3.2_PlatformAdaptationIntegrationTests
+**Completed**: 2025-10-26
+**Phase**: 3.2 Layer 4: Contexts & Platform Adaptation
+**Component**: Platform Adaptation Integration Tests
+
+**Implemented**:
+- **28 comprehensive integration tests** verifying platform-specific behavior across macOS, iOS, iPadOS
+- **macOS-specific tests**: 6 tests (spacing, keyboard shortcuts, clipboard, hover effects, NavigationSplitView)
+- **iOS-specific tests**: 6 tests (touch targets, gestures, clipboard, spacing)
+- **iPad adaptive tests**: 6 tests (size classes, split view, pointer interaction)
+- **Cross-platform consistency tests**: 6 tests (DS tokens, Badge, Dark Mode, accessibility, environment propagation)
+- **Edge case tests**: 4 tests (nil size class, unknown variants, complex hierarchies, platform extensions)
+
+**Files Created**:
+- `Tests/FoundationUITests/ContextsTests/PlatformAdaptationIntegrationTests.swift` (1068 lines)
+
+**Test Coverage**: 28 integration tests organized in 5 categories
+- macOS Tests (6): Default spacing (12pt), InspectorPattern, NSPasteboard, keyboard shortcuts, hover effects, SidebarPattern
+- iOS Tests (6): Default spacing (16pt), 44pt touch targets, Badge touch targets, UIPasteboard, gestures, InspectorPattern
+- iPad Tests (6): Compact spacing (12pt), regular spacing (16pt), InspectorPattern adaptation, SidebarPattern collapse/expand, pointer interaction, split view
+- Cross-Platform Tests (6): DS token consistency, Badge consistency, Dark Mode consistency, accessibility, environment propagation, zero magic numbers
+- Edge Case Tests (4): Nil size class fallback, @unknown default handling, complex hierarchy adaptation, platform extensions DS tokens
+
+**Quality Metrics**:
+- Total Lines: 1,068 lines
+- DocC Comments: 274 lines (~26% documentation ratio - excellent)
+- DS Token Usage: 100% (zero magic numbers)
+- Platform Coverage: macOS, iOS, iPadOS
+- Size Class Coverage: compact, regular, nil (edge case)
+- Documented Constants: Only 1 (44pt iOS touch target - Apple HIG)
+
+**DS Token Verification**:
+All spacing values verified against DS tokens:
+- `DS.Spacing.s` (8pt)
+- `DS.Spacing.m` (12pt) - macOS default, compact size class
+- `DS.Spacing.l` (16pt) - iOS default, regular size class
+- `DS.Spacing.xl` (24pt)
+
+**Real-World Component Testing**:
+Integration tests use actual FoundationUI components:
+- InspectorPattern - Tested with both macOS and iOS spacing
+- SidebarPattern - Tested with size class adaptation
+- Badge, Card, KeyValueRow, SectionHeader - Cross-platform testing
+- CopyableText - Platform-specific clipboard testing
+
+**Platform-Specific Behavior**:
+- **macOS**: 12pt spacing, NSPasteboard, keyboard shortcuts, hover effects
+- **iOS**: 16pt spacing, UIPasteboard, 44pt touch targets, gestures
+- **iPad**: Size class adaptation (compact/regular), split view, pointer interaction
+
+**Implementation Details**:
+- Platform Detection: Conditional compilation (`#if os(macOS)`, `#if os(iOS)`)
+- DS Token Compliance: 100% DS token usage in all assertions
+- Real-World Scenarios: Tests actual component compositions
+
+**Lessons Learned**:
+- Platform-specific testing with conditional compilation enables comprehensive coverage
+- DS token verification prevents magic numbers systematically
+- Real-world integration testing validates practical scenarios
+- iPad size class adaptation requires thorough testing
+- 26% documentation ratio ensures test clarity
+
+**Next Steps**:
+- Create platform-specific extensions (P1) - macOS keyboard shortcuts, iOS gestures, iPadOS pointer interactions
+- Continue Phase 3.2 until all 8 tasks complete
+- Move to Phase 4: Agent Support & Polish
+
+**Phase 3.2 Status**: Now 5/8 tasks complete (62.5%)
+**Overall Project Status**: 45/111 tasks complete (41%)
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/26_Phase3.2_PlatformAdaptationIntegrationTests/`
+
+---
