@@ -3,26 +3,50 @@
 **Updated**: 2025-10-27
 **Current Status**: Phase 3.2 Platform Extensions Archived ✅
 
-## 🎯 Immediate Priorities (P1)
+## 🎯 Immediate Priorities (P0)
 
-### Phase 3.2: Create platform comparison previews (P1) → 🚧 IN PROGRESS
-**Status**: 🚧 **IN PROGRESS**
-**Priority**: P1
-**Estimated Effort**: S (3-4 hours)
-**Dependencies**: PlatformExtensions ✅, PlatformAdaptation ✅
-**Task Document**: `DOCS/INPROGRESS/Phase3.2_PlatformComparisonPreviews.md`
+### Phase 3.2: Context unit tests (P0) → ⏳ READY TO START
+**Status**: ⏳ **READY TO START**
+**Priority**: P0 (Critical - Required for quality)
+**Estimated Effort**: M (6-8 hours)
+**Dependencies**: All Phase 3.2 Contexts ✅
+**Task Document**: TBD (to be created)
 
-**Description**: Create side-by-side platform comparison previews showing how FoundationUI components adapt across macOS, iOS, and iPadOS.
+**Description**: Create comprehensive unit tests for all Context layer components (SurfaceStyleKey, PlatformAdapter, ColorSchemeAdapter, PlatformExtensions).
 
 **Requirements**:
-- Side-by-side platform previews
-- Document platform differences
-- Show adaptive behavior
-- SwiftUI Previews for all platforms
-- Highlight DS token usage
-- Show keyboard shortcuts, gestures, and pointer interactions in action
+- Unit tests for environment key propagation
+- Platform detection tests (compile-time and runtime)
+- Color scheme adaptation tests (light/dark mode)
+- Platform extension tests (keyboard shortcuts, gestures, hover effects)
+- Edge case coverage
+- ≥80% test coverage minimum
 
-**Why now**: Provides visual documentation of platform adaptation and helps developers understand cross-platform behavior.
+**Why now**: Critical for ensuring Context layer reliability before moving to next phase. Required for production quality.
+
+---
+
+## ✅ Recently Completed
+
+### Phase 3.2: Platform Comparison Previews ✅ COMPLETE (2025-10-27)
+- **File**: `Sources/FoundationUI/Previews/PlatformComparisonPreviews.swift` (~1000+ lines)
+- **8 comprehensive SwiftUI Previews** covering all platform scenarios
+  - Platform Detection Preview
+  - Spacing Adaptation Side-by-Side Preview
+  - macOS Keyboard Shortcuts Preview
+  - iOS Gestures Preview
+  - iPadOS Pointer Interactions Preview
+  - Color Scheme - Light Mode Preview
+  - Color Scheme - Dark Mode Preview
+  - Component Adaptation Showcase Preview
+  - Cross-Platform Integration Preview
+- **Platform-specific features**: macOS (⌘ shortcuts), iOS (gestures), iPadOS (hover effects)
+- **Color scheme adaptation**: Light/Dark mode support via ColorSchemeAdapter
+- **100% DS token usage**: Zero magic numbers (DS.Spacing, DS.Radius, DS.Typography, DS.Animation)
+- **100% DocC documentation**: Comprehensive API documentation for all previews
+- **Conditional compilation**: Proper platform detection (#if os(macOS), #if os(iOS))
+- **Touch target guidelines**: 44pt minimum on iOS displayed
+- **Runtime detection**: iPad pointer interactions with UIDevice.current.userInterfaceIdiom
 
 ---
 
@@ -97,42 +121,42 @@
 | Phase 1.2: Design Tokens | 7/7 (100%) | ✅ Complete |
 | Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
 | Phase 3.1: Patterns | 7/8 (88%) | In progress |
-| Phase 3.2: Contexts | 5/8 (62.5%) | 🚧 **IN PROGRESS** |
+| Phase 3.2: Contexts | 6/8 (75%) | 🚧 **IN PROGRESS** |
 
-**Overall Progress**: 47/116 tasks (40.5%)
+**Overall Progress**: 48/116 tasks (41.4%)
 
 ---
 
 ## 🔜 Next Task (Immediate Priority)
 
-### Phase 3.2: Create platform comparison previews (P1) → 🚧 IN PROGRESS
-**Status**: 🚧 **IN PROGRESS**
-**Priority**: P1
-**Estimated Effort**: S (3-4 hours)
-**Dependencies**: PlatformExtensions ✅, PlatformAdaptation ✅
-**Task Document**: `DOCS/INPROGRESS/Phase3.2_PlatformComparisonPreviews.md`
+### Phase 3.2: Context unit tests (P0) → ⏳ READY TO START
+**Status**: ⏳ **READY TO START**
+**Priority**: P0 (Critical - Required for quality)
+**Estimated Effort**: M (6-8 hours)
+**Dependencies**: All Phase 3.2 Contexts ✅
+**Task Document**: TBD (to be created)
 
-**Description**: Create side-by-side platform comparison previews showing how FoundationUI components adapt across macOS, iOS, and iPadOS.
+**Description**: Create comprehensive unit tests for all Context layer components (SurfaceStyleKey, PlatformAdapter, ColorSchemeAdapter, PlatformExtensions).
 
 **Requirements**:
-- Side-by-side platform previews
-- Document platform differences
-- Show adaptive behavior
-- SwiftUI Previews for all platforms
-- Highlight DS token usage
-- Show keyboard shortcuts, gestures, and pointer interactions in action
+- Unit tests for environment key propagation
+- Platform detection tests (compile-time and runtime)
+- Color scheme adaptation tests (light/dark mode)
+- Platform extension tests (keyboard shortcuts, gestures, hover effects)
+- Edge case coverage
+- ≥80% test coverage minimum
 
-**Why now**: Provides visual documentation of platform adaptation and helps developers understand cross-platform behavior.
+**Why now**: Critical for ensuring Context layer reliability before moving to next phase. Required for production quality.
 
 ---
 
 ## 🔭 Upcoming Tasks (Phase 3.2)
 
 ### Remaining Phase 3.2 Tasks
-After completing platform comparison previews, Phase 3.2 will have 6/8 tasks complete (75%).
+Phase 3.2 currently has 6/8 tasks complete (75%).
 
 **Pending**:
-- [ ] Context unit tests (P0) - Test environment key propagation, platform detection, color scheme adaptation
+- [ ] Context unit tests (P0) - Test environment key propagation, platform detection, color scheme adaptation (NEXT TASK)
 - [ ] Accessibility context support (P1) - Reduce motion detection, increase contrast, bold text, Dynamic Type
 
 ---
@@ -156,5 +180,5 @@ After completing platform comparison previews, Phase 3.2 will have 6/8 tasks com
 
 ---
 
-**Latest Update**: Platform Comparison Previews task started (2025-10-27)
-**Next Action**: Implementing platform comparison previews (IN PROGRESS)
+**Latest Update**: Platform Comparison Previews completed (2025-10-27)
+**Next Action**: Create Context unit tests (P0 - Critical priority)
