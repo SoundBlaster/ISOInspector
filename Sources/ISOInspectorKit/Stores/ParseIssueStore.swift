@@ -14,6 +14,8 @@ public struct Published<Value> {
 import Foundation
 
 public final class ParseIssueStore: ObservableObject {
+    private let queue: DispatchQueue
+    private let queueSpecificKey = DispatchSpecificKey<Void>()
     public struct IssueMetrics: Equatable, Sendable {
         private let counts: [ParseIssue.Severity: Int]
         public let deepestAffectedDepth: Int
@@ -95,7 +97,12 @@ public final class ParseIssueStore: ObservableObject {
     private var infoCount: Int
     private var deepestDepth: Int
 
-    public init(issues: [ParseIssue] = []) {
+    public init(
+        issues: [ParseIssue] = [],
+        queue: DispatchQueue = .main
+    ) {
+        self.queue = queue
+        queue.setSpecific(key: queueSpecificKey, value: ())
         self.issues = []
         self.metrics = IssueMetrics()
         self.issuesByNodeID = [:]
@@ -109,7 +116,7 @@ public final class ParseIssueStore: ObservableObject {
     }
 
     public func record(_ issue: ParseIssue, depth: Int? = nil) {
-        performOnMain { [self] in
+        performOnQueue { [self] in
             self.append(issue, depth: depth)
         }
     }
@@ -118,7 +125,7 @@ public final class ParseIssueStore: ObservableObject {
         _ issues: [ParseIssue],
         depthResolver: (@Sendable (ParseIssue) -> Int?)? = nil
     ) {
-        performOnMain { [self] in
+        performOnQueue { [self] in
             for issue in issues {
                 let depth = depthResolver?(issue)
                 self.append(issue, depth: depth)
@@ -130,7 +137,7 @@ public final class ParseIssueStore: ObservableObject {
         with issues: [ParseIssue],
         depthResolver: (@Sendable (ParseIssue) -> Int?)? = nil
     ) {
-        performOnMain { [self] in
+        performOnQueue { [self] in
             self.resetStorage()
             for issue in issues {
                 let depth = depthResolver?(issue)
@@ -140,11 +147,11 @@ public final class ParseIssueStore: ObservableObject {
     }
 
     public func issues(forNodeID nodeID: Int64) -> [ParseIssue] {
-        readOnMain { issuesByNodeID[nodeID] ?? [] }
+        readOnQueue { issuesByNodeID[nodeID] ?? [] }
     }
 
     public func issues(in range: Range<Int64>) -> [ParseIssue] {
-        readOnMain {
+        readOnQueue {
             issues.filter { issue in
                 guard let byteRange = issue.byteRange else { return false }
                 return Self.intersects(byteRange, range)
@@ -153,11 +160,11 @@ public final class ParseIssueStore: ObservableObject {
     }
 
     public func metricsSnapshot() -> IssueMetrics {
-        readOnMain { metrics }
+        readOnQueue { metrics }
     }
 
     public func makeIssueSummary() -> IssueSummary {
-        readOnMain {
+        readOnQueue {
             IssueSummary(
                 metrics: metrics,
                 totalCount: issues.count
@@ -165,8 +172,12 @@ public final class ParseIssueStore: ObservableObject {
         }
     }
 
+    public func issuesSnapshot() -> [ParseIssue] {
+        readOnQueue { issues }
+    }
+
     public func reset() {
-        performOnMain { [self] in
+        performOnQueue { [self] in
             self.resetStorage()
         }
     }
@@ -204,19 +215,19 @@ public final class ParseIssueStore: ObservableObject {
         metrics = IssueMetrics()
     }
 
-    private func performOnMain(_ action: @escaping @Sendable () -> Void) {
-        if Thread.isMainThread {
+    private func performOnQueue(_ action: @escaping @Sendable () -> Void) {
+        if DispatchQueue.getSpecific(key: queueSpecificKey) != nil {
             action()
         } else {
-            DispatchQueue.main.async(execute: action)
+            queue.async(execute: action)
         }
     }
 
-    private func readOnMain<T>(_ action: () -> T) -> T {
-        if Thread.isMainThread {
+    private func readOnQueue<T>(_ action: () -> T) -> T {
+        if DispatchQueue.getSpecific(key: queueSpecificKey) != nil {
             return action()
         }
-        return DispatchQueue.main.sync(execute: action)
+        return queue.sync(execute: action)
     }
 
     private static func intersects(_ lhs: Range<Int64>, _ rhs: Range<Int64>) -> Bool {
