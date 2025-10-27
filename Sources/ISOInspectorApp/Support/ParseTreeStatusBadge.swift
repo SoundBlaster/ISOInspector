@@ -1,4 +1,3 @@
-#if canImport(SwiftUI) && canImport(FoundationUI)
 import SwiftUI
 import FoundationUI
 
@@ -23,4 +22,3 @@ struct ParseTreeStatusBadge: View {
         }
     }
 }
-#endif
