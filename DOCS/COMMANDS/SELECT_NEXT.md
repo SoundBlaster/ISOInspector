@@ -1,146 +1,93 @@
 # SYSTEM PROMPT: Select the Next Task
 
 ## 🧩 PURPOSE
-
-Automatically determine and initialize the next task to work on, following the predefined project rules and available task notes from [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md), the execution guide, and the authoritative TODO sources.
-
----
+Identify the next actionable task based on project rules, the carried-forward notes in [`DOCS/INPROGRESS`](../INPROGRESS), and the prioritized backlog so new work starts with an up-to-date PRD stub.
 
 ## 🎯 GOAL
-
-Read and apply the selection rules from [`DOCS/RULES/03_Next_Task_Selection.md`](../RULES/03_Next_Task_Selection.md), analyze pending tasks listed in [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md), and create a new task document containing its title and a lightweight PRD outline based on the main project documentation (see the [execution workplan](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md), [PRD backlog](../AI/ISOViewer/ISOInspector_PRD_TODO.md), and [master PRD](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)).
+Apply the decision framework in [`DOCS/RULES/03_Next_Task_Selection.md`](../RULES/03_Next_Task_Selection.md) to choose a task, verify it is not permanently blocked, and create an `INPROGRESS` Markdown document that records its objective, context, and success criteria.
 
 ---
 
 ## 🔗 REFERENCE MATERIALS
-
+- [Task selection rules (`03_Next_Task_Selection.md`)](../RULES/03_Next_Task_Selection.md)
+- [Workflow rules (`02_TDD_XP_Workflow.md`)](../RULES/02_TDD_XP_Workflow.md)
+- [Master PRD (`ISOInspector_Master_PRD.md`)](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
+- [Execution workplan (`04_TODO_Workplan.md`)](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
+- [Detailed backlog (`ISOInspector_PRD_TODO.md`)](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [Root TODO list (`todo.md`)](../../todo.md)
-- [Execution workplan (04_TODO_Workplan.md)](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
-- [Master PRD (ISOInspector_Master_PRD.md)](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
-- [Detailed backlog (ISOInspector_PRD_TODO.md)](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
-- [Task selection rules (`DOCS/RULES/03_Next_Task_Selection.md`)](../RULES/03_Next_Task_Selection.md)
-- [Workflow rules (`DOCS/RULES/02_TDD_XP_Workflow.md`)](../RULES/02_TDD_XP_Workflow.md)
+- [Current blocked list (`DOCS/INPROGRESS/blocked.md`)](../INPROGRESS/blocked.md)
+- [Permanent blockers (`DOCS/TASK_ARCHIVE/BLOCKED`)](../TASK_ARCHIVE/BLOCKED)
 
 ---
 
 ## ⚙️ EXECUTION STEPS
 
-### Step 1. Read Task Selection Rules
+### Step 1. Review the Selection Framework
+- Read [`03_Next_Task_Selection.md`](../RULES/03_Next_Task_Selection.md) to refresh prioritization and dependency rules.
+- Cross-check supporting context in [`02_TDD_XP_Workflow.md`](../RULES/02_TDD_XP_Workflow.md) and [`ISOInspector_Master_PRD.md`](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md).
 
-- Open [`DOCS/RULES/03_Next_Task_Selection.md`](../RULES/03_Next_Task_Selection.md) for the explicit prioritization and dependency logic.
-- Review supporting workflow guidance in [`DOCS/RULES/02_TDD_XP_Workflow.md`](../RULES/02_TDD_XP_Workflow.md) and product framing notes in [`DOCS/RULES/01_PRD.md`](../RULES/01_PRD.md).
-- Parse and understand the criteria before evaluating candidates.
+### Step 2. Inspect Blocked Work
+- Scan [`DOCS/INPROGRESS/blocked.md`](../INPROGRESS/blocked.md) to understand which items are currently blocked but recoverable.
+- Review [`DOCS/TASK_ARCHIVE/BLOCKED`](../TASK_ARCHIVE/BLOCKED) to ensure permanently blocked efforts are not accidentally reconsidered.
+- If a candidate task appears in either list, confirm the blocker has been resolved before selecting it; otherwise choose a different item or document the work required to unblock it.
 
-### Step 2. Inspect Pending Tasks
+### Step 3. Gather Candidate Tasks
+- Read [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md) if present and extract proposed follow-ups.
+- If the file is missing or empty, consult the broader backlog sources:
+  - [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
+  - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
+  - [`todo.md`](../../todo.md)
+- Note dependencies, prerequisites, and any context captured in archived summaries under [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE).
 
-- Check if [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md) exists.
-- If present, read the file and extract the listed upcoming tasks or ideas, noting references such as the carried-over `B2+` streaming interface item.
+### Step 4. Apply Selection Rules
+- Filter the candidate list using the criteria from Step 1 (priority, dependencies, customer value, and readiness).
+- Confirm the chosen task has the resources and unblockers required to proceed.
+- Update the source documents (`next_tasks.md`, workplan, backlog) to reflect the decision—mark the selected task as **In Progress** or remove it from the candidate list as appropriate.
 
-### Step 3. Apply Selection Rules
-
-- Use the criteria from Step 1 to determine which task should be selected next.
-- If multiple tasks qualify, choose the one with the highest priority according to the rules.
-- If no tasks are found in `next_tasks.md`, consult the broader backlog sources:
-  - [`DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md) for the authoritative workplan.
-  - [`DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md) — especially the "## 5) Detailed TODO (execution-ready, без кода)" section.
-  - The root [`todo.md`](../../todo.md) for any repo-level quick wins.
-- Once the task is selected, mark it as **In Progress** in each source where it appears—update the relevant entries in `next_tasks.md`, the workplan, and the backlog TODO documents so stakeholders know it is actively being worked.
-
-### Step 4. Create a New Task Document
-
-- Use the folder [`DOCS/INPROGRESS`](../INPROGRESS) as the target location.
-- Create a new Markdown file with a name matching the chosen task, e.g.:
-
-  ```text
-  DOCS/INPROGRESS/03_Implement_New_Feature.md
-  ```
-
-- Inside the new file, include a **lightweight PRD (Product Requirements Document)** derived from the main PRD and
-
-  guides located in other DOCS subfolders.
-
-### Step 5. PRD Content Template
-
-The created file should include the following structure:
+### Step 5. Create the New Task Document
+- Place the file in [`DOCS/INPROGRESS`](../INPROGRESS) with a descriptive, numbered filename (e.g., `194_CLI_Export_Smoke_Tests.md`).
+- Populate it using the template below:
 
 ```markdown
 # {TASK_TITLE}
 
 ## 🎯 Objective
-Short description of what needs to be achieved.
+Brief summary of the user or system outcome we need to deliver.
 
 ## 🧩 Context
-Reference to relevant guides or PRD sections.
+Relevant background, dependencies, or links to prior archives.
 
 ## ✅ Success Criteria
-List of measurable completion conditions.
+Bullet list describing when the task is complete.
 
 ## 🔧 Implementation Notes
-Any key hints or dependencies to consider.
+Important considerations, experiments, or sub-steps.
 
 ## 🧠 Source References
 - [`ISOInspector_Master_PRD.md`](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
 - [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
 - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES`](../RULES)
-- Any relevant archived context in [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
-
+- Relevant archives in [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
 ```
 
-- Keep it short, structured, and clear.
-
-### Step 6. Report Result
-
-- Output the name of the chosen task.
-- Confirm that the new Markdown PRD file was successfully created in `DOCS/INPROGRESS`.
+### Step 6. Report Outcome
+- Summarize which task was chosen, why it met the prioritization rules, and where its PRD lives.
+- Mention any updates made to `next_tasks.md`, backlog documents, or blocked lists.
 
 ---
 
 ## ✅ EXPECTED OUTPUT
-
-- A new file created in `DOCS/INPROGRESS` with the next task name and a lightweight PRD.
-- The task is chosen according to the defined rules in [`DOCS/RULES`](../RULES) and the notes in [`next_tasks.md`](../INPROGRESS/next_tasks.md), plus the backlog sources linked above.
-- A short summary confirming the selected task and the applied rules.
-
----
-
-## 🧠 EXAMPLE
-
-**Before:**
-
-```text
-DOCS/
- ├── RULES/
- │    └── task_selection_rules.md
- ├── INPROGRESS/
- │    └── next_tasks.md
- └── PRD/
-      └── main_prd.md
-
-```
-
-**After:**
-
-```text
-DOCS/
- ├── RULES/
- │    └── task_selection_rules.md
- ├── INPROGRESS/
- │    ├── next_tasks.md
- │    └── 03_Implement_New_Feature.md
- └── PRD/
-      └── main_prd.md
-
-```
+- A clearly justified task selection aligned with project rules.
+- A new Markdown file in `DOCS/INPROGRESS` that captures objectives, context, and references.
+- Updated planning artifacts reflecting the new in-progress work and the current state of blocked tasks.
 
 ---
 
-## 🧾 NOTES
-
-- Always prioritize based on the formal rules in `DOCS/RULES`.
-- Use `next_tasks.md` as the primary source of candidates.
-- Ensure consistent file naming (prefix numbers if applicable).
-- Keep the generated PRD concise and consistent with project standards.
+## 🧠 TIPS
+- Always cross-reference the blocked directories before picking a task; resurrecting permanently blocked efforts wastes time.
+- Keep filenames consistent with archive numbering so the next archival step is seamless.
+- If no candidate meets the rules, document the gap and propose unblocker actions instead of forcing a low-quality selection.
 
 ---
 

@@ -1,149 +1,94 @@
 # SYSTEM PROMPT: Archive Current Work-in-Progress
 
 ## 🧩 PURPOSE
-
-Archive the current contents of [`DOCS/INPROGRESS`](../INPROGRESS) into a sequentially numbered folder under [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE). Preserve workflow continuity by detecting and carrying forward “next task” references documented in [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md).
-
----
+Archive the current contents of [`DOCS/INPROGRESS`](../INPROGRESS) into a new, sequentially numbered folder in [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE) while keeping "next task" breadcrumbs and blocked work logs accurate.
 
 ## 🎯 GOAL
-
-Safely move all active task files from [`DOCS/INPROGRESS`](../INPROGRESS) into a new, properly numbered archive folder. Automatically prepare a new [`next_tasks.md`](../INPROGRESS/next_tasks.md) file if the current summary references upcoming tasks.
+Safely move every active task note into the archive, regenerate any `next_tasks.md` content that still applies, and ensure blocked work is either tracked for recovery or retired into [`DOCS/TASK_ARCHIVE/BLOCKED`](../TASK_ARCHIVE/BLOCKED) when it cannot proceed.
 
 ---
 
 ## 🔗 REFERENCE MATERIALS
-
 - [Root TODO list (`todo.md`)](../../todo.md)
-- [Execution workplan (04_TODO_Workplan.md)](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
-- [Task selection rules (03_Next_Task_Selection.md)](../RULES/03_Next_Task_Selection.md)
-- [Backlog detail (ISOInspector_PRD_TODO.md)](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
-- [Archive index (`DOCS/TASK_ARCHIVE/ARCHIVE_SUMMARY.md`)](../TASK_ARCHIVE/ARCHIVE_SUMMARY.md)
+- [Execution workplan (`04_TODO_Workplan.md`)](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
+- [Task selection rules (`03_Next_Task_Selection.md`)](../RULES/03_Next_Task_Selection.md)
+- [Backlog detail (`ISOInspector_PRD_TODO.md`)](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
+- [Archive index (`ARCHIVE_SUMMARY.md`)](../TASK_ARCHIVE/ARCHIVE_SUMMARY.md)
+- [Permanent blocker log (`DOCS/TASK_ARCHIVE/BLOCKED`)](../TASK_ARCHIVE/BLOCKED)
 
 ---
 
-## 📁 DIRECTORY STRUCTURE
-
+## 📁 KEY DIRECTORIES
 ```text
 DOCS/
  ├── INPROGRESS/
- │    ├── ...
- │    └── Summary_of_Work.md (optional)
+ │    ├── current task notes, summaries, next_tasks.md, blocked.md
+ │    └── ...
  └── TASK_ARCHIVE/
-      ├── 01_Initial_Setup
-      ├── 02_Setup_Swift_SPM
-      └── ...
-
+      ├── <NN>_<Task_Name>/
+      ├── ARCHIVE_SUMMARY.md
+      └── BLOCKED/
 ```
 
 ---
 
 ## ⚙️ EXECUTION STEPS
 
-### Step 1. Inspect Current Work Folder
+### Step 1. Review Current In-Progress Files
+- Open [`DOCS/INPROGRESS`](../INPROGRESS) and list every Markdown document.
+- Capture key context from any summaries, notes, or checklists so it is not lost during the move.
 
-- Look inside [`DOCS/INPROGRESS`](../INPROGRESS) (e.g., the current task docs `B3_Streaming_Parse_Pipeline.md` and `F1_Test_Fixtures.md`).
-- Detect any file whose name **contains “Summary”** (such as a `Summary_of_Work.md`) or is exactly **`next_tasks.md`**.
-- If found, open and read the content to capture context that must persist after archiving.
+### Step 2. Collect Future Work Notes
+- Read [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md) if it exists and extract any actionable follow-ups.
+- Compare those notes with the backlog sources in the reference materials to confirm they are still relevant.
 
-### Step 2. Extract Mentions of Upcoming Tasks
+### Step 3. Classify Blocked Items
+- Inspect [`DOCS/INPROGRESS/blocked.md`](../INPROGRESS/blocked.md).
+- For each entry decide:
+  - **Recoverable blockers:** keep them in `blocked.md` and update wording if context changed.
+  - **Permanently blocked work (no realistic path forward, missing hardware, platform restriction, etc.):**
+    1. Create a new Markdown file under [`DOCS/TASK_ARCHIVE/BLOCKED`](../TASK_ARCHIVE/BLOCKED) summarizing the blocker, prerequisites to resume, and links to historical context.
+    2. Remove the entry from `blocked.md` so the day-to-day list only contains recoverable items.
+- Update [`DOCS/TASK_ARCHIVE/BLOCKED/README.md`](../TASK_ARCHIVE/BLOCKED/README.md) if guidance needs refinement.
 
-- Search the text for mentions of **pending**, **next**, or **upcoming** tasks. Prioritize any checklists in [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md) and cross-check against the broader backlog in [`DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md) and [`DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md).
-- If found, temporarily store this information to recreate it later.
-
-### Step 3. Determine the Next Archive Folder Name
-
+### Step 4. Determine the Next Archive Folder Name
 - Target base path: [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE).
-- Folder naming pattern:
+- Folder naming pattern: `{NN}_{Task_Name}` with two-digit zero padding.
+- Identify the highest existing numeric prefix and increment it by one to form the new folder name (e.g., `194_New_Work_Item`).
+- Create the folder if it does not exist.
 
-  ```text
-  {NN}_{TASK_NAME}
-  ```
+### Step 5. Move Current Work Into the Archive
+- Move every file and subfolder from [`DOCS/INPROGRESS`](../INPROGRESS) into the new archive folder.
+- Preserve relative structure and filenames.
+- Update [`DOCS/TASK_ARCHIVE/ARCHIVE_SUMMARY.md`](../TASK_ARCHIVE/ARCHIVE_SUMMARY.md) with a new entry describing the archived work and linking to the new folder.
 
-  Example: `02_Setup_Swift_SPM`
+### Step 6. Rebuild `DOCS/INPROGRESS`
+- Recreate [`DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md) using the actionable items gathered in Step 2 (omit the file if there are no follow-ups).
+- Recreate [`DOCS/INPROGRESS/blocked.md`](../INPROGRESS/blocked.md) with the remaining recoverable blockers from Step 3.
+- Add any other scaffolding files (e.g., new task PRD shells) required for upcoming work.
 
-- Find the highest existing prefix `{NN}`, increment it by one to define the new folder name, e.g. `03_New_Task_Name`.
+### Step 7. Update Planning Artifacts
+- Reflect the archived state in `todo.md`, `04_TODO_Workplan.md`, and `ISOInspector_PRD_TODO.md` where applicable.
+- Ensure any tasks moved to the permanent blocked list are marked accordingly in these documents.
 
-- If [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE) does not exist, create it.
-- Then create the new subfolder for the current task using the name from Step 3.
-
-### Step 5. Move Files to Archive
-
-- Move **all files and subfolders** from [`DOCS/INPROGRESS`](../INPROGRESS) to the new archive folder.
-- Preserve structure and file integrity.
-- Update [`DOCS/TASK_ARCHIVE/ARCHIVE_SUMMARY.md`](../TASK_ARCHIVE/ARCHIVE_SUMMARY.md) if a new entry is needed.
-
-### Step 6. Mark Archived Tasks as Complete
-
-- Review the todo references listed in the **Reference Materials** (e.g., [`todo.md`](../../todo.md), [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md), and [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)).
-- Locate entries associated with the archived work and update their status to indicate completion or archival.
-- Ensure any progress notes or cross-references remain accurate after the update.
-
-### Step 7. Recreate `next_tasks.md` (if applicable)
-
-- If Step 2 found mentions of next tasks:
-
-  - Create a new file:
-
-    ```text
-    DOCS/INPROGRESS/next_tasks.md
-    ```
-
-  - Write the extracted list or short summary of those next tasks into it, ensuring they align with the backlog items tracked in [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md) and [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md).
-
-### Step 8. Report Result
-
-- Output the **path of the new archive folder**.
-- Indicate whether a **new `next_tasks.md`** file was created.
-- Reference any updates made to [`ARCHIVE_SUMMARY.md`](../TASK_ARCHIVE/ARCHIVE_SUMMARY.md) or outstanding todos in [`todo.md`](../../todo.md).
+### Step 8. Report Results
+- Record the path of the new archive folder and whether fresh `next_tasks.md` or `blocked.md` files were generated.
+- Note updates to the archive index, backlog documents, and the permanent blocker directory.
 
 ---
 
 ## ✅ EXPECTED OUTPUT
-
-- A new archive folder created under `DOCS/TASK_ARCHIVE/` with the next sequential number.
-- All contents of `DOCS/INPROGRESS` successfully moved there.
-- A new file `DOCS/INPROGRESS/next_tasks.md` created if applicable.
-- A short text report summarizing actions performed.
-
----
-
-## 🧠 EXAMPLE
-
-**Before:**
-
-```text
-DOCS/
- ├── INPROGRESS/
- │    ├── README.md
- │    └── Summary_of_Work.md
- └── TASK_ARCHIVE/
-      ├── 01_Initial_Setup
-      └── 02_Setup_Swift_SPM
-
-```
-
-**After:**
-
-```text
-DOCS/
- ├── INPROGRESS/
- │    └── next_tasks.md
- └── TASK_ARCHIVE/
-      ├── 01_Initial_Setup
-      ├── 02_Setup_Swift_SPM
-      └── 03_Current_Work
-
-```
+- A new sequential archive folder containing all previously in-progress files.
+- Updated `DOCS/INPROGRESS` scaffolding reflecting only actionable next tasks and recoverable blockers.
+- Permanent blockers, if any, captured under `DOCS/TASK_ARCHIVE/BLOCKED` with clear prerequisites for resuming work.
+- A short summary highlighting the changes.
 
 ---
 
-## 🧾 NOTES
-
-- Always analyze the content before moving files.
-- Maintain numeric order continuity.
-- Never overwrite existing archive folders.
-- Preserve relative paths and file metadata during move.
+## 🧠 TIPS
+- Keep numbering contiguous; never reuse an existing archive prefix.
+- Always double-check `next_tasks.md` against the authoritative backlog to avoid duplicating outdated plans.
+- Use the permanent blocker directory sparingly—only when recovery truly depends on unavailable capabilities.
 
 ---
 
