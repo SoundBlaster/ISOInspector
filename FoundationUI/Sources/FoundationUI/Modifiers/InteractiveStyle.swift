@@ -181,8 +181,12 @@ private struct InteractiveStyleModifier: ViewModifier {
             .animation(DS.Animation.quick, value: isHovered)
             .animation(DS.Animation.quick, value: isPressed)
             .animation(DS.Animation.quick, value: isFocused)
-            .focusable(type.supportsKeyboardFocus)
-            .focused($isFocused)
+            .modifier(
+                FocusableIfAvailable(
+                    isEnabled: type.supportsKeyboardFocus,
+                    focusBinding: $isFocused
+                )
+            )
             #if os(macOS)
             .onHover { hovering in
                 isHovered = hovering
@@ -218,6 +222,32 @@ private struct InteractiveStyleModifier: ViewModifier {
         } else {
             return 1.0
         }
+    }
+}
+
+/// Applies the focusable modifier only when supported on the current platform
+private struct FocusableIfAvailable: ViewModifier {
+    /// Whether keyboard focus should be enabled
+    let isEnabled: Bool
+
+    /// Binding used to track the current focus state
+    let focusBinding: FocusState<Bool>.Binding
+
+    func body(content: Content) -> some View {
+        #if os(iOS)
+        if #available(iOS 17, *) {
+            content
+                .focusable(isEnabled)
+                .focused(focusBinding)
+        } else {
+            content
+                .focused(focusBinding)
+        }
+        #else
+        content
+            .focusable(isEnabled)
+            .focused(focusBinding)
+        #endif
     }
 }
 

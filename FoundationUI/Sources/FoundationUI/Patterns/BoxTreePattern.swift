@@ -355,8 +355,8 @@ public extension BoxTreePattern {
         var children: [PreviewNode]
     }
 
-    @Previewable @State var expandedNodes: Set<UUID> = []
-    @Previewable @State var selection: UUID? = nil
+    @State var expandedNodes: Set<UUID> = []
+    @State var selection: UUID? = nil
 
     let sampleData = [
         PreviewNode(title: "ftyp", children: []),
@@ -400,7 +400,7 @@ public extension BoxTreePattern {
         var children: [PreviewNode]
     }
 
-    @Previewable @State var expandedNodes: Set<UUID> = []
+    @State var expandedNodes: Set<UUID> = []
 
     func makeDeepTree(currentLevel: Int = 0, maxLevel: Int = 5) -> [PreviewNode] {
         guard currentLevel < maxLevel else { return [] }
@@ -436,8 +436,8 @@ public extension BoxTreePattern {
         var children: [PreviewNode]
     }
 
-    @Previewable @State var expandedNodes: Set<UUID> = []
-    @Previewable @State var selection: Set<UUID> = []
+    @State var expandedNodes: Set<UUID> = []
+    @State var selection: Set<UUID> = []
 
     let sampleData = [
         PreviewNode(title: "Root 1", children: [
@@ -478,7 +478,7 @@ public extension BoxTreePattern {
         var children: [PreviewNode]
     }
 
-    @Previewable @State var expandedNodes: Set<UUID> = []
+    @State var expandedNodes: Set<UUID> = []
 
     // Generate 100 root nodes with 10 children each (1000+ total nodes)
     let largeData = (0..<100).map { i in
@@ -518,8 +518,8 @@ public extension BoxTreePattern {
         var children: [PreviewNode]
     }
 
-    @Previewable @State var expandedNodes: Set<UUID> = []
-    @Previewable @State var selection: UUID? = nil
+    @State var expandedNodes: Set<UUID> = []
+    @State var selection: UUID? = nil
 
     let sampleData = [
         PreviewNode(title: "ftyp", children: []),
@@ -554,8 +554,8 @@ public extension BoxTreePattern {
         var children: [PreviewNode]
     }
 
-    @Previewable @State var expandedNodes: Set<UUID> = []
-    @Previewable @State var selection: UUID? = nil
+    @State var expandedNodes: Set<UUID> = []
+    @State var selection: UUID? = nil
 
     let sampleData = [
         PreviewNode(name: "ftyp", type: "File Type", offset: "0x0000", children: []),
@@ -614,7 +614,7 @@ public extension BoxTreePattern {
         var children: [PreviewNode]
     }
 
-    @Previewable @State var expandedNodes: Set<UUID> = []
+    @State var expandedNodes: Set<UUID> = []
 
     let sampleData = [
         PreviewNode(title: "Root 1", children: [
@@ -646,7 +646,7 @@ public extension BoxTreePattern {
         var children: [PreviewNode]
     }
 
-    @Previewable @State var expandedNodes: Set<UUID> = []
+    @State var expandedNodes: Set<UUID> = []
 
     let sampleData = [
         PreviewNode(title: "Root Node", children: [
@@ -676,7 +676,7 @@ public extension BoxTreePattern {
         var children: [PreviewNode]
     }
 
-    @Previewable @State var expandedNodes: Set<UUID> = []
+    @State var expandedNodes: Set<UUID> = []
 
     let emptyData: [PreviewNode] = []
 
@@ -719,8 +719,8 @@ public extension BoxTreePattern {
         var children: [PreviewNode]
     }
 
-    @Previewable @State var expandedNodes: Set<UUID> = []
-    @Previewable @State var selection: UUID? = nil
+    @State var expandedNodes: Set<UUID> = []
+    @State var selection: UUID? = nil
 
     let flatData = [
         PreviewNode(title: "Item 1", children: []),
