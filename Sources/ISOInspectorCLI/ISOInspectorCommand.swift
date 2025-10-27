@@ -499,7 +499,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
         public struct Export: AsyncParsableCommand {
             public static let configuration = CommandConfiguration(
                 abstract: "Export parse artifacts such as JSON trees or binary captures.",
-                subcommands: [JSON.self, Capture.self]
+                subcommands: [JSON.self, Capture.self, Text.self]
             )
 
             public init() {}
@@ -540,6 +540,22 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                 }
             }
 
+            public struct Text: AsyncParsableCommand {
+                public static let configuration = CommandConfiguration(
+                    commandName: "text",
+                    abstract: "Export a plaintext issue summary with grouped diagnostics."
+                )
+
+                @OptionGroup
+                public var options: Export.Options
+
+                public init() {}
+
+                public mutating func run() async throws {
+                    try await Export.execute(mode: .text, with: options)
+                }
+            }
+
             public struct Options: ParsableArguments, Sendable {
                 @Argument(help: "Path to the media file to export.")
                 var file: String
@@ -561,6 +577,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
             enum Mode {
                 case json
                 case capture
+                case text
 
                 func defaultOutput(for fileURL: URL) -> URL {
                     switch self {
@@ -570,6 +587,10 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                             .appendingPathExtension("json")
                     case .capture:
                         return fileURL.appendingPathExtension("capture")
+                    case .text:
+                        return fileURL
+                            .appendingPathExtension("isoinspector")
+                            .appendingPathExtension("txt")
                     }
                 }
 
@@ -579,6 +600,8 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                         return "Exported JSON parse tree → "
                     case .capture:
                         return "Exported parse event capture → "
+                    case .text:
+                        return "Exported issue summary → "
                     }
                 }
 
@@ -588,6 +611,8 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                         return "Failed to export JSON parse tree: "
                     case .capture:
                         return "Failed to export parse event capture: "
+                    case .text:
+                        return "Failed to export issue summary: "
                     }
                 }
             }
@@ -616,11 +641,11 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                 let context = await ISOInspectorCommand.resolveContext(applying: options.globalOptions)
                 let environment = context.environment
 
-                let metadata = ISOInspectorCommand.validationMetadata(
+                let validationMetadata = ISOInspectorCommand.validationMetadata(
                     configuration: context.validationConfiguration,
                     presets: context.validationPresets
                 )
-                let disabledRuleIDs = Set(metadata.disabledRuleIDs)
+                let disabledRuleIDs = Set(validationMetadata.disabledRuleIDs)
 
                 do {
                     try validateOutputPath(outputURL)
@@ -648,21 +673,37 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                         throw ExitCode(3)
                     }
 
+                    var tree = builder.makeTree()
+                    if context.validationConfigurationWasCustomized {
+                        tree.validationMetadata = validationMetadata
+                    }
+
                     let data: Data
                     switch mode {
                     case .json:
-                        var tree = builder.makeTree()
-                        if context.validationConfigurationWasCustomized {
-                            tree.validationMetadata = metadata
-                        }
                         data = try JSONParseTreeExporter().export(tree: tree)
                     case .capture:
                         data = try ParseEventCaptureEncoder().encode(events: captured)
+                    case .text:
+                        let metadata = PlaintextIssueSummaryExporter.Metadata(
+                            filePath: fileURL.standardizedFileURL.path,
+                            fileSize: reader.length,
+                            analyzedAt: Date(),
+                            sha256: nil
+                        )
+                        let summary = environment.issueStore.makeIssueSummary()
+                        let issues = environment.issueStore.issuesSnapshot()
+                        data = try PlaintextIssueSummaryExporter().export(
+                            tree: tree,
+                            metadata: metadata,
+                            summary: summary,
+                            issues: issues
+                        )
                     }
 
                     try data.write(to: outputURL, options: .atomic)
                     ISOInspectorCommand.printValidationMetadataIfNeeded(
-                        metadata: metadata,
+                        metadata: validationMetadata,
                         wasCustomized: context.validationConfigurationWasCustomized,
                         using: environment
                     )

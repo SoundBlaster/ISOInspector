@@ -165,6 +165,10 @@ public final class ParseIssueStore: ObservableObject {
         }
     }
 
+    public func issuesSnapshot() -> [ParseIssue] {
+        readOnMain { issues }
+    }
+
     public func reset() {
         performOnMain { [self] in
             self.resetStorage()
