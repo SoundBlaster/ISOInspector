@@ -27,7 +27,7 @@ public final class ParseTreeStore: ObservableObject {
         self.state = initialState
         self.fileURL = nil
         self.issueMetrics = issueStore.metricsSnapshot()
-        self.builder = makeBuilder()
+        self.builder = Self.makeBuilder(issueStore: issueStore)
         bindIssueStore()
     }
 
@@ -59,7 +59,7 @@ public final class ParseTreeStore: ObservableObject {
 
     public func shutdown() {
         disconnect()
-        builder = makeBuilder()
+        builder = Self.makeBuilder(issueStore: issueStore)
         snapshot = .empty
         state = .idle
         fileURL = nil
@@ -70,8 +70,8 @@ public final class ParseTreeStore: ObservableObject {
         resources.stop()
     }
 
-    private func makeBuilder() -> Builder {
-        Builder(issueRecorder: { [issueStore] issue, depth in
+    private static func makeBuilder(issueStore: ParseIssueStore) -> Builder {
+        Builder(issueRecorder: { issue, depth in
             issueStore.record(issue, depth: depth)
         })
     }
@@ -87,7 +87,7 @@ public final class ParseTreeStore: ObservableObject {
 
     private func startConsuming(_ stream: ParsePipeline.EventStream) {
         disconnect()
-        builder = makeBuilder()
+        builder = Self.makeBuilder(issueStore: issueStore)
         snapshot = .empty
         state = .parsing
         let taskIdentifier = UUID()
