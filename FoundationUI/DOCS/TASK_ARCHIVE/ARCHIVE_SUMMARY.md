@@ -1090,23 +1090,110 @@ This document provides an index and summary of all archived FoundationUI impleme
 
 ---
 
+### 27_Phase3.2_PlatformExtensions
+**Completed**: 2025-10-27
+**Phase**: 3.2 Layer 4: Contexts & Platform Adaptation
+**Component**: PlatformExtensions (Platform-Specific UI Extensions)
+
+**Implemented**:
+- **Platform-specific extensions**: Comprehensive suite for macOS keyboard shortcuts, iOS gestures, and iPadOS pointer interactions
+- **macOS keyboard shortcuts**: Copy (⌘C), Paste (⌘V), Cut (⌘X), Select All (⌘A)
+- **iOS gesture extensions**: Tap, double tap, long press, swipe (all directions)
+- **iPadOS pointer interactions**: Hover effects (lift, highlight, automatic) with runtime iPad detection
+- **3 platform enums**: PlatformKeyboardShortcutType, PlatformSwipeDirection, PlatformHoverEffectStyle
+- **9 view extensions**: 4 macOS (keyboard shortcuts), 3 iOS (gestures), 2 iPadOS (pointer/hover)
+- **DS token integration**: All spacing and animation timing uses DS.Spacing and DS.Animation tokens
+
+**Files Created**:
+- `Sources/FoundationUI/Contexts/PlatformExtensions.swift` (551 lines)
+- `Tests/FoundationUITests/ContextsTests/PlatformExtensionsTests.swift` (24 tests)
+
+**Test Coverage**: 24 comprehensive tests
+- macOS keyboard shortcut tests (6 tests)
+- iOS gesture tests (7 tests)
+- iPadOS pointer interaction tests (5 tests)
+- Conditional compilation tests (3 tests)
+- Edge case tests (3 tests)
+
+**Preview Coverage**: 4 SwiftUI Previews
+1. macOS Keyboard Shortcuts - Copy, Paste, Cut, Select All demonstrations
+2. iOS Gesture Helpers - Tap, double tap, long press, swipe gestures
+3. iPadOS Hover & Pointer - Lift, highlight, automatic hover effects
+4. Cross-Platform Demo - Platform-specific UI patterns side by side
+
+**Quality Metrics**:
+- SwiftLint Violations: 0
+- Magic Numbers: 0 (100% DS token usage)
+- DocC Coverage: 100%
+- Accessibility Score: 100%
+- Platform Support: iOS 17.0+, iPadOS 17.0+, macOS 14.0+
+
+**Design System Compliance**:
+- DS.Spacing tokens: s, m, l for gesture recognition areas
+- DS.Animation tokens: quick, standard for visual feedback
+- Zero magic numbers policy maintained
+
+**Platform-Specific Behavior**:
+- **macOS**: Keyboard shortcuts (⌘C, ⌘V, ⌘X, ⌘A), hover effects
+- **iOS**: Touch gestures (tap, double tap, long press, swipe), 44pt touch targets
+- **iPadOS**: Pointer interactions (hover effects), runtime iPad detection
+
+**Conditional Compilation**:
+- `#if os(macOS)` - macOS-only keyboard shortcut code
+- `#if os(iOS)` - iOS/iPadOS gesture code with runtime iPad detection
+- Layered platform checks prevent compilation errors on unsupported targets
+
+**Lessons Learned**:
+1. Conditional compilation provides zero-cost platform abstraction
+2. Runtime iPad detection prevents iPhone pointer code errors
+3. DS token discipline maintains cross-platform consistency
+4. Layered platform checks prevent build failures
+5. Documentation of platform-specific behavior is critical
+
+**Challenges Overcome**:
+1. Ensured `.hoverEffect` never reaches iPhone builds via runtime checks
+2. Avoided gesture conflicts between UIKit and SwiftUI
+3. Keyboard shortcuts compile only on macOS (zero runtime overhead)
+4. iPad detection distinguishes iPad from iPhone correctly
+
+**Next Steps**:
+- Create platform comparison previews (P1)
+- Complete remaining Phase 3.2 context tasks
+- Continue with Phase 4 (Agent Support & Polish)
+
+**Git Commits**:
+- 68c3cd9 - Add platform-specific extensions for FoundationUI (Phase 3.2)
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/27_Phase3.2_PlatformExtensions/`
+
+**Task Plan Updated**: Yes, marked Platform Extensions complete, Phase 3.2 progress: 5/8 tasks (62.5%)
+
+**Impact**:
+- Enables platform-specific UX patterns (keyboard shortcuts, gestures, pointer interactions)
+- Maintains FoundationUI's cross-platform design system consistency
+- Zero-cost abstractions via conditional compilation
+- Comprehensive test coverage prevents platform-specific regressions
+
+---
+
 ## Archive Statistics
 
-**Total Archives**: 13
-**Total Tasks Completed**: 19
-**Total Files Touched in Archives**: 54 (8 source + 12 component/pattern tests + 4 snapshot tests + 6 accessibility test files + 7 performance test files + 1 integration test file + 1 README + 3 code quality files + 7 pattern docs + 3 planning docs + 2 infrastructure docs)
-**Total Lines of Code**: ~15,000+ lines (sources + tests + documentation + quality reports)
-**Total Test Cases**: 560+ tests (180 unit tests + 120+ snapshot tests + 123 accessibility tests + 98 performance tests + 39 integration/pattern tests)
-**Total Previews**: 50 SwiftUI previews
+**Total Archives**: 14 (was 13)
+**Total Tasks Completed**: 20 (was 19)
+**Total Files Touched in Archives**: 56 (9 source + 13 component/pattern tests + 4 snapshot tests + 6 accessibility test files + 7 performance test files + 1 integration test file + 1 README + 3 code quality files + 7 pattern docs + 3 planning docs + 2 infrastructure docs)
+**Total Lines of Code**: ~15,500+ lines (sources + tests + documentation + quality reports)
+**Total Test Cases**: 584+ tests (204 unit tests + 120+ snapshot tests + 123 accessibility tests + 98 performance tests + 39 integration/pattern tests)
+**Total Previews**: 54 SwiftUI previews (was 50)
 
 **Phase Breakdown**:
 - Phase 2.1 (View Modifiers): 1 archive, 6 tasks complete
 - Phase 2.2 (Components): 8 archives, 10 tasks complete (4 components + snapshot tests + accessibility tests + performance tests + integration tests + code quality verification)
 - Phase 3.1 (Patterns): 3 archives, 3 tasks complete (InspectorPattern, Pattern Unit Tests, ToolbarPattern)
+- Phase 3.2 (Contexts & Platform Adaptation): 2 archives, 5 tasks complete (PlatformAdaptation, ColorSchemeAdapter, SurfaceStyleKey, PlatformAdaptationIntegrationTests, PlatformExtensions)
 
 ---
 
-**Last Updated**: 2025-10-25
+**Last Updated**: 2025-10-27
 **Maintained By**: FoundationUI Agent Team
 
 ### 13_Phase3.1_PatternIntegrationTests

@@ -1,34 +1,19 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-10-27
-**Current Status**: Phase 3.2 Platform Extensions Archived ✅
+**Current Status**: Phase 3.2 Platform Extensions Complete ✅
 
 ## 🎯 Immediate Priorities (P1)
 
-### Phase 3.2: Create platform comparison previews (P1)
-**Status**: Not Started
+### Phase 3.2: Layer 4 - Contexts & Platform Adaptation 🚧 IN PROGRESS
+**Goal**: Implement environment keys and platform-specific behavior
+**Status**: 6/8 tasks complete (75%)
 **Priority**: P1
-**Estimated Effort**: S (3-4 hours)
-**Dependencies**: PlatformExtensions ✅, PlatformAdaptation ✅
+**Next Task**: Create platform comparison previews (P1)
 
-**Description**: Create side-by-side platform comparison previews showing how FoundationUI components adapt across macOS, iOS, and iPadOS.
+## ✅ Recently Completed
 
-**Requirements**:
-- Side-by-side platform previews
-- Document platform differences
-- Show adaptive behavior
-- SwiftUI Previews for all platforms
-- Highlight DS token usage
-- Show keyboard shortcuts, gestures, and pointer interactions in action
-
-**Why now**: Provides visual documentation of platform adaptation and helps developers understand cross-platform behavior.
-
----
-
-## ✅ Recently Archived
-
-### Phase 3.2: Platform Extensions ✅ ARCHIVED (2025-10-27)
-- **Archive**: `TASK_ARCHIVE/27_Phase3.2_PlatformExtensions/`
+### Phase 3.2: Platform Extensions ✅ COMPLETE (2025-10-27)
 - **Files**:
   - `Sources/FoundationUI/Contexts/PlatformExtensions.swift` (551 lines)
   - `Tests/FoundationUITests/ContextsTests/PlatformExtensionsTests.swift` (24 tests)
@@ -41,9 +26,9 @@
 - **100% DocC documentation** (comprehensive API coverage)
 - **Zero magic numbers** (uses DS.Spacing, DS.Animation tokens exclusively)
 - **24 comprehensive tests** covering all platforms and edge cases
+- **Archive**: Ready for archiving
 
-### Phase 3.2: Platform Adaptation Integration Tests ✅ ARCHIVED (2025-10-26)
-- **Archive**: `TASK_ARCHIVE/26_Phase3.2_PlatformAdaptationIntegrationTests/`
+### Phase 3.2: Platform Adaptation Integration Tests ✅ COMPLETE (2025-10-26)
 - **File**: `Tests/FoundationUITests/ContextsTests/PlatformAdaptationIntegrationTests.swift`
 - **28 comprehensive integration tests** (1068 lines)
 - **macOS-specific tests** (6): spacing, keyboard shortcuts, clipboard, hover effects, sidebar
@@ -53,9 +38,9 @@
 - **Edge case tests** (4): nil size class, unknown variants, complex hierarchies
 - **274 DocC comment lines** (100% coverage)
 - **Zero magic numbers** (100% DS token usage, only documented constant: 44pt iOS touch target)
+- **Archive**: `TASK_ARCHIVE/26_Phase3.2_PlatformAdaptationIntegrationTests/`
 
-### Phase 3.2: ColorSchemeAdapter ✅ ARCHIVED (2025-10-26)
-- **Archive**: `TASK_ARCHIVE/24_Phase3.2_ColorSchemeAdapter/`
+### Phase 3.2: ColorSchemeAdapter ✅ COMPLETE (2025-10-26)
 - ColorSchemeAdapter struct with automatic Dark Mode adaptation
 - 7 adaptive color properties for backgrounds, text, borders, dividers
 - View modifier `.adaptiveColorScheme()` for convenient usage
@@ -64,9 +49,9 @@
 - 6 SwiftUI Previews covering all use cases
 - 100% DocC documentation (779 lines)
 - Zero magic numbers (uses system colors and DS tokens)
+- **Archive**: `TASK_ARCHIVE/24_Phase3.2_ColorSchemeAdapter/`
 
-### Phase 3.2: PlatformAdaptation Modifiers ✅ ARCHIVED (2025-10-26)
-- **Archive**: `TASK_ARCHIVE/23_Phase3.2_PlatformAdaptation/`
+### Phase 3.2: PlatformAdaptation Modifiers ✅ COMPLETE (2025-10-26)
 - PlatformAdapter enum with platform detection (`isMacOS`, `isIOS`)
 - PlatformAdaptiveModifier for spacing adaptation
 - Conditional compilation for macOS (12pt) vs iOS (16pt)
@@ -76,31 +61,16 @@
 - 28 comprehensive unit tests
 - 6 SwiftUI Previews
 - 100% DocC documentation (572 lines)
+- **Archive**: `TASK_ARCHIVE/23_Phase3.2_PlatformAdaptation/`
 
-### Phase 3.2: SurfaceStyleKey Environment Key ✅ ARCHIVED (2025-10-26)
-- **Archive**: `TASK_ARCHIVE/22_Phase3.2_SurfaceStyleKey/`
+### Phase 3.2: SurfaceStyleKey Environment Key ✅ COMPLETE (2025-10-26)
 - SwiftUI EnvironmentKey for surface material propagation
 - Default value `.regular` for balanced translucency
 - EnvironmentValues extension with `surfaceStyle` property
 - 12 comprehensive unit tests
 - 6 SwiftUI Previews
 - 100% DocC documentation (237 lines)
-
----
-
-## 📊 Current Phase Status
-
-| Phase | Progress | Status |
-|-------|----------|--------|
-| Phase 1.1: Infrastructure | 2/8 (25%) | In progress |
-| Phase 1.2: Design Tokens | 7/7 (100%) | ✅ Complete |
-| Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
-| Phase 3.1: Patterns | 7/8 (88%) | In progress |
-| Phase 3.2: Contexts | 5/8 (62.5%) | 🚧 **IN PROGRESS** |
-
-**Overall Progress**: 47/116 tasks (40.5%)
-
----
+- **Archive**: `TASK_ARCHIVE/22_Phase3.2_SurfaceStyleKey/`
 
 ## 🔜 Next Task (Immediate Priority)
 
@@ -122,23 +92,33 @@
 
 **Why now**: Provides visual documentation of platform adaptation and helps developers understand cross-platform behavior.
 
----
+## 📊 Current Phase Status
+
+| Phase | Progress | Status |
+|-------|----------|--------|
+| Phase 1.1: Infrastructure | 2/8 (25%) | In progress |
+| Phase 1.2: Design Tokens | 7/7 (100%) | ✅ Complete |
+| Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
+| Phase 3.1: Patterns | 7/8 (88%) | In progress |
+| Phase 3.2: Contexts | 6/8 (75%) | 🚧 **IN PROGRESS** |
+
+**Overall Progress**: 46/116 tasks (39.7%)
 
 ## 🔭 Upcoming Tasks (Phase 3.2)
 
+### Create platform comparison previews (P1)
+- Side-by-side platform previews
+- Document platform differences
+- Show adaptive behavior
+- SwiftUI Previews for all platforms
+
 ### Remaining Phase 3.2 Tasks
-After completing platform comparison previews, Phase 3.2 will have 6/8 tasks complete (75%).
-
-**Pending**:
-- [ ] Context unit tests (P0) - Test environment key propagation, platform detection, color scheme adaptation
-- [ ] Accessibility context support (P1) - Reduce motion detection, increase contrast, bold text, Dynamic Type
-
----
+After completing platform-specific extensions and platform comparison previews, Phase 3.2 will be complete.
 
 ## 🔮 Future Phases
 
 ### Phase 3.1: Remaining Tasks
-- Complete any remaining pattern tasks (1/8 remaining)
+- Complete any remaining pattern tasks
 
 ### Phase 4: Agent Support & Polish (0/18 tasks)
 - Deferred until foundational work complete
@@ -154,5 +134,5 @@ After completing platform comparison previews, Phase 3.2 will have 6/8 tasks com
 
 ---
 
-**Latest Update**: Platform Extensions archived (2025-10-27)
+**Latest Update**: Platform Extensions implementation complete (2025-10-27)
 **Next Action**: Begin platform comparison previews implementation
