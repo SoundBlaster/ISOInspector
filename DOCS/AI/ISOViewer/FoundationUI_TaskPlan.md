@@ -483,11 +483,12 @@
   - Future: Custom theme support ready for extension
   - Archive: `TASK_ARCHIVE/24_Phase3.2_ColorSchemeAdapter/`
 
-- [ ] **P1** Create platform-specific extensions
+- [ ] **P1** Create platform-specific extensions → **IN PROGRESS**
   - File: `Sources/FoundationUI/Contexts/PlatformExtensions.swift`
   - macOS-specific keyboard shortcuts
   - iOS-specific gestures
   - iPadOS pointer interactions
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase3.2_PlatformExtensions.md`
 
 - [ ] **P0** Context unit tests → **IN PROGRESS**
   - Test environment key propagation
