@@ -197,27 +197,27 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
     @MainActor
     func testMacOS_SidebarPatternLayout() throws {
         #if os(macOS)
-        struct SidebarItem: Identifiable, Hashable {
-            let id = UUID()
-            let title: String
-        }
-
+        // Create sidebar items using the correct structure
         let items = [
-            SidebarItem(title: "Item 1"),
-            SidebarItem(title: "Item 2"),
-            SidebarItem(title: "Item 3")
+            SidebarPattern<String, Text>.Item(id: "item1", title: "Item 1"),
+            SidebarPattern<String, Text>.Item(id: "item2", title: "Item 2"),
+            SidebarPattern<String, Text>.Item(id: "item3", title: "Item 3")
         ]
 
-        let selectedItem = Binding<SidebarItem?>.constant(items.first)
+        // Create a section containing the items
+        let section = SidebarPattern<String, Text>.Section(
+            title: "Main Section",
+            items: items
+        )
 
+        let selectedItem = Binding<String?>.constant("item1")
+
+        // Create sidebar with correct signature
         let sidebar = SidebarPattern(
+            sections: [section],
             selection: selectedItem,
-            items: items,
-            itemLabel: { item in
-                Text(item.title)
-            },
-            detailView: { item in
-                Text(item?.title ?? "No selection")
+            detail: { selectedId in
+                Text(selectedId ?? "No selection")
             }
         )
 
@@ -552,27 +552,26 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
     @MainActor
     func testIPad_SidebarAdaptation() throws {
         #if os(iOS)
-        struct SidebarItem: Identifiable, Hashable {
-            let id = UUID()
-            let title: String
-        }
-
+        // Create sidebar items using the correct structure
         let items = [
-            SidebarItem(title: "Section 1"),
-            SidebarItem(title: "Section 2")
+            SidebarPattern<String, Text>.Item(id: "section1", title: "Section 1"),
+            SidebarPattern<String, Text>.Item(id: "section2", title: "Section 2")
         ]
 
-        let selectedItem = Binding<SidebarItem?>.constant(items.first)
+        // Create a section containing the items
+        let section = SidebarPattern<String, Text>.Section(
+            title: "Main",
+            items: items
+        )
+
+        let selectedItem = Binding<String?>.constant("section1")
 
         // Compact size class (portrait, collapsed sidebar)
         let compactSidebar = SidebarPattern(
+            sections: [section],
             selection: selectedItem,
-            items: items,
-            itemLabel: { item in
-                Text(item.title)
-            },
-            detailView: { item in
-                Text(item?.title ?? "No selection")
+            detail: { selectedId in
+                Text(selectedId ?? "No selection")
             }
         )
         .environment(\.horizontalSizeClass, .compact)
@@ -581,13 +580,10 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
 
         // Regular size class (landscape, expanded sidebar)
         let regularSidebar = SidebarPattern(
+            sections: [section],
             selection: selectedItem,
-            items: items,
-            itemLabel: { item in
-                Text(item.title)
-            },
-            detailView: { item in
-                Text(item?.title ?? "No selection")
+            detail: { selectedId in
+                Text(selectedId ?? "No selection")
             }
         )
         .environment(\.horizontalSizeClass, .regular)
