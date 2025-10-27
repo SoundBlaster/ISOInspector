@@ -217,7 +217,10 @@ public final class ParseIssueStore: ObservableObject {
     }
 
     private func performOnQueue(_ action: @escaping @Sendable () -> Void) {
-        if DispatchQueue.getSpecific(key: queueSpecificKey) == queueSpecificValue {
+        // Fast-path: avoid deadlock when already on main thread for main queue
+        if queue === DispatchQueue.main && Thread.isMainThread {
+            action()
+        } else if DispatchQueue.getSpecific(key: queueSpecificKey) == queueSpecificValue {
             action()
         } else {
             queue.async(execute: action)
@@ -225,7 +228,10 @@ public final class ParseIssueStore: ObservableObject {
     }
 
     private func readOnQueue<T>(_ action: () -> T) -> T {
-        if DispatchQueue.getSpecific(key: queueSpecificKey) == queueSpecificValue {
+        // Fast-path: avoid deadlock when already on main thread for main queue
+        if queue === DispatchQueue.main && Thread.isMainThread {
+            return action()
+        } else if DispatchQueue.getSpecific(key: queueSpecificKey) == queueSpecificValue {
             return action()
         }
         return queue.sync(execute: action)
