@@ -1836,3 +1836,116 @@ Integration tests use actual FoundationUI components:
 **Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/26_Phase3.2_PlatformAdaptationIntegrationTests/`
 
 ---
+
+### 28_Phase3.2_PlatformComparisonPreviews
+**Completed**: 2025-10-27
+**Phase**: 3.2 Layer 4: Contexts & Platform Adaptation
+**Component**: Platform Comparison Previews (Visual Documentation)
+
+**Implemented**:
+- **8 comprehensive SwiftUI Previews** demonstrating platform-specific behavior and adaptation
+- **Platform Detection Preview**: Shows current platform (macOS/iOS/iPadOS) with compile-time and runtime detection
+- **Spacing Adaptation Preview**: Side-by-side comparison of macOS (12pt) vs iOS (16pt) default spacing
+- **macOS Keyboard Shortcuts Preview**: Visual demonstration of Copy (⌘C), Paste (⌘V), Cut (⌘X), Select All (⌘A)
+- **iOS Gestures Preview**: Tap, double tap, long press, swipe gestures with visual indicators
+- **iPadOS Pointer Interactions Preview**: Hover effects (lift, highlight, automatic) with runtime iPad detection
+- **Color Scheme Previews**: Light mode and dark mode side-by-side comparison using ColorSchemeAdapter
+- **Component Adaptation Showcase**: Platform info card with real-time values and DS token visualization
+- **Cross-Platform Integration Preview**: Unified API demonstration with platform-specific features
+
+**Files Created**:
+- `Sources/FoundationUI/Previews/PlatformComparisonPreviews.swift` (~1000+ lines)
+
+**Technical Highlights**:
+- **Zero Magic Numbers**: 100% DS token usage (DS.Spacing, DS.Radius, DS.Typography, DS.Animation)
+- **Comprehensive DocC**: Detailed documentation for all previews and platform features
+- **Platform Detection**: Both compile-time (`#if os(macOS)`, `#if os(iOS)`) and runtime (UIDevice.current.userInterfaceIdiom) detection demonstrated
+- **Conditional Compilation**: Proper platform-specific code organization
+- **Accessibility**: Touch target guidelines (44pt minimum on iOS), contrast ratios, semantic naming
+- **8 SwiftUI Previews**: Complete coverage for all platform scenarios
+
+**Platform-Specific Features**:
+- **macOS (12pt spacing)**:
+  - Keyboard shortcuts with visual overlays
+  - Hover effects with pointer interaction
+  - Platform-specific icons and indicators
+
+- **iOS (16pt spacing, 44pt touch targets)**:
+  - Touch gestures: tap, double tap, long press
+  - Swipe gestures: left, right, up, down
+  - Touch target size visualization
+  - Safe area handling
+
+- **iPadOS (Adaptive spacing)**:
+  - Size class adaptation (compact: 12pt, regular: 16pt)
+  - Pointer hover effects (lift, highlight, automatic)
+  - Runtime iPad detection
+  - Combined keyboard shortcuts + touch gestures
+
+**DS Token Usage**:
+All spacing, colors, radii, and animations use DS tokens:
+- Spacing: `DS.Spacing.s` (8pt), `.m` (12pt), `.l` (16pt), `.xl` (24pt)
+- Colors: `DS.Colors.infoBG`, `.warnBG`, `.errorBG`, `.successBG`
+- Radius: `DS.Radius.card` (12pt), `.chip` (16pt), `.small` (8pt)
+- Animation: `DS.Animation.quick` (0.2s), `.medium` (0.35s)
+
+**Quality Metrics**:
+- Total Lines: ~1000+ lines
+- Preview Count: 8 comprehensive previews
+- DS Token Usage: 100% (zero magic numbers)
+- DocC Documentation: 100% coverage
+- Platform Coverage: macOS, iOS, iPadOS
+- Color Schemes: Light and Dark mode support
+
+**Preview Scenarios**:
+1. Platform Detection - Compile-time and runtime identification
+2. Spacing Adaptation - macOS vs iOS default spacing comparison
+3. macOS Keyboard Shortcuts - Visual keyboard shortcut overlays
+4. iOS Gestures - Gesture indicators and touch targets
+5. iPadOS Pointer - Hover effect demonstrations
+6. Color Scheme Light - Light mode color adaptation
+7. Color Scheme Dark - Dark mode color adaptation
+8. Component Adaptation - Real-world component showcase
+9. Cross-Platform Integration - Unified API demonstration
+
+**Purpose**:
+- **Developer Reference**: Understanding platform adaptation patterns
+- **Visual Test**: Platform-specific feature verification
+- **Documentation**: DS token usage patterns and best practices
+- **Showcase**: FoundationUI's cross-platform capabilities
+
+**Implementation Details**:
+- Conditional Compilation: `#if os(macOS)` / `#if os(iOS)` for platform-specific code
+- Runtime Detection: `UIDevice.current.userInterfaceIdiom == .pad` for iPad-specific features
+- ColorSchemeAdapter Integration: Automatic light/dark mode adaptation
+- PlatformAdapter Integration: Platform detection APIs (`isMacOS`, `isIOS`)
+- PlatformExtensions Integration: Keyboard shortcuts, gestures, hover effects
+
+**Lessons Learned**:
+- SwiftUI Previews serve as living documentation for platform behavior
+- Side-by-side comparisons effectively demonstrate adaptive spacing
+- Visual indicators for gestures and shortcuts improve developer understanding
+- Conditional compilation enables platform-specific preview content
+- Runtime detection complements compile-time detection for iPad features
+- 100% DS token usage prevents inconsistencies across previews
+
+**Next Steps**:
+- Create Context unit tests (P0) - Test environment key propagation, platform detection, color scheme adaptation
+- Add Accessibility context support (P1) - Reduce motion, increase contrast, bold text, Dynamic Type
+- Continue Phase 3.2 until all 8 tasks complete
+- Move to Phase 4: Agent Support & Polish
+
+**Phase 3.2 Status**: Now 6/8 tasks complete (75%)
+**Overall Project Status**: 48/116 tasks complete (41.4%)
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/28_Phase3.2_PlatformComparisonPreviews/`
+
+**Task Plan Updated**: Yes, marked Platform Comparison Previews complete, Phase 3.2 progress: 6/8 tasks (75%), Overall progress: 48/116 (41.4%)
+
+**Impact**:
+- Provides visual documentation for all platform-specific features
+- Demonstrates proper DS token usage patterns
+- Serves as reference for future component development
+- Validates platform adaptation implementation
+
+---

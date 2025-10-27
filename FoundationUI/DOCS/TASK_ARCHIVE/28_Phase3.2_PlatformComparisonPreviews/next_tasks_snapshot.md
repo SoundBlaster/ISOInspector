@@ -1,7 +1,7 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-10-27
-**Current Status**: Phase 3.2 Platform Comparison Previews Archived ✅
+**Current Status**: Phase 3.2 Platform Extensions Archived ✅
 
 ## 🎯 Immediate Priorities (P0)
 
@@ -28,7 +28,7 @@
 
 ## ✅ Recently Completed
 
-### Phase 3.2: Platform Comparison Previews ✅ COMPLETE AND ARCHIVED (2025-10-27)
+### Phase 3.2: Platform Comparison Previews ✅ COMPLETE (2025-10-27)
 - **File**: `Sources/FoundationUI/Previews/PlatformComparisonPreviews.swift` (~1000+ lines)
 - **8 comprehensive SwiftUI Previews** covering all platform scenarios
   - Platform Detection Preview
