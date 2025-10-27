@@ -166,6 +166,12 @@ public enum ISOInspectorCLIRunner {
                 environment: environment,
                 mode: .capture
             )
+        case "export-text":
+            handleExportCommand(
+                Array(args.dropFirst()),
+                environment: environment,
+                mode: .text
+            )
         default:
             ISOInspectorCLIIO.printWelcome()
         }
@@ -178,6 +184,8 @@ public enum ISOInspectorCLIRunner {
             + "                Stream parse events with metadata, validation summaries, and VR-006 research log entries.\n"
             + "  export-json <file> [--output <path>]\n"
             + "                Persist a JSON parse tree exported from streaming parse events.\n"
+            + "  export-text <file> [--output <path>]\n"
+            + "                Write a plaintext issue summary with file metadata and grouped diagnostics.\n"
             + "  export-capture <file> [--output <path>]\n"
             + "                Save a binary capture of parse events for later replay.\n"
             + "  mp4ra refresh [--output <path>] [--source <url>]\n"
@@ -368,6 +376,7 @@ public enum ISOInspectorCLIRunner {
     private enum ExportMode {
         case json
         case capture
+        case text
 
         var successMessage: String {
             switch self {
@@ -375,6 +384,8 @@ public enum ISOInspectorCLIRunner {
                 return "Exported JSON parse tree → "
             case .capture:
                 return "Exported parse event capture → "
+            case .text:
+                return "Exported issue summary → "
             }
         }
 
@@ -384,6 +395,8 @@ public enum ISOInspectorCLIRunner {
                 return "Failed to export JSON parse tree: "
             case .capture:
                 return "Failed to export parse event capture: "
+            case .text:
+                return "Failed to export issue summary: "
             }
         }
     }
@@ -442,6 +455,12 @@ public enum ISOInspectorCLIRunner {
             defaultOutput = { fileURL in
                 fileURL.appendingPathExtension("capture")
             }
+        case .text:
+            defaultOutput = { fileURL in
+                fileURL
+                    .appendingPathExtension("isoinspector")
+                    .appendingPathExtension("txt")
+            }
         }
 
         switch parseExportOptions(
@@ -466,9 +485,10 @@ public enum ISOInspectorCLIRunner {
             Task {
                 do {
                     let reader = try environment.makeReader(options.fileURL)
+                    let issueStore = environment.issueStore
                     let stream = environment.parsePipeline.events(
                         for: reader,
-                        context: .init(source: options.fileURL)
+                        context: .init(source: options.fileURL, issueStore: issueStore)
                     )
                     var builder = ParseTreeBuilder()
                     var captured: [ParseEvent] = []
@@ -478,13 +498,29 @@ public enum ISOInspectorCLIRunner {
                         captured.append(event)
                     }
 
+                    let tree = builder.makeTree()
+
                     let data: Data
                     switch mode {
                     case .json:
-                        let tree = builder.makeTree()
                         data = try JSONParseTreeExporter().export(tree: tree)
                     case .capture:
                         data = try ParseEventCaptureEncoder().encode(events: captured)
+                    case .text:
+                        let metadata = PlaintextIssueSummaryExporter.Metadata(
+                            filePath: options.fileURL.standardizedFileURL.path,
+                            fileSize: reader.length,
+                            analyzedAt: Date(),
+                            sha256: nil
+                        )
+                        let summary = issueStore.makeIssueSummary()
+                        let issues = issueStore.issuesSnapshot()
+                        data = try PlaintextIssueSummaryExporter().export(
+                            tree: tree,
+                            metadata: metadata,
+                            summary: summary,
+                            issues: issues
+                        )
                     }
 
                     try data.write(to: options.outputURL, options: .atomic)

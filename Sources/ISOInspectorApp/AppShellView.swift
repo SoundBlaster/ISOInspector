@@ -94,22 +94,37 @@ struct AppShellView: View {
         }
         .toolbar {
             ToolbarItemGroup(placement: .primaryAction) {
-                Button {
-                    Task { await controller.exportJSON(scope: .document) }
-                } label: {
-                    Label("Export JSON", systemImage: "square.and.arrow.down")
-                }
-                .disabled(!documentViewModel.exportAvailability.canExportDocument)
-
-                Button {
-                    guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else {
-                        return
+                Menu {
+                    Button("Export JSON…") {
+                        Task { await controller.exportJSON(scope: .document) }
                     }
-                    Task { await controller.exportJSON(scope: .selection(nodeID)) }
+                    .disabled(!documentViewModel.exportAvailability.canExportDocument)
+
+                    Button("Export Issue Summary…") {
+                        Task { await controller.exportIssueSummary(scope: .document) }
+                    }
+                    .disabled(!documentViewModel.exportAvailability.canExportDocument)
+
+                    Divider()
+
+                    Button("Export Selected JSON…") {
+                        guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
+                        Task { await controller.exportJSON(scope: .selection(nodeID)) }
+                    }
+                    .disabled(!documentViewModel.exportAvailability.canExportSelection)
+
+                    Button("Export Selected Issue Summary…") {
+                        guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
+                        Task { await controller.exportIssueSummary(scope: .selection(nodeID)) }
+                    }
+                    .disabled(!documentViewModel.exportAvailability.canExportSelection)
                 } label: {
-                    Label("Export Selection", systemImage: "square.and.arrow.down.on.square")
+                    Label("Export", systemImage: "square.and.arrow.up")
                 }
-                .disabled(!documentViewModel.exportAvailability.canExportSelection)
+                .disabled(
+                    !documentViewModel.exportAvailability.canExportDocument
+                        && !documentViewModel.exportAvailability.canExportSelection
+                )
             }
         }
     }
@@ -211,9 +226,15 @@ struct AppShellView: View {
         )
     }
 
-    private var exportSelectionHandler: (ParseTreeNode.ID) -> Void {
+    private var exportSelectionJSONHandler: (ParseTreeNode.ID) -> Void {
         { nodeID in
             Task { await controller.exportJSON(scope: .selection(nodeID)) }
+        }
+    }
+
+    private var exportSelectionIssueSummaryHandler: (ParseTreeNode.ID) -> Void {
+        { nodeID in
+            Task { await controller.exportIssueSummary(scope: .selection(nodeID)) }
         }
     }
 

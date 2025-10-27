@@ -23,6 +23,7 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
     func testHelpTextMentionsExportCommands() {
         let help = ISOInspectorCLIRunner.helpText()
         XCTAssertTrue(help.contains("export-json"))
+        XCTAssertTrue(help.contains("export-text"))
         XCTAssertTrue(help.contains("export-capture"))
     }
 
@@ -439,6 +440,44 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
         XCTAssertEqual(category["value"] as? String, "Metadata")
         let handlerName = try XCTUnwrap(payload.first { ($0["name"] as? String) == "handler_name" })
         XCTAssertEqual(handlerName["value"] as? String, "Metadata Handler")
+    }
+
+    func testExportTextProducesIssueSummary() throws {
+        let directory = FileManager.default.temporaryDirectory
+            .appendingPathComponent(UUID().uuidString, isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+
+        let input = directory.appendingPathComponent("sample.mp4")
+        let output = input
+            .appendingPathExtension("isoinspector")
+            .appendingPathExtension("txt")
+        try makeHandlerFixture().write(to: input)
+
+        let printedErrors = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { _ in DataBackedReader(data: try Data(contentsOf: input)) },
+            parsePipeline: .live(),
+            formatter: EventConsoleFormatter(),
+            print: { _ in },
+            printError: { printedErrors.value.append($0) }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "export-text",
+                input.path
+            ],
+            environment: environment
+        )
+
+        XCTAssertTrue(FileManager.default.fileExists(atPath: output.path))
+        XCTAssertTrue(printedErrors.value.isEmpty, "Unexpected CLI errors: \(printedErrors.value)")
+        let contents = try String(contentsOf: output, encoding: .utf8)
+        XCTAssertTrue(contents.contains("File:"))
+        XCTAssertTrue(contents.contains("Total Issues: 0"))
+        XCTAssertTrue(contents.contains("No issues recorded."))
     }
 
     func testEnvironmentSupportsParseExporters() async throws {
