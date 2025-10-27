@@ -5,11 +5,12 @@
 
 ## 🎯 Immediate Priorities (P1)
 
-### Phase 3.2: Create platform comparison previews (P1)
-**Status**: Not Started
+### Phase 3.2: Create platform comparison previews (P1) → 🚧 IN PROGRESS
+**Status**: 🚧 **IN PROGRESS**
 **Priority**: P1
 **Estimated Effort**: S (3-4 hours)
 **Dependencies**: PlatformExtensions ✅, PlatformAdaptation ✅
+**Task Document**: `DOCS/INPROGRESS/Phase3.2_PlatformComparisonPreviews.md`
 
 **Description**: Create side-by-side platform comparison previews showing how FoundationUI components adapt across macOS, iOS, and iPadOS.
 
@@ -104,11 +105,12 @@
 
 ## 🔜 Next Task (Immediate Priority)
 
-### Phase 3.2: Create platform comparison previews (P1)
-**Status**: Not Started
+### Phase 3.2: Create platform comparison previews (P1) → 🚧 IN PROGRESS
+**Status**: 🚧 **IN PROGRESS**
 **Priority**: P1
 **Estimated Effort**: S (3-4 hours)
 **Dependencies**: PlatformExtensions ✅, PlatformAdaptation ✅
+**Task Document**: `DOCS/INPROGRESS/Phase3.2_PlatformComparisonPreviews.md`
 
 **Description**: Create side-by-side platform comparison previews showing how FoundationUI components adapt across macOS, iOS, and iPadOS.
 
@@ -154,5 +156,5 @@ After completing platform comparison previews, Phase 3.2 will have 6/8 tasks com
 
 ---
 
-**Latest Update**: Platform Extensions archived (2025-10-27)
-**Next Action**: Begin platform comparison previews implementation
+**Latest Update**: Platform Comparison Previews task started (2025-10-27)
+**Next Action**: Implementing platform comparison previews (IN PROGRESS)
