@@ -62,7 +62,7 @@ public struct ISOInspectorCLIEnvironment: Sendable {
         if let issueStore {
             self.issueStoreBox = .init(value: issueStore)
         } else {
-            let queue = DispatchQueue(label: "ISOInspectorCLI.ParseIssueStore")
+            let queue = DispatchQueue(label: "ISOInspectorCLI.ParseIssueStore", qos: .userInitiated)
             self.issueStoreBox = .init(value: ParseIssueStore(queue: queue))
         }
         self.formatter = formatter
