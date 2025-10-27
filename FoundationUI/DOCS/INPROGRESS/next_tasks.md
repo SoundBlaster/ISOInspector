@@ -1,19 +1,34 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-10-27
-**Current Status**: Phase 3.2 Platform Adaptation Integration Tests Complete ✅
+**Current Status**: Phase 3.2 Platform Extensions Complete ✅
 
 ## 🎯 Immediate Priorities (P1)
 
 ### Phase 3.2: Layer 4 - Contexts & Platform Adaptation 🚧 IN PROGRESS
 **Goal**: Implement environment keys and platform-specific behavior
-**Status**: 5/8 tasks complete (62.5%)
+**Status**: 6/8 tasks complete (75%)
 **Priority**: P1
-**Next Task**: Create platform-specific extensions (P1)
+**Next Task**: Create platform comparison previews (P1)
 
-## ✅ Recently Completed (2025-10-26)
+## ✅ Recently Completed
 
-### Phase 3.2: Platform Adaptation Integration Tests ✅ COMPLETE
+### Phase 3.2: Platform Extensions ✅ COMPLETE (2025-10-27)
+- **Files**:
+  - `Sources/FoundationUI/Contexts/PlatformExtensions.swift` (551 lines)
+  - `Tests/FoundationUITests/ContextsTests/PlatformExtensionsTests.swift` (24 tests)
+- **macOS keyboard shortcuts**: Copy (⌘C), Paste (⌘V), Cut (⌘X), Select All (⌘A)
+- **iOS gestures**: Tap, double tap, long press, swipe (all directions)
+- **iPadOS pointer interactions**: Hover effects (lift, highlight, automatic) with runtime iPad detection
+- **3 enums**: PlatformKeyboardShortcutType, PlatformSwipeDirection, PlatformHoverEffectStyle
+- **9 platform-specific view extensions** with conditional compilation
+- **4 SwiftUI Previews**: macOS shortcuts, iOS gestures, iPadOS hover, cross-platform
+- **100% DocC documentation** (comprehensive API coverage)
+- **Zero magic numbers** (uses DS.Spacing, DS.Animation tokens exclusively)
+- **24 comprehensive tests** covering all platforms and edge cases
+- **Archive**: Ready for archiving
+
+### Phase 3.2: Platform Adaptation Integration Tests ✅ COMPLETE (2025-10-26)
 - **File**: `Tests/FoundationUITests/ContextsTests/PlatformAdaptationIntegrationTests.swift`
 - **28 comprehensive integration tests** (1068 lines)
 - **macOS-specific tests** (6): spacing, keyboard shortcuts, clipboard, hover effects, sidebar
@@ -59,26 +74,23 @@
 
 ## 🔜 Next Task (Immediate Priority)
 
-### Phase 3.2: Create platform-specific extensions (P1)
+### Phase 3.2: Create platform comparison previews (P1)
 **Status**: Not Started
 **Priority**: P1
-**Estimated Effort**: M (6-8 hours)
-**Dependencies**: PlatformAdaptation ✅, ColorSchemeAdapter ✅
+**Estimated Effort**: S (3-4 hours)
+**Dependencies**: PlatformExtensions ✅, PlatformAdaptation ✅
 
-**Description**: Create platform-specific extensions for macOS-specific keyboard shortcuts, iOS-specific gestures, and iPadOS pointer interactions.
+**Description**: Create side-by-side platform comparison previews showing how FoundationUI components adapt across macOS, iOS, and iPadOS.
 
 **Requirements**:
-- File: `Sources/FoundationUI/Contexts/PlatformExtensions.swift`
-- macOS-specific keyboard shortcuts (⌘C, ⌘V, etc.)
-- iOS-specific gestures (tap, long press, swipe)
-- iPadOS pointer interactions
-- Conditional compilation for platform-specific code
-- ≥15 unit tests
-- 3-4 SwiftUI Previews
-- 100% DocC documentation
-- Zero magic numbers
+- Side-by-side platform previews
+- Document platform differences
+- Show adaptive behavior
+- SwiftUI Previews for all platforms
+- Highlight DS token usage
+- Show keyboard shortcuts, gestures, and pointer interactions in action
 
-**Why now**: Required for completing Phase 3.2 and enabling full platform-specific functionality across all FoundationUI components.
+**Why now**: Provides visual documentation of platform adaptation and helps developers understand cross-platform behavior.
 
 ## 📊 Current Phase Status
 
@@ -88,9 +100,9 @@
 | Phase 1.2: Design Tokens | 7/7 (100%) | ✅ Complete |
 | Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
 | Phase 3.1: Patterns | 7/8 (88%) | In progress |
-| Phase 3.2: Contexts | 5/8 (62.5%) | 🚧 **IN PROGRESS** |
+| Phase 3.2: Contexts | 6/8 (75%) | 🚧 **IN PROGRESS** |
 
-**Overall Progress**: 45/116 tasks (38.8%)
+**Overall Progress**: 46/116 tasks (39.7%)
 
 ## 🔭 Upcoming Tasks (Phase 3.2)
 
@@ -122,5 +134,5 @@ After completing platform-specific extensions and platform comparison previews, 
 
 ---
 
-**Latest Update**: Platform Adaptation Integration Tests archived (2025-10-27)
-**Next Action**: Begin platform-specific extensions implementation
+**Latest Update**: Platform Extensions implementation complete (2025-10-27)
+**Next Action**: Begin platform comparison previews implementation
