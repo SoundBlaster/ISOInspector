@@ -49,8 +49,10 @@ Create platform-specific extensions for macOS keyboard shortcuts, iOS gestures, 
 
 #### iPadOS-Specific Features
 - Pointer interaction support using `.hoverEffect()` modifier
+- Runtime detection using `UIDevice.current.userInterfaceIdiom == .pad`
+- Note: `.hoverEffect()` only works on iPad, not iPhone
+- Conditional compilation with `#if os(iOS)` + runtime idiom check
 - Size class adaptation for pointer hover
-- Conditional compilation for iPad-specific behavior
 - Support for both compact and regular size classes
 
 ### Design Token Usage
@@ -116,14 +118,20 @@ extension View {
                            perform action: @escaping () -> Void) -> some View {
         self.onTapGesture(count: count, perform: action)
     }
-}
-#endif
 
-#if os(iOS)
-extension View {
+    /// iPadOS-specific pointer interaction (hover effect)
+    /// Note: Only applies on iPad devices, ignored on iPhone
+    @ViewBuilder
     func platformHoverEffect() -> some View {
-        // iPadOS pointer interaction
-        self.hoverEffect(.lift)
+        #if os(iOS)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            self.hoverEffect(.lift)
+        } else {
+            self
+        }
+        #else
+        self
+        #endif
     }
 }
 #endif
