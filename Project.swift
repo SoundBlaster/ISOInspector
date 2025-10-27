@@ -135,7 +135,8 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     }
     let dependencies: [TargetDependency] = [
         .target(name: "ISOInspectorKit"),
-        .package(product: "NestedA11yIDs")
+        .package(product: "NestedA11yIDs"),
+        .project(target: "FoundationUI", path: .relativeToRoot("FoundationUI"))
     ]
 
     // Configure Info.plist with privacy descriptions and document types
