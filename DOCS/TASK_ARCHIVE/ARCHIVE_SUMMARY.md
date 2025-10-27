@@ -988,3 +988,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/191_T3_5_Contextual_Status_Labels/`.
 - **Highlights:** Documents the synchronized tolerant parsing status badges shared between the outline and detail inspectors, the expanded `ParseTreeStatusDescriptor`, and verification via the Linux `swift test` suite (358 tests, 0 failures, 1 skipped).
 - **Next steps carried forward:** Blocked VoiceOver regression hardware checks and licensed real-world fixture acquisition remain open; both are now tracked in `DOCS/INPROGRESS/next_tasks.md`.
+
+## 192_T4_1_Extend_JSON_Export_Schema_for_Issues
+- **Archived files:** `T4_1_Extend_JSON_Export_Schema_for_Issues.md`, `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/`.
+- **Highlights:** Captures the tolerant export schema bump to `schema.version = 2`, adds serialized `issues` payloads per node, refreshes JSON snapshot coverage for empty/single/multi-issue trees, and updates the App manual to explain the new tolerant fields.
+- **Next steps carried forward:** VoiceOver regression hardware runs and licensed real-world asset ingestion stay blocked; see the regenerated `DOCS/INPROGRESS/next_tasks.md` for status.
