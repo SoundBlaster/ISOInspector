@@ -47,7 +47,7 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
         let spacing = PlatformAdapter.defaultSpacing
         XCTAssertEqual(spacing, DS.Spacing.m,
                       "macOS should use DS.Spacing.m (12pt) for compact desktop spacing")
-        XCTAssertEqual(spacing, 12.0,
+        XCTAssertEqual(spacing, 12,
                       "macOS default spacing should be 12pt")
 
         // Verify spacing is a valid DS token
@@ -253,7 +253,7 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
         let spacing = PlatformAdapter.defaultSpacing
         XCTAssertEqual(spacing, DS.Spacing.l,
                       "iOS should use DS.Spacing.l (16pt) for touch-optimized spacing")
-        XCTAssertEqual(spacing, 16.0,
+        XCTAssertEqual(spacing, 16,
                       "iOS default spacing should be 16pt")
 
         // Verify spacing is a valid DS token
@@ -280,9 +280,9 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
         let minTarget = PlatformAdapter.minimumTouchTarget
 
         // Per Apple HIG, touch targets should be at least 44×44 pt
-        XCTAssertEqual(minTarget, 44.0,
+        XCTAssertEqual(minTarget, 44,
                       "iOS minimum touch target must be 44pt per Apple HIG")
-        XCTAssertGreaterThanOrEqual(minTarget, 44.0,
+        XCTAssertGreaterThanOrEqual(minTarget, 44,
                                    "Touch targets must meet accessibility requirements")
 
         // Note: This is a documented constant (44.0), not a magic number
@@ -313,7 +313,7 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
 
         // Verify touch target size
         let minTarget = PlatformAdapter.minimumTouchTarget
-        XCTAssertEqual(minTarget, 44.0,
+        XCTAssertEqual(minTarget, 44,
                       "Badge should meet iOS minimum touch target")
 
         // Verify spacing is iOS-appropriate
@@ -388,7 +388,7 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
 
         // Verify touch target
         let minTarget = PlatformAdapter.minimumTouchTarget
-        XCTAssertEqual(minTarget, 44.0,
+        XCTAssertEqual(minTarget, 44,
                       "Gesture targets should meet iOS minimum")
         #else
         throw XCTSkip("This test requires iOS")
@@ -430,7 +430,7 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
 
         // Verify touch target size
         let minTarget = PlatformAdapter.minimumTouchTarget
-        XCTAssertEqual(minTarget, 44.0,
+        XCTAssertEqual(minTarget, 44,
                       "Interactive elements should meet touch target minimum")
         #else
         throw XCTSkip("This test requires iOS")
@@ -455,7 +455,7 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
 
         XCTAssertEqual(compactSpacing, DS.Spacing.m,
                       "Compact size class should use DS.Spacing.m")
-        XCTAssertEqual(compactSpacing, 12.0,
+        XCTAssertEqual(compactSpacing, 12,
                       "Compact spacing should be 12pt for efficient space usage")
 
         // Verify it's a DS token
@@ -483,7 +483,7 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
 
         XCTAssertEqual(regularSpacing, DS.Spacing.l,
                       "Regular size class should use DS.Spacing.l")
-        XCTAssertEqual(regularSpacing, 16.0,
+        XCTAssertEqual(regularSpacing, 16,
                       "Regular spacing should be 16pt for comfortable touch spacing")
 
         // Verify it's a DS token
@@ -626,7 +626,7 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
 
         // Verify touch target
         let minTarget = PlatformAdapter.minimumTouchTarget
-        XCTAssertEqual(minTarget, 44.0,
+        XCTAssertEqual(minTarget, 44,
                       "Interactive elements should meet touch target minimum")
 
         // Verify default iOS spacing
@@ -705,10 +705,10 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
     /// - DS.Spacing.xl is 24pt on all platforms
     func testCrossPlatform_DSTokenConsistency() throws {
         // Verify spacing tokens are consistent across platforms
-        XCTAssertEqual(DS.Spacing.s, 8.0, "DS.Spacing.s should be 8pt on all platforms")
-        XCTAssertEqual(DS.Spacing.m, 12.0, "DS.Spacing.m should be 12pt on all platforms")
-        XCTAssertEqual(DS.Spacing.l, 16.0, "DS.Spacing.l should be 16pt on all platforms")
-        XCTAssertEqual(DS.Spacing.xl, 24.0, "DS.Spacing.xl should be 24pt on all platforms")
+        XCTAssertEqual(DS.Spacing.s, 8, "DS.Spacing.s should be 8pt on all platforms")
+        XCTAssertEqual(DS.Spacing.m, 12, "DS.Spacing.m should be 12pt on all platforms")
+        XCTAssertEqual(DS.Spacing.l, 16, "DS.Spacing.l should be 16pt on all platforms")
+        XCTAssertEqual(DS.Spacing.xl, 24, "DS.Spacing.xl should be 24pt on all platforms")
 
         // Verify tokens are ordered correctly
         XCTAssertLessThan(DS.Spacing.s, DS.Spacing.m)
@@ -919,7 +919,7 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
 
         // iOS touch target is a documented constant (Apple HIG)
         let minTarget = PlatformAdapter.minimumTouchTarget
-        XCTAssertEqual(minTarget, 44.0,
+        XCTAssertEqual(minTarget, 44,
                       "iOS touch target is 44pt per Apple HIG (documented constant)")
         #endif
     }
