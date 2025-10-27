@@ -111,7 +111,7 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
         XCTAssertTrue(PlatformAdapter.isMacOS, "Clipboard test requires macOS")
 
         // Create CopyableText component
-        let copyableText = CopyableText("Test clipboard text")
+        let copyableText = CopyableText(text: "Test clipboard text")
             .platformAdaptive()
 
         XCTAssertNotNil(copyableText, "CopyableText should work on macOS with NSPasteboard")
@@ -341,7 +341,7 @@ final class PlatformAdaptationIntegrationTests: XCTestCase {
         XCTAssertTrue(PlatformAdapter.isIOS, "Clipboard test requires iOS")
 
         // Create CopyableText component
-        let copyableText = CopyableText("Test clipboard text")
+        let copyableText = CopyableText(text: "Test clipboard text")
             .platformAdaptive()
 
         XCTAssertNotNil(copyableText, "CopyableText should work on iOS with UIPasteboard")
