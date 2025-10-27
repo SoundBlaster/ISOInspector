@@ -545,7 +545,9 @@
             if let suffix, !suffix.isEmpty {
                 stem.append("-\(suffix)")
             }
-            if stem.lowercased().hasSuffix(".\(fileExtension.lowercased())") {
+            let lowercasedStem = stem.lowercased()
+            let lowercasedExtension = fileExtension.lowercased()
+            if lowercasedStem.hasSuffix(".\(lowercasedExtension)") {
                 return stem
             }
             let filename = "\(stem).\(fileExtension)"

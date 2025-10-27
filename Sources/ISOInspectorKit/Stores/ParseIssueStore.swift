@@ -15,7 +15,8 @@ import Foundation
 
 public final class ParseIssueStore: ObservableObject {
     private let queue: DispatchQueue
-    private let queueSpecificKey = DispatchSpecificKey<Void>()
+    private let queueSpecificKey = DispatchSpecificKey<UUID>()
+    private let queueSpecificValue = UUID()
     public struct IssueMetrics: Equatable, Sendable {
         private let counts: [ParseIssue.Severity: Int]
         public let deepestAffectedDepth: Int
@@ -102,7 +103,7 @@ public final class ParseIssueStore: ObservableObject {
         queue: DispatchQueue = .main
     ) {
         self.queue = queue
-        queue.setSpecific(key: queueSpecificKey, value: ())
+        queue.setSpecific(key: queueSpecificKey, value: queueSpecificValue)
         self.issues = []
         self.metrics = IssueMetrics()
         self.issuesByNodeID = [:]
@@ -216,7 +217,7 @@ public final class ParseIssueStore: ObservableObject {
     }
 
     private func performOnQueue(_ action: @escaping @Sendable () -> Void) {
-        if DispatchQueue.getSpecific(key: queueSpecificKey) != nil {
+        if DispatchQueue.getSpecific(key: queueSpecificKey) == queueSpecificValue {
             action()
         } else {
             queue.async(execute: action)
@@ -224,7 +225,7 @@ public final class ParseIssueStore: ObservableObject {
     }
 
     private func readOnQueue<T>(_ action: () -> T) -> T {
-        if DispatchQueue.getSpecific(key: queueSpecificKey) != nil {
+        if DispatchQueue.getSpecific(key: queueSpecificKey) == queueSpecificValue {
             return action()
         }
         return queue.sync(execute: action)
