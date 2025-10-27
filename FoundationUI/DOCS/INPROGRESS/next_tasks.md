@@ -107,8 +107,64 @@
 - [ ] Implement PlatformAdaptation modifiers
 - [ ] Create platform-specific extensions
 
-### Phase 4+: Agent Support & Documentation
+### Phase 4: Agent Support & Polish
 - Deferred until foundational work complete
+
+## 🔮 Future Enhancements (P2 - Low Priority)
+
+### Phase 4.3: Copyable Architecture Refactoring (P2)
+**Goal**: Refactor CopyableText into composable, modifier-based architecture
+**Status**: Not Started (0/5 tasks)
+**Priority**: P2 (Future Enhancement)
+**Estimated Effort**: 16-22 hours
+**PRD**: `FoundationUI/DOCS/PRD_CopyableArchitecture.md`
+
+**Background**: Current `CopyableText` component is limited to plain text strings and doesn't follow SwiftUI modifier-based patterns. This refactoring will create a more flexible, composable architecture while maintaining 100% backward compatibility.
+
+**Proposed Architecture**:
+- **Layer 1**: `.copyable()` modifier - Universal base functionality
+- **Layer 2**: `CopyableText` component - Backward compatible convenience wrapper
+- **Layer 2**: `Copyable<Content>` wrapper - Generic wrapper for complex views
+
+**Tasks**:
+- [ ] **Implement CopyableModifier (Layer 1)** (4-6 hours)
+  - Create `.copyable()` view modifier
+  - Platform-specific clipboard logic
+  - Visual feedback with DS tokens
+  - Keyboard shortcuts and VoiceOver
+  - ≥20 test cases
+
+- [ ] **Refactor CopyableText component** (2-3 hours)
+  - Use CopyableModifier internally
+  - Maintain 100% backward compatibility
+  - Update tests and verify existing usage
+
+- [ ] **Implement Copyable generic wrapper** (3-4 hours)
+  - `Copyable<Content: View>` struct
+  - ViewBuilder support
+  - Configuration options
+  - ≥15 test cases
+
+- [ ] **Integration tests** (4-5 hours)
+  - Integration with Badge, Card, KeyValueRow
+  - Snapshot tests (Light/Dark mode)
+  - Accessibility and platform tests
+  - ≥85% coverage target
+
+- [ ] **Documentation** (3-4 hours)
+  - Complete DocC API reference
+  - Migration guide
+  - Tutorial and best practices
+  - Update demo app
+
+**Benefits**:
+- ✅ Works with any View, not just text
+- ✅ Follows SwiftUI modifier patterns
+- ✅ Fully composable and flexible
+- ✅ Backward compatible
+- ✅ Better aligns with Composable Clarity principles
+
+**When to Implement**: After Phase 3 completion, before Phase 5 (Documentation)
 
 ## ✅ Recently Completed
 
@@ -215,7 +271,7 @@
 | Phase 3.1: Patterns | 7/8 (88%) | In progress |
 | Phase 3.2: Contexts | 4/8 (50%) | 🚧 **IN PROGRESS** |
 
-**Overall Progress**: 45/111 tasks (40.5%)**
+**Overall Progress**: 45/116 tasks (38.8%)**
 
 **Latest Completions**:
 - Phase 3.2 Platform Adaptation Integration Tests (2025-10-26) - 28 integration tests for platform-specific behavior

@@ -7,14 +7,14 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 45/111 tasks completed (40.5%)**
+**Total: 45/116 tasks completed (38.8%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | In Progress | 9/15 (60%) |
 | Phase 2: Core Components | ✅ Complete | 22/22 (100%) |
 | Phase 3: Patterns & Platform Adaptation | In Progress | 11/16 (68.75%) |
-| Phase 4: Agent Support & Polish | Not Started | 0/13 (0%) |
+| Phase 4: Agent Support & Polish | Not Started | 0/18 (0%) |
 | Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
 
@@ -526,7 +526,7 @@
 
 ## Phase 4: Agent Support & Polish (Week 7-8)
 **Priority: P1-P2**
-**Progress: 0/13 tasks completed (0%)**
+**Progress: 0/18 tasks completed (0%)**
 
 ### 4.1 Agent-Driven UI Generation
 **Progress: 0/7 tasks**
@@ -616,6 +616,64 @@
   - Minimize memory allocations
   - Profile with Instruments
   - Optimize accessibility checks
+
+### 4.3 Copyable Architecture Refactoring
+**Progress: 0/5 tasks (0%)**
+**PRD**: [PRD_CopyableArchitecture.md](../../FoundationUI/DOCS/PRD_CopyableArchitecture.md)
+
+- [ ] **P2** Implement CopyableModifier (Layer 1)
+  - File: `Sources/FoundationUI/Modifiers/CopyableModifier.swift`
+  - Create `.copyable()` view modifier
+  - Platform-specific clipboard logic (NSPasteboard/UIPasteboard)
+  - Visual feedback with DS tokens
+  - Keyboard shortcut support (⌘C on macOS)
+  - VoiceOver announcements
+  - Unit tests (≥20 test cases)
+  - DocC documentation with examples
+  - Estimated effort: 4-6 hours
+
+- [ ] **P2** Refactor CopyableText component
+  - File: `Sources/FoundationUI/Components/CopyableText.swift`
+  - Refactor to use CopyableModifier internally
+  - Maintain 100% backward compatibility
+  - Ensure existing API `CopyableText(text:)` works unchanged
+  - Update component tests
+  - Verify all existing usage continues to work
+  - Regression testing
+  - Estimated effort: 2-3 hours
+
+- [ ] **P2** Implement Copyable generic wrapper
+  - File: `Sources/FoundationUI/Components/Copyable.swift`
+  - Create `Copyable<Content: View>` generic struct
+  - ViewBuilder support for complex content
+  - Configuration options (showFeedback)
+  - Uses CopyableModifier internally
+  - Unit tests (≥15 test cases)
+  - DocC documentation with examples
+  - Estimated effort: 3-4 hours
+
+- [ ] **P2** Copyable architecture integration tests
+  - Integration with Badge, Card, KeyValueRow components
+  - Multiple copyable elements on same screen
+  - Nested copyable elements
+  - Snapshot tests (Light/Dark mode)
+  - Accessibility tests (VoiceOver, keyboard)
+  - Platform-specific tests (macOS/iOS)
+  - Performance tests
+  - Test coverage ≥85%
+  - Estimated effort: 4-5 hours
+
+- [ ] **P2** Copyable architecture documentation
+  - Complete DocC API reference
+  - Migration guide from old to new API
+  - Tutorial: "Making Content Copyable"
+  - Best practices and patterns guide
+  - Update demo app with examples
+  - Update component catalog
+  - Platform-specific notes
+  - Estimated effort: 3-4 hours
+
+**Total Estimated Effort**: 16-22 hours
 
 ---
 
