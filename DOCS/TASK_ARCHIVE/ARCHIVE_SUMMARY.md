@@ -1005,3 +1005,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/193_Summary_of_Work_2025-10-27_Blocked_Tasks/`.
 - **Highlights:** Captures the October 27 status review documenting that regression work remains paused while VoiceOver hardware and licensed media fixtures stay unavailable.
 - **Next steps carried forward:** Continue monitoring the hardware queue and licensing approvals; active blockers are now tracked via `DOCS/INPROGRESS/next_tasks.md` and `DOCS/INPROGRESS/blocked.md`.
+
+## 194_T4_2_Plaintext_Issue_Export_Closeout
+- **Archived files:** `Summary_of_Work.md`, `T4_2_Text_Issue_Summary_Export.md`, `T3_6_Integrity_Summary_Tab.md`, `194_ResearchLogMonitor_SwiftUIPreviews.md`, `next_tasks.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/194_T4_2_Plaintext_Issue_Export_Closeout/`.
+- **Highlights:** Records completion notes for the plaintext integrity issue exporter, plus the prior Integrity tab and ResearchLog preview planning docs that informed the hand-off. The archived `next_tasks.md` and `blocked.md` capture the pre-archive queue before scaffolding was refreshed.
+- **Next steps carried forward:** Continue building the Integrity summary tab and the ResearchLog preview audit from the refreshed documents in `DOCS/INPROGRESS/`, while keeping VoiceOver hardware and licensed fixture acquisitions on the recoverable blocker list.
