@@ -554,6 +554,52 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertTrue(diagnostics.errors.contains { $0.contains("destination-unavailable") })
     }
 
+    func testExportIssueSummaryWritesFullDocument() async throws {
+        let parseIssue = ParseIssue(
+            severity: .error,
+            code: "VR-001",
+            message: "Corrupt node",
+            byteRange: 24..<32,
+            affectedNodeIDs: [0]
+        )
+        let node = makeNode(identifier: 0, type: "moov", parseIssues: [parseIssue])
+        let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [])
+        let parseTreeStore = ParseTreeStore(initialSnapshot: snapshot, initialState: .finished)
+        await MainActor.run {
+            parseTreeStore.issueStore.replaceAll(with: [parseIssue])
+        }
+
+        let filesystemStub = FilesystemAccessStub()
+        let destination = FileManager.default.temporaryDirectory
+            .appendingPathComponent("issue-summary-\(UUID().uuidString).txt")
+        defer { try? FileManager.default.removeItem(at: destination) }
+        filesystemStub.saveHandler = { _ in destination }
+
+        let controller = makeController(
+            store: DocumentRecentsStoreStub(initialRecents: []),
+            filesystemAccess: filesystemStub.makeAccess(),
+            parseTreeStore: parseTreeStore
+        )
+
+        await controller.exportIssueSummary(scope: .document)
+
+        XCTAssertEqual(
+            filesystemStub.lastSaveConfiguration?.allowedContentTypes,
+            [UTType.plainText.identifier]
+        )
+        let savedURL = try XCTUnwrap(filesystemStub.lastSavedURL)
+        XCTAssertEqual(savedURL.standardizedFileURL, destination.standardizedFileURL)
+        let contents = try String(contentsOf: destination, encoding: .utf8)
+        XCTAssertTrue(contents.contains("VR-001"))
+        XCTAssertTrue(contents.contains("Corrupt node"))
+        XCTAssertTrue(contents.contains("Total Issues: 1"))
+        let status = try XCTUnwrap(controller.exportStatus)
+        XCTAssertTrue(status.isSuccess)
+        XCTAssertEqual(status.destinationURL?.standardizedFileURL, destination.standardizedFileURL)
+        XCTAssertEqual(filesystemStub.manager.startedURLs, [destination.standardizedFileURL])
+        XCTAssertEqual(filesystemStub.manager.stoppedURLs, [destination.standardizedFileURL])
+    }
+
     func testCanExportSelectionReflectsSnapshotMembership() throws {
         let node = makeNode(identifier: 0, type: "moov")
         let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [])
@@ -849,7 +895,8 @@ final class DocumentSessionControllerTests: XCTestCase {
         identifier: Int64,
         type: String,
         issues: [ValidationIssue] = [],
-        children: [ParseTreeNode] = []
+        children: [ParseTreeNode] = [],
+        parseIssues: [ParseIssue] = []
     ) -> ParseTreeNode {
         let totalSize: Int64 = 32
         let headerSize: Int64 = 8
@@ -866,6 +913,7 @@ final class DocumentSessionControllerTests: XCTestCase {
             metadata: nil,
             payload: nil,
             validationIssues: issues,
+            issues: parseIssues,
             children: children
         )
     }

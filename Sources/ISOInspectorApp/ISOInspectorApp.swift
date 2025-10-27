@@ -24,9 +24,20 @@ struct ISOInspectorApp: App {
                 }
                 .disabled(!controller.documentViewModel.exportAvailability.canExportDocument)
 
+                Button("Export Issue Summary…") {
+                    Task { await controller.exportIssueSummary(scope: .document) }
+                }
+                .disabled(!controller.documentViewModel.exportAvailability.canExportDocument)
+
                 Button("Export Selected JSON…") {
                     guard let nodeID = controller.documentViewModel.nodeViewModel.selectedNodeID else { return }
                     Task { await controller.exportJSON(scope: .selection(nodeID)) }
+                }
+                .disabled(!controller.documentViewModel.exportAvailability.canExportSelection)
+
+                Button("Export Selected Issue Summary…") {
+                    guard let nodeID = controller.documentViewModel.nodeViewModel.selectedNodeID else { return }
+                    Task { await controller.exportIssueSummary(scope: .selection(nodeID)) }
                 }
                 .disabled(!controller.documentViewModel.exportAvailability.canExportSelection)
             }

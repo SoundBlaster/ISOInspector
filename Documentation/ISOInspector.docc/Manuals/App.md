@@ -69,12 +69,13 @@ il/ParseTreeDetailView.swift†L280-L326】
 - **Hex** shows a windowed payload slice with byte offsets and selection callbacks for highlighting.【F:Sources/ISOInspectorApp/
 Detail/ParseTreeDetailView.swift†L327-L374】
 
-### JSON exports
+### Issue summary exports
 
-- The main window toolbar now exposes **Export JSON…** and **Export Selection…** buttons. The former serializes the entire parse tree, while the latter activates when a node is selected and captures only that subtree.【F:Sources/ISOInspectorApp/AppShellView.swift†L18-L116】
-- The outline row context menu mirrors the selection export so you can right-click a box and immediately persist its JSON snapshot without changing focus.【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift†L215-L288】
-- The app-level **Export** command menu adds keyboard-accessible entries for the same flows, keeping menu bar parity with the CLI exporters.【F:Sources/ISOInspectorApp/ISOInspectorApp.swift†L1-L71】
-- When tolerant parsing diagnostics are present, exports add a `schema.version` value of `2` alongside each node’s `issues` array so downstream automation can detect the richer payload while strict-mode files remain byte-for-byte compatible.【F:Sources/ISOInspectorKit/Export/JSONParseTreeExporter.swift†L17-L120】【F:Tests/ISOInspectorKitTests/Fixtures/Snapshots/tolerant-issues.json†L1-L74】
+- The main window toolbar now exposes **Export JSON…**, **Export Issue Summary…**, and their selection-scoped counterparts so you can capture either format without leaving the current context.【F:Sources/ISOInspectorApp/AppShellView.swift†L18-L126】
+- The outline row context menu mirrors both export types, enabling right-click access to JSON snapshots or plaintext issue summaries for the selected box.【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift†L210-L314】【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift†L440-L463】
+- The app-level **Export** command menu adds identical entries with keyboard shortcuts, keeping menu bar parity with the CLI exporters.【F:Sources/ISOInspectorApp/ISOInspectorApp.swift†L1-L63】
+- JSON exports remain powered by `JSONParseTreeExporter`, while plaintext reports run through `PlaintextIssueSummaryExporter` to list file metadata and grouped diagnostics with a `.isoinspector.txt` extension.【F:Sources/ISOInspectorApp/State/DocumentSessionController.swift†L341-L415】【F:Sources/ISOInspectorKit/Export/PlaintextIssueSummaryExporter.swift†L1-L191】
+- When tolerant parsing diagnostics are present, JSON exports still add a `schema.version` value of `2` alongside each node’s `issues` array so downstream automation can detect the richer payload while strict-mode files remain byte-for-byte compatible.【F:Sources/ISOInspectorKit/Export/JSONParseTreeExporter.swift†L17-L120】【F:Tests/ISOInspectorKitTests/Fixtures/Snapshots/tolerant-issues.json†L1-L74】
 
 ### Keyboard shortcuts
 

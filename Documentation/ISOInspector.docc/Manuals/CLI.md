@@ -1,7 +1,7 @@
 # ISOInspector CLI Manual
 
 The `isoinspect` command streams ISO Base Media File Format structures from the terminal. It shares parsers with the app, emit
-s validation summaries, and can export JSON or binary captures for automation.
+s validation summaries, and can export JSON, plaintext summaries, or binary captures for automation.
 
 ## Getting started
 
@@ -74,6 +74,15 @@ isoinspect [global options] export json <file> [--output <path>]
 - Builds the full parse tree and writes a `.isoinspector.json` file next to the input when no output path is provided.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L271-L360】
 - The exporter reuses streaming events, ensuring parity with the interactive UI.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L373-L418】
 - Customized validation settings embed the preset identifier and disabled rules inside the exported JSON metadata for downstream tooling.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L609-L633】
+
+### Plaintext issue summary
+
+```
+isoinspect [global options] export text <file> [--output <path>]
+```
+
+- Generates a human-readable report listing tolerant parsing issues grouped by severity along with the file path, byte size, and analysis timestamp. The default extension is `.isoinspector.txt`.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L271-L418】【F:Sources/ISOInspectorCLI/CLI.swift†L376-L520】
+- Reports reuse the shared exporter so the CLI and app surface identical formatting and metadata.【F:Sources/ISOInspectorKit/Export/PlaintextIssueSummaryExporter.swift†L1-L191】【F:Sources/ISOInspectorApp/State/DocumentSessionController.swift†L341-L415】
 
 ### Binary capture
 
