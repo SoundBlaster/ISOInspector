@@ -1,3 +1,4 @@
+#if os(macOS) || os(iOS)
 import SwiftUI
 import FoundationUI
 
@@ -22,3 +23,4 @@ struct ParseTreeStatusBadge: View {
         }
     }
 }
+#endif

@@ -97,27 +97,22 @@ jobs:
 
       - name: swift build
         run: |
-          # Build all except FoundationUI (requires SwiftUI, not available on Linux)
+          # Build non-UI targets only (SwiftUI apps not available on Linux)
           swift build --target ISOInspectorKit
           swift build --target ISOInspectorCLI
           swift build --target ISOInspectorCLIRunner
-          swift build --target ISOInspectorApp
 
       - name: Build test targets
         run: |
-          # Build test targets except FoundationUITests (requires SwiftUI)
+          # Build test targets for non-UI components only
           swift build --target ISOInspectorKitTests
           swift build --target ISOInspectorCLITests
-          swift build --target ISOInspectorAppTests
-          swift build --target ISOInspectorPerformanceTests
 
       - name: swift test
         run: |
-          # Test specific targets (excludes FoundationUITests)
+          # Test non-UI targets only
           swift test --filter ISOInspectorKitTests
           swift test --filter ISOInspectorCLITests
-          swift test --filter ISOInspectorAppTests
-          swift test --filter ISOInspectorPerformanceTests
 
   docc-archives:
     name: Generate DocC Archives

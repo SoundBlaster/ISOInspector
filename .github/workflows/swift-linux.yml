@@ -69,28 +69,21 @@ jobs:
 
       - name: Build (debug with tests)
         run: |
-          # Build all except FoundationUI (requires SwiftUI, not available on Linux)
+          # Build non-UI targets only (SwiftUI apps not available on Linux)
           swift build --target ISOInspectorKit
           swift build --target ISOInspectorCLI
           swift build --target ISOInspectorCLIRunner
-          swift build --target ISOInspectorApp
-          # Build tests (except FoundationUITests)
+          # Build tests for non-UI components only
           swift build --target ISOInspectorKitTests
           swift build --target ISOInspectorCLITests
-          swift build --target ISOInspectorAppTests
-          swift build --target ISOInspectorPerformanceTests
 
       - name: Test with coverage
         run: |
-          # Test specific targets (excludes FoundationUITests)
+          # Test non-UI targets only
           swift test --enable-code-coverage \
             --filter ISOInspectorKitTests
           swift test --enable-code-coverage \
             --filter ISOInspectorCLITests
-          swift test --enable-code-coverage \
-            --filter ISOInspectorAppTests
-          swift test --enable-code-coverage \
-            --filter ISOInspectorPerformanceTests
 
       - name: Coverage summary
         run: |
