@@ -994,3 +994,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/`.
 - **Highlights:** Captures the tolerant export schema bump to `schema.version = 2`, adds serialized `issues` payloads per node, refreshes JSON snapshot coverage for empty/single/multi-issue trees, and updates the App manual to explain the new tolerant fields.
 - **Next steps carried forward:** VoiceOver regression hardware runs and licensed real-world asset ingestion stay blocked; see the regenerated `DOCS/INPROGRESS/next_tasks.md` for status.
+
+## 193_Summary_of_Work_2025-10-27_Blocked_Tasks
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/193_Summary_of_Work_2025-10-27_Blocked_Tasks/`.
+- **Highlights:** Captures the October 27 status review documenting that regression work remains paused while VoiceOver hardware and licensed media fixtures stay unavailable.
+- **Next steps carried forward:** Continue monitoring the hardware queue and licensing approvals; active blockers are now tracked via `DOCS/INPROGRESS/next_tasks.md` and `DOCS/INPROGRESS/blocked.md`.
