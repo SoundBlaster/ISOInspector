@@ -17,6 +17,7 @@ public final class ParseIssueStore: ObservableObject {
     private let queue: DispatchQueue
     private let queueSpecificKey = DispatchSpecificKey<UUID>()
     private let queueSpecificValue = UUID()
+    private let isMainQueue: Bool
     public struct IssueMetrics: Equatable, Sendable {
         private let counts: [ParseIssue.Severity: Int]
         public let deepestAffectedDepth: Int
@@ -103,6 +104,7 @@ public final class ParseIssueStore: ObservableObject {
         queue: DispatchQueue = .main
     ) {
         self.queue = queue
+        self.isMainQueue = queue === DispatchQueue.main
         queue.setSpecific(key: queueSpecificKey, value: queueSpecificValue)
         self.issues = []
         self.metrics = IssueMetrics()
@@ -218,7 +220,7 @@ public final class ParseIssueStore: ObservableObject {
 
     private func performOnQueue(_ action: @escaping @Sendable () -> Void) {
         // Fast-path: avoid deadlock when already on main thread for main queue
-        if queue === DispatchQueue.main && Thread.isMainThread {
+        if isMainQueue && Thread.isMainThread {
             action()
         } else if DispatchQueue.getSpecific(key: queueSpecificKey) == queueSpecificValue {
             action()
@@ -229,7 +231,7 @@ public final class ParseIssueStore: ObservableObject {
 
     private func readOnQueue<T>(_ action: () -> T) -> T {
         // Fast-path: avoid deadlock when already on main thread for main queue
-        if queue === DispatchQueue.main && Thread.isMainThread {
+        if isMainQueue && Thread.isMainThread {
             return action()
         } else if DispatchQueue.getSpecific(key: queueSpecificKey) == queueSpecificValue {
             return action()
