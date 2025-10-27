@@ -496,14 +496,15 @@
   - Zero magic numbers (uses DS.Spacing, DS.Animation tokens exclusively)
   - Archive: `TASK_ARCHIVE/27_Phase3.2_PlatformExtensions/`
 
-- [ ] **P0** Context unit tests → **IN PROGRESS**
-  - Test environment key propagation
-  - Test platform detection logic
-  - Test color scheme adaptation
-  - Test size class handling
-  - Test cross-context interactions
-  - File: `Tests/FoundationUITests/ContextsTests/ContextIntegrationTests.swift`
-  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase3.2_ContextIntegrationTests.md`
+- [ ] **P0** Context unit tests → **IN PROGRESS** (Started 2025-10-27)
+  - Create comprehensive unit tests for all Context layer components
+  - Test SurfaceStyleKey environment key propagation (≥12 tests)
+  - Test ColorSchemeAdapter light/dark mode adaptation (≥20 tests)
+  - Test platform detection logic (compile-time and runtime)
+  - Test edge cases and cross-context interactions
+  - Target coverage: ≥80% for Context layer
+  - Files: `Tests/FoundationUITests/ContextsTests/SurfaceStyleKeyTests.swift`, `ColorSchemeAdapterTests.swift`
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase3.2_ContextUnitTests.md`
 
 - [x] **P0** Platform adaptation integration tests ✅ Completed 2025-10-26
   - File: `Tests/FoundationUITests/ContextsTests/PlatformAdaptationIntegrationTests.swift`
