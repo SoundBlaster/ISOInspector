@@ -258,7 +258,7 @@ This phase introduces **lenient parsing mode** that continues parsing corrupted 
 - [x] 🛠️ T2.4. Validation rules emit `ParseIssue` diagnostics in lenient mode. _(Completed — tolerant mode now records VR-001…VR-015 issues via `ParseIssueStore`; see `DOCS/TASK_ARCHIVE/183_T2_4_Validation_Rule_Dual_Mode_Support/Summary_of_Work.md` for details.)_
 - **T3:** UI corruption views (badges, placeholders, "Integrity" tab, export actions)
 - **T4:** Diagnostics export (JSON/text with byte ranges, file metadata)
-  - [ ] **In Progress — T4.1 Extend JSON export schema for issues.** Track deliverables in `DOCS/INPROGRESS/T4_1_Extend_JSON_Export_Schema_for_Issues.md`.
+  - [x] **T4.1 Extend JSON export schema for issues.** _(Completed — see `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/` for implementation notes, schema documentation updates, and verification summary.)_
 - **T5:** Testing & fixtures (corrupt corpus, regression, performance, fuzzing)
 - **T6:** CLI & ecosystem parity (--tolerant flag, SDK API)
 - **T7:** Rollout (Prototype → Alpha → Beta → GA → Telemetry)

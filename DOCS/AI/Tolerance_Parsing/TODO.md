@@ -85,12 +85,12 @@ Enable exportable corruption reports for external analysis.
 
 | Task ID | Description | Priority | Effort | Dependencies | Acceptance Criteria |
 |---------|-------------|----------|--------|--------------|---------------------|
-| T4.1 | Extend JSON export schema to include `issues` array per node with severity, offsets, reason codes. | High | 1.5d | T1.1, T1.2 | JSON export contains corruption events; schema versioned. |
+| T4.1 | Extend JSON export schema to include `issues` array per node with severity, offsets, reason codes. | High | 1.5d | T1.1, T1.2 | JSON export contains corruption events; schema versioned. *(Completed — see `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/` for schema details and verification notes.)* |
 | T4.2 | Add plaintext export format for issue summary (file metadata + issue list). | Medium | 1d | T2.1 | Text export lists issues in human-readable format; suitable for logs/reports. |
 | T4.3 | Include file metadata (size, hash, analysis timestamp) in all exports. | Medium | 0.5d | Existing export infrastructure | Exports include SHA-256 hash, file size, ISO timestamp. |
 | T4.4 | Ensure exports omit raw binary snippets to minimize security/privacy exposure. | High | 0.5d | T4.1, T4.2 | Only byte ranges and issue codes exported; no payload bytes. |
 
-> **In Progress:** T4.1 — Extend JSON export schema for issues. See `DOCS/INPROGRESS/T4_1_Extend_JSON_Export_Schema_for_Issues.md` for the active PRD outline.
+> **Completed (2025-10-27):** T4.1 — Extend JSON export schema for issues. See `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/` for the archived PRD outline and work summary.
 
 **Verification:**
 - Golden-file tests for corrupt fixture exports
