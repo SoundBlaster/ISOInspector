@@ -17,7 +17,7 @@ final class ParseTreeStoreTests: XCTestCase {
             }
             continuation.finish()
         }
-        let pipeline = ParsePipeline { _, _ in stream }
+        let pipeline = ParsePipeline(buildStream: { _, _ in stream })
         let reader = InMemoryRandomAccessReader(data: Data())
         let store = ParseTreeStore()
         let finished = expectation(description: "Parsing finished")
@@ -64,7 +64,7 @@ final class ParseTreeStoreTests: XCTestCase {
             }
             continuation.finish()
         }
-        let pipeline = ParsePipeline { _, _ in stream }
+        let pipeline = ParsePipeline(buildStream: { _, _ in stream })
         let reader = InMemoryRandomAccessReader(data: Data())
         let store = ParseTreeStore()
         let finished = expectation(description: "Parsing finished")
@@ -109,7 +109,7 @@ final class ParseTreeStoreTests: XCTestCase {
             }
             continuation.finish()
         }
-        let pipeline = ParsePipeline { _, _ in stream }
+        let pipeline = ParsePipeline(buildStream: { _, _ in stream })
         let reader = InMemoryRandomAccessReader(data: Data())
         let store = ParseTreeStore()
         let failed = expectation(description: "Parsing failed")
@@ -188,7 +188,7 @@ final class ParseTreeStoreTests: XCTestCase {
             }
             continuation.finish()
         }
-        let pipeline = ParsePipeline { _, _ in stream }
+        let pipeline = ParsePipeline(buildStream: { _, _ in stream })
         let reader = InMemoryRandomAccessReader(data: Data())
         let store = ParseTreeStore()
         let finished = expectation(description: "Parsing finished")
@@ -239,7 +239,7 @@ final class ParseTreeStoreTests: XCTestCase {
             }
             continuation.finish()
         }
-        let pipeline = ParsePipeline { _, _ in stream }
+        let pipeline = ParsePipeline(buildStream: { _, _ in stream })
         let reader = InMemoryRandomAccessReader(data: Data())
         let store = ParseTreeStore()
         let finished = expectation(description: "Parsing finished")
@@ -298,7 +298,7 @@ final class ParseTreeStoreTests: XCTestCase {
             continuation.finish()
         }
 
-        let pipeline = ParsePipeline { _, _ in stream }
+        let pipeline = ParsePipeline(buildStream: { _, _ in stream })
         let reader = InMemoryRandomAccessReader(data: Data())
         let store = ParseTreeStore()
         let finished = expectation(description: "Parsing finished")

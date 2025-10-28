@@ -5,7 +5,7 @@ import XCTest
 @MainActor
 final class AnnotationBookmarkSessionTests: XCTestCase {
     func testLoadsAnnotationsAndBookmarksForSelectedNode() {
-        let store = AnnotationBookmarkStoreStub()
+        let store = ConfigurableAnnotationBookmarkStoreStub()
         let file = URL(fileURLWithPath: "/tmp/example.mp4")
         let createdAt = Date(timeIntervalSince1970: 100)
         let later = Date(timeIntervalSince1970: 200)
@@ -28,7 +28,7 @@ final class AnnotationBookmarkSessionTests: XCTestCase {
     }
 
     func testCreateUpdateDeleteAnnotationUpdatesState() {
-        let store = AnnotationBookmarkStoreStub()
+        let store = ConfigurableAnnotationBookmarkStoreStub()
         let file = URL(fileURLWithPath: "/tmp/example.mp4")
         let session = AnnotationBookmarkSession(store: store)
 
@@ -49,7 +49,7 @@ final class AnnotationBookmarkSessionTests: XCTestCase {
     }
 
     func testToggleBookmarkPersistsState() {
-        let store = AnnotationBookmarkStoreStub()
+        let store = ConfigurableAnnotationBookmarkStoreStub()
         let file = URL(fileURLWithPath: "/tmp/example.mp4")
         let session = AnnotationBookmarkSession(store: store)
 
@@ -66,7 +66,7 @@ final class AnnotationBookmarkSessionTests: XCTestCase {
     }
 
     func testRecordsErrorWhenStoreOperationFails() {
-        let store = AnnotationBookmarkStoreStub()
+        let store = ConfigurableAnnotationBookmarkStoreStub()
         let file = URL(fileURLWithPath: "/tmp/example.mp4")
         store.errorToThrow = SampleError.failed
         let session = AnnotationBookmarkSession(store: store)
@@ -96,7 +96,7 @@ final class AnnotationBookmarkSessionTests: XCTestCase {
 
 // MARK: - Test doubles
 
-private final class AnnotationBookmarkStoreStub: AnnotationBookmarkStoring {
+private final class ConfigurableAnnotationBookmarkStoreStub: AnnotationBookmarkStoring {
     var annotationsStorage: [URL: [AnnotationRecord]] = [:]
     var bookmarksStorage: [URL: Set<Int64>] = [:]
     var currentDate: Date = Date(timeIntervalSince1970: 123)
