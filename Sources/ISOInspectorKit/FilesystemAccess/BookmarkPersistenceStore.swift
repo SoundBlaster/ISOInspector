@@ -21,6 +21,24 @@ public struct BookmarkPersistenceStore: Sendable {
         public var lastResolvedAt: Date?
         public var lastResolutionState: ResolutionState
 
+        public init(
+            id: UUID,
+            canonicalURL: String,
+            bookmarkData: Data,
+            createdAt: Date,
+            updatedAt: Date,
+            lastResolvedAt: Date? = nil,
+            lastResolutionState: ResolutionState = .unknown
+        ) {
+            self.id = id
+            self.canonicalURL = canonicalURL
+            self.bookmarkData = bookmarkData
+            self.createdAt = createdAt
+            self.updatedAt = updatedAt
+            self.lastResolvedAt = lastResolvedAt
+            self.lastResolutionState = lastResolutionState
+        }
+
         public var fileURL: URL? {
             URL(string: canonicalURL)
         }
