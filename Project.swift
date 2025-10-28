@@ -240,7 +240,9 @@ func appTestsTarget() -> Target {
         infoPlist: .default,
         sources: ["Tests/ISOInspectorAppTests/**"],
         dependencies: [
+            .target(name: "ISOInspectorApp-macOS"),
             .target(name: "ISOInspectorKit"),
+            .package(product: "NestedA11yIDs"),
             .project(target: "FoundationUI", path: .relativeToRoot("FoundationUI"))
         ],
         settings: .settings(base: baseSettings, configurations: buildConfigurations)
