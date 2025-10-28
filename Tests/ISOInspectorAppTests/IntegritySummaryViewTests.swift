@@ -114,14 +114,12 @@ extension NSHostingView {
 
     private func containsTextRecursive(view: NSView, text: String) -> Bool {
         if let textField = view as? NSTextField,
-           let content = textField.stringValue as String?,
-           content.contains(text) {
+           textField.stringValue.contains(text) {
             return true
         }
 
         if let textView = view as? NSTextView,
-           let content = textView.string as String?,
-           content.contains(text) {
+           textView.string.contains(text) {
             return true
         }
 
