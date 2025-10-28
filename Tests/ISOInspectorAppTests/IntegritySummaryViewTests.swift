@@ -125,13 +125,7 @@ extension NSHostingView {
             return true
         }
 
-        for subview in view.subviews {
-            if containsTextRecursive(view: subview, text: text) {
-                return true
-            }
-        }
-
-        return false
+        return view.subviews.contains { containsTextRecursive(view: $0, text: text) }
     }
 }
 #endif
