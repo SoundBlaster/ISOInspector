@@ -442,6 +442,7 @@ final class ColorSchemeAdapterTests: XCTestCase {
     /// **Then**: Should compile and return modified view
     ///
     /// **API Coverage**: View extension validation
+    @MainActor
     func testView_AdaptiveColorSchemeModifier_Exists() {
         // Arrange
         let view = Text("Test")
@@ -460,6 +461,7 @@ final class ColorSchemeAdapterTests: XCTestCase {
     /// **Then**: Should work with any View type
     ///
     /// **Integration**: Validates real-world usage
+    @MainActor
     func testView_AdaptiveColorSchemeModifier_WorksWithComplexViews() {
         // Arrange - Create complex view
         let complexView = VStack {
