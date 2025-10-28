@@ -43,7 +43,8 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
             isSearchMatch: false,
             hasMatchingDescendant: false,
             hasValidationIssues: true,
-            corruptionSummary: nil
+            corruptionSummary: nil,
+            statusDescriptor: nil
         )
 
         let descriptor = row.accessibilityDescriptor(isBookmarked: true)
