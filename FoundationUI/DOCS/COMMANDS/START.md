@@ -26,9 +26,11 @@ Execute one or more tasks from the [FoundationUI Task Plan](../../../DOCS/AI/ISO
 - [FoundationUI Test Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TestPlan.md) — Testing strategy and requirements
 
 ### Development Rules (from main ISOInspector)
+- [DOCS/RULES/](../../../DOCS/RULES/) — **Complete rules directory** (TDD, PDD, SwiftUI Testing, etc.)
 - [02_TDD_XP_Workflow.md](../../../DOCS/RULES/02_TDD_XP_Workflow.md) — Outside-in TDD flow
 - [04_PDD.md](../../../DOCS/RULES/04_PDD.md) — Puzzle-driven development workflow
 - [07_AI_Code_Structure_Principles.md](../../../DOCS/RULES/07_AI_Code_Structure_Principles.md) — One entity per file
+- [11_SwiftUI_Testing.md](../../../DOCS/RULES/11_SwiftUI_Testing.md) — **SwiftUI testing guidelines & @MainActor requirements**
 
 ### FoundationUI-Specific Rules
 - **Design System First**: All spacing, colors, typography, radius, animation must come from `DS` namespace
