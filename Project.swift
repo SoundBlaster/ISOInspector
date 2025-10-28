@@ -142,6 +142,10 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     // Configure Info.plist with privacy descriptions and document types
     let infoPlist = infoPlistConfiguration(for: platform)
 
+    // Set module name to "ISOInspectorApp" for all platforms to enable consistent imports
+    var appSettings = baseSettings
+    appSettings["PRODUCT_MODULE_NAME"] = .string("ISOInspectorApp")
+
     return Target.target(
         name: targetName,
         destinations: destinations(for: platform),
@@ -153,7 +157,7 @@ func appTarget(for platform: DistributionPlatform) -> Target {
         resources: ["Sources/ISOInspectorApp/Resources/**"],
         entitlements: entitlements,
         dependencies: dependencies,
-        settings: .settings(base: baseSettings, configurations: buildConfigurations)
+        settings: .settings(base: appSettings, configurations: buildConfigurations)
     )
 }
 
