@@ -328,9 +328,8 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
 }
 
 private func findNode(withFourCC fourCC: String, in nodes: [ParseTreeNode]) -> ParseTreeNode? {
-    guard let code = try? FourCharCode(fourCC) else { return nil }
     for node in nodes {
-        if node.header.type.rawValue == code.rawValue {
+        if node.header.type.description == fourCC {
             return node
         }
         if let match = findNode(withFourCC: fourCC, in: node.children) {
