@@ -185,7 +185,9 @@ struct AppShellView: View {
                 ParseTreeExplorerView(
                     viewModel: documentViewModel,
                     exportSelectionJSONAction: exportSelectionJSONHandler,
-                    exportSelectionIssueSummaryAction: exportSelectionIssueSummaryHandler
+                    exportSelectionIssueSummaryAction: exportSelectionIssueSummaryHandler,
+                    exportDocumentJSONAction: exportDocumentJSONHandler,
+                    exportDocumentIssueSummaryAction: exportDocumentIssueSummaryHandler
                 )
                 .frame(minWidth: 640, minHeight: 480)
             } else {
@@ -236,6 +238,18 @@ struct AppShellView: View {
     private var exportSelectionIssueSummaryHandler: (ParseTreeNode.ID) -> Void {
         { nodeID in
             Task { await controller.exportIssueSummary(scope: .selection(nodeID)) }
+        }
+    }
+
+    private var exportDocumentJSONHandler: () -> Void {
+        {
+            Task { await controller.exportJSON(scope: .document) }
+        }
+    }
+
+    private var exportDocumentIssueSummaryHandler: () -> Void {
+        {
+            Task { await controller.exportIssueSummary(scope: .document) }
         }
     }
 

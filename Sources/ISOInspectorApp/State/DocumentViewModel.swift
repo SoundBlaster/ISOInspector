@@ -43,8 +43,8 @@ final class DocumentViewModel: ObservableObject {
     let nodeViewModel: NodeSelectionViewModel
     let hexViewModel: HexViewModel
     let annotations: AnnotationBookmarkSession
+    let store: ParseTreeStore
 
-    private let store: ParseTreeStore
     private var cancellables: Set<AnyCancellable> = []
 
     init(
