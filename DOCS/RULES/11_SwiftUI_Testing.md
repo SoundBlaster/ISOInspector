@@ -19,6 +19,7 @@ func testMyView() {
 ```
 
 **Why this fails:**
+
 - SwiftUI views are value types (structs)
 - Value types **cannot be nil** in Swift
 - `XCTAssertNotNil(view)` always passes, even if the view is completely broken
@@ -239,29 +240,34 @@ func testSurfaceMaterial_AllCases() {
 ### Environment Keys
 
 **What to test:**
+
 - ✅ Default value correctness
 - ✅ EnvironmentValues get/set operations
 - ✅ Value preservation through environment hierarchy
 - ✅ Type safety (correct types stored/retrieved)
 
 **What NOT to test:**
+
 - ❌ View construction with environment modifiers
 - ❌ SwiftUI's internal environment propagation mechanism
 
 ### ViewModifiers
 
 **What to test:**
+
 - ✅ Modifier can be applied to views (type checking)
 - ✅ Underlying logic (if modifier wraps a function)
 - ✅ State changes triggered by modifier
 
 **What NOT to test:**
+
 - ❌ SwiftUI's modifier composition system
 - ❌ View rendering (unless using snapshot testing)
 
 ### ObservableObjects / ViewModels
 
 **What to test:**
+
 - ✅ Initial state correctness
 - ✅ State transitions from actions
 - ✅ Computed property calculations
@@ -269,6 +275,7 @@ func testSurfaceMaterial_AllCases() {
 - ✅ Published property changes
 
 **What NOT to test:**
+
 - ❌ SwiftUI's @Published observation mechanism
 - ❌ View updates (that's SwiftUI's responsibility)
 
@@ -341,6 +348,7 @@ func testCardView_Renders() {
 **Why it's bad:** Unit tests don't have rendering context.
 
 **Fix:** Either:
+
 1. Use snapshot testing (SwiftUI-Snapshot-Testing, SnapshotTesting)
 2. Test the underlying data/state that drives rendering
 
@@ -478,13 +486,15 @@ func testView_AdaptiveColorSchemeModifier_Exists() {
 ```
 
 **Error Message:**
-```
+
+```clang
 Non-Sendable 'some View'-typed result can not be returned from
 main actor-isolated instance method 'adaptiveColorScheme()' to
 nonisolated context
 ```
 
 **Why this happens:**
+
 - SwiftUI Views must be created and accessed on the main thread
 - Methods returning `some View` are implicitly `@MainActor` isolated
 - Without `@MainActor` on the test, you're accessing main-actor-isolated code from a nonisolated context
@@ -507,6 +517,7 @@ func testView_AdaptiveColorSchemeModifier_Exists() {
 **Always use `@MainActor` when:**
 
 1. **Creating SwiftUI Views**
+
    ```swift
    @MainActor
    func testView_Creation() {
@@ -516,6 +527,7 @@ func testView_AdaptiveColorSchemeModifier_Exists() {
    ```
 
 2. **Calling View Modifiers**
+
    ```swift
    @MainActor
    func testView_Modifier() {
@@ -525,6 +537,7 @@ func testView_AdaptiveColorSchemeModifier_Exists() {
    ```
 
 3. **Working with ViewBuilders**
+
    ```swift
    @MainActor
    func testViewBuilder_Construction() {
@@ -537,6 +550,7 @@ func testView_AdaptiveColorSchemeModifier_Exists() {
    ```
 
 4. **Testing Environment Values with Views**
+
    ```swift
    @MainActor
    func testEnvironment_WithView() {
@@ -554,6 +568,7 @@ func testView_AdaptiveColorSchemeModifier_Exists() {
 **Do NOT use `@MainActor` when:**
 
 1. **Testing Pure Data/Logic (No Views)**
+
    ```swift
    // ✅ No @MainActor needed - no SwiftUI Views
    func testColorSchemeAdapter_IsDarkMode() {
@@ -563,6 +578,7 @@ func testView_AdaptiveColorSchemeModifier_Exists() {
    ```
 
 2. **Testing Environment Keys Directly**
+
    ```swift
    // ✅ No @MainActor needed - direct property testing
    func testSurfaceStyleKey_DefaultValue() {
@@ -572,6 +588,7 @@ func testView_AdaptiveColorSchemeModifier_Exists() {
    ```
 
 3. **Testing ViewModels/ObservableObjects**
+
    ```swift
    // ✅ No @MainActor needed - testing data model
    func testViewModel_Increment() {
@@ -582,6 +599,7 @@ func testView_AdaptiveColorSchemeModifier_Exists() {
    ```
 
 4. **Testing Platform Adapters**
+
    ```swift
    // ✅ No @MainActor needed - pure logic
    func testPlatformAdapter_Spacing() {
@@ -597,6 +615,7 @@ func testView_AdaptiveColorSchemeModifier_Exists() {
 2. **Compilation is Your Guide**: If you get the "Non-Sendable 'some View'" error, add `@MainActor`
 
 3. **Prefer Specific Over Broad**:
+
    ```swift
    // ✅ GOOD: Only mark methods that need it
    @MainActor
@@ -665,10 +684,12 @@ func testEnvironmentValues_SetSurfaceStyle_StoresValue() {
 If you encounter concurrency errors:
 
 1. **Read the error carefully**:
-   ```
+
+   ```clang
    Non-Sendable 'some View'-typed result can not be returned from
    main actor-isolated instance method 'X()' to nonisolated context
    ```
+
    → The method returning `some View` is MainActor-isolated
 
 2. **Identify the source**:
@@ -676,6 +697,7 @@ If you encounter concurrency errors:
    - Is it a view modifier, ViewBuilder, or view constructor?
 
 3. **Apply @MainActor to the test method**:
+
    ```swift
    @MainActor  // Add this
    func testProblematicMethod() {
@@ -719,7 +741,7 @@ When updating tests for Swift 6 strict concurrency:
 
 ### File Structure
 
-```
+```zsh
 Tests/
 ├── ComponentsTests/
 │   ├── BadgeTests.swift           # Component behavior tests
@@ -803,11 +825,13 @@ func testCardView_Snapshot() {
 ```
 
 **When to use snapshot testing:**
+
 - Visual regressions (colors, spacing, layout)
 - Cross-platform appearance consistency
 - Complex component compositions
 
 **When NOT to use snapshot testing:**
+
 - Logic and behavior (use unit tests)
 - Environment values (test directly)
 - Platform detection (test properties)
