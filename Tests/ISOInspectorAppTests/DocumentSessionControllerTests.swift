@@ -375,10 +375,10 @@ final class DocumentSessionControllerTests: XCTestCase {
 
         let controller = makeController(
             store: recentsStore,
+            workQueue: ImmediateWorkQueue(),
             bookmarkStore: bookmarkStore,
             filesystemAccess: filesystemStub.makeAccess(),
-            bookmarkDataProvider: { _ in refreshedData },
-            workQueue: ImmediateWorkQueue()
+            bookmarkDataProvider: { _ in refreshedData }
         )
 
         controller.openRecent(recent)
@@ -729,7 +729,7 @@ final class DocumentSessionControllerTests: XCTestCase {
         ]
         let parseTreeStore = ParseTreeStore()
         let eventStream = makeValidationEventStream()
-        let pipeline = ParsePipeline { _, _ in eventStream }
+        let pipeline = ParsePipeline(buildStream: { _, _ in eventStream })
         let controller = makeController(
             store: recentsStore,
             sessionStore: sessionStore,
@@ -759,7 +759,7 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertFalse(controller.isUsingWorkspaceValidationOverride)
         XCTAssertEqual(controller.parseTreeStore.snapshot.validationIssues.filter { $0.ruleID == "VR-006" }.count, 2)
 
-        controller.selectValidationPreset("structural", scope: .workspace)
+        controller.selectValidationPreset("structural", scope: DocumentSessionController.ValidationConfigurationScope.workspace)
 
         XCTAssertEqual(controller.validationConfiguration.activePresetID, "structural")
         XCTAssertTrue(controller.isUsingWorkspaceValidationOverride)
@@ -794,7 +794,7 @@ final class DocumentSessionControllerTests: XCTestCase {
         ]
         let parseTreeStore = ParseTreeStore()
         let eventStream = makeValidationEventStream()
-        let pipeline = ParsePipeline { _, _ in eventStream }
+        let pipeline = ParsePipeline(buildStream: { _, _ in eventStream })
         let controller = makeController(
             store: recentsStore,
             sessionStore: sessionStore,
@@ -823,10 +823,10 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertEqual(controller.globalValidationConfiguration.activePresetID, "all-rules")
         XCTAssertEqual(controller.parseTreeStore.snapshot.validationIssues.filter { $0.ruleID == "VR-006" }.count, 2)
 
-        controller.setValidationRule(.researchLogRecording, isEnabled: false, scope: .global)
+        controller.setValidationRule(ValidationRuleIdentifier.researchLogRecording, isEnabled: false, scope: DocumentSessionController.ValidationConfigurationScope.global)
 
-        XCTAssertEqual(controller.globalValidationConfiguration.ruleOverrides[.researchLogRecording], false)
-        XCTAssertEqual(configStore.savedConfigurations.last?.ruleOverrides[.researchLogRecording], false)
+        XCTAssertEqual(controller.globalValidationConfiguration.ruleOverrides[ValidationRuleIdentifier.researchLogRecording], false)
+        XCTAssertEqual(configStore.savedConfigurations.last?.ruleOverrides[ValidationRuleIdentifier.researchLogRecording], false)
         XCTAssertEqual(controller.parseTreeStore.snapshot.validationIssues.filter { $0.ruleID == "VR-006" }.count, 0)
         XCTAssertFalse(controller.isUsingWorkspaceValidationOverride)
     }
