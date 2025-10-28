@@ -1017,3 +1017,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/`.
 - **Highlights:** Captures the privacy-focused export audit that strips binary payload data from tolerant JSON and plaintext reports, along with the Integrity tab and ResearchLog preview planning notes that were active during the close-out. The archived `blocked.md` documents the VoiceOver hardware dependency before it moved to the permanent blocker log.
 - **Next steps carried forward:** Resume Integrity tab wiring and ResearchLog preview audit via the regenerated scaffolding in `DOCS/INPROGRESS/`, and continue tracking real-world asset licensing as the sole recoverable blocker in the refreshed `blocked.md`.
+
+## 196_T3_6_Integrity_Summary_Tab
+- **Archived files:** `T3_6_Integrity_Summary_Tab.md`, `T3_6_Summary_of_Work.md`, `194_ResearchLogMonitor_SwiftUIPreviews.md`, `Summary_of_Work.md`, `next_tasks.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/196_T3_6_Integrity_Summary_Tab/`.
+- **Highlights:** Captures the Integrity tab close-out, including the implementation summary for the new sortable/filterable diagnostics table, the companion ResearchLog preview planning notes, and the in-progress scaffolding refreshed at the end of the release cycle.
+- **Next steps carried forward:** Follow the regenerated `DOCS/INPROGRESS/next_tasks.md` to scope T3.6 polish items and the ResearchLog preview audit, while keeping the real-world fixture licensing blocker on the day-to-day watch list.

@@ -37,7 +37,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-27):** Task **T4.4 — Ensure Exports Omit Raw Binary Snippets** hardened tolerant parsing exports so JSON and plaintext reports only publish metadata (severity, codes, byte ranges) while omitting binary payloads. Verification recorded in `DOCS/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/195_T4_4_Sanitize_Issue_Exports.md` and enforced by new redaction tests in `Tests/ISOInspectorKitTests/ParseExportTests.swift`.
 >
-> **In Progress:** Task **T3.6 — Integrity Summary Tab** now has an active PRD in `DOCS/INPROGRESS/T3_6_Integrity_Summary_Tab.md`, covering the new tab, navigation hooks, and export alignment.
+> **Completed (2025-10-28):** Task **T3.6 — Integrity Summary Tab** shipped the dedicated diagnostics surface. Notes now live in `DOCS/TASK_ARCHIVE/196_T3_6_Integrity_Summary_Tab/`, and the follow-up polish checklist is tracked via the refreshed `DOCS/INPROGRESS/T3_6_Integrity_Summary_Tab.md` stub.
 >
 > **Completed (2025-10-23):** Task **E2 — Detect Zero/Negative Progress Loops** is now archived in `DOCS/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/`.
 >
