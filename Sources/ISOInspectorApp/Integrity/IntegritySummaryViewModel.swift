@@ -64,14 +64,54 @@ final class IntegritySummaryViewModel: ObservableObject {
                 severityRank(lhs.severity) > severityRank(rhs.severity)
             }
         case .offset:
+            // Multi-field offset-based sorting:
+            // 1. Primary: Sort by byteRange.lowerBound (issues without ranges sort to end)
+            // 2. Secondary: Tie-break by severity rank (Error > Warning > Info)
+            // 3. Tertiary: Tie-break by code lexicographically for deterministic ordering
             issues = issues.sorted { lhs, rhs in
-                // @todo #T36-001 Implement offset-based sorting
-                (lhs.byteRange?.lowerBound ?? 0) < (rhs.byteRange?.lowerBound ?? 0)
+                let lhsOffset = lhs.byteRange?.lowerBound ?? Int64.max
+                let rhsOffset = rhs.byteRange?.lowerBound ?? Int64.max
+
+                if lhsOffset != rhsOffset {
+                    return lhsOffset < rhsOffset
+                }
+
+                // Tie-breaker: severity rank (descending)
+                let lhsSeverity = severityRank(lhs.severity)
+                let rhsSeverity = severityRank(rhs.severity)
+
+                if lhsSeverity != rhsSeverity {
+                    return lhsSeverity > rhsSeverity
+                }
+
+                // Final tie-breaker: code (lexicographic)
+                return lhs.code < rhs.code
             }
         case .affectedNode:
+            // Multi-field affected node sorting:
+            // 1. Primary: Sort by first affected node ID (issues without nodes sort to end)
+            // 2. Secondary: Tie-break by severity rank (Error > Warning > Info)
+            // 3. Tertiary: Tie-break by byteRange.lowerBound for stable ordering
             issues = issues.sorted { lhs, rhs in
-                // @todo #T36-002 Implement affected node sorting
-                (lhs.affectedNodeIDs.first ?? 0) < (rhs.affectedNodeIDs.first ?? 0)
+                let lhsNodeID = lhs.affectedNodeIDs.first ?? Int64.max
+                let rhsNodeID = rhs.affectedNodeIDs.first ?? Int64.max
+
+                if lhsNodeID != rhsNodeID {
+                    return lhsNodeID < rhsNodeID
+                }
+
+                // Tie-breaker: severity rank (descending)
+                let lhsSeverity = severityRank(lhs.severity)
+                let rhsSeverity = severityRank(rhs.severity)
+
+                if lhsSeverity != rhsSeverity {
+                    return lhsSeverity > rhsSeverity
+                }
+
+                // Final tie-breaker: offset for stable ordering
+                let lhsOffset = lhs.byteRange?.lowerBound ?? Int64.max
+                let rhsOffset = rhs.byteRange?.lowerBound ?? Int64.max
+                return lhsOffset < rhsOffset
             }
         }
 
