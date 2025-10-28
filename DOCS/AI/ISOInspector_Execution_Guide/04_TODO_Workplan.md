@@ -35,7 +35,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-27):** Task **T4.1 — Extend JSON Export Schema for Issues** is archived in `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/`, capturing the schema version bump, tolerant issue payload, and refreshed documentation notes.
 >
-> **Completed (2025-10-27):** Task **T4.4 — Ensure Exports Omit Raw Binary Snippets** hardened tolerant parsing exports so JSON and plaintext reports only publish metadata (severity, codes, byte ranges) while omitting binary payloads. Verification recorded in `DOCS/INPROGRESS/195_T4_4_Sanitize_Issue_Exports.md` and enforced by new redaction tests in `Tests/ISOInspectorKitTests/ParseExportTests.swift`.
+> **Completed (2025-10-27):** Task **T4.4 — Ensure Exports Omit Raw Binary Snippets** hardened tolerant parsing exports so JSON and plaintext reports only publish metadata (severity, codes, byte ranges) while omitting binary payloads. Verification recorded in `DOCS/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/195_T4_4_Sanitize_Issue_Exports.md` and enforced by new redaction tests in `Tests/ISOInspectorKitTests/ParseExportTests.swift`.
 >
 > **In Progress:** Task **T3.6 — Integrity Summary Tab** now has an active PRD in `DOCS/INPROGRESS/T3_6_Integrity_Summary_Tab.md`, covering the new tab, navigation hooks, and export alignment.
 >
@@ -173,7 +173,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | G4 | Implement zero-trust logging and audit trail for file access events. | Medium | 1 | G1 | Swift Logging | Access logs omit absolute paths, include hashed identifiers, and pass diagnostics tests. *(Completed — see `DOCS/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/Summary_of_Work.md` and `DOCS/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/G4_Zero_Trust_Logging.md`.)* |
 | G5 | Provide UIDocumentPicker integration for iOS/iPadOS platform adapters. | Medium | 1 | G1 | UIKit, Swift Concurrency | FilesystemAccessKit presents `UIDocumentPickerViewController`, returns security-scoped URLs, and ships regression coverage without regressing macOS adapters. **(Completed — FilesystemAccess.live selects the UIKit presenter by default on iOS/iPadOS.)** |
 
-> **Completed:** Task **G8 — Accessibility & Keyboard Shortcuts** unified hardware focus commands and VoiceOver-friendly navigation across macOS and iPadOS. Notes and summary are archived in `DOCS/TASK_ARCHIVE/155_G8_Accessibility_and_Keyboard_Shortcuts/`, and the follow-up VoiceOver verification pass remains tracked under `DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts.md` with status carried forward via `DOCS/INPROGRESS/next_tasks.md`.
+> **Completed:** Task **G8 — Accessibility & Keyboard Shortcuts** unified hardware focus commands and VoiceOver-friendly navigation across macOS and iPadOS. Notes and summary are archived in `DOCS/TASK_ARCHIVE/155_G8_Accessibility_and_Keyboard_Shortcuts/`, and the follow-up VoiceOver verification pass now lives in the permanent blocker log at `DOCS/TASK_ARCHIVE/BLOCKED/2025-10-27_VoiceOver_Regression_Pass.md`.
 
 > **Completed (2025-10-27):** Task **G6 — Export JSON Actions** shipped SwiftUI export controls, shared exporter wiring, and diagnostics-backed error handling. See `DOCS/TASK_ARCHIVE/179_Summary_of_Work_2025-10-27_G6_Export_JSON_Actions/Summary_of_Work.md` for the latest verification notes.
 

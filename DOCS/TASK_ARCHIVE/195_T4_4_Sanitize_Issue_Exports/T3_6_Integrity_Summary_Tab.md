@@ -1,6 +1,6 @@
-# T3.6 — Integrity Summary Tab — Next Iteration
+# T3.6 — Integrity Summary Tab (2025-10-27 Refresh)
 
-> Earlier notes and status updates were archived in `DOCS/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/T3_6_Integrity_Summary_Tab.md`.
+> Historical discovery notes were archived in `DOCS/TASK_ARCHIVE/194_T4_2_Plaintext_Issue_Export_Closeout/T3_6_Integrity_Summary_Tab.md` on 2025-10-27.
 
 ## 🎯 Objective
 Deliver a dedicated Integrity tab that consolidates all recorded `ParseIssue` entries into a sortable, filterable table and exposes exports so operators can triage corruption without scanning the outline manually.

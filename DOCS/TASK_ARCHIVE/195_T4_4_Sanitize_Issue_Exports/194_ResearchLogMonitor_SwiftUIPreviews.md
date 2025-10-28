@@ -1,9 +1,9 @@
-# Integrate ResearchLogMonitor Audit with SwiftUI Previews — Next Iteration
+# Integrate ResearchLogMonitor Audit with SwiftUI Previews (2025-10-27 Refresh)
 
-> Historical discovery notes were archived in `DOCS/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/194_ResearchLogMonitor_SwiftUIPreviews.md` after the 2025-10-27 refresh.
+> Earlier investigation notes are archived in `DOCS/TASK_ARCHIVE/194_T4_2_Plaintext_Issue_Export_Closeout/194_ResearchLogMonitor_SwiftUIPreviews.md`.
 
 ## 🎯 Objective
-Ensure SwiftUI preview scenarios that render VR-006 research log data execute `ResearchLogMonitor.audit` so schema drift, missing fixtures, and empty payloads surface during design-time validation.
+Ensure SwiftUI preview scenarios that render VR-006 research log data execute `ResearchLogMonitor.audit` so schema drift, missing fixtures, and empty payloads are surfaced during design-time validation.
 
 ## 📌 Immediate Focus
 - Thread `ResearchLogPreviewProvider` snapshots through preview compositions so diagnostics appear alongside sample payloads.
