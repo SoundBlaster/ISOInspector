@@ -101,7 +101,11 @@ jobs:
       - name: Run ISOInspectorAppTests
         run: |
           set -eo pipefail
-          swift test --filter ISOInspectorAppTests 2>&1 | tee swift-test.log
+          xcodebuild test \
+            -workspace ISOInspector.xcworkspace \
+            -scheme ISOInspectorAppTests \
+            -destination 'platform=macOS' \
+            | tee xcodebuild-test.log
 
       - name: Archive ISOInspectorApp (unsigned)
         run: |

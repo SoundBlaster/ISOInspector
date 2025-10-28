@@ -230,6 +230,23 @@ func cliRunnerTarget() -> Target {
     )
 }
 
+func appTestsTarget() -> Target {
+    Target.target(
+        name: "ISOInspectorAppTests",
+        destinations: [.mac],
+        product: .unitTests,
+        bundleId: "ru.egormerkushev.isoinspector.app.tests",
+        deploymentTargets: .macOS("14.0"),
+        infoPlist: .default,
+        sources: ["Tests/ISOInspectorAppTests/**"],
+        dependencies: [
+            .target(name: "ISOInspectorKit"),
+            .project(target: "FoundationUI", path: .relativeToRoot("FoundationUI"))
+        ],
+        settings: .settings(base: baseSettings, configurations: buildConfigurations)
+    )
+}
+
 let project = Project(
     name: "ISOInspector",
     organizationName: "ISOInspector",
@@ -248,6 +265,7 @@ let project = Project(
         appTarget(for: .iOS),
         appTarget(for: .iPadOS),
         cliLibraryTarget(),
-        cliRunnerTarget()
+        cliRunnerTarget(),
+        appTestsTarget()
     ]
 )
