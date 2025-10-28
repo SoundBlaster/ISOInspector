@@ -1011,3 +1011,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/194_T4_2_Plaintext_Issue_Export_Closeout/`.
 - **Highlights:** Records completion notes for the plaintext integrity issue exporter, plus the prior Integrity tab and ResearchLog preview planning docs that informed the hand-off. The archived `next_tasks.md` and `blocked.md` capture the pre-archive queue before scaffolding was refreshed.
 - **Next steps carried forward:** Continue building the Integrity summary tab and the ResearchLog preview audit from the refreshed documents in `DOCS/INPROGRESS/`, while keeping VoiceOver hardware and licensed fixture acquisitions on the recoverable blocker list.
+
+## 195_T4_4_Sanitize_Issue_Exports
+- **Archived files:** `195_T4_4_Sanitize_Issue_Exports.md`, `Summary_of_Work.md`, `T3_6_Integrity_Summary_Tab.md`, `194_ResearchLogMonitor_SwiftUIPreviews.md`, `next_tasks.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/`.
+- **Highlights:** Captures the privacy-focused export audit that strips binary payload data from tolerant JSON and plaintext reports, along with the Integrity tab and ResearchLog preview planning notes that were active during the close-out. The archived `blocked.md` documents the VoiceOver hardware dependency before it moved to the permanent blocker log.
+- **Next steps carried forward:** Resume Integrity tab wiring and ResearchLog preview audit via the regenerated scaffolding in `DOCS/INPROGRESS/`, and continue tracking real-world asset licensing as the sole recoverable blocker in the refreshed `blocked.md`.
