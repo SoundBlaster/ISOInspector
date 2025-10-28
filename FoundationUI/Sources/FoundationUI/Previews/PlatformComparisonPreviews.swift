@@ -707,206 +707,218 @@ import UIKit
 
 // MARK: - Preview: Component Adaptation
 
-#Preview("Component Adaptation Showcase") {
-    @Environment(\.colorScheme) var colorScheme
+private struct ComponentAdaptationShowcasePreview: View {
+    @Environment(\.colorScheme) private var colorScheme
 
-    return VStack(spacing: DS.Spacing.l) {
-        Text("FoundationUI Component Adaptation")
-            .font(DS.Typography.title)
+    var body: some View {
+        VStack(spacing: DS.Spacing.l) {
+            Text("FoundationUI Component Adaptation")
+                .font(DS.Typography.title)
 
-        Text("Components automatically adapt to platform conventions")
-            .font(DS.Typography.body)
-            .foregroundColor(.secondary)
+            Text("Components automatically adapt to platform conventions")
+                .font(DS.Typography.body)
+                .foregroundColor(.secondary)
 
-        // Platform info card
-        Card {
-            VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                HStack {
-                    Text("Platform:")
-                        .font(DS.Typography.label)
-                    Spacer()
-                    Text(PlatformAdapter.isMacOS ? "macOS" : "iOS/iPadOS")
-                        .font(DS.Typography.code)
-                        .foregroundColor(.blue)
+            // Platform info card
+            Card {
+                VStack(alignment: .leading, spacing: DS.Spacing.m) {
+                    HStack {
+                        Text("Platform:")
+                            .font(DS.Typography.label)
+                        Spacer()
+                        Text(PlatformAdapter.isMacOS ? "macOS" : "iOS/iPadOS")
+                            .font(DS.Typography.code)
+                            .foregroundColor(.blue)
+                    }
+
+                    HStack {
+                        Text("Default Spacing:")
+                            .font(DS.Typography.label)
+                        Spacer()
+                        Text("\(Int(PlatformAdapter.defaultSpacing))pt")
+                            .font(DS.Typography.code)
+                            .foregroundColor(.green)
+                    }
+
+                    HStack {
+                        Text("Color Scheme:")
+                            .font(DS.Typography.label)
+                        Spacer()
+                        Text(colorScheme == .dark ? "Dark" : "Light")
+                            .font(DS.Typography.code)
+                            .foregroundColor(.purple)
+                    }
+
+                    #if os(iOS)
+                    HStack {
+                        Text("Touch Target:")
+                            .font(DS.Typography.label)
+                        Spacer()
+                        Text("\(Int(PlatformAdapter.minimumTouchTarget))pt")
+                            .font(DS.Typography.code)
+                            .foregroundColor(.orange)
+                    }
+                    #endif
                 }
-
-                HStack {
-                    Text("Default Spacing:")
-                        .font(DS.Typography.label)
-                    Spacer()
-                    Text("\(Int(PlatformAdapter.defaultSpacing))pt")
-                        .font(DS.Typography.code)
-                        .foregroundColor(.green)
-                }
-
-                HStack {
-                    Text("Color Scheme:")
-                        .font(DS.Typography.label)
-                    Spacer()
-                    Text(colorScheme == .dark ? "Dark" : "Light")
-                        .font(DS.Typography.code)
-                        .foregroundColor(.purple)
-                }
-
-                #if os(iOS)
-                HStack {
-                    Text("Touch Target:")
-                        .font(DS.Typography.label)
-                    Spacer()
-                    Text("\(Int(PlatformAdapter.minimumTouchTarget))pt")
-                        .font(DS.Typography.code)
-                        .foregroundColor(.orange)
-                }
-                #endif
             }
-        }
 
-        // DS Token showcase
-        VStack(spacing: DS.Spacing.m) {
-            Text("Design System Tokens")
-                .font(DS.Typography.headline)
+            // DS Token showcase
+            VStack(spacing: DS.Spacing.m) {
+                Text("Design System Tokens")
+                    .font(DS.Typography.headline)
 
-            HStack(spacing: DS.Spacing.m) {
-                VStack {
-                    Text("S")
-                        .font(DS.Typography.caption)
-                    Text("\(Int(DS.Spacing.s))pt")
-                        .font(DS.Typography.code)
+                HStack(spacing: DS.Spacing.m) {
+                    VStack {
+                        Text("S")
+                            .font(DS.Typography.caption)
+                        Text("\(Int(DS.Spacing.s))pt")
+                            .font(DS.Typography.code)
+                    }
+                    .padding(DS.Spacing.s)
+                    .background(Color.blue.opacity(0.1))
+                    .cornerRadius(DS.Radius.small)
+
+                    VStack {
+                        Text("M")
+                            .font(DS.Typography.caption)
+                        Text("\(Int(DS.Spacing.m))pt")
+                            .font(DS.Typography.code)
+                    }
+                    .padding(DS.Spacing.m)
+                    .background(Color.green.opacity(0.1))
+                    .cornerRadius(DS.Radius.small)
+
+                    VStack {
+                        Text("L")
+                            .font(DS.Typography.caption)
+                        Text("\(Int(DS.Spacing.l))pt")
+                            .font(DS.Typography.code)
+                    }
+                    .padding(DS.Spacing.l)
+                    .background(Color.orange.opacity(0.1))
+                    .cornerRadius(DS.Radius.small)
                 }
-                .padding(DS.Spacing.s)
-                .background(Color.blue.opacity(0.1))
-                .cornerRadius(DS.Radius.small)
-
-                VStack {
-                    Text("M")
-                        .font(DS.Typography.caption)
-                    Text("\(Int(DS.Spacing.m))pt")
-                        .font(DS.Typography.code)
-                }
-                .padding(DS.Spacing.m)
-                .background(Color.green.opacity(0.1))
-                .cornerRadius(DS.Radius.small)
-
-                VStack {
-                    Text("L")
-                        .font(DS.Typography.caption)
-                    Text("\(Int(DS.Spacing.l))pt")
-                        .font(DS.Typography.code)
-                }
-                .padding(DS.Spacing.l)
-                .background(Color.orange.opacity(0.1))
-                .cornerRadius(DS.Radius.small)
             }
-        }
-        .cardStyle(elevation: .low)
+            .cardStyle(elevation: .low)
 
-        Text("ℹ️ Zero magic numbers - all values use DS tokens")
-            .font(DS.Typography.caption)
-            .foregroundColor(.secondary)
+            Text("ℹ️ Zero magic numbers - all values use DS tokens")
+                .font(DS.Typography.caption)
+                .foregroundColor(.secondary)
+        }
+        .padding(DS.Spacing.xl)
+        .platformAdaptive()
     }
-    .padding(DS.Spacing.xl)
-    .platformAdaptive()
+}
+
+#Preview("Component Adaptation Showcase") {
+    ComponentAdaptationShowcasePreview()
 }
 
 // MARK: - Preview: Cross-Platform Integration
 
-#Preview("Cross-Platform Integration") {
-    @Environment(\.colorScheme) var colorScheme
+private struct CrossPlatformIntegrationPreview: View {
+    @Environment(\.colorScheme) private var colorScheme
 
-    return VStack(spacing: DS.Spacing.l) {
-        Text("Cross-Platform Integration")
-            .font(DS.Typography.title)
+    var body: some View {
+        VStack(spacing: DS.Spacing.l) {
+            Text("Cross-Platform Integration")
+                .font(DS.Typography.title)
 
-        Text("Unified API across all platforms")
-            .font(DS.Typography.body)
-            .foregroundColor(.secondary)
+            Text("Unified API across all platforms")
+                .font(DS.Typography.body)
+                .foregroundColor(.secondary)
 
-        // Platform-specific features
-        VStack(spacing: DS.Spacing.m) {
-            #if os(macOS)
-            // macOS-specific features
-            VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("macOS Features")
-                    .font(DS.Typography.headline)
+            // Platform-specific features
+            VStack(spacing: DS.Spacing.m) {
+                #if os(macOS)
+                // macOS-specific features
+                VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                    Text("macOS Features")
+                        .font(DS.Typography.headline)
 
-                Button("Copy (⌘C)") {
-                    print("Copy action")
-                }
-                .platformKeyboardShortcut(.copy)
-
-                Text("✓ Keyboard shortcuts")
-                    .font(DS.Typography.caption)
-                    .foregroundColor(.green)
-                Text("✓ 12pt spacing (denser UI)")
-                    .font(DS.Typography.caption)
-                    .foregroundColor(.green)
-            }
-            .cardStyle(elevation: .low)
-            #endif
-
-            #if os(iOS)
-            // iOS/iPadOS-specific features
-            VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text(UIDevice.current.userInterfaceIdiom == .pad ? "iPadOS Features" : "iOS Features")
-                    .font(DS.Typography.headline)
-
-                Text("Tap Me")
-                    .frame(maxWidth: .infinity)
-                    .padding(DS.Spacing.m)
-                    .background(Color.blue.opacity(0.1))
-                    .cornerRadius(DS.Radius.card)
-                    .platformTapGesture {
-                        print("Tapped!")
+                    Button("Copy (⌘C)") {
+                        print("Copy action")
                     }
-                    .platformHoverEffect(.lift)
+                    .platformKeyboardShortcut(.copy)
 
-                Text("✓ Touch gestures")
-                    .font(DS.Typography.caption)
-                    .foregroundColor(.green)
-                Text("✓ 16pt spacing (touch-friendly)")
-                    .font(DS.Typography.caption)
-                    .foregroundColor(.green)
-                Text("✓ 44pt min touch target")
-                    .font(DS.Typography.caption)
-                    .foregroundColor(.green)
-
-                if UIDevice.current.userInterfaceIdiom == .pad {
-                    Text("✓ Pointer hover effects (iPad)")
+                    Text("✓ Keyboard shortcuts")
+                        .font(DS.Typography.caption)
+                        .foregroundColor(.green)
+                    Text("✓ 12pt spacing (denser UI)")
                         .font(DS.Typography.caption)
                         .foregroundColor(.green)
                 }
-            }
-            .cardStyle(elevation: .low)
-            #endif
+                .cardStyle(elevation: .low)
+                #endif
 
-            // Shared features
-            VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("Shared Features")
-                    .font(DS.Typography.headline)
+                #if os(iOS)
+                // iOS/iPadOS-specific features
+                VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                    Text(UIDevice.current.userInterfaceIdiom == .pad ? "iPadOS Features" : "iOS Features")
+                        .font(DS.Typography.headline)
 
-                Text("✓ Automatic Dark Mode")
-                    .font(DS.Typography.caption)
-                    .foregroundColor(.green)
-                Text("✓ DS token system")
-                    .font(DS.Typography.caption)
-                    .foregroundColor(.green)
-                Text("✓ Platform detection")
-                    .font(DS.Typography.caption)
-                    .foregroundColor(.green)
-                Text("✓ Adaptive spacing")
-                    .font(DS.Typography.caption)
-                    .foregroundColor(.green)
+                    Text("Tap Me")
+                        .frame(maxWidth: .infinity)
+                        .padding(DS.Spacing.m)
+                        .background(Color.blue.opacity(0.1))
+                        .cornerRadius(DS.Radius.card)
+                        .platformTapGesture {
+                            print("Tapped!")
+                        }
+                        .platformHoverEffect(.lift)
+
+                    Text("✓ Touch gestures")
+                        .font(DS.Typography.caption)
+                        .foregroundColor(.green)
+                    Text("✓ 16pt spacing (touch-friendly)")
+                        .font(DS.Typography.caption)
+                        .foregroundColor(.green)
+                    Text("✓ 44pt min touch target")
+                        .font(DS.Typography.caption)
+                        .foregroundColor(.green)
+
+                    if UIDevice.current.userInterfaceIdiom == .pad {
+                        Text("✓ Pointer hover effects (iPad)")
+                            .font(DS.Typography.caption)
+                            .foregroundColor(.green)
+                    }
+                }
+                .cardStyle(elevation: .low)
+                #endif
+
+                // Shared features
+                VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                    Text("Shared Features")
+                        .font(DS.Typography.headline)
+
+                    Text("✓ Automatic Dark Mode")
+                        .font(DS.Typography.caption)
+                        .foregroundColor(.green)
+                    Text("✓ DS token system")
+                        .font(DS.Typography.caption)
+                        .foregroundColor(.green)
+                    Text("✓ Platform detection")
+                        .font(DS.Typography.caption)
+                        .foregroundColor(.green)
+                    Text("✓ Adaptive spacing")
+                        .font(DS.Typography.caption)
+                        .foregroundColor(.green)
+                }
+                .cardStyle(elevation: .low)
             }
-            .cardStyle(elevation: .low)
+
+            Text("ℹ️ FoundationUI provides a consistent API with platform-specific optimizations")
+                .font(DS.Typography.caption)
+                .foregroundColor(.secondary)
+                .multilineTextAlignment(.center)
         }
-
-        Text("ℹ️ FoundationUI provides a consistent API with platform-specific optimizations")
-            .font(DS.Typography.caption)
-            .foregroundColor(.secondary)
-            .multilineTextAlignment(.center)
+        .padding(DS.Spacing.xl)
+        .platformAdaptive()
     }
-    .padding(DS.Spacing.xl)
-    .platformAdaptive()
+}
+
+#Preview("Cross-Platform Integration") {
+    CrossPlatformIntegrationPreview()
 }
 
 #endif

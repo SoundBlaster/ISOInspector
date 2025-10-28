@@ -3,6 +3,17 @@
 
 import PackageDescription
 
+var foundationUISwiftSettings: [SwiftSetting] = [
+    .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
+]
+
+var foundationUITestSwiftSettings: [SwiftSetting] = []
+
+#if compiler(<6.0)
+foundationUISwiftSettings.insert(.enableUpcomingFeature("StrictConcurrency"), at: 0)
+foundationUITestSwiftSettings.insert(.enableUpcomingFeature("StrictConcurrency"), at: 0)
+#endif
+
 let package = Package(
     name: "FoundationUI",
     platforms: [
@@ -23,10 +34,7 @@ let package = Package(
             name: "FoundationUI",
             dependencies: [],
             exclude: ["README.md"],
-            swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency"),
-                .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
-            ]
+            swiftSettings: foundationUISwiftSettings
         ),
         .testTarget(
             name: "FoundationUITests",
@@ -34,9 +42,7 @@ let package = Package(
                 "FoundationUI",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
             ],
-            swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
-            ]
+            swiftSettings: foundationUITestSwiftSettings
         ),
     ]
 )
