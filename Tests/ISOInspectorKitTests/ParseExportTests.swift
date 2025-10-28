@@ -233,6 +233,130 @@ final class ParseExportTests: XCTestCase {
         XCTAssertEqual(disabled, ["VR-006"])
     }
 
+    func testJSONExporterRedactsMetadataBinaryValues() throws {
+        let header = try makeHeader(type: "ilst", size: 64)
+        var builder = ParseTreeBuilder()
+        let metadataItems = ParsedBoxPayload.MetadataItemListBox(
+            handlerType: nil,
+            entries: [
+                .init(
+                    identifier: .fourCC(raw: 0x636F7672, display: "covr"),
+                    namespace: "mdta",
+                    name: "Cover Art",
+                    values: [
+                        .init(
+                            kind: .data(format: .png, data: Data([0x00, 0x01, 0x02, 0x03])),
+                            rawType: 0x64617461,
+                            locale: 0
+                        ),
+                        .init(
+                            kind: .bytes(Data([0xAA, 0xBB, 0xCC])),
+                            rawType: 0x62696E61,
+                            locale: 0
+                        )
+                    ]
+                )
+            ]
+        )
+        let payload = ParsedBoxPayload(fields: [], detail: .metadataItemList(metadataItems))
+        builder.consume(
+            ParseEvent(
+                kind: .willStartBox(header: header, depth: 0),
+                offset: header.startOffset,
+                metadata: BoxCatalog.shared.descriptor(for: header),
+                payload: payload
+            )
+        )
+        builder.consume(
+            ParseEvent(
+                kind: .didFinishBox(header: header, depth: 0),
+                offset: header.endOffset
+            )
+        )
+
+        let tree = builder.makeTree()
+        let exporter = JSONParseTreeExporter()
+        let data = try exporter.export(tree: tree)
+        let root = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let nodes = try XCTUnwrap(root["nodes"] as? [[String: Any]])
+        XCTAssertEqual(nodes.count, 1)
+        let node = try XCTUnwrap(nodes.first)
+        let structured = try XCTUnwrap(node["structured"] as? [String: Any])
+        let metadataJSON = try XCTUnwrap(structured["metadata_items"] as? [String: Any])
+        let entries = try XCTUnwrap(metadataJSON["entries"] as? [[String: Any]])
+        XCTAssertEqual(entries.count, 1)
+        let entry = try XCTUnwrap(entries.first)
+        let values = try XCTUnwrap(entry["values"] as? [[String: Any]])
+        XCTAssertEqual(values.count, 2)
+
+        let dataValue = values[0]
+        XCTAssertEqual(dataValue["kind"] as? String, "data")
+        XCTAssertEqual(dataValue["data_format"] as? String, "png")
+        XCTAssertEqual(dataValue["byte_length"] as? Int, 4)
+        XCTAssertNil(dataValue["bytes_base64"])
+        XCTAssertFalse(dataValue.keys.contains("bytes_base64"))
+
+        let bytesValue = values[1]
+        XCTAssertEqual(bytesValue["kind"] as? String, "bytes")
+        XCTAssertEqual(bytesValue["byte_length"] as? Int, 3)
+        XCTAssertNil(bytesValue["bytes_base64"])
+        XCTAssertFalse(bytesValue.keys.contains("bytes_base64"))
+    }
+
+    func testJSONExporterRedactsDataReferencePayload() throws {
+        let header = try makeHeader(type: "dref", size: 48)
+        var builder = ParseTreeBuilder()
+        let payloadRangeStart = header.payloadRange.lowerBound
+        let payloadRange = payloadRangeStart..<(payloadRangeStart + 2)
+        let dataReference = ParsedBoxPayload.DataReferenceBox(
+            version: 0,
+            flags: 0,
+            entryCount: 1,
+            entries: [
+                .init(
+                    index: 1,
+                    type: try FourCharCode("url "),
+                    version: 0,
+                    flags: 0,
+                    location: .data(Data([0xDE, 0xAD])),
+                    byteRange: header.payloadRange,
+                    payloadRange: payloadRange
+                )
+            ]
+        )
+        let payload = ParsedBoxPayload(fields: [], detail: .dataReference(dataReference))
+        builder.consume(
+            ParseEvent(
+                kind: .willStartBox(header: header, depth: 0),
+                offset: header.startOffset,
+                metadata: BoxCatalog.shared.descriptor(for: header),
+                payload: payload
+            )
+        )
+        builder.consume(
+            ParseEvent(
+                kind: .didFinishBox(header: header, depth: 0),
+                offset: header.endOffset
+            )
+        )
+
+        let tree = builder.makeTree()
+        let exporter = JSONParseTreeExporter()
+        let data = try exporter.export(tree: tree)
+        let root = try XCTUnwrap(JSONSerialization.jsonObject(with: data) as? [String: Any])
+        let nodes = try XCTUnwrap(root["nodes"] as? [[String: Any]])
+        XCTAssertEqual(nodes.count, 1)
+        let node = try XCTUnwrap(nodes.first)
+        let structured = try XCTUnwrap(node["structured"] as? [String: Any])
+        let dataReferenceJSON = try XCTUnwrap(structured["data_reference"] as? [String: Any])
+        let entries = try XCTUnwrap(dataReferenceJSON["entries"] as? [[String: Any]])
+        XCTAssertEqual(entries.count, 1)
+        let entry = try XCTUnwrap(entries.first)
+        XCTAssertEqual(entry["payload_length"] as? Int, 2)
+        XCTAssertNil(entry["payload_base64"])
+        XCTAssertFalse(entry.keys.contains("payload_base64"))
+    }
+
     func testParseTreeBuilderCapturesParseIssues() throws {
         let header = try makeHeader(type: "ftyp", size: 24)
         let issue = ParseIssue(

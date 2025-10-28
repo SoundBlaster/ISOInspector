@@ -35,7 +35,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-10-27):** Task **T4.1 — Extend JSON Export Schema for Issues** is archived in `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/`, capturing the schema version bump, tolerant issue payload, and refreshed documentation notes.
 >
-> **In Progress:** Task **T4.4 — Ensure Exports Omit Raw Binary Snippets** now focuses on privacy hardening for tolerant parsing reports. See `DOCS/INPROGRESS/195_T4_4_Sanitize_Issue_Exports.md` for objectives, context, and verification checkpoints.
+> **Completed (2025-10-27):** Task **T4.4 — Ensure Exports Omit Raw Binary Snippets** hardened tolerant parsing exports so JSON and plaintext reports only publish metadata (severity, codes, byte ranges) while omitting binary payloads. Verification recorded in `DOCS/INPROGRESS/195_T4_4_Sanitize_Issue_Exports.md` and enforced by new redaction tests in `Tests/ISOInspectorKitTests/ParseExportTests.swift`.
 >
 > **In Progress:** Task **T3.6 — Integrity Summary Tab** now has an active PRD in `DOCS/INPROGRESS/T3_6_Integrity_Summary_Tab.md`, covering the new tab, navigation hooks, and export alignment.
 >

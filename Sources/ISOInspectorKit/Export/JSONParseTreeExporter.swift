@@ -874,7 +874,7 @@ private struct MetadataItemListDetail: Encodable {
             let booleanValue: Bool?
             let float32Value: Double?
             let float64Value: Double?
-            let bytesBase64: String?
+            let byteLength: Int?
             let rawType: UInt32
             let rawTypeHex: String
             let dataFormat: String?
@@ -894,7 +894,7 @@ private struct MetadataItemListDetail: Encodable {
                 var booleanValue: Bool?
                 var float32Value: Double?
                 var float64Value: Double?
-                var bytesBase64: String?
+                var byteLength: Int?
                 var dataFormat: String?
                 var fixedPointValue: Double?
                 var fixedPointRaw: Int32?
@@ -925,10 +925,10 @@ private struct MetadataItemListDetail: Encodable {
                 case let .data(format, data):
                     self.kind = "data"
                     dataFormat = format.rawValue
-                    bytesBase64 = data.isEmpty ? nil : Data(data).base64EncodedString()
+                    byteLength = data.count
                 case let .bytes(data):
                     self.kind = "bytes"
-                    bytesBase64 = data.isEmpty ? nil : Data(data).base64EncodedString()
+                    byteLength = data.count
                 case let .signedFixedPoint(point):
                     self.kind = "signed_fixed_point"
                     fixedPointValue = point.value
@@ -942,7 +942,7 @@ private struct MetadataItemListDetail: Encodable {
                 self.booleanValue = booleanValue
                 self.float32Value = float32Value
                 self.float64Value = float64Value
-                self.bytesBase64 = bytesBase64
+                self.byteLength = byteLength
                 self.dataFormat = dataFormat
                 self.fixedPointValue = fixedPointValue
                 self.fixedPointRaw = fixedPointRaw
@@ -957,7 +957,7 @@ private struct MetadataItemListDetail: Encodable {
                 case booleanValue = "boolean_value"
                 case float32Value = "float32_value"
                 case float64Value = "float64_value"
-                case bytesBase64 = "bytes_base64"
+                case byteLength = "byte_length"
                 case rawType = "raw_type"
                 case rawTypeHex = "raw_type_hex"
                 case dataFormat = "data_format"
@@ -1018,7 +1018,6 @@ private struct DataReferenceDetail: Encodable {
         let url: String?
         let urn: URN?
         let payloadLength: Int?
-        let payloadBase64: String?
 
         init(entry: ParsedBoxPayload.DataReferenceBox.Entry) {
             self.index = Int(entry.index)
@@ -1034,27 +1033,28 @@ private struct DataReferenceDetail: Encodable {
                 self.url = nil
                 self.urn = nil
                 self.payloadLength = payloadLengthValue > 0 ? payloadLengthValue : nil
-                self.payloadBase64 = nil
             case let .url(string):
                 self.url = string
                 self.urn = nil
                 self.payloadLength = payloadLengthValue > 0 ? payloadLengthValue : nil
-                self.payloadBase64 = nil
             case let .urn(name, location):
                 self.url = nil
                 self.urn = URN(name: name, location: location)
                 self.payloadLength = payloadLengthValue > 0 ? payloadLengthValue : nil
-                self.payloadBase64 = nil
             case let .data(data):
                 self.url = nil
                 self.urn = nil
-                self.payloadLength = payloadLengthValue > 0 ? payloadLengthValue : nil
-                self.payloadBase64 = data.isEmpty ? nil : Data(data).base64EncodedString()
+                if payloadLengthValue > 0 {
+                    self.payloadLength = payloadLengthValue
+                } else if !data.isEmpty {
+                    self.payloadLength = data.count
+                } else {
+                    self.payloadLength = nil
+                }
             case .empty:
                 self.url = nil
                 self.urn = nil
                 self.payloadLength = nil
-                self.payloadBase64 = nil
             }
         }
 
@@ -1067,7 +1067,6 @@ private struct DataReferenceDetail: Encodable {
             case url
             case urn
             case payloadLength = "payload_length"
-            case payloadBase64 = "payload_base64"
         }
     }
 

@@ -25,3 +25,10 @@ Guarantee that every tolerant-parsing export format (JSON, plaintext, and future
 - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES`](../RULES)
 - Relevant archives in [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+
+## ✅ Update — 2025-10-27
+
+- JSON tolerant exports now drop all base64 payload fields and instead report byte lengths for metadata values and data reference entries.
+- `ParseExportTests` gained coverage that asserts metadata item list and data reference exports omit binary payloads while exposing counts.
+- Workplan and tolerance integration docs updated to record the privacy audit completion; `next_tasks.md` cleared the T4.4 follow-up.
+- `swift test` verifies the redaction tests alongside the existing suite.

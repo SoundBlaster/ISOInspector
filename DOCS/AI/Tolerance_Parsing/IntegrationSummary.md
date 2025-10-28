@@ -680,7 +680,7 @@ enum FeatureFlags {
 - [ ] UI affordances reviewed by accessibility team (color contrast, VoiceOver labels).
 - [ ] JSON schema versioning validated with backward compatibility test.
 - [ ] CLI default mode detection (TTY check) tested on macOS/Linux.
-- [ ] Privacy audit confirms no payload bytes in exports (T4.4).
+- [x] Privacy audit confirms no payload bytes in exports (T4.4).
 
 ---
 
