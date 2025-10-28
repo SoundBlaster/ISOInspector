@@ -180,7 +180,7 @@ final class AnnotationBookmarkStoreStub: AnnotationBookmarkStoring {
 }
 
 struct ImmediateWorkQueue: DocumentSessionWorkQueue {
-    func execute(_ work: @escaping () -> Void) {
+    func execute(_ work: @escaping @Sendable () -> Void) {
         work()
     }
 }
