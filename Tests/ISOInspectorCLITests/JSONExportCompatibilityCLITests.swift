@@ -2,6 +2,9 @@ import Foundation
 import XCTest
 @testable import ISOInspectorCLI
 @testable import ISOInspectorKit
+import struct ISOInspectorKit.FourCharCode
+
+private typealias KitFourCharCode = FourCharCode
 
 final class JSONExportCompatibilityCLITests: XCTestCase {
     func testExportedJSONMatchesCompatibilityBaselines() throws {
@@ -209,7 +212,7 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
             )
             currentOffset = end
 
-            let type = try FourCharCode(name)
+            let type = try KitFourCharCode(name)
             let header = BoxHeader(
                 type: type,
                 totalSize: Int64(totalSize),
@@ -245,10 +248,10 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
         case "ftyp":
             guard
                 let major = dictionary["major_brand"] as? String,
-                let majorCode = try? FourCharCode(major)
+                let majorCode = try? KitFourCharCode(major)
             else { return nil }
             let minor = UInt32(Self.intValue(forKey: "minor_version", in: dictionary))
-            let brandCodes = compatibleBrands.compactMap { try? FourCharCode($0) }
+            let brandCodes = compatibleBrands.compactMap { try? KitFourCharCode($0) }
             let detail = ParsedBoxPayload.FileTypeBox(
                 majorBrand: majorCode,
                 minorVersion: minor,

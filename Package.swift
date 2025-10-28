@@ -1,6 +1,14 @@
 // swift-tools-version: 6.0
 import PackageDescription
 
+var foundationUISwiftSettings: [SwiftSetting] = [
+    .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
+]
+
+#if compiler(<6.0)
+foundationUISwiftSettings.insert(.enableUpcomingFeature("StrictConcurrency"), at: 0)
+#endif
+
 let package = Package(
     name: "ISOInspector",
     defaultLocalization: "en",
@@ -74,10 +82,7 @@ let package = Package(
                 "README.md",
                 ".swiftlint.yml"
             ],
-            swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency"),
-                .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
-            ]
+            swiftSettings: foundationUISwiftSettings
         ),
         .testTarget(
             name: "ISOInspectorKitTests",
