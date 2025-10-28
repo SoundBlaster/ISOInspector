@@ -462,6 +462,259 @@ func testPlatformAdapter_MinimumTouchTarget() {
 
 ---
 
+## Swift 6 Concurrency: @MainActor Requirements
+
+**CRITICAL**: With Swift 6 strict concurrency enabled, all test methods that work with SwiftUI Views **must** be annotated with `@MainActor`.
+
+### ❌ Common Error Without @MainActor
+
+```swift
+// ❌ FAILS in Swift 6 strict concurrency mode
+func testView_AdaptiveColorSchemeModifier_Exists() {
+    let view = Text("Test")
+    let modifiedView = view.adaptiveColorScheme()  // ⚠️ Error here
+    XCTAssertNotNil(modifiedView)
+}
+```
+
+**Error Message:**
+```
+Non-Sendable 'some View'-typed result can not be returned from
+main actor-isolated instance method 'adaptiveColorScheme()' to
+nonisolated context
+```
+
+**Why this happens:**
+- SwiftUI Views must be created and accessed on the main thread
+- Methods returning `some View` are implicitly `@MainActor` isolated
+- Without `@MainActor` on the test, you're accessing main-actor-isolated code from a nonisolated context
+- Swift 6's strict concurrency checker catches this at compile time
+
+### ✅ Correct: Add @MainActor to Test Method
+
+```swift
+// ✅ PASSES: Test method is MainActor-isolated
+@MainActor
+func testView_AdaptiveColorSchemeModifier_Exists() {
+    let view = Text("Test")
+    let modifiedView = view.adaptiveColorScheme()
+    XCTAssertNotNil(modifiedView)
+}
+```
+
+### When to Use @MainActor in Tests
+
+**Always use `@MainActor` when:**
+
+1. **Creating SwiftUI Views**
+   ```swift
+   @MainActor
+   func testView_Creation() {
+       let view = MyCustomView()  // ✅ SwiftUI view creation
+       // Test view properties...
+   }
+   ```
+
+2. **Calling View Modifiers**
+   ```swift
+   @MainActor
+   func testView_Modifier() {
+       let modified = Text("Test").myCustomModifier()  // ✅ View modifier
+       // Test modifier behavior...
+   }
+   ```
+
+3. **Working with ViewBuilders**
+   ```swift
+   @MainActor
+   func testViewBuilder_Construction() {
+       let stack = VStack {  // ✅ ViewBuilder closure
+           Text("Line 1")
+           Text("Line 2")
+       }
+       // Test stack construction...
+   }
+   ```
+
+4. **Testing Environment Values with Views**
+   ```swift
+   @MainActor
+   func testEnvironment_WithView() {
+       struct TestView: View {
+           @Environment(\.colorScheme) var colorScheme
+           var body: some View { Text("Test") }
+       }
+       let view = TestView()  // ✅ SwiftUI view
+       // Test environment integration...
+   }
+   ```
+
+### When NOT to Use @MainActor
+
+**Do NOT use `@MainActor` when:**
+
+1. **Testing Pure Data/Logic (No Views)**
+   ```swift
+   // ✅ No @MainActor needed - no SwiftUI Views
+   func testColorSchemeAdapter_IsDarkMode() {
+       let adapter = ColorSchemeAdapter(colorScheme: .dark)
+       XCTAssertTrue(adapter.isDarkMode)
+   }
+   ```
+
+2. **Testing Environment Keys Directly**
+   ```swift
+   // ✅ No @MainActor needed - direct property testing
+   func testSurfaceStyleKey_DefaultValue() {
+       let defaultValue = SurfaceStyleKey.defaultValue
+       XCTAssertEqual(defaultValue, .regular)
+   }
+   ```
+
+3. **Testing ViewModels/ObservableObjects**
+   ```swift
+   // ✅ No @MainActor needed - testing data model
+   func testViewModel_Increment() {
+       let vm = MyViewModel()
+       vm.increment()
+       XCTAssertEqual(vm.count, 1)
+   }
+   ```
+
+4. **Testing Platform Adapters**
+   ```swift
+   // ✅ No @MainActor needed - pure logic
+   func testPlatformAdapter_Spacing() {
+       let spacing = PlatformAdapter.defaultSpacing
+       XCTAssertGreaterThan(spacing, 0)
+   }
+   ```
+
+### Key Principles
+
+1. **Rule of Thumb**: If your test creates, modifies, or returns a SwiftUI `View`, add `@MainActor`
+
+2. **Compilation is Your Guide**: If you get the "Non-Sendable 'some View'" error, add `@MainActor`
+
+3. **Prefer Specific Over Broad**:
+   ```swift
+   // ✅ GOOD: Only mark methods that need it
+   @MainActor
+   func testView_WithSwiftUI() { /* ... */ }
+
+   func testLogic_NoSwiftUI() { /* ... */ }
+
+   // ❌ BAD: Don't mark entire test class unless all tests use Views
+   @MainActor
+   final class MyTests: XCTestCase {
+       // This forces ALL tests to run on MainActor
+   }
+   ```
+
+4. **Performance Consideration**: `@MainActor` tests run on the main thread. Keep them focused and fast.
+
+### Examples from Real Code
+
+#### Example 1: View Modifier Test (Needs @MainActor)
+
+```swift
+// From ColorSchemeAdapterTests.swift
+
+@MainActor  // ✅ Required because adaptiveColorScheme() returns 'some View'
+func testView_AdaptiveColorSchemeModifier_WorksWithComplexViews() {
+    let complexView = VStack {
+        Text("Title")
+        HStack {
+            Text("Left")
+            Text("Right")
+        }
+    }
+
+    let modifiedView = complexView.adaptiveColorScheme()
+    XCTAssertNotNil(modifiedView)
+}
+```
+
+#### Example 2: Adapter Logic Test (No @MainActor Needed)
+
+```swift
+// From ColorSchemeAdapterTests.swift
+
+// ✅ No @MainActor - testing pure logic, no Views
+func testColorSchemeAdapter_IsDarkMode_DarkScheme_ReturnsTrue() {
+    let adapter = ColorSchemeAdapter(colorScheme: .dark)
+    XCTAssertTrue(adapter.isDarkMode)
+}
+```
+
+#### Example 3: Environment Key Test (No @MainActor Needed)
+
+```swift
+// From SurfaceStyleKeyTests.swift
+
+// ✅ No @MainActor - testing EnvironmentValues directly, no View construction
+func testEnvironmentValues_SetSurfaceStyle_StoresValue() {
+    var environment = EnvironmentValues()
+    environment.surfaceStyle = .thick
+    XCTAssertEqual(environment.surfaceStyle, .thick)
+}
+```
+
+### Debugging @MainActor Issues
+
+If you encounter concurrency errors:
+
+1. **Read the error carefully**:
+   ```
+   Non-Sendable 'some View'-typed result can not be returned from
+   main actor-isolated instance method 'X()' to nonisolated context
+   ```
+   → The method returning `some View` is MainActor-isolated
+
+2. **Identify the source**:
+   - Which method is returning `some View`?
+   - Is it a view modifier, ViewBuilder, or view constructor?
+
+3. **Apply @MainActor to the test method**:
+   ```swift
+   @MainActor  // Add this
+   func testProblematicMethod() {
+       // Your test code
+   }
+   ```
+
+4. **Verify the fix**:
+   - Re-run tests
+   - Ensure compilation succeeds
+   - Check CI pipeline passes
+
+### Swift 6 Migration Checklist
+
+When updating tests for Swift 6 strict concurrency:
+
+- [ ] Review all test files for SwiftUI View usage
+- [ ] Add `@MainActor` to tests creating/modifying Views
+- [ ] Remove unnecessary `@MainActor` from pure logic tests
+- [ ] Run `swift build` to catch remaining concurrency issues
+- [ ] Verify all tests pass in CI
+- [ ] Document any platform-specific MainActor requirements
+
+### Common Patterns
+
+| Test Type | @MainActor Needed? | Example |
+|-----------|-------------------|---------|
+| View construction | ✅ Yes | `let view = MyView()` |
+| View modifier | ✅ Yes | `view.myModifier()` |
+| ViewBuilder | ✅ Yes | `VStack { Text("Hi") }` |
+| Environment + View | ✅ Yes | `TestView().environment(...)` |
+| Environment key alone | ❌ No | `SurfaceStyleKey.defaultValue` |
+| ViewModel/ObservableObject | ❌ No | `MyViewModel().increment()` |
+| Platform adapter logic | ❌ No | `PlatformAdapter.spacing` |
+| Color adapter logic | ❌ No | `ColorSchemeAdapter(...)` |
+| Enum/struct properties | ❌ No | `SurfaceMaterial.thin` |
+
+---
+
 ## Test Organization
 
 ### File Structure
@@ -596,5 +849,6 @@ func testCardView_Snapshot() {
 
 ---
 
-**Last Updated:** 2025-10-26
+**Last Updated:** 2025-10-28
 **Status:** Active guideline for all SwiftUI testing
+**Major Update:** Added Swift 6 @MainActor concurrency requirements section
