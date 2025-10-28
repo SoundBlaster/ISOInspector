@@ -41,6 +41,88 @@ Execute one or more tasks from the [FoundationUI Task Plan](../../../DOCS/AI/ISO
 
 ## ⚙️ EXECUTION STEPS
 
+### Step 0. Install and Verify Swift Toolchain
+
+**IMPORTANT**: Swift must be installed and available before writing or running tests.
+
+#### Check if Swift is Installed
+
+```bash
+swift --version
+```
+
+If Swift is installed, you should see output like:
+```
+Swift version 6.0.x (swift-6.0-RELEASE)
+Target: x86_64-unknown-linux-gnu
+```
+
+#### Install Swift (Ubuntu/Debian Linux)
+
+If Swift is not installed, follow these steps:
+
+1. **Install Swift dependencies**:
+   ```bash
+   apt-get update
+   apt-get install -y \
+     wget binutils git gnupg2 libc6-dev libcurl4-openssl-dev \
+     libedit2 libgcc-11-dev libpython3-dev libsqlite3-0 \
+     libstdc++-11-dev libxml2-dev libz3-dev pkg-config \
+     tzdata unzip zlib1g-dev
+   ```
+
+2. **Download Swift 6.0 (or latest stable) for Ubuntu**:
+   ```bash
+   # For Ubuntu 22.04 / 24.04 x86_64
+   cd /tmp
+   wget https://download.swift.org/swift-6.0.3-release/ubuntu2204/swift-6.0.3-RELEASE/swift-6.0.3-RELEASE-ubuntu22.04.tar.gz
+   ```
+
+   Alternative: Check [swift.org/download](https://swift.org/download/) for the latest release.
+
+3. **Extract and install Swift**:
+   ```bash
+   tar xzf swift-6.0.3-RELEASE-ubuntu22.04.tar.gz
+   mv swift-6.0.3-RELEASE-ubuntu22.04 /usr/share/swift
+   ```
+
+4. **Add Swift to PATH**:
+   ```bash
+   export PATH=/usr/share/swift/usr/bin:$PATH
+   echo 'export PATH=/usr/share/swift/usr/bin:$PATH' >> ~/.bashrc
+   ```
+
+5. **Verify installation**:
+   ```bash
+   swift --version
+   swift test --help
+   ```
+
+#### Platform-Specific Notes
+
+- **Linux**: Swift on Linux does **not** include SwiftUI frameworks (UIKit/AppKit)
+  - Tests will compile but SwiftUI views cannot be instantiated
+  - Use `#if canImport(SwiftUI)` guards in tests
+  - Run full UI tests on macOS/Xcode when possible
+
+- **macOS**: Swift comes bundled with Xcode
+  - Install Xcode 15.0+ from Mac App Store
+  - Verify: `xcode-select --install`
+
+- **CI/CD**: Use official Swift Docker images
+  - `docker pull swift:6.0`
+  - GitHub Actions: `swiftlang/swift-action@v1`
+
+#### Troubleshooting
+
+If `swift test` fails with import errors:
+1. Verify Package.swift platforms match your Swift version
+2. Check that all dependencies are resolved: `swift package resolve`
+3. Clean build artifacts: `swift package clean`
+4. Rebuild: `swift build`
+
+---
+
 ### Step 1. Identify Active Phase and Tasks
 
 1. Open the [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md)
