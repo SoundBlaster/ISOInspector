@@ -93,8 +93,8 @@ final class AppShellViewErrorBannerTests: XCTestCase {
                 severity: .warning,
                 code: "VR-100",
                 message: "Simulated warning",
-                affectedNodeIDs: [1],
-                byteRange: 0..<8
+                byteRange: 0..<8,
+                affectedNodeIDs: [1]
             ),
             depth: 1
         )
