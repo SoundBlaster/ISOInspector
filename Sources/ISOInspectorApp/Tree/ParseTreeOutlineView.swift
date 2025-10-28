@@ -5,71 +5,129 @@ import NestedA11yIDs
 import ISOInspectorKit
 
 struct ParseTreeExplorerView: View {
+    enum Tab {
+        case explorer
+        case integrity
+    }
+
     @ObservedObject var viewModel: DocumentViewModel
     @ObservedObject private var outlineViewModel: ParseTreeOutlineViewModel
     @ObservedObject private var detailViewModel: ParseTreeDetailViewModel
     @ObservedObject private var annotations: AnnotationBookmarkSession
+    @ObservedObject private var parseTreeStore: ParseTreeStore
+    @State private var selectedTab: Tab = .explorer
+    @State private var integrityViewModel: IntegritySummaryViewModel?
     @FocusState private var focusTarget: InspectorFocusTarget?
     let exportSelectionJSONAction: ((ParseTreeNode.ID) -> Void)?
     let exportSelectionIssueSummaryAction: ((ParseTreeNode.ID) -> Void)?
+    let exportDocumentJSONAction: (() -> Void)?
+    let exportDocumentIssueSummaryAction: (() -> Void)?
     private let focusCatalog = InspectorFocusShortcutCatalog.default
 
     init(
         viewModel: DocumentViewModel,
         exportSelectionJSONAction: ((ParseTreeNode.ID) -> Void)? = nil,
-        exportSelectionIssueSummaryAction: ((ParseTreeNode.ID) -> Void)? = nil
+        exportSelectionIssueSummaryAction: ((ParseTreeNode.ID) -> Void)? = nil,
+        exportDocumentJSONAction: (() -> Void)? = nil,
+        exportDocumentIssueSummaryAction: (() -> Void)? = nil
     ) {
         self._viewModel = ObservedObject(wrappedValue: viewModel)
         self._outlineViewModel = ObservedObject(wrappedValue: viewModel.outlineViewModel)
         self._detailViewModel = ObservedObject(wrappedValue: viewModel.detailViewModel)
         self._annotations = ObservedObject(wrappedValue: viewModel.annotations)
+        self._parseTreeStore = ObservedObject(wrappedValue: viewModel.store)
         self.exportSelectionJSONAction = exportSelectionJSONAction
         self.exportSelectionIssueSummaryAction = exportSelectionIssueSummaryAction
+        self.exportDocumentJSONAction = exportDocumentJSONAction
+        self.exportDocumentIssueSummaryAction = exportDocumentIssueSummaryAction
     }
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             header
-            HStack(alignment: .top, spacing: 16) {
-                ParseTreeOutlineView(
-                    viewModel: outlineViewModel,
-                    selectedNodeID: selectionBinding,
-                    annotationSession: annotations,
-                    focusTarget: $focusTarget,
-                    exportSelectionJSONAction: exportSelectionJSONAction,
-                    exportSelectionIssueSummaryAction: exportSelectionIssueSummaryAction
-                )
-                .frame(minWidth: 320)
-                .focused($focusTarget, equals: .outline)
-                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
+            TabView(selection: $selectedTab) {
+                explorerTab
+                    .tabItem {
+                        Label("Explorer", systemImage: "square.stack.3d.up")
+                    }
+                    .tag(Tab.explorer)
 
-                ParseTreeDetailView(
-                    viewModel: detailViewModel,
-                    annotationSession: annotations,
-                    selectedNodeID: selectionBinding,
-                    focusTarget: $focusTarget
-                )
-                    .frame(minWidth: 360)
-                    .focused($focusTarget, equals: .detail)
-                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.root)
+                integrityTab
+                    .tabItem {
+                        Label("Integrity", systemImage: "checkmark.shield")
+                    }
+                    .tag(Tab.integrity)
             }
         }
         .padding()
         .onAppear {
             focusTarget = .outline
+            if integrityViewModel == nil {
+                integrityViewModel = IntegritySummaryViewModel(issueStore: parseTreeStore.issueStore)
+            }
         }
         .background(focusCommands)
         .focusedSceneValue(\.inspectorFocusTarget, focusBinding)
     }
 
+    private var explorerTab: some View {
+        HStack(alignment: .top, spacing: 16) {
+            ParseTreeOutlineView(
+                viewModel: outlineViewModel,
+                selectedNodeID: selectionBinding,
+                annotationSession: annotations,
+                focusTarget: $focusTarget,
+                exportSelectionJSONAction: exportSelectionJSONAction,
+                exportSelectionIssueSummaryAction: exportSelectionIssueSummaryAction
+            )
+            .frame(minWidth: 320)
+            .focused($focusTarget, equals: .outline)
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
+
+            ParseTreeDetailView(
+                viewModel: detailViewModel,
+                annotationSession: annotations,
+                selectedNodeID: selectionBinding,
+                focusTarget: $focusTarget
+            )
+                .frame(minWidth: 360)
+                .focused($focusTarget, equals: .detail)
+                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.root)
+        }
+    }
+
+    private var integrityTab: some View {
+        Group {
+            if let integrityViewModel {
+                IntegritySummaryView(
+                    viewModel: integrityViewModel,
+                    onIssueSelected: handleIssueSelected,
+                    onExportJSON: exportDocumentJSONAction,
+                    onExportIssueSummary: exportDocumentIssueSummaryAction
+                )
+            } else {
+                Text("Loading integrity summary...")
+                    .foregroundColor(.secondary)
+            }
+        }
+    }
+
+    private func handleIssueSelected(_ issue: ParseIssue) {
+        // @todo #T36-003 Navigate to affected node when issue is selected
+        if let nodeID = issue.affectedNodeIDs.first {
+            viewModel.nodeViewModel.select(nodeID: nodeID)
+            selectedTab = .explorer
+        }
+    }
+
     private var header: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Box Hierarchy")
+                Text(headerTitle)
                     .font(.title2)
                     .bold()
                     .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.title)
-                Text("Search, filter, and expand ISO BMFF boxes")
+                Text(headerSubtitle)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.subtitle)
@@ -79,6 +137,24 @@ struct ParseTreeExplorerView: View {
                 .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.parseState)
         }
         .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.root)
+    }
+
+    private var headerTitle: String {
+        switch selectedTab {
+        case .explorer:
+            return "Box Hierarchy"
+        case .integrity:
+            return "Integrity Report"
+        }
+    }
+
+    private var headerSubtitle: String {
+        switch selectedTab {
+        case .explorer:
+            return "Search, filter, and expand ISO BMFF boxes"
+        case .integrity:
+            return "Review and triage parsing issues"
+        }
     }
 
     private var focusCommands: some View {
