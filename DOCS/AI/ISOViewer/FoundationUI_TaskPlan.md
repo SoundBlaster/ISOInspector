@@ -7,13 +7,13 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 48/116 tasks completed (41.4%)**
+**Total: 49/116 tasks completed (42.2%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | In Progress | 9/15 (60%) |
 | Phase 2: Core Components | ✅ Complete | 22/22 (100%) |
-| Phase 3: Patterns & Platform Adaptation | In Progress | 14/16 (87.5%) |
+| Phase 3: Patterns & Platform Adaptation | In Progress | 15/16 (93.75%) |
 | Phase 4: Agent Support & Polish | Not Started | 0/18 (0%) |
 | Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
@@ -442,7 +442,7 @@
   - Memory usage optimization
 
 ### 3.2 Layer 4: Contexts & Platform Adaptation
-**Progress: 6/8 tasks (75%) → IN PROGRESS**
+**Progress: 7/8 tasks (87.5%) → IN PROGRESS**
 
 - [x] **P0** Implement SurfaceStyleKey environment key → **Completed 2025-10-26**
   - File: `Sources/FoundationUI/Contexts/SurfaceStyleKey.swift`
@@ -496,15 +496,17 @@
   - Zero magic numbers (uses DS.Spacing, DS.Animation tokens exclusively)
   - Archive: `TASK_ARCHIVE/27_Phase3.2_PlatformExtensions/`
 
-- [ ] **P0** Context unit tests → **IN PROGRESS** (Started 2025-10-27)
-  - Create comprehensive unit tests for all Context layer components
-  - Test SurfaceStyleKey environment key propagation (≥12 tests)
-  - Test ColorSchemeAdapter light/dark mode adaptation (≥20 tests)
-  - Test platform detection logic (compile-time and runtime)
-  - Test edge cases and cross-context interactions
-  - Target coverage: ≥80% for Context layer
-  - Files: `Tests/FoundationUITests/ContextsTests/SurfaceStyleKeyTests.swift`, `ColorSchemeAdapterTests.swift`
-  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase3.2_ContextUnitTests.md`
+- [x] **P0** Context unit tests ✅ Completed 2025-10-28
+  - Files: `Tests/FoundationUITests/ContextsTests/SurfaceStyleKeyTests.swift` (14 tests), `ColorSchemeAdapterTests.swift` (24 tests)
+  - SurfaceStyleKey tests: Environment key propagation, material types, default values, integration (14 test cases, 320 lines)
+  - ColorSchemeAdapter tests: Color scheme detection, adaptive colors (background, text, border, divider), platform-specific, view modifiers, edge cases (24 test cases, 450 lines)
+  - Total: 38 comprehensive unit tests (exceeds ≥32 requirement)
+  - 100% public API coverage for both components
+  - Zero magic numbers (100% DS token usage)
+  - 100% DocC documentation for all test cases
+  - Platform guards: `#if canImport(SwiftUI)` for Linux compatibility
+  - Commit: 221d32b "Add Phase 3.2 Context Unit Tests (#3.2)"
+  - Archive: `TASK_ARCHIVE/29_Phase3.2_ContextUnitTests/`
 
 - [x] **P0** Platform adaptation integration tests ✅ Completed 2025-10-26
   - File: `Tests/FoundationUITests/ContextsTests/PlatformAdaptationIntegrationTests.swift`
