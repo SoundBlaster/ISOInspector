@@ -107,7 +107,7 @@ final class IntegritySummaryViewTests: XCTestCase {
 
 // MARK: - Test Helper Extensions
 
-extension NSHostingView {
+private extension NSHostingView {
     func containsText(_ text: String) -> Bool {
         containsTextRecursive(view: self, text: text)
     }

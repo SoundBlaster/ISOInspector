@@ -333,9 +333,9 @@ final class DocumentSessionControllerTests: XCTestCase {
 
         let controller = makeController(
             store: recentsStore,
+            workQueue: ImmediateWorkQueue(),
             bookmarkStore: bookmarkStore,
-            filesystemAccess: filesystemStub.makeAccess(),
-            workQueue: ImmediateWorkQueue()
+            filesystemAccess: filesystemStub.makeAccess()
         )
 
         controller.openRecent(recent)
@@ -450,14 +450,14 @@ final class DocumentSessionControllerTests: XCTestCase {
             parseTreeStore: parseTreeStore
         )
 
-        await controller.exportJSON(scope: .document)
+        await controller.exportJSON(scope: DocumentSessionController.ExportScope.document)
 
         XCTAssertEqual(filesystemStub.lastSaveConfiguration?.allowedContentTypes, [UTType.json.identifier])
         XCTAssertEqual(filesystemStub.lastSavedURL?.standardizedFileURL, destination.standardizedFileURL)
         let data = try Data(contentsOf: destination)
         let expected = try JSONParseTreeExporter().export(tree: ParseTree(nodes: [root], validationIssues: [issue]))
         XCTAssertEqual(data, expected)
-        let status = try XCTUnwrap(controller.exportStatus)
+        let status: DocumentSessionController.ExportStatus = try XCTUnwrap(controller.exportStatus)
         XCTAssertTrue(status.isSuccess)
         XCTAssertEqual(status.destinationURL?.standardizedFileURL, destination.standardizedFileURL)
         XCTAssertEqual(filesystemStub.manager.startedURLs, [destination.standardizedFileURL])
@@ -490,7 +490,7 @@ final class DocumentSessionControllerTests: XCTestCase {
             tree: ParseTree(nodes: [grandChild], validationIssues: [childIssue])
         )
         XCTAssertEqual(data, expected)
-        let status = try XCTUnwrap(controller.exportStatus)
+        let status: DocumentSessionController.ExportStatus = try XCTUnwrap(controller.exportStatus)
         XCTAssertTrue(status.isSuccess)
         XCTAssertEqual(status.destinationURL?.standardizedFileURL, destination.standardizedFileURL)
     }
@@ -508,7 +508,7 @@ final class DocumentSessionControllerTests: XCTestCase {
 
         await controller.exportJSON(scope: .selection(node.id + 1))
 
-        let status = try XCTUnwrap(controller.exportStatus)
+        let status: DocumentSessionController.ExportStatus = try XCTUnwrap(controller.exportStatus)
         XCTAssertFalse(status.isSuccess)
         XCTAssertEqual(status.title, "Export Failed")
         XCTAssertNil(status.destinationURL)
@@ -535,14 +535,14 @@ final class DocumentSessionControllerTests: XCTestCase {
 
         let controller = makeController(
             store: DocumentRecentsStoreStub(initialRecents: []),
-            filesystemAccess: filesystemStub.makeAccess(),
             diagnostics: diagnostics,
+            filesystemAccess: filesystemStub.makeAccess(),
             parseTreeStore: parseTreeStore
         )
 
-        await controller.exportJSON(scope: .document)
+        await controller.exportJSON(scope: DocumentSessionController.ExportScope.document)
 
-        let status = try XCTUnwrap(controller.exportStatus)
+        let status: DocumentSessionController.ExportStatus = try XCTUnwrap(controller.exportStatus)
         XCTAssertFalse(status.isSuccess)
         XCTAssertEqual(status.title, "Export Failed")
         XCTAssertNil(status.destinationURL)
@@ -593,7 +593,7 @@ final class DocumentSessionControllerTests: XCTestCase {
         XCTAssertTrue(contents.contains("VR-001"))
         XCTAssertTrue(contents.contains("Corrupt node"))
         XCTAssertTrue(contents.contains("Total Issues: 1"))
-        let status = try XCTUnwrap(controller.exportStatus)
+        let status: DocumentSessionController.ExportStatus = try XCTUnwrap(controller.exportStatus)
         XCTAssertTrue(status.isSuccess)
         XCTAssertEqual(status.destinationURL?.standardizedFileURL, destination.standardizedFileURL)
         XCTAssertEqual(filesystemStub.manager.startedURLs, [destination.standardizedFileURL])
