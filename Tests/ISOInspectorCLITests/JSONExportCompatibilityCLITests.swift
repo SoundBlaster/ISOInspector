@@ -1,22 +1,29 @@
 import Foundation
 import XCTest
+
 @testable import ISOInspectorCLI
 @testable import ISOInspectorKit
+@testable import struct ISOInspectorKit.FourCharCode
 
 final class JSONExportCompatibilityCLITests: XCTestCase {
     func testExportedJSONMatchesCompatibilityBaselines() throws {
         let root = repositoryRoot()
-        let fixtureURL = root
+        let fixtureURL =
+            root
             .appendingPathComponent("DOCS", isDirectory: true)
             .appendingPathComponent("SAMPLES", isDirectory: true)
             .appendingPathComponent("Bento4-master", isDirectory: true)
             .appendingPathComponent("Test", isDirectory: true)
             .appendingPathComponent("Data", isDirectory: true)
             .appendingPathComponent("video-h264-001.mp4", isDirectory: false)
-        XCTAssertTrue(FileManager.default.fileExists(atPath: fixtureURL.path), "Fixture not found at \(fixtureURL.path)")
+        XCTAssertTrue(
+            FileManager.default.fileExists(atPath: fixtureURL.path),
+            "Fixture not found at \(fixtureURL.path)")
 
-        let workDirectory = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
-        try FileManager.default.createDirectory(at: workDirectory, withIntermediateDirectories: true)
+        let workDirectory = FileManager.default.temporaryDirectory.appendingPathComponent(
+            UUID().uuidString)
+        try FileManager.default.createDirectory(
+            at: workDirectory, withIntermediateDirectories: true)
         let outputURL = workDirectory.appendingPathComponent("export.json")
 
         let ffprobeFormat = try loadFFProbeBaseline(from: root)
@@ -55,7 +62,7 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
                 "export-json",
                 fixtureURL.path,
                 "--output",
-                outputURL.path
+                outputURL.path,
             ],
             environment: environment
         )
@@ -65,21 +72,25 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
 
         let exportData = try Data(contentsOf: outputURL)
         let exportObject = try JSONSerialization.jsonObject(with: exportData, options: [])
-        let exportJSON = try XCTUnwrap(exportObject as? [String: Any], "Export root should be a dictionary")
+        let exportJSON = try XCTUnwrap(
+            exportObject as? [String: Any], "Export root should be a dictionary")
 
         try assertCompatibilityAliases(
-            exportNodes: try XCTUnwrap(exportJSON["nodes"] as? [[String: Any]], "Export nodes missing"),
+            exportNodes: try XCTUnwrap(
+                exportJSON["nodes"] as? [[String: Any]], "Export nodes missing"),
             bentoBaseline: bentoBaseline
         )
 
         try assertFormatSummary(
-            exportFormat: try XCTUnwrap(exportJSON["format"] as? [String: Any], "Format summary missing"),
+            exportFormat: try XCTUnwrap(
+                exportJSON["format"] as? [String: Any], "Format summary missing"),
             ffprobeBaseline: ffprobeFormat
         )
 
         try assertIssueMetrics(
             exportJSON: exportJSON,
-            exportNodes: try XCTUnwrap(exportJSON["nodes"] as? [[String: Any]], "Nodes missing from export")
+            exportNodes: try XCTUnwrap(
+                exportJSON["nodes"] as? [[String: Any]], "Nodes missing from export")
         )
     }
 
@@ -132,7 +143,8 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
         XCTAssertEqual(exportMinor, baselineMinor)
 
         let exportBrands = try XCTUnwrap(exportFormat["compatible_brands"] as? [String])
-        let baselineBrands = try Self.splitFourCCString(try XCTUnwrap(tags["compatible_brands"] as? String))
+        let baselineBrands = try Self.splitFourCCString(
+            try XCTUnwrap(tags["compatible_brands"] as? String))
         XCTAssertEqual(exportBrands, baselineBrands)
 
         let exportDuration = try XCTUnwrap(exportFormat["duration_seconds"] as? Double)
@@ -153,7 +165,8 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
     }
 
     private func loadBento4Baseline(from root: URL) throws -> [[String: Any]] {
-        let url = root
+        let url =
+            root
             .appendingPathComponent("DOCS", isDirectory: true)
             .appendingPathComponent("TASK_ARCHIVE", isDirectory: true)
             .appendingPathComponent("151_R5_Export_Schema_Standardization", isDirectory: true)
@@ -164,15 +177,18 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
     }
 
     private func loadFFProbeBaseline(from root: URL) throws -> [String: Any] {
-        let url = root
+        let url =
+            root
             .appendingPathComponent("DOCS", isDirectory: true)
             .appendingPathComponent("TASK_ARCHIVE", isDirectory: true)
             .appendingPathComponent("151_R5_Export_Schema_Standardization", isDirectory: true)
             .appendingPathComponent("R5_ffprobe_video-h264-001.json", isDirectory: false)
         let data = try Data(contentsOf: url)
         let object = try JSONSerialization.jsonObject(with: data, options: [])
-        let rootObject = try XCTUnwrap(object as? [String: Any], "ffprobe baseline must be a dictionary")
-        return try XCTUnwrap(rootObject["format"] as? [String: Any], "ffprobe format section missing")
+        let rootObject = try XCTUnwrap(
+            object as? [String: Any], "ffprobe baseline must be a dictionary")
+        return try XCTUnwrap(
+            rootObject["format"] as? [String: Any], "ffprobe format section missing")
     }
 
     private func makeParseTreeNodes(
@@ -338,7 +354,8 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
         return result
     }
 
-    private func assertIssueMetrics(exportJSON: [String: Any], exportNodes: [[String: Any]]) throws {
+    private func assertIssueMetrics(exportJSON: [String: Any], exportNodes: [[String: Any]]) throws
+    {
         let metrics = try XCTUnwrap(
             exportJSON["issue_metrics"] as? [String: Any],
             "Issue metrics missing from export"
@@ -452,61 +469,61 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
         return result
     }
 
-private struct Alias: Equatable {
-    let name: String
-    let headerSize: Int
-    let size: Int
-}
-
-private struct IssueMetrics {
-    var errorCount: Int = 0
-    var warningCount: Int = 0
-    var infoCount: Int = 0
-    var deepestAffectedDepth: Int = 0
-    var trackedIssues: [IssueIdentifier: Int] = [:]
-}
-
-private struct IssueIdentifier: Hashable {
-    let severity: String?
-    let code: String?
-    let message: String?
-    let byteRangeLowerBound: Int64?
-    let byteRangeUpperBound: Int64?
-    let affectedNodeIDs: [Int64]
-
-    init(issue: [String: Any]) {
-        severity = issue["severity"] as? String
-        code = issue["code"] as? String
-        message = issue["message"] as? String
-        if let range = issue["byte_range"] as? [String: Any] {
-            byteRangeLowerBound = Self.int64Value(forKey: "start", in: range)
-            byteRangeUpperBound = Self.int64Value(forKey: "end", in: range)
-        } else {
-            byteRangeLowerBound = nil
-            byteRangeUpperBound = nil
-        }
-        if let nodeIDs = issue["affected_node_ids"] as? [Int64] {
-            affectedNodeIDs = nodeIDs
-        } else if let nodeIDs = issue["affected_node_ids"] as? [NSNumber] {
-            affectedNodeIDs = nodeIDs.map { $0.int64Value }
-        } else {
-            affectedNodeIDs = []
-        }
+    private struct Alias: Equatable {
+        let name: String
+        let headerSize: Int
+        let size: Int
     }
 
-    private static func int64Value(forKey key: String, in dictionary: [String: Any]) -> Int64? {
-        if let value = dictionary[key] as? NSNumber {
-            return value.int64Value
-        }
-        if let value = dictionary[key] as? Int64 {
-            return value
-        }
-        if let value = dictionary[key] as? Int {
-            return Int64(value)
-        }
-        return nil
+    private struct IssueMetrics {
+        var errorCount: Int = 0
+        var warningCount: Int = 0
+        var infoCount: Int = 0
+        var deepestAffectedDepth: Int = 0
+        var trackedIssues: [IssueIdentifier: Int] = [:]
     }
-}
+
+    private struct IssueIdentifier: Hashable {
+        let severity: String?
+        let code: String?
+        let message: String?
+        let byteRangeLowerBound: Int64?
+        let byteRangeUpperBound: Int64?
+        let affectedNodeIDs: [Int64]
+
+        init(issue: [String: Any]) {
+            severity = issue["severity"] as? String
+            code = issue["code"] as? String
+            message = issue["message"] as? String
+            if let range = issue["byte_range"] as? [String: Any] {
+                byteRangeLowerBound = Self.int64Value(forKey: "start", in: range)
+                byteRangeUpperBound = Self.int64Value(forKey: "end", in: range)
+            } else {
+                byteRangeLowerBound = nil
+                byteRangeUpperBound = nil
+            }
+            if let nodeIDs = issue["affected_node_ids"] as? [Int64] {
+                affectedNodeIDs = nodeIDs
+            } else if let nodeIDs = issue["affected_node_ids"] as? [NSNumber] {
+                affectedNodeIDs = nodeIDs.map { $0.int64Value }
+            } else {
+                affectedNodeIDs = []
+            }
+        }
+
+        private static func int64Value(forKey key: String, in dictionary: [String: Any]) -> Int64? {
+            if let value = dictionary[key] as? NSNumber {
+                return value.int64Value
+            }
+            if let value = dictionary[key] as? Int64 {
+                return value
+            }
+            if let value = dictionary[key] as? Int {
+                return Int64(value)
+            }
+            return nil
+        }
+    }
 }
 
 private final class MutableBox<Value>: @unchecked Sendable {
@@ -533,7 +550,8 @@ private final class MutableBox<Value>: @unchecked Sendable {
 private struct StubReader: RandomAccessReader {
     func read(at offset: Int64, count: Int) throws -> Data { Data(count: count) }
 
-    func read<T>(at offset: Int64, into buffer: UnsafeMutableBufferPointer<T>) throws where T: FixedWidthInteger {
+    func read<T>(at offset: Int64, into buffer: UnsafeMutableBufferPointer<T>) throws
+    where T: FixedWidthInteger {
         buffer.initialize(repeating: 0)
     }
 
