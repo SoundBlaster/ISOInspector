@@ -868,11 +868,11 @@
                           "media_rate_integer" : 1,
                           "media_time" : 0,
                           "presentation_end" : 400,
-                          "presentation_end_seconds" : 0.66666666666666663,
+                          "presentation_end_seconds" : 0.66666700000000001,
                           "presentation_start" : 0,
                           "presentation_start_seconds" : 0,
                           "segment_duration" : 400,
-                          "segment_duration_seconds" : 0.66666666666666663
+                          "segment_duration_seconds" : 0.66666700000000001
                         },
                         {
                           "index" : 1,
@@ -882,11 +882,11 @@
                           "media_rate_integer" : 1,
                           "media_time" : 400,
                           "presentation_end" : 800,
-                          "presentation_end_seconds" : 1.3333333333333333,
+                          "presentation_end_seconds" : 1.3333330000000001,
                           "presentation_start" : 400,
-                          "presentation_start_seconds" : 0.66666666666666663,
+                          "presentation_start_seconds" : 0.66666700000000001,
                           "segment_duration" : 400,
-                          "segment_duration_seconds" : 0.66666666666666663
+                          "segment_duration_seconds" : 0.66666700000000001
                         },
                         {
                           "index" : 2,
@@ -898,9 +898,9 @@
                           "presentation_end" : 1200,
                           "presentation_end_seconds" : 2,
                           "presentation_start" : 800,
-                          "presentation_start_seconds" : 1.3333333333333333,
+                          "presentation_start_seconds" : 1.3333330000000001,
                           "segment_duration" : 400,
-                          "segment_duration_seconds" : 0.66666666666666663
+                          "segment_duration_seconds" : 0.66666700000000001
                         }
                       ],
                       "entry_count" : 3,

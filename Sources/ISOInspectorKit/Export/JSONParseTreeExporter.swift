@@ -383,13 +383,8 @@ private struct FormatSummary: Encodable {
 
         let trackCount = trackCounter > 0 ? trackCounter : nil
 
-        if majorBrand == nil &&
-            minorVersion == nil &&
-            (compatibleBrands?.isEmpty ?? true) &&
-            durationSeconds == nil &&
-            byteSize == nil &&
-            bitrate == nil &&
-            trackCount == nil {
+        if majorBrand == nil && minorVersion == nil && (compatibleBrands?.isEmpty ?? true)
+            && durationSeconds == nil && byteSize == nil && bitrate == nil && trackCount == nil {
             return nil
         }
 
@@ -489,67 +484,67 @@ private struct StructuredPayload: Encodable {
         var metadataItems: MetadataItemListDetail?
 
         switch detail {
-        case let .fileType(box):
+        case .fileType(let box):
             fileType = FileTypeDetail(box: box)
-        case let .mediaData(box):
+        case .mediaData(let box):
             mediaData = MediaDataDetail(box: box)
-        case let .padding(box):
+        case .padding(let box):
             padding = PaddingDetail(box: box)
-        case let .movieHeader(box):
+        case .movieHeader(let box):
             movieHeader = MovieHeaderDetail(box: box)
-        case let .trackHeader(box):
+        case .trackHeader(let box):
             trackHeader = TrackHeaderDetail(box: box)
-        case let .trackExtends(box):
+        case .trackExtends(let box):
             trackExtends = TrackExtendsDetail(box: box)
-        case let .trackFragmentHeader(box):
+        case .trackFragmentHeader(let box):
             trackFragmentHeader = TrackFragmentHeaderDetail(box: box)
-        case let .trackFragmentDecodeTime(box):
+        case .trackFragmentDecodeTime(let box):
             trackFragmentDecodeTime = TrackFragmentDecodeTimeDetail(box: box)
-        case let .trackRun(box):
+        case .trackRun(let box):
             trackRun = TrackRunDetail(box: box)
-        case let .sampleEncryption(box):
+        case .sampleEncryption(let box):
             sampleEncryption = SampleEncryptionDetail(box: box)
-        case let .sampleAuxInfoOffsets(box):
+        case .sampleAuxInfoOffsets(let box):
             sampleAuxInfoOffsets = SampleAuxInfoOffsetsDetail(box: box)
-        case let .sampleAuxInfoSizes(box):
+        case .sampleAuxInfoSizes(let box):
             sampleAuxInfoSizes = SampleAuxInfoSizesDetail(box: box)
-        case let .trackFragment(box):
+        case .trackFragment(let box):
             trackFragment = TrackFragmentDetail(box: box)
-        case let .movieFragmentHeader(box):
+        case .movieFragmentHeader(let box):
             movieFragmentHeader = MovieFragmentHeaderDetail(box: box)
-        case let .movieFragmentRandomAccess(box):
+        case .movieFragmentRandomAccess(let box):
             movieFragmentRandomAccess = MovieFragmentRandomAccessDetail(box: box)
-        case let .trackFragmentRandomAccess(box):
+        case .trackFragmentRandomAccess(let box):
             trackFragmentRandomAccess = TrackFragmentRandomAccessDetail(box: box)
-        case let .movieFragmentRandomAccessOffset(box):
+        case .movieFragmentRandomAccessOffset(let box):
             movieFragmentRandomAccessOffset = MovieFragmentRandomAccessOffsetDetail(box: box)
-        case let .soundMediaHeader(box):
+        case .soundMediaHeader(let box):
             soundMediaHeader = SoundMediaHeaderDetail(box: box)
-        case let .videoMediaHeader(box):
+        case .videoMediaHeader(let box):
             videoMediaHeader = VideoMediaHeaderDetail(box: box)
-        case let .editList(box):
+        case .editList(let box):
             editList = EditListDetail(box: box)
-        case let .decodingTimeToSample(box):
+        case .decodingTimeToSample(let box):
             timeToSample = TimeToSampleDetail(box: box)
-        case let .compositionOffset(box):
+        case .compositionOffset(let box):
             compositionOffset = CompositionOffsetDetail(box: box)
-        case let .sampleToChunk(box):
+        case .sampleToChunk(let box):
             sampleToChunk = SampleToChunkDetail(box: box)
-        case let .chunkOffset(box):
+        case .chunkOffset(let box):
             chunkOffset = ChunkOffsetDetail(box: box)
-        case let .sampleSize(box):
+        case .sampleSize(let box):
             sampleSize = SampleSizeDetail(box: box)
-        case let .compactSampleSize(box):
+        case .compactSampleSize(let box):
             compactSampleSize = CompactSampleSizeDetail(box: box)
-        case let .syncSampleTable(box):
+        case .syncSampleTable(let box):
             syncSampleTable = SyncSampleTableDetail(box: box)
-        case let .dataReference(box):
+        case .dataReference(let box):
             dataReference = DataReferenceDetail(box: box)
-        case let .metadata(box):
+        case .metadata(let box):
             metadata = MetadataDetail(box: box)
-        case let .metadataKeyTable(box):
+        case .metadataKeyTable(let box):
             metadataKeys = MetadataKeyTableDetail(box: box)
-        case let .metadataItemList(box):
+        case .metadataItemList(let box):
             metadataItems = MetadataItemListDetail(box: box)
         }
 
@@ -809,7 +804,9 @@ private struct MetadataKeyTableDetail: Encodable {
     init(box: ParsedBoxPayload.MetadataKeyTableBox) {
         self.version = box.version
         self.flags = box.flags
-        self.entries = box.entries.map { Entry(index: $0.index, namespace: $0.namespace, name: $0.name) }
+        self.entries = box.entries.map {
+            Entry(index: $0.index, namespace: $0.namespace, name: $0.name)
+        }
         self.entryCount = entries.count
     }
 
@@ -832,7 +829,7 @@ private struct MetadataItemListDetail: Encodable {
 
             init(identifier: ParsedBoxPayload.MetadataItemListBox.Entry.Identifier) {
                 switch identifier {
-                case let .fourCC(raw, display):
+                case .fourCC(let raw, let display):
                     self.kind = "fourcc"
                     self.rawValue = raw
                     self.rawValueHex = String(format: "0x%08X", raw)
@@ -842,13 +839,13 @@ private struct MetadataItemListDetail: Encodable {
                     } else {
                         self.display = display
                     }
-                case let .keyIndex(index):
+                case .keyIndex(let index):
                     self.kind = "key_index"
                     self.rawValue = index
                     self.rawValueHex = String(format: "0x%08X", index)
                     self.keyIndex = index
                     self.display = "key[\(index)]"
-                case let .raw(value):
+                case .raw(let value):
                     self.kind = "raw"
                     self.rawValue = value
                     self.rawValueHex = String(format: "0x%08X", value)
@@ -901,35 +898,35 @@ private struct MetadataItemListDetail: Encodable {
                 var fixedPointFormat: String?
 
                 switch value.kind {
-                case let .utf8(string):
+                case .utf8(let string):
                     self.kind = "utf8"
                     stringValue = string
-                case let .utf16(string):
+                case .utf16(let string):
                     self.kind = "utf16"
                     stringValue = string
-                case let .integer(number):
+                case .integer(let number):
                     self.kind = "integer"
                     integerValue = number
-                case let .unsignedInteger(number):
+                case .unsignedInteger(let number):
                     self.kind = "unsigned_integer"
                     unsignedValue = number
-                case let .boolean(flag):
+                case .boolean(let flag):
                     self.kind = "boolean"
                     booleanValue = flag
-                case let .float32(number):
+                case .float32(let number):
                     self.kind = "float32"
                     float32Value = Double(number)
-                case let .float64(number):
+                case .float64(let number):
                     self.kind = "float64"
                     float64Value = number
-                case let .data(format, data):
+                case .data(let format, let data):
                     self.kind = "data"
                     dataFormat = format.rawValue
                     byteLength = data.count
-                case let .bytes(data):
+                case .bytes(let data):
                     self.kind = "bytes"
                     byteLength = data.count
-                case let .signedFixedPoint(point):
+                case .signedFixedPoint(let point):
                     self.kind = "signed_fixed_point"
                     fixedPointValue = point.value
                     fixedPointRaw = point.rawValue
@@ -997,7 +994,9 @@ private struct MetadataItemListDetail: Encodable {
 
     init(box: ParsedBoxPayload.MetadataItemListBox) {
         self.handlerType = box.handlerType?.rawValue
-        self.entries = box.entries.enumerated().map { Entry(entry: $0.element, index: $0.offset + 1) }
+        self.entries = box.entries.enumerated().map {
+            Entry(entry: $0.element, index: $0.offset + 1)
+        }
         self.entryCount = entries.count
     }
 
@@ -1026,22 +1025,23 @@ private struct DataReferenceDetail: Encodable {
             self.flags = entry.flags
             self.selfContained = (entry.flags & 0x000001) != 0
 
-            let payloadLengthValue = entry.payloadRange.map { Int($0.upperBound - $0.lowerBound) } ?? 0
+            let payloadLengthValue =
+                entry.payloadRange.map { Int($0.upperBound - $0.lowerBound) } ?? 0
 
             switch entry.location {
             case .selfContained:
                 self.url = nil
                 self.urn = nil
                 self.payloadLength = payloadLengthValue > 0 ? payloadLengthValue : nil
-            case let .url(string):
+            case .url(let string):
                 self.url = string
                 self.urn = nil
                 self.payloadLength = payloadLengthValue > 0 ? payloadLengthValue : nil
-            case let .urn(name, location):
+            case .urn(let name, let location):
                 self.url = nil
                 self.urn = URN(name: name, location: location)
                 self.payloadLength = payloadLengthValue > 0 ? payloadLengthValue : nil
-            case let .data(data):
+            case .data(let data):
                 self.url = nil
                 self.urn = nil
                 if payloadLengthValue > 0 {
@@ -1251,6 +1251,44 @@ private struct EditListDetail: Encodable {
             case presentationStartSeconds = "presentation_start_seconds"
             case presentationEndSeconds = "presentation_end_seconds"
             case isEmptyEdit = "is_empty_edit"
+        }
+
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(index, forKey: .index)
+            try container.encode(segmentDuration, forKey: .segmentDuration)
+            try container.encode(mediaTime, forKey: .mediaTime)
+            try container.encode(mediaRateInteger, forKey: .mediaRateInteger)
+            try container.encode(mediaRateFraction, forKey: .mediaRateFraction)
+            try container.encode(mediaRate, forKey: .mediaRate)
+
+            try encodeSecondsValue(
+                segmentDurationSeconds, forKey: .segmentDurationSeconds, in: &container)
+            try encodeSecondsValue(mediaTimeSeconds, forKey: .mediaTimeSeconds, in: &container)
+
+            try container.encode(presentationStart, forKey: .presentationStart)
+            try container.encode(presentationEnd, forKey: .presentationEnd)
+
+            try encodeSecondsValue(
+                presentationStartSeconds, forKey: .presentationStartSeconds, in: &container)
+            try encodeSecondsValue(
+                presentationEndSeconds, forKey: .presentationEndSeconds, in: &container)
+
+            try container.encode(isEmptyEdit, forKey: .isEmptyEdit)
+        }
+
+        private func encodeSecondsValue(
+            _ value: Double?,
+            forKey key: CodingKeys,
+            in container: inout KeyedEncodingContainer<CodingKeys>
+        ) throws {
+            guard let value, let decimal = Self.decimal(from: value) else { return }
+            try container.encode(decimal, forKey: key)
+        }
+
+        private static func decimal(from seconds: Double) -> Decimal? {
+            let formatted = BoxParserRegistry.DefaultParsers.formatSeconds(seconds)
+            return Decimal(string: formatted, locale: Locale(identifier: "en_US_POSIX"))
         }
     }
 
