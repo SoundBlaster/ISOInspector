@@ -74,8 +74,7 @@ final class LargeFileBenchmarkTests: XCTestCase {
                     .dropFirst()
                     .sink { snapshot in
                         if firstEventLatency == nil,
-                            snapshot.lastUpdatedAt > .distantPast
-                        {
+                            snapshot.lastUpdatedAt > .distantPast {
                             firstEventLatency = Date().timeIntervalSince(start)
                         }
                     }
@@ -317,8 +316,7 @@ private struct LargeFileBenchmarkFixture {
         if fileManager.fileExists(atPath: url.path) {
             if let attributes = try? fileManager.attributesOfItem(atPath: url.path),
                 let size = attributes[FileAttributeKey.size] as? NSNumber,
-                size.intValue == expectedSize
-            {
+                size.intValue == expectedSize {
                 return LargeFileBenchmarkFixture(url: url, expectedEventCount: 8)
             }
             try fileManager.removeItem(at: url)

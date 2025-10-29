@@ -50,11 +50,13 @@ case .affectedNode:
 ### Proposed Multi-Field Sort Strategy
 
 **Offset-based sorting (#T36-001):**
+
 1. **Primary:** Sort by `byteRange?.lowerBound ?? Int.max` (issues without byte ranges sort to end)
 2. **Secondary:** Tie-break by severity rank (Error=3, Warning=2, Info=1) in descending order
 3. **Tertiary:** Tie-break by `code` lexicographic order for stable deterministic sort
 
 **Affected node sorting (#T36-002):**
+
 1. **Primary:** Sort by affected node path depth (if available via `ParseTreeNode` traversal)
 2. **Secondary:** Sort by first `affectedNodeIDs` entry numerically
 3. **Tertiary:** Tie-break by severity rank in descending order
@@ -63,6 +65,7 @@ case .affectedNode:
 ### Testing Strategy
 
 Following TDD methodology:
+
 1. Write failing unit tests that assert deterministic ordering for edge cases:
    - Multiple issues at the same byte offset with different severities
    - Multiple issues affecting the same node with different codes
@@ -89,6 +92,7 @@ Following TDD methodology:
 ## 📋 Next Steps After Completion
 
 Once sorting refinements are complete, the following T3.7 deliverables remain:
+
 1. **#T36-003**: Improve navigation from Integrity tab to Explorer (verify selection scrolling and focus preservation)
 2. **Tree view filter toggle**: Add toolbar control to show/hide corrupt nodes in ParseTreeOutlineView
 3. **Keyboard shortcuts**: Implement Cmd+Shift+E to jump to next issue in document order
@@ -97,6 +101,7 @@ Once sorting refinements are complete, the following T3.7 deliverables remain:
 ## 🎯 Exit Criteria
 
 Task T3.7.1 is complete when:
+
 - Both TODO markers (#T36-001, #T36-002) are resolved with multi-field sort implementations
 - Unit tests cover deterministic ordering edge cases and pass consistently
 - IntegritySummaryView displays stable, repeatable orderings when cycling between sort modes
@@ -110,39 +115,46 @@ Task T3.7.1 is complete when:
 ### Changes Made
 
 **1. Resolved #T36-001 (Offset-based sorting):**
-   - Implemented multi-field comparison in `IntegritySummaryViewModel.swift:66-89`
-   - Primary sort: `byteRange.lowerBound` (issues without byte ranges use `Int64.max` to sort to end)
-   - Secondary tie-breaker: `severityRank` in descending order (Error=3, Warning=2, Info=1)
-   - Tertiary tie-breaker: `code` lexicographically for deterministic ordering
-   - Added inline documentation explaining the sort strategy
+
+- Implemented multi-field comparison in `IntegritySummaryViewModel.swift:66-89`
+- Primary sort: `byteRange.lowerBound` (issues without byte ranges use `Int64.max` to sort to end)
+- Secondary tie-breaker: `severityRank` in descending order (Error=3, Warning=2, Info=1)
+- Tertiary tie-breaker: `code` lexicographically for deterministic ordering
+- Added inline documentation explaining the sort strategy
 
 **2. Resolved #T36-002 (Affected node sorting):**
-   - Implemented multi-field comparison in `IntegritySummaryViewModel.swift:90-115`
-   - Primary sort: first `affectedNodeIDs` entry (issues without nodes use `Int64.max` to sort to end)
-   - Secondary tie-breaker: `severityRank` in descending order
-   - Tertiary tie-breaker: `byteRange.lowerBound` for stable ordering
-   - Added inline documentation explaining the sort strategy
+
+- Implemented multi-field comparison in `IntegritySummaryViewModel.swift:90-115`
+- Primary sort: first `affectedNodeIDs` entry (issues without nodes use `Int64.max` to sort to end)
+- Secondary tie-breaker: `severityRank` in descending order
+- Tertiary tie-breaker: `byteRange.lowerBound` for stable ordering
+- Added inline documentation explaining the sort strategy
 
 **3. Test Coverage:**
-   - Created comprehensive unit test suite in `Tests/ISOInspectorAppTests/IntegritySummaryViewModelTests.swift`
-   - Tests for offset sorting: primary sort, severity tie-breaker, code tie-breaker, nil handling
-   - Tests for affected node sorting: primary sort, severity tie-breaker, offset tie-breaker, empty array handling
-   - Total: 10 new test cases covering all edge cases and tie-breaker scenarios
-   - Note: Tests should be run on macOS with Xcode (Swift not available in current Linux environment)
+
+- Created comprehensive unit test suite in `Tests/ISOInspectorAppTests/IntegritySummaryViewModelTests.swift`
+- Tests for offset sorting: primary sort, severity tie-breaker, code tie-breaker, nil handling
+- Tests for affected node sorting: primary sort, severity tie-breaker, offset tie-breaker, empty array handling
+- Total: 10 new test cases covering all edge cases and tie-breaker scenarios
+- Note: Tests should be run on macOS with Xcode (Swift not available in current Linux environment)
 
 **4. Documentation:**
-   - Updated task document with completion status
-   - Added detailed inline comments in implementation explaining multi-field sort logic
-   - All success criteria marked as complete
+
+- Updated task document with completion status
+- Added detailed inline comments in implementation explaining multi-field sort logic
+- All success criteria marked as complete
 
 ### Files Modified
+
 - `Sources/ISOInspectorApp/Integrity/IntegritySummaryViewModel.swift` (lines 66-115)
 - `DOCS/INPROGRESS/197_T3_7_1_Integrity_Sorting_Refinements.md` (this file)
 
 ### Files Created
+
 - `Tests/ISOInspectorAppTests/IntegritySummaryViewModelTests.swift` (419 lines, 10 test cases)
 
 ### Next Steps
+
 - Tests should be run on macOS to verify all pass
 - UI verification in running app to confirm consistent ordering
 - Consider CLI/export parity verification with large fixture sets

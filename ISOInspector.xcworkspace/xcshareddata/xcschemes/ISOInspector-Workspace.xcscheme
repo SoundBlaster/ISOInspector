@@ -112,6 +112,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "746CDA883F54403888D340D7"
+               BuildableName = "ISOInspectorAppTests.xctest"
+               BlueprintName = "ISOInspectorAppTests"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "7D8DF2DD0271A860A9899A7F"
                BuildableName = "libISOInspectorCLI.a"
                BlueprintName = "ISOInspectorCLI"
@@ -163,6 +177,17 @@
                BuildableName = "FoundationUITests.xctest"
                BlueprintName = "FoundationUITests"
                ReferencedContainer = "container:FoundationUI/FoundationUI.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "746CDA883F54403888D340D7"
+               BuildableName = "ISOInspectorAppTests.xctest"
+               BlueprintName = "ISOInspectorAppTests"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>

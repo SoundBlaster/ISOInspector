@@ -78,8 +78,7 @@
 
         @discardableResult
         func upsertBookmark(for file: URL, bookmarkData: Data) throws
-            -> BookmarkPersistenceStore.Record
-        {
+            -> BookmarkPersistenceStore.Record {
             let canonical = canonicalize(file)
             upsertedURLs.append(file)
             if var existing = storage[canonical]?.record {
@@ -103,8 +102,7 @@
 
         @discardableResult
         func markResolution(for file: URL, state: BookmarkResolutionState) throws
-            -> BookmarkPersistenceStore.Record?
-        {
+            -> BookmarkPersistenceStore.Record? {
             let canonical = canonicalize(file)
             markedResolutions.append((file, state))
             guard var stored = storage[canonical]?.record else {
@@ -168,15 +166,13 @@
 
         func bookmarks(for file: URL) throws -> [BookmarkRecord] { [] }
 
-        func createAnnotation(for file: URL, nodeID: Int64, note: String) throws -> AnnotationRecord
-        {
+        func createAnnotation(for file: URL, nodeID: Int64, note: String) throws -> AnnotationRecord {
             AnnotationRecord(
                 id: UUID(), nodeID: nodeID, note: note, createdAt: Date(), updatedAt: Date())
         }
 
         func updateAnnotation(for file: URL, annotationID: UUID, note: String) throws
-            -> AnnotationRecord
-        {
+            -> AnnotationRecord {
             AnnotationRecord(
                 id: annotationID, nodeID: nodeIDPlaceholder, note: note, createdAt: Date(),
                 updatedAt: Date())

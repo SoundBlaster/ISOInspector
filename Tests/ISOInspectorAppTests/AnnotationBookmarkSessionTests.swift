@@ -102,8 +102,7 @@
     // MARK: - Test doubles
 
     private final class ConfigurableAnnotationBookmarkStoreStub: AnnotationBookmarkStoring,
-        @unchecked Sendable
-    {
+        @unchecked Sendable {
         var annotationsStorage: [URL: [AnnotationRecord]] = [:]
         var bookmarksStorage: [URL: Set<Int64>] = [:]
         var currentDate: Date = Date(timeIntervalSince1970: 123)
@@ -121,8 +120,7 @@
             }
         }
 
-        func createAnnotation(for file: URL, nodeID: Int64, note: String) throws -> AnnotationRecord
-        {
+        func createAnnotation(for file: URL, nodeID: Int64, note: String) throws -> AnnotationRecord {
             if let errorToThrow { throw errorToThrow }
             let record = AnnotationRecord(
                 id: UUID(),
@@ -136,8 +134,7 @@
         }
 
         func updateAnnotation(for file: URL, annotationID: UUID, note: String) throws
-            -> AnnotationRecord
-        {
+            -> AnnotationRecord {
             if let errorToThrow { throw errorToThrow }
             guard var annotations = annotationsStorage[file],
                 let index = annotations.firstIndex(where: { $0.id == annotationID })
