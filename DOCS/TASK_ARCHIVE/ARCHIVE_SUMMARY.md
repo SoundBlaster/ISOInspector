@@ -1023,3 +1023,10 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/196_T3_6_Integrity_Summary_Tab/`.
 - **Highlights:** Captures the Integrity tab close-out, including the implementation summary for the new sortable/filterable diagnostics table, the companion ResearchLog preview planning notes, and the in-progress scaffolding refreshed at the end of the release cycle.
 - **Next steps carried forward:** Follow the regenerated `DOCS/INPROGRESS/next_tasks.md` to scope T3.6 polish items and the ResearchLog preview audit, while keeping the real-world fixture licensing blocker on the day-to-day watch list.
+
+## 197_Test_Suite_Fixes_Swift6_Concurrency
+- **Archived files:** `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/197_Test_Suite_Fixes_Swift6_Concurrency/`.
+- **Highlights:** Documents critical test infrastructure fixes for Swift 6 strict concurrency enforcement, including type disambiguation for FourCharCode, MainActor isolation annotations, Sendable conformance for test stubs, CoreData model caching to eliminate "Multiple NSEntityDescriptions" warnings, invalid UUID correction, SwiftUI view test memory management using proper async expectations instead of RunLoop.main.run(), and synchronous property observers (didSet) replacing asynchronous Combine publishers in IntegritySummaryViewModel for deterministic test behavior.
+- **Impact:** All CI test failures resolved, enforcing Swift 6 concurrency best practices across the test suite (8 files modified, ~35 net lines added).
+- **Next steps:** Continue monitoring CI stability and apply learned patterns to future SwiftUI view tests.
