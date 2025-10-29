@@ -284,8 +284,7 @@
         // MARK: - Helpers
 
         private func extractContext(from store: CoreDataAnnotationBookmarkStore)
-            -> NSManagedObjectContext?
-        {
+            -> NSManagedObjectContext? {
             let mirror = Mirror(reflecting: store)
             for child in mirror.children {
                 if let context = child.value as? NSManagedObjectContext {
