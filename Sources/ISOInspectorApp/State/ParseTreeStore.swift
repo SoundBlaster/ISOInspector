@@ -144,8 +144,7 @@
 
             if !description.isEmpty,
                 description != localizedDescription,
-                !localizedDescription.contains(description)
-            {
+                !localizedDescription.contains(description) {
                 components.append(description)
             }
 
@@ -257,12 +256,7 @@
                             node.payload = event.payload ?? node.payload
                         }
                         if !event.validationIssues.isEmpty {
-                            let newIssues = event.validationIssues.filter {
-                                !node.validationIssues.contains($0)
-                            }
-                            if !newIssues.isEmpty {
-                                node.validationIssues.append(contentsOf: newIssues)
-                            }
+                            node.validationIssues.append(contentsOf: event.validationIssues)
                         }
                         node.issues = event.issues
                         synthesizePlaceholdersIfNeeded(for: node)
@@ -357,7 +351,12 @@
             }
 
             func snapshot(filter: ((ValidationIssue) -> Bool)?) -> ParseTreeNode {
-                let filteredIssues = filter.map { validationIssues.filter($0) } ?? validationIssues
+                let filteredIssues: [ValidationIssue]
+                if let filter {
+                    filteredIssues = Self.uniqueIssues(from: validationIssues, applying: filter)
+                } else {
+                    filteredIssues = validationIssues
+                }
                 return ParseTreeNode(
                     header: header,
                     metadata: metadata,
@@ -367,6 +366,19 @@
                     status: status,
                     children: children.map { $0.snapshot(filter: filter) }
                 )
+            }
+
+            private static func uniqueIssues(
+                from issues: [ValidationIssue],
+                applying filter: (ValidationIssue) -> Bool
+            ) -> [ValidationIssue] {
+                var result: [ValidationIssue] = []
+                for issue in issues where filter(issue) {
+                    if !result.contains(issue) {
+                        result.append(issue)
+                    }
+                }
+                return result
             }
         }
     }
