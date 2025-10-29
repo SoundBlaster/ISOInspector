@@ -9,7 +9,7 @@ extension BoxParserRegistry.DefaultParsers {
 
         var fields: [ParsedBoxPayload.Field] = []
         let start = payloadRange.lowerBound
-        var compatibleBrands: [IIFourCharCode] = []
+        var compatibleBrands: [FourCharCode] = []
 
         let major = try? reader.readFourCC(at: start)
         if let major {

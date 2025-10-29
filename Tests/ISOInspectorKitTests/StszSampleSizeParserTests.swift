@@ -83,7 +83,7 @@ final class StszSampleSizeParserTests: XCTestCase {
         data.replaceSubrange(8..<totalSize, with: payload)
 
         let header = BoxHeader(
-            type: try IIFourCharCode("stsz"),
+            type: try FourCharCode("stsz"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),

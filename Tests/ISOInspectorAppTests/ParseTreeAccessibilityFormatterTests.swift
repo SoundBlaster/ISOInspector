@@ -6,7 +6,7 @@ import ISOInspectorKit
 final class ParseTreeAccessibilityFormatterTests: XCTestCase {
     func testOutlineRowDescriptorIncludesTypeSeverityAndBookmarkState() throws {
         let header = BoxHeader(
-            type: try IIFourCharCode("trak"),
+            type: try FourCharCode("trak"),
             totalSize: 128,
             headerSize: 8,
             payloadRange: 8..<120,
@@ -22,7 +22,7 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
             children: [
                 ParseTreeNode(
                     header: BoxHeader(
-                        type: try IIFourCharCode("mdia"),
+                        type: try FourCharCode("mdia"),
                         totalSize: 64,
                         headerSize: 8,
                         payloadRange: 8..<56,
@@ -59,7 +59,7 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
 
     func testDetailSummaryEnumeratesKeyFields() throws {
         let header = BoxHeader(
-            type: try IIFourCharCode("mvhd"),
+            type: try FourCharCode("mvhd"),
             totalSize: 200,
             headerSize: 12,
             payloadRange: 12..<200,
@@ -92,7 +92,7 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
 
     func testDetailSummaryMentionsSampleEncryptionMetadata() throws {
         let header = BoxHeader(
-            type: try IIFourCharCode("senc"),
+            type: try FourCharCode("senc"),
             totalSize: 64,
             headerSize: 8,
             payloadRange: 8..<64,
@@ -133,7 +133,7 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
 
     func testDetailSummaryMentionsSampleAuxInfoOffsets() throws {
         let header = BoxHeader(
-            type: try IIFourCharCode("saio"),
+            type: try FourCharCode("saio"),
             totalSize: 56,
             headerSize: 8,
             payloadRange: 8..<56,
@@ -145,7 +145,7 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
                 version: 0,
                 flags: 0x000001,
                 entryCount: 3,
-                auxInfoType: try IIFourCharCode("cenc"),
+                auxInfoType: try FourCharCode("cenc"),
                 auxInfoTypeParameter: 2,
                 entrySize: .eightBytes,
                 entriesRange: 32..<56,
@@ -172,7 +172,7 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
 
     func testDetailSummaryMentionsSampleAuxInfoSizes() throws {
         let header = BoxHeader(
-            type: try IIFourCharCode("saiz"),
+            type: try FourCharCode("saiz"),
             totalSize: 48,
             headerSize: 8,
             payloadRange: 8..<48,
@@ -185,7 +185,7 @@ final class ParseTreeAccessibilityFormatterTests: XCTestCase {
                 flags: 0x000001,
                 defaultSampleInfoSize: 0,
                 entryCount: 3,
-                auxInfoType: try IIFourCharCode("cenc"),
+                auxInfoType: try FourCharCode("cenc"),
                 auxInfoTypeParameter: 2,
                 variableEntriesRange: 40..<43,
                 variableEntriesByteLength: 3

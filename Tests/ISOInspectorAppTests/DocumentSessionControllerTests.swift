@@ -958,7 +958,7 @@
 
         private func makeValidationEventStream() -> ParsePipeline.EventStream {
             let parentHeader = BoxHeader(
-                type: try! IIFourCharCode("root"),
+                type: try! FourCharCode("root"),
                 totalSize: 32,
                 headerSize: 8,
                 payloadRange: 8..<32,
@@ -966,7 +966,7 @@
                 uuid: nil
             )
             let childHeader = BoxHeader(
-                type: try! IIFourCharCode("test"),
+                type: try! FourCharCode("test"),
                 totalSize: 16,
                 headerSize: 8,
                 payloadRange: 8..<16,
@@ -1020,7 +1020,7 @@
             let totalSize: Int64 = 32
             let headerSize: Int64 = 8
             let header = BoxHeader(
-                type: try! IIFourCharCode(type),
+                type: try! FourCharCode(type),
                 totalSize: totalSize,
                 headerSize: headerSize,
                 payloadRange: (identifier + headerSize)..<(identifier + totalSize),

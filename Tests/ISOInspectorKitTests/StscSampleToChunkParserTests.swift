@@ -78,7 +78,7 @@ final class StscSampleToChunkParserTests: XCTestCase {
         data.replaceSubrange(8..<totalSize, with: payload)
 
         let header = BoxHeader(
-            type: try IIFourCharCode("stsc"),
+            type: try FourCharCode("stsc"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),

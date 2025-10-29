@@ -2,7 +2,7 @@ import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
     static func parseCodecSpecificFields(
-        format: IIFourCharCode,
+        format: FourCharCode,
         boxes: [NestedBox],
         reader: RandomAccessReader,
         entryIndex: Int
@@ -87,7 +87,7 @@ extension BoxParserRegistry.DefaultParsers {
         reader: RandomAccessReader,
         boxes: [NestedBox],
         entryIndex: Int
-    ) -> (fields: [ParsedBoxPayload.Field], originalFormat: IIFourCharCode?) {
+    ) -> (fields: [ParsedBoxPayload.Field], originalFormat: FourCharCode?) {
         guard let sinfBox = boxes.first(where: { $0.type.rawValue == "sinf" }) else {
             return ([], nil)
         }
@@ -100,7 +100,7 @@ extension BoxParserRegistry.DefaultParsers {
         )
 
         var fields: [ParsedBoxPayload.Field] = []
-        var originalFormat: IIFourCharCode?
+        var originalFormat: FourCharCode?
 
         if let frma = sinfChildren.first(where: { $0.type.rawValue == "frma" }),
            let format = try? reader.readFourCC(at: frma.payloadRange.lowerBound) {

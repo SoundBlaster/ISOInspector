@@ -3,124 +3,124 @@ import Foundation
 extension BoxParserRegistry {
     enum DefaultParsers {
         static func registerAll(into registry: inout BoxParserRegistry) {
-            if let ftyp = try? IIFourCharCode("ftyp") {
+            if let ftyp = try? FourCharCode("ftyp") {
                 registry.register(parser: fileType, for: ftyp)
             }
-            if let mdat = try? IIFourCharCode("mdat") {
+            if let mdat = try? FourCharCode("mdat") {
                 registry.register(parser: mediaData, for: mdat)
             }
-            if let free = try? IIFourCharCode("free") {
+            if let free = try? FourCharCode("free") {
                 registry.register(parser: padding, for: free)
             }
-            if let skip = try? IIFourCharCode("skip") {
+            if let skip = try? FourCharCode("skip") {
                 registry.register(parser: padding, for: skip)
             }
-            if let mvhd = try? IIFourCharCode("mvhd") {
+            if let mvhd = try? FourCharCode("mvhd") {
                 registry.register(parser: movieHeader, for: mvhd)
             }
-            if let mvex = try? IIFourCharCode("mvex") {
+            if let mvex = try? FourCharCode("mvex") {
                 registry.register(parser: movieExtends, for: mvex)
             }
-            if let moof = try? IIFourCharCode("moof") {
+            if let moof = try? FourCharCode("moof") {
                 registry.register(parser: movieFragment, for: moof)
             }
-            if let mfra = try? IIFourCharCode("mfra") {
+            if let mfra = try? FourCharCode("mfra") {
                 registry.register(parser: movieFragmentRandomAccess, for: mfra)
             }
-            if let tkhd = try? IIFourCharCode("tkhd") {
+            if let tkhd = try? FourCharCode("tkhd") {
                 registry.register(parser: trackHeader, for: tkhd)
             }
-            if let trex = try? IIFourCharCode("trex") {
+            if let trex = try? FourCharCode("trex") {
                 registry.register(parser: trackExtends, for: trex)
             }
-            if let mfhd = try? IIFourCharCode("mfhd") {
+            if let mfhd = try? FourCharCode("mfhd") {
                 registry.register(parser: movieFragmentHeader, for: mfhd)
             }
-            if let tfhd = try? IIFourCharCode("tfhd") {
+            if let tfhd = try? FourCharCode("tfhd") {
                 registry.register(parser: trackFragmentHeader, for: tfhd)
             }
-            if let tfdt = try? IIFourCharCode("tfdt") {
+            if let tfdt = try? FourCharCode("tfdt") {
                 registry.register(parser: trackFragmentDecodeTime, for: tfdt)
             }
-            if let trun = try? IIFourCharCode("trun") {
+            if let trun = try? FourCharCode("trun") {
                 registry.register(parser: trackRun, for: trun)
             }
-            if let traf = try? IIFourCharCode("traf") {
+            if let traf = try? FourCharCode("traf") {
                 registry.register(parser: trackFragment, for: traf)
             }
-            if let senc = try? IIFourCharCode("senc") {
+            if let senc = try? FourCharCode("senc") {
                 registry.register(parser: sampleEncryption, for: senc)
             }
-            if let saio = try? IIFourCharCode("saio") {
+            if let saio = try? FourCharCode("saio") {
                 registry.register(parser: sampleAuxInfoOffsets, for: saio)
             }
-            if let saiz = try? IIFourCharCode("saiz") {
+            if let saiz = try? FourCharCode("saiz") {
                 registry.register(parser: sampleAuxInfoSizes, for: saiz)
             }
-            if let tfra = try? IIFourCharCode("tfra") {
+            if let tfra = try? FourCharCode("tfra") {
                 registry.register(parser: trackFragmentRandomAccess, for: tfra)
             }
-            if let mfro = try? IIFourCharCode("mfro") {
+            if let mfro = try? FourCharCode("mfro") {
                 registry.register(parser: movieFragmentRandomAccessOffset, for: mfro)
             }
-            if let mdhd = try? IIFourCharCode("mdhd") {
+            if let mdhd = try? FourCharCode("mdhd") {
                 registry.register(parser: mediaHeader, for: mdhd)
             }
-            if let smhd = try? IIFourCharCode("smhd") {
+            if let smhd = try? FourCharCode("smhd") {
                 registry.register(parser: soundMediaHeader, for: smhd)
             }
-            if let vmhd = try? IIFourCharCode("vmhd") {
+            if let vmhd = try? FourCharCode("vmhd") {
                 registry.register(parser: videoMediaHeader, for: vmhd)
             }
-            if let elst = try? IIFourCharCode("elst") {
+            if let elst = try? FourCharCode("elst") {
                 registry.register(parser: editList, for: elst)
             }
-            if let hdlr = try? IIFourCharCode("hdlr") {
+            if let hdlr = try? FourCharCode("hdlr") {
                 registry.register(parser: handlerReference, for: hdlr)
             }
-            if let dinf = try? IIFourCharCode("dinf") {
+            if let dinf = try? FourCharCode("dinf") {
                 registry.register(parser: dataInformation, for: dinf)
             }
-            if let dref = try? IIFourCharCode("dref") {
+            if let dref = try? FourCharCode("dref") {
                 registry.register(parser: dataReference, for: dref)
             }
-            if let udta = try? IIFourCharCode("udta") {
+            if let udta = try? FourCharCode("udta") {
                 registry.register(parser: userData, for: udta)
             }
-            if let meta = try? IIFourCharCode("meta") {
+            if let meta = try? FourCharCode("meta") {
                 registry.register(parser: metadata, for: meta)
             }
-            if let keys = try? IIFourCharCode("keys") {
+            if let keys = try? FourCharCode("keys") {
                 registry.register(parser: metadataKeys, for: keys)
             }
-            if let ilst = try? IIFourCharCode("ilst") {
+            if let ilst = try? FourCharCode("ilst") {
                 registry.register(parser: metadataItemList, for: ilst)
             }
-            if let stsd = try? IIFourCharCode("stsd") {
+            if let stsd = try? FourCharCode("stsd") {
                 registry.register(parser: sampleDescription, for: stsd)
             }
-            if let stts = try? IIFourCharCode("stts") {
+            if let stts = try? FourCharCode("stts") {
                 registry.register(parser: decodingTimeToSample, for: stts)
             }
-            if let ctts = try? IIFourCharCode("ctts") {
+            if let ctts = try? FourCharCode("ctts") {
                 registry.register(parser: compositionOffset, for: ctts)
             }
-            if let stsc = try? IIFourCharCode("stsc") {
+            if let stsc = try? FourCharCode("stsc") {
                 registry.register(parser: sampleToChunk, for: stsc)
             }
-            if let stsz = try? IIFourCharCode("stsz") {
+            if let stsz = try? FourCharCode("stsz") {
                 registry.register(parser: sampleSize, for: stsz)
             }
-            if let stz2 = try? IIFourCharCode("stz2") {
+            if let stz2 = try? FourCharCode("stz2") {
                 registry.register(parser: compactSampleSize, for: stz2)
             }
-            if let stco = try? IIFourCharCode("stco") {
+            if let stco = try? FourCharCode("stco") {
                 registry.register(parser: chunkOffset32, for: stco)
             }
-            if let co64 = try? IIFourCharCode("co64") {
+            if let co64 = try? FourCharCode("co64") {
                 registry.register(parser: chunkOffset64, for: co64)
             }
-            if let stss = try? IIFourCharCode("stss") {
+            if let stss = try? FourCharCode("stss") {
                 registry.register(parser: syncSampleTable, for: stss)
             }
         }

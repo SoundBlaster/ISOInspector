@@ -57,7 +57,7 @@ final class TfdtTrackFragmentDecodeTimeParserTests: XCTestCase {
         data.replaceSubrange(8..<totalSize, with: payload)
 
         let header = BoxHeader(
-            type: try IIFourCharCode("tfdt"),
+            type: try FourCharCode("tfdt"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),

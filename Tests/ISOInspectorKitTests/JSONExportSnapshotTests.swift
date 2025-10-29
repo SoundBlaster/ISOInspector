@@ -412,7 +412,7 @@ final class JSONExportSnapshotTests: XCTestCase {
     }
 
     private func makeHeader(type: String, start: Int64, size: Int64) throws -> BoxHeader {
-        let fourcc = try IIFourCharCode(type)
+        let fourcc = try FourCharCode(type)
         let headerSize: Int64 = 8
         let end = start + size
         return BoxHeader(

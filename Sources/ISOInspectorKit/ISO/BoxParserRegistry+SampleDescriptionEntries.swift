@@ -1,7 +1,7 @@
 import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
-    static func sampleEntryHeaderLength(for format: IIFourCharCode) -> Int64? {
+    static func sampleEntryHeaderLength(for format: FourCharCode) -> Int64? {
         if visualSampleEntryTypes.contains(format) {
             return 70
         }
@@ -90,7 +90,7 @@ extension BoxParserRegistry.DefaultParsers {
     }
 
     struct NestedBox {
-        let type: IIFourCharCode
+        let type: FourCharCode
         let range: Range<Int64>
         let payloadRange: Range<Int64>
     }

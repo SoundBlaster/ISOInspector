@@ -13,14 +13,14 @@ final class FourCharContainerCodeTests: XCTestCase {
 
     func testInitializationFromFourCharCode() throws {
         for code in FourCharContainerCode.allCases {
-            let fourCC = try IIFourCharCode(code.rawValue)
+            let fourCC = try FourCharCode(code.rawValue)
             XCTAssertEqual(FourCharContainerCode(fourCharCode: fourCC), code)
             XCTAssertEqual(code.fourCharCode, fourCC)
         }
     }
 
     func testInitializationFromUnknownFourCharCodeFails() throws {
-        let invalid = try IIFourCharCode("free")
+        let invalid = try FourCharCode("free")
         XCTAssertNil(FourCharContainerCode(fourCharCode: invalid))
     }
 
@@ -31,8 +31,8 @@ final class FourCharContainerCodeTests: XCTestCase {
     }
 
     func testContainerLookupFromFourCharCode() throws {
-        XCTAssertTrue(FourCharContainerCode.isContainer(try IIFourCharCode("moov")))
-        XCTAssertFalse(FourCharContainerCode.isContainer(try IIFourCharCode("ftyp")))
+        XCTAssertTrue(FourCharContainerCode.isContainer(try FourCharCode("moov")))
+        XCTAssertFalse(FourCharContainerCode.isContainer(try FourCharCode("ftyp")))
     }
 
     func testSetAccessorsExposeAllCases() {

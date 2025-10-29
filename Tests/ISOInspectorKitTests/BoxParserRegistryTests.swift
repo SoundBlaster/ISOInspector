@@ -8,7 +8,7 @@ final class BoxParserRegistryTests: XCTestCase {
         let payload = Data("isom".utf8) + Data([0x00, 0x00, 0x02, 0x00]) + Data("mp41".utf8)
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("ftyp"),
+            type: try FourCharCode("ftyp"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -33,15 +33,15 @@ final class BoxParserRegistryTests: XCTestCase {
         XCTAssertEqual(parsed.fields[2].byteRange, 16..<20)
 
         let fileType = try XCTUnwrap(parsed.fileType)
-        XCTAssertEqual(fileType.majorBrand, try IIFourCharCode("isom"))
+        XCTAssertEqual(fileType.majorBrand, try FourCharCode("isom"))
         XCTAssertEqual(fileType.minorVersion, 512)
-        XCTAssertEqual(fileType.compatibleBrands, [try IIFourCharCode("mp41")])
+        XCTAssertEqual(fileType.compatibleBrands, [try FourCharCode("mp41")])
     }
 
     func testDefaultRegistryParsesMovieExtendsContainer() throws {
         let totalSize = 8
         let header = BoxHeader(
-            type: try IIFourCharCode("mvex"),
+            type: try FourCharCode("mvex"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -68,7 +68,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("trex"),
+            type: try FourCharCode("trex"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -104,7 +104,7 @@ final class BoxParserRegistryTests: XCTestCase {
         let payload = Data([0xDE, 0xAD, 0xBE, 0xEF])
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("zzzz"),
+            type: try FourCharCode("zzzz"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -158,7 +158,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("mvhd"),
+            type: try FourCharCode("mvhd"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -244,7 +244,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("mvhd"),
+            type: try FourCharCode("mvhd"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -296,7 +296,7 @@ final class BoxParserRegistryTests: XCTestCase {
         let totalSize = 8 + payloadLength
         let startOffset: Int64 = 2048
         let header = BoxHeader(
-            type: try IIFourCharCode("mdat"),
+            type: try FourCharCode("mdat"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: (startOffset + 8)..<(startOffset + Int64(totalSize)),
@@ -326,7 +326,7 @@ final class BoxParserRegistryTests: XCTestCase {
         let totalSize = headerSize + Int64(payloadLength)
         let startOffset: Int64 = 8192
         let header = BoxHeader(
-            type: try IIFourCharCode("mdat"),
+            type: try FourCharCode("mdat"),
             totalSize: totalSize,
             headerSize: headerSize,
             payloadRange: (startOffset + headerSize)..<(startOffset + totalSize),
@@ -357,7 +357,7 @@ final class BoxParserRegistryTests: XCTestCase {
         let totalSize = 8 + payloadLength
         let startOffset: Int64 = 16384
         let header = BoxHeader(
-            type: try IIFourCharCode("free"),
+            type: try FourCharCode("free"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: (startOffset + 8)..<(startOffset + Int64(totalSize)),
@@ -388,7 +388,7 @@ final class BoxParserRegistryTests: XCTestCase {
         let totalSize = headerSize + Int64(payloadLength)
         let startOffset: Int64 = 19456
         let header = BoxHeader(
-            type: try IIFourCharCode("skip"),
+            type: try FourCharCode("skip"),
             totalSize: totalSize,
             headerSize: headerSize,
             payloadRange: (startOffset + headerSize)..<(startOffset + totalSize),
@@ -419,7 +419,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("smhd"),
+            type: try FourCharCode("smhd"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -457,7 +457,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("vmhd"),
+            type: try FourCharCode("vmhd"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -510,7 +510,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("mvhd"),
+            type: try FourCharCode("mvhd"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -538,7 +538,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("mdhd"),
+            type: try FourCharCode("mdhd"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -574,7 +574,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("mdhd"),
+            type: try FourCharCode("mdhd"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -601,7 +601,7 @@ final class BoxParserRegistryTests: XCTestCase {
         let payload = Data([0x00, 0x00, 0x00, 0x00])
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("mdhd"),
+            type: try FourCharCode("mdhd"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -627,7 +627,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("hdlr"),
+            type: try FourCharCode("hdlr"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -660,7 +660,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("hdlr"),
+            type: try FourCharCode("hdlr"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -681,7 +681,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
     func testRegistryAllowsOverrides() throws {
         var registry = BoxParserRegistry()
-        let customType = try IIFourCharCode("cust")
+        let customType = try FourCharCode("cust")
         let parser: BoxParserRegistry.Parser = { header, _ in
             ParsedBoxPayload(fields: [
                 ParsedBoxPayload.Field(
@@ -963,7 +963,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("keys"),
+            type: try FourCharCode("keys"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -1015,7 +1015,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("ilst"),
+            type: try FourCharCode("ilst"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -1034,7 +1034,7 @@ final class BoxParserRegistryTests: XCTestCase {
         )
 
         let environment = BoxParserRegistry.MetadataEnvironment(
-            handlerType: HandlerType(code: try IIFourCharCode("mdir")),
+            handlerType: HandlerType(code: try FourCharCode("mdir")),
             keyTable: [1: keyEntry]
         )
 
@@ -1141,7 +1141,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("ilst"),
+            type: try FourCharCode("ilst"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -1281,7 +1281,7 @@ final class BoxParserRegistryTests: XCTestCase {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("tkhd"),
+            type: try FourCharCode("tkhd"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -1368,7 +1368,7 @@ extension BoxParserRegistryTests {
 
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try IIFourCharCode("dref"),
+            type: try FourCharCode("dref"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),

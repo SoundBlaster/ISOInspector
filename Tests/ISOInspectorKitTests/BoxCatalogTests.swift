@@ -39,7 +39,7 @@ final class BoxCatalogTests: XCTestCase {
     }
 
     private func makeHeader(type: String, uuid: UUID? = nil) throws -> BoxHeader {
-        let code = try IIFourCharCode(type)
+        let code = try FourCharCode(type)
         return BoxHeader(
             type: code,
             totalSize: 32,
