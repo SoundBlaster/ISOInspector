@@ -1,6 +1,10 @@
-import _Concurrency
 import Foundation
 import XCTest
+import _Concurrency
+
+@testable import ISOInspectorApp
+@testable import ISOInspectorCLI
+@testable import ISOInspectorKit
 
 private final class LockedValueBox<Value>: @unchecked Sendable {
     private let lock = NSLock()
@@ -16,11 +20,8 @@ private final class LockedValueBox<Value>: @unchecked Sendable {
         return update(&value)
     }
 }
-@testable import ISOInspectorApp
-@testable import ISOInspectorCLI
-@testable import ISOInspectorKit
 #if canImport(Combine)
-import Combine
+    import Combine
 #endif
 
 final class LargeFileBenchmarkTests: XCTestCase {
@@ -56,62 +57,64 @@ final class LargeFileBenchmarkTests: XCTestCase {
     }
 
     #if canImport(Combine)
-    func testAppStreamingPipelineDeliversUpdatesWithinLatencyBudget() throws {
-        let fixture = try LargeFileBenchmarkFixture.make(configuration: configuration)
+        @MainActor
+        func testAppStreamingPipelineDeliversUpdatesWithinLatencyBudget() throws {
+            let fixture = try LargeFileBenchmarkFixture.make(configuration: configuration)
 
-        performBenchmark(iterations: configuration.iterationCount) {
-            let pipeline = ParsePipeline.live()
-            let reader = try ChunkedFileReader(fileURL: fixture.url)
-            let store = ParseTreeStore()
-            let expectation = expectation(description: "Stream completed")
-            var cancellables: Set<AnyCancellable> = []
-            var firstEventLatency: TimeInterval?
-            let start = Date()
+            performBenchmark(iterations: configuration.iterationCount) {
+                let pipeline = ParsePipeline.live()
+                let reader = try ChunkedFileReader(fileURL: fixture.url)
+                let store = ParseTreeStore()
+                let expectation = expectation(description: "Stream completed")
+                var cancellables: Set<AnyCancellable> = []
+                var firstEventLatency: TimeInterval?
+                let start = Date()
 
-            store.$snapshot
-                .dropFirst()
-                .sink { snapshot in
-                    if firstEventLatency == nil,
-                       snapshot.lastUpdatedAt > .distantPast {
-                        firstEventLatency = Date().timeIntervalSince(start)
+                store.$snapshot
+                    .dropFirst()
+                    .sink { snapshot in
+                        if firstEventLatency == nil,
+                            snapshot.lastUpdatedAt > .distantPast
+                        {
+                            firstEventLatency = Date().timeIntervalSince(start)
+                        }
                     }
-                }
-                .store(in: &cancellables)
+                    .store(in: &cancellables)
 
-            store.$state
-                .dropFirst()
-                .sink { state in
-                    if state == .finished {
-                        expectation.fulfill()
+                store.$state
+                    .dropFirst()
+                    .sink { state in
+                        if state == .finished {
+                            expectation.fulfill()
+                        }
                     }
-                }
-                .store(in: &cancellables)
+                    .store(in: &cancellables)
 
-            store.start(
-                pipeline: pipeline,
-                reader: reader,
-                context: .init(source: fixture.url)
-            )
-
-            wait(for: [expectation], timeout: configuration.cliDurationBudgetSeconds() * 2)
-
-            XCTAssertEqual(store.state, .finished)
-            XCTAssertFalse(store.snapshot.nodes.isEmpty)
-            if let latency = firstEventLatency {
-                XCTAssertLessThanOrEqual(
-                    latency,
-                    configuration.uiLatencyBudgetSeconds(),
-                    "First UI update latency exceeded budget"
+                store.start(
+                    pipeline: pipeline,
+                    reader: reader,
+                    context: .init(source: fixture.url)
                 )
-            } else {
-                XCTFail("No events received during UI benchmark")
+
+                wait(for: [expectation], timeout: configuration.cliDurationBudgetSeconds() * 2)
+
+                XCTAssertEqual(store.state, .finished)
+                XCTAssertFalse(store.snapshot.nodes.isEmpty)
+                if let latency = firstEventLatency {
+                    XCTAssertLessThanOrEqual(
+                        latency,
+                        configuration.uiLatencyBudgetSeconds(),
+                        "First UI update latency exceeded budget"
+                    )
+                } else {
+                    XCTFail("No events received during UI benchmark")
+                }
             }
         }
-    }
     #else
-    func testAppStreamingPipelineDeliversUpdatesWithinLatencyBudget() throws {
-        throw XCTSkip("Combine unavailable on this platform")
-    }
+        func testAppStreamingPipelineDeliversUpdatesWithinLatencyBudget() throws {
+            throw XCTSkip("Combine unavailable on this platform")
+        }
     #endif
 
     func testMappedReaderRandomSliceBenchmarkMeetsPerformanceExpectations() throws {
@@ -133,22 +136,22 @@ final class LargeFileBenchmarkTests: XCTestCase {
     }
 }
 
-private extension LargeFileBenchmarkTests {
-    func performBenchmark(iterations: Int, block: () throws -> Void) {
+extension LargeFileBenchmarkTests {
+    fileprivate func performBenchmark(iterations: Int, block: () throws -> Void) {
         #if canImport(ObjectiveC)
-        if #available(macOS 13.0, iOS 16.0, *) {
-            let metrics: [XCTMetric] = [XCTClockMetric(), XCTCPUMetric(), XCTMemoryMetric()]
-            let options = XCTMeasureOptions()
-            options.iterationCount = iterations
-            measure(metrics: metrics, options: options) {
-                do {
-                    try block()
-                } catch {
-                    XCTFail("Benchmark iteration failed: \(error)")
+            if #available(macOS 13.0, iOS 16.0, *) {
+                let metrics: [XCTMetric] = [XCTClockMetric(), XCTCPUMetric(), XCTMemoryMetric()]
+                let options = XCTMeasureOptions()
+                options.iterationCount = iterations
+                measure(metrics: metrics, options: options) {
+                    do {
+                        try block()
+                    } catch {
+                        XCTFail("Benchmark iteration failed: \(error)")
+                    }
                 }
+                return
             }
-            return
-        }
         #endif
 
         for _ in 0..<iterations {
@@ -160,18 +163,21 @@ private extension LargeFileBenchmarkTests {
         }
     }
 
-    func runRandomSliceBenchmark(
+    fileprivate func runRandomSliceBenchmark(
         readerName: String,
         fixture: LargeFileBenchmarkFixture,
         makeReader: (URL) throws -> any RandomAccessReader
     ) throws {
-        let scenarios = RandomSliceBenchmarkScenario.makeDefaultScenarios(payloadBytes: configuration.payloadBytes)
+        let scenarios = RandomSliceBenchmarkScenario.makeDefaultScenarios(
+            payloadBytes: configuration.payloadBytes)
 
         for scenario in scenarios {
             let reader = try makeReader(fixture.url)
             let requests = scenario.makeRequests(fileLength: reader.length)
             let expectedBytes = requests.reduce(into: 0) { $0 += $1.count }
-            XCTAssertFalse(requests.isEmpty, "Scenario \(scenario.name) produced no slice requests for \(readerName)")
+            XCTAssertFalse(
+                requests.isEmpty,
+                "Scenario \(scenario.name) produced no slice requests for \(readerName)")
 
             performBenchmark(iterations: configuration.iterationCount) {
                 let bytesRead = try executeRandomSliceRequests(
@@ -197,7 +203,7 @@ private extension LargeFileBenchmarkTests {
         }
     }
 
-    func executeRandomSliceRequests(
+    fileprivate func executeRandomSliceRequests(
         _ requests: [RandomSliceRequest],
         using reader: any RandomAccessReader,
         readerName: String,
@@ -214,7 +220,8 @@ private extension LargeFileBenchmarkTests {
                 )
                 totalBytes += data.count
             } catch {
-                let prefix = "Reader \(readerName) failed random slice scenario \(scenarioName) (offset: \(request.offset), count: \(request.count))"
+                let prefix =
+                    "Reader \(readerName) failed random slice scenario \(scenarioName) (offset: \(request.offset), count: \(request.count))"
                 if let readerError = error as? RandomAccessReaderError {
                     XCTFail("\(prefix): \(readerError)")
                 } else {
@@ -226,7 +233,7 @@ private extension LargeFileBenchmarkTests {
         return totalBytes
     }
 
-    func runValidateCommand(
+    fileprivate func runValidateCommand(
         on fileURL: URL,
         environment: ISOInspectorCLIEnvironment
     ) throws {
@@ -305,11 +312,13 @@ private struct LargeFileBenchmarkFixture {
             .appendingPathComponent("isoinspector-benchmarks", isDirectory: true)
         try fileManager.createDirectory(at: directory, withIntermediateDirectories: true)
         let url = directory.appendingPathComponent("large-\(payloadBytes).mp4")
-        let expectedSize = LargeFileBenchmarkFixtureBuilder.expectedFileSize(payloadBytes: payloadBytes)
+        let expectedSize = LargeFileBenchmarkFixtureBuilder.expectedFileSize(
+            payloadBytes: payloadBytes)
         if fileManager.fileExists(atPath: url.path) {
             if let attributes = try? fileManager.attributesOfItem(atPath: url.path),
-               let size = attributes[FileAttributeKey.size] as? NSNumber,
-               size.intValue == expectedSize {
+                let size = attributes[FileAttributeKey.size] as? NSNumber,
+                size.intValue == expectedSize
+            {
                 return LargeFileBenchmarkFixture(url: url, expectedEventCount: 8)
             }
             try fileManager.removeItem(at: url)
@@ -355,7 +364,7 @@ private struct LargeFileBenchmarkFixtureBuilder {
     private func makeBrandPayload() -> Data {
         var data = Data()
         data.append(contentsOf: "isom".utf8)
-        appendUInt32(0x00000200, to: &data)
+        appendUInt32(0x0000_0200, to: &data)
         data.append(contentsOf: "isom".utf8)
         data.append(contentsOf: "iso2".utf8)
         return data
@@ -426,7 +435,7 @@ private struct RandomSliceBenchmarkScenario: Sendable {
                 maximumBytes: largeUpper,
                 sampleCount: 64,
                 seed: 0xA5A5_0003
-            )
+            ),
         ]
     }
 
@@ -475,12 +484,12 @@ private struct RandomSliceBenchmarkScenario: Sendable {
         let lengthString = String(format: "%.2f", locale: locale, readerMiB)
 
         return """
-        \(readerName) random slice scenario: \(name)
-        • Requests per iteration: \(requestCount)
-        • Total bytes per iteration: \(totalBytesPerIteration) (\(bytesString) MiB)
-        • Average slice size: \(averageString) bytes
-        • Reader length: \(readerLength) (\(lengthString) MiB)
-        """
+            \(readerName) random slice scenario: \(name)
+            • Requests per iteration: \(requestCount)
+            • Total bytes per iteration: \(totalBytesPerIteration) (\(bytesString) MiB)
+            • Average slice size: \(averageString) bytes
+            • Reader length: \(readerLength) (\(lengthString) MiB)
+            """
     }
 }
 
@@ -492,10 +501,10 @@ private struct SplitMix64: RandomNumberGenerator {
     }
 
     mutating func next() -> UInt64 {
-        state &+= 0x9E3779B97F4A7C15
+        state &+= 0x9E37_79B9_7F4A_7C15
         var z = state
-        z = (z ^ (z >> 30)) &* 0xBF58476D1CE4E5B9
-        z = (z ^ (z >> 27)) &* 0x94D049BB133111EB
+        z = (z ^ (z >> 30)) &* 0xBF58_476D_1CE4_E5B9
+        z = (z ^ (z >> 27)) &* 0x94D0_49BB_1331_11EB
         return z ^ (z >> 31)
     }
 }
