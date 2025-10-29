@@ -51,7 +51,7 @@ final class TfhdTrackFragmentHeaderParserTests: XCTestCase {
         data.replaceSubrange(8..<totalSize, with: payload)
 
         let header = BoxHeader(
-            type: try FourCharCode("tfhd"),
+            type: try IIFourCharCode("tfhd"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),

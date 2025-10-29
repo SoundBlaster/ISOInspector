@@ -742,7 +742,7 @@ extension BoxParserRegistry.DefaultParsers {
         var cursor = fullHeader.contentStart
 
         let hasAuxInfoType = (fullHeader.flags & 0x000001) != 0
-        var auxInfoType: FourCharCode?
+        var auxInfoType: IIFourCharCode?
         var auxInfoTypeParameter: UInt32?
 
         if hasAuxInfoType {
@@ -862,7 +862,7 @@ extension BoxParserRegistry.DefaultParsers {
         var cursor = fullHeader.contentStart
 
         let hasAuxInfoType = (fullHeader.flags & 0x000001) != 0
-        var auxInfoType: FourCharCode?
+        var auxInfoType: IIFourCharCode?
         var auxInfoTypeParameter: UInt32?
 
         if hasAuxInfoType {

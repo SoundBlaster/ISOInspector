@@ -224,7 +224,7 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
             )
             currentOffset = end
 
-            let type = try FourCharCode(name)
+            let type = try IIFourCharCode(name)
             let header = BoxHeader(
                 type: type,
                 totalSize: Int64(totalSize),
@@ -260,10 +260,10 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
         case "ftyp":
             guard
                 let major = dictionary["major_brand"] as? String,
-                let majorCode = try? FourCharCode(major)
+                let majorCode = try? IIFourCharCode(major)
             else { return nil }
             let minor = UInt32(Self.intValue(forKey: "minor_version", in: dictionary))
-            let brandCodes = compatibleBrands.compactMap { try? FourCharCode($0) }
+            let brandCodes = compatibleBrands.compactMap { try? IIFourCharCode($0) }
             let detail = ParsedBoxPayload.FileTypeBox(
                 majorBrand: majorCode,
                 minorVersion: minor,
@@ -353,7 +353,8 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
         return result
     }
 
-    private func assertIssueMetrics(exportJSON: [String: Any], exportNodes: [[String: Any]]) throws {
+    private func assertIssueMetrics(exportJSON: [String: Any], exportNodes: [[String: Any]]) throws
+    {
         let metrics = try XCTUnwrap(
             exportJSON["issue_metrics"] as? [String: Any],
             "Issue metrics missing from export"

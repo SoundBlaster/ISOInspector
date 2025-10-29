@@ -2,7 +2,7 @@ import Foundation
 
 public struct BoxDescriptor: Equatable, Sendable {
     public struct Identifier: Equatable, Hashable, Sendable {
-        public let type: FourCharCode
+        public let type: IIFourCharCode
         public let extendedType: UUID?
     }
 
@@ -34,11 +34,11 @@ public struct BoxDescriptor: Equatable, Sendable {
 }
 
 public struct BoxCatalog: Sendable {
-    private let byType: [FourCharCode: BoxDescriptor]
+    private let byType: [IIFourCharCode: BoxDescriptor]
     private let byExtendedType: [UUID: BoxDescriptor]
 
     public init(entries: [BoxDescriptor]) {
-        var typeMap: [FourCharCode: BoxDescriptor] = [:]
+        var typeMap: [IIFourCharCode: BoxDescriptor] = [:]
         var extendedMap: [UUID: BoxDescriptor] = [:]
         for descriptor in entries {
             if let uuid = descriptor.identifier.extendedType {
@@ -124,7 +124,7 @@ private struct CatalogLoader {
     }
 
     private func makeDescriptor(from entry: Registry.Entry) throws -> BoxDescriptor {
-        let type = try FourCharCode(entry.type)
+        let type = try IIFourCharCode(entry.type)
         let uuid = try entry.uuid.map { uuidString -> UUID in
             guard let value = UUID(uuidString: uuidString) else {
                 throw CatalogLoadingError.invalidUUID(uuidString)

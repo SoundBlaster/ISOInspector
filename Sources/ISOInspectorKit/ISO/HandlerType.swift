@@ -19,9 +19,9 @@ public struct HandlerType: Equatable, Hashable, Sendable {
         }
     }
 
-    public let code: FourCharCode
+    public let code: IIFourCharCode
 
-    public init(code: FourCharCode) {
+    public init(code: IIFourCharCode) {
         self.code = code
     }
 
@@ -40,11 +40,11 @@ public struct HandlerType: Equatable, Hashable, Sendable {
         return rawValue
     }
 
-    private static let categoryLookup: [FourCharCode: Category] = {
-        var mapping: [FourCharCode: Category] = [:]
+    private static let categoryLookup: [IIFourCharCode: Category] = {
+        var mapping: [IIFourCharCode: Category] = [:]
 
         func register(_ rawValue: String, as category: Category) {
-            guard let code = try? FourCharCode(rawValue) else {
+            guard let code = try? IIFourCharCode(rawValue) else {
                 return
             }
             mapping[code] = category

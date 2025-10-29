@@ -1,7 +1,7 @@
 import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
-    static let visualSampleEntryTypes: Set<FourCharCode> = {
+    static let visualSampleEntryTypes: Set<IIFourCharCode> = {
         let rawValues = [
             "avc1", "avc2", "avc3", "avc4",
             "hvc1", "hev1", "dvh1", "dvhe",
@@ -9,31 +9,31 @@ extension BoxParserRegistry.DefaultParsers {
             "av01", "vp08", "vp09",
             "encv"
         ]
-        let codes = rawValues.compactMap { try? FourCharCode($0) }
+        let codes = rawValues.compactMap { try? IIFourCharCode($0) }
         return Set(codes)
     }()
 
-    static let audioSampleEntryTypes: Set<FourCharCode> = {
+    static let audioSampleEntryTypes: Set<IIFourCharCode> = {
         let rawValues = ["mp4a", "enca", "ac-4", "mha1", "mhm1"]
-        let codes = rawValues.compactMap { try? FourCharCode($0) }
+        let codes = rawValues.compactMap { try? IIFourCharCode($0) }
         return Set(codes)
     }()
 
-    static let avcSampleEntryTypes: Set<FourCharCode> = {
+    static let avcSampleEntryTypes: Set<IIFourCharCode> = {
         let rawValues = ["avc1", "avc2", "avc3", "avc4"]
-        let codes = rawValues.compactMap { try? FourCharCode($0) }
+        let codes = rawValues.compactMap { try? IIFourCharCode($0) }
         return Set(codes)
     }()
 
-    static let hevcSampleEntryTypes: Set<FourCharCode> = {
+    static let hevcSampleEntryTypes: Set<IIFourCharCode> = {
         let rawValues = ["hvc1", "hev1", "dvh1", "dvhe"]
-        let codes = rawValues.compactMap { try? FourCharCode($0) }
+        let codes = rawValues.compactMap { try? IIFourCharCode($0) }
         return Set(codes)
     }()
 
-    private static let protectedSampleEntryTypes: Set<FourCharCode> = {
+    private static let protectedSampleEntryTypes: Set<IIFourCharCode> = {
         let rawValues = ["encv", "enca"]
-        let codes = rawValues.compactMap { try? FourCharCode($0) }
+        let codes = rawValues.compactMap { try? IIFourCharCode($0) }
         return Set(codes)
     }()
 

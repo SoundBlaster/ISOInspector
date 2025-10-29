@@ -10,7 +10,7 @@ import XCTest
 final class ParseTreeStreamingSelectionAutomationTests: XCTestCase {
     func testStreamingSessionAppliesDefaultSelection() throws {
         let header = BoxHeader(
-            type: try FourCharCode("ftyp"),
+            type: try IIFourCharCode("ftyp"),
             totalSize: 24,
             headerSize: 8,
             payloadRange: 8..<24,

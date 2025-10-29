@@ -29,16 +29,16 @@ public enum MediaAndIndexBoxCode: String, CaseIterable, Codable, Hashable, Senda
     private static let mediaPayloadRawValues: Set<String> = Set(mediaPayloads.map(\.rawValue))
 
     /// The four-character code representation.
-    public var fourCharCode: FourCharCode {
-        guard let code = try? FourCharCode(rawValue) else {
+    public var fourCharCode: IIFourCharCode {
+        guard let code = try? IIFourCharCode(rawValue) else {
             preconditionFailure("Invalid media/index raw value: \(rawValue)")
         }
         return code
     }
 
-    /// Attempts to create the enum from a strongly typed `FourCharCode`.
+    /// Attempts to create the enum from a strongly typed `IIFourCharCode`.
     /// - Parameter fourCharCode: The code to convert.
-    public init?(fourCharCode: FourCharCode) {
+    public init?(fourCharCode: IIFourCharCode) {
         self.init(rawValue: fourCharCode.rawValue)
     }
 
@@ -56,7 +56,7 @@ public enum MediaAndIndexBoxCode: String, CaseIterable, Codable, Hashable, Senda
 
     /// Determines whether the provided four-character code maps to a known media payload box.
     /// - Parameter value: The four-character code to evaluate.
-    public static func isMediaPayload(_ value: FourCharCode) -> Bool {
+    public static func isMediaPayload(_ value: IIFourCharCode) -> Bool {
         mediaPayloadRawValues.contains(value.rawValue)
     }
 
@@ -80,7 +80,7 @@ public enum MediaAndIndexBoxCode: String, CaseIterable, Codable, Hashable, Senda
 
     /// Determines whether the provided four-character code maps to a known streaming indicator box.
     /// - Parameter value: The four-character code to evaluate.
-    public static func isStreamingIndicator(_ value: FourCharCode) -> Bool {
+    public static func isStreamingIndicator(_ value: IIFourCharCode) -> Bool {
         streamingIndicatorRawValues.contains(value.rawValue)
     }
 

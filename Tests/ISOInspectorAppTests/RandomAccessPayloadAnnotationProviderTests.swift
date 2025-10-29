@@ -11,7 +11,7 @@ final class RandomAccessPayloadAnnotationProviderTests: XCTestCase {
         data.append(contentsOf: [0x6D, 0x70, 0x34, 0x32]) // mp42
 
         let header = BoxHeader(
-            type: try FourCharCode("ftyp"),
+            type: try IIFourCharCode("ftyp"),
             totalSize: Int64(data.count),
             headerSize: 8,
             payloadRange: 8..<Int64(data.count),
@@ -56,7 +56,7 @@ final class RandomAccessPayloadAnnotationProviderTests: XCTestCase {
         data.append(payload)
 
         let header = BoxHeader(
-            type: try FourCharCode("mvhd"),
+            type: try IIFourCharCode("mvhd"),
             totalSize: Int64(data.count),
             headerSize: 8,
             payloadRange: 8..<Int64(data.count),

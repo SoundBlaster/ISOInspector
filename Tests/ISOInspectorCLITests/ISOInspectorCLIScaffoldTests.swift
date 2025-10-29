@@ -603,7 +603,7 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
     }
 
     private func makeHeader(type: String, size: Int64) throws -> BoxHeader {
-        let fourCC = try FourCharCode(type)
+        let fourCC = try IIFourCharCode(type)
         let range = Int64(0)..<size
         let payloadRange = Int64(8)..<size
         return BoxHeader(

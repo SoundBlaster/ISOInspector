@@ -36,11 +36,11 @@ public struct ParsedBoxPayload: Equatable, Sendable {
     }
 
     public struct FileTypeBox: Equatable, Sendable {
-        public let majorBrand: FourCharCode
+        public let majorBrand: IIFourCharCode
         public let minorVersion: UInt32
-        public let compatibleBrands: [FourCharCode]
+        public let compatibleBrands: [IIFourCharCode]
 
-        public init(majorBrand: FourCharCode, minorVersion: UInt32, compatibleBrands: [FourCharCode]) {
+        public init(majorBrand: IIFourCharCode, minorVersion: UInt32, compatibleBrands: [IIFourCharCode]) {
             self.majorBrand = majorBrand
             self.minorVersion = minorVersion
             self.compatibleBrands = compatibleBrands
@@ -73,14 +73,14 @@ public struct ParsedBoxPayload: Equatable, Sendable {
     }
 
     public struct PaddingBox: Equatable, Sendable {
-        public let type: FourCharCode
+        public let type: IIFourCharCode
         public let headerStartOffset: Int64
         public let headerEndOffset: Int64
         public let totalSize: Int64
         public let payloadRange: Range<Int64>
 
         public init(
-            type: FourCharCode,
+            type: IIFourCharCode,
             headerStartOffset: Int64,
             headerEndOffset: Int64,
             totalSize: Int64,
@@ -476,7 +476,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         public let version: UInt8
         public let flags: UInt32
         public let entryCount: UInt32
-        public let auxInfoType: FourCharCode?
+        public let auxInfoType: IIFourCharCode?
         public let auxInfoTypeParameter: UInt32?
         public let entrySize: EntrySize
         public let entriesRange: Range<Int64>?
@@ -486,7 +486,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             version: UInt8,
             flags: UInt32,
             entryCount: UInt32,
-            auxInfoType: FourCharCode?,
+            auxInfoType: IIFourCharCode?,
             auxInfoTypeParameter: UInt32?,
             entrySize: EntrySize,
             entriesRange: Range<Int64>?,
@@ -517,7 +517,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
         public let flags: UInt32
         public let defaultSampleInfoSize: UInt8
         public let entryCount: UInt32
-        public let auxInfoType: FourCharCode?
+        public let auxInfoType: IIFourCharCode?
         public let auxInfoTypeParameter: UInt32?
         public let variableEntriesRange: Range<Int64>?
         public let variableEntriesByteLength: Int64?
@@ -527,7 +527,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             flags: UInt32,
             defaultSampleInfoSize: UInt8,
             entryCount: UInt32,
-            auxInfoType: FourCharCode?,
+            auxInfoType: IIFourCharCode?,
             auxInfoTypeParameter: UInt32?,
             variableEntriesRange: Range<Int64>?,
             variableEntriesByteLength: Int64?
@@ -1105,7 +1105,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
             }
 
             public let index: UInt32
-            public let type: FourCharCode
+            public let type: IIFourCharCode
             public let version: UInt8
             public let flags: UInt32
             public let location: Location
@@ -1114,7 +1114,7 @@ public struct ParsedBoxPayload: Equatable, Sendable {
 
             public init(
                 index: UInt32,
-                type: FourCharCode,
+                type: IIFourCharCode,
                 version: UInt8,
                 flags: UInt32,
                 location: Location,

@@ -6,7 +6,7 @@ final class ParsePipelineInterfaceTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: Data())
         let headers: [BoxHeader] = try [
             BoxHeader(
-                type: FourCharCode("ftyp"),
+                type: IIFourCharCode("ftyp"),
                 totalSize: Int64(24),
                 headerSize: Int64(16),
                 payloadRange: Int64(16)..<Int64(24),

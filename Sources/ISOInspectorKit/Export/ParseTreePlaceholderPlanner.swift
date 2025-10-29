@@ -16,21 +16,21 @@ public struct ParseTreePlaceholderIDGenerator: Sendable {
 
 public enum ParseTreePlaceholderPlanner {
     public struct Requirement: Equatable, Sendable {
-        public let childType: FourCharCode
+        public let childType: IIFourCharCode
 
-        public init(childType: FourCharCode) {
+        public init(childType: IIFourCharCode) {
             self.childType = childType
         }
     }
 
-    private static let requirements: [FourCharCode: [Requirement]] = {
-        var mapping: [FourCharCode: [Requirement]] = [:]
-        if let minf = try? FourCharCode("minf"),
-           let stbl = try? FourCharCode("stbl") {
+    private static let requirements: [IIFourCharCode: [Requirement]] = {
+        var mapping: [IIFourCharCode: [Requirement]] = [:]
+        if let minf = try? IIFourCharCode("minf"),
+           let stbl = try? IIFourCharCode("stbl") {
             mapping[minf] = [Requirement(childType: stbl)]
         }
-        if let traf = try? FourCharCode("traf"),
-           let tfhd = try? FourCharCode("tfhd") {
+        if let traf = try? IIFourCharCode("traf"),
+           let tfhd = try? IIFourCharCode("tfhd") {
             mapping[traf] = [Requirement(childType: tfhd)]
         }
         return mapping
@@ -38,7 +38,7 @@ public enum ParseTreePlaceholderPlanner {
 
     public static func missingRequirements(
         for parent: BoxHeader,
-        existingChildTypes: Set<FourCharCode>
+        existingChildTypes: Set<IIFourCharCode>
     ) -> [Requirement] {
         guard let expected = requirements[parent.type] else { return [] }
         return expected.filter { !existingChildTypes.contains($0.childType) }

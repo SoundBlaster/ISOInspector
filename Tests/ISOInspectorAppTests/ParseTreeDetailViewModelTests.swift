@@ -317,7 +317,7 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         let start = identifier * 100
         let headerSize: Int64 = 8
         return BoxHeader(
-            type: try! FourCharCode(type),
+            type: try! IIFourCharCode(type),
             totalSize: headerSize + payloadLength,
             headerSize: headerSize,
             payloadRange: (start + headerSize)..<(start + headerSize + payloadLength),

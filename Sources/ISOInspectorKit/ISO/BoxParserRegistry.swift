@@ -3,12 +3,12 @@ import Foundation
 public struct BoxParserRegistry: Sendable {
     public typealias Parser = @Sendable (_ header: BoxHeader, _ reader: RandomAccessReader) throws -> ParsedBoxPayload?
 
-    private var typeParsers: [FourCharCode: Parser]
+    private var typeParsers: [IIFourCharCode: Parser]
     private var extendedTypeParsers: [UUID: Parser]
     private let fallback: Parser
 
     public init(
-        typeParsers: [FourCharCode: Parser] = [:],
+        typeParsers: [IIFourCharCode: Parser] = [:],
         extendedTypeParsers: [UUID: Parser] = [:],
         fallback: Parser? = nil
     ) {
@@ -17,7 +17,7 @@ public struct BoxParserRegistry: Sendable {
         self.fallback = fallback ?? BoxParserRegistry.placeholderFallback
     }
 
-    public mutating func register(parser: @escaping Parser, for type: FourCharCode) {
+    public mutating func register(parser: @escaping Parser, for type: IIFourCharCode) {
         typeParsers[type] = parser
     }
 
@@ -277,7 +277,7 @@ public struct BoxParserRegistry: Sendable {
         try $randomAccessEnvironmentProviderOverride.withValue(provider, operation: perform)
     }
 
-    public func registering(parser: @escaping Parser, for type: FourCharCode) -> BoxParserRegistry {
+    public func registering(parser: @escaping Parser, for type: IIFourCharCode) -> BoxParserRegistry {
         var copy = self
         copy.register(parser: parser, for: type)
         return copy

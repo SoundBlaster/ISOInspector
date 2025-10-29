@@ -68,7 +68,7 @@ public enum BoxHeaderDecoder {
             throw BoxHeaderDecodingError.readerError(underlying: error)
         }
 
-        let type: FourCharCode
+        let type: IIFourCharCode
         do {
             type = try reader.readFourCC(at: offset + 4)
         } catch let error as RandomAccessReaderValueDecodingError {

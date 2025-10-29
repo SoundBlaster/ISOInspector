@@ -51,18 +51,18 @@ public enum FourCharContainerCode: String, CaseIterable, Codable, Hashable, Send
     /// Convenience set of enum values for lookup scenarios that prefer enums over strings.
     public static let allCasesSet: Set<FourCharContainerCode> = Set(allCases)
 
-    /// The four-character code as a strongly typed `FourCharCode` value.
-    public var fourCharCode: FourCharCode {
+    /// The four-character code as a strongly typed `IIFourCharCode` value.
+    public var fourCharCode: IIFourCharCode {
         // Raw values are guaranteed to be valid four-character codes by construction.
-        guard let code = try? FourCharCode(rawValue) else {
+        guard let code = try? IIFourCharCode(rawValue) else {
             preconditionFailure("Invalid container raw value: \(rawValue)")
         }
         return code
     }
 
-    /// Creates an enum instance from a `FourCharCode` value.
+    /// Creates an enum instance from a `IIFourCharCode` value.
     /// - Parameter fourCharCode: The code to convert.
-    public init?(fourCharCode: FourCharCode) {
+    public init?(fourCharCode: IIFourCharCode) {
         self.init(rawValue: fourCharCode.rawValue)
     }
 
@@ -72,10 +72,10 @@ public enum FourCharContainerCode: String, CaseIterable, Codable, Hashable, Send
         self.init(fourCharCode: boxHeader.type)
     }
 
-    /// Determines whether a `FourCharCode` represents a known container box.
+    /// Determines whether a `IIFourCharCode` represents a known container box.
     /// - Parameter value: The code to check.
     /// - Returns: `true` when the code is one of the known container types.
-    public static func isContainer(_ value: FourCharCode) -> Bool {
+    public static func isContainer(_ value: IIFourCharCode) -> Bool {
         rawValueSet.contains(value.rawValue)
     }
 

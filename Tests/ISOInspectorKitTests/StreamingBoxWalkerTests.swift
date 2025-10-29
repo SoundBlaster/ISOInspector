@@ -296,7 +296,7 @@ final class StreamingBoxWalkerTests: XCTestCase {
         depth expectedDepth: Int,
         offset expectedOffset: Int64
     ) throws {
-        let type = try FourCharCode(expectedType)
+        let type = try IIFourCharCode(expectedType)
         switch (event.kind, expectedKind) {
         case let (.willStartBox(header, depth), .willStart):
             XCTAssertEqual(header.type, type)

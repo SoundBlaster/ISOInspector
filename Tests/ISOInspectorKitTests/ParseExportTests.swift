@@ -90,7 +90,7 @@ final class ParseExportTests: XCTestCase {
             ],
             detail: .fileType(
                 ParsedBoxPayload.FileTypeBox(
-                    majorBrand: FourCharCode("isom"),
+                    majorBrand: IIFourCharCode("isom"),
                     minorVersion: 1,
                     compatibleBrands: []
                 )
@@ -315,7 +315,7 @@ final class ParseExportTests: XCTestCase {
             entries: [
                 .init(
                     index: 1,
-                    type: try FourCharCode("url "),
+                    type: try IIFourCharCode("url "),
                     version: 0,
                     flags: 0,
                     location: .data(Data([0xDE, 0xAD])),
@@ -607,7 +607,7 @@ final class ParseExportTests: XCTestCase {
             version: 0,
             flags: 0x000001,
             entryCount: 3,
-            auxInfoType: try FourCharCode("cenc"),
+            auxInfoType: try IIFourCharCode("cenc"),
             auxInfoTypeParameter: 0x00000002,
             entrySize: .eightBytes,
             entriesRange: 80..<104,
@@ -618,7 +618,7 @@ final class ParseExportTests: XCTestCase {
             flags: 0x000001,
             defaultSampleInfoSize: 0,
             entryCount: 3,
-            auxInfoType: try FourCharCode("cenc"),
+            auxInfoType: try IIFourCharCode("cenc"),
             auxInfoTypeParameter: 0x00000002,
             variableEntriesRange: 120..<123,
             variableEntriesByteLength: 3
@@ -740,7 +740,7 @@ final class ParseExportTests: XCTestCase {
     }
 
     private func makeHeader(type: String, size: Int64, offset: Int64 = 0) throws -> BoxHeader {
-        let fourcc = try FourCharCode(type)
+        let fourcc = try IIFourCharCode(type)
         return BoxHeader(
             type: fourcc,
             totalSize: size,

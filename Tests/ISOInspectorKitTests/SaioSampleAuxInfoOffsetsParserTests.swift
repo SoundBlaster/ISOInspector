@@ -49,7 +49,7 @@ final class SaioSampleAuxInfoOffsetsParserTests: XCTestCase {
         data.append(payload)
 
         let header = BoxHeader(
-            type: try FourCharCode("saio"),
+            type: try IIFourCharCode("saio"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
