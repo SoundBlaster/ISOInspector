@@ -3,7 +3,6 @@ import XCTest
 
 @testable import ISOInspectorCLI
 @testable import ISOInspectorKit
-@testable import struct ISOInspectorKit.FourCharCode
 
 final class JSONExportCompatibilityCLITests: XCTestCase {
     func testExportedJSONMatchesCompatibilityBaselines() throws {
@@ -354,8 +353,7 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
         return result
     }
 
-    private func assertIssueMetrics(exportJSON: [String: Any], exportNodes: [[String: Any]]) throws
-    {
+    private func assertIssueMetrics(exportJSON: [String: Any], exportNodes: [[String: Any]]) throws {
         let metrics = try XCTUnwrap(
             exportJSON["issue_metrics"] as? [String: Any],
             "Issue metrics missing from export"
