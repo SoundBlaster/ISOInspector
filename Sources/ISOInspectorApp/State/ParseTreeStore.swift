@@ -37,7 +37,7 @@
             context: ParsePipeline.Context = .init()
         ) {
             issueStore.reset()
-            issueMetrics = ParseIssueStore.IssueMetrics()
+            issueMetrics = issueStore.metricsSnapshot()
             resources.reader = reader
             fileURL = context.source?.standardizedFileURL
             var enrichedContext = context
@@ -50,7 +50,11 @@
 
         public func setValidationIssueFilter(_ filter: ((ValidationIssue) -> Bool)?) {
             issueFilter = filter
-            snapshot = builder.snapshot(filter: filter)
+            if builder.isEmpty {
+                snapshot = Self.makeFilteredSnapshot(from: snapshot, filter: filter)
+            } else {
+                snapshot = builder.snapshot(filter: filter)
+            }
         }
 
         public func cancel() {
@@ -65,7 +69,7 @@
             state = .idle
             fileURL = nil
             issueStore.reset()
-            issueMetrics = ParseIssueStore.IssueMetrics()
+            issueMetrics = issueStore.metricsSnapshot()
         }
 
         private func disconnect() {
@@ -76,6 +80,29 @@
             Builder(issueRecorder: { issue, depth in
                 issueStore.record(issue, depth: depth)
             })
+        }
+
+        private static func makeFilteredSnapshot(
+            from snapshot: ParseTreeSnapshot,
+            filter: ((ValidationIssue) -> Bool)?
+        ) -> ParseTreeSnapshot {
+            guard let filter else { return snapshot }
+            func filterNode(_ node: ParseTreeNode) -> ParseTreeNode {
+                ParseTreeNode(
+                    header: node.header,
+                    metadata: node.metadata,
+                    payload: node.payload,
+                    validationIssues: node.validationIssues.filter(filter),
+                    issues: node.issues,
+                    status: node.status,
+                    children: node.children.map(filterNode)
+                )
+            }
+            return ParseTreeSnapshot(
+                nodes: snapshot.nodes.map(filterNode),
+                validationIssues: snapshot.validationIssues.filter(filter),
+                lastUpdatedAt: snapshot.lastUpdatedAt
+            )
         }
 
         private func bindIssueStore() {
@@ -319,6 +346,9 @@
                     node.children.append(placeholderNode)
                     issueRecorder?(issue, node.depth + 1)
                 }
+            }
+            var isEmpty: Bool {
+                rootNodes.isEmpty && aggregatedIssues.isEmpty
             }
         }
 

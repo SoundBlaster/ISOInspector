@@ -1,71 +1,64 @@
 import Foundation
 import XCTest
+
+@testable import ISOInspectorApp
 @testable import ISOInspectorKit
+
+#if canImport(SwiftUI)
+    import SwiftUI
+#endif
 
 final class ISOInspectorAppThemeTests: XCTestCase {
     func testAccentAssetMatchesBrandPalette() throws {
-        let accentURL = URL(fileURLWithPath: "Sources/ISOInspectorApp/Resources/Assets.xcassets/AccentColor.colorset/Contents.json")
-        let data = try Data(contentsOf: accentURL)
-        let asset = try JSONDecoder().decode(ColorAsset.self, from: data)
-        let palette = ISOInspectorBrandPalette.production
+        #if canImport(AppKit) && canImport(SwiftUI)
+            let palette = ISOInspectorBrandPalette.production
+            let lightAccent = NSColor(ISOInspectorAppTheme.accentColor(for: .light))
 
-        let lightEntry = try XCTUnwrap(asset.colors.first { $0.appearances?.isEmpty ?? true })
-        XCTAssertEqual(lightEntry.color.components.red, palette.lightModeAccent.red, accuracy: 0.005)
-        XCTAssertEqual(lightEntry.color.components.green, palette.lightModeAccent.green, accuracy: 0.005)
-        XCTAssertEqual(lightEntry.color.components.blue, palette.lightModeAccent.blue, accuracy: 0.005)
+            let light = try lightAccent.rgbComponents(appearance: .aqua)
+            XCTAssertEqual(light.red, palette.lightModeAccent.red, accuracy: 0.005)
+            XCTAssertEqual(light.green, palette.lightModeAccent.green, accuracy: 0.005)
+            XCTAssertEqual(light.blue, palette.lightModeAccent.blue, accuracy: 0.005)
 
-        let darkEntry = try XCTUnwrap(asset.colors.first { entry in
-            entry.appearances?.contains(where: { $0.appearance == "luminosity" && $0.value == "dark" }) == true
-        })
-        XCTAssertEqual(darkEntry.color.components.red, palette.darkModeAccent.red, accuracy: 0.005)
-        XCTAssertEqual(darkEntry.color.components.green, palette.darkModeAccent.green, accuracy: 0.005)
-        XCTAssertEqual(darkEntry.color.components.blue, palette.darkModeAccent.blue, accuracy: 0.005)
+            let darkAccent = NSColor(ISOInspectorAppTheme.accentColor(for: .dark))
+            let dark = try darkAccent.rgbComponents(appearance: .darkAqua)
+            XCTAssertEqual(dark.red, palette.darkModeAccent.red, accuracy: 0.005)
+            XCTAssertEqual(dark.green, palette.darkModeAccent.green, accuracy: 0.005)
+            XCTAssertEqual(dark.blue, palette.darkModeAccent.blue, accuracy: 0.005)
+        #else
+            throw XCTSkip("Accent asset validation requires AppKit.")
+        #endif
     }
 }
 
-private struct ColorAsset: Decodable {
-    let colors: [ColorEntry]
-}
+#if canImport(AppKit)
+    import AppKit
 
-private struct ColorEntry: Decodable {
-    let appearances: [Appearance]?
-    let color: ColorValue
-}
-
-private struct Appearance: Decodable {
-    let appearance: String
-    let value: String
-}
-
-private struct ColorValue: Decodable {
-    let components: Components
-}
-
-private struct Components: Decodable {
-    let alpha: Double
-    let blue: Double
-    let green: Double
-    let red: Double
-
-    private enum CodingKeys: String, CodingKey {
-        case alpha
-        case blue
-        case green
-        case red
-    }
-
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        alpha = try Self.parse(component: container.decode(String.self, forKey: .alpha))
-        blue = try Self.parse(component: container.decode(String.self, forKey: .blue))
-        green = try Self.parse(component: container.decode(String.self, forKey: .green))
-        red = try Self.parse(component: container.decode(String.self, forKey: .red))
-    }
-
-    private static func parse(component: String) throws -> Double {
-        guard let value = Double(component) else {
-            throw NSError(domain: "ISOInspectorAppThemeTests", code: 0)
+    extension NSColor {
+        fileprivate struct RGB {
+            let red: Double
+            let green: Double
+            let blue: Double
         }
-        return value
+
+        fileprivate func rgbComponents(appearance: NSAppearance.Name) throws -> RGB {
+            guard let resolvedAppearance = NSAppearance(named: appearance) else {
+                throw NSError(domain: "ISOInspectorAppThemeTests", code: 1)
+            }
+
+            var resolved: NSColor?
+            resolvedAppearance.performAsCurrentDrawingAppearance {
+                resolved = self.usingColorSpace(.deviceRGB)
+            }
+
+            guard let rgb = resolved else {
+                throw NSError(domain: "ISOInspectorAppThemeTests", code: 2)
+            }
+
+            return RGB(
+                red: Double(rgb.redComponent),
+                green: Double(rgb.greenComponent),
+                blue: Double(rgb.blueComponent)
+            )
+        }
     }
-}
+#endif

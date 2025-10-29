@@ -797,11 +797,11 @@
                           "media_rate_integer" : 1,
                           "media_time" : -1,
                           "presentation_end" : 120,
-                          "presentation_end_seconds" : 0.2,
+                          "presentation_end_seconds" : 0.20000000000000001,
                           "presentation_start" : 0,
                           "presentation_start_seconds" : 0,
                           "segment_duration" : 120,
-                          "segment_duration_seconds" : 0.2
+                          "segment_duration_seconds" : 0.20000000000000001
                         },
                         {
                           "index" : 1,
@@ -813,7 +813,7 @@
                           "presentation_end" : 900,
                           "presentation_end_seconds" : 1.5,
                           "presentation_start" : 120,
-                          "presentation_start_seconds" : 0.2,
+                          "presentation_start_seconds" : 0.20000000000000001,
                           "segment_duration" : 780,
                           "segment_duration_seconds" : 1.3
                         }
