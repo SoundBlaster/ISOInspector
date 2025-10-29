@@ -276,8 +276,8 @@
 
         @MainActor
         func testPlaceholderNodesRecordedForMissingRequiredChildren() throws {
-            let minfType = try IIFourCharCode("minf")
-            let smhdType = try IIFourCharCode("smhd")
+            let minfType = try FourCharCode("minf")
+            let smhdType = try FourCharCode("smhd")
 
             let minfHeader = BoxHeader(
                 type: minfType,
@@ -368,7 +368,7 @@
             childFinishParseIssues: [ParseIssue]? = nil
         ) -> [ParseEvent] {
             let parentHeader = BoxHeader(
-                type: try! IIFourCharCode("root"),
+                type: try! FourCharCode("root"),
                 totalSize: 32,
                 headerSize: 8,
                 payloadRange: 8..<32,
@@ -376,7 +376,7 @@
                 uuid: nil
             )
             let childHeader = BoxHeader(
-                type: try! IIFourCharCode("test"),
+                type: try! FourCharCode("test"),
                 totalSize: 16,
                 headerSize: 8,
                 payloadRange: 8..<16,

@@ -32,7 +32,7 @@ final class BoxClassificationTests: XCTestCase {
     }
 
     private func makeHeader(type: String) throws -> BoxHeader {
-        let fourChar = try IIFourCharCode(type)
+        let fourChar = try FourCharCode(type)
         return BoxHeader(
             type: fourChar,
             totalSize: 16,

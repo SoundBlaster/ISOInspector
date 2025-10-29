@@ -513,11 +513,11 @@ private final class EditListValidationRule: BoxValidationRule, @unchecked Sendab
     }
 
     private enum BoxType {
-        static let movieHeader = try! IIFourCharCode("mvhd")
-        static let track = try! IIFourCharCode("trak")
-        static let trackHeader = try! IIFourCharCode("tkhd")
-        static let mediaHeader = try! IIFourCharCode("mdhd")
-        static let editList = try! IIFourCharCode("elst")
+        static let movieHeader = try! FourCharCode("mvhd")
+        static let track = try! FourCharCode("trak")
+        static let trackHeader = try! FourCharCode("tkhd")
+        static let mediaHeader = try! FourCharCode("mdhd")
+        static let editList = try! FourCharCode("elst")
     }
 }
 
@@ -848,15 +848,15 @@ private final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Se
     }
 
     private enum BoxType {
-        static let track = try! IIFourCharCode("trak")
-        static let trackHeader = try! IIFourCharCode("tkhd")
-        static let sampleToChunk = try! IIFourCharCode("stsc")
-        static let sampleSize = try! IIFourCharCode("stsz")
-        static let compactSampleSize = try! IIFourCharCode("stz2")
-        static let chunkOffset32 = try! IIFourCharCode("stco")
-        static let chunkOffset64 = try! IIFourCharCode("co64")
-        static let decodingTimeToSample = try! IIFourCharCode("stts")
-        static let compositionOffset = try! IIFourCharCode("ctts")
+        static let track = try! FourCharCode("trak")
+        static let trackHeader = try! FourCharCode("tkhd")
+        static let sampleToChunk = try! FourCharCode("stsc")
+        static let sampleSize = try! FourCharCode("stsz")
+        static let compactSampleSize = try! FourCharCode("stz2")
+        static let chunkOffset32 = try! FourCharCode("stco")
+        static let chunkOffset64 = try! FourCharCode("co64")
+        static let decodingTimeToSample = try! FourCharCode("stts")
+        static let compositionOffset = try! FourCharCode("ctts")
     }
 }
 
@@ -867,8 +867,8 @@ private final class CodecConfigurationValidationRule: BoxValidationRule, @unchec
 
     private struct SampleEntry {
         let index: Int
-        let format: IIFourCharCode
-        let effectiveFormat: IIFourCharCode
+        let format: FourCharCode
+        let effectiveFormat: FourCharCode
         let nestedBoxes: [BoxParserRegistry.DefaultParsers.NestedBox]
     }
 
@@ -960,7 +960,7 @@ private final class CodecConfigurationValidationRule: BoxValidationRule, @unchec
     private func entryPrefix(
         trackLabel: String,
         entryIndex: Int,
-        format: IIFourCharCode
+        format: FourCharCode
     ) -> String {
         "\(trackLabel) sample description entry \(entryIndex) (format \(format.rawValue))"
     }
@@ -1302,9 +1302,9 @@ private final class CodecConfigurationValidationRule: BoxValidationRule, @unchec
     }
 
     private enum BoxType {
-        static let track = try! IIFourCharCode("trak")
-        static let trackHeader = try! IIFourCharCode("tkhd")
-        static let sampleDescription = try! IIFourCharCode("stsd")
+        static let track = try! FourCharCode("trak")
+        static let trackHeader = try! FourCharCode("tkhd")
+        static let sampleDescription = try! FourCharCode("stsd")
     }
 }
 
@@ -1336,7 +1336,7 @@ private final class FragmentSequenceRule: BoxValidationRule, @unchecked Sendable
     }
 
     private enum BoxType {
-        static let movieFragmentHeader = try! IIFourCharCode("mfhd")
+        static let movieFragmentHeader = try! FourCharCode("mfhd")
     }
 }
 
@@ -1365,7 +1365,7 @@ private struct FragmentRunValidationRule: BoxValidationRule {
     }
 
     private enum BoxType {
-        static let trackRun = try! IIFourCharCode("trun")
+        static let trackRun = try! FourCharCode("trun")
     }
 
     private func contextDescription(for run: ParsedBoxPayload.TrackRunBox) -> String {

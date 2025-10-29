@@ -1199,7 +1199,7 @@ final class ParsePipelineLiveTests: XCTestCase {
         depth expectedDepth: Int,
         offset expectedOffset: Int64
     ) throws {
-        let type = try IIFourCharCode(expectedType)
+        let type = try FourCharCode(expectedType)
         switch (event.kind, expectedKind) {
         case let (.willStartBox(header, depth), .willStart):
             XCTAssertEqual(header.type, type)

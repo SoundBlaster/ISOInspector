@@ -4,7 +4,7 @@ import XCTest
 final class BoxNodeTests: XCTestCase {
     func testInitializerCapturesAllComponents() throws {
         let header = try BoxHeader(
-            type: IIFourCharCode("ftyp"),
+            type: FourCharCode("ftyp"),
             totalSize: 32,
             headerSize: 16,
             payloadRange: 16..<32,

@@ -316,7 +316,7 @@ final class StsdSampleDescriptionParserTests: XCTestCase {
         data.replaceSubrange(8..<totalSize, with: payload)
 
         let header = BoxHeader(
-            type: try IIFourCharCode("stsd"),
+            type: try FourCharCode("stsd"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),

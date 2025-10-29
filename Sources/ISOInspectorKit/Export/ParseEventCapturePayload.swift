@@ -135,7 +135,7 @@ struct ParseEventCapturePayload: Codable {
 
         func makeHeader() throws -> BoxHeader {
             do {
-                let fourcc = try IIFourCharCode(type)
+                let fourcc = try FourCharCode(type)
                 return BoxHeader(
                     type: fourcc,
                     totalSize: totalSize,
@@ -173,7 +173,7 @@ struct ParseEventCapturePayload: Codable {
 
         func makeDescriptor() throws -> BoxDescriptor {
             do {
-                let fourcc = try IIFourCharCode(type)
+                let fourcc = try FourCharCode(type)
                 let identifier = BoxDescriptor.Identifier(type: fourcc, extendedType: uuid)
                 return BoxDescriptor(
                     identifier: identifier,

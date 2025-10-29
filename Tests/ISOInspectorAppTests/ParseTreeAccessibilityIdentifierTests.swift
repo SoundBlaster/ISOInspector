@@ -69,7 +69,7 @@ final class ParseTreeAccessibilityIdentifierTests: XCTestCase {
 
         let viewModel = ParseTreeDetailViewModel(hexSliceProvider: nil, annotationProvider: nil)
         let header = BoxHeader(
-            type: try IIFourCharCode("test"),
+            type: try FourCharCode("test"),
             totalSize: 32,
             headerSize: 8,
             payloadRange: 8..<32,

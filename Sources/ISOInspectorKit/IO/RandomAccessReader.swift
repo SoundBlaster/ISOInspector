@@ -57,14 +57,14 @@ public extension RandomAccessReader {
         try readInteger(at: offset)
     }
 
-    func readFourCC(at offset: Int64) throws -> IIFourCharCode {
+    func readFourCC(at offset: Int64) throws -> FourCharCode {
         let byteCount = 4
         let data = try read(at: offset, count: byteCount)
         guard data.count == byteCount else {
             throw RandomAccessReaderValueDecodingError.truncatedRead(expected: byteCount, actual: data.count)
         }
         do {
-            return try IIFourCharCode(data: data)
+            return try FourCharCode(data: data)
         } catch {
             throw RandomAccessReaderValueDecodingError.invalidFourCharacterCode(data)
         }

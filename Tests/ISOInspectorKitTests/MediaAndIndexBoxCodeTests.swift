@@ -37,7 +37,7 @@ final class MediaAndIndexBoxCodeTests: XCTestCase {
     }
 
     func testUnknownValuesReturnNil() throws {
-        let invalidCode = try IIFourCharCode("free")
+        let invalidCode = try FourCharCode("free")
         let header = try makeHeader(type: "free")
 
         XCTAssertNil(MediaAndIndexBoxCode(fourCharCode: invalidCode))
@@ -78,7 +78,7 @@ final class MediaAndIndexBoxCodeTests: XCTestCase {
 
     private func makeHeader(type: String) throws -> BoxHeader {
         BoxHeader(
-            type: try IIFourCharCode(type),
+            type: try FourCharCode(type),
             totalSize: 16,
             headerSize: 8,
             payloadRange: 8..<16,

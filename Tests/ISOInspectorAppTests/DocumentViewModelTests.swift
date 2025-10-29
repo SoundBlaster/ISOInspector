@@ -89,7 +89,7 @@
         }
 
         private static func makeHeader(offset: Int64, type: String) throws -> BoxHeader {
-            let fourcc = try IIFourCharCode(type)
+            let fourcc = try FourCharCode(type)
             return BoxHeader(
                 type: fourcc,
                 totalSize: 48,

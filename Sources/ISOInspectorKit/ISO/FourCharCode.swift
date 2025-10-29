@@ -6,7 +6,7 @@ public enum FourCharCodeError: Swift.Error, Equatable {
 }
 
 extension ISOInspectorKit {
-    public struct IIFourCharCode: Equatable, Hashable, CustomStringConvertible, Sendable {
+    public struct FourCharCode: Equatable, Hashable, CustomStringConvertible, Sendable {
         public let rawValue: String
 
         public init(_ value: String) throws {
@@ -34,4 +34,4 @@ extension ISOInspectorKit {
     }
 }
 
-public typealias IIFourCharCode = ISOInspectorKit.IIFourCharCode
+public typealias FourCharCode = ISOInspectorKit.FourCharCode

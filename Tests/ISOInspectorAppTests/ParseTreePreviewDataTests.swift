@@ -9,7 +9,7 @@ final class ParseTreePreviewDataTests: XCTestCase {
         let snapshot = ParseTreePreviewData.sampleSnapshot
         let headers = snapshot.nodes.map(\.header)
         XCTAssertEqual(headers.count, 4)
-        XCTAssertEqual(headers.first?.type, try IIFourCharCode("ftyp"))
+        XCTAssertEqual(headers.first?.type, try FourCharCode("ftyp"))
     }
 }
 #endif

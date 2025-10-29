@@ -64,7 +64,7 @@ final class SencSampleEncryptionParserTests: XCTestCase {
         data.append(payload)
 
         let header = BoxHeader(
-            type: try IIFourCharCode("senc"),
+            type: try FourCharCode("senc"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),

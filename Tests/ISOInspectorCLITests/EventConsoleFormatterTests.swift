@@ -388,7 +388,7 @@ final class EventConsoleFormatterTests: XCTestCase {
             version: 0,
             flags: 0x000001,
             entryCount: 3,
-            auxInfoType: try IIFourCharCode("cenc"),
+            auxInfoType: try FourCharCode("cenc"),
             auxInfoTypeParameter: 2,
             entrySize: .eightBytes,
             entriesRange: 80..<104,
@@ -418,7 +418,7 @@ final class EventConsoleFormatterTests: XCTestCase {
             flags: 0x000001,
             defaultSampleInfoSize: 0,
             entryCount: 3,
-            auxInfoType: try IIFourCharCode("cenc"),
+            auxInfoType: try FourCharCode("cenc"),
             auxInfoTypeParameter: 2,
             variableEntriesRange: 120..<123,
             variableEntriesByteLength: 3
@@ -441,7 +441,7 @@ final class EventConsoleFormatterTests: XCTestCase {
     }
 
     private func makeHeader(type: String, size: Int64) throws -> BoxHeader {
-        let fourCC = try IIFourCharCode(type)
+        let fourCC = try FourCharCode(type)
         let range = Int64(0)..<size
         let payloadRange = Int64(8)..<size
         return BoxHeader(

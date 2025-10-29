@@ -64,7 +64,7 @@ extension BoxParserRegistry.DefaultParsers {
         _ reader: RandomAccessReader,
         at offset: Int64,
         end: Int64
-    ) throws -> IIFourCharCode? {
+    ) throws -> FourCharCode? {
         guard offset + 4 <= end else { return nil }
         return try? reader.readFourCC(at: offset)
     }
