@@ -317,7 +317,7 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         let totalSize: Int64 = 32
         let headerSize: Int64 = 8
         let header = BoxHeader(
-            type: try! FourCharCode(type),
+            type: try! IIFourCharCode(type),
             totalSize: totalSize,
             headerSize: headerSize,
             payloadRange: (start + headerSize)..<(start + totalSize),

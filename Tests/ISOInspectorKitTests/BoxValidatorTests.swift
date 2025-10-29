@@ -546,7 +546,7 @@ final class BoxValidatorTests: XCTestCase {
     }
 
     private func makeHeader(type: String, payloadSize: Int, offset: Int64 = 0) throws -> BoxHeader {
-        let fourCC = try FourCharCode(type)
+        let fourCC = try IIFourCharCode(type)
         let headerSize: Int64 = 8
         let totalSize = headerSize + Int64(payloadSize)
         let payloadRange = (offset + headerSize)..<(offset + headerSize + Int64(payloadSize))
@@ -603,7 +603,7 @@ final class BoxValidatorTests: XCTestCase {
     }
 
     private func makeHeader(type: String, totalSize: Int64, headerSize: Int64, offset: Int64) throws -> BoxHeader {
-        let fourCC = try FourCharCode(type)
+        let fourCC = try IIFourCharCode(type)
         let payloadRange = (offset + headerSize)..<(offset + totalSize)
         let range = offset..<(offset + totalSize)
         return BoxHeader(

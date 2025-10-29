@@ -896,7 +896,7 @@ final class DocumentSessionControllerTests: XCTestCase {
 
     private func makeValidationEventStream() -> ParsePipeline.EventStream {
         let parentHeader = BoxHeader(
-            type: try! FourCharCode("root"),
+            type: try! IIFourCharCode("root"),
             totalSize: 32,
             headerSize: 8,
             payloadRange: 8..<32,
@@ -904,7 +904,7 @@ final class DocumentSessionControllerTests: XCTestCase {
             uuid: nil
         )
         let childHeader = BoxHeader(
-            type: try! FourCharCode("test"),
+            type: try! IIFourCharCode("test"),
             totalSize: 16,
             headerSize: 8,
             payloadRange: 8..<16,
@@ -950,7 +950,7 @@ final class DocumentSessionControllerTests: XCTestCase {
         let totalSize: Int64 = 32
         let headerSize: Int64 = 8
         let header = BoxHeader(
-            type: try! FourCharCode(type),
+            type: try! IIFourCharCode(type),
             totalSize: totalSize,
             headerSize: headerSize,
             payloadRange: (identifier + headerSize)..<(identifier + totalSize),

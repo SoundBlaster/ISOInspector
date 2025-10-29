@@ -127,7 +127,7 @@ final class PlaintextIssueSummaryExporterTests: XCTestCase {
     }
 
     private func makeHeader(type: String, size: Int64, offset: Int64) throws -> BoxHeader {
-        let fourCC = try FourCharCode(type)
+        let fourCC = try IIFourCharCode(type)
         return BoxHeader(
             type: fourCC,
             totalSize: size,

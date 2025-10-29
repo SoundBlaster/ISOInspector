@@ -281,7 +281,7 @@ extension BoxParserRegistry.DefaultParsers {
 
     private static func decodeDataReferenceLocation(
         entryIndex: UInt32,
-        type: FourCharCode,
+        type: IIFourCharCode,
         payload: Data,
         payloadStart: Int64,
         selfContained: Bool

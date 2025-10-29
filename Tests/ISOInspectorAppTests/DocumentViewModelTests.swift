@@ -86,7 +86,7 @@ final class DocumentViewModelTests: XCTestCase {
     }
 
     private static func makeHeader(offset: Int64, type: String) throws -> BoxHeader {
-        let fourcc = try FourCharCode(type)
+        let fourcc = try IIFourCharCode(type)
         return BoxHeader(
             type: fourcc,
             totalSize: 48,

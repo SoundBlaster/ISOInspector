@@ -177,7 +177,7 @@ final class TrunTrackRunParserTests: XCTestCase {
         data.replaceSubrange(8..<totalSize, with: payload)
 
         let header = BoxHeader(
-            type: try FourCharCode("trun"),
+            type: try IIFourCharCode("trun"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),

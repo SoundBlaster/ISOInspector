@@ -97,11 +97,11 @@ private final class EditListEnvironmentCoordinator: @unchecked Sendable {
     }
 
     private enum BoxType {
-        static let track = try! FourCharCode("trak")
-        static let movieHeader = try! FourCharCode("mvhd")
-        static let trackHeader = try! FourCharCode("tkhd")
-        static let mediaHeader = try! FourCharCode("mdhd")
-        static let editList = try! FourCharCode("elst")
+        static let track = try! IIFourCharCode("trak")
+        static let movieHeader = try! IIFourCharCode("mvhd")
+        static let trackHeader = try! IIFourCharCode("tkhd")
+        static let mediaHeader = try! IIFourCharCode("mdhd")
+        static let editList = try! IIFourCharCode("elst")
     }
 }
 
@@ -124,7 +124,7 @@ private final class MetadataEnvironmentCoordinator: @unchecked Sendable {
         switch header.type {
         case BoxType.handler:
             guard let codeString = payload?.fields.first(where: { $0.name == "handler_type" })?.value,
-                  let code = try? FourCharCode(codeString) else { return }
+                  let code = try? IIFourCharCode(codeString) else { return }
             stack[stack.count - 1].handlerType = HandlerType(code: code)
         case BoxType.keys:
             if let table = payload?.metadataKeyTable {
@@ -159,10 +159,10 @@ private final class MetadataEnvironmentCoordinator: @unchecked Sendable {
     }
 
     private enum BoxType {
-        static let metadata = try! FourCharCode("meta")
-        static let handler = try! FourCharCode("hdlr")
-        static let keys = try! FourCharCode("keys")
-        static let itemList = try! FourCharCode("ilst")
+        static let metadata = try! IIFourCharCode("meta")
+        static let handler = try! IIFourCharCode("hdlr")
+        static let keys = try! IIFourCharCode("keys")
+        static let itemList = try! IIFourCharCode("ilst")
     }
 }
 
@@ -438,12 +438,12 @@ private final class FragmentEnvironmentCoordinator: @unchecked Sendable {
     }
 
     private enum BoxType {
-        static let movieFragment = try! FourCharCode("moof")
-        static let trackFragment = try! FourCharCode("traf")
-        static let trackFragmentHeader = try! FourCharCode("tfhd")
-        static let trackFragmentDecodeTime = try! FourCharCode("tfdt")
-        static let trackRun = try! FourCharCode("trun")
-        static let trackExtends = try! FourCharCode("trex")
+        static let movieFragment = try! IIFourCharCode("moof")
+        static let trackFragment = try! IIFourCharCode("traf")
+        static let trackFragmentHeader = try! IIFourCharCode("tfhd")
+        static let trackFragmentDecodeTime = try! IIFourCharCode("tfdt")
+        static let trackRun = try! IIFourCharCode("trun")
+        static let trackExtends = try! IIFourCharCode("trex")
     }
 }
 
@@ -585,12 +585,12 @@ private final class RandomAccessIndexCoordinator: @unchecked Sendable {
     }
 
     private enum BoxType {
-        static let movieFragment = try! FourCharCode("moof")
-        static let trackFragment = try! FourCharCode("traf")
-        static let movieFragmentHeader = try! FourCharCode("mfhd")
-        static let movieFragmentRandomAccess = try! FourCharCode("mfra")
-        static let trackFragmentRandomAccess = try! FourCharCode("tfra")
-        static let movieFragmentRandomAccessOffset = try! FourCharCode("mfro")
+        static let movieFragment = try! IIFourCharCode("moof")
+        static let trackFragment = try! IIFourCharCode("traf")
+        static let movieFragmentHeader = try! IIFourCharCode("mfhd")
+        static let movieFragmentRandomAccess = try! IIFourCharCode("mfra")
+        static let trackFragmentRandomAccess = try! IIFourCharCode("tfra")
+        static let movieFragmentRandomAccessOffset = try! IIFourCharCode("mfro")
     }
 }
 

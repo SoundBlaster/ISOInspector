@@ -15,9 +15,9 @@ final class SampleEncryptionMetadataCoverageTests: XCTestCase {
         let data = try fixture.data(in: .module)
         let reader = InMemoryRandomAccessReader(data: data)
 
-        let senc = try FourCharCode("senc")
-        let saio = try FourCharCode("saio")
-        let saiz = try FourCharCode("saiz")
+        let senc = try IIFourCharCode("senc")
+        let saio = try IIFourCharCode("saio")
+        let saiz = try IIFourCharCode("saiz")
 
         var sampleEncryptionBoxes: [ParsedBoxPayload.SampleEncryptionBox] = []
         var auxOffsetBoxes: [ParsedBoxPayload.SampleAuxInfoOffsetsBox] = []

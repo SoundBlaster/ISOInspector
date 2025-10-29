@@ -5,7 +5,7 @@ public enum FourCharCodeError: Swift.Error, Equatable {
     case invalidASCII(Data)
 }
 
-public struct FourCharCode: Equatable, Hashable, CustomStringConvertible, Sendable {
+public struct _IIFourCharCode: Equatable, Hashable, CustomStringConvertible, Sendable {
     public let rawValue: String
 
     public init(_ value: String) throws {
@@ -20,7 +20,8 @@ public struct FourCharCode: Equatable, Hashable, CustomStringConvertible, Sendab
         guard data.count == 4 else {
             throw FourCharCodeError.invalidLength(data.count)
         }
-        let string = String(data: data, encoding: .ascii)
+        let string =
+            String(data: data, encoding: .ascii)
             ?? String(data: data, encoding: .isoLatin1)
         guard let value = string else {
             throw FourCharCodeError.invalidASCII(data)
@@ -29,4 +30,10 @@ public struct FourCharCode: Equatable, Hashable, CustomStringConvertible, Sendab
     }
 
     public var description: String { rawValue }
+}
+
+public typealias IIFourCharCode = _IIFourCharCode
+
+extension ISOInspectorKit {
+    public typealias IIFourCharCode = _IIFourCharCode
 }

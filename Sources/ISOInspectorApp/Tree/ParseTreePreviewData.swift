@@ -57,7 +57,7 @@ enum ParseTreePreviewData {
     }
 
     private static func makeHeader(type: String, start: Int64, size: Int64) -> BoxHeader {
-        let fourCC = try! FourCharCode(type)
+        let fourCC = try! IIFourCharCode(type)
         let headerSize: Int64 = 8
         let payload = (start + headerSize)..<(start + size)
         return BoxHeader(

@@ -7,7 +7,7 @@ final class FullBoxReaderTests: XCTestCase {
         payload.append(contentsOf: [0xAA, 0xBB, 0xCC])
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try FourCharCode("test"),
+            type: try IIFourCharCode("test"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -30,7 +30,7 @@ final class FullBoxReaderTests: XCTestCase {
         let payload = Data([0x01, 0x02, 0x03])
         let totalSize = 8 + payload.count
         let header = BoxHeader(
-            type: try FourCharCode("test"),
+            type: try IIFourCharCode("test"),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),
@@ -52,7 +52,7 @@ final class FullBoxReaderTests: XCTestCase {
             }
         }
         let header = BoxHeader(
-            type: try FourCharCode("test"),
+            type: try IIFourCharCode("test"),
             totalSize: 16,
             headerSize: 8,
             payloadRange: 8..<16,

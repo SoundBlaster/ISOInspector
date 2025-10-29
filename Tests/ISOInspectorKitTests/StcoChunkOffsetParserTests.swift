@@ -98,7 +98,7 @@ final class StcoChunkOffsetParserTests: XCTestCase {
         data.replaceSubrange(8..<totalSize, with: payload)
 
         let header = BoxHeader(
-            type: try FourCharCode(fourCC),
+            type: try IIFourCharCode(fourCC),
             totalSize: Int64(totalSize),
             headerSize: 8,
             payloadRange: 8..<Int64(totalSize),

@@ -1,7 +1,7 @@
 import Foundation
 
 public struct BoxHeader: Equatable, Sendable {
-    public let type: FourCharCode
+    public let type: IIFourCharCode
     public let totalSize: Int64
     public let headerSize: Int64
     public let payloadRange: Range<Int64>
@@ -12,7 +12,7 @@ public struct BoxHeader: Equatable, Sendable {
     public var endOffset: Int64 { range.upperBound }
 
     public init(
-        type: FourCharCode,
+        type: IIFourCharCode,
         totalSize: Int64,
         headerSize: Int64,
         payloadRange: Range<Int64>,

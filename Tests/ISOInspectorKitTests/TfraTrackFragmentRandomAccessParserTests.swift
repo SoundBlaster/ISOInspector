@@ -156,7 +156,7 @@ final class TfraTrackFragmentRandomAccessParserTests: XCTestCase {
 
     private func makeHeader(for boxData: Data, type: String) throws -> BoxHeader {
         return BoxHeader(
-            type: try FourCharCode(type),
+            type: try IIFourCharCode(type),
             totalSize: Int64(boxData.count),
             headerSize: 8,
             payloadRange: 8..<Int64(boxData.count),

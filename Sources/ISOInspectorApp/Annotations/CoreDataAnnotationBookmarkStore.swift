@@ -95,7 +95,8 @@
 
         @discardableResult
         public func createAnnotation(for file: URL, nodeID: Int64, note: String) throws
-            -> AnnotationRecord {
+            -> AnnotationRecord
+        {
             try perform { context in
                 let fileEntity = try self.fetchFile(for: file, createIfMissing: true, in: context)!
                 let now = self.makeDate()
@@ -114,7 +115,8 @@
 
         @discardableResult
         public func updateAnnotation(for file: URL, annotationID: UUID, note: String) throws
-            -> AnnotationRecord {
+            -> AnnotationRecord
+        {
             try perform { context in
                 guard
                     let fileEntity = try self.fetchFile(
@@ -174,7 +176,8 @@
                         didModify = true
                     }
                 } else if let existing = try self.fetchBookmark(
-                    nodeID: nodeID, for: fileEntity, in: context) {
+                    nodeID: nodeID, for: fileEntity, in: context)
+                {
                     context.delete(existing)
                     didModify = true
                 }
@@ -249,7 +252,8 @@
 
         // MARK: - Private helpers
 
-        private func perform<T>(_ block: @escaping (NSManagedObjectContext) throws -> T) throws -> T {
+        private func perform<T>(_ block: @escaping (NSManagedObjectContext) throws -> T) throws -> T
+        {
             var value: T?
             var capturedError: Error?
             context.performAndWait {
@@ -339,7 +343,8 @@
         }
 
         private func fetchCurrentSession(in context: NSManagedObjectContext) throws
-            -> SessionEntity? {
+            -> SessionEntity?
+        {
             let request = NSFetchRequest<SessionEntity>(entityName: "Session")
             request.fetchLimit = 1
             request.predicate = NSPredicate(format: "isCurrent == YES")
@@ -354,7 +359,8 @@
         }
 
         private func fetchOrCreateWorkspace(in context: NSManagedObjectContext) throws
-            -> WorkspaceEntity {
+            -> WorkspaceEntity
+        {
             let request = NSFetchRequest<WorkspaceEntity>(entityName: "Workspace")
             request.fetchLimit = 1
             if let existing = try context.fetch(request).first {
@@ -470,7 +476,8 @@
                     diffEntity.sessionFile = sessionFile
                     if let bookmarkID = diff.bookmarkID,
                         let bookmark = try self.fetchBookmark(
-                            id: bookmarkID, for: fileEntity, in: context) {
+                            id: bookmarkID, for: fileEntity, in: context)
+                    {
                         diffEntity.bookmark = bookmark
                         diffEntity.bookmarkID = bookmarkID
                     } else {
@@ -512,16 +519,10 @@
 
     extension CoreDataAnnotationBookmarkStore {
         // Cache models to prevent "Multiple NSEntityDescriptions" warnings when running tests
-        private static let modelCache: [ModelVersion: NSManagedObjectModel] = {
-            var cache: [ModelVersion: NSManagedObjectModel] = [:]
-            for version in ModelVersion.allCases {
-                cache[version] = makeModelUncached(for: version)
-            }
-            return cache
-        }()
+        private static let modelCache = ModelCache()
 
         fileprivate static func makeModel(for version: ModelVersion) -> NSManagedObjectModel {
-            modelCache[version]!
+            modelCache[version]
         }
 
         private static func makeModelUncached(for version: ModelVersion) -> NSManagedObjectModel {
@@ -532,6 +533,24 @@
                 return makeV2Model()
             case .v3:
                 return makeV3Model()
+            }
+        }
+
+        private struct ModelCache: @unchecked Sendable {
+            private let storage: [ModelVersion: NSManagedObjectModel]
+
+            init() {
+                var cache: [ModelVersion: NSManagedObjectModel] = [:]
+                for version in ModelVersion.allCases {
+                    cache[version] = CoreDataAnnotationBookmarkStore.makeModelUncached(
+                        for: version)
+                }
+                self.storage = cache
+            }
+
+            subscript(version: ModelVersion) -> NSManagedObjectModel {
+                // Models are immutable after creation so returning the cached reference is safe.
+                storage[version]!
             }
         }
 
@@ -638,7 +657,8 @@
         }
 
         fileprivate static func makeSessionModel(includeValidationConfigurationData: Bool)
-            -> NSManagedObjectModel {
+            -> NSManagedObjectModel
+        {
             let base = makeBaseEntities()
             let fileEntity = base.file
             let annotationEntity = base.annotation
@@ -908,7 +928,8 @@
         }
 
         fileprivate static func uuidAttribute(named name: String, isOptional: Bool = false)
-            -> NSAttributeDescription {
+            -> NSAttributeDescription
+        {
             let attribute = NSAttributeDescription()
             attribute.name = name
             attribute.attributeType = .UUIDAttributeType
@@ -917,7 +938,8 @@
         }
 
         fileprivate static func stringAttribute(named name: String, isOptional: Bool = false)
-            -> NSAttributeDescription {
+            -> NSAttributeDescription
+        {
             let attribute = NSAttributeDescription()
             attribute.name = name
             attribute.attributeType = .stringAttributeType
@@ -926,7 +948,8 @@
         }
 
         fileprivate static func dateAttribute(named name: String, isOptional: Bool = false)
-            -> NSAttributeDescription {
+            -> NSAttributeDescription
+        {
             let attribute = NSAttributeDescription()
             attribute.name = name
             attribute.attributeType = .dateAttributeType
@@ -935,7 +958,8 @@
         }
 
         fileprivate static func int64Attribute(named name: String, isOptional: Bool = false)
-            -> NSAttributeDescription {
+            -> NSAttributeDescription
+        {
             let attribute = NSAttributeDescription()
             attribute.name = name
             attribute.attributeType = .integer64AttributeType
@@ -944,7 +968,8 @@
         }
 
         fileprivate static func doubleAttribute(named name: String, isOptional: Bool = false)
-            -> NSAttributeDescription {
+            -> NSAttributeDescription
+        {
             let attribute = NSAttributeDescription()
             attribute.name = name
             attribute.attributeType = .doubleAttributeType
@@ -953,7 +978,8 @@
         }
 
         fileprivate static func binaryAttribute(named name: String, isOptional: Bool = false)
-            -> NSAttributeDescription {
+            -> NSAttributeDescription
+        {
             let attribute = NSAttributeDescription()
             attribute.name = name
             attribute.attributeType = .binaryDataAttributeType
@@ -1218,13 +1244,15 @@
 
         @discardableResult
         public func createAnnotation(for file: URL, nodeID: Int64, note: String) throws
-            -> AnnotationRecord {
+            -> AnnotationRecord
+        {
             throw CocoaError(.featureUnsupported)
         }
 
         @discardableResult
         public func updateAnnotation(for file: URL, annotationID: UUID, note: String) throws
-            -> AnnotationRecord {
+            -> AnnotationRecord
+        {
             throw CocoaError(.featureUnsupported)
         }
 
