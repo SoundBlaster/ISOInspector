@@ -19,27 +19,7 @@ struct IntegritySummaryView: View {
             }
         }
         .padding()
-        .toolbar {
-            if let onExportJSON, let onExportIssueSummary {
-                ToolbarItemGroup(placement: .automatic) {
-                    Menu {
-                        Button {
-                            onExportJSON()
-                        } label: {
-                            Label("Export JSON…", systemImage: "square.and.arrow.down")
-                        }
-
-                        Button {
-                            onExportIssueSummary()
-                        } label: {
-                            Label("Export Issue Summary…", systemImage: "doc.text")
-                        }
-                    } label: {
-                        Label("Export", systemImage: "square.and.arrow.up")
-                    }
-                }
-            }
-        }
+        .toolbar { exportToolbar }
     }
 
     private var header: some View {
@@ -145,6 +125,81 @@ struct IntegritySummaryView: View {
     private func filterForeground(for severity: ParseIssue.Severity) -> Color {
         let isActive = viewModel.severityFilter.contains(severity)
         return isActive ? severity.color : .secondary
+    }
+
+    private var shouldShowExportToolbar: Bool {
+        IntegritySummaryToolbarPolicy.shouldShowToolbar(
+            platform: IntegritySummaryToolbarPolicy.currentPlatform,
+            hasJSONExport: onExportJSON != nil,
+            hasIssueSummaryExport: onExportIssueSummary != nil
+        )
+    }
+
+    private var exportToolbar: some ToolbarContent {
+        buildIntegrityExportToolbar(
+            shouldShowToolbar: shouldShowExportToolbar,
+            onExportJSON: onExportJSON,
+            onExportIssueSummary: onExportIssueSummary
+        )
+    }
+}
+
+@ToolbarContentBuilder
+private func buildIntegrityExportToolbar(
+    shouldShowToolbar: Bool,
+    onExportJSON: (() -> Void)?,
+    onExportIssueSummary: (() -> Void)?
+) -> some ToolbarContent {
+    if shouldShowToolbar, let onExportJSON, let onExportIssueSummary {
+        ToolbarItemGroup(placement: .automatic) {
+            Menu {
+                Button {
+                    onExportJSON()
+                } label: {
+                    Label("Export JSON…", systemImage: "square.and.arrow.down")
+                }
+
+                Button {
+                    onExportIssueSummary()
+                } label: {
+                    Label("Export Issue Summary…", systemImage: "doc.text")
+                }
+            } label: {
+                Label("Export", systemImage: "square.and.arrow.up")
+            }
+        }
+    }
+}
+
+enum IntegritySummaryToolbarPolicy {
+    enum Platform {
+        case macOS
+        case iOSLike
+    }
+
+    static var currentPlatform: Platform {
+#if os(macOS)
+        .macOS
+#else
+        .iOSLike
+#endif
+    }
+
+    static func shouldShowToolbar(
+        platform: Platform,
+        hasJSONExport: Bool,
+        hasIssueSummaryExport: Bool
+    ) -> Bool {
+        guard hasJSONExport && hasIssueSummaryExport else {
+            return false
+        }
+
+        switch platform {
+        case .macOS:
+            return false
+        case .iOSLike:
+            return true
+        }
     }
 }
 

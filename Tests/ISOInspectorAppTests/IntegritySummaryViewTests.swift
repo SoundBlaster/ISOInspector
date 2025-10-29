@@ -82,5 +82,39 @@
             let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
             XCTAssertTrue(viewModel.displayedIssues.isEmpty)
         }
+
+        func testToolbarPolicyDisablesExportToolbarOnMacOS() {
+            XCTAssertFalse(
+                IntegritySummaryToolbarPolicy.shouldShowToolbar(
+                    platform: .macOS,
+                    hasJSONExport: true,
+                    hasIssueSummaryExport: true
+                )
+            )
+        }
+
+        func testToolbarPolicyRequiresBothExportActions() {
+            XCTAssertFalse(
+                IntegritySummaryToolbarPolicy.shouldShowToolbar(
+                    platform: .iOSLike,
+                    hasJSONExport: true,
+                    hasIssueSummaryExport: false
+                )
+            )
+            XCTAssertFalse(
+                IntegritySummaryToolbarPolicy.shouldShowToolbar(
+                    platform: .iOSLike,
+                    hasJSONExport: false,
+                    hasIssueSummaryExport: true
+                )
+            )
+            XCTAssertTrue(
+                IntegritySummaryToolbarPolicy.shouldShowToolbar(
+                    platform: .iOSLike,
+                    hasJSONExport: true,
+                    hasIssueSummaryExport: true
+                )
+            )
+        }
     }
 #endif
