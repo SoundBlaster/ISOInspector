@@ -58,6 +58,7 @@
         private var currentSessionCreatedAt: Date?
         private var sessionFileIDs: [String: UUID] = [:]
         private var sessionBookmarkDiffs: [String: [WorkspaceSessionBookmarkDiff]] = [:]
+        private var isRestoringSession = false
         private var pendingSessionSnapshot: WorkspaceSessionSnapshot?
         private var annotationsSelectionCancellable: AnyCancellable?
         private var issueMetricsCancellable: AnyCancellable?
@@ -67,6 +68,7 @@
         private var presetByID: [String: ValidationPreset] = [:]
         private var currentConfigurationKey: String?
         private var defaultValidationPresetID: String
+        private var latestSelectionNodeID: Int64?
 
         enum ValidationConfigurationScope {
             case global
@@ -96,7 +98,8 @@
 
             self.parseTreeStore = resolvedParseTreeStore
             self.annotations = resolvedAnnotations
-            self.documentViewModel = DocumentViewModel(store: resolvedParseTreeStore, annotations: resolvedAnnotations)
+            self.documentViewModel = DocumentViewModel(
+                store: resolvedParseTreeStore, annotations: resolvedAnnotations)
             self.issueMetrics = resolvedParseTreeStore.issueMetrics
             self.recentsStore = recentsStore
             self.sessionStore = sessionStore
@@ -137,11 +140,13 @@
             let loadedGlobal: ValidationConfiguration
             if let validationConfigurationStore {
                 do {
-                    loadedGlobal = try validationConfigurationStore.loadConfiguration()
+                    loadedGlobal =
+                        try validationConfigurationStore.loadConfiguration()
                         ?? ValidationConfiguration(activePresetID: defaultValidationPresetID)
                 } catch {
                     self.diagnostics.error("Failed to load validation configuration: \(error)")
-                    loadedGlobal = ValidationConfiguration(activePresetID: defaultValidationPresetID)
+                    loadedGlobal = ValidationConfiguration(
+                        activePresetID: defaultValidationPresetID)
                 }
             } else {
                 loadedGlobal = ValidationConfiguration(activePresetID: defaultValidationPresetID)
@@ -160,10 +165,13 @@
             self.recents = (try? recentsStore.load()) ?? []
             migrateRecentsForBookmarkStore()
 
+            latestSelectionNodeID = resolvedAnnotations.currentSelectedNodeID
             annotationsSelectionCancellable = resolvedAnnotations.$currentSelectedNodeID
                 .dropFirst()
-                .sink { [weak self] _ in
-                    guard let self, !self.recents.isEmpty else { return }
+                .sink { [weak self] value in
+                    guard let self else { return }
+                    self.latestSelectionNodeID = value
+                    guard !self.recents.isEmpty, !self.isRestoringSession else { return }
                     self.persistSession()
                 }
 
@@ -190,47 +198,14 @@
         }
 
         func openDocument(at url: URL) {
-            workQueue.execute { [weak self] in
-                guard let self else { return }
-
-                let standardized = url.standardizedFileURL
-                let baseRecent = DocumentRecent(
-                    url: standardized,
-                    bookmarkData: nil,
-                    displayName: url.lastPathComponent,
-                    lastOpened: Date()
-                )
-                var adoptedScope: SecurityScopedURL?
-                var accessContext: AccessContext?
-
-                do {
-                    adoptedScope = try self.filesystemAccess.adoptSecurityScope(for: standardized)
-                    accessContext = try self.prepareAccess(
-                        for: baseRecent,
-                        preResolvedScope: adoptedScope
-                    )
-                    let reader = try self.readerFactory(accessContext!.scopedURL.url)
-                    let pipeline = self.pipelineFactory()
-                    Task { @MainActor in
-                        self.startSession(
-                            scopedURL: accessContext!.scopedURL,
-                            bookmark: accessContext!.bookmarkData,
-                            bookmarkRecord: accessContext!.bookmarkRecord,
-                            reader: reader,
-                            pipeline: pipeline,
-                            recent: accessContext!.recent,
-                            restoredSelection: nil
-                        )
-                    }
-                } catch {
-                    accessContext?.scopedURL.revoke()
-                    adoptedScope?.revoke()
-                    let failureRecent = accessContext?.recent ?? baseRecent
-                    Task { @MainActor in
-                        self.emitLoadFailure(for: failureRecent, error: error)
-                    }
-                }
-            }
+            let standardized = url.standardizedFileURL
+            let baseRecent = DocumentRecent(
+                url: standardized,
+                bookmarkData: nil,
+                displayName: url.lastPathComponent,
+                lastOpened: Date()
+            )
+            openDocument(recent: baseRecent)
         }
 
         func openRecent(_ recent: DocumentRecent) {
@@ -243,12 +218,17 @@
         }
 
         func removeRecent(at offsets: IndexSet) {
+            var didRemove = false
             let urls = offsets.compactMap { index -> URL? in
                 guard recents.indices.contains(index) else { return nil }
+                didRemove = true
                 return recents[index].url
             }
             for url in urls {
                 removeRecent(with: url)
+            }
+            if !didRemove, !offsets.isEmpty, recents.isEmpty {
+                persistSession()
             }
         }
 
@@ -282,7 +262,8 @@
                 updateGlobalConfiguration(configuration)
             case .workspace:
                 guard let key = currentConfigurationKey else { return }
-                var configuration = sessionValidationConfigurations[key]
+                var configuration =
+                    sessionValidationConfigurations[key]
                     ?? globalValidationConfiguration
                 configuration.activePresetID = presetID
                 configuration.ruleOverrides.removeAll()
@@ -302,7 +283,8 @@
                 updateGlobalConfiguration(configuration)
             case .workspace:
                 guard let key = currentConfigurationKey else { return }
-                var configuration = sessionValidationConfigurations[key]
+                var configuration =
+                    sessionValidationConfigurations[key]
                     ?? globalValidationConfiguration
                 applyOverride(on: &configuration, rule: rule, isEnabled: isEnabled)
                 updateWorkspaceConfiguration(configuration)
@@ -501,7 +483,7 @@
                     tree: ParseTree(
                         nodes: snapshot.nodes,
                         validationIssues: snapshot.validationIssues,
-                        validationMetadata: makeValidationMetadata()
+                        validationMetadata: nil
                     ),
                     baseFilename: base,
                     suffix: nil
@@ -515,7 +497,7 @@
                     tree: ParseTree(
                         nodes: [node],
                         validationIssues: collectIssues(from: node),
-                        validationMetadata: makeValidationMetadata()
+                        validationMetadata: nil
                     ),
                     baseFilename: base,
                     suffix: suffix
@@ -556,7 +538,8 @@
 
         private func selectionFilenameSuffix(for node: ParseTreeNode) -> String {
             let rawType = node.header.type.rawValue
-            let sanitizedType = rawType
+            let sanitizedType =
+                rawType
                 .replacingOccurrences(of: " ", with: "_")
                 .replacingOccurrences(of: "/", with: "-")
                 .replacingOccurrences(of: ":", with: "-")
@@ -573,7 +556,8 @@
             } else {
                 stem = trimmed
             }
-            let sanitized = stem
+            let sanitized =
+                stem
                 .replacingOccurrences(of: "/", with: "-")
                 .replacingOccurrences(of: ":", with: "-")
                 .replacingOccurrences(of: "\u{0000}", with: "")
@@ -660,7 +644,8 @@
             return index
         }
 
-        private func findNode(with id: ParseTreeNode.ID, in nodes: [ParseTreeNode]) -> ParseTreeNode? {
+        private func findNode(with id: ParseTreeNode.ID, in nodes: [ParseTreeNode])
+            -> ParseTreeNode? {
             for node in nodes {
                 if node.id == id { return node }
                 if let match = findNode(with: id, in: node.children) {
@@ -710,7 +695,7 @@
                     )
                     let reader = try self.readerFactory(accessContext!.scopedURL.url)
                     let pipeline = self.pipelineFactory()
-                    Task { @MainActor in
+                    let launchSession = {
                         self.startSession(
                             scopedURL: accessContext!.scopedURL,
                             bookmark: accessContext!.bookmarkData,
@@ -720,6 +705,13 @@
                             recent: accessContext!.recent,
                             restoredSelection: restoredSelection
                         )
+                    }
+                    if Thread.isMainThread {
+                        launchSession()
+                    } else {
+                        Task { @MainActor in
+                            launchSession()
+                        }
                     }
                 } catch let accessError as DocumentAccessError {
                     preResolvedScope?.revoke()
@@ -848,14 +840,15 @@
                             ) {
                             record = updated
                         }
-                        let state: BookmarkResolutionState = resolution.isStale ? .stale : .succeeded
+                        let state: BookmarkResolutionState =
+                            resolution.isStale ? .stale : .succeeded
                         if let updated = try? bookmarkStore.markResolution(
                             for: resolution.url.url,
                             state: state
                         ) {
                             record = updated
                         }
-                        if record == nil,
+                        if record == nil, !resolution.isStale,
                             let refreshed = makeBookmarkData(for: resolution.url) {
                             record = try? bookmarkStore.upsertBookmark(
                                 for: resolution.url.url,
@@ -934,6 +927,7 @@
                 context: .init(source: standardizedURL)
             )
             annotations.setFileURL(standardizedURL)
+            latestSelectionNodeID = restoredSelection
             if let restoredSelection {
                 annotations.setSelectedNode(restoredSelection)
             } else {
@@ -953,6 +947,7 @@
             lastFailedRecent = nil
             currentDocument = updatedRecent
             insertRecent(updatedRecent)
+            isRestoringSession = false
         }
 
         private func insertRecent(_ recent: DocumentRecent) {
@@ -964,7 +959,6 @@
             persistRecents()
             persistSession()
         }
-
         private func removeRecent(with url: URL) {
             recents.removeAll { $0.url.standardizedFileURL == url.standardizedFileURL }
             persistRecents()
@@ -976,7 +970,7 @@
                 let payload = sanitizeRecentsForPersistence(recents)
                 try recentsStore.save(payload)
             } catch {
-                let errorDescription = String(describing: error)
+                let errorDescription = (error as NSError).localizedDescription
                 let focusedPath = currentDocument?.url.standardizedFileURL.path ?? "none"
                 let allRecents =
                     recents
@@ -1051,6 +1045,7 @@
             else {
                 return
             }
+            isRestoringSession = true
             openDocument(
                 recent: focused.recent,
                 restoredSelection: focused.lastSelectionNodeID,
@@ -1069,8 +1064,9 @@
                     sessionFileIDs.removeAll()
                     sessionBookmarkDiffs.removeAll()
                     sessionValidationConfigurations.removeAll()
+                    latestSelectionNodeID = nil
                 } catch {
-                    let errorDescription = String(describing: error)
+                    let errorDescription = (error as NSError).localizedDescription
                     diagnostics.error(
                         "Failed to clear persisted session: error=\(errorDescription); "
                             + "sessionID=\(currentSessionID?.uuidString ?? "none")"
@@ -1098,7 +1094,7 @@
                 let selection: Int64?
                 if let currentURL = annotations.currentFileURL,
                     currentURL.standardizedFileURL == recent.url.standardizedFileURL {
-                    selection = annotations.currentSelectedNodeID
+                    selection = latestSelectionNodeID
                 } else {
                     selection = nil
                 }
@@ -1141,7 +1137,7 @@
             do {
                 try sessionStore.saveCurrentSession(snapshot)
             } catch {
-                let errorDescription = String(describing: error)
+                let errorDescription = (error as NSError).localizedDescription
                 diagnostics.error(
                     "Failed to persist session snapshot: error=\(errorDescription); "
                         + "sessionID=\(snapshot.id.uuidString); focusedPath=\(snapshot.focusedFileURL?.standardizedFileURL.path ?? "none")"
@@ -1516,11 +1512,14 @@
                 case .emptyTree:
                     return "Run a parse before exporting."
                 case .nodeNotFound:
-                    return "The selected box is no longer available. Refresh the selection and try again."
+                    return
+                        "The selected box is no longer available. Refresh the selection and try again."
                 case .destinationUnavailable(let underlying):
-                    return "ISO Inspector couldn't access the chosen destination. \(underlying.localizedDescription)"
+                    return
+                        "ISO Inspector couldn't access the chosen destination. \(underlying.localizedDescription)"
                 case .writeFailed(let url, let underlying):
-                    return "ISO Inspector couldn't write to “\(url.lastPathComponent)”. \(underlying.localizedDescription)"
+                    return
+                        "ISO Inspector couldn't write to “\(url.lastPathComponent)”. \(underlying.localizedDescription)"
                 }
             }
 
@@ -1533,7 +1532,8 @@
                 case .destinationUnavailable(let underlying):
                     return "destination-unavailable: \(String(describing: underlying))"
                 case .writeFailed(let url, let underlying):
-                    return "write-failed: url=\(url.path) underlying=\(String(describing: underlying))"
+                    return
+                        "write-failed: url=\(url.path) underlying=\(String(describing: underlying))"
                 }
             }
         }

@@ -170,33 +170,49 @@ extension LargeFileBenchmarkTests {
         let scenarios = RandomSliceBenchmarkScenario.makeDefaultScenarios(
             payloadBytes: configuration.payloadBytes)
 
-        for scenario in scenarios {
-            let reader = try makeReader(fixture.url)
-            let requests = scenario.makeRequests(fileLength: reader.length)
-            let expectedBytes = requests.reduce(into: 0) { $0 += $1.count }
+        let lengthProbe = try makeReader(fixture.url)
+        let fileLength = lengthProbe.length
+        struct PreparedScenario {
+            let scenario: RandomSliceBenchmarkScenario
+            let requests: [RandomSliceRequest]
+            let expectedBytes: Int
+        }
+        let preparedScenarios: [PreparedScenario] = scenarios.map { scenario in
+            let requests = scenario.makeRequests(fileLength: fileLength)
             XCTAssertFalse(
                 requests.isEmpty,
                 "Scenario \(scenario.name) produced no slice requests for \(readerName)")
+            let expectedBytes = requests.reduce(into: 0) { $0 += $1.count }
+            return PreparedScenario(
+                scenario: scenario,
+                requests: requests,
+                expectedBytes: expectedBytes
+            )
+        }
 
-            performBenchmark(iterations: configuration.iterationCount) {
+        performBenchmark(iterations: configuration.iterationCount) {
+            for prepared in preparedScenarios {
+                let reader = try makeReader(fixture.url)
                 let bytesRead = try executeRandomSliceRequests(
-                    requests,
+                    prepared.requests,
                     using: reader,
                     readerName: readerName,
-                    scenarioName: scenario.name
+                    scenarioName: prepared.scenario.name
                 )
                 XCTAssertEqual(
                     bytesRead,
-                    expectedBytes,
-                    "Reader \(readerName) returned truncated data while benchmarking scenario \(scenario.name)"
+                    prepared.expectedBytes,
+                    "Reader \(readerName) returned truncated data while benchmarking scenario \(prepared.scenario.name)"
                 )
             }
+        }
 
-            let summary = scenario.makeSummary(
+        for prepared in preparedScenarios {
+            let summary = prepared.scenario.makeSummary(
                 readerName: readerName,
-                totalBytesPerIteration: expectedBytes,
-                requestCount: requests.count,
-                readerLength: reader.length
+                totalBytesPerIteration: prepared.expectedBytes,
+                requestCount: prepared.requests.count,
+                readerLength: fileLength
             )
             print(summary)
         }

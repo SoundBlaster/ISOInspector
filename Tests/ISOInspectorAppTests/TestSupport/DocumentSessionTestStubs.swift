@@ -118,6 +118,12 @@
             removedURLs.append(file)
             storage.removeValue(forKey: canonicalize(file))
         }
+
+        func resetTracking() {
+            upsertedURLs.removeAll()
+            markedResolutions.removeAll()
+            removedURLs.removeAll()
+        }
     }
 
     final class WorkspaceSessionStoreStub: WorkspaceSessionStoring, @unchecked Sendable {
@@ -188,6 +194,9 @@
     struct ImmediateWorkQueue: DocumentSessionWorkQueue {
         func execute(_ work: @escaping () -> Void) {
             work()
+            if Thread.isMainThread {
+                RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.05))
+            }
         }
     }
 

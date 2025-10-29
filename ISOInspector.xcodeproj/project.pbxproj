@@ -23,6 +23,7 @@
 		0B2356F0CB36A78747EF84B9 /* ISOInspectorKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A330CF0AA8B3DA9994E8C7C4 /* ISOInspectorKit.framework */; };
 		0B9D9EEF763C6DEB1BC0450C /* SecurityScopedAccessManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EF50882A055D3FC0C4C8D50 /* SecurityScopedAccessManaging.swift */; };
 		0D154DC2DB09934D779B5951 /* BoxCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84C8949483003AF8A31AF67 /* BoxCategory.swift */; };
+		118F7D1AA6CEE40EB710ECD5 /* ISOInspectorAppResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7820D994CA4C32D5C1585C4B /* ISOInspectorAppResources.swift */; };
 		11CB388AA70C04BDE11893BF /* ParseTreeNodeDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF313831B678EF588340A7E0 /* ParseTreeNodeDetail.swift */; };
 		13B88391DD6C612E36CB1424 /* ParseTreeStatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD13E8A2677C409B50F69C /* ParseTreeStatusBadge.swift */; };
 		13E68EA2E9D89908B714405F /* DocumentSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FD9A51B1B9119CD5622C62 /* DocumentSessionController.swift */; };
@@ -141,6 +142,7 @@
 		6FD18157BE0A0B822EB4275A /* ISOInspectorApp.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7954003B76877ED9E9074C66 /* ISOInspectorApp.docc */; };
 		70F71B5F4AA084835EE00DCD /* ParseTreeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D908147075E7BEF594C127B1 /* ParseTreeDetailView.swift */; };
 		710D76165FE8D47F747D8F78 /* ParseTreeStatusDescriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C446DA9253F631221FC22365 /* ParseTreeStatusDescriptor.swift */; };
+		7248483580E811C9BC07ED76 /* ISOInspectorAppResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7820D994CA4C32D5C1585C4B /* ISOInspectorAppResources.swift */; };
 		72CA7E6C8DA9F5465A8E8401 /* BoxParserRegistry+MediaHeaders.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10ED0C6B7FF0021F533E6492 /* BoxParserRegistry+MediaHeaders.swift */; };
 		7341D7D11D3625F24B31098D /* NestedA11yIDs in Frameworks */ = {isa = PBXBuildFile; productRef = 16B03ACA4AB767B21DBFF28D /* NestedA11yIDs */; };
 		740F07A05B44B87A181D7300 /* ParseTreeOutlineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8A02C0795BBFCF8E8FC44FD /* ParseTreeOutlineViewModel.swift */; };
@@ -184,6 +186,7 @@
 		949AB610102F5A6099E16085 /* ISOInspectorCommandContextStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA7D710F960F7348CAFF61C /* ISOInspectorCommandContextStore.swift */; };
 		95A2E8431D7938246301CB29 /* ISOInspectorAppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D7DF7C02CEB706BB4FAE65 /* ISOInspectorAppTheme.swift */; };
 		961657F56CDA7EFCF43668E7 /* FoundationBookmarkDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB19A0775A7409615DA3C895 /* FoundationBookmarkDataManager.swift */; };
+		96B02300ACEA3448DF5CE31C /* ISOInspectorAppResources.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7820D994CA4C32D5C1585C4B /* ISOInspectorAppResources.swift */; };
 		980E4CAF1A7521A5E6600E80 /* ArgumentParser in Frameworks */ = {isa = PBXBuildFile; productRef = 0315013D590768D9DECC9684 /* ArgumentParser */; };
 		984CD222476ACBA59D134858 /* BoxParserRegistry+RandomAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97EEE2C62DF4E907C8D4E94 /* BoxParserRegistry+RandomAccess.swift */; };
 		98711FF98C90C2801B9524BF /* InspectorFocusShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B3834DE131E1CEA3E678877 /* InspectorFocusShortcuts.swift */; };
@@ -528,6 +531,7 @@
 		741120468F214B4944E2BC5F /* BoxParserRegistry+MediaData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BoxParserRegistry+MediaData.swift"; sourceTree = "<group>"; };
 		74E019D348037495592771FB /* BoxValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxValidator.swift; sourceTree = "<group>"; };
 		776BDBD625B79C860E3E2F88 /* WorkspaceSessionStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceSessionStoreTests.swift; sourceTree = "<group>"; };
+		7820D994CA4C32D5C1585C4B /* ISOInspectorAppResources.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISOInspectorAppResources.swift; sourceTree = "<group>"; };
 		7954003B76877ED9E9074C66 /* ISOInspectorApp.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = ISOInspectorApp.docc; sourceTree = "<group>"; };
 		7978809E2829DA4274264EE3 /* ParseTreeAccessibilityIdentifierTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTreeAccessibilityIdentifierTests.swift; sourceTree = "<group>"; };
 		7C9C41812EAC297DCB9A73DE /* BoxParserRegistry+TrackHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BoxParserRegistry+TrackHeader.swift"; sourceTree = "<group>"; };
@@ -1227,6 +1231,7 @@
 		FCC0C1F290FE4399F96D1EC6 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				7820D994CA4C32D5C1585C4B /* ISOInspectorAppResources.swift */,
 				FFDD13E8A2677C409B50F69C /* ParseTreeStatusBadge.swift */,
 				C446DA9253F631221FC22365 /* ParseTreeStatusDescriptor.swift */,
 				E74F2880F56F72176256EC8C /* View+OnChangeCompat.swift */,
@@ -1574,6 +1579,7 @@
 				B867177170C0EF61E2132688 /* ParseTreeStoreState.swift in Sources */,
 				668542762164B0092F16228C /* ValidationConfigurationStore.swift in Sources */,
 				E068C74CD2133EBE8FA92FC2 /* WorkspaceSessionStore.swift in Sources */,
+				7248483580E811C9BC07ED76 /* ISOInspectorAppResources.swift in Sources */,
 				13B88391DD6C612E36CB1424 /* ParseTreeStatusBadge.swift in Sources */,
 				710D76165FE8D47F747D8F78 /* ParseTreeStatusDescriptor.swift in Sources */,
 				8AF99CCBB08B16602186D26B /* View+OnChangeCompat.swift in Sources */,
@@ -1632,6 +1638,7 @@
 				EDA1FD766449F0A767E805AD /* ParseTreeStoreState.swift in Sources */,
 				8F9896019CA44BE276B56C2B /* ValidationConfigurationStore.swift in Sources */,
 				5743846EDA2B0C114C1AA291 /* WorkspaceSessionStore.swift in Sources */,
+				96B02300ACEA3448DF5CE31C /* ISOInspectorAppResources.swift in Sources */,
 				16B45D49DD0B8CF0A9062ADD /* ParseTreeStatusBadge.swift in Sources */,
 				09E767C55F92D5CBE43F3AF5 /* ParseTreeStatusDescriptor.swift in Sources */,
 				74FCBF96F17AB11017A85E40 /* View+OnChangeCompat.swift in Sources */,
@@ -1690,6 +1697,7 @@
 				D5EDF5AE44C87E4B037E1C81 /* ParseTreeStoreState.swift in Sources */,
 				BEB8F8B235D415491C163B7A /* ValidationConfigurationStore.swift in Sources */,
 				78CB9A3DE04812C0EFA419C2 /* WorkspaceSessionStore.swift in Sources */,
+				118F7D1AA6CEE40EB710ECD5 /* ISOInspectorAppResources.swift in Sources */,
 				F80F5E1EB1F2042510AB4068 /* ParseTreeStatusBadge.swift in Sources */,
 				29D15EA43BC615903985DAA1 /* ParseTreeStatusDescriptor.swift in Sources */,
 				80FC131250D5917694B13A9C /* View+OnChangeCompat.swift in Sources */,
