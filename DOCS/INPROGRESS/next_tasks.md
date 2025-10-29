@@ -10,7 +10,5 @@
   - Overall roadmap for completing Phase T3 UI corruption views (final 14% of milestone).
   - Remaining after T3.7.1: #T36-003 navigation polish, tree filter toggle, keyboard shortcuts (Cmd+Shift+E).
 
-- 🚧 **#4 Integrate the `ResearchLogMonitor` audit with SwiftUI previews** _(Active — see `DOCS/INPROGRESS/194_ResearchLogMonitor_SwiftUIPreviews.md`)_:
-  - Ensure preview scenarios invoke `ResearchLogMonitor.audit` for VR-006 fixtures and surface schema/missing-data diagnostics during design-time validation.
-  - Thread `ResearchLogPreviewProvider` snapshots through preview compositions so diagnostics appear alongside sample payloads.
-  - Back previews with canonical VR-006 fixtures plus mismatch/missing variants for regression visibility, and document the refresh workflow when schemas change.
+- ✅ **#4 Integrate the `ResearchLogMonitor` audit with SwiftUI previews** _(Completed — see `DOCS/INPROGRESS/194_ResearchLogMonitor_SwiftUIPreviews.md` for summary)_:
+  - ResearchLog preview scenarios now invoke the audit helper and surface ready/missing/schema mismatch diagnostics from `ResearchLogPreviewProvider` fixtures.

@@ -22,3 +22,11 @@ Ensure SwiftUI preview scenarios that render VR-006 research log data execute `R
 - [`todo.md`](../../todo.md)
 - [`Sources/ISOInspectorKit/Validation/ResearchLogMonitor.swift`](../../Sources/ISOInspectorKit/Validation/ResearchLogMonitor.swift)
 - [`Sources/ISOInspectorKit/Support/ResearchLogPreviewProvider.swift`](../../Sources/ISOInspectorKit/Support/ResearchLogPreviewProvider.swift)
+
+---
+
+## ✅ Completion Notes — 2025-10-29
+
+- `ResearchLogMonitor.audit` no longer carries the `#4` puzzle; SwiftUI previews invoke the audit through `ResearchLogPreviewProvider` to surface VR-006 diagnostics during design-time validation.
+- Preview fixtures remain synced with `ResearchLogSchema.fieldNames`, with ready/missing/schema mismatch variants driving `ResearchLogAuditPreview`.
+- See `DOCS/INPROGRESS/194_ResearchLogMonitor_SwiftUIPreviews.md` for the latest verification log and references to the supporting test suites.
