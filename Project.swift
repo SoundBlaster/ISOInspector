@@ -39,7 +39,7 @@ func projectDirectory() -> URL {
     let candidates = [
         URL(fileURLWithPath: fileManager.currentDirectoryPath),
         URL(fileURLWithPath: #filePath)
-            .deletingLastPathComponent()
+            .deletingLastPathComponent(),
     ]
 
     // Tuist compiles manifests in a cache directory, so fall back to the process
@@ -65,7 +65,7 @@ let metadata = loadDistributionMetadata()
 
 let baseSettings: SettingsDictionary = [
     "MARKETING_VERSION": .string(metadata.marketingVersion),
-    "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber)
+    "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber),
 ]
 
 let buildConfigurations: [Configuration] = [
@@ -73,16 +73,16 @@ let buildConfigurations: [Configuration] = [
         name: .debug,
         settings: [
             "SWIFT_OPTIMIZATION_LEVEL": .string("-Onone"),
-            "SWIFT_COMPILATION_MODE": .string("singlefile")
+            "SWIFT_COMPILATION_MODE": .string("singlefile"),
         ]
     ),
     .release(
         name: .release,
         settings: [
             "SWIFT_OPTIMIZATION_LEVEL": .string("-O"),
-            "SWIFT_COMPILATION_MODE": .string("wholemodule")
+            "SWIFT_COMPILATION_MODE": .string("wholemodule"),
         ]
-    )
+    ),
 ]
 
 func destinations(for platform: DistributionPlatform) -> Destinations {
@@ -136,7 +136,7 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     let dependencies: [TargetDependency] = [
         .target(name: "ISOInspectorKit"),
         .package(product: "NestedA11yIDs"),
-        .project(target: "FoundationUI", path: .relativeToRoot("FoundationUI"))
+        .project(target: "FoundationUI", path: .relativeToRoot("FoundationUI")),
     ]
 
     // Configure Info.plist with privacy descriptions and document types
@@ -172,8 +172,8 @@ func infoPlistConfiguration(for platform: DistributionPlatform) -> InfoPlist {
             "LSHandlerRank": .string("Default"),
             "LSItemContentTypes": .array([
                 .string("public.mpeg-4"),
-                .string("com.apple.quicktime-movie")
-            ])
+                .string("com.apple.quicktime-movie"),
+            ]),
         ])
     ])
 
@@ -211,7 +211,7 @@ func cliLibraryTarget() -> Target {
         sources: ["Sources/ISOInspectorCLI/**"],
         dependencies: [
             .target(name: "ISOInspectorKit"),
-            .package(product: "ArgumentParser")
+            .package(product: "ArgumentParser"),
         ],
         settings: .settings(base: baseSettings, configurations: buildConfigurations)
     )
@@ -228,7 +228,60 @@ func cliRunnerTarget() -> Target {
         sources: ["Sources/ISOInspectorCLIRunner/**"],
         dependencies: [
             .target(name: "ISOInspectorCLI"),
-            .package(product: "ArgumentParser")
+            .package(product: "ArgumentParser"),
+        ],
+        settings: .settings(base: baseSettings, configurations: buildConfigurations)
+    )
+}
+
+func kitTestsTarget() -> Target {
+    Target.target(
+        name: "ISOInspectorKitTests",
+        destinations: [.mac],
+        product: .unitTests,
+        bundleId: "ru.egormerkushev.isoinspector.kit.tests",
+        deploymentTargets: .macOS("14.0"),
+        infoPlist: .default,
+        sources: ["Tests/ISOInspectorKitTests/**"],
+        resources: ["Tests/ISOInspectorKitTests/Fixtures/**"],
+        dependencies: [
+            .target(name: "ISOInspectorKit")
+        ],
+        settings: .settings(base: baseSettings, configurations: buildConfigurations)
+    )
+}
+
+func cliTestsTarget() -> Target {
+    Target.target(
+        name: "ISOInspectorCLITests",
+        destinations: [.mac],
+        product: .unitTests,
+        bundleId: "ru.egormerkushev.isoinspector.cli.tests",
+        deploymentTargets: .macOS("14.0"),
+        infoPlist: .default,
+        sources: ["Tests/ISOInspectorCLITests/**"],
+        dependencies: [
+            .target(name: "ISOInspectorCLI"),
+            .target(name: "ISOInspectorKit"),
+            .package(product: "ArgumentParser"),
+        ],
+        settings: .settings(base: baseSettings, configurations: buildConfigurations)
+    )
+}
+
+func performanceTestsTarget() -> Target {
+    Target.target(
+        name: "ISOInspectorPerformanceTests",
+        destinations: [.mac],
+        product: .unitTests,
+        bundleId: "ru.egormerkushev.isoinspector.performance.tests",
+        deploymentTargets: .macOS("14.0"),
+        infoPlist: .default,
+        sources: ["Tests/ISOInspectorPerformanceTests/**"],
+        dependencies: [
+            .target(name: "ISOInspectorCLI"),
+            .target(name: "ISOInspectorKit"),
+            .target(name: "ISOInspectorApp-macOS"),
         ],
         settings: .settings(base: baseSettings, configurations: buildConfigurations)
     )
@@ -247,7 +300,7 @@ func appTestsTarget() -> Target {
             .target(name: "ISOInspectorApp-macOS"),
             .target(name: "ISOInspectorKit"),
             .package(product: "NestedA11yIDs"),
-            .project(target: "FoundationUI", path: .relativeToRoot("FoundationUI"))
+            .project(target: "FoundationUI", path: .relativeToRoot("FoundationUI")),
         ],
         settings: .settings(base: baseSettings, configurations: buildConfigurations)
     )
@@ -263,7 +316,7 @@ let project = Project(
             requirement: .upToNextMajor(from: "1.0.0")),
         .remote(
             url: "https://github.com/apple/swift-argument-parser",
-            requirement: .upToNextMajor(from: "1.3.0"))
+            requirement: .upToNextMajor(from: "1.3.0")),
     ],
     targets: [
         kitTarget(),
@@ -272,6 +325,9 @@ let project = Project(
         appTarget(for: .iPadOS),
         cliLibraryTarget(),
         cliRunnerTarget(),
-        appTestsTarget()
+        kitTestsTarget(),
+        cliTestsTarget(),
+        performanceTestsTarget(),
+        appTestsTarget(),
     ]
 )
