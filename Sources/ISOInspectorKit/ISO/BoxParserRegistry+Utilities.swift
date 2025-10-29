@@ -134,6 +134,12 @@ extension BoxParserRegistry.DefaultParsers {
         return Double(value) / Double(timescale)
     }
 
+    static func quantizedSeconds(_ value: Double?, decimalPlaces: Int = 6) -> Double? {
+        guard let value else { return nil }
+        let scale = pow(10.0, Double(decimalPlaces))
+        return (value * scale).rounded() / scale
+    }
+
     static func formatSeconds(_ value: Double) -> String {
         String(format: "%.6f", value)
     }
