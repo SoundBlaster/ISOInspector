@@ -154,9 +154,51 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3EF4694AD96AE175F6AF9CCB"
+               BuildableName = "ISOInspectorCLITests.xctest"
+               BlueprintName = "ISOInspectorCLITests"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "76A111F6270B25091FDBFE2B"
                BuildableName = "ISOInspectorKit.framework"
                BlueprintName = "ISOInspectorKit"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7274FCA4EA533890E52D158B"
+               BuildableName = "ISOInspectorKitTests.xctest"
+               BlueprintName = "ISOInspectorKitTests"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "33E2C0AD0DC5BF3C51638546"
+               BuildableName = "ISOInspectorPerformanceTests.xctest"
+               BlueprintName = "ISOInspectorPerformanceTests"
                ReferencedContainer = "container:ISOInspector.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -187,6 +229,39 @@
                BlueprintIdentifier = "746CDA883F54403888D340D7"
                BuildableName = "ISOInspectorAppTests.xctest"
                BlueprintName = "ISOInspectorAppTests"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "3EF4694AD96AE175F6AF9CCB"
+               BuildableName = "ISOInspectorCLITests.xctest"
+               BlueprintName = "ISOInspectorCLITests"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7274FCA4EA533890E52D158B"
+               BuildableName = "ISOInspectorKitTests.xctest"
+               BlueprintName = "ISOInspectorKitTests"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "33E2C0AD0DC5BF3C51638546"
+               BuildableName = "ISOInspectorPerformanceTests.xctest"
+               BlueprintName = "ISOInspectorPerformanceTests"
                ReferencedContainer = "container:ISOInspector.xcodeproj">
             </BuildableReference>
          </TestableReference>

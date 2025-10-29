@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "76A111F6270B25091FDBFE2B"
-               BuildableName = "ISOInspectorKit.framework"
-               BlueprintName = "ISOInspectorKit"
+               BlueprintIdentifier = "33E2C0AD0DC5BF3C51638546"
+               BuildableName = "ISOInspectorPerformanceTests.xctest"
+               BlueprintName = "ISOInspectorPerformanceTests"
                ReferencedContainer = "container:ISOInspector.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -33,9 +33,9 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "7274FCA4EA533890E52D158B"
-               BuildableName = "ISOInspectorKitTests.xctest"
-               BlueprintName = "ISOInspectorKitTests"
+               BlueprintIdentifier = "33E2C0AD0DC5BF3C51638546"
+               BuildableName = "ISOInspectorPerformanceTests.xctest"
+               BlueprintName = "ISOInspectorPerformanceTests"
                ReferencedContainer = "container:ISOInspector.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -54,9 +54,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "76A111F6270B25091FDBFE2B"
-            BuildableName = "ISOInspectorKit.framework"
-            BlueprintName = "ISOInspectorKit"
+            BlueprintIdentifier = "33E2C0AD0DC5BF3C51638546"
+            BuildableName = "ISOInspectorPerformanceTests.xctest"
+            BlueprintName = "ISOInspectorPerformanceTests"
             ReferencedContainer = "container:ISOInspector.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -70,9 +70,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "76A111F6270B25091FDBFE2B"
-            BuildableName = "ISOInspectorKit.framework"
-            BlueprintName = "ISOInspectorKit"
+            BlueprintIdentifier = "33E2C0AD0DC5BF3C51638546"
+            BuildableName = "ISOInspectorPerformanceTests.xctest"
+            BlueprintName = "ISOInspectorPerformanceTests"
             ReferencedContainer = "container:ISOInspector.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
