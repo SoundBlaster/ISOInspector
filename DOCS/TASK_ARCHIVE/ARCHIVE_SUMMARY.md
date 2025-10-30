@@ -5,6 +5,8 @@
 - **Purpose:** Centralize work items that cannot proceed without unattainable resources (e.g., missing hardware or platform restrictions).
 - **How to use:** When archiving, move any irrecoverably blocked task notes from [`DOCS/INPROGRESS/blocked.md`](../INPROGRESS/blocked.md) into this directory and document the conditions required to resume.
 
+> **Note (2025-10-30):** References to `DOCS/INPROGRESS/next_tasks.md` inside historical entries now point to the archived checklist stored at `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/next_tasks.md`. The live `DOCS/INPROGRESS/` directory currently only contains the recoverable blocker log.
+
 ## 01_A2_Configure_CI_Pipeline
 - **Original file:** `DOCS/INPROGRESS/A2_Configure_CI_Pipeline.md`
 - **Archived location:** `DOCS/ARCHIVE/01_A2_Configure_CI_Pipeline/A2_Configure_CI_Pipeline.md`
@@ -980,49 +982,49 @@
 - **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/189_Summary_of_Work_2025-10-25_Integrity_Follow_Ups/`.
 - **Highlights:** Recaps the October 25 tolerance parsing session that wrapped T3.3 integrity pane work, verified updates with `swift test`, and documented outstanding placeholder affordance plus fixture coverage efforts.
-- **Next steps carried forward:** Tackle T3.4 placeholder node integration, schedule VoiceOver regression hardware passes, and unblock real-world asset licensing — all tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+- **Next steps carried forward:** Tackle T3.4 placeholder node integration, schedule VoiceOver regression hardware passes, and unblock real-world asset licensing — see the archived checklist in `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/next_tasks.md` and the active blocker log at `DOCS/INPROGRESS/blocked.md`.
 
 ## 190_T3_4_Placeholder_Nodes_for_Missing_Children
 - **Archived files:** `T3_4_Placeholder_Nodes_for_Missing_Children.md`, `Summary_of_Work.md`, `Phase3.2_SurfaceStyleKey.md`, `T3_5_Contextual_Status_Labels.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/`.
 - **Highlights:** Captures the tolerant parsing placeholder synthesis that emits `.corrupt` stand-ins for required-but-missing children, wires the issues through `ParseIssueStore`, and extends regression coverage for the new corruption cases.
-- **Next steps carried forward:** Continue contextual status label wiring (T3.5) alongside VoiceOver regression validation and real-world fixture acquisition, now tracked in `DOCS/INPROGRESS/next_tasks.md`.
+- **Next steps carried forward:** Continue contextual status label wiring (T3.5) alongside VoiceOver regression validation and real-world fixture acquisition via the archived `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/next_tasks.md` checklist and the active blocker log at `DOCS/INPROGRESS/blocked.md`.
 
 ## 191_T3_5_Contextual_Status_Labels
 - **Archived files:** `Summary_of_Work.md`, `T3_5_Contextual_Status_Labels.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/191_T3_5_Contextual_Status_Labels/`.
 - **Highlights:** Documents the synchronized tolerant parsing status badges shared between the outline and detail inspectors, the expanded `ParseTreeStatusDescriptor`, and verification via the Linux `swift test` suite (358 tests, 0 failures, 1 skipped).
-- **Next steps carried forward:** Blocked VoiceOver regression hardware checks and licensed real-world fixture acquisition remain open; both are now tracked in `DOCS/INPROGRESS/next_tasks.md`.
+- **Next steps carried forward:** Blocked VoiceOver regression hardware checks and licensed real-world fixture acquisition remain open; both are now captured in the archived `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/next_tasks.md` and monitored via `DOCS/INPROGRESS/blocked.md`.
 
 ## 192_T4_1_Extend_JSON_Export_Schema_for_Issues
 - **Archived files:** `T4_1_Extend_JSON_Export_Schema_for_Issues.md`, `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/`.
 - **Highlights:** Captures the tolerant export schema bump to `schema.version = 2`, adds serialized `issues` payloads per node, refreshes JSON snapshot coverage for empty/single/multi-issue trees, and updates the App manual to explain the new tolerant fields.
-- **Next steps carried forward:** VoiceOver regression hardware runs and licensed real-world asset ingestion stay blocked; see the regenerated `DOCS/INPROGRESS/next_tasks.md` for status.
+- **Next steps carried forward:** VoiceOver regression hardware runs and licensed real-world asset ingestion stay blocked; consult the archived `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/next_tasks.md` and `DOCS/INPROGRESS/blocked.md` for status.
 
 ## 193_Summary_of_Work_2025-10-27_Blocked_Tasks
 - **Archived files:** `Summary_of_Work.md`, `next_tasks.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/193_Summary_of_Work_2025-10-27_Blocked_Tasks/`.
 - **Highlights:** Captures the October 27 status review documenting that regression work remains paused while VoiceOver hardware and licensed media fixtures stay unavailable.
-- **Next steps carried forward:** Continue monitoring the hardware queue and licensing approvals; active blockers are now tracked via `DOCS/INPROGRESS/next_tasks.md` and `DOCS/INPROGRESS/blocked.md`.
+- **Next steps carried forward:** Continue monitoring the hardware queue and licensing approvals; the last recorded checklist lives in `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/next_tasks.md`, while active blockers remain in `DOCS/INPROGRESS/blocked.md`.
 
 ## 194_T4_2_Plaintext_Issue_Export_Closeout
 - **Archived files:** `Summary_of_Work.md`, `T4_2_Text_Issue_Summary_Export.md`, `T3_6_Integrity_Summary_Tab.md`, `194_ResearchLogMonitor_SwiftUIPreviews.md`, `next_tasks.md`, `blocked.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/194_T4_2_Plaintext_Issue_Export_Closeout/`.
 - **Highlights:** Records completion notes for the plaintext integrity issue exporter, plus the prior Integrity tab and ResearchLog preview planning docs that informed the hand-off. The archived `next_tasks.md` and `blocked.md` capture the pre-archive queue before scaffolding was refreshed.
-- **Next steps carried forward:** Continue building the Integrity summary tab and the ResearchLog preview audit from the refreshed documents in `DOCS/INPROGRESS/`, while keeping VoiceOver hardware and licensed fixture acquisitions on the recoverable blocker list.
+- **Next steps carried forward:** Follow-up navigation and Integrity polish items moved forward into the October 30 archive (`DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/`). Day-to-day tracking now lives solely in the recoverable blocker log at `DOCS/INPROGRESS/blocked.md`.
 
 ## 195_T4_4_Sanitize_Issue_Exports
 - **Archived files:** `195_T4_4_Sanitize_Issue_Exports.md`, `Summary_of_Work.md`, `T3_6_Integrity_Summary_Tab.md`, `194_ResearchLogMonitor_SwiftUIPreviews.md`, `next_tasks.md`, `blocked.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/`.
 - **Highlights:** Captures the privacy-focused export audit that strips binary payload data from tolerant JSON and plaintext reports, along with the Integrity tab and ResearchLog preview planning notes that were active during the close-out. The archived `blocked.md` documents the VoiceOver hardware dependency before it moved to the permanent blocker log.
-- **Next steps carried forward:** Resume Integrity tab wiring and ResearchLog preview audit via the regenerated scaffolding in `DOCS/INPROGRESS/`, and continue tracking real-world asset licensing as the sole recoverable blocker in the refreshed `blocked.md`.
+- **Next steps carried forward:** Final Integrity navigation/filter milestones now live in `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/`. Recoverable blockers continue to be tracked via `DOCS/INPROGRESS/blocked.md` (no `next_tasks.md` is currently active).
 
 ## 196_T3_6_Integrity_Summary_Tab
 - **Archived files:** `T3_6_Integrity_Summary_Tab.md`, `T3_6_Summary_of_Work.md`, `194_ResearchLogMonitor_SwiftUIPreviews.md`, `Summary_of_Work.md`, `next_tasks.md`, `blocked.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/196_T3_6_Integrity_Summary_Tab/`.
 - **Highlights:** Captures the Integrity tab close-out, including the implementation summary for the new sortable/filterable diagnostics table, the companion ResearchLog preview planning notes, and the in-progress scaffolding refreshed at the end of the release cycle.
-- **Next steps carried forward:** Follow the regenerated `DOCS/INPROGRESS/next_tasks.md` to scope T3.6 polish items and the ResearchLog preview audit, while keeping the real-world fixture licensing blocker on the day-to-day watch list.
+- **Next steps carried forward:** T3.6 polish items concluded alongside the T3.7 delivery archived in `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/`. Only the recoverable licensing blocker remains active in `DOCS/INPROGRESS/blocked.md`.
 
 ## 197_Test_Suite_Fixes_Swift6_Concurrency
 - **Archived files:** `Summary_of_Work.md`.
@@ -1035,4 +1037,10 @@
 - **Archived files:** `194_ResearchLogMonitor_SwiftUIPreviews.md`, `197_T3_7_1_Integrity_Sorting_Refinements.md`, `198_Duplicate_Share_Toolbar_Button.md`, `T3_6_Integrity_Summary_Tab.md`, `T3_7_Integrity_Navigation_Filters.md`, `Summary_of_Work.md`, `next_tasks.md`, `blocked.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation/`.
 - **Highlights:** Captures the Integrity sorting refinement brief, navigation filter planning, duplicate Share toolbar diagnostics, and the ResearchLog preview audit close-out that were active prior to the October 29 archive. Preserves the contemporaneous summary log plus the actionable and blocked task trackers for traceability.
-- **Next steps carried forward:** Continue executing the T3.7.1 sorting refinements and T3.7 navigation/filter roadmap, using the regenerated `DOCS/INPROGRESS/` stubs for new work. Real-world media licensing remains the sole recoverable blocker and is tracked in the refreshed `blocked.md`.
+- **Next steps carried forward:** The T3.7 navigation/filter work completed in the next iteration (`DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/`). Current in-progress tracking only contains the recoverable licensing blocker in `DOCS/INPROGRESS/blocked.md`.
+
+## 200_T3_7_Integrity_Navigation_Filters
+- **Archived files:** `194_ResearchLogMonitor_SwiftUIPreviews.md`, `197_T3_7_1_Integrity_Sorting_Refinements.md`, `198_Duplicate_Share_Toolbar_Button.md`, `200_T3_7_Integrity_Navigation_Filters.md`, `Summary_of_Work.md`, `T3_6_Integrity_Summary_Tab.md`, `next_tasks.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/`.
+- **Highlights:** Documents the Integrity navigation filter delivery that closes roadmap item T3.7: Explorer selections now focus affected nodes, the new "Issues only" toggle prunes healthy branches while keeping ancestors expanded, keyboard shortcuts cycle through issue-bearing nodes, and outline view model tests cover the new helpers.
+- **Next steps carried forward:** No actionable `next_tasks.md` remain. Day-to-day monitoring is limited to the recoverable real-world asset licensing blocker recorded in `DOCS/INPROGRESS/blocked.md`.
