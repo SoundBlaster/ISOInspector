@@ -113,11 +113,11 @@ struct ParseTreeExplorerView: View {
     }
 
     private func handleIssueSelected(_ issue: ParseIssue) {
-        // @todo #T36-003 Navigate to affected node when issue is selected
-        if let nodeID = issue.affectedNodeIDs.first {
-            viewModel.nodeViewModel.select(nodeID: nodeID)
-            selectedTab = .explorer
-        }
+        guard let nodeID = issue.affectedNodeIDs.first else { return }
+        outlineViewModel.revealNode(withID: nodeID)
+        viewModel.nodeViewModel.select(nodeID: nodeID)
+        selectedTab = .explorer
+        focusTarget = .outline
     }
 
     private var header: some View {
@@ -168,6 +168,20 @@ struct ParseTreeExplorerView: View {
                     focusTarget = descriptor.target
                 }
             }
+            HiddenKeyboardShortcutButton(
+                title: "Next Issue",
+                key: "e",
+                modifiers: [.command, .shift]
+            ) {
+                navigateToIssue(direction: .down)
+            }
+            HiddenKeyboardShortcutButton(
+                title: "Previous Issue",
+                key: "e",
+                modifiers: [.command, .shift, .option]
+            ) {
+                navigateToIssue(direction: .up)
+            }
         }
     }
 
@@ -187,6 +201,17 @@ struct ParseTreeExplorerView: View {
             get: { viewModel.nodeViewModel.selectedNodeID },
             set: { newValue in viewModel.nodeViewModel.select(nodeID: newValue) }
         )
+    }
+
+    private func navigateToIssue(direction: ParseTreeOutlineViewModel.NavigationDirection) {
+        guard let targetID = outlineViewModel.issueRowID(
+            after: viewModel.nodeViewModel.selectedNodeID,
+            direction: direction
+        ) else { return }
+        outlineViewModel.revealNode(withID: targetID)
+        selectedTab = .explorer
+        focusTarget = .outline
+        viewModel.nodeViewModel.select(nodeID: targetID)
     }
 }
 
@@ -260,6 +285,17 @@ struct ParseTreeOutlineView: View {
                 .toggleStyle(.button)
                 .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.Filters.severityToggle(severity))
             }
+            Toggle(isOn: bindingForIssuesOnly) {
+                Label("Issues only", systemImage: issuesToggleIconName)
+                    .font(.caption)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 4)
+                    .background(issuesToggleBackground)
+                    .foregroundColor(issuesToggleForeground)
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            }
+            .toggleStyle(.button)
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.Filters.issuesOnlyToggle)
             Spacer()
             if viewModel.filter.isFocused {
                 Button("Clear filters") {
@@ -406,6 +442,17 @@ struct ParseTreeOutlineView: View {
         )
     }
 
+    private var bindingForIssuesOnly: Binding<Bool> {
+        Binding(
+            get: { viewModel.filter.showsOnlyIssues },
+            set: { newValue in
+                var updated = viewModel.filter
+                updated.showsOnlyIssues = newValue
+                viewModel.filter = updated
+            }
+        )
+    }
+
     private func filterBackground(for severity: ValidationIssue.Severity) -> Color {
         let isActive = viewModel.filter.focusedSeverities.contains(severity)
         return severity.color.opacity(isActive ? 0.25 : 0.08)
@@ -424,6 +471,18 @@ struct ParseTreeOutlineView: View {
     private func categoryForeground(for category: BoxCategory) -> Color {
         let isActive = viewModel.filter.focusedCategories.contains(category)
         return isActive ? category.color : .secondary
+    }
+
+    private var issuesToggleBackground: Color {
+        Color.accentColor.opacity(viewModel.filter.showsOnlyIssues ? 0.25 : 0.08)
+    }
+
+    private var issuesToggleForeground: Color {
+        viewModel.filter.showsOnlyIssues ? Color.accentColor : .secondary
+    }
+
+    private var issuesToggleIconName: String {
+        viewModel.filter.showsOnlyIssues ? "exclamationmark.triangle.fill" : "exclamationmark.triangle"
     }
 
 #if !os(iOS)

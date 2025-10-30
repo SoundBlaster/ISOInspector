@@ -30,6 +30,8 @@ final class ParseTreeOutlineViewModel: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     private var latencyProbe = OutlineLatencyProbe()
     private var allIdentifiers: Set<ParseTreeNode.ID> = []
+    private var parentLookup: [ParseTreeNode.ID: ParseTreeNode.ID] = [:]
+    private var issueBranchIdentifiers: Set<ParseTreeNode.ID> = []
 
     init(snapshot: ParseTreeSnapshot = .empty) {
         apply(snapshot: snapshot)
@@ -60,6 +62,8 @@ final class ParseTreeOutlineViewModel: ObservableObject {
             }
         }
         refreshFilterMetadata()
+        rebuildParentLookup()
+        rebuildIssueBranchIdentifiers()
         rebuildRows()
     }
 
@@ -144,6 +148,53 @@ final class ParseTreeOutlineViewModel: ObservableObject {
         }
     }
 
+    func issueRowID(after current: ParseTreeNode.ID?, direction: NavigationDirection) -> ParseTreeNode.ID? {
+        guard !rows.isEmpty else { return nil }
+        let issueIndices = rows.indices.filter { index in
+            let row = rows[index]
+            return row.hasValidationIssues || row.corruptionSummary != nil
+        }
+        guard !issueIndices.isEmpty else { return nil }
+
+        func defaultIndex() -> Int { issueIndices.first ?? rows.startIndex }
+
+        switch direction {
+        case .down, .child:
+            guard let current else { return rows[defaultIndex()].id }
+            guard let currentIndex = rows.firstIndex(where: { $0.id == current }) else {
+                return rows[defaultIndex()].id
+            }
+            if let next = issueIndices.first(where: { $0 > currentIndex }) {
+                return rows[next].id
+            }
+            return rows[issueIndices.first ?? currentIndex].id
+        case .up, .parent:
+            guard let current else { return rows[issueIndices.last!].id }
+            guard let currentIndex = rows.firstIndex(where: { $0.id == current }) else {
+                return rows[issueIndices.last!].id
+            }
+            if let previous = issueIndices.last(where: { $0 < currentIndex }) {
+                return rows[previous].id
+            }
+            return rows[issueIndices.last!].id
+        }
+    }
+
+    func revealNode(withID identifier: ParseTreeNode.ID) {
+        guard allIdentifiers.contains(identifier) else { return }
+        var current = identifier
+        var identifiersToExpand: Set<ParseTreeNode.ID> = []
+        while let parent = parentLookup[current] {
+            identifiersToExpand.insert(parent)
+            current = parent
+        }
+        let needsRebuild = !identifiersToExpand.isSubset(of: expandedIdentifiers)
+        expandedIdentifiers.formUnion(identifiersToExpand)
+        if needsRebuild {
+            rebuildRows()
+        }
+    }
+
     // MARK: - Private helpers
 
     private func rebuildRows() {
@@ -189,7 +240,14 @@ final class ParseTreeOutlineViewModel: ObservableObject {
         let subtreeMatchesSearch = matchesSearch || anyChildMatchesSearch
         let passesSearch = matcher.isActive ? subtreeMatchesSearch : true
         let matchesFilter = filter.matches(node: node)
-        let passesFilter = matchesFilter || anyChildVisible
+        let passesFilter: Bool
+        if filter.showsOnlyIssues {
+            let isIssueBranch = issueBranchIdentifiers.contains(node.id)
+            let searchOverride = matcher.isActive && matchesSearch
+            passesFilter = (matchesFilter || anyChildVisible || searchOverride) && isIssueBranch
+        } else {
+            passesFilter = matchesFilter || anyChildVisible
+        }
         let isVisible = passesSearch && passesFilter
 
         guard isVisible else {
@@ -240,6 +298,39 @@ final class ParseTreeOutlineViewModel: ObservableObject {
             stack.append(contentsOf: node.children)
         }
         return identifiers
+    }
+
+    private func rebuildParentLookup() {
+        parentLookup = [:]
+        var stack: [(parent: ParseTreeNode.ID?, node: ParseTreeNode)] = snapshot.nodes.map { (nil, $0) }
+        while let element = stack.popLast() {
+            if let parent = element.parent {
+                parentLookup[element.node.id] = parent
+            }
+            for child in element.node.children {
+                stack.append((element.node.id, child))
+            }
+        }
+    }
+
+    private func rebuildIssueBranchIdentifiers() {
+        issueBranchIdentifiers = []
+        for node in snapshot.nodes {
+            _ = markIssueBranches(for: node)
+        }
+    }
+
+    @discardableResult
+    private func markIssueBranches(for node: ParseTreeNode) -> Bool {
+        var subtreeHasIssue = !node.validationIssues.isEmpty || !node.issues.isEmpty
+        for child in node.children where markIssueBranches(for: child) {
+            subtreeHasIssue = true
+            issueBranchIdentifiers.insert(child.id)
+        }
+        if subtreeHasIssue {
+            issueBranchIdentifiers.insert(node.id)
+        }
+        return subtreeHasIssue
     }
 
     private func refreshFilterMetadata() {

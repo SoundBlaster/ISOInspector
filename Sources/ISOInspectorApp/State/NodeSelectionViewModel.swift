@@ -127,6 +127,14 @@
                 return false
             }
 
+            if filter.showsOnlyIssues {
+                let hasParseIssues = !row.node.issues.isEmpty
+                let hasValidationIssues = !row.node.validationIssues.isEmpty
+                if !(hasParseIssues || hasValidationIssues) {
+                    return false
+                }
+            }
+
             return true
         }
     }
