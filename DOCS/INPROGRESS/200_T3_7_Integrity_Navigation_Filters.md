@@ -28,3 +28,11 @@ Deliver the navigation aids and outline filtering required by Phase T3 so invest
 - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES`](../RULES)
 - [`DOCS/TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation`](../TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation)
+
+---
+
+## ✅ Completion Notes — 2025-10-30
+
+- Explorer issue selection now expands ancestor branches, switches focus back to the outline, and resolves #T36-003 for macOS/iPadOS builds.【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift†L99-L205】
+- Added "Issues only" filtering, navigation helpers, and keyboard shortcuts so Cmd+Shift+E / Cmd+Shift+Option+E jump between corrupt nodes without exposing healthy branches.【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineViewModel.swift†L10-L258】【F:Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift†L215-L371】
+- Extended regression coverage for issue filtering, navigation, and reveal helpers via new outline view model tests.【F:Tests/ISOInspectorAppTests/ParseTreeOutlineViewModelTests.swift†L88-L176】
