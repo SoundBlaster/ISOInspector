@@ -150,6 +150,36 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         XCTAssertFalse(viewModel.rows.contains { $0.id == 2 })
     }
 
+    func testIssueOnlyFilterHidesHealthyBranchesButKeepsAncestors() throws {
+        let corruptLeaf = makeNode(
+            identifier: 3,
+            type: "leaf",
+            parseIssues: [ParseIssue(
+                severity: .error,
+                code: "VR-999",
+                message: "Corrupt",
+                byteRange: 0..<8,
+                affectedNodeIDs: [3]
+            )]
+        )
+        let healthySibling = makeNode(identifier: 4, type: "clean")
+        let intermediate = makeNode(identifier: 2, type: "trak", children: [corruptLeaf, healthySibling])
+        let healthyBranch = makeNode(identifier: 5, type: "mdia")
+        let root = makeNode(identifier: 1, type: "moov", children: [intermediate, healthyBranch])
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+        viewModel.apply(snapshot: snapshot)
+
+        viewModel.filter = ParseTreeOutlineFilter(showsOnlyIssues: true)
+
+        let visibleIDs = viewModel.rows.map(\.id)
+        XCTAssertTrue(visibleIDs.contains(1))
+        XCTAssertTrue(visibleIDs.contains(2))
+        XCTAssertTrue(visibleIDs.contains(3))
+        XCTAssertFalse(visibleIDs.contains(4))
+        XCTAssertFalse(visibleIDs.contains(5))
+    }
+
     func testAvailableCategoriesReflectsSnapshotContents() throws {
         let metadataNode = makeNode(identifier: 2, type: "meta")
         let mediaNode = makeNode(identifier: 3, type: "mdat")
@@ -301,6 +331,56 @@ final class ParseTreeOutlineViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.rowID(after: childID, direction: .child), grandchildID)
         XCTAssertEqual(viewModel.rowID(after: childID, direction: .parent), rootID)
         XCTAssertEqual(viewModel.rowID(after: grandchildID, direction: .parent), childID)
+    }
+
+    func testIssueNavigationSkipsHealthyNodes() throws {
+        let corruptA = makeNode(
+            identifier: 2,
+            type: "trak",
+            parseIssues: [ParseIssue(
+                severity: .warning,
+                code: "VR-100",
+                message: "Warning",
+                byteRange: 0..<4,
+                affectedNodeIDs: [2]
+            )]
+        )
+        let healthy = makeNode(identifier: 3, type: "mdia")
+        let corruptB = makeNode(
+            identifier: 4,
+            type: "minf",
+            issues: [ValidationIssue(ruleID: "VR-002", message: "Error", severity: .error)]
+        )
+        let root = makeNode(identifier: 1, type: "root", children: [corruptA, healthy, corruptB])
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+
+        viewModel.apply(snapshot: snapshot)
+
+        let nextFromRoot = viewModel.issueRowID(after: 1, direction: .down)
+        XCTAssertEqual(nextFromRoot, 2)
+
+        let nextFromFirstIssue = viewModel.issueRowID(after: 2, direction: .down)
+        XCTAssertEqual(nextFromFirstIssue, 4)
+
+        let previousFromLast = viewModel.issueRowID(after: 4, direction: .up)
+        XCTAssertEqual(previousFromLast, 2)
+    }
+
+    func testRevealNodeExpandsAncestorsForIssueSelection() throws {
+        let leaf = makeNode(identifier: 3, type: "leaf")
+        let parent = makeNode(identifier: 2, type: "trak", children: [leaf])
+        let root = makeNode(identifier: 1, type: "moov", children: [parent])
+        let snapshot = ParseTreeSnapshot(nodes: [root], validationIssues: [])
+        let viewModel = ParseTreeOutlineViewModel()
+
+        viewModel.apply(snapshot: snapshot)
+        viewModel.toggleExpansion(for: 2)
+        XCTAssertEqual(viewModel.rows.map(\.id), [1, 2])
+
+        viewModel.revealNode(withID: 3)
+
+        XCTAssertEqual(viewModel.rows.map(\.id), [1, 2, 3])
     }
 
     // MARK: - Helpers

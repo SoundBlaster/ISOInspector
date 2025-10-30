@@ -6,21 +6,24 @@ struct ParseTreeOutlineFilter: Equatable {
     var focusedSeverities: Set<ValidationIssue.Severity>
     var focusedCategories: Set<BoxCategory>
     var showsStreamingIndicators: Bool
+    var showsOnlyIssues: Bool
 
     init(
         focusedSeverities: Set<ValidationIssue.Severity> = [],
         focusedCategories: Set<BoxCategory> = [],
-        showsStreamingIndicators: Bool = true
+        showsStreamingIndicators: Bool = true,
+        showsOnlyIssues: Bool = false
     ) {
         self.focusedSeverities = focusedSeverities
         self.focusedCategories = focusedCategories
         self.showsStreamingIndicators = showsStreamingIndicators
+        self.showsOnlyIssues = showsOnlyIssues
     }
 
     static let all = ParseTreeOutlineFilter()
 
     var isFocused: Bool {
-        !focusedSeverities.isEmpty || !focusedCategories.isEmpty || !showsStreamingIndicators
+        !focusedSeverities.isEmpty || !focusedCategories.isEmpty || !showsStreamingIndicators || showsOnlyIssues
     }
 
     func matches(node: ParseTreeNode) -> Bool {
@@ -47,6 +50,13 @@ struct ParseTreeOutlineFilter: Equatable {
         }
         if !showsStreamingIndicators && node.isStreamingIndicator {
             return false
+        }
+        if showsOnlyIssues {
+            let hasParseIssues = !node.issues.isEmpty
+            let hasValidationIssues = !node.validationIssues.isEmpty
+            if !(hasParseIssues || hasValidationIssues) {
+                return false
+            }
         }
         return true
     }
