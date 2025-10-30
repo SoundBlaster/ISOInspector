@@ -65,7 +65,7 @@
                 else {
                     return []
                 }
-                let request = NSFetchRequest<AnnotationEntity>(entityName: "Annotation")
+                let request = NSFetchRequest<AnnotationEntity>(entityName: EntityName.annotation)
                 request.predicate = NSPredicate(format: "file == %@", fileEntity)
                 request.sortDescriptors = [
                     NSSortDescriptor(key: #keyPath(AnnotationEntity.createdAt), ascending: true)
@@ -83,7 +83,7 @@
                 else {
                     return []
                 }
-                let request = NSFetchRequest<BookmarkEntity>(entityName: "Bookmark")
+                let request = NSFetchRequest<BookmarkEntity>(entityName: EntityName.bookmark)
                 request.predicate = NSPredicate(format: "file == %@", fileEntity)
                 request.sortDescriptors = [
                     NSSortDescriptor(key: #keyPath(BookmarkEntity.createdAt), ascending: true)
@@ -99,7 +99,7 @@
             try perform { context in
                 let fileEntity = try self.fetchFile(for: file, createIfMissing: true, in: context)!
                 let now = self.makeDate()
-                let annotation = AnnotationEntity(context: context)
+                let annotation: AnnotationEntity = context.makeManagedObject()
                 annotation.id = UUID()
                 annotation.nodeID = nodeID
                 annotation.note = note
@@ -166,7 +166,7 @@
                     let existing = try self.fetchBookmark(
                         nodeID: nodeID, for: fileEntity, in: context)
                     if existing == nil {
-                        let bookmark = BookmarkEntity(context: context)
+                        let bookmark: BookmarkEntity = context.makeManagedObject()
                         bookmark.id = UUID()
                         bookmark.nodeID = nodeID
                         bookmark.createdAt = now
@@ -224,7 +224,7 @@
 
         public func clearCurrentSession() throws {
             try perform { context in
-                let request = NSFetchRequest<SessionEntity>(entityName: "Session")
+                let request = NSFetchRequest<SessionEntity>(entityName: EntityName.session)
                 request.predicate = NSPredicate(format: "isCurrent == YES")
                 let sessions = try context.fetch(request)
                 guard !sessions.isEmpty else { return }
@@ -274,7 +274,7 @@
             in context: NSManagedObjectContext
         ) throws -> FileEntity? {
             let identifier = canonicalIdentifier(for: file)
-            let request = NSFetchRequest<FileEntity>(entityName: "File")
+            let request = NSFetchRequest<FileEntity>(entityName: EntityName.file)
             request.fetchLimit = 1
             request.predicate = NSPredicate(format: "url == %@", identifier)
             if let existing = try context.fetch(request).first {
@@ -283,7 +283,7 @@
             guard createIfMissing else {
                 return nil
             }
-            let fileEntity = FileEntity(context: context)
+            let fileEntity: FileEntity = context.makeManagedObject()
             fileEntity.id = UUID()
             fileEntity.url = identifier
             let now = makeDate()
@@ -297,7 +297,7 @@
             for file: FileEntity,
             in context: NSManagedObjectContext
         ) throws -> AnnotationEntity? {
-            let request = NSFetchRequest<AnnotationEntity>(entityName: "Annotation")
+            let request = NSFetchRequest<AnnotationEntity>(entityName: EntityName.annotation)
             request.fetchLimit = 1
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
                 NSPredicate(format: "id == %@", id as CVarArg),
@@ -311,7 +311,7 @@
             for file: FileEntity,
             in context: NSManagedObjectContext
         ) throws -> BookmarkEntity? {
-            let request = NSFetchRequest<BookmarkEntity>(entityName: "Bookmark")
+            let request = NSFetchRequest<BookmarkEntity>(entityName: EntityName.bookmark)
             request.fetchLimit = 1
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
                 NSPredicate(format: "nodeID == %lld", nodeID),
@@ -325,7 +325,7 @@
             for file: FileEntity,
             in context: NSManagedObjectContext
         ) throws -> BookmarkEntity? {
-            let request = NSFetchRequest<BookmarkEntity>(entityName: "Bookmark")
+            let request = NSFetchRequest<BookmarkEntity>(entityName: EntityName.bookmark)
             request.fetchLimit = 1
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
                 NSPredicate(format: "id == %@", id as CVarArg),
@@ -340,7 +340,7 @@
 
         private func fetchCurrentSession(in context: NSManagedObjectContext) throws
             -> SessionEntity? {
-            let request = NSFetchRequest<SessionEntity>(entityName: "Session")
+            let request = NSFetchRequest<SessionEntity>(entityName: EntityName.session)
             request.fetchLimit = 1
             request.predicate = NSPredicate(format: "isCurrent == YES")
             request.relationshipKeyPathsForPrefetching = [
@@ -355,12 +355,12 @@
 
         private func fetchOrCreateWorkspace(in context: NSManagedObjectContext) throws
             -> WorkspaceEntity {
-            let request = NSFetchRequest<WorkspaceEntity>(entityName: "Workspace")
+            let request = NSFetchRequest<WorkspaceEntity>(entityName: EntityName.workspace)
             request.fetchLimit = 1
             if let existing = try context.fetch(request).first {
                 return existing
             }
-            let workspace = WorkspaceEntity(context: context)
+            let workspace: WorkspaceEntity = context.makeManagedObject()
             workspace.id = UUID()
             workspace.appVersion = ""
             workspace.lastOpened = makeDate()
@@ -373,14 +373,14 @@
             in context: NSManagedObjectContext,
             workspace: WorkspaceEntity
         ) throws -> SessionEntity {
-            let request = NSFetchRequest<SessionEntity>(entityName: "Session")
+            let request = NSFetchRequest<SessionEntity>(entityName: EntityName.session)
             request.fetchLimit = 1
             request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
             if let existing = try context.fetch(request).first {
                 existing.workspace = workspace
                 return existing
             }
-            let session = SessionEntity(context: context)
+            let session: SessionEntity = context.makeManagedObject()
             session.id = id
             session.createdAt = makeDate()
             session.updatedAt = makeDate()
@@ -392,7 +392,7 @@
             excluding activeSession: SessionEntity,
             in context: NSManagedObjectContext
         ) throws {
-            let request = NSFetchRequest<SessionEntity>(entityName: "Session")
+            let request = NSFetchRequest<SessionEntity>(entityName: EntityName.session)
             request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [
                 NSPredicate(format: "isCurrent == YES"),
                 NSPredicate(format: "self != %@", activeSession),
@@ -432,7 +432,7 @@
                     continue
                 }
 
-                let sessionFile = SessionFileEntity(context: context)
+                let sessionFile: SessionFileEntity = context.makeManagedObject()
                 sessionFile.id = snapshot.id
                 sessionFile.orderIndex = Int64(snapshot.orderIndex)
                 if let selection = snapshot.lastSelectionNodeID {
@@ -462,7 +462,7 @@
                 sessionFile.file = fileEntity
 
                 for diff in snapshot.bookmarkDiffs {
-                    let diffEntity = SessionBookmarkDiffEntity(context: context)
+                    let diffEntity: SessionBookmarkDiffEntity = context.makeManagedObject()
                     diffEntity.id = diff.id
                     diffEntity.bookmarkID = diff.bookmarkID
                     diffEntity.isRemoved = diff.isRemoved
@@ -492,7 +492,7 @@
             }
 
             for snapshot in layouts {
-                let layout = WindowLayoutEntity(context: context)
+                let layout: WindowLayoutEntity = context.makeManagedObject()
                 layout.id = snapshot.id
                 layout.sceneIdentifier = snapshot.sceneIdentifier
                 layout.serializedLayout = snapshot.serializedLayout
@@ -508,6 +508,29 @@
 
     extension CoreDataAnnotationBookmarkStore: WorkspaceSessionStoring {}
 
+    private enum EntityName {
+        static let annotation = "Annotation"
+        static let bookmark = "Bookmark"
+        static let file = "File"
+        static let session = "Session"
+        static let workspace = "Workspace"
+        static let sessionFile = "SessionFile"
+        static let sessionBookmarkDiff = "SessionBookmarkDiff"
+        static let windowLayout = "WindowLayout"
+    }
+
+    private extension NSManagedObjectContext {
+        func makeManagedObject<T: NSManagedObject>() -> T {
+            guard let entityName = T.entity().name else {
+                preconditionFailure("Missing entity name for \(T.self)")
+            }
+            guard let object = NSEntityDescription.insertNewObject(forEntityName: entityName, into: self) as? T else {
+                preconditionFailure("Failed to insert \(entityName) as \(T.self)")
+            }
+            return object
+        }
+    }
+
     // MARK: - CoreData Model
 
     extension CoreDataAnnotationBookmarkStore {
@@ -515,7 +538,7 @@
         private static let modelCache = ModelCache()
 
         fileprivate static func makeModel(for version: ModelVersion) -> NSManagedObjectModel {
-            modelCache[version]
+            modelCache.model(for: version)
         }
 
         private static func makeModelUncached(for version: ModelVersion) -> NSManagedObjectModel {
@@ -529,21 +552,19 @@
             }
         }
 
-        private struct ModelCache: @unchecked Sendable {
-            private let storage: [ModelVersion: NSManagedObjectModel]
+        private final class ModelCache: @unchecked Sendable {
+            private var storage: [ModelVersion: NSManagedObjectModel] = [:]
+            private let lock = NSLock()
 
-            init() {
-                var cache: [ModelVersion: NSManagedObjectModel] = [:]
-                for version in ModelVersion.allCases {
-                    cache[version] = CoreDataAnnotationBookmarkStore.makeModelUncached(
-                        for: version)
+            func model(for version: ModelVersion) -> NSManagedObjectModel {
+                lock.lock()
+                defer { lock.unlock() }
+                if let cached = storage[version] {
+                    return cached
                 }
-                self.storage = cache
-            }
-
-            subscript(version: ModelVersion) -> NSManagedObjectModel {
-                // Models are immutable after creation so returning the cached reference is safe.
-                storage[version]!
+                let model = CoreDataAnnotationBookmarkStore.makeModelUncached(for: version)
+                storage[version] = model
+                return model
             }
         }
 
@@ -555,7 +576,7 @@
 
         fileprivate static func makeBaseEntities() -> BaseEntities {
             let fileEntity = NSEntityDescription()
-            fileEntity.name = "File"
+            fileEntity.name = EntityName.file
             fileEntity.managedObjectClassName = NSStringFromClass(FileEntity.self)
 
             let fileID = uuidAttribute(named: "id")
@@ -564,7 +585,7 @@
             let fileUpdated = dateAttribute(named: "updatedAt")
 
             let annotationEntity = NSEntityDescription()
-            annotationEntity.name = "Annotation"
+            annotationEntity.name = EntityName.annotation
             annotationEntity.managedObjectClassName = NSStringFromClass(AnnotationEntity.self)
 
             let annotationID = uuidAttribute(named: "id")
@@ -574,7 +595,7 @@
             let annotationUpdated = dateAttribute(named: "updatedAt")
 
             let bookmarkEntity = NSEntityDescription()
-            bookmarkEntity.name = "Bookmark"
+            bookmarkEntity.name = EntityName.bookmark
             bookmarkEntity.managedObjectClassName = NSStringFromClass(BookmarkEntity.self)
 
             let bookmarkID = uuidAttribute(named: "id")
@@ -657,23 +678,23 @@
             let bookmarkEntity = base.bookmark
 
             let workspaceEntity = NSEntityDescription()
-            workspaceEntity.name = "Workspace"
+            workspaceEntity.name = EntityName.workspace
             workspaceEntity.managedObjectClassName = NSStringFromClass(WorkspaceEntity.self)
 
             let sessionEntity = NSEntityDescription()
-            sessionEntity.name = "Session"
+            sessionEntity.name = EntityName.session
             sessionEntity.managedObjectClassName = NSStringFromClass(SessionEntity.self)
 
             let sessionFileEntity = NSEntityDescription()
-            sessionFileEntity.name = "SessionFile"
+            sessionFileEntity.name = EntityName.sessionFile
             sessionFileEntity.managedObjectClassName = NSStringFromClass(SessionFileEntity.self)
 
             let windowLayoutEntity = NSEntityDescription()
-            windowLayoutEntity.name = "WindowLayout"
+            windowLayoutEntity.name = EntityName.windowLayout
             windowLayoutEntity.managedObjectClassName = NSStringFromClass(WindowLayoutEntity.self)
 
             let sessionBookmarkDiffEntity = NSEntityDescription()
-            sessionBookmarkDiffEntity.name = "SessionBookmarkDiff"
+            sessionBookmarkDiffEntity.name = EntityName.sessionBookmarkDiff
             sessionBookmarkDiffEntity.managedObjectClassName = NSStringFromClass(
                 SessionBookmarkDiffEntity.self)
 
