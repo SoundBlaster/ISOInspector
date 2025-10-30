@@ -27,6 +27,7 @@ enum ParseTreeAccessibilityID {
             }
 
             static let streamingToggle = "streaming"
+            static let issuesOnlyToggle = "issuesOnly"
             static let clearButton = "clear"
         }
 
