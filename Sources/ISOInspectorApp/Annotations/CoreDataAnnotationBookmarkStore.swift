@@ -99,7 +99,7 @@
             try perform { context in
                 let fileEntity = try self.fetchFile(for: file, createIfMissing: true, in: context)!
                 let now = self.makeDate()
-                let annotation = AnnotationEntity(context: context)
+                let annotation: AnnotationEntity = context.makeManagedObject(named: "Annotation")
                 annotation.id = UUID()
                 annotation.nodeID = nodeID
                 annotation.note = note
@@ -166,7 +166,7 @@
                     let existing = try self.fetchBookmark(
                         nodeID: nodeID, for: fileEntity, in: context)
                     if existing == nil {
-                        let bookmark = BookmarkEntity(context: context)
+                        let bookmark: BookmarkEntity = context.makeManagedObject(named: "Bookmark")
                         bookmark.id = UUID()
                         bookmark.nodeID = nodeID
                         bookmark.createdAt = now
@@ -283,7 +283,7 @@
             guard createIfMissing else {
                 return nil
             }
-            let fileEntity = FileEntity(context: context)
+            let fileEntity: FileEntity = context.makeManagedObject(named: "File")
             fileEntity.id = UUID()
             fileEntity.url = identifier
             let now = makeDate()
@@ -360,7 +360,7 @@
             if let existing = try context.fetch(request).first {
                 return existing
             }
-            let workspace = WorkspaceEntity(context: context)
+            let workspace: WorkspaceEntity = context.makeManagedObject(named: "Workspace")
             workspace.id = UUID()
             workspace.appVersion = ""
             workspace.lastOpened = makeDate()
@@ -380,7 +380,7 @@
                 existing.workspace = workspace
                 return existing
             }
-            let session = SessionEntity(context: context)
+            let session: SessionEntity = context.makeManagedObject(named: "Session")
             session.id = id
             session.createdAt = makeDate()
             session.updatedAt = makeDate()
@@ -432,7 +432,7 @@
                     continue
                 }
 
-                let sessionFile = SessionFileEntity(context: context)
+                let sessionFile: SessionFileEntity = context.makeManagedObject(named: "SessionFile")
                 sessionFile.id = snapshot.id
                 sessionFile.orderIndex = Int64(snapshot.orderIndex)
                 if let selection = snapshot.lastSelectionNodeID {
@@ -462,7 +462,7 @@
                 sessionFile.file = fileEntity
 
                 for diff in snapshot.bookmarkDiffs {
-                    let diffEntity = SessionBookmarkDiffEntity(context: context)
+                    let diffEntity: SessionBookmarkDiffEntity = context.makeManagedObject(named: "SessionBookmarkDiff")
                     diffEntity.id = diff.id
                     diffEntity.bookmarkID = diff.bookmarkID
                     diffEntity.isRemoved = diff.isRemoved
@@ -492,7 +492,7 @@
             }
 
             for snapshot in layouts {
-                let layout = WindowLayoutEntity(context: context)
+                let layout: WindowLayoutEntity = context.makeManagedObject(named: "WindowLayout")
                 layout.id = snapshot.id
                 layout.sceneIdentifier = snapshot.sceneIdentifier
                 layout.serializedLayout = snapshot.serializedLayout
@@ -508,6 +508,15 @@
 
     extension CoreDataAnnotationBookmarkStore: WorkspaceSessionStoring {}
 
+    private extension NSManagedObjectContext {
+        func makeManagedObject<T: NSManagedObject>(named entityName: String) -> T {
+            guard let object = NSEntityDescription.insertNewObject(forEntityName: entityName, into: self) as? T else {
+                preconditionFailure("Failed to insert \(entityName) as \(T.self)")
+            }
+            return object
+        }
+    }
+
     // MARK: - CoreData Model
 
     extension CoreDataAnnotationBookmarkStore {
@@ -515,7 +524,7 @@
         private static let modelCache = ModelCache()
 
         fileprivate static func makeModel(for version: ModelVersion) -> NSManagedObjectModel {
-            modelCache[version]
+            modelCache.model(for: version)
         }
 
         private static func makeModelUncached(for version: ModelVersion) -> NSManagedObjectModel {
@@ -529,21 +538,19 @@
             }
         }
 
-        private struct ModelCache: @unchecked Sendable {
-            private let storage: [ModelVersion: NSManagedObjectModel]
+        private final class ModelCache: @unchecked Sendable {
+            private var storage: [ModelVersion: NSManagedObjectModel] = [:]
+            private let lock = NSLock()
 
-            init() {
-                var cache: [ModelVersion: NSManagedObjectModel] = [:]
-                for version in ModelVersion.allCases {
-                    cache[version] = CoreDataAnnotationBookmarkStore.makeModelUncached(
-                        for: version)
+            func model(for version: ModelVersion) -> NSManagedObjectModel {
+                lock.lock()
+                defer { lock.unlock() }
+                if let cached = storage[version] {
+                    return cached
                 }
-                self.storage = cache
-            }
-
-            subscript(version: ModelVersion) -> NSManagedObjectModel {
-                // Models are immutable after creation so returning the cached reference is safe.
-                storage[version]!
+                let model = CoreDataAnnotationBookmarkStore.makeModelUncached(for: version)
+                storage[version] = model
+                return model
             }
         }
 
