@@ -1030,3 +1030,9 @@
 - **Highlights:** Documents critical test infrastructure fixes for Swift 6 strict concurrency enforcement, including type disambiguation for FourCharCode, MainActor isolation annotations, Sendable conformance for test stubs, CoreData model caching to eliminate "Multiple NSEntityDescriptions" warnings, invalid UUID correction, SwiftUI view test memory management using proper async expectations instead of RunLoop.main.run(), and synchronous property observers (didSet) replacing asynchronous Combine publishers in IntegritySummaryViewModel for deterministic test behavior.
 - **Impact:** All CI test failures resolved, enforcing Swift 6 concurrency best practices across the test suite (8 files modified, ~35 net lines added).
 - **Next steps:** Continue monitoring CI stability and apply learned patterns to future SwiftUI view tests.
+
+## 199_T3_7_Integrity_Sorting_and_Navigation
+- **Archived files:** `194_ResearchLogMonitor_SwiftUIPreviews.md`, `197_T3_7_1_Integrity_Sorting_Refinements.md`, `198_Duplicate_Share_Toolbar_Button.md`, `T3_6_Integrity_Summary_Tab.md`, `T3_7_Integrity_Navigation_Filters.md`, `Summary_of_Work.md`, `next_tasks.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation/`.
+- **Highlights:** Captures the Integrity sorting refinement brief, navigation filter planning, duplicate Share toolbar diagnostics, and the ResearchLog preview audit close-out that were active prior to the October 29 archive. Preserves the contemporaneous summary log plus the actionable and blocked task trackers for traceability.
+- **Next steps carried forward:** Continue executing the T3.7.1 sorting refinements and T3.7 navigation/filter roadmap, using the regenerated `DOCS/INPROGRESS/` stubs for new work. Real-world media licensing remains the sole recoverable blocker and is tracked in the refreshed `blocked.md`.
