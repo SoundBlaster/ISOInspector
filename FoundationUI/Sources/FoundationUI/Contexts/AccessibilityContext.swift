@@ -137,7 +137,7 @@ import SwiftUI
 /// - **Reduce Motion**: Respects user's motion preference
 /// - **Dynamic Type**: Supports all sizes from XS to Accessibility XXXL
 /// - **Bold Text**: Increases weight to .bold when enabled
-public struct AccessibilityContext {
+public struct AccessibilityContext: Sendable {
     
     // MARK: - Properties
     
@@ -205,9 +205,21 @@ public struct AccessibilityContext {
     public var adaptiveBackground: Color {
         if isIncreaseContrastEnabled {
             // Use system background with maximum contrast
+            #if os(iOS)
             return Color(uiColor: .systemBackground)
+            #elseif os(macOS)
+            return Color(nsColor: .windowBackgroundColor)
+            #else
+            return Color.primary.opacity(0.05)
+            #endif
         } else {
+            #if os(iOS)
             return Color(uiColor: .secondarySystemBackground)
+            #elseif os(macOS)
+            return Color(nsColor: .controlBackgroundColor)
+            #else
+            return Color.secondary.opacity(0.1)
+            #endif
         }
     }
     
@@ -225,9 +237,9 @@ public struct AccessibilityContext {
     /// - Returns: true if using accessibility size category
     public var isAccessibilitySize: Bool {
         switch sizeCategory {
-        case .accessibilityMedium, .accessibilityLarge, 
-             .accessibilityExtraLarge, .accessibilityExtraExtraLarge,
-             .accessibilityExtraExtraExtraLarge:
+        case .accessibilityM, .accessibilityL, 
+             .accessibilityXL, .accessibilityXXL,
+             .accessibilityXXXL:
             return true
         default:
             return false
@@ -469,7 +481,7 @@ private struct AdaptiveAccessibilityModifier: ViewModifier {
 }
 
 #Preview("Dynamic Type - Accessibility XXL") {
-    let context = AccessibilityContext(sizeCategory: .accessibilityExtraExtraExtraLarge)
+    let context = AccessibilityContext(sizeCategory: .xxxLarge)
     
     VStack(spacing: context.scaledSpacing(DS.Spacing.l)) {
         Text("Accessibility XXL Size")
@@ -519,7 +531,7 @@ private struct AdaptiveAccessibilityModifier: ViewModifier {
         isReduceMotionEnabled: true,
         isIncreaseContrastEnabled: true,
         isBoldTextEnabled: true,
-        sizeCategory: .accessibilityLarge
+        sizeCategory: .large
     )
     
     VStack(spacing: context.scaledSpacing(DS.Spacing.l)) {

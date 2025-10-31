@@ -124,10 +124,10 @@ final class AccessibilityContextTests: XCTestCase {
     /// Test that font scales with Dynamic Type
     func testDynamicTypeScaling() {
         // Given: Large Dynamic Type size
-        let context = AccessibilityContext(sizeCategory: .accessibilityLarge)
+        let context = AccessibilityContext(sizeCategory: .accessibilityL)
         
         // Then: Font should scale appropriately
-        XCTAssertEqual(context.sizeCategory, .accessibilityLarge)
+        XCTAssertEqual(context.sizeCategory, .accessibilityL)
         XCTAssertNotNil(context.scaledFont(for: DS.Typography.body))
     }
     
@@ -144,10 +144,10 @@ final class AccessibilityContextTests: XCTestCase {
     /// Test that accessibility sizes (XXXL) are supported
     func testAccessibilityDynamicTypeSizes() {
         // Given: Accessibility XXL size
-        let context = AccessibilityContext(sizeCategory: .accessibilityExtraExtraExtraLarge)
+        let context = AccessibilityContext(sizeCategory: .accessibilityXXXL)
         
         // Then: Should support large accessibility sizes
-        XCTAssertEqual(context.sizeCategory, .accessibilityExtraExtraExtraLarge)
+        XCTAssertEqual(context.sizeCategory, .accessibilityXXXL)
         XCTAssertTrue(context.isAccessibilitySize)
     }
     
@@ -160,14 +160,14 @@ final class AccessibilityContextTests: XCTestCase {
             isReduceMotionEnabled: true,
             isIncreaseContrastEnabled: true,
             isBoldTextEnabled: true,
-            sizeCategory: .accessibilityLarge
+            sizeCategory: .accessibilityL
         )
         
         // Then: All features should be respected
         XCTAssertTrue(context.isReduceMotionEnabled)
         XCTAssertTrue(context.isIncreaseContrastEnabled)
         XCTAssertTrue(context.isBoldTextEnabled)
-        XCTAssertEqual(context.sizeCategory, .accessibilityLarge)
+        XCTAssertEqual(context.sizeCategory, .accessibilityL)
     }
     
     /// Test default accessibility context with system settings
@@ -191,7 +191,7 @@ final class AccessibilityContextTests: XCTestCase {
         XCTAssertFalse(standardContext.isAccessibilitySize)
         
         // Given: Accessibility size
-        let a11yContext = AccessibilityContext(sizeCategory: .accessibilityMedium)
+        let a11yContext = AccessibilityContext(sizeCategory: .accessibilityM)
         XCTAssertTrue(a11yContext.isAccessibilitySize)
     }
     
@@ -199,7 +199,7 @@ final class AccessibilityContextTests: XCTestCase {
     func testScaledSpacing() {
         // Given: Different Dynamic Type sizes
         let smallContext = AccessibilityContext(sizeCategory: .small)
-        let largeContext = AccessibilityContext(sizeCategory: .accessibilityLarge)
+        let largeContext = AccessibilityContext(sizeCategory: .accessibilityL)
         
         // Then: Spacing should scale (or remain constant for consistency)
         XCTAssertNotNil(smallContext.scaledSpacing(DS.Spacing.m))
