@@ -811,7 +811,7 @@ import UIKit
 // MARK: - Preview: Cross-Platform Integration
 
 #Preview("Cross-Platform Integration") {
-    @Environment(\.colorScheme) var colorScheme
+    @Previewable @Environment(\.colorScheme) var colorScheme
 
     return VStack(spacing: DS.Spacing.l) {
         Text("Cross-Platform Integration")
