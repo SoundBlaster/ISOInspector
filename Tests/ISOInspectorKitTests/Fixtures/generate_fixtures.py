@@ -29,9 +29,10 @@ from typing import Callable, Iterable, Iterator, Optional
 ROOT = Path(__file__).resolve().parent
 MEDIA = ROOT / "Media"
 TEXT_EXTENSION = "txt"
-REPO_ROOT = ROOT.parents[3]
+REPO_ROOT = ROOT.parents[2]
 DEFAULT_DISTRIBUTION_ROOT = REPO_ROOT / "Distribution" / "Fixtures"
 DEFAULT_LICENSE_ROOT = REPO_ROOT / "Documentation" / "FixtureCatalog" / "licenses"
+DEFAULT_CORRUPT_ROOT = REPO_ROOT / "Fixtures" / "Corrupt"
 BUFFER_SIZE = 1024 * 64
 
 logger = logging.getLogger(__name__)
@@ -895,6 +896,103 @@ def generate_text_fixtures(media_root: Path = MEDIA) -> list[Path]:
     ]
 
 
+def build_empty_file() -> bytes:
+    return b""
+
+
+def build_truncated_size_field() -> bytes:
+    return b"\x00\x00\x00"
+
+
+def build_invalid_fourcc() -> bytes:
+    return (8).to_bytes(4, "big") + bytes([0x01, 0x02, 0x03, 0x04])
+
+
+def build_zero_size_top_level() -> bytes:
+    return (0).to_bytes(4, "big") + b"moov"
+
+
+def build_oversized_large_size() -> bytes:
+    large_size = 1 << 63
+    return (1).to_bytes(4, "big") + b"ftyp" + large_size.to_bytes(8, "big")
+
+
+def build_uuid_invalid_size() -> bytes:
+    return (8).to_bytes(4, "big") + b"uuid" + bytes(16)
+
+
+def build_truncated_moov_reader() -> bytes:
+    ftyp = box("ftyp", brand_payload("isom", 0, ["isom"]))
+    moov_header = (32).to_bytes(4, "big") + b"moov"
+    return ftyp + moov_header
+
+
+def build_parent_truncated_child() -> bytes:
+    child_header = (24).to_bytes(4, "big") + b"trak"
+    child_payload = child_header + bytes(8)
+    moov = (24).to_bytes(4, "big") + b"moov" + child_payload
+    ftyp = box("ftyp", brand_payload("isom", 0, ["isom"]))
+    return ftyp + moov
+
+
+def build_zero_length_loop() -> bytes:
+    zero_trak = box("trak", b"")
+    moov_payload = zero_trak + zero_trak + zero_trak + zero_trak
+    moov = box("moov", moov_payload)
+    ftyp = box("ftyp", brand_payload("isom", 0, ["isom"]))
+    return ftyp + moov
+
+
+def build_deep_recursion_chain(depth: int = 70) -> bytes:
+    containers = [
+        "moov",
+        "trak",
+    ]
+    sequence: list[str] = []
+    while len(sequence) < depth:
+        sequence.extend(containers)
+    sequence = sequence[:depth]
+    payload = box("free", bytes(4))
+    for container_type in reversed(sequence):
+        payload = box(container_type, payload)
+    ftyp = box("ftyp", brand_payload("isom", 0, ["isom"]))
+    return ftyp + payload
+
+
+def write_binary_fixture(name: str, data: bytes, root: Path = DEFAULT_CORRUPT_ROOT) -> Path:
+    root.mkdir(parents=True, exist_ok=True)
+    path = root / name
+    base64_path = path.with_suffix(path.suffix + ".base64")
+
+    path.write_bytes(data)
+    encoded = base64.encodebytes(data).decode("ascii")
+    base64_path.write_text(encoded, encoding="ascii")
+
+    logger.info(
+        "Wrote %s (%d bytes) and %s",
+        path.name,
+        len(data),
+        base64_path.name,
+    )
+    return path
+
+
+def generate_corrupt_fixtures(root: Path = DEFAULT_CORRUPT_ROOT) -> list[Path]:
+    fixtures: list[tuple[str, bytes]] = [
+        ("empty-file.mp4", build_empty_file()),
+        ("truncated-size-field.mp4", build_truncated_size_field()),
+        ("invalid-fourcc.mp4", build_invalid_fourcc()),
+        ("zero-size-top-level.mp4", build_zero_size_top_level()),
+        ("oversized-large-size.mp4", build_oversized_large_size()),
+        ("uuid-invalid-size.mp4", build_uuid_invalid_size()),
+        ("truncated-moov.mp4", build_truncated_moov_reader()),
+        ("parent-truncated-child.mp4", build_parent_truncated_child()),
+        ("zero-length-loop.mp4", build_zero_length_loop()),
+        ("deep-recursion.mp4", build_deep_recursion_chain()),
+    ]
+    return [write_binary_fixture(name, data, root) for name, data in fixtures]
+
+
 def build_argument_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
@@ -921,6 +1019,12 @@ def build_argument_parser() -> argparse.ArgumentParser:
         help="Directory for mirrored license texts.",
     )
     parser.add_argument(
+        "--corrupt-root",
+        type=Path,
+        default=DEFAULT_CORRUPT_ROOT,
+        help="Directory for generated corrupt fixture binaries.",
+    )
+    parser.add_argument(
         "--dry-run",
         action="store_true",
         help="Validate manifest metadata without downloading fixtures.",
@@ -929,6 +1033,11 @@ def build_argument_parser() -> argparse.ArgumentParser:
         "--skip-text-fixtures",
         action="store_true",
         help="Skip regeneration of base64 text fixtures.",
+    )
+    parser.add_argument(
+        "--skip-corrupt-fixtures",
+        action="store_true",
+        help="Skip regeneration of corrupt binary fixtures.",
     )
     parser.add_argument(
         "--log-level",
@@ -946,6 +1055,9 @@ def main(argv: Optional[list[str]] = None) -> int:
 
     if not args.skip_text_fixtures:
         generate_text_fixtures()
+
+    if not args.skip_corrupt_fixtures:
+        generate_corrupt_fixtures(args.corrupt_root)
 
     if args.manifest:
         try:

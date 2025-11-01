@@ -623,7 +623,7 @@ enum FeatureFlags {
 ### Sprint 1-2: Prototype (Feature Flag ON, Internal Only)
 
 1. Implement T1.1-T1.7 (core parsing resiliency).
-2. Add corrupt fixture corpus (T5.1).
+2. ✅ Add corrupt fixture corpus (T5.1).
 3. Run regression tests; verify strict mode unaffected.
 4. Internal demo: parse truncated file; show partial tree.
 

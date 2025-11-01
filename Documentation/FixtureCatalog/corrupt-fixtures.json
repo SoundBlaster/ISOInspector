@@ -1,0 +1,136 @@
+{
+  "version": 1,
+  "generated": "2025-11-01",
+  "fixtures": [
+    {
+      "id": "corrupt-empty-file",
+      "filename": "empty-file.mp4",
+      "title": "Zero-length file",
+      "description": "Empty payload exercises offset handling when the reader has no bytes available.",
+      "corruption": {
+        "category": "header",
+        "pattern": "offset-beyond-reader",
+        "affectedBoxes": [],
+        "expectedIssues": ["header.offset_beyond_reader"]
+      },
+      "smokeTest": false
+    },
+    {
+      "id": "corrupt-truncated-size-field",
+      "filename": "truncated-size-field.mp4",
+      "title": "Truncated size field",
+      "description": "Size field is truncated before four bytes are available, forcing header field recovery.",
+      "corruption": {
+        "category": "header",
+        "pattern": "truncated-field",
+        "affectedBoxes": [],
+        "expectedIssues": ["header.truncated_field"]
+      },
+      "smokeTest": false
+    },
+    {
+      "id": "corrupt-invalid-fourcc",
+      "filename": "invalid-fourcc.mp4",
+      "title": "Invalid four-character code",
+      "description": "Box type bytes are non-ASCII, ensuring invalid fourcc handling is exercised.",
+      "corruption": {
+        "category": "header",
+        "pattern": "invalid-fourcc",
+        "affectedBoxes": [],
+        "expectedIssues": ["header.invalid_fourcc"]
+      },
+      "smokeTest": false
+    },
+    {
+      "id": "corrupt-zero-size-top-level",
+      "filename": "zero-size-top-level.mp4",
+      "title": "Zero-sized top-level box",
+      "description": "Top-level container advertises zero size without a parent, requiring lenient fallback.",
+      "corruption": {
+        "category": "header",
+        "pattern": "zero-size-without-parent",
+        "affectedBoxes": ["moov"],
+        "expectedIssues": ["header.zero_size_without_parent"]
+      },
+      "smokeTest": false
+    },
+    {
+      "id": "corrupt-oversized-large-size",
+      "filename": "oversized-large-size.mp4",
+      "title": "Large size overflow",
+      "description": "Header encodes a 128-bit large size that exceeds Int64 bounds, testing overflow protection.",
+      "corruption": {
+        "category": "header",
+        "pattern": "size-out-of-range",
+        "affectedBoxes": ["ftyp"],
+        "expectedIssues": ["header.size_out_of_range"]
+      },
+      "smokeTest": false
+    },
+    {
+      "id": "corrupt-uuid-invalid-size",
+      "filename": "uuid-invalid-size.mp4",
+      "title": "UUID box with invalid size",
+      "description": "UUID box declares a total size smaller than its header, covering invalid size diagnostics.",
+      "corruption": {
+        "category": "header",
+        "pattern": "invalid-size",
+        "affectedBoxes": ["uuid"],
+        "expectedIssues": ["header.invalid_size"]
+      },
+      "smokeTest": false
+    },
+    {
+      "id": "corrupt-truncated-moov",
+      "filename": "truncated-moov.mp4",
+      "title": "Truncated moov payload",
+      "description": "Moov box declares more bytes than the reader provides, validating reader-length truncation.",
+      "corruption": {
+        "category": "payload",
+        "pattern": "reader-length-truncation",
+        "affectedBoxes": ["moov"],
+        "expectedIssues": ["payload.truncated"]
+      },
+      "smokeTest": true
+    },
+    {
+      "id": "corrupt-parent-truncated-child",
+      "filename": "parent-truncated-child.mp4",
+      "title": "Child exceeds parent range",
+      "description": "Child trak range extends beyond its parent moov payload, exercising parent-bound truncation guards.",
+      "corruption": {
+        "category": "payload",
+        "pattern": "parent-range-truncation",
+        "affectedBoxes": ["moov", "trak"],
+        "expectedIssues": ["payload.truncated"]
+      },
+      "smokeTest": false
+    },
+    {
+      "id": "corrupt-zero-length-loop",
+      "filename": "zero-length-loop.mp4",
+      "title": "Zero-length loop guard",
+      "description": "Moov payload chains multiple zero-length trak boxes to trigger the zero-size loop guard.",
+      "corruption": {
+        "category": "guard",
+        "pattern": "zero-length-loop",
+        "affectedBoxes": ["moov", "trak"],
+        "expectedIssues": ["guard.zero_size_loop"]
+      },
+      "smokeTest": true
+    },
+    {
+      "id": "corrupt-deep-recursion",
+      "filename": "deep-recursion.mp4",
+      "title": "Deep recursion guard",
+      "description": "Payload nests more than sixty-four container boxes to exercise the recursion depth guard.",
+      "corruption": {
+        "category": "guard",
+        "pattern": "recursion-depth",
+        "affectedBoxes": ["moov", "trak"],
+        "expectedIssues": ["guard.recursion_depth_exceeded"]
+      },
+      "smokeTest": true
+    }
+  ]
+}

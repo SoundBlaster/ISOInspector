@@ -276,10 +276,9 @@ DOCS/AI/Tolerance_Parsing/
 
 ### Short-Term (Sprint 1-2)
 
-4. **Prototype Corrupt Fixture Corpus (T5.1)**:
-   - Create 10 fixtures: truncated, overlapping, invalid sample tables.
-   - Store in `Fixtures/Corrupt/`.
-   - Deliverable: Fixture manifest + README.
+4. **Prototype Corrupt Fixture Corpus (T5.1)** — ✅ Delivered:
+   - Ten corrupt fixtures now live in `Fixtures/Corrupt/` with manifest metadata documenting expected issues.
+   - Generator workflow and documentation updated; see `DOCS/TASK_ARCHIVE/201_T5_1_Corrupt_Fixture_Corpus/`.
 
 5. **Refactor `BoxHeaderDecoder` to Result-Based (T1.4)**:
    - Convert `throws` to `Result<BoxHeader, Error>`.
