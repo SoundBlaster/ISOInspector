@@ -275,7 +275,7 @@
 1. **Immediate:** Update main PRD (`DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md`) to reference Tolerance Parsing TODO.
 2. **Sprint 1 Entry:** Begin T1.1 (Define `ParseIssue` model) — kickoff planning session.
 3. **Stakeholder Review:** Share this analysis with QC operators for early feedback on UI mockups.
-4. **Fixture Acquisition:** Start T5.1 (corrupt fixture corpus) in parallel with core development.
+4. **Fixture Acquisition:** ✅ T5.1 delivered — corrupt fixture corpus available under `Fixtures/Corrupt/` with manifest metadata for tolerant parsing regressions.
 
 ---
 

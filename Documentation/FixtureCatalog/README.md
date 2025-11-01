@@ -19,6 +19,7 @@ Provide operators with repeatable storage targets for manifest-driven fixture do
 Documentation/
   FixtureCatalog/
     manifest.json
+    corrupt-fixtures.json
     licenses/
 Distribution/
   Fixtures/
@@ -29,6 +30,7 @@ Tests/ISOInspectorKitTests/Fixtures/
 ```
 
 - `manifest.json` describes fixture metadata, destination categories, and license references for automated downloads.【F:Documentation/FixtureCatalog/manifest.json†L1-L23】
+- `corrupt-fixtures.json` enumerates the deterministic corrupt corpus used by tolerant parsing smoke tests.【F:Documentation/FixtureCatalog/corrupt-fixtures.json†L1-L121】
 - `Distribution/Fixtures/<category>/` stores the downloaded binaries referenced by the manifest, ensuring the CLI, Kit, and app share the same staging path.【F:Tests/ISOInspectorKitTests/Fixtures/README.md†L25-L33】
 - `Documentation/FixtureCatalog/licenses/` contains mirrored attribution files required for redistribution compliance.【F:DOCS/TASK_ARCHIVE/84_R2_Fixture_Acquisition/R2_Fixture_Acquisition.md†L64-L68】
 
@@ -89,6 +91,19 @@ The downloaded fixtures remain available to the release readiness runbook, which
     ```
 
 1. After downloads complete, archive the cache directory using the platform’s cache mechanism (e.g., GitHub Actions cache) so subsequent jobs reuse the fixtures without hitting external bandwidth caps.
+
+## Corrupt Fixture Corpus
+
+- Generate the deterministic corrupt fixtures in-repo for tolerant parsing smoke coverage:
+
+    ```bash
+    python3 Tests/ISOInspectorKitTests/Fixtures/generate_fixtures.py \
+      --skip-text-fixtures
+    ```
+
+- The helper writes binary assets to `Fixtures/Corrupt/` and updates `Documentation/FixtureCatalog/corrupt-fixtures.json`, which enumerates corruption patterns, expected `ParseIssue` codes, and smoke-test hints consumed by the test suite.【F:Documentation/FixtureCatalog/corrupt-fixtures.json†L1-L121】
+- Each binary is mirrored as `<name>.mp4.base64` so the catalog remains text-friendly for source control. The test suite automatically materializes `.mp4` siblings from these base64 sources when needed, and `.gitignore` prevents accidental commits of the regenerated binaries.【F:Tests/ISOInspectorKitTests/CorruptFixtureCorpusTests.swift†L9-L120】【F:Fixtures/Corrupt/.gitignore†L1-L1】
+- Automated sanity checks in `CorruptFixtureCorpusTests` parse the fixtures in tolerant mode and assert the documented issues occur without crashes.【F:Tests/ISOInspectorKitTests/CorruptFixtureCorpusTests.swift†L1-L78】
 
 ## Maintenance
 
