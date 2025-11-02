@@ -36,22 +36,22 @@ final class PatternsPerformanceTests: XCTestCase {
         let nodes = (0..<largeTreeNodeCount).map { index in
             TestTreeNode(id: UUID(), title: "Node \(index)", children: [])
         }
-        
-        @State var expandedNodes: Set<UUID> = []
-        @State var selection: UUID? = nil
-        
+
+        var expandedNodesState = State(initialValue: Set<UUID>())
+        var selectionState = State<UUID?>(initialValue: nil)
+
         // When: Measure render time
         measure {
             let _ = BoxTreePattern(
                 data: nodes,
                 children: { $0.children },
-                expandedNodes: $expandedNodes,
-                selection: $selection
+                expandedNodes: expandedNodesState.projectedValue,
+                selection: selectionState.projectedValue
             ) { node in
                 Text(node.title)
             }
         }
-        
+
         // Then: Should complete within performance baseline
         // XCTest measure will report results
     }
@@ -67,21 +67,21 @@ final class PatternsPerformanceTests: XCTestCase {
                 children: makeDeepTree(depth: depth, currentDepth: currentDepth + 1)
             )]
         }
-        
+
         let deepTree = makeDeepTree(depth: deepTreeDepth)
-        @State var expandedNodes: Set<UUID> = []
-        
+        var expandedNodesState = State(initialValue: Set<UUID>())
+
         // When: Measure render time
         measure {
             let _ = BoxTreePattern(
                 data: deepTree,
                 children: { $0.children },
-                expandedNodes: $expandedNodes
+                expandedNodes: expandedNodesState.projectedValue
             ) { node in
                 Text(node.title)
             }
         }
-        
+
         // Then: Should handle deep nesting efficiently
     }
     
@@ -97,18 +97,18 @@ final class PatternsPerformanceTests: XCTestCase {
                 }
             )
         }
-        
-        @State var expandedNodes: Set<UUID> = []
-        
+
+        var expandedNodesState = State(initialValue: Set<UUID>())
+
         // When: Create pattern
         let pattern = BoxTreePattern(
             data: nodes,
             children: { $0.children },
-            expandedNodes: $expandedNodes
+            expandedNodes: expandedNodesState.projectedValue
         ) { node in
             Text(node.title)
         }
-        
+
         // Then: Memory usage should be reasonable
         // Pattern itself should not hold references to all nodes
         XCTAssertNotNil(pattern)
@@ -126,20 +126,20 @@ final class PatternsPerformanceTests: XCTestCase {
                 }
             )
         }
-        
-        @State var expandedNodes: Set<UUID> = [] // No nodes expanded
-        
+
+        var expandedNodesState = State(initialValue: Set<UUID>()) // No nodes expanded
+
         // When: Measure render time with all nodes collapsed
         measure {
             let _ = BoxTreePattern(
                 data: rootNodes,
                 children: { $0.children },
-                expandedNodes: $expandedNodes
+                expandedNodes: expandedNodesState.projectedValue
             ) { node in
                 Text(node.title)
             }
         }
-        
+
         // Then: Should be fast because children are not rendered
         // This test verifies LazyVStack is working correctly
     }
@@ -156,20 +156,20 @@ final class PatternsPerformanceTests: XCTestCase {
                 }
             )
         }
-        
-        @State var expandedNodes: Set<UUID> = Set(nodes.map { $0.id })
-        
+
+        var expandedNodesState = State(initialValue: Set(nodes.map { $0.id }))
+
         // When: Measure render time with all nodes expanded
         measure {
             let _ = BoxTreePattern(
                 data: nodes,
                 children: { $0.children },
-                expandedNodes: $expandedNodes
+                expandedNodes: expandedNodesState.projectedValue
             ) { node in
                 Text(node.title)
             }
         }
-        
+
         // Then: Should handle expanded state efficiently
     }
     
@@ -241,20 +241,20 @@ final class PatternsPerformanceTests: XCTestCase {
             let id = UUID()
             let title: String
         }
-        
+
         let items = (0..<200).map { SidebarItem(title: "Item \(index)") }
-        @State var selection: SidebarItem? = nil
-        
+        var selectionState = State<SidebarItem?>(initialValue: nil)
+
         // When: Measure render time
         measure {
             let _ = SidebarPattern(
                 sections: [(title: "Items", items: items)],
-                selection: $selection
+                selection: selectionState.projectedValue
             ) { item in
                 Text(item.title)
             }
         }
-        
+
         // Then: Should handle many items efficiently
     }
     
@@ -265,25 +265,25 @@ final class PatternsPerformanceTests: XCTestCase {
             let id = UUID()
             let title: String
         }
-        
+
         let sections = (0..<20).map { sectionIndex in
             (
                 title: "Section \(sectionIndex)",
                 items: (0..<20).map { SidebarItem(title: "Item \(index)") }
             )
         }
-        @State var selection: SidebarItem? = nil
-        
+        var selectionState = State<SidebarItem?>(initialValue: nil)
+
         // When: Measure render time
         measure {
             let _ = SidebarPattern(
                 sections: sections,
-                selection: $selection
+                selection: selectionState.projectedValue
             ) { item in
                 Text(item.title)
             }
         }
-        
+
         // Then: Should handle multiple sections efficiently
     }
     
@@ -318,37 +318,37 @@ final class PatternsPerformanceTests: XCTestCase {
             let id = UUID()
             let title: String
         }
-        
+
         let sidebarItems = (0..<50).map { SidebarItem(title: "Item \(index)") }
-        @State var selection: SidebarItem? = nil
-        
+        var selectionState = State<SidebarItem?>(initialValue: nil)
+
         let treeNodes = (0..<100).map { index in
             TestTreeNode(id: UUID(), title: "Node \(index)", children: [])
         }
-        @State var expandedNodes: Set<UUID> = []
-        
+        var expandedNodesState = State(initialValue: Set<UUID>())
+
         // When: Measure combined render time
         measure {
             let _ = HStack(spacing: 0) {
                 // Sidebar
                 SidebarPattern(
                     sections: [(title: "Items", items: sidebarItems)],
-                    selection: $selection
+                    selection: selectionState.projectedValue
                 ) { item in
                     Text(item.title)
                 }
                 .frame(width: 200)
-                
+
                 // Tree
                 BoxTreePattern(
                     data: treeNodes,
                     children: { $0.children },
-                    expandedNodes: $expandedNodes
+                    expandedNodes: expandedNodesState.projectedValue
                 ) { node in
                     Text(node.title)
                 }
                 .frame(width: 300)
-                
+
                 // Inspector
                 InspectorPattern(title: "Inspector") {
                     ForEach(0..<50, id: \.self) { index in
@@ -357,36 +357,36 @@ final class PatternsPerformanceTests: XCTestCase {
                 }
             }
         }
-        
+
         // Then: Combined patterns should maintain good performance
     }
     
     /// Test pattern performance with animations
     func testPatternPerformanceWithAnimations() {
         // Given: Pattern with animated state changes
-        @State var isExpanded = false
-        
+        var isExpandedState = State(initialValue: false)
+
         let nodes = (0..<100).map { index in
             TestTreeNode(id: UUID(), title: "Node \(index)", children: [])
         }
-        @State var expandedNodes: Set<UUID> = []
-        
+        var expandedNodesState = State(initialValue: Set<UUID>())
+
         // When: Measure with animations
         measure {
             withAnimation(DS.Animation.medium) {
-                isExpanded.toggle()
+                isExpandedState.wrappedValue.toggle()
             }
-            
+
             let _ = BoxTreePattern(
                 data: nodes,
                 children: { $0.children },
-                expandedNodes: $expandedNodes
+                expandedNodes: expandedNodesState.projectedValue
             ) { node in
                 Text(node.title)
-                    .opacity(isExpanded ? 1.0 : 0.8)
+                    .opacity(isExpandedState.wrappedValue ? 1.0 : 0.8)
             }
         }
-        
+
         // Then: Animations should not significantly impact performance
     }
     
@@ -398,19 +398,19 @@ final class PatternsPerformanceTests: XCTestCase {
         let nodes = (0..<5000).map { index in
             TestTreeNode(id: UUID(), title: "Node \(index)", children: [])
         }
-        @State var expandedNodes: Set<UUID> = []
-        
+        var expandedNodesState = State(initialValue: Set<UUID>())
+
         // When: Create pattern
         let startTime = Date()
         let pattern = BoxTreePattern(
             data: nodes,
             children: { $0.children },
-            expandedNodes: $expandedNodes
+            expandedNodes: expandedNodesState.projectedValue
         ) { node in
             Text(node.title)
         }
         let elapsed = Date().timeIntervalSince(startTime) * 1000 // Convert to ms
-        
+
         // Then: Should complete in reasonable time
         XCTAssertNotNil(pattern)
         XCTAssertLessThan(elapsed, maxRenderTime * 2, "Large tree took too long to render")
@@ -427,19 +427,19 @@ final class PatternsPerformanceTests: XCTestCase {
                 children: makeVeryDeepTree(depth: depth, currentDepth: currentDepth + 1)
             )]
         }
-        
+
         let deepTree = makeVeryDeepTree(depth: 100)
-        @State var expandedNodes: Set<UUID> = []
-        
+        var expandedNodesState = State(initialValue: Set<UUID>())
+
         // When: Create pattern
         let pattern = BoxTreePattern(
             data: deepTree,
             children: { $0.children },
-            expandedNodes: $expandedNodes
+            expandedNodes: expandedNodesState.projectedValue
         ) { node in
             Text(node.title)
         }
-        
+
         // Then: Should handle extreme depth
         XCTAssertNotNil(pattern)
     }
@@ -450,25 +450,25 @@ final class PatternsPerformanceTests: XCTestCase {
     func testPatternsDoNotLeakMemory() {
         // Given: Pattern with strong references
         weak var weakPattern: AnyObject?
-        
+
         autoreleasepool {
             let nodes = (0..<100).map { index in
                 TestTreeNode(id: UUID(), title: "Node \(index)", children: [])
             }
-            @State var expandedNodes: Set<UUID> = []
-            
+            var expandedNodesState = State(initialValue: Set<UUID>())
+
             let pattern = BoxTreePattern(
                 data: nodes,
                 children: { $0.children },
-                expandedNodes: $expandedNodes
+                expandedNodes: expandedNodesState.projectedValue
             ) { node in
                 Text(node.title)
             }
-            
+
             weakPattern = pattern as AnyObject
             XCTAssertNotNil(weakPattern)
         }
-        
+
         // Then: Pattern should be deallocated
         XCTAssertNil(weakPattern, "Pattern was not deallocated - possible memory leak")
     }
