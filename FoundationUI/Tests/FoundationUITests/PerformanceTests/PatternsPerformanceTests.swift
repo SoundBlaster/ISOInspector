@@ -237,21 +237,30 @@ final class PatternsPerformanceTests: XCTestCase {
     /// Test SidebarPattern render time with many items
     func testSidebarPatternManyItemsRenderTime() {
         // Given: Sidebar with 200 items
-        struct SidebarItem: Identifiable, Hashable {
-            let id = UUID()
-            let title: String
+        let sidebarItems = (0..<200).map { index in
+            SidebarPattern<Int, Text>.Item(
+                id: index,
+                title: "Item \(index)"
+            )
         }
-
-        let items = (0..<200).map { SidebarItem(title: "Item \(index)") }
-        var selectionState = State<SidebarItem?>(initialValue: nil)
+        var selectionState = State<Int?>(initialValue: nil)
 
         // When: Measure render time
         measure {
             let _ = SidebarPattern(
-                sections: [(title: "Items", items: items)],
+                sections: [
+                    SidebarPattern<Int, Text>.Section(
+                        title: "Items",
+                        items: sidebarItems
+                    )
+                ],
                 selection: selectionState.projectedValue
-            ) { item in
-                Text(item.title)
+            ) { selectedId in
+                if let selectedId {
+                    Text("Item \(selectedId)")
+                } else {
+                    Text("No selection")
+                }
             }
         }
 
@@ -261,26 +270,31 @@ final class PatternsPerformanceTests: XCTestCase {
     /// Test SidebarPattern with multiple sections
     func testSidebarPatternMultipleSectionsPerformance() {
         // Given: Sidebar with 20 sections of 20 items each
-        struct SidebarItem: Identifiable, Hashable {
-            let id = UUID()
-            let title: String
-        }
-
         let sections = (0..<20).map { sectionIndex in
-            (
+            let items = (0..<20).map { itemIndex in
+                SidebarPattern<String, Text>.Item(
+                    id: "Section\(sectionIndex)_Item\(itemIndex)",
+                    title: "Item \(itemIndex)"
+                )
+            }
+            return SidebarPattern<String, Text>.Section(
                 title: "Section \(sectionIndex)",
-                items: (0..<20).map { SidebarItem(title: "Item \(index)") }
+                items: items
             )
         }
-        var selectionState = State<SidebarItem?>(initialValue: nil)
+        var selectionState = State<String?>(initialValue: nil)
 
         // When: Measure render time
         measure {
             let _ = SidebarPattern(
                 sections: sections,
                 selection: selectionState.projectedValue
-            ) { item in
-                Text(item.title)
+            ) { selectedId in
+                if let selectedId {
+                    Text(selectedId)
+                } else {
+                    Text("No selection")
+                }
             }
         }
 
@@ -314,13 +328,13 @@ final class PatternsPerformanceTests: XCTestCase {
     /// Test combined patterns performance (realistic scenario)
     func testCombinedPatternsPerformance() {
         // Given: Complex layout with multiple patterns
-        struct SidebarItem: Identifiable, Hashable {
-            let id = UUID()
-            let title: String
+        let sidebarItems = (0..<50).map { index in
+            SidebarPattern<Int, Text>.Item(
+                id: index,
+                title: "Item \(index)"
+            )
         }
-
-        let sidebarItems = (0..<50).map { SidebarItem(title: "Item \(index)") }
-        var selectionState = State<SidebarItem?>(initialValue: nil)
+        var selectionState = State<Int?>(initialValue: nil)
 
         let treeNodes = (0..<100).map { index in
             TestTreeNode(id: UUID(), title: "Node \(index)", children: [])
@@ -332,10 +346,19 @@ final class PatternsPerformanceTests: XCTestCase {
             let _ = HStack(spacing: 0) {
                 // Sidebar
                 SidebarPattern(
-                    sections: [(title: "Items", items: sidebarItems)],
+                    sections: [
+                        SidebarPattern<Int, Text>.Section(
+                            title: "Items",
+                            items: sidebarItems
+                        )
+                    ],
                     selection: selectionState.projectedValue
-                ) { item in
-                    Text(item.title)
+                ) { selectedId in
+                    if let selectedId {
+                        Text("Item \(selectedId)")
+                    } else {
+                        Text("No selection")
+                    }
                 }
                 .frame(width: 200)
 

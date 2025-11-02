@@ -144,7 +144,12 @@ private final class SelectionStore {
 
     private(set) lazy var binding: Binding<String?> = Binding(
         get: { [weak self] in self?.selection },
-        set: { [weak self] newValue in self?.selection = newValue }
+        set: { [weak self] newValue in
+            guard let self else { return }
+            Task { @MainActor in
+                self.selection = newValue
+            }
+        }
     )
 
     func recordAnnouncement(message: String) {
