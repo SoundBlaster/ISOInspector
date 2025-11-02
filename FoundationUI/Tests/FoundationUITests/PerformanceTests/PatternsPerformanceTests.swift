@@ -247,9 +247,9 @@ final class PatternsPerformanceTests: XCTestCase {
 
         // When: Measure render time
         measure {
-            let _ = SidebarPattern(
+            let _ = SidebarPattern<Int, AnyView>(
                 sections: [
-                    SidebarPattern<Int, Text>.Section(
+                    SidebarPattern<Int, AnyView>.Section(
                         title: "Items",
                         items: sidebarItems
                     )
@@ -257,9 +257,9 @@ final class PatternsPerformanceTests: XCTestCase {
                 selection: selectionState.projectedValue
             ) { selectedId in
                 if let selectedId {
-                    Text("Item \(selectedId)")
+                    AnyView(Text("Item \(selectedId)"))
                 } else {
-                    Text("No selection")
+                    AnyView(Text("No selection"))
                 }
             }
         }
@@ -286,14 +286,14 @@ final class PatternsPerformanceTests: XCTestCase {
 
         // When: Measure render time
         measure {
-            let _ = SidebarPattern(
+            let _ = SidebarPattern<String, AnyView>(
                 sections: sections,
                 selection: selectionState.projectedValue
             ) { selectedId in
                 if let selectedId {
-                    Text(selectedId)
+                    AnyView(Text(selectedId))
                 } else {
-                    Text("No selection")
+                    AnyView(Text("No selection"))
                 }
             }
         }
@@ -306,20 +306,22 @@ final class PatternsPerformanceTests: XCTestCase {
     /// Test ToolbarPattern render time with many items
     func testToolbarPatternManyItemsRenderTime() {
         // Given: Toolbar with 30 items
-        let items = (0..<30).map { index in
-            ToolbarItem(
+        let toolbarItems = (0..<30).map { index in
+            ToolbarPattern.Item(
                 id: "item\(index)",
                 label: "Item \(index)",
                 systemImage: "star.fill",
                 action: {}
             )
         }
-        
+
         // When: Measure render time
         measure {
-            let _ = ToolbarPattern(items: items)
+            let _ = ToolbarPattern(
+                items: ToolbarPattern.Items(primary: toolbarItems)
+            )
         }
-        
+
         // Then: Should handle many items efficiently
     }
     
@@ -329,7 +331,7 @@ final class PatternsPerformanceTests: XCTestCase {
     func testCombinedPatternsPerformance() {
         // Given: Complex layout with multiple patterns
         let sidebarItems = (0..<50).map { index in
-            SidebarPattern<Int, Text>.Item(
+            SidebarPattern<Int, AnyView>.Item(
                 id: index,
                 title: "Item \(index)"
             )
@@ -345,9 +347,9 @@ final class PatternsPerformanceTests: XCTestCase {
         measure {
             let _ = HStack(spacing: 0) {
                 // Sidebar
-                SidebarPattern(
+                SidebarPattern<Int, AnyView>(
                     sections: [
-                        SidebarPattern<Int, Text>.Section(
+                        SidebarPattern<Int, AnyView>.Section(
                             title: "Items",
                             items: sidebarItems
                         )
@@ -355,9 +357,9 @@ final class PatternsPerformanceTests: XCTestCase {
                     selection: selectionState.projectedValue
                 ) { selectedId in
                     if let selectedId {
-                        Text("Item \(selectedId)")
+                        AnyView(Text("Item \(selectedId)"))
                     } else {
-                        Text("No selection")
+                        AnyView(Text("No selection"))
                     }
                 }
                 .frame(width: 200)
