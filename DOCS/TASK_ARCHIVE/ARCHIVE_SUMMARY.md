@@ -1044,3 +1044,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/`.
 - **Highlights:** Documents the Integrity navigation filter delivery that closes roadmap item T3.7: Explorer selections now focus affected nodes, the new "Issues only" toggle prunes healthy branches while keeping ancestors expanded, keyboard shortcuts cycle through issue-bearing nodes, and outline view model tests cover the new helpers.
 - **Next steps carried forward:** No actionable `next_tasks.md` remain. Day-to-day monitoring is limited to the recoverable real-world asset licensing blocker recorded in `DOCS/INPROGRESS/blocked.md`.
+
+## 202_BUG0001_Accessibility_Contrast
+- **Archived files:** `BUG-0001-AccessibilityContrast.md`, `Summary_of_Work.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/202_BUG0001_Accessibility_Contrast/`.
+- **Highlights:** Documents the accessibility contrast flag investigation, including reproduction steps, environment scope, hypotheses, and final findings that redirect the helper toward the correct platform APIs. Summary log references the corrupt fixture corpus follow-up and links back to the detailed bug report for future audits.
+- **Next steps carried forward:** Only the licensing approvals for Dolby Vision/AV1/VP9/AC-4/MPEG-H fixtures remain active and have been re-established in `DOCS/INPROGRESS/blocked.md`; no actionable `next_tasks.md` items were retained.
