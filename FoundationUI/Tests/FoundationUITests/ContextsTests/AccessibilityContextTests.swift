@@ -142,6 +142,27 @@ final class AccessibilityContextTests: XCTestCase {
         XCTAssertEqual(context.dynamicTypeSize, .accessibility2, "Dynamic Type preference should match the environment")
     }
 
+    /// Increased accessibility contrast should be detected even when
+    /// differentiate-without-color remains disabled.
+    #if swift(>=5.9)
+    func testEnvironmentValues_RespectsAccessibilityContrast() throws {
+        guard #available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, *) else {
+            throw XCTSkip("Accessibility contrast environment not available on this platform")
+        }
+
+        var environment = EnvironmentValues()
+        environment.accessibilityContrast = .increased
+        environment.accessibilityDifferentiateWithoutColor = false
+
+        let context = environment.accessibilityContext
+
+        XCTAssertTrue(
+            context.prefersIncreasedContrast,
+            "Increase Contrast preference should map to prefersIncreasedContrast"
+        )
+    }
+    #endif
+
     /// The view modifier helper should be chainable within SwiftUI
     /// hierarchies. We validate this by creating a simple text view
     /// and verifying the modifier returns a non-nil view type.
