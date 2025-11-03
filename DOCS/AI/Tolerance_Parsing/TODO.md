@@ -106,7 +106,7 @@ Build comprehensive test coverage for tolerant parsing.
 | Task ID | Description | Priority | Effort | Dependencies | Acceptance Criteria |
 |---------|-------------|----------|--------|--------------|---------------------|
 | T5.1 | Create corrupt fixture corpus: truncated boxes, overlapping boxes, invalid sample tables, broken chunk offsets. | High | 2d | None | ✅ Complete — see `DOCS/TASK_ARCHIVE/201_T5_1_Corrupt_Fixture_Corpus/Summary_of_Work.md`. |
-| T5.2 | Add regression tests verifying continued traversal and warning generation for each corrupt pattern. | High | 2d | T5.1 | Tests assert partial tree rendered; specific issues recorded. |
+| T5.2 | Add regression tests verifying continued traversal and warning generation for each corrupt pattern. | High | 2d | T5.1 | Tests assert partial tree rendered; specific issues recorded. 🚧 In Progress — see `../INPROGRESS/203_T5_2_Regression_Tests_for_Tolerant_Traversal.md`. |
 | T5.3 | Add UI rendering smoke tests for corrupt nodes (badges, placeholders, detail sections). | Medium | 1.5d | T3.1-T3.7, T5.1 | UI tests confirm visual corruption indicators present. |
 | T5.4 | Performance benchmark: ensure lenient mode ≤ 1.2× strict mode on 1 GB reference file. | High | 1d | T5.1, existing benchmarks | Benchmark passes; results archived. |
 | T5.5 | Crash-free session test: fuzz 100 synthetic corrupt files; target 99.9% completion without crashes. | High | 1.5d | T5.1 | Fuzzing harness completes; crash rate logged. |
