@@ -674,7 +674,7 @@ enum FeatureFlags {
 ## Risk Mitigation Checklist
 
 - [ ] Regression test suite covers strict mode on all existing fixtures (no failures).
-- [ ] Lenient mode completes ≥95% of corrupt fixtures (T5.2).
+- [x] Lenient mode completes ≥95% of corrupt fixtures (T5.2). _(Verified by `TolerantTraversalRegressionTests` — see `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/Summary_of_Work.md`.)_
 - [ ] Performance benchmark gate enforced in CI (T5.4).
 - [ ] Fuzzing harness achieves 99.9% crash-free rate (T5.5).
 - [ ] UI affordances reviewed by accessibility team (color contrast, VoiceOver labels).

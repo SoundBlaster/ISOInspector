@@ -33,6 +33,10 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > - ✅ Shared metrics now publish `countsBySeverity`, `totalCount`, and `deepestAffectedDepth` snapshots via `ParseIssueStore.metricsSnapshot()` and the CLI-ready `makeIssueSummary()` helper. See `Sources/ISOInspectorKit/Stores/ParseIssueStore.swift`.
 > - 📝 Summary of verification runs and follow-up notes captured in `DOCS/TASK_ARCHIVE/184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons/Summary_of_Work.md`.
 >
+> **Completed (2025-11-03):** Task **T5.2 — Regression Tests for Tolerant Traversal** is archived in `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/`, capturing the manifest-driven XCTest suite, strict/tolerant guard assertions, and Swift 6.0.3 execution log.
+> - ✅ `TolerantTraversalRegressionTests` covers eleven corrupt fixture scenarios plus strict-mode fail-fast expectations using the `Fixtures/Corrupt/` corpus and manifest metadata.
+> - 📈 Summary log documents zero failures in 0.397 seconds with metrics aggregation checks wired through `ParseIssueStore.makeIssueSummary()` and `metricsSnapshot()`.
+>
 > **Completed (2025-10-27):** Task **T4.1 — Extend JSON Export Schema for Issues** is archived in `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/`, capturing the schema version bump, tolerant issue payload, and refreshed documentation notes.
 >
 > **Completed (2025-10-27):** Task **T4.4 — Ensure Exports Omit Raw Binary Snippets** hardened tolerant parsing exports so JSON and plaintext reports only publish metadata (severity, codes, byte ranges) while omitting binary payloads. Verification recorded in `DOCS/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/195_T4_4_Sanitize_Issue_Exports.md` and enforced by new redaction tests in `Tests/ISOInspectorKitTests/ParseExportTests.swift`.
