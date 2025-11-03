@@ -123,6 +123,23 @@ final class AccessibilityContextTests: XCTestCase {
         XCTAssertEqual(environment.accessibilityContext, context, "Environment should round-trip the accessibility context")
     }
 
+    /// When no explicit context is provided the environment should
+    /// derive preferences from the existing accessibility values.
+    func testEnvironmentValues_DerivesDefaultsFromEnvironment() {
+        var environment = EnvironmentValues()
+        environment.accessibilityReduceMotion = true
+        environment.accessibilityDifferentiateWithoutColor = true
+        environment.legibilityWeight = .bold
+        environment.dynamicTypeSize = .accessibility2
+
+        let context = environment.accessibilityContext
+
+        XCTAssertTrue(context.prefersReducedMotion, "Reduce Motion preference should be respected")
+        XCTAssertTrue(context.prefersIncreasedContrast, "High Contrast preference should be respected")
+        XCTAssertTrue(context.prefersBoldText, "Bold text preference should be respected")
+        XCTAssertEqual(context.dynamicTypeSize, .accessibility2, "Dynamic Type preference should match the environment")
+    }
+
     /// The view modifier helper should be chainable within SwiftUI
     /// hierarchies. We validate this by creating a simple text view
     /// and verifying the modifier returns a non-nil view type.

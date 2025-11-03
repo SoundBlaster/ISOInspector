@@ -130,14 +130,38 @@ private extension DynamicTypeSize {
 // MARK: - Environment Support
 
 private struct AccessibilityContextKey: EnvironmentKey {
-    static let defaultValue = AccessibilityContext()
+    static let defaultValue: AccessibilityContext? = nil
 }
 
 public extension EnvironmentValues {
     /// Accessibility preferences used by FoundationUI components.
     var accessibilityContext: AccessibilityContext {
-        get { self[AccessibilityContextKey.self] }
-        set { self[AccessibilityContextKey.self] = newValue }
+        get {
+            if let storedContext = self[AccessibilityContextKey.self] {
+                return storedContext
+            }
+
+            let prefersBoldText = legibilityWeight == .bold
+
+            let prefersIncreasedContrast = self.prefersIncreasedContrast
+
+            return AccessibilityContext(
+                prefersReducedMotion: accessibilityReduceMotion,
+                prefersIncreasedContrast: prefersIncreasedContrast,
+                prefersBoldText: prefersBoldText,
+                dynamicTypeSize: dynamicTypeSize
+            )
+        }
+        set {
+            self[AccessibilityContextKey.self] = newValue
+        }
+    }
+}
+
+private extension EnvironmentValues {
+    /// Determines whether the environment requests increased contrast.
+    var prefersIncreasedContrast: Bool {
+        accessibilityDifferentiateWithoutColor
     }
 }
 
