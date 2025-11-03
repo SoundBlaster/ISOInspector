@@ -361,11 +361,9 @@ struct ParseTreeOutlineView: View {
                                 annotationSession.setSelectedNode(row.id)
                                 annotationSession.toggleBookmark()
                             },
-                            onExportJSON: exportSelectionJSONAction.map { action in
-                                { @MainActor in action(row.id) }
+                            onExportJSON: exportSelectionJSONAction.map { action in { @MainActor in action(row.id) }
                             },
-                            onExportIssueSummary: exportSelectionIssueSummaryAction.map { action in
-                                { @MainActor in action(row.id) }
+                            onExportIssueSummary: exportSelectionIssueSummaryAction.map { action in { @MainActor in action(row.id) }
                             }
                         )
                         .id(row.id)
