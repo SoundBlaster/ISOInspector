@@ -1949,3 +1949,37 @@ All spacing, colors, radii, and animations use DS tokens:
 - Validates platform adaptation implementation
 
 ---
+
+### 32_Phase4.2_KeyboardShortcuts
+**Completed**: 2025-11-03
+**Phase**: 4.2 Utilities & Helpers
+**Components**: Keyboard shortcut infrastructure, context test coverage, CI remediation
+
+**Documentation Archived**:
+- `Phase4.2_KeyboardShortcuts.md` — implementation objectives, success criteria, and testing checklist for the cross-platform shortcut utility.【F:FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/Phase4.2_KeyboardShortcuts.md†L1-L63】
+- `Phase3.2_ContextUnitTests.md` — detailed coverage goals for SurfaceStyleKey and ColorSchemeAdapter unit suites, including environment propagation, edge cases, and documentation requirements.【F:FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/Phase3.2_ContextUnitTests.md†L1-L124】
+- `CI_fixes_summary.md` — summary of PatternsPerformanceTests compilation fixes, generic adjustments, and CI validation steps.【F:FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/CI_fixes_summary.md†L1-L81】
+- `Summary_of_Work.md` — session report highlighting Phase 3 completion metrics and performance testing achievements.【F:FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/Summary_of_Work.md†L1-L140】
+- `next_tasks.md` — snapshot of pending work prior to archival, preserving the Phase 3.2 follow-up queue.【F:FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/next_tasks.md†L1-L60】
+
+**Highlights**:
+- KeyboardShortcuts utility delivers platform-specific Command/Control abstractions, standard shortcut catalog, SwiftUI `.shortcut()` integration, DocC coverage, and preview demonstrations as captured in the task plan.【F:DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md†L624-L643】
+- Context unit tests cover SurfaceStyleKey materials, environment propagation, ColorSchemeAdapter detection, edge cases, and integration points to guarantee ≥80% coverage for the Contexts layer.【F:FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/Phase3.2_ContextUnitTests.md†L15-L124】
+- PatternsPerformanceTests CI fixes resolved state warnings, corrected generic mismatches, and confirmed clean CI execution with xcodebuild validation.【F:FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/CI_fixes_summary.md†L9-L74】
+
+**Quality Metrics & Validation**:
+- Task plan tracks 15 unit tests, 3 SwiftUI previews, and 100% DocC coverage for the KeyboardShortcuts utility with zero magic numbers.【F:DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md†L632-L643】
+- Full repository verification executed: `swift test`, `swift test --enable-code-coverage`, and `swift build` completed successfully; SwiftLint unavailable in container environment.【4b4f3f†L1-L137】【c71249†L1-L36】【86a9a8†L1-L76】【682d55†L1-L3】【0be1ad†L1-L2】
+
+**Next Steps**:
+- Implement AccessibilityHelpers and follow-on utility test suites before expanding into integration and performance optimizations.【F:FoundationUI/DOCS/INPROGRESS/next_tasks.md†L7-L44】
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/`
+
+**Task Plan Updated**: KeyboardShortcuts utility recorded as complete with archive reference `32_Phase4.2_KeyboardShortcuts`.【F:DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md†L624-L643】
+
+**Impact**:
+- Establishes consistent keyboard shortcut APIs across macOS, iOS, and iPadOS, enabling reusable accessibility-friendly shortcuts and documentation-first previews.【F:DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md†L624-L643】
+- Preserves comprehensive context testing strategy and CI remediation knowledge for future maintainers.【F:FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/Phase3.2_ContextUnitTests.md†L15-L124】【F:FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/CI_fixes_summary.md†L9-L74】
+
+---
