@@ -21,11 +21,13 @@ Execute one or more tasks from the [FoundationUI Task Plan](../../../DOCS/AI/ISO
 ## 📚 REFERENCE MATERIALS
 
 ### Primary Documents
+
 - [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md) — Authoritative task list with phases
 - [FoundationUI PRD](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md) — Product requirements and success criteria
 - [FoundationUI Test Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TestPlan.md) — Testing strategy and requirements
 
 ### Development Rules (from main ISOInspector)
+
 - [DOCS/RULES/](../../../DOCS/RULES/) — **Complete rules directory** (TDD, PDD, SwiftUI Testing, etc.)
 - [02_TDD_XP_Workflow.md](../../../DOCS/RULES/02_TDD_XP_Workflow.md) — Outside-in TDD flow
 - [04_PDD.md](../../../DOCS/RULES/04_PDD.md) — Puzzle-driven development workflow
@@ -33,6 +35,7 @@ Execute one or more tasks from the [FoundationUI Task Plan](../../../DOCS/AI/ISO
 - [11_SwiftUI_Testing.md](../../../DOCS/RULES/11_SwiftUI_Testing.md) — **SwiftUI testing guidelines & @MainActor requirements**
 
 ### FoundationUI-Specific Rules
+
 - **Design System First**: All spacing, colors, typography, radius, animation must come from `DS` namespace
 - **SwiftUI Best Practices**: Use `@ViewBuilder`, environment values, and platform conditionals
 - **Accessibility**: VoiceOver labels, contrast ratios ≥4.5:1, keyboard navigation
@@ -54,6 +57,7 @@ swift --version
 ```
 
 If Swift is installed, you should see output like:
+
 ```
 Swift version 6.0.x (swift-6.0-RELEASE)
 Target: x86_64-unknown-linux-gnu
@@ -64,6 +68,7 @@ Target: x86_64-unknown-linux-gnu
 If Swift is not installed, follow these steps:
 
 1. **Install Swift dependencies**:
+
    ```bash
    apt-get update
    apt-get install -y \
@@ -74,6 +79,7 @@ If Swift is not installed, follow these steps:
    ```
 
 2. **Download Swift 6.0 (or latest stable) for Ubuntu**:
+
    ```bash
    # For Ubuntu 22.04 / 24.04 x86_64
    cd /tmp
@@ -83,18 +89,21 @@ If Swift is not installed, follow these steps:
    Alternative: Check [swift.org/download](https://swift.org/download/) for the latest release.
 
 3. **Extract and install Swift**:
+
    ```bash
    tar xzf swift-6.0.3-RELEASE-ubuntu22.04.tar.gz
    mv swift-6.0.3-RELEASE-ubuntu22.04 /usr/share/swift
    ```
 
 4. **Add Swift to PATH**:
+
    ```bash
    export PATH=/usr/share/swift/usr/bin:$PATH
    echo 'export PATH=/usr/share/swift/usr/bin:$PATH' >> ~/.bashrc
    ```
 
 5. **Verify installation**:
+
    ```bash
    swift --version
    swift test --help
@@ -118,6 +127,7 @@ If Swift is not installed, follow these steps:
 #### Troubleshooting
 
 If `swift test` fails with import errors:
+
 1. Verify Package.swift platforms match your Swift version
 2. Check that all dependencies are resolved: `swift package resolve`
 3. Clean build artifacts: `swift package clean`
@@ -204,9 +214,11 @@ Before marking a task complete, verify:
    - Change `[ ]` to `[x]` for completed tasks
    - Update phase progress percentages
 2. If work is incomplete, leave `@todo` puzzles in code:
+
    ```swift
    // @todo #42 Add Dark Mode color variants for warning badge
    ```
+
 3. Create summary in `DOCS/INPROGRESS/Summary_of_Work.md` when session ends
 
 ### Step 7. Commit and Document
@@ -215,6 +227,7 @@ Follow git best practices:
 
 - **Atomic commits**: One task = one commit
 - **Descriptive messages**: Reference task number and what was achieved
+
   ```
   Add BadgeChipStyle modifier with all variants (#2.1)
 
@@ -223,6 +236,7 @@ Follow git best practices:
   - Includes unit tests and SwiftUI previews
   - VoiceOver labels for all badge types
   ```
+
 - **Run tests in CI**: Ensure pipeline passes before merging
 
 ---
@@ -295,6 +309,7 @@ At the end of a work session:
 
 1. Read task from [Task Plan Phase 2.1](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md#21-layer-1-view-modifiers-atoms)
 2. Create `Tests/FoundationUITests/ModifiersTests/BadgeChipStyleTests.swift`:
+
    ```swift
    func testBadgeChipStyleAppliesCorrectBackgroundColor() {
        let view = Text("Test")
@@ -302,8 +317,10 @@ At the end of a work session:
        // Assert background color matches DS.Colors.infoBG
    }
    ```
+
 3. Run `swift test` → fails (modifier doesn't exist yet)
 4. Create `Sources/FoundationUI/Modifiers/BadgeChipStyle.swift`:
+
    ```swift
    import SwiftUI
 
@@ -336,6 +353,7 @@ At the end of a work session:
        }
    }
    ```
+
 5. Run `swift test` → passes ✅
 6. Add DocC comments, accessibility labels
 7. Update Task Plan: `[x] Implement BadgeChipStyle modifier`

@@ -20,15 +20,18 @@ Apply intelligent task selection rules to choose the next FoundationUI component
 ## 🔗 REFERENCE MATERIALS
 
 ### FoundationUI Documents
+
 - [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md) — Master task list with phases and priorities
 - [FoundationUI PRD](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md) — Product requirements and scope
 - [FoundationUI Test Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TestPlan.md) — Testing strategy
 
 ### Project Rules
+
 - [03_Next_Task_Selection.md](../../../DOCS/RULES/03_Next_Task_Selection.md) — General task selection criteria
 - [02_TDD_XP_Workflow.md](../../../DOCS/RULES/02_TDD_XP_Workflow.md) — TDD workflow requirements
 
 ### Task Tracking
+
 - [`FoundationUI/DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md) — Manually noted upcoming tasks
 - [`FoundationUI/DOCS/INPROGRESS/`](../INPROGRESS) — Currently active tasks
 
@@ -55,6 +58,7 @@ Layer 4: Contexts
 **Never select a task from a higher layer if lower layer dependencies are incomplete.**
 
 Example:
+
 - ❌ Cannot implement `Badge` component (Layer 2) without `BadgeChipStyle` modifier (Layer 1)
 - ❌ Cannot implement `InspectorPattern` (Layer 3) without `Card` component (Layer 2)
 - ✅ Can implement `CardStyle` modifier (Layer 1) if `DS.Radius` and `DS.Spacing` exist (Layer 0)
@@ -62,6 +66,7 @@ Example:
 ### Rule 2: Priority Levels (P0 > P1 > P2)
 
 Tasks are marked with priority:
+
 - **P0** = Critical for MVP, must be completed
 - **P1** = Important for quality, should be completed
 - **P2** = Nice to have, can be deferred
@@ -86,6 +91,7 @@ Phases must be completed in order:
 For every implementation task, a corresponding test task must be selected or created first.
 
 Example sequence:
+
 1. Select "Write BadgeChipStyle unit tests"
 2. Write failing tests
 3. Select "Implement BadgeChipStyle modifier"
@@ -259,6 +265,7 @@ Next steps:
    - Dependencies: Requires `DS.Colors`, `DS.Spacing`, `DS.Radius` (all exist in Phase 1)
 3. Create `FoundationUI/DOCS/INPROGRESS/Phase2_BadgeChipStyle.md`
 4. Update Task Plan:
+
    ```markdown
    ### 2.1 Layer 1: View Modifiers (Atoms)
    **Progress: 0/6 tasks → IN PROGRESS**

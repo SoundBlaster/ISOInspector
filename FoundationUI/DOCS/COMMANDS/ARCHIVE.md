@@ -20,15 +20,18 @@ Safely move completed task files from active development to permanent archive, e
 ## 🔗 REFERENCE MATERIALS
 
 ### FoundationUI Documents
+
 - [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md) — Master task list to update
 - [FoundationUI Test Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TestPlan.md) — Test coverage metrics
 
 ### Task Tracking
+
 - [`FoundationUI/DOCS/INPROGRESS/`](../INPROGRESS) — Active work directory
 - [`FoundationUI/DOCS/TASK_ARCHIVE/`](../TASK_ARCHIVE) — Completed work archive
 - [`FoundationUI/DOCS/TASK_ARCHIVE/ARCHIVE_SUMMARY.md`](../TASK_ARCHIVE/ARCHIVE_SUMMARY.md) — Archive index
 
 ### Project Rules
+
 - [04_PDD.md](../../../DOCS/RULES/04_PDD.md) — Puzzle-driven development (mark @todo complete)
 - [02_TDD_XP_Workflow.md](../../../DOCS/RULES/02_TDD_XP_Workflow.md) — Definition of Done checklist
 
@@ -59,6 +62,7 @@ FoundationUI/
 Before archiving, ensure **Definition of Done** is met:
 
 #### Code Quality
+
 - ✅ All unit tests pass (`swift test`)
 - ✅ Test coverage ≥80% for new code
 - ✅ SwiftLint reports 0 violations (`swiftlint`)
@@ -66,22 +70,26 @@ Before archiving, ensure **Definition of Done** is met:
 - ✅ SwiftUI Previews work correctly
 
 #### Documentation
+
 - ✅ DocC comments on all public API
 - ✅ Code examples in documentation
 - ✅ Implementation notes captured
 
 #### Accessibility
+
 - ✅ VoiceOver labels added
 - ✅ Contrast ratios validated (≥4.5:1)
 - ✅ Keyboard navigation tested
 - ✅ Dynamic Type support verified
 
 #### Platform Support
+
 - ✅ Tested on iOS simulator
 - ✅ Tested on macOS
 - ✅ iPadOS variations tested (if applicable)
 
 #### Version Control
+
 - ✅ Code committed to branch
 - ✅ Commit message follows conventions
 - ✅ No uncommitted changes remain
@@ -105,6 +113,7 @@ If `next_tasks.md` exists:
 4. Store this information to recreate after archiving
 
 **Example `next_tasks.md` content**:
+
 ```markdown
 # Next Tasks
 
@@ -126,6 +135,7 @@ If `next_tasks.md` exists:
 **Naming pattern**: `{NN}_{Phase}{Section}_{ComponentName}`
 
 **Examples**:
+
 - `01_Phase1_DesignTokens`
 - `02_Phase2_BadgeChipStyle`
 - `03_Phase2_CardComponent`
@@ -146,6 +156,7 @@ mv FoundationUI/DOCS/INPROGRESS/* FoundationUI/DOCS/TASK_ARCHIVE/{NN}_{ArchiveNa
 ```
 
 **Preserve**:
+
 - All task documents
 - Summary of work
 - Implementation notes
@@ -156,6 +167,7 @@ mv FoundationUI/DOCS/INPROGRESS/* FoundationUI/DOCS/TASK_ARCHIVE/{NN}_{ArchiveNa
 Mark completed tasks in [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md):
 
 **Before**:
+
 ```markdown
 ### 2.1 Layer 1: View Modifiers (Atoms)
 **Progress: 0/6 tasks**
@@ -167,6 +179,7 @@ Mark completed tasks in [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/Foun
 ```
 
 **After**:
+
 ```markdown
 ### 2.1 Layer 1: View Modifiers (Atoms)
 **Progress: 1/6 tasks (17%)**
@@ -179,6 +192,7 @@ Mark completed tasks in [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/Foun
 ```
 
 **Also update**:
+
 - Phase progress counters
 - Overall progress tracker percentage
 - Phase status (if all tasks in phase are complete)
@@ -229,11 +243,13 @@ Add entry to [`FoundationUI/DOCS/TASK_ARCHIVE/ARCHIVE_SUMMARY.md`](../TASK_ARCHI
 If PDD @todo markers were used during implementation:
 
 1. Search codebase for resolved puzzles:
+
    ```bash
    grep -r "@todo" FoundationUI/Sources/
    ```
 
 2. For completed puzzles, remove the comment or mark resolved:
+
    ```swift
    // Before:
    // @todo #42 Add Dark Mode color variants
@@ -251,6 +267,7 @@ If Step 3 extracted pending tasks:
 3. Optionally add new tasks discovered during implementation
 
 **Example recreated file**:
+
 ```markdown
 # Next Tasks for FoundationUI
 
@@ -356,42 +373,52 @@ FoundationUI/DOCS/INPROGRESS/
 ```
 
 ### Step 1: Verify Completion
+
 - ✅ Tests pass: `swift test` → 4 tests, 100% coverage
 - ✅ SwiftLint: 0 violations
 - ✅ Preview works in Xcode
 - ✅ Committed: `git log` shows commit "Add BadgeChipStyle modifier (#2.1)"
 
 ### Step 2-3: Inspect and Extract
+
 - Found `next_tasks.md` with "CardStyle modifier" and "Badge component"
 - Extracted for recreation after archiving
 
 ### Step 4-5: Create Archive
+
 - Existing archives: `01_Phase1_DesignTokens`
 - New archive: `02_Phase2_BadgeChipStyle`
 - Created folder
 
 ### Step 6: Move Files
+
 ```bash
 mv FoundationUI/DOCS/INPROGRESS/* \
    FoundationUI/DOCS/TASK_ARCHIVE/02_Phase2_BadgeChipStyle/
 ```
 
 ### Step 7: Update Task Plan
+
 ```markdown
 - [x] **P0** Implement BadgeChipStyle modifier ✅ Completed 2025-10-21
 ```
+
 Progress: 0/6 → 1/6 (17%)
 
 ### Step 8: Update Archive Summary
+
 Added entry to `ARCHIVE_SUMMARY.md`
 
 ### Step 9: Check @todo
+
 No unresolved @todo markers found
 
 ### Step 10: Recreate next_tasks.md
+
 Created new file with CardStyle and Badge tasks
 
 ### Step 11: Generate Report
+
 Created archive report with metrics
 
 ### After Archival
@@ -425,6 +452,7 @@ FoundationUI/DOCS/
 ## 🔄 INTEGRATION WITH WORKFLOW
 
 After archiving:
+
 - Use [SELECT_NEXT command](./SELECT_NEXT.md) to choose the next task from `next_tasks.md`
 - Use [START command](./START.md) to begin implementation of the selected task
 - Repeat the development cycle

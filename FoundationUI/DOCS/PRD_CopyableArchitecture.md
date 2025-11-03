@@ -11,6 +11,7 @@
 ## 📋 Executive Summary
 
 Refactor the current `CopyableText` component into a more composable, flexible architecture following SwiftUI best practices and FoundationUI's Composable Clarity Design System principles. This will provide three complementary APIs:
+
 1. **`.copyable()` modifier** (Layer 1) - Universal, composable base functionality
 2. **`CopyableText` component** (Layer 2) - Convenience wrapper for common use case
 3. **`Copyable<Content>` wrapper** (Layer 2) - Generic wrapper for complex views
@@ -20,12 +21,14 @@ Refactor the current `CopyableText` component into a more composable, flexible a
 ## 🎯 Goals & Objectives
 
 ### Primary Goals
+
 1. **Improve Composability**: Make copy functionality work with any View, not just text
 2. **Follow SwiftUI Patterns**: Use modifier-based architecture like `.padding()`, `.background()`
 3. **Maintain Backward Compatibility**: Keep existing `CopyableText` API working
 4. **Enhance Flexibility**: Support complex content, custom styling, and various use cases
 
 ### Success Criteria
+
 - ✅ `.copyable()` modifier works with any View
 - ✅ Existing `CopyableText(text:)` API remains functional
 - ✅ New `Copyable<Content>` wrapper supports complex views
@@ -58,6 +61,7 @@ public struct CopyableText: View {
 ```
 
 ### Limitations
+
 - ❌ Only works with plain text strings
 - ❌ Cannot wrap other Views or styled content
 - ❌ Not composable - can't apply to existing components
@@ -71,6 +75,7 @@ public struct CopyableText: View {
 ### Three-Layer Approach
 
 #### Layer 1: Copyable Modifier (Base Functionality)
+
 ```swift
 // Sources/FoundationUI/Modifiers/CopyableModifier.swift
 
@@ -101,6 +106,7 @@ public extension View {
 ```
 
 #### Layer 2: CopyableText Component (Convenience)
+
 ```swift
 // Sources/FoundationUI/Components/CopyableText.swift
 
@@ -121,6 +127,7 @@ public struct CopyableText: View {
 ```
 
 #### Layer 2: Copyable Wrapper (Generic)
+
 ```swift
 // Sources/FoundationUI/Components/Copyable.swift
 
@@ -174,12 +181,14 @@ public struct Copyable<Content: View>: View {
 ## 🔧 Use Cases
 
 ### Use Case 1: Simple Text (Backward Compatible)
+
 ```swift
 // Existing API - no changes needed
 CopyableText(text: "Simple value")
 ```
 
 ### Use Case 2: Styled Text with Modifier
+
 ```swift
 Text("Formatted Value")
     .font(DS.Typography.code)
@@ -189,6 +198,7 @@ Text("Formatted Value")
 ```
 
 ### Use Case 3: Complex View with Wrapper
+
 ```swift
 Copyable(text: "0x1A2B3C") {
     HStack(spacing: DS.Spacing.s) {
@@ -202,12 +212,14 @@ Copyable(text: "0x1A2B3C") {
 ```
 
 ### Use Case 4: KeyValueRow Integration
+
 ```swift
 KeyValueRow(key: "File ID", value: "ABC123")
     .copyable(text: "ABC123") // Makes entire row copyable
 ```
 
 ### Use Case 5: Custom Feedback
+
 ```swift
 Text("Value")
     .copyable(text: "Value", showFeedback: false) // No visual feedback
@@ -220,6 +232,7 @@ Text("Value")
 ### Test Coverage Requirements
 
 #### Layer 1: CopyableModifier Tests
+
 - ✅ Modifier applies correctly to Text views
 - ✅ Modifier applies correctly to complex views
 - ✅ Platform-specific clipboard integration (macOS/iOS)
@@ -229,12 +242,14 @@ Text("Value")
 - ✅ Feedback can be disabled
 
 #### Layer 2: CopyableText Tests
+
 - ✅ Backward compatibility with existing API
 - ✅ Uses CopyableModifier internally
 - ✅ Maintains DS.Typography.code styling
 - ✅ All existing tests continue to pass
 
 #### Layer 2: Copyable Wrapper Tests
+
 - ✅ Wraps complex views correctly
 - ✅ Generic Content type works
 - ✅ ViewBuilder closure works
@@ -242,6 +257,7 @@ Text("Value")
 - ✅ Feedback configuration works
 
 #### Integration Tests
+
 - ✅ Works with Badge component
 - ✅ Works with Card component
 - ✅ Works with KeyValueRow component
@@ -249,6 +265,7 @@ Text("Value")
 - ✅ Nested copyable elements
 
 ### Minimum Test Coverage
+
 - **Target**: ≥85% (higher than standard 80% due to utility nature)
 - **Unit Tests**: 40+ test cases
 - **Snapshot Tests**: 15+ visual tests (Light/Dark mode)
@@ -260,6 +277,7 @@ Text("Value")
 ## 📚 Documentation Requirements
 
 ### DocC Documentation
+
 - ✅ Complete API reference for all three components
 - ✅ Usage examples for each use case
 - ✅ Platform-specific notes (macOS/iOS differences)
@@ -268,12 +286,14 @@ Text("Value")
 - ✅ Accessibility guidelines
 
 ### Code Documentation
+
 - ✅ Triple-slash comments (`///`) on all public APIs
 - ✅ Parameter documentation with examples
 - ✅ Code examples in documentation
 - ✅ See Also references between related components
 
 ### User Documentation
+
 - ✅ Tutorial: "Making Content Copyable"
 - ✅ Guide: "Copyable Architecture Patterns"
 - ✅ Migration guide for existing CopyableText users
@@ -283,6 +303,7 @@ Text("Value")
 ## 🎯 Implementation Phases
 
 ### Phase 1: Core Modifier (P2)
+
 **Estimated Effort**: 4-6 hours
 
 - [ ] Create `CopyableModifier` struct
@@ -293,6 +314,7 @@ Text("Value")
 - [ ] Write DocC documentation
 
 ### Phase 2: Refactor CopyableText (P2)
+
 **Estimated Effort**: 2-3 hours
 
 - [ ] Refactor `CopyableText` to use `CopyableModifier`
@@ -301,6 +323,7 @@ Text("Value")
 - [ ] Verify all existing usage continues to work
 
 ### Phase 3: Generic Wrapper (P2)
+
 **Estimated Effort**: 3-4 hours
 
 - [ ] Create `Copyable<Content>` generic wrapper
@@ -310,6 +333,7 @@ Text("Value")
 - [ ] Write DocC documentation
 
 ### Phase 4: Integration & Testing (P2)
+
 **Estimated Effort**: 4-5 hours
 
 - [ ] Integration tests with existing components
@@ -319,6 +343,7 @@ Text("Value")
 - [ ] Performance tests
 
 ### Phase 5: Documentation & Examples (P2)
+
 **Estimated Effort**: 3-4 hours
 
 - [ ] Complete DocC documentation
@@ -336,6 +361,7 @@ Text("Value")
 ### Backward Compatibility
 
 ✅ **Existing code continues to work without changes**:
+
 ```swift
 // No changes needed - works as before
 CopyableText(text: "Value")
@@ -344,6 +370,7 @@ CopyableText(text: "Value")
 ### Gradual Migration Path
 
 **Step 1**: Update to modifier where beneficial
+
 ```swift
 // Before
 CopyableText(text: "Value")
@@ -355,6 +382,7 @@ Text("Value")
 ```
 
 **Step 2**: Use wrapper for complex content
+
 ```swift
 // New capability
 Copyable(text: "Value") {
@@ -368,6 +396,7 @@ Copyable(text: "Value") {
 ### Deprecation Strategy (Optional Future)
 
 Not recommended, but if needed:
+
 1. Keep `CopyableText` for 2-3 major versions
 2. Add deprecation warning: `@available(*, deprecated, message: "Use .copyable() modifier instead")`
 3. Provide automated migration guide
@@ -377,11 +406,13 @@ Not recommended, but if needed:
 ## 🔍 Design System Compliance
 
 ### Layer Hierarchy (Composable Clarity)
+
 ✅ **Layer 1**: `CopyableModifier` - Base functionality, composable
 ✅ **Layer 2**: `CopyableText` - Convenience component, uses Layer 1
 ✅ **Layer 2**: `Copyable<Content>` - Generic wrapper, uses Layer 1
 
 ### Design Token Usage
+
 ✅ All spacing uses `DS.Spacing.*`
 ✅ All colors use `DS.Colors.*`
 ✅ All typography uses `DS.Typography.*`
@@ -389,6 +420,7 @@ Not recommended, but if needed:
 ✅ Zero magic numbers
 
 ### SwiftUI Best Practices
+
 ✅ Modifier-based architecture
 ✅ ViewBuilder support
 ✅ Environment value propagation
@@ -400,33 +432,41 @@ Not recommended, but if needed:
 ## ⚠️ Risks & Mitigation
 
 ### Risk 1: Breaking Changes
+
 **Likelihood**: Low
 **Impact**: High
 **Mitigation**:
+
 - Maintain 100% backward compatibility
 - Extensive regression testing
 - Comprehensive migration documentation
 
 ### Risk 2: Performance Impact
+
 **Likelihood**: Low
 **Impact**: Medium
 **Mitigation**:
+
 - Profile with Instruments
 - Optimize view hierarchy
 - Lazy evaluation where possible
 
 ### Risk 3: Platform-Specific Issues
+
 **Likelihood**: Medium
 **Impact**: Medium
 **Mitigation**:
+
 - Comprehensive platform-specific tests
 - Conditional compilation
 - Test on all platforms (macOS, iOS, iPadOS)
 
 ### Risk 4: Increased Complexity
+
 **Likelihood**: Medium
 **Impact**: Low
 **Mitigation**:
+
 - Clear documentation
 - Usage examples for all cases
 - Migration guide
@@ -436,6 +476,7 @@ Not recommended, but if needed:
 ## 📈 Success Metrics
 
 ### Code Quality Metrics
+
 - ✅ Test coverage ≥85%
 - ✅ SwiftLint violations = 0
 - ✅ Magic numbers = 0
@@ -443,12 +484,14 @@ Not recommended, but if needed:
 - ✅ API naming consistency = 100%
 
 ### Adoption Metrics
+
 - ✅ Backward compatibility = 100% (no breaking changes)
 - ✅ New use cases enabled ≥5
 - ✅ Code reusability +200% (from 1 to 3 APIs)
 - ✅ Flexibility score +300% (qualitative assessment)
 
 ### Performance Metrics
+
 - ✅ No measurable performance degradation
 - ✅ Memory footprint unchanged
 - ✅ Render time ≤ existing implementation
@@ -480,11 +523,13 @@ Not recommended, but if needed:
 ## 🎓 References
 
 ### SwiftUI Patterns
+
 - [ViewModifier Documentation](https://developer.apple.com/documentation/swiftui/viewmodifier)
 - [ViewBuilder Documentation](https://developer.apple.com/documentation/swiftui/viewbuilder)
 - [Environment Values](https://developer.apple.com/documentation/swiftui/environment)
 
 ### Platform Guidelines
+
 - [Apple Human Interface Guidelines - Clipboard](https://developer.apple.com/design/human-interface-guidelines/patterns/managing-data/)
 - [macOS Keyboard Shortcuts](https://developer.apple.com/design/human-interface-guidelines/inputs/keyboards/)
 
