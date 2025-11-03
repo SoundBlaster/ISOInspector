@@ -19,11 +19,11 @@
 - Ensure documentation with DocC examples
 - Maintain zero magic numbers (use DS tokens)
 
-### Phase 4.2: Utility Unit Tests → ⏳ READY TO START
+### Phase 4.2: Utility Unit Tests → 🚧 IN PROGRESS
 
 **Priority**: P1 (Quality gate)
 **Estimated Effort**: M (4-6 hours)
-**Dependencies**: AccessibilityHelpers implementation (above)
+**Dependencies**: AccessibilityHelpers implementation (planned via forthcoming task)
 **Task Plan Reference**: `FoundationUI_TaskPlan.md` → Phase 4.2 Utilities & Helpers
 
 **Requirements**:
