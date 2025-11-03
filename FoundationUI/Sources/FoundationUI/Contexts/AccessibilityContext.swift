@@ -204,7 +204,14 @@ public extension EnvironmentValues {
 
 private extension EnvironmentValues {
     /// Determines whether the environment requests increased contrast.
-    fileprivate var baselinePrefersIncreasedContrast: Bool {
+    var baselinePrefersIncreasedContrast: Bool {
+        #if compiler(>=5.9)
+        if #available(iOS 17.0, tvOS 17.0, watchOS 10.0, macOS 14.0, *),
+           self.accessibilityContrast == .increased {
+            return true
+        }
+        #endif
+
         #if canImport(UIKit)
         if #available(iOS 13.0, tvOS 13.0, watchOS 6.0, *) {
             return UIAccessibility.isDarkerSystemColorsEnabled
