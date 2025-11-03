@@ -633,11 +633,12 @@
   - VoiceOver announcements
   - Archive: `TASK_ARCHIVE/20_Phase2.2_CopyableText/`
 
-- [ ] **P1** Implement KeyboardShortcuts utility
+- [ ] **P1** Implement KeyboardShortcuts utility → **IN PROGRESS** (Started 2025-11-03)
   - File: `Sources/Utilities/KeyboardShortcuts.swift`
   - Platform-specific shortcut definitions
   - Command/Control key abstraction
   - Documentation for standard shortcuts
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase4.2_KeyboardShortcuts.md`
 
 - [ ] **P1** Implement AccessibilityHelpers
   - File: `Sources/Utilities/AccessibilityHelpers.swift`
