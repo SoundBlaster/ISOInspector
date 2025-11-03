@@ -156,7 +156,7 @@ Some tests were adjusted to match real parser behavior:
 
 ## References
 
-- **Task Definition:** `DOCS/INPROGRESS/203_T5_2_Regression_Tests_for_Tolerant_Traversal.md`
+- **Task Definition:** `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/203_T5_2_Regression_Tests_for_Tolerant_Traversal.md`
 - **Previous Work:** `DOCS/TASK_ARCHIVE/201_T5_1_Corrupt_Fixture_Corpus/Summary_of_Work.md`
 - **Methodology:** `DOCS/RULES/02_TDD_XP_Workflow.md`
 - **PDD Process:** `DOCS/RULES/04_PDD.md`

@@ -1050,3 +1050,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/202_BUG0001_Accessibility_Contrast/`.
 - **Highlights:** Documents the accessibility contrast flag investigation, including reproduction steps, environment scope, hypotheses, and final findings that redirect the helper toward the correct platform APIs. Summary log references the corrupt fixture corpus follow-up and links back to the detailed bug report for future audits.
 - **Next steps carried forward:** Only the licensing approvals for Dolby Vision/AV1/VP9/AC-4/MPEG-H fixtures remain active and have been re-established in `DOCS/INPROGRESS/blocked.md`; no actionable `next_tasks.md` items were retained.
+
+## 203_T5_2_Regression_Tests_for_Tolerant_Traversal
+- **Archived files:** `203_T5_2_Regression_Tests_for_Tolerant_Traversal.md`, `Summary_of_Work.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/`.
+- **Highlights:** Captures the tolerant traversal regression plan and completion summary that landed the new `TolerantTraversalRegressionTests` XCTest suite. Notes outline the eleven-scenario coverage (tolerant vs. strict guard cases), manifest-driven assertions, and the verification log confirming Swift 6.0.3 execution.
+- **Next steps carried forward:** No additional `next_tasks.md` items were active. The recoverable licensing approvals for Dolby Vision/AV1/VP9/AC-4/MPEG-H fixtures remain tracked in `DOCS/INPROGRESS/blocked.md`.
