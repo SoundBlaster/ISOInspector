@@ -128,7 +128,7 @@ public struct AccessibilityContext: Equatable, Sendable {
 
 private extension DynamicTypeSize {
     /// Indicates whether the dynamic type size is an accessibility category.
-    fileprivate var isAccessibilityCategory: Bool {
+    var isAccessibilityCategory: Bool {
         self >= .accessibility1
     }
 }
@@ -204,10 +204,16 @@ public extension EnvironmentValues {
 
 private extension EnvironmentValues {
     /// Determines whether the environment requests increased contrast.
-    fileprivate var baselinePrefersIncreasedContrast: Bool {
+    var baselinePrefersIncreasedContrast: Bool {
         #if canImport(UIKit)
-        if #available(iOS 13.0, tvOS 13.0, watchOS 6.0, *) {
+        if #available(iOS 13.0, tvOS 13.0, *) {
+            #if swift(>=5.9)
+            return MainActor.assumeIsolated {
+                UIAccessibility.isDarkerSystemColorsEnabled
+            }
+            #else
             return UIAccessibility.isDarkerSystemColorsEnabled
+            #endif
         }
         #elseif canImport(AppKit)
         if #available(macOS 10.10, *) {
@@ -215,7 +221,7 @@ private extension EnvironmentValues {
         }
         #endif
 
-        return false
+        return accessibilityDifferentiateWithoutColor
     }
 }
 
