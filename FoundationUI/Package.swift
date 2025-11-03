@@ -24,7 +24,6 @@ let package = Package(
             dependencies: [],
             exclude: ["README.md"],
             swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency"),
                 .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
             ]
         ),
@@ -33,9 +32,6 @@ let package = Package(
             dependencies: [
                 "FoundationUI",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
-            ],
-            swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
             ]
         ),
     ]
