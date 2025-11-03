@@ -22,15 +22,18 @@ Transform an incoming feature request (from a simple idea to a detailed specific
 ## 🔗 REFERENCE MATERIALS
 
 ### FoundationUI Documents
+
 - [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md) — Master task list
 - [FoundationUI PRD](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md) — Product requirements
 - [FoundationUI Test Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TestPlan.md) — Testing strategy
 
 ### Design System Rules
+
 - [Composable Clarity PRD](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md#composable-clarity-design-system) — Layered architecture
 - [Zero Magic Numbers Rule](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md#design-system-tokens) — All values must use DS tokens
 
 ### Project Rules
+
 - [02_TDD_XP_Workflow.md](../../../DOCS/RULES/02_TDD_XP_Workflow.md) — Test-first workflow
 - [07_AI_Code_Structure_Principles.md](../../../DOCS/RULES/07_AI_Code_Structure_Principles.md) — One entity per file
 
@@ -94,23 +97,28 @@ Create a detailed specification:
 ```
 
 ### Design Tokens Used
+
 - `DS.{Category}.{token}` — {description}
 - ...
 
 ### Dependencies
+
 - {List of required components/modifiers}
 
 ## Behavior Specification
 
 ### Variants
+
 - {List of supported variants, e.g., "info, warning, error, success"}
 
 ### Platform Differences
+
 - **iOS**: {iOS-specific behavior}
 - **macOS**: {macOS-specific behavior}
 - **iPadOS**: {iPad-specific behavior}
 
 ### Accessibility Requirements
+
 - VoiceOver labels: {what should be announced}
 - Contrast ratio: {≥4.5:1 for text, ≥3:1 for UI elements}
 - Keyboard navigation: {how users navigate with keyboard}
@@ -119,24 +127,29 @@ Create a detailed specification:
 ## Testing Strategy
 
 ### Unit Tests
+
 - {List of test cases for logic}
 
 ### Snapshot Tests
+
 - Light/Dark mode rendering
 - All variants
 - Dynamic Type sizes (XS, M, XXL)
 
 ### Accessibility Tests
+
 - Contrast ratio validation
 - VoiceOver label verification
 
 ## Success Criteria
+
 - [ ] Implementation uses DS tokens exclusively (zero magic numbers)
 - [ ] All variants implemented and tested
 - [ ] SwiftUI Preview included
 - [ ] DocC documentation complete
 - [ ] Accessibility requirements met
 - [ ] Test coverage ≥80%
+
 ```
 
 ### Step 4. Identify Prerequisite Tasks
@@ -188,6 +201,7 @@ Add feature specification to [FoundationUI PRD](../../../DOCS/AI/ISOViewer/Found
    - Patterns → "UI Patterns (Layer 3)"
 
 2. **Add entry**:
+
    ```markdown
    #### {ComponentName}
    **Layer**: {Layer number and name}
@@ -202,6 +216,7 @@ Add feature specification to [FoundationUI PRD](../../../DOCS/AI/ISOViewer/Found
 
    **Success Criteria**:
    - {List of measurable requirements}
+
    ```
 
 ### Step 7. Update Test Plan
@@ -325,9 +340,11 @@ Create a summary document:
 ## 🧠 EXAMPLE: Adding a Tooltip Component
 
 ### Input
+
 User request: "Add a tooltip component that appears on hover (macOS) or long press (iOS)"
 
 ### Step 1: Analyze Request
+
 - **Feature name**: Tooltip
 - **Layer**: 2 (Component)
 - **Dependencies**: Needs `DS.Colors.tooltipBG`, `DS.Animation.fadeIn`, `.tooltipStyle()` modifier
@@ -335,11 +352,13 @@ User request: "Add a tooltip component that appears on hover (macOS) or long pre
 - **Priority**: P1 (important for UX, but not MVP-critical)
 
 ### Step 2: Research Existing
+
 - Search results: No existing tooltip component
 - Similar components: None
 - Reuse opportunities: Can use existing `Text` and `Card` components
 
 ### Step 3: Define Specification
+
 ```swift
 // API Design
 Text("Username")
@@ -352,20 +371,24 @@ Text("Username")
 ```
 
 ### Step 4: Identify Prerequisites
+
 1. Add `DS.Colors.tooltipBG` to `Colors.swift` (Layer 0)
 2. Add `DS.Animation.fadeIn` to `Animation.swift` (Layer 0)
 3. Add `.tooltipStyle()` modifier (Layer 1)
 4. Implement `Tooltip` component (Layer 2)
 
 ### Step 5-7: Update Documentation
+
 - **Task Plan**: Add 4 tasks to Phase 2
 - **PRD**: Add Tooltip section to Components chapter
 - **Test Plan**: Add tooltip testing strategy
 
 ### Step 8: Create Proposal
+
 File: `FoundationUI/DOCS/INPROGRESS/NEW_Tooltip_Proposal.md`
 
 ### Step 9: Validate
+
 - ✅ Layer 2 assignment correct
 - ✅ All dependencies identified
 - ✅ No duplication
@@ -389,6 +412,7 @@ File: `FoundationUI/DOCS/INPROGRESS/NEW_Tooltip_Proposal.md`
 ## 🔄 INTEGRATION WITH WORKFLOW
 
 After adding a new feature to the Task Plan, use:
+
 - [SELECT_NEXT command](./SELECT_NEXT.md) to choose when to implement it
 - [START command](./START.md) to begin implementation
 - [ARCHIVE command](./ARCHIVE.md) to document completion

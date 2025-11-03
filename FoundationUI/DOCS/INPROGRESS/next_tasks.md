@@ -6,6 +6,7 @@
 ## 🎯 Immediate Priorities (P0)
 
 ### Phase 3.2: Context unit tests (P0) → ⏳ READY TO START
+
 **Status**: ⏳ **READY TO START**
 **Priority**: P0 (Critical - Required for quality)
 **Estimated Effort**: M (6-8 hours)
@@ -15,6 +16,7 @@
 **Description**: Create comprehensive unit tests for all Context layer components (SurfaceStyleKey, PlatformAdapter, ColorSchemeAdapter, PlatformExtensions).
 
 **Requirements**:
+
 - Unit tests for environment key propagation
 - Platform detection tests (compile-time and runtime)
 - Color scheme adaptation tests (light/dark mode)
@@ -29,12 +31,14 @@
 ## ✅ Recently Completed
 
 ### Phase 3.2: Accessibility Context Overrides & Contrast Detection ✅ COMPLETE (2025-11-03)
+
 - Introduced `AccessibilityContextOverrides` so tests and previews can opt into contrast, bold text, or dynamic type variants without mutating read-only environment values.
 - Swapped the increase-contrast detection to use the system accessibility APIs (`UIAccessibility.isDarkerSystemColorsEnabled` / `NSWorkspace.accessibilityDisplayShouldIncreaseContrast`) for toolchains that do not yet expose `EnvironmentValues.accessibilityContrast`.
 - Annotated export callbacks in `IntegritySummaryView` and `ParseTreeOutlineView` with `@MainActor` and wrapped selection handlers to satisfy Strict Concurrency while keeping the menu behaviour unchanged.
 - Verified `AccessibilityContextTests` passes in the standalone FoundationUI package via `swift test --filter AccessibilityContextTests`.
 
 ### Phase 3.2: Platform Comparison Previews ✅ COMPLETE AND ARCHIVED (2025-10-27)
+
 - **File**: `Sources/FoundationUI/Previews/PlatformComparisonPreviews.swift` (~1000+ lines)
 - **8 comprehensive SwiftUI Previews** covering all platform scenarios
   - Platform Detection Preview
@@ -59,6 +63,7 @@
 ## ✅ Recently Archived
 
 ### Phase 3.2: Platform Extensions ✅ ARCHIVED (2025-10-27)
+
 - **Archive**: `TASK_ARCHIVE/27_Phase3.2_PlatformExtensions/`
 - **Files**:
   - `Sources/FoundationUI/Contexts/PlatformExtensions.swift` (551 lines)
@@ -74,6 +79,7 @@
 - **24 comprehensive tests** covering all platforms and edge cases
 
 ### Phase 3.2: Platform Adaptation Integration Tests ✅ ARCHIVED (2025-10-26)
+
 - **Archive**: `TASK_ARCHIVE/26_Phase3.2_PlatformAdaptationIntegrationTests/`
 - **File**: `Tests/FoundationUITests/ContextsTests/PlatformAdaptationIntegrationTests.swift`
 - **28 comprehensive integration tests** (1068 lines)
@@ -86,6 +92,7 @@
 - **Zero magic numbers** (100% DS token usage, only documented constant: 44pt iOS touch target)
 
 ### Phase 3.2: ColorSchemeAdapter ✅ ARCHIVED (2025-10-26)
+
 - **Archive**: `TASK_ARCHIVE/24_Phase3.2_ColorSchemeAdapter/`
 - ColorSchemeAdapter struct with automatic Dark Mode adaptation
 - 7 adaptive color properties for backgrounds, text, borders, dividers
@@ -97,6 +104,7 @@
 - Zero magic numbers (uses system colors and DS tokens)
 
 ### Phase 3.2: PlatformAdaptation Modifiers ✅ ARCHIVED (2025-10-26)
+
 - **Archive**: `TASK_ARCHIVE/23_Phase3.2_PlatformAdaptation/`
 - PlatformAdapter enum with platform detection (`isMacOS`, `isIOS`)
 - PlatformAdaptiveModifier for spacing adaptation
@@ -109,6 +117,7 @@
 - 100% DocC documentation (572 lines)
 
 ### Phase 3.2: SurfaceStyleKey Environment Key ✅ ARCHIVED (2025-10-26)
+
 - **Archive**: `TASK_ARCHIVE/22_Phase3.2_SurfaceStyleKey/`
 - SwiftUI EnvironmentKey for surface material propagation
 - Default value `.regular` for balanced translucency
@@ -136,6 +145,7 @@
 ## 🔜 Next Task (Immediate Priority)
 
 ### Phase 3.2: Context unit tests (P0) → ⏳ READY TO START
+
 **Status**: ⏳ **READY TO START**
 **Priority**: P0 (Critical - Required for quality)
 **Estimated Effort**: M (6-8 hours)
@@ -145,6 +155,7 @@
 **Description**: Create comprehensive unit tests for all Context layer components (SurfaceStyleKey, PlatformAdapter, ColorSchemeAdapter, PlatformExtensions).
 
 **Requirements**:
+
 - Unit tests for environment key propagation
 - Platform detection tests (compile-time and runtime)
 - Color scheme adaptation tests (light/dark mode)
@@ -159,9 +170,11 @@
 ## 🔭 Upcoming Tasks (Phase 3.2)
 
 ### Remaining Phase 3.2 Tasks
+
 Phase 3.2 currently has 7/8 tasks complete (87.5%).
 
 **Pending**:
+
 - [ ] Context unit tests (P0) - Test environment key propagation, platform detection, color scheme adaptation (NEXT TASK)
 
 ---
@@ -169,12 +182,15 @@ Phase 3.2 currently has 7/8 tasks complete (87.5%).
 ## 🔮 Future Phases
 
 ### Phase 3.1: Remaining Tasks
+
 - Complete any remaining pattern tasks (1/8 remaining)
 
 ### Phase 4: Agent Support & Polish (0/18 tasks)
+
 - Deferred until foundational work complete
 
 ### Phase 4.3: Copyable Architecture Refactoring (P2)
+
 **Goal**: Refactor CopyableText into composable, modifier-based architecture
 **Status**: Not Started (0/5 tasks)
 **Priority**: P2 (Future Enhancement)

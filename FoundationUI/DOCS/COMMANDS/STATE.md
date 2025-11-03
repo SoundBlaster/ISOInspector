@@ -9,6 +9,7 @@ Provide a concise but comprehensive status report for the FoundationUI project s
 ## 🎯 GOAL
 
 Collect and summarize the current implementation status, including:
+
 - **Active and upcoming tasks** with layer and phase context
 - **Layer-by-layer completion status** (Tokens → Modifiers → Components → Patterns → Contexts)
 - **Phase progression metrics** across all six implementation phases
@@ -20,20 +21,24 @@ Collect and summarize the current implementation status, including:
 ## 🔗 REFERENCE MATERIALS
 
 ### FoundationUI Planning Documents
+
 - [`DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md`](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md) — Master task list with phases, layers, and priorities
 - [`DOCS/AI/ISOViewer/FoundationUI_PRD.md`](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md) — Product requirements and architecture specification
 - [`DOCS/AI/ISOViewer/FoundationUI_TestPlan.md`](../../../DOCS/AI/ISOViewer/FoundationUI_TestPlan.md) — Testing strategy and coverage requirements
 
 ### Task Tracking
+
 - [`FoundationUI/DOCS/INPROGRESS/next_tasks.md`](../INPROGRESS/next_tasks.md) — Queued and prioritized upcoming tasks
 - [`FoundationUI/DOCS/INPROGRESS/`](../INPROGRESS) — Currently active task documents
 - [`FoundationUI/DOCS/TASK_ARCHIVE/`](../TASK_ARCHIVE) — Completed task history
 
 ### Project Rules
+
 - [`DOCS/RULES/02_TDD_XP_Workflow.md`](../../../DOCS/RULES/02_TDD_XP_Workflow.md) — Test-driven development workflow
 - [`DOCS/RULES/03_Next_Task_Selection.md`](../../../DOCS/RULES/03_Next_Task_Selection.md) — Task prioritization rules
 
 ### Related Commands
+
 - [`SELECT_NEXT.md`](SELECT_NEXT.md) — Task selection algorithm
 - [`START.md`](START.md) — Task initialization workflow
 - [`ARCHIVE.md`](ARCHIVE.md) — Task completion workflow
@@ -80,6 +85,7 @@ For each planning source, compute and record:
 ### Step 4. Identify Blockers and Dependencies
 
 Check for:
+
 - **Layer dependency violations**: Are any tasks blocked waiting for lower-layer completions?
 - **Test coverage gaps**: Are implementation tasks outpacing test tasks (violates TDD)?
 - **Platform inconsistencies**: Do any components lack macOS or iPadOS support?
@@ -89,6 +95,7 @@ Check for:
 ### Step 5. Assess Architecture Compliance
 
 Verify adherence to Composable Clarity principles:
+
 - ✅ **Zero magic numbers**: All components use DS tokens
 - ✅ **Accessibility**: Labels and dynamic type support
 - ✅ **Platform adaptation**: Conditional compilation for platform differences
@@ -266,27 +273,33 @@ Use `/select_next` to formally select and initialize this task.
 ## 🧾 NOTES
 
 ### Read-Only Operation
+
 - This command **does not modify** any source documents
 - All metrics are computed from existing files
 - If updates are recommended, they must be applied manually or via other commands
 
 ### Reproducible Calculations
+
 - Always show numerator/denominator (e.g., "14/22 = 63.6%")
 - If task markers are ambiguous, estimate conservatively and annotate the assumption
 - Prefer exact counts over approximations
 
 ### Platform Portability
+
 - Use relative paths for all document references
 - Assume the working directory is `FoundationUI/DOCS/COMMANDS/`
 - Links should work from any branch or clone of the repository
 
 ### Integration with Workflow
+
 - Use this command before sprint planning or stakeholder updates
 - Run after completing major milestones to update velocity metrics
 - Compare reports over time to track acceleration or deceleration
 
 ### Handling Inconsistencies
+
 If planning documents conflict (e.g., task marked done in TaskPlan but not archived):
+
 1. **Note the discrepancy** explicitly in the Recommended Updates section
 2. **Use TaskPlan as source of truth** for completion status
 3. **Suggest reconciliation** (e.g., "Archive Phase2_BadgeChipStyle.md to match TaskPlan")
