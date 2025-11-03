@@ -127,10 +127,12 @@ final class AccessibilityContextTests: XCTestCase {
     /// derive preferences from the existing accessibility values.
     func testEnvironmentValues_DerivesDefaultsFromEnvironment() {
         var environment = EnvironmentValues()
-        environment.accessibilityReduceMotion = true
-        environment.accessibilityDifferentiateWithoutColor = true
         environment.legibilityWeight = .bold
         environment.dynamicTypeSize = .accessibility2
+        environment.accessibilityContextOverrides = AccessibilityContextOverrides(
+            prefersReducedMotion: true,
+            prefersIncreasedContrast: true
+        )
 
         let context = environment.accessibilityContext
 

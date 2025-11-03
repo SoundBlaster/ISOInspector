@@ -1,5 +1,11 @@
 import SwiftUI
 
+#if canImport(UIKit)
+import UIKit
+#elseif canImport(AppKit)
+import AppKit
+#endif
+
 // MARK: - AccessibilityContext
 
 /// Aggregates key accessibility preferences from the SwiftUI environment.
@@ -122,8 +128,31 @@ public struct AccessibilityContext: Equatable, Sendable {
 
 private extension DynamicTypeSize {
     /// Indicates whether the dynamic type size is an accessibility category.
-    var isAccessibilityCategory: Bool {
+    fileprivate var isAccessibilityCategory: Bool {
         self >= .accessibility1
+    }
+}
+
+/// Overrides that can be applied to the derived accessibility context.
+///
+/// These are primarily used by unit tests and previews to simulate specific
+/// accessibility settings that are otherwise read-only within `EnvironmentValues`.
+struct AccessibilityContextOverrides: Equatable, Sendable {
+    var prefersReducedMotion: Bool?
+    var prefersIncreasedContrast: Bool?
+    var prefersBoldText: Bool?
+    var dynamicTypeSize: DynamicTypeSize?
+
+    init(
+        prefersReducedMotion: Bool? = nil,
+        prefersIncreasedContrast: Bool? = nil,
+        prefersBoldText: Bool? = nil,
+        dynamicTypeSize: DynamicTypeSize? = nil
+    ) {
+        self.prefersReducedMotion = prefersReducedMotion
+        self.prefersIncreasedContrast = prefersIncreasedContrast
+        self.prefersBoldText = prefersBoldText
+        self.dynamicTypeSize = dynamicTypeSize
     }
 }
 
@@ -131,6 +160,17 @@ private extension DynamicTypeSize {
 
 private struct AccessibilityContextKey: EnvironmentKey {
     static let defaultValue: AccessibilityContext? = nil
+}
+
+private struct AccessibilityContextOverridesKey: EnvironmentKey {
+    static let defaultValue: AccessibilityContextOverrides? = nil
+}
+
+extension EnvironmentValues {
+    var accessibilityContextOverrides: AccessibilityContextOverrides? {
+        get { self[AccessibilityContextOverridesKey.self] }
+        set { self[AccessibilityContextOverridesKey.self] = newValue }
+    }
 }
 
 public extension EnvironmentValues {
@@ -141,15 +181,19 @@ public extension EnvironmentValues {
                 return storedContext
             }
 
-            let prefersBoldText = legibilityWeight == .bold
-
-            let prefersIncreasedContrast = self.prefersIncreasedContrast
+            let overrides = accessibilityContextOverrides
+            let resolvedPrefersReducedMotion =
+                overrides?.prefersReducedMotion ?? accessibilityReduceMotion
+            let resolvedPrefersIncreasedContrast =
+                overrides?.prefersIncreasedContrast ?? baselinePrefersIncreasedContrast
+            let resolvedPrefersBoldText = overrides?.prefersBoldText ?? (legibilityWeight == .bold)
+            let resolvedDynamicTypeSize = overrides?.dynamicTypeSize ?? dynamicTypeSize
 
             return AccessibilityContext(
-                prefersReducedMotion: accessibilityReduceMotion,
-                prefersIncreasedContrast: prefersIncreasedContrast,
-                prefersBoldText: prefersBoldText,
-                dynamicTypeSize: dynamicTypeSize
+                prefersReducedMotion: resolvedPrefersReducedMotion,
+                prefersIncreasedContrast: resolvedPrefersIncreasedContrast,
+                prefersBoldText: resolvedPrefersBoldText,
+                dynamicTypeSize: resolvedDynamicTypeSize
             )
         }
         set {
@@ -160,8 +204,18 @@ public extension EnvironmentValues {
 
 private extension EnvironmentValues {
     /// Determines whether the environment requests increased contrast.
-    var prefersIncreasedContrast: Bool {
-        accessibilityDifferentiateWithoutColor
+    fileprivate var baselinePrefersIncreasedContrast: Bool {
+        #if canImport(UIKit)
+        if #available(iOS 13.0, tvOS 13.0, watchOS 6.0, *) {
+            return UIAccessibility.isDarkerSystemColorsEnabled
+        }
+        #elseif canImport(AppKit)
+        if #available(macOS 10.10, *) {
+            return NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast
+        }
+        #endif
+
+        return false
     }
 }
 
