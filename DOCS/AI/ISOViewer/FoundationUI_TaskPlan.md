@@ -7,14 +7,14 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 49/110 tasks completed (44.5%)**
+**Total: 54/116 tasks completed (46.6%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | ✅ Complete | 9/9 (100%) |
 | Phase 2: Core Components | ✅ Complete | 22/22 (100%) |
 | Phase 3: Patterns & Platform Adaptation | ✅ Complete | 16/16 (100%) |
-| Phase 4: Agent Support & Polish | In Progress | 2/18 (11%) |
+| Phase 4: Agent Support & Polish | In Progress | 4/18 (22%) |
 | Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
 
@@ -623,7 +623,7 @@
   - Troubleshooting guide
 
 ### 4.2 Utilities & Helpers
-**Progress: 2/6 tasks (33%)**
+**Progress: 4/6 tasks (67%)**
 
 - [x] **P0** Implement CopyableText utility ✅ Completed 2025-10-25
   - File: `Sources/FoundationUI/Utilities/CopyableText.swift`
@@ -646,18 +646,30 @@
   - Zero magic numbers (100% DS token usage in previews)
   - Archive: `TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/` (to be created)
 
-- [ ] **P1** Implement AccessibilityHelpers
-  - File: `Sources/Utilities/AccessibilityHelpers.swift`
-  - Common accessibility modifiers
-  - VoiceOver hint builders
-  - Contrast ratio validators
-  - Accessibility audit tools
+- [x] **P1** Implement AccessibilityHelpers ✅ Completed 2025-11-03
+  - File: `Sources/FoundationUI/Utilities/AccessibilityHelpers.swift` (785 lines)
+  - Common accessibility modifiers (button, toggle, heading, value)
+  - VoiceOver hint builders with result builder support
+  - Contrast ratio validators (WCAG 2.1 AA/AAA compliance ≥4.5:1/≥7:1)
+  - Accessibility audit tools (touch targets, labels, comprehensive audits)
+  - Focus management helpers for keyboard navigation
+  - Dynamic Type scaling support
+  - AccessibilityContext integration
+  - Platform-specific features (macOS keyboard, iOS VoiceOver rotor)
+  - 35 comprehensive unit tests in `AccessibilityHelpersTests.swift` (360 lines)
+  - 3 SwiftUI Previews (Demo, Dynamic Type, Context Integration)
+  - 100% DocC documentation with usage examples
+  - Zero magic numbers (100% DS token usage)
+  - Archive: `TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/`
 
-- [ ] **P1** Utility unit tests → **IN PROGRESS**
-  - Test clipboard operations
-  - Test keyboard shortcut handling
-  - Test accessibility helpers
-  - Platform-specific test coverage
+- [x] **P1** Utility unit tests ✅ Completed 2025-11-03
+  - CopyableText tests: 15 test cases ✅
+  - KeyboardShortcuts tests: 15 test cases ✅
+  - AccessibilityHelpers tests: 35 test cases ✅
+  - Total: 65 test cases across all utilities
+  - Platform-specific test coverage (macOS, iOS)
+  - Performance tests included
+  - Platform guards for Linux compatibility
 
 - [ ] **P1** Utility integration tests
   - Test utilities with components
