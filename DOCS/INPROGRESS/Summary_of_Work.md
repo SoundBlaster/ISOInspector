@@ -4,4 +4,5 @@
 - Updated fixture catalog documentation to describe the corrupt corpus workflow and ensured tolerant parsing smoke coverage.
 
 ## Verification
+
 - `swift test --filter CorruptFixtureCorpusTests`
