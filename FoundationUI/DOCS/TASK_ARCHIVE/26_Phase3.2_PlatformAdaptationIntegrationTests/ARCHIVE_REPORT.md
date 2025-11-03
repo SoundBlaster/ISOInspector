@@ -35,7 +35,7 @@ Archived completed work from FoundationUI Phase 3.2 on 2025-10-27.
 ### Phase Progress Updated
 - **Phase 3.2 Progress**: 4/8 → 5/8 tasks (50% → 62.5%)
 - **Phase 3 Progress**: 11/16 tasks (68.75%)
-- **Overall Progress**: 45/116 tasks (38.8%)
+- **Overall Progress**: 45/110 tasks (40.9%)
 
 ## Archive Summary Updates
 

@@ -1483,7 +1483,7 @@ public struct CopyableText: View {
 
 **Files Modified**:
 - `FoundationUI/Package.swift` - Added swiftSettings with strict concurrency and warnings-as-errors
-- `DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md` - Updated Phase 1.1 progress (2/8 tasks, 25%)
+- `DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md` - Updated Phase 1.1 progress (2/2 tasks, 100%)
 
 **Quality Gates Established**:
 - Compiler: Strict concurrency checking, warnings as errors
@@ -1517,7 +1517,7 @@ public struct CopyableText: View {
 - Performance benchmarking infrastructure (Phase 5)
 - Security auditing setup (as needed)
 
-**Phase 1.1 Status**: Now 2/8 tasks complete (25%)
+**Phase 1.1 Status**: Now 2/2 tasks complete (100%)
 
 **Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/21_Phase1.1_BuildConfiguration/`
 
@@ -1936,11 +1936,11 @@ All spacing, colors, radii, and animations use DS tokens:
 - Move to Phase 4: Agent Support & Polish
 
 **Phase 3.2 Status**: Now 6/8 tasks complete (75%)
-**Overall Project Status**: 48/116 tasks complete (41.4%)
+**Overall Project Status**: 48/110 tasks complete (43.6%)
 
 **Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/28_Phase3.2_PlatformComparisonPreviews/`
 
-**Task Plan Updated**: Yes, marked Platform Comparison Previews complete, Phase 3.2 progress: 6/8 tasks (75%), Overall progress: 48/116 (41.4%)
+**Task Plan Updated**: Yes, marked Platform Comparison Previews complete, Phase 3.2 progress: 6/8 tasks (75%), Overall progress: 48/110 (43.6%)
 
 **Impact**:
 - Provides visual documentation for all platform-specific features

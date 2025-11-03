@@ -15,7 +15,7 @@ Archived completed work from FoundationUI Phase 3.2 (Platform Comparison Preview
 ## Task Plan Updates
 - Marked 1 task as complete: "Create platform comparison previews"
 - Updated Phase 3.2 progress: 5/8 (62.5%) → 6/8 (75%)
-- Updated Overall Progress: 47/116 (40.5%) → 48/116 (41.4%)
+- Updated Overall Progress: 47/110 (42.7%) → 48/110 (43.6%)
 
 ## Implementation Summary
 
@@ -164,7 +164,7 @@ None. All platform comparison previews are complete and functional.
 - [ ] Accessibility context support (P1)
 
 ### Overall Project Status
-**Progress**: 48/116 tasks (41.4%)
+**Progress**: 48/110 tasks (43.6%)
 
 ---
 
