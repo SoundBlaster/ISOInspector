@@ -1,7 +1,7 @@
 # Next Tasks for FoundationUI
 
-**Updated**: 2025-10-27
-**Current Status**: Phase 3.2 Platform Comparison Previews Archived ✅
+**Updated**: 2025-11-03
+**Current Status**: Accessibility context refinements merged ✅
 
 ## 🎯 Immediate Priorities (P0)
 
@@ -27,6 +27,12 @@
 ---
 
 ## ✅ Recently Completed
+
+### Phase 3.2: Accessibility Context Overrides & Contrast Detection ✅ COMPLETE (2025-11-03)
+- Introduced `AccessibilityContextOverrides` so tests and previews can opt into contrast, bold text, or dynamic type variants without mutating read-only environment values.
+- Swapped the increase-contrast detection to use the system accessibility APIs (`UIAccessibility.isDarkerSystemColorsEnabled` / `NSWorkspace.accessibilityDisplayShouldIncreaseContrast`) for toolchains that do not yet expose `EnvironmentValues.accessibilityContrast`.
+- Annotated export callbacks in `IntegritySummaryView` and `ParseTreeOutlineView` with `@MainActor` and wrapped selection handlers to satisfy Strict Concurrency while keeping the menu behaviour unchanged.
+- Verified `AccessibilityContextTests` passes in the standalone FoundationUI package via `swift test --filter AccessibilityContextTests`.
 
 ### Phase 3.2: Platform Comparison Previews ✅ COMPLETE AND ARCHIVED (2025-10-27)
 - **File**: `Sources/FoundationUI/Previews/PlatformComparisonPreviews.swift` (~1000+ lines)
@@ -121,9 +127,9 @@
 | Phase 1.2: Design Tokens | 7/7 (100%) | ✅ Complete |
 | Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
 | Phase 3.1: Patterns | 7/8 (88%) | In progress |
-| Phase 3.2: Contexts | 6/8 (75%) | 🚧 **IN PROGRESS** |
+| Phase 3.2: Contexts | 7/8 (87.5%) | 🚧 **IN PROGRESS** |
 
-**Overall Progress**: 48/116 tasks (41.4%)
+**Overall Progress**: 49/116 tasks (42.2%)
 
 ---
 
@@ -153,11 +159,10 @@
 ## 🔭 Upcoming Tasks (Phase 3.2)
 
 ### Remaining Phase 3.2 Tasks
-Phase 3.2 currently has 6/8 tasks complete (75%).
+Phase 3.2 currently has 7/8 tasks complete (87.5%).
 
 **Pending**:
 - [ ] Context unit tests (P0) - Test environment key propagation, platform detection, color scheme adaptation (NEXT TASK)
-- [ ] Accessibility context support (P1) - Reduce motion detection, increase contrast, bold text, Dynamic Type
 
 ---
 

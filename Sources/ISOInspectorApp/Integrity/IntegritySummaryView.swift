@@ -5,8 +5,8 @@ import ISOInspectorKit
 struct IntegritySummaryView: View {
     @ObservedObject var viewModel: IntegritySummaryViewModel
     var onIssueSelected: ((ParseIssue) -> Void)?
-    var onExportJSON: (() -> Void)?
-    var onExportIssueSummary: (() -> Void)?
+    var onExportJSON: (@MainActor () -> Void)?
+    var onExportIssueSummary: (@MainActor () -> Void)?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -147,8 +147,8 @@ struct IntegritySummaryView: View {
 @ToolbarContentBuilder
 private func buildIntegrityExportToolbar(
     shouldShowToolbar: Bool,
-    onExportJSON: (() -> Void)?,
-    onExportIssueSummary: (() -> Void)?
+    onExportJSON: (@MainActor () -> Void)?,
+    onExportIssueSummary: (@MainActor () -> Void)?
 ) -> some ToolbarContent {
     if shouldShowToolbar, let onExportJSON, let onExportIssueSummary {
         ToolbarItemGroup(placement: .automatic) {

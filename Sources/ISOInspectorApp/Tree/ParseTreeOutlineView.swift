@@ -20,16 +20,16 @@ struct ParseTreeExplorerView: View {
     @FocusState private var focusTarget: InspectorFocusTarget?
     let exportSelectionJSONAction: ((ParseTreeNode.ID) -> Void)?
     let exportSelectionIssueSummaryAction: ((ParseTreeNode.ID) -> Void)?
-    let exportDocumentJSONAction: (() -> Void)?
-    let exportDocumentIssueSummaryAction: (() -> Void)?
+    let exportDocumentJSONAction: (@MainActor () -> Void)?
+    let exportDocumentIssueSummaryAction: (@MainActor () -> Void)?
     private let focusCatalog = InspectorFocusShortcutCatalog.default
 
     init(
         viewModel: DocumentViewModel,
         exportSelectionJSONAction: ((ParseTreeNode.ID) -> Void)? = nil,
         exportSelectionIssueSummaryAction: ((ParseTreeNode.ID) -> Void)? = nil,
-        exportDocumentJSONAction: (() -> Void)? = nil,
-        exportDocumentIssueSummaryAction: (() -> Void)? = nil
+        exportDocumentJSONAction: (@MainActor () -> Void)? = nil,
+        exportDocumentIssueSummaryAction: (@MainActor () -> Void)? = nil
     ) {
         self._viewModel = ObservedObject(wrappedValue: viewModel)
         self._outlineViewModel = ObservedObject(wrappedValue: viewModel.outlineViewModel)
@@ -361,12 +361,12 @@ struct ParseTreeOutlineView: View {
                                 annotationSession.setSelectedNode(row.id)
                                 annotationSession.toggleBookmark()
                             },
-                            onExportJSON: exportSelectionJSONAction.map { action in {
-                                action(row.id)
-                            } },
-                            onExportIssueSummary: exportSelectionIssueSummaryAction.map { action in {
-                                action(row.id)
-                            } }
+                            onExportJSON: exportSelectionJSONAction.map { action in
+                                { @MainActor in action(row.id) }
+                            },
+                            onExportIssueSummary: exportSelectionIssueSummaryAction.map { action in
+                                { @MainActor in action(row.id) }
+                            }
                         )
                         .id(row.id)
                         .focused($focusedRowID, equals: row.id)
@@ -526,8 +526,8 @@ private struct ParseTreeOutlineRowView: View {
     let isBookmarkingEnabled: Bool
     let onSelect: () -> Void
     let onToggleBookmark: () -> Void
-    let onExportJSON: (() -> Void)?
-    let onExportIssueSummary: (() -> Void)?
+    let onExportJSON: (@MainActor () -> Void)?
+    let onExportIssueSummary: (@MainActor () -> Void)?
 
     var body: some View {
         HStack(spacing: 8) {
