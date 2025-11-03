@@ -104,7 +104,7 @@ swift build -c release
 
 FoundationUI uses strict compiler settings for code quality:
 
-- **Strict Concurrency Checking**: Enabled via `StrictConcurrency` feature
+- **Strict Concurrency Checking**: Enabled by default in Swift 6.0+
 - **Warnings as Errors**: Enabled in release builds
 - **Swift Tools Version**: 6.0
 
@@ -112,10 +112,11 @@ These settings are configured in `Package.swift`:
 
 ```swift
 swiftSettings: [
-    .enableUpcomingFeature("StrictConcurrency"),
     .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
 ]
 ```
+
+**Note**: Swift 6.0 enables strict concurrency checking by default, so no explicit feature flag is needed.
 
 ---
 
