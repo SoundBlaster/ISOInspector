@@ -12,6 +12,7 @@ import SwiftUI
 /// - Display string formatting
 /// - Accessibility labels
 /// - View integration
+@available(iOS 17.0, macOS 14.0, *)
 final class KeyboardShortcutsTests: XCTestCase {
 
     // MARK: - Shortcut Type Tests
