@@ -220,7 +220,7 @@ enum AccessibilityTestHelpers {
         .medium,
         .large,
         .extraLarge,
-        .extraExtraLarge,
+        .xxLarge,
         .extraExtraExtraLarge,
         .accessibilityMedium,
         .accessibilityLarge,
@@ -233,7 +233,7 @@ enum AccessibilityTestHelpers {
     static let commonContentSizeCategories: [ContentSizeCategory] = [
         .extraSmall,    // XS
         .medium,        // M (default)
-        .extraExtraLarge, // XXL
+        .xxLarge, // XXL
         .accessibilityExtraExtraExtraLarge // XXXL (largest)
     ]
 
@@ -253,7 +253,7 @@ enum AccessibilityTestHelpers {
             return "Large"
         case .extraLarge:
             return "ExtraLarge"
-        case .extraExtraLarge:
+        case .xxLarge:
             return "ExtraExtraLarge"
         case .extraExtraExtraLarge:
             return "ExtraExtraExtraLarge"
