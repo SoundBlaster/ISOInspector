@@ -87,7 +87,7 @@ final class SectionHeaderSnapshotTests: XCTestCase {
         let header = SectionHeader(title: "Metadata", showDivider: true)
         let view = header
             .frame(width: 300, height: 100)
-            .environment(\.sizeCategory, .xSmall)
+            .environment(\.sizeCategory, .extraSmall)
 
         assertSnapshot(
             of: view,
@@ -113,7 +113,7 @@ final class SectionHeaderSnapshotTests: XCTestCase {
         let header = SectionHeader(title: "Metadata", showDivider: true)
         let view = header
             .frame(width: 350, height: 150)
-            .environment(\.sizeCategory, .accessibilityXxLarge)
+            .environment(\.sizeCategory, .accessibilityExtraExtraLarge)
 
         assertSnapshot(
             of: view,

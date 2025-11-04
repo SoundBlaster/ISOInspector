@@ -186,7 +186,7 @@ final class KeyValueRowSnapshotTests: XCTestCase {
         let row = KeyValueRow(key: "Type", value: "ftyp")
         let view = row
             .frame(width: 300, height: 100)
-            .environment(\.sizeCategory, .xSmall)
+            .environment(\.sizeCategory, .extraSmall)
 
         assertSnapshot(
             of: view,
@@ -212,7 +212,7 @@ final class KeyValueRowSnapshotTests: XCTestCase {
         let row = KeyValueRow(key: "Type", value: "ftyp")
         let view = row
             .frame(width: 350, height: 150)
-            .environment(\.sizeCategory, .accessibilityXxLarge)
+            .environment(\.sizeCategory, .accessibilityExtraExtraLarge)
 
         assertSnapshot(
             of: view,
@@ -229,7 +229,7 @@ final class KeyValueRowSnapshotTests: XCTestCase {
         )
         let view = row
             .frame(width: 350, height: 200)
-            .environment(\.sizeCategory, .accessibilityXxLarge)
+            .environment(\.sizeCategory, .accessibilityExtraExtraLarge)
 
         assertSnapshot(
             of: view,

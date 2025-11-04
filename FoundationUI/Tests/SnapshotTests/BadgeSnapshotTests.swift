@@ -195,7 +195,7 @@ final class BadgeSnapshotTests: XCTestCase {
         let badge = Badge(text: "WARNING", level: .warning)
         let view = badge
             .frame(width: 200, height: 100)
-            .environment(\.sizeCategory, .xSmall)
+            .environment(\.sizeCategory, .extraSmall)
 
         assertSnapshot(
             of: view,
@@ -221,7 +221,7 @@ final class BadgeSnapshotTests: XCTestCase {
         let badge = Badge(text: "WARNING", level: .warning)
         let view = badge
             .frame(width: 300, height: 150)
-            .environment(\.sizeCategory, .accessibilityXxLarge)
+            .environment(\.sizeCategory, .accessibilityExtraExtraLarge)
 
         assertSnapshot(
             of: view,

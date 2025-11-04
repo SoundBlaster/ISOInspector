@@ -309,7 +309,7 @@ final class CardSnapshotTests: XCTestCase {
         }
         let view = card
             .frame(width: 300, height: 200)
-            .environment(\.sizeCategory, .xSmall)
+            .environment(\.sizeCategory, .extraSmall)
 
         assertSnapshot(
             of: view,
@@ -351,7 +351,7 @@ final class CardSnapshotTests: XCTestCase {
         }
         let view = card
             .frame(width: 350, height: 250)
-            .environment(\.sizeCategory, .accessibilityXxLarge)
+            .environment(\.sizeCategory, .accessibilityExtraExtraLarge)
 
         assertSnapshot(
             of: view,

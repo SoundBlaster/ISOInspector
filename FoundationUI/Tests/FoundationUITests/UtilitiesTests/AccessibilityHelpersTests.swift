@@ -267,7 +267,7 @@ final class AccessibilityHelpersTests: XCTestCase {
         let baseSize: CGFloat = 16.0
         let scaledSize = AccessibilityHelpers.scaledValue(
             baseSize,
-            for: .xxLarge
+            for: .extraExtraLarge
         )
         XCTAssertGreaterThan(scaledSize, baseSize, "Should scale up for larger type sizes")
     }
