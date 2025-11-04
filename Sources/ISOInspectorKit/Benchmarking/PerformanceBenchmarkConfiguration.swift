@@ -22,6 +22,8 @@ public struct PerformanceBenchmarkConfiguration: Sendable {
     private static let localIterationCount = 5
     private static let defaultSlack: Double = 1.5
     private static let localSlack: Double = 1.2
+    private static let tolerantDurationOverhead: Double = 1.2
+    private static let tolerantAdditionalMemoryBytes: UInt64 = 50 * 1_048_576
 
     public let intensity: Intensity
     public let payloadBytes: Int
@@ -71,5 +73,13 @@ public struct PerformanceBenchmarkConfiguration: Sendable {
 
     public func uiLatencyBudgetSeconds() -> TimeInterval {
         Self.uiLatencySeconds * slackMultiplier
+    }
+
+    public func tolerantDurationOverheadBudget() -> Double {
+        Self.tolerantDurationOverhead
+    }
+
+    public func tolerantAdditionalMemoryBudgetBytes() -> UInt64 {
+        Self.tolerantAdditionalMemoryBytes
     }
 }
