@@ -39,7 +39,7 @@ import AppKit
 ///
 /// let meetsAA = AccessibilityHelpers.meetsWCAG_AA(
 ///     foreground: .black,
-///     background: DS.Colors.infoBG
+///     background: DS.Color.infoBG
 /// )
 /// // true if contrast ≥ 4.5:1
 /// ```
@@ -132,7 +132,7 @@ public enum AccessibilityHelpers {
     /// ```swift
     /// let meetsAA = AccessibilityHelpers.meetsWCAG_AA(
     ///     foreground: .black,
-    ///     background: DS.Colors.infoBG
+    ///     background: DS.Color.infoBG
     /// )
     /// ```
     public static func meetsWCAG_AA(foreground: Color, background: Color) -> Bool {
@@ -610,14 +610,14 @@ import SwiftUI
                     Text("Black on White")
                     Spacer()
                     Text("\(AccessibilityHelpers.contrastRatio(foreground: .black, background: .white), specifier: "%.1f"):1")
-                        .foregroundColor(DS.Colors.accent)
+                        .foregroundColor(DS.Color.accent)
                 }
 
                 HStack {
-                    Text("DS.Colors.infoBG")
+                    Text("DS.Color.infoBG")
                     Spacer()
-                    Text(AccessibilityHelpers.meetsWCAG_AA(foreground: .black, background: DS.Colors.infoBG) ? "✓ AA" : "✗ Fail")
-                        .foregroundColor(AccessibilityHelpers.meetsWCAG_AA(foreground: .black, background: DS.Colors.infoBG) ? .green : .red)
+                    Text(AccessibilityHelpers.meetsWCAG_AA(foreground: .black, background: DS.Color.infoBG) ? "✓ AA" : "✗ Fail")
+                        .foregroundColor(AccessibilityHelpers.meetsWCAG_AA(foreground: .black, background: DS.Color.infoBG) ? .green : .red)
                 }
             }
             .padding(DS.Spacing.m)
@@ -636,13 +636,13 @@ import SwiftUI
                         hint: AccessibilityHelpers.voiceOverHint(action: "copy", target: "value")
                     )
                     .padding(DS.Spacing.s)
-                    .background(DS.Colors.infoBG)
+                    .background(DS.Color.infoBG)
                     .cornerRadius(DS.Radius.small)
 
                 Button("Expand Section") {}
                     .accessibleToggle(label: "Section", isOn: false)
                     .padding(DS.Spacing.s)
-                    .background(DS.Colors.warnBG)
+                    .background(DS.Color.warnBG)
                     .cornerRadius(DS.Radius.small)
             }
             .padding(DS.Spacing.m)
@@ -725,7 +725,7 @@ import SwiftUI
 
 #Preview("Dynamic Type Scaling") {
     VStack(spacing: DS.Spacing.l) {
-        ForEach([DynamicTypeSize.large, .xLarge, .xxLarge, .accessibilityMedium], id: \.self) { size in
+        ForEach([DynamicTypeSize.large, .xLarge, .xxLarge, .accessibility1], id: \.self) { size in
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
                 Text("\(String(describing: size))")
                     .font(DS.Typography.headline)
