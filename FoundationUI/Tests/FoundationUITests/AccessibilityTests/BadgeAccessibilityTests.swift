@@ -220,23 +220,23 @@ final class BadgeAccessibilityTests: XCTestCase {
         // Then - Verify DS token usage
         XCTAssertEqual(
             infoLevel.backgroundColor,
-            DS.Color.infoBG,
-            "Info badge should use DS.Color.infoBG token"
+            DS.Colors.infoBG,
+            "Info badge should use DS.Colors.infoBG token"
         )
         XCTAssertEqual(
             warningLevel.backgroundColor,
-            DS.Color.warnBG,
-            "Warning badge should use DS.Color.warnBG token"
+            DS.Colors.warnBG,
+            "Warning badge should use DS.Colors.warnBG token"
         )
         XCTAssertEqual(
             errorLevel.backgroundColor,
-            DS.Color.errorBG,
-            "Error badge should use DS.Color.errorBG token"
+            DS.Colors.errorBG,
+            "Error badge should use DS.Colors.errorBG token"
         )
         XCTAssertEqual(
             successLevel.backgroundColor,
-            DS.Color.successBG,
-            "Success badge should use DS.Color.successBG token"
+            DS.Colors.successBG,
+            "Success badge should use DS.Colors.successBG token"
         )
     }
 

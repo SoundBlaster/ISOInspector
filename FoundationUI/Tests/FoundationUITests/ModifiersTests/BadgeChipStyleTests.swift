@@ -27,11 +27,11 @@ final class BadgeChipStyleTests: XCTestCase {
         // When: Retrieving its background color
         let backgroundColor = level.backgroundColor
 
-        // Then: It should match DS.Color.infoBG
+        // Then: It should match DS.Colors.infoBG
         XCTAssertEqual(
             backgroundColor,
-            DS.Color.infoBG,
-            "Info badge level should use DS.Color.infoBG token"
+            DS.Colors.infoBG,
+            "Info badge level should use DS.Colors.infoBG token"
         )
     }
 
@@ -42,11 +42,11 @@ final class BadgeChipStyleTests: XCTestCase {
         // When: Retrieving its background color
         let backgroundColor = level.backgroundColor
 
-        // Then: It should match DS.Color.warnBG
+        // Then: It should match DS.Colors.warnBG
         XCTAssertEqual(
             backgroundColor,
-            DS.Color.warnBG,
-            "Warning badge level should use DS.Color.warnBG token"
+            DS.Colors.warnBG,
+            "Warning badge level should use DS.Colors.warnBG token"
         )
     }
 
@@ -57,11 +57,11 @@ final class BadgeChipStyleTests: XCTestCase {
         // When: Retrieving its background color
         let backgroundColor = level.backgroundColor
 
-        // Then: It should match DS.Color.errorBG
+        // Then: It should match DS.Colors.errorBG
         XCTAssertEqual(
             backgroundColor,
-            DS.Color.errorBG,
-            "Error badge level should use DS.Color.errorBG token"
+            DS.Colors.errorBG,
+            "Error badge level should use DS.Colors.errorBG token"
         )
     }
 
@@ -72,11 +72,11 @@ final class BadgeChipStyleTests: XCTestCase {
         // When: Retrieving its background color
         let backgroundColor = level.backgroundColor
 
-        // Then: It should match DS.Color.successBG
+        // Then: It should match DS.Colors.successBG
         XCTAssertEqual(
             backgroundColor,
-            DS.Color.successBG,
-            "Success badge level should use DS.Color.successBG token"
+            DS.Colors.successBG,
+            "Success badge level should use DS.Colors.successBG token"
         )
     }
 

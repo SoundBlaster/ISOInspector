@@ -10,7 +10,7 @@ import SwiftUI
 ///
 /// ## Design System Integration
 /// Badge uses the following Design System tokens:
-/// - **Colors**: `DS.Color.infoBG`, `DS.Color.warnBG`, `DS.Color.errorBG`, `DS.Color.successBG`
+/// - **Colors**: `DS.Colors.infoBG`, `DS.Colors.warnBG`, `DS.Colors.errorBG`, `DS.Colors.successBG`
 /// - **Spacing**: `DS.Spacing.s`, `DS.Spacing.m` (via BadgeChipStyle)
 /// - **Radius**: `DS.Radius.chip` (via BadgeChipStyle)
 /// - **Typography**: `.caption.weight(.medium)` (via BadgeChipStyle)

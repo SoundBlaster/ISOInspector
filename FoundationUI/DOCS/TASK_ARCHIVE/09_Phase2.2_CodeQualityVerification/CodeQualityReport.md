@@ -95,7 +95,7 @@ Design tokens **define** the values that eliminate magic numbers elsewhere. Thes
 - ✅ No magic numbers found
 - ✅ All spacing uses `DS.Spacing.{s|m}`
 - ✅ All radius uses `DS.Radius.chip`
-- ✅ All colors use `DS.Color.*`
+- ✅ All colors use `DS.Colors.*`
 
 **Lines Audited**: 264 | **Magic Numbers**: 0
 
@@ -530,12 +530,12 @@ Verified that all components use Design System tokens instead of hardcoded value
 
 #### ✅ Color Token Usage
 ```swift
-✅ DS.Color.infoBG - Used consistently
-✅ DS.Color.warnBG - Used consistently
-✅ DS.Color.errorBG - Used consistently
-✅ DS.Color.successBG - Used consistently
-✅ DS.Color.accent - Used for focus rings
-✅ DS.Color.tertiary - Used for backgrounds
+✅ DS.Colors.infoBG - Used consistently
+✅ DS.Colors.warnBG - Used consistently
+✅ DS.Colors.errorBG - Used consistently
+✅ DS.Colors.successBG - Used consistently
+✅ DS.Colors.accent - Used for focus rings
+✅ DS.Colors.tertiary - Used for backgrounds
 ```
 
 **Components Using Colors Correctly**: Badge, Card, all modifiers

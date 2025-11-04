@@ -291,7 +291,7 @@ final class SurfaceStyleTests: XCTestCase {
         let thin = SurfaceMaterial.thin
         XCTAssertNotNil(thin.fallbackColor)
 
-        // The fallback should use DS.Color.tertiary or similar
+        // The fallback should use DS.Colors.tertiary or similar
         // (Actual implementation detail verified in integration tests)
     }
 }

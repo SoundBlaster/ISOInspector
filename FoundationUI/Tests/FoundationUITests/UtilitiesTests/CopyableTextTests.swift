@@ -64,7 +64,7 @@ final class CopyableTextTests: XCTestCase {
         // - DS.Spacing.s or DS.Spacing.m for padding
         // - DS.Animation.quick for feedback animation
         // - DS.Typography.caption for "Copied!" label
-        // - DS.Color.accent for visual indicators
+        // - DS.Colors.accent for visual indicators
 
         // This test verifies the component can be created
         // Manual code review will verify DS token usage

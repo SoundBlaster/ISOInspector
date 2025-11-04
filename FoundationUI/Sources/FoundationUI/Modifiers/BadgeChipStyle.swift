@@ -44,13 +44,13 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     public var backgroundColor: Color {
         switch self {
         case .info:
-            return DS.Color.infoBG
+            return DS.Colors.infoBG
         case .warning:
-            return DS.Color.warnBG
+            return DS.Colors.warnBG
         case .error:
-            return DS.Color.errorBG
+            return DS.Colors.errorBG
         case .success:
-            return DS.Color.successBG
+            return DS.Colors.successBG
         }
     }
 
@@ -178,7 +178,7 @@ public extension View {
     /// - `DS.Spacing.m`: Horizontal padding
     /// - `DS.Spacing.s`: Vertical padding and icon spacing
     /// - `DS.Radius.chip`: Corner radius for pill shape
-    /// - `DS.Color.{level}BG`: Background color based on level
+    /// - `DS.Colors.{level}BG`: Background color based on level
     ///
     /// ## Accessibility
     /// - Adds semantic accessibility label for VoiceOver

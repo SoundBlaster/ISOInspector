@@ -107,7 +107,7 @@ VStack(spacing: DS.Spacing.m) { }     // 12pt
 
 // Colors
 Text("Error")
-  .background(DS.Color.errorBG)        // Semantic red
+  .background(DS.Colors.errorBG)        // Semantic red
 
 // Typography
 Text("Title")

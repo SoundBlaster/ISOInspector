@@ -169,7 +169,7 @@
                     .accessibilityLabel(Text(documentTitle))
                 Text(subtitle)
                     .font(DS.Typography.body)
-                    .foregroundStyle(DS.Color.textSecondary)
+                    .foregroundStyle(DS.Colors.textSecondary)
                 toolbar
             }
             .padding(DS.Spacing.l)

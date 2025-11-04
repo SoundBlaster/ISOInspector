@@ -57,18 +57,18 @@ Phase 1.2 established the foundational Design System tokens for FoundationUI, im
 **File**: `Sources/FoundationUI/DesignTokens/Colors.swift`
 
 **Semantic Background Colors**:
-- `DS.Color.infoBG` - Gray 0.18 opacity (neutral)
-- `DS.Color.warnBG` - Orange 0.22 opacity (caution)
-- `DS.Color.errorBG` - Red 0.22 opacity (errors)
-- `DS.Color.successBG` - Green 0.20 opacity (success)
+- `DS.Colors.infoBG` - Gray 0.18 opacity (neutral)
+- `DS.Colors.warnBG` - Orange 0.22 opacity (caution)
+- `DS.Colors.errorBG` - Red 0.22 opacity (errors)
+- `DS.Colors.successBG` - Green 0.20 opacity (success)
 
 **Additional Colors**:
-- `DS.Color.accent` - System accent (interactive elements)
-- `DS.Color.secondary` - Gray (supporting elements)
-- `DS.Color.tertiary` - Platform-adaptive tertiary
-- `DS.Color.textPrimary` - Primary text
-- `DS.Color.textSecondary` - Secondary text
-- `DS.Color.textPlaceholder` - Placeholder text
+- `DS.Colors.accent` - System accent (interactive elements)
+- `DS.Colors.secondary` - Gray (supporting elements)
+- `DS.Colors.tertiary` - Platform-adaptive tertiary
+- `DS.Colors.textPrimary` - Primary text
+- `DS.Colors.textSecondary` - Secondary text
+- `DS.Colors.textPlaceholder` - Placeholder text
 
 **Features**:
 - WCAG 2.1 AA compliance (≥4.5:1 contrast) documented

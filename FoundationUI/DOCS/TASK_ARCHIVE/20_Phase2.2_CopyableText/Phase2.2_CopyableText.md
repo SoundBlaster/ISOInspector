@@ -85,7 +85,7 @@ import UIKit
 - Spacing: `DS.Spacing.s`, `DS.Spacing.m`
 - Animation: `DS.Animation.quick` for feedback
 - Typography: `DS.Typography.caption` for "Copied!" label
-- Colors: `DS.Color.accent` for copy indicator
+- Colors: `DS.Colors.accent` for copy indicator
 
 ### Accessibility
 - Button label: "Copy {value}"

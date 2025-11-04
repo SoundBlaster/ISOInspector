@@ -123,7 +123,7 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
 ///
 /// ## Design System Usage
 /// - **Corner Radius**: Typically uses `DS.Radius.card` or `DS.Radius.small`
-/// - **Background**: Uses system materials or DS.Color.tertiary
+/// - **Background**: Uses system materials or DS.Colors.tertiary
 /// - **Shadows**: Calibrated values that work on all platforms
 ///
 /// ## Platform Adaptation
@@ -157,10 +157,10 @@ private struct CardStyleModifier: ViewModifier {
                         Color.clear
                             .background(.regularMaterial)
                         #else
-                        DS.Color.tertiary
+                        DS.Colors.tertiary
                         #endif
                     } else {
-                        DS.Color.tertiary
+                        DS.Colors.tertiary
                     }
                 }
             )
@@ -204,7 +204,7 @@ public extension View {
     /// - `DS.Radius.card`: Standard card corner radius (10pt)
     /// - `DS.Radius.small`: Subtle corner radius (6pt)
     /// - `DS.Radius.medium`: Balanced corner radius (8pt)
-    /// - `DS.Color.tertiary`: Fallback background color
+    /// - `DS.Colors.tertiary`: Fallback background color
     ///
     /// ## Platform Adaptation
     /// - macOS: Stronger shadows for desktop UI

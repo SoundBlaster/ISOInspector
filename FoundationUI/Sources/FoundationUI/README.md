@@ -94,10 +94,10 @@ DS.Typography.code       // Monospaced (hex, code)
 ### Colors
 
 ```swift
-DS.Color.infoBG     // Neutral info background
-DS.Color.warnBG     // Warning background
-DS.Color.errorBG    // Error background
-DS.Color.successBG  // Success background
+DS.Colors.infoBG     // Neutral info background
+DS.Colors.warnBG     // Warning background
+DS.Colors.errorBG    // Error background
+DS.Colors.successBG  // Success background
 ```
 
 ### Radius

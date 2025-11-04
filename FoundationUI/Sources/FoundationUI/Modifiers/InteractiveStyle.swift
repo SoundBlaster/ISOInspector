@@ -111,7 +111,7 @@ public enum InteractionType: Equatable, Sendable {
     ///
     /// Uses system accent color for consistency with platform conventions.
     public var focusRingColor: Color {
-        return DS.Color.accent
+        return DS.Colors.accent
     }
 
     /// Focus ring width in points
@@ -139,7 +139,7 @@ public enum InteractionType: Equatable, Sendable {
 ///
 /// ## Design System Usage
 /// - **Animation**: Uses `DS.Animation.quick` for snappy responsiveness
-/// - **Colors**: Uses `DS.Color.accent` for focus indicators
+/// - **Colors**: Uses `DS.Colors.accent` for focus indicators
 ///
 /// ## Accessibility
 /// - Adds keyboard focus indicators
@@ -277,7 +277,7 @@ public extension View {
     ///
     /// ## Design Tokens Used
     /// - `DS.Animation.quick`: Fast, snappy animation for responsiveness
-    /// - `DS.Color.accent`: Focus ring color
+    /// - `DS.Colors.accent`: Focus ring color
     /// - `DS.Radius.small`: Focus ring corner radius
     ///
     /// ## Platform Adaptation
@@ -311,25 +311,25 @@ public extension View {
     VStack(spacing: DS.Spacing.xl) {
         Text("No Interaction")
             .padding()
-            .background(DS.Color.tertiary)
+            .background(DS.Colors.tertiary)
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
             .interactiveStyle(type: .none)
 
         Text("Subtle Interaction")
             .padding()
-            .background(DS.Color.tertiary)
+            .background(DS.Colors.tertiary)
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
             .interactiveStyle(type: .subtle)
 
         Text("Standard Interaction")
             .padding()
-            .background(DS.Color.tertiary)
+            .background(DS.Colors.tertiary)
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
             .interactiveStyle(type: .standard)
 
         Text("Prominent Interaction")
             .padding()
-            .background(DS.Color.tertiary)
+            .background(DS.Colors.tertiary)
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
             .interactiveStyle(type: .prominent)
     }
@@ -394,13 +394,13 @@ public extension View {
     VStack(spacing: DS.Spacing.l) {
         Text("Tab to focus")
             .padding()
-            .background(DS.Color.tertiary)
+            .background(DS.Colors.tertiary)
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
             .interactiveStyle(type: .standard, showFocusRing: true)
 
         Text("No focus ring")
             .padding()
-            .background(DS.Color.tertiary)
+            .background(DS.Colors.tertiary)
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
             .interactiveStyle(type: .standard, showFocusRing: false)
     }
@@ -433,7 +433,7 @@ public extension View {
         ForEach(1...5, id: \.self) { index in
             HStack {
                 Image(systemName: "\(index).circle.fill")
-                    .foregroundStyle(DS.Color.accent)
+                    .foregroundStyle(DS.Colors.accent)
                 Text("Item \(index)")
                 Spacer()
                 Image(systemName: "chevron.right")

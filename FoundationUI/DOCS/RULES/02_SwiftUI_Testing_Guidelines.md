@@ -80,7 +80,7 @@ func testBadge_UsesDesignTokens() {
     let badge = Badge(text: "Test", level: .info)
     XCTAssertEqual(badge.level, .info)
     // If Badge exposes styling properties:
-    XCTAssertEqual(badge.backgroundColor, DS.Color.infoBG)
+    XCTAssertEqual(badge.backgroundColor, DS.Colors.infoBG)
 }
 
 // ✅ GOOD: Test chip style properties
@@ -122,10 +122,10 @@ func testSpacing_LogicalProgression() {
 
 // ✅ Test color tokens accessibility
 func testColor_AllTokensAccessible() {
-    _ = DS.Color.textPrimary
-    _ = DS.Color.textSecondary
-    _ = DS.Color.infoBG
-    _ = DS.Color.errorBG
+    _ = DS.Colors.textPrimary
+    _ = DS.Colors.textSecondary
+    _ = DS.Colors.infoBG
+    _ = DS.Colors.errorBG
     XCTAssertTrue(true, "All color tokens should be accessible")
 }
 

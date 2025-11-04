@@ -78,9 +78,9 @@ private func copyToIOSClipboard() {
 - ✅ `DS.Spacing.s` for vertical padding
 - ✅ `DS.Typography.code` for text value
 - ✅ `DS.Typography.caption` for "Copied!" indicator
-- ✅ `DS.Color.textPrimary` for main text
-- ✅ `DS.Color.accent` for feedback
-- ✅ `DS.Color.secondary` for icon
+- ✅ `DS.Colors.textPrimary` for main text
+- ✅ `DS.Colors.accent` for feedback
+- ✅ `DS.Colors.secondary` for icon
 - ✅ `DS.Animation.quick` for transitions
 
 ### 4. Accessibility Implementation
@@ -167,9 +167,9 @@ CopyableText(text: "0xDEADBEEF", label: "Memory Address")
 - `DS.Typography.caption` - "Copied!" indicator
 
 **All Colors**: DS tokens
-- `DS.Color.textPrimary` - main text
-- `DS.Color.accent` - feedback emphasis
-- `DS.Color.secondary` - copy icon
+- `DS.Colors.textPrimary` - main text
+- `DS.Colors.accent` - feedback emphasis
+- `DS.Colors.secondary` - copy icon
 
 **All Animations**: DS tokens
 - `DS.Animation.quick` - feedback transitions (0.15s snappy)

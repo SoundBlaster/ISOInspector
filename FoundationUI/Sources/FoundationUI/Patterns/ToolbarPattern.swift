@@ -49,7 +49,7 @@ public struct ToolbarPattern: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(
             RoundedRectangle(cornerRadius: DS.Radius.medium, style: .continuous)
-                .fill(DS.Color.tertiary)
+                .fill(DS.Colors.tertiary)
         )
         .accessibilityElement(children: .contain)
         .accessibilityLabel(Text("Toolbar"))
@@ -261,11 +261,11 @@ public extension ToolbarPattern {
         fileprivate var backgroundColor: Color {
             switch self {
             case .primaryAction:
-                return DS.Color.tertiary
+                return DS.Colors.tertiary
             case .destructive:
-                return DS.Color.errorBG
+                return DS.Colors.errorBG
             case .neutral:
-                return DS.Color.infoBG
+                return DS.Colors.infoBG
             }
         }
     }

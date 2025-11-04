@@ -83,7 +83,7 @@ public enum SurfaceMaterial: Equatable, Sendable {
             return Color.gray.opacity(0.05)
         case .regular:
             // Standard background from Design System
-            return DS.Color.tertiary
+            return DS.Colors.tertiary
         case .thick:
             // More opaque for stronger separation
             return Color.gray.opacity(0.15)
@@ -120,7 +120,7 @@ public enum SurfaceMaterial: Equatable, Sendable {
 /// - Platform-specific appearance (iOS vs macOS)
 ///
 /// ## Design System Usage
-/// - **Fallback Colors**: Uses DS.Color.tertiary and gray opacity for solid fallbacks
+/// - **Fallback Colors**: Uses DS.Colors.tertiary and gray opacity for solid fallbacks
 /// - **Platform Adaptation**: Conditional materials based on OS availability
 ///
 /// ## Accessibility
@@ -193,7 +193,7 @@ public extension View {
     /// - allowFallback: Whether to use solid color on unsupported platforms (default: true)
     ///
     /// ## Design Tokens Used
-    /// - `DS.Color.tertiary`: Fallback for regular material
+    /// - `DS.Colors.tertiary`: Fallback for regular material
     /// - Gray opacity: Fallbacks for thin/thick/ultra materials
     ///
     /// ## Platform Adaptation

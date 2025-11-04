@@ -280,7 +280,7 @@ where Data: RandomAccessCollection,
     private func selectionBackground(for item: Data.Element) -> some View {
         if isSelected(item) {
             RoundedRectangle(cornerRadius: DS.Radius.small, style: .continuous)
-                .fill(DS.Color.infoBG)
+                .fill(DS.Colors.infoBG)
         }
     }
 
