@@ -1,10 +1,18 @@
 # PRD: Swift Strict Concurrency for Store Architecture
 
-**Document Version**: 1.0
-**Date**: 2025-10-27
-**Status**: Proposed
+**Document Version**: 1.1
+**Date**: 2025-10-27 (last updated 2025-11-02)
+**Status**: Proposed – implementation not yet started in main branch
 **Priority**: P1 (High Priority - Foundation Enhancement)
 **Related To**: ISOInspectorKit Store Architecture (ParseIssueStore)
+
+> **Reality Check (2025-11-02)**
+>
+> The production `ParseIssueStore` in `Sources/ISOInspectorKit/Stores/ParseIssueStore.swift` still uses the queue-based
+> `performOnQueue`/`readOnQueue` helpers with `DispatchQueue.sync` for reads and `DispatchQueue.async` for writes. No actor-
+> isolated or `@MainActor` variants exist yet, and the type continues to declare `@unchecked Sendable` conformance. This PRD
+> therefore reflects a future-state plan rather than completed work; the migration phases and success criteria below remain
+> entirely outstanding.
 
 ---
 
