@@ -21,14 +21,16 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
 
     func testKeyboardShortcutsWithToolbarPattern() {
         // Test that keyboard shortcuts integrate with ToolbarPattern items
-        let toolbar = ToolbarPattern(items: [
-            ToolbarPattern.Item(
-                id: "copy",
-                label: "Copy",
-                icon: "doc.on.doc",
-                action: {}
-            )
-        ])
+        let toolbar = ToolbarPattern(items: ToolbarPattern.Items(
+            primary: [
+                ToolbarPattern.Item(
+                    id: "copy",
+                    iconSystemName: "doc.on.doc",
+                    title: "Copy",
+                    action: {}
+                )
+            ]
+        ))
 
         XCTAssertNotNil(toolbar, "Keyboard shortcuts should work with ToolbarPattern")
         // Toolbar items should display keyboard shortcut hints

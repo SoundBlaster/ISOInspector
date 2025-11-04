@@ -74,7 +74,7 @@ final class CrossUtilityIntegrationTests: XCTestCase {
                     .accessibleHeading(level: 1)
 
                 // KeyValueRow with CopyableText
-                KeyValueRow(key: "File Hash", value: "0xABCDEF", isCopyable: true)
+                KeyValueRow(key: "File Hash", value: "0xABCDEF", copyable: true)
 
                 // Shortcut hint
                 Text("Press \(KeyboardShortcutType.copy.displayString) to copy")
@@ -97,14 +97,16 @@ final class CrossUtilityIntegrationTests: XCTestCase {
 
     func testAllThreeUtilitiesInToolbarPattern() {
         // Test utilities in ToolbarPattern
-        let toolbar = ToolbarPattern(items: [
-            ToolbarPattern.Item(
-                id: "copy",
-                label: "Copy (\(KeyboardShortcutType.copy.displayString))",
-                icon: "doc.on.doc",
-                action: {}
-            )
-        ])
+        let toolbar = ToolbarPattern(items: ToolbarPattern.Items(
+            primary: [
+                ToolbarPattern.Item(
+                    id: "copy",
+                    iconSystemName: "doc.on.doc",
+                    title: "Copy (\(KeyboardShortcutType.copy.displayString))",
+                    action: {}
+                )
+            ]
+        ))
 
         XCTAssertNotNil(toolbar, "ToolbarPattern should integrate all utilities")
 
@@ -129,7 +131,7 @@ final class CrossUtilityIntegrationTests: XCTestCase {
 
                 // Content with all utilities
                 VStack(spacing: DS.Spacing.m) {
-                    KeyValueRow(key: "ID", value: "12345", isCopyable: true)
+                    KeyValueRow(key: "ID", value: "12345", copyable: true)
                     Text("Shortcut: \(KeyboardShortcutType.copy.displayString)")
                         .font(DS.Typography.caption)
                 }
@@ -230,8 +232,8 @@ final class CrossUtilityIntegrationTests: XCTestCase {
                     .accessibleHeading(level: 1)
 
                 KeyValueRow(key: "Box Type", value: "ftyp")
-                KeyValueRow(key: "Offset", value: "0x00000000", isCopyable: true)
-                KeyValueRow(key: "Size", value: "32 bytes", isCopyable: true)
+                KeyValueRow(key: "Offset", value: "0x00000000", copyable: true)
+                KeyValueRow(key: "Size", value: "32 bytes", copyable: true)
 
                 // Shortcut hints
                 HStack {
