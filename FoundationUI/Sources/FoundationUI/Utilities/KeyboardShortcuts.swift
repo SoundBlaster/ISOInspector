@@ -180,14 +180,16 @@ public enum KeyboardShortcutType: Sendable {
     /// Accessibility label describing the shortcut
     ///
     /// Provides a descriptive label suitable for VoiceOver and other assistive technologies.
+    /// Includes both the action name and the keyboard shortcut.
     ///
     /// ## Example
     ///
     /// ```swift
     /// KeyboardShortcutType.copy.accessibilityLabel
-    /// // "Command C" on macOS, "Control C" elsewhere
+    /// // "Copy, Command C" on macOS, "Copy, Control C" elsewhere
     /// ```
     public var accessibilityLabel: String {
+        let actionName = self.actionName
         let keyChar = keyEquivalent.character.uppercased()
 
         #if os(macOS)
@@ -196,7 +198,25 @@ public enum KeyboardShortcutType: Sendable {
         let modifierText = accessibilityModifierText(macOS: false)
         #endif
 
-        return "\(modifierText) \(keyChar)"
+        return "\(actionName), \(modifierText) \(keyChar)"
+    }
+
+    /// Returns the human-readable action name for this shortcut
+    private var actionName: String {
+        switch self {
+        case .copy: return "Copy"
+        case .paste: return "Paste"
+        case .cut: return "Cut"
+        case .selectAll: return "Select All"
+        case .undo: return "Undo"
+        case .redo: return "Redo"
+        case .save: return "Save"
+        case .find: return "Find"
+        case .newItem: return "New"
+        case .close: return "Close"
+        case .refresh: return "Refresh"
+        case .custom: return "Custom Action"
+        }
     }
 
     /// Helper to generate accessibility text for modifiers
