@@ -338,6 +338,131 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
         )
     }
 
+    func testInspectTolerantRunPrintsCorruptionSummaryWhenIssuesRecorded() throws {
+        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
+            func record(_ entry: ResearchLogEntry) {}
+        }
+
+        let printed = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                XCTAssertEqual(url.path, "/tmp/sample.mp4")
+                return StubReader()
+            },
+            parsePipeline: ParsePipeline(buildStream: { _, context in
+                context.issueStore?.record(
+                    ParseIssue(
+                        severity: .error,
+                        code: "VR-001",
+                        message: "Box exceeds parent"
+                    ),
+                    depth: 4
+                )
+                return AsyncThrowingStream { continuation in
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { _ in },
+            makeResearchLogWriter: { _ in NullResearchLog() },
+            defaultResearchLogURL: { URL(fileURLWithPath: "/tmp/research-log.json") }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "inspect",
+                "--tolerant",
+                "/tmp/sample.mp4"
+            ],
+            environment: environment
+        )
+
+        XCTAssertTrue(printed.value.contains("Corruption summary:"))
+        XCTAssertTrue(printed.value.contains("  Errors: 1"))
+        XCTAssertTrue(printed.value.contains("  Warnings: 0"))
+        XCTAssertTrue(printed.value.contains("  Info: 0"))
+        XCTAssertTrue(printed.value.contains("  Deepest affected depth: 4"))
+    }
+
+    func testInspectTolerantRunOmitsCorruptionSummaryWhenNoIssuesRecorded() throws {
+        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
+            func record(_ entry: ResearchLogEntry) {}
+        }
+
+        let printed = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { _ in StubReader() },
+            parsePipeline: ParsePipeline(buildStream: { _, _ in
+                AsyncThrowingStream { continuation in
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { _ in },
+            makeResearchLogWriter: { _ in NullResearchLog() },
+            defaultResearchLogURL: { URL(fileURLWithPath: "/tmp/research-log.json") }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "inspect",
+                "--tolerant",
+                "/tmp/sample.mp4"
+            ],
+            environment: environment
+        )
+
+        XCTAssertFalse(printed.value.contains("Corruption summary:"))
+    }
+
+    func testInspectStrictRunOmitsCorruptionSummaryEvenWhenIssuesRecorded() throws {
+        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
+            func record(_ entry: ResearchLogEntry) {}
+        }
+
+        let printed = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { _ in StubReader() },
+            parsePipeline: ParsePipeline(buildStream: { _, context in
+                context.issueStore?.record(
+                    ParseIssue(
+                        severity: .warning,
+                        code: "VR-002",
+                        message: "Warning issued"
+                    ),
+                    depth: 2
+                )
+                return AsyncThrowingStream { continuation in
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { _ in },
+            makeResearchLogWriter: { _ in NullResearchLog() },
+            defaultResearchLogURL: { URL(fileURLWithPath: "/tmp/research-log.json") }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "inspect",
+                "--strict",
+                "/tmp/sample.mp4"
+            ],
+            environment: environment
+        )
+
+        XCTAssertFalse(printed.value.contains("Corruption summary:"))
+    }
+
     func testExportJSONHonorsTolerantFlag() throws {
         let header = try makeHeader(type: "ftyp", size: 24)
         let descriptor = try XCTUnwrap(BoxCatalog.shared.descriptor(for: header))

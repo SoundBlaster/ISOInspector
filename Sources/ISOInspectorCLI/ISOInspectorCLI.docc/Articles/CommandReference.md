@@ -14,6 +14,11 @@ Runs the streaming parser, printing validation issues, research log notes, and a
 summary of the MP4 structure. This command is ideal for quick verification or as
 a CI gate.
 
+When tolerant mode is enabled with `--tolerant`, the CLI appends a corruption
+summary after the parse completes. The summary lists error, warning, and info
+totals along with the deepest affected depth so operators can gauge severity
+without opening the UI.
+
 ## Validate
 
 ```
