@@ -8,3 +8,7 @@
 ## Notes
 
 - Keep backlog references (`todo.md`, execution workplan, PRD TODO) aligned with the archived folder so follow-up investigators can locate the previous context quickly.
+
+## Completed Tasks
+
+- **T6.2 — CLI Corruption Summary Output**: Added tolerant-mode corruption summary lines to `isoinspect inspect`, including severity counts and the deepest affected depth sourced from `ParseIssueStore`. Updated DocC command reference and introduced new CLI scaffold tests covering tolerant runs with and without recorded issues as well as strict-mode gating.

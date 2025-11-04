@@ -260,12 +260,14 @@ public enum ISOInspectorCLIRunner {
                 environment.print(
                     "VR-006 schema v\(ResearchLogSchema.version): \(ResearchLogSchema.fieldNames.joined(separator: ", "))"
                 )
+                let issueStore = environment.issueStore
                 let events = environment.parsePipeline.events(
                     for: reader,
                     context: .init(
                         source: options.fileURL,
                         researchLog: researchLog,
-                        options: options.parseOptions
+                        options: options.parseOptions,
+                        issueStore: issueStore
                     )
                 )
                 let semaphore = DispatchSemaphore(value: 0)
@@ -282,6 +284,11 @@ public enum ISOInspectorCLIRunner {
                 }
 
                 semaphore.wait()
+                emitCorruptionSummaryIfNeeded(
+                    parseOptions: options.parseOptions,
+                    issueStore: issueStore,
+                    using: environment
+                )
             } catch {
                 environment.printError("Failed to inspect file: \(error)")
             }
@@ -357,6 +364,22 @@ public enum ISOInspectorCLIRunner {
         let fileURL = URL(fileURLWithPath: filePath, relativeTo: cwd).standardizedFileURL
         let options = requestedOptions ?? .strict
         return .success(InspectOptions(fileURL: fileURL, researchLogURL: researchLogURL, parseOptions: options))
+    }
+
+    private static func emitCorruptionSummaryIfNeeded(
+        parseOptions: ParsePipeline.Options,
+        issueStore: ParseIssueStore,
+        using environment: ISOInspectorCLIEnvironment
+    ) {
+        guard parseOptions == .tolerant else { return }
+        let summary = issueStore.makeIssueSummary()
+        guard summary.totalCount > 0 else { return }
+
+        environment.print("Corruption summary:")
+        environment.print("  Errors: \(summary.count(for: .error))")
+        environment.print("  Warnings: \(summary.count(for: .warning))")
+        environment.print("  Info: \(summary.count(for: .info))")
+        environment.print("  Deepest affected depth: \(summary.deepestAffectedDepth)")
     }
 
     private static func parseRefreshOptions(
