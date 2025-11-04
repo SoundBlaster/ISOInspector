@@ -549,16 +549,25 @@ extension View {
 
     /// Applies focus priority for keyboard navigation
     ///
-    /// - Parameter priority: The focus priority
-    /// - Returns: A view with focus modifier
+    /// Uses SwiftUI's `accessibilitySortPriority` to influence the order in which
+    /// VoiceOver and other assistive technologies navigate through elements.
+    ///
+    /// - Parameter priority: The focus priority (low: -1, medium: 0, high: 1)
+    /// - Returns: A view with accessibility sort priority applied
     ///
     /// ## Example
     /// ```swift
     /// TextField("Search", text: $query)
     ///     .accessibleFocus(priority: .high)
+    /// // This field will be focused before lower-priority elements
     /// ```
+    ///
+    /// ## Priority Mapping
+    /// - `.high`: Sort priority 1 (focused first)
+    /// - `.medium`: Sort priority 0 (default order)
+    /// - `.low`: Sort priority -1 (focused last)
     public func accessibleFocus(priority: AccessibilityFocusPriority) -> some View {
-        self
+        self.accessibilitySortPriority(priority.rawValue)
     }
 
     // MARK: - Platform-Specific Extensions
@@ -575,21 +584,63 @@ extension View {
     #if os(iOS)
     /// Adds entry to iOS VoiceOver rotor
     ///
-    /// - Parameter entry: The rotor entry name
+    /// VoiceOver rotor allows users to quickly navigate between specific elements
+    /// (like headings, links, buttons) by rotating two fingers on the screen.
+    ///
+    /// - Parameter entry: The rotor entry name describing the element type
     /// - Returns: A view with VoiceOver rotor entry
+    ///
+    /// ## Example
+    /// ```swift
+    /// Text("Section Title")
+    ///     .font(.headline)
+    ///     .voiceOverRotor(entry: "Heading")
+    /// ```
     public func voiceOverRotor(entry: String) -> some View {
-        self
+        self.accessibilityAddTraits(.isHeader)
+            .accessibilityLabel(entry)
     }
     #endif
 }
 
 // MARK: - Accessibility Focus Priority
 
-/// Priority for accessibility focus
+/// Priority for accessibility focus in navigation order
+///
+/// Determines the order in which VoiceOver and other assistive technologies
+/// navigate through UI elements. Higher priority elements are focused first.
+///
+/// ## Priority Values
+/// - `.high`: Sort priority 1 (focused first)
+/// - `.medium`: Sort priority 0 (default behavior)
+/// - `.low`: Sort priority -1 (focused last)
+///
+/// ## Usage
+/// ```swift
+/// VStack {
+///     TextField("Search", text: $query)
+///         .accessibleFocus(priority: .high)  // Focused first
+///
+///     Button("Submit") {}
+///         .accessibleFocus(priority: .medium)  // Default order
+///
+///     Text("Help text")
+///         .accessibleFocus(priority: .low)  // Focused last
+/// }
+/// ```
 public enum AccessibilityFocusPriority {
     case low
     case medium
     case high
+
+    /// Maps priority to SwiftUI's accessibilitySortPriority value
+    var rawValue: Double {
+        switch self {
+        case .low: return -1.0
+        case .medium: return 0.0
+        case .high: return 1.0
+        }
+    }
 }
 
 // MARK: - SwiftUI Previews
