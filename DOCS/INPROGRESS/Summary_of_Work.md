@@ -1,13 +1,10 @@
 # Summary of Work — 2025-11-04
 
-## Tasks Reviewed
+## Status
 
-- **Run the lenient-versus-strict benchmark on macOS hardware with Combine enabled using the 1 GiB fixture.**
-  - **Status:** Blocked.
-  - **Details:** The required 1 GiB benchmark fixture and macOS hardware are unavailable in the current Linux CI container, so the performance run and metrics capture could not be executed.
-  - **Next Steps:** Re-run once macOS hardware with the fixture is available; follow the checklist in `DOCS/INPROGRESS/next_tasks.md`.
+- All prior in-progress notes for the macOS 1 GiB lenient-versus-strict benchmark have been archived under `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.
+- Awaiting macOS hardware with the 1 GiB fixture to resume the benchmark run documented in `next_tasks.md`.
 
 ## Notes
 
-- No code changes were made because the benchmark cannot be executed in this environment.
-- `todo.md` retains the pending checklist item for the macOS benchmark.
+- Keep backlog references (`todo.md`, execution workplan, PRD TODO) aligned with the archived folder so follow-up investigators can locate the previous context quickly.
