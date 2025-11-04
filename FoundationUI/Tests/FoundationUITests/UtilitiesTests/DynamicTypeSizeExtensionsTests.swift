@@ -21,19 +21,19 @@ final class DynamicTypeSizeExtensionsTests: XCTestCase {
                        "accessibilityLarge should map to accessibility2")
     }
 
-    func testAccessibilityExtraLargeMapsToAccessibility3() {
-        XCTAssertEqual(DynamicTypeSize.accessibilityExtraLarge, .accessibility3,
-                       "accessibilityExtraLarge should map to accessibility3")
+    func testAccessibilityXLargeMapsToAccessibility3() {
+        XCTAssertEqual(DynamicTypeSize.accessibilityXLarge, .accessibility3,
+                       "accessibilityXLarge should map to accessibility3")
     }
 
-    func testAccessibilityExtraExtraLargeMapsToAccessibility4() {
-        XCTAssertEqual(DynamicTypeSize.accessibilityExtraExtraLarge, .accessibility4,
-                       "accessibilityExtraExtraLarge should map to accessibility4")
+    func testAccessibilityXxLargeMapsToAccessibility4() {
+        XCTAssertEqual(DynamicTypeSize.accessibilityXxLarge, .accessibility4,
+                       "accessibilityXxLarge should map to accessibility4")
     }
 
-    func testAccessibilityExtraExtraExtraLargeMapsToAccessibility5() {
-        XCTAssertEqual(DynamicTypeSize.accessibilityExtraExtraExtraLarge, .accessibility5,
-                       "accessibilityExtraExtraExtraLarge should map to accessibility5")
+    func testAccessibilityXxxLargeMapsToAccessibility5() {
+        XCTAssertEqual(DynamicTypeSize.accessibilityXxxLarge, .accessibility5,
+                       "accessibilityXxxLarge should map to accessibility5")
     }
 
     // MARK: - Comparable Tests
@@ -61,8 +61,8 @@ final class DynamicTypeSizeExtensionsTests: XCTestCase {
                       "small should be <= large")
         XCTAssertTrue(DynamicTypeSize.large <= .large,
                       "large should be <= large (equal)")
-        XCTAssertFalse(DynamicTypeSize.accessibilityExtraLarge <= .medium,
-                       "accessibilityExtraLarge should not be <= medium")
+        XCTAssertFalse(DynamicTypeSize.accessibilityXLarge <= .medium,
+                       "accessibilityXLarge should not be <= medium")
     }
 
     func testGreaterThanOrEqualOperator() {
@@ -119,9 +119,9 @@ final class DynamicTypeSizeExtensionsTests: XCTestCase {
             .xxxLarge,
             .accessibilityMedium,
             .accessibilityLarge,
-            .accessibilityExtraLarge,
-            .accessibilityExtraExtraLarge,
-            .accessibilityExtraExtraExtraLarge
+            .accessibilityXLarge,
+            .accessibilityXxLarge,
+            .accessibilityXxxLarge
         ]
 
         // Verify each element is less than the next
@@ -138,8 +138,8 @@ final class DynamicTypeSizeExtensionsTests: XCTestCase {
             .xSmall, .small, .medium, .large, .xLarge,
             .xxLarge, .xxxLarge,
             .accessibilityMedium, .accessibilityLarge,
-            .accessibilityExtraLarge, .accessibilityExtraExtraLarge,
-            .accessibilityExtraExtraExtraLarge
+            .accessibilityXLarge, .accessibilityXxLarge,
+            .accessibilityXxxLarge
         ]
 
         let accessibilitySizes = allSizes.filter { $0 >= .accessibilityMedium }
@@ -148,9 +148,9 @@ final class DynamicTypeSizeExtensionsTests: XCTestCase {
                        "Should have 5 accessibility sizes")
         XCTAssertTrue(accessibilitySizes.contains(.accessibilityMedium))
         XCTAssertTrue(accessibilitySizes.contains(.accessibilityLarge))
-        XCTAssertTrue(accessibilitySizes.contains(.accessibilityExtraLarge))
-        XCTAssertTrue(accessibilitySizes.contains(.accessibilityExtraExtraLarge))
-        XCTAssertTrue(accessibilitySizes.contains(.accessibilityExtraExtraExtraLarge))
+        XCTAssertTrue(accessibilitySizes.contains(.accessibilityXLarge))
+        XCTAssertTrue(accessibilitySizes.contains(.accessibilityXxLarge))
+        XCTAssertTrue(accessibilitySizes.contains(.accessibilityXxxLarge))
     }
 
     func testMinMaxSizes() {
@@ -177,8 +177,8 @@ final class DynamicTypeSizeExtensionsTests: XCTestCase {
                       "accessibilityMedium should be accessibility size")
         XCTAssertTrue(AccessibilityHelpers.isAccessibilitySize(.accessibilityLarge),
                       "accessibilityLarge should be accessibility size")
-        XCTAssertTrue(AccessibilityHelpers.isAccessibilitySize(.accessibilityExtraExtraExtraLarge),
-                      "accessibilityExtraExtraExtraLarge should be accessibility size")
+        XCTAssertTrue(AccessibilityHelpers.isAccessibilitySize(.accessibilityXxxLarge),
+                      "accessibilityXxxLarge should be accessibility size")
     }
 }
 #endif

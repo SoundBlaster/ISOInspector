@@ -40,23 +40,26 @@ extension DynamicTypeSize: Comparable {
     /// Provides significantly larger text for vision accessibility.
     public static var accessibilityLarge: DynamicTypeSize { .accessibility2 }
 
-    /// Accessibility Extra Large size (equivalent to .accessibility3)
+    /// Accessibility XLarge size (equivalent to .accessibility3)
     ///
     /// Third level of accessibility text sizes, typically 2.0× base size.
     /// For users who need very large text.
-    public static var accessibilityExtraLarge: DynamicTypeSize { .accessibility3 }
+    /// Consistent naming with base `.xLarge` size.
+    public static var accessibilityXLarge: DynamicTypeSize { .accessibility3 }
 
-    /// Accessibility Extra Extra Large size (equivalent to .accessibility4)
+    /// Accessibility XXLarge size (equivalent to .accessibility4)
     ///
     /// Fourth level of accessibility text sizes, typically 2.3× base size.
     /// For users with significant vision impairments.
-    public static var accessibilityExtraExtraLarge: DynamicTypeSize { .accessibility4 }
+    /// Consistent naming with base `.xxLarge` size.
+    public static var accessibilityXxLarge: DynamicTypeSize { .accessibility4 }
 
-    /// Accessibility Extra Extra Extra Large size (equivalent to .accessibility5)
+    /// Accessibility XXXLarge size (equivalent to .accessibility5)
     ///
     /// Maximum accessibility text size, typically 2.5× base size.
     /// Largest possible Dynamic Type size for maximum accessibility.
-    public static var accessibilityExtraExtraExtraLarge: DynamicTypeSize { .accessibility5 }
+    /// Consistent naming with base `.xxxLarge` size.
+    public static var accessibilityXxxLarge: DynamicTypeSize { .accessibility5 }
 
     // MARK: - Comparable Conformance
 
