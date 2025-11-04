@@ -370,15 +370,15 @@ public enum AccessibilityHelpers {
     /// Checks if a Dynamic Type size is an accessibility size
     ///
     /// - Parameter size: The Dynamic Type size to check
-    /// - Returns: `true` if size is accessibility category (≥ .accessibilityMedium)
+    /// - Returns: `true` if size is accessibility category (≥ .accessibility1)
     ///
     /// ## Example
     /// ```swift
-    /// AccessibilityHelpers.isAccessibilitySize(.accessibilityMedium) // true
+    /// AccessibilityHelpers.isAccessibilitySize(.accessibility1) // true
     /// AccessibilityHelpers.isAccessibilitySize(.large) // false
     /// ```
     public static func isAccessibilitySize(_ size: DynamicTypeSize) -> Bool {
-        size >= .accessibilityMedium
+        size >= .accessibility1
     }
 
     // MARK: - AccessibilityContext Integration
@@ -451,11 +451,11 @@ public enum AccessibilityHelpers {
         case .xLarge: return 1.1
         case .xxLarge: return 1.2
         case .xxxLarge: return 1.3
-        case .accessibilityMedium: return 1.5
-        case .accessibilityLarge: return 1.8
-        case .accessibilityExtraLarge: return 2.0
-        case .accessibilityExtraExtraLarge: return 2.3
-        case .accessibilityExtraExtraExtraLarge: return 2.5
+        case .accessibility1: return 1.5
+        case .accessibility2: return 1.8
+        case .accessibility3: return 2.0
+        case .accessibility4: return 2.3
+        case .accessibility5: return 2.5
         @unknown default: return 1.0
         }
     }
