@@ -70,7 +70,7 @@ Extend SwiftUI views to surface corruption badges, placeholders, and diagnostic 
 | T3.4 | Implement placeholder nodes for missing/required children: expected fourcc, attach issues, link to hex viewer. **(✅ Completed — see `DOCS/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/Summary_of_Work.md`)** | Medium | 2d | T1.2 | Missing `stbl` child renders placeholder with "expected but absent" message. |
 | T3.5 | Add contextual status labels (Invalid, Empty, Corrupted, Partial, Trimmed) to tree view and detail inspector. **(✅ Completed — see `DOCS/TASK_ARCHIVE/191_T3_5_Contextual_Status_Labels/Summary_of_Work.md`.)** | Medium | 1d | T1.2 | Labels reflect node status; color-coded for severity (error=red, warning=yellow, info=blue). |
 | T3.6 | Create "Integrity" summary tab aggregating all issues, sortable by severity, with export to text/JSON. **(🚧 In Progress — see `DOCS/INPROGRESS/T3_6_Integrity_Summary_Tab.md` for current PRD.)** | Medium | 2d | T2.1, T2.3 | Tab lists all issues; filter/sort controls work; export actions present in Share menu. |
-| T3.7 | Add tree view filters to show/hide corrupt nodes; keyboard shortcuts to jump between issues. **(✅ Completed — see `DOCS/INPROGRESS/Summary_of_Work.md` dated 2025-10-30 for rollout details.)** | Low | 1d | T3.2 | Filter toggle in toolbar; Cmd+Shift+E jumps to next issue. |
+| T3.7 | Add tree view filters to show/hide corrupt nodes; keyboard shortcuts to jump between issues. **(✅ Completed — see `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/Summary_of_Work.md` dated 2025-10-30 for rollout details.)** | Low | 1d | T3.2 | Filter toggle in toolbar; Cmd+Shift+E jumps to next issue. |
 
 **Verification:**
 - SwiftUI previews render corrupt fixtures with badges and placeholders
@@ -124,7 +124,7 @@ Ensure CLI and SDK surface tolerant parsing equivalently to the GUI.
 
 | Task ID | Description | Priority | Effort | Dependencies | Acceptance Criteria |
 |---------|-------------|----------|--------|--------------|---------------------|
-| T6.1 | Add `--tolerant` flag to CLI; defaults to lenient for interactive, strict for CI/scripting contexts. | High | 1d | T1.3 | CLI accepts flag; help text documents behavior. **(🚧 In Progress — see `DOCS/INPROGRESS/205_T6_1_CLI_Tolerant_Flag.md`.)** |
+| T6.1 | Add `--tolerant` flag to CLI; defaults to lenient for interactive, strict for CI/scripting contexts. | High | 1d | T1.3 | CLI accepts flag; help text documents behavior. **(✅ Completed — see `DOCS/TASK_ARCHIVE/204_T6_1_CLI_Tolerant_Flag/Summary_of_Work.md`.)** |
 | T6.2 | Extend CLI output to show corruption summary (counts by severity). | Medium | 1d | T2.3 | CLI prints summary table after parse completion. |
 | T6.3 | Ensure SDK consumers can opt into tolerant parsing via `ISOInspectorKit.ParseOptions`. | Medium | 1d | T1.3 | SDK docs include tolerant parsing example; API is public. |
 | T6.4 | Update CLI manual and SDK guides with tolerant mode usage and diagnostics interpretation. | Low | 1d | T6.1-T6.3 | Documentation updated; examples provided. |
