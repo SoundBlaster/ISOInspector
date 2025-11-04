@@ -225,6 +225,180 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
         XCTAssertTrue(FileManager.default.fileExists(atPath: expectedCapture.path))
     }
 
+    func testInspectDefaultsToStrictMode() throws {
+        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
+            func record(_ entry: ResearchLogEntry) {}
+        }
+
+        let recordedOptions = MutableBox<[ParsePipeline.Options]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                XCTAssertEqual(url.path, "/tmp/sample.mp4")
+                return StubReader()
+            },
+            parsePipeline: ParsePipeline(buildStream: { _, context in
+                recordedOptions.value.append(context.options)
+                return AsyncThrowingStream { continuation in
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { _ in },
+            printError: { _ in },
+            makeResearchLogWriter: { _ in NullResearchLog() },
+            defaultResearchLogURL: { URL(fileURLWithPath: "/tmp/research-log.json") }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "inspect",
+                "/tmp/sample.mp4"
+            ],
+            environment: environment
+        )
+
+        XCTAssertEqual(recordedOptions.value, [.strict])
+    }
+
+    func testInspectTolerantFlagOverridesDefaultMode() throws {
+        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
+            func record(_ entry: ResearchLogEntry) {}
+        }
+
+        let recordedOptions = MutableBox<[ParsePipeline.Options]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                XCTAssertEqual(url.path, "/tmp/sample.mp4")
+                return StubReader()
+            },
+            parsePipeline: ParsePipeline(buildStream: { _, context in
+                recordedOptions.value.append(context.options)
+                return AsyncThrowingStream { continuation in
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { _ in },
+            printError: { _ in },
+            makeResearchLogWriter: { _ in NullResearchLog() },
+            defaultResearchLogURL: { URL(fileURLWithPath: "/tmp/research-log.json") }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "inspect",
+                "--tolerant",
+                "/tmp/sample.mp4"
+            ],
+            environment: environment
+        )
+
+        XCTAssertEqual(recordedOptions.value, [.tolerant])
+    }
+
+    func testInspectRejectsConflictingParseModeFlags() throws {
+        let printedErrors = MutableBox<[String]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { _ in StubReader() },
+            parsePipeline: ParsePipeline(buildStream: { _, _ in
+                AsyncThrowingStream { continuation in
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { _ in },
+            printError: { printedErrors.value.append($0) },
+            makeResearchLogWriter: { _ in
+                final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
+                    func record(_ entry: ResearchLogEntry) {}
+                }
+                return NullResearchLog()
+            },
+            defaultResearchLogURL: { URL(fileURLWithPath: "/tmp/research-log.json") }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "inspect",
+                "--tolerant",
+                "--strict",
+                "/tmp/sample.mp4"
+            ],
+            environment: environment
+        )
+
+        XCTAssertTrue(
+            printedErrors.value.contains(where: { $0.contains("Cannot combine --tolerant and --strict") })
+        )
+    }
+
+    func testExportJSONHonorsTolerantFlag() throws {
+        let header = try makeHeader(type: "ftyp", size: 24)
+        let descriptor = try XCTUnwrap(BoxCatalog.shared.descriptor(for: header))
+        let events = [
+            ParseEvent(
+                kind: .willStartBox(header: header, depth: 0),
+                offset: header.startOffset,
+                metadata: descriptor
+            ),
+            ParseEvent(
+                kind: .didFinishBox(header: header, depth: 0),
+                offset: header.endOffset,
+                metadata: descriptor
+            )
+        ]
+
+        let recordedOptions = MutableBox<[ParsePipeline.Options]>([])
+        let outputDirectory = URL(fileURLWithPath: NSTemporaryDirectory())
+            .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: outputDirectory, withIntermediateDirectories: true)
+
+        let input = outputDirectory.appendingPathComponent("sample.mp4")
+        XCTAssertTrue(FileManager.default.createFile(atPath: input.path, contents: Data()))
+        let output = outputDirectory.appendingPathComponent("tree.json")
+
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                XCTAssertEqual(url, input)
+                return StubReader()
+            },
+            parsePipeline: ParsePipeline(buildStream: { _, context in
+                recordedOptions.value.append(context.options)
+                return AsyncThrowingStream { continuation in
+                    for event in events {
+                        continuation.yield(event)
+                    }
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { _ in },
+            printError: { _ in }
+        )
+
+        ISOInspectorCLIRunner.run(
+            arguments: [
+                "isoinspect",
+                "export-json",
+                "--tolerant",
+                input.path,
+                "--output",
+                output.path
+            ],
+            environment: environment
+        )
+
+        XCTAssertEqual(recordedOptions.value, [.tolerant])
+        XCTAssertTrue(FileManager.default.fileExists(atPath: output.path))
+    }
+
     func testRunExecutesMP4RARefreshWithParsedArguments() throws {
         let capturedSource = MutableBox<URL?>(nil)
         let capturedOutput = MutableBox<URL?>(nil)

@@ -33,7 +33,7 @@ Use these flags before any subcommand:
 ## `inspect` — stream parse events
 
 ```
-isoinspect [global options] inspect <file> [--research-log <path>]
+isoinspect [global options] inspect <file> [--research-log <path>] [--tolerant|--strict]
 ```
 
 - Streams parse events, validation issues, and research log hooks to stdout using the active formatter.【F:Sources/ISOInspectorC
@@ -41,6 +41,7 @@ LI/ISOInspectorCommand.swift†L149-L205】
 - If `--research-log` is omitted, events are written to `~/.isoinspector/research-log.json` (macOS) or the user documents direc
 tory on mobile platforms via `ResearchLogWriter.defaultLogURL`.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L166-L199】【
 F:Sources/ISOInspectorKit/Validation/ResearchLogWriter.swift†L19-L60】
+- `--tolerant` switches the CLI to the lenient parse preset so corruption issues stream without aborting; omitting the flag (or passing `--strict`) keeps the CI-friendly strict default.【F:Sources/ISOInspectorCLI/CLI.swift†L188-L207】【F:Sources/ISOInspectorCLI/CLI.swift†L324-L371】
 - Exit codes: `0` on success, `3` when parsing fails (I/O or validation pipeline errors).【F:Sources/ISOInspectorCLI/ISOInspecto
 rCommand.swift†L191-L205】
 
@@ -68,30 +69,32 @@ isoinspect [global options] validate <file>
 ### JSON tree
 
 ```
-isoinspect [global options] export json <file> [--output <path>]
+isoinspect [global options] export json <file> [--output <path>] [--tolerant|--strict]
 ```
 
 - Builds the full parse tree and writes a `.isoinspector.json` file next to the input when no output path is provided.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L271-L360】
 - The exporter reuses streaming events, ensuring parity with the interactive UI.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L373-L418】
 - Customized validation settings embed the preset identifier and disabled rules inside the exported JSON metadata for downstream tooling.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L609-L633】
+- Add `--tolerant` when exporting corrupt fixtures so the pipeline records issues without aborting; `--strict` remains the default when the flag is omitted.【F:Sources/ISOInspectorCLI/CLI.swift†L192-L207】【F:Sources/ISOInspectorCLI/CLI.swift†L480-L537】
 
 ### Plaintext issue summary
 
 ```
-isoinspect [global options] export text <file> [--output <path>]
+isoinspect [global options] export text <file> [--output <path>] [--tolerant|--strict]
 ```
 
 - Generates a human-readable report listing tolerant parsing issues grouped by severity along with the file path, byte size, and analysis timestamp. The default extension is `.isoinspector.txt`.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L271-L418】【F:Sources/ISOInspectorCLI/CLI.swift†L376-L520】
 - Reports reuse the shared exporter so the CLI and app surface identical formatting and metadata.【F:Sources/ISOInspectorKit/Export/PlaintextIssueSummaryExporter.swift†L1-L191】【F:Sources/ISOInspectorApp/State/DocumentSessionController.swift†L341-L415】
+- The same `--tolerant` flag activates lenient parsing before summaries are generated, mirroring the JSON exporter’s behaviour.【F:Sources/ISOInspectorCLI/CLI.swift†L480-L537】
 
 ### Binary capture
 
 ```
-isoinspect [global options] export capture <file> [--output <path>]
+isoinspect [global options] export capture <file> [--output <path>] [--tolerant|--strict]
 ```
 
-- Serializes streaming events for later replay using `ParseEventCaptureEncoder`. Default extension: `.capture`.【F:Sources/ISOIn
-spectorCLI/ISOInspectorCommand.swift†L271-L418】
+- Serializes streaming events for later replay using `ParseEventCaptureEncoder`. Default extension: `.capture`.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L271-L418】
+- Capture exports also honour `--tolerant` so corruption events remain part of the recorded stream without aborting execution.【F:Sources/ISOInspectorCLI/CLI.swift†L480-L537】
 
 Both export variants validate the destination directory before writing and return exit code `3` if the path is unwritable.【F:So
 urces/ISOInspectorCLI/ISOInspectorCommand.swift†L419-L441】
