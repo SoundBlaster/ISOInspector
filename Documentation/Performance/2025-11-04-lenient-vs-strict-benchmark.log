@@ -1,0 +1,23 @@
+# 2025-11-04 — Lenient vs. Strict CLI Validation Benchmark
+
+## Environment
+- Host: Linux container (Combine unavailable; UI benchmark skipped)
+- Swift: `swift test --filter LargeFileBenchmarkTests`
+- Benchmark payload: default (`ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES` unset → 32 MiB fixture)
+- Iterations: default (`ISOINSPECTOR_BENCHMARK_ITERATIONS` unset → 3)
+
+## Command
+```
+swift test --filter LargeFileBenchmarkTests/testCLIValidationLenientModePerformanceStaysWithinToleranceBudget
+```
+
+## Results
+- Strict average duration: 0.029 s
+- Lenient average duration: 0.030 s
+- Runtime ratio (lenient ÷ strict): 1.049 ×
+- Peak RSS overhead: 0.01 MiB
+- Parse events observed per run: 8
+
+## Notes
+- Harness now emits metrics during execution for archival.
+- To exercise the 1 GiB reference fixture, set `ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824` and rerun on macOS hardware with Combine support. Archive resulting output alongside this log.

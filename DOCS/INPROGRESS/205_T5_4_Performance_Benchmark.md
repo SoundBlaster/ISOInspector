@@ -24,3 +24,15 @@ Ensure the tolerant parsing pipeline remains within the performance budget by be
 - [`DOCS/AI/Tolerance_Parsing/TODO.md`](../AI/Tolerance_Parsing/TODO.md)
 - [`DOCS/TASK_ARCHIVE/44_F2_Configure_Performance_Benchmarks/Summary_of_Work.md`](../TASK_ARCHIVE/44_F2_Configure_Performance_Benchmarks/Summary_of_Work.md)
 - [`DOCS/AI/Tolerance_Parsing/IntegrationSummary.md`](../AI/Tolerance_Parsing/IntegrationSummary.md)
+
+---
+
+## 📈 Progress Log — 2025-11-04
+
+- Added lenient-versus-strict harness to `LargeFileBenchmarkTests` with a new XCTest case that captures runtime ratios and peak RSS deltas across repeated CLI validation runs. Metrics are emitted during the run for archival in `Documentation/Performance`.【F:Tests/ISOInspectorPerformanceTests/LargeFileBenchmarkTests.swift†L49-L105】【3dc8f9†L6-L13】
+- Extended `PerformanceBenchmarkConfiguration` with tolerant-mode overhead budgets (1.2× runtime, +50 MiB RSS) so the suite enforces the gate directly.【F:Sources/ISOInspectorKit/Benchmarking/PerformanceBenchmarkConfiguration.swift†L24-L47】
+- Local Linux run (default 32 MiB fixture) produced a worst-case ratio of 1.049× and <1 MiB extra RSS, well below the 1.2× / 50 MiB threshold.【cdd012†L12-L17】
+
+### ⚠️ Outstanding Work
+
+- The 1 GiB fixture execution remains pending on macOS hardware with Combine support. Use `ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824` and rerun `swift test --filter LargeFileBenchmarkTests/testCLIValidationLenientModePerformanceStaysWithinToleranceBudget` once the runner has sufficient disk space. Archive the emitted metrics into `Documentation/Performance/` when complete.
