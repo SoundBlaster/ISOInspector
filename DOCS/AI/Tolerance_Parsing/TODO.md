@@ -124,7 +124,7 @@ Ensure CLI and SDK surface tolerant parsing equivalently to the GUI.
 
 | Task ID | Description | Priority | Effort | Dependencies | Acceptance Criteria |
 |---------|-------------|----------|--------|--------------|---------------------|
-| T6.1 | Add `--tolerant` flag to CLI; defaults to lenient for interactive, strict for CI/scripting contexts. | High | 1d | T1.3 | CLI accepts flag; help text documents behavior. |
+| T6.1 | Add `--tolerant` flag to CLI; defaults to lenient for interactive, strict for CI/scripting contexts. | High | 1d | T1.3 | CLI accepts flag; help text documents behavior. **(🚧 In Progress — see `DOCS/INPROGRESS/205_T6_1_CLI_Tolerant_Flag.md`.)** |
 | T6.2 | Extend CLI output to show corruption summary (counts by severity). | Medium | 1d | T2.3 | CLI prints summary table after parse completion. |
 | T6.3 | Ensure SDK consumers can opt into tolerant parsing via `ISOInspectorKit.ParseOptions`. | Medium | 1d | T1.3 | SDK docs include tolerant parsing example; API is public. |
 | T6.4 | Update CLI manual and SDK guides with tolerant mode usage and diagnostics interpretation. | Low | 1d | T6.1-T6.3 | Documentation updated; examples provided. |
