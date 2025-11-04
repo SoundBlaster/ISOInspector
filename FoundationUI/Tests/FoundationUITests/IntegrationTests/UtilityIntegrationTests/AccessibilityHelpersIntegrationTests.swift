@@ -245,7 +245,7 @@ final class AccessibilityHelpersIntegrationTests: XCTestCase {
         // Test Dynamic Type scaling with DS.Typography tokens
         let baseSize: CGFloat = 16.0
         let scaledSizeLarge = AccessibilityHelpers.scaledValue(baseSize, for: .large)
-        let scaledSizeXXL = AccessibilityHelpers.scaledValue(baseSize, for: .extraExtraLarge)
+        let scaledSizeXXL = AccessibilityHelpers.scaledValue(baseSize, for: .xxLarge)
         let scaledSizeAccessibility = AccessibilityHelpers.scaledValue(baseSize, for: .accessibilityMedium)
 
         XCTAssertEqual(scaledSizeLarge, 16.0, "Large size should be base (1.0x)")
