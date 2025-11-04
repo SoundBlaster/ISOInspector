@@ -35,9 +35,9 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Completed (2025-11-03):** Task **T5.2 — Regression Tests for Tolerant Traversal** is archived in `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/`, capturing the manifest-driven XCTest suite, strict/tolerant guard assertions, and Swift 6.0.3 execution log.
 >
-> **In Progress (2025-10-27):** Task **T5.4 — Performance Benchmark: Lenient vs. Strict Parsing** is now tracked via `DOCS/INPROGRESS/205_T5_4_Performance_Benchmark.md`, ensuring tolerant mode remains within the ≤1.2× runtime budget on the 1 GB reference fixture before the beta exit criteria are met.
-> - ✅ `TolerantTraversalRegressionTests` covers eleven corrupt fixture scenarios plus strict-mode fail-fast expectations using the `Fixtures/Corrupt/` corpus and manifest metadata.
-> - 📈 Summary log documents zero failures in 0.397 seconds with metrics aggregation checks wired through `ParseIssueStore.makeIssueSummary()` and `metricsSnapshot()`.
+> **Follow-up queued (2025-11-04):** Task **T5.4 — Performance Benchmark: Lenient vs. Strict Parsing** is archived in `DOCS/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/205_T5_4_Performance_Benchmark.md`. The macOS 1 GiB verification run remains pending; execution steps live in `DOCS/INPROGRESS/next_tasks.md` alongside the existing Linux metrics log.
+> - ✅ `LargeFileBenchmarkTests` now exercises lenient versus strict parsing with enforced runtime (+20%) and RSS (+50 MiB) ceilings via `PerformanceBenchmarkConfiguration`.
+> - 📈 Latest Linux results (32 MiB fixture) recorded in `Documentation/Performance/2025-11-04-lenient-vs-strict-benchmark.log` show ≤1.049× overhead; rerun on macOS hardware with `ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824` to close out the gate.
 >
 > **Completed (2025-10-27):** Task **T4.1 — Extend JSON Export Schema for Issues** is archived in `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/`, capturing the schema version bump, tolerant issue payload, and refreshed documentation notes.
 >

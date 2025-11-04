@@ -1062,3 +1062,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/204_T6_1_CLI_Tolerant_Flag/`.
 - **Highlights:** Documents the close-out of CLI tolerant parsing, including new `--tolerant`/`--strict` switches across inspect and export commands, expanded help/DocC coverage, and regression tests that enforce strict defaults while validating lenient execution. The companion inspector pattern note preserves the lazy-loading/state-binding research that will seed the next UI polish cycle.
 - **Next steps carried forward:** No `next_tasks.md` remained active. The ongoing real-world asset licensing approvals continue as the sole recoverable blocker in `DOCS/INPROGRESS/blocked.md`.
+
+## 206_T5_4_Performance_Benchmark_macOS_Run
+- **Archived files:** `205_T5_4_Performance_Benchmark.md`, `Summary_of_Work.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/`.
+- **Highlights:** Captures the tolerant-versus-strict benchmarking harness merged into `LargeFileBenchmarkTests`, the new runtime and RSS budgets enforced via `PerformanceBenchmarkConfiguration`, and the recorded 32 MiB fixture metrics that validated ≤1.049× overhead and negligible memory impact ahead of the macOS run.
+- **Next steps carried forward:** Execute the macOS 1 GiB benchmark using `ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824`, archive the emitted metrics under `Documentation/Performance/`, and confirm Combine-backed paths remain within the 1.2× / +50 MiB tolerance budget.

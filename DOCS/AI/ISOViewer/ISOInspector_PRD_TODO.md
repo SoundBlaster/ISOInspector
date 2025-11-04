@@ -163,6 +163,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 
 ### 🚧 In Progress
+- [ ] **T5.4 — Performance Benchmark (Lenient vs. Strict).** Harness delivery is archived in `DOCS/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/`, and the Linux baseline metrics live in `Documentation/Performance/2025-11-04-lenient-vs-strict-benchmark.log`. Execute the macOS 1 GiB rerun (`ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824`) per the active checklist in `DOCS/INPROGRESS/next_tasks.md` to close the tolerance gate.
 - [x] **T3.6 — Integrity Summary Tab.** _(Completed — see `DOCS/TASK_ARCHIVE/196_T3_6_Integrity_Summary_Tab/` for the release notes and follow-up checklist.)_
 - [x] T3.4 — Placeholder Nodes for Missing Children. _(Completed — synthetic nodes surface expected-but-absent structures with tolerant parsing issues; see `DOCS/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/Summary_of_Work.md` for the delivery recap.)_
   - Ensure placeholder nodes cooperate with the contextual status labeling pass (T3.5) so severity and remediation copy stay aligned across the outline and Integrity panes.
