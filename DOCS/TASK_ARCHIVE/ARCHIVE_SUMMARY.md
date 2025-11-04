@@ -1068,3 +1068,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/`.
 - **Highlights:** Captures the tolerant-versus-strict benchmarking harness merged into `LargeFileBenchmarkTests`, the new runtime and RSS budgets enforced via `PerformanceBenchmarkConfiguration`, and the recorded 32 MiB fixture metrics that validated ≤1.049× overhead and negligible memory impact ahead of the macOS run.
 - **Next steps carried forward:** Execute the macOS 1 GiB benchmark using `ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824`, archive the emitted metrics under `Documentation/Performance/`, and confirm Combine-backed paths remain within the 1.2× / +50 MiB tolerance budget.
+
+## 207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block
+- **Archived files:** `Summary_of_Work.md`, `blocked.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.
+- **Highlights:** Captures the November 4 status report for the macOS 1 GiB lenient-versus-strict benchmark, including the hardware availability blocker, the detailed execution checklist, and guidance to update backlog references after the archive rotation.
+- **Next steps carried forward:** Secure macOS hardware with the 1 GiB fixture, execute the benchmark per `DOCS/INPROGRESS/next_tasks.md`, and publish the resulting runtime/RSS metrics under `Documentation/Performance/`.
