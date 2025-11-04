@@ -37,7 +37,7 @@ final class CrossUtilityIntegrationTests: XCTestCase {
 
     func testCopyableTextWithKeyboardShortcuts() {
         // Test CopyableText with keyboard shortcut display
-        let shortcutHint = KeyboardShortcuts.copy.displayString
+        let shortcutHint = KeyboardShortcutType.copy.displayString
 
         let view = VStack(spacing: DS.Spacing.s) {
             CopyableText(text: "Value to Copy")
@@ -51,7 +51,7 @@ final class CrossUtilityIntegrationTests: XCTestCase {
 
     func testAccessibilityHelpersWithKeyboardShortcuts() {
         // Test accessibility labels on keyboard shortcuts
-        let copyShortcut = KeyboardShortcuts.copy
+        let copyShortcut = KeyboardShortcutType.copy
         let accessibilityLabel = copyShortcut.accessibilityLabel
 
         let hint = AccessibilityHelpers.voiceOverHint(
@@ -77,7 +77,7 @@ final class CrossUtilityIntegrationTests: XCTestCase {
                 KeyValueRow(key: "File Hash", value: "0xABCDEF", isCopyable: true)
 
                 // Shortcut hint
-                Text("Press \(KeyboardShortcuts.copy.displayString) to copy")
+                Text("Press \(KeyboardShortcutType.copy.displayString) to copy")
                     .font(DS.Typography.caption)
             }
         }
@@ -100,7 +100,7 @@ final class CrossUtilityIntegrationTests: XCTestCase {
         let toolbar = ToolbarPattern(items: [
             ToolbarPattern.Item(
                 id: "copy",
-                label: "Copy (\(KeyboardShortcuts.copy.displayString))",
+                label: "Copy (\(KeyboardShortcutType.copy.displayString))",
                 icon: "doc.on.doc",
                 action: {}
             )
@@ -130,7 +130,7 @@ final class CrossUtilityIntegrationTests: XCTestCase {
                 // Content with all utilities
                 VStack(spacing: DS.Spacing.m) {
                     KeyValueRow(key: "ID", value: "12345", isCopyable: true)
-                    Text("Shortcut: \(KeyboardShortcuts.copy.displayString)")
+                    Text("Shortcut: \(KeyboardShortcutType.copy.displayString)")
                         .font(DS.Typography.caption)
                 }
 
@@ -161,7 +161,7 @@ final class CrossUtilityIntegrationTests: XCTestCase {
         XCTAssertNotNil(view, "macOS-specific utilities should combine well")
 
         // Verify keyboard shortcuts use Command key
-        XCTAssertTrue(KeyboardShortcuts.copy.displayString.contains("⌘"), "Should use Command on macOS")
+        XCTAssertTrue(KeyboardShortcutType.copy.displayString.contains("⌘"), "Should use Command on macOS")
     }
     #endif
 
@@ -194,7 +194,7 @@ final class CrossUtilityIntegrationTests: XCTestCase {
             let views = (0..<20).map { index in
                 VStack {
                     CopyableText(text: "Value \(index)")
-                    Text(KeyboardShortcuts.copy.displayString)
+                    Text(KeyboardShortcutType.copy.displayString)
                         .font(DS.Typography.caption)
                 }
                 .accessibleValue(label: "Item \(index)", value: "Value \(index)")
@@ -236,7 +236,7 @@ final class CrossUtilityIntegrationTests: XCTestCase {
                 // Shortcut hints
                 HStack {
                     Image(systemName: "info.circle")
-                    Text("Use \(KeyboardShortcuts.copy.displayString) to copy values")
+                    Text("Use \(KeyboardShortcutType.copy.displayString) to copy values")
                 }
                 .font(DS.Typography.caption)
                 .foregroundColor(.secondary)
@@ -259,7 +259,7 @@ final class CrossUtilityIntegrationTests: XCTestCase {
         // Verify all utilities respect DS token usage
         let view = VStack(spacing: DS.Spacing.l) {
             CopyableText(text: "Test")
-            Text(KeyboardShortcuts.copy.displayString)
+            Text(KeyboardShortcutType.copy.displayString)
                 .font(DS.Typography.caption)
         }
         .padding(DS.Spacing.m)
