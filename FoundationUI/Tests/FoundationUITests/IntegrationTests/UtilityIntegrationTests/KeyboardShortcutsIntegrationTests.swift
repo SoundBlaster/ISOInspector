@@ -37,10 +37,10 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
     func testStandardShortcutsInToolbar() {
         // Test standard shortcuts (Copy, Paste, Cut, Select All) in toolbar
         let shortcuts = [
-            KeyboardShortcuts.copy,
-            KeyboardShortcuts.paste,
-            KeyboardShortcuts.cut,
-            KeyboardShortcuts.selectAll
+            KeyboardShortcutType.copy,
+            KeyboardShortcutType.paste,
+            KeyboardShortcutType.cut,
+            KeyboardShortcutType.selectAll
         ]
 
         shortcuts.forEach { shortcut in
@@ -53,7 +53,7 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
     #if os(macOS)
     func testKeyboardShortcutsUseCommandKeyOnMacOS() {
         // Test that ⌘ (Command) key is used on macOS
-        let copyShortcut = KeyboardShortcuts.copy
+        let copyShortcut = KeyboardShortcutType.copy
 
         XCTAssertNotNil(copyShortcut, "Copy shortcut should use ⌘C on macOS")
         // displayString should return "⌘C"
@@ -64,7 +64,7 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
     #if !os(macOS)
     func testKeyboardShortcutsUseControlKeyOnNonMacOS() {
         // Test that Ctrl key is used on non-macOS platforms
-        let copyShortcut = KeyboardShortcuts.copy
+        let copyShortcut = KeyboardShortcutType.copy
 
         XCTAssertNotNil(copyShortcut, "Copy shortcut should use Ctrl+C on non-macOS")
         // displayString should return "Ctrl+C"
@@ -77,12 +77,12 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
     func testKeyboardShortcutDisplayStringsInUI() {
         // Test that display strings are suitable for UI labels
         let shortcuts = [
-            KeyboardShortcuts.copy,
-            KeyboardShortcuts.paste,
-            KeyboardShortcuts.cut,
-            KeyboardShortcuts.save,
-            KeyboardShortcuts.undo,
-            KeyboardShortcuts.redo
+            KeyboardShortcutType.copy,
+            KeyboardShortcutType.paste,
+            KeyboardShortcutType.cut,
+            KeyboardShortcutType.save,
+            KeyboardShortcutType.undo,
+            KeyboardShortcutType.redo
         ]
 
         shortcuts.forEach { shortcut in
@@ -94,7 +94,7 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
 
     func testDisplayStringsUsePlatformAppropriateFormatting() {
         // Verify display strings use platform-appropriate formatting
-        let copyShortcut = KeyboardShortcuts.copy
+        let copyShortcut = KeyboardShortcutType.copy
 
         #if os(macOS)
         XCTAssertTrue(copyShortcut.displayString.contains("⌘"), "macOS should use ⌘ symbol")
@@ -107,7 +107,7 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
 
     func testKeyboardShortcutAccessibilityLabels() {
         // Test that accessibility labels are provided for VoiceOver
-        let copyShortcut = KeyboardShortcuts.copy
+        let copyShortcut = KeyboardShortcutType.copy
 
         let accessibilityLabel = copyShortcut.accessibilityLabel
         XCTAssertFalse(accessibilityLabel.isEmpty, "Accessibility label should not be empty")
@@ -117,10 +117,10 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
     func testAccessibilityLabelsAreVoiceOverFriendly() {
         // Verify accessibility labels are VoiceOver-friendly
         let shortcuts = [
-            KeyboardShortcuts.copy,
-            KeyboardShortcuts.paste,
-            KeyboardShortcuts.cut,
-            KeyboardShortcuts.save
+            KeyboardShortcutType.copy,
+            KeyboardShortcutType.paste,
+            KeyboardShortcutType.cut,
+            KeyboardShortcutType.save
         ]
 
         shortcuts.forEach { shortcut in
@@ -136,11 +136,11 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
     func testMultipleShortcutsOnSameScreen() {
         // Test that multiple shortcuts can coexist without conflicts
         let shortcuts = [
-            KeyboardShortcuts.copy,
-            KeyboardShortcuts.paste,
-            KeyboardShortcuts.cut,
-            KeyboardShortcuts.selectAll,
-            KeyboardShortcuts.save
+            KeyboardShortcutType.copy,
+            KeyboardShortcutType.paste,
+            KeyboardShortcutType.cut,
+            KeyboardShortcutType.selectAll,
+            KeyboardShortcutType.save
         ]
 
         // All shortcuts should be distinct
@@ -150,8 +150,8 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
 
     func testShortcutConflictDetection() {
         // Test detection of potential shortcut conflicts
-        let copy1 = KeyboardShortcuts.copy
-        let copy2 = KeyboardShortcuts.copy
+        let copy1 = KeyboardShortcutType.copy
+        let copy2 = KeyboardShortcutType.copy
 
         XCTAssertEqual(copy1.displayString, copy2.displayString, "Same shortcuts should match")
         // In a real app, conflict detection would warn about duplicate bindings
@@ -163,7 +163,7 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
         // Test shortcuts with Card component actions
         let card = Card {
             VStack {
-                Text("Press \(KeyboardShortcuts.copy.displayString) to copy")
+                Text("Press \(KeyboardShortcutType.copy.displayString) to copy")
                     .font(DS.Typography.caption)
             }
         }
@@ -176,14 +176,14 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
     func testCustomShortcutIntegration() {
         // Test custom keyboard shortcut definition
         // Custom shortcuts should follow same pattern as standard shortcuts
-        XCTAssertNotNil(KeyboardShortcuts.copy, "Standard shortcuts serve as template for custom ones")
+        XCTAssertNotNil(KeyboardShortcutType.copy, "Standard shortcuts serve as template for custom ones")
     }
 
     // MARK: - Integration with DS Tokens
 
     func testKeyboardShortcutLabelsUseDSTypography() {
         // Verify shortcut labels in UI use DS.Typography tokens
-        let shortcutLabel = Text(KeyboardShortcuts.copy.displayString)
+        let shortcutLabel = Text(KeyboardShortcutType.copy.displayString)
             .font(DS.Typography.caption)
 
         XCTAssertNotNil(shortcutLabel, "Shortcut labels should use DS.Typography")
@@ -194,7 +194,7 @@ final class KeyboardShortcutsIntegrationTests: XCTestCase {
     func testKeyboardShortcutPerformanceWithManyItems() {
         // Test performance with many shortcuts active
         measure {
-            let shortcuts = (0..<100).map { _ in KeyboardShortcuts.copy }
+            let shortcuts = (0..<100).map { _ in KeyboardShortcutType.copy }
             XCTAssertEqual(shortcuts.count, 100)
         }
     }
