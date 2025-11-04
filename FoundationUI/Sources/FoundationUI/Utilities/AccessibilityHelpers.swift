@@ -453,9 +453,9 @@ public enum AccessibilityHelpers {
         case .xxxLarge: return 1.3
         case .accessibilityMedium: return 1.5
         case .accessibilityLarge: return 1.8
-        case .accessibilityExtraLarge: return 2.0
-        case .accessibilityExtraExtraLarge: return 2.3
-        case .accessibilityExtraExtraExtraLarge: return 2.5
+        case .accessibilityXLarge: return 2.0
+        case .accessibilityXxLarge: return 2.3
+        case .accessibilityXxxLarge: return 2.5
         @unknown default: return 1.0
         }
     }
