@@ -6,7 +6,9 @@ import SwiftUI
 
 /// Tests for DynamicTypeSize extensions
 ///
-/// Verifies semantic naming and Comparable conformance for Dynamic Type sizes.
+/// Verifies semantic naming extensions for Dynamic Type sizes.
+/// Note: DynamicTypeSize is already Comparable in SwiftUI, these tests verify
+/// that our semantic names work correctly with built-in comparison operators.
 final class DynamicTypeSizeExtensionsTests: XCTestCase {
 
     // MARK: - Semantic Names Tests
@@ -36,7 +38,7 @@ final class DynamicTypeSizeExtensionsTests: XCTestCase {
                        "accessibilityXxxLarge should map to accessibility5")
     }
 
-    // MARK: - Comparable Tests
+    // MARK: - Comparable Tests (using SwiftUI's built-in Comparable conformance)
 
     func testLessThanOperator() {
         XCTAssertTrue(DynamicTypeSize.small < .large,
