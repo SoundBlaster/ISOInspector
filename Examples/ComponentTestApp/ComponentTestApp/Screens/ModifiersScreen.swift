@@ -118,14 +118,14 @@ struct ModifiersScreen: View {
                         Text("Hover Me")
                             .font(DS.Typography.body)
                             .padding(DS.Spacing.l)
-                            .background(DS.Color.accent.opacity(0.1))
+                            .background(DS.Colors.accent.opacity(0.1))
                             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
                             .interactiveStyle()
 
                         Text("Click Me")
                             .font(DS.Typography.body)
                             .padding(DS.Spacing.l)
-                            .background(DS.Color.accent.opacity(0.1))
+                            .background(DS.Colors.accent.opacity(0.1))
                             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
                             .interactiveStyle()
                     }
@@ -134,7 +134,7 @@ struct ModifiersScreen: View {
                     CodeSnippetView(code: """
                         Text("Interactive")
                             .padding(DS.Spacing.l)
-                            .background(DS.Color.accent.opacity(0.1))
+                            .background(DS.Colors.accent.opacity(0.1))
                             .interactiveStyle()
                         """)
                 }
@@ -236,7 +236,7 @@ struct CodeSnippetView: View {
             .font(DS.Typography.code)
             .padding(DS.Spacing.m)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(DS.Color.tertiary)
+            .background(DS.Colors.tertiary)
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
     }
 }

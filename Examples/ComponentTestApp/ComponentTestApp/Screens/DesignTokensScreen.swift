@@ -41,19 +41,19 @@ struct DesignTokensScreen: View {
                         .font(DS.Typography.subheadline)
                         .foregroundStyle(.secondary)
 
-                    ColorTokenRow(name: "DS.Color.infoBG", color: DS.Color.infoBG, usage: "Neutral information")
-                    ColorTokenRow(name: "DS.Color.warnBG", color: DS.Color.warnBG, usage: "Warnings, cautions")
-                    ColorTokenRow(name: "DS.Color.errorBG", color: DS.Color.errorBG, usage: "Errors, failures")
-                    ColorTokenRow(name: "DS.Color.successBG", color: DS.Color.successBG, usage: "Success, completion")
+                    ColorTokenRow(name: "DS.Colors.infoBG", color: DS.Colors.infoBG, usage: "Neutral information")
+                    ColorTokenRow(name: "DS.Colors.warnBG", color: DS.Colors.warnBG, usage: "Warnings, cautions")
+                    ColorTokenRow(name: "DS.Colors.errorBG", color: DS.Colors.errorBG, usage: "Errors, failures")
+                    ColorTokenRow(name: "DS.Colors.successBG", color: DS.Colors.successBG, usage: "Success, completion")
 
                     Text("UI Colors")
                         .font(DS.Typography.subheadline)
                         .foregroundStyle(.secondary)
                         .padding(.top, DS.Spacing.m)
 
-                    ColorTokenRow(name: "DS.Color.accent", color: DS.Color.accent, usage: "Interactive elements")
-                    ColorTokenRow(name: "DS.Color.secondary", color: DS.Color.secondary, usage: "Supporting elements")
-                    ColorTokenRow(name: "DS.Color.tertiary", color: DS.Color.tertiary, usage: "Background fills")
+                    ColorTokenRow(name: "DS.Colors.accent", color: DS.Colors.accent, usage: "Interactive elements")
+                    ColorTokenRow(name: "DS.Colors.secondary", color: DS.Colors.secondary, usage: "Supporting elements")
+                    ColorTokenRow(name: "DS.Colors.tertiary", color: DS.Colors.tertiary, usage: "Background fills")
                 }
 
                 Divider()
@@ -110,7 +110,7 @@ struct DesignTokensScreen: View {
                         }
                     }
                     .padding(DS.Spacing.m)
-                    .background(DS.Color.tertiary)
+                    .background(DS.Colors.tertiary)
                     .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
 
                     AnimationTokenRow(name: "DS.Animation.medium", duration: "0.25s", animation: DS.Animation.medium, isAnimating: $isAnimating)
@@ -140,7 +140,7 @@ struct SpacingTokenRow: View {
                 .frame(width: 140, alignment: .leading)
 
             Rectangle()
-                .fill(DS.Color.accent)
+                .fill(DS.Colors.accent)
                 .frame(width: value, height: 20)
 
             Text("\(Int(value))pt")
@@ -150,7 +150,7 @@ struct SpacingTokenRow: View {
             Spacer()
         }
         .padding(DS.Spacing.s)
-        .background(DS.Color.tertiary)
+        .background(DS.Colors.tertiary)
         .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
     }
 }
@@ -182,7 +182,7 @@ struct ColorTokenRow: View {
             Spacer()
         }
         .padding(DS.Spacing.s)
-        .background(DS.Color.tertiary)
+        .background(DS.Colors.tertiary)
         .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
     }
 }
@@ -205,7 +205,7 @@ struct TypographyTokenRow: View {
             Spacer()
         }
         .padding(DS.Spacing.s)
-        .background(DS.Color.tertiary)
+        .background(DS.Colors.tertiary)
         .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
     }
 }
@@ -222,7 +222,7 @@ struct RadiusTokenRow: View {
                 .frame(width: 140, alignment: .leading)
 
             RoundedRectangle(cornerRadius: value)
-                .fill(DS.Color.accent)
+                .fill(DS.Colors.accent)
                 .frame(width: 60, height: 40)
 
             Text(value == 999 ? "Capsule" : "\(Int(value))pt")
@@ -232,7 +232,7 @@ struct RadiusTokenRow: View {
             Spacer()
         }
         .padding(DS.Spacing.s)
-        .background(DS.Color.tertiary)
+        .background(DS.Colors.tertiary)
         .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
     }
 }
@@ -263,7 +263,7 @@ struct AnimationTokenRow: View {
             }
         }
         .padding(DS.Spacing.m)
-        .background(DS.Color.tertiary)
+        .background(DS.Colors.tertiary)
         .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
     }
 }
