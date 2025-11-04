@@ -573,7 +573,7 @@
 
 ## Phase 4: Agent Support & Polish (Week 7-8)
 **Priority: P1-P2**
-**Progress: 2/18 tasks completed (11%)**
+**Progress: 5/18 tasks completed (28%)**
 
 ### 4.1 Agent-Driven UI Generation
 **Progress: 0/7 tasks**
@@ -644,7 +644,8 @@
   - 3 SwiftUI Previews (Standard, Platform Modifiers, Interactive)
   - 100% DocC documentation with usage examples
   - Zero magic numbers (100% DS token usage in previews)
-  - Archive: `TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/` (to be created)
+  - Archive: `TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/`
+  - Archive Docs: `DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/`
 
 - [x] **P1** Implement AccessibilityHelpers ✅ Completed 2025-11-03
   - File: `Sources/FoundationUI/Utilities/AccessibilityHelpers.swift` (785 lines)
@@ -661,6 +662,7 @@
   - 100% DocC documentation with usage examples
   - Zero magic numbers (100% DS token usage)
   - Archive: `TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/`
+  - Archive Docs: `DOCS/TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/`
 
 - [x] **P1** Utility unit tests ✅ Completed 2025-11-03
   - CopyableText tests: 15 test cases ✅
@@ -687,6 +689,7 @@
   - Platform guards: 100% (`#if canImport(SwiftUI)`)
   - PRD created: `DOCS/PRD_UtilityIntegrationTests.md` (18.9KB)
   - Archive: `TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/`
+  - Archive Docs: `DOCS/TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/`
 
 - [ ] **P2** Performance optimization for utilities
   - Optimize clipboard operations
