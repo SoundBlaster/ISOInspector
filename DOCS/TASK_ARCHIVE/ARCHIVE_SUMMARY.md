@@ -1056,3 +1056,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/`.
 - **Highlights:** Captures the tolerant traversal regression plan and completion summary that landed the new `TolerantTraversalRegressionTests` XCTest suite. Notes outline the eleven-scenario coverage (tolerant vs. strict guard cases), manifest-driven assertions, and the verification log confirming Swift 6.0.3 execution.
 - **Next steps carried forward:** No additional `next_tasks.md` items were active. The recoverable licensing approvals for Dolby Vision/AV1/VP9/AC-4/MPEG-H fixtures remain tracked in `DOCS/INPROGRESS/blocked.md`.
+
+## 204_T6_1_CLI_Tolerant_Flag
+- **Archived files:** `204_InspectorPattern_Lazy_Loading.md`, `205_T6_1_CLI_Tolerant_Flag.md`, `Summary_of_Work.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/204_T6_1_CLI_Tolerant_Flag/`.
+- **Highlights:** Documents the close-out of CLI tolerant parsing, including new `--tolerant`/`--strict` switches across inspect and export commands, expanded help/DocC coverage, and regression tests that enforce strict defaults while validating lenient execution. The companion inspector pattern note preserves the lazy-loading/state-binding research that will seed the next UI polish cycle.
+- **Next steps carried forward:** No `next_tasks.md` remained active. The ongoing real-world asset licensing approvals continue as the sole recoverable blocker in `DOCS/INPROGRESS/blocked.md`.
