@@ -179,13 +179,15 @@ public enum ISOInspectorCLIRunner {
     public static func helpText() -> String {
         "isoinspect — ISO BMFF (MP4/QuickTime) inspector CLI\n"
             + "  --help, -h    Show this help message.\n"
-            + "  inspect <file> [--research-log <path>]\n"
+            + "  inspect <file> [--research-log <path>] [--tolerant|--strict]\n"
             + "                Stream parse events with metadata, validation summaries, and VR-006 research log entries.\n"
-            + "  export-json <file> [--output <path>]\n"
+            + "                Use --tolerant to continue through corruption; --strict is the default.\n"
+            + "  export-json <file> [--output <path>] [--tolerant|--strict]\n"
             + "                Persist a JSON parse tree exported from streaming parse events.\n"
-            + "  export-text <file> [--output <path>]\n"
+            + "                Use --tolerant to continue through corruption when exporting.\n"
+            + "  export-text <file> [--output <path>] [--tolerant|--strict]\n"
             + "                Write a plaintext issue summary with file metadata and grouped diagnostics.\n"
-            + "  export-capture <file> [--output <path>]\n"
+            + "  export-capture <file> [--output <path>] [--tolerant|--strict]\n"
             + "                Save a binary capture of parse events for later replay.\n"
             + "  mp4ra refresh [--output <path>] [--source <url>]\n"
             + "                Refresh the bundled MP4RABoxes.json using the latest registry export."
@@ -260,7 +262,11 @@ public enum ISOInspectorCLIRunner {
                 )
                 let events = environment.parsePipeline.events(
                     for: reader,
-                    context: .init(source: options.fileURL, researchLog: researchLog)
+                    context: .init(
+                        source: options.fileURL,
+                        researchLog: researchLog,
+                        options: options.parseOptions
+                    )
                 )
                 let semaphore = DispatchSemaphore(value: 0)
 
@@ -285,12 +291,14 @@ public enum ISOInspectorCLIRunner {
     private struct InspectOptions {
         let fileURL: URL
         let researchLogURL: URL
+        let parseOptions: ParsePipeline.Options
     }
 
     private enum InspectParseError: Swift.Error {
         case missingFilePath
         case missingResearchLogPath
         case unknownOption(String)
+        case conflictingParseMode
 
         var message: String {
             switch self {
@@ -300,6 +308,8 @@ public enum ISOInspectorCLIRunner {
                 return "Missing value for --research-log."
             case .unknownOption(let value):
                 return "Unknown option for inspect: \(value)"
+            case .conflictingParseMode:
+                return "Cannot combine --tolerant and --strict for inspect."
             }
         }
     }
@@ -311,6 +321,7 @@ public enum ISOInspectorCLIRunner {
     ) -> Result<InspectOptions, InspectParseError> {
         var iterator = arguments.makeIterator()
         var researchLogURL = defaultResearchLogURL
+        var requestedOptions: ParsePipeline.Options?
         var filePath: String?
 
         while let argument = iterator.next() {
@@ -321,6 +332,16 @@ public enum ISOInspectorCLIRunner {
                 }
                 let resolved = URL(fileURLWithPath: value, relativeTo: cwd)
                 researchLogURL = resolved.standardizedFileURL
+            case "--tolerant":
+                if let current = requestedOptions, current == .strict {
+                    return .failure(.conflictingParseMode)
+                }
+                requestedOptions = .tolerant
+            case "--strict":
+                if let current = requestedOptions, current == .tolerant {
+                    return .failure(.conflictingParseMode)
+                }
+                requestedOptions = .strict
             default:
                 if argument.hasPrefix("-") {
                     return .failure(.unknownOption(argument))
@@ -334,7 +355,8 @@ public enum ISOInspectorCLIRunner {
         }
 
         let fileURL = URL(fileURLWithPath: filePath, relativeTo: cwd).standardizedFileURL
-        return .success(InspectOptions(fileURL: fileURL, researchLogURL: researchLogURL))
+        let options = requestedOptions ?? .strict
+        return .success(InspectOptions(fileURL: fileURL, researchLogURL: researchLogURL, parseOptions: options))
     }
 
     private static func parseRefreshOptions(
@@ -403,6 +425,7 @@ public enum ISOInspectorCLIRunner {
     private struct ExportOptions {
         let fileURL: URL
         let outputURL: URL
+        let parseOptions: ParsePipeline.Options
     }
 
     private enum ExportParseError: Swift.Error {
@@ -410,6 +433,7 @@ public enum ISOInspectorCLIRunner {
         case missingOutput
         case unexpectedArgument(String)
         case unknownOption(String)
+        case conflictingParseMode
 
         var message: String {
             switch self {
@@ -421,6 +445,8 @@ public enum ISOInspectorCLIRunner {
                 return "Unexpected argument for export command: \(argument)"
             case .unknownOption(let option):
                 return "Unknown option for export command: \(option)"
+            case .conflictingParseMode:
+                return "Cannot combine --tolerant and --strict for export commands."
             }
         }
     }
@@ -487,7 +513,11 @@ public enum ISOInspectorCLIRunner {
                     let issueStore = environment.issueStore
                     let stream = environment.parsePipeline.events(
                         for: reader,
-                        context: .init(source: options.fileURL, issueStore: issueStore)
+                        context: .init(
+                            source: options.fileURL,
+                            options: options.parseOptions,
+                            issueStore: issueStore
+                        )
                     )
                     var builder = ParseTreeBuilder()
                     var captured: [ParseEvent] = []
@@ -542,6 +572,7 @@ public enum ISOInspectorCLIRunner {
         var iterator = arguments.makeIterator()
         var filePath: String?
         var outputPath: URL?
+        var requestedOptions: ParsePipeline.Options?
 
         while let argument = iterator.next() {
             switch argument {
@@ -551,6 +582,16 @@ public enum ISOInspectorCLIRunner {
                 }
                 let resolved = URL(fileURLWithPath: value, relativeTo: cwd)
                 outputPath = resolved.standardizedFileURL
+            case "--tolerant":
+                if let current = requestedOptions, current == .strict {
+                    return .failure(.conflictingParseMode)
+                }
+                requestedOptions = .tolerant
+            case "--strict":
+                if let current = requestedOptions, current == .tolerant {
+                    return .failure(.conflictingParseMode)
+                }
+                requestedOptions = .strict
             default:
                 if argument.hasPrefix("-") {
                     return .failure(.unknownOption(argument))
@@ -570,7 +611,8 @@ public enum ISOInspectorCLIRunner {
 
         let fileURL = URL(fileURLWithPath: filePath, relativeTo: cwd).standardizedFileURL
         let outputURL = outputPath ?? defaultOutput(fileURL)
-        return .success(ExportOptions(fileURL: fileURL, outputURL: outputURL))
+        let options = requestedOptions ?? .strict
+        return .success(ExportOptions(fileURL: fileURL, outputURL: outputURL, parseOptions: options))
     }
 
     private static func validateOutputPath(_ url: URL) throws {
