@@ -215,26 +215,26 @@ enum AccessibilityTestHelpers {
 
     /// All standard Dynamic Type content size categories
     static let allContentSizeCategories: [ContentSizeCategory] = [
-        .extraSmall,
+        .xSmall,
         .small,
         .medium,
         .large,
-        .extraLarge,
-        .extraExtraLarge,
-        .extraExtraExtraLarge,
+        .xLarge,
+        .xxLarge,
+        .xxxLarge,
         .accessibilityMedium,
         .accessibilityLarge,
-        .accessibilityExtraLarge,
-        .accessibilityExtraExtraLarge,
-        .accessibilityExtraExtraExtraLarge
+        .accessibilityXLarge,
+        .accessibilityXxLarge,
+        .accessibilityXxxLarge
     ]
 
     /// Common Dynamic Type sizes for testing (subset of all sizes)
     static let commonContentSizeCategories: [ContentSizeCategory] = [
-        .extraSmall,    // XS
+        .xSmall,    // XS
         .medium,        // M (default)
-        .extraExtraLarge, // XXL
-        .accessibilityExtraExtraExtraLarge // XXXL (largest)
+        .xxLarge, // XXL
+        .accessibilityXxxLarge // XXXL (largest)
     ]
 
     /// Creates a test name suffix for a given content size category
@@ -243,7 +243,7 @@ enum AccessibilityTestHelpers {
     /// - Returns: Human-readable test name suffix
     static func testNameSuffix(for category: ContentSizeCategory) -> String {
         switch category {
-        case .extraSmall:
+        case .xSmall:
             return "ExtraSmall"
         case .small:
             return "Small"
@@ -251,21 +251,21 @@ enum AccessibilityTestHelpers {
             return "Medium"
         case .large:
             return "Large"
-        case .extraLarge:
+        case .xLarge:
             return "ExtraLarge"
-        case .extraExtraLarge:
+        case .xxLarge:
             return "ExtraExtraLarge"
-        case .extraExtraExtraLarge:
+        case .xxxLarge:
             return "ExtraExtraExtraLarge"
         case .accessibilityMedium:
             return "AccessibilityMedium"
         case .accessibilityLarge:
             return "AccessibilityLarge"
-        case .accessibilityExtraLarge:
+        case .accessibilityXLarge:
             return "AccessibilityExtraLarge"
-        case .accessibilityExtraExtraLarge:
+        case .accessibilityXxLarge:
             return "AccessibilityExtraExtraLarge"
-        case .accessibilityExtraExtraExtraLarge:
+        case .accessibilityXxxLarge:
             return "AccessibilityExtraExtraExtraLarge"
         @unknown default:
             return "Unknown"
