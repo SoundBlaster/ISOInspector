@@ -252,7 +252,7 @@ ZStack {
 - ✅ `DS.Spacing.*` tokens
 - ✅ `DS.Typography.*` tokens
 - ✅ `DS.Radius.*` tokens
-- ✅ `DS.Color.*` tokens
+- ✅ `DS.Colors.*` tokens
 
 ### No New Dependencies
 - Uses only SwiftUI's built-in `EnvironmentKey` and `EnvironmentValues`

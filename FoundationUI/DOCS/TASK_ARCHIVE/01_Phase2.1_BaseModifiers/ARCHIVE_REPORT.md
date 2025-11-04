@@ -231,7 +231,7 @@ The following tasks have been identified for Phase 2.2 and documented in `INPROG
   - **Answer**: No, stick to semantic levels (info, warning, error, success) for consistency
 
 - ✅ **Question**: How should we handle material fallbacks on unsupported platforms?
-  - **Answer**: Use DS.Color.tertiary with appropriate opacity for graceful degradation
+  - **Answer**: Use DS.Colors.tertiary with appropriate opacity for graceful degradation
 
 ### For Future Phases
 - **Question**: Should CopyableText be integrated into KeyValueRow in Phase 2.2 or deferred to Phase 4.2?

@@ -357,7 +357,7 @@ public extension View {
                 Text(KeyboardShortcutType.copy.displayString)
                     .font(DS.Typography.code)
                     .padding(.horizontal, DS.Spacing.m)
-                    .background(DS.Color.infoBG)
+                    .background(DS.Colors.infoBG)
                     .cornerRadius(DS.Radius.small)
             }
 
@@ -368,7 +368,7 @@ public extension View {
                 Text(KeyboardShortcutType.paste.displayString)
                     .font(DS.Typography.code)
                     .padding(.horizontal, DS.Spacing.m)
-                    .background(DS.Color.infoBG)
+                    .background(DS.Colors.infoBG)
                     .cornerRadius(DS.Radius.small)
             }
 
@@ -379,7 +379,7 @@ public extension View {
                 Text(KeyboardShortcutType.cut.displayString)
                     .font(DS.Typography.code)
                     .padding(.horizontal, DS.Spacing.m)
-                    .background(DS.Color.infoBG)
+                    .background(DS.Colors.infoBG)
                     .cornerRadius(DS.Radius.small)
             }
 
@@ -390,7 +390,7 @@ public extension View {
                 Text(KeyboardShortcutType.selectAll.displayString)
                     .font(DS.Typography.code)
                     .padding(.horizontal, DS.Spacing.m)
-                    .background(DS.Color.infoBG)
+                    .background(DS.Colors.infoBG)
                     .cornerRadius(DS.Radius.small)
             }
 
@@ -401,7 +401,7 @@ public extension View {
                 Text(KeyboardShortcutType.undo.displayString)
                     .font(DS.Typography.code)
                     .padding(.horizontal, DS.Spacing.m)
-                    .background(DS.Color.infoBG)
+                    .background(DS.Colors.infoBG)
                     .cornerRadius(DS.Radius.small)
             }
 
@@ -412,7 +412,7 @@ public extension View {
                 Text(KeyboardShortcutType.redo.displayString)
                     .font(DS.Typography.code)
                     .padding(.horizontal, DS.Spacing.m)
-                    .background(DS.Color.warnBG)
+                    .background(DS.Colors.warnBG)
                     .cornerRadius(DS.Radius.small)
             }
         }
@@ -428,7 +428,7 @@ public extension View {
                 Text(KeyboardShortcutType.save.displayString)
                     .font(DS.Typography.code)
                     .padding(.horizontal, DS.Spacing.m)
-                    .background(DS.Color.successBG)
+                    .background(DS.Colors.successBG)
                     .cornerRadius(DS.Radius.small)
             }
 
@@ -439,7 +439,7 @@ public extension View {
                 Text(KeyboardShortcutType.find.displayString)
                     .font(DS.Typography.code)
                     .padding(.horizontal, DS.Spacing.m)
-                    .background(DS.Color.infoBG)
+                    .background(DS.Colors.infoBG)
                     .cornerRadius(DS.Radius.small)
             }
 
@@ -450,7 +450,7 @@ public extension View {
                 Text(KeyboardShortcutType.newItem.displayString)
                     .font(DS.Typography.code)
                     .padding(.horizontal, DS.Spacing.m)
-                    .background(DS.Color.infoBG)
+                    .background(DS.Colors.infoBG)
                     .cornerRadius(DS.Radius.small)
             }
         }
@@ -467,12 +467,12 @@ public extension View {
         #if os(macOS)
         Text("Running on macOS")
             .font(DS.Typography.headline)
-            .foregroundColor(DS.Color.accent)
+            .foregroundColor(DS.Colors.accent)
             .padding(.bottom, DS.Spacing.s)
         #else
         Text("Running on iOS/iPadOS")
             .font(DS.Typography.headline)
-            .foregroundColor(DS.Color.accent)
+            .foregroundColor(DS.Colors.accent)
             .padding(.bottom, DS.Spacing.s)
         #endif
 
@@ -528,7 +528,7 @@ public extension View {
                 .font(DS.Typography.caption)
         }
         .padding(DS.Spacing.m)
-        .background(DS.Color.infoBG)
+        .background(DS.Colors.infoBG)
         .cornerRadius(DS.Radius.medium)
     }
     .padding(DS.Spacing.xl)
@@ -586,7 +586,7 @@ public extension View {
                 .font(DS.Typography.caption)
         }
         .padding(DS.Spacing.m)
-        .background(DS.Color.successBG)
+        .background(DS.Colors.successBG)
         .cornerRadius(DS.Radius.medium)
     }
     .padding(DS.Spacing.xl)

@@ -1441,7 +1441,7 @@ public struct CopyableText: View {
 **Design System Usage**:
 - Spacing: `DS.Spacing.s`, `DS.Spacing.m`
 - Typography: `DS.Typography.code`, `DS.Typography.caption`
-- Colors: `DS.Color.textPrimary`, `DS.Color.accent`, `DS.Color.secondary`
+- Colors: `DS.Colors.textPrimary`, `DS.Colors.accent`, `DS.Colors.secondary`
 - Animation: `DS.Animation.quick` for transitions
 
 **Lessons Learned**:

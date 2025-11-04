@@ -45,7 +45,7 @@ import UIKit
 /// - Spacing: `DS.Spacing.s`, `DS.Spacing.m`
 /// - Animation: `DS.Animation.quick` for feedback
 /// - Typography: `DS.Typography.caption` for "Copied!" indicator
-/// - Colors: `DS.Color.accent` for visual emphasis
+/// - Colors: `DS.Colors.accent` for visual emphasis
 ///
 /// ## Platform Compatibility
 ///
@@ -92,18 +92,18 @@ public struct CopyableText: View {
             HStack(spacing: DS.Spacing.s) {
                 Text(text)
                     .font(DS.Typography.code)
-                    .foregroundColor(DS.Color.textPrimary)
+                    .foregroundColor(DS.Colors.textPrimary)
 
                 // Copy indicator
                 if wasCopied {
                     Text("Copied!")
                         .font(DS.Typography.caption)
-                        .foregroundColor(DS.Color.accent)
+                        .foregroundColor(DS.Colors.accent)
                         .transition(.opacity)
                 } else {
                     Image(systemName: "doc.on.doc")
                         .font(.caption)
-                        .foregroundColor(DS.Color.secondary)
+                        .foregroundColor(DS.Colors.secondary)
                 }
             }
             .padding(.horizontal, DS.Spacing.m)

@@ -142,12 +142,12 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
         Label {
             Text(item.title)
                 .font(DS.Typography.body)
-                .foregroundStyle(DS.Color.textPrimary)
+                .foregroundStyle(DS.Colors.textPrimary)
         } icon: {
             if let iconSystemName = item.iconSystemName {
                 Image(systemName: iconSystemName)
                     .font(DS.Typography.body)
-                    .foregroundStyle(DS.Color.textSecondary)
+                    .foregroundStyle(DS.Colors.textSecondary)
             }
         }
         .tag(item.id)
@@ -174,7 +174,7 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(detailPadding)
         }
-        .background(DS.Color.tertiary)
+        .background(DS.Colors.tertiary)
     }
     
     private var detailPadding: EdgeInsets {
@@ -236,7 +236,7 @@ private enum Layout {
                         SectionHeader(title: "No Selection", showDivider: true)
                         Text("Choose an item from the sidebar to see details.")
                             .font(DS.Typography.body)
-                            .foregroundStyle(DS.Color.textSecondary)
+                            .foregroundStyle(DS.Colors.textSecondary)
                     }
                 }
             }

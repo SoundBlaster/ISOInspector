@@ -134,7 +134,7 @@ Card {
 **Features**:
 - ✅ 4 material types (thin, regular, thick, ultra)
 - ✅ SwiftUI Material integration (iOS 17+/macOS 14+)
-- ✅ Fallback colors using DS.Color.tertiary
+- ✅ Fallback colors using DS.Colors.tertiary
 - ✅ Reduce Transparency accessibility support
 - ✅ Increase Contrast adaptation
 - ✅ Platform availability checks
@@ -142,7 +142,7 @@ Card {
 
 **Material Specifications**:
 - **Thin**: .thinMaterial, fallback=gray.opacity(0.05)
-- **Regular**: .regularMaterial, fallback=DS.Color.tertiary
+- **Regular**: .regularMaterial, fallback=DS.Colors.tertiary
 - **Thick**: .thickMaterial, fallback=gray.opacity(0.15)
 - **Ultra**: .ultraThickMaterial, fallback=gray.opacity(0.20)
 

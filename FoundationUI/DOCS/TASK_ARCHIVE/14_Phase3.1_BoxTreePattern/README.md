@@ -35,7 +35,7 @@ Implemented `BoxTreePattern`, a hierarchical tree view component for displaying 
 - ✅ DS.Spacing.s for internal spacing
 - ✅ DS.Animation.medium for expand/collapse transitions
 - ✅ DS.Typography.body/code for text
-- ✅ DS.Color.infoBG for selection highlighting
+- ✅ DS.Colors.infoBG for selection highlighting
 - ✅ DS.Radius.small for selection background
 
 **Performance Optimizations:**
@@ -171,7 +171,7 @@ LazyVStack(alignment: .leading, spacing: DS.Spacing.m) {
 |----------------|-------|
 | Spacing | DS.Spacing.s, .m, .l |
 | Typography | DS.Typography.body, .code, .caption |
-| Colors | DS.Color.infoBG |
+| Colors | DS.Colors.infoBG |
 | Radius | DS.Radius.small |
 | Animation | DS.Animation.medium |
 

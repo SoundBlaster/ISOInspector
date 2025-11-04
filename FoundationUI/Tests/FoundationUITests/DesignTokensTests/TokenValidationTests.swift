@@ -110,19 +110,19 @@ final class TokenValidationTests: XCTestCase {
 
     func testSemanticColorsAreDefined() {
         // Verify all semantic colors exist
-        XCTAssertNotNil(DS.Color.infoBG, "Info background color should be defined")
-        XCTAssertNotNil(DS.Color.warnBG, "Warning background color should be defined")
-        XCTAssertNotNil(DS.Color.errorBG, "Error background color should be defined")
-        XCTAssertNotNil(DS.Color.successBG, "Success background color should be defined")
-        XCTAssertNotNil(DS.Color.accent, "Accent color should be defined")
-        XCTAssertNotNil(DS.Color.secondary, "Secondary color should be defined")
-        XCTAssertNotNil(DS.Color.tertiary, "Tertiary color should be defined")
+        XCTAssertNotNil(DS.Colors.infoBG, "Info background color should be defined")
+        XCTAssertNotNil(DS.Colors.warnBG, "Warning background color should be defined")
+        XCTAssertNotNil(DS.Colors.errorBG, "Error background color should be defined")
+        XCTAssertNotNil(DS.Colors.successBG, "Success background color should be defined")
+        XCTAssertNotNil(DS.Colors.accent, "Accent color should be defined")
+        XCTAssertNotNil(DS.Colors.secondary, "Secondary color should be defined")
+        XCTAssertNotNil(DS.Colors.tertiary, "Tertiary color should be defined")
     }
 
     func testTextColorsAreDefined() {
-        XCTAssertNotNil(DS.Color.textPrimary, "Primary text color should be defined")
-        XCTAssertNotNil(DS.Color.textSecondary, "Secondary text color should be defined")
-        XCTAssertNotNil(DS.Color.textPlaceholder, "Placeholder text color should be defined")
+        XCTAssertNotNil(DS.Colors.textPrimary, "Primary text color should be defined")
+        XCTAssertNotNil(DS.Colors.textSecondary, "Secondary text color should be defined")
+        XCTAssertNotNil(DS.Colors.textPlaceholder, "Placeholder text color should be defined")
     }
 
     // MARK: - Design System Consistency Tests

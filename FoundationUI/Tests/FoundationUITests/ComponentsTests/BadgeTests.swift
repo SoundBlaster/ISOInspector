@@ -148,10 +148,10 @@ final class BadgeTests: XCTestCase {
         let successBadge = Badge(text: "Success", level: .success)
 
         // Then - Verify that BadgeLevel provides DS colors (tested via BadgeLevel enum)
-        XCTAssertEqual(infoBadge.level.backgroundColor, DS.Color.infoBG, "Info badge should use DS.Color.infoBG")
-        XCTAssertEqual(warnBadge.level.backgroundColor, DS.Color.warnBG, "Warning badge should use DS.Color.warnBG")
-        XCTAssertEqual(errorBadge.level.backgroundColor, DS.Color.errorBG, "Error badge should use DS.Color.errorBG")
-        XCTAssertEqual(successBadge.level.backgroundColor, DS.Color.successBG, "Success badge should use DS.Color.successBG")
+        XCTAssertEqual(infoBadge.level.backgroundColor, DS.Colors.infoBG, "Info badge should use DS.Colors.infoBG")
+        XCTAssertEqual(warnBadge.level.backgroundColor, DS.Colors.warnBG, "Warning badge should use DS.Colors.warnBG")
+        XCTAssertEqual(errorBadge.level.backgroundColor, DS.Colors.errorBG, "Error badge should use DS.Colors.errorBG")
+        XCTAssertEqual(successBadge.level.backgroundColor, DS.Colors.successBG, "Success badge should use DS.Colors.successBG")
     }
 
     // MARK: - Component Composition Tests

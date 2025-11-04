@@ -15,14 +15,14 @@ import AppKit
 /// ## Usage
 /// ```swift
 /// Badge(text: "ERROR", level: .error)
-///     .background(DS.Color.errorBG)
+///     .background(DS.Colors.errorBG)
 ///
 /// Card {
 ///     Text("Warning")
 /// }
 /// .overlay(
 ///     RoundedRectangle(cornerRadius: DS.Radius.card)
-///         .stroke(DS.Color.warnBG, lineWidth: 2)
+///         .stroke(DS.Colors.warnBG, lineWidth: 2)
 /// )
 /// ```
 ///
@@ -45,7 +45,7 @@ import AppKit
 /// - Light mode: Lighter tints for backgrounds
 /// - Dark mode: System automatically adjusts opacity and vibrancy
 public extension DS {
-    enum Color {
+    enum Colors {
         // MARK: - Semantic Background Colors
 
         /// Information background color (neutral gray)

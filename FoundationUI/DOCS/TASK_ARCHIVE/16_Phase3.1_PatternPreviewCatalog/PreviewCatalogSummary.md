@@ -144,11 +144,11 @@ All previews verified to use **zero magic numbers** and **100% DS tokens**:
 - `DS.Typography.title`
 
 #### Color Tokens
-- `DS.Color.textPrimary`
-- `DS.Color.textSecondary`
-- `DS.Color.tertiary`
-- `DS.Color.infoBG`
-- `DS.Color.errorBG`
+- `DS.Colors.textPrimary`
+- `DS.Colors.textSecondary`
+- `DS.Colors.tertiary`
+- `DS.Colors.infoBG`
+- `DS.Colors.errorBG`
 
 #### Radius Tokens
 - `DS.Radius.card`
