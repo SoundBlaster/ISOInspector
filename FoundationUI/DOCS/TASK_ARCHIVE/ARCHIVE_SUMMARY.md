@@ -4,6 +4,60 @@ This document provides an index and summary of all archived FoundationUI impleme
 
 ---
 
+### 33_Phase4.2_AccessibilityHelpers
+**Completed**: 2025-11-03
+**Phase**: 4.2 Utilities & Helpers
+**Component**: AccessibilityHelpers utility
+
+**Implemented**:
+- WCAG 2.1 contrast validation, VoiceOver hint builders, accessibility audits, and platform-specific helpers spanning macOS and iOS support.【F:FoundationUI/DOCS/TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/Summary_AccessibilityHelpers_2025-11-03.md†L11-L24】
+- 35 dedicated unit tests with coverage across contrast ratios, hint builders, audit tools, Dynamic Type, and platform guards, supported by three SwiftUI previews.【F:FoundationUI/DOCS/TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/Summary_AccessibilityHelpers_2025-11-03.md†L26-L47】
+- Comprehensive DocC documentation, DS token compliance, and documented accessibility constants to eliminate magic numbers.【F:FoundationUI/DOCS/TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/Summary_AccessibilityHelpers_2025-11-03.md†L49-L89】
+
+**Quality Metrics & Impact**:
+- 785 lines of implementation backed by 360 lines of tests (test-to-code ratio 0.46) with ≥95% coverage, 100% DocC coverage, and multi-platform validation.【F:FoundationUI/DOCS/TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/Summary_AccessibilityHelpers_2025-11-03.md†L59-L73】
+- TDD workflow documented across red, green, and refactor phases with Linux guardrails and QA follow-up guidance.【F:FoundationUI/DOCS/TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/Summary_AccessibilityHelpers_2025-11-03.md†L93-L134】
+
+**Next Steps (Historical)**:
+- Prioritized utility integration tests and performance optimization, leading into Phase 4.3 copyable architecture refactoring.【F:FoundationUI/DOCS/TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/Summary_AccessibilityHelpers_2025-11-03.md†L165-L195】
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/`
+
+**Task Plan Updated**: AccessibilityHelpers task recorded as complete with archive references in Phase 4.2 utilities tracking.【F:DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md†L624-L671】
+
+**Impact**:
+- Establishes reusable accessibility audit utilities, WCAG enforcement, and VoiceOver hint builders for downstream components.【F:FoundationUI/DOCS/TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/Summary_AccessibilityHelpers_2025-11-03.md†L11-L47】
+- Captures DS token best practices and Linux guard considerations for future accessibility-focused work.【F:FoundationUI/DOCS/TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/Summary_AccessibilityHelpers_2025-11-03.md†L78-L134】
+
+---
+
+### 34_Phase4.2_UtilityIntegrationTests
+**Completed**: 2025-11-03
+**Phase**: 4.2 Utilities & Helpers
+**Component**: Utility integration test suite
+
+**Implemented**:
+- PRD, task plan, and four Swift integration test targets spanning CopyableText, KeyboardShortcuts, AccessibilityHelpers, and cross-utility scenarios (72 tests total).【F:FoundationUI/DOCS/TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/Summary_UtilityIntegrationTests_2025-11-03.md†L11-L79】
+- Coverage metrics documenting 18 CopyableText, 13 KeyboardShortcuts, 28 AccessibilityHelpers, and 13 cross-utility tests with combined 137 utility tests overall.【F:FoundationUI/DOCS/TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/Summary_UtilityIntegrationTests_2025-11-03.md†L84-L99】
+- DS token validation, accessibility verification, and platform guard enforcement across macOS, iOS, and Linux builds.【F:FoundationUI/DOCS/TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/Summary_UtilityIntegrationTests_2025-11-03.md†L103-L168】
+
+**Quality Metrics & Impact**:
+- Red/Green/Refactor workflow documented with performance-focused regression protection and Linux guardrails.【F:FoundationUI/DOCS/TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/Summary_UtilityIntegrationTests_2025-11-03.md†L129-L168】
+- Deliverables include PRD, task guide, four integration test files, and archive documentation for long-term reference.【F:FoundationUI/DOCS/TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/Summary_UtilityIntegrationTests_2025-11-03.md†L172-L190】
+
+**Next Steps (Historical)**:
+- Highlighted performance optimization for utilities and the Phase 4.3 copyable architecture refactor as the follow-up focus.【F:FoundationUI/DOCS/TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/Summary_UtilityIntegrationTests_2025-11-03.md†L198-L200】【F:FoundationUI/DOCS/INPROGRESS/next_tasks.md†L7-L39】
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/`
+
+**Task Plan Updated**: Utility integration tests recorded as complete with archive references within the Phase 4.2 progress tracker.【F:DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md†L650-L671】
+
+**Impact**:
+- Validates cross-utility composition prior to performance tuning, reinforcing design-system compliance and accessibility guarantees across components and patterns.【F:FoundationUI/DOCS/TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/Summary_UtilityIntegrationTests_2025-11-03.md†L30-L108】
+- Provides executable guidance for macOS/iOS verification and Linux compatibility strategy for integration suites.【F:FoundationUI/DOCS/TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/Summary_UtilityIntegrationTests_2025-11-03.md†L150-L168】
+
+---
+
 ## Archive Index
 
 ### 01_Phase2.1_BaseModifiers
