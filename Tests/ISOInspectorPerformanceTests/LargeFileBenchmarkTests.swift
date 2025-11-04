@@ -1,6 +1,12 @@
 import Foundation
 import XCTest
 import _Concurrency
+#if os(Linux)
+import Glibc
+#else
+import Darwin
+import Darwin.Mach
+#endif
 
 @testable import ISOInspectorApp
 @testable import ISOInspectorCLI
@@ -29,31 +35,71 @@ final class LargeFileBenchmarkTests: XCTestCase {
 
     func testCLIValidationCompletesWithinPerformanceBudget() throws {
         let fixture = try LargeFileBenchmarkFixture.make(configuration: configuration)
-        let environment = ISOInspectorCLIEnvironment(
-            refreshCatalog: { _, _ in },
-            makeReader: { url in try ChunkedFileReader(fileURL: url) },
-            parsePipeline: .live(),
-            formatter: EventConsoleFormatter(),
-            print: { _ in },
-            printError: { _ in }
+        let strictResults = try measureCLIValidationBenchmark(
+            fixture: fixture,
+            configuration: configuration,
+            options: .strict
         )
 
-        performBenchmark(iterations: configuration.iterationCount) {
-            let start = Date()
-            try runValidateCommand(on: fixture.url, environment: environment)
-            let duration = Date().timeIntervalSince(start)
-            XCTAssertLessThanOrEqual(
-                duration,
-                configuration.cliDurationBudgetSeconds(),
-                "CLI validation exceeded budget for payload of \(configuration.payloadBytes) bytes"
-            )
+        XCTAssertLessThanOrEqual(
+            strictResults.averageDuration,
+            configuration.cliDurationBudgetSeconds(),
+            "Strict-mode CLI validation exceeded budget for payload of \(configuration.payloadBytes) bytes"
+        )
 
-            let eventCount = try drainEvents(
-                using: environment.parsePipeline,
-                fileURL: fixture.url
+        XCTAssertEqual(
+            strictResults.eventCount,
+            fixture.expectedEventCount,
+            "Strict-mode CLI validation produced unexpected event count"
+        )
+    }
+
+    func testCLIValidationLenientModePerformanceStaysWithinToleranceBudget() throws {
+        let fixture = try LargeFileBenchmarkFixture.make(configuration: configuration)
+
+        let strictResults = try measureCLIValidationBenchmark(
+            fixture: fixture,
+            configuration: configuration,
+            options: .strict
+        )
+        let tolerantResults = try measureCLIValidationBenchmark(
+            fixture: fixture,
+            configuration: configuration,
+            options: .tolerant
+        )
+
+        let strictAverage = max(strictResults.averageDuration, .ulpOfOne)
+        let tolerantAverage = tolerantResults.averageDuration
+        let ratio = tolerantAverage / strictAverage
+        let strictAverageString = String(format: "%.3f", strictAverage)
+        let tolerantAverageString = String(format: "%.3f", tolerantAverage)
+        let ratioString = String(format: "%.3f", ratio)
+        print("CLI strict average duration: \(strictAverageString)s")
+        print("CLI tolerant average duration: \(tolerantAverageString)s (ratio: \(ratioString))")
+        XCTAssertLessThanOrEqual(
+            ratio,
+            configuration.tolerantDurationOverheadBudget(),
+            "Lenient mode CLI validation exceeded allowed runtime overhead"
+        )
+
+        if let strictPeak = strictResults.peakMemoryBytes,
+            let tolerantPeak = tolerantResults.peakMemoryBytes {
+            let overhead = tolerantPeak > strictPeak ? tolerantPeak - strictPeak : 0
+            let overheadMiB = Double(overhead) / 1_048_576
+            let overheadString = String(format: "%.2f", overheadMiB)
+            print("CLI tolerant peak memory overhead: \(overheadString) MiB")
+            XCTAssertLessThanOrEqual(
+                overhead,
+                configuration.tolerantAdditionalMemoryBudgetBytes(),
+                "Lenient mode CLI validation exceeded allowed memory overhead"
             )
-            XCTAssertEqual(eventCount, fixture.expectedEventCount)
         }
+
+        XCTAssertEqual(
+            tolerantResults.eventCount,
+            fixture.expectedEventCount,
+            "Lenient mode CLI validation produced unexpected event count"
+        )
     }
 
     #if canImport(Combine)
@@ -218,6 +264,38 @@ extension LargeFileBenchmarkTests {
         }
     }
 
+    fileprivate func measureCLIValidationBenchmark(
+        fixture: LargeFileBenchmarkFixture,
+        configuration: PerformanceBenchmarkConfiguration,
+        options: ParsePipeline.Options
+    ) throws -> CLIBenchmarkResult {
+        let environment = makeCLIEnvironment(options: options)
+        var durations: [TimeInterval] = []
+        durations.reserveCapacity(configuration.iterationCount)
+        var peakMemory: UInt64 = currentMemoryUsageBytes() ?? 0
+        var eventCount = 0
+
+        for _ in 0..<configuration.iterationCount {
+            let start = Date()
+            try runValidateCommand(on: fixture.url, environment: environment)
+            let duration = Date().timeIntervalSince(start)
+            durations.append(duration)
+            if let usage = currentMemoryUsageBytes() {
+                peakMemory = max(peakMemory, usage)
+            }
+            eventCount = try drainEvents(
+                using: environment.parsePipeline,
+                fileURL: fixture.url
+            )
+        }
+
+        return CLIBenchmarkResult(
+            durations: durations,
+            peakMemoryBytes: peakMemory == 0 ? nil : peakMemory,
+            eventCount: eventCount
+        )
+    }
+
     fileprivate func executeRandomSliceRequests(
         _ requests: [RandomSliceRequest],
         using reader: any RandomAccessReader,
@@ -286,6 +364,17 @@ extension LargeFileBenchmarkTests {
     }
 }
 
+private func makeCLIEnvironment(options: ParsePipeline.Options) -> ISOInspectorCLIEnvironment {
+    ISOInspectorCLIEnvironment(
+        refreshCatalog: { _, _ in },
+        makeReader: { url in try ChunkedFileReader(fileURL: url) },
+        parsePipeline: .live(options: options),
+        formatter: EventConsoleFormatter(),
+        print: { _ in },
+        printError: { _ in }
+    )
+}
+
 private func drainEvents(
     using pipeline: ParsePipeline,
     fileURL: URL
@@ -312,6 +401,47 @@ private func drainEvents(
         throw error
     }
     return count.withValue { $0 }
+}
+
+private struct CLIBenchmarkResult {
+    let durations: [TimeInterval]
+    let peakMemoryBytes: UInt64?
+    let eventCount: Int
+
+    var averageDuration: TimeInterval {
+        guard !durations.isEmpty else { return 0 }
+        let sum = durations.reduce(0, +)
+        return sum / Double(durations.count)
+    }
+}
+
+private func currentMemoryUsageBytes() -> UInt64? {
+#if os(Linux)
+    guard let status = try? String(contentsOfFile: "/proc/self/status", encoding: .utf8) else {
+        return nil
+    }
+    for line in status.split(whereSeparator: \.isNewline) {
+        if line.hasPrefix("VmRSS:") {
+            let components = line.split(separator: " ", omittingEmptySubsequences: true)
+            if components.count >= 2, let value = UInt64(components[1]) {
+                return value * 1024
+            }
+        }
+    }
+    return nil
+#else
+    var info = mach_task_basic_info()
+    var count = mach_msg_type_number_t(MemoryLayout.size(ofValue: info) / MemoryLayout<natural_t>.size)
+    let kerr: kern_return_t = withUnsafeMutablePointer(to: &info) {
+        $0.withMemoryRebound(to: integer_t.self, capacity: Int(count)) {
+            task_info(mach_task_self_, task_flavor_t(MACH_TASK_BASIC_INFO), $0, &count)
+        }
+    }
+    guard kerr == KERN_SUCCESS else {
+        return nil
+    }
+    return UInt64(info.resident_size)
+#endif
 }
 
 private struct LargeFileBenchmarkFixture {
