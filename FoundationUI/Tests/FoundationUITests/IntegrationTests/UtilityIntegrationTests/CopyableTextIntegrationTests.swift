@@ -39,7 +39,7 @@ final class CopyableTextIntegrationTests: XCTestCase {
         let row = KeyValueRow(
             key: "Memory Address",
             value: "0xDEADBEEF",
-            isCopyable: true
+            copyable: true
         )
 
         XCTAssertNotNil(row, "KeyValueRow should support copyable values")
@@ -61,8 +61,8 @@ final class CopyableTextIntegrationTests: XCTestCase {
         let inspector = InspectorPattern(title: "Test Inspector") {
             VStack(spacing: DS.Spacing.m) {
                 SectionHeader(title: "Details", showDivider: true)
-                KeyValueRow(key: "ID", value: "12345", isCopyable: true)
-                KeyValueRow(key: "Hash", value: "0xABCD", isCopyable: true)
+                KeyValueRow(key: "ID", value: "12345", copyable: true)
+                KeyValueRow(key: "Hash", value: "0xABCD", copyable: true)
             }
         }
 

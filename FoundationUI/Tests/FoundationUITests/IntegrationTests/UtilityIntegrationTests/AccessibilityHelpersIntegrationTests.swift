@@ -195,9 +195,11 @@ final class AccessibilityHelpersIntegrationTests: XCTestCase {
 
     func testAccessibilityAuditOnToolbarPattern() {
         // Test audit on ToolbarPattern
-        let toolbar = ToolbarPattern(items: [
-            ToolbarPattern.Item(id: "copy", label: "Copy", icon: "doc.on.doc", action: {})
-        ])
+        let toolbar = ToolbarPattern(items: ToolbarPattern.Items(
+            primary: [
+                ToolbarPattern.Item(id: "copy", iconSystemName: "doc.on.doc", title: "Copy", action: {})
+            ]
+        ))
 
         XCTAssertNotNil(toolbar, "Should be able to audit ToolbarPattern")
 
