@@ -101,12 +101,12 @@ public struct CopyableText: View {
     // MARK: - Body
 
     public var body: some View {
-        // TEMPORARY: Commented out .makeCopyable() to test docbuild compilation
-        // TODO: Re-enable once extension visibility issue is resolved
+        // Using .makeCopyable() extension method for consistency
+        // The View extension is defined in Modifiers/CopyableModifier.swift
         Text(text)
             .font(DS.Typography.code)
             .foregroundColor(DS.Colors.textPrimary)
-            // .makeCopyable(text: text)  // DISABLED FOR TESTING
+            .makeCopyable(text: text)
             .accessibilityLabel(accessibilityLabelText)
     }
 
