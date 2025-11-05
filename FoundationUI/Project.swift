@@ -19,7 +19,8 @@ let baseSettings: SettingsDictionary = [
     "CURRENT_PROJECT_VERSION": "1",
     "SWIFT_VERSION": "6.0",
     "IPHONEOS_DEPLOYMENT_TARGET": "16.0",
-    "MACOSX_DEPLOYMENT_TARGET": "14.0"
+    "MACOSX_DEPLOYMENT_TARGET": "14.0",
+    "SWIFT_TREAT_WARNINGS_AS_ERRORS": "YES"
 ]
 
 // MARK: - Framework Target
