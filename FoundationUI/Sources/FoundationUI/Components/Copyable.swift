@@ -138,10 +138,9 @@ public struct Copyable<Content: View>: View {
     // MARK: - Body
 
     public var body: some View {
-        // TEMPORARY: Commented out .makeCopyable() to test docbuild compilation
-        // TODO: Re-enable once extension visibility issue is resolved
-        content
-            // .makeCopyable(text: textToCopy, showFeedback: showFeedback)  // DISABLED FOR TESTING
+        // Using .makeCopyable() extension method for consistency
+        // The View extension is defined in Modifiers/CopyableModifier.swift
+        content.makeCopyable(text: textToCopy, showFeedback: showFeedback)
     }
 }
 
