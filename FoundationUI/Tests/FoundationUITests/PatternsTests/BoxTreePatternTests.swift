@@ -224,7 +224,7 @@ final class BoxTreePatternTests: XCTestCase {
 
     func testBoxTreePatternUsesDesignSystemSpacingForIndentation() {
         // Given
-        let tree = makeDeepTree()
+        _ = makeDeepTree()
 
         // When - indentation should use DS.Spacing tokens
         let expectedIndentPerLevel = DS.Spacing.l
@@ -366,8 +366,8 @@ final class BoxTreePatternTests: XCTestCase {
 
     func testBoxTreePatternUsesDesignSystemAnimation() {
         // Given
-        let tree = makeSimpleTree()
-        var expandedNodes: Set<UUID> = []
+        _ = makeSimpleTree()
+        _ = Set<UUID>()
 
         // When - animations should use DS.Animation tokens
         let animation = DS.Animation.medium
@@ -383,7 +383,7 @@ final class BoxTreePatternTests: XCTestCase {
         var expandedNodes: Set<UUID> = []
 
         // When - expand with animation
-        withAnimation(DS.Animation.medium) {
+        _ = withAnimation(DS.Animation.medium) {
             expandedNodes.insert(rootId)
         }
 

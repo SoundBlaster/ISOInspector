@@ -15,12 +15,14 @@ final class CopyableTextTests: XCTestCase {
 
     // MARK: - API Tests
 
+    @MainActor
     func testCopyableTextInitialization() {
         // Test basic initialization with text only
         let copyableText = CopyableText(text: "Test Value")
         XCTAssertNotNil(copyableText, "CopyableText should initialize with text parameter")
     }
 
+    @MainActor
     func testCopyableTextInitializationWithLabel() {
         // Test initialization with optional label
         let copyableText = CopyableText(text: "0x1234ABCD", label: "Hex Value")
@@ -29,6 +31,7 @@ final class CopyableTextTests: XCTestCase {
 
     // MARK: - State Management Tests
 
+    @MainActor
     func testCopyableTextHasInitialState() {
         // CopyableText should start in default state (not copied)
         let copyableText = CopyableText(text: "Test")
@@ -39,6 +42,7 @@ final class CopyableTextTests: XCTestCase {
 
     // MARK: - Accessibility Tests
 
+    @MainActor
     func testCopyableTextAccessibilityLabel() {
         // CopyableText should provide clear accessibility labels
         // This test verifies the API exists and accepts accessibility parameters
@@ -46,6 +50,7 @@ final class CopyableTextTests: XCTestCase {
         XCTAssertNotNil(copyableText, "Should support accessibility labeling")
     }
 
+    @MainActor
     func testCopyableTextAccessibilityHint() {
         // Should provide accessibility hints for VoiceOver users
         // Hint should indicate that tapping will copy the value
@@ -56,6 +61,7 @@ final class CopyableTextTests: XCTestCase {
 
     // MARK: - Design System Token Usage Tests
 
+    @MainActor
     func testCopyableTextUsesDesignSystemTokens() {
         // CopyableText must use DS tokens exclusively (zero magic numbers)
         // This is a reminder test to ensure DS token usage during implementation
@@ -74,6 +80,7 @@ final class CopyableTextTests: XCTestCase {
 
     // MARK: - SwiftUI View Conformance Tests
 
+    @MainActor
     func testCopyableTextConformsToView() {
         // CopyableText should be a valid SwiftUI View
         let copyableText = CopyableText(text: "View Test")
@@ -85,6 +92,7 @@ final class CopyableTextTests: XCTestCase {
     // MARK: - Platform-Specific Tests
 
     #if os(macOS)
+    @MainActor
     func testMacOSClipboardIntegration() {
         // On macOS, should use NSPasteboard
         // This is a placeholder for platform-specific clipboard testing
@@ -94,6 +102,7 @@ final class CopyableTextTests: XCTestCase {
         // Future: Mock NSPasteboard and verify clipboard operations
     }
 
+    @MainActor
     func testMacOSKeyboardShortcut() {
         // On macOS, should support ⌘C keyboard shortcut
         let copyableText = CopyableText(text: "Shortcut Test")
@@ -102,6 +111,7 @@ final class CopyableTextTests: XCTestCase {
         // Future: Test keyboard shortcut handling with SwiftUI key events
     }
     #else
+    @MainActor
     func testIOSClipboardIntegration() {
         // On iOS/iPadOS, should use UIPasteboard
         let copyableText = CopyableText(text: "iOS Value")
@@ -113,6 +123,7 @@ final class CopyableTextTests: XCTestCase {
 
     // MARK: - Visual Feedback Tests
 
+    @MainActor
     func testCopyableTextShowsFeedbackOnCopy() {
         // When copy action is triggered, should show visual feedback
         // e.g., "Copied!" indicator with animation
@@ -123,6 +134,7 @@ final class CopyableTextTests: XCTestCase {
         // This would require exposing copy action for testing
     }
 
+    @MainActor
     func testCopyableTextFeedbackUsesQuickAnimation() {
         // Visual feedback should use DS.Animation.quick
         // This ensures responsive, snappy feedback
@@ -134,6 +146,7 @@ final class CopyableTextTests: XCTestCase {
 
     // MARK: - Integration Tests
 
+    @MainActor
     func testCopyableTextIntegrationWithKeyValueRow() {
         // CopyableText should be usable within KeyValueRow
         // This is an integration test placeholder
@@ -145,12 +158,14 @@ final class CopyableTextTests: XCTestCase {
 
     // MARK: - Edge Cases
 
+    @MainActor
     func testCopyableTextWithEmptyString() {
         // Should handle empty string gracefully
         let copyableText = CopyableText(text: "")
         XCTAssertNotNil(copyableText, "Should handle empty text without crashing")
     }
 
+    @MainActor
     func testCopyableTextWithVeryLongString() {
         // Should handle long strings (e.g., long hex dumps)
         let longText = String(repeating: "A", count: 1000)
@@ -158,6 +173,7 @@ final class CopyableTextTests: XCTestCase {
         XCTAssertNotNil(copyableText, "Should handle long text without issues")
     }
 
+    @MainActor
     func testCopyableTextWithSpecialCharacters() {
         // Should handle special characters and Unicode
         let specialText = "Special: 你好 🎉 \n\t\\"
@@ -167,6 +183,7 @@ final class CopyableTextTests: XCTestCase {
 
     // MARK: - Performance Tests
 
+    @MainActor
     func testCopyableTextPerformance() {
         // Creating CopyableText should be fast
         measure {

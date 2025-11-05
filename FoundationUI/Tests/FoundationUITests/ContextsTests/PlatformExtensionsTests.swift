@@ -64,6 +64,7 @@ final class PlatformExtensionsTests: XCTestCase {
             .platformKeyboardShortcut(.copy, action: action)
 
         XCTAssertNotNil(view, "Custom keyboard shortcut action should be applicable")
+        XCTAssertFalse(actionCalled, "Action should not be called until shortcut is triggered")
     }
     #endif
 

@@ -49,7 +49,7 @@ final class SidebarPatternTests: XCTestCase {
             get: { capturedSelection },
             set: { capturedSelection = $0 }
         )
-        var pattern = SidebarPattern(sections: sections, selection: selection) { _ in
+        let pattern = SidebarPattern(sections: sections, selection: selection) { _ in
             Text("Detail")
         }
         let expected = sections[0].items[0].id

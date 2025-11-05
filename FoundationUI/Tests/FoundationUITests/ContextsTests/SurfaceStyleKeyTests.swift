@@ -50,7 +50,7 @@ final class SurfaceStyleKeyTests: XCTestCase {
     /// no explicit surface style is specified
     func testEnvironmentValues_DefaultSurfaceStyle_IsRegular() {
         // Arrange
-        var environment = EnvironmentValues()
+        let environment = EnvironmentValues()
 
         // Act
         let surfaceStyle = environment.surfaceStyle
@@ -283,10 +283,9 @@ final class SurfaceStyleKeyTests: XCTestCase {
     /// **Importance**: Required for SwiftUI environment system
     func testSurfaceStyleKey_ConformsToEnvironmentKey() {
         // Assert - Type check for protocol conformance
-        XCTAssertTrue(
-            SurfaceStyleKey.self is EnvironmentKey.Type,
-            "SurfaceStyleKey should conform to EnvironmentKey protocol"
-        )
+        // If SurfaceStyleKey didn't conform to EnvironmentKey, this code wouldn't compile
+        let _: any EnvironmentKey.Type = SurfaceStyleKey.self
+        XCTAssertNotNil(SurfaceStyleKey.defaultValue, "SurfaceStyleKey should conform to EnvironmentKey protocol")
     }
 
     /// Tests that default value is accessible at compile time

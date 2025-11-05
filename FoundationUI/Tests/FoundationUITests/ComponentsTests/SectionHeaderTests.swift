@@ -96,7 +96,9 @@ final class SectionHeaderTests: XCTestCase {
 
         // Then
         // Verify that SectionHeader conforms to View protocol (compile-time check)
-        XCTAssertTrue(type(of: header) is any View.Type, "SectionHeader should be a SwiftUI View")
+        // If SectionHeader didn't conform to View, this code wouldn't compile
+        let _: any View = header
+        XCTAssertNotNil(header, "SectionHeader should be a SwiftUI View")
     }
 
     // MARK: - Edge Cases

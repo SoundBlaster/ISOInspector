@@ -145,12 +145,14 @@
         var selection: String?
         private(set) var announcements: [String] = []
 
-        private(set) lazy var binding: Binding<String?> = Binding(
-            get: { [weak self] in self?.selection },
-            set: { [weak self] newValue in
-                self?.selection = newValue
-            }
-        )
+        var binding: Binding<String?> {
+            Binding(
+                get: { [weak self] in self?.selection },
+                set: { [weak self] newValue in
+                    self?.selection = newValue
+                }
+            )
+        }
 
         func recordAnnouncement(message: String) {
             announcements.append(message)

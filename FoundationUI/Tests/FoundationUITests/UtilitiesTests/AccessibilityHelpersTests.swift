@@ -42,7 +42,6 @@ final class AccessibilityHelpersTests: XCTestCase {
 
     func testContrastRatioWCAG_AA_Compliance() {
         // WCAG 2.1 Level AA requires minimum contrast ratio of 4.5:1 for normal text
-        let minContrastAA = 4.5
 
         // Test that checker identifies compliant colors
         let isCompliant = AccessibilityHelpers.meetsWCAG_AA(
@@ -62,7 +61,6 @@ final class AccessibilityHelpersTests: XCTestCase {
 
     func testContrastRatioWCAG_AAA_Compliance() {
         // WCAG 2.1 Level AAA requires minimum contrast ratio of 7:1 for normal text
-        let minContrastAAA = 7.0
 
         let isCompliantAAA = AccessibilityHelpers.meetsWCAG_AAA(
             foreground: .black,
@@ -168,7 +166,6 @@ final class AccessibilityHelpersTests: XCTestCase {
 
     func testTouchTargetSizeValidation() {
         // iOS HIG requires minimum 44x44 pt touch targets
-        let minimumSize: CGFloat = 44.0
 
         let isValid = AccessibilityHelpers.isValidTouchTarget(
             size: CGSize(width: 44, height: 44)
