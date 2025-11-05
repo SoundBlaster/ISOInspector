@@ -1,4 +1,3 @@
-// swift-tools-version: 6.0
 import SwiftUI
 
 /// Extensions for DynamicTypeSize to provide semantic naming for accessibility sizes

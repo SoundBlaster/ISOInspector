@@ -1,4 +1,3 @@
-// swift-tools-version: 6.0
 import SwiftUI
 
 /// A flexible card component with configurable elevation, corner radius, and material backgrounds
