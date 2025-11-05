@@ -4,3 +4,4 @@ xcuserdata/
 .swiftpm/
 Documentation/DocC/
 .serena
+.claude/settings.local.json
