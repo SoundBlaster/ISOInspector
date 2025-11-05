@@ -66,7 +66,7 @@ final class CardPerformanceTests: XCTestCase {
             for elevation in elevations {
                 for i in 0..<(DS.PerformanceTest.componentCount / elevations.count) {
                     let card = Card(elevation: elevation) {
-                        Text("Elevation: \(elevation) - \(i)")
+                        Text(verbatim: "Elevation: \(String(describing: elevation)) - \(i)")
                     }
                     _ = Mirror(reflecting: card).children.count
                 }
