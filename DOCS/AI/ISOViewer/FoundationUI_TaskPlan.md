@@ -15,7 +15,7 @@
 | Phase 2: Core Components | ✅ Complete | 22/22 (100%) |
 | Phase 3: Patterns & Platform Adaptation | ✅ Complete | 16/16 (100%) |
 | Phase 4: Agent Support & Polish | In Progress | 11/18 (61%) |
-| Phase 5: Documentation & QA | Not Started | 0/27 (0%) |
+| Phase 5: Documentation & QA | In Progress | 0/27 (0%) |
 | Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
 
 ---
@@ -769,13 +769,14 @@
 **Progress: 0/27 tasks completed (0%)**
 
 ### 5.1 API Documentation (DocC)
-**Progress: 0/6 tasks**
+**Progress: 0/6 tasks → IN PROGRESS**
 
-- [ ] **P0** Set up DocC documentation catalog
+- [ ] **P0** Set up DocC documentation catalog → **IN PROGRESS**
   - Create Documentation.docc bundle
   - Configure landing page
   - Set up navigation structure
   - Add brand assets and styling
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase5.1_APIDocs.md`
 
 - [ ] **P0** Document all Design Tokens
   - 100% DocC coverage for DS namespace
