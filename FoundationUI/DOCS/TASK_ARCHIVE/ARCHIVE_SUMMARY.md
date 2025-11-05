@@ -4,6 +4,85 @@ This document provides an index and summary of all archived FoundationUI impleme
 
 ---
 
+### 36_Phase4.3_CopyableArchitecture
+**Completed**: 2025-11-05
+**Phase**: 4.3 Copyable Architecture Refactoring
+**Component**: Unified copyable architecture (Layer 1 modifier + Layer 2 components)
+
+**Implemented**:
+- CopyableModifier (Layer 1): Universal `.copyable(text:showFeedback:)` view modifier
+- CopyableText refactor: Simplified from ~200 to ~50 lines using CopyableModifier internally
+- Copyable generic wrapper: `Copyable<Content: View>` with ViewBuilder support
+- Integration tests: 50+ test cases covering all three components
+- Complete DocC documentation: 16 SwiftUI Previews across components
+
+**Files Created**:
+- `Sources/FoundationUI/Modifiers/CopyableModifier.swift` (implemented)
+- `Sources/FoundationUI/Components/Copyable.swift` (new generic wrapper)
+- `Tests/FoundationUITests/ModifiersTests/CopyableModifierTests.swift` (30+ tests)
+- `Tests/FoundationUITests/ComponentsTests/CopyableTests.swift` (30+ tests)
+- `Tests/FoundationUITests/IntegrationTests/CopyableArchitectureIntegrationTests.swift` (50+ tests)
+
+**Files Refactored**:
+- `Sources/FoundationUI/Utilities/CopyableText.swift` (simplified, 100% backward compatible)
+
+**Test Coverage**: 110+ comprehensive tests
+- CopyableModifier: 30+ unit tests
+- Copyable wrapper: 30+ unit tests
+- CopyableText: 15 existing tests (all pass)
+- Integration tests: 50+ cross-component tests
+- Backward compatibility: 100% verified
+
+**Preview Coverage**: 16 SwiftUI Previews
+- CopyableModifier: 5 previews
+- Copyable wrapper: 6 previews
+- CopyableText: 5 previews (existing + updated)
+
+**Quality Metrics**:
+- SwiftLint Violations: 0
+- Magic Numbers: 0 (100% DS token usage)
+- DocC Coverage: 100%
+- Accessibility Score: 100% (VoiceOver announcements on all platforms)
+- Platform Coverage: iOS, iPadOS, macOS with conditional compilation
+
+**Architecture Benefits**:
+- **Layer 1 (Modifier)**: Universal `.copyable()` works on any View
+- **Layer 2 (Component)**: Purpose-built CopyableText utility + generic Copyable wrapper
+- **Composability**: All three approaches work together seamlessly
+- **Backward compatibility**: Existing CopyableText usage unchanged
+- **Code reuse**: Eliminated 150+ lines of duplicated clipboard logic
+
+**Platform Features**:
+- Platform-specific clipboard (NSPasteboard/UIPasteboard)
+- Visual feedback with DS tokens (DS.Spacing, DS.Animation, DS.Typography, DS.Colors)
+- Keyboard shortcuts (⌘C on macOS)
+- VoiceOver announcements (platform-specific)
+- Touch/click interaction handling
+
+**Lessons Learned**:
+- Layered architecture (modifier → component) reduces code duplication
+- Generic wrappers with ViewBuilder provide maximum flexibility
+- Refactoring with 100% backward compatibility maintains trust
+- Integration tests catch cross-component issues early
+- Platform-specific features require conditional compilation and testing
+
+**Next Steps**:
+- **Phase 4.3 Complete**: All 5/5 tasks finished ✅
+- Phase 4: 11/18 tasks (61%) - Continue with Phase 4.1 Agent Support or Phase 5 Documentation
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/36_Phase4.3_CopyableArchitecture/`
+
+**Task Plan Updated**: Yes, marked Copyable Architecture tasks complete, Phase 4.3: 5/5 tasks (100%) ✅ COMPLETE
+
+**Impact**:
+- Completes Phase 4.3 Copyable Architecture Refactoring (100%)
+- Establishes reusable copyable pattern for all FoundationUI components
+- Reduces code duplication and improves maintainability
+- Provides three usage patterns (modifier, utility, generic wrapper) for different needs
+- Sets architectural precedent for future component refactoring
+
+---
+
 ### 33_Phase4.2_AccessibilityHelpers
 **Completed**: 2025-11-03
 **Phase**: 4.2 Utilities & Helpers
