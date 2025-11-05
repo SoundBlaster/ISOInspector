@@ -1,4 +1,3 @@
-// swift-tools-version: 6.0
 import SwiftUI
 
 /// A hierarchical tree view pattern for displaying nested structures like ISO box hierarchies.

@@ -1,4 +1,3 @@
-// swift-tools-version: 6.0
 import SwiftUI
 
 /// Badge level semantic types for status indication

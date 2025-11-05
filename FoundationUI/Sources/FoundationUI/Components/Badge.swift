@@ -1,4 +1,3 @@
-// swift-tools-version: 6.0
 import SwiftUI
 
 /// A semantic badge component for displaying status, categories, or metadata

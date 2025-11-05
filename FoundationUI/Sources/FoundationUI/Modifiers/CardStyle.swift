@@ -1,4 +1,3 @@
-// swift-tools-version: 6.0
 import SwiftUI
 
 /// Card elevation levels for visual hierarchy

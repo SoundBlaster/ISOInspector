@@ -1,4 +1,3 @@
-// swift-tools-version: 6.0
 import SwiftUI
 
 /// A pattern for displaying detailed inspector content with a fixed header and
