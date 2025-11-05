@@ -348,7 +348,7 @@ public extension BoxTreePattern {
 // MARK: - SwiftUI Previews
 
 #if DEBUG
-#Preview("Simple Tree") {
+private struct SimpleTreePreview: View {
     struct PreviewNode: Identifiable {
         let id = UUID()
         let title: String
@@ -373,26 +373,32 @@ public extension BoxTreePattern {
         PreviewNode(title: "mdat", children: [])
     ]
 
-    return ScrollView {
-        BoxTreePattern(
-            data: sampleData,
-            children: { $0.children.isEmpty ? nil : $0.children },
-            expandedNodes: $expandedNodes,
-            selection: $selection
-        ) { node in
-            HStack {
-                Text(node.title)
-                    .font(DS.Typography.code)
-                Spacer()
-                Badge(text: "BOX", level: .info)
+    var body: some View {
+        ScrollView {
+            BoxTreePattern(
+                data: sampleData,
+                children: { $0.children.isEmpty ? nil : $0.children },
+                expandedNodes: $expandedNodes,
+                selection: $selection
+            ) { node in
+                HStack {
+                    Text(node.title)
+                        .font(DS.Typography.code)
+                    Spacer()
+                    Badge(text: "BOX", level: .info)
+                }
             }
+            .padding(DS.Spacing.l)
         }
-        .padding(DS.Spacing.l)
+        .frame(width: 400, height: 600)
     }
-    .frame(width: 400, height: 600)
 }
 
-#Preview("Deep Nesting") {
+#Preview("Simple Tree") {
+    SimpleTreePreview()
+}
+
+private struct DeepNestingPreview: View {
     struct PreviewNode: Identifiable {
         let id = UUID()
         let title: String
@@ -413,23 +419,29 @@ public extension BoxTreePattern {
         ]
     }
 
-    let deepData = makeDeepTree()
+    var body: some View {
+        let deepData = makeDeepTree()
 
-    return ScrollView {
-        BoxTreePattern(
-            data: deepData,
-            children: { $0.children.isEmpty ? nil : $0.children },
-            expandedNodes: $expandedNodes
-        ) { node in
-            Text(node.title)
-                .font(DS.Typography.body)
+        ScrollView {
+            BoxTreePattern(
+                data: deepData,
+                children: { $0.children.isEmpty ? nil : $0.children },
+                expandedNodes: $expandedNodes
+            ) { node in
+                Text(node.title)
+                    .font(DS.Typography.body)
+            }
+            .padding(DS.Spacing.l)
         }
-        .padding(DS.Spacing.l)
+        .frame(width: 400, height: 600)
     }
-    .frame(width: 400, height: 600)
 }
 
-#Preview("Multi-Selection") {
+#Preview("Deep Nesting") {
+    DeepNestingPreview()
+}
+
+private struct MultiSelectionPreview: View {
     struct PreviewNode: Identifiable {
         let id = UUID()
         let title: String
@@ -449,29 +461,35 @@ public extension BoxTreePattern {
         ])
     ]
 
-    return VStack(alignment: .leading) {
-        Text("Selected: \(selection.count) nodes")
-            .font(DS.Typography.caption)
-            .foregroundStyle(.secondary)
-            .padding(.horizontal, DS.Spacing.l)
+    var body: some View {
+        VStack(alignment: .leading) {
+            Text("Selected: \(selection.count) nodes")
+                .font(DS.Typography.caption)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, DS.Spacing.l)
 
-        ScrollView {
-            BoxTreePattern(
-                data: sampleData,
-                children: { $0.children.isEmpty ? nil : $0.children },
-                expandedNodes: $expandedNodes,
-                multiSelection: $selection
-            ) { node in
-                Text(node.title)
-                    .font(DS.Typography.body)
+            ScrollView {
+                BoxTreePattern(
+                    data: sampleData,
+                    children: { $0.children.isEmpty ? nil : $0.children },
+                    expandedNodes: $expandedNodes,
+                    multiSelection: $selection
+                ) { node in
+                    Text(node.title)
+                        .font(DS.Typography.body)
+                }
+                .padding(DS.Spacing.l)
             }
-            .padding(DS.Spacing.l)
         }
+        .frame(width: 400, height: 600)
     }
-    .frame(width: 400, height: 600)
 }
 
-#Preview("Large Tree (Performance)") {
+#Preview("Multi-Selection") {
+    MultiSelectionPreview()
+}
+
+private struct LargeTreePreview: View {
     struct PreviewNode: Identifiable {
         let id = UUID()
         let title: String
@@ -480,38 +498,44 @@ public extension BoxTreePattern {
 
     @State var expandedNodes: Set<UUID> = []
 
-    // Generate 100 root nodes with 10 children each (1000+ total nodes)
-    let largeData = (0..<100).map { i in
-        PreviewNode(
-            title: "Node \(i)",
-            children: (0..<10).map { j in
-                PreviewNode(title: "Child \(i).\(j)", children: [])
-            }
-        )
-    }
-
-    return VStack(alignment: .leading) {
-        Text("1000+ nodes (lazy rendering)")
-            .font(DS.Typography.caption)
-            .foregroundStyle(.secondary)
-            .padding(.horizontal, DS.Spacing.l)
-
-        ScrollView {
-            BoxTreePattern(
-                data: largeData,
-                children: { $0.children.isEmpty ? nil : $0.children },
-                expandedNodes: $expandedNodes
-            ) { node in
-                Text(node.title)
-                    .font(DS.Typography.body)
-            }
-            .padding(DS.Spacing.l)
+    var body: some View {
+        // Generate 100 root nodes with 10 children each (1000+ total nodes)
+        let largeData = (0..<100).map { i in
+            PreviewNode(
+                title: "Node \(i)",
+                children: (0..<10).map { j in
+                    PreviewNode(title: "Child \(i).\(j)", children: [])
+                }
+            )
         }
+
+        VStack(alignment: .leading) {
+            Text("1000+ nodes (lazy rendering)")
+                .font(DS.Typography.caption)
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, DS.Spacing.l)
+
+            ScrollView {
+                BoxTreePattern(
+                    data: largeData,
+                    children: { $0.children.isEmpty ? nil : $0.children },
+                    expandedNodes: $expandedNodes
+                ) { node in
+                    Text(node.title)
+                        .font(DS.Typography.body)
+                }
+                .padding(DS.Spacing.l)
+            }
+        }
+        .frame(width: 400, height: 600)
     }
-    .frame(width: 400, height: 600)
 }
 
-#Preview("Dark Mode") {
+#Preview("Large Tree (Performance)") {
+    LargeTreePreview()
+}
+
+private struct DarkModePreview: View {
     struct PreviewNode: Identifiable {
         let id = UUID()
         let title: String
@@ -529,23 +553,29 @@ public extension BoxTreePattern {
         ])
     ]
 
-    return ScrollView {
-        BoxTreePattern(
-            data: sampleData,
-            children: { $0.children.isEmpty ? nil : $0.children },
-            expandedNodes: $expandedNodes,
-            selection: $selection
-        ) { node in
-            Text(node.title)
-                .font(DS.Typography.code)
+    var body: some View {
+        ScrollView {
+            BoxTreePattern(
+                data: sampleData,
+                children: { $0.children.isEmpty ? nil : $0.children },
+                expandedNodes: $expandedNodes,
+                selection: $selection
+            ) { node in
+                Text(node.title)
+                    .font(DS.Typography.code)
+            }
+            .padding(DS.Spacing.l)
         }
-        .padding(DS.Spacing.l)
+        .frame(width: 400, height: 600)
+        .preferredColorScheme(.dark)
     }
-    .frame(width: 400, height: 600)
-    .preferredColorScheme(.dark)
 }
 
-#Preview("With Inspector Pattern") {
+#Preview("Dark Mode") {
+    DarkModePreview()
+}
+
+private struct WithInspectorPatternPreview: View {
     struct PreviewNode: Identifiable {
         let id = UUID()
         let name: String
@@ -565,49 +595,67 @@ public extension BoxTreePattern {
         ])
     ]
 
-    return HStack(spacing: 0) {
-        // Tree view
-        ScrollView {
-            BoxTreePattern(
-                data: sampleData,
-                children: { $0.children.isEmpty ? nil : $0.children },
-                expandedNodes: $expandedNodes,
-                selection: $selection
-            ) { node in
-                HStack {
-                    Text(node.name)
-                        .font(DS.Typography.code)
-                    Spacer()
-                    Badge(text: node.type.prefix(3).uppercased(), level: .info)
+    var body: some View {
+        HStack(spacing: 0) {
+            // Tree view
+            ScrollView {
+                BoxTreePattern(
+                    data: sampleData,
+                    children: { $0.children.isEmpty ? nil : $0.children },
+                    expandedNodes: $expandedNodes,
+                    selection: $selection
+                ) { node in
+                    HStack {
+                        Text(node.name)
+                            .font(DS.Typography.code)
+                        Spacer()
+                        Badge(text: node.type.prefix(3).uppercased(), level: .info)
+                    }
                 }
-            }
-            .padding(DS.Spacing.l)
-        }
-        .frame(width: 300)
-
-        Divider()
-
-        // Inspector view
-        if let selectedId = selection,
-           let selectedNode = findNode(id: selectedId, in: sampleData) {
-            InspectorPattern(title: "Box Details") {
-                SectionHeader(title: "Information")
-                KeyValueRow(key: "Name", value: selectedNode.name)
-                KeyValueRow(key: "Type", value: selectedNode.type)
-                KeyValueRow(key: "Offset", value: selectedNode.offset)
+                .padding(DS.Spacing.l)
             }
             .frame(width: 300)
-        } else {
-            Text("Select a box to view details")
-                .font(DS.Typography.body)
-                .foregroundStyle(.secondary)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+            Divider()
+
+            // Inspector view
+            if let selectedId = selection,
+               let selectedNode = findNode(id: selectedId, in: sampleData) {
+                InspectorPattern(title: "Box Details") {
+                    SectionHeader(title: "Information")
+                    KeyValueRow(key: "Name", value: selectedNode.name)
+                    KeyValueRow(key: "Type", value: selectedNode.type)
+                    KeyValueRow(key: "Offset", value: selectedNode.offset)
+                }
+                .frame(width: 300)
+            } else {
+                Text("Select a box to view details")
+                    .font(DS.Typography.body)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }
         }
+        .frame(width: 600, height: 600)
     }
-    .frame(width: 600, height: 600)
+
+    private func findNode(id: UUID, in nodes: [PreviewNode]) -> PreviewNode? {
+        for node in nodes {
+            if node.id == id {
+                return node
+            }
+            if let found = findNode(id: id, in: node.children) {
+                return found
+            }
+        }
+        return nil
+    }
 }
 
-#Preview("Dynamic Type - Small") {
+#Preview("With Inspector Pattern") {
+    WithInspectorPatternPreview()
+}
+
+private struct DynamicTypeSmallPreview: View {
     struct PreviewNode: Identifiable {
         let id = UUID()
         let title: String
@@ -624,22 +672,28 @@ public extension BoxTreePattern {
         PreviewNode(title: "Root 2", children: [])
     ]
 
-    return ScrollView {
-        BoxTreePattern(
-            data: sampleData,
-            children: { $0.children.isEmpty ? nil : $0.children },
-            expandedNodes: $expandedNodes
-        ) { node in
-            Text(node.title)
-                .font(DS.Typography.body)
+    var body: some View {
+        ScrollView {
+            BoxTreePattern(
+                data: sampleData,
+                children: { $0.children.isEmpty ? nil : $0.children },
+                expandedNodes: $expandedNodes
+            ) { node in
+                Text(node.title)
+                    .font(DS.Typography.body)
+            }
+            .padding(DS.Spacing.l)
         }
-        .padding(DS.Spacing.l)
+        .frame(width: 400, height: 600)
+        .environment(\.dynamicTypeSize, .xSmall)
     }
-    .frame(width: 400, height: 600)
-    .environment(\.dynamicTypeSize, .xSmall)
 }
 
-#Preview("Dynamic Type - Large") {
+#Preview("Dynamic Type - Small") {
+    DynamicTypeSmallPreview()
+}
+
+private struct DynamicTypeLargePreview: View {
     struct PreviewNode: Identifiable {
         let id = UUID()
         let title: String
@@ -654,22 +708,28 @@ public extension BoxTreePattern {
         ])
     ]
 
-    return ScrollView {
-        BoxTreePattern(
-            data: sampleData,
-            children: { $0.children.isEmpty ? nil : $0.children },
-            expandedNodes: $expandedNodes
-        ) { node in
-            Text(node.title)
-                .font(DS.Typography.body)
+    var body: some View {
+        ScrollView {
+            BoxTreePattern(
+                data: sampleData,
+                children: { $0.children.isEmpty ? nil : $0.children },
+                expandedNodes: $expandedNodes
+            ) { node in
+                Text(node.title)
+                    .font(DS.Typography.body)
+            }
+            .padding(DS.Spacing.l)
         }
-        .padding(DS.Spacing.l)
+        .frame(width: 500, height: 600)
+        .environment(\.dynamicTypeSize, .xxxLarge)
     }
-    .frame(width: 500, height: 600)
-    .environment(\.dynamicTypeSize, .xxxLarge)
 }
 
-#Preview("Empty Tree") {
+#Preview("Dynamic Type - Large") {
+    DynamicTypeLargePreview()
+}
+
+private struct EmptyTreePreview: View {
     struct PreviewNode: Identifiable {
         let id = UUID()
         let title: String
@@ -680,39 +740,45 @@ public extension BoxTreePattern {
 
     let emptyData: [PreviewNode] = []
 
-    return VStack(spacing: DS.Spacing.l) {
-        Text("Empty tree state")
-            .font(DS.Typography.caption)
-            .foregroundStyle(.secondary)
+    var body: some View {
+        VStack(spacing: DS.Spacing.l) {
+            Text("Empty tree state")
+                .font(DS.Typography.caption)
+                .foregroundStyle(.secondary)
 
-        ScrollView {
-            if emptyData.isEmpty {
-                VStack(spacing: DS.Spacing.l) {
-                    Image(systemName: "tray")
-                        .font(.system(size: DS.Spacing.xl * 2))
-                        .foregroundStyle(.secondary)
-                    Text("No items in tree")
-                        .font(DS.Typography.body)
-                        .foregroundStyle(.secondary)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .padding(DS.Spacing.xl)
-            } else {
-                BoxTreePattern(
-                    data: emptyData,
-                    children: { $0.children.isEmpty ? nil : $0.children },
-                    expandedNodes: $expandedNodes
-                ) { node in
-                    Text(node.title)
-                        .font(DS.Typography.body)
+            ScrollView {
+                if emptyData.isEmpty {
+                    VStack(spacing: DS.Spacing.l) {
+                        Image(systemName: "tray")
+                            .font(.system(size: DS.Spacing.xl * 2))
+                            .foregroundStyle(.secondary)
+                        Text("No items in tree")
+                            .font(DS.Typography.body)
+                            .foregroundStyle(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(DS.Spacing.xl)
+                } else {
+                    BoxTreePattern(
+                        data: emptyData,
+                        children: { $0.children.isEmpty ? nil : $0.children },
+                        expandedNodes: $expandedNodes
+                    ) { node in
+                        Text(node.title)
+                            .font(DS.Typography.body)
+                    }
                 }
             }
         }
+        .frame(width: 400, height: 400)
     }
-    .frame(width: 400, height: 400)
 }
 
-#Preview("Flat List (No Nesting)") {
+#Preview("Empty Tree") {
+    EmptyTreePreview()
+}
+
+private struct FlatListPreview: View {
     struct PreviewNode: Identifiable {
         let id = UUID()
         let title: String
@@ -730,46 +796,28 @@ public extension BoxTreePattern {
         PreviewNode(title: "Item 5", children: [])
     ]
 
-    return ScrollView {
-        BoxTreePattern(
-            data: flatData,
-            children: { $0.children.isEmpty ? nil : $0.children },
-            expandedNodes: $expandedNodes,
-            selection: $selection
-        ) { node in
-            HStack {
-                Text(node.title)
-                    .font(DS.Typography.body)
-                Spacer()
-                Badge(text: "ITEM", level: .info)
+    var body: some View {
+        ScrollView {
+            BoxTreePattern(
+                data: flatData,
+                children: { $0.children.isEmpty ? nil : $0.children },
+                expandedNodes: $expandedNodes,
+                selection: $selection
+            ) { node in
+                HStack {
+                    Text(node.title)
+                        .font(DS.Typography.body)
+                    Spacer()
+                    Badge(text: "ITEM", level: .info)
+                }
             }
+            .padding(DS.Spacing.l)
         }
-        .padding(DS.Spacing.l)
+        .frame(width: 400, height: 600)
     }
-    .frame(width: 400, height: 600)
 }
 
-// Helper function for preview
-private func findNode(id: UUID, in nodes: [any Identifiable]) -> PreviewNode? {
-    for node in nodes {
-        if let previewNode = node as? PreviewNode {
-            if previewNode.id == id {
-                return previewNode
-            }
-            if let found = findNode(id: id, in: previewNode.children) {
-                return found
-            }
-        }
-    }
-    return nil
-}
-
-// Preview node type for helpers
-private struct PreviewNode: Identifiable {
-    let id: UUID
-    let name: String
-    let type: String
-    let offset: String
-    var children: [PreviewNode]
+#Preview("Flat List (No Nesting)") {
+    FlatListPreview()
 }
 #endif
