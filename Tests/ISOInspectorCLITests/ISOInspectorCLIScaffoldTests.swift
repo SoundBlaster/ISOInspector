@@ -226,10 +226,6 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
     }
 
     func testInspectDefaultsToStrictMode() throws {
-        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
-            func record(_ entry: ResearchLogEntry) {}
-        }
-
         let recordedOptions = MutableBox<[ParsePipeline.Options]>([])
         let environment = ISOInspectorCLIEnvironment(
             refreshCatalog: { _, _ in },
@@ -263,10 +259,6 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
     }
 
     func testInspectTolerantFlagOverridesDefaultMode() throws {
-        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
-            func record(_ entry: ResearchLogEntry) {}
-        }
-
         let recordedOptions = MutableBox<[ParsePipeline.Options]>([])
         let environment = ISOInspectorCLIEnvironment(
             refreshCatalog: { _, _ in },
@@ -313,12 +305,7 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             formatter: EventConsoleFormatter(),
             print: { _ in },
             printError: { printedErrors.value.append($0) },
-            makeResearchLogWriter: { _ in
-                final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
-                    func record(_ entry: ResearchLogEntry) {}
-                }
-                return NullResearchLog()
-            },
+            makeResearchLogWriter: { _ in NullResearchLog() },
             defaultResearchLogURL: { URL(fileURLWithPath: "/tmp/research-log.json") }
         )
 
@@ -339,10 +326,6 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
     }
 
     func testInspectTolerantRunPrintsCorruptionSummaryWhenIssuesRecorded() throws {
-        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
-            func record(_ entry: ResearchLogEntry) {}
-        }
-
         let printed = MutableBox<[String]>([])
         let environment = ISOInspectorCLIEnvironment(
             refreshCatalog: { _, _ in },
@@ -388,10 +371,6 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
     }
 
     func testInspectTolerantRunOmitsCorruptionSummaryWhenNoIssuesRecorded() throws {
-        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
-            func record(_ entry: ResearchLogEntry) {}
-        }
-
         let printed = MutableBox<[String]>([])
         let environment = ISOInspectorCLIEnvironment(
             refreshCatalog: { _, _ in },
@@ -422,10 +401,6 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
     }
 
     func testInspectStrictRunOmitsCorruptionSummaryEvenWhenIssuesRecorded() throws {
-        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
-            func record(_ entry: ResearchLogEntry) {}
-        }
-
         let printed = MutableBox<[String]>([])
         let environment = ISOInspectorCLIEnvironment(
             refreshCatalog: { _, _ in },
@@ -914,6 +889,10 @@ final class ISOInspectorCLIScaffoldTests: XCTestCase {
             uuid: nil
         )
     }
+}
+
+private final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
+    func record(_ entry: ResearchLogEntry) {}
 }
 
 private final class MutableBox<Value>: @unchecked Sendable {
