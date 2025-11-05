@@ -19,6 +19,7 @@ import SwiftUI
 /// - Platform-specific tests
 /// - View modifier tests
 /// - Edge case tests
+@MainActor
 final class ColorSchemeAdapterTests: XCTestCase {
 
     // MARK: - Initialization Tests

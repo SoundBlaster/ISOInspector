@@ -125,7 +125,7 @@ public struct Copyable<Content: View>: View {
     ///     Text("Silent copy")
     /// }
     /// ```
-    public nonisolated init(
+    public init(
         text: String,
         showFeedback: Bool = true,
         @ViewBuilder content: () -> Content

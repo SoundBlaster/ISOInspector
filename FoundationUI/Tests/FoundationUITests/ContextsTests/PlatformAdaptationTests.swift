@@ -13,6 +13,7 @@ import SwiftUI
 /// - Size class handling (compact/regular)
 /// - ViewModifier integration
 /// - View extension methods
+@MainActor
 final class PlatformAdaptationTests: XCTestCase {
 
     // MARK: - Platform Detection Tests

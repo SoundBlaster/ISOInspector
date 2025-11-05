@@ -371,6 +371,7 @@ final class CopyableTests: XCTestCase {
 
 #else
 // Empty test class for Linux (no SwiftUI)
+@MainActor
 final class CopyableTests: XCTestCase {
     func testLinuxPlaceholder() {
         // SwiftUI not available on Linux

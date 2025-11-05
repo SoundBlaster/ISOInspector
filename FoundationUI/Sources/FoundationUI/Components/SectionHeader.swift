@@ -68,7 +68,7 @@ public struct SectionHeader: View {
     /// ## Accessibility
     /// The section header automatically receives the `.isHeader` accessibility trait
     /// for proper VoiceOver navigation and heading level semantics.
-    public nonisolated init(title: String, showDivider: Bool = false) {
+    public init(title: String, showDivider: Bool = false) {
         self.title = title
         self.showDivider = showDivider
     }

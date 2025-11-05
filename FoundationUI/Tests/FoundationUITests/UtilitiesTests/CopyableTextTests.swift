@@ -11,6 +11,7 @@ import XCTest
 /// - Accessibility labels and announcements
 /// - Keyboard shortcut handling
 /// - Integration with DS tokens (zero magic numbers)
+@MainActor
 final class CopyableTextTests: XCTestCase {
 
     // MARK: - API Tests

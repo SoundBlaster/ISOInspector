@@ -13,6 +13,7 @@ import SwiftUI
 /// - Accessibility labels
 /// - View integration
 @available(iOS 17.0, macOS 14.0, *)
+@MainActor
 final class KeyboardShortcutsTests: XCTestCase {
 
     // MARK: - Shortcut Type Tests

@@ -9,6 +9,7 @@ import XCTest
 /// - Valid ranges for all numeric values
 /// - Platform adaptation works correctly
 /// - Accessibility compliance
+@MainActor
 final class TokenValidationTests: XCTestCase {
 
     // MARK: - Spacing Token Tests

@@ -18,6 +18,7 @@ import SwiftUI
 /// - Nested card hierarchies
 /// - Cards with complex content
 /// - Memory footprint validation
+@MainActor
 final class CardPerformanceTests: XCTestCase {
 
     // MARK: - Render Time Tests

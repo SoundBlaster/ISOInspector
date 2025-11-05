@@ -15,6 +15,7 @@ import SwiftUI
 /// - All badge levels (info, warning, error, success)
 /// - With and without icons
 /// - Memory footprint validation
+@MainActor
 final class BadgePerformanceTests: XCTestCase {
 
     // MARK: - Render Time Tests

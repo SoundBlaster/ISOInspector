@@ -12,6 +12,7 @@ import XCTest
 ///
 /// These tests ensure all context components work together correctly
 /// in realistic UI scenarios.
+@MainActor
 final class ContextIntegrationTests: XCTestCase {
 
     // MARK: - Environment Propagation Tests
