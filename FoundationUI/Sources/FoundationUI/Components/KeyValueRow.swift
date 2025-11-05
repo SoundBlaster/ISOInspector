@@ -97,7 +97,7 @@ public struct KeyValueRow: View {
     /// ## Accessibility
     /// VoiceOver will read the content as "key, value".
     /// If copyable is enabled, an additional hint "Double-tap to copy" is provided.
-    public init(
+    public nonisolated init(
         key: String,
         value: String,
         layout: KeyValueLayout = .horizontal,
