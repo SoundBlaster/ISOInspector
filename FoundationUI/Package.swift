@@ -27,11 +27,32 @@ let package = Package(
                 .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
             ]
         ),
+        // MARK: - Test Targets
         .testTarget(
             name: "FoundationUITests",
             dependencies: [
+                "FoundationUI"
+            ],
+            path: "Tests/FoundationUITests",
+            exclude: [
+                // Exclude any non-test files
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ]
+        ),
+        .testTarget(
+            name: "FoundationUISnapshotTests",
+            dependencies: [
                 "FoundationUI",
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
+            ],
+            path: "Tests/SnapshotTests",
+            exclude: [
+                // Exclude any non-test files if needed
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
             ]
         ),
     ]
