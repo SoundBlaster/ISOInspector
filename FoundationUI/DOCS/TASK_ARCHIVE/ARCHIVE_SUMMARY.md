@@ -2037,3 +2037,170 @@ All spacing, colors, radii, and animations use DS tokens:
 - Preserves comprehensive context testing strategy and CI remediation knowledge for future maintainers.【F:FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/Phase3.2_ContextUnitTests.md†L15-L124】【F:FoundationUI/DOCS/TASK_ARCHIVE/32_Phase4.2_KeyboardShortcuts/CI_fixes_summary.md†L9-L74】
 
 ---
+
+### 33_Phase4.2_AccessibilityHelpers
+**Completed**: 2025-11-03
+**Phase**: 4.2 Utilities & Helpers
+**Component**: Comprehensive accessibility utilities for WCAG compliance
+
+**Implemented**:
+- Common accessibility modifiers (button, toggle, heading, value)
+- VoiceOver hint builders with result builder support
+- Contrast ratio validators for WCAG 2.1 AA/AAA compliance (≥4.5:1/≥7:1)
+- Accessibility audit tools (touch targets, labels, comprehensive audits)
+- Focus management helpers for keyboard navigation
+- Dynamic Type scaling support
+- AccessibilityContext integration
+- Platform-specific features (macOS keyboard, iOS VoiceOver rotor)
+
+**Files Implemented**:
+- `Sources/FoundationUI/Utilities/AccessibilityHelpers.swift` (785 lines)
+- `Tests/FoundationUITests/UtilitiesTests/AccessibilityHelpersTests.swift` (35 tests, 360 lines)
+- 3 SwiftUI Previews (Demo, Dynamic Type, Context Integration)
+
+**Test Coverage**: 35 comprehensive unit tests
+**DocC Documentation**: 100% coverage
+**DS Token Usage**: 100% (zero magic numbers)
+
+**Quality Metrics**:
+- SwiftLint Violations: 0
+- Magic Numbers: 0
+- Platform Coverage: macOS, iOS, iPadOS
+- WCAG Compliance: Full AA/AAA contrast validation
+
+**Lessons Learned**:
+- Comprehensive accessibility helpers streamline WCAG validation workflows
+- VoiceOver hint builders improve cross-platform accessibility consistency
+- Result builder pattern simplifies complex hint composition
+- Contrast ratio calculations enable proactive accessibility validation
+
+**Next Steps**:
+- Utility integration tests (Phase 4.2)
+- Performance optimization for utilities (Phase 4.2)
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/33_Phase4.2_AccessibilityHelpers/`
+
+**Task Plan Updated**: Yes, marked AccessibilityHelpers complete with archive reference
+
+**Impact**:
+- Establishes comprehensive accessibility API for WCAG compliance
+- Enables proactive contrast ratio validation across all components
+- Simplifies VoiceOver integration with declarative hint builders
+- Provides foundation for accessible UI generation by AI agents
+
+---
+
+### 34_Phase4.2_UtilityIntegrationTests
+**Completed**: 2025-11-03
+**Phase**: 4.2 Utilities & Helpers
+**Component**: Cross-utility integration testing
+
+**Implemented**:
+- CopyableText integration tests (18 tests, 7.9KB)
+- KeyboardShortcuts integration tests (13 tests, 7.2KB)
+- AccessibilityHelpers integration tests (28 tests, 12.8KB)
+- Cross-utility integration tests (13 tests, 10.2KB)
+- Component integration with Badge, Card, KeyValueRow, SectionHeader
+- Pattern integration with InspectorPattern, ToolbarPattern, SidebarPattern
+- WCAG validation across all DS.Colors tokens
+
+**Files Created**:
+- `Tests/FoundationUITests/IntegrationTests/UtilityIntegrationTests/CopyableTextIntegrationTests.swift`
+- `Tests/FoundationUITests/IntegrationTests/UtilityIntegrationTests/KeyboardShortcutsIntegrationTests.swift`
+- `Tests/FoundationUITests/IntegrationTests/UtilityIntegrationTests/AccessibilityHelpersIntegrationTests.swift`
+- `Tests/FoundationUITests/IntegrationTests/UtilityIntegrationTests/CrossUtilityIntegrationTests.swift`
+
+**Test Coverage**: 72 integration tests (exceeds ≥45 requirement by 60%)
+**Combined Test Count**: 137 tests (unit + integration)
+**Platform Coverage**: macOS (NSPasteboard, ⌘), iOS (UIPasteboard, touch)
+
+**Quality Metrics**:
+- SwiftLint Violations: 0
+- Magic Numbers: 0
+- Platform Guards: 100% (`#if canImport(SwiftUI)`)
+- DocC Documentation: 100%
+
+**Lessons Learned**:
+- Cross-utility integration testing surfaces platform-specific interactions early
+- Document-first workflow (PRD + task doc) ensures requirements are met before implementation
+- Real-world scenario testing validates utility composability
+- Component + utility combinations reveal edge cases
+
+**Next Steps**:
+- Performance optimization for utilities (Phase 4.2)
+- Copyable architecture refactoring (Phase 4.3)
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/`
+
+**Task Plan Updated**: Yes, marked Utility Integration Tests complete with archive reference
+
+**Impact**:
+- Validates seamless integration of all three utilities
+- Ensures utilities work correctly with existing components and patterns
+- Confirms WCAG compliance across all color combinations
+- Establishes foundation for future utility development
+
+---
+
+### 35_Phase4.2_UtilitiesPerformance
+**Completed**: 2025-11-05
+**Phase**: 4.2 Utilities & Helpers
+**Component**: Performance optimization and baseline establishment
+
+**Implemented**:
+- 24 comprehensive performance tests covering all utilities
+- Performance baselines: <10ms clipboard, <1ms contrast, <50ms audit (100 views), <5MB memory
+- CopyableText performance tests (5 tests)
+- KeyboardShortcuts performance tests (3 tests)
+- AccessibilityHelpers performance tests (10 tests)
+- Combined utilities performance tests (4 tests)
+- Memory leak detection and regression guards (2 tests)
+- XCTest performance metrics: XCTClockMetric, XCTCPUMetric, XCTStorageMetric
+
+**Files Created**:
+- `Tests/FoundationUITests/PerformanceTests/UtilitiesPerformanceTests.swift` (698 lines, 24 tests)
+
+**Test Coverage**: 24 comprehensive performance tests
+**Performance Targets**: All met (<10ms clipboard, <1ms contrast, <50ms audit, <5MB memory)
+**Platform Coverage**: macOS, iOS with Linux compilation support
+
+**Quality Metrics**:
+- SwiftLint Violations: 0 (validated on macOS)
+- Magic Numbers: 0 (100% DS token usage)
+- DocC Documentation: 100% coverage
+- Platform Guards: 100% (`#if os(macOS) || os(iOS)`)
+
+**Performance Characteristics Documented**:
+- **CopyableText**: <10ms clipboard write, <1ms view creation, ~50 bytes memory per view
+- **KeyboardShortcuts**: <0.1ms formatting, <0.01ms platform detection
+- **AccessibilityHelpers**: <1ms contrast calculation, <50ms audit (100 views)
+- **Combined**: <5MB memory footprint, <100ms stress scenario
+
+**Regression Guards**:
+- Clipboard memory leak detection (1000 operations)
+- Contrast calculation memory leak detection (1000 calculations)
+- Stress testing with 100+ utility instances
+
+**Lessons Learned**:
+- Establish baselines first for performance validation
+- Use multiple metrics (Clock + CPU + Storage) for complete picture
+- Test realistic scenarios combining utilities as in production
+- Add regression guards to prevent gradual performance degradation
+- Document platform limitations (Linux tests compile but require Apple platforms)
+
+**Next Steps**:
+- **Phase 4.2 Complete**: All 6/6 tasks finished ✅
+- Begin Phase 4.3: Copyable Architecture Refactoring (5 tasks)
+
+**Archive Location**: `FoundationUI/DOCS/TASK_ARCHIVE/35_Phase4.2_UtilitiesPerformance/`
+
+**Task Plan Updated**: Yes, marked Performance Optimization complete, Phase 4.2: 6/6 tasks (100%) ✅ COMPLETE
+
+**Impact**:
+- Completes Phase 4.2 Utilities & Helpers (100%)
+- Establishes performance baselines for all utilities
+- Provides regression guards against performance degradation
+- Documents optimization opportunities for future work
+- Validates utilities are production-ready for ISO Inspector integration
+
+---
