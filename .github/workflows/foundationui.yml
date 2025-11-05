@@ -194,7 +194,8 @@ jobs:
         run: |
           cd FoundationUI
           echo "Building FoundationUI via Swift Package Manager..."
-          swift build
+          # Build only main target, skip test targets to avoid snapshot test compilation
+          swift build --target FoundationUI
 
       - name: Run tests (SPM)
         run: |
