@@ -103,10 +103,12 @@ public struct CopyableText: View {
 
     public var body: some View {
         // Refactored to use CopyableModifier for consistency and maintainability
+        // Note: Using modifier() directly instead of .makeCopyable() extension
+        // to avoid compilation order issues in xcodebuild docbuild
         Text(text)
             .font(DS.Typography.code)
             .foregroundColor(DS.Colors.textPrimary)
-            .makeCopyable(text: text)
+            .modifier(CopyableModifier(textToCopy: text, showFeedback: true))
             .accessibilityLabel(accessibilityLabelText)
     }
 
