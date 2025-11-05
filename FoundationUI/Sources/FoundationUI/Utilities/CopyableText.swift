@@ -13,7 +13,7 @@ import UIKit
 /// following the Composable Clarity design system.
 ///
 /// **Note**: This component is a convenience wrapper around the more flexible ``CopyableModifier``.
-/// For applying copy functionality to complex views, consider using the `.makeCopyable()` modifier directly
+/// For applying copy functionality to complex views, consider using the `.copyable()` modifier directly
 /// or the generic ``Copyable`` wrapper.
 ///
 /// ## Usage
@@ -67,7 +67,7 @@ import UIKit
 ///
 /// - ``CopyableModifier``: The underlying view modifier for any view
 /// - ``Copyable``: Generic wrapper for complex copyable views
-/// - `.makeCopyable(text:showFeedback:)`: View extension for applying copy functionality
+/// - `.copyable(text:showFeedback:)`: View extension for applying copy functionality
 public struct CopyableText: View {
     // MARK: - Properties
 
@@ -101,12 +101,12 @@ public struct CopyableText: View {
     // MARK: - Body
 
     public var body: some View {
-        // Using .makeCopyable() extension method for consistency
+        // Using .copyable() extension method for consistency
         // The View extension is defined in Modifiers/CopyableModifier.swift
         Text(text)
             .font(DS.Typography.code)
             .foregroundColor(DS.Colors.textPrimary)
-            .makeCopyable(text: text)
+            .copyable(text: text)
             .accessibilityLabel(accessibilityLabelText)
     }
 

@@ -145,7 +145,7 @@ Make values copyable with a single modifier:
 
 ```swift
 KeyValueRow(key: "UUID", value: "550e8400-e29b-41d4-a716-446655440000")
-    .makeCopyable(text: "550e8400-e29b-41d4-a716-446655440000")
+    .copyable(text: "550e8400-e29b-41d4-a716-446655440000")
 ```
 
 Or use the `CopyableText` component:
@@ -415,7 +415,7 @@ Now that you've built your first FoundationUI app, explore more advanced topics:
 
 ```swift
 KeyValueRow(key: "UUID", value: uuid)
-    .makeCopyable(text: uuid)
+    .copyable(text: uuid)
 ```
 
 ### Semantic Badges

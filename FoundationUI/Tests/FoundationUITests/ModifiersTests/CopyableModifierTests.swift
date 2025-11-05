@@ -30,7 +30,7 @@ final class CopyableModifierTests: XCTestCase {
     func testCopyableModifierAppliesCorrectly() {
         // Test that modifier can be applied to Text view
         let view = Text("Test Value")
-            .makeCopyable(text: "Test Value")
+            .copyable(text: "Test Value")
 
         XCTAssertNotNil(view, "Copyable modifier should apply to Text view")
     }
@@ -38,7 +38,7 @@ final class CopyableModifierTests: XCTestCase {
     func testCopyableModifierWithFeedbackParameter() {
         // Test that modifier accepts showFeedback parameter
         let view = Text("Test")
-            .makeCopyable(text: "Test", showFeedback: true)
+            .copyable(text: "Test", showFeedback: true)
 
         XCTAssertNotNil(view, "Modifier should accept showFeedback parameter")
     }
@@ -46,7 +46,7 @@ final class CopyableModifierTests: XCTestCase {
     func testCopyableModifierWithoutFeedback() {
         // Test that feedback can be disabled
         let view = Text("Test")
-            .makeCopyable(text: "Test", showFeedback: false)
+            .copyable(text: "Test", showFeedback: false)
 
         XCTAssertNotNil(view, "Modifier should work with showFeedback = false")
     }
@@ -57,7 +57,7 @@ final class CopyableModifierTests: XCTestCase {
             Image(systemName: "doc.text")
             Text("Complex")
         }
-        .makeCopyable(text: "Complex value")
+        .copyable(text: "Complex value")
 
         XCTAssertNotNil(view, "Modifier should apply to complex views")
     }
@@ -96,7 +96,7 @@ final class CopyableModifierTests: XCTestCase {
     func testMacOSClipboardSupport() {
         // On macOS, should use NSPasteboard
         let view = Text("macOS Value")
-            .makeCopyable(text: "macOS Value")
+            .copyable(text: "macOS Value")
 
         XCTAssertNotNil(view, "Should support macOS clipboard")
 
@@ -107,7 +107,7 @@ final class CopyableModifierTests: XCTestCase {
     func testMacOSKeyboardShortcut() {
         // On macOS, should support ⌘C keyboard shortcut
         let view = Text("Shortcut Test")
-            .makeCopyable(text: "Shortcut Test")
+            .copyable(text: "Shortcut Test")
 
         XCTAssertNotNil(view)
         // Future: Test keyboard shortcut handling with SwiftUI key events
@@ -116,7 +116,7 @@ final class CopyableModifierTests: XCTestCase {
     func testIOSClipboardSupport() {
         // On iOS/iPadOS, should use UIPasteboard
         let view = Text("iOS Value")
-            .makeCopyable(text: "iOS Value")
+            .copyable(text: "iOS Value")
 
         XCTAssertNotNil(view, "Should support iOS clipboard")
 
@@ -129,7 +129,7 @@ final class CopyableModifierTests: XCTestCase {
     func testCopyableModifierShowsFeedback() {
         // When showFeedback is true, should show "Copied!" indicator
         let view = Text("Test")
-            .makeCopyable(text: "Test", showFeedback: true)
+            .copyable(text: "Test", showFeedback: true)
 
         XCTAssertNotNil(view)
         // Future: Trigger copy and verify feedback appears
@@ -138,7 +138,7 @@ final class CopyableModifierTests: XCTestCase {
     func testCopyableModifierHidesFeedback() {
         // When showFeedback is false, should not show indicator
         let view = Text("Test")
-            .makeCopyable(text: "Test", showFeedback: false)
+            .copyable(text: "Test", showFeedback: false)
 
         XCTAssertNotNil(view)
         // Behavior verification would require view introspection
@@ -149,7 +149,7 @@ final class CopyableModifierTests: XCTestCase {
     func testCopyableModifierAccessibilityLabel() {
         // Modifier should preserve or enhance accessibility
         let view = Text("Accessible")
-            .makeCopyable(text: "Accessible")
+            .copyable(text: "Accessible")
 
         XCTAssertNotNil(view)
         // Future: Verify accessibility label includes copy hint
@@ -158,7 +158,7 @@ final class CopyableModifierTests: XCTestCase {
     func testCopyableModifierVoiceOverAnnouncement() {
         // Should announce successful copy to VoiceOver
         let view = Text("VoiceOver Test")
-            .makeCopyable(text: "VoiceOver Test")
+            .copyable(text: "VoiceOver Test")
 
         XCTAssertNotNil(view)
         // Manual verification: Implementation should use announcements
@@ -176,7 +176,7 @@ final class CopyableModifierTests: XCTestCase {
         // - DS.Colors.accent for visual indicators
 
         let view = Text("DS Tokens")
-            .makeCopyable(text: "DS Tokens")
+            .copyable(text: "DS Tokens")
 
         XCTAssertNotNil(view, "Should use only DS tokens, no magic numbers")
     }
@@ -186,7 +186,7 @@ final class CopyableModifierTests: XCTestCase {
     func testCopyableModifierWithEmptyString() {
         // Should handle empty string gracefully
         let view = Text("")
-            .makeCopyable(text: "")
+            .copyable(text: "")
 
         XCTAssertNotNil(view, "Should handle empty text without crashing")
     }
@@ -195,7 +195,7 @@ final class CopyableModifierTests: XCTestCase {
         // Should handle long strings (e.g., long hex dumps)
         let longText = String(repeating: "A", count: 10000)
         let view = Text("Long Text")
-            .makeCopyable(text: longText)
+            .copyable(text: longText)
 
         XCTAssertNotNil(view, "Should handle very long text")
     }
@@ -204,7 +204,7 @@ final class CopyableModifierTests: XCTestCase {
         // Should handle special characters and Unicode
         let specialText = "Special: 你好 🎉 \n\t\\"
         let view = Text("Special")
-            .makeCopyable(text: specialText)
+            .copyable(text: specialText)
 
         XCTAssertNotNil(view, "Should handle special characters")
     }
@@ -217,7 +217,7 @@ final class CopyableModifierTests: XCTestCase {
         Line 3
         """
         let view = Text("Multiline")
-            .makeCopyable(text: multilineText)
+            .copyable(text: multilineText)
 
         XCTAssertNotNil(view, "Should handle multiline text")
     }
@@ -227,8 +227,8 @@ final class CopyableModifierTests: XCTestCase {
     func testMultipleCopyableModifiersOnSameView() {
         // Test chaining multiple copyable modifiers (unusual but valid)
         let view = Text("Test")
-            .makeCopyable(text: "First")
-            .makeCopyable(text: "Second")
+            .copyable(text: "First")
+            .copyable(text: "Second")
 
         XCTAssertNotNil(view, "Should handle multiple copyable modifiers")
     }
@@ -239,7 +239,7 @@ final class CopyableModifierTests: XCTestCase {
             .font(DS.Typography.code)
             .foregroundColor(DS.Colors.accent)
             .padding(DS.Spacing.m)
-            .makeCopyable(text: "Test")
+            .copyable(text: "Test")
 
         XCTAssertNotNil(view, "Should compose with other modifiers")
     }
@@ -251,7 +251,7 @@ final class CopyableModifierTests: XCTestCase {
         measure {
             for _ in 0..<100 {
                 _ = Text("Performance Test \(UUID())")
-                    .makeCopyable(text: "Performance Test")
+                    .copyable(text: "Performance Test")
             }
         }
         // Should complete in milliseconds
@@ -262,7 +262,7 @@ final class CopyableModifierTests: XCTestCase {
         let iterations = 1000
         for i in 0..<iterations {
             let view = Text("Memory Test \(i)")
-                .makeCopyable(text: "Memory Test \(i)")
+                .copyable(text: "Memory Test \(i)")
             XCTAssertNotNil(view)
         }
         // If this completes without excessive memory growth, we're good
@@ -273,7 +273,7 @@ final class CopyableModifierTests: XCTestCase {
     func testCopyableModifierWithBadgeComponent() {
         // Test integration with Badge component
         let view = Badge(text: "Test", level: .info)
-            .makeCopyable(text: "Badge text")
+            .copyable(text: "Badge text")
 
         XCTAssertNotNil(view, "Should work with Badge component")
     }
@@ -283,7 +283,7 @@ final class CopyableModifierTests: XCTestCase {
         let view = Card {
             Text("Card content")
         }
-        .makeCopyable(text: "Card content")
+        .copyable(text: "Card content")
 
         XCTAssertNotNil(view, "Should work with Card component")
     }
@@ -293,7 +293,7 @@ final class CopyableModifierTests: XCTestCase {
         let view = HStack {
             Text("Key:")
             Text("Value")
-                .makeCopyable(text: "Value")
+                .copyable(text: "Value")
         }
 
         XCTAssertNotNil(view, "Should work in KeyValueRow-like contexts")
