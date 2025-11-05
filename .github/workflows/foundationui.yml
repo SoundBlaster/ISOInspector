@@ -47,6 +47,10 @@ jobs:
           echo "Building DocC documentation catalog..."
           cd FoundationUI
 
+          # Build with Swift Package Manager first to ensure all files are compiled
+          echo "Building FoundationUI with SPM..."
+          swift build --target FoundationUI
+
           # Build DocC documentation using xcodebuild docbuild
           # This will fail if there are unresolved references or invalid markdown
           xcodebuild docbuild \
