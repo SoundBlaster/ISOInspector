@@ -820,7 +820,7 @@
 **Progress: 0/18 tasks**
 
 #### Unit Testing
-**Progress: 0/3 tasks**
+**Progress: 0/3 tasks → IN PROGRESS**
 
 - [ ] **P0** Comprehensive unit test coverage (≥80%)
   - Run code coverage analysis with Xcode
@@ -829,12 +829,13 @@
   - Verify coverage metrics in CI
   - Generate coverage reports (HTML, Cobertura)
 
-- [ ] **P0** Unit test infrastructure
+- [ ] **P0** Unit test infrastructure → **IN PROGRESS**
   - Configure XCTest for all targets
   - Set up test data fixtures
   - Create test helpers and utilities
   - Mock environment values for testing
   - Parameterized tests for variants
+  - Task File: `FoundationUI/DOCS/INPROGRESS/Phase5.2_UnitTestInfrastructure.md`
 
 - [ ] **P1** Test-Driven Development (TDD) validation
   - Review test quality and completeness
