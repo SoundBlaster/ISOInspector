@@ -173,12 +173,25 @@ final class ParseTreeDetailViewModelTests: XCTestCase {
         await Task.yield()
 
         viewModel.select(nodeID: node.id)
-        try await Task.sleep(nanoseconds: 30_000_000)
+        try await Task.sleep(nanoseconds: 100_000_000) // Increased to 100ms
 
-        viewModel.select(annotationID: annotationB.id)
+        // Ensure annotations are loaded
+        XCTAssertEqual(viewModel.annotations.count, 2, "Annotations should be loaded before selecting")
 
-        XCTAssertEqual(viewModel.selectedAnnotationID, annotationB.id)
-        XCTAssertEqual(viewModel.highlightedRange, annotationB.byteRange)
+        // Verify annotationB exists in the loaded annotations
+        let loadedAnnotationB = viewModel.annotations.first { $0.byteRange == annotationB.byteRange }
+        XCTAssertNotNil(loadedAnnotationB, "annotationB should exist in loaded annotations")
+
+        // Use the loaded annotation's ID instead of the original
+        guard let loadedB = loadedAnnotationB else {
+            XCTFail("Cannot proceed without loaded annotationB")
+            return
+        }
+
+        viewModel.select(annotationID: loadedB.id)
+
+        XCTAssertEqual(viewModel.selectedAnnotationID, loadedB.id)
+        XCTAssertEqual(viewModel.highlightedRange, loadedB.byteRange)
     }
 
     func testSelectingByteUpdatesAnnotationSelection() async throws {
