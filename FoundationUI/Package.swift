@@ -16,7 +16,9 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/pointfreeco/swift-snapshot-testing", from: "1.15.0")
+        // NOTE: swift-snapshot-testing removed from SPM dependencies
+        // Snapshot tests are only run via Tuist + xcodebuild (not SPM)
+        // See FoundationUI/Project.swift for Tuist configuration
     ],
     targets: [
         .target(
@@ -41,19 +43,10 @@ let package = Package(
                 .enableUpcomingFeature("StrictConcurrency")
             ]
         ),
-        .testTarget(
-            name: "FoundationUISnapshotTests",
-            dependencies: [
-                "FoundationUI",
-                .product(name: "SnapshotTesting", package: "swift-snapshot-testing")
-            ],
-            path: "Tests/SnapshotTests",
-            exclude: [
-                // Exclude any non-test files if needed
-            ],
-            swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
-            ]
-        ),
+        // NOTE: FoundationUISnapshotTests removed from SPM configuration
+        // Snapshot tests are only run via Tuist + xcodebuild in CI
+        // SPM validation job runs only unit tests (FoundationUITests)
+        // Reason: SnapshotTesting API incompatibility with SPM on macOS
+        // See: .github/workflows/foundationui.yml (validate-spm-package job)
     ]
 )

@@ -188,16 +188,17 @@ jobs:
         run: |
           cd FoundationUI
           echo "Building FoundationUI via Swift Package Manager..."
-          # Build only main target, skip test targets to avoid snapshot test compilation
-          swift build --target FoundationUI
+          # Package.swift only includes FoundationUITests (unit tests)
+          # Snapshot tests are excluded from SPM and run via Tuist job
+          swift build
 
       - name: Run tests (SPM)
         run: |
           cd FoundationUI
           echo "Running FoundationUI unit tests via Swift Package Manager..."
-          # Run only FoundationUITests (unit tests), skip snapshot tests
-          # Snapshot tests require additional macOS-specific configuration
-          swift test --filter FoundationUITests
+          # Package.swift only includes FoundationUITests testTarget
+          # Snapshot tests run separately in build-and-test-foundationui job via xcodebuild
+          swift test
 
   build-and-test-foundationui:
     name: Build and Test FoundationUI & ComponentTestApp
