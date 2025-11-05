@@ -139,11 +139,9 @@ public struct Copyable<Content: View>: View {
     // MARK: - Body
 
     public var body: some View {
-        // Apply CopyableModifier to the content
-        // This ensures consistency with the design system's layered architecture
-        // Note: Using modifier() directly instead of .makeCopyable() extension
-        // to avoid compilation order issues in xcodebuild docbuild
-        content.modifier(CopyableModifier(textToCopy: textToCopy, showFeedback: showFeedback))
+        // Using .makeCopyable() extension method for consistency
+        // The View extension is defined in Modifiers/CopyableModifier.swift
+        content.makeCopyable(text: textToCopy, showFeedback: showFeedback)
     }
 }
 
