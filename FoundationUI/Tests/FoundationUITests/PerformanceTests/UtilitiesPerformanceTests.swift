@@ -177,17 +177,17 @@ final class UtilitiesPerformanceTests: XCTestCase {
     func testKeyboardShortcutFormattingPerformance() {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             // Test all standard shortcuts
-            _ = KeyboardShortcuts.copy.displayString
-            _ = KeyboardShortcuts.paste.displayString
-            _ = KeyboardShortcuts.cut.displayString
-            _ = KeyboardShortcuts.selectAll.displayString
-            _ = KeyboardShortcuts.undo.displayString
-            _ = KeyboardShortcuts.redo.displayString
-            _ = KeyboardShortcuts.find.displayString
-            _ = KeyboardShortcuts.save.displayString
-            _ = KeyboardShortcuts.open.displayString
-            _ = KeyboardShortcuts.new.displayString
-            _ = KeyboardShortcuts.close.displayString
+            _ = KeyboardShortcutType.copy.displayString
+            _ = KeyboardShortcutType.paste.displayString
+            _ = KeyboardShortcutType.cut.displayString
+            _ = KeyboardShortcutType.selectAll.displayString
+            _ = KeyboardShortcutType.undo.displayString
+            _ = KeyboardShortcutType.redo.displayString
+            _ = KeyboardShortcutType.find.displayString
+            _ = KeyboardShortcutType.save.displayString
+            _ = KeyboardShortcutType.newItem.displayString
+            _ = KeyboardShortcutType.close.displayString
+            _ = KeyboardShortcutType.refresh.displayString
         }
     }
 
@@ -199,12 +199,12 @@ final class UtilitiesPerformanceTests: XCTestCase {
     /// **Target**: <0.1ms per label generation
     func testKeyboardShortcutAccessibilityLabelPerformance() {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            _ = KeyboardShortcuts.copy.accessibilityLabel
-            _ = KeyboardShortcuts.paste.accessibilityLabel
-            _ = KeyboardShortcuts.cut.accessibilityLabel
-            _ = KeyboardShortcuts.selectAll.accessibilityLabel
-            _ = KeyboardShortcuts.undo.accessibilityLabel
-            _ = KeyboardShortcuts.redo.accessibilityLabel
+            _ = KeyboardShortcutType.copy.accessibilityLabel
+            _ = KeyboardShortcutType.paste.accessibilityLabel
+            _ = KeyboardShortcutType.cut.accessibilityLabel
+            _ = KeyboardShortcutType.selectAll.accessibilityLabel
+            _ = KeyboardShortcutType.undo.accessibilityLabel
+            _ = KeyboardShortcutType.redo.accessibilityLabel
         }
     }
 
@@ -305,18 +305,19 @@ final class UtilitiesPerformanceTests: XCTestCase {
         }
     }
 
-    /// Test color luminance calculation performance
+    /// Test color contrast calculation overhead
     ///
-    /// Measures the time to calculate relative luminance for a color.
-    /// This is a core operation used in contrast ratio calculations.
+    /// Measures the time to calculate contrast ratio which internally calculates luminance.
+    /// This validates that the internal luminance calculation is performant.
     ///
-    /// **Target**: <0.5ms per calculation
-    func testColorLuminancePerformance() {
+    /// **Target**: <1ms per calculation (includes luminance calculation overhead)
+    func testColorContrastCalculationOverhead() {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            _ = AccessibilityHelpers.relativeLuminance(of: DS.Colors.infoBG)
-            _ = AccessibilityHelpers.relativeLuminance(of: DS.Colors.warnBG)
-            _ = AccessibilityHelpers.relativeLuminance(of: DS.Colors.errorBG)
-            _ = AccessibilityHelpers.relativeLuminance(of: DS.Colors.successBG)
+            // Test contrast with same color (1:1 ratio) to measure pure calculation overhead
+            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.infoBG, background: DS.Colors.infoBG)
+            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.warnBG, background: DS.Colors.warnBG)
+            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.errorBG, background: DS.Colors.errorBG)
+            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.successBG, background: DS.Colors.successBG)
         }
     }
 
@@ -409,7 +410,7 @@ final class UtilitiesPerformanceTests: XCTestCase {
 
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             for size in sizes {
-                _ = AccessibilityHelpers.validateTouchTarget(size: size)
+                _ = AccessibilityHelpers.isValidTouchTarget(size: size)
             }
         }
     }
@@ -436,9 +437,9 @@ final class UtilitiesPerformanceTests: XCTestCase {
 
             // Format keyboard shortcuts
             _ = [
-                KeyboardShortcuts.copy.displayString,
-                KeyboardShortcuts.paste.displayString,
-                KeyboardShortcuts.cut.displayString
+                KeyboardShortcutType.copy.displayString,
+                KeyboardShortcutType.paste.displayString,
+                KeyboardShortcutType.cut.displayString
             ]
 
             // Perform accessibility checks
@@ -466,10 +467,10 @@ final class UtilitiesPerformanceTests: XCTestCase {
 
             // Format keyboard shortcuts
             let shortcuts = [
-                KeyboardShortcuts.copy.displayString,
-                KeyboardShortcuts.paste.displayString,
-                KeyboardShortcuts.cut.displayString,
-                KeyboardShortcuts.selectAll.displayString
+                KeyboardShortcutType.copy.displayString,
+                KeyboardShortcutType.paste.displayString,
+                KeyboardShortcutType.cut.displayString,
+                KeyboardShortcutType.selectAll.displayString
             ]
             _ = shortcuts.count
 
