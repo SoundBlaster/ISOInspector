@@ -34,6 +34,7 @@ SwiftUI Previews are essential development tools that enable rapid iteration and
 ### Scope
 
 This guideline applies to:
+
 - All FoundationUI source files containing SwiftUI views
 - Design system tokens (Colors, Typography, Spacing, etc.)
 - Patterns (BoxTreePattern, SidebarPattern, etc.)
@@ -59,6 +60,7 @@ This guideline applies to:
 ### 3. Previews Should Be Comprehensive
 
 **Rule:** Include previews for:
+
 - Default state
 - Edge cases (empty, maximum content, error states)
 - Platform variations (iOS, macOS, iPadOS when applicable)
@@ -101,6 +103,7 @@ struct Badge_Previews: PreviewProvider {
 **Format:** `#Preview("Descriptive Name")`
 
 **Guidelines:**
+
 - Use clear, descriptive names that explain what the preview demonstrates
 - Follow sentence case (e.g., "Dark Mode", "Large Content", "Error State")
 - Be specific about the variation being shown
@@ -215,6 +218,7 @@ For complex state management, use a container view:
 ```
 
 **When to use container views:**
+
 - Multiple related state variables
 - Complex state logic or computed properties
 - Lifecycle methods needed (onAppear, etc.)
@@ -229,6 +233,7 @@ For complex state management, use a container view:
 **Rule:** Previews MUST be in the same file as the component they preview.
 
 **Location in file:**
+
 ```swift
 // 1. Imports
 import SwiftUI
@@ -258,6 +263,7 @@ private struct BadgeBackground: View { ... }
 ```
 
 This separator:
+
 - Clearly delineates preview code from production code
 - Appears in Xcode's source navigator
 - Makes previews easy to locate and collapse
@@ -265,11 +271,13 @@ This separator:
 ### Number of Previews
 
 **Guidelines:**
+
 - **Minimum:** 1 preview showing default usage
 - **Recommended:** 3-7 previews covering key variations
 - **Maximum:** No hard limit, but keep organized and purposeful
 
 **Suggested preview set for components:**
+
 1. Default state
 2. Dark mode variant
 3. Accessibility variant (Dynamic Type)
@@ -410,6 +418,7 @@ This separator:
 #### Issue 1: Missing @Previewable
 
 **Problem:**
+
 ```swift
 #Preview("Example") {
     @State var value = false  // ⚠️ Warning
@@ -418,6 +427,7 @@ This separator:
 ```
 
 **Solution:**
+
 ```swift
 #Preview("Example") {
     @Previewable @State var value = false  // ✅ Correct
@@ -428,6 +438,7 @@ This separator:
 #### Issue 2: Complex Generic Type Mismatches
 
 **Problem:**
+
 ```swift
 #Preview("Sidebar") {
     let items = [SidebarPattern<Int, Text>.Item(...)]  // Type mismatch
@@ -440,6 +451,7 @@ This separator:
 ```
 
 **Solution:**
+
 ```swift
 #Preview("Sidebar") {
     // Ensure Item type matches Pattern type
@@ -459,6 +471,7 @@ This separator:
 #### Issue 3: Platform Availability
 
 **Problem:**
+
 ```swift
 #Preview("Using New API") {
     Text("Hello")
@@ -467,6 +480,7 @@ This separator:
 ```
 
 **Solution:**
+
 ```swift
 #Preview("Using New API") {
     if #available(iOS 18.0, *) {
@@ -482,6 +496,7 @@ This separator:
 #### Issue 4: Return Statement Confusion
 
 **Problem:**
+
 ```swift
 #Preview("Example") {
     @Previewable @State var value = false
@@ -490,6 +505,7 @@ This separator:
 ```
 
 **Solution:**
+
 ```swift
 #Preview("Example") {
     @Previewable @State var value = false
@@ -633,12 +649,14 @@ This separator:
 ### Preview Not Appearing in Canvas
 
 **Possible causes:**
+
 1. Compilation errors in the file
 2. Missing `#Preview` macro or incorrect syntax
 3. Xcode preview canvas cache issues
 4. Deployment target mismatch
 
 **Solutions:**
+
 1. Check for compilation errors in the Issue Navigator
 2. Verify preview syntax matches guidelines
 3. Clean build folder (Cmd+Shift+K) and restart Xcode
@@ -657,12 +675,14 @@ This separator:
 ### Preview Crashes or Shows Error
 
 **Common causes:**
+
 1. Force-unwrapping nil values
 2. Missing required dependencies
 3. Platform-specific code running on wrong platform
 4. Resource not found (images, fonts, etc.)
 
 **Solutions:**
+
 1. Use optional binding or provide default values
 2. Mock all dependencies with sample data
 3. Use `#if os(...)` checks
@@ -673,6 +693,7 @@ This separator:
 **Issue:** Generic type parameters don't match between data and pattern
 
 **Solution:** Ensure consistency:
+
 ```swift
 // Consistent types throughout
 let items: [SidebarPattern<String, AnyView>.Item] = [...]

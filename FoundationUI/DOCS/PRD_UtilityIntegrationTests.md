@@ -43,18 +43,21 @@ This is a critical quality gate ensuring that utilities are production-ready and
 ### Completed Utilities
 
 #### 1. CopyableText
+
 - **File**: `Sources/FoundationUI/Utilities/CopyableText.swift`
 - **Unit Tests**: 15 test cases ✅
 - **Features**: Platform-specific clipboard, visual feedback, keyboard shortcuts, VoiceOver
 - **Integration Status**: ❓ Not tested with real components
 
 #### 2. KeyboardShortcuts
+
 - **File**: `Sources/FoundationUI/Utilities/KeyboardShortcuts.swift`
 - **Unit Tests**: 15 test cases ✅
 - **Features**: Standard shortcuts, platform modifiers, display strings, accessibility labels
 - **Integration Status**: ❓ Not tested with ToolbarPattern or real components
 
 #### 3. AccessibilityHelpers
+
 - **File**: `Sources/FoundationUI/Utilities/AccessibilityHelpers.swift`
 - **Unit Tests**: 35 test cases ✅
 - **Features**: WCAG 2.1 contrast validation, VoiceOver hints, accessibility modifiers, audit tools
@@ -95,6 +98,7 @@ Tests/FoundationUITests/IntegrationTests/
 **File**: `Tests/FoundationUITests/IntegrationTests/UtilityIntegrationTests/CopyableTextIntegrationTests.swift`
 
 **Test Scenarios**:
+
 - ✅ CopyableText within Card component
 - ✅ CopyableText within KeyValueRow component
 - ✅ Multiple CopyableText instances on same screen
@@ -113,6 +117,7 @@ Tests/FoundationUITests/IntegrationTests/
 **File**: `Tests/FoundationUITests/IntegrationTests/UtilityIntegrationTests/KeyboardShortcutsIntegrationTests.swift`
 
 **Test Scenarios**:
+
 - ✅ KeyboardShortcuts with ToolbarPattern items
 - ✅ Standard shortcuts (Copy, Paste, Cut, Select All) with components
 - ✅ Platform-specific modifiers (⌘ on macOS, Ctrl elsewhere)
@@ -131,6 +136,7 @@ Tests/FoundationUITests/IntegrationTests/
 **File**: `Tests/FoundationUITests/IntegrationTests/UtilityIntegrationTests/AccessibilityHelpersIntegrationTests.swift`
 
 **Test Scenarios**:
+
 - ✅ Contrast ratio validation on real Badge colors
 - ✅ Contrast ratio validation on Card backgrounds
 - ✅ VoiceOver hints with Badge component
@@ -152,6 +158,7 @@ Tests/FoundationUITests/IntegrationTests/
 **File**: `Tests/FoundationUITests/IntegrationTests/UtilityIntegrationTests/CrossUtilityIntegrationTests.swift`
 
 **Test Scenarios**:
+
 - ✅ CopyableText + AccessibilityHelpers (copyable text with accessibility audit)
 - ✅ CopyableText + KeyboardShortcuts (copy with ⌘C shortcut)
 - ✅ AccessibilityHelpers + KeyboardShortcuts (keyboard shortcuts with accessibility labels)
@@ -220,6 +227,7 @@ final class CopyableTextIntegrationTests: XCTestCase {
 | Cross-Utility Integration | ✅ | ✅ | ✅ | All platforms |
 
 Legend:
+
 - ✅ = Full test coverage required
 - ⚠️ = Partial coverage (keyboard hardware on iPad optional)
 
