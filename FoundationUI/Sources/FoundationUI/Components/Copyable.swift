@@ -77,7 +77,7 @@ import SwiftUI
 ///
 /// - ``CopyableModifier``: The underlying view modifier
 /// - ``CopyableText``: Convenience component for simple text
-/// - `.makeCopyable(text:showFeedback:)`: View extension for direct modifier application
+/// - `.copyable(text:showFeedback:)`: View extension for direct modifier application
 public struct Copyable<Content: View>: View {
     // MARK: - Properties
 
@@ -138,9 +138,9 @@ public struct Copyable<Content: View>: View {
     // MARK: - Body
 
     public var body: some View {
-        // Using .makeCopyable() extension method for consistency
+        // Using .copyable() extension method for consistency
         // The View extension is defined in Modifiers/CopyableModifier.swift
-        content.makeCopyable(text: textToCopy, showFeedback: showFeedback)
+        content.copyable(text: textToCopy, showFeedback: showFeedback)
     }
 }
 

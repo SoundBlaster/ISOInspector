@@ -29,7 +29,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
     func testCopyableModifierAsFoundation() {
         // CopyableModifier is Layer 1 and should work independently
         let view = Text("Foundation")
-            .makeCopyable(text: "Foundation")
+            .copyable(text: "Foundation")
 
         XCTAssertNotNil(view, "Layer 1 modifier should work independently")
     }
@@ -100,7 +100,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
     func testCopyableModifierWithBadge() {
         // Apply copyable modifier to Badge component
         let view = Badge(text: "Info", level: .info)
-            .makeCopyable(text: "Info badge")
+            .copyable(text: "Info badge")
 
         XCTAssertNotNil(view, "Modifier should work with Badge")
     }
@@ -110,7 +110,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
         let view = Card {
             Text("Card content")
         }
-        .makeCopyable(text: "Card content")
+        .copyable(text: "Card content")
 
         XCTAssertNotNil(view, "Modifier should work with Card")
     }
@@ -118,7 +118,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
     func testCopyableModifierWithKeyValueRow() {
         // Apply copyable modifier to KeyValueRow component
         let view = KeyValueRow(key: "Key", value: "Value")
-            .makeCopyable(text: "Value")
+            .copyable(text: "Value")
 
         XCTAssertNotNil(view, "Modifier should work with KeyValueRow")
     }
@@ -126,7 +126,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
     func testCopyableModifierWithSectionHeader() {
         // Apply copyable modifier to SectionHeader component
         let view = SectionHeader(title: "Section")
-            .makeCopyable(text: "Section")
+            .copyable(text: "Section")
 
         XCTAssertNotNil(view, "Modifier should work with SectionHeader")
     }
@@ -181,7 +181,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
 
             // Modifier
             Text("Modifier")
-                .makeCopyable(text: "Modifier")
+                .copyable(text: "Modifier")
 
             // Wrapper
             Copyable(text: "Wrapper") {
@@ -253,10 +253,10 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
         // Some elements with feedback, some without
         let view = VStack {
             Text("With feedback")
-                .makeCopyable(text: "With feedback", showFeedback: true)
+                .copyable(text: "With feedback", showFeedback: true)
 
             Text("Without feedback")
-                .makeCopyable(text: "Without feedback", showFeedback: false)
+                .copyable(text: "Without feedback", showFeedback: false)
 
             Copyable(text: "Wrapper with feedback", showFeedback: true) {
                 Text("Wrapper")
@@ -278,7 +278,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
         XCTAssertNotNil(text)
 
         let modifier = Text("Value")
-            .makeCopyable(text: "Value")
+            .copyable(text: "Value")
         XCTAssertNotNil(modifier)
 
         let wrapper = Copyable(text: "Value") {
@@ -311,7 +311,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
     func testMacOSKeyboardShortcuts() {
         // All copyable variants should support ⌘C on macOS
         let text = CopyableText(text: "macOS")
-        let modifier = Text("macOS").makeCopyable(text: "macOS")
+        let modifier = Text("macOS").copyable(text: "macOS")
         let wrapper = Copyable(text: "macOS") {
             Text("macOS")
         }
@@ -347,7 +347,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
 
                 // Size (using modifier on KeyValueRow)
                 KeyValueRow(key: "Size", value: "0x00000018")
-                    .makeCopyable(text: "0x00000018")
+                    .copyable(text: "0x00000018")
 
                 Divider()
 
@@ -423,7 +423,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
         // Step 2: Use modifier for styled text (optional migration)
         let migrated = Text("Value")
             .font(DS.Typography.code)
-            .makeCopyable(text: "Value")
+            .copyable(text: "Value")
         XCTAssertNotNil(migrated)
 
         // Step 3: Use wrapper for complex content (new capability)
@@ -444,7 +444,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
         // All variants should use DS tokens exclusively
 
         let text = CopyableText(text: "DS Tokens")
-        let modifier = Text("DS Tokens").makeCopyable(text: "DS Tokens")
+        let modifier = Text("DS Tokens").copyable(text: "DS Tokens")
         let wrapper = Copyable(text: "DS Tokens") {
             Text("DS Tokens")
         }
@@ -460,7 +460,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
 
     func testCopyableWithEmptyStringsAcrossVariants() {
         let text = CopyableText(text: "")
-        let modifier = Text("Empty").makeCopyable(text: "")
+        let modifier = Text("Empty").copyable(text: "")
         let wrapper = Copyable(text: "") {
             Text("Empty")
         }
@@ -474,7 +474,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
         let specialChars = "Special: 你好 🎉 \n\t\\"
 
         let text = CopyableText(text: specialChars)
-        let modifier = Text("Special").makeCopyable(text: specialChars)
+        let modifier = Text("Special").copyable(text: specialChars)
         let wrapper = Copyable(text: specialChars) {
             Text("Special")
         }
@@ -495,7 +495,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
             .padding(DS.Spacing.m)
             .background(DS.Colors.infoBG)
             .cornerRadius(DS.Radius.medium)
-            .makeCopyable(text: "Composed")
+            .copyable(text: "Composed")
 
         XCTAssertNotNil(view, "Should compose with all modifiers")
     }
@@ -507,7 +507,7 @@ final class CopyableArchitectureIntegrationTests: XCTestCase {
                 HStack {
                     VStack {
                         Text("Nested")
-                            .makeCopyable(text: "Nested")
+                            .copyable(text: "Nested")
                     }
                 }
             }

@@ -108,7 +108,7 @@ Makes any view copyable with visual feedback.
 
 ```swift
 Text("Value")
-    .makeCopyable(text: "Value to copy", showFeedback: true)
+    .copyable(text: "Value to copy", showFeedback: true)
 ```
 
 **Features**:
@@ -140,7 +140,7 @@ Modifiers compose naturally:
 Text("Badge")
     .badgeChipStyle(level: .success)
     .interactiveStyle()      // Add hover
-    .makeCopyable(text: "Badge") // Make copyable
+    .copyable(text: "Badge") // Make copyable
 ```
 
 ### 3. Platform Adaptation
@@ -190,7 +190,7 @@ Card {
 HStack {
     Text("UUID:")
     Text(uuid)
-        .makeCopyable(text: uuid)
+        .copyable(text: uuid)
 }
 ```
 
