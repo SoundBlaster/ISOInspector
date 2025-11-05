@@ -776,9 +776,9 @@
   - [x] Configure landing page (FoundationUI.md, 9.5KB)
   - [x] Set up navigation structure
   - [ ] Add brand assets and styling (pending: logo, hero image)
-  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase5.1_APIDocs.md`
-  - Summary: `FoundationUI/DOCS/INPROGRESS/Phase5.1_APIDocs_Summary.md`
-  - Archive: `TASK_ARCHIVE/37_Phase5.1_APIDocs/` (ready)
+  - Task Document: `FoundationUI/DOCS/TASK_ARCHIVE/37_Phase5.1_APIDocs/Phase5.1_APIDocs.md`
+  - Summary: `FoundationUI/DOCS/TASK_ARCHIVE/37_Phase5.1_APIDocs/Phase5.1_APIDocs_Summary.md`
+  - Archive: `TASK_ARCHIVE/37_Phase5.1_APIDocs/` ✅ Archived 2025-11-05
 
 - [x] **P0** Document all Design Tokens ✅ Completed 2025-11-05
   - [x] 100% DocC coverage for DS namespace
