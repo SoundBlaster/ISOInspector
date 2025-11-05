@@ -184,12 +184,6 @@ jobs:
           echo "Resolving Swift Package Manager dependencies..."
           swift package resolve
 
-      - name: List test targets
-        run: |
-          cd FoundationUI
-          echo "Listing test targets..."
-          swift test --list-tests
-
       - name: Build FoundationUI (SPM)
         run: |
           cd FoundationUI
