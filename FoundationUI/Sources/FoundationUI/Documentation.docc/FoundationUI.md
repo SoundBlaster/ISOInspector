@@ -211,7 +211,7 @@ Reusable style modifiers that apply Design Tokens to views:
 - **CardStyle**: Elevation and shadows for card containers
 - **InteractiveStyle**: Hover and touch feedback
 - **SurfaceStyle**: Material-based backgrounds (.thin, .regular, .thick)
-- **CopyableModifier**: Universal `.copyable(text:)` modifier
+- **CopyableModifier**: Universal `.makeCopyable(text:)` modifier
 
 ### Components (Layer 2)
 

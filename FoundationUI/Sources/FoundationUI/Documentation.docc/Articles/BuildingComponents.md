@@ -187,7 +187,7 @@ struct BoxInfoCard: View {
                 // Metadata rows
                 KeyValueRow(key: "Size", value: size)
                 KeyValueRow(key: "Offset", value: offset)
-                    .copyable(text: offset)
+                    .makeCopyable(text: offset)
             }
         }
         .elevation(.medium)

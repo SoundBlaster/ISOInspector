@@ -15,11 +15,11 @@ import UIKit
 ///
 /// ## Usage
 ///
-/// Apply to any view using the `.copyable()` modifier:
+/// Apply to any view using the `.makeCopyable()` modifier:
 /// ```swift
 /// Text("Value")
 ///     .font(DS.Typography.code)
-///     .copyable(text: "Value")
+///     .makeCopyable(text: "Value")
 /// ```
 ///
 /// Complex views can also be made copyable:
@@ -28,13 +28,13 @@ import UIKit
 ///     Image(systemName: "doc.text")
 ///     Text("Complex content")
 /// }
-/// .copyable(text: "Complex content")
+/// .makeCopyable(text: "Complex content")
 /// ```
 ///
 /// Disable visual feedback if needed:
 /// ```swift
 /// Text("Silent copy")
-///     .copyable(text: "Silent copy", showFeedback: false)
+///     .makeCopyable(text: "Silent copy", showFeedback: false)
 /// ```
 ///
 /// ## Features
@@ -208,13 +208,13 @@ public extension View {
     /// Basic usage with default feedback:
     /// ```swift
     /// Text("Copyable Value")
-    ///     .copyable(text: "Copyable Value")
+    ///     .makeCopyable(text: "Copyable Value")
     /// ```
     ///
     /// Disable visual feedback:
     /// ```swift
     /// Text("Silent copy")
-    ///     .copyable(text: "Silent copy", showFeedback: false)
+    ///     .makeCopyable(text: "Silent copy", showFeedback: false)
     /// ```
     ///
     /// Apply to complex views:
@@ -223,7 +223,7 @@ public extension View {
     ///     Image(systemName: "doc.text")
     ///     Text("Document")
     /// }
-    /// .copyable(text: "Document content")
+    /// .makeCopyable(text: "Document content")
     /// ```
     ///
     /// - Parameters:
@@ -248,7 +248,7 @@ public extension View {
     /// - ``CopyableModifier``: The underlying view modifier
     /// - ``CopyableText``: Convenience component for text copying
     /// - ``Copyable``: Generic wrapper for complex views
-    func copyable(text: String, showFeedback: Bool = true) -> some View {
+    func makeCopyable(text: String, showFeedback: Bool = true) -> some View {
         modifier(CopyableModifier(textToCopy: text, showFeedback: showFeedback))
     }
 }
@@ -259,16 +259,16 @@ public extension View {
     VStack(spacing: DS.Spacing.l) {
         Text("Simple Value")
             .font(DS.Typography.code)
-            .copyable(text: "Simple Value")
+            .makeCopyable(text: "Simple Value")
 
         Text("With Custom Styling")
             .font(DS.Typography.body)
             .foregroundColor(DS.Colors.accent)
-            .copyable(text: "Styled Value")
+            .makeCopyable(text: "Styled Value")
 
         Text("No Feedback")
             .font(DS.Typography.code)
-            .copyable(text: "Silent copy", showFeedback: false)
+            .makeCopyable(text: "Silent copy", showFeedback: false)
     }
     .padding(DS.Spacing.xl)
 }
@@ -281,7 +281,7 @@ public extension View {
             Text("Document.pdf")
                 .font(DS.Typography.code)
         }
-        .copyable(text: "Document.pdf")
+        .makeCopyable(text: "Document.pdf")
 
         HStack(spacing: DS.Spacing.s) {
             Image(systemName: "number")
@@ -289,7 +289,7 @@ public extension View {
             Text("0x1A2B3C4D")
                 .font(DS.Typography.code)
         }
-        .copyable(text: "0x1A2B3C4D")
+        .makeCopyable(text: "0x1A2B3C4D")
 
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
             Text("Complex Layout")
@@ -298,7 +298,7 @@ public extension View {
             Text("192.168.1.1")
                 .font(DS.Typography.code)
         }
-        .copyable(text: "192.168.1.1")
+        .makeCopyable(text: "192.168.1.1")
     }
     .padding(DS.Spacing.xl)
 }
@@ -315,7 +315,7 @@ public extension View {
                 Text("ABC123")
                     .font(DS.Typography.code)
             }
-            .copyable(text: "ABC123")
+            .makeCopyable(text: "ABC123")
 
             HStack {
                 Text("Checksum:")
@@ -324,7 +324,7 @@ public extension View {
                 Text("0xDEADBEEF")
                     .font(DS.Typography.code)
             }
-            .copyable(text: "0xDEADBEEF")
+            .makeCopyable(text: "0xDEADBEEF")
         }
         .padding(DS.Spacing.l)
     }
@@ -335,14 +335,14 @@ public extension View {
     VStack(spacing: DS.Spacing.l) {
         Text("Dark Mode Value")
             .font(DS.Typography.code)
-            .copyable(text: "Dark Mode Value")
+            .makeCopyable(text: "Dark Mode Value")
 
         HStack(spacing: DS.Spacing.s) {
             Image(systemName: "moon.fill")
             Text("0xABCDEF")
                 .font(DS.Typography.code)
         }
-        .copyable(text: "0xABCDEF")
+        .makeCopyable(text: "0xABCDEF")
     }
     .padding(DS.Spacing.xl)
     .preferredColorScheme(.dark)
@@ -351,16 +351,16 @@ public extension View {
 #Preview("Integration with Components") {
     VStack(spacing: DS.Spacing.l) {
         Badge(text: "Info", level: .info)
-            .copyable(text: "Info badge")
+            .makeCopyable(text: "Info badge")
 
         Badge(text: "Warning", level: .warning)
-            .copyable(text: "Warning badge")
+            .makeCopyable(text: "Warning badge")
 
         Card {
             Text("Card content")
                 .padding(DS.Spacing.m)
         }
-        .copyable(text: "Card content")
+        .makeCopyable(text: "Card content")
     }
     .padding(DS.Spacing.xl)
 }
