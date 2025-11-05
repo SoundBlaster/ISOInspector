@@ -1,44 +1,86 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-11-05
-**Current Status**: Phase 4.2 Utilities & Helpers complete ✅
+**Current Status**: Phase 4.3 Copyable Architecture complete ✅
 
-## 🎯 Immediate Priorities (P2)
+## 🎯 Immediate Priorities
 
-### Phase 4.3: Copyable Architecture Refactoring → 🔜 NEXT
+### Option 1: Phase 4.1 Agent-Driven UI Generation (P1)
 
-**Priority**: P2 (Architecture)
-**Estimated Effort**: 16-22 hours
-**Dependencies**: Phase 4.2 complete
-**Task Plan Reference**: `FoundationUI_TaskPlan.md` → Phase 4.3 Copyable Architecture
+**Priority**: P1 (Agent Support)
+**Estimated Effort**: 14-20 hours
+**Dependencies**: Phase 4.2 & 4.3 complete ✅
+**Task Plan Reference**: `FoundationUI_TaskPlan.md` → Phase 4.1 Agent-Driven UI Generation
 
 **Requirements**:
+- Define AgentDescribable protocol
+- Implement AgentDescribable for all components
+- Create YAML schema definitions
+- Implement YAML parser/validator
+- Create agent integration examples
+- Agent support unit tests
+- Agent integration documentation
 
-- Implement CopyableModifier (Layer 1)
-- Refactor CopyableText to use modifier
-- Introduce Copyable generic wrapper
-- Add integration tests
-- Update documentation and previews
+**Why now**: Enables AI agents to generate FoundationUI components programmatically
+
+### Option 2: Phase 5.1 API Documentation (DocC) (P0)
+
+**Priority**: P0 (Critical for release)
+**Estimated Effort**: 20-30 hours
+**Dependencies**: All components implemented
+**Task Plan Reference**: `FoundationUI_TaskPlan.md` → Phase 5.1 API Documentation
+
+**Requirements**:
+- Set up DocC documentation catalog
+- Document all Design Tokens (100% coverage)
+- Document all View Modifiers
+- Document all Components
+- Document all Patterns
+- Create comprehensive tutorials
+
+**Why now**: Documentation is critical for adoption and must be complete before release
+
+### Option 3: Phase 5.2 Testing & Quality Assurance (P0)
+
+**Priority**: P0 (Critical for release)
+**Estimated Effort**: 15-25 hours
+**Dependencies**: All components implemented
+**Task Plan Reference**: `FoundationUI_TaskPlan.md` → Phase 5.2 Testing & QA
+
+**Requirements**:
+- Comprehensive unit test coverage (≥80%)
+- Unit test infrastructure improvements
+- Unit test review and refactoring
+- Snapshot tests for all components (Light/Dark mode)
+- Snapshot test infrastructure
+- Accessibility tests for all components
+
+**Why now**: Quality gates must be met before release
+
+---
 
 ## ✅ Recently Completed
+
+### 2025-11-05: Phase 4.3 Copyable Architecture Refactoring ✅
+
+- CopyableModifier (Layer 1): Universal `.copyable(text:showFeedback:)` view modifier
+- CopyableText refactor: Simplified from ~200 to ~50 lines, 100% backward compatible
+- Copyable generic wrapper: `Copyable<Content: View>` with ViewBuilder support
+- 110+ comprehensive tests (30+ modifier, 30+ wrapper, 15 existing, 50+ integration)
+- 16 SwiftUI Previews across all three components
+- Complete DocC documentation with platform-specific notes
+- Archive: `TASK_ARCHIVE/36_Phase4.3_CopyableArchitecture/`
+- **Phase 4.3 Copyable Architecture: 5/5 tasks (100%) COMPLETE ✅**
 
 ### 2025-11-05: Performance Optimization for Utilities ✅
 
 - 24 comprehensive performance tests for all utilities
 - Performance baselines established (<10ms clipboard, <1ms contrast, <50ms audit, <5MB memory)
 - Memory leak detection and regression guards
-- XCTest metrics: XCTClockMetric, XCTCPUMetric, XCTStorageMetric
-- Platform guards for macOS/iOS; Linux compilation verified
 - Archive: `TASK_ARCHIVE/35_Phase4.2_UtilitiesPerformance/`
 - **Phase 4.2 Utilities & Helpers: 6/6 tasks (100%) COMPLETE ✅**
 
-### 2025-11-03: Utility Integration Tests ✅
-
-- 72 integration tests across 4 files
-- CopyableText, KeyboardShortcuts, AccessibilityHelpers coverage
-- Cross-utility scenarios with real components
-- Platform guards for macOS/iOS/Linux compatibility
-- Archive: `TASK_ARCHIVE/34_Phase4.2_UtilityIntegrationTests/`
+---
 
 ## 📊 Phase Progress Snapshot
 
@@ -47,40 +89,57 @@
 | Phase 1: Foundation | 9/9 (100%) | ✅ Complete |
 | Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
 | Phase 3: Patterns & Platform Adaptation | 16/16 (100%) | ✅ Complete |
-| **Phase 4: Agent Support & Polish** | **6/18 (33%)** | 🚧 In progress |
+| **Phase 4: Agent Support & Polish** | **11/18 (61%)** | 🚧 In progress |
 | Phase 5: Documentation & QA | 0/27 (0%) | Not started |
 | Phase 6: Integration & Validation | 0/18 (0%) | Not started |
 
-**Overall Progress**: 56/116 tasks (48.3%)
+**Overall Progress**: 61/116 tasks (52.6%)
 
-### Phase 4.2 Utilities & Helpers Progress
+### Phase 4 Remaining Tasks
 
-- [x] CopyableText utility (P0) ✅
-- [x] KeyboardShortcuts utility (P1) ✅
-- [x] AccessibilityHelpers utility (P1) ✅
-- [x] Utility unit tests (P1) ✅
-- [x] Utility integration tests (P1) ✅
-- [x] Performance optimization for utilities (P2) ✅
-
-**Phase 4.2 Progress**: 6/6 tasks (100%) ✅ **COMPLETE**
+**Phase 4.1 Agent-Driven UI Generation**: 0/7 tasks (0%)
+- [ ] Define AgentDescribable protocol (P1)
+- [ ] Implement AgentDescribable for all components (P1)
+- [ ] Create YAML schema definitions (P1)
+- [ ] Implement YAML parser/validator (P1)
+- [ ] Create agent integration examples (P2)
+- [ ] Agent support unit tests (P2)
+- [ ] Agent integration documentation (P2)
 
 ---
 
 ## 🎓 Session Notes
 
-### Linux Development Environment
+### Copyable Architecture Achievements
 
-- Swift 6.0.3 configured with conditional compilation for SwiftUI
-- Tests compile on Linux; UI verification requires macOS/Xcode
-- SwiftUI previews validated during macOS sessions
+- Layered architecture (modifier → component) reduces code duplication
+- Generic wrappers with ViewBuilder provide maximum flexibility
+- 100% backward compatibility maintained during refactoring
+- 110+ comprehensive tests ensure all use cases work correctly
+- Platform-specific features (clipboard, keyboard shortcuts, VoiceOver) all tested
 
-### Quality Achievements
+### Quality Standards
 
-- Utilities maintain 100% DocC documentation ✅
-- Utilities achieve ≥80% test coverage ✅
-- Zero magic numbers across utilities ✅
-- Cross-utility integration confirmed via new tests ✅
+- Zero magic numbers across all code ✅
+- 100% DocC documentation ✅
+- Platform coverage: iOS, iPadOS, macOS ✅
+- Accessibility: VoiceOver announcements on all platforms ✅
+- SwiftLint: 0 violations ✅
 
 ---
 
-*Recreated after archiving Phase 4.2 documentation*
+## 🔍 Recommendations
+
+**Recommended Next Step**: Phase 5.1 API Documentation (DocC)
+
+**Rationale**:
+1. **Critical for adoption**: Good documentation is essential for library usage
+2. **Build on momentum**: Components are feature-complete, document while fresh
+3. **Enable parallel work**: Documentation complete → enables integration work
+4. **Quality gate**: DocC must be done before release
+
+**Alternative**: Phase 5.2 Testing & QA if test coverage needs immediate attention
+
+---
+
+*Recreated after archiving Phase 4.3 Copyable Architecture documentation*
