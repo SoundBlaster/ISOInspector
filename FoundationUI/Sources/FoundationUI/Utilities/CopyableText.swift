@@ -7,11 +7,15 @@ import AppKit
 import UIKit
 #endif
 
-/// A utility component for displaying copyable text with visual feedback
+/// A convenience component for displaying copyable text with visual feedback
 ///
 /// `CopyableText` provides a reusable interface for text that users can copy to the clipboard
 /// with a single tap or click. The component shows visual feedback when the copy action succeeds,
 /// following the Composable Clarity design system.
+///
+/// **Note**: This component is a convenience wrapper around the more flexible ``CopyableModifier``.
+/// For applying copy functionality to complex views, consider using the `.copyable()` modifier directly
+/// or the generic ``Copyable`` wrapper.
 ///
 /// ## Usage
 ///
@@ -42,16 +46,29 @@ import UIKit
 ///
 /// ## Design Tokens Used
 ///
-/// - Spacing: `DS.Spacing.s`, `DS.Spacing.m`
-/// - Animation: `DS.Animation.quick` for feedback
-/// - Typography: `DS.Typography.caption` for "Copied!" indicator
-/// - Colors: `DS.Colors.accent` for visual emphasis
+/// - Spacing: `DS.Spacing.s`, `DS.Spacing.m` (via CopyableModifier)
+/// - Animation: `DS.Animation.quick` for feedback (via CopyableModifier)
+/// - Typography: `DS.Typography.code` for text, `DS.Typography.caption` for indicator
+/// - Colors: `DS.Colors.accent`, `DS.Colors.textPrimary` for visual emphasis
 ///
 /// ## Platform Compatibility
 ///
-/// - iOS 16.0+
-/// - iPadOS 16.0+
+/// - iOS 17.0+
+/// - iPadOS 17.0+
 /// - macOS 14.0+
+///
+/// ## Architecture
+///
+/// This component uses the ``CopyableModifier`` internally, following the Composable Clarity
+/// design system's layered architecture:
+/// - Layer 1: ``CopyableModifier`` (base functionality)
+/// - Layer 2: ``CopyableText`` (convenience component) ← You are here
+///
+/// ## See Also
+///
+/// - ``CopyableModifier``: The underlying view modifier for any view
+/// - ``Copyable``: Generic wrapper for complex copyable views
+/// - `.copyable(text:showFeedback:)`: View extension for applying copy functionality
 public struct CopyableText: View {
     // MARK: - Properties
 
@@ -60,9 +77,6 @@ public struct CopyableText: View {
 
     /// Optional label for accessibility (defaults to the text value)
     private let label: String?
-
-    /// State tracking whether the text was recently copied
-    @State private var wasCopied: Bool = false
 
     // MARK: - Initialization
 
@@ -88,33 +102,12 @@ public struct CopyableText: View {
     // MARK: - Body
 
     public var body: some View {
-        Button(action: copyToClipboard) {
-            HStack(spacing: DS.Spacing.s) {
-                Text(text)
-                    .font(DS.Typography.code)
-                    .foregroundColor(DS.Colors.textPrimary)
-
-                // Copy indicator
-                if wasCopied {
-                    Text("Copied!")
-                        .font(DS.Typography.caption)
-                        .foregroundColor(DS.Colors.accent)
-                        .transition(.opacity)
-                } else {
-                    Image(systemName: "doc.on.doc")
-                        .font(.caption)
-                        .foregroundColor(DS.Colors.secondary)
-                }
-            }
-            .padding(.horizontal, DS.Spacing.m)
-            .padding(.vertical, DS.Spacing.s)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(accessibilityLabelText)
-        .accessibilityHint("Double tap to copy to clipboard")
-        #if os(macOS)
-        .keyboardShortcut("c", modifiers: .command)
-        #endif
+        // Refactored to use CopyableModifier for consistency and maintainability
+        Text(text)
+            .font(DS.Typography.code)
+            .foregroundColor(DS.Colors.textPrimary)
+            .copyable(text: text)
+            .accessibilityLabel(accessibilityLabelText)
     }
 
     // MARK: - Private Computed Properties
@@ -126,72 +119,6 @@ public struct CopyableText: View {
         } else {
             return "Copy \(text)"
         }
-    }
-
-    // MARK: - Private Methods
-
-    /// Copies the text to the system clipboard
-    ///
-    /// Uses platform-specific clipboard APIs:
-    /// - macOS: `NSPasteboard.general`
-    /// - iOS/iPadOS: `UIPasteboard.general`
-    ///
-    /// Shows visual feedback on successful copy using `DS.Animation.quick`.
-    private func copyToClipboard() {
-        #if os(macOS)
-        copyToMacOSClipboard()
-        #else
-        copyToIOSClipboard()
-        #endif
-
-        // Show visual feedback
-        withAnimation(DS.Animation.quick) {
-            wasCopied = true
-        }
-
-        // Reset feedback after delay
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            withAnimation(DS.Animation.quick) {
-                wasCopied = false
-            }
-        }
-
-        // Announce to VoiceOver
-        announceToVoiceOver()
-    }
-
-    #if os(macOS)
-    /// Copies text to macOS clipboard using NSPasteboard
-    private func copyToMacOSClipboard() {
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        pasteboard.setString(text, forType: .string)
-    }
-    #else
-    /// Copies text to iOS/iPadOS clipboard using UIPasteboard
-    private func copyToIOSClipboard() {
-        UIPasteboard.general.string = text
-    }
-    #endif
-
-    /// Announces successful copy to VoiceOver users
-    private func announceToVoiceOver() {
-        let announcement = "\(label ?? text) copied to clipboard"
-
-        #if os(macOS)
-        // macOS accessibility announcement
-        NSAccessibility.post(
-            element: NSApp as Any,
-            notification: .announcementRequested,
-            userInfo: [.announcement: announcement]
-        )
-        #else
-        // iOS/iPadOS accessibility announcement
-        UIAccessibility.post(
-            notification: .announcement,
-            argument: announcement
-        )
-        #endif
     }
 }
 
