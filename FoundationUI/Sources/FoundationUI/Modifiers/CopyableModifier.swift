@@ -248,7 +248,7 @@ public extension View {
     /// - ``CopyableModifier``: The underlying view modifier
     /// - ``CopyableText``: Convenience component for text copying
     /// - ``Copyable``: Generic wrapper for complex views
-    public func makeCopyable(text: String, showFeedback: Bool = true) -> some View {
+    func makeCopyable(text: String, showFeedback: Bool = true) -> some View {
         modifier(CopyableModifier(textToCopy: text, showFeedback: showFeedback))
     }
 }
