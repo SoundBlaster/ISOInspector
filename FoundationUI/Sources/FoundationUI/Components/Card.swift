@@ -123,7 +123,7 @@ public struct Card<Content: View>: View {
     /// - Shadow is purely visual, not semantic
     /// - Supports Dynamic Type scaling
     /// - Content accessibility labels are preserved
-    public nonisolated init(
+    public init(
         elevation: CardElevation = .medium,
         cornerRadius: CGFloat = DS.Radius.card,
         material: Material? = nil,

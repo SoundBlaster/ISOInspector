@@ -17,6 +17,7 @@ import SwiftUI
 /// - Full inspector panel simulations
 /// - Large scale component compositions (100+ components)
 /// - Memory footprint for complex screens
+@MainActor
 final class ComponentHierarchyPerformanceTests: XCTestCase {
 
     // MARK: - Simple Hierarchy Tests

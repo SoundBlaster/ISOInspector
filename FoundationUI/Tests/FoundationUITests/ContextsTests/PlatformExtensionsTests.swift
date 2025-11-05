@@ -14,6 +14,7 @@ import SwiftUI
 /// - Conditional compilation for platform-specific code
 /// - Runtime detection for iPadOS
 /// - Zero magic numbers verification
+@MainActor
 final class PlatformExtensionsTests: XCTestCase {
 
     // MARK: - macOS Keyboard Shortcut Tests

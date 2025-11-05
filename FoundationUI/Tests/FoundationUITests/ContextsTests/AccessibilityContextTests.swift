@@ -10,6 +10,7 @@ import XCTest
 /// desired behaviour before the implementation exists. Each test
 /// focuses on one responsibility and uses DS tokens to ensure we
 /// avoid magic numbers.
+@MainActor
 final class AccessibilityContextTests: XCTestCase {
 
     // MARK: - Default Behaviour

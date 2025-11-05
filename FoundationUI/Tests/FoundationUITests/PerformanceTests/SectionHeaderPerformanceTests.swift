@@ -17,6 +17,7 @@ import SwiftUI
 /// - Varying title lengths
 /// - Memory footprint validation
 /// - Nested in Card and ScrollView
+@MainActor
 final class SectionHeaderPerformanceTests: XCTestCase {
 
     // MARK: - Render Time Tests

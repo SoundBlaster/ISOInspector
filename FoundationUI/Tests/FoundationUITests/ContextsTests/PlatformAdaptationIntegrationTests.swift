@@ -24,6 +24,7 @@ import XCTest
 /// - ``PlatformAdapter``
 /// - ``PlatformAdaptiveModifier``
 /// - ``ContextIntegrationTests``
+@MainActor
 final class PlatformAdaptationIntegrationTests: XCTestCase {
 
     // MARK: - macOS-Specific Integration Tests

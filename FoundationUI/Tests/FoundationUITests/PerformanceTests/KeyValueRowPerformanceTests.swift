@@ -18,6 +18,7 @@ import SwiftUI
 /// - Varying key/value text lengths
 /// - Memory footprint validation
 /// - List and grid performance
+@MainActor
 final class KeyValueRowPerformanceTests: XCTestCase {
 
     // MARK: - Render Time Tests

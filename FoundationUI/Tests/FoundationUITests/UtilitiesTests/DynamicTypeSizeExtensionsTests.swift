@@ -9,6 +9,7 @@ import SwiftUI
 /// Verifies semantic naming extensions for Dynamic Type sizes.
 /// Note: DynamicTypeSize is already Comparable in SwiftUI, these tests verify
 /// that our semantic names work correctly with built-in comparison operators.
+@MainActor
 final class DynamicTypeSizeExtensionsTests: XCTestCase {
 
     // MARK: - Semantic Names Tests

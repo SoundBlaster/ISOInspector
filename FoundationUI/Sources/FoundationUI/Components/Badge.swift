@@ -81,7 +81,7 @@ public struct Badge: View {
     /// - `.warning` → "Warning: {text}"
     /// - `.error` → "Error: {text}"
     /// - `.success` → "Success: {text}"
-    public nonisolated init(text: String, level: BadgeLevel, showIcon: Bool = false) {
+    public init(text: String, level: BadgeLevel, showIcon: Bool = false) {
         self.text = text
         self.level = level
         self.showIcon = showIcon

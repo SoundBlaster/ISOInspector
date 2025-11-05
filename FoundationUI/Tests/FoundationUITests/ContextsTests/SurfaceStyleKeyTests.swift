@@ -16,6 +16,7 @@ import SwiftUI
 /// - Environment propagation tests
 /// - Material type tests
 /// - Integration tests with views
+@MainActor
 final class SurfaceStyleKeyTests: XCTestCase {
 
     // MARK: - Default Value Tests
