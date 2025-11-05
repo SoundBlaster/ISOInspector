@@ -80,6 +80,7 @@ wget https://download.swift.org/swift-6.0.3-release/ubuntu2404/swift-6.0.3-RELEA
 ```
 
 **Important:** Replace the URL with the version and distribution that matches your system:
+
 - Ubuntu 24.04: `ubuntu2404`
 - Ubuntu 22.04: `ubuntu2204`
 - Ubuntu 20.04: `ubuntu2004`
@@ -211,18 +212,21 @@ swift build -c release
 If you need to work with multiple Swift versions, you can:
 
 1. **Install to versioned directories:**
+
    ```bash
    ~/.local/swift/swift-6.0.3/
    ~/.local/swift/swift-5.10/
    ```
 
 2. **Use symbolic links:**
+
    ```bash
    ln -sf ~/.local/swift/swift-6.0.3-RELEASE-ubuntu24.04 ~/.local/swift/current
    export PATH="$HOME/.local/swift/current/usr/bin:$PATH"
    ```
 
 3. **Use swiftly (Swift version manager):**
+
    ```bash
    # Install swiftly
    curl -L https://swift-server.github.io/swiftly/swiftly-install.sh | bash
@@ -327,6 +331,7 @@ swift package --version
 ### Dependencies
 
 ISOInspector depends on:
+
 - `swift-argument-parser` (^1.6.0)
 - `swift-docc-plugin` (^1.4.0)
 - `NestedA11yIDs` (^1.0.0)

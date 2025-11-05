@@ -26,6 +26,7 @@
 ## Overview
 
 This document adapts the ISOInspector SwiftUI testing guidelines specifically for the FoundationUI package. FoundationUI is a layered design system implementation focusing on:
+
 - Design System tokens (Layer 1)
 - Composable components (Layer 2)  
 - High-level patterns (Layer 3)
@@ -46,6 +47,7 @@ This document adapts the ISOInspector SwiftUI testing guidelines specifically fo
 SwiftUI views are value types, not reference types. This fundamental difference requires a different testing approach than UIKit/AppKit. Tests must verify **observable properties and behavior**, not just view construction.
 
 **FoundationUI-Specific Mission:**
+
 - Validate design system token usage
 - Ensure cross-platform consistency
 - Verify accessibility compliance
@@ -67,6 +69,7 @@ func testBadge() {
 ```
 
 **Why this fails:**
+
 - SwiftUI views are value types (structs)
 - Value types **cannot be nil** in Swift
 - `XCTAssertNotNil(badge)` always passes, even if the badge is completely broken
@@ -317,6 +320,7 @@ func testSectionHeader_AccessibilityTrait() {
 ### Design System Tokens
 
 **What to test:**
+
 - ✅ All tokens defined with correct values
 - ✅ No magic numbers (all values are named constants)
 - ✅ Logical relationships (e.g., spacing progression)
@@ -324,12 +328,14 @@ func testSectionHeader_AccessibilityTrait() {
 - ✅ Cross-platform consistency (if applicable)
 
 **What NOT to test:**
+
 - ❌ SwiftUI's rendering of colors/fonts
 - ❌ How tokens are used internally by SwiftUI
 
 ### Components (Badge, Card, etc.)
 
 **What to test:**
+
 - ✅ Property initialization
 - ✅ Enum cases and values
 - ✅ Public API surface
@@ -337,6 +343,7 @@ func testSectionHeader_AccessibilityTrait() {
 - ✅ Accessibility properties (if exposed)
 
 **What NOT to test:**
+
 - ❌ View hierarchy structure
 - ❌ SwiftUI's layout system
 - ❌ Rendering appearance (use snapshot tests instead)
@@ -344,6 +351,7 @@ func testSectionHeader_AccessibilityTrait() {
 ### Patterns (BoxTree, Sidebar, etc.)
 
 **What to test:**
+
 - ✅ Generic type constraints work correctly
 - ✅ Binding integration
 - ✅ Item/Section data structures
@@ -351,6 +359,7 @@ func testSectionHeader_AccessibilityTrait() {
 - ✅ State management helpers
 
 **What NOT to test:**
+
 - ❌ SwiftUI's NavigationSplitView behavior
 - ❌ List rendering performance
 - ❌ View composition internals
@@ -358,12 +367,14 @@ func testSectionHeader_AccessibilityTrait() {
 ### Context Management
 
 **What to test:**
+
 - ✅ Environment key default values
 - ✅ EnvironmentValues storage/retrieval
 - ✅ Context independence (multiple contexts work together)
 - ✅ Type safety
 
 **What NOT to test:**
+
 - ❌ SwiftUI's environment propagation mechanism
 - ❌ Environment inheritance across view hierarchy
 
@@ -450,6 +461,7 @@ func testSpacing_Medium() {
 **Always use `@MainActor` when:**
 
 1. **Creating FoundationUI Components**
+
    ```swift
    @MainActor
    func testBadge_Creation() {
@@ -459,6 +471,7 @@ func testSpacing_Medium() {
    ```
 
 2. **Creating Patterns with Views**
+
    ```swift
    @MainActor
    func testBoxTreePattern_WithViews() {
@@ -470,6 +483,7 @@ func testSpacing_Medium() {
    ```
 
 3. **Testing View Modifiers**
+
    ```swift
    @MainActor
    func testSurfaceStyle_Modifier() {
@@ -483,6 +497,7 @@ func testSpacing_Medium() {
 **Do NOT use `@MainActor` when:**
 
 1. **Testing Design Tokens**
+
    ```swift
    // ✅ No @MainActor - pure value testing
    func testSpacing_Values() {
@@ -491,6 +506,7 @@ func testSpacing_Medium() {
    ```
 
 2. **Testing Environment Keys Directly**
+
    ```swift
    // ✅ No @MainActor - direct property access
    func testSurfaceStyleKey_DefaultValue() {
@@ -499,6 +515,7 @@ func testSpacing_Medium() {
    ```
 
 3. **Testing Enums and Structs**
+
    ```swift
    // ✅ No @MainActor - value type testing
    func testBadgeLevel_Equatable() {
@@ -507,6 +524,7 @@ func testSpacing_Medium() {
    ```
 
 4. **Testing Layout Resolution Logic**
+
    ```swift
    // ✅ No @MainActor - pure logic
    func testToolbarPattern_LayoutResolver() {
@@ -739,6 +757,7 @@ func testIntegration_ComponentsWithTokens()
 Before marking FoundationUI tests as complete:
 
 ### Design System (Layer 1)
+
 - [ ] All tokens have value tests
 - [ ] Token relationships verified (progression, ranges)
 - [ ] No magic numbers in token definitions
@@ -746,6 +765,7 @@ Before marking FoundationUI tests as complete:
 - [ ] Accessibility contrast ratios validated (if applicable)
 
 ### Components (Layer 2)
+
 - [ ] All public initializers tested
 - [ ] All variants/levels tested (Badge levels, Card elevations, etc.)
 - [ ] Token usage verified (if properties exposed)
@@ -753,6 +773,7 @@ Before marking FoundationUI tests as complete:
 - [ ] No XCTAssertNotNil on view construction
 
 ### Patterns (Layer 3)
+
 - [ ] Generic type constraints work with multiple types
 - [ ] Binding integration verified
 - [ ] Item/Section structures tested
@@ -760,12 +781,14 @@ Before marking FoundationUI tests as complete:
 - [ ] Complex state scenarios covered
 
 ### Contexts
+
 - [ ] Environment keys have default value tests
 - [ ] EnvironmentValues storage/retrieval tested
 - [ ] Multiple contexts work independently
 - [ ] Type safety verified
 
 ### Cross-Cutting
+
 - [ ] @MainActor applied where needed (view creation)
 - [ ] @MainActor NOT applied to pure logic tests
 - [ ] Platform-specific tests use #if os(...) guards
