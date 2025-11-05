@@ -1,7 +1,7 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-11-05
-**Current Status**: Phase 5.1 API Documentation complete ✅
+**Current Status**: Phase 5.2 Testing Infrastructure in progress (3/18 tasks complete)
 
 ## 🎯 Immediate Priorities
 
@@ -44,6 +44,19 @@
 
 ## ✅ Recently Completed
 
+### 2025-11-05: Phase 5.2 Unit Test & Snapshot Test Infrastructure (Partial) ✅
+
+- **Unit test infrastructure** complete (Package.swift configured with FoundationUITests target)
+- **Snapshot testing setup** complete (SnapshotTesting framework integrated via Tuist)
+- **Visual regression test suite** complete (4 component snapshot tests with Light/Dark variants)
+- Dual CI strategy: SPM validates unit tests, Tuist runs comprehensive suite
+- Swift 6 actor isolation fixes with @MainActor on 19 test classes
+- GitHub Actions validate-spm-package job configured for macOS-15
+- 53 unit tests integrated and passing in SPM
+- FoundationUISnapshotTests removed from SPM (API incompatibility, runs via Tuist only)
+- Documentation: `CI_Issues_Resolution.md` with technical details
+- **Phase 5.2 Testing & QA: 3/18 tasks (16.7%) in progress 🚧**
+
 ### 2025-11-05: Phase 5.1 API Documentation (DocC) ✅
 
 - DocC catalog structure with landing page, articles, and tutorials
@@ -75,10 +88,10 @@
 | Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
 | Phase 3: Patterns & Platform Adaptation | 16/16 (100%) | ✅ Complete |
 | **Phase 4: Agent Support & Polish** | **11/18 (61%)** | 🚧 In progress |
-| **Phase 5: Documentation & QA** | **6/27 (22%)** | 🚧 In progress |
+| **Phase 5: Documentation & QA** | **9/27 (33.3%)** | 🚧 In progress |
 | Phase 6: Integration & Validation | 0/18 (0%) | Not started |
 
-**Overall Progress**: 67/116 tasks (57.8%)
+**Overall Progress**: 70/116 tasks (60.3%)
 
 ### Phase 4 Remaining Tasks
 
@@ -93,16 +106,16 @@
 
 ### Phase 5 Remaining Tasks
 
-**Phase 5.2 Testing & Quality Assurance**: 0/18 tasks (0%)
+**Phase 5.2 Testing & Quality Assurance**: 3/18 tasks (16.7%)
 
-**Unit Testing** (3 tasks):
+**Unit Testing** (1/3 tasks):
+- [x] Unit test infrastructure ✅ Completed 2025-11-05
 - [ ] Comprehensive unit test coverage (≥80%)
-- [ ] Unit test infrastructure improvements
 - [ ] TDD validation
 
-**Snapshot & Visual Testing** (3 tasks):
-- [ ] Snapshot testing setup (SnapshotTesting framework)
-- [ ] Visual regression test suite (Light/Dark, Dynamic Type, platforms)
+**Snapshot & Visual Testing** (2/3 tasks):
+- [x] Snapshot testing setup (SnapshotTesting framework) ✅ Completed 2025-10-26
+- [x] Visual regression test suite (Light/Dark, Dynamic Type, platforms) ✅ Completed 2025-10-26
 - [ ] Automated visual regression in CI
 
 **Accessibility Testing** (3 tasks):
