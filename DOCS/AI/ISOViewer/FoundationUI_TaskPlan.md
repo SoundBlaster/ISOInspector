@@ -843,10 +843,10 @@
   - StrictConcurrency enabled for test targets
   - Swift 6 actor isolation fixed with @MainActor on test classes
   - CI/CD: GitHub Actions validate-spm-package job runs SPM tests on macOS-15
-  - Task File: `FoundationUI/DOCS/INPROGRESS/Phase5.2_UnitTestInfrastructure.md`
-  - Summary: `FoundationUI/DOCS/INPROGRESS/Phase5.2_UnitTestInfrastructure_Summary.md`
-  - CI Resolution: `FoundationUI/DOCS/INPROGRESS/CI_Issues_Resolution.md`
-  - Archive: `TASK_ARCHIVE/38_Phase5.2_UnitTestInfrastructure/`
+  - Actor isolation fixes in component initializers (nonisolated keyword)
+  - CI issues resolution: SnapshotTesting API incompatibility resolved
+  - Archive: `TASK_ARCHIVE/38_Phase5.2_UnitTestInfrastructure/` (initial setup)
+  - Archive: `TASK_ARCHIVE/39_Phase5.2_CI_Integration/` (CI integration & fixes)
 
 - [ ] **P1** Test-Driven Development (TDD) validation
   - Review test quality and completeness
