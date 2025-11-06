@@ -76,20 +76,20 @@ struct BoxTreePatternScreen: View {
                         KeyValueRow(
                             key: "Total Nodes",
                             value: "\(totalNodes)",
-                            isCopyable: false
+                            copyable: false
                         )
 
                         if selectionMode == .single {
                             KeyValueRow(
                                 key: "Selected",
                                 value: selectedNode?.boxType ?? "None",
-                                isCopyable: false
+                                copyable: false
                             )
                         } else {
                             KeyValueRow(
                                 key: "Selected",
                                 value: "\(selectedNodes.count) nodes",
-                                isCopyable: false
+                                copyable: false
                             )
                         }
                     }

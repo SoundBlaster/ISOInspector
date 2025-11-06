@@ -70,25 +70,25 @@ struct InspectorPatternScreen: View {
                     KeyValueRow(
                         key: "Size",
                         value: sampleBox.formattedSize,
-                        isCopyable: false
+                        copyable: false
                     )
 
                     KeyValueRow(
                         key: "Size (hex)",
                         value: sampleBox.hexSize,
-                        isCopyable: true
+                        copyable: true
                     )
 
                     KeyValueRow(
                         key: "Offset",
                         value: sampleBox.hexOffset,
-                        isCopyable: true
+                        copyable: true
                     )
 
                     KeyValueRow(
                         key: "Children",
                         value: "\(sampleBox.childCount)",
-                        isCopyable: false
+                        copyable: false
                     )
                 }
                 .padding(.horizontal, DS.Spacing.l)
@@ -104,7 +104,7 @@ struct InspectorPatternScreen: View {
                                 KeyValueRow(
                                     key: key,
                                     value: value,
-                                    isCopyable: true
+                                    copyable: true
                                 )
                             }
                         }
@@ -120,19 +120,19 @@ struct InspectorPatternScreen: View {
                     KeyValueRow(
                         key: "Direct Children",
                         value: "\(sampleBox.childCount)",
-                        isCopyable: false
+                        copyable: false
                     )
 
                     KeyValueRow(
                         key: "Total Descendants",
                         value: "\(sampleBox.descendantCount)",
-                        isCopyable: false
+                        copyable: false
                     )
 
                     KeyValueRow(
                         key: "Total Size (bytes)",
                         value: "\(sampleBox.totalSize)",
-                        isCopyable: true
+                        copyable: true
                     )
 
                     KeyValueRow(
@@ -141,7 +141,7 @@ struct InspectorPatternScreen: View {
                             fromByteCount: Int64(sampleBox.totalSize),
                             countStyle: .file
                         ),
-                        isCopyable: false
+                        copyable: false
                     )
                 }
                 .padding(.horizontal, DS.Spacing.l)
