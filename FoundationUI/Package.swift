@@ -38,10 +38,9 @@ let package = Package(
             path: "Tests/FoundationUITests",
             exclude: [
                 // Exclude any non-test files
-            ],
-            swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
             ]
+            // NOTE: StrictConcurrency is enabled by default in Swift 6.0
+            // No need for .enableUpcomingFeature("StrictConcurrency")
         ),
         // NOTE: FoundationUISnapshotTests removed from SPM configuration
         // Snapshot tests are only run via Tuist + xcodebuild in CI
