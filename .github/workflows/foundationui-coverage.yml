@@ -228,14 +228,28 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Check coverage threshold (macOS)
-        uses: insightsengineering/coverage-action@v3
+        run: |
+          set -eo pipefail
+          # Initialize results file
+          echo "" > /tmp/coverage_result.txt
+          python3 scripts/check_coverage_threshold.py \
+            coverage-macos.xml \
+            80.0 \
+            --platform "macOS"
+
+      - name: Save coverage results (macOS)
+        if: always()
+        run: |
+          mkdir -p coverage-results
+          cp /tmp/coverage_result.txt coverage-results/macos-coverage.txt || true
+
+      - name: Upload coverage results (macOS)
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          path: ./coverage-macos.xml
-          threshold: 80.0
-          fail: true
-          publish: false
-          diff: true
-          togglable-report: true
+          name: coverage-results-macos
+          path: coverage-results/macos-coverage.txt
+          if-no-files-found: ignore
 
       - name: Upload test results (macOS)
         if: always()
@@ -378,14 +392,28 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Check coverage threshold (iOS)
-        uses: insightsengineering/coverage-action@v3
+        run: |
+          set -eo pipefail
+          # Initialize results file
+          echo "" > /tmp/coverage_result.txt
+          python3 scripts/check_coverage_threshold.py \
+            coverage-ios.xml \
+            80.0 \
+            --platform "iOS"
+
+      - name: Save coverage results (iOS)
+        if: always()
+        run: |
+          mkdir -p coverage-results
+          cp /tmp/coverage_result.txt coverage-results/ios-coverage.txt || true
+
+      - name: Upload coverage results (iOS)
+        if: always()
+        uses: actions/upload-artifact@v4
         with:
-          path: ./coverage-ios.xml
-          threshold: 80.0
-          fail: true
-          publish: false
-          diff: true
-          togglable-report: true
+          name: coverage-results-ios
+          path: coverage-results/ios-coverage.txt
+          if-no-files-found: ignore
 
       - name: Upload test results (iOS)
         if: always()
@@ -418,33 +446,64 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Coverage by Platform" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "| Platform | Status | Details |" >> $GITHUB_STEP_SUMMARY
-          echo "|----------|--------|---------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Platform | Coverage | Threshold | Status | Details |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|----------|-----------|--------|---------|" >> $GITHUB_STEP_SUMMARY
 
-          # Check if coverage files exist and add to summary
-          if [ -d "coverage-artifacts/test-results-macos" ]; then
-            echo "| macOS | ✅ Complete | Unit + Snapshot Tests |" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "| macOS | ❌ Failed | - |" >> $GITHUB_STEP_SUMMARY
+          # Parse macOS coverage
+          MACOS_STATUS="❌ Failed"
+          MACOS_COVERAGE="N/A"
+          if [ -f "coverage-artifacts/coverage-results-macos/macos-coverage.txt" ]; then
+            MACOS_COVERAGE=$(grep "macOS=" coverage-artifacts/coverage-results-macos/macos-coverage.txt | cut -d'=' -f2 || echo "N/A")
+            if [ "${{ needs.xcode-coverage-macos.result }}" == "success" ]; then
+              MACOS_STATUS="✅ Pass"
+            else
+              MACOS_STATUS="❌ Fail"
+            fi
           fi
 
-          if [ -d "coverage-artifacts/test-results-ios" ]; then
-            echo "| iOS | ✅ Complete | Unit + Snapshot Tests |" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "| iOS | ❌ Failed | - |" >> $GITHUB_STEP_SUMMARY
+          # Parse iOS coverage
+          IOS_STATUS="❌ Failed"
+          IOS_COVERAGE="N/A"
+          if [ -f "coverage-artifacts/coverage-results-ios/ios-coverage.txt" ]; then
+            IOS_COVERAGE=$(grep "iOS=" coverage-artifacts/coverage-results-ios/ios-coverage.txt | cut -d'=' -f2 || echo "N/A")
+            if [ "${{ needs.xcode-coverage-ios.result }}" == "success" ]; then
+              IOS_STATUS="✅ Pass"
+            else
+              IOS_STATUS="❌ Fail"
+            fi
           fi
 
+          # Parse SPM coverage (optional)
+          SPM_STATUS="⚠️ N/A"
+          SPM_COVERAGE="N/A"
           if [ -d "coverage-artifacts/test-results-spm" ]; then
-            echo "| SPM (Unit Only) | ✅ Complete | Unit Tests |" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "| SPM (Unit Only) | ❌ Failed | - |" >> $GITHUB_STEP_SUMMARY
+            SPM_STATUS="✅ Complete"
+            SPM_COVERAGE="Unit tests only"
           fi
+
+          echo "| macOS | ${MACOS_COVERAGE}% | 80% | ${MACOS_STATUS} | Unit + Snapshot Tests |" >> $GITHUB_STEP_SUMMARY
+          echo "| iOS | ${IOS_COVERAGE}% | 80% | ${IOS_STATUS} | Unit + Snapshot Tests |" >> $GITHUB_STEP_SUMMARY
+          echo "| SPM | ${SPM_COVERAGE} | - | ${SPM_STATUS} | Unit Tests Only |" >> $GITHUB_STEP_SUMMARY
 
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "## Quality Gate" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Threshold**: 80%" >> $GITHUB_STEP_SUMMARY
-          echo "**Status**: ${{ needs.xcode-coverage-macos.result == 'success' && needs.xcode-coverage-ios.result == 'success' && '✅ PASS' || '❌ FAIL' }}" >> $GITHUB_STEP_SUMMARY
+
+          # Determine overall status
+          if [ "${{ needs.xcode-coverage-macos.result }}" == "success" ] && [ "${{ needs.xcode-coverage-ios.result }}" == "success" ]; then
+            echo "**Status**: ✅ **PASS** - All platforms meet the threshold" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "**Status**: ❌ **FAIL** - Some platforms below threshold:" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            if [ "${{ needs.xcode-coverage-macos.result }}" != "success" ]; then
+              echo "- ❌ **macOS**: ${MACOS_COVERAGE}% (need 80%)" >> $GITHUB_STEP_SUMMARY
+            fi
+            if [ "${{ needs.xcode-coverage-ios.result }}" != "success" ]; then
+              echo "- ❌ **iOS**: ${IOS_COVERAGE}% (need 80%)" >> $GITHUB_STEP_SUMMARY
+            fi
+          fi
+
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "See individual job outputs for detailed coverage reports." >> $GITHUB_STEP_SUMMARY
 
@@ -452,5 +511,17 @@ jobs:
         if: needs.xcode-coverage-macos.result != 'success' || needs.xcode-coverage-ios.result != 'success'
         run: |
           echo "❌ Coverage quality gate failed!"
-          echo "One or more platforms did not meet the 80% coverage threshold."
+          echo ""
+          echo "Platforms that did not meet the 80% coverage threshold:"
+
+          if [ "${{ needs.xcode-coverage-macos.result }}" != "success" ]; then
+            echo "  • macOS: See job logs for details"
+          fi
+
+          if [ "${{ needs.xcode-coverage-ios.result }}" != "success" ]; then
+            echo "  • iOS: See job logs for details"
+          fi
+
+          echo ""
+          echo "Please add more tests to improve coverage."
           exit 1

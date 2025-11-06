@@ -134,6 +134,105 @@ brew install jq
 
 ---
 
+### `check_coverage_threshold.py`
+
+Checks code coverage against a threshold from Cobertura XML reports and provides clear pass/fail feedback.
+
+**Purpose:**
+- Validate coverage meets quality gate thresholds
+- Provide detailed coverage reporting for CI/CD
+- Support multi-platform coverage validation
+- Avoid permission issues with third-party actions
+
+**Usage:**
+```bash
+python3 scripts/check_coverage_threshold.py \
+  <coverage.xml> \
+  <threshold> \
+  [--platform NAME]
+```
+
+**Arguments:**
+- `coverage.xml` - Path to Cobertura XML coverage report (required)
+- `threshold` - Minimum coverage percentage (0-100) (required)
+- `--platform NAME` - Platform name for reporting (optional, default: "Unknown")
+
+**Exit Codes:**
+- `0` - Coverage meets or exceeds threshold
+- `1` - Coverage below threshold or error
+
+**Requirements:**
+- Python 3.6+
+- Cobertura XML format coverage report
+
+**Example:**
+```bash
+# Check macOS coverage
+python3 scripts/check_coverage_threshold.py \
+  coverage-macos.xml \
+  80.0 \
+  --platform "macOS"
+
+# Output:
+# 📊 Coverage Report - macOS
+#    Coverage: 84.50%
+#    Threshold: 80.00%
+#    ✅ PASS: Coverage meets threshold
+```
+
+**Integration with CI:**
+```yaml
+- name: Check coverage threshold (macOS)
+  run: |
+    python3 scripts/check_coverage_threshold.py \
+      coverage-macos.xml \
+      80.0 \
+      --platform "macOS"
+
+- name: Check coverage threshold (iOS)
+  run: |
+    python3 scripts/check_coverage_threshold.py \
+      coverage-ios.xml \
+      80.0 \
+      --platform "iOS"
+```
+
+**Output Format:**
+The script writes coverage results to `/tmp/coverage_result.txt` in the format:
+```
+Platform=Coverage
+```
+
+This file can be uploaded as an artifact and used for summary reporting:
+```yaml
+- name: Save coverage results
+  run: |
+    mkdir -p coverage-results
+    cp /tmp/coverage_result.txt coverage-results/platform-coverage.txt
+
+- name: Upload coverage results
+  uses: actions/upload-artifact@v4
+  with:
+    name: coverage-results-platform
+    path: coverage-results/platform-coverage.txt
+```
+
+**Technical Details:**
+1. Parses Cobertura XML using Python's `xml.etree.ElementTree`
+2. Extracts `line-rate` attribute from root `<coverage>` element
+3. Converts to percentage (0.845 → 84.5%)
+4. Compares against threshold
+5. Writes result to `/tmp/coverage_result.txt` for artifact collection
+
+**Advantages over insightsengineering/coverage-action:**
+- No branch push permissions required
+- Simpler, more transparent threshold checking
+- No external dependencies beyond Python stdlib
+- Easier debugging (just Python, no composite action)
+- No risk of 403 permission errors
+
+---
+
 ## 🚀 Future Scripts
 
 Planned scripts for this directory:
