@@ -111,8 +111,18 @@ final class AccessibilityContextTests: XCTestCase {
 
     /// Environment values should store and retrieve the context to
     /// allow propagation through the SwiftUI view hierarchy.
+    @MainActor
     func testEnvironmentValues_AccessibilityContextRoundTrip() {
         var environment = EnvironmentValues()
+
+        // Set overrides first to avoid system API calls during getter
+        environment.accessibilityContextOverrides = AccessibilityContextOverrides(
+            prefersReducedMotion: false,
+            prefersIncreasedContrast: false,
+            prefersBoldText: false,
+            dynamicTypeSize: .large
+        )
+
         let context = AccessibilityContext(
             prefersReducedMotion: true,
             prefersIncreasedContrast: true,
@@ -126,6 +136,7 @@ final class AccessibilityContextTests: XCTestCase {
 
     /// When no explicit context is provided the environment should
     /// derive preferences from the existing accessibility values.
+    @MainActor
     func testEnvironmentValues_DerivesDefaultsFromEnvironment() {
         var environment = EnvironmentValues()
         environment.legibilityWeight = .bold

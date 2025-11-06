@@ -33,6 +33,7 @@ import SnapshotTesting
 /// 3. Review diff to confirm changes are expected
 /// 4. Commit updated snapshots
 /// 5. Set `isRecording = false`
+@MainActor
 final class BadgeSnapshotTests: XCTestCase {
 
     // MARK: - Light Mode Tests
