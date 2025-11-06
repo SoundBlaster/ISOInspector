@@ -15,8 +15,10 @@
 | Phase 2: Core Components | ✅ Complete | 22/22 (100%) |
 | Phase 3: Patterns & Platform Adaptation | ✅ Complete | 16/16 (100%) |
 | Phase 4: Agent Support & Polish | ✅ Complete | 11/18 (61%) |
-| Phase 5: Documentation & QA | In Progress | 10/27 (37%) |
-| Phase 6: Integration & Validation | Not Started | 0/18 (0%) |
+| Phase 5: Documentation & QA | 🚧 In Progress | 10/28 (36%) |
+| Phase 6: Integration & Validation | Not Started | 0/17 (0%) |
+
+**Note**: Enhanced Demo App task moved from Phase 6.1 to Phase 5.4 (reprioritized for earlier testing support)
 
 ---
 
@@ -766,7 +768,7 @@
 
 ## Phase 5: Documentation & QA (Continuous)
 **Priority: P0-P1**
-**Progress: 10/27 tasks completed (37%)**
+**Progress: 10/28 tasks completed (36%)** (1 task added: Enhanced Demo App moved from Phase 6.1)
 
 ### 5.1 API Documentation (DocC)
 **Progress: 6/6 tasks (100%)** ✅ **COMPLETE**
@@ -1024,14 +1026,44 @@
   - Platform-specific guidelines
   - Best practices for cross-platform UI
 
+### 5.4 Enhanced Demo App (Reprioritized from Phase 6.1)
+**Progress: 0/1 task**
+
+- [ ] **P0** Enhanced Demo App (ComponentTestApp Evolution) → **READY TO START**
+  - **Rationale**: Moved up from Phase 6.1 to enable visual validation and UI testing
+  - **Current State**: ComponentTestApp exists (Phase 2.3) but only shows Layer 2 components
+  - **Goal**: Expand to full-featured ISO Inspector demo with all patterns
+  - **Requirements**:
+    - Add InspectorPattern showcase screen (2h)
+    - Add SidebarPattern showcase screen (2h)
+    - Add ToolbarPattern showcase screen (2h)
+    - Add BoxTreePattern showcase screen (2h)
+    - Create ISO Inspector mockup screen (4h) - combines all patterns
+    - Add CopyableText/Copyable utility demos (2h)
+    - Add accessibility testing screen (1h)
+    - Add performance monitoring screen (1h)
+    - Create sample ISO box data models (2h)
+    - Platform-specific features (macOS/iOS/iPad) (2h)
+  - **Benefits**:
+    - Enables visual validation of accessibility work
+    - Required for writing comprehensive UI tests
+    - Provides real-world testing environment
+    - Demonstrates all Phase 3 patterns
+    - Supports manual testing workflows
+  - **Estimated Effort**: 20 hours
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase5.4_EnhancedDemoApp.md`
+  - Archive: `TASK_ARCHIVE/42_Phase5.4_EnhancedDemoApp/` (upon completion)
+
 ---
 
 ## Phase 6: Integration & Validation (Week 8+)
 **Priority: P1-P2**
-**Progress: 0/18 tasks completed (0%)**
+**Progress: 0/17 tasks completed (0%)** (1 task moved to Phase 5.4: Enhanced Demo App)
 
 ### 6.1 Example Projects
-**Progress: 0/10 tasks**
+**Progress: 0/9 tasks** (1 task moved to Phase 5.4)
+
+**Note**: Enhanced Demo App (ComponentTestApp Evolution) was moved to Phase 5.4 to enable earlier visual validation and UI testing support. The tasks below are for additional platform-specific demo apps.
 
 - [ ] **P1** Create iOS example app
   - File: `Examples/iOS/ISOInspectorDemo/`
