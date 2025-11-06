@@ -211,19 +211,19 @@ struct ComponentDetailView: View {
                     KeyValueRow(
                         key: "Component ID",
                         value: item.id,
-                        isCopyable: true
+                        copyable: true
                     )
 
                     KeyValueRow(
                         key: "Type",
                         value: componentType(for: item.id),
-                        isCopyable: false
+                        copyable: false
                     )
 
                     KeyValueRow(
                         key: "Layer",
                         value: componentLayer(for: item.id),
-                        isCopyable: false
+                        copyable: false
                     )
                 }
                 .padding(DS.Spacing.l)
