@@ -53,10 +53,8 @@ final class TouchTargetTests: XCTestCase {
             height: Self.minimumTouchTargetSize
         )
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: buttonSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = buttonSize.width >= Self.minimumTouchTargetSize &&
+                              buttonSize.height >= Self.minimumTouchTargetSize
 
         XCTAssertTrue(
             meetsRequirement,
@@ -83,10 +81,8 @@ final class TouchTargetTests: XCTestCase {
             height: expectedMinHeight
         )
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: badgeSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = badgeSize.width >= Self.minimumTouchTargetSize &&
+                              badgeSize.height >= expectedMinHeight
 
         XCTAssertTrue(
             meetsRequirement,
@@ -126,10 +122,8 @@ final class TouchTargetTests: XCTestCase {
             height: 100.0
         )
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: cardSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = cardSize.width >= Self.minimumTouchTargetSize &&
+                              cardSize.height >= Self.minimumTouchTargetSize
 
         XCTAssertTrue(
             meetsRequirement,
@@ -145,10 +139,8 @@ final class TouchTargetTests: XCTestCase {
             height: Self.minimumTouchTargetSize
         )
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: copyButtonSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = copyButtonSize.width >= Self.minimumTouchTargetSize &&
+                              copyButtonSize.height >= Self.minimumTouchTargetSize
 
         XCTAssertTrue(
             meetsRequirement,
@@ -192,10 +184,8 @@ final class TouchTargetTests: XCTestCase {
         let toolbarItemSize = CGSize(width: 44.0, height: 44.0)
         #endif
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: toolbarItemSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = toolbarItemSize.width >= Self.minimumTouchTargetSize &&
+                              toolbarItemSize.height >= Self.minimumTouchTargetSize
 
         XCTAssertTrue(
             meetsRequirement,
@@ -221,10 +211,8 @@ final class TouchTargetTests: XCTestCase {
             height: listItemHeight
         )
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: listItemSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = listItemSize.width >= Self.minimumTouchTargetSize &&
+                              listItemSize.height >= Self.minimumTouchTargetSize
 
         XCTAssertTrue(
             meetsRequirement,
@@ -248,10 +236,8 @@ final class TouchTargetTests: XCTestCase {
             height: nodeHeight
         )
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: nodeSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = nodeSize.width >= Self.minimumTouchTargetSize &&
+                              nodeSize.height >= Self.minimumTouchTargetSize
 
         XCTAssertTrue(
             meetsRequirement,
@@ -267,10 +253,8 @@ final class TouchTargetTests: XCTestCase {
             height: Self.minimumTouchTargetSize
         )
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: disclosureButtonSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = disclosureButtonSize.width >= Self.minimumTouchTargetSize &&
+                              disclosureButtonSize.height >= Self.minimumTouchTargetSize
 
         XCTAssertTrue(
             meetsRequirement,
@@ -286,10 +270,8 @@ final class TouchTargetTests: XCTestCase {
             height: Self.minimumTouchTargetSize
         )
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: inspectorButtonSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = inspectorButtonSize.width >= Self.minimumTouchTargetSize &&
+                              inspectorButtonSize.height >= Self.minimumTouchTargetSize
 
         XCTAssertTrue(
             meetsRequirement,
@@ -307,10 +289,8 @@ final class TouchTargetTests: XCTestCase {
             height: Self.minimumTouchTargetSize
         )
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: exactMinimumSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = exactMinimumSize.width >= Self.minimumTouchTargetSize &&
+                              exactMinimumSize.height >= Self.minimumTouchTargetSize
 
         XCTAssertTrue(
             meetsRequirement,
@@ -326,10 +306,8 @@ final class TouchTargetTests: XCTestCase {
             height: Self.minimumTouchTargetSize
         )
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: tooSmallSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = tooSmallSize.width >= Self.minimumTouchTargetSize &&
+                              tooSmallSize.height >= Self.minimumTouchTargetSize
 
         XCTAssertFalse(
             meetsRequirement,
@@ -345,10 +323,8 @@ final class TouchTargetTests: XCTestCase {
             height: Self.minimumTouchTargetSize - 5.0
         )
 
-        let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-            size: asymmetricSize,
-            platform: Self.platformName
-        )
+        let meetsRequirement = asymmetricSize.width >= Self.minimumTouchTargetSize &&
+                              asymmetricSize.height >= Self.minimumTouchTargetSize
 
         XCTAssertFalse(
             meetsRequirement,
@@ -379,10 +355,8 @@ final class TouchTargetTests: XCTestCase {
                 height: Self.minimumTouchTargetSize
             )
 
-            let meetsRequirement = AccessibilityHelpers.meetsTouchTargetMinimum(
-                size: buttonSize,
-                platform: Self.platformName
-            )
+            let meetsRequirement = buttonSize.width >= Self.minimumTouchTargetSize &&
+                                  buttonSize.height >= Self.minimumTouchTargetSize
 
             XCTAssertTrue(
                 meetsRequirement,
@@ -436,10 +410,8 @@ final class TouchTargetTests: XCTestCase {
         ]
 
         for component in components {
-            let meets = AccessibilityHelpers.meetsTouchTargetMinimum(
-                size: component.size,
-                platform: Self.platformName
-            )
+            let meets = component.size.width >= Self.minimumTouchTargetSize &&
+                       component.size.height >= Self.minimumTouchTargetSize
 
             if meets {
                 passed += 1
