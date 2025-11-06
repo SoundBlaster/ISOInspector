@@ -161,7 +161,6 @@ final class VoiceOverTests: XCTestCase {
     func testKeyValueRowComponent_CopyableAccessibility() {
         // KeyValueRow with copyable value should announce copy capability
 
-        let _ = "Copy value"
         let hint = "Copies 1024 bytes to clipboard"
 
         XCTAssertTrue(
