@@ -338,7 +338,7 @@ jobs:
           xcodebuild build \
             -workspace ISOInspector.xcworkspace \
             -scheme FoundationUI \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.4' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
             -configuration Debug \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_ALLOWED=NO \
@@ -364,7 +364,7 @@ jobs:
           xcodebuild test \
             -workspace ISOInspector.xcworkspace \
             -scheme FoundationUI \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.4' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
             -configuration Debug \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_ALLOWED=NO \
@@ -390,7 +390,7 @@ jobs:
           xcodebuild build \
             -workspace ISOInspector.xcworkspace \
             -scheme ComponentTestApp-iOS \
-            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.4' \
+            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
             -configuration Debug \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_ALLOWED=NO \
