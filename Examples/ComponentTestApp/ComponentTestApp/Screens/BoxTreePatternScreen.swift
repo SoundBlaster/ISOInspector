@@ -127,7 +127,7 @@ struct BoxTreePatternScreen: View {
                 }
             }
             .padding(.horizontal, DS.Spacing.platformDefault)
-            
+
             // Usage Tips
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 SectionHeader(title: "Usage Tips", showDivider: true)
