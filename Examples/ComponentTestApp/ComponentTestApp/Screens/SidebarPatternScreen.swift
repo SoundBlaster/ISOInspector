@@ -125,7 +125,7 @@ struct SidebarPatternScreen: View {
                 SidebarPattern.Item(
                     id: "boxTree",
                     title: "BoxTreePattern",
-                    iconSystemName: "list.tree"
+                    iconSystemName: "list.bullet.indent"
                 )
             ]
         )

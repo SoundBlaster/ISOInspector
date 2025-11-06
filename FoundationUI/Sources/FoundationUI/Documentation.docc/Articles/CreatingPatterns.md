@@ -111,7 +111,7 @@ struct ISOInspectorView: View {
                         title: "Views",
                         items: [
                             SidebarItem(id: "properties", title: "Properties", icon: "doc.text"),
-                            SidebarItem(id: "structure", title: "Structure", icon: "list.tree"),
+                            SidebarItem(id: "structure", title: "Structure", icon: "list.bullet.indent"),
                             SidebarItem(id: "hex", title: "Hex Viewer", icon: "01.square")
                         ]
                     )

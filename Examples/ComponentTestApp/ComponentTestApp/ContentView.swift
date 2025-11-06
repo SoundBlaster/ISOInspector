@@ -100,7 +100,7 @@ struct ContentView: View {
                         Label("ToolbarPattern", systemImage: "menubar.rectangle")
                     }
                     NavigationLink(value: ScreenDestination.boxTreePattern) {
-                        Label("BoxTreePattern", systemImage: "list.tree")
+                        Label("BoxTreePattern", systemImage: "list.bullet.indent")
                     }
                 }
 
