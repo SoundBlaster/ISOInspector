@@ -92,7 +92,7 @@ final class ToolbarPatternTests: XCTestCase {
         XCTAssertEqual(item.iconSystemName, "star")
         XCTAssertEqual(item.title, "Test")
         XCTAssertNil(item.shortcut, "Shortcut should be nil by default")
-        XCTAssertNil(item.action, "Action should be nil by default")
+        // Note: action always exists (defaults to {}), so we can't test for nil
     }
 
     func testToolbarItemWithAction() {
@@ -106,7 +106,7 @@ final class ToolbarPatternTests: XCTestCase {
         )
 
         // When
-        item.action?()
+        item.action()
 
         // Then
         XCTAssertTrue(actionCalled, "Action should be executed when called")
