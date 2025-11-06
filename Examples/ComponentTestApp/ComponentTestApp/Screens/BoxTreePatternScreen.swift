@@ -36,6 +36,16 @@ struct BoxTreePatternScreen: View {
         treeItems.reduce(0) { $0 + 1 + $1.descendantCount }
     }
 
+    /// Sample data node count
+    private var sampleDataNodeCount: Int {
+        MockISOBox.sampleISOHierarchy().reduce(0) { $0 + 1 + $1.descendantCount }
+    }
+
+    /// Large dataset node count
+    private var largeDataNodeCount: Int {
+        MockISOBox.largeDataset().reduce(0) { $0 + 1 + $1.descendantCount }
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             // Controls Section
@@ -50,9 +60,9 @@ struct BoxTreePatternScreen: View {
                             .foregroundStyle(.secondary)
 
                         Picker("Data Source", selection: $useRealData) {
-                            Text("ISO Sample (\(MockISOBox.sampleISOHierarchy().reduce(0) { $0 + 1 + $1.descendantCount }) nodes)")
+                            Text("ISO Sample (\(sampleDataNodeCount) nodes)")
                                 .tag(true)
-                            Text("Large Dataset (\(MockISOBox.largeDataset().reduce(0) { $0 + 1 + $1.descendantCount }) nodes)")
+                            Text("Large Dataset (\(largeDataNodeCount) nodes)")
                                 .tag(false)
                         }
                         .pickerStyle(.segmented)
