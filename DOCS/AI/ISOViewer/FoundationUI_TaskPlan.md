@@ -900,15 +900,16 @@
   - Review process for intentional changes
 
 #### Accessibility Testing
-**Progress: 0/3 tasks**
+**Progress: 0/3 tasks → IN PROGRESS**
 
-- [ ] **P0** Accessibility audit (≥95% score)
+- [ ] **P0** Accessibility audit (≥95% score) → **IN PROGRESS**
   - Install AccessibilitySnapshot framework
   - Automated contrast ratio testing (≥4.5:1)
   - VoiceOver label and hint validation
   - Keyboard navigation testing
   - Focus order verification
   - Touch target size validation (≥44×44 pt)
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase5.2_AccessibilityAudit.md`
 
 - [ ] **P0** Manual accessibility testing
   - Manual VoiceOver testing on iOS
