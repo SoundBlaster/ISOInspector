@@ -58,7 +58,7 @@ swift --version
 
 If Swift is installed, you should see output like:
 
-```
+```bash
 Swift version 6.0.x (swift-6.0-RELEASE)
 Target: x86_64-unknown-linux-gnu
 ```
@@ -182,7 +182,7 @@ For each task, follow strict TDD workflow:
 
 Implement components in strict layer order:
 
-```
+```plaintext
 Layer 0: Design Tokens (DS namespace)
    ↓
 Layer 1: View Modifiers (.badgeChipStyle, .cardStyle, etc.)
@@ -228,7 +228,7 @@ Follow git best practices:
 - **Atomic commits**: One task = one commit
 - **Descriptive messages**: Reference task number and what was achieved
 
-  ```
+  ```plaintext
   Add BadgeChipStyle modifier with all variants (#2.1)
 
   - Implements info, warning, error, success levels
@@ -245,7 +245,7 @@ Follow git best practices:
 
 ### File Organization
 
-```
+```bash
 Sources/FoundationUI/
 ├── DesignTokens/
 │   ├── DesignSystem.swift       # DS namespace enum
@@ -305,7 +305,7 @@ At the end of a work session:
 
 ## 🧠 EXAMPLE WORKFLOW
 
-**Starting Phase 2.1: BadgeChipStyle Modifier**
+### Starting Phase 2.1: BadgeChipStyle Modifier
 
 1. Read task from [Task Plan Phase 2.1](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md#21-layer-1-view-modifiers-atoms)
 2. Create `Tests/FoundationUITests/ModifiersTests/BadgeChipStyleTests.swift`:

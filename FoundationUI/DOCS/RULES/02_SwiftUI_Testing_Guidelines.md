@@ -1,9 +1,9 @@
 # SwiftUI Testing Guidelines for FoundationUI
 
-**Version:** 1.0  
-**Last Updated:** 2025-11-03  
-**Swift Version:** 6.0+  
-**Minimum Deployment:** iOS 17.0+  
+**Version:** 1.0
+**Last Updated:** 2025-11-03
+**Swift Version:** 6.0+
+**Minimum Deployment:** iOS 17.0+
 **Parent Document:** [ISOInspector SwiftUI Testing Guidelines](../../../DOCS/RULES/11_SwiftUI_Testing.md)
 
 ## Table of Contents
@@ -28,7 +28,7 @@
 This document adapts the ISOInspector SwiftUI testing guidelines specifically for the FoundationUI package. FoundationUI is a layered design system implementation focusing on:
 
 - Design System tokens (Layer 1)
-- Composable components (Layer 2)  
+- Composable components (Layer 2)
 - High-level patterns (Layer 3)
 - Context management (accessibility, platform adaptation)
 
@@ -150,7 +150,7 @@ func testTypography_AllStylesDefined() {
 // ✅ Test Badge levels
 func testBadge_AllLevels() {
     let levels: [Badge.Level] = [.info, .success, .warning, .error]
-    
+
     for level in levels {
         let badge = Badge(text: "Test", level: level)
         XCTAssertEqual(badge.level, level)
@@ -160,7 +160,7 @@ func testBadge_AllLevels() {
 // ✅ Test Card elevation
 func testCard_ElevationValues() {
     let elevations: [Card.Elevation] = [.low, .medium, .high]
-    
+
     for elevation in elevations {
         // If Card exposes elevation property
         XCTAssertTrue(elevations.contains(elevation))
@@ -194,10 +194,10 @@ func testBoxTreePattern_ExpandedNodesBinding() {
         let id = UUID()
         let children: [TreeNode] = []
     }
-    
+
     let nodes = [TreeNode()]
     var expandedNodes: Set<UUID> = []
-    
+
     // Test that pattern can be created with binding
     let pattern = BoxTreePattern(
         data: nodes,
@@ -206,7 +206,7 @@ func testBoxTreePattern_ExpandedNodesBinding() {
     ) { node in
         Text("Node")
     }
-    
+
     XCTAssertNotNil(pattern)
 }
 
@@ -217,7 +217,7 @@ func testSidebarPattern_SectionItem() {
         title: "Test Item",
         iconSystemName: "star"
     )
-    
+
     XCTAssertEqual(item.title, "Test Item")
     XCTAssertEqual(item.iconSystemName, "star")
 }
@@ -230,7 +230,7 @@ func testToolbarPattern_ItemInitializer() {
         title: "Test Action",
         action: {}
     )
-    
+
     XCTAssertEqual(item.id, "test")
     XCTAssertEqual(item.iconSystemName, "star.fill")
     XCTAssertEqual(item.title, "Test Action")
@@ -243,7 +243,7 @@ func testToolbarPattern_LayoutResolver() {
         platform: .iOS,
         prefersLargeContent: false
     )
-    
+
     let layout = ToolbarPattern.LayoutResolver.layout(for: compactTraits)
     XCTAssertEqual(layout, .compact)
 }
@@ -424,7 +424,7 @@ func testBoxTreePattern_ItemStructure() {
         let id = UUID()
         let children: [Node]
     }
-    
+
     let node = Node(children: [])
     XCTAssertTrue(node.children.isEmpty)
 }
@@ -555,7 +555,7 @@ func testData_Something() { /* ... */ }
 // ✅ Test all badge levels
 func testBadge_AllLevels() {
     let levels: [Badge.Level] = [.info, .success, .warning, .error]
-    
+
     for level in levels {
         let badge = Badge(text: "Test", level: level)
         XCTAssertEqual(badge.level, level)
@@ -565,7 +565,7 @@ func testBadge_AllLevels() {
 // ✅ Test all surface styles
 func testSurfaceStyle_AllCases() {
     let styles: [SurfaceStyle] = [.thin, .regular, .thick, .ultra]
-    
+
     for style in styles {
         var env = EnvironmentValues()
         env.surfaceStyle = style
@@ -606,7 +606,7 @@ func testSpacing_LogicalProgression() {
         DS.Spacing.l,
         DS.Spacing.xl
     ]
-    
+
     // Verify each spacing is larger than the previous
     for i in 0..<(allSpacing.count - 1) {
         XCTAssertLessThan(allSpacing[i], allSpacing[i + 1],
@@ -657,7 +657,7 @@ func testComponents_UseOnlySpacingTokens() {
         DS.Spacing.l,
         DS.Spacing.xl
     ]
-    
+
     // If components expose spacing properties, verify they use tokens
     XCTAssertFalse(validSpacing.isEmpty)
 }
@@ -665,7 +665,7 @@ func testComponents_UseOnlySpacingTokens() {
 // ✅ Test token value ranges
 func testSpacing_ReasonableRange() {
     let spacing = [DS.Spacing.s, DS.Spacing.m, DS.Spacing.l, DS.Spacing.xl]
-    
+
     for value in spacing {
         XCTAssertGreaterThan(value, 0, "Spacing must be positive")
         XCTAssertLessThan(value, 100, "Spacing should be reasonable (<100pt)")
@@ -679,7 +679,7 @@ func testOpacity_ValidRange() {
         DS.Opacity.medium,
         DS.Opacity.strong
     ]
-    
+
     for opacity in opacities {
         XCTAssertGreaterThanOrEqual(opacity, 0.0)
         XCTAssertLessThanOrEqual(opacity, 1.0)
@@ -693,7 +693,7 @@ func testOpacity_ValidRange() {
 
 ### File Structure for FoundationUI
 
-```
+```bash
 Tests/FoundationUITests/
 ├── DesignSystemTests/
 │   ├── ColorTokenTests.swift
@@ -853,7 +853,7 @@ Before marking FoundationUI tests as complete:
 
 ---
 
-**Document Owner:** FoundationUI Team  
-**Review Cycle:** Quarterly  
-**Next Review:** 2025-02-03  
+**Document Owner:** FoundationUI Team
+**Review Cycle:** Quarterly
+**Next Review:** 2025-02-03
 **Status:** Active guideline for all FoundationUI testing

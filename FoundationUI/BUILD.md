@@ -62,7 +62,7 @@ swiftlint version  # Should show latest version
 
 ## Project Structure
 
-```
+```bash
 FoundationUI/
 ├── Package.swift                    # SPM configuration
 ├── Sources/

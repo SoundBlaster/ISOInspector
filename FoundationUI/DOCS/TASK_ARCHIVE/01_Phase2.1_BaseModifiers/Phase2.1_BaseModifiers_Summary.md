@@ -288,7 +288,8 @@ Total: 20 comprehensive previews demonstrating real-world usage
 6. **Single Responsibility**: Each modifier has one clear purpose
 
 ### Code Organization
-```
+
+```bash
 FoundationUI/
 ├── Sources/FoundationUI/Modifiers/
 │   ├── BadgeChipStyle.swift      (269 lines)

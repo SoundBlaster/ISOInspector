@@ -47,7 +47,7 @@ Configured comprehensive unit test infrastructure for FoundationUI Swift Package
 
 ## Test Structure
 
-```
+```bash
 FoundationUI/Tests/
 ├── FoundationUITests/              # 53 unit test files
 │   ├── AccessibilityTests/

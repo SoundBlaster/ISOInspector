@@ -1,9 +1,11 @@
 # Enhanced Demo App (ComponentTestApp Evolution)
 
 ## 🎯 Objective
+
 Expand existing ComponentTestApp to showcase all FoundationUI components, patterns, and utilities in a full-featured ISO Inspector demo application. This will enable visual validation, UI testing, and real-world usage demonstration.
 
 ## 🧩 Context
+
 - **Phase**: 5.4 Enhanced Demo App (Reprioritized from Phase 6.1)
 - **Priority**: P0 → **MOVED UP** (was P1, now critical for testing workflows)
 - **Dependencies**:
@@ -13,6 +15,7 @@ Expand existing ComponentTestApp to showcase all FoundationUI components, patter
   - ✅ All patterns implemented (InspectorPattern, SidebarPattern, ToolbarPattern, BoxTreePattern)
 
 ## ✅ Success Criteria
+
 - [ ] All Layer 3 patterns showcased with interactive demos
 - [ ] ISO Inspector mockup screen combining all patterns
 - [ ] Sample ISO box data structure for realistic testing
@@ -30,7 +33,8 @@ Expand existing ComponentTestApp to showcase all FoundationUI components, patter
 ### Current State Analysis
 
 **Existing ComponentTestApp Structure** (Phase 2.3):
-```
+
+```bash
 Examples/ComponentTestApp/
 ├── ComponentTestApp.swift (App entry point)
 ├── ContentView.swift (Navigation root)
@@ -44,6 +48,7 @@ Examples/ComponentTestApp/
 ```
 
 **What's Missing**:
+
 - ❌ Pattern showcase screens (Layer 3)
 - ❌ Utility showcase screens
 - ❌ ISO Inspector mockup (real-world integration)
@@ -54,9 +59,11 @@ Examples/ComponentTestApp/
 ### Phase 1: Add Pattern Showcase Screens (8 hours)
 
 #### 1.1 InspectorPattern Screen (2h)
+
 **File**: `Screens/InspectorPatternScreen.swift`
 
 **Features**:
+
 - Scrollable inspector with multiple sections
 - Section headers with dividers
 - KeyValueRow items with copyable text
@@ -66,6 +73,7 @@ Examples/ComponentTestApp/
 - Sample ISO box metadata display
 
 **Sample Data**:
+
 ```swift
 struct ISOBoxMetadata {
     let boxType: String
@@ -77,9 +85,11 @@ struct ISOBoxMetadata {
 ```
 
 #### 1.2 SidebarPattern Screen (2h)
+
 **File**: `Screens/SidebarPatternScreen.swift`
 
 **Features**:
+
 - NavigationSplitView with sidebar
 - Multiple sections (Atoms, Molecules, Organisms)
 - Selection state management
@@ -89,9 +99,11 @@ struct ISOBoxMetadata {
 - Sample component library navigation
 
 #### 1.3 ToolbarPattern Screen (2h)
+
 **File**: `Screens/ToolbarPatternScreen.swift`
 
 **Features**:
+
 - Platform-adaptive toolbar items
 - Icon + label buttons
 - Keyboard shortcuts (⌘C, ⌘V, ⌘S, etc.)
@@ -101,9 +113,11 @@ struct ISOBoxMetadata {
 - Inspector-specific tools (copy, export, refresh)
 
 #### 1.4 BoxTreePattern Screen (2h)
+
 **File**: `Screens/BoxTreePatternScreen.swift`
 
 **Features**:
+
 - Hierarchical tree view for ISO box structure
 - Expand/collapse nodes with animations
 - Single and multi-select modes
@@ -116,9 +130,11 @@ struct ISOBoxMetadata {
 ### Phase 2: Create ISO Inspector Mockup (4 hours)
 
 #### 2.1 ISO Inspector Demo Screen (4h)
+
 **File**: `Screens/ISOInspectorDemoScreen.swift`
 
 **Features**:
+
 - **Three-column layout** (macOS) / Adaptive (iOS/iPad):
   1. Sidebar: File list + navigation
   2. Tree: BoxTreePattern showing ISO structure
@@ -146,9 +162,11 @@ struct ISOBoxMetadata {
 ### Phase 3: Utility Showcase Screens (2 hours)
 
 #### 3.1 Utilities Screen (2h)
+
 **File**: `Screens/UtilitiesScreen.swift`
 
 **Features**:
+
 - **CopyableText Demo**:
   - Various text examples (hex, JSON, file paths)
   - Platform-specific clipboard feedback
@@ -176,9 +194,11 @@ struct ISOBoxMetadata {
 ### Phase 4: Testing & Validation Screens (2 hours)
 
 #### 4.1 Accessibility Testing Screen (1h)
+
 **File**: `Screens/AccessibilityTestingScreen.swift`
 
 **Features**:
+
 - Live contrast ratio checker
 - Touch target validator (interactive)
 - VoiceOver label previews
@@ -189,9 +209,11 @@ struct ISOBoxMetadata {
 - WCAG 2.1 compliance checklist
 
 #### 4.2 Performance Monitoring Screen (1h)
+
 **File**: `Screens/PerformanceMonitoringScreen.swift`
 
 **Features**:
+
 - Render time measurements
 - Memory usage display
 - FPS counter
@@ -203,12 +225,15 @@ struct ISOBoxMetadata {
 ### Phase 5: Sample Data Models (2 hours)
 
 #### 5.1 Mock ISO Data (2h)
+
 **Files**:
+
 - `Models/MockISOBox.swift`
 - `Models/MockISOFile.swift`
 - `Data/SampleISOHierarchy.swift`
 
 **Data Structure**:
+
 ```swift
 struct MockISOBox: Identifiable, Hashable {
     let id: UUID
@@ -229,6 +254,7 @@ struct MockISOFile {
 ```
 
 **Sample Data**:
+
 - Realistic ISO/MP4 box hierarchy
 - 50-100 boxes with nested structure
 - Metadata for each box type
@@ -237,6 +263,7 @@ struct MockISOFile {
 ### Phase 6: UI Enhancements (2 hours)
 
 #### 6.1 Navigation Improvements (1h)
+
 - Update ContentView.swift with new sections:
   - **Patterns** section: Inspector, Sidebar, Toolbar, BoxTree
   - **Utilities** section: CopyableText, Keyboard Shortcuts, Accessibility
@@ -248,6 +275,7 @@ struct MockISOFile {
 - Add "What's New" section
 
 #### 6.2 Platform-Specific Features (1h)
+
 - **macOS**:
   - Window size persistence
   - Menu bar integration (File, Edit, View, Window)
@@ -262,6 +290,7 @@ struct MockISOFile {
   - Context menus on long press
 
 ## 🧠 Source References
+
 - [FoundationUI Task Plan § Phase 6.1](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md#61-example-projects)
 - [FoundationUI PRD § Demo Requirements](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md)
 - [Existing ComponentTestApp](../../../Examples/ComponentTestApp/)
@@ -273,6 +302,7 @@ struct MockISOFile {
 ## 📋 Detailed Checklist
 
 ### Phase 1: Pattern Showcase Screens
+
 - [ ] Create InspectorPatternScreen.swift (2h)
   - [ ] Basic inspector layout with sections
   - [ ] Material background selector
@@ -296,6 +326,7 @@ struct MockISOFile {
   - [ ] Performance metrics
 
 ### Phase 2: ISO Inspector Mockup
+
 - [ ] Create ISOInspectorDemoScreen.swift (4h)
   - [ ] Three-column layout (Sidebar + Tree + Inspector)
   - [ ] Toolbar integration
@@ -305,6 +336,7 @@ struct MockISOFile {
   - [ ] Dark mode support
 
 ### Phase 3: Utility Showcase
+
 - [ ] Create UtilitiesScreen.swift (2h)
   - [ ] CopyableText demos
   - [ ] Copyable wrapper examples
@@ -312,6 +344,7 @@ struct MockISOFile {
   - [ ] AccessibilityHelpers demos
 
 ### Phase 4: Testing Screens
+
 - [ ] Create AccessibilityTestingScreen.swift (1h)
   - [ ] Contrast ratio checker
   - [ ] Touch target validator
@@ -324,6 +357,7 @@ struct MockISOFile {
   - [ ] Stress tests
 
 ### Phase 5: Sample Data
+
 - [ ] Create MockISOBox model (1h)
 - [ ] Create SampleISOHierarchy data (1h)
   - [ ] Realistic ISO/MP4 structure
@@ -331,6 +365,7 @@ struct MockISOFile {
   - [ ] Large dataset variant (1000+)
 
 ### Phase 6: UI Enhancements
+
 - [ ] Update ContentView navigation (1h)
   - [ ] Add Patterns section
   - [ ] Add Utilities section
@@ -343,6 +378,7 @@ struct MockISOFile {
   - [ ] Drag & drop
 
 ### Documentation & Polish
+
 - [ ] Update ComponentTestApp README.md
 - [ ] Add screenshots of all new screens
 - [ ] Document sample ISO data structure
@@ -356,6 +392,7 @@ struct MockISOFile {
 ## 🎯 Benefits for Testing Workflows
 
 ### Enables Accessibility Testing
+
 - Visual validation of WCAG compliance
 - Live contrast ratio checking
 - VoiceOver label testing
@@ -363,6 +400,7 @@ struct MockISOFile {
 - Reduce Motion testing
 
 ### Enables UI Testing
+
 - Real-world test scenarios
 - Component composition testing
 - Navigation flow testing
@@ -370,6 +408,7 @@ struct MockISOFile {
 - Integration testing environment
 
 ### Enables Manual Testing
+
 - Visual regression testing
 - User experience validation
 - Performance testing with real data
@@ -377,6 +416,7 @@ struct MockISOFile {
 - Cross-platform comparison
 
 ### Enables Documentation
+
 - Screenshots for docs
 - Video recordings for tutorials
 - Code examples from working demo
@@ -395,6 +435,7 @@ struct MockISOFile {
 | **Total** | **11 new screens + data** | **20 hours** |
 
 ## 🔄 Next Steps After Completion
+
 1. Use demo app for Accessibility Testing validation
 2. Write UI tests based on demo app screens
 3. Create video walkthrough for documentation
@@ -402,6 +443,7 @@ struct MockISOFile {
 5. Showcase in presentations/demos
 
 ## 📝 Notes
+
 - Build on existing ComponentTestApp (don't start from scratch)
 - Maintain consistency with Phase 2.3 design patterns
 - Use 100% DS tokens (zero magic numbers)

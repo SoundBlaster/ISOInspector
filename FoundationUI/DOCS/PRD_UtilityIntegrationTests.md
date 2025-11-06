@@ -82,7 +82,7 @@ This is a critical quality gate ensuring that utilities are production-ready and
 
 Create comprehensive integration test suite organized by utility and integration scenario:
 
-```
+```bash
 Tests/FoundationUITests/IntegrationTests/
 ├── UtilityIntegrationTests/
 │   ├── CopyableTextIntegrationTests.swift

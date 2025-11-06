@@ -33,7 +33,7 @@ Create comprehensive DocC documentation for all FoundationUI components, ensurin
 
 ### Documentation Structure
 
-```
+```bash
 FoundationUI/Sources/FoundationUI/Documentation.docc/
 ├── FoundationUI.md                          # 9.5KB - Landing page
 ├── Articles/

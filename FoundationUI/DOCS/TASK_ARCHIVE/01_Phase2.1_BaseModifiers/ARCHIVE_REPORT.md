@@ -46,7 +46,8 @@ Successfully archived completed work from FoundationUI Phase 2.1 (Layer 1: View 
 ```
 
 **Source Code** (preserved in repository):
-```
+
+```bash
 FoundationUI/Sources/FoundationUI/Modifiers/
 ├── BadgeChipStyle.swift
 ├── CardStyle.swift

@@ -1,8 +1,8 @@
 # SwiftUI Previews Guidelines for FoundationUI
 
-**Version:** 1.0  
-**Last Updated:** 2025-11-03  
-**Swift Version:** 6.0+  
+**Version:** 1.0
+**Last Updated:** 2025-11-03
+**Swift Version:** 6.0+
 **Minimum Deployment:** iOS 17.0+
 
 ## Table of Contents
@@ -79,7 +79,7 @@ This guideline applies to:
 
 ### Modern Preview Macro (Swift 6.0+)
 
-**✅ CORRECT: Use `#Preview` macro**
+#### ✅ CORRECT: Use `#Preview` macro
 
 ```swift
 #Preview("Default State") {
@@ -87,7 +87,7 @@ This guideline applies to:
 }
 ```
 
-**❌ INCORRECT: Don't use legacy PreviewProvider**
+#### ❌ INCORRECT: Don't use legacy PreviewProvider
 
 ```swift
 // Don't use this pattern in new code
@@ -135,7 +135,7 @@ struct Badge_Previews: PreviewProvider {
 #Preview("Interactive Tree") {
     @Previewable @State var expandedNodes: Set<UUID> = []
     @Previewable @State var selection: UUID? = nil
-    
+
     return BoxTreePattern(
         data: sampleNodes,
         children: { $0.children },
@@ -154,7 +154,7 @@ struct Badge_Previews: PreviewProvider {
     // Missing @Previewable - will cause compiler warnings
     @State var expandedNodes: Set<UUID> = []
     @State var selection: UUID? = nil
-    
+
     return BoxTreePattern(...)
 }
 ```
@@ -172,19 +172,19 @@ All of these require `@Previewable` when used inline in previews:
 
 ### Creating Test Bindings
 
-**Pattern 1: Using @Previewable @State**
+#### Pattern 1: Using @Previewable @State
 
 ```swift
 #Preview("With Binding") {
     @Previewable @State var isExpanded = false
-    
+
     DisclosureGroup("Details", isExpanded: $isExpanded) {
         Text("Content")
     }
 }
 ```
 
-**Pattern 2: Using .constant() for Read-Only**
+#### Pattern 2: Using .constant() for Read-Only
 
 ```swift
 #Preview("Constant Binding") {
@@ -203,7 +203,7 @@ For complex state management, use a container view:
         @State private var items: [Item] = sampleItems
         @State private var selection: Item.ID? = nil
         @State private var isEditing = false
-        
+
         var body: some View {
             ComplexComponent(
                 items: $items,
@@ -212,7 +212,7 @@ For complex state management, use a container view:
             )
         }
     }
-    
+
     return PreviewContainer()
 }
 ```
@@ -362,9 +362,9 @@ This separator:
             TreeNode(id: UUID(), title: "Child 2", children: [])
         ])
     ]
-    
+
     @Previewable @State var expanded: Set<UUID> = []
-    
+
     return BoxTreePattern(
         data: sampleNodes,
         children: { $0.children },
@@ -442,7 +442,7 @@ This separator:
 ```swift
 #Preview("Sidebar") {
     let items = [SidebarPattern<Int, Text>.Item(...)]  // Type mismatch
-    
+
     SidebarPattern<Int, AnyView>(sections: [.init(items: items)]) { id in
         if let id { AnyView(Text("Item \(id)")) }
         else { AnyView(Text("None")) }
@@ -456,7 +456,7 @@ This separator:
 #Preview("Sidebar") {
     // Ensure Item type matches Pattern type
     let items = [SidebarPattern<Int, AnyView>.Item(...)]
-    
+
     SidebarPattern<Int, AnyView>(sections: [.init(items: items)]) { id in
         AnyView(
             Group {
@@ -509,7 +509,7 @@ This separator:
 ```swift
 #Preview("Example") {
     @Previewable @State var value = false
-    
+
     return Toggle("Option", isOn: $value)  // Explicit return for clarity
 }
 ```
@@ -560,14 +560,14 @@ This separator:
 
 #Preview("Basic Tree") {
     @Previewable @State var expandedNodes: Set<UUID> = []
-    
+
     let sampleData = [
         TreeNode(id: UUID(), title: "Parent", children: [
             TreeNode(id: UUID(), title: "Child 1", children: []),
             TreeNode(id: UUID(), title: "Child 2", children: [])
         ])
     ]
-    
+
     return BoxTreePattern(
         data: sampleData,
         children: { $0.children },
@@ -580,7 +580,7 @@ This separator:
 #Preview("Tree with Selection") {
     @Previewable @State var expandedNodes: Set<UUID> = []
     @Previewable @State var selection: UUID? = nil
-    
+
     return BoxTreePattern(
         data: generateSampleTree(depth: 3),
         children: { $0.children },
@@ -600,7 +600,7 @@ This separator:
 #Preview("ISO Inspector Workflow") {
     struct PreviewContainer: View {
         @State private var selection: String? = "overview"
-        
+
         private let sections: [SidebarPattern<String, AnyView>.Section] = [
             .init(
                 title: "File Analysis",
@@ -610,7 +610,7 @@ This separator:
                 ]
             )
         ]
-        
+
         var body: some View {
             SidebarPattern(
                 sections: sections,
@@ -636,7 +636,7 @@ This separator:
             }
         }
     }
-    
+
     return PreviewContainer()
         .frame(minWidth: 800, minHeight: 600)
 }
@@ -732,6 +732,6 @@ Use this checklist when adding or reviewing previews:
 
 ---
 
-**Document Owner:** FoundationUI Team  
-**Review Cycle:** Quarterly  
+**Document Owner:** FoundationUI Team
+**Review Cycle:** Quarterly
 **Next Review:** 2025-02-03

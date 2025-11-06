@@ -18,6 +18,7 @@
 | **macOS** | 69.61% | ≥67% | ✅ Pass |
 
 **Why 67%?**
+
 - Based on actual CI measurements (not estimated)
 - Prevents regression while planning improvement
 - Realistic baseline for incremental progress
@@ -30,16 +31,19 @@
 ## 📚 Key Documents
 
 ### Active Development
+
 - **[next_tasks.md](INPROGRESS/next_tasks.md)** - Current tasks and priorities
 - **[CoverageReport_2025-11-06.md](INPROGRESS/CoverageReport_2025-11-06.md)** - Latest coverage analysis
 - **[Phase5.2_ComprehensiveUnitTestCoverage.md](INPROGRESS/Phase5.2_ComprehensiveUnitTestCoverage.md)** - Coverage improvement plan
 
 ### CI/CD & Quality
+
 - **[CI_COVERAGE_SETUP.md](CI_COVERAGE_SETUP.md)** - Coverage quality gate configuration
 - **[02_SwiftUI_Testing_Guidelines.md](RULES/02_SwiftUI_Testing_Guidelines.md)** - Testing standards
 - **[01_SwiftUI_Previews_Guidelines.md](RULES/01_SwiftUI_Previews_Guidelines.md)** - Preview standards
 
 ### Commands
+
 - **[SELECT_NEXT.md](COMMANDS/SELECT_NEXT.md)** - Task selection workflow
 - **[STATE.md](COMMANDS/STATE.md)** - Project state reporting
 - **[START.md](COMMANDS/START.md)** - Task initialization
@@ -53,15 +57,18 @@
 **Goal**: Improve test coverage and quality standards
 
 ### Completed ✅
+
 - ✅ Unit test infrastructure
 - ✅ Coverage analysis tooling
 - ✅ CI coverage workflow (67% baseline)
 - ✅ Comprehensive pattern tests (97 new tests added)
 
 ### In Progress 🔄
+
 - 🔄 Coverage improvement to 80% target (separate task on macOS)
 
 ### Planned 📋
+
 - 📋 Accessibility audit (≥95% score)
 - 📋 Performance profiling with Instruments
 - 📋 SwiftLint compliance (0 violations)
@@ -84,12 +91,14 @@
 ## 🛠️ Quick Links
 
 ### For Developers
+
 - 🧪 Run tests: `swift test --parallel` (SPM) or `xcodebuild test` (Xcode)
 - 📊 Check coverage: See [CI_COVERAGE_SETUP.md](CI_COVERAGE_SETUP.md)
 - 📝 Write tests: Follow [02_SwiftUI_Testing_Guidelines.md](RULES/02_SwiftUI_Testing_Guidelines.md)
 - 🔍 Review code: Use [SwiftLint](.swiftlint.yml) configuration
 
 ### For Maintainers
+
 - 📈 View progress: Check [FoundationUI_TaskPlan.md](../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md)
 - 🗂️ Archive tasks: Use [ARCHIVE.md](COMMANDS/ARCHIVE.md) workflow
 - 🆕 Create tasks: Use [NEW.md](COMMANDS/NEW.md) workflow
@@ -99,7 +108,7 @@
 
 ## 🏗️ Architecture Layers
 
-```
+```plaintext
 ┌─────────────────────────────────────────┐
 │  Layer 4: Patterns (macOS/iOS-specific) │  ← 59% coverage
 │  InspectorPattern, SidebarPattern, etc.  │

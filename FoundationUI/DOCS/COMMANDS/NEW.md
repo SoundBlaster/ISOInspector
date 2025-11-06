@@ -150,8 +150,6 @@ Create a detailed specification:
 - [ ] Accessibility requirements met
 - [ ] Test coverage ≥80%
 
-```
-
 ### Step 4. Identify Prerequisite Tasks
 
 If the new feature depends on missing components:
@@ -161,6 +159,7 @@ If the new feature depends on missing components:
 3. Order tasks by layer (lower layers first)
 
 **Example**: To add `Tooltip` component (Layer 2):
+
 - Prerequisite 1: Add `DS.Colors.tooltipBG` token (Layer 0)
 - Prerequisite 2: Add `DS.Animation.fadeIn` token (Layer 0)
 - Prerequisite 3: Add `.tooltipStyle()` modifier (Layer 1)
@@ -175,8 +174,8 @@ Insert new tasks into [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/Founda
    - Phase 2 for Modifiers/Components
    - Phase 3 for Patterns/Contexts
    - Phase 4 for advanced features
-
 2. **Add tasks in layer order**:
+
    ```markdown
    ### {Phase}.{Section} {Layer Name}
    **Progress: {current}/{total+new} tasks**
@@ -216,8 +215,6 @@ Add feature specification to [FoundationUI PRD](../../../DOCS/AI/ISOViewer/Found
 
    **Success Criteria**:
    - {List of measurable requirements}
-
-   ```
 
 ### Step 7. Update Test Plan
 
