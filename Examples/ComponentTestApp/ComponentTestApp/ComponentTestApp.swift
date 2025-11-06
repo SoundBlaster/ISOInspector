@@ -12,26 +12,29 @@
 /// - Live preview of component variations
 /// - Code snippet export capability
 
-import SwiftUI
 import FoundationUI
+import SwiftUI
+
+/// Theme preference options (must match ContentView definition)
+enum ThemePreference: Int {
+    case system = 0
+    case light = 1
+    case dark = 2
+}
 
 @main
 struct ComponentTestApp: App {
-    /// Current color scheme preference (Light/Dark mode)
-    @State private var colorScheme: ColorScheme = .light
-
     /// Current Dynamic Type size category
     @State private var sizeCategory: DynamicTypeSize = .medium
 
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .preferredColorScheme(colorScheme)
                 .dynamicTypeSize(sizeCategory)
         }
         #if os(macOS)
-        .windowStyle(.automatic)
-        .windowToolbarStyle(.unified)
+            .windowStyle(.automatic)
+            .windowToolbarStyle(.unified)
         #endif
     }
 }

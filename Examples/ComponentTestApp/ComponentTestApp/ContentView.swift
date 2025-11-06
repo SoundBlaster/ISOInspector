@@ -8,8 +8,8 @@
 /// - View Modifiers: Interactive examples of style modifiers
 /// - Components: Individual component showcases (Badge, Card, KeyValueRow, SectionHeader)
 
-import SwiftUI
 import FoundationUI
+import SwiftUI
 
 /// Navigation destination for component screens
 enum ScreenDestination: Hashable, Identifiable {
@@ -54,10 +54,34 @@ enum ScreenDestination: Hashable, Identifiable {
 
 struct ContentView: View {
     /// Current color scheme preference
-    @AppStorage("colorScheme") private var isDarkMode = false
+    @AppStorage("themePreference") private var themePreference: ThemePreference = .system
+
+    /// System color scheme (for detecting actual system appearance)
+    @Environment(\.colorScheme) private var systemColorScheme
 
     /// Current Dynamic Type size
     @State private var dynamicTypeSize: DynamicTypeSize = .medium
+
+    /// Computed color scheme based on preference
+    private var effectiveColorScheme: ColorScheme? {
+        switch themePreference {
+        case .system: return nil
+        case .light: return .light
+        case .dark: return .dark
+        }
+    }
+
+    /// ID for forcing view refresh - includes system theme when in system mode
+    private var viewID: String {
+        switch themePreference {
+        case .system:
+            return "system-\(systemColorScheme == .dark ? "dark" : "light")"
+        case .light:
+            return "light"
+        case .dark:
+            return "dark"
+        }
+    }
 
     var body: some View {
         NavigationStack {
@@ -106,12 +130,16 @@ struct ContentView: View {
 
                 // App Controls
                 Section("Controls") {
-                    // Theme Toggle
-                    HStack {
-                        Label("Dark Mode", systemImage: "moon.fill")
-                        Spacer()
-                        Toggle("", isOn: $isDarkMode)
-                            .labelsHidden()
+                    // Theme Picker
+                    Picker(selection: $themePreference) {
+                        Label("System", systemImage: "circle.lefthalf.filled")
+                            .tag(ThemePreference.system)
+                        Label("Light", systemImage: "sun.max.fill")
+                            .tag(ThemePreference.light)
+                        Label("Dark", systemImage: "moon.fill")
+                            .tag(ThemePreference.dark)
+                    } label: {
+                        Label("Theme", systemImage: "paintbrush.fill")
                     }
 
                     // Dynamic Type Size Indicator
@@ -127,8 +155,9 @@ struct ContentView: View {
             .navigationDestination(for: ScreenDestination.self) { destination in
                 destinationView(for: destination)
             }
-            .preferredColorScheme(isDarkMode ? .dark : .light)
+            .preferredColorScheme(effectiveColorScheme)
         }
+        .id(viewID)
     }
 
     /// Returns the appropriate view for the given destination
