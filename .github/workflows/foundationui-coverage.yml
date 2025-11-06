@@ -1,0 +1,451 @@
+name: FoundationUI Code Coverage
+
+on:
+  pull_request:
+    branches:
+      - main
+      - "**"
+    paths:
+      - 'FoundationUI/**/*.swift'
+      - 'FoundationUI/Package.swift'
+      - 'FoundationUI/Tests/**/*.swift'
+      - '.github/workflows/foundationui-coverage.yml'
+      - 'scripts/convert_coverage_to_cobertura.sh'
+  push:
+    branches:
+      - main
+    paths:
+      - 'FoundationUI/**/*.swift'
+      - 'FoundationUI/Package.swift'
+      - 'FoundationUI/Tests/**/*.swift'
+
+# Cancel in-progress runs for same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # SPM-based coverage (Linux-compatible unit tests only)
+  spm-coverage:
+    name: Coverage - SPM (Unit Tests)
+    runs-on: macos-15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode (latest stable)
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "latest-stable"
+
+      - name: Show versions
+        run: |
+          xcodebuild -version
+          swift --version
+
+      - name: Resolve dependencies
+        run: |
+          cd FoundationUI
+          swift package resolve
+
+      - name: Build with coverage
+        run: |
+          cd FoundationUI
+          swift build --enable-code-coverage
+
+      - name: Run tests with coverage
+        run: |
+          cd FoundationUI
+          swift test --enable-code-coverage \
+            --parallel \
+            --xunit-output test-results-spm.xml
+
+      - name: Generate coverage report
+        run: |
+          cd FoundationUI
+          # Get the binary path from swift build
+          BINARY_PATH=$(swift build --show-bin-path)
+
+          # Generate coverage JSON
+          xcrun llvm-cov export \
+            -format="lcov" \
+            -instr-profile="${BINARY_PATH}/codecov/default.profdata" \
+            "${BINARY_PATH}/FoundationUIPackageTests.xctest/Contents/MacOS/FoundationUIPackageTests" \
+            > coverage-spm.lcov
+
+          # Show coverage report
+          xcrun llvm-cov report \
+            -instr-profile="${BINARY_PATH}/codecov/default.profdata" \
+            "${BINARY_PATH}/FoundationUIPackageTests.xctest/Contents/MacOS/FoundationUIPackageTests"
+
+      - name: Upload SPM coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./FoundationUI/coverage-spm.lcov
+          flags: spm,unittests
+          name: spm-coverage
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-spm
+          path: FoundationUI/test-results-spm.xml
+          if-no-files-found: ignore
+
+  # Xcode-based coverage (comprehensive with snapshot tests)
+  xcode-coverage-macos:
+    name: Coverage - Xcode (macOS)
+    runs-on: macos-15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Determine Tuist CLI release
+        id: tuist-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TOKEN="${GITHUB_TOKEN:-}"
+          AUTH_HEADER=""
+          if [ -n "${TOKEN}" ]; then
+            AUTH_HEADER="Authorization: Bearer ${TOKEN}"
+          fi
+          RESPONSE=$(curl -fsSL \
+            --retry 5 \
+            --retry-delay 2 \
+            --retry-all-errors \
+            ${AUTH_HEADER:+-H "$AUTH_HEADER"} \
+            -H "Accept: application/vnd.github+json" \
+            -H "User-Agent: isoinspector-ci" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/tuist/tuist/releases?per_page=30")
+          TUIST_VERSION=$(jq -r '
+            (
+              [.[]
+                | select(((.name // "") | test("^CLI")) and ((.tag_name // "") != ""))
+                | .tag_name
+              ][0]
+            ) // empty
+          ' <<<"${RESPONSE}")
+          if [ -z "${TUIST_VERSION}" ]; then
+            TUIST_VERSION=$(jq -r '
+              (
+                [.[]
+                  | select(((.tag_name // "") != "") and (((.tag_name // "") | contains("@")) | not))
+                  | .tag_name
+                ][0]
+              ) // empty
+            ' <<<"${RESPONSE}")
+          fi
+          if [ -z "${TUIST_VERSION}" ]; then
+            echo "Failed to determine Tuist CLI release" >&2
+            exit 1
+          fi
+          echo "tuist_version=${TUIST_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Tuist binary
+        id: cache-tuist
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/tuist/${{ steps.tuist-version.outputs.tuist_version }}
+          key: ${{ runner.os }}-tuist-${{ steps.tuist-version.outputs.tuist_version }}
+
+      - name: Install Tuist
+        env:
+          TUIST_VERSION: ${{ steps.tuist-version.outputs.tuist_version }}
+        run: |
+          set -euo pipefail
+          INSTALL_DIR="${RUNNER_TEMP}/tuist/${TUIST_VERSION}"
+          mkdir -p "${INSTALL_DIR}"
+          if [ ! -x "${INSTALL_DIR}/tuist" ]; then
+            tmpdir=$(mktemp -d)
+            curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
+            unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
+            rsync -a "${tmpdir}/" "${INSTALL_DIR}/"
+            chmod +x "${INSTALL_DIR}/tuist"
+            rm -rf "${tmpdir}"
+          fi
+          echo "${INSTALL_DIR}" >> "$GITHUB_PATH"
+
+      - name: Show versions
+        run: |
+          tuist version
+          xcodebuild -version
+          swift --version
+
+      - name: Select Xcode (latest stable)
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "latest-stable"
+
+      - name: Install Tuist dependencies
+        run: tuist install
+
+      - name: Generate Xcode workspace
+        run: tuist generate --no-open
+
+      - name: Run tests with code coverage (macOS)
+        run: |
+          set -eo pipefail
+          xcodebuild test \
+            -workspace ISOInspector.xcworkspace \
+            -scheme FoundationUI \
+            -destination 'platform=macOS' \
+            -configuration Debug \
+            -enableCodeCoverage YES \
+            -derivedDataPath ./DerivedData \
+            -resultBundlePath ./TestResults-macOS.xcresult \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            | tee xcodebuild-test-macos.log \
+            | xcpretty --color --report html --output ./test-report-macos.html
+
+      - name: Generate Cobertura coverage report (macOS)
+        run: |
+          set -eo pipefail
+          bash scripts/convert_coverage_to_cobertura.sh \
+            -xcresult ./TestResults-macOS.xcresult \
+            -output coverage-macos.xml \
+            -v
+
+      - name: Upload coverage to Codecov (macOS)
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage-macos.xml
+          flags: xcode,macos,comprehensive
+          name: xcode-macos-coverage
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Check coverage threshold (macOS)
+        uses: insightsengineering/coverage-action@v3
+        with:
+          path: ./coverage-macos.xml
+          threshold: 80.0
+          fail: true
+          publish: true
+          diff: true
+          togglable-report: true
+
+      - name: Upload test results (macOS)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-macos
+          path: |
+            ./TestResults-macOS.xcresult
+            ./test-report-macos.html
+            ./xcodebuild-test-macos.log
+            ./coverage-macos.xml
+          if-no-files-found: warn
+          retention-days: 30
+
+  xcode-coverage-ios:
+    name: Coverage - Xcode (iOS)
+    runs-on: macos-15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Determine Tuist CLI release
+        id: tuist-version
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          TOKEN="${GITHUB_TOKEN:-}"
+          AUTH_HEADER=""
+          if [ -n "${TOKEN}" ]; then
+            AUTH_HEADER="Authorization: Bearer ${TOKEN}"
+          fi
+          RESPONSE=$(curl -fsSL \
+            --retry 5 \
+            --retry-delay 2 \
+            --retry-all-errors \
+            ${AUTH_HEADER:+-H "$AUTH_HEADER"} \
+            -H "Accept: application/vnd.github+json" \
+            -H "User-Agent: isoinspector-ci" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/tuist/tuist/releases?per_page=30")
+          TUIST_VERSION=$(jq -r '
+            (
+              [.[]
+                | select(((.name // "") | test("^CLI")) and ((.tag_name // "") != ""))
+                | .tag_name
+              ][0]
+            ) // empty
+          ' <<<"${RESPONSE}")
+          if [ -z "${TUIST_VERSION}" ]; then
+            TUIST_VERSION=$(jq -r '
+              (
+                [.[]
+                  | select(((.tag_name // "") != "") and (((.tag_name // "") | contains("@")) | not))
+                  | .tag_name
+                ][0]
+              ) // empty
+            ' <<<"${RESPONSE}")
+          fi
+          if [ -z "${TUIST_VERSION}" ]; then
+            echo "Failed to determine Tuist CLI release" >&2
+            exit 1
+          fi
+          echo "tuist_version=${TUIST_VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Tuist binary
+        id: cache-tuist
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}/tuist/${{ steps.tuist-version.outputs.tuist_version }}
+          key: ${{ runner.os }}-tuist-${{ steps.tuist-version.outputs.tuist_version }}
+
+      - name: Install Tuist
+        env:
+          TUIST_VERSION: ${{ steps.tuist-version.outputs.tuist_version }}
+        run: |
+          set -euo pipefail
+          INSTALL_DIR="${RUNNER_TEMP}/tuist/${TUIST_VERSION}"
+          mkdir -p "${INSTALL_DIR}"
+          if [ ! -x "${INSTALL_DIR}/tuist" ]; then
+            tmpdir=$(mktemp -d)
+            curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
+            unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
+            rsync -a "${tmpdir}/" "${INSTALL_DIR}/"
+            chmod +x "${INSTALL_DIR}/tuist"
+            rm -rf "${tmpdir}"
+          fi
+          echo "${INSTALL_DIR}" >> "$GITHUB_PATH"
+
+      - name: Show versions
+        run: |
+          tuist version
+          xcodebuild -version
+          swift --version
+          xcrun simctl list runtimes | grep iOS || true
+
+      - name: Select Xcode (latest stable)
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "latest-stable"
+
+      - name: Install Tuist dependencies
+        run: tuist install
+
+      - name: Generate Xcode workspace
+        run: tuist generate --no-open
+
+      - name: Run tests with code coverage (iOS)
+        run: |
+          set -eo pipefail
+          xcodebuild test \
+            -workspace ISOInspector.xcworkspace \
+            -scheme FoundationUI \
+            -destination 'platform=iOS Simulator,name=iPhone 16,OS=18.4' \
+            -configuration Debug \
+            -enableCodeCoverage YES \
+            -derivedDataPath ./DerivedData \
+            -resultBundlePath ./TestResults-iOS.xcresult \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            | tee xcodebuild-test-ios.log \
+            | xcpretty --color --report html --output ./test-report-ios.html
+
+      - name: Generate Cobertura coverage report (iOS)
+        run: |
+          set -eo pipefail
+          bash scripts/convert_coverage_to_cobertura.sh \
+            -xcresult ./TestResults-iOS.xcresult \
+            -output coverage-ios.xml \
+            -v
+
+      - name: Upload coverage to Codecov (iOS)
+        uses: codecov/codecov-action@v4
+        with:
+          files: ./coverage-ios.xml
+          flags: xcode,ios,comprehensive
+          name: xcode-ios-coverage
+          fail_ci_if_error: false
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Check coverage threshold (iOS)
+        uses: insightsengineering/coverage-action@v3
+        with:
+          path: ./coverage-ios.xml
+          threshold: 80.0
+          fail: true
+          publish: true
+          diff: true
+          togglable-report: true
+
+      - name: Upload test results (iOS)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results-ios
+          path: |
+            ./TestResults-iOS.xcresult
+            ./test-report-ios.html
+            ./xcodebuild-test-ios.log
+            ./coverage-ios.xml
+          if-no-files-found: warn
+          retention-days: 30
+
+  # Coverage summary job
+  coverage-summary:
+    name: Coverage Summary
+    runs-on: ubuntu-latest
+    needs: [spm-coverage, xcode-coverage-macos, xcode-coverage-ios]
+    if: always()
+    steps:
+      - name: Download all coverage artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: coverage-artifacts
+
+      - name: Generate summary
+        run: |
+          echo "# 📊 FoundationUI Code Coverage Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Coverage by Platform" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Platform | Status | Details |" >> $GITHUB_STEP_SUMMARY
+          echo "|----------|--------|---------|" >> $GITHUB_STEP_SUMMARY
+
+          # Check if coverage files exist and add to summary
+          if [ -d "coverage-artifacts/test-results-macos" ]; then
+            echo "| macOS | ✅ Complete | Unit + Snapshot Tests |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| macOS | ❌ Failed | - |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ -d "coverage-artifacts/test-results-ios" ]; then
+            echo "| iOS | ✅ Complete | Unit + Snapshot Tests |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| iOS | ❌ Failed | - |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ -d "coverage-artifacts/test-results-spm" ]; then
+            echo "| SPM (Unit Only) | ✅ Complete | Unit Tests |" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "| SPM (Unit Only) | ❌ Failed | - |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Quality Gate" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Threshold**: 80%" >> $GITHUB_STEP_SUMMARY
+          echo "**Status**: ${{ needs.xcode-coverage-macos.result == 'success' && needs.xcode-coverage-ios.result == 'success' && '✅ PASS' || '❌ FAIL' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "See individual job outputs for detailed coverage reports." >> $GITHUB_STEP_SUMMARY
+
+      - name: Check quality gate
+        if: needs.xcode-coverage-macos.result != 'success' || needs.xcode-coverage-ios.result != 'success'
+        run: |
+          echo "❌ Coverage quality gate failed!"
+          echo "One or more platforms did not meet the 80% coverage threshold."
+          exit 1
