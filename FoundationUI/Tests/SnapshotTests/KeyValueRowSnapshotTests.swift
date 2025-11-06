@@ -27,6 +27,7 @@ import SnapshotTesting
 /// 3. Verify generated snapshots look correct
 /// 4. Commit snapshots to repository
 /// 5. Set `isRecording = false`
+@MainActor
 final class KeyValueRowSnapshotTests: XCTestCase {
 
     // MARK: - Horizontal Layout Tests (Light Mode)
