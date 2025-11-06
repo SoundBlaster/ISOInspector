@@ -838,8 +838,12 @@
   - **InspectorPattern**: 5 → 30 tests (+25 tests)
   - **SidebarPattern**: 4 → 36 tests (+32 tests)
   - **ToolbarPattern**: 4 → 44 tests (+40 tests)
-  - Coverage report: `FoundationUI/DOCS/INPROGRESS/CoverageReport_2025-11-06.md`
-  - Task document: `FoundationUI/DOCS/INPROGRESS/Phase5.2_ComprehensiveUnitTestCoverage.md`
+  - **Coverage Quality Gate**: CI workflow with 67% baseline threshold established
+    - Custom Python threshold validation script (check_coverage_threshold.py)
+    - GitHub Actions workflow (foundationui-coverage.yml)
+    - Codecov integration for coverage tracking
+    - iOS: 67.24%, macOS: 69.61% (baseline: 67%, target: 80%)
+  - Archive: `TASK_ARCHIVE/40_Phase5.2_CoverageQualityGate/`
   - Next: Generate HTML/Cobertura reports when running on macOS with Swift toolchain
 
 - [x] **P0** Unit test infrastructure ✅ **Completed 2025-11-05**
