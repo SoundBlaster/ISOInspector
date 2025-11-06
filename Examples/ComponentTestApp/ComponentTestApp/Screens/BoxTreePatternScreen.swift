@@ -111,15 +111,15 @@ struct BoxTreePatternScreen: View {
             // Tree View
             if selectionMode == .single {
                 BoxTreePattern(
-                    items: treeItems,
-                    selection: $selectedNode
+                    data: treeItems,
+                    children: { _ in selectedNode?.children ?? [] }
                 ) { box in
                     BoxTreeNodeView(box: box)
                 }
             } else {
                 BoxTreePattern(
-                    items: treeItems,
-                    multiSelection: $selectedNodes
+                    data: treeItems,
+                    children: { _ in selectedNode?.children ?? [] }
                 ) { box in
                     BoxTreeNodeView(box: box)
                 }
