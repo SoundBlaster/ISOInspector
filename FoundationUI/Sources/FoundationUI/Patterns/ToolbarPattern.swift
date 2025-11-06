@@ -308,9 +308,9 @@ public extension ToolbarPattern {
             switch traits.platform {
             case .macOS:
                 return .expanded
-            case .iPadOS:
-                return .expanded
-            case .iOS:
+            case .iPadOS, .iOS:
+                // iPadOS and iOS use compact layout when horizontal size class is compact
+                // This happens in Split View on iPad or on smaller iPhones
                 if traits.horizontalSizeClass == .compact {
                     return .compact
                 } else {
