@@ -1,49 +1,56 @@
 # Next Tasks for FoundationUI
 
 **Updated**: 2025-11-06
-**Current Status**: Phase 5.2 Accessibility Audit COMPLETED ✅ (98% score), Demo App reprioritized for UI testing support
+**Current Status**: Phase 5.2 Accessibility Audit COMPLETED ✅ (98% score, all tests passing), Moving to Demo App development
 
-## 🎯 Immediate Priorities
+## 🎯 NEXT TASK: Enhanced Demo App 🚀
 
-### Option 1: Enhanced Demo App (PRIORITY BOOST) 🚀
-
-**Priority**: P0 → **MOVED UP** (Was P1 in Phase 6.1)
+**Priority**: P0 (Critical for testing and validation)
 **Estimated Effort**: 16-20 hours
 **Dependencies**: All components and patterns complete ✅
-**Task Plan Reference**: `FoundationUI_TaskPlan.md` → Phase 6.1 (moved to Phase 5)
+**Task Plan Reference**: Phase 5.4 Enhanced Demo App (reprioritized from Phase 6.1)
+**Task Document**: `Phase5.4_EnhancedDemoApp.md` ✅
 
-**Rationale for Priority Boost**:
-- ✅ Enables visual validation of accessibility work
-- ✅ Required for writing comprehensive UI tests
-- ✅ Provides real-world testing environment
-- ✅ Demonstrates all Phase 3 patterns (InspectorPattern, SidebarPattern, ToolbarPattern, BoxTreePattern)
-- ✅ Supports manual testing workflows
-- ✅ Better than waiting until Phase 6
+### Why This Is Next
 
-**Current State**: ComponentTestApp exists (Phase 2.3) but only shows Layer 2 components
-**Goal**: Expand to full-featured ISO Inspector demo with all patterns
+**User Priority**: Manual accessibility testing skipped, Demo App moved forward for:
+- ✅ Visual validation of all components and patterns
+- ✅ Real-world ISO Inspector demonstration
+- ✅ Enables UI test development (Phase 6 prep)
+- ✅ Supports future manual testing workflows
+- ✅ Better developer experience with working app
 
-**Requirements**:
-- [ ] Add InspectorPattern showcase screen
-- [ ] Add SidebarPattern showcase screen
-- [ ] Add ToolbarPattern showcase screen
-- [ ] Add BoxTreePattern showcase screen
-- [ ] Create ISO Inspector mockup screen (combines all patterns)
-- [ ] Add CopyableText/Copyable utility demos
-- [ ] Add accessibility testing screen
-- [ ] Add performance monitoring screen
-- [ ] Platform-specific features (macOS keyboard shortcuts, iOS gestures)
-- [ ] Sample ISO box data for realistic testing
+### Implementation Tasks
 
-**Why now**:
-- Accessibility testing (IN PROGRESS) needs visual validation environment
-- UI tests require working demo app
-- Manual testing workflows benefit from comprehensive demo
-- Phase 3 patterns complete but not visually showcased
+**Current State**: ComponentTestApp exists (Phase 2.3) with 6 screens for Layer 2 components only
 
-**Next Step**: Create task document `Phase5.4_EnhancedDemoApp.md`
+**Goals** (from Phase5.4_EnhancedDemoApp.md):
+- [ ] **Phase 1**: Add Pattern Showcase Screens (8h)
+  - [ ] InspectorPattern screen with ISO box metadata
+  - [ ] SidebarPattern screen with component navigation
+  - [ ] ToolbarPattern screen with keyboard shortcuts
+  - [ ] BoxTreePattern screen with hierarchical data
+- [ ] **Phase 2**: ISO Inspector Mockup (4h)
+  - [ ] Full ISO Inspector screen combining all patterns
+  - [ ] Sample ISO file data structure
+  - [ ] Interactive box tree navigation
+- [ ] **Phase 3**: Utility & Testing Screens (4h)
+  - [ ] Copyable utilities showcase
+  - [ ] Accessibility testing/validation tools
+  - [ ] Performance monitoring dashboard
+- [ ] **Phase 4**: Platform Features & Polish (4h)
+  - [ ] macOS-specific features (keyboard, menu bar)
+  - [ ] iOS/iPad gestures and adaptations
+  - [ ] Dark mode refinements
+  - [ ] Dynamic Type verification
 
-### Option 2: Phase 5.2 Testing & Quality Assurance (P0)
+**Next Step**: Start with Phase 1.1 - InspectorPattern screen implementation
+
+---
+
+## 📋 Deferred Tasks
+
+### Phase 5.2 Testing & Quality Assurance (Partially Complete)
 
 **Priority**: P0 (Critical for release)
 **Estimated Effort**: 10-15 hours remaining
