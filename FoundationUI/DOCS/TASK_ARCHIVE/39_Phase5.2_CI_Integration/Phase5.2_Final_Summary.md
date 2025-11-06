@@ -48,7 +48,8 @@
 ### Test Coverage
 
 **Unit Tests** (53 files):
-```
+
+```bash
 FoundationUITests/
 ├── AccessibilityTests/ (6 files)
 ├── ComponentsTests/ (5 files)

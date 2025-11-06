@@ -39,7 +39,7 @@ Safely move completed task files from active development to permanent archive, e
 
 ## 📁 DIRECTORY STRUCTURE
 
-```
+```bash
 FoundationUI/
 ├── DOCS/
 │   ├── INPROGRESS/
@@ -365,7 +365,7 @@ Archived completed work from FoundationUI Phase {X}.{Y} on {date}.
 
 ### Before Archival
 
-```
+```bash
 FoundationUI/DOCS/INPROGRESS/
 ├── Phase2_BadgeChipStyle.md
 ├── Summary_of_Work.md
@@ -423,7 +423,7 @@ Created archive report with metrics
 
 ### After Archival
 
-```
+```bash
 FoundationUI/DOCS/
 ├── INPROGRESS/
 │   └── next_tasks.md (recreated)

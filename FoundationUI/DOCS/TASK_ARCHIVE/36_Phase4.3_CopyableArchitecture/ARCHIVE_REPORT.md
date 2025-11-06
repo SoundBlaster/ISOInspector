@@ -376,7 +376,8 @@ Tests/FoundationUITests/
 ```
 
 ### Documentation Files
-```
+
+```bash
 FoundationUI/DOCS/
 ├── TASK_ARCHIVE/
 │   └── 36_Phase4.3_CopyableArchitecture/

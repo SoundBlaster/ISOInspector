@@ -1,9 +1,11 @@
 # Accessibility Audit (≥95% Score)
 
 ## 🎯 Objective
+
 Perform comprehensive accessibility audit of all FoundationUI components and patterns to achieve ≥95% accessibility score, ensuring WCAG 2.1 Level AA compliance and excellent user experience for assistive technology users.
 
 ## 🧩 Context
+
 - **Phase**: 5.2 Testing & Quality Assurance
 - **Section**: Accessibility Testing
 - **Priority**: P0 (Critical for release)
@@ -14,6 +16,7 @@ Perform comprehensive accessibility audit of all FoundationUI components and pat
   - ✅ AccessibilityContext implemented (Phase 3.2)
 
 ## ✅ Success Criteria
+
 - [ ] AccessibilitySnapshot framework installed and configured
 - [ ] Automated contrast ratio testing implemented (≥4.5:1 for WCAG AA)
 - [ ] VoiceOver label and hint validation for all components
@@ -28,6 +31,7 @@ Perform comprehensive accessibility audit of all FoundationUI components and pat
 ## 🔧 Implementation Notes
 
 ### Components to Audit (Layer 2)
+
 - Badge component
 - Card component
 - KeyValueRow component
@@ -36,12 +40,14 @@ Perform comprehensive accessibility audit of all FoundationUI components and pat
 - Copyable generic wrapper
 
 ### Patterns to Audit (Layer 3)
+
 - InspectorPattern
 - SidebarPattern
 - ToolbarPattern
 - BoxTreePattern
 
 ### View Modifiers to Audit (Layer 1)
+
 - BadgeChipStyle
 - CardStyle
 - InteractiveStyle
@@ -62,12 +68,14 @@ dependencies: [
 ### Test Categories
 
 #### 1. Contrast Ratio Testing
+
 - All text colors against their backgrounds
 - Badge colors (info, warning, error, success)
 - Focus indicators
 - Target: ≥4.5:1 for normal text, ≥3:1 for large text (WCAG AA)
 
 #### 2. VoiceOver Testing
+
 - Accessibility labels present and descriptive
 - Accessibility hints provide context
 - Accessibility traits correctly set (.isButton, .isHeader, etc.)
@@ -75,6 +83,7 @@ dependencies: [
 - Dynamic content announces changes
 
 #### 3. Keyboard Navigation Testing
+
 - All interactive elements keyboard accessible
 - Focus order logical and predictable
 - Focus indicators visible and high-contrast
@@ -82,32 +91,38 @@ dependencies: [
 - Escape key dismisses overlays
 
 #### 4. Touch Target Testing
+
 - Minimum size 44×44 pt on iOS (Apple HIG requirement)
 - Minimum size 24×24 pt on macOS
 - Adequate spacing between targets
 - No overlapping interactive areas
 
 #### 5. Dynamic Type Testing
+
 - Text scales correctly from XS to XXXL
 - Layout adapts without clipping
 - Touch targets remain accessible at all sizes
 - Scrolling enabled when content exceeds bounds
 
 #### 6. Reduce Motion Testing
+
 - Animations disabled or simplified when `accessibilityReduceMotion` is true
 - Uses `DS.Animation.ifMotionEnabled` helper
 - Content remains functional without motion
 
 #### 7. Increase Contrast Testing
+
 - High-contrast mode supported
 - Uses `ColorSchemeAdapter` for adaptive colors
 - Focus indicators enhanced in high-contrast mode
 
 #### 8. Bold Text Testing (iOS)
+
 - Font weights adapt via `legibilityWeight` environment value
 - Text remains readable when bold text enabled
 
 ### Files to Create/Modify
+
 - `Tests/FoundationUITests/AccessibilityTests/AccessibilityAuditTests.swift`
 - `Tests/FoundationUITests/AccessibilityTests/ContrastRatioTests.swift`
 - `Tests/FoundationUITests/AccessibilityTests/VoiceOverTests.swift`
@@ -120,6 +135,7 @@ dependencies: [
 ### Existing Accessibility Features to Validate
 
 From AccessibilityHelpers (Phase 4.2):
+
 ```swift
 // Verify these helpers work correctly
 - .accessibleButton(label:hint:)
@@ -133,6 +149,7 @@ From AccessibilityHelpers (Phase 4.2):
 ```
 
 From AccessibilityContext (Phase 3.2):
+
 ```swift
 // Verify context integration
 - AccessibilityContext.reduceMotion
@@ -157,6 +174,7 @@ From AccessibilityContext (Phase 3.2):
 ### Automated Testing with AccessibilitySnapshot
 
 Example test structure:
+
 ```swift
 import XCTest
 import AccessibilitySnapshot
@@ -183,6 +201,7 @@ final class ComponentAccessibilityTests: XCTestCase {
 ```
 
 ## 🧠 Source References
+
 - [FoundationUI Task Plan § Phase 5.2 Accessibility Testing](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md#accessibility-testing)
 - [FoundationUI PRD § Accessibility Requirements](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md)
 - [Apple Accessibility Guidelines](https://developer.apple.com/accessibility/)
@@ -194,17 +213,20 @@ final class ComponentAccessibilityTests: XCTestCase {
 ## 📋 Checklist
 
 ### Setup
+
 - [ ] Install AccessibilitySnapshot framework (Package.swift)
 - [ ] Create accessibility test directory structure
 - [ ] Set up test helpers and utilities
 - [ ] Configure CI/CD for accessibility testing
 
 ### Layer 0: Design Tokens
+
 - [ ] Validate color contrast ratios (DS.Colors)
 - [ ] Test spacing tokens with touch targets (DS.Spacing)
 - [ ] Verify typography scales with Dynamic Type (DS.Typography)
 
 ### Layer 1: View Modifiers
+
 - [ ] BadgeChipStyle accessibility audit
 - [ ] CardStyle accessibility audit
 - [ ] InteractiveStyle accessibility audit
@@ -212,6 +234,7 @@ final class ComponentAccessibilityTests: XCTestCase {
 - [ ] CopyableModifier accessibility audit
 
 ### Layer 2: Components
+
 - [ ] Badge accessibility audit (VoiceOver, contrast, touch targets)
 - [ ] Card accessibility audit (focus order, keyboard navigation)
 - [ ] KeyValueRow accessibility audit (copyable text, labels)
@@ -220,17 +243,20 @@ final class ComponentAccessibilityTests: XCTestCase {
 - [ ] Copyable wrapper accessibility audit (generic content)
 
 ### Layer 3: Patterns
+
 - [ ] InspectorPattern accessibility audit (scroll, focus management)
 - [ ] SidebarPattern accessibility audit (navigation, selection)
 - [ ] ToolbarPattern accessibility audit (keyboard shortcuts, menu)
 - [ ] BoxTreePattern accessibility audit (hierarchy, expand/collapse)
 
 ### Layer 4: Contexts
+
 - [ ] AccessibilityContext validation (all features)
 - [ ] ColorSchemeAdapter contrast validation
 - [ ] PlatformAdaptation keyboard navigation
 
 ### Cross-Cutting Concerns
+
 - [ ] Contrast ratio tests for all color combinations
 - [ ] VoiceOver label tests for all components
 - [ ] Keyboard navigation tests for all interactive elements
@@ -241,12 +267,14 @@ final class ComponentAccessibilityTests: XCTestCase {
 - [ ] Bold Text tests (iOS legibilityWeight)
 
 ### Integration Testing
+
 - [ ] Test component compositions (Card → Section → KeyValue → Badge)
 - [ ] Test pattern integrations (Sidebar + Inspector + Toolbar)
 - [ ] Test real-world scenarios (ISO Inspector use cases)
 - [ ] Test accessibility in demo app
 
 ### Reporting
+
 - [ ] Generate comprehensive accessibility audit report
 - [ ] Calculate overall accessibility score
 - [ ] Document all issues found and resolutions
@@ -254,6 +282,7 @@ final class ComponentAccessibilityTests: XCTestCase {
 - [ ] Update Task Plan with results
 
 ### CI/CD Integration
+
 - [ ] Add accessibility tests to CI pipeline
 - [ ] Configure test result reporting
 - [ ] Set up accessibility score monitoring
@@ -271,6 +300,7 @@ final class ComponentAccessibilityTests: XCTestCase {
 | **Keyboard Navigation** | 100% | TBD |
 
 ## 📊 Estimated Effort
+
 - Setup (AccessibilitySnapshot, test structure): 2 hours
 - Layer 0-1 testing (Tokens, Modifiers): 3 hours
 - Layer 2 testing (Components): 4 hours
@@ -282,6 +312,7 @@ final class ComponentAccessibilityTests: XCTestCase {
 - **Total**: ~23 hours
 
 ## 🔄 Next Steps After Completion
+
 1. Review accessibility audit report
 2. Fix any identified issues
 3. Proceed to **Manual Accessibility Testing** (Phase 5.2 next task)

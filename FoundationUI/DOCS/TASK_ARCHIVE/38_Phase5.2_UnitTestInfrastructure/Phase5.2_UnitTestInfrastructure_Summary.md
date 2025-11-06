@@ -171,7 +171,7 @@ swift test  # Tests compile; SwiftUI tests are guarded
 
 ## 📁 Test Directory Structure
 
-```
+```bash
 FoundationUI/
 ├── Package.swift                           # ✅ Updated with test targets
 ├── Sources/

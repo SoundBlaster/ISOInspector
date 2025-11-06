@@ -34,7 +34,7 @@ Configure and integrate comprehensive unit test infrastructure for FoundationUI,
 ### Current State Analysis
 
 **Existing Test Structure** (53 test files in `FoundationUI/Tests/`):
-```
+```bash
 FoundationUITests/
 ├── AccessibilityTests/          # Accessibility compliance tests
 ├── ComponentsTests/             # Badge, Card, KeyValueRow, SectionHeader, Copyable

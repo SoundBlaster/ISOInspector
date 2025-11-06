@@ -69,7 +69,7 @@ Create a centralized SwiftUI framework that:
 
 ### 4.1 Module Structure
 
-```
+```bash
 FoundationUI/
 ├── Sources/
 │   ├── DesignTokens/           # Layer 0: Tokens

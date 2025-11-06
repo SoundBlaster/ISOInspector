@@ -43,7 +43,7 @@ Apply intelligent task selection rules to choose the next FoundationUI component
 
 The Composable Clarity architecture has strict layer ordering:
 
-```
+```plaintext
 Layer 0: Design Tokens (DS)
    ↓ (Modifiers depend on Tokens)
 Layer 1: View Modifiers
@@ -120,7 +120,7 @@ Tasks marked with platform-specific requirements (iOS/macOS/iPadOS) must be comp
 
 ### Step 3. Apply Selection Algorithm
 
-```
+```pseudocode
 FOR each phase in [1, 2, 3, 4, 5, 6]:
     IF phase is not 100% complete:
         FOR each priority in [P0, P1, P2]:
@@ -221,7 +221,6 @@ Mark the selected task as **In Progress** in the Task Plan:
 
 Output a summary:
 
-```
 ✅ Selected Next Task:
   Phase: 2.1 Layer 1: View Modifiers
   Task: Implement BadgeChipStyle modifier
@@ -235,11 +234,11 @@ Dependencies satisfied:
   ✅ Test infrastructure ready
 
 Next steps:
+
   1. Create Tests/FoundationUITests/ModifiersTests/BadgeChipStyleTests.swift
   2. Write failing unit tests
   3. Implement Sources/FoundationUI/Modifiers/BadgeChipStyle.swift
   4. Run tests and iterate until green
-```
 
 ---
 
