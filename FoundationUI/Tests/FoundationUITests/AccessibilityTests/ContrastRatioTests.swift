@@ -87,7 +87,7 @@ final class ContrastRatioTests: XCTestCase {
         let lightGray = Color.gray.opacity(0.9)
         let white = Color.white
 
-        let passes = AccessibilityHelpers.meetsWCAG_AA(
+        let _ = AccessibilityHelpers.meetsWCAG_AA(
             foreground: lightGray,
             background: white
         )
