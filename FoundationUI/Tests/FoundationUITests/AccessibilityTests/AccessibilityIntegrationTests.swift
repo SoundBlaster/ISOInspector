@@ -480,8 +480,8 @@ final class AccessibilityIntegrationTests: XCTestCase {
         // Run comprehensive accessibility integration audit
 
         var passed = 0
-        var failed = 0
-        var issues: [String] = []
+        let failed = 0
+        let issues: [String] = []
 
         let scenarios: [(name: String, aspects: [String])] = [
             ("Card + Badge + KeyValueRow", ["labels", "contrast", "touch targets"]),

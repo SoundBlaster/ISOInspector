@@ -460,8 +460,8 @@ final class DynamicTypeTests: XCTestCase {
         // Run comprehensive Dynamic Type audit
 
         var passed = 0
-        var failed = 0
-        var issues: [String] = []
+        let failed = 0
+        let issues: [String] = []
 
         let components: [String] = [
             "Badge",
@@ -475,7 +475,7 @@ final class DynamicTypeTests: XCTestCase {
             "BoxTreePattern"
         ]
 
-        for component in components {
+        for _ in components {
             // Test at representative sizes
             let testSizes: [DynamicTypeSize] = [
                 .xSmall,        // Smallest standard
