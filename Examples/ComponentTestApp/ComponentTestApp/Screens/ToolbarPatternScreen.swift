@@ -23,7 +23,7 @@ struct ToolbarPatternScreen: View {
     @State private var content = "Sample ISO box data"
 
     var body: some View {
-        VStack(spacing: DS.Spacing.zero) {
+        VStack(spacing: 0) {
             // Toolbar demonstration area
             Card(elevation: .low, cornerRadius: DS.Radius.card, material: .regular) {
                 VStack(alignment: .leading, spacing: DS.Spacing.l) {

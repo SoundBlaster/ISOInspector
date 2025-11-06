@@ -37,7 +37,7 @@ struct BoxTreePatternScreen: View {
     }
 
     var body: some View {
-        VStack(spacing: DS.Spacing.zero) {
+        VStack(spacing: 0) {
             // Controls Section
             Card(elevation: .low, cornerRadius: DS.Radius.card, material: .regular) {
                 VStack(spacing: DS.Spacing.l) {

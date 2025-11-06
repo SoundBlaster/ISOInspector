@@ -22,7 +22,7 @@ struct InspectorPatternScreen: View {
 
     var body: some View {
         InspectorPattern(title: "Box Inspector") {
-            VStack(spacing: DS.Spacing.zero) {
+            VStack(spacing: 0) {
                 // Material Selector Section
                 SectionHeader(title: "Material", showDivider: true)
 
@@ -36,8 +36,7 @@ struct InspectorPatternScreen: View {
                         Text("Thin").tag(SurfaceMaterial.thin)
                         Text("Regular").tag(SurfaceMaterial.regular)
                         Text("Thick").tag(SurfaceMaterial.thick)
-                        Text("Ultra Thin").tag(SurfaceMaterial.ultraThin)
-                        Text("Ultra Thick").tag(SurfaceMaterial.ultraThick)
+                        Text("Ultra").tag(SurfaceMaterial.ultra)
                     }
                     .pickerStyle(.segmented)
                 }
@@ -180,7 +179,7 @@ struct InspectorPatternScreen: View {
                 .padding(.bottom, DS.Spacing.xl)
             }
         }
-        .material(selectedMaterial)
+        .material(selectedMaterial.swiftUIMaterial)
         .navigationTitle("InspectorPattern")
     }
 }
