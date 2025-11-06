@@ -112,10 +112,10 @@ jobs:
       - name: Show Tuist version
         run: tuist version
 
-      - name: Select Xcode (latest stable)
+      - name: Select Xcode 16.0
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "latest-stable"
+          xcode-version: "16.0"
 
       - name: Show Xcode version
         run: xcodebuild -version
@@ -161,10 +161,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Select Xcode (latest stable)
+      - name: Select Xcode 16.0
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "latest-stable"
+          xcode-version: "16.0"
 
       - name: Show Xcode version
         run: xcodebuild -version
@@ -280,10 +280,10 @@ jobs:
       - name: Show Tuist version
         run: tuist version
 
-      - name: Select Xcode (latest stable)
+      - name: Select Xcode 16.0
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "latest-stable"
+          xcode-version: "16.0"
 
       - name: Show Xcode version
         run: xcodebuild -version
@@ -298,6 +298,23 @@ jobs:
           echo ""
           echo "=== Available Devices ==="
           xcrun simctl list devices available
+
+      - name: Detect iOS Simulator
+        id: ios-sim
+        run: |
+          set -eo pipefail
+          # Find first available iPhone simulator
+          SIMULATOR=$(xcrun simctl list devices available iPhone | grep -m 1 "iPhone" | sed -E 's/.*\(([^)]+)\).*/\1/' || echo "")
+          if [ -z "$SIMULATOR" ]; then
+            echo "No iOS simulator found, will use generic/platform=iOS for builds"
+            echo "has_simulator=false" >> "$GITHUB_OUTPUT"
+          else
+            DEVICE_NAME=$(xcrun simctl list devices available iPhone | grep -m 1 "iPhone" | sed 's/ (.*//' | xargs)
+            echo "Found iOS simulator: $DEVICE_NAME (ID: $SIMULATOR)"
+            echo "has_simulator=true" >> "$GITHUB_OUTPUT"
+            echo "device_name=$DEVICE_NAME" >> "$GITHUB_OUTPUT"
+            echo "device_id=$SIMULATOR" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Cache Tuist dependencies
         uses: actions/cache@v4
@@ -335,10 +352,17 @@ jobs:
         run: |
           set -eo pipefail
           echo "Building FoundationUI for iOS..."
+          if [ "${{ steps.ios-sim.outputs.has_simulator }}" = "true" ]; then
+            DESTINATION="platform=iOS Simulator,name=${{ steps.ios-sim.outputs.device_name }}"
+            echo "Using simulator: $DESTINATION"
+          else
+            DESTINATION="generic/platform=iOS"
+            echo "No simulator available, using: $DESTINATION"
+          fi
           xcodebuild build \
             -workspace ISOInspector.xcworkspace \
             -scheme FoundationUI \
-            -destination 'generic/platform=iOS' \
+            -destination "$DESTINATION" \
             -configuration Debug \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_ALLOWED=NO \
@@ -357,20 +381,19 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             CODE_SIGNING_REQUIRED=NO
 
-      # NOTE: iOS tests require a running simulator, which is not available in CI
-      # with Xcode 26.1 RC. Tests run on macOS cover the same code paths.
-      # - name: Run FoundationUI tests (iOS)
-      #   run: |
-      #     set -eo pipefail
-      #     echo "Running FoundationUI tests on iOS..."
-      #     xcodebuild test \
-      #       -workspace ISOInspector.xcworkspace \
-      #       -scheme FoundationUI \
-      #       -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
-      #       -configuration Debug \
-      #       CODE_SIGN_IDENTITY="" \
-      #       CODE_SIGNING_ALLOWED=NO \
-      #       CODE_SIGNING_REQUIRED=NO
+      - name: Run FoundationUI tests (iOS)
+        if: steps.ios-sim.outputs.has_simulator == 'true'
+        run: |
+          set -eo pipefail
+          echo "Running FoundationUI tests on iOS simulator: ${{ steps.ios-sim.outputs.device_name }}..."
+          xcodebuild test \
+            -workspace ISOInspector.xcworkspace \
+            -scheme FoundationUI \
+            -destination "platform=iOS Simulator,name=${{ steps.ios-sim.outputs.device_name }}" \
+            -configuration Debug \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO
 
       - name: Run FoundationUI tests (macOS)
         run: |
@@ -389,10 +412,17 @@ jobs:
         run: |
           set -eo pipefail
           echo "Building ComponentTestApp for iOS..."
+          if [ "${{ steps.ios-sim.outputs.has_simulator }}" = "true" ]; then
+            DESTINATION="platform=iOS Simulator,name=${{ steps.ios-sim.outputs.device_name }}"
+            echo "Using simulator: $DESTINATION"
+          else
+            DESTINATION="generic/platform=iOS"
+            echo "No simulator available, using: $DESTINATION"
+          fi
           xcodebuild build \
             -workspace ISOInspector.xcworkspace \
             -scheme ComponentTestApp-iOS \
-            -destination 'generic/platform=iOS' \
+            -destination "$DESTINATION" \
             -configuration Debug \
             CODE_SIGN_IDENTITY="" \
             CODE_SIGNING_ALLOWED=NO \
