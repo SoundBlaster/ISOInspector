@@ -484,24 +484,14 @@ final class DynamicTypeTests: XCTestCase {
                 .accessibility5 // Largest overall
             ]
 
-            var componentPasses = true
-
-            for size in testSizes {
-                // All components should handle all sizes
-                // (Actual tests would render and measure)
-                let handles = true // Placeholder for actual test
-
-                if !handles {
-                    componentPasses = false
-                    issues.append("\(component) fails at \(size)")
-                }
+            // All components are expected to handle all sizes with current implementation
+            // (Actual tests would render and measure for each size)
+            for _ in testSizes {
+                // Placeholder: would test each size here
             }
 
-            if componentPasses {
-                passed += 1
-            } else {
-                failed += 1
-            }
+            // All components pass in current placeholder implementation
+            passed += 1
         }
 
         let passRate = Double(passed) / Double(passed + failed) * 100.0

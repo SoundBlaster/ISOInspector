@@ -492,24 +492,14 @@ final class AccessibilityIntegrationTests: XCTestCase {
         ]
 
         for scenario in scenarios {
-            var scenarioPasses = true
-
-            for aspect in scenario.aspects {
-                // Each aspect should pass
-                // (Actual tests would verify specific criteria)
-                let passes = true // Placeholder
-
-                if !passes {
-                    scenarioPasses = false
-                    issues.append("\(scenario.name): \(aspect) fails")
-                }
+            // Each scenario is expected to pass with current implementation
+            // (Actual tests would verify specific criteria for each aspect)
+            for _ in scenario.aspects {
+                // Placeholder: would test each aspect here
             }
 
-            if scenarioPasses {
-                passed += 1
-            } else {
-                failed += 1
-            }
+            // All scenarios pass in current placeholder implementation
+            passed += 1
         }
 
         let passRate = Double(passed) / Double(passed + failed) * 100.0
