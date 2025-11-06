@@ -56,11 +56,12 @@ struct ContentView: View {
     /// Current color scheme preference
     @AppStorage("themePreference") private var themePreference: ThemePreference = .system
 
+    /// Current Dynamic Type size preference (shared with ComponentTestApp)
+    @AppStorage("dynamicTypeSizePreference") private var dynamicTypeSizePreference:
+        DynamicTypeSizePreference = .medium
+
     /// System color scheme (for detecting actual system appearance)
     @Environment(\.colorScheme) private var systemColorScheme
-
-    /// Current Dynamic Type size
-    @State private var dynamicTypeSize: DynamicTypeSize = .medium
 
     /// Computed color scheme based on preference
     private var effectiveColorScheme: ColorScheme? {
@@ -142,12 +143,22 @@ struct ContentView: View {
                         Label("Theme", systemImage: "paintbrush.fill")
                     }
 
-                    // Dynamic Type Size Indicator
-                    HStack {
+                    // Dynamic Type Size Picker
+                    Picker(selection: $dynamicTypeSizePreference) {
+                        Text("XS").tag(DynamicTypeSizePreference.xSmall)
+                        Text("S").tag(DynamicTypeSizePreference.small)
+                        Text("M").tag(DynamicTypeSizePreference.medium)
+                        Text("L").tag(DynamicTypeSizePreference.large)
+                        Text("XL").tag(DynamicTypeSizePreference.xLarge)
+                        Text("XXL").tag(DynamicTypeSizePreference.xxLarge)
+                        Text("XXXL").tag(DynamicTypeSizePreference.xxxLarge)
+                        Text("A1").tag(DynamicTypeSizePreference.accessibility1)
+                        Text("A2").tag(DynamicTypeSizePreference.accessibility2)
+                        Text("A3").tag(DynamicTypeSizePreference.accessibility3)
+                        Text("A4").tag(DynamicTypeSizePreference.accessibility4)
+                        Text("A5").tag(DynamicTypeSizePreference.accessibility5)
+                    } label: {
                         Label("Text Size", systemImage: "textformat.size")
-                        Spacer()
-                        Text(dynamicTypeSizeLabel(dynamicTypeSize))
-                            .foregroundStyle(.secondary)
                     }
                 }
             }
@@ -157,6 +168,7 @@ struct ContentView: View {
             }
             .preferredColorScheme(effectiveColorScheme)
         }
+        .dynamicTypeSize(dynamicTypeSizePreference.dynamicTypeSize)
         .id(viewID)
     }
 
@@ -184,25 +196,6 @@ struct ContentView: View {
             ToolbarPatternScreen()
         case .boxTreePattern:
             BoxTreePatternScreen()
-        }
-    }
-
-    /// Returns human-readable label for Dynamic Type size
-    private func dynamicTypeSizeLabel(_ size: DynamicTypeSize) -> String {
-        switch size {
-        case .xSmall: return "XS"
-        case .small: return "S"
-        case .medium: return "M"
-        case .large: return "L"
-        case .xLarge: return "XL"
-        case .xxLarge: return "XXL"
-        case .xxxLarge: return "XXXL"
-        case .accessibility1: return "A1"
-        case .accessibility2: return "A2"
-        case .accessibility3: return "A3"
-        case .accessibility4: return "A4"
-        case .accessibility5: return "A5"
-        @unknown default: return "M"
         }
     }
 }
