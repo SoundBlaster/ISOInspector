@@ -10,12 +10,16 @@
 		00B92107B78FEDE629FE879C /* FoundationUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6537D0D0CE771A064797D3AB /* FoundationUI.framework */; };
 		0772D5325983C1E64EFA531B /* ComponentTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA0B8FD10C24C35A79A1B1 /* ComponentTestApp.swift */; };
 		0B5B17F7B56BFAA17ECF10D4 /* DesignTokensScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5FA320990EB8F90DDDBED9 /* DesignTokensScreen.swift */; };
+		1C6A3A648FD6063A44CD6C2D /* ToolbarPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9748623B7C199B1BEC4C1DF6 /* ToolbarPatternScreen.swift */; };
+		1F53DA3B585271A167FF63C1 /* BoxTreePatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FBDDFF886D97EB1DC8C2D /* BoxTreePatternScreen.swift */; };
 		267881AFD5D1E2CAF4214F77 /* FoundationUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6537D0D0CE771A064797D3AB /* FoundationUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		28A217F5889FAFC70070F077 /* DesignTokensScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5FA320990EB8F90DDDBED9 /* DesignTokensScreen.swift */; };
 		2A88D9A31432223653E9874E /* CardScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AE13624542A1FB5B4590C4 /* CardScreen.swift */; };
 		4503D0CBEEDCC4FB123DCE38 /* BadgeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5778CB15B1DE9DB7602C5F21 /* BadgeScreen.swift */; };
 		5289DA8034F37CFD49D00890 /* FoundationUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6537D0D0CE771A064797D3AB /* FoundationUI.framework */; };
 		62DCF4DA77811B8F33C2F1EC /* KeyValueRowScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF677A5298B1C63AFAEF578E /* KeyValueRowScreen.swift */; };
+		6992927770E200073BFF2CCF /* MockISOBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D655D2FCABF00E1BEC6B46 /* MockISOBox.swift */; };
+		6A94C4B8D2AA06804E4FBBE7 /* ToolbarPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9748623B7C199B1BEC4C1DF6 /* ToolbarPatternScreen.swift */; };
 		6E1D86DF57661F299FA6DD95 /* ModifiersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21C8814C8048A5B5D48B536 /* ModifiersScreen.swift */; };
 		70B2E3803A2AAD0B9DAB3F89 /* CardScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AE13624542A1FB5B4590C4 /* CardScreen.swift */; };
 		7A3FC11BCAA42B78F6EF7050 /* SectionHeaderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444A4FBF47A01E64ABEAD276 /* SectionHeaderScreen.swift */; };
@@ -23,8 +27,14 @@
 		818189090BF452A49F3479ED /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CDFCB6A63193E80C24F968 /* ContentView.swift */; };
 		86D3728BA7351432B4FD403B /* ComponentTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA0B8FD10C24C35A79A1B1 /* ComponentTestApp.swift */; };
 		895C7C00A6B25C397985AC14 /* BadgeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5778CB15B1DE9DB7602C5F21 /* BadgeScreen.swift */; };
+		A7E0C6D183AB8D3CC979D694 /* InspectorPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C4D1A216CB4D023221027 /* InspectorPatternScreen.swift */; };
+		A863D52BB90F2ED525DA320A /* BoxTreePatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FBDDFF886D97EB1DC8C2D /* BoxTreePatternScreen.swift */; };
 		AEC0BD238EE34DA10DFB4F89 /* FoundationUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6537D0D0CE771A064797D3AB /* FoundationUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B0E4FC1E99A2070D1A53A889 /* SectionHeaderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444A4FBF47A01E64ABEAD276 /* SectionHeaderScreen.swift */; };
+		BC58610166260D0008B4F990 /* InspectorPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C4D1A216CB4D023221027 /* InspectorPatternScreen.swift */; };
+		CD6A65D27A84FCBBC2DEF3B7 /* SidebarPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B14B1809BF128FC4D8B887 /* SidebarPatternScreen.swift */; };
+		E038C54496840F1C7EFA75D9 /* SidebarPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B14B1809BF128FC4D8B887 /* SidebarPatternScreen.swift */; };
+		E536A9CF358A0ED45F7D4443 /* MockISOBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D655D2FCABF00E1BEC6B46 /* MockISOBox.swift */; };
 		E6C3F69B33D1AAC98ACD2031 /* KeyValueRowScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF677A5298B1C63AFAEF578E /* KeyValueRowScreen.swift */; };
 		F773FF5DA2D3CED835A87ACF /* ModifiersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21C8814C8048A5B5D48B536 /* ModifiersScreen.swift */; };
 /* End PBXBuildFile section */
@@ -66,7 +76,12 @@
 		5F0F759A6F99DF023AF73C2E /* ComponentTestApp-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ComponentTestApp-iOS-Info.plist"; sourceTree = "<group>"; };
 		6537D0D0CE771A064797D3AB /* FoundationUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FoundationUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80CDFCB6A63193E80C24F968 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		9748623B7C199B1BEC4C1DF6 /* ToolbarPatternScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarPatternScreen.swift; sourceTree = "<group>"; };
+		B6B14B1809BF128FC4D8B887 /* SidebarPatternScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarPatternScreen.swift; sourceTree = "<group>"; };
 		BF677A5298B1C63AFAEF578E /* KeyValueRowScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueRowScreen.swift; sourceTree = "<group>"; };
+		D06C4D1A216CB4D023221027 /* InspectorPatternScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorPatternScreen.swift; sourceTree = "<group>"; };
+		D8D655D2FCABF00E1BEC6B46 /* MockISOBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockISOBox.swift; sourceTree = "<group>"; };
+		E07FBDDFF886D97EB1DC8C2D /* BoxTreePatternScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxTreePatternScreen.swift; sourceTree = "<group>"; };
 		F21C8814C8048A5B5D48B536 /* ModifiersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -90,6 +105,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		30574529E28A055288FD3B16 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D8D655D2FCABF00E1BEC6B46 /* MockISOBox.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		359A866801A8B64685F4F04B /* Derived */ = {
 			isa = PBXGroup;
 			children = (
@@ -111,11 +134,15 @@
 			isa = PBXGroup;
 			children = (
 				5778CB15B1DE9DB7602C5F21 /* BadgeScreen.swift */,
+				E07FBDDFF886D97EB1DC8C2D /* BoxTreePatternScreen.swift */,
 				57AE13624542A1FB5B4590C4 /* CardScreen.swift */,
 				2B5FA320990EB8F90DDDBED9 /* DesignTokensScreen.swift */,
+				D06C4D1A216CB4D023221027 /* InspectorPatternScreen.swift */,
 				BF677A5298B1C63AFAEF578E /* KeyValueRowScreen.swift */,
 				F21C8814C8048A5B5D48B536 /* ModifiersScreen.swift */,
 				444A4FBF47A01E64ABEAD276 /* SectionHeaderScreen.swift */,
+				B6B14B1809BF128FC4D8B887 /* SidebarPatternScreen.swift */,
+				9748623B7C199B1BEC4C1DF6 /* ToolbarPatternScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -133,6 +160,7 @@
 		CA96897805379B3D9B6B16D0 /* ComponentTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				30574529E28A055288FD3B16 /* Models */,
 				67C6F2C106BF20856D245B32 /* Screens */,
 				0FEA0B8FD10C24C35A79A1B1 /* ComponentTestApp.swift */,
 				80CDFCB6A63193E80C24F968 /* ContentView.swift */,
@@ -254,12 +282,17 @@
 			files = (
 				0772D5325983C1E64EFA531B /* ComponentTestApp.swift in Sources */,
 				818189090BF452A49F3479ED /* ContentView.swift in Sources */,
+				6992927770E200073BFF2CCF /* MockISOBox.swift in Sources */,
 				895C7C00A6B25C397985AC14 /* BadgeScreen.swift in Sources */,
+				1F53DA3B585271A167FF63C1 /* BoxTreePatternScreen.swift in Sources */,
 				2A88D9A31432223653E9874E /* CardScreen.swift in Sources */,
 				0B5B17F7B56BFAA17ECF10D4 /* DesignTokensScreen.swift in Sources */,
+				A7E0C6D183AB8D3CC979D694 /* InspectorPatternScreen.swift in Sources */,
 				E6C3F69B33D1AAC98ACD2031 /* KeyValueRowScreen.swift in Sources */,
 				F773FF5DA2D3CED835A87ACF /* ModifiersScreen.swift in Sources */,
 				7A3FC11BCAA42B78F6EF7050 /* SectionHeaderScreen.swift in Sources */,
+				CD6A65D27A84FCBBC2DEF3B7 /* SidebarPatternScreen.swift in Sources */,
+				6A94C4B8D2AA06804E4FBBE7 /* ToolbarPatternScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -269,12 +302,17 @@
 			files = (
 				86D3728BA7351432B4FD403B /* ComponentTestApp.swift in Sources */,
 				7F19076B95C890458B087AC7 /* ContentView.swift in Sources */,
+				E536A9CF358A0ED45F7D4443 /* MockISOBox.swift in Sources */,
 				4503D0CBEEDCC4FB123DCE38 /* BadgeScreen.swift in Sources */,
+				A863D52BB90F2ED525DA320A /* BoxTreePatternScreen.swift in Sources */,
 				70B2E3803A2AAD0B9DAB3F89 /* CardScreen.swift in Sources */,
 				28A217F5889FAFC70070F077 /* DesignTokensScreen.swift in Sources */,
+				BC58610166260D0008B4F990 /* InspectorPatternScreen.swift in Sources */,
 				62DCF4DA77811B8F33C2F1EC /* KeyValueRowScreen.swift in Sources */,
 				6E1D86DF57661F299FA6DD95 /* ModifiersScreen.swift in Sources */,
 				B0E4FC1E99A2070D1A53A889 /* SectionHeaderScreen.swift in Sources */,
+				E038C54496840F1C7EFA75D9 /* SidebarPatternScreen.swift in Sources */,
+				1C6A3A648FD6063A44CD6C2D /* ToolbarPatternScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
