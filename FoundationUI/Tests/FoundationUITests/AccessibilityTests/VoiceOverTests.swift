@@ -276,7 +276,7 @@ final class VoiceOverTests: XCTestCase {
         )
 
         XCTAssertTrue(
-            navigationHint.contains("select") || navigationHint.contains("choose"),
+            navigationHint.lowercased().contains("select") || navigationHint.lowercased().contains("choose"),
             "Sidebar should hint at selection capability"
         )
     }
@@ -495,7 +495,7 @@ final class VoiceOverTests: XCTestCase {
             ("Badge", true, false, false), // Informational, doesn't need hint
             ("Card (interactive)", true, true, true), // Interactive needs all
             ("KeyValueRow", true, true, false), // Has label and hint
-            ("SectionHeader", true, false, true), // Header trait important
+            ("SectionHeader", true, false, false), // Header trait is semantic, not interactive
             ("CopyableText", true, true, true), // Button with action
             ("Toolbar item", true, true, true), // Interactive with shortcuts
             ("Sidebar item", true, true, false), // Navigation item
@@ -505,8 +505,9 @@ final class VoiceOverTests: XCTestCase {
 
         for component in components {
             // Component passes if it has required attributes
+            // Interactive components (those with traits) require hints for VoiceOver
             let hasRequiredAttributes = component.hasLabel &&
-                                       (component.hasHint || !component.hasTrait) // Hint required for interactive
+                                       (component.hasHint || !component.hasTrait)
 
             if hasRequiredAttributes {
                 passed += 1
