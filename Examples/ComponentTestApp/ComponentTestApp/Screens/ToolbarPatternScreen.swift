@@ -156,6 +156,7 @@ struct ToolbarPatternScreen: View {
                     .padding(.horizontal, DS.Spacing.l)
                     .padding(.bottom, DS.Spacing.xl)
                 }
+                .padding(DS.Spacing.l)
             }
         }
         .toolbar {
