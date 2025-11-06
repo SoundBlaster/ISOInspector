@@ -108,23 +108,26 @@ struct BoxTreePatternScreen: View {
             }
             .padding(DS.Spacing.l)
 
-            // Tree View
-            if selectionMode == .single {
-                BoxTreePattern(
-                    data: treeItems,
-                    children: { _ in selectedNode?.children ?? [] }
-                ) { box in
-                    BoxTreeNodeView(box: box)
-                }
-            } else {
-                BoxTreePattern(
-                    data: treeItems,
-                    children: { _ in selectedNode?.children ?? [] }
-                ) { box in
-                    BoxTreeNodeView(box: box)
+            ScrollView {
+                // Tree View
+                if selectionMode == .single {
+                    BoxTreePattern(
+                        data: treeItems,
+                        children: { _ in selectedNode?.children ?? [] }
+                    ) { box in
+                        BoxTreeNodeView(box: box)
+                    }
+                } else {
+                    BoxTreePattern(
+                        data: treeItems,
+                        children: { _ in selectedNode?.children ?? [] }
+                    ) { box in
+                        BoxTreeNodeView(box: box)
+                    }
                 }
             }
-
+            .padding(.horizontal, DS.Spacing.platformDefault)
+            
             // Usage Tips
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 SectionHeader(title: "Usage Tips", showDivider: true)
