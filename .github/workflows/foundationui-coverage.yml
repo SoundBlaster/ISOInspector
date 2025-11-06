@@ -38,10 +38,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Select Xcode 16.0
+      - name: Select Xcode 26.0
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "16.0"
+          xcode-version: "26.0"
 
       - name: Show versions
         run: |
@@ -182,10 +182,10 @@ jobs:
           xcodebuild -version
           swift --version
 
-      - name: Select Xcode 16.0
+      - name: Select Xcode 26.0
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "16.0"
+          xcode-version: "26.0"
 
       - name: Install Tuist dependencies
         run: tuist install
@@ -348,10 +348,10 @@ jobs:
           swift --version
           xcrun simctl list runtimes | grep iOS || true
 
-      - name: Select Xcode 16.0
+      - name: Select Xcode 26.0
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "16.0"
+          xcode-version: "26.0"
 
       - name: Install Tuist dependencies
         run: tuist install
@@ -365,7 +365,7 @@ jobs:
           xcodebuild test \
             -workspace ISOInspector.xcworkspace \
             -scheme FoundationUI \
-            -destination 'platform=iOS Simulator,name=iPhone 15 Pro' \
+            -destination 'platform=iOS Simulator,name=iPhone 16' \
             -configuration Debug \
             -enableCodeCoverage YES \
             -derivedDataPath ./DerivedData \
