@@ -19,6 +19,10 @@ enum ScreenDestination: Hashable, Identifiable {
     case card
     case keyValueRow
     case sectionHeader
+    case inspectorPattern
+    case sidebarPattern
+    case toolbarPattern
+    case boxTreePattern
 
     var id: Self { self }
 
@@ -36,6 +40,14 @@ enum ScreenDestination: Hashable, Identifiable {
             return "KeyValueRow Component"
         case .sectionHeader:
             return "SectionHeader Component"
+        case .inspectorPattern:
+            return "InspectorPattern"
+        case .sidebarPattern:
+            return "SidebarPattern"
+        case .toolbarPattern:
+            return "ToolbarPattern"
+        case .boxTreePattern:
+            return "BoxTreePattern"
         }
     }
 }
@@ -73,6 +85,22 @@ struct ContentView: View {
                     }
                     NavigationLink(value: ScreenDestination.sectionHeader) {
                         Label("SectionHeader", systemImage: "text.justify.leading")
+                    }
+                }
+
+                // UI Patterns
+                Section("Patterns") {
+                    NavigationLink(value: ScreenDestination.inspectorPattern) {
+                        Label("InspectorPattern", systemImage: "sidebar.right")
+                    }
+                    NavigationLink(value: ScreenDestination.sidebarPattern) {
+                        Label("SidebarPattern", systemImage: "sidebar.left")
+                    }
+                    NavigationLink(value: ScreenDestination.toolbarPattern) {
+                        Label("ToolbarPattern", systemImage: "menubar.rectangle")
+                    }
+                    NavigationLink(value: ScreenDestination.boxTreePattern) {
+                        Label("BoxTreePattern", systemImage: "list.tree")
                     }
                 }
 
@@ -119,6 +147,14 @@ struct ContentView: View {
             KeyValueRowScreen()
         case .sectionHeader:
             SectionHeaderScreen()
+        case .inspectorPattern:
+            InspectorPatternScreen()
+        case .sidebarPattern:
+            SidebarPatternScreen()
+        case .toolbarPattern:
+            ToolbarPatternScreen()
+        case .boxTreePattern:
+            BoxTreePatternScreen()
         }
     }
 
