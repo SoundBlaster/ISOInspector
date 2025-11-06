@@ -137,7 +137,7 @@ final class AccessibilityIntegrationTests: XCTestCase {
         )
     }
 
-    func testAccessibilityContext_PropagatesThrough ViewHierarchy() {
+    func testAccessibilityContext_PropagatesThroughViewHierarchy() {
         // Test that AccessibilityContext values propagate correctly
 
         // AccessibilityContext at root
