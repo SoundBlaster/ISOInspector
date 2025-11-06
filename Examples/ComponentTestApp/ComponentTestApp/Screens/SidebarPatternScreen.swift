@@ -14,136 +14,118 @@ import SwiftUI
 import FoundationUI
 
 struct SidebarPatternScreen: View {
-    /// Currently selected item
-    @State private var selectedItem: ComponentLibraryItem?
+    /// Currently selected item ID
+    @State private var selectedItemID: String?
 
-    /// Sample component library data
-    private let libraryItems: [ComponentLibrarySection] = [
-        ComponentLibrarySection(
+    /// Sample component library data using SidebarPattern types
+    private let libraryItems: [SidebarPattern<String, AnyView>.Section] = [
+        SidebarPattern.Section(
             title: "Design Tokens",
             items: [
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "spacing",
                     title: "Spacing",
-                    description: "Consistent spacing values (s, m, l, xl)",
-                    icon: "arrow.left.and.right"
+                    iconSystemName: "arrow.left.and.right"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "colors",
                     title: "Colors",
-                    description: "Semantic color palette with Dark Mode support",
-                    icon: "paintpalette.fill"
+                    iconSystemName: "paintpalette.fill"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "typography",
                     title: "Typography",
-                    description: "Font styles with Dynamic Type support",
-                    icon: "textformat"
+                    iconSystemName: "textformat"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "radius",
                     title: "Radius",
-                    description: "Corner radius values for different components",
-                    icon: "circle.grid.cross"
+                    iconSystemName: "circle.grid.cross"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "animation",
                     title: "Animation",
-                    description: "Standard animation durations and curves",
-                    icon: "waveform.path"
+                    iconSystemName: "waveform.path"
                 )
             ]
         ),
-        ComponentLibrarySection(
+        SidebarPattern.Section(
             title: "View Modifiers",
             items: [
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "badgeChipStyle",
                     title: "BadgeChipStyle",
-                    description: "Badge and chip styling modifier",
-                    icon: "tag.fill"
+                    iconSystemName: "tag.fill"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "cardStyle",
                     title: "CardStyle",
-                    description: "Card container styling with elevation",
-                    icon: "rectangle.fill"
+                    iconSystemName: "rectangle.fill"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "interactiveStyle",
                     title: "InteractiveStyle",
-                    description: "Interactive element styling (hover, press)",
-                    icon: "hand.tap.fill"
+                    iconSystemName: "hand.tap.fill"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "surfaceStyle",
                     title: "SurfaceStyle",
-                    description: "Surface material backgrounds",
-                    icon: "square.3.layers.3d"
+                    iconSystemName: "square.3.layers.3d"
                 )
             ]
         ),
-        ComponentLibrarySection(
+        SidebarPattern.Section(
             title: "Components",
             items: [
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "badge",
                     title: "Badge",
-                    description: "Status and label badges",
-                    icon: "tag.fill"
+                    iconSystemName: "tag.fill"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "card",
                     title: "Card",
-                    description: "Container component with elevation",
-                    icon: "rectangle.fill"
+                    iconSystemName: "rectangle.fill"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "keyValueRow",
                     title: "KeyValueRow",
-                    description: "Key-value pair display with copy support",
-                    icon: "list.bullet.rectangle"
+                    iconSystemName: "list.bullet.rectangle"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "sectionHeader",
                     title: "SectionHeader",
-                    description: "Section titles with optional dividers",
-                    icon: "text.justify.leading"
+                    iconSystemName: "text.justify.leading"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "copyableText",
                     title: "CopyableText",
-                    description: "Text with clipboard copy functionality",
-                    icon: "doc.on.doc"
+                    iconSystemName: "doc.on.doc"
                 )
             ]
         ),
-        ComponentLibrarySection(
+        SidebarPattern.Section(
             title: "Patterns",
             items: [
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "inspector",
                     title: "InspectorPattern",
-                    description: "Scrollable inspector with sections",
-                    icon: "sidebar.right"
+                    iconSystemName: "sidebar.right"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "sidebar",
                     title: "SidebarPattern",
-                    description: "Navigation sidebar with sections",
-                    icon: "sidebar.left"
+                    iconSystemName: "sidebar.left"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "toolbar",
                     title: "ToolbarPattern",
-                    description: "Platform-adaptive toolbar",
-                    icon: "menubar.rectangle"
+                    iconSystemName: "menubar.rectangle"
                 ),
-                ComponentLibraryItem(
+                SidebarPattern.Item(
                     id: "boxTree",
                     title: "BoxTreePattern",
-                    description: "Hierarchical tree view",
-                    icon: "list.tree"
+                    iconSystemName: "list.tree"
                 )
             ]
         )
@@ -152,52 +134,115 @@ struct SidebarPatternScreen: View {
     var body: some View {
         SidebarPattern(
             sections: libraryItems,
-            selection: $selectedItem
-        ) { item in
-            // Detail view
-            ComponentDetailView(item: item)
+            selection: $selectedItemID
+        ) { itemID in
+            // Detail view builder - handles optional selection
+            AnyView(detailView(for: itemID))
         }
         .navigationTitle("SidebarPattern")
     }
-}
 
-// MARK: - Supporting Types
+    /// Returns the detail view for the given item ID
+    @ViewBuilder
+    private func detailView(for itemID: String?) -> some View {
+        if let itemID = itemID {
+            ComponentDetailView(
+                itemID: itemID,
+                title: itemTitle(for: itemID),
+                description: itemDescription(for: itemID),
+                icon: itemIcon(for: itemID)
+            )
+        } else {
+            // No selection - show placeholder
+            VStack(spacing: DS.Spacing.xl) {
+                Image(systemName: "sidebar.left")
+                    .font(.system(size: 64))
+                    .foregroundStyle(.secondary)
+                    .padding(.top, DS.Spacing.xl)
 
-/// Component library section
-struct ComponentLibrarySection: Identifiable {
-    let id = UUID()
-    let title: String
-    let items: [ComponentLibraryItem]
-}
+                Text("Select an item from the sidebar")
+                    .font(DS.Typography.title)
+                    .foregroundStyle(.secondary)
 
-/// Component library item
-struct ComponentLibraryItem: Identifiable, Hashable {
-    let id: String
-    let title: String
-    let description: String
-    let icon: String
+                Text("Browse Design Tokens, Modifiers, Components, and Patterns")
+                    .font(DS.Typography.body)
+                    .foregroundStyle(.tertiary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, DS.Spacing.xl)
+
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+
+    // Helper functions to get item metadata
+    private func itemTitle(for id: String) -> String {
+        for section in libraryItems {
+            if let item = section.items.first(where: { $0.id == id }) {
+                return item.title
+            }
+        }
+        return "Unknown"
+    }
+
+    private func itemDescription(for id: String) -> String {
+        switch id {
+        case "spacing": return "Consistent spacing values (s, m, l, xl)"
+        case "colors": return "Semantic color palette with Dark Mode support"
+        case "typography": return "Font styles with Dynamic Type support"
+        case "radius": return "Corner radius values for different components"
+        case "animation": return "Standard animation durations and curves"
+        case "badgeChipStyle": return "Badge and chip styling modifier"
+        case "cardStyle": return "Card container styling with elevation"
+        case "interactiveStyle": return "Interactive element styling (hover, press)"
+        case "surfaceStyle": return "Surface material backgrounds"
+        case "badge": return "Status and label badges"
+        case "card": return "Container component with elevation"
+        case "keyValueRow": return "Key-value pair display with copy support"
+        case "sectionHeader": return "Section titles with optional dividers"
+        case "copyableText": return "Text with clipboard copy functionality"
+        case "inspector": return "Scrollable inspector with sections"
+        case "sidebar": return "Navigation sidebar with sections"
+        case "toolbar": return "Platform-adaptive toolbar"
+        case "boxTree": return "Hierarchical tree view"
+        default: return "Component description"
+        }
+    }
+
+    private func itemIcon(for id: String) -> String {
+        for section in libraryItems {
+            if let item = section.items.first(where: { $0.id == id }) {
+                return item.iconSystemName ?? "square"
+            }
+        }
+        return "square"
+    }
 }
 
 // MARK: - Component Detail View
 
 struct ComponentDetailView: View {
-    let item: ComponentLibraryItem
+    let itemID: String
+    let title: String
+    let description: String
+    let icon: String
 
     var body: some View {
         VStack(spacing: DS.Spacing.xl) {
             // Icon
-            Image(systemName: item.icon)
+            Image(systemName: icon)
                 .font(.system(size: 64))
                 .foregroundStyle(DS.Colors.accent)
                 .padding(.top, DS.Spacing.xl)
 
             // Title
-            Text(item.title)
+            Text(title)
                 .font(DS.Typography.title)
                 .fontWeight(.semibold)
 
             // Description
-            Text(item.description)
+            Text(description)
                 .font(DS.Typography.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
@@ -210,19 +255,19 @@ struct ComponentDetailView: View {
 
                     KeyValueRow(
                         key: "Component ID",
-                        value: item.id,
+                        value: itemID,
                         copyable: true
                     )
 
                     KeyValueRow(
                         key: "Type",
-                        value: componentType(for: item.id),
+                        value: componentType(for: itemID),
                         copyable: false
                     )
 
                     KeyValueRow(
                         key: "Layer",
-                        value: componentLayer(for: item.id),
+                        value: componentLayer(for: itemID),
                         copyable: false
                     )
                 }
@@ -233,7 +278,7 @@ struct ComponentDetailView: View {
             Spacer()
 
             // Usage Hint
-            Text("Select items from the sidebar to view details")
+            Text("This is a demonstration of SidebarPattern")
                 .font(DS.Typography.caption)
                 .foregroundStyle(.tertiary)
                 .padding(.bottom, DS.Spacing.l)
@@ -242,45 +287,29 @@ struct ComponentDetailView: View {
     }
 
     private func componentType(for id: String) -> String {
-        if libraryItemIsIn(id, section: "Design Tokens") {
+        if ["spacing", "colors", "typography", "radius", "animation"].contains(id) {
             return "Design Token"
-        } else if libraryItemIsIn(id, section: "View Modifiers") {
+        } else if id.hasSuffix("Style") {
             return "View Modifier"
-        } else if libraryItemIsIn(id, section: "Components") {
+        } else if ["badge", "card", "keyValueRow", "sectionHeader", "copyableText"].contains(id) {
             return "Component"
-        } else if libraryItemIsIn(id, section: "Patterns") {
+        } else if ["inspector", "sidebar", "toolbar", "boxTree"].contains(id) {
             return "Pattern"
         }
         return "Unknown"
     }
 
     private func componentLayer(for id: String) -> String {
-        if libraryItemIsIn(id, section: "Design Tokens") {
+        if ["spacing", "colors", "typography", "radius", "animation"].contains(id) {
             return "Layer 0 (Foundation)"
-        } else if libraryItemIsIn(id, section: "View Modifiers") {
+        } else if id.hasSuffix("Style") {
             return "Layer 1 (Modifiers)"
-        } else if libraryItemIsIn(id, section: "Components") {
+        } else if ["badge", "card", "keyValueRow", "sectionHeader", "copyableText"].contains(id) {
             return "Layer 2 (Components)"
-        } else if libraryItemIsIn(id, section: "Patterns") {
+        } else if ["inspector", "sidebar", "toolbar", "boxTree"].contains(id) {
             return "Layer 3 (Patterns)"
         }
         return "Unknown"
-    }
-
-    private func libraryItemIsIn(_ id: String, section: String) -> Bool {
-        // Simple check based on ID prefixes
-        switch section {
-        case "Design Tokens":
-            return ["spacing", "colors", "typography", "radius", "animation"].contains(id)
-        case "View Modifiers":
-            return id.hasSuffix("Style")
-        case "Components":
-            return ["badge", "card", "keyValueRow", "sectionHeader", "copyableText"].contains(id)
-        case "Patterns":
-            return ["inspector", "sidebar", "toolbar", "boxTree"].contains(id)
-        default:
-            return false
-        }
     }
 }
 
@@ -302,12 +331,7 @@ struct ComponentDetailView: View {
 
 #Preview("With Selection") {
     struct PreviewWrapper: View {
-        @State private var selection: ComponentLibraryItem? = ComponentLibraryItem(
-            id: "badge",
-            title: "Badge",
-            description: "Status and label badges",
-            icon: "tag.fill"
-        )
+        @State private var selection: String? = "badge"
 
         var body: some View {
             NavigationStack {
