@@ -19,6 +19,11 @@ on:
       - 'FoundationUI/Package.swift'
       - 'FoundationUI/Tests/**/*.swift'
 
+# Permissions needed for coverage action to comment on PRs
+permissions:
+  contents: read
+  pull-requests: write
+
 # Cancel in-progress runs for same branch
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -228,7 +233,7 @@ jobs:
           path: ./coverage-macos.xml
           threshold: 80.0
           fail: true
-          publish: true
+          publish: false
           diff: true
           togglable-report: true
 
@@ -378,7 +383,7 @@ jobs:
           path: ./coverage-ios.xml
           threshold: 80.0
           fail: true
-          publish: true
+          publish: false
           diff: true
           togglable-report: true
 
