@@ -15,6 +15,7 @@ Implement interactive Dynamic Type controls in ComponentTestApp to enable real-t
 ## 📝 Problem Statement
 
 ComponentTestApp had a non-functional Dynamic Type feature:
+
 - ❌ Static display showing text size but no way to change it
 - ❌ Controls located in main navigation (not visible during testing)
 - ❌ No visual feedback when attempting to change size
@@ -23,6 +24,7 @@ ComponentTestApp had a non-functional Dynamic Type feature:
 ### Original Issue
 
 The code in ContentView.swift had:
+
 ```swift
 HStack {
     Label("Text Size", systemImage: "textformat.size")
@@ -41,6 +43,7 @@ This displayed the current size but provided **no interaction**.
 **Location**: `Examples/ComponentTestApp/ComponentTestApp/Screens/DesignTokensScreen.swift`
 
 **Rationale**:
+
 - Controls are now directly above Typography samples
 - Immediate visual feedback when changing size
 - Clear cause-and-effect relationship
@@ -49,13 +52,15 @@ This displayed the current size but provided **no interaction**.
 ### 2. Created Smart Override System
 
 **Features**:
+
 - ✅ **System mode (default)**: Respects device/system text size settings
 - ✅ **Override mode**: Allows custom text size selection
 - ✅ **Toggle-based**: Easy to switch between system and custom
 - ✅ **Visual indicators**: Color-coded boxes show current mode
 
 **UI Flow**:
-```
+
+```bash
 ┌─────────────────────────────────────────────────┐
 │ Typography                                      │
 ├─────────────────────────────────────────────────┤
@@ -105,6 +110,7 @@ This displayed the current size but provided **no interaction**.
 ```
 
 **How it works**:
+
 - When override is **ON**: Applies custom `.dynamicTypeSize()` to entire screen
 - When override is **OFF**: System environment flows through naturally
 - **All text** on screen scales immediately (navigation, labels, samples)
@@ -114,6 +120,7 @@ This displayed the current size but provided **no interaction**.
 #### macOS Implementation ✅
 
 **Challenge**: macOS doesn't support `.dynamicTypeSize()` modifier
+
 - No user-adjustable text size setting in macOS
 - Modifier has no effect on macOS apps
 - SwiftUI semantic fonts don't scale
@@ -146,6 +153,7 @@ private func scaledFont(size: CGFloat) -> Font {
 ```
 
 **Demo Text** (proves it works):
+
 ```swift
 Text("✅ Custom Scaled Text (works on macOS!)")
     .font(scaledFont(size: 20))
@@ -159,6 +167,7 @@ Text("Current scale: \(String(format: "%.0f%%", fontScaleMultiplier * 100))")
 ### 4. State Management Architecture
 
 **Wrapper Enum** (for AppStorage compatibility):
+
 ```swift
 enum DynamicTypeSizePreference: Int, CaseIterable {
     case xSmall = 0
@@ -172,10 +181,12 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 ```
 
 **AppStorage Keys**:
+
 - `"overrideSystemDynamicType"`: Bool (toggle state)
 - `"dynamicTypeSizePreference"`: Int (selected size)
 
 **Reactive Updates**:
+
 - Change picker → `@AppStorage` updates → View re-renders → Text scales
 
 ## 🎯 User Experience Flow
@@ -210,19 +221,23 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 ### Files Modified
 
 #### 1. ComponentTestApp.swift
+
 **Path**: `Examples/ComponentTestApp/ComponentTestApp/ComponentTestApp.swift`
 
 **Changes**:
+
 - Added `DynamicTypeSizePreference` enum (67 lines)
 - Removed `@AppStorage` from App (state moved to ContentView)
 
 **Net Changes**: +67 / -5 = +62 lines
 
 #### 2. ContentView.swift
+
 **Path**: `Examples/ComponentTestApp/ComponentTestApp/ContentView.swift`
 
 **Changes**:
-- Added `@AppStorage("overrideSystemDynamicType")` 
+
+- Added `@AppStorage("overrideSystemDynamicType")`
 - Added `@Environment(\.dynamicTypeSize)` for system size display
 - Removed Dynamic Type controls from Controls section
 - Added `.if()` view extension for conditional modifiers
@@ -231,12 +246,14 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 **Net Changes**: +45 / -33 = +12 lines
 
 #### 3. DesignTokensScreen.swift ⭐ (Main Changes)
+
 **Path**: `Examples/ComponentTestApp/ComponentTestApp/Screens/DesignTokensScreen.swift`
 
 **Changes**:
+
 - Added `@AppStorage("overrideSystemDynamicType")`
 - Added `@AppStorage("dynamicTypeSizePreference")`
-- Added `@Environment(\.dynamicTypeSize)` 
+- Added `@Environment(\.dynamicTypeSize)`
 - Added Dynamic Type Controls UI (68 lines)
 - Added test demo box with custom scaled text (17 lines)
 - Added `.dynamicTypeSize()` modifier on ScrollView (iOS)
@@ -258,12 +275,14 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 ### Why Move Controls to DesignTokensScreen?
 
 **Pros**:
+
 - ✅ Immediate visual feedback (see text change where controls are)
 - ✅ Clear context (controls right above affected samples)
 - ✅ Better for testing and demonstration
 - ✅ Follows "show, don't tell" principle
 
 **Cons**:
+
 - ❌ Controls only visible on one screen
 - ❌ Doesn't affect app-wide text (by design)
 
@@ -272,6 +291,7 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 ### Why Toggle Instead of Always-On Picker?
 
 **Rationale**:
+
 - Respects system settings by default (accessibility best practice)
 - Makes it clear when override is active
 - Prevents accidental changes to system behavior
@@ -280,11 +300,13 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 ### Why Custom Scaling for macOS?
 
 **Alternatives Considered**:
+
 1. ❌ Skip macOS support (not acceptable)
 2. ❌ Use `@ScaledMetric` (doesn't scale fonts, only spacing)
 3. ✅ **Manual scaling with multipliers** (chosen)
 
 **Rationale**:
+
 - macOS doesn't support `.dynamicTypeSize()` at all
 - Need consistent UX across platforms
 - Manual scaling provides full control
@@ -308,6 +330,7 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 | A5 | 3.5 (350%) | Maximum (3.5× baseline) |
 
 **Based on**:
+
 - iOS Dynamic Type scaling guidelines
 - WCAG 2.1 Level AA requirements (200% zoom)
 - Apple HIG accessibility recommendations
@@ -329,6 +352,7 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 **Result**: ✅ **Works perfectly!**
 
 **Test Cases**:
+
 1. ✅ Default state shows system size
 2. ✅ Toggle ON reveals picker
 3. ✅ Selecting XS shrinks text dramatically
@@ -347,6 +371,7 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 **Result**: ✅ **Works with custom scaling!**
 
 **Test Cases**:
+
 1. ✅ Green demo box text scales correctly
 2. ✅ Current scale % displays accurately
 3. ✅ All 12 size options work
@@ -355,6 +380,7 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 6. ✅ Toggle behavior works correctly
 
 **Limitations**:
+
 - ⚠️ DS.Typography semantic fonts don't scale (macOS limitation)
 - ✅ Custom scaled text demo proves mechanism works
 - ℹ️ To scale DS.Typography on macOS, would need to refactor all design tokens
@@ -364,6 +390,7 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 ### Code Comments
 
 All new code includes:
+
 - ✅ DocC-style documentation comments
 - ✅ Parameter descriptions
 - ✅ Usage examples
@@ -459,12 +486,14 @@ All new code includes:
 ## ✅ Success Criteria Met
 
 From Phase 2.3 specification:
+
 - [x] ✅ Dynamic Type size adjustment
 - [x] ✅ Interactive component inspector with controls
 - [x] ✅ Live preview of component variations
 - [x] ✅ Platform-specific features demonstrated
 
 From Phase 5.4 specification:
+
 - [x] ✅ Dynamic Type support verified on all screens
 - [x] ✅ App builds and runs on iOS 17+, macOS 14+
 - [x] ✅ Interactive controls with immediate feedback
