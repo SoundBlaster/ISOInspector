@@ -1,20 +1,21 @@
-# SYSTEM PROMPT: Document and Plan FoundationUI Bug Fix
+# SYSTEM PROMPT: Document and Analyze FoundationUI Bug Report (QA/Management)
 
 ## 🧩 PURPOSE
 
-Transform an incoming bug report about FoundationUI components, modifiers, or design tokens into a fully documented fix specification that integrates into the FoundationUI planning ecosystem, ensuring alignment with Composable Clarity Design System principles and the existing task plan.
+Transform an incoming bug report about FoundationUI components, modifiers, or design tokens into a fully documented bug specification that integrates into the FoundationUI planning ecosystem. This is a **QA/management command** that analyzes, classifies, and documents bugs without implementing fixes.
 
 ## 🎯 GOAL
 
-Transform an incoming bug report (visual issues, behavior problems, accessibility defects, or design system violations) into fully contextualized documentation updates:
+Transform an incoming bug report (visual issues, behavior problems, accessibility defects, or design system violations) into fully contextualized documentation:
 
 - **Structured analysis** of the bug and its impact
 - **Layer classification** (Tokens/Modifiers/Components/Patterns/Contexts)
 - **Root cause identification** (code locations, affected components)
+- **Severity assessment** (Critical/High/Medium/Low)
+- **Bug specification** stored in `FoundationUI/DOCS/SPECS/`
 - **Task Plan integration** (add bug fix tasks to appropriate phase)
 - **PRD updates** (document fix requirements and success criteria)
 - **Test Plan updates** (define testing strategy for bug fix and regression prevention)
-- **Fix specification** (detailed plan for implementation via START command)
 
 ---
 
@@ -25,8 +26,8 @@ Transform an incoming bug report (visual issues, behavior problems, accessibilit
 - [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md) — Master task list
 - [FoundationUI PRD](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md) — Product requirements and success criteria
 - [FoundationUI Test Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TestPlan.md) — Testing strategy
-- Existing task records in [FoundationUI/DOCS/INPROGRESS](../INPROGRESS)
-- Blocked work references in [FoundationUI/DOCS/INPROGRESS/blocked.md](../INPROGRESS/blocked.md)
+- Bug specifications in [FoundationUI/DOCS/SPECS](../SPECS)
+- Task records in [FoundationUI/DOCS/INPROGRESS](../INPROGRESS)
 
 ### Design System Rules
 
@@ -89,7 +90,7 @@ Search FoundationUI codebase to identify root cause:
    - Are there accessibility tests?
    - What test coverage is missing?
 3. **Search for similar bugs**:
-   - Check `DOCS/INPROGRESS/` for related bug reports
+   - Check `DOCS/SPECS/` for related bug specifications
    - Check `DOCS/TASK_ARCHIVE/` for previously fixed bugs
 4. **Identify root cause**:
    - Read the affected code
@@ -305,17 +306,17 @@ Add testing strategy to [FoundationUI Test Plan](../../../DOCS/AI/ISOViewer/Foun
 **Test Coverage Target**: 100% for bug fix code paths
 ```
 
-### Step 9. Create Bug Fix Proposal Document
+### Step 9. Create Bug Specification Document
 
-Create a detailed proposal document:
+Create a detailed bug specification document:
 
-**File**: `FoundationUI/DOCS/INPROGRESS/BUG_{ComponentName}_{BriefDescription}.md`
+**File**: `FoundationUI/DOCS/SPECS/BUG_{ComponentName}_{BriefDescription}.md`
 
 ```markdown
-# Bug Fix Proposal: {Bug Title}
+# Bug Specification: {Bug Title}
 
 **Date**: {Current date}
-**Status**: Ready for Implementation
+**Status**: Documented
 **Severity**: {Critical/High/Medium/Low}
 **Layer**: {Layer number and name}
 
@@ -323,7 +324,7 @@ Create a detailed proposal document:
 
 ## Bug Summary
 
-{Brief description of the bug and why it needs fixing}
+{Brief description of the bug and its impact}
 
 ## Reproduction
 
@@ -427,43 +428,29 @@ func test{FeatureName}() {
 
 ---
 
-## Implementation Plan
+## Implementation Requirements
 
 ### Prerequisites
-1. {Prerequisite 1, if any}
-2. {Prerequisite 2, if any}
+- {List any missing tokens, components, or dependencies that must exist first}
 
-### Implementation Steps
-1. [ ] Write failing test that reproduces the bug
-2. [ ] Implement minimal fix using DS tokens
-3. [ ] Verify all tests pass
-4. [ ] Run SwiftLint (must show 0 violations)
-5. [ ] Update SwiftUI Preview to show fix
-6. [ ] Run snapshot tests
-7. [ ] Run accessibility tests
-8. [ ] Update documentation if needed
+### Proposed Implementation Approach
+1. Write failing test that reproduces the bug
+2. Implement minimal fix using DS tokens
+3. Verify all tests pass
+4. Run SwiftLint (must show 0 violations)
+5. Update SwiftUI Preview to show fix
+6. Run snapshot tests
+7. Run accessibility tests
+8. Update documentation if needed
 
 ### Success Criteria
-- [ ] Bug is not reproducible
+- [ ] Bug is not reproducible after fix
 - [ ] All tests pass
 - [ ] Design system integrity maintained (zero magic numbers)
 - [ ] Test coverage ≥80%
 - [ ] SwiftLint 0 violations
 - [ ] Accessibility requirements met
-- [ ] Preview demonstrates fix
-
----
-
-## Next Steps
-
-**To implement this fix, use the [START command](./START.md) to begin TDD implementation.**
-
-### Recommended Workflow
-1. Review this proposal document
-2. Run `/start` command to begin implementation
-3. Follow TDD cycle: failing test → minimal fix → refactor
-4. Verify all success criteria
-5. Use [ARCHIVE command](./ARCHIVE.md) to document completion
+- [ ] SwiftUI Preview demonstrates fix
 
 ---
 
@@ -472,12 +459,14 @@ func test{FeatureName}() {
 - {Any unresolved decisions or clarifications needed}
 - {Platform-specific behavior questions}
 - {Design system token questions}
+- {Priority and timeline questions}
 
 ---
 
-**Proposal Date**: {Current date}
+**Specification Date**: {Current date}
 **Estimated Effort**: {S/M/L/XL}
 **Priority**: {P0/P1/P2} based on severity and user impact
+**Assignment**: {To be determined by project manager}
 ```
 
 ---
@@ -496,49 +485,58 @@ Before finalizing, verify:
 
 ### Step 11. Generate Summary Report
 
-Create a final summary:
+Create a final summary for stakeholders:
 
 ```markdown
-# Bug Fix Proposal Summary: {Bug Title}
+# Bug Specification Summary: {Bug Title}
 
 ## Quick Facts
 - **Component**: {ComponentName}
 - **Layer**: {Layer}
 - **Severity**: {Critical/High/Medium/Low}
 - **Root Cause**: {Brief explanation}
+- **Status**: Documented and ready for assignment
 
-## Documentation Updated
+## Documentation Updates Completed
 - ✅ Task Plan: {N} tasks added to Phase {X}
 - ✅ PRD: Bug fix requirements documented
 - ✅ Test Plan: Regression tests defined
-- ✅ Proposal: `INPROGRESS/BUG_{Name}.md`
+- ✅ Bug Specification: `SPECS/BUG_{Name}.md` created
 
-## Next Steps
-1. Review proposal document
-2. Use START command to implement fix
-3. Follow TDD workflow (test → implement → refactor)
-4. Use ARCHIVE command when complete
+## Impact Assessment
+- **User Impact**: {High/Medium/Low}
+- **Design System Impact**: {Breaks/Maintains} design system integrity
+- **Accessibility Impact**: {Blocks/Degrades/No impact on} accessibility
+- **Platform Scope**: {iOS/iPadOS/macOS/All}
 
 ## Estimated Effort
-{S/M/L/XL} based on:
+**Size**: {S/M/L/XL}
+
+Based on:
 - Code complexity: {simple/medium/complex}
 - Test coverage needed: {basic/comprehensive}
 - Documentation updates: {minimal/moderate/extensive}
+- Prerequisites required: {none/some/many}
+
+## Priority Recommendation
+**{P0/P1/P2}** — {Justification for priority based on severity and impact}
 ```
 
 ---
 
 ## ✅ EXPECTED OUTPUT
 
-- **Bug analysis** with layer classification, root cause, and impact assessment
-- **Fix specification** with code changes, design tokens, and testing strategy
-- **Task Plan updated** with bug fix tasks in correct phase and layer order
-- **PRD updated** with bug description, requirements, and success criteria
-- **Test Plan updated** with regression prevention strategy
-- **Proposal document** created in `FoundationUI/DOCS/INPROGRESS/`
-- **Summary report** with next steps for implementation
+This is a **QA/management command** that produces documentation only:
 
-**NO CODE IS IMPLEMENTED** — This command only documents and plans. Use [START command](./START.md) to execute the fix.
+- **Bug specification document** created in `FoundationUI/DOCS/SPECS/BUG_{Name}.md`
+- **Comprehensive bug analysis**: Layer classification, root cause, severity assessment
+- **Impact assessment**: User impact, design system impact, accessibility impact
+- **Task Plan updated**: Bug fix tasks added to appropriate phase with priority
+- **PRD updated**: Bug description, fix requirements, and success criteria documented
+- **Test Plan updated**: Regression prevention strategy and test coverage requirements
+- **Summary report**: Stakeholder-ready summary with priority recommendations and effort estimates
+
+**NO CODE IS IMPLEMENTED** — This command is purely for QA analysis and project management. It does not execute fixes, write tests, or modify code. The bug specification serves as a detailed work order for developers.
 
 ---
 
@@ -590,7 +588,7 @@ var backgroundColor: Color {
 
 ### Step 4: Define Specification
 
-File: `FoundationUI/DOCS/INPROGRESS/BUG_Badge_Warning_Color.md`
+File: `FoundationUI/DOCS/SPECS/BUG_Badge_Warning_Color.md`
 
 ```markdown
 # Bug Fix Proposal: Badge Warning Level Wrong Color
@@ -701,9 +699,9 @@ Added regression test section:
 **Test Coverage Target**: 100% for BadgeLevel.backgroundColor
 ```
 
-### Step 9: Create Proposal
+### Step 9: Create Specification
 
-File: `FoundationUI/DOCS/INPROGRESS/BUG_Badge_Warning_Color.md` (full spec created)
+File: `FoundationUI/DOCS/SPECS/BUG_Badge_Warning_Color.md` (full spec created)
 
 ### Step 10: Validate
 
@@ -716,55 +714,104 @@ File: `FoundationUI/DOCS/INPROGRESS/BUG_Badge_Warning_Color.md` (full spec creat
 ### Step 11: Summary
 
 ```markdown
-# Bug Fix Proposal Summary: Badge Warning Color
+# Bug Specification Summary: Badge Warning Color
 
 ## Quick Facts
 - **Component**: Badge (Layer 2)
 - **Severity**: Medium
 - **Root Cause**: Copy-paste error in BadgeChipStyle.swift:15
+- **Status**: Documented and ready for assignment
 
 ## Documentation Updated
 - ✅ Task Plan: 1 task added to Phase 2
 - ✅ PRD: Bug fix requirements documented
 - ✅ Test Plan: Unit + snapshot tests defined
-- ✅ Proposal: `INPROGRESS/BUG_Badge_Warning_Color.md`
+- ✅ Bug Specification: `SPECS/BUG_Badge_Warning_Color.md` created
 
-## Next Steps
-1. Review proposal in INPROGRESS/
-2. Run `/start` to implement fix
-3. Follow TDD: failing test → fix → refactor
-4. Archive when complete
+## Impact Assessment
+- **User Impact**: Medium — affects warning badge visual appearance
+- **Design System Impact**: Maintains integrity (fix uses correct DS token)
+- **Accessibility Impact**: No impact on accessibility
+- **Platform Scope**: All (iOS, iPadOS, macOS)
 
 ## Estimated Effort
-**S** (Small) — simple one-line fix with test
+**S** (Small)
+
+Based on:
+- Code complexity: Simple (one-line change)
+- Test coverage needed: Basic (unit + snapshot tests)
+- Documentation updates: Minimal (SwiftUI preview update)
+- Prerequisites required: None
+
+## Priority Recommendation
+**P1** — Medium severity UX issue affecting visual consistency
 ```
 
 ---
 
 ## 🧾 NOTES
 
-- **Always document first, implement later** — This command creates the plan; START executes it
-- **Check for similar bugs** — Search INPROGRESS and TASK_ARCHIVE before creating duplicate proposals
-- **Classify severity accurately** — Critical = blocks users, High = major UX issue, Medium = minor UX issue, Low = cosmetic
-- **Identify root cause** — Don't just describe symptoms; explain why the bug occurs
-- **Plan comprehensive tests** — Every bug needs tests to prevent regression
-- **Consider design system impact** — Does this bug violate Zero Magic Numbers or Composable Clarity?
+### Role of BUG Command
+
+This is a **QA/management command** that:
+- ✅ Analyzes and documents bugs thoroughly
+- ✅ Classifies bugs by layer, type, and severity
+- ✅ Updates planning documents (Task Plan, PRD, Test Plan)
+- ✅ Creates detailed specifications for developers
+- ❌ Does NOT implement fixes
+- ❌ Does NOT write or run tests
+- ❌ Does NOT modify code
+
+### Best Practices
+
+- **Check for duplicates first** — Search `SPECS/` and `TASK_ARCHIVE/` before creating new specifications
+- **Classify severity accurately**:
+  - **Critical**: Blocks users from core functionality
+  - **High**: Major UX issue or data loss risk
+  - **Medium**: Minor UX issue or visual inconsistency
+  - **Low**: Cosmetic issue with minimal impact
+- **Identify root cause** — Don't just describe symptoms; explain WHY the bug occurs
+- **Plan comprehensive tests** — Every bug specification should define regression tests
+- **Assess design system impact** — Does this bug violate Zero Magic Numbers or Composable Clarity layers?
+- **Consider all platforms** — iOS, iPadOS, and macOS may be affected differently
 
 ---
 
 ## 🔄 INTEGRATION WITH WORKFLOW
 
-After documenting a bug with this command, use:
+The BUG command fits into the FoundationUI workflow as a **QA/documentation step**:
 
-- [START command](./START.md) to implement the fix following TDD workflow
-- [SELECT_NEXT command](./SELECT_NEXT.md) to prioritize when to fix it
-- [ARCHIVE command](./ARCHIVE.md) to document the completed fix
+### When to Use BUG Command
 
-**Workflow**:
-1. **BUG command** → Document and plan the fix
-2. **SELECT_NEXT command** → Decide priority
-3. **START command** → Implement the fix via TDD
-4. **ARCHIVE command** → Document completion
+- **User reports a bug** via issue tracker, feedback, or testing
+- **QA discovers a bug** during manual or automated testing
+- **Developer notices a bug** during code review or implementation
+- **Design system audit** reveals violations or inconsistencies
+
+### What BUG Command Produces
+
+1. **Bug Specification** in `DOCS/SPECS/BUG_{Name}.md`
+   - Detailed analysis and root cause
+   - Reproduction steps and environment
+   - Proposed fix approach
+   - Testing requirements
+
+2. **Updated Planning Documents**
+   - Task Plan: Bug fix tasks added with priority
+   - PRD: Requirements and success criteria
+   - Test Plan: Regression test strategy
+
+3. **Summary Report**
+   - Stakeholder-ready impact assessment
+   - Effort estimate and priority recommendation
+
+### Related Commands
+
+- [STATE command](./STATE.md) — Review overall project health and bug count
+- [ARCHIVE command](./ARCHIVE.md) — Document completed work (when bug is fixed)
+- [NEW command](./NEW.md) — Add new features (some bugs may actually be missing features)
+
+**Note**: BUG command does NOT implement fixes. It produces specifications that serve as work orders for developers.
 
 ---
 
