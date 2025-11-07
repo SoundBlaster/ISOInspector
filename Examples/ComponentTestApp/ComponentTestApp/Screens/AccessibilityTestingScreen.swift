@@ -414,7 +414,7 @@ struct AccessibilityTestingScreen: View {
                 .foregroundColor(DS.Colors.successBG)
                 .frame(width: 60, alignment: .trailing)
         }
-        .padding(.vertical, DS.Spacing.xs)
+        .padding(.vertical, DS.Spacing.s)
     }
 
     private func checklistItem(text: String, passed: Bool) -> some View {
@@ -426,14 +426,6 @@ struct AccessibilityTestingScreen: View {
                 .font(DS.Typography.body)
                 .foregroundColor(DS.Colors.textPrimary)
         }
-    }
-}
-
-// MARK: - Supporting Extensions
-
-private extension DS {
-    enum Spacing {
-        static let xs: CGFloat = 4
     }
 }
 
