@@ -501,7 +501,7 @@ Create a final summary for stakeholders:
 - ✅ Task Plan: {N} tasks added to Phase {X}
 - ✅ PRD: Bug fix requirements documented
 - ✅ Test Plan: Regression tests defined
-- ✅ Bug Specification: `SPECS/BUG_{Name}.md` created
+- ✅ Bug Specification: `DOCS/SPECS/BUG_{Name}.md` created
 
 ## Impact Assessment
 - **User Impact**: {High/Medium/Low}
@@ -726,7 +726,7 @@ File: `FoundationUI/DOCS/SPECS/BUG_Badge_Warning_Color.md` (full spec created)
 - ✅ Task Plan: 1 task added to Phase 2
 - ✅ PRD: Bug fix requirements documented
 - ✅ Test Plan: Unit + snapshot tests defined
-- ✅ Bug Specification: `SPECS/BUG_Badge_Warning_Color.md` created
+- ✅ Bug Specification: `DOCS/SPECS/BUG_Badge_Warning_Color.md` created
 
 ## Impact Assessment
 - **User Impact**: Medium — affects warning badge visual appearance
@@ -764,7 +764,7 @@ This is a **QA/management command** that:
 
 ### Best Practices
 
-- **Check for duplicates first** — Search `SPECS/` and `DOCS/TASK_ARCHIVE/` before creating new specifications
+- **Check for duplicates first** — Search `DOCS/SPECS/` and `DOCS/TASK_ARCHIVE/` before creating new specifications
 - **Classify severity accurately**:
   - **Critical**: Blocks users from core functionality
   - **High**: Major UX issue or data loss risk

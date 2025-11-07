@@ -479,7 +479,7 @@ Move the bug specification to archive after successful fix:
    - Branch: `{branch name}`
    ```
 
-2. **Move to archive** (optional, or keep in SPECS for reference):
+2. **Move to archive** (optional, or keep in DOCS/SPECS for reference):
 
    ```bash
    mkdir -p FoundationUI/DOCS/SPECS/FIXED
