@@ -387,7 +387,9 @@ Added preview: **"Bug Fix - macOS Tertiary Color Contrast"**
 ### Commit
 
 **Branch**: `claude/fix-foundation-ui-011CUty6hY73Q3EbWVyDmhB4`
-**Commit**: Pending (to be created in Step 8)
+**Commits**:
+- `6073fc7` - Main bug fix implementation
+- `ea93549` - Fix preview compilation error (Section.id type correction)
 
 ### Manual Verification Required
 
