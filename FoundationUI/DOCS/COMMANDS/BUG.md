@@ -764,7 +764,7 @@ This is a **QA/management command** that:
 
 ### Best Practices
 
-- **Check for duplicates first** — Search `SPECS/` and `TASK_ARCHIVE/` before creating new specifications
+- **Check for duplicates first** — Search `SPECS/` and `DOCS/TASK_ARCHIVE/` before creating new specifications
 - **Classify severity accurately**:
   - **Critical**: Blocks users from core functionality
   - **High**: Major UX issue or data loss risk
