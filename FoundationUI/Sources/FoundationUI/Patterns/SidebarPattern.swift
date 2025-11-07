@@ -651,7 +651,6 @@ private enum Layout {
                 SidebarPattern(
                     sections: [
                         .init(
-                            id: UUID(),
                             title: "Test Section",
                             items: [
                                 .init(id: 1, title: "Item 1", iconSystemName: "doc"),
