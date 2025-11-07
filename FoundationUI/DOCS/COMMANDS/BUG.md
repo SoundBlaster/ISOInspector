@@ -1,12 +1,20 @@
-# SYSTEM PROMPT: Process and Resolve a FoundationUI Bug Report
+# SYSTEM PROMPT: Document and Plan FoundationUI Bug Fix
 
 ## 🧩 PURPOSE
 
-Transform an incoming bug report about FoundationUI components, modifiers, or design tokens into a fully diagnosed, test-driven fix plan that delivers a verified resolution while maintaining design system integrity and keeping all workflow artifacts up to date.
+Transform an incoming bug report about FoundationUI components, modifiers, or design tokens into a fully documented fix specification that integrates into the FoundationUI planning ecosystem, ensuring alignment with Composable Clarity Design System principles and the existing task plan.
 
 ## 🎯 GOAL
 
-From the invocation context extract the user-submitted bug report (visual issues, behavior problems, accessibility defects, or design system violations), formalize it, capture it in `FoundationUI/DOCS/INPROGRESS`, define the remediation scope (affected layer, component touchpoints, and validation strategy), execute the fix via TDD/XP/PDD workflows while respecting Composable Clarity principles, and update planning documents when blockers arise.
+Transform an incoming bug report (visual issues, behavior problems, accessibility defects, or design system violations) into fully contextualized documentation updates:
+
+- **Structured analysis** of the bug and its impact
+- **Layer classification** (Tokens/Modifiers/Components/Patterns/Contexts)
+- **Root cause identification** (code locations, affected components)
+- **Task Plan integration** (add bug fix tasks to appropriate phase)
+- **PRD updates** (document fix requirements and success criteria)
+- **Test Plan updates** (define testing strategy for bug fix and regression prevention)
+- **Fix specification** (detailed plan for implementation via START command)
 
 ---
 
@@ -20,9 +28,13 @@ From the invocation context extract the user-submitted bug report (visual issues
 - Existing task records in [FoundationUI/DOCS/INPROGRESS](../INPROGRESS)
 - Blocked work references in [FoundationUI/DOCS/INPROGRESS/blocked.md](../INPROGRESS/blocked.md)
 
+### Design System Rules
+
+- [Composable Clarity PRD](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md#composable-clarity-design-system) — Layered architecture
+- [Zero Magic Numbers Rule](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md#design-system-tokens) — All values must use DS tokens
+
 ### Project Rules (from main ISOInspector)
 
-- [DOCS/RULES/](../../../DOCS/RULES/) — Complete rules directory
 - [02_TDD_XP_Workflow.md](../../../DOCS/RULES/02_TDD_XP_Workflow.md) — Test-driven development workflow
 - [04_PDD.md](../../../DOCS/RULES/04_PDD.md) — Puzzle-driven development
 - [07_AI_Code_Structure_Principles.md](../../../DOCS/RULES/07_AI_Code_Structure_Principles.md) — One entity per file
@@ -34,18 +46,15 @@ From the invocation context extract the user-submitted bug report (visual issues
 
 ### Step 1. Capture the Bug Report
 
-- Parse the invocation context to extract the raw user bug report (title, observed behavior, affected component, platform, expected behavior, reproduction steps).
-- Normalize and enrich the report with missing critical details when inferable (screenshots, SwiftUI preview code, affected design tokens, platform-specific behavior).
-- Store the formalized report in a new Markdown file within [FoundationUI/DOCS/INPROGRESS](../INPROGRESS) using a numbered, descriptive filename.
-- Include sections for:
-  - **Objective**: What bug needs fixing
-  - **Affected Component**: Layer (0-4) and component name
-  - **Symptoms**: Visual issues, crashes, incorrect behavior
-  - **Environment**: iOS/iPadOS/macOS version, device, Xcode version
-  - **Reproduction Steps**: Minimal SwiftUI code to reproduce
-  - **Expected vs. Actual**: What should happen vs. what happens
-  - **Design System Impact**: Which DS tokens or modifiers are affected
-  - **Open Questions**: Unclear requirements or platform differences
+Parse the incoming request and extract:
+
+1. **Bug title** (concise description of the issue)
+2. **Symptoms** (what users observe: visual issues, crashes, incorrect behavior)
+3. **Affected component** (which component/modifier/token is broken)
+4. **Environment** (iOS/iPadOS/macOS version, device, Xcode version)
+5. **Reproduction steps** (minimal SwiftUI code or user actions to trigger the bug)
+6. **Expected vs. Actual behavior** (what should happen vs. what happens)
+7. **Screenshots/videos** (if applicable, especially for visual bugs)
 
 ### Step 2. Classify Bug by Layer and Type
 
@@ -66,172 +75,474 @@ Classify bug type:
 - **Design System Violation**: Magic numbers, hardcoded values, token misuse
 - **Performance**: Rendering lag, memory leaks, excessive redraws
 
-### Step 3. Define Scope and Hypotheses
+### Step 3. Research Existing Code
 
-- Identify the functional area ("front of work") affected by the bug (Design Tokens, Modifiers, Components, Patterns, Contexts).
-- Pinpoint likely code locations:
-  - Source files: `Sources/FoundationUI/{Layer}/{ComponentName}.swift`
-  - Test files: `Tests/FoundationUITests/{Layer}Tests/{ComponentName}Tests.swift`
-  - Preview code: SwiftUI preview blocks in source files
-- Note relevant existing tests or the absence thereof.
-- Check for related snapshot tests, accessibility tests, unit tests.
-- Record initial diagnostic hypotheses in the INPROGRESS document.
+Search FoundationUI codebase to identify root cause:
 
-### Step 4. Plan Diagnostics and Testing
+1. **Locate affected files**:
+   - Source: `Sources/FoundationUI/{Layer}/{ComponentName}.swift`
+   - Tests: `Tests/FoundationUITests/{Layer}Tests/{ComponentName}Tests.swift`
+   - Previews: SwiftUI preview blocks in source files
+2. **Check existing tests**:
+   - Are there unit tests for this component?
+   - Are there snapshot tests?
+   - Are there accessibility tests?
+   - What test coverage is missing?
+3. **Search for similar bugs**:
+   - Check `DOCS/INPROGRESS/` for related bug reports
+   - Check `DOCS/TASK_ARCHIVE/` for previously fixed bugs
+4. **Identify root cause**:
+   - Read the affected code
+   - Hypothesize why the bug occurs
+   - Note any design system violations (magic numbers, wrong tokens)
 
-Create a **Diagnostics Plan** detailing:
+**Output**: Summary of affected code, root cause hypothesis, and missing test coverage.
 
-- **Reproduction**: Minimal SwiftUI code to trigger the bug
-- **Isolation**: Which DS tokens or modifiers are involved
-- **Platform Testing**: Which platforms need testing (iOS, iPadOS, macOS)
-- **Visual Inspection**: Screenshot comparison (expected vs. actual)
+### Step 4. Define Bug Fix Specification
 
-Outline a **TDD Testing Plan** specifying:
+Create a detailed specification:
 
-- **Unit Tests**: Logic bugs, state management issues
-- **Snapshot Tests**: Visual regression tests (Light/Dark mode, Dynamic Type)
-- **Accessibility Tests**: VoiceOver labels, contrast ratios, keyboard navigation
-- **Integration Tests**: Component composition, modifier interactions
+```markdown
+# {BUG_TITLE} Fix Specification
 
-If the bug reveals missing tests, document which test coverage is needed.
+## Overview
+{1-2 sentence description of the bug and its impact}
 
-### Step 5. Produce a Focused PRD Update
+## Layer Classification
+- **Layer**: {0/1/2/3/4}
+- **Type**: {Visual/Behavioral/Accessibility/Platform-Specific/Design System Violation/Performance}
+- **Severity**: {Critical/High/Medium/Low}
 
-- Draft a PRD section (embed or link within the INPROGRESS file) summarizing:
-  - **Customer Impact**: What users experience due to this bug
-  - **Acceptance Criteria**: How to verify the bug is fixed
-  - **Technical Approach**: Which files/tokens/modifiers need changes
-  - **Regression Prevention**: Which tests prevent future occurrences
-- Ensure alignment with [FoundationUI PRD](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md) and update relevant backlog entries.
+## Affected Components
 
-### Step 6. Execute the Fix via TDD/XP/PDD
+### Files to Modify
+- `Sources/FoundationUI/{Layer}/{File}.swift` — {what needs to change}
+- `Tests/FoundationUITests/{Layer}Tests/{File}Tests.swift` — {what tests to add/update}
 
-Follow strict TDD cycle:
+### Design Tokens Involved
+- `DS.{Category}.{token}` — {how it's misused or missing}
 
-1. **Write failing test** reproducing the bug
-   - Create or update test file in `Tests/FoundationUITests/`
-   - Run `swift test` to confirm failure
-2. **Implement minimal fix**
-   - Update source file in `Sources/FoundationUI/`
-   - Ensure all values use DS tokens (zero magic numbers)
-   - Respect layer boundaries (don't skip layers)
-   - Add SwiftUI preview demonstrating the fix
-3. **Refactor while keeping tests green**
-   - Remove code duplication
-   - Improve naming and clarity
-   - Extract reusable components if needed
-4. **Run full test suite**
-   - Unit tests: `swift test`
-   - SwiftLint: `swiftlint` (must report 0 violations)
-   - Snapshot tests: Verify visual regression suite passes
-   - Accessibility tests: Check VoiceOver, contrast, Dynamic Type
+## Root Cause Analysis
 
-Adhere to XP principles (small iterations, continuous refactoring) and treat each sub-problem as a PDD puzzle with `@todo` markers for incomplete work.
+### Hypothesis
+{Why this bug occurs - e.g., copy-paste error, missing conditional, wrong token}
 
-### Step 7. Validate Design System Integrity
+### Evidence
+```swift
+// Current buggy code
+{code snippet showing the bug}
+```
 
-Before considering the bug fixed, verify:
+### Proposed Fix
+```swift
+// Fixed code
+{code snippet showing the fix}
+```
 
-- ✅ **Zero Magic Numbers**: All spacing/colors/fonts use DS tokens
-- ✅ **Layer Compliance**: Component respects Composable Clarity hierarchy
-- ✅ **Platform Support**: Works correctly on iOS, iPadOS, macOS (where applicable)
-- ✅ **Accessibility**: VoiceOver labels, contrast ≥4.5:1, keyboard navigation
-- ✅ **Preview Coverage**: SwiftUI preview shows the fixed behavior
-- ✅ **Test Coverage**: New/updated tests prevent regression
+## Reproduction Steps
 
-### Step 8. Document and Snapshot
+### Minimal SwiftUI Code
+```swift
+{Minimal code to reproduce the bug}
+```
 
-- Run the full test suite plus targeted diagnostics to confirm the fix.
-- Take before/after screenshots if the bug was visual.
-- Update the INPROGRESS document with:
-  - Test results and coverage metrics
-  - Remaining risks or edge cases
-  - Links to commits
-  - Screenshots demonstrating the fix
-- If new documentation, changelog, or user-facing notes are required, author them now.
-- Update [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md) if the bug revealed missing tasks.
+### Platform Testing
+- **iOS**: {Does bug occur? Y/N}
+- **iPadOS**: {Does bug occur? Y/N}
+- **macOS**: {Does bug occur? Y/N}
 
-### Step 9. Handle Blockers or Large Scope
+## Impact Assessment
 
-If the bug cannot be resolved due to upstream blockers or exceeds feasible scope:
+### User Impact
+- {Who experiences this bug? What's the severity?}
 
-- **Document Findings**: Update the diagnostics and PRD sections with current findings.
-- **Identify Blockers**: Missing design tokens, platform limitations, incomplete prerequisites
-- **Update Planning Artifacts**:
-  - Add blocked items to [blocked.md](../INPROGRESS/blocked.md)
-  - Create prerequisite tasks in [Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md)
-  - Document workarounds or temporary solutions
-- **Reclassify if Needed**: If the bug is actually a feature request, convert it to a NEW task proposal
+### Design System Impact
+- {Does this violate Zero Magic Numbers?}
+- {Does this break Composable Clarity layers?}
 
-### Step 10. Finalize
+### Accessibility Impact
+- {Does this break VoiceOver?}
+- {Does this fail contrast requirements?}
+- {Does this break keyboard navigation?}
 
-Once resolved:
+## Fix Requirements
 
-- Transition the INPROGRESS file to the appropriate archive location per workflow rules.
-- Mark linked TODO/workplan items as completed.
-- Update [Task Plan progress counters](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md) if tasks were completed.
-- Summarize:
-  - Root cause of the bug
-  - Fix implementation details
-  - Tests executed and coverage added
-  - Remaining follow-ups or related bugs
+### Must Fix
+- {Critical issues that must be addressed}
+
+### Should Fix
+- {Important improvements to include}
+
+### Nice to Fix
+- {Optional enhancements}
+
+## Testing Strategy
+
+### Unit Tests
+- {Test case 1: verify correct behavior}
+- {Test case 2: verify edge cases}
+- {Test case 3: verify regression prevention}
+
+### Snapshot Tests
+- Light/Dark mode rendering
+- All component variants
+- Dynamic Type sizes (XS, M, XXL)
+
+### Accessibility Tests
+- VoiceOver label verification
+- Contrast ratio validation (≥4.5:1)
+- Keyboard navigation support
+
+## Success Criteria
+
+- [ ] Bug is reproducible with failing test
+- [ ] Fix uses DS tokens exclusively (zero magic numbers)
+- [ ] All affected platforms tested (iOS/iPadOS/macOS)
+- [ ] SwiftUI Preview demonstrates the fix
+- [ ] Test coverage ≥80%
+- [ ] SwiftLint 0 violations
+- [ ] Accessibility requirements met
+- [ ] Documentation updated if needed
+```
+
+### Step 5. Identify Prerequisite Tasks
+
+If the bug fix depends on missing components or reveals larger issues:
+
+1. List all missing prerequisites (e.g., "requires new `DS.Colors.tooltipBG` token")
+2. Create prerequisite tasks for each dependency
+3. Order tasks by layer (lower layers first)
+
+**Example**: To fix a Badge color bug that reveals missing tokens:
+
+- Prerequisite 1: Add `DS.Colors.warnBG` token (Layer 0) — if missing
+- Prerequisite 2: Fix `BadgeChipStyle.swift` to use correct token (Layer 1)
+- Main task: Update Badge component tests and documentation (Layer 2)
+
+### Step 6. Update Task Plan
+
+Insert bug fix tasks into [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md):
+
+1. **Locate the correct phase**:
+   - Phase 1 for Design Token bugs
+   - Phase 2 for Modifier/Component bugs
+   - Phase 3 for Pattern/Context bugs
+   - Create a "Bug Fixes" subsection if needed
+2. **Add tasks in layer order**:
+
+   ```markdown
+   ### {Phase}.{Section} Bug Fixes
+   **Progress: {current}/{total+new} tasks**
+
+   - [ ] **{P0/P1/P2}** Fix {bug title}
+     - Files: `Sources/FoundationUI/{Layer}/{File}.swift`, `Tests/.../Tests.swift`
+     - Root cause: {brief explanation}
+     - Impact: {severity and user impact}
+   ```
+
+3. **Update progress counters**:
+   - Increment total task count for the phase
+   - Update percentage in Overall Progress Tracker
+
+### Step 7. Update PRD
+
+Add bug fix specification to [FoundationUI PRD](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md):
+
+1. **Locate relevant section** (or create "Bug Fixes" section):
+   - Design Tokens → "Design System Tokens (DS)"
+   - Modifiers → "View Modifiers (Layer 1)"
+   - Components → "Reusable Components (Layer 2)"
+   - Patterns → "UI Patterns (Layer 3)"
+
+2. **Add entry**:
+
+   ```markdown
+   #### Bug Fix: {BugTitle}
+   **Layer**: {Layer number and name}
+   **Severity**: {Critical/High/Medium/Low}
+   **Affected Component**: {ComponentName}
+
+   {Description of the bug and its impact on users}
+
+   **Root Cause**: {Why this bug occurs}
+
+   **Fix Requirements**:
+   - {Requirement 1}
+   - {Requirement 2}
+
+   **Success Criteria**:
+   - [ ] Bug is not reproducible after fix
+   - [ ] Tests prevent regression
+   - [ ] Design system integrity maintained
+   ```
+
+### Step 8. Update Test Plan
+
+Add testing strategy to [FoundationUI Test Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TestPlan.md):
+
+```markdown
+### Bug Fix: {BugTitle}
+
+**Regression Prevention Target**: This bug must never recur
+
+#### Reproduction Test (Should Fail Before Fix)
+- {Test that reproduces the bug}
+
+#### Unit Tests (Verify Fix)
+- {Test case 1: correct behavior}
+- {Test case 2: edge cases}
+
+#### Snapshot Tests (Visual Regression)
+- Light/Dark mode variants
+- All component states
+- Dynamic Type sizes
+
+#### Accessibility Tests
+- VoiceOver navigation
+- Contrast ratio ≥4.5:1
+- Keyboard shortcuts
+
+**Test Coverage Target**: 100% for bug fix code paths
+```
+
+### Step 9. Create Bug Fix Proposal Document
+
+Create a detailed proposal document:
+
+**File**: `FoundationUI/DOCS/INPROGRESS/BUG_{ComponentName}_{BriefDescription}.md`
+
+```markdown
+# Bug Fix Proposal: {Bug Title}
+
+**Date**: {Current date}
+**Status**: Ready for Implementation
+**Severity**: {Critical/High/Medium/Low}
+**Layer**: {Layer number and name}
+
+---
+
+## Bug Summary
+
+{Brief description of the bug and why it needs fixing}
+
+## Reproduction
+
+### Steps to Reproduce
+1. {Step 1}
+2. {Step 2}
+3. {Step 3}
+
+### Minimal Code Example
+```swift
+{SwiftUI code that triggers the bug}
+```
+
+### Expected Behavior
+{What should happen}
+
+### Actual Behavior
+{What happens instead}
+
+### Screenshots
+{If applicable, attach before/after screenshots}
+
+---
+
+## Analysis Results
+
+### Layer Classification
+- **Layer**: {Layer number and name}
+- **Type**: {Bug type}
+- **Severity**: {Critical/High/Medium/Low}
+
+### Root Cause
+{Detailed explanation of why this bug occurs}
+
+**Evidence**:
+```swift
+// Current buggy code at {file}:{line}
+{code snippet}
+```
+
+### Affected Files
+- `Sources/FoundationUI/{Layer}/{File}.swift` (line {X})
+- `Tests/FoundationUITests/{Layer}Tests/{File}Tests.swift` (needs new tests)
+
+### Design System Violations
+- {List any violations of Zero Magic Numbers rule}
+- {List any violations of Composable Clarity layers}
+
+---
+
+## Fix Specification
+
+### Proposed Changes
+
+**File**: `Sources/FoundationUI/{Layer}/{File}.swift`
+```swift
+// Before
+{buggy code}
+
+// After
+{fixed code}
+```
+
+### Design Tokens Required
+- `DS.{Category}.{token}` — {description}
+
+### Testing Requirements
+
+#### Unit Tests
+```swift
+func test{FeatureName}() {
+    // Test that reproduces and verifies fix
+}
+```
+
+#### Snapshot Tests
+- Light/Dark mode
+- All variants
+- Dynamic Type sizes
+
+#### Accessibility Tests
+- VoiceOver labels
+- Contrast ratio
+- Keyboard navigation
+
+---
+
+## Documentation Updates
+
+### Task Plan
+- Added {N} tasks to Phase {X}
+- Location: [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md#phaseX)
+
+### PRD
+- Added bug fix specification to {PRD section}
+- Location: [FoundationUI PRD](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md#section)
+
+### Test Plan
+- Added regression prevention strategy for {component name}
+- Location: [FoundationUI Test Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TestPlan.md#section)
+
+---
+
+## Implementation Plan
+
+### Prerequisites
+1. {Prerequisite 1, if any}
+2. {Prerequisite 2, if any}
+
+### Implementation Steps
+1. [ ] Write failing test that reproduces the bug
+2. [ ] Implement minimal fix using DS tokens
+3. [ ] Verify all tests pass
+4. [ ] Run SwiftLint (must show 0 violations)
+5. [ ] Update SwiftUI Preview to show fix
+6. [ ] Run snapshot tests
+7. [ ] Run accessibility tests
+8. [ ] Update documentation if needed
+
+### Success Criteria
+- [ ] Bug is not reproducible
+- [ ] All tests pass
+- [ ] Design system integrity maintained (zero magic numbers)
+- [ ] Test coverage ≥80%
+- [ ] SwiftLint 0 violations
+- [ ] Accessibility requirements met
+- [ ] Preview demonstrates fix
+
+---
+
+## Next Steps
+
+**To implement this fix, use the [START command](./START.md) to begin TDD implementation.**
+
+### Recommended Workflow
+1. Review this proposal document
+2. Run `/start` command to begin implementation
+3. Follow TDD cycle: failing test → minimal fix → refactor
+4. Verify all success criteria
+5. Use [ARCHIVE command](./ARCHIVE.md) to document completion
+
+---
+
+## Open Questions
+
+- {Any unresolved decisions or clarifications needed}
+- {Platform-specific behavior questions}
+- {Design system token questions}
+
+---
+
+**Proposal Date**: {Current date}
+**Estimated Effort**: {S/M/L/XL}
+**Priority**: {P0/P1/P2} based on severity and user impact
+```
+
+---
+
+### Step 10. Validate Proposal
+
+Before finalizing, verify:
+
+- ✅ **Layer classification is correct** (follows Composable Clarity hierarchy)
+- ✅ **Root cause is identified** (hypothesis is supported by code evidence)
+- ✅ **Fix approach is sound** (uses DS tokens, respects layers)
+- ✅ **Testing strategy is complete** (unit/snapshot/accessibility)
+- ✅ **Impact is assessed** (user impact, design system impact, accessibility)
+- ✅ **Prerequisites are identified** (missing tokens, dependent bugs)
+- ✅ **Documentation is updated** (Task Plan, PRD, Test Plan)
+
+### Step 11. Generate Summary Report
+
+Create a final summary:
+
+```markdown
+# Bug Fix Proposal Summary: {Bug Title}
+
+## Quick Facts
+- **Component**: {ComponentName}
+- **Layer**: {Layer}
+- **Severity**: {Critical/High/Medium/Low}
+- **Root Cause**: {Brief explanation}
+
+## Documentation Updated
+- ✅ Task Plan: {N} tasks added to Phase {X}
+- ✅ PRD: Bug fix requirements documented
+- ✅ Test Plan: Regression tests defined
+- ✅ Proposal: `INPROGRESS/BUG_{Name}.md`
+
+## Next Steps
+1. Review proposal document
+2. Use START command to implement fix
+3. Follow TDD workflow (test → implement → refactor)
+4. Use ARCHIVE command when complete
+
+## Estimated Effort
+{S/M/L/XL} based on:
+- Code complexity: {simple/medium/complex}
+- Test coverage needed: {basic/comprehensive}
+- Documentation updates: {minimal/moderate/extensive}
+```
 
 ---
 
 ## ✅ EXPECTED OUTPUT
 
-- A richly detailed bug report stored in `FoundationUI/DOCS/INPROGRESS` with diagnostics, testing, and PRD sections.
-- Layer classification and component impact analysis.
-- Updated plans outlining code touchpoints, hypotheses, and TDD steps.
-- Implemented bug fix verified by:
-  - Unit tests (logic correctness)
-  - Snapshot tests (visual regression)
-  - Accessibility tests (VoiceOver, contrast, keyboard)
-- SwiftUI preview demonstrating the fix.
-- Design System integrity maintained (zero magic numbers, layer compliance).
-- Updated planning artifacts when blockers prevent completion.
+- **Bug analysis** with layer classification, root cause, and impact assessment
+- **Fix specification** with code changes, design tokens, and testing strategy
+- **Task Plan updated** with bug fix tasks in correct phase and layer order
+- **PRD updated** with bug description, requirements, and success criteria
+- **Test Plan updated** with regression prevention strategy
+- **Proposal document** created in `FoundationUI/DOCS/INPROGRESS/`
+- **Summary report** with next steps for implementation
+
+**NO CODE IS IMPLEMENTED** — This command only documents and plans. Use [START command](./START.md) to execute the fix.
 
 ---
 
-## 🧠 TIPS
-
-### FoundationUI-Specific Considerations
-
-- **Visual Bugs**: Always create snapshot tests to prevent regression
-- **Accessibility Bugs**: Test on real devices with VoiceOver enabled when possible
-- **Platform Bugs**: Use `#if os(macOS)` conditionals; test on all supported platforms
-- **Design Token Bugs**: Check if token exists in `DS` namespace before using
-- **Magic Number Detection**: Search codebase for hardcoded values and replace with tokens
-
-### Common FoundationUI Bug Patterns
-
-1. **Hardcoded Values**: Someone used `12` instead of `DS.Spacing.m`
-   - Fix: Replace with correct DS token
-   - Test: Verify token usage with unit test
-2. **Missing Accessibility Labels**: Component has no `.accessibilityLabel()`
-   - Fix: Add semantic VoiceOver label
-   - Test: Accessibility test verifying label exists
-3. **Dark Mode Issues**: Component looks broken in Dark Mode
-   - Fix: Use semantic colors from `DS.Colors` (e.g., `.primary` not `.black`)
-   - Test: Snapshot test in both Light and Dark modes
-4. **Platform Conditional Errors**: `#if os(iOS)` excludes iPadOS
-   - Fix: Use `#if !os(macOS)` or `#if os(iOS) || os(iPadOS)`
-   - Test: Compilation check on all platforms
-5. **Dynamic Type Breaking Layout**: Text doesn't scale with system font size
-   - Fix: Use `.minimumScaleFactor()` or layout priority
-   - Test: Snapshot tests at XS, M, XXL Dynamic Type sizes
-
-### Workflow Best Practices
-
-- **Treat the bug report as the anchor document** — keep it synchronized with discoveries and decisions.
-- **Prefer automation for reproduction** — SwiftUI previews > manual testing steps.
-- **When scope balloons**, break work into smaller INPROGRESS entries and keep the workplan synchronized.
-- **Test on Linux when possible** — FoundationUI should compile cross-platform even if SwiftUI views can't instantiate on Linux.
-- **Use SwiftUI Preview as living documentation** — show the bug and the fix in preview code.
-
----
-
-## 🧾 EXAMPLE: Fixing a Badge Color Bug
+## 🧠 EXAMPLE: Documenting a Badge Color Bug
 
 ### Input
 
@@ -239,49 +550,30 @@ User report: "Badge with `.warning` level shows blue background instead of yello
 
 ### Step 1: Capture
 
-File: `FoundationUI/DOCS/INPROGRESS/001_Badge_Warning_Color_Bug.md`
-
-```markdown
-# Bug Report: Badge Warning Level Shows Blue Background
-
-## Objective
-Fix Badge component to display correct yellow background for `.warning` level.
-
-## Affected Component
-- **Layer**: 2 (Components)
-- **Component**: `Badge.swift`
-- **Modifier**: `BadgeChipStyle.swift`
-
-## Symptoms
-- Badge with `level: .warning` renders with blue background
-- Expected: Yellow background from `DS.Colors.warnBG`
-- Actual: Blue background (appears to be using `.info` color)
-
-## Environment
-- iOS 17.0, Xcode 15.0
-- Simulator and device both affected
-
-## Reproduction
-```swift
-Badge(text: "Warning", level: .warning)
-```
-
-## Expected vs. Actual
-- **Expected**: Yellow background (#FFF3CD)
-- **Actual**: Blue background (#D1ECF1)
-```
+**Bug Title**: Badge Warning Level Shows Wrong Background Color
+**Symptoms**: Warning badge renders blue instead of yellow
+**Affected Component**: Badge component (Layer 2)
+**Environment**: iOS 17.0, Xcode 15.0
+**Reproduction**: `Badge(text: "Warning", level: .warning)`
+**Expected**: Yellow background (#FFF3CD)
+**Actual**: Blue background (#D1ECF1)
 
 ### Step 2: Classify
 
-- **Layer**: 2 (Component)
+- **Layer**: 2 (Component) — affected by Layer 1 (Modifier)
 - **Type**: Visual bug (wrong color)
-- **Hypothesis**: `BadgeLevel.warning.backgroundColor` returns wrong DS token
+- **Severity**: Medium (affects UX but not critical)
 
-### Step 3-4: Diagnose and Plan
+### Step 3: Research
 
-Read `Sources/FoundationUI/Modifiers/BadgeChipStyle.swift`:
+**Files located**:
+- `Sources/FoundationUI/Modifiers/BadgeChipStyle.swift` (bug location)
+- `Sources/FoundationUI/Components/Badge.swift` (uses the modifier)
+- `Tests/FoundationUITests/ComponentsTests/BadgeTests.swift` (missing test)
 
+**Root cause found**:
 ```swift
+// BadgeChipStyle.swift:15
 var backgroundColor: Color {
     switch self {
     case .info: return DS.Colors.infoBG
@@ -292,72 +584,190 @@ var backgroundColor: Color {
 }
 ```
 
-**Root Cause**: Copy-paste error in switch statement.
+**Hypothesis**: Copy-paste error in switch statement
 
-### Step 5: TDD Fix
+**Missing tests**: No unit test for `BadgeLevel.warning.backgroundColor`
 
-1. Write failing test in `Tests/FoundationUITests/ComponentsTests/BadgeTests.swift`:
+### Step 4: Define Specification
 
+File: `FoundationUI/DOCS/INPROGRESS/BUG_Badge_Warning_Color.md`
+
+```markdown
+# Bug Fix Proposal: Badge Warning Level Wrong Color
+
+## Overview
+Badge component displays blue background for `.warning` level instead of yellow.
+
+## Layer Classification
+- **Layer**: 2 (Component) — bug in Layer 1 (Modifier)
+- **Type**: Visual bug
+- **Severity**: Medium
+
+## Root Cause
+Copy-paste error in `BadgeChipStyle.swift` switch statement.
+
+**Evidence**:
+```swift
+case .warning: return DS.Colors.infoBG  // Should be warnBG
+```
+
+## Fix Specification
+
+**File**: `Sources/FoundationUI/Modifiers/BadgeChipStyle.swift`
+```swift
+// Before (line 15)
+case .warning: return DS.Colors.infoBG
+
+// After
+case .warning: return DS.Colors.warnBG
+```
+
+## Testing Strategy
+
+### Unit Test (New)
 ```swift
 func testWarningBadgeUsesCorrectBackgroundColor() {
-    let badge = Badge(text: "Test", level: .warning)
     let backgroundColor = BadgeLevel.warning.backgroundColor
     XCTAssertEqual(backgroundColor, DS.Colors.warnBG)
 }
 ```
 
-2. Run `swift test` → fails ✅
-
-3. Fix `BadgeChipStyle.swift`:
-
+### Snapshot Test (Update)
 ```swift
-case .warning: return DS.Colors.warnBG  // Fixed
-```
-
-4. Run `swift test` → passes ✅
-
-5. Add snapshot test for visual regression:
-
-```swift
-func testWarningBadgeSnapshot() {
+func testAllBadgeLevelsSnapshot() {
+    // Will catch visual regression
     assertSnapshot(matching: Badge(text: "Warning", level: .warning), as: .image)
 }
 ```
 
-### Step 6: Validate
+## Success Criteria
+- [ ] Unit test verifies correct color
+- [ ] Snapshot test prevents regression
+- [ ] Preview shows yellow background
+```
 
-- ✅ Unit test passes
-- ✅ Snapshot test passes
-- ✅ SwiftLint 0 violations
-- ✅ Preview shows correct yellow background
+### Step 5: No Prerequisites Needed
 
-### Step 7: Finalize
+All DS tokens exist (`DS.Colors.warnBG` is already defined).
 
-Update `001_Badge_Warning_Color_Bug.md`:
+### Step 6: Update Task Plan
+
+Added to Phase 2:
 
 ```markdown
-## Resolution
-- **Root Cause**: Copy-paste error in `BadgeLevel.backgroundColor` switch
-- **Fix**: Changed `case .warning: return DS.Colors.infoBG` to `DS.Colors.warnBG`
-- **Tests Added**: Unit test + snapshot test
-- **Commit**: `a1b2c3d`
+### Phase 2.X Bug Fixes
 
-## Status
-✅ Resolved
+- [ ] **P1** Fix Badge warning level color bug
+  - Files: `BadgeChipStyle.swift:15`, `BadgeTests.swift`
+  - Root cause: Copy-paste error in switch statement
+  - Impact: Medium — affects warning badge visual appearance
 ```
+
+### Step 7: Update PRD
+
+Added to "Reusable Components (Layer 2)" section:
+
+```markdown
+#### Bug Fix: Badge Warning Color
+
+**Severity**: Medium
+**Affected Component**: Badge
+
+Badge component displays incorrect background color for warning level due to
+copy-paste error in BadgeChipStyle modifier.
+
+**Fix Requirements**:
+- Change `case .warning` to return `DS.Colors.warnBG`
+- Add unit test to prevent regression
+
+**Success Criteria**:
+- [ ] Warning badge shows yellow background
+- [ ] Test coverage prevents future color bugs
+```
+
+### Step 8: Update Test Plan
+
+Added regression test section:
+
+```markdown
+### Bug Fix: Badge Warning Color
+
+#### Reproduction Test
+- `testWarningBadgeUsesCorrectBackgroundColor()` — verifies correct token
+
+#### Snapshot Tests
+- All badge levels in Light/Dark mode
+
+**Test Coverage Target**: 100% for BadgeLevel.backgroundColor
+```
+
+### Step 9: Create Proposal
+
+File: `FoundationUI/DOCS/INPROGRESS/BUG_Badge_Warning_Color.md` (full spec created)
+
+### Step 10: Validate
+
+- ✅ Layer 2 classification correct
+- ✅ Root cause identified (line 15 of BadgeChipStyle.swift)
+- ✅ Fix uses DS tokens
+- ✅ Testing strategy complete
+- ✅ No prerequisites needed
+
+### Step 11: Summary
+
+```markdown
+# Bug Fix Proposal Summary: Badge Warning Color
+
+## Quick Facts
+- **Component**: Badge (Layer 2)
+- **Severity**: Medium
+- **Root Cause**: Copy-paste error in BadgeChipStyle.swift:15
+
+## Documentation Updated
+- ✅ Task Plan: 1 task added to Phase 2
+- ✅ PRD: Bug fix requirements documented
+- ✅ Test Plan: Unit + snapshot tests defined
+- ✅ Proposal: `INPROGRESS/BUG_Badge_Warning_Color.md`
+
+## Next Steps
+1. Review proposal in INPROGRESS/
+2. Run `/start` to implement fix
+3. Follow TDD: failing test → fix → refactor
+4. Archive when complete
+
+## Estimated Effort
+**S** (Small) — simple one-line fix with test
+```
+
+---
+
+## 🧾 NOTES
+
+- **Always document first, implement later** — This command creates the plan; START executes it
+- **Check for similar bugs** — Search INPROGRESS and TASK_ARCHIVE before creating duplicate proposals
+- **Classify severity accurately** — Critical = blocks users, High = major UX issue, Medium = minor UX issue, Low = cosmetic
+- **Identify root cause** — Don't just describe symptoms; explain why the bug occurs
+- **Plan comprehensive tests** — Every bug needs tests to prevent regression
+- **Consider design system impact** — Does this bug violate Zero Magic Numbers or Composable Clarity?
 
 ---
 
 ## 🔄 INTEGRATION WITH WORKFLOW
 
-After fixing a bug, use:
+After documenting a bug with this command, use:
 
-- [ARCHIVE command](./ARCHIVE.md) to document the bug fix completion
-- [STATE command](./STATE.md) to check overall FoundationUI health
-- [START command](./START.md) if the bug revealed missing prerequisite tasks
+- [START command](./START.md) to implement the fix following TDD workflow
+- [SELECT_NEXT command](./SELECT_NEXT.md) to prioritize when to fix it
+- [ARCHIVE command](./ARCHIVE.md) to document the completed fix
+
+**Workflow**:
+1. **BUG command** → Document and plan the fix
+2. **SELECT_NEXT command** → Decide priority
+3. **START command** → Implement the fix via TDD
+4. **ARCHIVE command** → Document completion
 
 ---
 
 ## END OF SYSTEM PROMPT
 
-Ensure Markdown formatting remains consistent across all FoundationUI documentation files.
+Ensure all Markdown formatting is consistent across FoundationUI documentation files.
