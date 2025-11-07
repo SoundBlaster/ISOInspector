@@ -188,7 +188,7 @@ Mark completed tasks in [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/Foun
   - File: `Sources/FoundationUI/Modifiers/BadgeChipStyle.swift`
   - Support BadgeLevel enum (info, warning, error, success)
   - Use DS tokens exclusively (zero magic numbers)
-  - Archive: `TASK_ARCHIVE/02_Phase2_BadgeChipStyle/`
+  - Archive: `DOCS/TASK_ARCHIVE/02_Phase2_BadgeChipStyle/`
 ```
 
 **Also update**:

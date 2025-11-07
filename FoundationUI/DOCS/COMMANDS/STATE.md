@@ -202,7 +202,7 @@ Produce a structured Markdown report with the following sections:
 1. Update `FoundationUI_TaskPlan.md` to mark `BadgeChipStyle` as `[x]` completed
 2. Create test tasks in `next_tasks.md` for 3 modifiers missing tests
 3. Add iPadOS platform testing to success criteria for active tasks
-4. Archive completed `Phase2_BadgeChipStyle.md` task to TASK_ARCHIVE
+4. Archive completed `Phase2_BadgeChipStyle.md` task to DOCS/TASK_ARCHIVE
 
 ---
 
