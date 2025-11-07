@@ -4,6 +4,11 @@
 
 Profile all FoundationUI components and patterns using Xcode Instruments to establish performance baselines, identify bottlenecks, and ensure release-ready performance standards (<100ms render time, <5MB memory usage, 60 FPS target).
 
+⚠️ **IMPORTANT**: This task contains both **automated** and **manual** sub-tasks:
+- ✅ **Automated sub-tasks** (SwiftLint, CI/CD enhancement) - will be implemented
+- ⏳ **Manual sub-tasks** (Instruments profiling, device testing) - moved to `DOCS/INPROGRESS/blocked.md`
+- See section breakdown below for classification
+
 ## 🧩 Context
 
 - **Phase**: 5.2 Testing & Quality Assurance
@@ -18,46 +23,69 @@ Profile all FoundationUI components and patterns using Xcode Instruments to esta
 
 ## ✅ Success Criteria
 
-- [ ] Time Profiler: Profile all components (render time <100ms)
-- [ ] Allocations: Memory profiling shows <5MB peak memory per component
-- [ ] Core Animation: Frame rate analysis (target: 60 FPS)
-- [ ] Testing on oldest supported devices (iOS 17, macOS 14)
-- [ ] Identify and document 3-5 major performance bottlenecks
-- [ ] Performance report generated with findings and recommendations
-- [ ] Performance baselines documented in `PERFORMANCE.md`
-- [ ] SwiftLint violations: 0 across entire codebase
-- [ ] CI/CD performance gates configured
-- [ ] All platforms verified (iOS 17+, macOS 14+, iPadOS 17+)
+### Automated Tasks (Will be implemented)
+- [ ] SwiftLint violations: 0 across entire codebase ✅ **automated**
+- [ ] CI/CD performance gates configured ✅ **automated**
+- [ ] Accessibility test job added to CI ✅ **automated**
+- [ ] Performance regression detection setup ✅ **automated**
+
+### Manual Tasks (In blocked.md - Deferred for manual execution)
+- ⏳ Time Profiler: Profile all components (render time <100ms) **MANUAL** → blocked.md
+- ⏳ Allocations: Memory profiling shows <5MB peak memory per component **MANUAL** → blocked.md
+- ⏳ Core Animation: Frame rate analysis (target: 60 FPS) **MANUAL** → blocked.md
+- ⏳ Testing on oldest supported devices (iOS 17, macOS 14) **MANUAL** → blocked.md
+- ⏳ Identify and document 3-5 major performance bottlenecks **MANUAL** → blocked.md
+- ⏳ Performance report generated with findings and recommendations **MANUAL** → blocked.md
+- ⏳ Performance baselines documented in `PERFORMANCE.md` **MANUAL** → blocked.md
+- ⏳ All platforms verified (iOS 17+, macOS 14+, iPadOS 17+) **MANUAL** → blocked.md
 
 ## 🔧 Implementation Notes
 
-### Performance Profiling Strategy
+⚠️ **IMPLEMENTATION SCOPE**: This task focuses on **automated components only**:
 
-**1. Time Profiler Analysis (Primary bottlenecks)**
-- Profile ComponentTestApp with PerformanceMonitoringScreen
-- Test scenarios:
-  - BoxTreePattern with 100 nodes (typical)
-  - BoxTreePattern with 1000 nodes (stress test)
-  - Full ISOInspectorDemoScreen render
-  - All modifier stacking combinations
-- Record baseline: target <100ms render time per frame
+### SwiftLint Compliance (Automated ✅)
 
-**2. Memory Profiling (Allocations instrument)**
-- Measure memory per component type
-- Stress test with large data sets
-- Check for memory leaks in patterns
-- Document peak memory usage (<5MB)
+1. **Configuration Review**
+   - Review current `.swiftlint.yml` configuration
+   - Identify all enabled rules (zero magic numbers, naming, complexity, etc.)
 
-**3. Core Animation Profiling**
-- Measure FPS during interactions
-- Test on iOS 17 device (oldest supported)
-- Target: 60 FPS consistent
-- Profile animation performance
+2. **Violation Scan**
+   - Run `swiftlint` on entire codebase
+   - Document all violations by type
+   - Filter by severity (error vs warning)
 
-**4. Testing Devices**
-- iOS: iPhone SE (oldest form factor), iPhone 15 Pro (current)
-- macOS: MacBook Air M1 (baseline)
-- iPadOS: iPad Air (mid-range)
+3. **Fix Implementation**
+   - Fix zero magic numbers violations (use DS tokens)
+   - Fix code style violations (naming, spacing)
+   - Fix complexity violations if any
+
+4. **CI Integration**
+   - Enable SwiftLint in CI workflow
+   - Set --strict mode enforcement
+   - Fail build on violations
+
+### CI/CD Enhancement (Automated ✅)
+
+1. **Performance Regression Detection**
+   - Create GitHub Actions workflow for performance monitoring
+   - Set up baseline metrics tracking
+   - Configure alerts for regressions
+
+2. **Accessibility Test Job**
+   - Add accessibility test job to CI
+   - Run 99 automated accessibility tests
+   - Report accessibility score
+
+3. **Pre-commit/Pre-push Hooks**
+   - Configure `.pre-commit-hooks.yaml`
+   - SwiftLint check before commit
+   - Unit tests check before push
+
+### Manual Tasks (See blocked.md)
+- Time Profiler Analysis → See `DOCS/INPROGRESS/blocked.md`
+- Memory Profiling → See `DOCS/INPROGRESS/blocked.md`
+- Core Animation Profiling → See `DOCS/INPROGRESS/blocked.md`
+- Multi-platform Device Testing → See `DOCS/INPROGRESS/blocked.md`
 
 ### Files to Create/Modify
 
@@ -100,59 +128,81 @@ All components use DS tokens exclusively:
 - [x] Verify dependencies (Enhanced Demo App, ComponentTestApp)
 - [x] Create task document (this file)
 
-### Performance Profiling Phase 1: Time Profiling
-- [ ] Launch Xcode Instruments with Time Profiler
-- [ ] Profile ComponentTestApp main screen
-- [ ] Profile PerformanceMonitoringScreen with 100-node BoxTree
-- [ ] Profile PerformanceMonitoringScreen with 1000-node BoxTree
-- [ ] Profile ISOInspectorDemoScreen full render
-- [ ] Document render times for each component
+### Performance Profiling Phase 1: Time Profiling (**MANUAL** ⚠️)
+- [ ] MANUAL: Launch Xcode Instruments with Time Profiler
+- [ ] MANUAL: Profile ComponentTestApp main screen
+- [ ] MANUAL: Profile PerformanceMonitoringScreen with 100-node BoxTree
+- [ ] MANUAL: Profile PerformanceMonitoringScreen with 1000-node BoxTree
+- [ ] MANUAL: Profile ISOInspectorDemoScreen full render
+- [ ] MANUAL: Document render times for each component
+- **Status**: Moved to `DOCS/INPROGRESS/blocked.md` → Performance Profiling with Instruments
 
-### Performance Profiling Phase 2: Memory Profiling
-- [ ] Use Allocations instrument to measure memory
-- [ ] Test each component type in isolation
-- [ ] Test pattern composition (BoxTree + sidebar + toolbar)
-- [ ] Verify no memory leaks detected
-- [ ] Document peak memory usage
+### Performance Profiling Phase 2: Memory Profiling (**MANUAL** ⚠️)
+- [ ] MANUAL: Use Allocations instrument to measure memory
+- [ ] MANUAL: Test each component type in isolation
+- [ ] MANUAL: Test pattern composition (BoxTree + sidebar + toolbar)
+- [ ] MANUAL: Verify no memory leaks detected
+- [ ] MANUAL: Document peak memory usage
+- **Status**: Moved to `DOCS/INPROGRESS/blocked.md` → Performance Profiling with Instruments
 
-### Performance Profiling Phase 3: Frame Rate Analysis
-- [ ] Use Core Animation tool to measure FPS
-- [ ] Test on iOS 17 device (actual hardware if possible)
-- [ ] Test on macOS 14 device
-- [ ] Verify 60 FPS during interactions
-- [ ] Document any dropped frames
+### Performance Profiling Phase 3: Frame Rate Analysis (**MANUAL** ⚠️)
+- [ ] MANUAL: Use Core Animation tool to measure FPS
+- [ ] MANUAL: Test on iOS 17 device (actual hardware if possible)
+- [ ] MANUAL: Test on macOS 14 device
+- [ ] MANUAL: Verify 60 FPS during interactions
+- [ ] MANUAL: Document any dropped frames
+- **Status**: Moved to `DOCS/INPROGRESS/blocked.md` → Performance Profiling with Instruments
 
-### SwiftLint Compliance (P0)
+### SwiftLint Compliance (P0) ✅ **AUTOMATED**
 - [ ] Review current SwiftLint configuration
 - [ ] Run swiftlint on entire codebase
 - [ ] Document all violations found
 - [ ] Fix zero magic numbers violations
 - [ ] Fix code style violations
 - [ ] Verify 0 violations remaining
-- [ ] Set up CI enforcement
+- [ ] Set up CI enforcement with --strict mode
 
-### CI/CD Enhancement
+### CI/CD Enhancement ✅ **AUTOMATED**
 - [ ] Create performance regression detection job
 - [ ] Add accessibility test job to CI
 - [ ] Add SwiftLint enforcement job
 - [ ] Configure pre-commit hooks
 - [ ] Configure pre-push hooks
 
-### Documentation & Reporting
-- [ ] Create PERFORMANCE.md with baselines
-- [ ] Write performance best practices guide
-- [ ] Create performance regression testing framework
-- [ ] Document optimization recommendations
+### Documentation & Reporting ✅ **AUTOMATED**
+- [ ] Create PERFORMANCE.md with automation setup notes
+- [ ] Write CI/CD pipeline documentation
+- [ ] Document SwiftLint rule exceptions (if any)
+- [ ] Create pre-commit hook setup guide
 - [ ] Update Phase 5.2 section in Task Plan with [x]
 
+### Cross-Platform Testing (**MANUAL** ⚠️)
+- [ ] MANUAL: Test on iOS 17+ (iPhone SE, iPhone 15, iPhone 15 Pro Max)
+- [ ] MANUAL: Test on macOS 14+ (multiple window sizes, trackpad)
+- [ ] MANUAL: Test on iPadOS 17+ (size classes, portrait/landscape)
+- [ ] MANUAL: Verify Dark Mode on all platforms
+- [ ] MANUAL: Test RTL languages (Arabic, Hebrew)
+- [ ] MANUAL: Test different locales and regions
+- **Status**: Moved to `DOCS/INPROGRESS/blocked.md` → Cross-Platform Testing
+
+### Manual Accessibility Testing (**MANUAL** ⚠️)
+- [ ] MANUAL: VoiceOver testing on iOS
+- [ ] MANUAL: VoiceOver testing on macOS
+- [ ] MANUAL: Keyboard-only navigation testing
+- [ ] MANUAL: Dynamic Type testing (all sizes)
+- [ ] MANUAL: Reduce Motion testing
+- [ ] MANUAL: Increase Contrast testing
+- [ ] MANUAL: Bold Text testing
+- **Status**: Moved to `DOCS/INPROGRESS/blocked.md` → Manual Accessibility Testing
+
 ### Final Verification
-- [ ] All platforms tested (iOS 17+, macOS 14+, iPadOS 17+)
-- [ ] Performance baselines documented
-- [ ] SwiftLint: 0 violations
-- [ ] Build succeeds: `swift build`
-- [ ] Tests pass: `swift test`
-- [ ] CI workflow passes
-- [ ] Update Task Plan status to [x] COMPLETE
+- [ ] All automated tests pass
+- [ ] SwiftLint: 0 violations ✅ (automated)
+- [ ] Build succeeds: `swift build` ✅ (automated)
+- [ ] CI workflow passes ✅ (automated)
+- [ ] ⏳ MANUAL: All platforms tested (iOS 17+, macOS 14+, iPadOS 17+) → blocked.md
+- [ ] ⏳ MANUAL: Performance baselines documented → blocked.md
+- [ ] Update Task Plan status to [x] COMPLETE (after automated tasks done)
 - [ ] Commit with descriptive message
 - [ ] Push to `claude/implement-select-next-011CUuKPBVtQf3QjZjS4WvPB`
 
