@@ -35,8 +35,8 @@ struct PerformanceMonitoringScreen: View {
     /// Expanded nodes in tree
     @State private var expandedNodes: Set<UUID> = []
 
-    /// Selected box
-    @State private var selectedBox: MockISOBox?
+    /// Selected box ID
+    @State private var selectedBoxID: UUID?
 
     /// Animation trigger
     @State private var animationTrigger: Bool = false
@@ -289,10 +289,10 @@ struct PerformanceMonitoringScreen: View {
 
                     // Tree preview (limited height)
                     BoxTreePattern(
-                        items: Array(largeDataset.prefix(10)),
-                        children: \.children,
-                        selection: $selectedBox,
-                        expanded: $expandedNodes
+                        data: Array(largeDataset.prefix(10)),
+                        children: { $0.children.isEmpty ? nil : $0.children },
+                        expandedNodes: $expandedNodes,
+                        selection: $selectedBoxID
                     ) { box in
                         HStack(spacing: DS.Spacing.s) {
                             Badge(

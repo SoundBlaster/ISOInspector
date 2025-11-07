@@ -22,8 +22,8 @@ import UIKit
 struct ISOInspectorDemoScreen: View {
     // MARK: - State
 
-    /// Currently selected ISO box
-    @State private var selectedBox: MockISOBox?
+    /// Currently selected ISO box ID
+    @State private var selectedBoxID: UUID?
 
     /// Expanded box IDs in the tree
     @State private var expandedBoxIDs: Set<UUID> = []
@@ -39,6 +39,12 @@ struct ISOInspectorDemoScreen: View {
     @State private var isoBoxes: [MockISOBox] = MockISOBox.sampleISOHierarchy()
 
     // MARK: - Computed Properties
+
+    /// Currently selected box (derived from selectedBoxID)
+    private var selectedBox: MockISOBox? {
+        guard let id = selectedBoxID else { return nil }
+        return findBox(withID: id, in: isoBoxes)
+    }
 
     /// Filtered boxes based on search text
     private var filteredBoxes: [MockISOBox] {
@@ -188,10 +194,10 @@ struct ISOInspectorDemoScreen: View {
                         emptyStateView
                     } else {
                         BoxTreePattern(
-                            items: filteredBoxes,
-                            children: \.children,
-                            selection: $selectedBox,
-                            expanded: $expandedBoxIDs
+                            data: filteredBoxes,
+                            children: { $0.children.isEmpty ? nil : $0.children },
+                            expandedNodes: $expandedBoxIDs,
+                            selection: $selectedBoxID
                         ) { box in
                             HStack(spacing: DS.Spacing.s) {
                                 Badge(
@@ -235,10 +241,10 @@ struct ISOInspectorDemoScreen: View {
                     emptyStateView
                 } else {
                     BoxTreePattern(
-                        items: filteredBoxes,
-                        children: \.children,
-                        selection: $selectedBox,
-                        expanded: $expandedBoxIDs
+                        data: filteredBoxes,
+                        children: { $0.children.isEmpty ? nil : $0.children },
+                        expandedNodes: $expandedBoxIDs,
+                        selection: $selectedBoxID
                     ) { box in
                         HStack(spacing: DS.Spacing.s) {
                             Badge(
@@ -261,7 +267,10 @@ struct ISOInspectorDemoScreen: View {
                     }
                 }
             }
-            .sheet(item: $selectedBox) { box in
+            .sheet(isPresented: Binding(
+                get: { selectedBoxID != nil },
+                set: { if !$0 { selectedBoxID = nil } }
+            )) {
                 NavigationStack {
                     inspectorView
                         .navigationTitle("Box Details")
@@ -269,7 +278,7 @@ struct ISOInspectorDemoScreen: View {
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Close") {
-                                    selectedBox = nil
+                                    selectedBoxID = nil
                                 }
                             }
                         }
@@ -415,7 +424,7 @@ struct ISOInspectorDemoScreen: View {
     private func refreshAction() {
         // Regenerate sample data
         isoBoxes = MockISOBox.sampleISOHierarchy()
-        selectedBox = nil
+        selectedBoxID = nil
         expandedBoxIDs.removeAll()
         filterText = ""
 
@@ -424,6 +433,19 @@ struct ISOInspectorDemoScreen: View {
     }
 
     // MARK: - Helpers
+
+    /// Recursively find a box by ID in the hierarchy
+    private func findBox(withID id: UUID, in boxes: [MockISOBox]) -> MockISOBox? {
+        for box in boxes {
+            if box.id == id {
+                return box
+            }
+            if let found = findBox(withID: id, in: box.children) {
+                return found
+            }
+        }
+        return nil
+    }
 
     private func statusText(for status: MockISOBox.BoxStatus) -> String {
         switch status {
