@@ -23,15 +23,6 @@ struct AccessibilityTestingScreen: View {
     /// Reduce Motion preference
     @State private var reduceMotionEnabled: Bool = false
 
-    /// High Contrast mode
-    @State private var highContrastEnabled: Bool = false
-
-    /// Custom foreground color for contrast testing
-    @State private var customForeground: Color = DS.Colors.textPrimary
-
-    /// Custom background color for contrast testing
-    @State private var customBackground: Color = DS.Colors.secondary
-
     /// Touch target size for validation
     @State private var touchTargetSize: CGFloat = 44.0
 
@@ -132,19 +123,6 @@ struct AccessibilityTestingScreen: View {
                         background: DS.Colors.successBG
                     )
                 }
-
-                Divider()
-
-                // Custom color tester
-                Text("Custom Colors:")
-                    .font(DS.Typography.label)
-                    .foregroundColor(DS.Colors.textSecondary)
-
-                contrastPreview(
-                    name: "Custom",
-                    foreground: customForeground,
-                    background: customBackground
-                )
 
                 Text("Note: Contrast calculation is approximate. Use actual testing tools for production validation.")
                     .font(DS.Typography.caption)

@@ -507,12 +507,3 @@ struct PerformanceMonitoringScreen: View {
     }
     .preferredColorScheme(.dark)
 }
-
-#Preview("Performance Monitoring - With Results") {
-    NavigationStack {
-        PerformanceMonitoringScreen()
-    }
-    .onAppear {
-        // Note: Can't easily modify @State in preview, but demonstrates intent
-    }
-}

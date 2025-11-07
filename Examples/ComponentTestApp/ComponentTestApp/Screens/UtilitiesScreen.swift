@@ -22,10 +22,6 @@ struct UtilitiesScreen: View {
     /// Copied text
     @State private var copiedText: String = ""
 
-    /// Sample contrast colors for testing
-    @State private var foregroundColor: Color = DS.Colors.textPrimary
-    @State private var backgroundColor: Color = DS.Colors.secondary
-
     // MARK: - Body
 
     var body: some View {
