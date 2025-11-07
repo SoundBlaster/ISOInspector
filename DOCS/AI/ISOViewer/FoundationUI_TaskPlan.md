@@ -7,7 +7,7 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 74/118 tasks completed (62.7%)**
+**Total: 75/118 tasks completed (63.6%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
@@ -15,7 +15,7 @@
 | Phase 2: Core Components | ✅ Complete | 22/22 (100%) |
 | Phase 3: Patterns & Platform Adaptation | ✅ Complete | 16/16 (100%) |
 | Phase 4: Agent Support & Polish | ✅ Complete | 11/18 (61%) |
-| Phase 5: Documentation & QA | 🚧 In Progress | 13/28 (46%) |
+| Phase 5: Documentation & QA | 🚧 In Progress | 14/28 (50%) |
 | Phase 6: Integration & Validation | Not Started | 0/17 (0%) |
 
 **Note**: Enhanced Demo App task moved from Phase 6.1 to Phase 5.4 (reprioritized for earlier testing support)
@@ -785,7 +785,7 @@
 
 ## Phase 5: Documentation & QA (Continuous)
 **Priority: P0-P1**
-**Progress: 11/28 tasks completed (39%)** (1 task added: Enhanced Demo App moved from Phase 6.1)
+**Progress: 12/28 tasks completed (43%)** (1 task added: Enhanced Demo App moved from Phase 6.1)
 
 ### 5.1 API Documentation (DocC)
 **Progress: 6/6 tasks (100%)** ✅ **COMPLETE**
@@ -1082,15 +1082,24 @@
     - ✅ Sample ISO data models (MockISOBox.sampleISOHierarchy, largeDataset) - already existed
     - ✅ Platform-specific features (macOS/iOS/iPad adaptive layouts)
     - ✅ ContentView updated with Demo, Utilities, and Testing sections
+    - ✅ **Dynamic Type Controls** (2h) - Interactive text size controls
+      - Smart override system (system vs custom sizing)
+      - iOS support with `.dynamicTypeSize()` modifier
+      - macOS support with custom font scaling
+      - 12 size options (XS to A5) with real-time preview
+      - Visual feedback and accessibility announcements
   - **Results**:
     - 14 total screens in ComponentTestApp
     - All FoundationUI components and patterns showcased
     - Comprehensive testing tools for accessibility and performance
     - Real-world ISO Inspector demo application
     - Supports iOS 17+, macOS 14+, iPadOS 17+
-  - **Actual Effort**: ~8 hours (within estimate)
-  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase5.4_EnhancedDemoApp.md`
-  - Archive: `TASK_ARCHIVE/42_Phase5.4_EnhancedDemoApp/` (ready for archival)
+  - **Actual Effort**: ~10 hours (within estimate, includes Dynamic Type feature)
+  - Task Documents:
+    - `FoundationUI/DOCS/TASK_ARCHIVE/43_Phase5.4_EnhancedDemoApp/Phase5.4_EnhancedDemoApp.md`
+    - `FoundationUI/DOCS/TASK_ARCHIVE/43_Phase5.4_EnhancedDemoApp/DynamicTypeControlFeature_2025-11-07.md`
+    - `FoundationUI/DOCS/TASK_ARCHIVE/43_Phase5.4_EnhancedDemoApp/DynamicTypeControlFix_2025-11-07.md`
+  - Archive: `TASK_ARCHIVE/43_Phase5.4_EnhancedDemoApp/` ✅ Archived 2025-11-07
 
 ---
 
