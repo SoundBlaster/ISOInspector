@@ -23,6 +23,10 @@ enum ScreenDestination: Hashable, Identifiable {
     case sidebarPattern
     case toolbarPattern
     case boxTreePattern
+    case isoInspectorDemo
+    case utilities
+    case accessibilityTesting
+    case performanceMonitoring
 
     var id: Self { self }
 
@@ -48,6 +52,14 @@ enum ScreenDestination: Hashable, Identifiable {
             return "ToolbarPattern"
         case .boxTreePattern:
             return "BoxTreePattern"
+        case .isoInspectorDemo:
+            return "ISO Inspector Demo"
+        case .utilities:
+            return "Utilities"
+        case .accessibilityTesting:
+            return "Accessibility Testing"
+        case .performanceMonitoring:
+            return "Performance Monitoring"
         }
     }
 }
@@ -135,6 +147,30 @@ struct ContentView: View {
                     }
                 }
 
+                // Demo
+                Section("Demo") {
+                    NavigationLink(value: ScreenDestination.isoInspectorDemo) {
+                        Label("ISO Inspector Demo", systemImage: "doc.text.magnifyingglass")
+                    }
+                }
+
+                // Utilities
+                Section("Utilities") {
+                    NavigationLink(value: ScreenDestination.utilities) {
+                        Label("Utilities", systemImage: "wrench.and.screwdriver.fill")
+                    }
+                }
+
+                // Testing
+                Section("Testing") {
+                    NavigationLink(value: ScreenDestination.accessibilityTesting) {
+                        Label("Accessibility Testing", systemImage: "person.fill.checkmark")
+                    }
+                    NavigationLink(value: ScreenDestination.performanceMonitoring) {
+                        Label("Performance Monitoring", systemImage: "chart.xyaxis.line")
+                    }
+                }
+
                 // App Controls
                 Section("Controls") {
                     // Theme Picker
@@ -205,6 +241,14 @@ struct ContentView: View {
             ToolbarPatternScreen()
         case .boxTreePattern:
             BoxTreePatternScreen()
+        case .isoInspectorDemo:
+            ISOInspectorDemoScreen()
+        case .utilities:
+            UtilitiesScreen()
+        case .accessibilityTesting:
+            AccessibilityTestingScreen()
+        case .performanceMonitoring:
+            PerformanceMonitoringScreen()
         }
     }
 }
