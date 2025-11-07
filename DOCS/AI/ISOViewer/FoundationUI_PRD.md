@@ -149,6 +149,40 @@ public enum DS {
 }
 ```
 
+##### Bug Fix: DS.Colors.tertiary macOS Low Contrast
+
+**Layer**: Layer 0 (Design Tokens)
+**Severity**: High
+**Affected Component**: DS.Colors.tertiary token
+**Platform Scope**: macOS only (iOS already correct)
+
+The `DS.Colors.tertiary` token incorrectly uses `.tertiaryLabelColor` (a label/text color) instead of a proper background color on macOS. This causes severe low contrast issues between window backgrounds and content areas in all components that use this token.
+
+**Root Cause**: Platform-specific conditional compilation in `Colors.swift:111` maps to wrong system color on macOS.
+
+**Fix Requirements**:
+- Change `Colors.swift:111` from `.tertiaryLabelColor` to `.controlBackgroundColor`
+- Add macOS-specific snapshot tests for affected components
+- Verify WCAG AA contrast compliance (≥4.5:1 ratio)
+- Test in Light/Dark mode and with Increase Contrast setting
+
+**Affected Components**:
+- SidebarPattern (detail content background)
+- Card (background fallback)
+- InspectorPattern (content background)
+- ToolbarPattern (toolbar background)
+- All components using DS.Colors.tertiary on macOS
+
+**Success Criteria**:
+- [ ] macOS uses proper background color (.controlBackgroundColor)
+- [ ] Contrast ratio ≥4.5:1 verified for all affected components
+- [ ] Platform parity: macOS semantic intent matches iOS
+- [ ] All snapshot tests pass on macOS (Light/Dark mode)
+- [ ] Accessibility tests pass (VoiceOver, Increase Contrast)
+- [ ] Design system integrity maintained (zero magic numbers)
+
+**Specification**: [`FoundationUI/DOCS/SPECS/BUG_Colors_Tertiary_macOS_LowContrast.md`](../../FoundationUI/DOCS/SPECS/BUG_Colors_Tertiary_macOS_LowContrast.md)
+
 #### Layer 1: View Modifiers (Atoms)
 **Purpose:** Reusable styles without context
 

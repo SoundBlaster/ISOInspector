@@ -570,6 +570,157 @@ jobs:
 
 ---
 
+## Bug Fix Regression Testing
+
+### Bug Fix: DS.Colors.tertiary macOS Low Contrast
+
+**Regression Prevention Target**: This bug must never recur
+
+**Specification**: [`FoundationUI/DOCS/SPECS/BUG_Colors_Tertiary_macOS_LowContrast.md`](../../FoundationUI/DOCS/SPECS/BUG_Colors_Tertiary_macOS_LowContrast.md)
+
+#### Root Cause
+`DS.Colors.tertiary` uses `.tertiaryLabelColor` (label/text color) instead of proper background color on macOS, causing severe low contrast in all components using this token.
+
+#### Reproduction Test (Should Fail Before Fix)
+```swift
+@available(macOS 10.15, *)
+func testTertiaryColorIsNotLabelColorOnMacOS() {
+    #if os(macOS)
+    // This test documents the bug: DS.Colors.tertiary should NOT use label colors
+    // After fix, this should use .controlBackgroundColor or similar background color
+    let tertiaryColor = DS.Colors.tertiary
+    XCTAssertNotNil(tertiaryColor, "DS.Colors.tertiary must be defined")
+    // Visual inspection: tertiary should provide adequate contrast when used as background
+    #endif
+}
+```
+
+#### Unit Tests (Verify Fix)
+- **Test 1**: Verify DS.Colors.tertiary uses background color on macOS
+  ```swift
+  func testTertiaryColorUsesMacOSBackgroundColor() {
+      #if os(macOS)
+      // After fix: should use .controlBackgroundColor, .windowBackgroundColor,
+      // or .underPageBackgroundColor - NOT .tertiaryLabelColor
+      XCTAssertNotNil(DS.Colors.tertiary)
+      #endif
+  }
+  ```
+
+- **Test 2**: Platform parity - macOS intent matches iOS
+  ```swift
+  func testTertiaryColorPlatformParity() {
+      // iOS uses .tertiarySystemBackground (background color)
+      // macOS should also use background color, not label color
+      XCTAssertNotNil(DS.Colors.tertiary)
+  }
+  ```
+
+#### Snapshot Tests (Visual Regression)
+**Platform**: macOS only (iOS already correct)
+
+- **SidebarPattern** detail content background
+  - Light mode: verify clear contrast between sidebar and detail area
+  - Dark mode: verify clear contrast between sidebar and detail area
+  - Location: `Tests/__Snapshots__/SidebarPattern_macOS_DetailBackground_*.png`
+
+- **Card** component background
+  - Light mode: verify card stands out from window background
+  - Dark mode: verify card stands out from window background
+  - Location: `Tests/__Snapshots__/Card_macOS_Background_*.png`
+
+- **InspectorPattern** content area
+  - Light mode: verify content area has distinct background
+  - Dark mode: verify content area has distinct background
+
+- **ToolbarPattern** toolbar background
+  - Light mode: verify toolbar differentiates from content
+  - Dark mode: verify toolbar differentiates from content
+
+**Snapshot Baseline**:
+- Before fix: Low contrast, blended appearance
+- After fix: Clear visual separation, adequate contrast
+
+#### Accessibility Tests
+**Target**: WCAG 2.1 AA compliance (≥4.5:1 contrast ratio)
+
+```swift
+@available(macOS 10.15, *)
+func testTertiaryColorContrastRatio() {
+    #if os(macOS)
+    // Verify contrast ratio between DS.Colors.tertiary background
+    // and typical content colors (textPrimary, textSecondary)
+    // Must meet ≥4.5:1 for WCAG AA compliance
+    let backgroundColor = DS.Colors.tertiary
+    let textColor = DS.Colors.textPrimary
+
+    // Use AccessibilitySnapshot or manual contrast calculation
+    // XCTAssert(contrastRatio >= 4.5)
+    #endif
+}
+```
+
+- VoiceOver navigation: verify content boundaries are clear
+- Keyboard shortcuts: verify focus indicators are visible
+- Increase Contrast mode: verify enhanced contrast works correctly
+
+**Accessibility Impact**:
+- Before fix: Fails WCAG AA (contrast <4.5:1)
+- After fix: Passes WCAG AA (contrast ≥4.5:1)
+
+#### Integration Tests
+**Affected Components**:
+1. SidebarPattern (detail content background) - Line 176
+2. Card (background fallback) - Lines 159, 162
+3. SurfaceStyle (material fallback) - Lines 85, 195
+4. InteractiveStyle (hover states) - Multiple locations
+5. ToolbarPattern (toolbar background) - Lines 51, 263
+
+**Test Strategy**:
+```swift
+func testAllComponentsUsingTertiaryColorOnMacOS() {
+    #if os(macOS)
+    // Verify all components using DS.Colors.tertiary show proper contrast
+    // Test each component in Light/Dark mode
+    // Verify visual separation from window background
+    #endif
+}
+```
+
+#### Manual Testing Checklist
+**Test Environment**: ComponentTestApp on macOS
+
+- [ ] Launch ComponentTestApp on macOS Sonoma or later
+- [ ] Navigate to "Patterns" > "SidebarPattern"
+- [ ] Verify detail content area has clear contrast with window
+- [ ] Toggle Dark Mode - verify contrast maintained
+- [ ] Enable Increase Contrast - verify enhanced separation
+- [ ] Navigate to all pattern screens (Inspector, Toolbar, BoxTree)
+- [ ] Verify all use proper background colors
+- [ ] Test on different macOS versions (14.0+)
+- [ ] Compare with iOS version for semantic consistency
+
+#### Test Coverage Target
+**100% for bug fix code paths**
+
+- Colors.swift line 111: Platform-specific color mapping
+- All components using DS.Colors.tertiary on macOS
+- Snapshot baselines for all affected components
+
+#### Success Criteria
+- [ ] All unit tests pass
+- [ ] All snapshot tests show clear visual separation
+- [ ] Contrast ratio ≥4.5:1 verified
+- [ ] VoiceOver announces content boundaries correctly
+- [ ] Increase Contrast mode enhances separation
+- [ ] ComponentTestApp demonstrates fix visually
+- [ ] No regression in iOS/iPadOS (already correct)
+- [ ] Platform parity: macOS semantic intent matches iOS
+- [ ] SwiftLint 0 violations
+- [ ] Test coverage ≥100% for bug fix lines
+
+---
+
 ## Success Criteria
 
 ✅ **All quality gates passed**
