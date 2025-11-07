@@ -450,12 +450,3 @@ struct ISOInspectorDemoScreen: View {
     }
     .preferredColorScheme(.dark)
 }
-
-#Preview("ISO Inspector Demo - With Selection") {
-    NavigationStack {
-        ISOInspectorDemoScreen()
-    }
-    .onAppear {
-        // Note: Can't easily set state in preview, but this demonstrates the intent
-    }
-}
