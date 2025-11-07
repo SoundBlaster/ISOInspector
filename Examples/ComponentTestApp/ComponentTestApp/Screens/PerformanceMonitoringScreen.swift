@@ -333,7 +333,7 @@ struct PerformanceMonitoringScreen: View {
         baseline: String,
         passed: Bool
     ) -> some View {
-        VStack(alignment: .leading, spacing: DS.Spacing.xs) {
+        VStack(alignment: .leading, spacing: DS.Spacing.s) {
             HStack {
                 Text(label)
                     .font(DS.Typography.label)
@@ -363,7 +363,7 @@ struct PerformanceMonitoringScreen: View {
                 .foregroundColor(DS.Colors.successBG)
                 .font(.system(size: 16))
 
-            VStack(alignment: .leading, spacing: DS.Spacing.xs) {
+            VStack(alignment: .leading, spacing: DS.Spacing.s) {
                 HStack {
                     Text(metric)
                         .font(DS.Typography.body)
@@ -375,7 +375,7 @@ struct PerformanceMonitoringScreen: View {
                         .font(DS.Typography.caption)
                         .foregroundColor(DS.Colors.textSecondary)
                         .padding(.horizontal, DS.Spacing.s)
-                        .padding(.vertical, DS.Spacing.xs)
+                        .padding(.vertical, DS.Spacing.s)
                         .background(DS.Colors.secondary)
                         .cornerRadius(DS.Radius.small)
                 }
@@ -489,14 +489,6 @@ struct PerformanceMonitoringScreen: View {
         }
 
         return createNested(level: 0)
-    }
-}
-
-// MARK: - Supporting Extensions
-
-private extension DS {
-    enum Spacing {
-        static let xs: CGFloat = 4
     }
 }
 

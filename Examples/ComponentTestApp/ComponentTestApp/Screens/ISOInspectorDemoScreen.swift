@@ -12,6 +12,12 @@
 import FoundationUI
 import SwiftUI
 
+#if os(macOS)
+import AppKit
+#else
+import UIKit
+#endif
+
 /// ISO Inspector Demo Screen showcasing full pattern integration
 struct ISOInspectorDemoScreen: View {
     // MARK: - State
@@ -241,7 +247,7 @@ struct ISOInspectorDemoScreen: View {
                                 showIcon: false
                             )
 
-                            VStack(alignment: .leading, spacing: DS.Spacing.xs) {
+                            VStack(alignment: .leading, spacing: DS.Spacing.s) {
                                 Text(box.typeDescription)
                                     .font(DS.Typography.body)
 
@@ -389,12 +395,10 @@ struct ISOInspectorDemoScreen: View {
         guard let box = selectedBox else { return }
 
         #if os(macOS)
-        import AppKit
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setString(box.boxType, forType: .string)
         #else
-        import UIKit
         UIPasteboard.general.string = box.boxType
         #endif
 
@@ -453,13 +457,5 @@ struct ISOInspectorDemoScreen: View {
     }
     .onAppear {
         // Note: Can't easily set state in preview, but this demonstrates the intent
-    }
-}
-
-// MARK: - Supporting Extensions
-
-private extension DS {
-    enum Spacing {
-        static let xs: CGFloat = 4
     }
 }
