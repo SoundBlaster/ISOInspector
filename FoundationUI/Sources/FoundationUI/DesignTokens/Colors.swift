@@ -108,7 +108,7 @@ public extension DS {
             #if canImport(UIKit)
             return SwiftUI.Color(uiColor: .tertiarySystemBackground)
             #elseif canImport(AppKit)
-            return SwiftUI.Color(nsColor: .tertiaryLabelColor)
+            return SwiftUI.Color(nsColor: .controlBackgroundColor)
             #else
             return SwiftUI.Color.gray.opacity(0.1)
             #endif
