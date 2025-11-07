@@ -71,7 +71,7 @@ jobs:
           echo "build_time_ms=$DURATION_MS" >> $GITHUB_OUTPUT
           echo "build_time_s=$DURATION_S" >> $GITHUB_OUTPUT
 
-      - name: Measure binary size
+      - name: Measure library and build artifact size
         id: binary-size
         run: |
           set -eo pipefail
@@ -80,18 +80,43 @@ jobs:
           # Build in release mode
           swift build -c release
 
-          # Get binary size
-          BINARY_PATH=$(./.build/release/FoundationUI)
-          if [ -f "$BINARY_PATH" ]; then
-            SIZE=$(stat -f%z "$BINARY_PATH" 2>/dev/null || stat -c%s "$BINARY_PATH" 2>/dev/null || echo "0")
-            SIZE_KB=$(echo "scale=2; $SIZE / 1024" | bc)
-            SIZE_MB=$(echo "scale=2; $SIZE / 1024 / 1024" | bc)
+          # For library packages, measure the build directory size and SwiftModule
+          BUILD_DIR="./.build/release"
 
-            echo "Binary size: ${SIZE_MB}MB (${SIZE_KB}KB)"
-            echo "binary_size_bytes=$SIZE" >> $GITHUB_OUTPUT
+          if [ -d "$BUILD_DIR" ]; then
+            # Get total build directory size
+            TOTAL_SIZE=$(find "$BUILD_DIR" -type f -exec stat -c%s {} \; 2>/dev/null | awk '{sum+=$1} END {print sum}')
+
+            # Find and measure the .swiftmodule
+            SWIFTMODULE_SIZE=0
+            if [ -f "$BUILD_DIR/FoundationUI.swiftmodule" ]; then
+              SWIFTMODULE_SIZE=$(stat -c%s "$BUILD_DIR/FoundationUI.swiftmodule" 2>/dev/null || echo "0")
+            fi
+
+            # Find library files (.a on macOS/Linux, .dylib on macOS)
+            LIB_SIZE=0
+            if [ -f "$BUILD_DIR/libFoundationUI.a" ]; then
+              LIB_SIZE=$(stat -c%s "$BUILD_DIR/libFoundationUI.a" 2>/dev/null || echo "0")
+            elif [ -f "$BUILD_DIR/libFoundationUI.dylib" ]; then
+              LIB_SIZE=$(stat -c%s "$BUILD_DIR/libFoundationUI.dylib" 2>/dev/null || echo "0")
+            fi
+
+            if [ -z "$TOTAL_SIZE" ] || [ "$TOTAL_SIZE" = "0" ]; then
+              TOTAL_SIZE=0
+            fi
+
+            SIZE_KB=$(echo "scale=2; $TOTAL_SIZE / 1024" | bc)
+            SIZE_MB=$(echo "scale=2; $TOTAL_SIZE / 1024 / 1024" | bc)
+
+            echo "📦 Build artifacts:"
+            echo "  Total size: ${SIZE_MB}MB (${SIZE_KB}KB)"
+            echo "  Library: ${LIB_SIZE} bytes"
+            echo "  SwiftModule: ${SWIFTMODULE_SIZE} bytes"
+
+            echo "binary_size_bytes=$TOTAL_SIZE" >> $GITHUB_OUTPUT
             echo "binary_size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
           else
-            echo "⚠️ Binary not found, skipping size measurement"
+            echo "⚠️ Build directory not found"
             echo "binary_size_bytes=0" >> $GITHUB_OUTPUT
             echo "binary_size_mb=0" >> $GITHUB_OUTPUT
           fi
@@ -106,14 +131,23 @@ jobs:
           echo "⏱️ Running unit tests with performance monitoring..."
 
           # Run tests with timing output
-          swift test --show-bin-path 2>&1 | tee /tmp/test-output.log
+          START=$(date +%s%N)
+          swift test 2>&1 | tee /tmp/test-output.log
+          END=$(date +%s%N)
 
-          # Extract test duration if available
-          if grep -q "Test Suite" /tmp/test-output.log; then
+          # Calculate test duration
+          DURATION_MS=$(( (END - START) / 1000000 ))
+          DURATION_S=$(echo "scale=2; $DURATION_MS / 1000" | bc)
+
+          echo "Test execution time: ${DURATION_S}s"
+          echo "test_duration_s=$DURATION_S" >> $GITHUB_OUTPUT
+
+          # Extract test results
+          if grep -q "Test Suite.*passed" /tmp/test-output.log || grep -q "tests passed" /tmp/test-output.log; then
             echo "✅ All tests completed"
             echo "tests_passed=true" >> $GITHUB_OUTPUT
           else
-            echo "⚠️ Tests may have issues"
+            echo "⚠️ Tests may have issues, checking logs..."
             echo "tests_passed=false" >> $GITHUB_OUTPUT
           fi
 
@@ -134,6 +168,7 @@ jobs:
           script: |
             const buildTime = "${{ steps.build-time.outputs.build_time_s }}";
             const binarySize = "${{ steps.binary-size.outputs.binary_size_mb }}";
+            const testDuration = "${{ steps.test-performance.outputs.test_duration_s }}";
             const testsPassed = "${{ steps.test-performance.outputs.tests_passed }}";
 
             let comment = "## 📊 Performance Metrics Report\n\n";
@@ -141,25 +176,34 @@ jobs:
             if (buildTime && buildTime !== "0") {
               comment += `### Build Performance\n`;
               comment += `- **Build Time**: ${buildTime}s\n`;
-              comment += `- **Target**: <120s (acceptable)\n\n`;
+              comment += `- **Target**: <120s (acceptable)\n`;
+              comment += `- **Status**: ${parseFloat(buildTime) < 120 ? "✅ Pass" : "⚠️ Monitor"}\n\n`;
             }
 
             if (binarySize && binarySize !== "0") {
-              comment += `### Binary Size\n`;
-              comment += `- **Size**: ${binarySize}MB\n`;
-              comment += `- **Target**: <10MB (ideal), <15MB (acceptable)\n\n`;
+              comment += `### Build Artifacts Size\n`;
+              comment += `- **Total Size**: ${binarySize}MB\n`;
+              comment += `- **Target**: <15MB (acceptable)\n`;
+              comment += `- **Status**: ${parseFloat(binarySize) < 15 ? "✅ Pass" : "⚠️ Monitor"}\n\n`;
             }
 
-            if (testsPassed) {
+            if (testDuration && testDuration !== "0") {
+              comment += `### Test Execution\n`;
+              comment += `- **Duration**: ${testDuration}s\n`;
+              comment += `- **Target**: <30s (acceptable)\n`;
               const status = testsPassed === "true" ? "✅ Passed" : "⚠️ Check logs";
-              comment += `### Unit Tests\n`;
-              comment += `- **Status**: ${status}\n\n`;
+              comment += `- **Result**: ${status}\n\n`;
             }
+
+            comment += `### Quality Gates\n`;
+            comment += `- **Build Time**: <120s\n`;
+            comment += `- **Artifact Size**: <15MB\n`;
+            comment += `- **Test Execution**: <30s\n`;
+            comment += `- **Unit Tests**: All passing\n\n`;
 
             comment += `### Next Steps\n`;
             comment += `- Monitor performance over multiple builds\n`;
-            comment += `- Investigate regressions manually with Xcode Instruments\n`;
-            comment += `- See Phase 5.2 blocked.md for detailed profiling instructions\n`;
+            comment += `- For detailed profiling: See \`FoundationUI/DOCS/INPROGRESS/blocked.md\`\n`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
