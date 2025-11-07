@@ -953,14 +953,15 @@
   - Document remediation for failures
 
 #### Performance Testing
-**Progress: 0/3 tasks**
+**Progress: 0/3 tasks → IN PROGRESS** 🚧
 
-- [ ] **P0** Performance profiling with Instruments
+- [ ] **P0** Performance profiling with Instruments → **IN PROGRESS** (Task: `FoundationUI/DOCS/INPROGRESS/Phase5.2_PerformanceProfiling.md`)
   - Profile all components with Time Profiler
   - Profile memory usage with Allocations
   - Profile rendering with Core Animation
   - Test on oldest supported devices
   - Identify and fix performance bottlenecks
+  - **Rationale**: Critical for release readiness; Enhanced Demo App now provides PerformanceMonitoringScreen for profiling support
 
 - [ ] **P0** Performance benchmarks
   - Verify <10s build time for clean module
