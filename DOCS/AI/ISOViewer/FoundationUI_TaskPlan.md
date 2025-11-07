@@ -920,7 +920,7 @@
     - DynamicTypeTests.swift (20 tests, 100% pass)
     - AccessibilityIntegrationTests.swift (15 tests, 96.7% pass)
   - Accessibility audit report: `DOCS/REPORTS/AccessibilityAuditReport.md`
-  - Archive: `TASK_ARCHIVE/41_Phase5.2_AccessibilityAudit/` (pending)
+  - Archive: `TASK_ARCHIVE/41_Phase5.2_AccessibilityAudit/` ✅
 
 - [ ] **P0** Manual accessibility testing → **DEFERRED** (prioritizing Demo App for visual validation)
   - Manual VoiceOver testing on iOS

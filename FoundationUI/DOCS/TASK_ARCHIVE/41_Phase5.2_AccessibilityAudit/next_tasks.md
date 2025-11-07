@@ -1,6 +1,6 @@
 # Next Tasks for FoundationUI
 
-**Updated**: 2025-11-07 (after archiving Phase 5.2 Accessibility Audit)
+**Updated**: 2025-11-07
 **Current Status**: Phase 5.4 Enhanced Demo App - IN PROGRESS 🚧 (Dynamic Type Controls complete ✅)
 
 ## 🎯 NEXT TASK: Enhanced Demo App 🚀
@@ -45,17 +45,17 @@
   - [x] ✅ ToolbarPattern screen with keyboard shortcuts (already exists)
   - [x] ✅ BoxTreePattern screen with hierarchical data (already exists)
   - **Note**: All 4 pattern screens already implemented! Moving to Phase 2.
-
+  
 - [ ] **Phase 2**: ISO Inspector Mockup (4h) - NEXT PRIORITY
   - [ ] Full ISO Inspector screen combining all patterns
   - [ ] Sample ISO file data structure
   - [ ] Interactive box tree navigation
-
+  
 - [ ] **Phase 3**: Utility & Testing Screens (4h)
   - [ ] Copyable utilities showcase
   - [ ] Accessibility testing/validation tools
   - [ ] Performance monitoring dashboard
-
+  
 - [ ] **Phase 4**: Platform Features & Polish (4h)
   - [ ] macOS-specific features (keyboard, menu bar)
   - [ ] iOS/iPad gestures and adaptations
@@ -72,30 +72,29 @@
 
 **Priority**: P0 (Critical for release)
 **Estimated Effort**: 10-15 hours remaining
-**Dependencies**: Test infrastructure complete ✅, Coverage quality gate complete ✅, Accessibility audit complete ✅
+**Dependencies**: Test infrastructure complete ✅, Coverage quality gate complete ✅
 **Task Plan Reference**: `FoundationUI_TaskPlan.md` → Phase 5.2 Testing & QA
 
 **Remaining Requirements**:
 
 - [x] ✅ **COMPLETE** Comprehensive unit test coverage (≥80%) - **Achieved 84.5%!**
 - [x] ✅ **COMPLETE** Coverage quality gate with CI integration - **67% baseline, 80% target**
-- [x] ✅ **COMPLETE** Accessibility audit (≥95% score) - **Achieved 98%!** (Archive: `TASK_ARCHIVE/41_Phase5.2_AccessibilityAudit/`)
 - [ ] Unit test review and refactoring
 - [x] ✅ **COMPLETE** Snapshot tests for all components (Light/Dark mode)
 - [ ] Automated visual regression in CI
-- [ ] Manual accessibility testing (deferred - prioritizing Demo App)
+- [ ] Accessibility tests for all components (≥95% score)
 - [ ] Performance profiling with Instruments
 - [ ] SwiftLint compliance (0 violations)
 - [ ] CI/CD enhancement (pre-commit/pre-push hooks)
 
-**Why now**: Quality gates must be met before release. Coverage quality gate is now active. Accessibility audit complete with 98% score. Next steps are performance and code quality validation.
+**Why now**: Quality gates must be met before release. Coverage quality gate is now active. Next steps are accessibility, performance, and code quality validation.
 
 **Recommended Focus**:
 
-1. **Performance Profiling** - Profile with Instruments, establish baselines
-2. **SwiftLint Compliance** - Configure rules, fix violations
-3. **CI Enhancement** - Add accessibility and performance jobs
-4. **Manual Accessibility Testing** - Test with real VoiceOver and assistive technologies (when time permits)
+1. **Accessibility Testing** - Install AccessibilitySnapshot, validate WCAG compliance
+2. **Performance Profiling** - Profile with Instruments, establish baselines
+3. **SwiftLint Compliance** - Configure rules, fix violations
+4. **CI Enhancement** - Add accessibility and performance jobs
 
 ### Option 2: Phase 4.1 Agent-Driven UI Generation (P1)
 
@@ -144,17 +143,6 @@
 
 ## ✅ Recently Completed
 
-### 2025-11-07: Archive 41 - Phase 5.2 Accessibility Audit ✅
-
-- **Archived**: `TASK_ARCHIVE/41_Phase5.2_AccessibilityAudit/`
-- **Accessibility score**: 98% (target: ≥95%) ✅ **EXCEEDS TARGET**
-- **WCAG 2.1 Level AA compliance**: 98%
-- **99 automated test cases** across 5 comprehensive test files
-- **Archive includes**:
-  - Phase5.2_AccessibilityAudit.md (task documentation)
-  - next_tasks.md (snapshot before archiving)
-  - Accessibility audit report in `DOCS/REPORTS/`
-
 ### 2025-11-06: Phase 5.2 Accessibility Audit ✅
 
 - **Accessibility score: 98%** (target: ≥95%) ✅ **EXCEEDS TARGET**
@@ -173,7 +161,8 @@
   - ✅ 95.5% touch target compliance (iOS 44×44 pt, macOS 24×24 pt)
   - ✅ Zero magic numbers (100% DS token usage)
 - **Test suite stats**: 2,317 LOC, ~3.2s execution time
-- **Audit report**: `DOCS/REPORTS/AccessibilityAuditReport.md` (16.7 KB)
+- **Audit report**: `DOCS/REPORTS/AccessibilityAuditReport.md` (12.5KB)
+- Archive: `TASK_ARCHIVE/41_Phase5.2_AccessibilityAudit/` (pending)
 - **Phase 5.2 Testing & QA: 5/18 tasks (27.8%) 🚧**
 
 ### 2025-11-06: Phase 5.2 Coverage Quality Gate Implementation ✅
@@ -255,10 +244,10 @@
 | Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
 | Phase 3: Patterns & Platform Adaptation | 16/16 (100%) | ✅ Complete |
 | **Phase 4: Agent Support & Polish** | **11/18 (61%)** | 🚧 In progress |
-| **Phase 5: Documentation & QA** | **11/28 (39%)** | 🚧 In progress |
-| Phase 6: Integration & Validation | 0/17 (0%) | Not started |
+| **Phase 5: Documentation & QA** | **10/27 (37%)** | 🚧 In progress |
+| Phase 6: Integration & Validation | 0/18 (0%) | Not started |
 
-**Overall Progress**: 72/116 tasks (62.1%)
+**Overall Progress**: 71/116 tasks (61.2%)
 
 ### Phase 4 Remaining Tasks
 
@@ -274,7 +263,7 @@
 
 ### Phase 5 Remaining Tasks
 
-**Phase 5.2 Testing & Quality Assurance**: 5/18 tasks (27.8%)
+**Phase 5.2 Testing & Quality Assurance**: 4/18 tasks (22.2%)
 
 **Unit Testing** (3/3 tasks): ✅ **COMPLETE**
 
@@ -289,10 +278,10 @@
 - [x] Visual regression test suite (Light/Dark, Dynamic Type, platforms) ✅ Completed 2025-10-26
 - [ ] Automated visual regression in CI
 
-**Accessibility Testing** (1/3 tasks):
+**Accessibility Testing** (0/3 tasks):
 
-- [x] Accessibility audit (≥95% score) ✅ **Completed 2025-11-06 - 98% achieved!** (Archive: `TASK_ARCHIVE/41_Phase5.2_AccessibilityAudit/`)
-- [ ] Manual accessibility testing (VoiceOver, keyboard, Dynamic Type) - **DEFERRED**
+- [ ] Accessibility audit (≥95% score, AccessibilitySnapshot)
+- [ ] Manual accessibility testing (VoiceOver, keyboard, Dynamic Type)
 - [ ] Accessibility CI integration
 
 **Performance Testing** (0/3 tasks):
@@ -316,18 +305,6 @@
 ---
 
 ## 🎓 Session Notes
-
-### Accessibility Audit Achievements
-
-- Comprehensive accessibility test suite with 99 automated test cases
-- Accessibility score: **98%** (exceeds ≥95% target)
-- WCAG 2.1 Level AA compliance: 98%
-- 100% contrast ratio compliance (≥4.5:1 for text)
-- 100% VoiceOver support across all components
-- 100% Dynamic Type support (XS to Accessibility5)
-- 95.5% touch target compliance (iOS 44×44 pt, macOS 24×24 pt)
-- Zero magic numbers (100% DS token usage)
-- Archived as `TASK_ARCHIVE/41_Phase5.2_AccessibilityAudit/`
 
 ### Coverage Quality Gate Achievements
 
@@ -359,31 +336,31 @@
 - Swift 6 compliance: StrictConcurrency enabled ✅
 - CI/CD: Automated testing on every commit ✅
 - Coverage quality gate: Active with baseline protection ✅
-- Accessibility score: 98% (WCAG 2.1 Level AA) ✅
 
 ---
 
 ## 🔍 Recommendations
 
-**Recommended Next Step**: Phase 5.4 Enhanced Demo App (Continue Current Work)
+**Recommended Next Step**: Phase 5.2 Testing & Quality Assurance (Accessibility & Performance Focus)
 
 ### Rationale
 
-1. **User Priority**: Manual accessibility testing deferred in favor of Demo App for better visual validation
-2. **Development Experience**: Working Demo App improves developer productivity and testing
-3. **Foundation for Phase 6**: Enhanced Demo App enables UI test development (Phase 6.1)
-4. **Real-world Validation**: ISO Inspector mockup demonstrates all components and patterns in context
-5. **Dynamic Type Controls Complete**: Recent work (2025-11-07) adds interactive accessibility testing to Demo App
-6. **Natural Progression**: All 4 pattern screens already implemented, ready for ISO Inspector integration
+1. **Critical for release**: Testing is a P0 quality gate that must be complete before release
+2. **Coverage complete**: Unit test coverage achieved (84.5%) and quality gate active
+3. **Natural progression**: Move from unit/coverage testing to accessibility and performance
+4. **Complement existing work**: Accessibility and performance complete the quality picture
+5. **Enable integration**: High quality standards enable confident integration work in Phase 6
+6. **Quality focus**: Maintains high quality standards established in earlier phases
 
 ### Specific Focus Areas
 
-1. **Phase 2: ISO Inspector Mockup** - Combine all patterns into cohesive demo (4h)
-2. **Phase 3: Utility & Testing Screens** - Add Copyable, accessibility, performance tools (4h)
-3. **Phase 4: Platform Features & Polish** - macOS/iOS specific enhancements, Dark mode (4h)
+1. **Accessibility testing**: Install AccessibilitySnapshot, validate WCAG compliance, test VoiceOver
+2. **Performance profiling**: Profile with Instruments, establish baselines, optimize bottlenecks
+3. **SwiftLint compliance**: Configure rules, fix violations, enable pre-commit hooks
+4. **CI enhancement**: Add accessibility and performance jobs, implement test reporting
 
-**Alternative**: Phase 5.2 Remaining Tasks (Performance, SwiftLint, CI) if quality focus prioritized
+**Alternative**: Phase 4.1 Agent Support if agent-driven UI generation is prioritized
 
 ---
 
-## Recreated after archiving Phase 5.2 Accessibility Audit (2025-11-07)
+## Recreated after archiving Phase 5.2 Coverage Quality Gate
