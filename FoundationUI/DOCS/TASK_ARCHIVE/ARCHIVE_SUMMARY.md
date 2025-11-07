@@ -4,6 +4,64 @@ This document provides an index and summary of all archived FoundationUI impleme
 
 ---
 
+### 42_Phase1.3_BugFix_ColorsTertiaryMacOS
+**Completed**: 2025-11-07
+**Phase**: 1.3 Bug Fixes
+**Component**: DS.Colors.tertiary macOS Low Contrast Bug Fix (Layer 0 - Design Tokens)
+
+**Bug Fixed**:
+- Fixed DS.Colors.tertiary using wrong color token on macOS
+- Changed from `.tertiaryLabelColor` (text/label color) to `.controlBackgroundColor` (background color)
+- Restored WCAG AA accessibility compliance (≥4.5:1 contrast ratio)
+- Improved visual clarity for all macOS users
+
+**Root Cause**:
+- Platform-specific conditional compilation incorrectly mapped to `.tertiaryLabelColor` on macOS
+- This caused low contrast between window backgrounds and content areas
+- Affected components: SidebarPattern, InspectorPattern, Card, SurfaceStyle, InteractiveStyle, ToolbarPattern
+
+**Implementation**:
+- **Code change**: 1 line in `Colors.swift:111`
+- **Tests added**: 3 regression tests in `TokenValidationTests.swift`
+- **Preview added**: macOS contrast verification in `SidebarPattern.swift:631`
+
+**Files Archived**:
+- `BUG_Colors_Tertiary_macOS_LowContrast.md` - Full bug specification with root cause analysis
+- `BUG_Colors_Tertiary_macOS_LowContrast_SUMMARY.md` - Executive summary
+- `ARCHIVE_REPORT_42.md` - Archive report with metrics and lessons learned
+
+**Quality Metrics**:
+- **Severity**: High (Critical UX issue)
+- **Effort**: S (Small) - ~1.5 hours
+- **Priority**: P0 (Critical)
+- **SwiftLint violations**: 0
+- **Test coverage**: 100% of changed lines
+- **Accessibility compliance**: WCAG AA ✅
+
+**User Impact**:
+- ✅ Clear visual separation between content areas and window backgrounds on macOS
+- ✅ WCAG AA accessibility compliance restored
+- ✅ Improved readability for all users, especially those with low vision
+- ✅ Platform parity: macOS now matches iOS semantic intent
+
+**Commits**:
+- `ca12187` - Fix DS.Colors.tertiary low contrast on macOS (#BUG_Colors_Tertiary_macOS_LowContrast)
+- `c6e4d52` - Fix preview compilation error
+- `a6e2681` - Update bug specification with actual commit hashes
+
+**Lessons Learned**:
+- Platform-specific tokens require careful semantic mapping (label colors ≠ background colors)
+- System color APIs have specific purposes - must use correct semantic type
+- Accessibility testing must include platform-specific validation
+- Create platform-specific previews for platform-conditional code
+
+**Next Steps**:
+- Audit all other platform-specific color tokens for semantic correctness (recommended)
+- Add automated contrast ratio tests for all DS.Colors tokens
+- Create macOS-specific snapshot tests for visual regression prevention
+
+---
+
 ### 41_Phase5.2_AccessibilityAudit
 **Completed**: 2025-11-06
 **Phase**: 5.2 Testing & Quality Assurance
