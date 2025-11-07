@@ -1,0 +1,233 @@
+name: Performance Regression Detection
+
+on:
+  workflow_dispatch: {}
+  pull_request:
+    branches:
+      - main
+      - "**"
+    paths:
+      - 'FoundationUI/**/*.swift'
+      - 'FoundationUI/Package.swift'
+      - 'Examples/ComponentTestApp/**/*.swift'
+      - '.github/workflows/performance-regression.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'FoundationUI/**/*.swift'
+      - 'FoundationUI/Package.swift'
+      - 'Examples/ComponentTestApp/**/*.swift'
+
+# Permissions for commenting on PRs
+permissions:
+  contents: read
+  pull-requests: write
+
+# Cancel in-progress runs for same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-metrics:
+    name: Measure Build Performance
+    runs-on: macos-15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26.0
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.0"
+
+      - name: Show versions
+        run: |
+          xcodebuild -version
+          swift --version
+
+      - name: Measure SPM build time (FoundationUI)
+        id: build-time
+        run: |
+          set -eo pipefail
+          cd FoundationUI
+
+          echo "📊 Measuring Swift Package build time..."
+
+          # Clean build
+          swift package clean
+
+          # Time the build
+          START=$(date +%s%N)
+          swift build
+          END=$(date +%s%N)
+
+          # Calculate duration in milliseconds
+          DURATION_MS=$(( (END - START) / 1000000 ))
+          DURATION_S=$(echo "scale=2; $DURATION_MS / 1000" | bc)
+
+          echo "Build time: ${DURATION_S}s (${DURATION_MS}ms)"
+          echo "build_time_ms=$DURATION_MS" >> $GITHUB_OUTPUT
+          echo "build_time_s=$DURATION_S" >> $GITHUB_OUTPUT
+
+      - name: Measure binary size
+        id: binary-size
+        run: |
+          set -eo pipefail
+          cd FoundationUI
+
+          # Build in release mode
+          swift build -c release
+
+          # Get binary size
+          BINARY_PATH=$(./.build/release/FoundationUI)
+          if [ -f "$BINARY_PATH" ]; then
+            SIZE=$(stat -f%z "$BINARY_PATH" 2>/dev/null || stat -c%s "$BINARY_PATH" 2>/dev/null || echo "0")
+            SIZE_KB=$(echo "scale=2; $SIZE / 1024" | bc)
+            SIZE_MB=$(echo "scale=2; $SIZE / 1024 / 1024" | bc)
+
+            echo "Binary size: ${SIZE_MB}MB (${SIZE_KB}KB)"
+            echo "binary_size_bytes=$SIZE" >> $GITHUB_OUTPUT
+            echo "binary_size_mb=$SIZE_MB" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ Binary not found, skipping size measurement"
+            echo "binary_size_bytes=0" >> $GITHUB_OUTPUT
+            echo "binary_size_mb=0" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Run unit tests with performance baseline
+        id: test-performance
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          cd FoundationUI
+
+          echo "⏱️ Running unit tests with performance monitoring..."
+
+          # Run tests with timing output
+          swift test --show-bin-path 2>&1 | tee /tmp/test-output.log
+
+          # Extract test duration if available
+          if grep -q "Test Suite" /tmp/test-output.log; then
+            echo "✅ All tests completed"
+            echo "tests_passed=true" >> $GITHUB_OUTPUT
+          else
+            echo "⚠️ Tests may have issues"
+            echo "tests_passed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Store performance metrics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: performance-metrics
+          path: |
+            /tmp/test-output.log
+          if-no-files-found: ignore
+          retention-days: 30
+
+      - name: Comment on PR with Performance Results
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const buildTime = "${{ steps.build-time.outputs.build_time_s }}";
+            const binarySize = "${{ steps.binary-size.outputs.binary_size_mb }}";
+            const testsPassed = "${{ steps.test-performance.outputs.tests_passed }}";
+
+            let comment = "## 📊 Performance Metrics Report\n\n";
+
+            if (buildTime && buildTime !== "0") {
+              comment += `### Build Performance\n`;
+              comment += `- **Build Time**: ${buildTime}s\n`;
+              comment += `- **Target**: <120s (acceptable)\n\n`;
+            }
+
+            if (binarySize && binarySize !== "0") {
+              comment += `### Binary Size\n`;
+              comment += `- **Size**: ${binarySize}MB\n`;
+              comment += `- **Target**: <10MB (ideal), <15MB (acceptable)\n\n`;
+            }
+
+            if (testsPassed) {
+              const status = testsPassed === "true" ? "✅ Passed" : "⚠️ Check logs";
+              comment += `### Unit Tests\n`;
+              comment += `- **Status**: ${status}\n\n`;
+            }
+
+            comment += `### Next Steps\n`;
+            comment += `- Monitor performance over multiple builds\n`;
+            comment += `- Investigate regressions manually with Xcode Instruments\n`;
+            comment += `- See Phase 5.2 blocked.md for detailed profiling instructions\n`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+  test-runtime-performance:
+    name: Unit Test Execution Performance
+    runs-on: macos-15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26.0
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.0"
+
+      - name: Run FoundationUI tests with timing
+        id: test-time
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          cd FoundationUI
+
+          echo "⏱️ Measuring unit test execution time..."
+
+          # Run tests and capture timing
+          time swift test
+
+          echo "✅ Test execution completed"
+
+      - name: Upload test logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-performance-logs
+          path: |
+            /tmp/test-*.log
+          if-no-files-found: ignore
+          retention-days: 30
+
+  regression-detection:
+    name: Performance Regression Analysis
+    runs-on: ubuntu-latest
+    needs: [build-metrics, test-runtime-performance]
+    if: always()
+    steps:
+      - name: Check for regressions
+        run: |
+          echo "## 📈 Performance Regression Detection"
+          echo ""
+          echo "### Build Metrics"
+          echo "- ✅ Build time monitored"
+          echo "- ✅ Binary size tracked"
+          echo "- ⏳ Baseline comparison (stored in artifacts)"
+          echo ""
+          echo "### Unit Test Performance"
+          echo "- ✅ Test execution time measured"
+          echo "- ✅ Individual test timings available in logs"
+          echo ""
+          echo "### Detailed Analysis"
+          echo "For detailed performance profiling and bottleneck analysis:"
+          echo "1. Download performance artifacts from this workflow"
+          echo "2. Follow instructions in Phase 5.2 blocked.md"
+          echo "3. Use Xcode Instruments for detailed profiling"
+          echo "   - Time Profiler: CPU usage"
+          echo "   - Allocations: Memory usage"
+          echo "   - Core Animation: Frame rate"

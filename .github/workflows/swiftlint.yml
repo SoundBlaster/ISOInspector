@@ -1,0 +1,173 @@
+name: SwiftLint Code Quality
+
+on:
+  workflow_dispatch: {}
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - 'FoundationUI/**/*.swift'
+      - 'FoundationUI/.swiftlint.yml'
+      - 'Examples/ComponentTestApp/**/*.swift'
+      - '.github/workflows/swiftlint.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'FoundationUI/**/*.swift'
+      - 'FoundationUI/.swiftlint.yml'
+      - 'Examples/ComponentTestApp/**/*.swift'
+
+# Permissions for commenting on PRs
+permissions:
+  contents: read
+  pull-requests: write
+
+# Cancel in-progress runs for same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  swiftlint:
+    name: SwiftLint Code Quality Check
+    runs-on: macos-15
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Select Xcode 26.0
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "26.0"
+
+      - name: Show Swift version
+        run: swift --version
+
+      - name: Install SwiftLint
+        run: |
+          set -eo pipefail
+          SWIFTLINT_VERSION=$(curl -s https://api.github.com/repos/realm/SwiftLint/releases/latest | grep tag_name | head -1 | cut -d '"' -f 4)
+          echo "Installing SwiftLint ${SWIFTLINT_VERSION}..."
+
+          # Download prebuilt binary
+          curl -fL -o /tmp/swiftlint.zip "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/SwiftLint.pkg"
+
+          # Install via package
+          sudo installer -pkg /tmp/swiftlint.zip -target /
+
+          # Verify installation
+          swiftlint --version
+
+      - name: Run SwiftLint on FoundationUI
+        id: swiftlint-foundationui
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          cd FoundationUI
+
+          echo "🔍 Running SwiftLint on FoundationUI..."
+          swiftlint --config .swiftlint.yml --reporter json > /tmp/swiftlint-foundationui.json || true
+
+          # Parse and display results
+          if command -v jq &> /dev/null; then
+            VIOLATIONS=$(jq '.[] | length' /tmp/swiftlint-foundationui.json | jq -s 'add // 0')
+            ERRORS=$(jq '[.[] | select(.severity == "error")] | length' /tmp/swiftlint-foundationui.json)
+            WARNINGS=$(jq '[.[] | select(.severity == "warning")] | length' /tmp/swiftlint-foundationui.json)
+
+            echo "violations=$VIOLATIONS" >> $GITHUB_OUTPUT
+            echo "errors=$ERRORS" >> $GITHUB_OUTPUT
+            echo "warnings=$WARNINGS" >> $GITHUB_OUTPUT
+
+            echo "Total violations: $VIOLATIONS"
+            echo "  Errors: $ERRORS"
+            echo "  Warnings: $WARNINGS"
+
+            if [ "$ERRORS" -gt 0 ]; then
+              echo "❌ SwiftLint errors found!"
+              swiftlint --config .swiftlint.yml --reporter xcode
+              exit 1
+            fi
+          fi
+
+      - name: Run SwiftLint on ComponentTestApp
+        id: swiftlint-componenttestapp
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+          cd Examples/ComponentTestApp
+
+          echo "🔍 Running SwiftLint on ComponentTestApp..."
+          swiftlint --reporter json > /tmp/swiftlint-componenttestapp.json || true
+
+          # Parse and display results
+          if command -v jq &> /dev/null; then
+            VIOLATIONS=$(jq '.[] | length' /tmp/swiftlint-componenttestapp.json | jq -s 'add // 0')
+            ERRORS=$(jq '[.[] | select(.severity == "error")] | length' /tmp/swiftlint-componenttestapp.json)
+            WARNINGS=$(jq '[.[] | select(.severity == "warning")] | length' /tmp/swiftlint-componenttestapp.json)
+
+            echo "violations=$VIOLATIONS" >> $GITHUB_OUTPUT
+            echo "errors=$ERRORS" >> $GITHUB_OUTPUT
+            echo "warnings=$WARNINGS" >> $GITHUB_OUTPUT
+
+            echo "Total violations: $VIOLATIONS"
+            echo "  Errors: $ERRORS"
+            echo "  Warnings: $WARNINGS"
+
+            if [ "$ERRORS" -gt 0 ]; then
+              echo "❌ SwiftLint errors found!"
+              swiftlint --reporter xcode
+              exit 1
+            fi
+          fi
+
+      - name: Comment on PR with SwiftLint Results
+        if: always() && github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const violations = "${{ steps.swiftlint-foundationui.outputs.violations }}" || "0";
+            const errors = "${{ steps.swiftlint-foundationui.outputs.errors }}" || "0";
+            const warnings = "${{ steps.swiftlint-foundationui.outputs.warnings }}" || "0";
+
+            let comment = "## 🔍 SwiftLint Code Quality Report\n\n";
+
+            if (parseInt(violations) === 0) {
+              comment += "✅ **No violations found!** Code quality check passed.\n";
+            } else {
+              comment += `⚠️ **Code Quality Issues Found**\n\n`;
+              comment += `| Type | Count |\n`;
+              comment += `|------|-------|\n`;
+              comment += `| Errors | ${errors} |\n`;
+              comment += `| Warnings | ${warnings} |\n`;
+              comment += `| Total | ${violations} |\n\n`;
+              comment += "Please review and fix the violations reported above.\n";
+            }
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+
+      - name: Quality Gate
+        if: always()
+        run: |
+          FOUNDATIONUI_RESULT="${{ steps.swiftlint-foundationui.outcome }}"
+          COMPONENTTESTAPP_RESULT="${{ steps.swiftlint-componenttestapp.outcome }}"
+
+          if [ "$FOUNDATIONUI_RESULT" = "failure" ] || [ "$COMPONENTTESTAPP_RESULT" = "failure" ]; then
+            echo "❌ SwiftLint quality gate failed!"
+            echo ""
+            echo "Next steps:"
+            echo "1. Review violations reported above"
+            echo "2. Fix code style issues:"
+            echo "   - Run: cd FoundationUI && swiftlint --config .swiftlint.yml --fix"
+            echo "   - Run: cd Examples/ComponentTestApp && swiftlint --fix"
+            echo "3. Commit fixed code"
+            echo "4. Push changes"
+            exit 1
+          else
+            echo "✅ SwiftLint quality gate passed!"
+          fi

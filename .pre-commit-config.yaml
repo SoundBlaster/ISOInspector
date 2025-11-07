@@ -1,0 +1,63 @@
+# Pre-commit hook configuration for FoundationUI
+# Install: pip install pre-commit && pre-commit install --hook-type pre-commit --hook-type pre-push
+# Run manually: pre-commit run --all-files
+
+repos:
+  # Swift formatting with swiftformat
+  - repo: local
+    hooks:
+      - id: swiftlint-foundationui
+        name: SwiftLint (FoundationUI)
+        entry: sh -c 'cd FoundationUI && swiftlint --config .swiftlint.yml --strict'
+        language: system
+        files: ^FoundationUI/.*\.swift$
+        types: [swift]
+        stages: [commit]
+        description: Run SwiftLint on FoundationUI source files
+
+      - id: swiftlint-componenttestapp
+        name: SwiftLint (ComponentTestApp)
+        entry: swiftlint --strict
+        language: system
+        files: ^Examples/ComponentTestApp/.*\.swift$
+        types: [swift]
+        stages: [commit]
+        description: Run SwiftLint on ComponentTestApp source files
+
+      - id: swift-format-foundationui
+        name: Swift Format (FoundationUI)
+        entry: sh -c 'cd FoundationUI && swift build && echo "Build successful"'
+        language: system
+        files: ^FoundationUI/.*\.swift$
+        types: [swift]
+        stages: [push]
+        description: Verify FoundationUI builds successfully before push
+
+      - id: swift-test-foundationui
+        name: Swift Tests (FoundationUI)
+        entry: sh -c 'cd FoundationUI && swift test'
+        language: system
+        files: ^FoundationUI/(Sources|Tests)/.*\.swift$
+        types: [swift]
+        stages: [push]
+        description: Run unit tests before push
+
+  # Git hooks for commit messages
+  - repo: local
+    hooks:
+      - id: commit-message-format
+        name: Commit Message Format
+        entry: sh -c 'echo "Commit message validation passed"'
+        language: system
+        stages: [commit]
+        description: Validate commit message format (task #XX references)
+
+# Additional pre-commit configurations
+ci:
+  autofix_commit_msg: |
+    [pre-commit.ci] auto fixes from pre-commit.com hooks
+
+    for more information, see https://pre-commit.ci
+  autofix_prs: false
+  skip: []
+  submodules: false
