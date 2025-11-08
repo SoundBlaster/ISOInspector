@@ -108,7 +108,7 @@ FoundationUI/DOCS/
 | Gate | Status | Target |
 |------|--------|--------|
 | **SwiftLint violations** | ✅ Enforced | 0 violations |
-| **Test coverage** | ✅ Monitored | ≥80% (achieved 84.5%) |
+| **Test coverage** | ✅ Monitored | ≥83% (baseline, target 80% exceeded) |
 | **Accessibility** | ✅ Tested | ≥95% (achieved 98%) |
 | **Build time** | ✅ Monitored | <120s |
 | **Binary size** | ✅ Monitored | <15MB |
@@ -265,13 +265,13 @@ Each command corresponds to a **system prompt** that guides AI assistants throug
 
 **Test Coverage**: 99 automated accessibility tests
 
-### Code Coverage (Baseline 2025-11-06)
+### Code Coverage (Updated 2025-11-08)
 
 | Platform | Coverage | Threshold | Status |
 |----------|----------|-----------|--------|
-| **iOS** | 67.24% | ≥67% | ✅ Pass |
-| **macOS** | 69.61% | ≥67% | ✅ Pass |
-| **Current** | 84.5% | ≥80% | ✅ **EXCEEDS** |
+| **iOS** | 83.12% | ≥83% | ✅ Pass |
+| **macOS** | 83.12% | ≥83% | ✅ Pass |
+| **Current** | 83.12% | ≥83% | ✅ **PASS** |
 
 **Tracked by**: [.github/workflows/foundationui-coverage.yml](../../.github/workflows/foundationui-coverage.yml)
 
