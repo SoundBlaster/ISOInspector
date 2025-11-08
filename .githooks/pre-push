@@ -63,12 +63,16 @@ fi
 cd - > /dev/null
 echo ""
 
-# 4. Check for large files
-echo "4️⃣  Checking for large files..."
-LARGE_FILES=$(git diff --cached --name-only --diff-filter=ACM | while read file; do
-    SIZE=$(git cat-file -s :0:"$file" 2>/dev/null || echo 0)
-    if [ "$SIZE" -gt 10485760 ]; then  # 10MB
-        echo "$file ($((SIZE/1048576))MB)"
+# 4. Check for large files in commits being pushed
+echo "4️⃣  Checking for large files in commits being pushed..."
+# Check commits between remote main and current branch
+MERGE_BASE=$(git merge-base origin/main HEAD 2>/dev/null || echo "HEAD")
+LARGE_FILES=$(git diff $MERGE_BASE...HEAD --name-only --diff-filter=ACM | while read file; do
+    if [ -f "$file" ]; then
+        SIZE=$(stat -c%s "$file" 2>/dev/null || stat -f%z "$file" 2>/dev/null || echo 0)
+        if [ "$SIZE" -gt 10485760 ]; then  # 10MB
+            echo "$file ($((SIZE/1048576))MB)"
+        fi
     fi
 done)
 
@@ -81,12 +85,13 @@ else
 fi
 echo ""
 
-# 5. Check for secrets
-echo "5️⃣  Scanning for secrets..."
+# 5. Check for secrets in commits being pushed
+echo "5️⃣  Scanning for secrets in commits being pushed..."
 SECRETS_FOUND=0
-for file in $(git diff --cached --name-only); do
-    if git show :"$file" 2>/dev/null | grep -qE 'API[_-]?KEY|PASSWORD|SECRET|TOKEN|PRIVATE[_-]?KEY'; then
-        echo -e "${RED}⚠️  Potential secret in: $file${NC}"
+MERGE_BASE=$(git merge-base origin/main HEAD 2>/dev/null || echo "HEAD")
+for commit in $(git rev-list $MERGE_BASE...HEAD); do
+    if git show "$commit" | grep -qE 'API[_-]?KEY|PASSWORD|SECRET|TOKEN|PRIVATE[_-]?KEY'; then
+        echo -e "${RED}⚠️  Potential secret in commit: $commit${NC}"
         SECRETS_FOUND=$((SECRETS_FOUND + 1))
     fi
 done
