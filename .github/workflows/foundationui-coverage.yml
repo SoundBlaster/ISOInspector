@@ -53,11 +53,6 @@ jobs:
           cd FoundationUI
           swift package resolve
 
-      - name: Build with coverage
-        run: |
-          cd FoundationUI
-          swift build --enable-code-coverage
-
       - name: Run tests with coverage
         run: |
           cd FoundationUI
