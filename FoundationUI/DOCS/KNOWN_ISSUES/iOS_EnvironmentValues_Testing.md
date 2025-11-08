@@ -25,9 +25,11 @@ When tests create `var environment = EnvironmentValues()` and access `environmen
 
 ## Impact on Coverage
 
-Disabling these tests resulted in **~14% coverage drop** for `AccessibilityContext.swift`:
+Disabling these tests resulted in **~15% coverage drop** for `AccessibilityContext.swift`:
 - **Before**: 83.12% overall coverage
-- **After**: ~69% overall coverage (40.48% for AccessibilityContext.swift specifically)
+- **After**: 68-71% overall coverage (40.48% for AccessibilityContext.swift specifically)
+  - iOS: 68.94%
+  - macOS: 71.35%
 
 **Uncovered code (50 lines)**:
 - `EnvironmentValues.accessibilityContext` getter/setter (0/24 lines)
@@ -49,7 +51,7 @@ Added 4 iOS-safe replacement tests that work on all platforms:
 
 ### Coverage Threshold
 - **Previous**: 83% (macOS and iOS)
-- **Current**: 69% (temporary, both platforms)
+- **Current**: 68% (temporary, both platforms)
 - **Target**: Restore to 83% once iOS testing solution is found
 
 ## Potential Solutions
@@ -89,7 +91,7 @@ Keep these tests macOS-only since the underlying code works identically:
 
 ## Resolution Plan
 
-1. **Short-term** (Current): Tests disabled on iOS, threshold lowered to 69%
+1. **Short-term** (Current): Tests disabled on iOS, threshold lowered to 68%
 2. **Medium-term**: Investigate ViewInspector or alternative testing approaches
 3. **Long-term**: Restore full EnvironmentValues test coverage on iOS and raise threshold back to 83%
 
