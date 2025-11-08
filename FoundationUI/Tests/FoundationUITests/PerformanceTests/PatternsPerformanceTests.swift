@@ -38,16 +38,13 @@ import XCTest
                 TestTreeNode(id: UUID(), title: "Node \(index)", children: [])
             }
 
-            let expandedNodesState = State(initialValue: Set<UUID>())
-            let selectionState = State<UUID?>(initialValue: nil)
-
             // When: Measure render time
             measure {
                 let _ = BoxTreePattern(
                     data: nodes,
                     children: { $0.children },
-                    expandedNodes: expandedNodesState.projectedValue,
-                    selection: selectionState.projectedValue
+                    expandedNodes: .constant(Set<UUID>()),
+                    selection: .constant(nil)
                 ) { node in
                     Text(node.title)
                 }
@@ -72,14 +69,13 @@ import XCTest
             }
 
             let deepTree = makeDeepTree(depth: deepTreeDepth)
-            let expandedNodesState = State(initialValue: Set<UUID>())
 
             // When: Measure render time
             measure {
                 let _ = BoxTreePattern(
                     data: deepTree,
                     children: { $0.children },
-                    expandedNodes: expandedNodesState.projectedValue
+                    expandedNodes: .constant(Set<UUID>())
                 ) { node in
                     Text(node.title)
                 }
@@ -101,13 +97,11 @@ import XCTest
                 )
             }
 
-            let expandedNodesState = State(initialValue: Set<UUID>())
-
             // When: Create pattern
             let pattern = BoxTreePattern(
                 data: nodes,
                 children: { $0.children },
-                expandedNodes: expandedNodesState.projectedValue
+                expandedNodes: .constant(Set<UUID>())
             ) { node in
                 Text(node.title)
             }
@@ -130,14 +124,12 @@ import XCTest
                 )
             }
 
-            let expandedNodesState = State(initialValue: Set<UUID>())  // No nodes expanded
-
             // When: Measure render time with all nodes collapsed
             measure {
                 let _ = BoxTreePattern(
                     data: rootNodes,
                     children: { $0.children },
-                    expandedNodes: expandedNodesState.projectedValue
+                    expandedNodes: .constant(Set<UUID>())
                 ) { node in
                     Text(node.title)
                 }
@@ -160,14 +152,12 @@ import XCTest
                 )
             }
 
-            let expandedNodesState = State(initialValue: Set(nodes.map { $0.id }))
-
             // When: Measure render time with all nodes expanded
             measure {
                 let _ = BoxTreePattern(
                     data: nodes,
                     children: { $0.children },
-                    expandedNodes: expandedNodesState.projectedValue
+                    expandedNodes: .constant(Set<UUID>())
                 ) { node in
                     Text(node.title)
                 }
@@ -246,7 +236,6 @@ import XCTest
                     title: "Item \(index)"
                 )
             }
-            let selectionState = State<Int?>(initialValue: nil)
 
             // When: Measure render time
             measure {
@@ -257,7 +246,7 @@ import XCTest
                             items: sidebarItems
                         )
                     ],
-                    selection: selectionState.projectedValue
+                    selection: .constant(nil)
                 ) { selectedId in
                     AnyView(
                         Group {
@@ -289,13 +278,12 @@ import XCTest
                     items: items
                 )
             }
-            let selectionState = State<String?>(initialValue: nil)
 
             // When: Measure render time
             measure {
                 let _ = SidebarPattern<String, AnyView>(
                     sections: sections,
-                    selection: selectionState.projectedValue
+                    selection: .constant(nil)
                 ) { selectedId in
                     AnyView(
                         Group {
@@ -347,12 +335,10 @@ import XCTest
                     title: "Item \(index)"
                 )
             }
-            let selectionState = State<Int?>(initialValue: nil)
 
             let treeNodes = (0..<100).map { index in
                 TestTreeNode(id: UUID(), title: "Node \(index)", children: [])
             }
-            let expandedNodesState = State(initialValue: Set<UUID>())
 
             // When: Measure combined render time
             measure {
@@ -365,7 +351,7 @@ import XCTest
                                 items: sidebarItems
                             )
                         ],
-                        selection: selectionState.projectedValue
+                        selection: .constant(nil)
                     ) { selectedId in
                         AnyView(
                             Group {
@@ -383,7 +369,7 @@ import XCTest
                     BoxTreePattern(
                         data: treeNodes,
                         children: { $0.children },
-                        expandedNodes: expandedNodesState.projectedValue
+                        expandedNodes: .constant(Set<UUID>())
                     ) { node in
                         Text(node.title)
                     }
@@ -404,26 +390,25 @@ import XCTest
         /// Test pattern performance with animations
         func testPatternPerformanceWithAnimations() {
             // Given: Pattern with animated state changes
-            let isExpandedState = State(initialValue: false)
+            var isExpanded = false
 
             let nodes = (0..<100).map { index in
                 TestTreeNode(id: UUID(), title: "Node \(index)", children: [])
             }
-            let expandedNodesState = State(initialValue: Set<UUID>())
 
             // When: Measure with animations
             measure {
                 withAnimation(DS.Animation.medium) {
-                    isExpandedState.wrappedValue.toggle()
+                    isExpanded.toggle()
                 }
 
                 let _ = BoxTreePattern(
                     data: nodes,
                     children: { $0.children },
-                    expandedNodes: expandedNodesState.projectedValue
+                    expandedNodes: .constant(Set<UUID>())
                 ) { node in
                     Text(node.title)
-                        .opacity(isExpandedState.wrappedValue ? 1.0 : 0.8)
+                        .opacity(isExpanded ? 1.0 : 0.8)
                 }
             }
 
@@ -438,14 +423,13 @@ import XCTest
             let nodes = (0..<5000).map { index in
                 TestTreeNode(id: UUID(), title: "Node \(index)", children: [])
             }
-            let expandedNodesState = State(initialValue: Set<UUID>())
 
             // When: Create pattern
             let startTime = Date()
             let pattern = BoxTreePattern(
                 data: nodes,
                 children: { $0.children },
-                expandedNodes: expandedNodesState.projectedValue
+                expandedNodes: .constant(Set<UUID>())
             ) { node in
                 Text(node.title)
             }
@@ -471,13 +455,12 @@ import XCTest
             }
 
             let deepTree = makeVeryDeepTree(depth: 100)
-            let expandedNodesState = State(initialValue: Set<UUID>())
 
             // When: Create pattern
             let pattern = BoxTreePattern(
                 data: deepTree,
                 children: { $0.children },
-                expandedNodes: expandedNodesState.projectedValue
+                expandedNodes: .constant(Set<UUID>())
             ) { node in
                 Text(node.title)
             }
@@ -502,12 +485,11 @@ import XCTest
                 let nodes = (0..<100).map { index in
                     TestTreeNode(id: UUID(), title: "Node \(index)", children: [])
                 }
-                let expandedNodesState = State(initialValue: Set<UUID>())
 
                 let pattern = BoxTreePattern(
                     data: nodes,
                     children: { $0.children },
-                    expandedNodes: expandedNodesState.projectedValue
+                    expandedNodes: .constant(Set<UUID>())
                 ) { node in
                     Text(node.title)
                 }
