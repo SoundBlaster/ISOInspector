@@ -117,7 +117,6 @@
 
         /// Environment values should store and retrieve the context to
         /// allow propagation through the SwiftUI view hierarchy.
-        @MainActor
         func testEnvironmentValues_AccessibilityContextRoundTrip() {
             var environment = EnvironmentValues()
 
@@ -139,7 +138,6 @@
 
         /// When no explicit context is provided the environment should
         /// derive preferences from the existing accessibility values.
-        @MainActor
         func testEnvironmentValues_DerivesDefaultsFromEnvironment() {
             var environment = EnvironmentValues()
 
@@ -166,7 +164,6 @@
         /// The view modifier helper should be chainable within SwiftUI
         /// hierarchies. We validate this by creating a simple text view
         /// and verifying the modifier returns a non-nil view type.
-        @MainActor
         func testViewModifier_IsComposable() {
             let context = AccessibilityContext(
                 prefersReducedMotion: true,
