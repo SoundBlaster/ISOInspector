@@ -3,12 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		00B92107B78FEDE629FE879C /* FoundationUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6537D0D0CE771A064797D3AB /* FoundationUI.framework */; };
 		0772D5325983C1E64EFA531B /* ComponentTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA0B8FD10C24C35A79A1B1 /* ComponentTestApp.swift */; };
+		08B521E2DB342BC33B8977AF /* PerformanceMonitoringScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB772039ED6FADA5627C545 /* PerformanceMonitoringScreen.swift */; };
 		0B5B17F7B56BFAA17ECF10D4 /* DesignTokensScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B5FA320990EB8F90DDDBED9 /* DesignTokensScreen.swift */; };
 		1C6A3A648FD6063A44CD6C2D /* ToolbarPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9748623B7C199B1BEC4C1DF6 /* ToolbarPatternScreen.swift */; };
 		1F53DA3B585271A167FF63C1 /* BoxTreePatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FBDDFF886D97EB1DC8C2D /* BoxTreePatternScreen.swift */; };
@@ -18,24 +19,31 @@
 		4503D0CBEEDCC4FB123DCE38 /* BadgeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5778CB15B1DE9DB7602C5F21 /* BadgeScreen.swift */; };
 		5289DA8034F37CFD49D00890 /* FoundationUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6537D0D0CE771A064797D3AB /* FoundationUI.framework */; };
 		62DCF4DA77811B8F33C2F1EC /* KeyValueRowScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF677A5298B1C63AFAEF578E /* KeyValueRowScreen.swift */; };
+		65D7DFD81BFC87BE97B4832D /* PerformanceMonitoringScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7EB772039ED6FADA5627C545 /* PerformanceMonitoringScreen.swift */; };
 		6992927770E200073BFF2CCF /* MockISOBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D655D2FCABF00E1BEC6B46 /* MockISOBox.swift */; };
 		6A94C4B8D2AA06804E4FBBE7 /* ToolbarPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9748623B7C199B1BEC4C1DF6 /* ToolbarPatternScreen.swift */; };
 		6E1D86DF57661F299FA6DD95 /* ModifiersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21C8814C8048A5B5D48B536 /* ModifiersScreen.swift */; };
 		70B2E3803A2AAD0B9DAB3F89 /* CardScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57AE13624542A1FB5B4590C4 /* CardScreen.swift */; };
+		77858E854E62EF42329D5205 /* AccessibilityTestingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09D15A81AD22783E1DD9830 /* AccessibilityTestingScreen.swift */; };
+		7879AFD34215608895C0C79B /* UtilitiesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622E96E767043242B5E2ED6B /* UtilitiesScreen.swift */; };
 		7A3FC11BCAA42B78F6EF7050 /* SectionHeaderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444A4FBF47A01E64ABEAD276 /* SectionHeaderScreen.swift */; };
 		7F19076B95C890458B087AC7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CDFCB6A63193E80C24F968 /* ContentView.swift */; };
 		818189090BF452A49F3479ED /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CDFCB6A63193E80C24F968 /* ContentView.swift */; };
 		86D3728BA7351432B4FD403B /* ComponentTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA0B8FD10C24C35A79A1B1 /* ComponentTestApp.swift */; };
 		895C7C00A6B25C397985AC14 /* BadgeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5778CB15B1DE9DB7602C5F21 /* BadgeScreen.swift */; };
+		8BBEA0DAFE958137CDF6AF56 /* AccessibilityTestingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09D15A81AD22783E1DD9830 /* AccessibilityTestingScreen.swift */; };
 		A7E0C6D183AB8D3CC979D694 /* InspectorPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C4D1A216CB4D023221027 /* InspectorPatternScreen.swift */; };
 		A863D52BB90F2ED525DA320A /* BoxTreePatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E07FBDDFF886D97EB1DC8C2D /* BoxTreePatternScreen.swift */; };
 		AEC0BD238EE34DA10DFB4F89 /* FoundationUI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6537D0D0CE771A064797D3AB /* FoundationUI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B0E4FC1E99A2070D1A53A889 /* SectionHeaderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444A4FBF47A01E64ABEAD276 /* SectionHeaderScreen.swift */; };
 		BC58610166260D0008B4F990 /* InspectorPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06C4D1A216CB4D023221027 /* InspectorPatternScreen.swift */; };
+		C1971D5DD6A007A913698EC1 /* ISOInspectorDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F8CE63B416FFD400C20144 /* ISOInspectorDemoScreen.swift */; };
 		CD6A65D27A84FCBBC2DEF3B7 /* SidebarPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B14B1809BF128FC4D8B887 /* SidebarPatternScreen.swift */; };
+		CDC0D26185B4F9D496AB952C /* UtilitiesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622E96E767043242B5E2ED6B /* UtilitiesScreen.swift */; };
 		E038C54496840F1C7EFA75D9 /* SidebarPatternScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B14B1809BF128FC4D8B887 /* SidebarPatternScreen.swift */; };
 		E536A9CF358A0ED45F7D4443 /* MockISOBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8D655D2FCABF00E1BEC6B46 /* MockISOBox.swift */; };
 		E6C3F69B33D1AAC98ACD2031 /* KeyValueRowScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF677A5298B1C63AFAEF578E /* KeyValueRowScreen.swift */; };
+		E82C67BBFE14AD2C4EA6C167 /* ISOInspectorDemoScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F8CE63B416FFD400C20144 /* ISOInspectorDemoScreen.swift */; };
 		F773FF5DA2D3CED835A87ACF /* ModifiersScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21C8814C8048A5B5D48B536 /* ModifiersScreen.swift */; };
 /* End PBXBuildFile section */
 
@@ -66,6 +74,7 @@
 
 /* Begin PBXFileReference section */
 		0FEA0B8FD10C24C35A79A1B1 /* ComponentTestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComponentTestApp.swift; sourceTree = "<group>"; };
+		21F8CE63B416FFD400C20144 /* ISOInspectorDemoScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISOInspectorDemoScreen.swift; sourceTree = "<group>"; };
 		24923D2628D3CEF480B8DCD7 /* ComponentTestApp_macOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComponentTestApp_macOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B5FA320990EB8F90DDDBED9 /* DesignTokensScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokensScreen.swift; sourceTree = "<group>"; };
 		33C3D59E45B6BAA4FD8AC41D /* ComponentTestApp_iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ComponentTestApp_iOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -74,7 +83,9 @@
 		5778CB15B1DE9DB7602C5F21 /* BadgeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeScreen.swift; sourceTree = "<group>"; };
 		57AE13624542A1FB5B4590C4 /* CardScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardScreen.swift; sourceTree = "<group>"; };
 		5F0F759A6F99DF023AF73C2E /* ComponentTestApp-iOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "ComponentTestApp-iOS-Info.plist"; sourceTree = "<group>"; };
+		622E96E767043242B5E2ED6B /* UtilitiesScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilitiesScreen.swift; sourceTree = "<group>"; };
 		6537D0D0CE771A064797D3AB /* FoundationUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FoundationUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7EB772039ED6FADA5627C545 /* PerformanceMonitoringScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceMonitoringScreen.swift; sourceTree = "<group>"; };
 		80CDFCB6A63193E80C24F968 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		9748623B7C199B1BEC4C1DF6 /* ToolbarPatternScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarPatternScreen.swift; sourceTree = "<group>"; };
 		B6B14B1809BF128FC4D8B887 /* SidebarPatternScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarPatternScreen.swift; sourceTree = "<group>"; };
@@ -82,6 +93,7 @@
 		D06C4D1A216CB4D023221027 /* InspectorPatternScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorPatternScreen.swift; sourceTree = "<group>"; };
 		D8D655D2FCABF00E1BEC6B46 /* MockISOBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockISOBox.swift; sourceTree = "<group>"; };
 		E07FBDDFF886D97EB1DC8C2D /* BoxTreePatternScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxTreePatternScreen.swift; sourceTree = "<group>"; };
+		E09D15A81AD22783E1DD9830 /* AccessibilityTestingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityTestingScreen.swift; sourceTree = "<group>"; };
 		F21C8814C8048A5B5D48B536 /* ModifiersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersScreen.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,16 +145,20 @@
 		67C6F2C106BF20856D245B32 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				E09D15A81AD22783E1DD9830 /* AccessibilityTestingScreen.swift */,
 				5778CB15B1DE9DB7602C5F21 /* BadgeScreen.swift */,
 				E07FBDDFF886D97EB1DC8C2D /* BoxTreePatternScreen.swift */,
 				57AE13624542A1FB5B4590C4 /* CardScreen.swift */,
 				2B5FA320990EB8F90DDDBED9 /* DesignTokensScreen.swift */,
 				D06C4D1A216CB4D023221027 /* InspectorPatternScreen.swift */,
+				21F8CE63B416FFD400C20144 /* ISOInspectorDemoScreen.swift */,
 				BF677A5298B1C63AFAEF578E /* KeyValueRowScreen.swift */,
 				F21C8814C8048A5B5D48B536 /* ModifiersScreen.swift */,
+				7EB772039ED6FADA5627C545 /* PerformanceMonitoringScreen.swift */,
 				444A4FBF47A01E64ABEAD276 /* SectionHeaderScreen.swift */,
 				B6B14B1809BF128FC4D8B887 /* SidebarPatternScreen.swift */,
 				9748623B7C199B1BEC4C1DF6 /* ToolbarPatternScreen.swift */,
+				622E96E767043242B5E2ED6B /* UtilitiesScreen.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -236,6 +252,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = ISOInspector;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 1B72EEFA56FD734C3DE4430C /* Build configuration list for PBXProject "ComponentTestApp" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -281,16 +299,20 @@
 				0772D5325983C1E64EFA531B /* ComponentTestApp.swift in Sources */,
 				818189090BF452A49F3479ED /* ContentView.swift in Sources */,
 				6992927770E200073BFF2CCF /* MockISOBox.swift in Sources */,
+				77858E854E62EF42329D5205 /* AccessibilityTestingScreen.swift in Sources */,
 				895C7C00A6B25C397985AC14 /* BadgeScreen.swift in Sources */,
 				1F53DA3B585271A167FF63C1 /* BoxTreePatternScreen.swift in Sources */,
 				2A88D9A31432223653E9874E /* CardScreen.swift in Sources */,
 				0B5B17F7B56BFAA17ECF10D4 /* DesignTokensScreen.swift in Sources */,
+				C1971D5DD6A007A913698EC1 /* ISOInspectorDemoScreen.swift in Sources */,
 				A7E0C6D183AB8D3CC979D694 /* InspectorPatternScreen.swift in Sources */,
 				E6C3F69B33D1AAC98ACD2031 /* KeyValueRowScreen.swift in Sources */,
 				F773FF5DA2D3CED835A87ACF /* ModifiersScreen.swift in Sources */,
+				65D7DFD81BFC87BE97B4832D /* PerformanceMonitoringScreen.swift in Sources */,
 				7A3FC11BCAA42B78F6EF7050 /* SectionHeaderScreen.swift in Sources */,
 				CD6A65D27A84FCBBC2DEF3B7 /* SidebarPatternScreen.swift in Sources */,
 				6A94C4B8D2AA06804E4FBBE7 /* ToolbarPatternScreen.swift in Sources */,
+				7879AFD34215608895C0C79B /* UtilitiesScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,16 +323,20 @@
 				86D3728BA7351432B4FD403B /* ComponentTestApp.swift in Sources */,
 				7F19076B95C890458B087AC7 /* ContentView.swift in Sources */,
 				E536A9CF358A0ED45F7D4443 /* MockISOBox.swift in Sources */,
+				8BBEA0DAFE958137CDF6AF56 /* AccessibilityTestingScreen.swift in Sources */,
 				4503D0CBEEDCC4FB123DCE38 /* BadgeScreen.swift in Sources */,
 				A863D52BB90F2ED525DA320A /* BoxTreePatternScreen.swift in Sources */,
 				70B2E3803A2AAD0B9DAB3F89 /* CardScreen.swift in Sources */,
 				28A217F5889FAFC70070F077 /* DesignTokensScreen.swift in Sources */,
+				E82C67BBFE14AD2C4EA6C167 /* ISOInspectorDemoScreen.swift in Sources */,
 				BC58610166260D0008B4F990 /* InspectorPatternScreen.swift in Sources */,
 				62DCF4DA77811B8F33C2F1EC /* KeyValueRowScreen.swift in Sources */,
 				6E1D86DF57661F299FA6DD95 /* ModifiersScreen.swift in Sources */,
+				08B521E2DB342BC33B8977AF /* PerformanceMonitoringScreen.swift in Sources */,
 				B0E4FC1E99A2070D1A53A889 /* SectionHeaderScreen.swift in Sources */,
 				E038C54496840F1C7EFA75D9 /* SidebarPatternScreen.swift in Sources */,
 				1C6A3A648FD6063A44CD6C2D /* ToolbarPatternScreen.swift in Sources */,
+				CDC0D26185B4F9D496AB952C /* UtilitiesScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,7 +350,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P8T2366K8X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ComponentTestApp-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -340,7 +365,10 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
@@ -447,7 +475,10 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.componenttestapp.macos;
 				PRODUCT_NAME = ComponentTestApp_macOS;
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
+					"$(inherited)",
+					DEBUG,
+				);
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
@@ -520,7 +551,6 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = P8T2366K8X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ComponentTestApp-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
