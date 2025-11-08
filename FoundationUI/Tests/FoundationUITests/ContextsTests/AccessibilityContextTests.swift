@@ -113,7 +113,7 @@ final class AccessibilityContextTests: XCTestCase {
     /// allow propagation through the SwiftUI view hierarchy.
     @MainActor
     func testEnvironmentValues_AccessibilityContextRoundTrip() throws {
-        throw XCTSkip("Temporarily disabled due to CI hang while investigating environment propagation")
+        try XCTSkipIf(true, "Temporarily disabled due to CI hang while investigating environment propagation")
 
         var environment = EnvironmentValues()
 
