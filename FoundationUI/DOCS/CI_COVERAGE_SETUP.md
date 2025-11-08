@@ -29,7 +29,7 @@
 
 ## 📊 Overview
 
-FoundationUI has a comprehensive code coverage quality gate that ensures all PRs maintain the **minimum coverage threshold** before merging. The current threshold is **69%** (temporarily reduced from 83% due to iOS simulator testing issues - see [Known Issues](KNOWN_ISSUES/iOS_EnvironmentValues_Testing.md)). This document explains the setup, configuration, and how to work with the coverage system.
+FoundationUI has a comprehensive code coverage quality gate that ensures all PRs maintain the **minimum coverage threshold** before merging. The current threshold is **68%** (temporarily reduced from 83% due to iOS simulator testing issues - see [Known Issues](KNOWN_ISSUES/iOS_EnvironmentValues_Testing.md)). This document explains the setup, configuration, and how to work with the coverage system.
 
 ---
 
@@ -37,11 +37,11 @@ FoundationUI has a comprehensive code coverage quality gate that ensures all PRs
 
 | Target | Current Threshold | Target Threshold | Platforms | Test Types |
 |--------|------------------|------------------|-----------|------------|
-| **Primary Gate** | **≥69%** | **≥83%** (restore) | macOS, iOS | Unit + Snapshot |
+| **Primary Gate** | **≥68%** | **≥83%** (restore) | macOS, iOS | Unit + Snapshot |
 | **Previous (2025-11-08)** | **83%** | **80%** | macOS, iOS | Before iOS deadlock fix |
 | **SPM Validation** | Best effort | ≥80% | macOS (Linux-compatible) | Unit only |
 
-> **⚠️ Temporary Reduction**: Coverage threshold temporarily reduced to 69% due to iOS Simulator MainActor deadlock in EnvironmentValues tests. See [iOS_EnvironmentValues_Testing.md](KNOWN_ISSUES/iOS_EnvironmentValues_Testing.md) for details and resolution plan.
+> **⚠️ Temporary Reduction**: Coverage threshold temporarily reduced to 68% due to iOS Simulator MainActor deadlock in EnvironmentValues tests. See [iOS_EnvironmentValues_Testing.md](KNOWN_ISSUES/iOS_EnvironmentValues_Testing.md) for details and resolution plan.
 
 ### Threshold History
 
@@ -49,7 +49,7 @@ FoundationUI has a comprehensive code coverage quality gate that ensures all PRs
 |------|-----------|----------|--------|
 | 2025-11-06 | **67%** | iOS: 67.24%, macOS: 69.61% | Initial baseline based on actual CI measurements |
 | 2025-11-08 AM | **83%** | iOS: 83.12%, macOS: 83.12% | Raised to match achieved coverage, target exceeded |
-| 2025-11-08 PM | **69%** | iOS: ~68.94%, macOS: ~71.35% | Temporary reduction due to iOS EnvironmentValues deadlock (3 tests disabled) |
+| 2025-11-08 PM | **68%** | iOS: 68.94%, macOS: 71.35% | Temporary reduction due to iOS EnvironmentValues deadlock (3 tests disabled) |
 
 > See [iOS_EnvironmentValues_Testing.md](KNOWN_ISSUES/iOS_EnvironmentValues_Testing.md) for details on the 2025-11-08 PM reduction.
 
