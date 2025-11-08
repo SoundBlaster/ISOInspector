@@ -173,8 +173,13 @@ extension EnvironmentValues {
     }
 }
 
+@MainActor
 public extension EnvironmentValues {
     /// Accessibility preferences used by FoundationUI components.
+    ///
+    /// This property is isolated to the MainActor because it accesses
+    /// `baselinePrefersIncreasedContrast`, which requires main thread access
+    /// to UIKit/AppKit accessibility APIs.
     var accessibilityContext: AccessibilityContext {
         get {
             if let storedContext = self[AccessibilityContextKey.self] {
@@ -202,14 +207,17 @@ public extension EnvironmentValues {
     }
 }
 
+@MainActor
 private extension EnvironmentValues {
     /// Determines whether the environment requests increased contrast.
+    ///
+    /// This property is isolated to the MainActor because it accesses
+    /// MainActor-isolated APIs from UIKit and AppKit:
+    /// - `UIAccessibility.isDarkerSystemColorsEnabled` (iOS/tvOS)
+    /// - `NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast` (macOS)
     var baselinePrefersIncreasedContrast: Bool {
         #if canImport(UIKit)
         if #available(iOS 13.0, tvOS 13.0, *) {
-            // UIAccessibility API must be called on main thread.
-            // If we're on the MainActor, call directly.
-            // The caller ensures we're on the main thread.
             return UIAccessibility.isDarkerSystemColorsEnabled
         }
         #elseif canImport(AppKit)
