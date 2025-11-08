@@ -69,7 +69,8 @@ echo "4️⃣  Checking for large files in commits being pushed..."
 MERGE_BASE=$(git merge-base origin/main HEAD 2>/dev/null || echo "HEAD")
 LARGE_FILES=$(git diff $MERGE_BASE...HEAD --name-only --diff-filter=ACM | while read file; do
     if [ -f "$file" ]; then
-        SIZE=$(stat -c%s "$file" 2>/dev/null || stat -f%z "$file" 2>/dev/null || echo 0)
+        # Use wc -c for cross-platform compatibility (works on macOS and Linux)
+        SIZE=$(wc -c < "$file" 2>/dev/null || echo 0)
         if [ "$SIZE" -gt 10485760 ]; then  # 10MB
             echo "$file ($((SIZE/1048576))MB)"
         fi
