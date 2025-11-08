@@ -5,3 +5,8 @@ xcuserdata/
 Documentation/DocC/
 .serena
 .claude/settings.local.json
+DerivedData
+TestResults-iOS.xcresult
+test-output.log
+/*.log
+TestResults-iOS-Local.xcresult
