@@ -13,11 +13,13 @@
 The `DS.Colors.tertiary` design token incorrectly used `.tertiaryLabelColor` (a text/label color) instead of a proper background color on macOS. This caused extremely low contrast between window backgrounds and content areas in components like `SidebarPattern`, making the UI appear visually flat and difficult to read, especially for users with visual impairments.
 
 ### Symptom
+
 - Detail content areas in patterns (SidebarPattern, InspectorPattern, etc.) had no visible separation from window background
 - Low contrast failed WCAG 2.1 AA accessibility requirements (≥4.5:1 contrast ratio)
 - macOS users experienced poor UI readability
 
 ### Root Cause
+
 **File**: `FoundationUI/Sources/FoundationUI/DesignTokens/Colors.swift:111`
 
 ```swift
@@ -44,6 +46,7 @@ return SwiftUI.Color(nsColor: .controlBackgroundColor)
 ```
 
 **Rationale**:
+
 - `.controlBackgroundColor` is the proper macOS system color for subtle background fills
 - Provides semantic equivalence to iOS's `.tertiarySystemBackground`
 - Maintains adequate contrast (≥4.5:1) with window backgrounds
@@ -66,6 +69,7 @@ return SwiftUI.Color(nsColor: .controlBackgroundColor)
 ## Tests Added
 
 ### Regression Prevention Tests
+
 - ✅ **testTertiaryColorIsBackgroundColorOnMacOS()**
   Verifies DS.Colors.tertiary uses proper background color on macOS
 
@@ -76,6 +80,7 @@ return SwiftUI.Color(nsColor: .controlBackgroundColor)
   Prevents accidental breakage of all semantic color definitions
 
 ### SwiftUI Preview
+
 - ✅ **"Bug Fix - macOS Tertiary Color Contrast"**
   Visual demonstration of fix with before/after documentation
 
@@ -84,12 +89,14 @@ return SwiftUI.Color(nsColor: .controlBackgroundColor)
 ## Impact
 
 ### User-Facing Improvements
+
 - ✅ **Visual Clarity**: Clear separation between content areas and backgrounds
 - ✅ **Accessibility**: WCAG AA compliance restored (≥4.5:1 contrast)
 - ✅ **Consistency**: macOS now matches iOS semantic intent
 - ✅ **Readability**: Improved text legibility for all users, especially those with low vision
 
 ### Components Affected (All Improved)
+
 - `SidebarPattern` - Detail content area now has proper contrast
 - `InspectorPattern` - Inspector panels visually separated
 - `Card` - Card backgrounds properly differentiated
@@ -98,6 +105,7 @@ return SwiftUI.Color(nsColor: .controlBackgroundColor)
 - `ToolbarPattern` - Toolbar sections have proper contrast
 
 ### Design System Impact
+
 - ✅ Restored semantic correctness (background color for backgrounds)
 - ✅ Maintained "Zero Magic Numbers" principle (uses system color)
 - ✅ Platform parity improved (macOS ≈ iOS intent)
@@ -108,6 +116,7 @@ return SwiftUI.Color(nsColor: .controlBackgroundColor)
 ## Verification
 
 ### Manual Testing Required
+
 Since SwiftUI is not available on Linux, the following manual verification is needed on macOS:
 
 1. **Visual Verification**:
@@ -128,6 +137,7 @@ Since SwiftUI is not available on Linux, the following manual verification is ne
    - Check new regression tests pass
 
 ### Platform Notes
+
 - ⚠️ **Linux Limitation**: SwiftUI tests cannot run on Linux (framework unavailable)
 - ✅ **iOS/iPadOS**: Unaffected (already using correct `.tertiarySystemBackground`)
 - ✅ **macOS**: Fixed to use `.controlBackgroundColor`
@@ -137,6 +147,7 @@ Since SwiftUI is not available on Linux, the following manual verification is ne
 ## Lessons Learned
 
 ### Key Insights
+
 1. **Semantic Naming Matters**: System color names reveal their intended use:
    - `*Label*` colors = for text/labels
    - `*Background*` colors = for backgrounds
@@ -157,6 +168,7 @@ Since SwiftUI is not available on Linux, the following manual verification is ne
    - Early detection and fixing of token issues prevents cascade problems
 
 ### Prevention Strategies
+
 1. ✅ Added comprehensive regression tests for all semantic colors
 2. ✅ Documented platform-specific requirements in tests
 3. ✅ Created visual preview to catch future regressions
@@ -167,6 +179,7 @@ Since SwiftUI is not available on Linux, the following manual verification is ne
 ## Next Steps
 
 ### Immediate
+
 - [x] Fix implemented and tested
 - [x] Regression tests added
 - [x] Preview added
@@ -175,6 +188,7 @@ Since SwiftUI is not available on Linux, the following manual verification is ne
 - [ ] Manual verification on macOS (requires access to macOS device/VM)
 
 ### Future Improvements
+
 1. **Audit Other Platform-Specific Tokens**:
    - Review all `#if canImport(AppKit)` color implementations
    - Ensure semantic correctness for all macOS color tokens

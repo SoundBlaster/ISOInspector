@@ -189,6 +189,7 @@ Before fixing, prove the bug exists with a failing test.
    ```
 
    **Example** (from Badge warning color bug):
+
    ```swift
    func testWarningBadgeUsesCorrectBackgroundColor() {
        // This test will FAIL because .warning returns wrong color
@@ -223,6 +224,7 @@ Now implement the smallest change that fixes the bug.
    - Keep changes focused (don't refactor unrelated code yet)
 
    **Example** (from Badge warning color bug):
+
    ```swift
    // Before (buggy code)
    case .warning: return DS.Colors.infoBG
@@ -268,6 +270,7 @@ Add comprehensive tests to prevent bug recurrence.
    - Keyboard navigation support
 
 **Example** (regression tests for color bug):
+
 ```swift
 // Unit tests
 func testAllBadgeLevelsUseCorrectColors() {
@@ -342,6 +345,7 @@ swift test
 For platform-specific bugs (e.g., macOS-only), verify:
 
 1. **Conditional compilation works correctly**:
+
    ```swift
    #if canImport(UIKit)
    // iOS/iPadOS code
@@ -389,6 +393,7 @@ After successful fix, update all planning documents:
 4. Add any new tasks discovered during fix (if needed)
 
 **Example**:
+
 ```markdown
 ### Phase 1.X Bug Fixes
 
@@ -449,6 +454,7 @@ Move the bug specification to archive after successful fix:
 1. **Add "FIXED" status to specification**:
 
    Update the bug spec header:
+
    ```markdown
    **Date**: 2025-11-07
    **Status**: ✅ FIXED — 2025-11-07
@@ -456,6 +462,7 @@ Move the bug specification to archive after successful fix:
    ```
 
    Add "Fix Implementation" section at the end:
+
    ```markdown
    ---
 
@@ -671,6 +678,7 @@ func testWarningBadgeUsesCorrectBackgroundColor() {
 ```
 
 Run test:
+
 ```bash
 swift test --filter testWarningBadgeUsesCorrectBackgroundColor
 # ❌ Test fails: expected warnBG, got infoBG
@@ -689,6 +697,7 @@ case .warning: return DS.Colors.warnBG
 ```
 
 Run test:
+
 ```bash
 swift test --filter testWarningBadgeUsesCorrectBackgroundColor
 # ✅ Test passes
@@ -706,6 +715,7 @@ func testAllBadgeLevelsUseCorrectColors() {
 ```
 
 Run full test suite:
+
 ```bash
 swift test
 # ✅ All tests pass
@@ -751,11 +761,13 @@ swift test
 #### Step 6: Update Documentation
 
 Task Plan:
+
 ```markdown
 - [x] **P1** Fix Badge warning level color bug (Fixed: 2025-11-07)
 ```
 
 PRD:
+
 ```markdown
 #### Bug Fix: Badge Warning Color ✅ FIXED
 **Fixed**: 2025-11-07
@@ -763,6 +775,7 @@ Changed `.warning` case to return correct `DS.Colors.warnBG` token.
 ```
 
 Test Plan:
+
 ```markdown
 ### Bug Fix Regression Tests: Badge Warning Color
 - `testWarningBadgeUsesCorrectBackgroundColor()` — Verifies correct color
@@ -772,6 +785,7 @@ Test Plan:
 #### Step 7: Archive Bug Spec
 
 Updated `BUG_Badge_Warning_Color.md`:
+
 ```markdown
 **Status**: ✅ FIXED — 2025-11-07
 
@@ -806,6 +820,7 @@ EOF
 ### Role of FIX Command
 
 This is an **implementation/execution command** that:
+
 - ✅ Implements bug fixes based on specifications
 - ✅ Follows TDD workflow (reproduce → fix → test)
 - ✅ Adds comprehensive regression tests
@@ -822,12 +837,14 @@ This is an **implementation/execution command** that:
 ### When to Use FIX Command
 
 Use FIX when:
+
 - A bug specification exists in `DOCS/SPECS/BUG_*.md`
 - Bug has been analyzed and root cause identified
 - Fix approach has been proposed and reviewed
 - Bug fix task is not blocked by prerequisites
 
 Do NOT use FIX when:
+
 - Bug has not been documented yet (use BUG command first)
 - Root cause is unknown (investigate first)
 - Fix requires new features (use NEW command to add feature, then fix)

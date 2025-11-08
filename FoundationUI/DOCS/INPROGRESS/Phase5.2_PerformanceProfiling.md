@@ -5,6 +5,7 @@
 Profile all FoundationUI components and patterns using Xcode Instruments to establish performance baselines, identify bottlenecks, and ensure release-ready performance standards (<100ms render time, <5MB memory usage, 60 FPS target).
 
 ⚠️ **IMPORTANT**: This task contains both **automated** and **manual** sub-tasks:
+
 - ✅ **Automated sub-tasks** (SwiftLint, CI/CD enhancement) - will be implemented
 - ⏳ **Manual sub-tasks** (Instruments profiling, device testing) - moved to `DOCS/INPROGRESS/blocked.md`
 - See section breakdown below for classification
@@ -24,12 +25,14 @@ Profile all FoundationUI components and patterns using Xcode Instruments to esta
 ## ✅ Success Criteria
 
 ### Automated Tasks (Will be implemented)
+
 - [ ] SwiftLint violations: 0 across entire codebase ✅ **automated**
 - [ ] CI/CD performance gates configured ✅ **automated**
 - [ ] Accessibility test job added to CI ✅ **automated**
 - [ ] Performance regression detection setup ✅ **automated**
 
 ### Manual Tasks (In blocked.md - Deferred for manual execution)
+
 - ⏳ Time Profiler: Profile all components (render time <100ms) **MANUAL** → blocked.md
 - ⏳ Allocations: Memory profiling shows <5MB peak memory per component **MANUAL** → blocked.md
 - ⏳ Core Animation: Frame rate analysis (target: 60 FPS) **MANUAL** → blocked.md
@@ -82,6 +85,7 @@ Profile all FoundationUI components and patterns using Xcode Instruments to esta
    - Unit tests check before push
 
 ### Manual Tasks (See blocked.md)
+
 - Time Profiler Analysis → See `DOCS/INPROGRESS/blocked.md`
 - Memory Profiling → See `DOCS/INPROGRESS/blocked.md`
 - Core Animation Profiling → See `DOCS/INPROGRESS/blocked.md`
@@ -98,6 +102,7 @@ Profile all FoundationUI components and patterns using Xcode Instruments to esta
 ### Design Token Usage
 
 All components use DS tokens exclusively:
+
 - Spacing: `DS.Spacing.{s|m|l|xl}`
 - Colors: `DS.Colors.{infoBG|warnBG|errorBG|successBG|...}`
 - Radius: `DS.Radius.{card|chip|small}`
@@ -123,12 +128,14 @@ All components use DS tokens exclusively:
 ## 📋 Checklist
 
 ### Task Preparation
+
 - [x] Read task requirements from Task Plan
 - [x] Review next_tasks.md for prioritized items
 - [x] Verify dependencies (Enhanced Demo App, ComponentTestApp)
 - [x] Create task document (this file)
 
 ### Performance Profiling Phase 1: Time Profiling (**MANUAL** ⚠️)
+
 - [ ] MANUAL: Launch Xcode Instruments with Time Profiler
 - [ ] MANUAL: Profile ComponentTestApp main screen
 - [ ] MANUAL: Profile PerformanceMonitoringScreen with 100-node BoxTree
@@ -138,6 +145,7 @@ All components use DS tokens exclusively:
 - **Status**: Moved to `DOCS/INPROGRESS/blocked.md` → Performance Profiling with Instruments
 
 ### Performance Profiling Phase 2: Memory Profiling (**MANUAL** ⚠️)
+
 - [ ] MANUAL: Use Allocations instrument to measure memory
 - [ ] MANUAL: Test each component type in isolation
 - [ ] MANUAL: Test pattern composition (BoxTree + sidebar + toolbar)
@@ -146,6 +154,7 @@ All components use DS tokens exclusively:
 - **Status**: Moved to `DOCS/INPROGRESS/blocked.md` → Performance Profiling with Instruments
 
 ### Performance Profiling Phase 3: Frame Rate Analysis (**MANUAL** ⚠️)
+
 - [ ] MANUAL: Use Core Animation tool to measure FPS
 - [ ] MANUAL: Test on iOS 17 device (actual hardware if possible)
 - [ ] MANUAL: Test on macOS 14 device
@@ -154,6 +163,7 @@ All components use DS tokens exclusively:
 - **Status**: Moved to `DOCS/INPROGRESS/blocked.md` → Performance Profiling with Instruments
 
 ### SwiftLint Compliance (P0) ✅ **AUTOMATED**
+
 - [x] Review current SwiftLint configuration ✅ Completed 2025-11-07
 - [x] Run swiftlint on entire codebase ✅ Configured for CI
 - [x] Document all violations found ✅ In PERFORMANCE.md
@@ -163,6 +173,7 @@ All components use DS tokens exclusively:
 - [x] Set up CI enforcement with --strict mode ✅ .github/workflows/swiftlint.yml
 
 ### CI/CD Enhancement ✅ **AUTOMATED**
+
 - [x] Create performance regression detection job ✅ .github/workflows/performance-regression.yml
 - [x] Add accessibility test job to CI ✅ Added to foundationui.yml
 - [x] Add SwiftLint enforcement job ✅ .github/workflows/swiftlint.yml
@@ -170,6 +181,7 @@ All components use DS tokens exclusively:
 - [x] Configure pre-push hooks ✅ .githooks/pre-push
 
 ### Documentation & Reporting ✅ **AUTOMATED**
+
 - [x] Create PERFORMANCE.md with automation setup notes ✅ Completed 2025-11-07
 - [x] Write CI/CD pipeline documentation ✅ In PERFORMANCE.md
 - [x] Document SwiftLint rule exceptions (if any) ✅ In .swiftlint.yml
@@ -177,6 +189,7 @@ All components use DS tokens exclusively:
 - [x] Update Phase 5.2 section in Task Plan with [x] ✅ See next_tasks.md
 
 ### Cross-Platform Testing (**MANUAL** ⚠️)
+
 - [ ] MANUAL: Test on iOS 17+ (iPhone SE, iPhone 15, iPhone 15 Pro Max)
 - [ ] MANUAL: Test on macOS 14+ (multiple window sizes, trackpad)
 - [ ] MANUAL: Test on iPadOS 17+ (size classes, portrait/landscape)
@@ -186,6 +199,7 @@ All components use DS tokens exclusively:
 - **Status**: Moved to `DOCS/INPROGRESS/blocked.md` → Cross-Platform Testing
 
 ### Manual Accessibility Testing (**MANUAL** ⚠️)
+
 - [ ] MANUAL: VoiceOver testing on iOS
 - [ ] MANUAL: VoiceOver testing on macOS
 - [ ] MANUAL: Keyboard-only navigation testing
@@ -196,6 +210,7 @@ All components use DS tokens exclusively:
 - **Status**: Moved to `DOCS/INPROGRESS/blocked.md` → Manual Accessibility Testing
 
 ### Final Verification
+
 - [x] All automated tests pass ✅ (infrastructure in place)
 - [x] SwiftLint: 0 violations ✅ (automated in CI)
 - [x] Build succeeds: `swift build` ✅ (automated)
