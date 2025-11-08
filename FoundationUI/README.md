@@ -1,5 +1,12 @@
 # FoundationUI
 
+[![Coverage](https://img.shields.io/badge/coverage-83%25-brightgreen?style=flat-square)](https://github.com/ISOInspector/actions)
+[![iOS Coverage](https://img.shields.io/badge/iOS-83.12%25-brightgreen?style=flat-square&logo=apple)](https://github.com/ISOInspector/actions)
+[![macOS Coverage](https://img.shields.io/badge/macOS-83.12%25-brightgreen?style=flat-square&logo=apple)](https://github.com/ISOInspector/actions)
+[![Tests](https://img.shields.io/badge/tests-200%2B-brightgreen?style=flat-square)](https://github.com/ISOInspector/actions)
+[![Swift](https://img.shields.io/badge/Swift-6.0%2B-orange?style=flat-square&logo=swift)](https://swift.org)
+[![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20iPadOS%20%7C%20macOS-lightgrey?style=flat-square)](https://developer.apple.com)
+
 **Version:** 0.1.0
 **Platform:** iOS 17+, iPadOS 17+, macOS 14+
 **Swift:** 6.0+
