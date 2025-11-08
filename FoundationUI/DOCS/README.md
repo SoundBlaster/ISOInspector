@@ -24,17 +24,20 @@
 ## 🚀 Quick Navigation
 
 ### For Everyone
+
 - **🎯 What's next?** → [next_tasks.md](INPROGRESS/next_tasks.md)
 - **📈 Current progress?** → [Phase 5.2 Performance Profiling](INPROGRESS/Phase5.2_PerformanceProfiling.md)
 - **✅ Quality gates?** → [Quality Metrics](#-quality-metrics--reports)
 
 ### For Developers
+
 - **🧪 How do I test?** → [SwiftUI Testing Guidelines](RULES/02_SwiftUI_Testing_Guidelines.md)
 - **👁️ How do I preview?** → [SwiftUI Previews Guidelines](RULES/01_SwiftUI_Previews_Guidelines.md)
 - **🔒 Accessibility API safety?** → [Accessibility API Thread Safety](RULES/12_AccessibilityAPI_ThreadSafety.md)
 - **🛠️ How do I build?** → [BUILD.md](../BUILD.md)
 
 ### For Maintainers
+
 - **🆕 Starting new task?** → [COMMANDS/START.md](COMMANDS/START.md)
 - **🎯 Selecting next task?** → [COMMANDS/SELECT_NEXT.md](COMMANDS/SELECT_NEXT.md)
 - **📦 Archiving task?** → [COMMANDS/ARCHIVE.md](COMMANDS/ARCHIVE.md)
@@ -85,7 +88,9 @@ FoundationUI/DOCS/
 ## 🎯 Current Status
 
 ### Phase 5.2: Testing & Quality Assurance
+
 **Progress**: 11/18 tasks (61.1%)
+
 - ✅ **Automated**: 8/8 complete
   - SwiftLint configuration & CI enforcement
   - Performance regression detection workflow
@@ -151,6 +156,7 @@ Read these **before writing code**:
 ### Design System Usage
 
 All code must use **DS (DesignSystem) tokens**:
+
 - Colors: `DS.Colors.{infoBG|warnBG|errorBG|successBG|...}`
 - Spacing: `DS.Spacing.{s|m|l|xl}`
 - Typography: `DS.Typography.{body|caption|headline}`
@@ -168,37 +174,44 @@ See [DesignSystem.swift](../Sources/FoundationUI/DesignTokens/DesignSystem.swift
 Each command corresponds to a **system prompt** that guides AI assistants through complex tasks:
 
 #### 1. **START.md** - Begin Implementation
+
 **When**: Starting a new task from the task plan
 **What it does**: Initialize TDD workflow, verify dependencies, run first test
 **Estimated effort**: 5-15 minutes setup
 **Output**: Failing test + implementation plan
 
 #### 2. **SELECT_NEXT.md** - Choose Next Task
+
 **When**: Finished current task, need prioritization
 **What it does**: Analyze task plan, identify blockers, recommend next task
 **Output**: Prioritized task list with effort estimates
 
 #### 3. **NEW.md** - Create New Task
+
 **When**: Need to add task not in original plan
 **What it does**: Create task definition, archive structure, initial requirements
 **Output**: Task.md document ready for implementation
 
 #### 4. **ARCHIVE.md** - Complete & Archive Task
+
 **When**: Task implementation finished and tests passing
 **What it does**: Create archive directory, document work, update task plan
 **Output**: Archived task folder with full history
 
 #### 5. **STATE.md** - Status Report
+
 **When**: Need progress summary for team/stakeholders
 **What it does**: Generate metrics, list blockers, predict completion
 **Output**: Markdown report with charts and metrics
 
 #### 6. **FIX.md** - Bug Fix Workflow
+
 **When**: Bug reported, need structured fix process
 **What it does**: Isolate bug, write failing test, implement fix, verify
 **Output**: Fixed code with test coverage
 
 #### 7. **BUG.md** - Bug Analysis
+
 **When**: Need to analyze complex bug behavior
 **What it does**: Reproduce bug, identify root cause, document patterns
 **Output**: Bug analysis report + fix recommendations
@@ -265,11 +278,13 @@ Each command corresponds to a **system prompt** that guides AI assistants throug
 ### CI/CD Quality Gates
 
 **SwiftLint Status**: ✅ Configured & Active
+
 - **Configuration**: [FoundationUI/.swiftlint.yml](../.swiftlint.yml)
 - **Workflow**: [.github/workflows/swiftlint.yml](../../.github/workflows/swiftlint.yml)
 - **Target**: 0 violations (strict enforcement)
 
 **Performance Monitoring**: ✅ Configured & Active
+
 - **Workflow**: [.github/workflows/performance-regression.yml](../../.github/workflows/performance-regression.yml)
 - **Metrics**: Build time, binary size, test execution
 - **Targets**: <120s build, <15MB binary, <30s tests
@@ -308,6 +323,7 @@ FoundationUI follows a **5-layer composable architecture**:
 ```
 
 **Key principles**:
+
 - ✅ Zero magic numbers (all values use DS tokens)
 - ✅ 100% preview coverage for Layer 0-3
 - ✅ ≥80% test coverage per layer

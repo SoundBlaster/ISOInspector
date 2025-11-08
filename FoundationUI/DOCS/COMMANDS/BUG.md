@@ -135,6 +135,7 @@ Create a detailed specification:
 ```
 
 ### Proposed Fix
+
 ```swift
 // Fixed code
 {code snippet showing the fix}
@@ -143,11 +144,13 @@ Create a detailed specification:
 ## Reproduction Steps
 
 ### Minimal SwiftUI Code
+
 ```swift
 {Minimal code to reproduce the bug}
 ```
 
 ### Platform Testing
+
 - **iOS**: {Does bug occur? Y/N}
 - **iPadOS**: {Does bug occur? Y/N}
 - **macOS**: {Does bug occur? Y/N}
@@ -155,13 +158,16 @@ Create a detailed specification:
 ## Impact Assessment
 
 ### User Impact
+
 - {Who experiences this bug? What's the severity?}
 
 ### Design System Impact
+
 - {Does this violate Zero Magic Numbers?}
 - {Does this break Composable Clarity layers?}
 
 ### Accessibility Impact
+
 - {Does this break VoiceOver?}
 - {Does this fail contrast requirements?}
 - {Does this break keyboard navigation?}
@@ -169,27 +175,33 @@ Create a detailed specification:
 ## Fix Requirements
 
 ### Must Fix
+
 - {Critical issues that must be addressed}
 
 ### Should Fix
+
 - {Important improvements to include}
 
 ### Nice to Fix
+
 - {Optional enhancements}
 
 ## Testing Strategy
 
 ### Unit Tests
+
 - {Test case 1: verify correct behavior}
 - {Test case 2: verify edge cases}
 - {Test case 3: verify regression prevention}
 
 ### Snapshot Tests
+
 - Light/Dark mode rendering
 - All component variants
 - Dynamic Type sizes (XS, M, XXL)
 
 ### Accessibility Tests
+
 - VoiceOver label verification
 - Contrast ratio validation (≥4.5:1)
 - Keyboard navigation support
@@ -204,6 +216,7 @@ Create a detailed specification:
 - [ ] SwiftLint 0 violations
 - [ ] Accessibility requirements met
 - [ ] Documentation updated if needed
+
 ```
 
 ### Step 5. Identify Prerequisite Tasks
@@ -339,12 +352,15 @@ Create a detailed bug specification document:
 ```
 
 ### Expected Behavior
+
 {What should happen}
 
 ### Actual Behavior
+
 {What happens instead}
 
 ### Screenshots
+
 {If applicable, attach before/after screenshots}
 
 ---
@@ -352,24 +368,29 @@ Create a detailed bug specification document:
 ## Analysis Results
 
 ### Layer Classification
+
 - **Layer**: {Layer number and name}
 - **Type**: {Bug type}
 - **Severity**: {Critical/High/Medium/Low}
 
 ### Root Cause
+
 {Detailed explanation of why this bug occurs}
 
 **Evidence**:
+
 ```swift
 // Current buggy code at {file}:{line}
 {code snippet}
 ```
 
 ### Affected Files
+
 - `Sources/FoundationUI/{Layer}/{File}.swift` (line {X})
 - `Tests/FoundationUITests/{Layer}Tests/{File}Tests.swift` (needs new tests)
 
 ### Design System Violations
+
 - {List any violations of Zero Magic Numbers rule}
 - {List any violations of Composable Clarity layers}
 
@@ -380,6 +401,7 @@ Create a detailed bug specification document:
 ### Proposed Changes
 
 **File**: `Sources/FoundationUI/{Layer}/{File}.swift`
+
 ```swift
 // Before
 {buggy code}
@@ -389,11 +411,13 @@ Create a detailed bug specification document:
 ```
 
 ### Design Tokens Required
+
 - `DS.{Category}.{token}` — {description}
 
 ### Testing Requirements
 
 #### Unit Tests
+
 ```swift
 func test{FeatureName}() {
     // Test that reproduces and verifies fix
@@ -401,11 +425,13 @@ func test{FeatureName}() {
 ```
 
 #### Snapshot Tests
+
 - Light/Dark mode
 - All variants
 - Dynamic Type sizes
 
 #### Accessibility Tests
+
 - VoiceOver labels
 - Contrast ratio
 - Keyboard navigation
@@ -415,14 +441,17 @@ func test{FeatureName}() {
 ## Documentation Updates
 
 ### Task Plan
+
 - Added {N} tasks to Phase {X}
 - Location: [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md#phaseX)
 
 ### PRD
+
 - Added bug fix specification to {PRD section}
 - Location: [FoundationUI PRD](../../../DOCS/AI/ISOViewer/FoundationUI_PRD.md#section)
 
 ### Test Plan
+
 - Added regression prevention strategy for {component name}
 - Location: [FoundationUI Test Plan](../../../DOCS/AI/ISOViewer/FoundationUI_TestPlan.md#section)
 
@@ -431,9 +460,11 @@ func test{FeatureName}() {
 ## Implementation Requirements
 
 ### Prerequisites
+
 - {List any missing tokens, components, or dependencies that must exist first}
 
 ### Proposed Implementation Approach
+
 1. Write failing test that reproduces the bug
 2. Implement minimal fix using DS tokens
 3. Verify all tests pass
@@ -444,6 +475,7 @@ func test{FeatureName}() {
 8. Update documentation if needed
 
 ### Success Criteria
+
 - [ ] Bug is not reproducible after fix
 - [ ] All tests pass
 - [ ] Design system integrity maintained (zero magic numbers)
@@ -467,6 +499,7 @@ func test{FeatureName}() {
 **Estimated Effort**: {S/M/L/XL}
 **Priority**: {P0/P1/P2} based on severity and user impact
 **Assignment**: {To be determined by project manager}
+
 ```
 
 ---
@@ -565,11 +598,13 @@ User report: "Badge with `.warning` level shows blue background instead of yello
 ### Step 3: Research
 
 **Files located**:
+
 - `Sources/FoundationUI/Modifiers/BadgeChipStyle.swift` (bug location)
 - `Sources/FoundationUI/Components/Badge.swift` (uses the modifier)
 - `Tests/FoundationUITests/ComponentsTests/BadgeTests.swift` (missing test)
 
 **Root cause found**:
+
 ```swift
 // BadgeChipStyle.swift:15
 var backgroundColor: Color {
@@ -612,6 +647,7 @@ case .warning: return DS.Colors.infoBG  // Should be warnBG
 ## Fix Specification
 
 **File**: `Sources/FoundationUI/Modifiers/BadgeChipStyle.swift`
+
 ```swift
 // Before (line 15)
 case .warning: return DS.Colors.infoBG
@@ -623,6 +659,7 @@ case .warning: return DS.Colors.warnBG
 ## Testing Strategy
 
 ### Unit Test (New)
+
 ```swift
 func testWarningBadgeUsesCorrectBackgroundColor() {
     let backgroundColor = BadgeLevel.warning.backgroundColor
@@ -631,6 +668,7 @@ func testWarningBadgeUsesCorrectBackgroundColor() {
 ```
 
 ### Snapshot Test (Update)
+
 ```swift
 func testAllBadgeLevelsSnapshot() {
     // Will catch visual regression
@@ -639,9 +677,11 @@ func testAllBadgeLevelsSnapshot() {
 ```
 
 ## Success Criteria
+
 - [ ] Unit test verifies correct color
 - [ ] Snapshot test prevents regression
 - [ ] Preview shows yellow background
+
 ```
 
 ### Step 5: No Prerequisites Needed
@@ -754,6 +794,7 @@ Based on:
 ### Role of BUG Command
 
 This is a **QA/management command** that:
+
 - ✅ Analyzes and documents bugs thoroughly
 - ✅ Classifies bugs by layer, type, and severity
 - ✅ Updates planning documents (Task Plan, PRD, Test Plan)

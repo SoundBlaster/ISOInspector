@@ -353,6 +353,7 @@ extension EnvironmentValues {
 **Issue**: Test froze for 1 hour on iOS
 
 **Root Cause**:
+
 ```swift
 // ❌ BEFORE: Unnecessary assumeIsolated in @MainActor context
 @MainActor
@@ -369,6 +370,7 @@ var baselinePrefersIncreasedContrast: Bool {
 ```
 
 **Solution**:
+
 ```swift
 // ✅ AFTER: Direct call - main thread already guaranteed
 @MainActor
