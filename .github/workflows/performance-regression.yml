@@ -58,18 +58,36 @@ jobs:
           # Clean build
           swift package clean
 
-          # Time the build
-          START=$(date +%s%N)
-          swift build
-          END=$(date +%s%N)
+          # Time the build using Python (works on macOS and Linux)
+          python3 << 'PYTHON_TIMING'
+import subprocess
+import time
+import sys
+import os
 
-          # Calculate duration in milliseconds
-          DURATION_MS=$(( (END - START) / 1000000 ))
-          DURATION_S=$(echo "scale=2; $DURATION_MS / 1000" | bc)
+start = time.time()
+result = subprocess.run(["swift", "build"], capture_output=False)
+end = time.time()
 
-          echo "Build time: ${DURATION_S}s (${DURATION_MS}ms)"
-          echo "build_time_ms=$DURATION_MS" >> $GITHUB_OUTPUT
-          echo "build_time_s=$DURATION_S" >> $GITHUB_OUTPUT
+if result.returncode != 0:
+    sys.exit(result.returncode)
+
+duration_s = end - start
+duration_ms = int(duration_s * 1000)
+
+print(f"Build time: {duration_s:.2f}s ({duration_ms}ms)")
+
+with open(os.environ.get('GITHUB_OUTPUT', '/dev/null'), 'a') as f:
+    f.write(f"build_time_ms={duration_ms}\n")
+    f.write(f"build_time_s={duration_s:.2f}\n")
+PYTHON_TIMING
+
+          # Also output via echo for visibility
+          python3 << 'PYTHON_OUTPUT'
+import os
+import time
+print(f"Build completed at {time.strftime('%Y-%m-%d %H:%M:%S')}")
+PYTHON_OUTPUT
 
       - name: Measure library and build artifact size
         id: binary-size
@@ -130,26 +148,44 @@ jobs:
 
           echo "⏱️ Running unit tests with performance monitoring..."
 
-          # Run tests with timing output
-          START=$(date +%s%N)
-          swift test 2>&1 | tee /tmp/test-output.log
-          END=$(date +%s%N)
+          # Run tests with timing using Python (works on macOS and Linux)
+          python3 << 'PYTHON_TEST_TIMING'
+import subprocess
+import time
+import sys
+import os
 
-          # Calculate test duration
-          DURATION_MS=$(( (END - START) / 1000000 ))
-          DURATION_S=$(echo "scale=2; $DURATION_MS / 1000" | bc)
+start = time.time()
+result = subprocess.run(["swift", "test"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+end = time.time()
 
-          echo "Test execution time: ${DURATION_S}s"
-          echo "test_duration_s=$DURATION_S" >> $GITHUB_OUTPUT
+# Write output log
+with open('/tmp/test-output.log', 'w') as f:
+    f.write(result.stdout)
 
-          # Extract test results
-          if grep -q "Test Suite.*passed" /tmp/test-output.log || grep -q "tests passed" /tmp/test-output.log; then
-            echo "✅ All tests completed"
-            echo "tests_passed=true" >> $GITHUB_OUTPUT
-          else
-            echo "⚠️ Tests may have issues, checking logs..."
-            echo "tests_passed=false" >> $GITHUB_OUTPUT
-          fi
+# Print to console
+print(result.stdout)
+
+# Calculate duration
+duration_s = end - start
+duration_ms = int(duration_s * 1000)
+
+print(f"Test execution time: {duration_s:.2f}s")
+
+# Write to GITHUB_OUTPUT
+with open(os.environ.get('GITHUB_OUTPUT', '/dev/null'), 'a') as f:
+    f.write(f"test_duration_s={duration_s:.2f}\n")
+
+# Check test results
+if "passed" in result.stdout.lower() and result.returncode == 0:
+    print("✅ All tests completed")
+    with open(os.environ.get('GITHUB_OUTPUT', '/dev/null'), 'a') as f:
+        f.write("tests_passed=true\n")
+else:
+    print("⚠️ Tests may have issues, checking logs...")
+    with open(os.environ.get('GITHUB_OUTPUT', '/dev/null'), 'a') as f:
+        f.write("tests_passed=false\n")
+PYTHON_TEST_TIMING
 
       - name: Store performance metrics
         if: always()
