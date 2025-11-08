@@ -31,6 +31,11 @@ on:
       - 'Workspace.swift'
       - '.github/workflows/foundationui.yml'
 
+# Permissions needed for PR comments
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   validate-docc:
     name: Validate DocC Documentation
