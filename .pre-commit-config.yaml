@@ -3,7 +3,7 @@
 # Run manually: pre-commit run --all-files
 
 repos:
-  # Swift formatting with swiftformat
+  # Swift linting with SwiftLint
   - repo: local
     hooks:
       - id: swiftlint-foundationui
