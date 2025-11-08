@@ -595,13 +595,14 @@
 **Progress: 11/18 tasks completed (61%)**
 
 ### 4.1 Agent-Driven UI Generation
-**Progress: 0/7 tasks**
+**Progress: 0/7 tasks → IN PROGRESS**
 
-- [ ] **P1** Define AgentDescribable protocol
+- [ ] **P1** Define AgentDescribable protocol → **IN PROGRESS**
   - File: `Sources/AgentSupport/AgentDescribable.swift`
   - Properties: componentType, properties, semantics
   - Documentation with examples
   - Type-safe property encoding
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase4.1_AgentDescribable.md`
 
 - [ ] **P1** Implement AgentDescribable for all components
   - Extend Badge, Card, KeyValueRow, SectionHeader
