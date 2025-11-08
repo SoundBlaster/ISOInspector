@@ -194,5 +194,104 @@
                 throw XCTSkip("Test skipped on iOS due to simulator environment limitations")
             #endif
         }
+
+        // MARK: - iOS-Safe Tests
+
+        /// Tests that AccessibilityContext correctly derives spacing based on
+        /// increased contrast preference without requiring direct EnvironmentValues access.
+        func testContextWithIncreasedContrast_DerivesCorrectSpacing() {
+            let standardContext = AccessibilityContext(
+                prefersReducedMotion: false,
+                prefersIncreasedContrast: false,
+                prefersBoldText: false,
+                dynamicTypeSize: .large
+            )
+
+            let highContrastContext = AccessibilityContext(
+                prefersReducedMotion: false,
+                prefersIncreasedContrast: true,
+                prefersBoldText: false,
+                dynamicTypeSize: .large
+            )
+
+            XCTAssertEqual(
+                standardContext.preferredSpacing, DS.Spacing.m,
+                "Standard context should use medium spacing")
+            XCTAssertEqual(
+                highContrastContext.preferredSpacing, DS.Spacing.l,
+                "High contrast context should use large spacing")
+        }
+
+        /// Tests that AccessibilityContext correctly combines high contrast
+        /// with accessibility sizes to produce maximum spacing.
+        func testContextWithHighContrastAndAccessibilitySize_UsesMaximumSpacing() {
+            let context = AccessibilityContext(
+                prefersReducedMotion: false,
+                prefersIncreasedContrast: true,
+                prefersBoldText: false,
+                dynamicTypeSize: .accessibility3
+            )
+
+            let baseSpacing = DS.Spacing.m
+            let adjustedSpacing = context.spacing(for: baseSpacing)
+
+            XCTAssertEqual(
+                adjustedSpacing, DS.Spacing.xl,
+                "Accessibility size with high contrast should use extra-large spacing")
+        }
+
+        /// Tests that AccessibilityContext properly handles animation
+        /// preferences based on reduce motion setting.
+        func testContextAnimation_RespectsReduceMotionSetting() {
+            let motionEnabledContext = AccessibilityContext(
+                prefersReducedMotion: false,
+                prefersIncreasedContrast: false,
+                prefersBoldText: false,
+                dynamicTypeSize: .large
+            )
+
+            let motionReducedContext = AccessibilityContext(
+                prefersReducedMotion: true,
+                prefersIncreasedContrast: false,
+                prefersBoldText: false,
+                dynamicTypeSize: .large
+            )
+
+            XCTAssertNotNil(
+                motionEnabledContext.animation(for: DS.Animation.medium),
+                "Context without reduce motion should allow animations")
+            XCTAssertNil(
+                motionReducedContext.animation(for: DS.Animation.medium),
+                "Context with reduce motion should disable animations")
+        }
+
+        /// Tests that AccessibilityContext instances with identical
+        /// properties are considered equal.
+        func testContextEquality_ComparesAllProperties() {
+            let context1 = AccessibilityContext(
+                prefersReducedMotion: true,
+                prefersIncreasedContrast: true,
+                prefersBoldText: true,
+                dynamicTypeSize: .accessibility2
+            )
+
+            let context2 = AccessibilityContext(
+                prefersReducedMotion: true,
+                prefersIncreasedContrast: true,
+                prefersBoldText: true,
+                dynamicTypeSize: .accessibility2
+            )
+
+            let context3 = AccessibilityContext(
+                prefersReducedMotion: false,
+                prefersIncreasedContrast: true,
+                prefersBoldText: true,
+                dynamicTypeSize: .accessibility2
+            )
+
+            XCTAssertEqual(context1, context2, "Contexts with identical properties should be equal")
+            XCTAssertNotEqual(
+                context1, context3, "Contexts with different properties should not be equal")
+        }
     }
 #endif
