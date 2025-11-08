@@ -47,14 +47,10 @@ jobs:
       - name: Install SwiftLint
         run: |
           set -eo pipefail
-          SWIFTLINT_VERSION=$(curl -s https://api.github.com/repos/realm/SwiftLint/releases/latest | grep tag_name | head -1 | cut -d '"' -f 4)
-          echo "Installing SwiftLint ${SWIFTLINT_VERSION}..."
+          echo "Installing SwiftLint via Homebrew..."
 
-          # Download prebuilt binary
-          curl -fL -o /tmp/swiftlint.zip "https://github.com/realm/SwiftLint/releases/download/${SWIFTLINT_VERSION}/SwiftLint.pkg"
-
-          # Install via package
-          sudo installer -pkg /tmp/swiftlint.zip -target /
+          # Install via Homebrew (simplest and most reliable)
+          brew install swiftlint
 
           # Verify installation
           swiftlint --version
