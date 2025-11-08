@@ -207,13 +207,10 @@ private extension EnvironmentValues {
     var baselinePrefersIncreasedContrast: Bool {
         #if canImport(UIKit)
         if #available(iOS 13.0, tvOS 13.0, *) {
-            #if swift(>=5.9)
-            return MainActor.assumeIsolated {
-                UIAccessibility.isDarkerSystemColorsEnabled
-            }
-            #else
+            // UIAccessibility API must be called on main thread.
+            // If we're on the MainActor, call directly.
+            // The caller ensures we're on the main thread.
             return UIAccessibility.isDarkerSystemColorsEnabled
-            #endif
         }
         #elseif canImport(AppKit)
         if #available(macOS 10.10, *) {
