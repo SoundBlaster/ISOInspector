@@ -80,13 +80,13 @@ final class AgentDescribableTests: XCTestCase {
         // When: Getting properties
         let properties = describable.properties
 
-        // Then: Should contain expected keys
+        // Then: Should contain expected keys with correct values
         XCTAssertNotNil(properties["title"], "properties should contain 'title' key")
         XCTAssertNotNil(properties["isEnabled"], "properties should contain 'isEnabled' key")
 
-        // And: Values should have correct types
-        XCTAssertTrue(properties["title"] is String, "title should be a String")
-        XCTAssertTrue(properties["isEnabled"] is Bool, "isEnabled should be a Bool")
+        // And: Values should be accessible and have expected content
+        XCTAssertEqual(properties["title"] as? String, "Test Title", "title should be 'Test Title'")
+        XCTAssertEqual(properties["isEnabled"] as? Bool, true, "isEnabled should be true")
     }
 
     /// Test that semantics provides meaningful description
