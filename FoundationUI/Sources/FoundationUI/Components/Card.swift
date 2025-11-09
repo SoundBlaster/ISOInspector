@@ -497,3 +497,69 @@ public struct Card<Content: View>: View {
     }
     .padding()
 }
+
+// MARK: - AgentDescribable Conformance
+
+@available(iOS 17.0, macOS 14.0, *)
+extension Card: AgentDescribable {
+    public var componentType: String {
+        "Card"
+    }
+
+    public var properties: [String: Any] {
+        var props: [String: Any] = [
+            "elevation": elevation.rawValue,
+            "cornerRadius": cornerRadius
+        ]
+
+        if let material = material {
+            props["material"] = String(describing: material)
+        }
+
+        return props
+    }
+
+    public var semantics: String {
+        let materialDesc = material != nil ? "with material background" : "with solid background"
+        return """
+        A container component with '\(elevation.rawValue)' elevation \(materialDesc). \
+        Corner radius: \(cornerRadius)pt. \
+        Provides visual hierarchy and content grouping.
+        """
+    }
+}
+
+#Preview("Card - Agent Integration") {
+    VStack(alignment: .leading, spacing: DS.Spacing.l) {
+        Text("AgentDescribable Protocol Demo")
+            .font(.headline)
+
+        let card = Card(elevation: .high, cornerRadius: DS.Radius.card, material: .regular) {
+            Text("Card Content")
+                .padding()
+        }
+        card
+
+        VStack(alignment: .leading, spacing: DS.Spacing.s) {
+            Text("Component Type: \(card.componentType)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            Text("Elevation: \(card.properties["elevation"] as? String ?? "unknown")")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            Text("Corner Radius: \(card.properties["cornerRadius"] as? CGFloat ?? 0)pt")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            Text("Semantics: \(card.semantics)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(DS.Radius.small)
+    }
+    .padding()
+}

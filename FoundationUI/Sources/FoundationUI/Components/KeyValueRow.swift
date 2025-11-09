@@ -363,3 +363,29 @@ private extension View {
     }
     .padding()
 }
+
+// MARK: - AgentDescribable Conformance
+
+@available(iOS 17.0, macOS 14.0, *)
+extension KeyValueRow: AgentDescribable {
+    public var componentType: String {
+        "KeyValueRow"
+    }
+
+    public var properties: [String: Any] {
+        [
+            "key": key,
+            "value": value,
+            "layout": layout == .horizontal ? "horizontal" : "vertical",
+            "isCopyable": copyable
+        ]
+    }
+
+    public var semantics: String {
+        let layoutDesc = layout == .horizontal ? "side-by-side" : "stacked vertically"
+        let copyableDesc = copyable ? "with copyable value" : ""
+        return """
+        A key-value pair displaying '\(key)': '\(value)' \(layoutDesc) \(copyableDesc).
+        """
+    }
+}

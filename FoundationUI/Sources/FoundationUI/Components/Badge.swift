@@ -171,6 +171,31 @@ public struct Badge: View {
     .padding()
 }
 
+// MARK: - AgentDescribable Conformance
+
+@available(iOS 17.0, macOS 14.0, *)
+extension Badge: AgentDescribable {
+    public var componentType: String {
+        "Badge"
+    }
+
+    public var properties: [String: Any] {
+        [
+            "text": text,
+            "level": level.rawValue,
+            "showIcon": showIcon
+        ]
+    }
+
+    public var semantics: String {
+        """
+        A colored badge component displaying '\(text)' at level '\(level.rawValue)'. \
+        Shows icon: \(showIcon). \
+        Accessibility: '\(level.accessibilityLabel)'.
+        """
+    }
+}
+
 #Preview("Badge - Platform Comparison") {
     VStack(spacing: DS.Spacing.xl) {
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
@@ -194,6 +219,34 @@ public struct Badge: View {
                 Badge(text: "ALERT", level: .warning, showIcon: true)
             }
         }
+    }
+    .padding()
+}
+
+#Preview("Badge - Agent Integration") {
+    VStack(alignment: .leading, spacing: DS.Spacing.l) {
+        Text("AgentDescribable Protocol Demo")
+            .font(.headline)
+
+        let infoBadge = Badge(text: "INFO", level: .info, showIcon: true)
+        infoBadge
+
+        VStack(alignment: .leading, spacing: DS.Spacing.s) {
+            Text("Component Type: \(infoBadge.componentType)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            Text("Properties: \(String(describing: infoBadge.properties))")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+
+            Text("Semantics: \(infoBadge.semantics)")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+        }
+        .padding()
+        .background(Color.gray.opacity(0.1))
+        .cornerRadius(DS.Radius.small)
     }
     .padding()
 }

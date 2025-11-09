@@ -213,3 +213,27 @@ public struct SectionHeader: View {
         .padding()
     }
 }
+
+// MARK: - AgentDescribable Conformance
+
+@available(iOS 17.0, macOS 14.0, *)
+extension SectionHeader: AgentDescribable {
+    public var componentType: String {
+        "SectionHeader"
+    }
+
+    public var properties: [String: Any] {
+        [
+            "title": title,
+            "showDivider": showDivider
+        ]
+    }
+
+    public var semantics: String {
+        let dividerDesc = showDivider ? "with divider" : "without divider"
+        return """
+        A section header displaying '\(title)' \(dividerDesc). \
+        Provides visual hierarchy and content organization.
+        """
+    }
+}

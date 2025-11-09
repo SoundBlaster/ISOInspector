@@ -104,6 +104,29 @@ public extension InspectorPattern {
     }
 }
 
+// MARK: - AgentDescribable Conformance
+
+@available(iOS 17.0, macOS 14.0, *)
+extension InspectorPattern: AgentDescribable {
+    public var componentType: String {
+        "InspectorPattern"
+    }
+
+    public var properties: [String: Any] {
+        [
+            "title": title,
+            "material": String(describing: material)
+        ]
+    }
+
+    public var semantics: String {
+        """
+        A scrollable inspector pattern displaying '\(title)' with material background. \
+        Provides detailed metadata display with fixed header and scrollable content area.
+        """
+    }
+}
+
 // MARK: - Preview Catalogue
 
 #Preview("Basic Inspector") {
