@@ -174,12 +174,13 @@ public struct Badge: View {
 // MARK: - AgentDescribable Conformance
 
 @available(iOS 17.0, macOS 14.0, *)
+@MainActor
 extension Badge: AgentDescribable {
-    public var componentType: String {
+    nonisolated public var componentType: String {
         "Badge"
     }
 
-    public var properties: [String: Any] {
+    nonisolated public var properties: [String: Any] {
         [
             "text": text,
             "level": level.rawValue,
@@ -187,7 +188,7 @@ extension Badge: AgentDescribable {
         ]
     }
 
-    public var semantics: String {
+    nonisolated public var semantics: String {
         """
         A colored badge component displaying '\(text)' at level '\(level.rawValue)'. \
         Shows icon: \(showIcon). \
@@ -223,6 +224,7 @@ extension Badge: AgentDescribable {
     .padding()
 }
 
+@available(iOS 17.0, macOS 14.0, *)
 #Preview("Badge - Agent Integration") {
     VStack(alignment: .leading, spacing: DS.Spacing.l) {
         Text("AgentDescribable Protocol Demo")

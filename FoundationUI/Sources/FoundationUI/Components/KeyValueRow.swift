@@ -367,12 +367,13 @@ private extension View {
 // MARK: - AgentDescribable Conformance
 
 @available(iOS 17.0, macOS 14.0, *)
+@MainActor
 extension KeyValueRow: AgentDescribable {
-    public var componentType: String {
+    nonisolated public var componentType: String {
         "KeyValueRow"
     }
 
-    public var properties: [String: Any] {
+    nonisolated public var properties: [String: Any] {
         [
             "key": key,
             "value": value,
@@ -381,7 +382,7 @@ extension KeyValueRow: AgentDescribable {
         ]
     }
 
-    public var semantics: String {
+    nonisolated public var semantics: String {
         let layoutDesc = layout == .horizontal ? "side-by-side" : "stacked vertically"
         let copyableDesc = copyable ? "with copyable value" : ""
         return """

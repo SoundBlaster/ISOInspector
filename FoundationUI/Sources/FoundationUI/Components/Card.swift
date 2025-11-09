@@ -501,12 +501,13 @@ public struct Card<Content: View>: View {
 // MARK: - AgentDescribable Conformance
 
 @available(iOS 17.0, macOS 14.0, *)
+@MainActor
 extension Card: AgentDescribable {
-    public var componentType: String {
+    nonisolated public var componentType: String {
         "Card"
     }
 
-    public var properties: [String: Any] {
+    nonisolated public var properties: [String: Any] {
         var props: [String: Any] = [
             "elevation": elevation.rawValue,
             "cornerRadius": cornerRadius
@@ -519,7 +520,7 @@ extension Card: AgentDescribable {
         return props
     }
 
-    public var semantics: String {
+    nonisolated public var semantics: String {
         let materialDesc = material != nil ? "with material background" : "with solid background"
         return """
         A container component with '\(elevation.rawValue)' elevation \(materialDesc). \
@@ -529,6 +530,7 @@ extension Card: AgentDescribable {
     }
 }
 
+@available(iOS 17.0, macOS 14.0, *)
 #Preview("Card - Agent Integration") {
     VStack(alignment: .leading, spacing: DS.Spacing.l) {
         Text("AgentDescribable Protocol Demo")
