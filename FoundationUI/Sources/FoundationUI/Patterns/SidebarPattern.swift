@@ -702,18 +702,18 @@ private enum Layout {
 @available(iOS 17.0, macOS 14.0, *)
 @MainActor
 extension SidebarPattern: AgentDescribable {
-    nonisolated public var componentType: String {
+    public var componentType: String {
         "SidebarPattern"
     }
 
-    nonisolated public var properties: [String: Any] {
+    public var properties: [String: Any] {
         [
             "sections": sections.map { ["title": $0.title, "itemCount": $0.items.count] },
-            "selection": selection.wrappedValue.map(String.init(describing:)) ?? "none"
+            "selection": selection.map(String.init(describing:)) ?? "none"
         ]
     }
 
-    nonisolated public var semantics: String {
+    public var semantics: String {
         """
         A navigation sidebar pattern with \(sections.count) section(s). \
         Provides hierarchical navigation with selection-driven detail content.
