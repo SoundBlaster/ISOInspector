@@ -154,11 +154,25 @@ func appTarget(for platform: DistributionPlatform) -> Target {
         deploymentTargets: deploymentTargets(for: platform),
         infoPlist: infoPlist,
         sources: ["Sources/ISOInspectorApp/**"],
-        resources: ["Sources/ISOInspectorApp/Resources/**"],
+        resources: appResources(for: platform),
         entitlements: entitlements,
         dependencies: dependencies,
         settings: .settings(base: appSettings, configurations: buildConfigurations)
     )
+}
+
+func appResources(for platform: DistributionPlatform) -> [ResourceFileElement] {
+    switch platform {
+    case .macOS:
+        return [
+            .glob(
+                pattern: "Sources/ISOInspectorApp/Resources/**",
+                excluding: ["Sources/ISOInspectorApp/Resources/LaunchScreen.storyboard"]
+            )
+        ]
+    case .iOS, .iPadOS:
+        return ["Sources/ISOInspectorApp/Resources/**"]
+    }
 }
 
 func infoPlistConfiguration(for platform: DistributionPlatform) -> InfoPlist {
