@@ -260,12 +260,14 @@ public enum ISOInspectorCLIRunner {
                 environment.print(
                     "VR-006 schema v\(ResearchLogSchema.version): \(ResearchLogSchema.fieldNames.joined(separator: ", "))"
                 )
+                let issueStore = environment.issueStore
                 let events = environment.parsePipeline.events(
                     for: reader,
                     context: .init(
                         source: options.fileURL,
                         researchLog: researchLog,
-                        options: options.parseOptions
+                        options: options.parseOptions,
+                        issueStore: issueStore
                     )
                 )
                 let semaphore = DispatchSemaphore(value: 0)
@@ -282,6 +284,10 @@ public enum ISOInspectorCLIRunner {
                 }
 
                 semaphore.wait()
+                environment.emitCorruptionSummaryIfNeeded(
+                    parseOptions: options.parseOptions,
+                    issueStore: issueStore
+                )
             } catch {
                 environment.printError("Failed to inspect file: \(error)")
             }
@@ -627,6 +633,24 @@ public enum ISOInspectorCLIRunner {
         guard FileManager.default.isWritableFile(atPath: parent.path) else {
             throw ExportExecutionError.unwritableDestination(parent.path)
         }
+    }
+}
+
+extension ISOInspectorCLIEnvironment {
+    func emitCorruptionSummaryIfNeeded(
+        parseOptions: ParsePipeline.Options,
+        issueStore: ParseIssueStore? = nil
+    ) {
+        guard !parseOptions.abortOnStructuralError else { return }
+        let store = issueStore ?? self.issueStore
+        let summary = store.makeIssueSummary()
+        guard summary.totalCount > 0 else { return }
+
+        print("Corruption summary:")
+        print("  Errors: \(summary.count(for: .error))")
+        print("  Warnings: \(summary.count(for: .warning))")
+        print("  Info: \(summary.count(for: .info))")
+        print("  Deepest affected depth: \(summary.deepestAffectedDepth)")
     }
 }
 

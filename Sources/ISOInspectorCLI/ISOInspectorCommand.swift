@@ -147,6 +147,18 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
         )
         public var disableTelemetry: Bool = false
 
+        @Flag(
+            name: .long,
+            help: "Continue through corruption without aborting the parse stream."
+        )
+        public var tolerant: Bool = false
+
+        @Flag(
+            name: .long,
+            help: "Abort on corruption and surface strict-mode diagnostics (default)."
+        )
+        public var strict: Bool = false
+
         @Option(
             name: .long,
             help: ArgumentHelp(
@@ -191,6 +203,10 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                 throw ValidationError("Specify at most one telemetry toggle flag.")
             }
 
+            if tolerant && strict {
+                throw ValidationError("Specify at most one of --tolerant or --strict.")
+            }
+
             let presets = Self.bundledPresets()
             let defaultPresetID = Self.defaultPresetID(in: presets)
             _ = try resolvedPresetID(presets: presets, defaultPresetID: defaultPresetID)
@@ -219,6 +235,18 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
             }
 
             return .enabled
+        }
+
+        public var resolvedParseOptions: ParsePipeline.Options {
+            if tolerant {
+                return .tolerant
+            }
+
+            if strict {
+                return .strict
+            }
+
+            return .strict
         }
 
         static func defaultPresetID(in presets: [ValidationPreset]) -> String {
@@ -368,6 +396,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                     presets: context.validationPresets
                 )
                 let disabledRuleIDs = Set(metadata.disabledRuleIDs)
+                let parseOptions = globalOptions.resolvedParseOptions
 
                 do {
                     let reader = try environment.makeReader(fileURL)
@@ -382,14 +411,23 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                         using: environment
                     )
 
+                    let issueStore = environment.issueStore
                     let events = environment.parsePipeline.events(
                         for: reader,
                         context: .init(
                             source: fileURL,
                             researchLog: researchLog,
-                            issueStore: environment.issueStore
+                            options: parseOptions,
+                            issueStore: issueStore
                         )
                     )
+
+                    defer {
+                        environment.emitCorruptionSummaryIfNeeded(
+                            parseOptions: parseOptions,
+                            issueStore: issueStore
+                        )
+                    }
 
                     do {
                         for try await event in events {
@@ -436,12 +474,18 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                     presets: context.validationPresets
                 )
                 let disabledRuleIDs = Set(metadata.disabledRuleIDs)
+                let parseOptions = globalOptions.resolvedParseOptions
 
                 do {
                     let reader = try environment.makeReader(fileURL)
+                    let issueStore = environment.issueStore
                     let events = environment.parsePipeline.events(
                         for: reader,
-                        context: .init(source: fileURL, issueStore: environment.issueStore)
+                        context: .init(
+                            source: fileURL,
+                            options: parseOptions,
+                            issueStore: issueStore
+                        )
                     )
 
                     ISOInspectorCommand.printValidationMetadataIfNeeded(
@@ -640,6 +684,8 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
 
                 let context = await ISOInspectorCommand.resolveContext(applying: options.globalOptions)
                 let environment = context.environment
+                let parseOptions = options.globalOptions.resolvedParseOptions
+                let issueStore = environment.issueStore
 
                 let validationMetadata = ISOInspectorCommand.validationMetadata(
                     configuration: context.validationConfiguration,
@@ -653,7 +699,11 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                     let reader = try environment.makeReader(fileURL)
                     let events = environment.parsePipeline.events(
                         for: reader,
-                        context: .init(source: fileURL, issueStore: environment.issueStore)
+                        context: .init(
+                            source: fileURL,
+                            options: parseOptions,
+                            issueStore: issueStore
+                        )
                     )
 
                     var builder = ParseTreeBuilder()
@@ -763,6 +813,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
             public mutating func run() async throws {
                 let context = await ISOInspectorCommand.resolveContext(applying: globalOptions)
                 let environment = context.environment
+                let parseOptions = globalOptions.resolvedParseOptions
                 let cwd = URL(fileURLWithPath: FileManager.default.currentDirectoryPath)
                 let resolver = InputResolver(fileManager: .default)
                 let resolution = resolver.resolve(inputs: inputs, relativeTo: cwd)
@@ -798,9 +849,14 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
                             let reader = try environment.makeReader(fileURL)
                             var boxCount = 0
                             var severityCounts: [ValidationIssue.Severity: Int] = [:]
+                            let issueStore = environment.issueStore
                             let events = environment.parsePipeline.events(
                                 for: reader,
-                                context: .init(source: fileURL, issueStore: environment.issueStore)
+                                context: .init(
+                                    source: fileURL,
+                                    options: parseOptions,
+                                    issueStore: issueStore
+                                )
                             )
 
                             do {
