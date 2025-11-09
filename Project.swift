@@ -146,6 +146,14 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     var appSettings = baseSettings
     appSettings["PRODUCT_MODULE_NAME"] = .string("ISOInspectorApp")
 
+    let launchScreen: LaunchScreen?
+    switch platform {
+    case .macOS:
+        launchScreen = nil
+    case .iPadOS, .iOS:
+        launchScreen = .storyboard(storyboard: "LaunchScreen")
+    }
+
     return Target.target(
         name: targetName,
         destinations: destinations(for: platform),
@@ -154,6 +162,7 @@ func appTarget(for platform: DistributionPlatform) -> Target {
         deploymentTargets: deploymentTargets(for: platform),
         infoPlist: infoPlist,
         sources: ["Sources/ISOInspectorApp/**"],
+        launchScreen: launchScreen,
         resources: ["Sources/ISOInspectorApp/Resources/**"],
         entitlements: entitlements,
         dependencies: dependencies,
