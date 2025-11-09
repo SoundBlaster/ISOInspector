@@ -146,14 +146,6 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     var appSettings = baseSettings
     appSettings["PRODUCT_MODULE_NAME"] = .string("ISOInspectorApp")
 
-    let launchScreen: LaunchScreen?
-    switch platform {
-    case .macOS:
-        launchScreen = nil
-    case .iPadOS, .iOS:
-        launchScreen = .storyboard(storyboard: "LaunchScreen")
-    }
-
     return Target.target(
         name: targetName,
         destinations: destinations(for: platform),
@@ -162,12 +154,25 @@ func appTarget(for platform: DistributionPlatform) -> Target {
         deploymentTargets: deploymentTargets(for: platform),
         infoPlist: infoPlist,
         sources: ["Sources/ISOInspectorApp/**"],
-        launchScreen: launchScreen,
-        resources: ["Sources/ISOInspectorApp/Resources/**"],
+        resources: appResources(for: platform),
         entitlements: entitlements,
         dependencies: dependencies,
         settings: .settings(base: appSettings, configurations: buildConfigurations)
     )
+}
+
+func appResources(for platform: DistributionPlatform) -> ResourceFileElements {
+    switch platform {
+    case .macOS:
+        return .resources([
+            .glob(
+                pattern: "Sources/ISOInspectorApp/Resources/**",
+                excluding: ["Sources/ISOInspectorApp/Resources/LaunchScreen.storyboard"]
+            )
+        ])
+    case .iOS, .iPadOS:
+        return .resources(["Sources/ISOInspectorApp/Resources/**"])
+    }
 }
 
 func infoPlistConfiguration(for platform: DistributionPlatform) -> InfoPlist {
@@ -204,6 +209,7 @@ func infoPlistConfiguration(for platform: DistributionPlatform) -> InfoPlist {
 
     if platform == .iOS || platform == .iPadOS {
         infoPlistEntries["LSSupportsOpeningDocumentsInPlace"] = .boolean(true)
+        infoPlistEntries["UILaunchStoryboardName"] = .string("LaunchScreen")
     }
 
     return .extendingDefault(with: infoPlistEntries)

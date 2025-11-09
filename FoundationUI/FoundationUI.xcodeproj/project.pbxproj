@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0712F5379996EEDD3A7D87C8 /* Typography.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4353C14049A92AE0CE18BBE6 /* Typography.swift */; };
 		0741285435D98CB640B47DD1 /* PlatformAdaptation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B23A864B214882625EFBFC /* PlatformAdaptation.swift */; };
+		082DBBEEB929CF019C270074 /* AgentDescribablePreviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F05439F27E48DBEC5B291D3 /* AgentDescribablePreviews.swift */; };
 		09D4E5E99B472BEB34BE63A7 /* BadgeChipStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F08AEEA1C601AE713B9C1141 /* BadgeChipStyleTests.swift */; };
 		11C3DDF37C90FF6F681CA07F /* DynamicTypeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B6D7F4473008892DF54244 /* DynamicTypeTests.swift */; };
 		1318AD7696322B4E82377F41 /* SurfaceStyleKeyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D11917636F65CF17CA3DECC /* SurfaceStyleKeyTests.swift */; };
@@ -23,6 +24,7 @@
 		2823EE5D89AFC88E32B1ADDC /* SurfaceStyleKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = E04A994FB60395C61BB853AE /* SurfaceStyleKey.swift */; };
 		285F5EDA1B48807A316F85DF /* CopyableModifierTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E600B5D779F066C2B0E63126 /* CopyableModifierTests.swift */; };
 		28CE155DC78A59EEA72D8B9B /* Spacing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B066487256C91A71720EB60 /* Spacing.swift */; };
+		2E32907C6996962A0974E652 /* AgentDescribableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51DFE430175A35D3D965568D /* AgentDescribableTests.swift */; };
 		33BB2EE6D59A1AB910C385C8 /* BadgeAccessibilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69D2127424239ED1DE7770E2 /* BadgeAccessibilityTests.swift */; };
 		3476731FEDE6D23D241CBDCF /* BoxTreePattern.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6CA0A32CB69578091698343 /* BoxTreePattern.swift */; };
 		355AC5ECAC5ED53DBB829D85 /* BadgePerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3F2F4F9814261E50DC5123 /* BadgePerformanceTests.swift */; };
@@ -87,6 +89,7 @@
 		E05F109AC657293C3A7AA79F /* AccessibilityHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = D917031AA4AD4E482205693E /* AccessibilityHelpers.swift */; };
 		E476EAD0D6A4F1397D4B966F /* CardAccessibilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A832878B9AC172215912B33 /* CardAccessibilityTests.swift */; };
 		E6346FACC64393FAE622ECB9 /* SidebarPatternTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834179434F01D11657F37C45 /* SidebarPatternTests.swift */; };
+		EE22B9C1C056D75FA73A2BD3 /* AgentDescribable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65135407222F0A6DC5F7513D /* AgentDescribable.swift */; };
 		EF13D762F661DA797918ED3F /* AccessibilityHelpersIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED205990D4F3BB283D242A1 /* AccessibilityHelpersIntegrationTests.swift */; };
 		F35BFE265EADFC4A5B4828FD /* PatternsPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E33D18447BD8F72D585D4F8A /* PatternsPerformanceTests.swift */; };
 		F4226D2EFC819FC291BAD829 /* FoundationUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C39A0926E8728234BEAD99F1 /* FoundationUI.framework */; };
@@ -154,11 +157,14 @@
 		4D481822AE755B453CB32704 /* ContrastRatioTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContrastRatioTests.swift; sourceTree = "<group>"; };
 		4ED205990D4F3BB283D242A1 /* AccessibilityHelpersIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityHelpersIntegrationTests.swift; sourceTree = "<group>"; };
 		51B6D7F4473008892DF54244 /* DynamicTypeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicTypeTests.swift; sourceTree = "<group>"; };
+		51DFE430175A35D3D965568D /* AgentDescribableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentDescribableTests.swift; sourceTree = "<group>"; };
 		537F1BC9E5095091CE7D325E /* CardStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardStyle.swift; sourceTree = "<group>"; };
 		57D9860EC33BC7F60331E1B4 /* Copyable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Copyable.swift; sourceTree = "<group>"; };
 		57E8D5AFA14636E7D844CFAA /* KeyboardShortcutsIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutsIntegrationTests.swift; sourceTree = "<group>"; };
+		5F05439F27E48DBEC5B291D3 /* AgentDescribablePreviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentDescribablePreviews.swift; sourceTree = "<group>"; };
 		62FFD361D83B0200DA18FD6A /* CardTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTests.swift; sourceTree = "<group>"; };
 		64E23C942DE90CDC411ABAB6 /* ContextIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextIntegrationTests.swift; sourceTree = "<group>"; };
+		65135407222F0A6DC5F7513D /* AgentDescribable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentDescribable.swift; sourceTree = "<group>"; };
 		6899B680A40DBAE8FEEE2B71 /* PlatformExtensionsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlatformExtensionsTests.swift; sourceTree = "<group>"; };
 		68FC21780405AEFF5FC0299E /* FoundationUI-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "FoundationUI-Info.plist"; sourceTree = "<group>"; };
 		69D2127424239ED1DE7770E2 /* BadgeAccessibilityTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BadgeAccessibilityTests.swift; sourceTree = "<group>"; };
@@ -256,6 +262,14 @@
 			path = Fixtures;
 			sourceTree = "<group>";
 		};
+		0BFB22287BF0114402EA935F /* AgentSupportTests */ = {
+			isa = PBXGroup;
+			children = (
+				51DFE430175A35D3D965568D /* AgentDescribableTests.swift */,
+			);
+			path = AgentSupportTests;
+			sourceTree = "<group>";
+		};
 		138AC4982B63C3D693015CCE /* Contexts */ = {
 			isa = PBXGroup;
 			children = (
@@ -271,6 +285,7 @@
 		17059E895B5BA4F1184DCA16 /* FoundationUI */ = {
 			isa = PBXGroup;
 			children = (
+				80DE29FBDBA171D6C388F9C8 /* AgentSupport */,
 				92AE3699079B605FB823AD5F /* Components */,
 				138AC4982B63C3D693015CCE /* Contexts */,
 				C339C2057E155348BEE4F868 /* DesignTokens */,
@@ -359,6 +374,7 @@
 			isa = PBXGroup;
 			children = (
 				AC08CEBB18E119B64A858927 /* AccessibilityTests */,
+				0BFB22287BF0114402EA935F /* AgentSupportTests */,
 				3A2F076FBCA8E74A2FB78AB9 /* ComponentsTests */,
 				422BA4F1500BD920A3F85A20 /* ContextsTests */,
 				D8AC1FB579CFC372FF28B0C7 /* DesignTokensTests */,
@@ -391,6 +407,15 @@
 				AA49F0FA198CAE18D0192F4C /* Tests */,
 			);
 			name = Project;
+			sourceTree = "<group>";
+		};
+		80DE29FBDBA171D6C388F9C8 /* AgentSupport */ = {
+			isa = PBXGroup;
+			children = (
+				65135407222F0A6DC5F7513D /* AgentDescribable.swift */,
+				5F05439F27E48DBEC5B291D3 /* AgentDescribablePreviews.swift */,
+			);
+			path = AgentSupport;
 			sourceTree = "<group>";
 		};
 		92AE3699079B605FB823AD5F /* Components */ = {
@@ -649,6 +674,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EE22B9C1C056D75FA73A2BD3 /* AgentDescribable.swift in Sources */,
+				082DBBEEB929CF019C270074 /* AgentDescribablePreviews.swift in Sources */,
 				C5B4F687F77C228A29C8E7E4 /* Badge.swift in Sources */,
 				7B3303E6D964025B41931472 /* Card.swift in Sources */,
 				D820FA772C20372BBED79611 /* Copyable.swift in Sources */,
@@ -697,6 +724,7 @@
 				AFC857DB444766C9CDA3711E /* SectionHeaderAccessibilityTests.swift in Sources */,
 				243BC9186818ED20AAD14DD7 /* TouchTargetTests.swift in Sources */,
 				24C327F57A98FAC08E5340A7 /* VoiceOverTests.swift in Sources */,
+				2E32907C6996962A0974E652 /* AgentDescribableTests.swift in Sources */,
 				9489C46571110D2C83964B10 /* BadgeTests.swift in Sources */,
 				7E3D0EED16A6BCD5F25470A3 /* CardTests.swift in Sources */,
 				FAD59FBFAF43FFCED7F5A262 /* CopyableTests.swift in Sources */,
