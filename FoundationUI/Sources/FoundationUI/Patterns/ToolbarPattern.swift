@@ -774,12 +774,13 @@ private extension View {
 // MARK: - AgentDescribable Conformance
 
 @available(iOS 17.0, macOS 14.0, *)
+@MainActor
 extension ToolbarPattern: AgentDescribable {
-    public var componentType: String {
+    nonisolated public var componentType: String {
         "ToolbarPattern"
     }
 
-    public var properties: [String: Any] {
+    nonisolated public var properties: [String: Any] {
         [
             "items": [
                 "primary": items.primary.count,
@@ -789,7 +790,7 @@ extension ToolbarPattern: AgentDescribable {
         ]
     }
 
-    public var semantics: String {
+    nonisolated public var semantics: String {
         """
         A platform-adaptive toolbar with \(items.primary.count + items.secondary.count + items.overflow.count) action(s). \
         Primary: \(items.primary.count), Secondary: \(items.secondary.count), Overflow: \(items.overflow.count).

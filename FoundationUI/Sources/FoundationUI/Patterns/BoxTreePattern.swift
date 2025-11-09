@@ -824,19 +824,20 @@ private struct FlatListPreview: View {
 // MARK: - AgentDescribable Conformance
 
 @available(iOS 17.0, macOS 14.0, *)
+@MainActor
 extension BoxTreePattern: AgentDescribable {
-    public var componentType: String {
+    nonisolated public var componentType: String {
         "BoxTreePattern"
     }
 
-    public var properties: [String: Any] {
+    nonisolated public var properties: [String: Any] {
         [
             "nodeCount": data.count,
             "level": level
         ]
     }
 
-    public var semantics: String {
+    nonisolated public var semantics: String {
         """
         A hierarchical tree pattern with \(data.count) root node(s) at level \(level). \
         Supports expand/collapse, selection, and keyboard navigation.
