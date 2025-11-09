@@ -267,6 +267,7 @@ import SwiftUI
 // MARK: - Helper Views
 
 /// Helper view for displaying component descriptions
+@available(iOS 17.0, macOS 14.0, *)
 private struct ComponentDescription: View {
     let component: any AgentDescribable
     let title: String
@@ -304,6 +305,7 @@ private struct ComponentDescription: View {
 }
 
 /// Helper view for property rows
+@available(iOS 17.0, macOS 14.0, *)
 private struct PropertyRow: View {
     let label: String
     let value: String
@@ -321,6 +323,7 @@ private struct PropertyRow: View {
 }
 
 /// Helper view for workflow steps
+@available(iOS 17.0, macOS 14.0, *)
 private struct WorkflowStep<Content: View>: View {
     let number: Int
     let title: String
