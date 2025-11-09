@@ -161,17 +161,17 @@ func appTarget(for platform: DistributionPlatform) -> Target {
     )
 }
 
-func appResources(for platform: DistributionPlatform) -> [ResourceFileElement] {
+func appResources(for platform: DistributionPlatform) -> ResourceFileElements {
     switch platform {
     case .macOS:
-        return [
+        return .resources([
             .glob(
                 pattern: "Sources/ISOInspectorApp/Resources/**",
                 excluding: ["Sources/ISOInspectorApp/Resources/LaunchScreen.storyboard"]
             )
-        ]
+        ])
     case .iOS, .iPadOS:
-        return ["Sources/ISOInspectorApp/Resources/**"]
+        return .resources(["Sources/ISOInspectorApp/Resources/**"])
     }
 }
 

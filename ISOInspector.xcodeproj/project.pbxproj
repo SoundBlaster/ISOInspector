@@ -306,6 +306,7 @@
 		C10DFA3A62238F3E08C1FD6A /* large_mdat_placeholder.txt in Resources */ = {isa = PBXBuildFile; fileRef = F5E6063259C078828E88D81B /* large_mdat_placeholder.txt */; };
 		C217B3410DFC79805245DE37 /* ParseTreePreviewDataTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F392F8A837583BB2E56E5414 /* ParseTreePreviewDataTests.swift */; };
 		C24E2C05B89FFE29FC7B39AD /* StszSampleSizeParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEEC66EA851AE51C84915C89 /* StszSampleSizeParserTests.swift */; };
+		C2645AD88D376D600F85527E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AE447643DED259593C1B923 /* LaunchScreen.storyboard */; };
 		C2AC3935C1BC255E90EC602E /* MP4RACatalogRefresher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05043D92689718753BEA16A1 /* MP4RACatalogRefresher.swift */; };
 		C2B1905746CC0FBF83084314 /* ParseTreePlaceholderPlanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F1856F4160CFD1F4895853 /* ParseTreePlaceholderPlanner.swift */; };
 		C378727DB956BF0503EB6210 /* AnnotationBookmarkSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8AA489AF11B9824A5F1D67A /* AnnotationBookmarkSession.swift */; };
@@ -416,6 +417,7 @@
 		FD391B45AAEA3B734BEE9705 /* VR006PreviewLog_Mismatch.json in Resources */ = {isa = PBXBuildFile; fileRef = 10A05A5F15007B3927C145E7 /* VR006PreviewLog_Mismatch.json */; };
 		FDF3193B25DF9F12BAB963A9 /* NodeSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41A59205A7A6226FEDE26C5 /* NodeSelectionViewModel.swift */; };
 		FF333AFDCA81C92649AE6828 /* PayloadAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B9F4481708652BF412A221 /* PayloadAnnotation.swift */; };
+		FF4C3D115479701198E8624C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3AE447643DED259593C1B923 /* LaunchScreen.storyboard */; };
 		FF9CAEF675874AFA925ED469 /* VR006PreviewLog.json in Resources */ = {isa = PBXBuildFile; fileRef = AB3AC02D55F962E92FBB5D64 /* VR006PreviewLog.json */; };
 		FFC1FF0B242C23860A4E4479 /* ParseTreeStatusDescriptorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EE948A00F002B0C1D21F9F /* ParseTreeStatusDescriptorTests.swift */; };
 		FFCB245B3CA8ED8826DD750C /* JSONExportCompatibilityCLITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74A4DC67F739A32EE7063D01 /* JSONExportCompatibilityCLITests.swift */; };
@@ -681,6 +683,7 @@
 		36C6AAF73907915AAC83C060 /* StreamingBoxWalker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreamingBoxWalker.swift; sourceTree = "<group>"; };
 		388214C71D463780D22CDA9A /* FullBoxReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullBoxReader.swift; sourceTree = "<group>"; };
 		3933BD3CF1F0CB5C33732C96 /* BoxParserRegistry+SampleDescriptionCodecHEVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BoxParserRegistry+SampleDescriptionCodecHEVC.swift"; sourceTree = "<group>"; };
+		3AE447643DED259593C1B923 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3B48C82B02A2A5CB9B62EB45 /* sample-encryption-placeholder.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "sample-encryption-placeholder.json"; sourceTree = "<group>"; };
 		3B5349D979615F3AE0D05C2C /* DistributionMetadata.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DistributionMetadata.swift; sourceTree = "<group>"; };
 		3DA5C7C7AAD749B7A2D03ABA /* TfhdTrackFragmentHeaderParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TfhdTrackFragmentHeaderParserTests.swift; sourceTree = "<group>"; };
@@ -1352,6 +1355,7 @@
 			children = (
 				B203B2B399DEA61EDF375406 /* AppIcon.icon */,
 				8B957B5C7474C9106FB82747 /* Assets.xcassets */,
+				3AE447643DED259593C1B923 /* LaunchScreen.storyboard */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2024,6 +2028,7 @@
 			files = (
 				B06469C4CC943356B0BCDBEC /* AppIcon.icon in Resources */,
 				CAC0B6F50652A4E608108754 /* Assets.xcassets in Resources */,
+				C2645AD88D376D600F85527E /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2040,6 +2045,7 @@
 			files = (
 				34CE2DBD4A61D3CB992A4EC6 /* AppIcon.icon in Resources */,
 				2F658C7C86184D113724DDA5 /* Assets.xcassets in Resources */,
+				FF4C3D115479701198E8624C /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
