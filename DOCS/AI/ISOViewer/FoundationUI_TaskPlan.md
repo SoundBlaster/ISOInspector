@@ -596,7 +596,7 @@
 **Progress: 13/18 tasks completed (72.2%)**
 
 ### 4.1 Agent-Driven UI Generation
-**Progress: 2/7 tasks (28.6%)**
+**Progress: 2/7 tasks (28.6%)** - Phase 4.1.3 IN PROGRESS
 
 - [x] **P1** Define AgentDescribable protocol ✅ **Completed 2025-11-08**
   - File: `Sources/FoundationUI/AgentSupport/AgentDescribable.swift` (10.2KB, 295 lines)
@@ -621,11 +621,12 @@
   - Archive: `TASK_ARCHIVE/46_Phase4.1.2_AgentDescribableComponents/` ✅
   - Note: Tests compile but require macOS/Xcode for SwiftUI runtime (Linux: SwiftUI unavailable)
 
-- [ ] **P1** Create YAML schema definitions
+- [ ] **P1** Create YAML schema definitions → **IN PROGRESS**
   - File: `Sources/AgentSupport/ComponentSchema.yaml`
   - Define schema for all components
   - Include validation rules
   - Document in YAML format
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase4.1.3_YAMLSchemaDefinitions.md`
 
 - [ ] **P1** Implement YAML parser/validator
   - File: `Sources/AgentSupport/YAMLValidator.swift`

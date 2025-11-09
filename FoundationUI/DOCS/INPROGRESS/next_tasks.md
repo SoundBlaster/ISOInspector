@@ -1,7 +1,7 @@
 # Next Tasks for FoundationUI
 
-**Updated**: 2025-11-09 (after archiving Phase 4.1.1 & 4.1.2 AgentDescribable work)
-**Current Status**: Phase 4.1.1 Protocol ✅ Complete, Phase 4.1.2 Components ✅ Complete, Phase 5.2 Automated Tasks ✅ Complete, Phase 5.4 Complete ✅
+**Updated**: 2025-11-09 (Phase 4.1.3 YAML Schema - Selected as Next Task)
+**Current Status**: Phase 4.1.1 Protocol ✅ Complete, Phase 4.1.2 Components ✅ Complete, Phase 4.1.3 YAML Schema 🚧 IN PROGRESS, Phase 5.2 Automated Tasks ✅ Complete, Phase 5.4 Complete ✅
 
 ## 🎯 PHASE 4.1 PROGRESS - 2/7 TASKS COMPLETE (28.6%)
 
