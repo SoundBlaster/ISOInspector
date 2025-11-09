@@ -41,7 +41,7 @@ import Foundation
 import Yams
 
 let yamlString = try String(contentsOfFile: "badge_examples.yaml")
-let components = try YamsDecoder().decode([ComponentDescription].self, from: yamlString)
+let components = try YAMLDecoder().decode([ComponentDescription].self, from: yamlString)
 ```
 
 ### 2. Validate Against Schema
