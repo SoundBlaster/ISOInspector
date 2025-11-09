@@ -85,7 +85,7 @@ extension ComponentName: AgentDescribable {
 - `showIcon: Bool`
 
 **Card**:
-- `elevation: String` (rawValue: "none", "low", "medium", "high")
+- `elevation: String` (stringValue: "none", "low", "medium", "high")
 - `cornerRadius: CGFloat`
 - `material: String?` (optional)
 
