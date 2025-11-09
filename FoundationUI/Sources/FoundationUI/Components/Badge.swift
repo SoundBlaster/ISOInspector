@@ -183,14 +183,14 @@ extension Badge: AgentDescribable {
     nonisolated public var properties: [String: Any] {
         [
             "text": text,
-            "level": level.rawValue,
+            "level": level.stringValue,
             "showIcon": showIcon
         ]
     }
 
     nonisolated public var semantics: String {
         """
-        A colored badge component displaying '\(text)' at level '\(level.rawValue)'. \
+        A colored badge component displaying '\(text)' at level '\(level.stringValue)'. \
         Shows icon: \(showIcon). \
         Accessibility: '\(level.accessibilityLabel)'.
         """

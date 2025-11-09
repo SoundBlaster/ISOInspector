@@ -70,6 +70,23 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
         }
     }
 
+    /// String representation for serialization and agent consumption
+    ///
+    /// Provides a lowercase string identifier for the badge level,
+    /// suitable for JSON serialization and agent-driven UI generation.
+    public var stringValue: String {
+        switch self {
+        case .info:
+            return "info"
+        case .warning:
+            return "warning"
+        case .error:
+            return "error"
+        case .success:
+            return "success"
+        }
+    }
+
     /// Accessibility label for VoiceOver
     ///
     /// Provides a clear, spoken description of the badge level for users
