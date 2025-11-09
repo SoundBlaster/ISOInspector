@@ -20,6 +20,7 @@ import SwiftUI
 // MARK: - Preview 1: Basic Protocol Conformance
 
 /// Demonstrates basic protocol conformance with a simple component.
+@available(iOS 17.0, macOS 14.0, *)
 #Preview("1. Basic Conformance") {
     VStack(alignment: .leading, spacing: DS.Spacing.l) {
         Text("AgentDescribable Protocol Demo")
@@ -68,6 +69,7 @@ import SwiftUI
 // MARK: - Preview 2: Multiple Component Types
 
 /// Demonstrates protocol conformance across different component types.
+@available(iOS 17.0, macOS 14.0, *)
 #Preview("2. Multiple Components") {
     ScrollView {
         VStack(alignment: .leading, spacing: DS.Spacing.xl) {
@@ -103,6 +105,7 @@ import SwiftUI
 // MARK: - Preview 3: JSON Serialization
 
 /// Demonstrates JSON serialization for agent consumption.
+@available(iOS 17.0, macOS 14.0, *)
 #Preview("3. JSON Serialization") {
     VStack(alignment: .leading, spacing: DS.Spacing.l) {
         Text("Agent Communication Example")
@@ -140,6 +143,7 @@ import SwiftUI
 // MARK: - Preview 4: Agent Integration Workflow
 
 /// Demonstrates a complete agent-driven UI generation workflow.
+@available(iOS 17.0, macOS 14.0, *)
 #Preview("4. Agent Workflow") {
     VStack(alignment: .leading, spacing: DS.Spacing.l) {
         Text("Agent-Driven UI Generation")
@@ -184,6 +188,7 @@ import SwiftUI
 // MARK: - Preview 5: Pattern Integration
 
 /// Demonstrates AgentDescribable with complex patterns.
+@available(iOS 17.0, macOS 14.0, *)
 #Preview("5. Pattern Integration") {
     VStack(alignment: .leading, spacing: DS.Spacing.l) {
         Text("Complex Pattern Support")
@@ -228,6 +233,7 @@ import SwiftUI
 // MARK: - Preview 6: Debug Utilities
 
 /// Demonstrates built-in debug utilities from the protocol.
+@available(iOS 17.0, macOS 14.0, *)
 #Preview("6. Debug Utilities") {
     ScrollView {
         VStack(alignment: .leading, spacing: DS.Spacing.l) {
