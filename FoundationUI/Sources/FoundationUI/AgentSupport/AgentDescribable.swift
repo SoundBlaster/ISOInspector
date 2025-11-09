@@ -120,6 +120,7 @@ import Foundation
 /// - `Identifiable` (for managing component instances)
 ///
 @available(iOS 17.0, macOS 14.0, *)
+@MainActor
 public protocol AgentDescribable {
 
     /// A unique string identifier for the component type.
