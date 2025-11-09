@@ -709,7 +709,7 @@ extension SidebarPattern: AgentDescribable {
     public var properties: [String: Any] {
         [
             "sections": sections.map { ["title": $0.title, "itemCount": $0.items.count] },
-            "selection": selection.map(String.init(describing:)) ?? "none"
+            "selection": selection.map { String(describing: $0) } ?? "none"
         ]
     }
 
