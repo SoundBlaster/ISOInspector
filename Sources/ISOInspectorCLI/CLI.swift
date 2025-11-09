@@ -284,10 +284,9 @@ public enum ISOInspectorCLIRunner {
                 }
 
                 semaphore.wait()
-                emitCorruptionSummaryIfNeeded(
+                environment.emitCorruptionSummaryIfNeeded(
                     parseOptions: options.parseOptions,
-                    issueStore: issueStore,
-                    using: environment
+                    issueStore: issueStore
                 )
             } catch {
                 environment.printError("Failed to inspect file: \(error)")
@@ -363,23 +362,8 @@ public enum ISOInspectorCLIRunner {
 
         let fileURL = URL(fileURLWithPath: filePath, relativeTo: cwd).standardizedFileURL
         let options = requestedOptions ?? .strict
-        return .success(InspectOptions(fileURL: fileURL, researchLogURL: researchLogURL, parseOptions: options))
-    }
-
-    private static func emitCorruptionSummaryIfNeeded(
-        parseOptions: ParsePipeline.Options,
-        issueStore: ParseIssueStore,
-        using environment: ISOInspectorCLIEnvironment
-    ) {
-        guard parseOptions == .tolerant else { return }
-        let summary = issueStore.makeIssueSummary()
-        guard summary.totalCount > 0 else { return }
-
-        environment.print("Corruption summary:")
-        environment.print("  Errors: \(summary.count(for: .error))")
-        environment.print("  Warnings: \(summary.count(for: .warning))")
-        environment.print("  Info: \(summary.count(for: .info))")
-        environment.print("  Deepest affected depth: \(summary.deepestAffectedDepth)")
+        return .success(
+            InspectOptions(fileURL: fileURL, researchLogURL: researchLogURL, parseOptions: options))
     }
 
     private static func parseRefreshOptions(
@@ -635,7 +619,8 @@ public enum ISOInspectorCLIRunner {
         let fileURL = URL(fileURLWithPath: filePath, relativeTo: cwd).standardizedFileURL
         let outputURL = outputPath ?? defaultOutput(fileURL)
         let options = requestedOptions ?? .strict
-        return .success(ExportOptions(fileURL: fileURL, outputURL: outputURL, parseOptions: options))
+        return .success(
+            ExportOptions(fileURL: fileURL, outputURL: outputURL, parseOptions: options))
     }
 
     private static func validateOutputPath(_ url: URL) throws {
@@ -650,6 +635,24 @@ public enum ISOInspectorCLIRunner {
         guard FileManager.default.isWritableFile(atPath: parent.path) else {
             throw ExportExecutionError.unwritableDestination(parent.path)
         }
+    }
+}
+
+extension ISOInspectorCLIEnvironment {
+    func emitCorruptionSummaryIfNeeded(
+        parseOptions: ParsePipeline.Options,
+        issueStore: ParseIssueStore? = nil
+    ) {
+        guard !parseOptions.abortOnStructuralError else { return }
+        let store = issueStore ?? self.issueStore
+        let summary = store.makeIssueSummary()
+        guard summary.totalCount > 0 else { return }
+
+        print("Corruption summary:")
+        print("  Errors: \(summary.count(for: .error))")
+        print("  Warnings: \(summary.count(for: .warning))")
+        print("  Info: \(summary.count(for: .info))")
+        print("  Deepest affected depth: \(summary.deepestAffectedDepth)")
     }
 }
 

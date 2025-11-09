@@ -220,6 +220,16 @@ final class ISOInspectorCommandTests: XCTestCase {
         }
     }
 
+    func testGlobalOptionsRejectsConflictingParseModeFlags() {
+        XCTAssertThrowsError(try ISOInspectorCommand.GlobalOptions.parse([
+            "--tolerant",
+            "--strict"
+        ])) { error in
+            let description = String(describing: error)
+            XCTAssertTrue(description.localizedCaseInsensitiveContains("tolerant"))
+        }
+    }
+
     func testInspectCommandStreamsEventsAndRespectsResearchLogOption() async throws {
         final class Recorder: ResearchLogRecording, @unchecked Sendable {
             var entries: [ResearchLogEntry] = []
@@ -292,6 +302,67 @@ final class ISOInspectorCommandTests: XCTestCase {
         XCTAssertTrue(printed.value.first?.contains("Research log") ?? false)
         XCTAssertTrue(printed.value.contains(where: { $0.contains("VR-006 schema v") }))
         XCTAssertTrue(printed.value.contains(where: { $0.contains(descriptor.summary) }))
+
+        await MainActor.run {
+            ISOInspectorCommandContextStore.reset()
+            ISOInspectorCommand.contextFactory = ISOInspectorCommand.defaultContextFactory
+        }
+    }
+
+    func testInspectCommandTolerantModePrintsCorruptionSummary() async throws {
+        final class NullResearchLog: ResearchLogRecording, @unchecked Sendable {
+            func record(_ entry: ResearchLogEntry) {}
+        }
+
+        let printed = MutableBox<[String]>([])
+        let recordedOptions = MutableBox<[ParsePipeline.Options]>([])
+        let environment = ISOInspectorCLIEnvironment(
+            refreshCatalog: { _, _ in },
+            makeReader: { url in
+                XCTAssertEqual(url.path, "/tmp/sample.mp4")
+                return StubReader()
+            },
+            parsePipeline: ParsePipeline(buildStream: { _, context in
+                recordedOptions.value.append(context.options)
+                context.issueStore?.record(
+                    ParseIssue(
+                        severity: .error,
+                        code: "VR-001",
+                        message: "Corruption surfaced"
+                    ),
+                    depth: 2
+                )
+                return AsyncThrowingStream { continuation in
+                    continuation.finish()
+                }
+            }),
+            formatter: EventConsoleFormatter(),
+            print: { printed.value.append($0) },
+            printError: { _ in },
+            makeResearchLogWriter: { _ in NullResearchLog() },
+            defaultResearchLogURL: { URL(fileURLWithPath: "/tmp/research-log.json") }
+        )
+
+        await MainActor.run {
+            ISOInspectorCommand.contextFactory = { _ in
+                ISOInspectorCommandContext(environment: environment)
+            }
+            ISOInspectorCommandContextStore.reset()
+        }
+
+        var command = try ISOInspectorCommand.Commands.Inspect.parse([
+            "--tolerant",
+            "/tmp/sample.mp4"
+        ])
+
+        try await command.run()
+
+        XCTAssertEqual(recordedOptions.value, [.tolerant])
+        XCTAssertTrue(printed.value.contains("Corruption summary:"))
+        XCTAssertTrue(printed.value.contains("  Errors: 1"))
+        XCTAssertTrue(printed.value.contains("  Warnings: 0"))
+        XCTAssertTrue(printed.value.contains("  Info: 0"))
+        XCTAssertTrue(printed.value.contains("  Deepest affected depth: 2"))
 
         await MainActor.run {
             ISOInspectorCommandContextStore.reset()
