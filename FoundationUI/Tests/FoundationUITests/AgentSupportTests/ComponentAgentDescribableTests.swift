@@ -7,6 +7,7 @@
 //
 
 #if canImport(SwiftUI)
+import SwiftUI
 import XCTest
 @testable import FoundationUI
 
