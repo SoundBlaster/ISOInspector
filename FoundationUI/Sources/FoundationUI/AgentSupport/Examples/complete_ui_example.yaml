@@ -1,0 +1,251 @@
+# Complete UI Example: ISO Inspector Application
+# Demonstrates full UI composition with all patterns and components
+
+---
+# Three-column ISO Inspector layout (macOS style)
+layout:
+  type: "three-column"
+  platform: "macOS"
+  description: "Full ISO Inspector UI with sidebar, tree, and detail panel"
+
+# Column 1: Sidebar Navigation
+sidebar:
+  - componentType: SidebarPattern
+    properties:
+      sections:
+        - title: "Recent Files"
+          itemCount: 5
+        - title: "Starred"
+          itemCount: 3
+        - title: "All Files"
+          itemCount: 12
+      selection: "sample_video.mp4"
+    semantics: "Navigation sidebar with file lists"
+
+# Column 2: Box Tree Hierarchy
+tree:
+  - componentType: ToolbarPattern
+    properties:
+      items:
+        primary: 3    # Open, Refresh, Export
+        secondary: 2  # Search, Filter
+        overflow: 4   # Settings, Help, About, Quit
+    semantics: "Toolbar with file operations"
+
+  - componentType: BoxTreePattern
+    properties:
+      nodeCount: 3
+      level: 0
+    semantics: "ISO box hierarchy tree"
+
+# Column 3: Inspector Detail Panel
+inspector:
+  - componentType: InspectorPattern
+    properties:
+      title: "Box Inspector"
+      material: regular
+    content:
+      # Status badge
+      - componentType: Card
+        properties:
+          elevation: low
+          cornerRadius: 8
+        content:
+          - componentType: Badge
+            properties:
+              text: "Valid Structure"
+              level: success
+              showIcon: true
+
+      # File information section
+      - componentType: SectionHeader
+        properties:
+          title: "File Information"
+          showDivider: true
+
+      - componentType: KeyValueRow
+        properties:
+          key: "File Name"
+          value: "sample_video.mp4"
+          layout: horizontal
+          isCopyable: false
+
+      - componentType: KeyValueRow
+        properties:
+          key: "File Size"
+          value: "1.2 GB (1,234,567,890 bytes)"
+          layout: horizontal
+          isCopyable: true
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Created"
+          value: "2025-11-09 10:30:45 AM"
+          layout: horizontal
+          isCopyable: false
+
+      # Box hierarchy section
+      - componentType: SectionHeader
+        properties:
+          title: "Box Hierarchy"
+          showDivider: true
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Root Boxes"
+          value: "3 (ftyp, moov, mdat)"
+          layout: horizontal
+          isCopyable: false
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Total Boxes"
+          value: "47"
+          layout: horizontal
+          isCopyable: false
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Max Depth"
+          value: "5 levels"
+          layout: horizontal
+          isCopyable: false
+
+      # Video track section
+      - componentType: SectionHeader
+        properties:
+          title: "Video Track"
+          showDivider: true
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Codec"
+          value: "H.264 (AVC)"
+          layout: horizontal
+          isCopyable: true
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Resolution"
+          value: "1920×1080 (Full HD)"
+          layout: horizontal
+          isCopyable: false
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Frame Rate"
+          value: "29.97 fps"
+          layout: horizontal
+          isCopyable: false
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Bitrate"
+          value: "8 Mbps"
+          layout: horizontal
+          isCopyable: false
+
+      # Audio track section
+      - componentType: SectionHeader
+        properties:
+          title: "Audio Track"
+          showDivider: true
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Codec"
+          value: "AAC (Advanced Audio Coding)"
+          layout: horizontal
+          isCopyable: true
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Sample Rate"
+          value: "48 kHz"
+          layout: horizontal
+          isCopyable: false
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Channels"
+          value: "Stereo (2.0)"
+          layout: horizontal
+          isCopyable: false
+
+      - componentType: KeyValueRow
+        properties:
+          key: "Bitrate"
+          value: "128 kbps"
+          layout: horizontal
+          isCopyable: false
+
+      # Validation section with status badges
+      - componentType: SectionHeader
+        properties:
+          title: "Validation Status"
+          showDivider: true
+
+      - componentType: Card
+        properties:
+          elevation: none
+          cornerRadius: 6
+        content:
+          - componentType: Badge
+            properties:
+              text: "Structure: Valid"
+              level: success
+              showIcon: true
+          - componentType: Badge
+            properties:
+              text: "Codec: Supported"
+              level: success
+              showIcon: true
+          - componentType: Badge
+            properties:
+              text: "0 Warnings"
+              level: info
+              showIcon: false
+
+    semantics: "Detailed inspector showing ISO file metadata, tracks, and validation status"
+
+# Design tokens used
+design_tokens:
+  spacing:
+    - "DS.Spacing.s (8pt) - row spacing"
+    - "DS.Spacing.m (12pt) - section spacing"
+    - "DS.Spacing.l (16pt) - content padding"
+    - "DS.Spacing.xl (24pt) - major section spacing"
+  radius:
+    - "DS.Radius.small (6pt) - small cards"
+    - "DS.Radius.medium (8pt) - medium cards"
+    - "DS.Radius.card (10pt) - standard cards"
+  colors:
+    - "DS.Colors.infoBG - info badges"
+    - "DS.Colors.successBG - success badges"
+    - "DS.Colors.warnBG - warning badges"
+    - "DS.Colors.errorBG - error badges"
+
+# Platform adaptation notes
+platform_notes:
+  macOS:
+    - "Three-column layout with fixed sidebar width (250pt)"
+    - "Keyboard shortcuts: ⌘O (open), ⌘R (refresh), ⌘C (copy)"
+    - "Toolbar items always visible"
+
+  iOS:
+    - "Tab bar navigation instead of sidebar"
+    - "Full-width inspector with safe area insets"
+    - "Toolbar overflow menu for secondary actions"
+
+  iPadOS:
+    - "Adaptive sidebar (collapses in compact size class)"
+    - "Split view in landscape orientation"
+    - "Pointer hover effects on tree and list items"
+
+# Accessibility features
+accessibility:
+  - "VoiceOver: All components announce semantic descriptions"
+  - "Keyboard navigation: Full app navigable via keyboard"
+  - "Dynamic Type: Supports XS to A5 text sizes"
+  - "Contrast: All text meets WCAG AA (≥4.5:1)"
+  - "Touch targets: All iOS buttons ≥44×44pt"
