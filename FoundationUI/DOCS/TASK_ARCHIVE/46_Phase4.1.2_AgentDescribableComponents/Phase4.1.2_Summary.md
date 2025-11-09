@@ -81,7 +81,7 @@ extension ComponentName: AgentDescribable {
 
 **Badge**:
 - `text: String`
-- `level: String` (rawValue: "info", "warning", "error", "success")
+- `level: String` (stringValue: "info", "warning", "error", "success")
 - `showIcon: Bool`
 
 **Card**:
