@@ -33,6 +33,12 @@ final class ComponentAgentDescribableTests: XCTestCase {
         XCTAssertEqual(badge.properties["showIcon"] as? Bool, true)
     }
 
+    func testBadgePropertiesUsesStringValue() {
+        let badge = Badge(text: "Test", level: .info)
+        // Verify that stringValue is used, not rawValue
+        XCTAssertEqual(badge.properties["level"] as? String, BadgeLevel.info.stringValue)
+    }
+
     func testBadgeSemantics() {
         let badge = Badge(text: "Error", level: .error)
 
@@ -52,7 +58,7 @@ final class ComponentAgentDescribableTests: XCTestCase {
 
         for level in levels {
             let badge = Badge(text: "Test", level: level)
-            XCTAssertEqual(badge.properties["level"] as? String, level.rawValue)
+            XCTAssertEqual(badge.properties["level"] as? String, level.stringValue)
         }
     }
 
@@ -78,7 +84,7 @@ final class ComponentAgentDescribableTests: XCTestCase {
 
         for elevation in elevations {
             let card = Card(elevation: elevation) { Text("Content") }
-            XCTAssertEqual(card.properties["elevation"] as? String, elevation.rawValue)
+            XCTAssertEqual(card.properties["elevation"] as? String, elevation.stringValue)
         }
     }
 
