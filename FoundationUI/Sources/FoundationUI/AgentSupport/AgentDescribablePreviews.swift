@@ -146,7 +146,7 @@ import SwiftUI
             .font(DS.Typography.headline)
 
         // Step 1: Agent receives description
-        WorkflowStep(
+        WorkflowStep<EmptyView>(
             number: 1,
             title: "Agent Receives Description",
             content: """
@@ -162,7 +162,7 @@ import SwiftUI
         )
 
         // Step 2: Agent generates component
-        WorkflowStep(
+        WorkflowStep<EmptyView>(
             number: 2,
             title: "Agent Generates Component",
             content: "Badge(text: \"3 items\", level: .info, showIcon: true)"
@@ -376,18 +376,18 @@ private struct WorkflowStep<Content: View>: View {
 ///
 /// This provides example implementations and JSON representations for demonstration purposes.
 private enum AgentDescribableDemo {
-    static let badge: any AgentDescribable = DemoBadge(
+    nonisolated(unsafe) static let badge: any AgentDescribable = DemoBadge(
         text: "Warning",
         level: "warning",
         showIcon: true
     )
 
-    static let card: any AgentDescribable = DemoCard(
+    nonisolated(unsafe) static let card: any AgentDescribable = DemoCard(
         elevation: "medium",
         radius: "card"
     )
 
-    static let keyValueRow: any AgentDescribable = DemoKeyValueRow(
+    nonisolated(unsafe) static let keyValueRow: any AgentDescribable = DemoKeyValueRow(
         key: "File Size",
         value: "2.4 MB",
         layout: "horizontal"
