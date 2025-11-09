@@ -219,18 +219,18 @@ public struct SectionHeader: View {
 @available(iOS 17.0, macOS 14.0, *)
 @MainActor
 extension SectionHeader: AgentDescribable {
-    nonisolated public var componentType: String {
+    public var componentType: String {
         "SectionHeader"
     }
 
-    nonisolated public var properties: [String: Any] {
+    public var properties: [String: Any] {
         [
             "title": title,
             "showDivider": showDivider
         ]
     }
 
-    nonisolated public var semantics: String {
+    public var semantics: String {
         let dividerDesc = showDivider ? "with divider" : "without divider"
         return """
         A section header displaying '\(title)' \(dividerDesc). \

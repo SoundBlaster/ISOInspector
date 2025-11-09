@@ -503,11 +503,11 @@ public struct Card<Content: View>: View {
 @available(iOS 17.0, macOS 14.0, *)
 @MainActor
 extension Card: AgentDescribable {
-    nonisolated public var componentType: String {
+    public var componentType: String {
         "Card"
     }
 
-    nonisolated public var properties: [String: Any] {
+    public var properties: [String: Any] {
         var props: [String: Any] = [
             "elevation": elevation.stringValue,
             "cornerRadius": cornerRadius
@@ -520,7 +520,7 @@ extension Card: AgentDescribable {
         return props
     }
 
-    nonisolated public var semantics: String {
+    public var semantics: String {
         let materialDesc = material != nil ? "with material background" : "with solid background"
         return """
         A container component with '\(elevation.stringValue)' elevation \(materialDesc). \

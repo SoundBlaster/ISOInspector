@@ -176,11 +176,11 @@ public struct Badge: View {
 @available(iOS 17.0, macOS 14.0, *)
 @MainActor
 extension Badge: AgentDescribable {
-    nonisolated public var componentType: String {
+    public var componentType: String {
         "Badge"
     }
 
-    nonisolated public var properties: [String: Any] {
+    public var properties: [String: Any] {
         [
             "text": text,
             "level": level.stringValue,
@@ -188,7 +188,7 @@ extension Badge: AgentDescribable {
         ]
     }
 
-    nonisolated public var semantics: String {
+    public var semantics: String {
         """
         A colored badge component displaying '\(text)' at level '\(level.stringValue)'. \
         Shows icon: \(showIcon). \
