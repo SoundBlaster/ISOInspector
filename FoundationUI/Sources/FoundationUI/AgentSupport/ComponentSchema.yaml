@@ -670,9 +670,9 @@ agent_guidelines:
       - "Use clear, descriptive language that AI models can interpret"
     examples:
       good:
-        - "Status indicator displaying error state: 3 errors"
-        - "Inspector panel showing ISO file metadata with 2 sections"
-        - "Navigation sidebar with file lists and hierarchical sections"
+        - "Status indicator displaying error state: 3 errors" # Clear purpose + current state
+        - "Inspector panel showing ISO file metadata with 2 sections" # Describes what + content summary
+        - "Navigation sidebar with file lists and hierarchical sections" # Purpose + structure
       bad:
         - "Badge" # Too vague, no context
         - "This is a red badge with icon" # Describes implementation, not purpose
