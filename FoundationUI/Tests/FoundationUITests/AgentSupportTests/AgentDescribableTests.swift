@@ -17,6 +17,7 @@ import XCTest
 /// - Type safety is maintained for protocol conformance
 /// - Components can correctly implement the protocol
 /// - Properties can be serialized for agent consumption
+@available(iOS 17.0, macOS 14.0, *)
 @MainActor
 final class AgentDescribableTests: XCTestCase {
 
