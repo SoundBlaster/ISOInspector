@@ -87,6 +87,7 @@ components:
               text: "NEW"
               level: info
               showIcon: true
+            semantics: "Status indicator displaying info state: NEW"
         description: "Info badge with icon"
 
       - yaml: |
@@ -95,6 +96,7 @@ components:
               text: "3 Errors"
               level: error
               showIcon: true
+            semantics: "Error badge indicating 3 validation errors"
         description: "Error badge indicating multiple issues"
 
       - yaml: |
@@ -103,6 +105,7 @@ components:
               text: "Complete"
               level: success
               showIcon: false
+            semantics: "Success badge showing completed status"
         description: "Success badge without icon"
 
   # ----------------------------------------------------------------------------
@@ -188,6 +191,8 @@ components:
                 properties:
                   text: "Featured"
                   level: success
+                semantics: "Success badge indicating featured status"
+            semantics: "Card container highlighting featured content"
         description: "Card with badge content"
 
       - yaml: |
@@ -195,6 +200,7 @@ components:
             properties:
               elevation: high
               cornerRadius: 8
+            semantics: "High elevation card for important content"
         description: "High elevation card for important content"
 
   # ----------------------------------------------------------------------------
@@ -262,6 +268,7 @@ components:
               value: "example.mp4"
               layout: horizontal
               isCopyable: false
+            semantics: "Read-only key-value pair displaying file name: example.mp4"
         description: "Simple key-value pair"
 
       - yaml: |
@@ -271,6 +278,7 @@ components:
               value: "550e8400-e29b-41d4-a716-446655440000"
               layout: vertical
               isCopyable: true
+            semantics: "Copyable UUID field in vertical layout"
         description: "Vertical layout with copyable UUID"
 
   # ----------------------------------------------------------------------------
@@ -316,6 +324,7 @@ components:
             properties:
               title: "File Properties"
               showDivider: true
+            semantics: "Section header for File Properties with divider"
         description: "Section header with divider"
 
       - yaml: |
@@ -323,6 +332,7 @@ components:
             properties:
               title: "Metadata"
               showDivider: false
+            semantics: "Section header for Metadata without divider"
         description: "Section header without divider"
 
 # ==============================================================================
@@ -405,21 +415,27 @@ patterns:
               - componentType: SectionHeader
                 properties:
                   title: "File Information"
+                semantics: "Section header for File Information"
               - componentType: KeyValueRow
                 properties:
                   key: "File Name"
                   value: "sample.mp4"
+                semantics: "File name: sample.mp4"
               - componentType: KeyValueRow
                 properties:
                   key: "Size"
                   value: "1.2 GB"
+                semantics: "File size: 1.2 GB"
               - componentType: SectionHeader
                 properties:
                   title: "Video Track"
+                semantics: "Section header for Video Track"
               - componentType: KeyValueRow
                 properties:
                   key: "Codec"
                   value: "H.264"
+                semantics: "Video codec: H.264"
+            semantics: "Inspector panel displaying ISO file metadata with 2 sections"
         description: "ISO file metadata inspector"
 
   # ----------------------------------------------------------------------------
@@ -479,6 +495,7 @@ patterns:
                 - title: "Starred"
                   itemCount: 3
               selection: "none"
+            semantics: "Navigation sidebar with file lists: 5 recent files, 3 starred"
         description: "File browser sidebar"
 
   # ----------------------------------------------------------------------------
@@ -531,6 +548,7 @@ patterns:
                 primary: 3
                 secondary: 2
                 overflow: 5
+            semantics: "Toolbar with 3 primary actions, 2 secondary, and 5 overflow items"
         description: "Document editor toolbar"
 
   # ----------------------------------------------------------------------------
@@ -577,6 +595,7 @@ patterns:
             properties:
               nodeCount: 3
               level: 0
+            semantics: "ISO box hierarchy tree with 3 root-level boxes"
         description: "ISO box tree with 3 root boxes"
 
 # ==============================================================================
@@ -592,6 +611,8 @@ validation_rules:
     - rule: "Enum values must be one of the defined options"
     - rule: "Numeric values must be within min/max bounds if specified"
     - rule: "String values must be within min_length/max_length if specified"
+    - rule: "All components must include a semantics field (required string)"
+    - rule: "Semantics should be 1-2 concise sentences describing component purpose and state"
 
   design_tokens:
     - rule: "Use DS tokens instead of magic numbers"
@@ -610,7 +631,8 @@ validation_rules:
     - rule: "Keyboard shortcuts are macOS-specific (⌘ vs Ctrl)"
 
   accessibility:
-    - rule: "All components must provide VoiceOver labels"
+    - rule: "All components must provide VoiceOver labels (via semantics field)"
+    - rule: "Semantics field provides the foundation for accessibility labels"
     - rule: "Contrast ratios must meet WCAG AA (≥4.5:1)"
     - rule: "Touch targets must be ≥44×44pt on iOS"
 
@@ -626,10 +648,35 @@ agent_guidelines:
       - componentType: ComponentName
         properties:
           propertyName: value
+        semantics: "Human-readable description for AI agents and VoiceOver"
         content: # (optional, for containers)
           - componentType: NestedComponent
             properties:
               key: value
+            semantics: "Description of nested component purpose"
+
+  semantics_field:
+    description: "The semantics field provides human-readable descriptions for AI agents and accessibility"
+    required: true
+    type: string
+    purpose:
+      - "Help AI agents understand component purpose and make intelligent composition decisions"
+      - "Provide foundation for VoiceOver labels and accessibility announcements"
+      - "Enable semantic understanding of UI structure beyond visual hierarchy"
+    guidelines:
+      - "Write 1-2 concise sentences in natural language"
+      - "Describe what the component does, not how it's implemented"
+      - "Include current state information when relevant (e.g., error counts, selected items)"
+      - "Use clear, descriptive language that AI models can interpret"
+    examples:
+      good:
+        - "Status indicator displaying error state: 3 errors"
+        - "Inspector panel showing ISO file metadata with 2 sections"
+        - "Navigation sidebar with file lists and hierarchical sections"
+      bad:
+        - "Badge" # Too vague, no context
+        - "This is a red badge with icon" # Describes implementation, not purpose
+        - "Component for showing stuff" # Not specific enough
 
   error_handling:
     - "Validate YAML against schema before generation"
@@ -643,6 +690,9 @@ agent_guidelines:
     - "Compose patterns from components (InspectorPattern → SectionHeader → KeyValueRow)"
     - "Consider platform differences (macOS toolbar vs iOS toolbar)"
     - "Test accessibility (VoiceOver, keyboard navigation, Dynamic Type)"
+    - "Always provide semantics field: describe what the component does, not how it's implemented"
+    - "Write semantics in natural language for AI interpretation (e.g., 'Inspector panel displaying ISO metadata')"
+    - "Include current state in semantics when relevant (e.g., 'Badge showing error state: 3 errors')"
 
   common_patterns:
     metadata_inspector:
