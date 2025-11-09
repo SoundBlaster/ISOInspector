@@ -1,14 +1,15 @@
-# Summary of Work — 2025-11-04
+# Summary of Work — 2025-11-07
 
 ## Status
 
-- All prior in-progress notes for the macOS 1 GiB lenient-versus-strict benchmark have been archived under `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.
-- Awaiting macOS hardware with the 1 GiB fixture to resume the benchmark run documented in `next_tasks.md`.
+- Archived the CLI corruption summary task notes into `DOCS/TASK_ARCHIVE/208_T6_2_CLI_Corruption_Summary_Output/` after landing the tolerant-mode metrics output.
+- Day-to-day queue now centers on unblocking the macOS 1 GiB lenient-versus-strict benchmark rerun for Task T5.4.
 
 ## Notes
 
-- Keep backlog references (`todo.md`, execution workplan, PRD TODO) aligned with the archived folder so follow-up investigators can locate the previous context quickly.
+- Keep the CLI corruption summary snapshot references in the archive folder for regression investigations; new CLI-related follow-ups should start fresh stubs under `DOCS/INPROGRESS/` as they arise.
+- Reconfirm backlog callouts (`todo.md`, execution workplan, PRD TODO) reference the new archive location for Task T6.2 so future contributors can trace the implementation notes quickly.
 
-## Completed Tasks
+## Active Deliverables
 
-- **T6.2 — CLI Corruption Summary Output**: Added tolerant-mode corruption summary lines to `isoinspect inspect`, including severity counts and the deepest affected depth sourced from `ParseIssueStore`. Updated DocC command reference and introduced new CLI scaffold tests covering tolerant runs with and without recorded issues as well as strict-mode gating.
+- **T5.4 — macOS Benchmark Rerun**: Awaiting hardware availability before executing the lenient-versus-strict performance run.

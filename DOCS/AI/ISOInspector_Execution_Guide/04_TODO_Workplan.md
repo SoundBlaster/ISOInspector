@@ -33,6 +33,10 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > - ✅ Shared metrics now publish `countsBySeverity`, `totalCount`, and `deepestAffectedDepth` snapshots via `ParseIssueStore.metricsSnapshot()` and the CLI-ready `makeIssueSummary()` helper. See `Sources/ISOInspectorKit/Stores/ParseIssueStore.swift`.
 > - 📝 Summary of verification runs and follow-up notes captured in `DOCS/TASK_ARCHIVE/184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons/Summary_of_Work.md`.
 >
+> **Completed (2025-11-07):** Task **T6.2 — CLI Corruption Summary Output** is archived in `DOCS/TASK_ARCHIVE/208_T6_2_CLI_Corruption_Summary_Output/`, shipping tolerant-mode corruption summaries in `isoinspect inspect` along with refreshed DocC examples and CLI scaffold tests that cover strict vs. tolerant flows.
+> - ✅ CLI output now prints severity counts and deepest affected depth when tolerant parsing records issues, while strict-mode behavior remains unchanged.
+> - 🧪 Snapshot-style CLI tests validate strict success, tolerant without issues, and tolerant with mixed severities to guard formatting.
+>
 > **Completed (2025-11-03):** Task **T5.2 — Regression Tests for Tolerant Traversal** is archived in `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/`, capturing the manifest-driven XCTest suite, strict/tolerant guard assertions, and Swift 6.0.3 execution log.
 >
 > **Follow-up queued (2025-11-04):** Task **T5.4 — Performance Benchmark: Lenient vs. Strict Parsing** is archived in `DOCS/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/205_T5_4_Performance_Benchmark.md`. The macOS 1 GiB verification run remains pending; execution steps live in `DOCS/INPROGRESS/next_tasks.md` alongside the existing Linux metrics log, with historical day-to-day notes stored at `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.

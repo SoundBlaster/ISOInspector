@@ -1074,3 +1074,9 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.
 - **Highlights:** Captures the November 4 status report for the macOS 1 GiB lenient-versus-strict benchmark, including the hardware availability blocker, the detailed execution checklist, and guidance to update backlog references after the archive rotation.
 - **Next steps carried forward:** Secure macOS hardware with the 1 GiB fixture, execute the benchmark per `DOCS/INPROGRESS/next_tasks.md`, and publish the resulting runtime/RSS metrics under `Documentation/Performance/`.
+
+## 208_T6_2_CLI_Corruption_Summary_Output
+- **Archived files:** `208_T6_2_CLI_Corruption_Summary_Output.md`, `Summary_of_Work.md`, `next_tasks.md`, `blocked.md`, and the macOS design token follow-up report `BugFix_Colors_Tertiary_macOS_2025-11-07.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/208_T6_2_CLI_Corruption_Summary_Output/`.
+- **Highlights:** Documents the CLI tolerant-mode corruption summary rollout, including success criteria, implementation notes, and completion recap alongside the associated backlog status report and color accessibility follow-up captured during the same work cycle.
+- **Next steps carried forward:** Future CLI output enhancements should start new `DOCS/INPROGRESS/` stubs; the only remaining actionable item is the macOS benchmark rerun tracked in the refreshed `DOCS/INPROGRESS/next_tasks.md` and blocker log.
