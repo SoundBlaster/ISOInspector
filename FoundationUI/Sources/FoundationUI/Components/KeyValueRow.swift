@@ -1,9 +1,9 @@
 import SwiftUI
 
 #if canImport(AppKit)
-import AppKit
+    import AppKit
 #elseif canImport(UIKit)
-import UIKit
+    import UIKit
 #endif
 
 /// A component for displaying key-value pairs with semantic styling
@@ -186,10 +186,10 @@ public struct KeyValueRow: View {
     /// Copies the value to the system clipboard
     private func copyToClipboard() {
         #if os(macOS)
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(value, forType: .string)
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(value, forType: .string)
         #else
-        UIPasteboard.general.string = value
+            UIPasteboard.general.string = value
         #endif
 
         // Show visual feedback
@@ -226,10 +226,12 @@ public enum KeyValueLayout: Equatable {
 
 // MARK: - Conditional View Modifier Helper
 
-private extension View {
+extension View {
     /// Conditionally applies a view modifier
     @ViewBuilder
-    func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+    fileprivate func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content)
+        -> some View
+    {
         if condition {
             transform(self)
         } else {
@@ -378,15 +380,13 @@ extension KeyValueRow: AgentDescribable {
             "key": key,
             "value": value,
             "layout": layout == .horizontal ? "horizontal" : "vertical",
-            "isCopyable": copyable
+            "isCopyable": copyable,
         ]
     }
 
     public var semantics: String {
         let layoutDesc = layout == .horizontal ? "side-by-side" : "stacked vertically"
-        let copyableDesc = copyable ? "with copyable value" : ""
-        return """
-        A key-value pair displaying '\(key)': '\(value)' \(layoutDesc) \(copyableDesc).
-        """
+        let copyableDesc = copyable ? " with copyable value" : ""
+        return "A key-value pair displaying '\(key)': '\(value)' \(layoutDesc)\(copyableDesc)."
     }
 }
