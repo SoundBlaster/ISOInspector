@@ -41,7 +41,8 @@ LI/ISOInspectorCommand.swift†L149-L205】
 - If `--research-log` is omitted, events are written to `~/.isoinspector/research-log.json` (macOS) or the user documents direc
 tory on mobile platforms via `ResearchLogWriter.defaultLogURL`.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L166-L199】【
 F:Sources/ISOInspectorKit/Validation/ResearchLogWriter.swift†L19-L60】
-- `--tolerant` switches the CLI to the lenient parse preset so corruption issues stream without aborting; omitting the flag (or passing `--strict`) keeps the CI-friendly strict default.【F:Sources/ISOInspectorCLI/CLI.swift†L188-L207】【F:Sources/ISOInspectorCLI/CLI.swift†L324-L371】
+- `--tolerant` switches the CLI to the lenient parse preset so corruption issues stream without aborting; omitting the flag (or passing `--strict`) keeps the CI-friendly strict default.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L188-L212】【F:Sources/ISOInspectorCLI/CLI.swift†L188-L207】【F:Sources/ISOInspectorCLI/CLI.swift†L324-L371】
+- Tolerant runs that surface issues print a corruption summary with counts by severity and the deepest affected depth, enabling quick triage without opening the UI.【F:Sources/ISOInspectorCLI/ISOInspectorCommand.swift†L360-L420】【F:Sources/ISOInspectorCLI/CLI.swift†L401-L417】
 - Exit codes: `0` on success, `3` when parsing fails (I/O or validation pipeline errors).【F:Sources/ISOInspectorCLI/ISOInspecto
 rCommand.swift†L191-L205】
 
