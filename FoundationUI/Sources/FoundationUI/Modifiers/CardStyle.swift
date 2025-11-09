@@ -94,6 +94,23 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
         }
     }
 
+    /// String representation for serialization and agent consumption
+    ///
+    /// Provides a lowercase string identifier for the elevation level,
+    /// suitable for JSON serialization and agent-driven UI generation.
+    public var stringValue: String {
+        switch self {
+        case .none:
+            return "none"
+        case .low:
+            return "low"
+        case .medium:
+            return "medium"
+        case .high:
+            return "high"
+        }
+    }
+
     /// Accessibility label describing the elevation level
     ///
     /// Provides semantic information for VoiceOver users about the

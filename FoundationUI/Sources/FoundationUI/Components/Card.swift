@@ -509,7 +509,7 @@ extension Card: AgentDescribable {
 
     nonisolated public var properties: [String: Any] {
         var props: [String: Any] = [
-            "elevation": elevation.rawValue,
+            "elevation": elevation.stringValue,
             "cornerRadius": cornerRadius
         ]
 
@@ -523,7 +523,7 @@ extension Card: AgentDescribable {
     nonisolated public var semantics: String {
         let materialDesc = material != nil ? "with material background" : "with solid background"
         return """
-        A container component with '\(elevation.rawValue)' elevation \(materialDesc). \
+        A container component with '\(elevation.stringValue)' elevation \(materialDesc). \
         Corner radius: \(cornerRadius)pt. \
         Provides visual hierarchy and content grouping.
         """
