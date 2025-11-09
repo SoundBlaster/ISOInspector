@@ -596,7 +596,7 @@
 **Progress: 12/18 tasks completed (66.7%)**
 
 ### 4.1 Agent-Driven UI Generation
-**Progress: 1/7 tasks (14.3%) → IN PROGRESS**
+**Progress: 1/7 tasks → 2/7 tasks (28.6%) IN PROGRESS**
 
 - [x] **P1** Define AgentDescribable protocol ✅ **Completed 2025-11-08**
   - File: `Sources/FoundationUI/AgentSupport/AgentDescribable.swift` (10.2KB, 295 lines)
@@ -610,11 +610,12 @@
   - Zero magic numbers (100% DS token usage in examples)
   - Archive: `TASK_ARCHIVE/45_Phase4.1_AgentDescribable/`
 
-- [ ] **P1** Implement AgentDescribable for all components
-  - Extend Badge, Card, KeyValueRow, SectionHeader
-  - Extend all Pattern types
-  - Ensure all properties are encodable
-  - Add unit tests for protocol conformance
+- [ ] **P1** Implement AgentDescribable for all components → **IN PROGRESS** (2025-11-09)
+  - Extend Badge, Card, KeyValueRow, SectionHeader (Components - Layer 2)
+  - Extend InspectorPattern, SidebarPattern, ToolbarPattern, BoxTreePattern (Patterns - Layer 3)
+  - Ensure all properties are JSON encodable
+  - Add unit tests for protocol conformance (≥10 tests per component/pattern)
+  - Task document: `FoundationUI/DOCS/INPROGRESS/Phase4.1.2_AgentDescribableComponents.md`
 
 - [ ] **P1** Create YAML schema definitions
   - File: `Sources/AgentSupport/ComponentSchema.yaml`
