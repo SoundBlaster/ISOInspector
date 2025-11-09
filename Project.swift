@@ -195,6 +195,7 @@ func infoPlistConfiguration(for platform: DistributionPlatform) -> InfoPlist {
 
     if platform == .iOS || platform == .iPadOS {
         infoPlistEntries["LSSupportsOpeningDocumentsInPlace"] = .boolean(true)
+        infoPlistEntries["UILaunchStoryboardName"] = .string("LaunchScreen")
     }
 
     return .extendingDefault(with: infoPlistEntries)
