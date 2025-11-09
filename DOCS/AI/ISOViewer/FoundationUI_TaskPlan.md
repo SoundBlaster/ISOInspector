@@ -608,7 +608,7 @@
   - Default implementations: `agentDescription()`, `isJSONSerializable()`
   - 100% DocC documentation with examples and best practices
   - Zero magic numbers (100% DS token usage in examples)
-  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase4.1_AgentDescribable.md`
+  - Archive: `TASK_ARCHIVE/45_Phase4.1_AgentDescribable/`
 
 - [ ] **P1** Implement AgentDescribable for all components
   - Extend Badge, Card, KeyValueRow, SectionHeader
