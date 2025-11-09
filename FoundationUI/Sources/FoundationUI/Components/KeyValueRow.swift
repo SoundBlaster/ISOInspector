@@ -369,11 +369,11 @@ private extension View {
 @available(iOS 17.0, macOS 14.0, *)
 @MainActor
 extension KeyValueRow: AgentDescribable {
-    nonisolated public var componentType: String {
+    public var componentType: String {
         "KeyValueRow"
     }
 
-    nonisolated public var properties: [String: Any] {
+    public var properties: [String: Any] {
         [
             "key": key,
             "value": value,
@@ -382,7 +382,7 @@ extension KeyValueRow: AgentDescribable {
         ]
     }
 
-    nonisolated public var semantics: String {
+    public var semantics: String {
         let layoutDesc = layout == .horizontal ? "side-by-side" : "stacked vertically"
         let copyableDesc = copyable ? "with copyable value" : ""
         return """
