@@ -30,9 +30,8 @@ final class AgentDescribableTests: XCTestCase {
         // When: Accessing componentType
         let componentType = describable.componentType
 
-        // Then: componentType should be a non-empty String
+        // Then: componentType should be a non-empty String (type is guaranteed by protocol)
         XCTAssertFalse(componentType.isEmpty, "componentType should not be empty")
-        XCTAssertTrue(componentType is String, "componentType should be a String")
     }
 
     /// Test that AgentDescribable protocol defines properties dictionary
@@ -43,8 +42,8 @@ final class AgentDescribableTests: XCTestCase {
         // When: Accessing properties
         let properties = describable.properties
 
-        // Then: properties should be a dictionary
-        XCTAssertTrue(properties is [String: Any], "properties should be [String: Any]")
+        // Then: properties should not be nil (type [String: Any] is guaranteed by protocol)
+        XCTAssertNotNil(properties, "properties should not be nil")
     }
 
     /// Test that AgentDescribable protocol defines semantics property
@@ -55,9 +54,8 @@ final class AgentDescribableTests: XCTestCase {
         // When: Accessing semantics
         let semantics = describable.semantics
 
-        // Then: semantics should be a non-empty String
+        // Then: semantics should be a non-empty String (type is guaranteed by protocol)
         XCTAssertFalse(semantics.isEmpty, "semantics should not be empty")
-        XCTAssertTrue(semantics is String, "semantics should be a String")
     }
 
     // MARK: - Type Safety Tests
