@@ -1,0 +1,77 @@
+# Badge Component Examples
+# Demonstrates various Badge configurations for agent-driven UI generation
+
+---
+# Example 1: Simple info badge
+- componentType: Badge
+  properties:
+    text: "NEW"
+    level: info
+    showIcon: true
+  semantics: "Status indicator displaying info state: NEW"
+
+---
+# Example 2: Warning badge for issues
+- componentType: Badge
+  properties:
+    text: "3 Warnings"
+    level: warning
+    showIcon: true
+  semantics: "Status indicator displaying warning state: 3 Warnings"
+
+---
+# Example 3: Error badge for critical issues
+- componentType: Badge
+  properties:
+    text: "Error"
+    level: error
+    showIcon: true
+  semantics: "Status indicator displaying error state: Error"
+
+---
+# Example 4: Success badge without icon
+- componentType: Badge
+  properties:
+    text: "Complete"
+    level: success
+    showIcon: false
+  semantics: "Status indicator displaying success state: Complete"
+
+---
+# Example 5: Badge in Card composition
+- componentType: Card
+  properties:
+    elevation: medium
+    cornerRadius: 10
+    material: regular
+  content:
+    - componentType: Badge
+      properties:
+        text: "Featured"
+        level: success
+        showIcon: true
+  semantics: "Container with medium elevation containing featured badge"
+
+---
+# Example 6: Multiple badges for status dashboard
+- componentType: Card
+  properties:
+    elevation: low
+    cornerRadius: 8
+  content:
+    - componentType: Badge
+      properties:
+        text: "5 Active"
+        level: info
+        showIcon: true
+    - componentType: Badge
+      properties:
+        text: "2 Pending"
+        level: warning
+        showIcon: true
+    - componentType: Badge
+      properties:
+        text: "0 Errors"
+        level: success
+        showIcon: false
+  semantics: "Status dashboard showing multiple metric badges"

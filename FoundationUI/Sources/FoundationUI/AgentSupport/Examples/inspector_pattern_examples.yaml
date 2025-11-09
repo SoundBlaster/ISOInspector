@@ -1,0 +1,162 @@
+# InspectorPattern Examples
+# Demonstrates ISO file metadata inspection and detail panels
+
+---
+# Example 1: Basic ISO file inspector
+- componentType: InspectorPattern
+  properties:
+    title: "ISO File Inspector"
+    material: regular
+  content:
+    - componentType: SectionHeader
+      properties:
+        title: "File Information"
+        showDivider: true
+
+    - componentType: KeyValueRow
+      properties:
+        key: "File Name"
+        value: "sample_video.mp4"
+        layout: horizontal
+        isCopyable: false
+
+    - componentType: KeyValueRow
+      properties:
+        key: "File Size"
+        value: "1.2 GB"
+        layout: horizontal
+        isCopyable: false
+
+    - componentType: KeyValueRow
+      properties:
+        key: "Created"
+        value: "2025-11-09 10:30 AM"
+        layout: horizontal
+        isCopyable: false
+
+    - componentType: SectionHeader
+      properties:
+        title: "Video Track"
+        showDivider: true
+
+    - componentType: KeyValueRow
+      properties:
+        key: "Codec"
+        value: "H.264 (AVC)"
+        layout: horizontal
+        isCopyable: true
+
+    - componentType: KeyValueRow
+      properties:
+        key: "Resolution"
+        value: "1920×1080"
+        layout: horizontal
+        isCopyable: false
+
+    - componentType: KeyValueRow
+      properties:
+        key: "Frame Rate"
+        value: "29.97 fps"
+        layout: horizontal
+        isCopyable: false
+
+  semantics: "Inspector panel displaying ISO file metadata with 2 sections"
+
+---
+# Example 2: Hex data inspector with copyable values
+- componentType: InspectorPattern
+  properties:
+    title: "Box Details"
+    material: thick
+  content:
+    - componentType: SectionHeader
+      properties:
+        title: "Box Header"
+        showDivider: true
+
+    - componentType: KeyValueRow
+      properties:
+        key: "Box Type"
+        value: "ftyp"
+        layout: vertical
+        isCopyable: true
+
+    - componentType: KeyValueRow
+      properties:
+        key: "UUID"
+        value: "550e8400-e29b-41d4-a716-446655440000"
+        layout: vertical
+        isCopyable: true
+
+    - componentType: KeyValueRow
+      properties:
+        key: "Offset"
+        value: "0x00000000"
+        layout: vertical
+        isCopyable: true
+
+    - componentType: SectionHeader
+      properties:
+        title: "Status"
+        showDivider: false
+
+    - componentType: Badge
+      properties:
+        text: "Valid"
+        level: success
+        showIcon: true
+
+  semantics: "Box detail inspector with hex values and status badge"
+
+---
+# Example 3: Metadata inspector with status indicators
+- componentType: InspectorPattern
+  properties:
+    title: "Track Inspector"
+    material: regular
+  content:
+    - componentType: Card
+      properties:
+        elevation: low
+        cornerRadius: 8
+      content:
+        - componentType: Badge
+          properties:
+            text: "Audio Track"
+            level: info
+            showIcon: true
+
+    - componentType: SectionHeader
+      properties:
+        title: "Audio Properties"
+        showDivider: true
+
+    - componentType: KeyValueRow
+      properties:
+        key: "Codec"
+        value: "AAC"
+        layout: horizontal
+        isCopyable: false
+
+    - componentType: KeyValueRow
+      properties:
+        key: "Sample Rate"
+        value: "48 kHz"
+        layout: horizontal
+        isCopyable: false
+
+    - componentType: KeyValueRow
+      properties:
+        key: "Channels"
+        value: "Stereo (2.0)"
+        layout: horizontal
+        isCopyable: false
+
+    - componentType: KeyValueRow
+      properties:
+        key: "Bitrate"
+        value: "128 kbps"
+        layout: horizontal
+        isCopyable: false
+
+  semantics: "Audio track inspector with codec and quality information"

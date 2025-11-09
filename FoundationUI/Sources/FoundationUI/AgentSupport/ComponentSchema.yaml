@@ -1,0 +1,696 @@
+# FoundationUI Component Schema for AI Agents
+# Version: 1.0
+# Created: 2025-11-09
+# Purpose: Enable AI agents to programmatically generate SwiftUI views from YAML definitions
+#
+# This schema defines all FoundationUI components and patterns that conform to the
+# AgentDescribable protocol. Agents can use this schema to validate YAML configurations
+# before generating SwiftUI code.
+#
+# Design Tokens Reference:
+# - Spacing: DS.Spacing.{s|m|l|xl} = {8|12|16|24} points
+# - Radius: DS.Radius.{small|medium|card|chip} = {6|8|10|999} points
+# - Colors: DS.Colors.{infoBG|warnBG|errorBG|successBG|accent|secondary|tertiary}
+# - Animation: DS.Animation.{quick|medium|slow} = {0.15s|0.25s|0.35s}
+
+---
+schema_version: "1.0"
+target_platform:
+  - iOS 17.0+
+  - iPadOS 17.0+
+  - macOS 14.0+
+
+# ==============================================================================
+# LAYER 2: COMPONENTS (Molecules)
+# ==============================================================================
+
+components:
+
+  # ----------------------------------------------------------------------------
+  # Badge Component
+  # ----------------------------------------------------------------------------
+  Badge:
+    description: "Semantic status badge with configurable level and optional icon"
+    layer: 2
+    category: "Molecules"
+
+    properties:
+      text:
+        type: string
+        required: true
+        min_length: 1
+        max_length: 50
+        description: "Badge text content"
+        example: "In Progress"
+
+      level:
+        type: enum
+        required: true
+        enum:
+          - info
+          - warning
+          - error
+          - success
+        description: "Semantic level affecting colors, icons, and accessibility labels"
+        default: info
+        colors:
+          info: "DS.Colors.infoBG with DS.Colors.textPrimary"
+          warning: "DS.Colors.warnBG with DS.Colors.textPrimary"
+          error: "DS.Colors.errorBG with white text"
+          success: "DS.Colors.successBG with DS.Colors.textPrimary"
+
+      showIcon:
+        type: boolean
+        required: false
+        default: true
+        description: "Whether to display status icon (SF Symbol)"
+        icons:
+          info: "info.circle.fill"
+          warning: "exclamationmark.triangle.fill"
+          error: "xmark.circle.fill"
+          success: "checkmark.circle.fill"
+
+    design_tokens:
+      spacing: "DS.Spacing.s (8pt horizontal padding)"
+      radius: "DS.Radius.chip (999pt for fully rounded corners)"
+      typography: "DS.Typography.label"
+
+    accessibility:
+      voiceover: "Derived from level.accessibilityLabel"
+      contrast_ratio: "≥4.5:1 (WCAG AA)"
+      dynamic_type: "Supports all sizes (XS to A5)"
+
+    examples:
+      - yaml: |
+          - componentType: Badge
+            properties:
+              text: "NEW"
+              level: info
+              showIcon: true
+        description: "Info badge with icon"
+
+      - yaml: |
+          - componentType: Badge
+            properties:
+              text: "3 Errors"
+              level: error
+              showIcon: true
+        description: "Error badge indicating multiple issues"
+
+      - yaml: |
+          - componentType: Badge
+            properties:
+              text: "Complete"
+              level: success
+              showIcon: false
+        description: "Success badge without icon"
+
+  # ----------------------------------------------------------------------------
+  # Card Component
+  # ----------------------------------------------------------------------------
+  Card:
+    description: "Elevated container with configurable styling and material background"
+    layer: 2
+    category: "Molecules"
+
+    properties:
+      elevation:
+        type: enum
+        required: false
+        default: medium
+        enum:
+          - none
+          - low
+          - medium
+          - high
+        description: "Shadow elevation level for visual hierarchy"
+        shadows:
+          none: "No shadow"
+          low: "Subtle shadow (0.5 opacity)"
+          medium: "Standard shadow (1.0 opacity)"
+          high: "Prominent shadow (1.5 opacity)"
+
+      cornerRadius:
+        type: number
+        required: false
+        default: 10
+        min: 0
+        max: 50
+        unit: points
+        description: "Corner radius in points (typically DS.Radius.card = 10)"
+        recommended_values:
+          - 6  # DS.Radius.small
+          - 8  # DS.Radius.medium
+          - 10 # DS.Radius.card
+
+      material:
+        type: enum
+        required: false
+        default: regular
+        enum:
+          - thin
+          - regular
+          - thick
+          - ultraThin
+          - ultraThick
+        description: "Material background for translucent effects (iOS/macOS)"
+        platform_notes: "Material effects vary by platform (iOS blur vs macOS vibrancy)"
+
+    design_tokens:
+      spacing: "DS.Spacing.m (12pt default padding)"
+      radius: "DS.Radius.card (10pt)"
+      colors: "DS.Colors.secondary (default background)"
+
+    accessibility:
+      contrast_ratio: "≥4.5:1 on all backgrounds"
+      dynamic_type: "Supports all sizes"
+      voiceover: "Container announces nested content"
+
+    composition:
+      can_contain:
+        - Badge
+        - KeyValueRow
+        - SectionHeader
+        - Text
+        - VStack
+        - HStack
+      nesting_rules: "Cards can contain other components but not root-level Cards"
+
+    examples:
+      - yaml: |
+          - componentType: Card
+            properties:
+              elevation: medium
+              cornerRadius: 10
+              material: regular
+            content:
+              - componentType: Badge
+                properties:
+                  text: "Featured"
+                  level: success
+        description: "Card with badge content"
+
+      - yaml: |
+          - componentType: Card
+            properties:
+              elevation: high
+              cornerRadius: 8
+        description: "High elevation card for important content"
+
+  # ----------------------------------------------------------------------------
+  # KeyValueRow Component
+  # ----------------------------------------------------------------------------
+  KeyValueRow:
+    description: "Display key-value pairs in horizontal or vertical layout"
+    layer: 2
+    category: "Molecules"
+
+    properties:
+      key:
+        type: string
+        required: true
+        min_length: 1
+        max_length: 100
+        description: "Label/key text (e.g., 'File Name', 'Size')"
+        example: "File Name"
+
+      value:
+        type: string
+        required: true
+        min_length: 0
+        max_length: 500
+        description: "Value text (e.g., 'example.mp4', '1.2 GB')"
+        example: "example.mp4"
+
+      layout:
+        type: enum
+        required: false
+        default: horizontal
+        enum:
+          - horizontal
+          - vertical
+        description: "Layout direction (side-by-side or stacked)"
+        platform_behavior:
+          horizontal: "Key and value on same line (macOS preferred)"
+          vertical: "Key above value (iOS/iPad preferred)"
+
+      isCopyable:
+        type: boolean
+        required: false
+        default: false
+        description: "Whether value can be copied to clipboard"
+        platform_features:
+          macOS: "⌘C keyboard shortcut + click to copy"
+          iOS: "Tap to copy + visual feedback"
+
+    design_tokens:
+      spacing: "DS.Spacing.s (8pt) between key/value"
+      typography:
+        key: "DS.Typography.label (secondary color)"
+        value: "DS.Typography.code (monospace, primary color)"
+
+    accessibility:
+      voiceover: "Announces 'key: value' as single element"
+      dynamic_type: "Supports all sizes"
+      keyboard: "Copyable rows support ⌘C on macOS"
+
+    examples:
+      - yaml: |
+          - componentType: KeyValueRow
+            properties:
+              key: "File Name"
+              value: "example.mp4"
+              layout: horizontal
+              isCopyable: false
+        description: "Simple key-value pair"
+
+      - yaml: |
+          - componentType: KeyValueRow
+            properties:
+              key: "UUID"
+              value: "550e8400-e29b-41d4-a716-446655440000"
+              layout: vertical
+              isCopyable: true
+        description: "Vertical layout with copyable UUID"
+
+  # ----------------------------------------------------------------------------
+  # SectionHeader Component
+  # ----------------------------------------------------------------------------
+  SectionHeader:
+    description: "Section header with optional divider for content organization"
+    layer: 2
+    category: "Molecules"
+
+    properties:
+      title:
+        type: string
+        required: true
+        min_length: 1
+        max_length: 100
+        description: "Section title text (displayed in uppercase)"
+        example: "General Information"
+        text_transform: uppercase
+
+      showDivider:
+        type: boolean
+        required: false
+        default: true
+        description: "Whether to show divider line below title"
+
+    design_tokens:
+      spacing:
+        top: "DS.Spacing.l (16pt)"
+        bottom: "DS.Spacing.s (8pt)"
+      typography: "DS.Typography.caption (uppercase)"
+      colors:
+        text: "DS.Colors.textSecondary"
+        divider: "DS.Colors.secondary.opacity(0.3)"
+
+    accessibility:
+      voiceover: "Announced as header with .isHeader trait"
+      heading_level: "Semantic heading for navigation"
+
+    examples:
+      - yaml: |
+          - componentType: SectionHeader
+            properties:
+              title: "File Properties"
+              showDivider: true
+        description: "Section header with divider"
+
+      - yaml: |
+          - componentType: SectionHeader
+            properties:
+              title: "Metadata"
+              showDivider: false
+        description: "Section header without divider"
+
+# ==============================================================================
+# LAYER 3: PATTERNS (Organisms)
+# ==============================================================================
+
+patterns:
+
+  # ----------------------------------------------------------------------------
+  # InspectorPattern
+  # ----------------------------------------------------------------------------
+  InspectorPattern:
+    description: "Scrollable inspector layout with fixed header and content area"
+    layer: 3
+    category: "Organisms"
+    use_case: "Detail panels, metadata viewers, property inspectors"
+
+    properties:
+      title:
+        type: string
+        required: true
+        min_length: 1
+        max_length: 100
+        description: "Inspector title (fixed at top)"
+        example: "File Details"
+
+      material:
+        type: enum
+        required: false
+        default: regular
+        enum:
+          - thin
+          - regular
+          - thick
+          - ultraThin
+          - ultraThick
+        description: "Background material (translucent effect)"
+
+      sections:
+        type: array
+        required: false
+        description: "Array of content sections"
+        items:
+          type: object
+          properties:
+            header:
+              type: string
+              description: "Section header title"
+            rows:
+              type: array
+              description: "Array of KeyValueRow components"
+
+    design_tokens:
+      spacing:
+        header_padding: "DS.Spacing.m (12pt)"
+        content_padding: "DS.Spacing.l (16pt)"
+      typography:
+        title: "DS.Typography.headline"
+
+    composition:
+      can_contain:
+        - SectionHeader
+        - KeyValueRow
+        - Badge
+        - Card
+      typical_structure: "Title → SectionHeader → multiple KeyValueRow → repeat"
+
+    platform_adaptation:
+      macOS: "Fixed width sidebar (280-320pt)"
+      iOS: "Full width with safe area insets"
+      iPadOS: "Adaptive width based on size class"
+
+    examples:
+      - yaml: |
+          - componentType: InspectorPattern
+            properties:
+              title: "ISO File Inspector"
+              material: regular
+            content:
+              - componentType: SectionHeader
+                properties:
+                  title: "File Information"
+              - componentType: KeyValueRow
+                properties:
+                  key: "File Name"
+                  value: "sample.mp4"
+              - componentType: KeyValueRow
+                properties:
+                  key: "Size"
+                  value: "1.2 GB"
+              - componentType: SectionHeader
+                properties:
+                  title: "Video Track"
+              - componentType: KeyValueRow
+                properties:
+                  key: "Codec"
+                  value: "H.264"
+        description: "ISO file metadata inspector"
+
+  # ----------------------------------------------------------------------------
+  # SidebarPattern
+  # ----------------------------------------------------------------------------
+  SidebarPattern:
+    description: "Navigation sidebar with hierarchical sections and selection"
+    layer: 3
+    category: "Organisms"
+    use_case: "Multi-pane layouts, hierarchical navigation"
+
+    properties:
+      sections:
+        type: array
+        required: true
+        description: "Array of sidebar sections"
+        items:
+          type: object
+          properties:
+            title:
+              type: string
+              description: "Section header title"
+            itemCount:
+              type: integer
+              description: "Number of items in section"
+
+      selection:
+        type: string
+        required: false
+        default: "none"
+        description: "Currently selected item ID (or 'none')"
+
+    design_tokens:
+      spacing:
+        section_spacing: "DS.Spacing.m (12pt)"
+        item_padding: "DS.Spacing.s (8pt)"
+      colors:
+        background: "DS.Colors.tertiary"
+        selection: "DS.Colors.accent"
+
+    platform_adaptation:
+      macOS: "Fixed width (200-250pt), always visible"
+      iOS: "Collapsible, full-width when visible"
+      iPadOS: "Adaptive based on size class (compact vs regular)"
+
+    accessibility:
+      keyboard_navigation: "Arrow keys, Tab, Enter"
+      voiceover: "Announces section and item count"
+
+    examples:
+      - yaml: |
+          - componentType: SidebarPattern
+            properties:
+              sections:
+                - title: "Recent Files"
+                  itemCount: 5
+                - title: "Starred"
+                  itemCount: 3
+              selection: "none"
+        description: "File browser sidebar"
+
+  # ----------------------------------------------------------------------------
+  # ToolbarPattern
+  # ----------------------------------------------------------------------------
+  ToolbarPattern:
+    description: "Platform-adaptive toolbar with primary, secondary, and overflow actions"
+    layer: 3
+    category: "Organisms"
+    use_case: "Action bars, command palettes"
+
+    properties:
+      items:
+        type: object
+        required: true
+        description: "Toolbar action groups"
+        properties:
+          primary:
+            type: integer
+            description: "Number of primary (visible) actions"
+            default: 0
+          secondary:
+            type: integer
+            description: "Number of secondary (visible on macOS) actions"
+            default: 0
+          overflow:
+            type: integer
+            description: "Number of overflow (menu) actions"
+            default: 0
+
+    design_tokens:
+      spacing:
+        item_spacing: "DS.Spacing.m (12pt)"
+      icon_size: "20×20pt (SF Symbols)"
+
+    platform_adaptation:
+      macOS: "All primary + secondary items visible in toolbar"
+      iOS: "Primary items visible, secondary → overflow menu"
+      iPadOS: "Adaptive based on available width"
+
+    accessibility:
+      keyboard_shortcuts: "⌘ keys on macOS, Ctrl keys elsewhere"
+      voiceover: "Action + shortcut announced"
+
+    examples:
+      - yaml: |
+          - componentType: ToolbarPattern
+            properties:
+              items:
+                primary: 3
+                secondary: 2
+                overflow: 5
+        description: "Document editor toolbar"
+
+  # ----------------------------------------------------------------------------
+  # BoxTreePattern
+  # ----------------------------------------------------------------------------
+  BoxTreePattern:
+    description: "Hierarchical tree view with expand/collapse and selection"
+    layer: 3
+    category: "Organisms"
+    use_case: "File trees, ISO box hierarchies, nested data"
+
+    properties:
+      nodeCount:
+        type: integer
+        required: true
+        min: 0
+        description: "Number of root-level tree nodes"
+
+      level:
+        type: integer
+        required: false
+        default: 0
+        min: 0
+        max: 20
+        description: "Current tree depth level (0 = root)"
+
+    design_tokens:
+      spacing:
+        indentation: "DS.Spacing.l (16pt per level)"
+        row_spacing: "DS.Spacing.s (8pt)"
+      animation: "DS.Animation.medium (0.25s expand/collapse)"
+
+    performance:
+      lazy_rendering: "Uses LazyVStack for 1000+ nodes"
+      expansion_limit: "50 levels max (prevents infinite recursion)"
+
+    accessibility:
+      keyboard_navigation: "Arrow keys (up/down/left/right)"
+      voiceover: "Announces level, expanded state, child count"
+
+    examples:
+      - yaml: |
+          - componentType: BoxTreePattern
+            properties:
+              nodeCount: 3
+              level: 0
+        description: "ISO box tree with 3 root boxes"
+
+# ==============================================================================
+# VALIDATION RULES
+# ==============================================================================
+
+validation_rules:
+
+  general:
+    - rule: "All componentType values must match defined component names (case-sensitive)"
+    - rule: "All required properties must be present"
+    - rule: "Property values must match declared type (string, integer, boolean, enum)"
+    - rule: "Enum values must be one of the defined options"
+    - rule: "Numeric values must be within min/max bounds if specified"
+    - rule: "String values must be within min_length/max_length if specified"
+
+  design_tokens:
+    - rule: "Use DS tokens instead of magic numbers"
+      examples:
+        spacing: "DS.Spacing.{s|m|l|xl} = {8|12|16|24}pt"
+        radius: "DS.Radius.{small|medium|card|chip} = {6|8|10|999}pt"
+        colors: "DS.Colors.{infoBG|warnBG|errorBG|successBG}"
+
+  composition:
+    - rule: "Cards can contain components but not root-level Cards"
+    - rule: "Patterns can contain components and other patterns"
+    - rule: "Circular references are not allowed"
+
+  platform:
+    - rule: "Material effects require iOS 17+ or macOS 14+"
+    - rule: "Keyboard shortcuts are macOS-specific (⌘ vs Ctrl)"
+
+  accessibility:
+    - rule: "All components must provide VoiceOver labels"
+    - rule: "Contrast ratios must meet WCAG AA (≥4.5:1)"
+    - rule: "Touch targets must be ≥44×44pt on iOS"
+
+# ==============================================================================
+# AGENT USAGE GUIDELINES
+# ==============================================================================
+
+agent_guidelines:
+
+  yaml_structure:
+    description: "Agents should generate YAML in the following format"
+    template: |
+      - componentType: ComponentName
+        properties:
+          propertyName: value
+        content: # (optional, for containers)
+          - componentType: NestedComponent
+            properties:
+              key: value
+
+  error_handling:
+    - "Validate YAML against schema before generation"
+    - "Provide clear error messages for invalid properties"
+    - "Suggest corrections for enum typos (e.g., 'erro' → 'error')"
+    - "Warn about deprecated properties or values"
+
+  best_practices:
+    - "Use semantic component types (Badge for status, Card for grouping)"
+    - "Leverage design tokens (DS.Spacing, DS.Colors) for consistency"
+    - "Compose patterns from components (InspectorPattern → SectionHeader → KeyValueRow)"
+    - "Consider platform differences (macOS toolbar vs iOS toolbar)"
+    - "Test accessibility (VoiceOver, keyboard navigation, Dynamic Type)"
+
+  common_patterns:
+    metadata_inspector:
+      description: "Display ISO file metadata"
+      components: ["InspectorPattern", "SectionHeader", "KeyValueRow", "Badge"]
+
+    file_browser:
+      description: "Navigate file hierarchy"
+      components: ["SidebarPattern", "BoxTreePattern", "ToolbarPattern"]
+
+    status_dashboard:
+      description: "Show system status"
+      components: ["Card", "Badge", "KeyValueRow"]
+
+# ==============================================================================
+# SCHEMA METADATA
+# ==============================================================================
+
+metadata:
+  schema_version: "1.0"
+  foundationui_version: "1.0.0"
+  swift_version: "5.9+"
+  platform_support:
+    - iOS 17.0+
+    - iPadOS 17.0+
+    - macOS 14.0+
+
+  contributors:
+    - "AI Assistant (Schema Design)"
+    - "FoundationUI Team"
+
+  license: "MIT"
+
+  changelog:
+    - version: "1.0"
+      date: "2025-11-09"
+      changes:
+        - "Initial schema definition for all components and patterns"
+        - "Validation rules for type safety and design token usage"
+        - "Agent usage guidelines and examples"
+        - "Platform adaptation notes for iOS/macOS/iPadOS"
+
+  references:
+    - name: "AgentDescribable Protocol"
+      file: "Sources/FoundationUI/AgentSupport/AgentDescribable.swift"
+    - name: "FoundationUI Task Plan"
+      file: "DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md"
+    - name: "FoundationUI PRD"
+      file: "DOCS/AI/ISOViewer/FoundationUI_PRD.md"
+
+# END OF SCHEMA
