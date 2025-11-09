@@ -375,6 +375,7 @@ private struct WorkflowStep<Content: View>: View {
 /// Demo data for AgentDescribable previews.
 ///
 /// This provides example implementations and JSON representations for demonstration purposes.
+@available(iOS 17.0, macOS 14.0, *)
 private enum AgentDescribableDemo {
     nonisolated(unsafe) static let badge: any AgentDescribable = DemoBadge(
         text: "Warning",
@@ -416,6 +417,7 @@ private enum AgentDescribableDemo {
 
 // MARK: - Demo Types
 
+@available(iOS 17.0, macOS 14.0, *)
 private struct DemoBadge: AgentDescribable {
     let text: String
     let level: String
@@ -430,6 +432,7 @@ private struct DemoBadge: AgentDescribable {
     }
 }
 
+@available(iOS 17.0, macOS 14.0, *)
 private struct DemoCard: AgentDescribable {
     let elevation: String
     let radius: String
@@ -443,6 +446,7 @@ private struct DemoCard: AgentDescribable {
     }
 }
 
+@available(iOS 17.0, macOS 14.0, *)
 private struct DemoKeyValueRow: AgentDescribable {
     let key: String
     let value: String
