@@ -21,6 +21,7 @@
 **Note**: Enhanced Demo App task moved from Phase 6.1 to Phase 5.4 (reprioritized for earlier testing support)
 
 **Recent**:
+- Phase 4.1.4 YAML Parser/Validator **in progress** 2025-11-10 🚧 (task selected and workplan prepared)
 - Phase 4.1 AgentDescribable protocol **completed** 2025-11-08 ✅ (protocol defined with comprehensive docs and previews)
 - Phase 5.2 Accessibility Audit completed 2025-11-06 (98% score, exceeds ≥95% target, all CI tests passing)
 - Phase 5.4 Enhanced Demo App **completed** 2025-11-07 ✅ (all new screens implemented)
@@ -596,7 +597,7 @@
 **Progress: 14/18 tasks completed (77.8%)**
 
 ### 4.1 Agent-Driven UI Generation
-**Progress: 3/7 tasks (42.9%)**
+**Progress: 3/7 tasks (42.9%)** → **IN PROGRESS** (Phase 4.1.4)
 
 - [x] **P1** Define AgentDescribable protocol ✅ **Completed 2025-11-08**
   - File: `Sources/FoundationUI/AgentSupport/AgentDescribable.swift` (10.2KB, 295 lines)
@@ -638,12 +639,14 @@
   - Zero magic numbers (all examples use DS tokens) ✅
   - Archive: `TASK_ARCHIVE/47_Phase4.1.3_YAMLSchemaDefinitions/`
 
-- [ ] **P1** Implement YAML parser/validator
+- [ ] **P1** Implement YAML parser/validator → **IN PROGRESS** 2025-11-10
   - File: `Sources/AgentSupport/YAMLValidator.swift`
   - Parse component YAML definitions
   - Validate against schema
   - Generate SwiftUI views from YAML
   - Error handling and reporting
+  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase4.1.4_YAMLParserValidator.md`
+  - Workplan: `FoundationUI/DOCS/INPROGRESS/Phase4.1.4_Workplan.md`
 
 - [ ] **P2** Create agent integration examples
   - File: `Examples/AgentIntegration/`
