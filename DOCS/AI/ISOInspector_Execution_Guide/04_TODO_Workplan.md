@@ -40,8 +40,12 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > **Completed (2025-11-03):** Task **T5.2 — Regression Tests for Tolerant Traversal** is archived in `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/`, capturing the manifest-driven XCTest suite, strict/tolerant guard assertions, and Swift 6.0.3 execution log.
 >
 > **Follow-up queued (2025-11-04):** Task **T5.4 — Performance Benchmark: Lenient vs. Strict Parsing** is archived in `DOCS/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/205_T5_4_Performance_Benchmark.md`. The macOS 1 GiB verification run remains pending; execution steps live in `DOCS/INPROGRESS/next_tasks.md` alongside the existing Linux metrics log, with historical day-to-day notes stored at `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.
-> **In Progress (2025-11-07):** Task **T5.5 — Crash-Free Session Test** now has an active PRD stub at `DOCS/INPROGRESS/209_T5_5_Fuzzing_Harness.md` to deliver the tolerant parsing fuzz harness.
-> - ✅ `LargeFileBenchmarkTests` now exercises lenient versus strict parsing with enforced runtime (+20%) and RSS (+50 MiB) ceilings via `PerformanceBenchmarkConfiguration`.
+>
+> **Completed (2025-11-10):** Task **T5.5 — Tolerant Parsing Fuzzing Harness** delivered automated fuzzing with 100+ synthetically corrupted payloads and 99.9% crash-free completion rate assertion. Implementation captured in `DOCS/INPROGRESS/Summary_of_Work.md`.
+> - ✅ `TolerantParsingFuzzTests` generates deterministic mutations (header truncation, overlapping ranges, bogus sizes) via seeded RNG
+> - ✅ Reproduction artifacts automatically captured under `Documentation/CorruptedFixtures/FuzzArtifacts/` for failed cases
+> - ✅ Test suite validates crash-free completion rate ≥99.9% across 100+ iterations with aggregate statistics
+> - 🧪 `LargeFileBenchmarkTests` now exercises lenient versus strict parsing with enforced runtime (+20%) and RSS (+50 MiB) ceilings via `PerformanceBenchmarkConfiguration`.
 > - 📈 Latest Linux results (32 MiB fixture) recorded in `Documentation/Performance/2025-11-04-lenient-vs-strict-benchmark.log` show ≤1.049× overhead; rerun on macOS hardware with `ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824` to close out the gate.
 >
 > **Completed (2025-10-27):** Task **T4.1 — Extend JSON Export Schema for Issues** is archived in `DOCS/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/`, capturing the schema version bump, tolerant issue payload, and refreshed documentation notes.
