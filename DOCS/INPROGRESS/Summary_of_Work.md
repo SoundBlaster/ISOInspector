@@ -4,6 +4,7 @@
 
 - Archived the CLI corruption summary task notes into `DOCS/TASK_ARCHIVE/208_T6_2_CLI_Corruption_Summary_Output/` after landing the tolerant-mode metrics output.
 - Day-to-day queue now centers on unblocking the macOS 1 GiB lenient-versus-strict benchmark rerun for Task T5.4.
+- Initiated planning for Task T5.5 with a dedicated fuzzing harness PRD stub to drive crash-free coverage.
 
 ## Notes
 
@@ -13,3 +14,4 @@
 ## Active Deliverables
 
 - **T5.4 — macOS Benchmark Rerun**: Awaiting hardware availability before executing the lenient-versus-strict performance run.
+- **T5.5 — Tolerant Parsing Fuzzing Harness**: New in-progress PRD stub (`209_T5_5_Fuzzing_Harness.md`) tracks the crash-free fuzz test harness delivery.

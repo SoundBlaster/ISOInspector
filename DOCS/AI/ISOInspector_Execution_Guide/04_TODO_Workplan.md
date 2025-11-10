@@ -40,6 +40,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 > **Completed (2025-11-03):** Task **T5.2 — Regression Tests for Tolerant Traversal** is archived in `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/`, capturing the manifest-driven XCTest suite, strict/tolerant guard assertions, and Swift 6.0.3 execution log.
 >
 > **Follow-up queued (2025-11-04):** Task **T5.4 — Performance Benchmark: Lenient vs. Strict Parsing** is archived in `DOCS/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/205_T5_4_Performance_Benchmark.md`. The macOS 1 GiB verification run remains pending; execution steps live in `DOCS/INPROGRESS/next_tasks.md` alongside the existing Linux metrics log, with historical day-to-day notes stored at `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.
+> **In Progress (2025-11-07):** Task **T5.5 — Crash-Free Session Test** now has an active PRD stub at `DOCS/INPROGRESS/209_T5_5_Fuzzing_Harness.md` to deliver the tolerant parsing fuzz harness.
 > - ✅ `LargeFileBenchmarkTests` now exercises lenient versus strict parsing with enforced runtime (+20%) and RSS (+50 MiB) ceilings via `PerformanceBenchmarkConfiguration`.
 > - 📈 Latest Linux results (32 MiB fixture) recorded in `Documentation/Performance/2025-11-04-lenient-vs-strict-benchmark.log` show ≤1.049× overhead; rerun on macOS hardware with `ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824` to close out the gate.
 >

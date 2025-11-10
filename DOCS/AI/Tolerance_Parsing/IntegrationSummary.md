@@ -676,7 +676,7 @@ enum FeatureFlags {
 - [ ] Regression test suite covers strict mode on all existing fixtures (no failures).
 - [x] Lenient mode completes ≥95% of corrupt fixtures (T5.2). _(Verified by `TolerantTraversalRegressionTests` — see `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/Summary_of_Work.md`.)_
 - [ ] Performance benchmark gate enforced in CI (T5.4).
-- [ ] Fuzzing harness achieves 99.9% crash-free rate (T5.5).
+- [ ] Fuzzing harness achieves 99.9% crash-free rate (T5.5). _(In progress — see `DOCS/INPROGRESS/209_T5_5_Fuzzing_Harness.md`.)
 - [ ] UI affordances reviewed by accessibility team (color contrast, VoiceOver labels).
 - [ ] JSON schema versioning validated with backward compatibility test.
 - [ ] CLI default mode detection (TTY check) tested on macOS/Linux.
