@@ -20,7 +20,7 @@ final class TolerantParsingFuzzTests: XCTestCase {
 
     /// Generates 100+ corrupt payloads via deterministic mutations and asserts that
     /// tolerant parsing completes without crashes for ≥99.9% of cases.
-    func testFuzzTolerантParsingWith100PlusCorruptPayloads() async throws {
+    func testFuzzTolerantParsingWith100PlusCorruptPayloads() async throws {
         let generator = CorruptPayloadGenerator(seed: 42)
         let pipeline = ParsePipeline.live(options: .tolerant)
         var statistics = FuzzStatistics()
