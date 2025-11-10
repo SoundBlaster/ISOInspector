@@ -195,7 +195,7 @@ func infoPlistConfiguration(for platform: DistributionPlatform) -> InfoPlist {
 
     if platform == .iOS || platform == .iPadOS {
         infoPlistEntries["LSSupportsOpeningDocumentsInPlace"] = .boolean(true)
-        infoPlistEntries["UILaunchScreens"] = .dictionary([:])
+        infoPlistEntries["UILaunchScreen"] = .dictionary([:])
     }
 
     return .extendingDefault(with: infoPlistEntries)
