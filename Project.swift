@@ -195,6 +195,8 @@ func infoPlistConfiguration(for platform: DistributionPlatform) -> InfoPlist {
 
     if platform == .iOS || platform == .iPadOS {
         infoPlistEntries["LSSupportsOpeningDocumentsInPlace"] = .boolean(true)
+        // Launch screen configuration for iOS/iPadOS (iOS 14+)
+        // Empty dictionary uses system-generated launch screen
         infoPlistEntries["UILaunchScreen"] = .dictionary([:])
     }
 
