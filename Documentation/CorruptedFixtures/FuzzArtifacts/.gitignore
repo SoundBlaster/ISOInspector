@@ -1,0 +1,11 @@
+# Fuzzing reproduction artifacts
+# These files are generated during fuzz testing and contain
+# reproduction data for failed cases. They should not be
+# committed to the repository.
+
+*.mp4
+*.json
+fuzz_repro_*
+
+# Keep this directory in git but ignore its contents
+!.gitignore

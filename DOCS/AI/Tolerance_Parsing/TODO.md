@@ -109,8 +109,7 @@ Build comprehensive test coverage for tolerant parsing.
 | T5.2 | Add regression tests verifying continued traversal and warning generation for each corrupt pattern. | High | 2d | T5.1 | ✅ Complete — see `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/Summary_of_Work.md` for coverage recap and verification notes. |
 | T5.3 | Add UI rendering smoke tests for corrupt nodes (badges, placeholders, detail sections). | Medium | 1.5d | T3.1-T3.7, T5.1 | UI tests confirm visual corruption indicators present. |
 | T5.4 | Performance benchmark: ensure lenient mode ≤ 1.2× strict mode on 1 GB reference file. | High | 1d | T5.1, existing benchmarks | ✅ Complete — see `DOCS/TASK_ARCHIVE/205_T5_4_Performance_Benchmark/Summary_of_Work.md` (macOS 1 GiB execution pending per follow-up notes). |
-| T5.5 | Crash-free session test: fuzz 100 synthetic corrupt files; target 99.9% completion without crashes. | High | 1.5d | T5.1 | Fuzzing harness completes; crash rate logged. |
-> **In Progress (2025-11-07):** Planning captured in `DOCS/INPROGRESS/209_T5_5_Fuzzing_Harness.md` to deliver the tolerant parsing fuzz harness.
+| T5.5 | Crash-free session test: fuzz 100 synthetic corrupt files; target 99.9% completion without crashes. | High | 1.5d | T5.1 | ✅ Complete — see `DOCS/INPROGRESS/Summary_of_Work.md` for fuzzing harness implementation and verification notes. |
 
 **Verification:**
 - All tests pass in CI
