@@ -636,7 +636,7 @@
   - Accessibility guidelines (VoiceOver, contrast, Dynamic Type) ✅
   - 100% schema completeness (all AgentDescribable properties included) ✅
   - Zero magic numbers (all examples use DS tokens) ✅
-  - Task Document: `FoundationUI/DOCS/INPROGRESS/Phase4.1.3_YAMLSchemaDefinitions.md`
+  - Archive: `TASK_ARCHIVE/47_Phase4.1.3_YAMLSchemaDefinitions/`
 
 - [ ] **P1** Implement YAML parser/validator
   - File: `Sources/AgentSupport/YAMLValidator.swift`
