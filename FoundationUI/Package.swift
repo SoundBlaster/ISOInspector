@@ -19,12 +19,22 @@ let package = Package(
         // NOTE: swift-snapshot-testing removed from SPM dependencies
         // Snapshot tests are only run via Tuist + xcodebuild (not SPM)
         // See FoundationUI/Project.swift for Tuist configuration
+        .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.0"),
     ],
     targets: [
         .target(
             name: "FoundationUI",
-            dependencies: [],
-            exclude: ["README.md"],
+            dependencies: [
+                .product(name: "Yams", package: "Yams"),
+            ],
+            exclude: [
+                "README.md",
+                "AgentSupport/ComponentSchema.yaml",
+                "AgentSupport/Examples/README.md",
+                "AgentSupport/Examples/badge_examples.yaml",
+                "AgentSupport/Examples/inspector_pattern_examples.yaml",
+                "AgentSupport/Examples/complete_ui_example.yaml"
+            ],
             swiftSettings: [
                 .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
             ]
