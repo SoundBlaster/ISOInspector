@@ -34,9 +34,11 @@
 - [ ] Verify Yams integration: `swift build`
 
 **Files Modified**:
+
 - `Package.swift`
 
 **Validation**:
+
 ```bash
 swift package resolve
 swift build
@@ -82,6 +84,7 @@ swift build
   - [ ] Error handling notes
 
 **Test Cases** (YAMLParserTests.swift):
+
 1. Parse simple Badge component
 2. Parse Card with elevation
 3. Parse nested Card + Badge
@@ -94,6 +97,7 @@ swift build
 10. Performance: parse 100 components
 
 **Validation**:
+
 ```swift
 let yaml = """
 - componentType: Badge
@@ -154,6 +158,7 @@ XCTAssertEqual(descriptions[0].componentType, "Badge")
   - [ ] Examples
 
 **Test Cases** (YAMLValidatorTests.swift):
+
 1. Validate valid Badge
 2. Validate valid Card
 3. Reject unknown componentType "UnknownComponent"
@@ -168,6 +173,7 @@ XCTAssertEqual(descriptions[0].componentType, "Badge")
 12. Performance: validate 100 components
 
 **Validation**:
+
 ```swift
 let description = ComponentDescription(
     componentType: "Badge",
@@ -235,6 +241,7 @@ XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
   - [ ] Error handling
 
 **Test Cases** (YAMLViewGeneratorTests.swift):
+
 1. Generate Badge from YAML
 2. Generate Card from YAML
 3. Generate KeyValueRow from YAML
@@ -247,6 +254,7 @@ XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
 10. Performance: generate 50 views
 
 **Validation**:
+
 ```swift
 let yaml = """
 - componentType: Badge
@@ -302,6 +310,7 @@ let view = try YAMLViewGenerator.generateView(fromYAML: yaml)
   - [ ] Compare original and generated
 
 **Test Cases**:
+
 1. Parse + validate + generate badge_examples.yaml
 2. Parse + validate + generate inspector_pattern_examples.yaml
 3. Parse + validate + generate complete_ui_example.yaml
@@ -341,6 +350,7 @@ let view = try YAMLViewGenerator.generateView(fromYAML: yaml)
   - [ ] Performance considerations
 
 **Documentation Sections**:
+
 1. Overview (what is YAML parser/validator)
 2. Quick Start (parse → validate → generate)
 3. API Reference (all public methods)
@@ -375,6 +385,7 @@ let view = try YAMLViewGenerator.generateView(fromYAML: yaml)
   - [ ] Use XCTStorageMetric
 
 **Test Cases**:
+
 1. Parse 100 Badge components (<100ms)
 2. Validate 100 Badge components (<50ms)
 3. Generate 50 Badge views (<200ms)
@@ -454,6 +465,7 @@ let view = try YAMLViewGenerator.generateView(fromYAML: yaml)
 **Checklist**:
 
 - [ ] Stage files
+
   ```bash
   git add Package.swift
   git add Sources/FoundationUI/AgentSupport/YAMLParser.swift
@@ -465,6 +477,7 @@ let view = try YAMLViewGenerator.generateView(fromYAML: yaml)
   ```
 
 - [ ] Commit with message
+
   ```
   Implement YAML Parser/Validator for Agent Support (#4.1.4)
 
@@ -483,6 +496,7 @@ let view = try YAMLViewGenerator.generateView(fromYAML: yaml)
   ```
 
 - [ ] Push to branch
+
   ```bash
   git push origin claude/foundation-ui-start-setup-011CUxah5Xy5VDCcm9ityRmX
   ```

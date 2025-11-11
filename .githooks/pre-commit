@@ -5,6 +5,9 @@
 
 set -eo pipefail
 
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
 echo "🔍 Running pre-commit quality checks..."
 echo ""
 
@@ -16,9 +19,35 @@ NC='\033[0m' # No Color
 
 FAILED=0
 
-# Check for SwiftLint violations
+# Determine how to run SwiftLint (local binary preferred, fallback to Docker)
+SWIFTLINT_MODE="none"
 if command -v swiftlint &> /dev/null; then
-    echo "1️⃣  Checking code style with SwiftLint..."
+    SWIFTLINT_MODE="local"
+elif command -v docker &> /dev/null; then
+    SWIFTLINT_MODE="docker"
+fi
+
+run_swiftlint() {
+    local target_dir="$1"
+    shift
+
+    if [ "$SWIFTLINT_MODE" = "local" ]; then
+        (cd "$target_dir" && swiftlint "$@")
+    elif [ "$SWIFTLINT_MODE" = "docker" ]; then
+        docker run --rm \
+            -u "$(id -u):$(id -g)" \
+            -v "$REPO_ROOT:/work" \
+            -w "/work/$target_dir" \
+            ghcr.io/realm/swiftlint:0.53.0 \
+            swiftlint "$@"
+    else
+        return 1
+    fi
+}
+
+# Check for SwiftLint violations
+if [ "$SWIFTLINT_MODE" != "none" ]; then
+    echo "1️⃣  Checking code style with SwiftLint (${SWIFTLINT_MODE})..."
 
     STAGED_SWIFT_FILES=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null | grep '\.swift$' || true)
 
@@ -26,35 +55,32 @@ if command -v swiftlint &> /dev/null; then
         # Check FoundationUI files
         FOUNDATIONUI_FILES=$(echo "$STAGED_SWIFT_FILES" | grep '^FoundationUI/' || true)
         if [ -n "$FOUNDATIONUI_FILES" ]; then
-            if cd FoundationUI && swiftlint --config .swiftlint.yml --quiet; then
+            if run_swiftlint "FoundationUI" --config .swiftlint.yml --quiet; then
                 echo "✅ FoundationUI: Code style check passed"
             else
                 echo "❌ FoundationUI: SwiftLint violations found"
                 echo "   Run: cd FoundationUI && swiftlint --config .swiftlint.yml --fix"
                 FAILED=$((FAILED + 1))
             fi
-            cd - > /dev/null
         fi
 
         # Check ComponentTestApp files
         COMPONENTTESTAPP_FILES=$(echo "$STAGED_SWIFT_FILES" | grep '^Examples/ComponentTestApp/' || true)
         if [ -n "$COMPONENTTESTAPP_FILES" ]; then
-            if cd Examples/ComponentTestApp && swiftlint --quiet; then
+            if run_swiftlint "Examples/ComponentTestApp" --quiet; then
                 echo "✅ ComponentTestApp: Code style check passed"
             else
                 echo "❌ ComponentTestApp: SwiftLint violations found"
                 echo "   Run: cd Examples/ComponentTestApp && swiftlint --fix"
                 FAILED=$((FAILED + 1))
             fi
-            cd - > /dev/null
         fi
     else
         echo "⚠️  No Swift files staged"
     fi
     echo ""
 else
-    echo "⚠️  SwiftLint not installed"
-    echo "   Install: brew install swiftlint"
+    echo "⚠️  SwiftLint not available (install swiftlint or docker)"
     echo ""
 fi
 

@@ -55,10 +55,12 @@ public struct YAMLValidator {
         case missingRequiredProperty(component: String, property: String)
 
         /// A property has an invalid type
-        case invalidPropertyType(component: String, property: String, expected: String, actual: String)
+        case invalidPropertyType(
+            component: String, property: String, expected: String, actual: String)
 
         /// An enum property has an invalid value
-        case invalidEnumValue(component: String, property: String, value: String, validValues: [String])
+        case invalidEnumValue(
+            component: String, property: String, value: String, validValues: [String])
 
         /// A numeric property is out of bounds
         case valueOutOfBounds(component: String, property: String, value: Any, min: Any?, max: Any?)
@@ -69,18 +71,21 @@ public struct YAMLValidator {
         public var errorDescription: String? {
             switch self {
             case .unknownComponentType(let type):
-                return "Unknown component type '\(type)'. Valid types: \(Schema.allComponentTypes.joined(separator: ", "))"
+                return
+                    "Unknown component type '\(type)'. Valid types: \(Schema.allComponentTypes.joined(separator: ", "))"
 
             case .missingRequiredProperty(let component, let property):
                 return "Missing required property '\(property)' in \(component) component"
 
             case .invalidPropertyType(let component, let property, let expected, let actual):
-                return "Invalid type for property '\(property)' in \(component): expected \(expected), got \(actual)"
+                return
+                    "Invalid type for property '\(property)' in \(component): expected \(expected), got \(actual)"
 
             case .invalidEnumValue(let component, let property, let value, let validValues):
                 let suggestion = Schema.suggestCorrection(for: value, in: validValues)
                 let suggestionText = suggestion.map { ". Did you mean '\($0)'?" } ?? ""
-                return "Invalid value '\(value)' for property '\(property)' in \(component). Valid values: [\(validValues.joined(separator: ", "))]\(suggestionText)"
+                return
+                    "Invalid value '\(value)' for property '\(property)' in \(component). Valid values: [\(validValues.joined(separator: ", "))]\(suggestionText)"
 
             case .valueOutOfBounds(let component, let property, let value, let min, let max):
                 var boundsText = ""
@@ -91,7 +96,8 @@ public struct YAMLValidator {
                 } else if let max = max {
                     boundsText = " (must be <= \(max))"
                 }
-                return "Value '\(value)' for property '\(property)' in \(component) is out of bounds\(boundsText)"
+                return
+                    "Value '\(value)' for property '\(property)' in \(component) is out of bounds\(boundsText)"
 
             case .invalidComposition(let details):
                 return "Invalid component composition: \(details)"
@@ -170,7 +176,7 @@ public struct YAMLValidator {
         schema: ComponentSchema
     ) throws {
         // Check if property is known (either required or optional)
-        let allProperties = schema.requiredProperties + schema.optionalProperties.keys
+        let allProperties = schema.requiredProperties + Array(schema.optionalProperties.keys)
         guard allProperties.contains(name) else {
             // Unknown property - we'll allow it but could warn
             return
@@ -288,7 +294,9 @@ public struct YAMLValidator {
     }
 
     /// Validates component composition (no circular references, valid nesting).
-    private static func validateComposition(_ descriptions: [YAMLParser.ComponentDescription]) throws {
+    private static func validateComposition(_ descriptions: [YAMLParser.ComponentDescription])
+        throws
+    {
         // Check for circular references by tracking visited component IDs
         // For now, we'll just check nesting depth
         for description in descriptions {
@@ -310,7 +318,8 @@ public struct YAMLValidator {
 
         if let content = description.content {
             for nestedComponent in content {
-                try validateNestingDepth(nestedComponent, currentDepth: currentDepth + 1, maxDepth: maxDepth)
+                try validateNestingDepth(
+                    nestedComponent, currentDepth: currentDepth + 1, maxDepth: maxDepth)
             }
         }
     }
@@ -342,7 +351,7 @@ public struct YAMLValidator {
     private struct Schema {
         static let allComponentTypes: [String] = [
             "Badge", "Card", "KeyValueRow", "SectionHeader",
-            "InspectorPattern", "SidebarPattern", "ToolbarPattern", "BoxTreePattern"
+            "InspectorPattern", "SidebarPattern", "ToolbarPattern", "BoxTreePattern",
         ]
 
         static func schema(for componentType: String) -> ComponentSchema {
@@ -363,11 +372,11 @@ public struct YAMLValidator {
                     optionalProperties: [
                         "elevation": "String",
                         "cornerRadius": "Double",
-                        "material": "String"
+                        "material": "String",
                     ],
                     enums: [
                         "elevation": ["none", "low", "medium", "high"],
-                        "material": ["thin", "regular", "thick", "ultraThin", "ultraThick"]
+                        "material": ["thin", "regular", "thick", "ultraThin", "ultraThick"],
                     ],
                     bounds: ["cornerRadius": (min: 0, max: 50)]
                 )
@@ -378,7 +387,7 @@ public struct YAMLValidator {
                     requiredProperties: ["key", "value"],
                     optionalProperties: [
                         "layout": "String",
-                        "isCopyable": "Bool"
+                        "isCopyable": "Bool",
                     ],
                     enums: ["layout": ["horizontal", "vertical"]],
                     bounds: [:]
@@ -442,7 +451,9 @@ public struct YAMLValidator {
 
         /// Suggests a correction for a misspelled enum value using Levenshtein distance.
         static func suggestCorrection(for value: String, in validValues: [String]) -> String? {
-            let suggestions = validValues.map { (candidate: $0, distance: levenshteinDistance($0, value)) }
+            let suggestions = validValues.map {
+                (candidate: $0, distance: levenshteinDistance($0, value))
+            }
             let closest = suggestions.min { $0.distance < $1.distance }
             // Only suggest if distance is reasonable (< 3 edits)
             if let closest = closest, closest.distance < 3 {
@@ -455,7 +466,8 @@ public struct YAMLValidator {
         private static func levenshteinDistance(_ s1: String, _ s2: String) -> Int {
             let s1 = Array(s1.lowercased())
             let s2 = Array(s2.lowercased())
-            var dist = [[Int]](repeating: [Int](repeating: 0, count: s2.count + 1), count: s1.count + 1)
+            var dist = [[Int]](
+                repeating: [Int](repeating: 0, count: s2.count + 1), count: s1.count + 1)
 
             for i in 0...s1.count {
                 dist[i][0] = i
@@ -470,9 +482,9 @@ public struct YAMLValidator {
                         dist[i][j] = dist[i - 1][j - 1]
                     } else {
                         dist[i][j] = min(
-                            dist[i - 1][j] + 1,    // deletion
-                            dist[i][j - 1] + 1,    // insertion
-                            dist[i - 1][j - 1] + 1 // substitution
+                            dist[i - 1][j] + 1,  // deletion
+                            dist[i][j - 1] + 1,  // insertion
+                            dist[i - 1][j - 1] + 1  // substitution
                         )
                     }
                 }
