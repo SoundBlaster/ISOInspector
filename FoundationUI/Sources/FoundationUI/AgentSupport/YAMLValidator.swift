@@ -149,6 +149,9 @@ public struct YAMLValidator {
                 try validate(nestedComponent)
             }
         }
+
+        // Validate composition (nesting depth)
+        try validateNestingDepth(description, currentDepth: 0, maxDepth: 20)
     }
 
     /// Validates an array of component descriptions.
@@ -179,6 +182,27 @@ public struct YAMLValidator {
         let allProperties = schema.requiredProperties + Array(schema.optionalProperties.keys)
         guard allProperties.contains(name) else {
             // Unknown property - we'll allow it but could warn
+            return
+        }
+
+        // Check if it's an enum type FIRST (before checking base type)
+        if let validValues = schema.enumValues(for: name) {
+            guard let stringValue = value as? String else {
+                throw ValidationError.invalidPropertyType(
+                    component: componentType,
+                    property: name,
+                    expected: "String (enum)",
+                    actual: "\(type(of: value))"
+                )
+            }
+            guard validValues.contains(stringValue) else {
+                throw ValidationError.invalidEnumValue(
+                    component: componentType,
+                    property: name,
+                    value: stringValue,
+                    validValues: validValues
+                )
+            }
             return
         }
 
@@ -228,25 +252,7 @@ public struct YAMLValidator {
             }
 
         default:
-            // Check if it's an enum type
-            if let validValues = schema.enumValues(for: name) {
-                guard let stringValue = value as? String else {
-                    throw ValidationError.invalidPropertyType(
-                        component: componentType,
-                        property: name,
-                        expected: "String (enum)",
-                        actual: "\(type(of: value))"
-                    )
-                }
-                guard validValues.contains(stringValue) else {
-                    throw ValidationError.invalidEnumValue(
-                        component: componentType,
-                        property: name,
-                        value: stringValue,
-                        validValues: validValues
-                    )
-                }
-            }
+            break
         }
 
         // Validate numeric bounds if applicable
