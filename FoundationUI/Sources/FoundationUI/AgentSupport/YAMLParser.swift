@@ -131,7 +131,8 @@ public struct YAMLParser {
                     return "Missing required 'componentType' field"
                 }
             case .invalidStructure(let details):
-                return "Invalid YAML structure: \(details). Expected array of component definitions or single component."
+                return
+                    "Invalid YAML structure: \(details). Expected array of component definitions or single component."
             case .fileReadError(let url, let error):
                 return "Failed to read file at \(url.path): \(error.localizedDescription)"
             }
@@ -171,7 +172,7 @@ public struct YAMLParser {
         // Parse YAML using Yams
         let yamlDocuments: [Any]
         do {
-            yamlDocuments = try Yams.load_all(yaml: yamlString)
+            yamlDocuments = try Array(Yams.load_all(yaml: yamlString))
         } catch {
             throw ParseError.invalidYAML(error.localizedDescription)
         }
