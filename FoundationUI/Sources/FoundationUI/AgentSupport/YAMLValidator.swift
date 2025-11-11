@@ -63,7 +63,8 @@ public struct YAMLValidator {
             component: String, property: String, value: String, validValues: [String])
 
         /// A numeric property is out of bounds
-        case valueOutOfBounds(component: String, property: String, value: Any, min: Any?, max: Any?)
+        case valueOutOfBounds(
+            component: String, property: String, value: String, min: String?, max: String?)
 
         /// Invalid component composition (e.g., circular reference)
         case invalidComposition(String)
@@ -262,18 +263,18 @@ public struct YAMLValidator {
                     throw ValidationError.valueOutOfBounds(
                         component: componentType,
                         property: name,
-                        value: intValue,
-                        min: min,
-                        max: bounds.max
+                        value: String(intValue),
+                        min: String(min),
+                        max: bounds.max.map { String($0) }
                     )
                 }
                 if let max = bounds.max, intValue > max {
                     throw ValidationError.valueOutOfBounds(
                         component: componentType,
                         property: name,
-                        value: intValue,
-                        min: bounds.min,
-                        max: max
+                        value: String(intValue),
+                        min: bounds.min.map { String($0) },
+                        max: String(max)
                     )
                 }
             } else if let doubleValue = value as? Double {
@@ -281,18 +282,18 @@ public struct YAMLValidator {
                     throw ValidationError.valueOutOfBounds(
                         component: componentType,
                         property: name,
-                        value: doubleValue,
-                        min: min,
-                        max: bounds.max
+                        value: String(doubleValue),
+                        min: String(min),
+                        max: bounds.max.map { String($0) }
                     )
                 }
                 if let max = bounds.max, doubleValue > Double(max) {
                     throw ValidationError.valueOutOfBounds(
                         component: componentType,
                         property: name,
-                        value: doubleValue,
-                        min: bounds.min,
-                        max: max
+                        value: String(doubleValue),
+                        min: bounds.min.map { String($0) },
+                        max: String(max)
                     )
                 }
             }

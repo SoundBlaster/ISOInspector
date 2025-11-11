@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import FoundationUI
 
 /// Unit tests for YAMLValidator component.
@@ -23,7 +24,7 @@ final class YAMLValidatorTests: XCTestCase {
             properties: [
                 "text": "Test",
                 "level": "info",
-                "showIcon": true
+                "showIcon": true,
             ]
         )
 
@@ -36,7 +37,7 @@ final class YAMLValidatorTests: XCTestCase {
             properties: [
                 "elevation": "medium",
                 "cornerRadius": 12,
-                "material": "regular"
+                "material": "regular",
             ]
         )
 
@@ -50,7 +51,7 @@ final class YAMLValidatorTests: XCTestCase {
                 "key": "Size",
                 "value": "1024 bytes",
                 "layout": "horizontal",
-                "isCopyable": true
+                "isCopyable": true,
             ]
         )
 
@@ -62,7 +63,7 @@ final class YAMLValidatorTests: XCTestCase {
             componentType: "SectionHeader",
             properties: [
                 "title": "Metadata",
-                "showDivider": true
+                "showDivider": true,
             ]
         )
 
@@ -74,7 +75,7 @@ final class YAMLValidatorTests: XCTestCase {
             componentType: "InspectorPattern",
             properties: [
                 "title": "Inspector",
-                "material": "thick"
+                "material": "thick",
             ]
         )
 
@@ -109,7 +110,10 @@ final class YAMLValidatorTests: XCTestCase {
         )
 
         XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
-            guard case YAMLValidator.ValidationError.missingRequiredProperty(let component, let property) = error else {
+            guard
+                case YAMLValidator.ValidationError.missingRequiredProperty(
+                    let component, let property) = error
+            else {
                 XCTFail("Expected missingRequiredProperty error, got \(error)")
                 return
             }
@@ -127,7 +131,10 @@ final class YAMLValidatorTests: XCTestCase {
         )
 
         XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
-            guard case YAMLValidator.ValidationError.missingRequiredProperty(let component, let property) = error else {
+            guard
+                case YAMLValidator.ValidationError.missingRequiredProperty(
+                    let component, let property) = error
+            else {
                 XCTFail("Expected missingRequiredProperty error, got \(error)")
                 return
             }
@@ -159,7 +166,7 @@ final class YAMLValidatorTests: XCTestCase {
             componentType: "Badge",
             properties: [
                 "text": 123,  // Should be String
-                "level": "info"
+                "level": "info",
             ]
         )
 
@@ -177,7 +184,7 @@ final class YAMLValidatorTests: XCTestCase {
             properties: [
                 "text": "Test",
                 "level": "info",
-                "showIcon": "true"  // Should be Bool
+                "showIcon": "true",  // Should be Bool
             ]
         )
 
@@ -196,12 +203,15 @@ final class YAMLValidatorTests: XCTestCase {
             componentType: "Badge",
             properties: [
                 "text": "Test",
-                "level": "invalid"
+                "level": "invalid",
             ]
         )
 
         XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
-            guard case YAMLValidator.ValidationError.invalidEnumValue(let component, let property, let value, let validValues) = error else {
+            guard
+                case YAMLValidator.ValidationError.invalidEnumValue(
+                    let component, let property, let value, let validValues) = error
+            else {
                 XCTFail("Expected invalidEnumValue error, got \(error)")
                 return
             }
@@ -237,7 +247,10 @@ final class YAMLValidatorTests: XCTestCase {
         )
 
         XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
-            guard case YAMLValidator.ValidationError.invalidEnumValue(_, let property, let value, let validValues) = error else {
+            guard
+                case YAMLValidator.ValidationError.invalidEnumValue(
+                    _, let property, let value, let validValues) = error
+            else {
                 XCTFail("Expected invalidEnumValue error, got \(error)")
                 return
             }
@@ -260,15 +273,18 @@ final class YAMLValidatorTests: XCTestCase {
         )
 
         XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
-            guard case YAMLValidator.ValidationError.valueOutOfBounds(let component, let property, let value, let min, let max) = error else {
+            guard
+                case YAMLValidator.ValidationError.valueOutOfBounds(
+                    let component, let property, let value, let min, let max) = error
+            else {
                 XCTFail("Expected valueOutOfBounds error, got \(error)")
                 return
             }
             XCTAssertEqual(component, "Card")
             XCTAssertEqual(property, "cornerRadius")
-            XCTAssertEqual(value as? Int, 100)
-            XCTAssertEqual(min as? Int, 0)
-            XCTAssertEqual(max as? Int, 50)
+            XCTAssertEqual(value, "100")
+            XCTAssertEqual(min, "0")
+            XCTAssertEqual(max, "50")
         }
     }
 
@@ -306,7 +322,7 @@ final class YAMLValidatorTests: XCTestCase {
             componentType: "Badge",
             properties: [
                 "text": "Test",
-                "level": "erro"  // Should be "error"
+                "level": "erro",  // Should be "error"
             ]
         )
 
@@ -325,7 +341,7 @@ final class YAMLValidatorTests: XCTestCase {
             componentType: "Badge",
             properties: [
                 "text": "Test",
-                "level": "waring"  // Should be "warning"
+                "level": "waring",  // Should be "warning"
             ]
         )
 
@@ -346,7 +362,7 @@ final class YAMLValidatorTests: XCTestCase {
             componentType: "Badge",
             properties: [
                 "text": "Nested",
-                "level": "success"
+                "level": "success",
             ]
         )
 
@@ -366,7 +382,7 @@ final class YAMLValidatorTests: XCTestCase {
             componentType: "Badge",
             properties: [
                 "text": "Invalid"
-                // Missing required "level" property
+                    // Missing required "level" property
             ]
         )
 
@@ -443,7 +459,7 @@ final class YAMLValidatorTests: XCTestCase {
             YAMLParser.ComponentDescription(
                 componentType: "Badge",
                 properties: ["text": "Test3", "level": "error"]
-            )
+            ),
         ]
 
         XCTAssertNoThrow(try YAMLValidator.validate(descriptions))
@@ -462,7 +478,7 @@ final class YAMLValidatorTests: XCTestCase {
             YAMLParser.ComponentDescription(
                 componentType: "Badge",
                 properties: ["text": "Valid2", "level": "success"]
-            )
+            ),
         ]
 
         XCTAssertThrowsError(try YAMLValidator.validate(descriptions))
@@ -475,8 +491,8 @@ final class YAMLValidatorTests: XCTestCase {
             componentType: "Badge",
             properties: [
                 "text": "Test",
-                "level": "info"
-                // showIcon is optional, not provided
+                "level": "info",
+                    // showIcon is optional, not provided
             ]
         )
 
