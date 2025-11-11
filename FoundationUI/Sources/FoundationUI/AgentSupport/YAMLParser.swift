@@ -169,6 +169,11 @@ public struct YAMLParser {
     /// - Returns: Array of parsed component descriptions
     /// - Throws: ``ParseError`` if YAML is invalid or structure is incorrect
     public static func parse(_ yamlString: String) throws -> [ComponentDescription] {
+        // Check for empty input
+        guard !yamlString.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            throw ParseError.invalidYAML("Empty YAML string")
+        }
+
         // Parse YAML using Yams
         let yamlDocuments: [Any]
         do {

@@ -226,10 +226,10 @@ final class YAMLParserTests: XCTestCase {
     // MARK: - Error Handling Tests
 
     func testParseInvalidYAMLSyntax() {
+        // Use YAML with unclosed quote which Yams will reject
         let yaml = """
-            - componentType: Badge
-              properties:
-                text: [invalid yaml
+            - componentType: "Badge
+              properties: {}
             """
 
         XCTAssertThrowsError(try YAMLParser.parse(yaml)) { error in

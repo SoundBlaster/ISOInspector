@@ -204,7 +204,8 @@
                 """
 
             XCTAssertThrowsError(try YAMLViewGenerator.generateView(fromYAML: yaml)) { error in
-                guard case YAMLViewGenerator.GenerationError.unknownComponentType(let type) = error
+                // Validation happens before generation, so we expect ValidationError
+                guard case YAMLValidator.ValidationError.unknownComponentType(let type) = error
                 else {
                     XCTFail("Expected unknownComponentType error, got \(error)")
                     return
