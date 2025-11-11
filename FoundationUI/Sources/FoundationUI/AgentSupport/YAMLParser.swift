@@ -174,6 +174,9 @@ public struct YAMLParser {
             throw ParseError.invalidYAML("Empty YAML string")
         }
 
+        // Validate YAML syntax - check for unclosed quotes
+        try validateYAMLSyntax(yamlString)
+
         // Parse YAML using Yams
         let yamlDocuments: [Any]
         do {
@@ -281,5 +284,36 @@ public struct YAMLParser {
             semantics: semantics,
             content: content
         )
+    }
+
+    /// Validates YAML syntax by checking for unclosed quotes.
+    private static func validateYAMLSyntax(_ yaml: String) throws {
+        var inDoubleQuote = false
+        var inSingleQuote = false
+        var previousChar: Character? = nil
+
+        for char in yaml {
+            // Handle escape sequences
+            if previousChar == "\\" {
+                previousChar = nil
+                continue
+            }
+
+            if char == "\"" && !inSingleQuote {
+                inDoubleQuote.toggle()
+            } else if char == "'" && !inDoubleQuote {
+                inSingleQuote.toggle()
+            }
+
+            previousChar = char
+        }
+
+        // Check for unclosed quotes
+        if inDoubleQuote {
+            throw ParseError.invalidYAML("Unclosed double quote in YAML string")
+        }
+        if inSingleQuote {
+            throw ParseError.invalidYAML("Unclosed single quote in YAML string")
+        }
     }
 }
