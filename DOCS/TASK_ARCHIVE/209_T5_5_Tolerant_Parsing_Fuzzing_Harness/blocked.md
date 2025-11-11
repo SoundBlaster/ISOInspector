@@ -12,7 +12,7 @@ The following efforts cannot proceed until their upstream dependencies are resol
 
 - **Blocking issue:** macOS hardware with the 1 GiB performance fixture is unavailable in the current automation environment, precluding the lenient-versus-strict benchmark run documented in `next_tasks.md`.
 - **Next step once unblocked:** Execute the benchmark with `ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824`, collect runtime and RSS metrics, and archive them under `Documentation/Performance/`.
-- **Notes:** Keep the `todo.md` entry "Execute the macOS 1 GiB lenient-vs-strict benchmark" open until the run completes and metrics are published. Historical context now resides in `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.
+- **Notes:** Keep `todo.md` entry "Execute the macOS 1 GiB lenient-vs-strict benchmark" open until the run completes and metrics are published. Historical context now resides in `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.
 
 ## FoundationUI Phase 5.2: Performance Profiling (Manual Tasks)
 

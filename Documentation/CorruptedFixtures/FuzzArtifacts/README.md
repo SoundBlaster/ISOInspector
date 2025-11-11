@@ -47,5 +47,5 @@ The `TolerantParsingFuzzTests` suite automatically:
 ## See Also
 
 - `Tests/ISOInspectorKitTests/TolerantParsingFuzzTests.swift` — Main fuzzing harness
-- `DOCS/INPROGRESS/209_T5_5_Fuzzing_Harness.md` — Task specification
+- `DOCS/TASK_ARCHIVE/209_T5_5_Tolerant_Parsing_Fuzzing_Harness/209_T5_5_Fuzzing_Harness.md` — Task specification
 - `DOCS/AI/Tolerance_Parsing/TODO.md` — Tolerance parsing workplan
