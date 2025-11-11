@@ -70,10 +70,18 @@ let package = Package(
         ),
         .target(
             name: "FoundationUI",
+            dependencies: [
+                .product(name: "Yams", package: "Yams")
+            ],
             path: "FoundationUI/Sources/FoundationUI",
             exclude: [
                 "README.md",
                 ".swiftlint.yml",
+                "AgentSupport/ComponentSchema.yaml",
+                "AgentSupport/Examples/README.md",
+                "AgentSupport/Examples/badge_examples.yaml",
+                "AgentSupport/Examples/inspector_pattern_examples.yaml",
+                "AgentSupport/Examples/complete_ui_example.yaml",
             ],
             swiftSettings: [
                 .enableUpcomingFeature("StrictConcurrency"),
