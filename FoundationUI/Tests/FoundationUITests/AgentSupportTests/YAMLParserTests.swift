@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import FoundationUI
 
 /// Unit tests for YAMLParser component.
@@ -17,11 +18,11 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseSimpleBadge() throws {
         let yaml = """
-        - componentType: Badge
-          properties:
-            text: "Test"
-            level: info
-        """
+            - componentType: Badge
+              properties:
+                text: "Test"
+                level: info
+            """
 
         let descriptions = try YAMLParser.parse(yaml)
 
@@ -35,11 +36,11 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseCardWithElevation() throws {
         let yaml = """
-        - componentType: Card
-          properties:
-            elevation: medium
-            cornerRadius: 12
-        """
+            - componentType: Card
+              properties:
+                elevation: medium
+                cornerRadius: 12
+            """
 
         let descriptions = try YAMLParser.parse(yaml)
 
@@ -51,12 +52,12 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseWithSemantics() throws {
         let yaml = """
-        - componentType: Badge
-          properties:
-            text: "Warning"
-            level: warning
-          semantics: "Indicates a validation warning"
-        """
+            - componentType: Badge
+              properties:
+                text: "Warning"
+                level: warning
+              semantics: "Indicates a validation warning"
+            """
 
         let descriptions = try YAMLParser.parse(yaml)
 
@@ -68,15 +69,15 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseNestedCardWithBadge() throws {
         let yaml = """
-        - componentType: Card
-          properties:
-            elevation: low
-          content:
-            - componentType: Badge
+            - componentType: Card
               properties:
-                text: "Nested"
-                level: success
-        """
+                elevation: low
+              content:
+                - componentType: Badge
+                  properties:
+                    text: "Nested"
+                    level: success
+            """
 
         let descriptions = try YAMLParser.parse(yaml)
 
@@ -91,20 +92,20 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseMultipleNestedComponents() throws {
         let yaml = """
-        - componentType: Card
-          content:
-            - componentType: SectionHeader
-              properties:
-                title: "Metadata"
-            - componentType: KeyValueRow
-              properties:
-                key: "Size"
-                value: "1024"
-            - componentType: Badge
-              properties:
-                text: "Valid"
-                level: success
-        """
+            - componentType: Card
+              content:
+                - componentType: SectionHeader
+                  properties:
+                    title: "Metadata"
+                - componentType: KeyValueRow
+                  properties:
+                    key: "Size"
+                    value: "1024"
+                - componentType: Badge
+                  properties:
+                    text: "Valid"
+                    level: success
+            """
 
         let descriptions = try YAMLParser.parse(yaml)
 
@@ -119,19 +120,19 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseMultipleComponents() throws {
         let yaml = """
-        - componentType: Badge
-          properties:
-            text: "Info"
-            level: info
-        - componentType: Badge
-          properties:
-            text: "Warning"
-            level: warning
-        - componentType: Badge
-          properties:
-            text: "Error"
-            level: error
-        """
+            - componentType: Badge
+              properties:
+                text: "Info"
+                level: info
+            - componentType: Badge
+              properties:
+                text: "Warning"
+                level: warning
+            - componentType: Badge
+              properties:
+                text: "Error"
+                level: error
+            """
 
         let descriptions = try YAMLParser.parse(yaml)
 
@@ -143,16 +144,16 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseMultiDocumentYAML() throws {
         let yaml = """
-        - componentType: Badge
-          properties:
-            text: "First"
-            level: info
-        ---
-        - componentType: Badge
-          properties:
-            text: "Second"
-            level: warning
-        """
+            - componentType: Badge
+              properties:
+                text: "First"
+                level: info
+            ---
+            - componentType: Badge
+              properties:
+                text: "Second"
+                level: warning
+            """
 
         let descriptions = try YAMLParser.parse(yaml)
 
@@ -163,11 +164,11 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseSingleComponentObject() throws {
         let yaml = """
-        componentType: Badge
-        properties:
-          text: "Single"
-          level: success
-        """
+            componentType: Badge
+            properties:
+              text: "Single"
+              level: success
+            """
 
         let descriptions = try YAMLParser.parse(yaml)
 
@@ -181,15 +182,15 @@ final class YAMLParserTests: XCTestCase {
     func testParseAllComponentTypes() throws {
         let componentTypes = [
             "Badge", "Card", "KeyValueRow", "SectionHeader",
-            "InspectorPattern", "SidebarPattern", "ToolbarPattern", "BoxTreePattern"
+            "InspectorPattern", "SidebarPattern", "ToolbarPattern", "BoxTreePattern",
         ]
 
         for componentType in componentTypes {
             let yaml = """
-            - componentType: \(componentType)
-              properties:
-                test: "value"
-            """
+                - componentType: \(componentType)
+                  properties:
+                    test: "value"
+                """
 
             let descriptions = try YAMLParser.parse(yaml)
             XCTAssertEqual(descriptions.count, 1)
@@ -201,20 +202,24 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseVariousPropertyTypes() throws {
         let yaml = """
-        - componentType: Card
-          properties:
-            stringProp: "text"
-            intProp: 42
-            doubleProp: 3.14
-            boolProp: true
-        """
+            - componentType: Card
+              properties:
+                stringProp: "text"
+                intProp: 42
+                doubleProp: 3.14
+                boolProp: true
+            """
 
         let descriptions = try YAMLParser.parse(yaml)
         let props = descriptions[0].properties
 
         XCTAssertEqual(props["stringProp"] as? String, "text")
         XCTAssertEqual(props["intProp"] as? Int, 42)
-        XCTAssertEqual(props["doubleProp"] as? Double, 3.14, accuracy: 0.001)
+        if let doubleValue = props["doubleProp"] as? Double {
+            XCTAssertEqual(doubleValue, 3.14, accuracy: 0.001)
+        } else {
+            XCTFail("doubleProp should be a Double")
+        }
         XCTAssertEqual(props["boolProp"] as? Bool, true)
     }
 
@@ -222,10 +227,10 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseInvalidYAMLSyntax() {
         let yaml = """
-        - componentType: Badge
-          properties:
-            text: [invalid yaml
-        """
+            - componentType: Badge
+              properties:
+                text: [invalid yaml
+            """
 
         XCTAssertThrowsError(try YAMLParser.parse(yaml)) { error in
             guard case YAMLParser.ParseError.invalidYAML = error else {
@@ -237,9 +242,9 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseMissingComponentType() {
         let yaml = """
-        - properties:
-            text: "Test"
-        """
+            - properties:
+                text: "Test"
+            """
 
         XCTAssertThrowsError(try YAMLParser.parse(yaml)) { error in
             guard case YAMLParser.ParseError.missingComponentType = error else {
@@ -251,8 +256,8 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseInvalidStructure() {
         let yaml = """
-        just a string
-        """
+            just a string
+            """
 
         XCTAssertThrowsError(try YAMLParser.parse(yaml)) { error in
             guard case YAMLParser.ParseError.invalidStructure = error else {
@@ -269,12 +274,12 @@ final class YAMLParserTests: XCTestCase {
         var yaml = ""
         for i in 0..<100 {
             yaml += """
-            - componentType: Badge
-              properties:
-                text: "Badge \(i)"
-                level: info
+                - componentType: Badge
+                  properties:
+                    text: "Badge \(i)"
+                    level: info
 
-            """
+                """
         }
 
         measure {
@@ -287,12 +292,12 @@ final class YAMLParserTests: XCTestCase {
         var yaml = ""
         for i in 0..<100 {
             yaml += """
-            - componentType: Badge
-              properties:
-                text: "Badge \(i)"
-                level: \(["info", "warning", "error", "success"][i % 4])
+                - componentType: Badge
+                  properties:
+                    text: "Badge \(i)"
+                    level: \(["info", "warning", "error", "success"][i % 4])
 
-            """
+                """
         }
 
         let start = Date()
@@ -307,9 +312,9 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseEmptyProperties() throws {
         let yaml = """
-        - componentType: Card
-          properties: {}
-        """
+            - componentType: Card
+              properties: {}
+            """
 
         let descriptions = try YAMLParser.parse(yaml)
 
@@ -325,8 +330,8 @@ final class YAMLParserTests: XCTestCase {
 
     func testParseComponentWithoutProperties() throws {
         let yaml = """
-        - componentType: Card
-        """
+            - componentType: Card
+            """
 
         let descriptions = try YAMLParser.parse(yaml)
 

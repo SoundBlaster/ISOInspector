@@ -1,4 +1,5 @@
 import XCTest
+
 @testable import FoundationUI
 
 /// Integration tests for YAML Agent Support pipeline.
@@ -11,60 +12,61 @@ import XCTest
 /// Uses real example YAML files from AgentSupport/Examples/
 ///
 @available(iOS 17.0, macOS 14.0, *)
+@MainActor
 final class YAMLIntegrationTests: XCTestCase {
 
     // MARK: - Badge Examples Integration Tests
 
     func testParseBadgeExamples() throws {
         let yaml = """
-        # Info Badge
-        - componentType: Badge
-          properties:
-            text: "Info"
-            level: info
-            showIcon: true
-          semantics: "Information status badge"
+            # Info Badge
+            - componentType: Badge
+              properties:
+                text: "Info"
+                level: info
+                showIcon: true
+              semantics: "Information status badge"
 
-        # Warning Badge
-        - componentType: Badge
-          properties:
-            text: "Warning"
-            level: warning
-            showIcon: true
-          semantics: "Warning status badge"
+            # Warning Badge
+            - componentType: Badge
+              properties:
+                text: "Warning"
+                level: warning
+                showIcon: true
+              semantics: "Warning status badge"
 
-        # Error Badge
-        - componentType: Badge
-          properties:
-            text: "Error"
-            level: error
-            showIcon: true
-          semantics: "Error status badge"
+            # Error Badge
+            - componentType: Badge
+              properties:
+                text: "Error"
+                level: error
+                showIcon: true
+              semantics: "Error status badge"
 
-        # Success Badge
-        - componentType: Badge
-          properties:
-            text: "Success"
-            level: success
-            showIcon: true
-          semantics: "Success status badge"
+            # Success Badge
+            - componentType: Badge
+              properties:
+                text: "Success"
+                level: success
+                showIcon: true
+              semantics: "Success status badge"
 
-        # Badge without icon
-        - componentType: Badge
-          properties:
-            text: "No Icon"
-            level: info
-            showIcon: false
-          semantics: "Badge without icon"
+            # Badge without icon
+            - componentType: Badge
+              properties:
+                text: "No Icon"
+                level: info
+                showIcon: false
+              semantics: "Badge without icon"
 
-        # Badge with long text
-        - componentType: Badge
-          properties:
-            text: "Very Long Badge Text"
-            level: warning
-            showIcon: false
-          semantics: "Badge with long text content"
-        """
+            # Badge with long text
+            - componentType: Badge
+              properties:
+                text: "Very Long Badge Text"
+                level: warning
+                showIcon: false
+              semantics: "Badge with long text content"
+            """
 
         // Parse
         let descriptions = try YAMLParser.parse(yaml)
@@ -81,11 +83,11 @@ final class YAMLIntegrationTests: XCTestCase {
         XCTAssertEqual(descriptions[4].properties["showIcon"] as? Bool, false)
 
         #if canImport(SwiftUI)
-        // Generate views (only on platforms with SwiftUI)
-        for description in descriptions {
-            let view = try YAMLViewGenerator.generateView(from: description)
-            XCTAssertNotNil(view)
-        }
+            // Generate views (only on platforms with SwiftUI)
+            for description in descriptions {
+                let view = try YAMLViewGenerator.generateView(from: description)
+                XCTAssertNotNil(view)
+            }
         #endif
     }
 
@@ -93,58 +95,58 @@ final class YAMLIntegrationTests: XCTestCase {
 
     func testParseInspectorPatternExamples() throws {
         let yaml = """
-        # Simple Inspector Pattern
-        - componentType: InspectorPattern
-          properties:
-            title: "File Inspector"
-            material: regular
-          content:
-            - componentType: SectionHeader
+            # Simple Inspector Pattern
+            - componentType: InspectorPattern
               properties:
-                title: "Basic Information"
-            - componentType: KeyValueRow
-              properties:
-                key: "Name"
-                value: "movie.mp4"
-            - componentType: KeyValueRow
-              properties:
-                key: "Size"
-                value: "1.5 GB"
+                title: "File Inspector"
+                material: regular
+              content:
+                - componentType: SectionHeader
+                  properties:
+                    title: "Basic Information"
+                - componentType: KeyValueRow
+                  properties:
+                    key: "Name"
+                    value: "movie.mp4"
+                - componentType: KeyValueRow
+                  properties:
+                    key: "Size"
+                    value: "1.5 GB"
 
-        # Inspector with Status Badge
-        - componentType: InspectorPattern
-          properties:
-            title: "Box Inspector"
-          content:
-            - componentType: SectionHeader
+            # Inspector with Status Badge
+            - componentType: InspectorPattern
               properties:
-                title: "Box Status"
-            - componentType: Badge
-              properties:
-                text: "Valid"
-                level: success
+                title: "Box Inspector"
+              content:
+                - componentType: SectionHeader
+                  properties:
+                    title: "Box Status"
+                - componentType: Badge
+                  properties:
+                    text: "Valid"
+                    level: success
 
-        # Inspector with Multiple Sections
-        - componentType: InspectorPattern
-          properties:
-            title: "Detailed Inspector"
-            material: thick
-          content:
-            - componentType: SectionHeader
+            # Inspector with Multiple Sections
+            - componentType: InspectorPattern
               properties:
-                title: "Properties"
-            - componentType: KeyValueRow
-              properties:
-                key: "Type"
-                value: "ftyp"
-            - componentType: SectionHeader
-              properties:
-                title: "Metadata"
-            - componentType: KeyValueRow
-              properties:
-                key: "Created"
-                value: "2024-11-10"
-        """
+                title: "Detailed Inspector"
+                material: thick
+              content:
+                - componentType: SectionHeader
+                  properties:
+                    title: "Properties"
+                - componentType: KeyValueRow
+                  properties:
+                    key: "Type"
+                    value: "ftyp"
+                - componentType: SectionHeader
+                  properties:
+                    title: "Metadata"
+                - componentType: KeyValueRow
+                  properties:
+                    key: "Created"
+                    value: "2024-11-10"
+            """
 
         // Parse
         let descriptions = try YAMLParser.parse(yaml)
@@ -160,11 +162,11 @@ final class YAMLIntegrationTests: XCTestCase {
         XCTAssertEqual(descriptions[0].content?[1].componentType, "KeyValueRow")
 
         #if canImport(SwiftUI)
-        // Generate views
-        for description in descriptions {
-            let view = try YAMLViewGenerator.generateView(from: description)
-            XCTAssertNotNil(view)
-        }
+            // Generate views
+            for description in descriptions {
+                let view = try YAMLViewGenerator.generateView(from: description)
+                XCTAssertNotNil(view)
+            }
         #endif
     }
 
@@ -172,81 +174,81 @@ final class YAMLIntegrationTests: XCTestCase {
 
     func testParseCompleteUIExample() throws {
         let yaml = """
-        # ISO Inspector Complete UI Example
-        - componentType: InspectorPattern
-          properties:
-            title: "ISO Box Inspector"
-            material: regular
-          semantics: "Main inspector for ISO box structure"
-          content:
-            # Header Section
-            - componentType: SectionHeader
+            # ISO Inspector Complete UI Example
+            - componentType: InspectorPattern
               properties:
-                title: "Box Information"
-                showDivider: true
-
-            # Basic Info
-            - componentType: KeyValueRow
-              properties:
-                key: "Type"
-                value: "ftyp"
-                layout: horizontal
-                isCopyable: true
-
-            - componentType: KeyValueRow
-              properties:
-                key: "Size"
-                value: "32 bytes"
-                layout: horizontal
-                isCopyable: false
-
-            # Status Badge
-            - componentType: Badge
-              properties:
-                text: "Valid Structure"
-                level: success
-                showIcon: true
-
-            # Metadata Section
-            - componentType: SectionHeader
-              properties:
-                title: "Metadata"
-                showDivider: true
-
-            - componentType: KeyValueRow
-              properties:
-                key: "Major Brand"
-                value: "isom"
-                layout: horizontal
-                isCopyable: true
-
-            - componentType: KeyValueRow
-              properties:
-                key: "Minor Version"
-                value: "0"
-                layout: horizontal
-                isCopyable: false
-
-            # Nested Card with Details
-            - componentType: Card
-              properties:
-                elevation: low
-                cornerRadius: 8
-                material: thin
+                title: "ISO Box Inspector"
+                material: regular
+              semantics: "Main inspector for ISO box structure"
               content:
+                # Header Section
                 - componentType: SectionHeader
                   properties:
-                    title: "Advanced Details"
+                    title: "Box Information"
+                    showDivider: true
+
+                # Basic Info
                 - componentType: KeyValueRow
                   properties:
-                    key: "Offset"
-                    value: "0x0000"
+                    key: "Type"
+                    value: "ftyp"
+                    layout: horizontal
                     isCopyable: true
+
+                - componentType: KeyValueRow
+                  properties:
+                    key: "Size"
+                    value: "32 bytes"
+                    layout: horizontal
+                    isCopyable: false
+
+                # Status Badge
                 - componentType: Badge
                   properties:
-                    text: "Root Box"
-                    level: info
-        """
+                    text: "Valid Structure"
+                    level: success
+                    showIcon: true
+
+                # Metadata Section
+                - componentType: SectionHeader
+                  properties:
+                    title: "Metadata"
+                    showDivider: true
+
+                - componentType: KeyValueRow
+                  properties:
+                    key: "Major Brand"
+                    value: "isom"
+                    layout: horizontal
+                    isCopyable: true
+
+                - componentType: KeyValueRow
+                  properties:
+                    key: "Minor Version"
+                    value: "0"
+                    layout: horizontal
+                    isCopyable: false
+
+                # Nested Card with Details
+                - componentType: Card
+                  properties:
+                    elevation: low
+                    cornerRadius: 8
+                    material: thin
+                  content:
+                    - componentType: SectionHeader
+                      properties:
+                        title: "Advanced Details"
+                    - componentType: KeyValueRow
+                      properties:
+                        key: "Offset"
+                        value: "0x0000"
+                        isCopyable: true
+                    - componentType: Badge
+                      properties:
+                        text: "Root Box"
+                        level: info
+            """
 
         // Parse
         let descriptions = try YAMLParser.parse(yaml)
@@ -267,9 +269,9 @@ final class YAMLIntegrationTests: XCTestCase {
         XCTAssertEqual(nestedCard.content?.count, 4)
 
         #if canImport(SwiftUI)
-        // Generate complete UI
-        let view = try YAMLViewGenerator.generateView(from: inspector)
-        XCTAssertNotNil(view)
+            // Generate complete UI
+            let view = try YAMLViewGenerator.generateView(from: inspector)
+            XCTAssertNotNil(view)
         #endif
     }
 
@@ -277,11 +279,11 @@ final class YAMLIntegrationTests: XCTestCase {
 
     func testParseInvalidYAMLGracefully() {
         let yaml = """
-        - componentType: Badge
-          properties:
-            text: "Invalid"
-            level: invalid-level
-        """
+            - componentType: Badge
+              properties:
+                text: "Invalid"
+                level: invalid-level
+            """
 
         do {
             let descriptions = try YAMLParser.parse(yaml)
@@ -293,11 +295,11 @@ final class YAMLIntegrationTests: XCTestCase {
 
     func testFullPipelineWithValidation() throws {
         let yaml = """
-        - componentType: Badge
-          properties:
-            text: "Test"
-            level: info
-        """
+            - componentType: Badge
+              properties:
+                text: "Test"
+                level: info
+            """
 
         // Step 1: Parse
         let descriptions = try YAMLParser.parse(yaml)
@@ -308,8 +310,8 @@ final class YAMLIntegrationTests: XCTestCase {
 
         // Step 3: Generate (if SwiftUI available)
         #if canImport(SwiftUI)
-        let view = try YAMLViewGenerator.generateView(from: descriptions[0])
-        XCTAssertNotNil(view)
+            let view = try YAMLViewGenerator.generateView(from: descriptions[0])
+            XCTAssertNotNil(view)
         #endif
     }
 
@@ -329,20 +331,20 @@ final class YAMLIntegrationTests: XCTestCase {
             properties: [
                 "text": "Agent Generated",
                 "level": "success",
-                "showIcon": true
+                "showIcon": true,
             ],
             semantics: "This badge was generated by an AI agent"
         )
 
         // Step 2: Simulate YAML serialization (manually for this test)
         let yaml = """
-        - componentType: Badge
-          properties:
-            text: "Agent Generated"
-            level: success
-            showIcon: true
-          semantics: "This badge was generated by an AI agent"
-        """
+            - componentType: Badge
+              properties:
+                text: "Agent Generated"
+                level: success
+                showIcon: true
+              semantics: "This badge was generated by an AI agent"
+            """
 
         // Step 3: Parse YAML
         let parsedDescriptions = try YAMLParser.parse(yaml)
@@ -355,14 +357,18 @@ final class YAMLIntegrationTests: XCTestCase {
 
         // Step 5: Verify round-trip consistency
         XCTAssertEqual(parsedDescription.componentType, originalDescription.componentType)
-        XCTAssertEqual(parsedDescription.properties["text"] as? String, originalDescription.properties["text"] as? String)
-        XCTAssertEqual(parsedDescription.properties["level"] as? String, originalDescription.properties["level"] as? String)
+        XCTAssertEqual(
+            parsedDescription.properties["text"] as? String,
+            originalDescription.properties["text"] as? String)
+        XCTAssertEqual(
+            parsedDescription.properties["level"] as? String,
+            originalDescription.properties["level"] as? String)
         XCTAssertEqual(parsedDescription.semantics, originalDescription.semantics)
 
         // Step 6: Generate view (if SwiftUI available)
         #if canImport(SwiftUI)
-        let view = try YAMLViewGenerator.generateView(from: parsedDescription)
-        XCTAssertNotNil(view)
+            let view = try YAMLViewGenerator.generateView(from: parsedDescription)
+            XCTAssertNotNil(view)
         #endif
     }
 
@@ -373,13 +379,13 @@ final class YAMLIntegrationTests: XCTestCase {
         var yaml = ""
         for i in 0..<100 {
             yaml += """
-            - componentType: Badge
-              properties:
-                text: "Badge \(i)"
-                level: \(["info", "warning", "error", "success"][i % 4])
-                showIcon: \(i % 2 == 0)
+                - componentType: Badge
+                  properties:
+                    text: "Badge \(i)"
+                    level: \(["info", "warning", "error", "success"][i % 4])
+                    showIcon: \(i % 2 == 0)
 
-            """
+                """
         }
 
         // Measure complete pipeline
@@ -396,20 +402,20 @@ final class YAMLIntegrationTests: XCTestCase {
 
         // Generate (sample - don't generate all 100)
         #if canImport(SwiftUI)
-        let generateStart = Date()
-        for i in 0..<10 {
-            _ = try YAMLViewGenerator.generateView(from: descriptions[i])
-        }
-        let generateTime = Date().timeIntervalSince(generateStart)
+            let generateStart = Date()
+            for i in 0..<10 {
+                _ = try YAMLViewGenerator.generateView(from: descriptions[i])
+            }
+            let generateTime = Date().timeIntervalSince(generateStart)
         #else
-        let generateTime: TimeInterval = 0
+            let generateTime: TimeInterval = 0
         #endif
 
         // Verify performance targets
         XCTAssertLessThan(parseTime, 0.1, "Parsing 100 components should take <100ms")
         XCTAssertLessThan(validateTime, 0.05, "Validating 100 components should take <50ms")
         #if canImport(SwiftUI)
-        XCTAssertLessThan(generateTime, 0.2, "Generating 10 views should take <200ms")
+            XCTAssertLessThan(generateTime, 0.2, "Generating 10 views should take <200ms")
         #endif
 
         print("Performance results:")
@@ -422,55 +428,55 @@ final class YAMLIntegrationTests: XCTestCase {
 
     func testISOInspectorUseCase() throws {
         let yaml = """
-        # ISO Box Hierarchy Inspector
-        - componentType: InspectorPattern
-          properties:
-            title: "ftyp Box"
-          content:
-            - componentType: Badge
+            # ISO Box Hierarchy Inspector
+            - componentType: InspectorPattern
               properties:
-                text: "File Type Box"
-                level: info
-
-            - componentType: SectionHeader
-              properties:
-                title: "Properties"
-
-            - componentType: KeyValueRow
-              properties:
-                key: "Major Brand"
-                value: "isom"
-                isCopyable: true
-
-            - componentType: KeyValueRow
-              properties:
-                key: "Minor Version"
-                value: "512"
-                isCopyable: true
-
-            - componentType: KeyValueRow
-              properties:
-                key: "Compatible Brands"
-                value: "isom, iso2, avc1, mp41"
-                layout: vertical
-                isCopyable: true
-
-            - componentType: Card
-              properties:
-                elevation: low
+                title: "ftyp Box"
               content:
+                - componentType: Badge
+                  properties:
+                    text: "File Type Box"
+                    level: info
+
                 - componentType: SectionHeader
                   properties:
-                    title: "Validation"
-                - componentType: Badge
+                    title: "Properties"
+
+                - componentType: KeyValueRow
                   properties:
-                    text: "Structure Valid"
-                    level: success
-                - componentType: Badge
+                    key: "Major Brand"
+                    value: "isom"
+                    isCopyable: true
+
+                - componentType: KeyValueRow
                   properties:
-                    text: "Brands Compatible"
-                    level: success
-        """
+                    key: "Minor Version"
+                    value: "512"
+                    isCopyable: true
+
+                - componentType: KeyValueRow
+                  properties:
+                    key: "Compatible Brands"
+                    value: "isom, iso2, avc1, mp41"
+                    layout: vertical
+                    isCopyable: true
+
+                - componentType: Card
+                  properties:
+                    elevation: low
+                  content:
+                    - componentType: SectionHeader
+                      properties:
+                        title: "Validation"
+                    - componentType: Badge
+                      properties:
+                        text: "Structure Valid"
+                        level: success
+                    - componentType: Badge
+                      properties:
+                        text: "Brands Compatible"
+                        level: success
+            """
 
         // Full pipeline test
         let descriptions = try YAMLParser.parse(yaml)
@@ -482,8 +488,8 @@ final class YAMLIntegrationTests: XCTestCase {
         XCTAssertEqual(inspector.content?.count, 7)
 
         #if canImport(SwiftUI)
-        let view = try YAMLViewGenerator.generateView(from: inspector)
-        XCTAssertNotNil(view)
+            let view = try YAMLViewGenerator.generateView(from: inspector)
+            XCTAssertNotNil(view)
         #endif
     }
 }
