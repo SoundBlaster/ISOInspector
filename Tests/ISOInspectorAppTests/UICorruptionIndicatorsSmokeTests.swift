@@ -427,8 +427,7 @@
         }
 
         private func collectEvents(from stream: ParsePipeline.EventStream) async throws
-            -> [ParseEvent]
-        {
+            -> [ParseEvent] {
             var events: [ParseEvent] = []
             for try await event in stream {
                 events.append(event)
