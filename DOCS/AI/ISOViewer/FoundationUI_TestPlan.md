@@ -56,6 +56,7 @@ This test plan covers all aspects of the FoundationUI framework:
 | **Layer 1** | InteractiveStyle | ✅ | ✅ | ✅ | ✅ | ✅ | ≥90% |
 | **Layer 1** | SurfaceStyle | ✅ | ✅ | ✅ | N/A | ✅ | ≥90% |
 | **Layer 2** | Badge | ✅ | ✅ | ✅ | ✅ | ✅ | ≥85% |
+| **Layer 2** | Indicator | ✅ | ✅ | ✅ | ✅ | ✅ | ≥85% |
 | **Layer 2** | Card | ✅ | ✅ | ✅ | ✅ | ✅ | ≥85% |
 | **Layer 2** | KeyValueRow | ✅ | ✅ | ✅ | ✅ | ✅ | ≥85% |
 | **Layer 2** | SectionHeader | ✅ | ✅ | ✅ | ✅ | N/A | ≥85% |
@@ -131,6 +132,24 @@ func testBadgeChipStyleAppliesCorrectBackground() {
 - ✅ Badge composition with other views
 - ✅ Badge state changes update UI
 
+**File:** `Tests/ComponentsTests/IndicatorTests.swift`
+
+**Test Cases:**
+- ✅ Indicator renders circular dot sized per `IndicatorSize`
+- ✅ Indicator fills use `BadgeChipStyle` colors for each level
+- ✅ Indicator exposes accessibility label “{Level} indicator — {reason}”
+- ✅ Indicator triggers tooltip/context menu per platform
+- ✅ Indicator integrates with `.copyable(text:)` modifier
+- ✅ Indicator respects Reduce Motion + high contrast settings
+
+**Example:**
+```swift
+func testIndicatorUsesWarningColor() {
+    let indicator = Indicator(level: .warning, size: .small, reason: "Checksum mismatch")
+    assertIndicator(indicator, matchesFill: DS.Colors.warnBG)
+}
+```
+
 #### 1.4 Pattern Tests
 **File:** `Tests/PatternsTests/InspectorPatternTests.swift`
 
@@ -165,6 +184,7 @@ func testBadgeChipStyleAppliesCorrectBackground() {
 | Component | Light Mode | Dark Mode | Dynamic Type (S/M/L/XL) | Platforms | RTL |
 |-----------|------------|-----------|-------------------------|-----------|-----|
 | Badge | ✅ | ✅ | ✅ (4 sizes) | iOS, macOS | ✅ |
+| Indicator | ✅ | ✅ | ✅ (size variants) | iOS, macOS | ✅ |
 | Card | ✅ | ✅ | ✅ (4 sizes) | iOS, macOS | ✅ |
 | KeyValueRow | ✅ | ✅ | ✅ (4 sizes) | iOS, macOS | ✅ |
 | SectionHeader | ✅ | ✅ | ✅ (4 sizes) | iOS, macOS | N/A |
@@ -205,6 +225,7 @@ func testBadgeDarkMode() {
 **Test Cases:**
 - ✅ All interactive elements have accessibility labels
 - ✅ All badges have accessibility hints
+- ✅ Indicators announce status level and reason text
 - ✅ Contrast ratio ≥4.5:1 for all text
 - ✅ Touch target size ≥44×44 pt
 - ✅ VoiceOver navigation order is logical
@@ -226,6 +247,7 @@ func testBadgeAccessibility() {
 **VoiceOver (iOS):**
 - [ ] All components are announced correctly
 - [ ] Badge level is announced ("Error badge")
+- [ ] Indicator announces "{Level} indicator" and reason tooltip
 - [ ] CopyableText announces "Double tap to copy"
 - [ ] Navigation order is logical
 - [ ] Headings are properly marked
@@ -235,6 +257,7 @@ func testBadgeAccessibility() {
 - [ ] Keyboard navigation works (Tab, Shift+Tab)
 - [ ] VO+Right Arrow navigates correctly
 - [ ] Focus indicators are visible
+- [ ] Tooltip text announced when Indicator receives focus
 - [ ] Toolbar items are announced with shortcuts
 
 **Dynamic Type:**
@@ -265,6 +288,7 @@ func testBadgeAccessibility() {
 - ✅ SwiftUI body execution <1ms
 - ✅ No hitches during scrolling
 - ✅ BoxTreePattern with 1000+ items remains smooth
+- ✅ Indicator hover/tap tooltip latency <50ms on all platforms
 
 **Example:**
 ```swift
@@ -300,6 +324,7 @@ func testBadgeRenderPerformance() {
 
 **Test Cases:**
 - ✅ Badge inside Card renders correctly
+- ✅ Indicator pairs with KeyValueRow and Copyable wrappers
 - ✅ KeyValueRow with CopyableText works
 - ✅ InspectorPattern with SectionHeader and Cards
 - ✅ Nested patterns (Sidebar + Inspector + Toolbar)
@@ -316,6 +341,14 @@ func testCardWithBadgeComposition() {
     }
     // Assert both components render
     // Assert spacing is correct
+}
+
+func testIndicatorTooltipComposition() {
+    let view = Indicator(level: .warning, size: .small, reason: "Checksum mismatch")
+        .contextMenu {
+            Badge(text: "Checksum mismatch", level: .warning)
+        }
+    // Verify tooltip/context menu attaches and accessibility label includes reason
 }
 ```
 
@@ -343,6 +376,7 @@ func testCardWithBadgeComposition() {
 | Test Case | iOS 17 (iPhone) | iOS 17 (iPad) | macOS 14 | Notes |
 |-----------|-----------------|---------------|----------|-------|
 | Badge rendering | ✅ | ✅ | ✅ | |
+| Indicator rendering | ✅ | ✅ | ✅ | Tooltip/context menu parity |
 | Card with elevation | ✅ | ✅ | ✅ | macOS uses lighter shadow |
 | InspectorPattern | ✅ | ✅ | ✅ | |
 | SidebarPattern | N/A | ✅ | ✅ | iPhone uses NavigationStack |

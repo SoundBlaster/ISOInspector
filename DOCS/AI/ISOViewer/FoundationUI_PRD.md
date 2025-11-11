@@ -312,6 +312,7 @@ public struct PlatformAdaptiveModifier: ViewModifier {
 | Component | Purpose | Platforms | Priority |
 |-----------|---------|-----------|----------|
 | **Badge** | Status indicators | All | P0 |
+| **Indicator** | Compact status dots | All | P0 |
 | **Card** | Content containers | All | P0 |
 | **KeyValueRow** | Metadata display | All | P0 |
 | **SectionHeader** | Section titles | All | P0 |
@@ -336,6 +337,44 @@ props:
   level: warning
 semantics: "validation state indicator"
 ```
+
+#### Indicator Component
+**Layer**: 2 (Component)
+**Priority**: P0
+
+Indicator delivers the Badge semantic vocabulary in a minimal, text-free form. It renders a circular status dot sized with DS spacing tokens and colored via the existing `BadgeLevel` → `BadgeChipStyle` mapping. Tooltips/context menus surface the descriptive badge/text when users hover (macOS) or long-press/tap (iOS, iPadOS), ensuring the meaning remains discoverable.
+
+**API Example**:
+```swift
+Indicator(
+    level: .warning,
+    size: .small,
+    reason: "Checksum mismatch",
+    tooltip: .badge(text: "Checksum mismatch", level: .warning)
+)
+.copyable(text: "Checksum mismatch") // Opt-in Copyable protocol support
+
+Indicator(
+    level: .error,
+    size: .mini,
+    tooltip: .text("Integrity check failed")
+)
+.indicatorTooltipStyle(.automatic)
+```
+
+**Behavior Notes**:
+- Size presets map to DS spacing tokens: `.mini` → `DS.Spacing.s`, `.small` → `DS.Spacing.m`, `.medium` → `DS.Spacing.l`.
+- Default fill + optional halo reuse `BadgeChipStyle` colors to preserve semantic meaning (info/warning/error/success).
+- macOS uses `.help(reason)` to show the status description; iOS/iPadOS expose a `contextMenu` with Badge or text fallback.
+- Supports pointer hover effects (macOS/iPadOS) and respects Reduce Motion by disabling tooltip animations when required.
+- Adopts Copyable protocol expectations via `.copyable(text:)` or automatic conformance when used inside `Copyable` wrappers.
+
+**Success Criteria**:
+- ≥85% unit test coverage across levels, size variants, and tooltip triggers.
+- Snapshot coverage for Light/Dark, Dynamic Type (where applicable), and RTL layouts.
+- VoiceOver exposes “{Level} indicator — {reason}” semantics and hit target ≥44×44 pt.
+- Zero magic numbers — all radii/spacing derived from DS tokens or Badge utilities.
+- SwiftUI previews document platform-specific tooltip presentations.
 
 #### Card Component
 ```swift
