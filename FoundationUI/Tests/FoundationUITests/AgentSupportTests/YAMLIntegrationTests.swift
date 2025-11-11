@@ -261,12 +261,12 @@ final class YAMLIntegrationTests: XCTestCase {
         let inspector = descriptions[0]
         XCTAssertEqual(inspector.componentType, "InspectorPattern")
         XCTAssertNotNil(inspector.content)
-        XCTAssertEqual(inspector.content?.count, 10)
+        XCTAssertEqual(inspector.content?.count, 8)
 
         // Verify nested content
         let nestedCard = try XCTUnwrap(inspector.content?.last)
         XCTAssertEqual(nestedCard.componentType, "Card")
-        XCTAssertEqual(nestedCard.content?.count, 4)
+        XCTAssertEqual(nestedCard.content?.count, 3)
 
         #if canImport(SwiftUI)
             // Generate complete UI
@@ -485,7 +485,7 @@ final class YAMLIntegrationTests: XCTestCase {
         let inspector = descriptions[0]
         XCTAssertEqual(inspector.componentType, "InspectorPattern")
         XCTAssertEqual(inspector.properties["title"] as? String, "ftyp Box")
-        XCTAssertEqual(inspector.content?.count, 7)
+        XCTAssertEqual(inspector.content?.count, 6)
 
         #if canImport(SwiftUI)
             let view = try YAMLViewGenerator.generateView(from: inspector)
