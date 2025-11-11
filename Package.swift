@@ -6,7 +6,7 @@ let package = Package(
     defaultLocalization: "en",
     platforms: [
         .iOS(.v16),
-        .macOS(.v14)
+        .macOS(.v14),
     ],
     products: [
         .library(
@@ -24,12 +24,13 @@ let package = Package(
         .executable(
             name: "ISOInspectorApp",
             targets: ["ISOInspectorApp"]
-        )
+        ),
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0"),
         .package(url: "https://github.com/SoundBlaster/NestedA11yIDs", from: "1.0.0"),
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0")
+        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
+        .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.0"),
     ],
     targets: [
         .target(
@@ -45,7 +46,7 @@ let package = Package(
                 .product(
                     name: "ArgumentParser",
                     package: "swift-argument-parser"
-                )
+                ),
             ]
         ),
         .executableTarget(
@@ -61,7 +62,7 @@ let package = Package(
                     package: "NestedA11yIDs",
                     condition: .when(platforms: [.iOS, .macOS])
                 ),
-                .target(name: "FoundationUI", condition: .when(platforms: [.iOS, .macOS]))
+                .target(name: "FoundationUI", condition: .when(platforms: [.iOS, .macOS])),
             ],
             resources: [
                 .process("Resources")
@@ -72,11 +73,11 @@ let package = Package(
             path: "FoundationUI/Sources/FoundationUI",
             exclude: [
                 "README.md",
-                ".swiftlint.yml"
+                ".swiftlint.yml",
             ],
             swiftSettings: [
                 .enableUpcomingFeature("StrictConcurrency"),
-                .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
+                .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release)),
             ]
         ),
         .testTarget(
@@ -93,14 +94,14 @@ let package = Package(
                 .product(
                     name: "ArgumentParser",
                     package: "swift-argument-parser"
-                )
+                ),
             ]
         ),
         .testTarget(
             name: "ISOInspectorAppTests",
             dependencies: [
                 "ISOInspectorApp",
-                "ISOInspectorKit"
+                "ISOInspectorKit",
             ]
         ),
         .testTarget(
@@ -108,8 +109,8 @@ let package = Package(
             dependencies: [
                 "ISOInspectorCLI",
                 "ISOInspectorApp",
-                "ISOInspectorKit"
+                "ISOInspectorKit",
             ]
-        )
+        ),
     ]
 )
