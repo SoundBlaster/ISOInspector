@@ -169,7 +169,7 @@ iso-inspector-cli analyze --tolerant Documentation/CorruptedFixtures/FuzzArtifac
 ### Documentation
 - `Documentation/CorruptedFixtures/FuzzArtifacts/.gitignore` (excludes artifacts)
 - `Documentation/CorruptedFixtures/FuzzArtifacts/README.md` (usage guide)
-- `DOCS/INPROGRESS/Summary_of_Work_T5.5.md` (this file)
+- `Summary_of_Work_T5.5.md` (this file)
 
 ### Updates
 - `DOCS/AI/Tolerance_Parsing/TODO.md` — T5.5 marked complete
@@ -230,7 +230,7 @@ iso-inspector-cli analyze --tolerant Documentation/CorruptedFixtures/FuzzArtifac
 ## Cross-References
 
 ### Task Specifications
-- **Task Definition:** `DOCS/INPROGRESS/209_T5_5_Fuzzing_Harness.md`
+- **Task Definition:** `DOCS/TASK_ARCHIVE/209_T5_5_Tolerant_Parsing_Fuzzing_Harness/209_T5_5_Fuzzing_Harness.md`
 - **Tolerance Parsing TODO:** `DOCS/AI/Tolerance_Parsing/TODO.md` (Phase T5)
 - **Integration Summary:** `DOCS/AI/Tolerance_Parsing/IntegrationSummary.md` (§5 Testing Strategy)
 

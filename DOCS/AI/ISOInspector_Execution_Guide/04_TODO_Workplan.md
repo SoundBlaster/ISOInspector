@@ -41,7 +41,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 >
 > **Follow-up queued (2025-11-04):** Task **T5.4 — Performance Benchmark: Lenient vs. Strict Parsing** is archived in `DOCS/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/205_T5_4_Performance_Benchmark.md`. The macOS 1 GiB verification run remains pending; execution steps live in `DOCS/INPROGRESS/next_tasks.md` alongside the existing Linux metrics log, with historical day-to-day notes stored at `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.
 >
-> **Completed (2025-11-10):** Task **T5.5 — Tolerant Parsing Fuzzing Harness** delivered automated fuzzing with 100+ synthetically corrupted payloads and 99.9% crash-free completion rate assertion. Implementation captured in `DOCS/INPROGRESS/Summary_of_Work.md`.
+> **Completed (2025-11-10):** Task **T5.5 — Tolerant Parsing Fuzzing Harness** delivered automated fuzzing with 100+ synthetically corrupted payloads and 99.9% crash-free completion rate assertion. Implementation captured in `DOCS/TASK_ARCHIVE/209_T5_5_Tolerant_Parsing_Fuzzing_Harness/Summary_of_Work_T5.5.md`.
 > - ✅ `TolerantParsingFuzzTests` generates deterministic mutations (header truncation, overlapping ranges, bogus sizes) via seeded RNG
 > - ✅ Reproduction artifacts automatically captured under `Documentation/CorruptedFixtures/FuzzArtifacts/` for failed cases
 > - ✅ Test suite validates crash-free completion rate ≥99.9% across 100+ iterations with aggregate statistics
