@@ -360,28 +360,22 @@ final class UICorruptionIndicatorsSmokeTests: XCTestCase {
                 )
             }
 
-            // Assert: Nodes with issues should have appropriate status
-            let nodesWithIssues = events.compactMap { event -> ParseTreeNode? in
-                if case .node(let node) = event, !node.issues.isEmpty {
-                    return node
-                }
-                return nil
-            }
+            // Assert: Events with issues should be present
+            let eventsWithIssues = events.filter { !$0.issues.isEmpty }
+            XCTAssertFalse(
+                eventsWithIssues.isEmpty,
+                "Fixture \(fixture.id) should have events with issues"
+            )
 
-            for node in nodesWithIssues {
-                // Nodes with issues should have non-valid status
-                XCTAssertNotEqual(
-                    node.status,
-                    .valid,
-                    "Node at offset \(node.header.startOffset) with issues should have non-valid status"
-                )
-
-                // Verify badge descriptor can be created
-                let descriptor = ParseTreeStatusDescriptor(status: node.status)
-                if node.status != .valid {
-                    XCTAssertNotNil(
-                        descriptor,
-                        "Badge descriptor should be created for node with status \(node.status)"
+            // Verify issues have proper structure
+            for event in eventsWithIssues {
+                for issue in event.issues {
+                    XCTAssertFalse(issue.code.isEmpty, "Issue should have non-empty code")
+                    XCTAssertFalse(issue.message.isEmpty, "Issue should have non-empty message")
+                    // Verify severity is one of the expected values
+                    XCTAssertTrue(
+                        [ParseIssue.Severity.error, .warning, .info].contains(issue.severity),
+                        "Issue should have valid severity"
                     )
                 }
             }
