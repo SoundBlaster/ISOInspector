@@ -52,6 +52,7 @@
 		69A74492C9C9DEFFE9A72365 /* KeyValueRowAccessibilityTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D96B6EE5B09DD33385E1872 /* KeyValueRowAccessibilityTests.swift */; };
 		69D616C0F7E06E002B9E4D9E /* PatternIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4FB1B06201A871DE92FAE3F /* PatternIntegrationTests.swift */; };
 		6AC9723C0DDAB357A1E34E53 /* YAMLIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5626495C0444D19892E5D620 /* YAMLIntegrationTests.swift */; };
+		701FAAD38DD73A4E26FA3E7B /* Yams in Frameworks */ = {isa = PBXBuildFile; productRef = 88A8C1FE5ACD3C9B0F90BDFE /* Yams */; };
 		73666DB441E163D96D8B80BC /* SectionHeaderPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1107B88529958F904576164A /* SectionHeaderPerformanceTests.swift */; };
 		7983D5B02AB8B48D090ED1CB /* AccessibilityTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AB8C1F9833C7682C2A40D3A /* AccessibilityTestHelpers.swift */; };
 		7A5FFA8370A6E7F25ECAA094 /* InteractiveStyleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A9CC0F0E1A1D1CEF060102A /* InteractiveStyleTests.swift */; };
@@ -246,6 +247,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				701FAAD38DD73A4E26FA3E7B /* Yams in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -638,6 +640,7 @@
 			);
 			name = FoundationUI;
 			packageProductDependencies = (
+				88A8C1FE5ACD3C9B0F90BDFE /* Yams */,
 			);
 			productName = FoundationUI;
 			productReference = C39A0926E8728234BEAD99F1 /* FoundationUI.framework */;
@@ -664,6 +667,7 @@
 			);
 			mainGroup = B3A168EEAC6CC4615CD91797;
 			packageReferences = (
+				5C54EC66518DA57BF57540D2 /* XCRemoteSwiftPackageReference "Yams" */,
 				2533A4BF7C6A4079B80A8574 /* XCRemoteSwiftPackageReference "swift-snapshot-testing" */,
 			);
 			productRefGroup = 087E05D3A29B84CE02E20B22 /* Products */;
@@ -1124,9 +1128,21 @@
 				minimumVersion = 1.15.0;
 			};
 		};
+		5C54EC66518DA57BF57540D2 /* XCRemoteSwiftPackageReference "Yams" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jpsim/Yams.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		88A8C1FE5ACD3C9B0F90BDFE /* Yams */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Yams;
+		};
 		FE93DB4F562850628CC18865 /* SnapshotTesting */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SnapshotTesting;

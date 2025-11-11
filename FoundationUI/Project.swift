@@ -20,7 +20,7 @@ let baseSettings: SettingsDictionary = [
     "SWIFT_VERSION": "6.0",
     "IPHONEOS_DEPLOYMENT_TARGET": "16.0",
     "MACOSX_DEPLOYMENT_TARGET": "14.0",
-    "SWIFT_TREAT_WARNINGS_AS_ERRORS": "YES"
+    "SWIFT_TREAT_WARNINGS_AS_ERRORS": "YES",
 ]
 
 // MARK: - Framework Target
@@ -34,6 +34,9 @@ func foundationUIFramework() -> Target {
         deploymentTargets: DeploymentTargets.multiplatform(iOS: "16.0", macOS: "14.0"),
         infoPlist: .default,
         sources: ["Sources/FoundationUI/**"],
+        dependencies: [
+            .package(product: "Yams")
+        ],
         settings: .settings(base: baseSettings)
     )
 }
@@ -51,7 +54,7 @@ func foundationUITests() -> Target {
         sources: ["Tests/FoundationUITests/**"],
         dependencies: [
             .target(name: "FoundationUI"),
-            .package(product: "SnapshotTesting")
+            .package(product: "SnapshotTesting"),
         ],
         settings: .settings(base: baseSettings)
     )
@@ -67,11 +70,15 @@ let project = Project(
         .remote(
             url: "https://github.com/pointfreeco/swift-snapshot-testing",
             requirement: .upToNextMajor(from: "1.15.0")
-        )
+        ),
+        .remote(
+            url: "https://github.com/jpsim/Yams.git",
+            requirement: .upToNextMajor(from: "5.0.0")
+        ),
     ],
     targets: [
         foundationUIFramework(),
-        foundationUITests()
+        foundationUITests(),
     ],
     schemes: [
         .scheme(
