@@ -83,6 +83,28 @@
 
 ## 📋 Next Priority Tasks
 
+### ⭐ **NEW**: Phase 2.2 Indicator Component (P0)
+
+**Priority**: P0 (Core component parity)
+
+**Estimated Effort**: 3-5 hours (implementation + full test suite)
+
+**Dependencies**: BadgeChipStyle color mapping, BadgeLevel enum, Copyable modifier infrastructure
+
+**Task Plan Reference**: `FoundationUI_TaskPlan.md` → Phase 2.2 Essential Components (Indicator task)
+
+**Status**: Pending (awaiting implementation + docs/tests)
+
+**Why now**:
+- Needed for dense layouts (Inspector summaries, Sidebar badges) where Badge is too verbose
+- Shares semantics with existing status system, minimizing design risk
+- Unlocks agent tooling parity by exposing status dots across platforms
+
+**Subtasks**:
+1. [ ] Build `Indicator` component with size variants, tooltip behavior, and Copyable support
+2. [ ] Author unit/snapshot/accessibility/performance tests across all BadgeLevel cases
+3. [ ] Document API + previews + AgentDescribable schema updates
+
 ### ⭐ **RECOMMENDED**: Phase 4.1.4 - Implement YAML Parser/Validator (P1)
 
 **Priority**: P1 (Agent Support - Natural Progression)
@@ -144,13 +166,13 @@
 | Phase | Progress | Status |
 |-------|----------|--------|
 | Phase 1: Foundation | 10/10 (100%) | ✅ Complete |
-| Phase 2: Core Components | 22/22 (100%) | ✅ Complete |
+| Phase 2: Core Components | 22/23 (95.7%) | ✅ Complete |
 | Phase 3: Patterns & Platform Adaptation | 16/16 (100%) | ✅ Complete |
 | Phase 4: Agent Support & Polish | 14/18 (77.8%) | 🚧 In progress |
 | **Phase 5: Documentation & QA** | **15/28 (54%)** | 🚧 In progress |
 | Phase 6: Integration & Validation | 0/17 (0%) | Not started |
 
-**Overall Progress**: 78/118 tasks (66.1%)
+**Overall Progress**: 78/119 tasks (65.5%)
 
 ---
 

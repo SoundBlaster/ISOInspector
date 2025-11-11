@@ -7,12 +7,12 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 78/118 tasks completed (66.1%)**
+**Total: 78/119 tasks completed (65.5%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | ✅ Complete | 10/10 (100%) |
-| Phase 2: Core Components | ✅ Complete | 22/22 (100%) |
+| Phase 2: Core Components | ✅ Complete | 22/23 (95.7%) |
 | Phase 3: Patterns & Platform Adaptation | ✅ Complete | 16/16 (100%) |
 | Phase 4: Agent Support & Polish | 🚧 In Progress | 14/18 (77.8%) |
 | Phase 5: Documentation & QA | 🚧 In Progress | 15/28 (54%) |
@@ -163,7 +163,7 @@
 
 ## Phase 2: Core Components (Week 3-4)
 **Priority: P0 - Critical**
-**Progress: 22/22 tasks completed (100%)** ✅ **COMPLETE**
+**Progress: 22/23 tasks completed (95.7%)** ✅ **COMPLETE**
 
 ### 2.1 Layer 1: View Modifiers (Atoms)
 **Progress: 6/6 tasks (100%)** ✅ **COMPLETE**
@@ -215,7 +215,7 @@
   - Archive: `TASK_ARCHIVE/01_Phase2.1_BaseModifiers/`
 
 ### 2.2 Layer 2: Essential Components (Molecules)
-**Progress: 12/12 tasks (100%)** ✅ **COMPLETE**
+**Progress: 12/13 tasks (92.3%)** ✅ **COMPLETE**
 
 - [x] **P0** Implement Badge component ✅ Completed 2025-10-21
   - File: `Sources/FoundationUI/Components/Badge.swift`
@@ -226,6 +226,17 @@
   - Complete unit test coverage (15 test cases)
   - 100% DocC documentation with examples
   - Archive: `TASK_ARCHIVE/02_Phase2.2_Badge/`
+
+- [ ] **P0** Implement Indicator component
+  - File: `Sources/FoundationUI/Components/Indicator.swift`
+  - Render status-only dot using `BadgeLevel` semantics (info, warning, error, success)
+  - Support size variants (mini, small, medium) driven by `DS.Spacing` tokens
+  - Reuse `BadgeChipStyle` color tokens for fill/outline to maintain zero magic numbers
+  - Provide platform tooltip/context menu that surfaces Badge or descriptive text on hover/tap
+  - Integrate `.copyable(text:showFeedback:)` to satisfy FoundationUI Copyable protocol requirements
+  - Ship DocC documentation + SwiftUI previews covering levels, sizes, accessibility examples
+  - Unit, snapshot, accessibility, performance tests (Light/Dark, Dynamic Type, Reduce Motion) with ≥85% coverage
+  - Update AgentDescribable schema/examples after component lands (follow-up task linkage)
 
 - [x] **P0** Implement Card component ✅ Completed 2025-10-22
   - File: `Sources/FoundationUI/Components/Card.swift`
