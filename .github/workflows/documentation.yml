@@ -28,6 +28,9 @@ jobs:
         with:
           xcode-version: latest-stable
 
+      - name: Clean output directory
+        run: rm -rf ./docs
+
       - name: Generate documentation
         run: |
           swift package generate-documentation \
