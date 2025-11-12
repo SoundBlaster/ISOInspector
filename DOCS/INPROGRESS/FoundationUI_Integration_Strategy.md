@@ -950,7 +950,7 @@ Every Friday (End of Phase):
 
 **Estimated Duration:** 3-4 days
 **Start Date:** 2025-11-12
-**Target Completion:** 2025-11-15
+**Target Completion:** 2025-11-15–2025-11-16
 
 ---
 
