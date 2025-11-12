@@ -28,8 +28,10 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Clean output directory
-        run: rm -rf ./docs
+      - name: Prepare output directory
+        run: |
+          rm -rf ./docs
+          mkdir -p ./docs
 
       - name: Generate documentation
         run: |
