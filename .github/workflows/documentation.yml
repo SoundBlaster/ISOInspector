@@ -28,19 +28,21 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Prepare output directory
-        run: |
-          rm -rf ./gh-pages
-          rm -rf .build/plugins/Swift-DocC
-          mkdir -p ./gh-pages
+      - name: Clean build artifacts
+        run: rm -rf .build/plugins/Swift-DocC
 
       - name: Generate documentation
         run: |
           swift package generate-documentation \
             --target ISOInspectorKit \
-            --output-path ./gh-pages \
             --transform-for-static-hosting \
             --hosting-base-path ISOInspector
+
+      - name: Copy documentation to gh-pages
+        run: |
+          rm -rf ./gh-pages
+          mkdir -p ./gh-pages
+          cp -r .build/plugins/Swift-DocC/outputs/ISOInspectorKit.doccarchive/* ./gh-pages/
 
       - name: Add .nojekyll
         run: touch ./gh-pages/.nojekyll
