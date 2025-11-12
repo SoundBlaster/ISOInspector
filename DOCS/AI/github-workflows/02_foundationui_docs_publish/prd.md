@@ -40,3 +40,4 @@ Provide automated publishing of FoundationUI DocC archives to GitHub Pages so th
 | Concurrent runs of ISOInspector and FoundationUI publishers could stomp each other | Use a unique concurrency group (`foundationui-pages`) so both jobs queue separately. |
 | DocC output path mismatched due to case sensitivity | Copy from `.build/plugins/Swift-DocC/outputs/FoundationUI.doccarchive/` and keep redirect pointing to the lowercase folder. |
 | macOS runner availability | Align with ISOInspector job using `macos-14` which already works for DocC generation. |
+| Swift 6 toolchain rejects duplicate StrictConcurrency flag | Gate the SwiftPM `StrictConcurrency` upcoming feature behind a `swift(<6.0)` compiler check so newer toolchains rely on their native strictness. |

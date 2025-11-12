@@ -1,6 +1,14 @@
 // swift-tools-version: 6.0
 import PackageDescription
 
+#if swift(>=6.0)
+let foundationUIStrictConcurrencySettings: [SwiftSetting] = []
+#else
+let foundationUIStrictConcurrencySettings: [SwiftSetting] = [
+    .enableUpcomingFeature("StrictConcurrency")
+]
+#endif
+
 let package = Package(
     name: "ISOInspector",
     defaultLocalization: "en",
@@ -83,8 +91,7 @@ let package = Package(
                 "AgentSupport/Examples/inspector_pattern_examples.yaml",
                 "AgentSupport/Examples/complete_ui_example.yaml",
             ],
-            swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency"),
+            swiftSettings: foundationUIStrictConcurrencySettings + [
                 .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release)),
             ]
         ),
