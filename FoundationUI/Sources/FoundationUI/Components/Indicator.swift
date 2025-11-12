@@ -62,11 +62,13 @@ public struct Indicator: View, Sendable {
                 minHeight: size.minimumHitTarget.height
             )
             .contentShape(Circle())
-            .modifier(IndicatorTooltipModifier(
-                style: tooltipStyle,
-                tooltip: tooltip,
-                fallbackLevel: level
-            ))
+            .modifier(
+                IndicatorTooltipModifier(
+                    style: tooltipStyle,
+                    tooltip: tooltip,
+                    fallbackLevel: level
+                )
+            )
             .animation(reduceMotion ? nil : DS.Animation.quick, value: level)
             .accessibilityElement(children: .ignore)
             .accessibilityLabel(accessibilityConfiguration.label)
@@ -77,9 +79,9 @@ public struct Indicator: View, Sendable {
 
 // MARK: - Size
 
-public extension Indicator {
+extension Indicator {
     /// Indicator size presets.
-    enum Size: CaseIterable, Equatable, Sendable {
+    public enum Size: CaseIterable, Equatable, Sendable {
         /// Compact indicator sized with ``DS/Spacing/s``.
         case mini
         /// Default indicator sized with ``DS/Spacing/m``.
@@ -107,11 +109,11 @@ public extension Indicator {
         /// Minimum hit target size for accessibility compliance.
         var minimumHitTarget: CGSize {
             #if os(iOS) || os(tvOS)
-            let minimum = PlatformAdapter.minimumTouchTarget
-            return CGSize(width: minimum, height: minimum)
+                let minimum = PlatformAdapter.minimumTouchTarget
+                return CGSize(width: minimum, height: minimum)
             #else
-            let length = DS.Spacing.xl + DS.Spacing.m + DS.Spacing.s
-            return CGSize(width: length, height: length)
+                let length = DS.Spacing.xl + DS.Spacing.m + DS.Spacing.s
+                return CGSize(width: length, height: length)
             #endif
         }
 
@@ -138,9 +140,9 @@ public extension Indicator {
 
 // MARK: - Tooltip
 
-public extension Indicator {
+extension Indicator {
     /// Tooltip payload describing an indicator state.
-    struct Tooltip: Equatable, Sendable {
+    public struct Tooltip: Equatable, Sendable {
         /// Tooltip content variants.
         public enum Content: Equatable, Sendable {
             /// Plain textual tooltip.
@@ -178,7 +180,7 @@ public extension Indicator {
                 return content
             case .text:
                 switch content {
-                case let .badge(text, _):
+                case .badge(let text, _):
                     return .text(text)
                 case .text:
                     return content
@@ -187,7 +189,7 @@ public extension Indicator {
                 switch content {
                 case .badge:
                     return content
-                case let .text(text):
+                case .text(let text):
                     return .badge(text: text, level: fallbackLevel)
                 }
             case .none:
@@ -198,9 +200,9 @@ public extension Indicator {
         /// Accessibility-friendly text description.
         var accessibilityHint: String? {
             switch content {
-            case let .text(value):
+            case .text(let value):
                 return value
-            case let .badge(text, _):
+            case .badge(let text, _):
                 return text
             }
         }
@@ -208,23 +210,23 @@ public extension Indicator {
         /// Agent metadata describing the tooltip.
         var agentPayload: [String: Any] {
             switch content {
-            case let .text(value):
+            case .text(let value):
                 return [
                     "kind": "text",
-                    "value": value
+                    "value": value,
                 ]
-            case let .badge(text, level):
+            case .badge(let text, let level):
                 return [
                     "kind": "badge",
                     "text": text,
-                    "level": level.stringValue
+                    "level": level.stringValue,
                 ]
             }
         }
     }
 
     /// Tooltip presentation style environment value.
-    enum TooltipStyle: Equatable, Sendable {
+    public enum TooltipStyle: Equatable, Sendable {
         /// Automatically uses the provided tooltip content.
         case automatic
         /// Forces textual presentation.
@@ -238,9 +240,9 @@ public extension Indicator {
 
 // MARK: - Accessibility
 
-public extension Indicator {
+extension Indicator {
     /// Accessibility metadata describing the indicator.
-    struct AccessibilityConfiguration: Equatable, Sendable {
+    public struct AccessibilityConfiguration: Equatable, Sendable {
         /// VoiceOver label for the indicator.
         public let label: String
         /// Optional VoiceOver hint.
@@ -274,7 +276,8 @@ public extension Indicator {
 
             if let tooltipHint = tooltip?.accessibilityHint?
                 .trimmingCharacters(in: .whitespacesAndNewlines),
-               !tooltipHint.isEmpty {
+                !tooltipHint.isEmpty
+            {
                 return AccessibilityConfiguration(label: label, hint: tooltipHint)
             }
 
@@ -289,17 +292,17 @@ private struct IndicatorTooltipStyleKey: EnvironmentKey {
     static let defaultValue: Indicator.TooltipStyle = .automatic
 }
 
-public extension EnvironmentValues {
+extension EnvironmentValues {
     /// Controls how indicator tooltips are rendered.
-    var indicatorTooltipStyle: Indicator.TooltipStyle {
+    public var indicatorTooltipStyle: Indicator.TooltipStyle {
         get { self[IndicatorTooltipStyleKey.self] }
         set { self[IndicatorTooltipStyleKey.self] = newValue }
     }
 }
 
-public extension View {
+extension View {
     /// Overrides the tooltip style for nested indicators.
-    func indicatorTooltipStyle(_ style: Indicator.TooltipStyle) -> some View {
+    public func indicatorTooltipStyle(_ style: Indicator.TooltipStyle) -> some View {
         environment(\.indicatorTooltipStyle, style)
     }
 }
@@ -313,18 +316,17 @@ private struct IndicatorTooltipModifier: ViewModifier {
 
     @ViewBuilder
     func body(content: Content) -> some View {
-        guard let tooltip else {
+        if let tooltip {
+            let resolvedContent = tooltip.preferredContent(
+                style: style, fallbackLevel: fallbackLevel)
+            switch resolvedContent {
+            case .text(let value):
+                applyTextTooltip(value: value, to: content)
+            case .badge(let text, let level):
+                applyBadgeTooltip(text: text, level: level, to: content)
+            }
+        } else {
             content
-            return
-        }
-
-        let resolvedContent = tooltip.preferredContent(style: style, fallbackLevel: fallbackLevel)
-
-        switch resolvedContent {
-        case let .text(value):
-            applyTextTooltip(value: value, to: content)
-        case let .badge(text, level):
-            applyBadgeTooltip(text: text, level: level, to: content)
         }
     }
 
@@ -335,31 +337,33 @@ private struct IndicatorTooltipModifier: ViewModifier {
             content
         default:
             #if os(macOS)
-            content.help(value)
+                content.help(value)
             #elseif os(iOS) || os(tvOS)
-            content.contextMenu {
-                Text(value)
-            }
+                content.contextMenu {
+                    Text(value)
+                }
             #else
-            content
+                content
             #endif
         }
     }
 
     @ViewBuilder
-    private func applyBadgeTooltip(text: String, level: BadgeLevel, to content: Content) -> some View {
+    private func applyBadgeTooltip(text: String, level: BadgeLevel, to content: Content)
+        -> some View
+    {
         switch style {
         case .none:
             content
         default:
             #if os(macOS)
-            content.help(text)
+                content.help(text)
             #elseif os(iOS) || os(tvOS)
-            content.contextMenu {
-                Badge(text: text, level: level)
-            }
+                content.contextMenu {
+                    Badge(text: text, level: level)
+                }
             #else
-            content
+                content
             #endif
         }
     }
@@ -380,37 +384,37 @@ private struct OptionalAccessibilityHintModifier: ViewModifier {
 // @todo: Add macOS hover effect previews once CI can build SwiftUI previews.
 
 #if canImport(SwiftUI)
-@available(iOS 17.0, macOS 14.0, *)
-@MainActor
-extension Indicator: AgentDescribable {
-    public var componentType: String {
-        "Indicator"
-    }
-
-    public var properties: [String: Any] {
-        var values: [String: Any] = [
-            "level": level.stringValue,
-            "size": size.stringValue
-        ]
-
-        if let reason, !reason.isEmpty {
-            values["reason"] = reason
+    @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
+    extension Indicator: AgentDescribable {
+        public var componentType: String {
+            "Indicator"
         }
 
-        if let tooltip {
-            values["tooltip"] = tooltip.agentPayload
+        public var properties: [String: Any] {
+            var values: [String: Any] = [
+                "level": level.stringValue,
+                "size": size.stringValue,
+            ]
+
+            if let reason, !reason.isEmpty {
+                values["reason"] = reason
+            }
+
+            if let tooltip {
+                values["tooltip"] = tooltip.agentPayload
+            }
+
+            return values
         }
 
-        return values
-    }
-
-    public var semantics: String {
-        if let reason, !reason.isEmpty {
-            return "\(level.accessibilityLabel) indicator — \(reason)"
+        public var semantics: String {
+            if let reason, !reason.isEmpty {
+                return "\(level.accessibilityLabel) indicator — \(reason)"
+            }
+            return "\(level.accessibilityLabel) indicator"
         }
-        return "\(level.accessibilityLabel) indicator"
     }
-}
 #endif
 
 #Preview("Indicator Levels") {
@@ -426,7 +430,9 @@ extension Indicator: AgentDescribable {
     HStack(spacing: DS.Spacing.m) {
         Indicator(level: .info, size: .mini, reason: "Idle")
         Indicator(level: .warning, size: .small, reason: "Processing")
-        Indicator(level: .error, size: .medium, reason: "Failure", tooltip: .badge(text: "Integrity failure", level: .error))
+        Indicator(
+            level: .error, size: .medium, reason: "Failure",
+            tooltip: .badge(text: "Integrity failure", level: .error))
     }
     .padding(DS.Spacing.l)
     .indicatorTooltipStyle(.badge)

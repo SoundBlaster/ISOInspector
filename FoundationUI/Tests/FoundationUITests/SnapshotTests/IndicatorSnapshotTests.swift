@@ -11,11 +11,6 @@ import SnapshotTesting
 @MainActor
 final class IndicatorSnapshotTests: XCTestCase {
 
-    override func setUp() {
-        super.setUp()
-        isRecording = false
-    }
-
     func testIndicatorCatalogLightMode() {
         let view = indicatorCatalog()
             .padding(DS.Spacing.l)

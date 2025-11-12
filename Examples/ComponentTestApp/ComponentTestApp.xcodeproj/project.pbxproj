@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 55;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -27,8 +27,10 @@
 		77858E854E62EF42329D5205 /* AccessibilityTestingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09D15A81AD22783E1DD9830 /* AccessibilityTestingScreen.swift */; };
 		7879AFD34215608895C0C79B /* UtilitiesScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622E96E767043242B5E2ED6B /* UtilitiesScreen.swift */; };
 		7A3FC11BCAA42B78F6EF7050 /* SectionHeaderScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444A4FBF47A01E64ABEAD276 /* SectionHeaderScreen.swift */; };
+		7B49B442ABFFDD9A63A5005C /* IndicatorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9266EFF81F4A44EC6B7D6DA /* IndicatorScreen.swift */; };
 		7F19076B95C890458B087AC7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CDFCB6A63193E80C24F968 /* ContentView.swift */; };
 		818189090BF452A49F3479ED /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80CDFCB6A63193E80C24F968 /* ContentView.swift */; };
+		8320FD4E053878A3052C2AC1 /* IndicatorScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9266EFF81F4A44EC6B7D6DA /* IndicatorScreen.swift */; };
 		86D3728BA7351432B4FD403B /* ComponentTestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0FEA0B8FD10C24C35A79A1B1 /* ComponentTestApp.swift */; };
 		895C7C00A6B25C397985AC14 /* BadgeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5778CB15B1DE9DB7602C5F21 /* BadgeScreen.swift */; };
 		8BBEA0DAFE958137CDF6AF56 /* AccessibilityTestingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E09D15A81AD22783E1DD9830 /* AccessibilityTestingScreen.swift */; };
@@ -92,6 +94,7 @@
 		BF677A5298B1C63AFAEF578E /* KeyValueRowScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueRowScreen.swift; sourceTree = "<group>"; };
 		D06C4D1A216CB4D023221027 /* InspectorPatternScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectorPatternScreen.swift; sourceTree = "<group>"; };
 		D8D655D2FCABF00E1BEC6B46 /* MockISOBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockISOBox.swift; sourceTree = "<group>"; };
+		D9266EFF81F4A44EC6B7D6DA /* IndicatorScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorScreen.swift; sourceTree = "<group>"; };
 		E07FBDDFF886D97EB1DC8C2D /* BoxTreePatternScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoxTreePatternScreen.swift; sourceTree = "<group>"; };
 		E09D15A81AD22783E1DD9830 /* AccessibilityTestingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessibilityTestingScreen.swift; sourceTree = "<group>"; };
 		F21C8814C8048A5B5D48B536 /* ModifiersScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifiersScreen.swift; sourceTree = "<group>"; };
@@ -150,6 +153,7 @@
 				E07FBDDFF886D97EB1DC8C2D /* BoxTreePatternScreen.swift */,
 				57AE13624542A1FB5B4590C4 /* CardScreen.swift */,
 				2B5FA320990EB8F90DDDBED9 /* DesignTokensScreen.swift */,
+				D9266EFF81F4A44EC6B7D6DA /* IndicatorScreen.swift */,
 				D06C4D1A216CB4D023221027 /* InspectorPatternScreen.swift */,
 				21F8CE63B416FFD400C20144 /* ISOInspectorDemoScreen.swift */,
 				BF677A5298B1C63AFAEF578E /* KeyValueRowScreen.swift */,
@@ -252,8 +256,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				ORGANIZATIONNAME = ISOInspector;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 1B72EEFA56FD734C3DE4430C /* Build configuration list for PBXProject "ComponentTestApp" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -305,6 +307,7 @@
 				2A88D9A31432223653E9874E /* CardScreen.swift in Sources */,
 				0B5B17F7B56BFAA17ECF10D4 /* DesignTokensScreen.swift in Sources */,
 				C1971D5DD6A007A913698EC1 /* ISOInspectorDemoScreen.swift in Sources */,
+				8320FD4E053878A3052C2AC1 /* IndicatorScreen.swift in Sources */,
 				A7E0C6D183AB8D3CC979D694 /* InspectorPatternScreen.swift in Sources */,
 				E6C3F69B33D1AAC98ACD2031 /* KeyValueRowScreen.swift in Sources */,
 				F773FF5DA2D3CED835A87ACF /* ModifiersScreen.swift in Sources */,
@@ -329,6 +332,7 @@
 				70B2E3803A2AAD0B9DAB3F89 /* CardScreen.swift in Sources */,
 				28A217F5889FAFC70070F077 /* DesignTokensScreen.swift in Sources */,
 				E82C67BBFE14AD2C4EA6C167 /* ISOInspectorDemoScreen.swift in Sources */,
+				7B49B442ABFFDD9A63A5005C /* IndicatorScreen.swift in Sources */,
 				BC58610166260D0008B4F990 /* InspectorPatternScreen.swift in Sources */,
 				62DCF4DA77811B8F33C2F1EC /* KeyValueRowScreen.swift in Sources */,
 				6E1D86DF57661F299FA6DD95 /* ModifiersScreen.swift in Sources */,
@@ -350,6 +354,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P8T2366K8X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ComponentTestApp-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -365,10 +370,7 @@
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-					DEBUG,
-				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
@@ -475,10 +477,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.componenttestapp.macos;
 				PRODUCT_NAME = ComponentTestApp_macOS;
 				SDKROOT = macosx;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
-					"$(inherited)",
-					DEBUG,
-				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
@@ -551,6 +550,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P8T2366K8X;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Derived/InfoPlists/ComponentTestApp-iOS-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
