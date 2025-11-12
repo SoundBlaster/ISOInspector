@@ -43,6 +43,13 @@ The current `ParseIssueStore` uses GCD queues with manual synchronization via `D
 - ✅ Full backward compatibility with existing API surface
 - ✅ Performance parity or better compared to GCD implementation
 - ✅ 100% test coverage maintained or improved
+- ✅ CI and git hooks compile/test with `--strict-concurrency=complete` without warnings
+
+### Automation Alignment
+- **Workplan linkage:** Execution plan task **A9** codifies the requirement for pre-push and GitHub Actions jobs to run `swift build --strict-concurrency=complete` and `swift test --strict-concurrency=complete`, failing on any diagnostic so regressions never land unnoticed.【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L18-L24】
+- **Hook integration:** `.githooks/pre-push` mirrors the CI invocation and publishes log paths recorded in this PRD for auditability, ensuring developer workstations catch violations before remote execution.【F:todo.md†L19-L23】
+- **CI surfacing:** `.github/workflows/ci.yml` archives concurrency logs as workflow artifacts and references this PRD in failure guidance so teams know the migration status and remediation steps.【F:todo.md†L19-L23】
+- **Status tracking:** Once actors replace the queue-based store, update this section with links to the passing logs and remove the `@unchecked Sendable` escape hatch noted in the Reality Check.
 
 ---
 
