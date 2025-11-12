@@ -303,6 +303,36 @@ public struct PlatformAdaptiveModifier: ViewModifier {
 }
 ```
 
+### 4.3 NavigationSplitViewKit Integration
+
+To deliver a first-class navigation experience across iOS, iPadOS, and macOS, FoundationUI will depend on [`NavigationSplitViewKit`](https://github.com/SoundBlaster/NavigationSplitView). The package provides a production-ready implementation of SwiftUI's `NavigationSplitView` with synchronized state management and adaptive behaviors.
+
+**Key Capabilities**
+
+- ✅ Adaptive three-column layout (Sidebar → Content → Inspector)
+- ✅ Shared `NavigationModel` state with `@Bindable` support
+- ✅ Column visibility orchestration for compact size classes
+- ✅ Inspector pinning and resize behaviors on desktop/tablet
+- ✅ Comprehensive DocC reference and Tuist demo for onboarding
+
+**FoundationUI Integration Requirements**
+
+1. Add `NavigationSplitViewKit` as an SPM dependency (Package.swift, Project.swift, Package.resolved).
+2. Expose a `NavigationSplitScaffold` wrapper that applies Composable Clarity tokens (spacing, colors, typography, animation).
+3. Provide environment keys so existing patterns (`SidebarPattern`, `InspectorPattern`, `ToolbarPattern`) can access the shared navigation model.
+4. Support single-/two-/three-column variants automatically based on size class and platform via PlatformAdaptation utilities.
+5. Publish DocC tutorials demonstrating ISOInspector navigation flows and agent YAML schemas for navigation-driven layouts.
+
+**Success Criteria**
+
+- [ ] Dependency compiles across all supported platforms (iOS 17+, iPadOS 17+, macOS 14+).
+- [ ] Navigation scaffold passes unit, snapshot, and integration tests for three-column and compact states.
+- [ ] Accessibility: VoiceOver exposes column toggle controls; keyboard shortcuts (⌘1/⌘2/⌘3) focus each column.
+- [ ] Zero magic numbers — all layout constants sourced from DS tokens.
+- [ ] ISOInspector demo apps adopt the shared navigation scaffold without platform-specific forks.
+
+**Specification**: [`FoundationUI/DOCS/INPROGRESS/NEW_NavigationSplitViewKit_Proposal.md`](../../../FoundationUI/DOCS/INPROGRESS/NEW_NavigationSplitViewKit_Proposal.md)
+
 ---
 
 ## 5. Core Components Specification
