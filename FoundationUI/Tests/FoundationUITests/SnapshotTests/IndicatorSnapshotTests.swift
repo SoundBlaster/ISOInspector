@@ -55,39 +55,12 @@
             file: StaticString = #filePath,
             line: UInt = #line
         ) {
-            #if os(iOS) || os(tvOS)
-                let config: ViewImageConfig = .iPhone13
-                let controller = UIHostingController(rootView: view)
-                guard let hostingView = controller.view else {
-                    XCTFail("UIHostingController missing view hierarchy")
-                    return
-                }
-
-                hostingView.frame = CGRect(
-                    origin: .zero,
-                    size: config.size ?? UIScreen.main.bounds.size
-                )
-                hostingView.layoutIfNeeded()
-
-                assertSnapshot(
-                    of: hostingView,
-                    as: .image(layout: .device(config: config)),
-                    file: file,
-                    testName: testName,
-                    line: line
-                )
-            #elseif os(macOS)
+            #if os(macOS)
                 let controller = NSHostingController(rootView: view)
-                guard let hostingView = controller.view else {
-                    XCTFail("NSHostingController missing view hierarchy")
-                    return
-                }
-
-                hostingView.frame.size = hostingView.fittingSize
-                hostingView.layoutSubtreeIfNeeded()
+                controller.view.frame.size = controller.view.fittingSize
 
                 assertSnapshot(
-                    of: hostingView,
+                    of: controller,
                     as: .image,
                     file: file,
                     testName: testName,
@@ -96,7 +69,7 @@
             #else
                 assertSnapshot(
                     of: view,
-                    as: .image,
+                    as: .image(layout: .sizeThatFits),
                     file: file,
                     testName: testName,
                     line: line
