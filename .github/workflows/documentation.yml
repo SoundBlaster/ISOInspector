@@ -31,12 +31,12 @@ jobs:
       - name: Clean build artifacts
         run: rm -rf .build/plugins/Swift-DocC
 
-      - name: Generate documentation
+      - name: Generate ISOInspector documentation
         run: |
           swift package generate-documentation \
             --target ISOInspectorKit \
             --transform-for-static-hosting \
-            --hosting-base-path ISOInspector
+            --hosting-base-path documentation/isoinspectorkit
 
       - name: Copy documentation to gh-pages
         run: |
