@@ -1,0 +1,96 @@
+name: FoundationUI Documentation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Clean build artifacts
+        run: rm -rf .build/plugins/Swift-DocC
+
+      - name: Generate FoundationUI documentation
+        run: |
+          swift package generate-documentation \
+            --target FoundationUI \
+            --transform-for-static-hosting \
+            --hosting-base-path documentation/foundationui
+
+      - name: Prepare documentation bundle
+        run: |
+          rm -rf foundationui-docs
+          mkdir -p foundationui-docs
+          cp -R .build/plugins/Swift-DocC/outputs/FoundationUI.doccarchive/* foundationui-docs/
+
+      - name: Verify deployment token
+        if: github.event_name == 'push'
+        env:
+          DEPLOY_TOKEN: ${{ secrets.FOUNDATIONUI_PAGES_TOKEN }}
+        run: |
+          if [ -z "$DEPLOY_TOKEN" ]; then
+            echo "::error::FOUNDATIONUI_PAGES_TOKEN secret is required to publish FoundationUI docs."
+            exit 1
+          fi
+
+      - name: Checkout FoundationUI Pages branch
+        if: github.event_name == 'push'
+        uses: actions/checkout@v4
+        with:
+          repository: soundblaster/FoundationUI
+          ref: gh-pages
+          token: ${{ secrets.FOUNDATIONUI_PAGES_TOKEN }}
+          path: foundationui-pages
+
+      - name: Update published documentation
+        if: github.event_name == 'push'
+        run: |
+          set -euo pipefail
+          cd foundationui-pages
+          rm -rf documentation
+          rm -f index.html
+          cp -R ../foundationui-docs/* .
+          touch .nojekyll
+          cat > index.html <<'HTML'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>FoundationUI Documentation</title>
+            <meta http-equiv="refresh" content="0; url=documentation/foundationui/">
+          </head>
+          <body>
+            <p>Redirecting to <a href="documentation/foundationui/">FoundationUI documentation</a>...</p>
+          </body>
+          </html>
+          HTML
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --staged --quiet; then
+            echo "No documentation updates to publish."
+            exit 0
+          fi
+          git commit -m "Update FoundationUI DocC documentation"
+          git push origin HEAD:gh-pages
+
+      - name: Upload documentation artifact
+        if: github.event_name != 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: foundationui-docc
+          path: foundationui-docs
+          if-no-files-found: error
