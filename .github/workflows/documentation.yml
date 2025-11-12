@@ -31,6 +31,7 @@ jobs:
       - name: Prepare output directory
         run: |
           rm -rf ./docs
+          rm -rf .build/plugins/Swift-DocC
           mkdir -p ./docs
 
       - name: Generate documentation
