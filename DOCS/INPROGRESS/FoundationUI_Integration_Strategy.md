@@ -419,7 +419,7 @@ Apply FoundationUI **environment contexts** for platform-specific behavior and a
 - [ ] **I4.1.1** — Apply `@Environment(\.platformAdaptation)` in key views
 - [ ] **I4.1.2** — Test macOS 12pt vs iOS 16pt spacing
 - [ ] **I4.1.3** — Size class adaptation (regular vs. compact)
-- [ ] **I4.1.4** — Test on all screen sizes (iPhone SE, iPhone 15 Pro Max, iPad, Mac)
+- [ ] **I4.1.4** — Test on all screen sizes (iPhone SE, iPhone 15 Pro Max, iPad, macOS)
 - [ ] **I4.1.5** — Snapshot tests for platform-specific layouts
 
 **Files to Modify:**
