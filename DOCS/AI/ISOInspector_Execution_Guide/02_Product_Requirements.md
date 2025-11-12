@@ -32,7 +32,7 @@ ISOInspector enables engineers and media technologists to introspect ISO BMFF (M
 | NFR-MAINT-001 | Maintainability | 90% unit test code coverage across core modules. | CI coverage report threshold enforced. |
 | NFR-MAINT-002 | Maintainability | Swift formatting is enforced locally and in CI. | Pre-commit hook runs `swift format --in-place`; CI `swift format --mode lint` step fails on diff. |
 | NFR-MAINT-003 | Maintainability | Complexity-focused SwiftLint rules stay active with strict thresholds. | `.swiftlint.yml` enforces function length, cyclomatic complexity, nesting, and type size; CI publishes analyzer artifact and fails on violations. |
-| NFR-MAINT-004 | Maintainability | Coverage ratio gate prevents regressions below 0.67 code-to-test ratio. | `coverage_analysis.py --threshold 0.67` blocks pushes and fails GitHub Actions when below target. |
+| NFR-MAINT-004 | Maintainability | Coverage ratio gate prevents regressions below 0.90 code-to-test ratio. | `coverage_analysis.py --threshold 0.90` blocks pushes and fails GitHub Actions when below target. |
 | NFR-DOC-001 | Documentation | Docs updated with every release. | CI check ensures versioned docs changed when public API changes detected. |
 | NFR-DOC-002 | Documentation | Public APIs ship with DocC-ready documentation comments. | SwiftLint `missing_docs` rule enforced in hooks; CI DocC build fails on warnings. |
 | NFR-CONC-001 | Concurrency | Core targets compile and test cleanly with `--strict-concurrency=complete`. | CI/pre-push run `swift build/test --strict-concurrency=complete` with zero warnings logged. |
