@@ -24,3 +24,7 @@ and SwiftUI app experiences.
 ### Integrations
 
 - <doc:IntegrationTouchpoints>
+
+### Tolerant Parsing
+
+- <doc:TolerantParsingGuide>

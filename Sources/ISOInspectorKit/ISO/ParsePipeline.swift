@@ -600,20 +600,109 @@ struct UnsafeSendable<Value>: @unchecked Sendable {
 }
 
 public struct ParsePipeline: Sendable {
+    /// Configuration options for the parse pipeline.
+    ///
+    /// ``Options`` controls how the parser handles corrupted or malformed files,
+    /// sets resource limits, and configures validation behavior.
+    ///
+    /// ## Topics
+    ///
+    /// ### Presets
+    ///
+    /// - ``strict``
+    /// - ``tolerant``
+    ///
+    /// ### Configuration
+    ///
+    /// - ``abortOnStructuralError``
+    /// - ``maxCorruptionEvents``
+    /// - ``payloadValidationLevel``
+    /// - ``maxTraversalDepth``
+    /// - ``maxStalledIterationsPerFrame``
+    /// - ``maxZeroLengthBoxesPerParent``
+    /// - ``maxIssuesPerFrame``
+    ///
+    /// ### Validation Levels
+    ///
+    /// - ``PayloadValidationLevel``
     public struct Options: Equatable, Sendable {
+        /// Determines the level of payload validation performed during parsing.
         public enum PayloadValidationLevel: Equatable, Sendable {
+            /// Performs exhaustive semantic validation of all box payloads.
+            ///
+            /// Use this level for production pipelines and security-sensitive contexts
+            /// where full validation is required.
             case full
+
+            /// Validates only structural integrity without deep semantic checks.
+            ///
+            /// This level is faster and more tolerant of minor specification deviations.
+            /// Recommended for diagnostic and forensic workflows.
             case structureOnly
         }
 
+        /// When `true`, parsing stops immediately upon encountering structural errors.
+        ///
+        /// Structural errors include invalid box sizes, corrupted headers, and
+        /// malformed container structures.
+        ///
+        /// - Default: `true` for ``strict``, `false` for ``tolerant``
         public var abortOnStructuralError: Bool
+
+        /// Maximum number of corruption issues to record before stopping.
+        ///
+        /// Set to `0` to abort on the first issue. Higher values allow parsing
+        /// to continue through multiple problems, useful for comprehensive
+        /// corruption analysis.
+        ///
+        /// - Default: `0` for ``strict``, `500` for ``tolerant``
         public var maxCorruptionEvents: Int
+
+        /// Controls the depth of payload validation.
+        ///
+        /// See ``PayloadValidationLevel`` for available options.
+        ///
+        /// - Default: `.full` for ``strict``, `.structureOnly` for ``tolerant``
         public var payloadValidationLevel: PayloadValidationLevel
+
+        /// Maximum box nesting depth before aborting.
+        ///
+        /// Protects against infinite recursion or excessively nested structures.
+        ///
+        /// - Default: `64`
         public var maxTraversalDepth: Int
+
+        /// Maximum stalled iterations per frame before aborting.
+        ///
+        /// Prevents infinite loops when parsing malformed iterative structures.
+        ///
+        /// - Default: `3`
         public var maxStalledIterationsPerFrame: Int
+
+        /// Maximum zero-length boxes allowed per parent container.
+        ///
+        /// Prevents infinite loops caused by consecutive zero-length boxes.
+        ///
+        /// - Default: `2`
         public var maxZeroLengthBoxesPerParent: Int
+
+        /// Maximum issues to record per parsing iteration.
+        ///
+        /// Limits memory usage when parsing severely corrupted files.
+        ///
+        /// - Default: `256`
         public var maxIssuesPerFrame: Int
 
+        /// Creates a custom parse pipeline configuration.
+        ///
+        /// - Parameters:
+        ///   - abortOnStructuralError: Stop parsing on structural errors
+        ///   - maxCorruptionEvents: Maximum corruption issues to record
+        ///   - payloadValidationLevel: Depth of payload validation
+        ///   - maxTraversalDepth: Maximum box nesting depth
+        ///   - maxStalledIterationsPerFrame: Maximum stalled iterations
+        ///   - maxZeroLengthBoxesPerParent: Maximum zero-length boxes per parent
+        ///   - maxIssuesPerFrame: Maximum issues per iteration
         public init(
             abortOnStructuralError: Bool = true,
             maxCorruptionEvents: Int = 0,
@@ -632,6 +721,20 @@ public struct ParsePipeline: Sendable {
             self.maxIssuesPerFrame = maxIssuesPerFrame
         }
 
+        /// Strict parsing mode that aborts on any structural error.
+        ///
+        /// Use this mode for:
+        /// - Production encoding/decoding pipelines
+        /// - CI/CD validation where only valid files should pass
+        /// - Security-sensitive contexts where malformed files should be rejected
+        ///
+        /// Configuration:
+        /// - Aborts immediately on structural errors
+        /// - No corruption event tolerance (`maxCorruptionEvents = 0`)
+        /// - Full payload validation
+        ///
+        /// ## See Also
+        /// - <doc:TolerantParsingGuide>
         public static let strict = Options(
             abortOnStructuralError: true,
             maxCorruptionEvents: 0,
@@ -642,6 +745,39 @@ public struct ParsePipeline: Sendable {
             maxIssuesPerFrame: 256
         )
 
+        /// Tolerant parsing mode that continues through structural errors.
+        ///
+        /// Use this mode for:
+        /// - Quality control workflows analyzing user-uploaded files
+        /// - Forensic analysis of corrupted evidence files
+        /// - Streaming server diagnostics
+        /// - File recovery tools
+        ///
+        /// Configuration:
+        /// - Continues parsing through structural errors
+        /// - Records up to 500 corruption events
+        /// - Structure-only payload validation for performance
+        ///
+        /// Example usage:
+        ///
+        /// ```swift
+        /// let pipeline = ParsePipeline.live(options: .tolerant)
+        /// let issueStore = ParseIssueStore()
+        /// var context = ParsePipeline.Context(
+        ///     source: fileURL,
+        ///     issueStore: issueStore
+        /// )
+        ///
+        /// for try await event in pipeline.events(for: reader, context: context) {
+        ///     // Handle events...
+        /// }
+        ///
+        /// let metrics = issueStore.metricsSnapshot()
+        /// print("Errors: \(metrics.errorCount)")
+        /// ```
+        ///
+        /// ## See Also
+        /// - <doc:TolerantParsingGuide>
         public static let tolerant = Options(
             abortOnStructuralError: false,
             maxCorruptionEvents: 500,
