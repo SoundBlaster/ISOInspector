@@ -68,6 +68,8 @@ scripts/check_yaml.py path/to/workflow.yml another/config.yaml
 
 ## Documentation
 
+Browse the online documentation at: https://soundblaster.github.io/ISOInspector/documentation/isoinspectorkit/
+
 Generate browsable DocC archives for every target with:
 
 ```sh
