@@ -30,24 +30,24 @@ jobs:
 
       - name: Prepare output directory
         run: |
-          rm -rf ./docs
+          rm -rf ./gh-pages
           rm -rf .build/plugins/Swift-DocC
-          mkdir -p ./docs
+          mkdir -p ./gh-pages
 
       - name: Generate documentation
         run: |
           swift package generate-documentation \
             --target ISOInspectorKit \
-            --output-path ./docs \
+            --output-path ./gh-pages \
             --transform-for-static-hosting \
             --hosting-base-path ISOInspector
 
       - name: Add .nojekyll
-        run: touch ./docs/.nojekyll
+        run: touch ./gh-pages/.nojekyll
 
       - name: Create index redirect
         run: |
-          cat > ./docs/index.html << 'EOF'
+          cat > ./gh-pages/index.html << 'EOF'
           <!DOCTYPE html>
           <html>
           <head>
@@ -64,7 +64,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./docs
+          path: ./gh-pages
 
   deploy:
     needs: build
