@@ -15,7 +15,7 @@ final class IndicatorSnapshotTests: XCTestCase {
         let view = indicatorCatalog()
             .padding(DS.Spacing.l)
 
-        assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13)))
+        assertIndicatorSnapshot(view, testName: #function)
     }
 
     func testIndicatorCatalogDarkMode() {
@@ -23,7 +23,7 @@ final class IndicatorSnapshotTests: XCTestCase {
             .padding(DS.Spacing.l)
             .preferredColorScheme(.dark)
 
-        assertSnapshot(of: view, as: .image(layout: .device(config: .iPhone13)))
+        assertIndicatorSnapshot(view, testName: #function)
     }
 
     private func indicatorCatalog() -> some View {
@@ -41,6 +41,31 @@ final class IndicatorSnapshotTests: XCTestCase {
                 }
             }
         }
+    }
+
+    private func assertIndicatorSnapshot(
+        _ view: some View,
+        testName: String,
+        file: StaticString = #filePath,
+        line: UInt = #line
+    ) {
+#if os(iOS) || os(tvOS)
+        assertSnapshot(
+            of: view,
+            as: .image(layout: .device(config: .iPhone13)),
+            file: file,
+            testName: testName,
+            line: line
+        )
+#else
+        assertSnapshot(
+            of: view,
+            as: .image,
+            file: file,
+            testName: testName,
+            line: line
+        )
+#endif
     }
 }
 #endif
