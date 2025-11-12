@@ -123,3 +123,265 @@ struct ParseEvent: Sendable, Codable {
 - Markdown guides stored under `Docs/Guides` with version tagging.
 - Generate CLI man pages via `swift-argument-parser` autodoc.
 - Keep MP4 box catalog synced with MP4RA updates; include script to fetch registry JSON.
+
+---
+
+## FoundationUI Integration Architecture
+
+### Overview
+ISOInspectorApp integrates FoundationUI design system following a **6-phase gradual migration** approach (see `DOCS/INPROGRESS/FoundationUI_Integration_Strategy.md` for detailed planning).
+
+**Key Principles:**
+- All UI components use FoundationUI design system (no magic numbers)
+- Design system tokens (DS.Spacing, DS.Colors, DS.Typography) used exclusively
+- Platform-aware adaptation via environment contexts (macOS/iOS/iPadOS)
+- Backward compatibility: old + new UI coexist during transition
+- Comprehensive testing: unit tests, snapshot tests, a11y tests, performance tests
+
+### Design System Layers
+
+**Layer 0: Design Tokens (DS namespace)**
+```swift
+DS.Spacing     // s(8), m(12), l(16), xl(24)
+DS.Colors      // semantic: primary, secondary, tertiary, accent + text variants
+DS.Typography  // label, body, title, caption, code, headline, subheadline
+DS.Radius      // small(6), medium(8), card(10), chip(999)
+DS.Animation   // quick(0.15s), medium(0.25s), slow(0.35s), spring
+```
+
+**Layer 1: View Modifiers**
+```swift
+.badgeChipStyle(level: .info | .warning | .error | .success)
+.cardStyle(elevation: .surface | .raised | .floating)
+.interactiveStyle()  // hover (macOS) / tap (iOS) feedback
+.surfaceStyle(.thin | .regular | .thick)  // material elevation
+.copyableModifier()  // platform-specific clipboard
+```
+
+**Layer 2: Components (Composable)**
+```swift
+DS.Badge                    // status indicator
+DS.Indicator               // compact status dot (mini/small/medium)
+DS.Card                    // content container with elevation
+DS.KeyValueRow             // metadata display (horizontal/vertical)
+DS.SectionHeader           // section title with optional divider
+DS.CopyableText            // interactive text with copy feedback
+DS.Copyable<Content>       // generic copyable wrapper
+```
+
+**Layer 3: Patterns (Organisms)**
+```swift
+DS.InspectorPattern        // scrollable inspector with fixed header
+DS.SidebarPattern          // NavigationSplitView sidebar
+DS.ToolbarPattern          // platform-adaptive toolbar
+DS.BoxTreePattern          // hierarchical tree with lazy rendering
+```
+
+**Layer 4: Contexts (Cross-Cutting)**
+```swift
+@Environment(\.surfaceStyleKey)         // material selection
+@Environment(\.platformAdaptation)      // spacing/sizing per platform
+@Environment(\.colorSchemeAdapter)      // dark mode adaptation
+@Environment(\.accessibilityContext)    // a11y: motion, contrast, dynamic type
+```
+
+### Integration Patterns
+
+**Pattern 1: Component Wrappers**
+```swift
+// Example: BoxStatusBadgeView wraps DS.Badge with ISO-specific semantics
+struct BoxStatusBadgeView: View {
+    let status: ParseStatus  // .success, .warning, .error, .info
+
+    var body: some View {
+        DS.Badge(text: status.description)
+            .badgeChipStyle(level: status.level)  // maps to DS semantic level
+    }
+}
+```
+
+**Pattern 2: Pattern Wrappers**
+```swift
+// Example: BoxesSidebar wraps DS.SidebarPattern
+struct BoxesSidebar: View {
+    @StateObject var store: BoxNodeStore
+
+    var body: some View {
+        DS.SidebarPattern(
+            sections: store.sections,
+            onSelect: { store.select($0) }
+        )
+        .platformAdaptation()  // auto-adapts macOS/iOS/iPadOS
+    }
+}
+```
+
+**Pattern 3: Accessibility Integration**
+All views apply accessibility contexts:
+```swift
+struct ContentView: View {
+    var body: some View {
+        VStack { /* UI */ }
+            .environment(\.platformAdaptation, PlatformAdaptation())
+            .environment(\.colorSchemeAdapter, ColorSchemeAdapter())
+            .environment(\.accessibilityContext, AccessibilityContext())
+    }
+}
+```
+
+### No Magic Numbers Rule
+
+**Enforcement:** All numeric values in UI must reference design tokens.
+
+**Correct:**
+```swift
+VStack(spacing: DS.Spacing.m) {  // ✅ Uses DS token
+    Text("Label")
+}
+```
+
+**Incorrect:**
+```swift
+VStack(spacing: 12) {  // ❌ Magic number
+    Text("Label")
+}
+```
+
+**Audit:** SwiftLint rule `magic_numbers` enforces zero magic numbers in UI code. Custom exceptions tracked in `.swiftlint.yml`.
+
+### Integration Phases & Testing Gates
+
+| Phase | Duration | Focus | Test Coverage | A11y Score | Status |
+|-------|----------|-------|---------------|-----------|--------|
+| Phase 0 | 3-4d | Setup, test infrastructure, Component Showcase | ≥80% | N/A | 📋 Planned |
+| Phase 1 | 5-7d | Badges, Cards, Key-Value Rows | ≥80% | ≥98% | 📋 Planned |
+| Phase 2 | 5-7d | Copyable, Interactive Styles, Materials | ≥80% | ≥98% | 📋 Planned |
+| Phase 3 | 7-10d | Sidebar, Inspector, Tree, Toolbar Patterns | ≥80% | ≥98% | 📋 Planned |
+| Phase 4 | 4-5d | Platform Adaptation, Accessibility, Dark Mode | ≥80% | ≥98% | 📋 Planned |
+| Phase 5 | 5-7d | Search, Progress, Export, Hex Viewer | ≥80% | ≥98% | 📋 Planned |
+| Phase 6 | 5-7d | Integration, Performance, Beta, Release | ≥80% | ≥98% | 📋 Planned |
+
+**Phase Gate Criteria (must pass to proceed):**
+1. ✅ All phase tasks complete
+2. ✅ Unit tests pass + coverage ≥80%
+3. ✅ Snapshot regression tests pass (all platforms)
+4. ✅ Accessibility audit ≥95% (no WCAG 2.1 AA violations)
+5. ✅ Code review approved (zero SwiftLint warnings)
+6. ✅ Performance baselines met (no regressions)
+
+### Platform-Specific Adaptations
+
+**macOS**
+- Sidebar always visible (horizontal split)
+- Keyboard shortcuts (Cmd+1/2/3 for sidebar sections, Cmd+F for search)
+- Hover states on interactive elements
+- Top toolbar placement
+
+**iOS**
+- Navigation stack for hierarchical navigation
+- Bottom toolbar (if present)
+- Touch feedback (no hover)
+- Single-column layout (no split view)
+
+**iPadOS**
+- Sidebar collapsible in portrait, persistent in landscape
+- Keyboard shortcuts supported
+- Large pointer area for touch
+- Split view with dynamic width
+
+### Testing Strategy
+
+**Test Distribution (Testing Pyramid):**
+```
+Unit Tests (70%)
+  - Component logic, state management
+  - Token validation, modifier composition
+  - Examples: BadgeTests, CardTests, KeyValueRowTests
+
+Integration Tests (20%)
+  - Pattern composition, navigation flows
+  - Context propagation, accessibility feature interaction
+  - Examples: SidebarPatternTests, InspectorPatternTests
+
+E2E Tests (10%)
+  - App launch, complete user workflows
+  - Cross-platform validation
+  - Examples: AppLaunchTests, NavigationFlowTests
+```
+
+**Test Suites per Phase:**
+```
+Tests/ISOInspectorAppTests/FoundationUI/
+├── Phase0/
+│   ├── DependencyTests.swift
+│   ├── ComponentShowcaseTests.swift
+│   └── IntegrationSetupTests.swift
+├── Phase1/
+│   ├── BadgeIndicatorTests.swift
+│   ├── BadgeIndicatorSnapshotTests.swift
+│   ├── CardSectionTests.swift
+│   ├── KeyValueRowTests.swift
+│   └── ...AccessibilityTests.swift
+├── Phase2/
+│   ├── CopyableTests.swift
+│   ├── InteractiveStyleTests.swift
+│   └── SurfaceStyleTests.swift
+├── Phase3/
+│   ├── SidebarPatternTests.swift
+│   ├── SidebarPatternSnapshotTests.swift
+│   ├── InspectorPatternTests.swift
+│   ├── BoxTreePatternTests.swift
+│   ├── BoxTreePatternPerformanceTests.swift
+│   └── ToolbarPatternTests.swift
+├── Phase4/
+│   ├── PlatformAdaptationTests.swift
+│   ├── AccessibilityContextTests.swift
+│   └── ColorSchemeAdapterTests.swift
+├── Phase5/
+│   ├── SearchFilterTests.swift
+│   ├── ProgressAsyncTests.swift
+│   ├── ExportShareTests.swift
+│   └── HexViewerTests.swift
+└── Phase6/
+    ├── IntegrationTests/
+    ├── PerformanceTests/
+    ├── SnapshotIntegrationTests.swift
+    └── AccessibilityComplianceTests.swift
+```
+
+**Snapshot Testing:** All UI variants tested on multiple platforms (iOS, iPadOS, macOS) and modes (light, dark, high contrast).
+
+**Accessibility Testing:** WCAG 2.1 AA compliance verified through:
+- VoiceOver narration tests (50+)
+- Keyboard navigation tests (20+)
+- Color contrast tests (30+)
+- Dynamic Type tests (20+)
+- Motion reduction tests (15+)
+
+### Quality Metrics
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| Test Coverage | ≥80% | XCTest code coverage per phase |
+| Accessibility | ≥95% (AA) | Automated audit + manual validation |
+| Performance: App Launch | <2s | XCTest + Instruments |
+| Performance: Tree Scroll | ≥55fps (1000 nodes) | Instruments CoreAnimation |
+| Performance: Memory | <250MB (large files) | Xcode Memory Debugger |
+| Binary Size Impact | <10% | xcodesign + dsymutil |
+| SwiftLint Violations | 0 | Strict mode enforcement |
+
+### Migration Documentation
+
+See `DOCS/AI/ISOInspector_Execution_Guide/MIGRATION.md` (created during Phase 6.3) for:
+- Old UI component → FoundationUI mapping
+- Code examples for common patterns
+- Troubleshooting guide
+- Integration checklist
+
+### Related Documents
+
+- **Detailed Integration Plan:** `DOCS/INPROGRESS/FoundationUI_Integration_Strategy.md`
+- **Design System Guide:** `DOCS/AI/ISOInspector_Execution_Guide/10_DESIGN_SYSTEM_GUIDE.md`
+- **FoundationUI PRD:** `DOCS/AI/ISOViewer/FoundationUI_PRD.md`
+- **FoundationUI Task Plan:** `DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md`
+- **FoundationUI Test Plan:** `DOCS/AI/ISOViewer/FoundationUI_TestPlan.md`
