@@ -115,7 +115,7 @@
    - Updated task selection rationale
    - Added roadmap and next focus areas
 
-3. **`03_Technical_Spec.md`** (Updated)
+3. **`DOCS/AI/ISOInspector_Execution_Guide/03_Technical_Spec.md`** (Updated)
    - Added "FoundationUI Integration Architecture" section (250+ lines)
    - Documented design system layers with code examples
    - Added integration patterns and quality metrics
