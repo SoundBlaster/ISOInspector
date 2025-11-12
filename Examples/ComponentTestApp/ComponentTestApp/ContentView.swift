@@ -16,6 +16,7 @@ enum ScreenDestination: Hashable, Identifiable {
     case designTokens
     case modifiers
     case badge
+    case indicator
     case card
     case keyValueRow
     case sectionHeader
@@ -40,6 +41,8 @@ enum ScreenDestination: Hashable, Identifiable {
             return "Badge Component"
         case .card:
             return "Card Component"
+        case .indicator:
+            return "Indicator Component"
         case .keyValueRow:
             return "KeyValueRow Component"
         case .sectionHeader:
@@ -119,6 +122,9 @@ struct ContentView: View {
                 Section("Components") {
                     NavigationLink(value: ScreenDestination.badge) {
                         Label("Badge", systemImage: "tag.fill")
+                    }
+                    NavigationLink(value: ScreenDestination.indicator) {
+                        Label("Indicator", systemImage: "circle.inset.filled")
                     }
                     NavigationLink(value: ScreenDestination.card) {
                         Label("Card", systemImage: "rectangle.fill")
@@ -227,6 +233,8 @@ struct ContentView: View {
             ModifiersScreen()
         case .badge:
             BadgeScreen()
+        case .indicator:
+            IndicatorScreen()
         case .card:
             CardScreen()
         case .keyValueRow:
