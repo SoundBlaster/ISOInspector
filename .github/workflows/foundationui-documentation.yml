@@ -1,0 +1,81 @@
+name: FoundationUI Documentation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "foundationui-pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Clean build artifacts
+        run: rm -rf .build/plugins/Swift-DocC
+
+      - name: Generate documentation
+        run: |
+          swift package generate-documentation \
+            --target FoundationUI \
+            --transform-for-static-hosting \
+            --hosting-base-path FoundationUI
+
+      - name: Copy documentation to gh-pages
+        run: |
+          rm -rf ./gh-pages
+          mkdir -p ./gh-pages
+          cp -r .build/plugins/Swift-DocC/outputs/FoundationUI.doccarchive/* ./gh-pages/
+
+      - name: Add .nojekyll
+        run: touch ./gh-pages/.nojekyll
+
+      - name: Create index redirect
+        run: |
+          cat > ./gh-pages/index.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <title>FoundationUI Documentation</title>
+            <meta http-equiv="refresh" content="0; url=documentation/foundationui/">
+          </head>
+          <body>
+            <p>Redirecting to <a href="documentation/foundationui/">FoundationUI documentation</a>...</p>
+          </body>
+          </html>
+          EOF
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./gh-pages
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
