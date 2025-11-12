@@ -9,14 +9,14 @@ Phase 4.1 Agent-Driven UI Generation is past the midway point. Parser/validator 
 
 ### ⭐ Priority: Phase 2.2 Indicator Component (P0)
 
-- **Status**: Pending implementation
-- **Estimated Effort**: 3–5 hours (component + docs + tests)
+- **Status**: ✅ **IN PROGRESS** — test suite authoring underway (see `Phase2_IndicatorTests.md`)
+- **Estimated Effort**: 3–5 hours (tests + component + docs)
 - **Dependencies**: BadgeChipStyle color mapping, BadgeLevel enum, Copyable modifier infrastructure
 - **Task Plan Reference**: `FoundationUI_TaskPlan.md` → Phase 2.2 Essential Components (Indicator task)
 
 **Subtasks**:
 1. [ ] Build `Indicator` component with size variants, tooltip behavior, and Copyable support
-2. [ ] Author unit/snapshot/accessibility/performance tests across all BadgeLevel cases
+2. [ ] Author unit/snapshot/accessibility/performance tests across all BadgeLevel cases → ✅ _IN PROGRESS_
 3. [ ] Document API + previews + AgentDescribable schema updates
 
 ### ⭐ Recommended: Phase 4.1.5 Agent Integration Examples (P1)

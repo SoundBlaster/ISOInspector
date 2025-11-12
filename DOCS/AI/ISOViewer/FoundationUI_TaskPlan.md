@@ -227,7 +227,8 @@
   - 100% DocC documentation with examples
   - Archive: `TASK_ARCHIVE/02_Phase2.2_Badge/`
 
-- [ ] **P0** Implement Indicator component
+- [ ] **P0** Implement Indicator component → **IN PROGRESS** (test suite authoring)
+  - _Test-first requirement_: Create full Indicator unit/snapshot/accessibility/performance test coverage before implementation.
   - File: `Sources/FoundationUI/Components/Indicator.swift`
   - Render status-only dot using `BadgeLevel` semantics (info, warning, error, success)
   - Support size variants (mini, small, medium) driven by `DS.Spacing` tokens
