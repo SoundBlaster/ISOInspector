@@ -218,6 +218,7 @@ Reusable style modifiers that apply Design Tokens to views:
 Building blocks for inspector UIs:
 
 - **Badge**: Status indicators with semantic colors
+- **Indicator**: Compact status dots with badge semantics
 - **Card**: Container with elevation and materials
 - **KeyValueRow**: Key-value pair display with copyable text
 - **SectionHeader**: Section titles with optional dividers
