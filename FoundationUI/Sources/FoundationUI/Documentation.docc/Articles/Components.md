@@ -32,6 +32,30 @@ Badge(text: "Info", level: .info)
 - File format badges
 - Error and warning indicators
 
+### Indicator
+
+Compact status dots that reuse badge semantics without text.
+
+```swift
+Indicator(level: .warning, size: .small, reason: "Checksum mismatch")
+Indicator(level: .error, size: .mini, tooltip: .text("Integrity check failed"))
+Indicator(level: .success, size: .medium, tooltip: .badge(text: "Validated", level: .success))
+    .indicatorTooltipStyle(.badge)
+```
+
+**Features**:
+- Three size presets (`mini`, `small`, `medium`) mapped to DS spacing tokens
+- Tooltip support (text or badge) with `.indicatorTooltipStyle` environment
+- Accessibility label builder (`"{Level} indicator — {Reason}"`)
+- Automatic touch target padding (≥44×44 pt)
+- Animation respects Reduce Motion preferences
+
+**Use Cases**:
+- File validation dashboards
+- Realtime processing indicators
+- Compact inspector summaries
+- Visualizing long-running operations
+
 ### Card
 
 Container with elevation and materials.
@@ -319,6 +343,34 @@ public struct Badge: View {
 
 public enum BadgeLevel {
     case info, warning, error, success
+}
+```
+
+### Indicator API
+
+```swift
+public struct Indicator: View {
+    public init(
+        level: BadgeLevel,
+        size: Indicator.Size = .small,
+        reason: String? = nil,
+        tooltip: Indicator.Tooltip? = nil
+    )
+}
+
+public extension Indicator {
+    enum Size: CaseIterable {
+        case mini, small, medium
+    }
+
+    struct Tooltip {
+        public static func text(_ value: String) -> Indicator.Tooltip
+        public static func badge(text: String, level: BadgeLevel) -> Indicator.Tooltip
+    }
+
+    enum TooltipStyle {
+        case automatic, text, badge, none
+    }
 }
 ```
 

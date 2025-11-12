@@ -121,6 +121,7 @@ DS.Animation.spring  // Physics-based motion
 ## Components (Phase 2 - Coming Soon)
 
 - `Badge` - Status indicators with semantic levels
+- `Indicator` - Compact status dots with badge semantics
 - `Card` - Content containers with elevation
 - `KeyValueRow` - Metadata display with copy support
 - `SectionHeader` - Consistent section titles
