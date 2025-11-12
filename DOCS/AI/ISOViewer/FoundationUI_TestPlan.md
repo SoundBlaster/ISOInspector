@@ -65,6 +65,7 @@ This test plan covers all aspects of the FoundationUI framework:
 | **Layer 3** | SidebarPattern | ✅ | ✅ | ✅ | ✅ | ✅ | ≥80% |
 | **Layer 3** | ToolbarPattern | ✅ | ✅ | ✅ | ✅ | N/A | ≥80% |
 | **Layer 3** | BoxTreePattern | ✅ | ✅ | ✅ | ✅ | ✅ | ≥80% |
+| **Layer 3** | NavigationSplitScaffold | ✅ | ✅ | ✅ | ✅ | ✅ | ≥80% |
 | **Layer 4** | SurfaceStyleKey | ✅ | N/A | ✅ | N/A | N/A | ≥80% |
 | **Layer 4** | PlatformAdaptation | ✅ | ✅ | ✅ | N/A | N/A | ≥80% |
 | **Layer 4** | ColorSchemeAdapter | ✅ | ✅ | ✅ | N/A | N/A | ≥80% |
@@ -161,6 +162,18 @@ func testIndicatorUsesWarningColor() {
 - ✅ InspectorPattern applies material background
 - ✅ InspectorPattern adapts to platform
 
+**File:** `Tests/PatternsTests/NavigationSplitScaffoldTests.swift`
+
+**Test Cases:**
+- ✅ Initializes with default `NavigationModel` and custom bindings
+- ✅ Three-column layout renders Sidebar/Content/Detail using DS spacing
+- ✅ Compact width collapses to two/single column per size class
+- ✅ Inspector pinning toggles column visibility and persists state
+- ✅ VoiceOver announcements update when columns appear/disappear
+- ✅ Keyboard shortcuts (⌘1/⌘2/⌘3) move focus between columns
+- ✅ Reduce Motion disables animated transitions (animation tokens respected)
+- ✅ Integration with `SidebarPattern` and `InspectorPattern` preserves selection bindings
+
 #### 1.5 Context Tests
 **File:** `Tests/ContextsTests/PlatformAdaptationTests.swift`
 
@@ -191,8 +204,9 @@ func testIndicatorUsesWarningColor() {
 | InspectorPattern | ✅ | ✅ | ✅ (3 sizes) | iOS, macOS, iPad | N/A |
 | SidebarPattern | ✅ | ✅ | ✅ (3 sizes) | macOS, iPad | N/A |
 | BoxTreePattern | ✅ | ✅ | ✅ (3 sizes) | iOS, macOS, iPad | N/A |
+| NavigationSplitScaffold | ✅ | ✅ | ✅ (compact/regular) | iOS, iPad, macOS | N/A |
 
-**Total Snapshots:** ~150 baseline images
+**Total Snapshots:** ~165 baseline images
 
 **Example:**
 ```swift
@@ -353,11 +367,17 @@ func testIndicatorTooltipComposition() {
 ```
 
 #### 5.2 Navigation Tests
+**Files:**
+- `Tests/IntegrationTests/NavigationSplitIntegrationTests.swift`
+- `Tests/IntegrationTests/NavigationModelPersistenceTests.swift`
+
 **Test Cases:**
-- ✅ SidebarPattern selection updates
-- ✅ NavigationStack integration
-- ✅ Deep linking works
-- ✅ State preservation on navigation
+- ✅ `NavigationSplitScaffold` composes Sidebar/BoxTree/Inspector with shared `NavigationModel`
+- ✅ Column visibility toggles respond to toolbar buttons and keyboard shortcuts (⌘1/⌘2/⌘3)
+- ✅ Compact width transitions collapse to stack navigation without losing selection state
+- ✅ Deep linking restores sidebar + inspector selections from saved navigation path
+- ✅ State preservation across app relaunches using Codable navigation routes
+- ✅ Accessibility focus order remains deterministic when columns appear/disappear
 
 #### 5.3 Platform Adaptation Tests
 **Test Cases:**

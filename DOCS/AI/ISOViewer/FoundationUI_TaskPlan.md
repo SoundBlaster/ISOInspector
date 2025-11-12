@@ -7,13 +7,13 @@
 ---
 
 ## Overall Progress Tracker
-**Total: 80/118 tasks completed (67.8%)**
+**Total: 80/121 tasks completed (66.1%)**
 
 | Phase | Status | Progress |
 |-------|--------|----------|
 | Phase 1: Foundation | ✅ Complete | 10/10 (100%) |
 | Phase 2: Core Components | ✅ Complete | 22/23 (95.7%) |
-| Phase 3: Patterns & Platform Adaptation | ✅ Complete | 16/16 (100%) |
+| Phase 3: Patterns & Platform Adaptation | 🚧 In Progress | 16/19 (84.2%) |
 | Phase 4: Agent Support & Polish | 🚧 In Progress | 16/18 (88.9%) |
 | Phase 5: Documentation & QA | 🚧 In Progress | 15/28 (54%) |
 | Phase 6: Integration & Validation | Not Started | 0/17 (0%) |
@@ -401,7 +401,7 @@
 
 ## Phase 3: Patterns & Platform Adaptation (Week 5-6)
 **Priority: P0-P1**
-**Progress: 16/16 tasks completed (100%)** ✅ **COMPLETE**
+**Progress: 16/19 tasks completed (84.2%)** 🚧 **IN PROGRESS**
 
 ### 3.1 Layer 3: UI Patterns (Organisms)
 **Progress: 8/8 tasks (100%)** ✅ **COMPLETE**
@@ -438,6 +438,27 @@
   - Performance optimization for 1000+ node trees using LazyVStack
   - Full accessibility support with VoiceOver labels and keyboard navigation
   - Comprehensive unit tests (20+ test cases) in `Tests/FoundationUITests/PatternsTests/BoxTreePatternTests.swift`
+
+- [ ] **P0** Integrate NavigationSplitViewKit dependency → **NEW 2025-11-12**
+  - Add `.package(url: "https://github.com/SoundBlaster/NavigationSplitView", from: "1.0.0")` to `FoundationUI/Package.swift`
+  - Mirror dependency in Tuist manifests (`FoundationUI/Project.swift`) and regenerate lockfiles (`Package.resolved`)
+  - Ensure Examples and Tests targets link `NavigationSplitViewKit`
+  - Verify CI workflows cache the new dependency and update dependency compliance docs
+  - Specification: `FoundationUI/DOCS/INPROGRESS/NEW_NavigationSplitViewKit_Proposal.md`
+
+- [ ] **P0** Create NavigationSplitScaffold pattern → **NEW 2025-11-12**
+  - Wrap `NavigationSplitViewKit.NavigationModel` in FoundationUI-friendly API (`NavigationSplitScaffold`)
+  - Provide environment key for downstream patterns to access navigation state
+  - Implement DS-driven appearance (`.navigationSplitAppearance(.foundation)`) with zero magic numbers
+  - Author DocC article + previews showing Sidebar/Inspector composition across platforms
+  - Unit + integration tests covering three/two/single-column behavior on iOS, iPadOS, macOS
+
+- [ ] **P1** Update existing patterns to adopt shared navigation model → **NEW 2025-11-12**
+  - Refactor `SidebarPattern`, `InspectorPattern`, `ToolbarPattern` previews/tests to consume `NavigationSplitScaffold`
+  - Ensure column visibility controls expose accessibility shortcuts and VoiceOver labels
+  - Update agent YAML schemas + demo apps to surface navigation bindings (ISOInspectorApp skeleton)
+  - Snapshot tests for navigation layouts (Light/Dark, Dynamic Type, platform variants)
+  - Integration tests verifying NavigationModel synchronization with BoxTreePattern selections
   - 6 SwiftUI Previews covering all use cases (simple, deep, multi-select, large, dark mode, inspector integration)
   - Complete DocC documentation with usage examples
   - Archive: `TASK_ARCHIVE/14_Phase3.1_BoxTreePattern/`
@@ -1324,6 +1345,7 @@
 - [ ] Xcode 15.0+ installation on all development machines
 - [ ] ISO Inspector Core domain models (for integration)
 - [ ] 0AL Agent SDK availability (for agent features)
+- [ ] NavigationSplitViewKit (SPM) accessibility and version pinning
 
 ### Known Risks
 | Risk | Impact | Mitigation Status |
