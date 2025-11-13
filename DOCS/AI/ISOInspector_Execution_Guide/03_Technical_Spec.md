@@ -386,10 +386,688 @@ See `DOCS/AI/ISOInspector_Execution_Guide/MIGRATION.md` (created during Phase 6.
 - Troubleshooting guide
 - Integration checklist
 
+### Practical Integration Examples
+
+This section provides concrete code examples demonstrating how to integrate FoundationUI components into ISOInspector's UI codebase.
+
+#### Example 1: Badge Integration for Parse Status
+
+**Use Case:** Display parse validation status with semantic coloring.
+
+```swift
+// Sources/ISOInspectorApp/UI/Components/BoxStatusBadgeView.swift
+
+import SwiftUI
+import FoundationUI
+
+/// Wraps FoundationUI Badge component for ISO box parse status display
+struct BoxStatusBadgeView: View {
+    let status: ParseStatus
+
+    var body: some View {
+        Badge(text: status.displayText, level: status.badgeLevel, showIcon: true)
+            .accessibilityLabel("\(status.badgeLevel.accessibilityLabel): \(status.displayText)")
+    }
+}
+
+// Map domain ParseStatus to FoundationUI BadgeLevel
+extension ParseStatus {
+    var badgeLevel: BadgeLevel {
+        switch self {
+        case .success: return .success
+        case .warning: return .warning
+        case .error: return .error
+        case .info, .parsing: return .info
+        }
+    }
+
+    var displayText: String {
+        switch self {
+        case .success: return "VALID"
+        case .warning: return "WARNINGS"
+        case .error: return "ERRORS"
+        case .info: return "INFO"
+        case .parsing: return "PARSING"
+        }
+    }
+}
+
+// Usage in tree view
+struct BoxTreeRowView: View {
+    let box: BoxNode
+
+    var body: some View {
+        HStack(spacing: DS.Spacing.m) {
+            Text(box.name)
+                .font(DS.Typography.body)
+
+            Spacer()
+
+            BoxStatusBadgeView(status: box.parseStatus)
+        }
+        .padding(DS.Spacing.m)
+    }
+}
+```
+
+**Test Coverage:** See `Tests/ISOInspectorAppTests/FoundationUI/BadgeComponentTests.swift` for 32 comprehensive tests.
+
+---
+
+#### Example 2: Card Integration for Detail Panels
+
+**Use Case:** Display box metadata in consistent card containers with elevation.
+
+```swift
+// Sources/ISOInspectorApp/UI/Components/BoxMetadataCard.swift
+
+import SwiftUI
+import FoundationUI
+
+/// Wraps FoundationUI Card for box metadata display
+struct BoxMetadataCard: View {
+    let box: BoxNode
+    let elevation: CardElevation
+
+    init(box: BoxNode, elevation: CardElevation = .medium) {
+        self.box = box
+        self.elevation = elevation
+    }
+
+    var body: some View {
+        Card(elevation: elevation) {
+            VStack(alignment: .leading, spacing: DS.Spacing.m) {
+                SectionHeader(title: "METADATA", showDivider: true)
+
+                BoxMetadataRow(key: "Type", value: box.type)
+                BoxMetadataRow(key: "Size", value: formatBytes(box.size))
+                BoxMetadataRow(key: "Offset", value: formatOffset(box.offset))
+
+                if let version = box.version {
+                    BoxMetadataRow(key: "Version", value: "\(version)")
+                }
+            }
+            .padding(DS.Spacing.l)
+        }
+    }
+
+    private func formatBytes(_ bytes: UInt64) -> String {
+        ByteCountFormatter.string(fromByteCount: Int64(bytes), countStyle: .file)
+    }
+
+    private func formatOffset(_ offset: UInt64) -> String {
+        String(format: "0x%08X", offset)
+    }
+}
+
+// Usage in inspector
+struct BoxInspectorView: View {
+    let box: BoxNode
+
+    var body: some View {
+        ScrollView {
+            VStack(spacing: DS.Spacing.l) {
+                BoxMetadataCard(box: box, elevation: .medium)
+
+                // Additional cards for validation, hex view, etc.
+                ValidationCard(issues: box.validationIssues)
+                HexViewCard(data: box.payload)
+            }
+            .padding(DS.Spacing.l)
+        }
+        .background(.thinMaterial)
+    }
+}
+```
+
+**Test Coverage:** See `Tests/ISOInspectorAppTests/FoundationUI/CardComponentTests.swift`.
+
+---
+
+#### Example 3: KeyValueRow Integration for Metadata Display
+
+**Use Case:** Display key-value metadata pairs with copyable text and consistent formatting.
+
+```swift
+// Sources/ISOInspectorApp/UI/Components/BoxMetadataRow.swift
+
+import SwiftUI
+import FoundationUI
+
+/// Wraps FoundationUI KeyValueRow for ISO box metadata
+struct BoxMetadataRow: View {
+    let key: String
+    let value: String
+    let layout: KeyValueLayout
+    let monospaced: Bool
+
+    init(
+        key: String,
+        value: String,
+        layout: KeyValueLayout = .horizontal,
+        monospaced: Bool = false
+    ) {
+        self.key = key
+        self.value = value
+        self.layout = layout
+        self.monospaced = monospaced
+    }
+
+    var body: some View {
+        KeyValueRow(
+            key: key,
+            value: value,
+            layout: layout,
+            copyable: true,
+            monospaced: monospaced
+        )
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(key): \(value)")
+    }
+}
+
+// Specialized wrapper for hex offset display
+struct HexOffsetRow: View {
+    let offset: UInt64
+
+    var body: some View {
+        BoxMetadataRow(
+            key: "Offset",
+            value: String(format: "0x%08X", offset),
+            monospaced: true
+        )
+    }
+}
+
+// Usage in detail view
+struct BoxDetailMetadataView: View {
+    let box: BoxNode
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: DS.Spacing.m) {
+            SectionHeader(title: "BOX DETAILS", showDivider: true)
+
+            BoxMetadataRow(key: "Type", value: box.fourCC)
+            BoxMetadataRow(key: "Size", value: "\(box.size) bytes")
+            HexOffsetRow(offset: box.offset)
+            BoxMetadataRow(key: "Container", value: box.parent?.fourCC ?? "—")
+
+            if let flags = box.flags {
+                BoxMetadataRow(
+                    key: "Flags",
+                    value: String(format: "0x%06X", flags),
+                    monospaced: true
+                )
+            }
+        }
+        .padding(DS.Spacing.l)
+    }
+}
+```
+
+**Test Coverage:** See `Tests/ISOInspectorAppTests/FoundationUI/KeyValueRowComponentTests.swift`.
+
+---
+
+#### Example 4: Compose Multiple Components (Integrity Summary Panel)
+
+**Use Case:** Build complex UI by composing FoundationUI components.
+
+```swift
+// Sources/ISOInspectorApp/UI/Panels/IntegritySummaryPanel.swift
+
+import SwiftUI
+import FoundationUI
+
+/// Demonstrates composition of multiple FoundationUI components
+struct IntegritySummaryPanel: View {
+    let file: ParsedFile
+    @State private var colorScheme: ColorScheme = .light
+
+    var body: some View {
+        Card(elevation: .high) {
+            VStack(alignment: .leading, spacing: DS.Spacing.l) {
+                // Header with status badge
+                HStack {
+                    SectionHeader(title: "FILE INTEGRITY", showDivider: false)
+                    Spacer()
+                    Badge(
+                        text: file.overallStatus.rawValue,
+                        level: file.overallStatus.badgeLevel,
+                        showIcon: true
+                    )
+                }
+
+                Divider()
+                    .background(DS.Colors.secondary)
+
+                // Summary metadata
+                VStack(spacing: DS.Spacing.s) {
+                    KeyValueRow(key: "Filename", value: file.name, copyable: true)
+                    KeyValueRow(key: "Format", value: file.format)
+                    KeyValueRow(key: "Size", value: formatFileSize(file.size))
+                    KeyValueRow(
+                        key: "Parsed Boxes",
+                        value: "\(file.boxCount)",
+                        layout: .horizontal
+                    )
+                }
+
+                Divider()
+                    .background(DS.Colors.secondary)
+
+                // Validation summary
+                SectionHeader(title: "VALIDATION", showDivider: false)
+
+                HStack(spacing: DS.Spacing.m) {
+                    validationCounter(
+                        count: file.errorCount,
+                        label: "Errors",
+                        level: .error
+                    )
+                    validationCounter(
+                        count: file.warningCount,
+                        label: "Warnings",
+                        level: .warning
+                    )
+                    validationCounter(
+                        count: file.infoCount,
+                        label: "Info",
+                        level: .info
+                    )
+                }
+            }
+            .padding(DS.Spacing.xl)
+        }
+        .environment(\.colorScheme, colorScheme)
+    }
+
+    @ViewBuilder
+    private func validationCounter(
+        count: Int,
+        label: String,
+        level: BadgeLevel
+    ) -> some View {
+        VStack(spacing: DS.Spacing.s) {
+            Text("\(count)")
+                .font(DS.Typography.title)
+                .foregroundColor(level.foregroundColor)
+
+            Text(label)
+                .font(DS.Typography.caption)
+                .foregroundColor(DS.Colors.secondaryText)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(DS.Spacing.m)
+        .background(level.backgroundColor.opacity(0.1))
+        .cornerRadius(DS.Radius.medium)
+    }
+
+    private func formatFileSize(_ bytes: UInt64) -> String {
+        ByteCountFormatter.string(fromByteCount: Int64(bytes), countStyle: .file)
+    }
+}
+
+// Preview
+#Preview {
+    IntegritySummaryPanel(
+        file: ParsedFile(
+            name: "sample.mp4",
+            format: "MP4/ISO",
+            size: 1_048_576,
+            boxCount: 42,
+            errorCount: 0,
+            warningCount: 3,
+            infoCount: 12,
+            overallStatus: .warning
+        )
+    )
+    .frame(width: 400)
+    .padding()
+}
+```
+
+---
+
+### Design Token Usage Guidelines
+
+All UI spacing, colors, typography, and animation must reference FoundationUI design tokens. **Zero magic numbers allowed.**
+
+#### Spacing Tokens
+
+```swift
+// ✅ Correct: Use DS.Spacing tokens
+VStack(spacing: DS.Spacing.m) {
+    Text("Title")
+}
+.padding(.horizontal, DS.Spacing.l)
+.padding(.vertical, DS.Spacing.s)
+
+// ❌ Incorrect: Magic numbers
+VStack(spacing: 12) {  // NO!
+    Text("Title")
+}
+.padding(.horizontal, 16)  // NO!
+```
+
+#### Color Tokens
+
+```swift
+// ✅ Correct: Use semantic colors
+Text("Error")
+    .foregroundColor(BadgeLevel.error.foregroundColor)
+    .background(BadgeLevel.error.backgroundColor)
+
+// ❌ Incorrect: Hardcoded colors
+Text("Error")
+    .foregroundColor(.red)  // NO!
+    .background(Color(red: 1.0, green: 0.2, blue: 0.2))  // NO!
+```
+
+#### Typography Tokens
+
+```swift
+// ✅ Correct: Use DS.Typography
+Text("Headline")
+    .font(DS.Typography.headline)
+
+Text("Body content")
+    .font(DS.Typography.body)
+
+Text("CODE")
+    .font(DS.Typography.code)
+
+// ❌ Incorrect: Custom font definitions
+Text("Headline")
+    .font(.system(size: 17, weight: .semibold))  // NO!
+```
+
+#### Animation Timing
+
+```swift
+// ✅ Correct: Use DS.Animation tokens
+withAnimation(.easeInOut(duration: DS.Animation.medium)) {
+    isExpanded.toggle()
+}
+
+// Use predefined spring animation
+withAnimation(DS.Animation.spring) {
+    offset = newValue
+}
+
+// ❌ Incorrect: Magic timing values
+withAnimation(.easeInOut(duration: 0.25)) {  // NO!
+    isExpanded.toggle()
+}
+```
+
+---
+
+### Do's and Don'ts
+
+#### ✅ DO: Wrap FoundationUI Components with Domain Semantics
+
+```swift
+// ✅ Create domain-specific wrappers
+struct BoxStatusBadge: View {
+    let status: ParseStatus
+
+    var body: some View {
+        Badge(text: status.text, level: status.level)
+    }
+}
+
+// Usage is semantic
+BoxStatusBadge(status: box.parseStatus)
+```
+
+#### ❌ DON'T: Use FoundationUI Components Directly in Business Logic
+
+```swift
+// ❌ Don't expose FoundationUI types in business layer
+struct BoxNode {
+    let status: BadgeLevel  // NO! BadgeLevel is a UI concern
+}
+
+// ✅ Use domain types, map in UI layer
+struct BoxNode {
+    let status: ParseStatus  // Domain type
+}
+```
+
+---
+
+#### ✅ DO: Use Design Tokens Exclusively
+
+```swift
+// ✅ All spacing via tokens
+VStack(spacing: DS.Spacing.m) {
+    content
+}
+.padding(DS.Spacing.l)
+
+// ✅ All colors via semantic tokens
+.foregroundColor(DS.Colors.primaryText)
+.background(DS.Colors.surfaceBackground)
+```
+
+#### ❌ DON'T: Use Magic Numbers or Hardcoded Values
+
+```swift
+// ❌ Magic numbers forbidden
+VStack(spacing: 12) { }  // NO!
+.padding(16)             // NO!
+.cornerRadius(8)         // NO! Use DS.Radius.medium
+
+// ❌ Hardcoded colors forbidden
+.foregroundColor(.blue)  // NO!
+.background(Color(hex: "#FF5733"))  // NO!
+```
+
+---
+
+#### ✅ DO: Write Comprehensive Tests
+
+```swift
+// ✅ Test all component states
+func testBadgeAllLevels() {
+    for level in BadgeLevel.allCases {
+        let badge = Badge(text: "TEST", level: level)
+        XCTAssertNotNil(badge.body)
+    }
+}
+
+// ✅ Test accessibility
+func testBadgeAccessibilityLabel() {
+    let badge = Badge(text: "ERROR", level: .error)
+    XCTAssertEqual(badge.level.accessibilityLabel, "Error")
+}
+```
+
+#### ❌ DON'T: Skip Accessibility Testing
+
+```swift
+// ❌ Don't skip a11y tests
+func testBadgeRendering() {
+    let badge = Badge(text: "TEST", level: .info)
+    XCTAssertNotNil(badge.body)
+    // Missing: accessibility labels, VoiceOver, Dynamic Type
+}
+```
+
+---
+
+#### ✅ DO: Use Snapshot Tests for Visual Regressions
+
+```swift
+// ✅ Snapshot test all variants
+func testBadgeSnapshotAllLevels() {
+    for level in BadgeLevel.allCases {
+        let view = Badge(text: "TEST", level: level)
+        assertSnapshot(matching: view, as: .image)
+    }
+}
+
+// ✅ Test dark mode
+func testBadgeSnapshotDarkMode() {
+    let view = Badge(text: "TEST", level: .error)
+        .environment(\.colorScheme, .dark)
+    assertSnapshot(matching: view, as: .image)
+}
+```
+
+---
+
+#### ✅ DO: Apply Platform Adaptation Contexts
+
+```swift
+// ✅ Use environment contexts for platform awareness
+struct ContentView: View {
+    var body: some View {
+        VStack {
+            // UI content
+        }
+        .environment(\.platformAdaptation, PlatformAdaptation())
+        .environment(\.accessibilityContext, AccessibilityContext())
+    }
+}
+```
+
+#### ❌ DON'T: Hardcode Platform-Specific Behavior
+
+```swift
+// ❌ Don't manually check platform
+#if os(macOS)
+    .padding(12)
+#else
+    .padding(16)
+#endif
+
+// ✅ Use PlatformAdaptation context
+@Environment(\.platformAdaptation) var platform
+.padding(platform.spacing.medium)
+```
+
+---
+
+#### ✅ DO: Compose Components for Complex UIs
+
+```swift
+// ✅ Build complex UIs by composition
+struct BoxDetailPanel: View {
+    var body: some View {
+        Card(elevation: .medium) {
+            VStack(spacing: DS.Spacing.l) {
+                SectionHeader(title: "METADATA")
+                KeyValueRow(key: "Type", value: box.type)
+                KeyValueRow(key: "Size", value: "\(box.size)")
+            }
+        }
+    }
+}
+```
+
+#### ❌ DON'T: Mix FoundationUI with Legacy UI Patterns
+
+```swift
+// ❌ Don't mix old and new UI in same screen
+struct MixedUIView: View {
+    var body: some View {
+        VStack {
+            // Old UI (manual styling)
+            Text("Title")
+                .padding(12)  // Magic number
+                .background(Color.gray)  // Hardcoded
+
+            // New UI (FoundationUI)
+            Badge(text: "NEW", level: .info)  // Inconsistent!
+        }
+    }
+}
+```
+
+---
+
+#### ✅ DO: Document Wrapper Components
+
+```swift
+// ✅ Add DocC comments
+/// Displays box parse status using FoundationUI Badge component.
+///
+/// Maps domain `ParseStatus` to semantic `BadgeLevel` for consistent
+/// visual representation across the application.
+///
+/// ## Usage
+/// ```swift
+/// BoxStatusBadge(status: box.parseStatus)
+/// ```
+///
+/// ## Accessibility
+/// - VoiceOver announces status level and text
+/// - Supports Dynamic Type scaling
+/// - High contrast mode compatible
+struct BoxStatusBadge: View {
+    let status: ParseStatus
+    // ...
+}
+```
+
+---
+
+#### ✅ DO: Reference ComponentTestApp for Examples
+
+The live component showcase provides interactive examples:
+
+```bash
+# Open ComponentTestApp to see all FoundationUI components in action
+cd Examples/ComponentTestApp
+tuist generate
+open ComponentTestApp.xcworkspace
+```
+
+**ComponentTestApp includes:**
+- Design token visualizations
+- Interactive component galleries
+- Light/Dark mode previews
+- Accessibility testing utilities
+- Code snippet references
+
+See `Examples/ComponentTestApp/README.md` for detailed usage.
+
+---
+
+### Integration Checklist
+
+Before integrating FoundationUI into a new screen or feature, verify:
+
+- [ ] **Design Tokens:** All spacing uses `DS.Spacing.*`
+- [ ] **Design Tokens:** All colors use `DS.Colors.*` or semantic `BadgeLevel` colors
+- [ ] **Design Tokens:** All typography uses `DS.Typography.*`
+- [ ] **Design Tokens:** All corner radii use `DS.Radius.*`
+- [ ] **Design Tokens:** All animations use `DS.Animation.*`
+- [ ] **Components:** Wrapped in domain-specific views (e.g., `BoxStatusBadge`)
+- [ ] **Components:** Not exposed in business/domain layer types
+- [ ] **Testing:** Unit tests written for all component wrappers
+- [ ] **Testing:** Snapshot tests for visual regressions (light + dark modes)
+- [ ] **Testing:** Accessibility tests (VoiceOver, Dynamic Type, contrast)
+- [ ] **Accessibility:** VoiceOver labels set correctly
+- [ ] **Accessibility:** Semantic roles assigned (button, label, etc.)
+- [ ] **Accessibility:** Focus management implemented
+- [ ] **Platform:** Uses `@Environment(\.platformAdaptation)` for cross-platform support
+- [ ] **Platform:** Tested on macOS, iOS, and iPadOS
+- [ ] **Documentation:** DocC comments added to wrapper components
+- [ ] **Documentation:** Cross-linked to ComponentTestApp examples
+- [ ] **SwiftLint:** Zero violations (run `swift lint` before committing)
+- [ ] **Build:** No compiler warnings (run with `-warnings-as-errors`)
+
+---
+
 ### Related Documents
 
-- **Detailed Integration Plan:** `DOCS/INPROGRESS/FoundationUI_Integration_Strategy.md`
+- **Detailed Integration Plan:** `DOCS/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Suite/FoundationUI_Integration_Strategy.md`
 - **Design System Guide:** `DOCS/AI/ISOInspector_Execution_Guide/10_DESIGN_SYSTEM_GUIDE.md`
+- **Component Showcase:** `Examples/ComponentTestApp/README.md` — Interactive demo of all components
+- **Integration Test Suite:** `Tests/ISOInspectorAppTests/FoundationUI/` — 123 comprehensive tests
 - **FoundationUI PRD:** `DOCS/AI/ISOViewer/FoundationUI_PRD.md`
 - **FoundationUI Task Plan:** `DOCS/AI/ISOViewer/FoundationUI_TaskPlan.md`
 - **FoundationUI Test Plan:** `DOCS/AI/ISOViewer/FoundationUI_TestPlan.md`

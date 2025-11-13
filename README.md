@@ -7,7 +7,7 @@ Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (M
 | Surface | Highlights | Automation hooks |
 | --- | --- | --- |
 | **ISOInspectorKit** | Streaming `ParsePipeline.live()` surfaces MP4 boxes with metadata, validation, and research logging for callers in any platform target.【F:Documentation/ISOInspector.docc/Guides/DeveloperOnboarding.md†L60-L76】【F:Sources/ISOInspectorKit/ISO/ParsePipeline.swift†L90-L132】 | Exporters emit JSON trees, plaintext issue summaries, and binary captures while `ResearchLogWriter` records VR-006 diagnostics for downstream tooling.【F:Documentation/ISOInspector.docc/Guides/DeveloperOnboarding.md†L60-L76】【F:Sources/ISOInspectorKit/Export/JSONParseTreeExporter.swift†L1-L52】【F:Sources/ISOInspectorKit/Export/PlaintextIssueSummaryExporter.swift†L1-L191】【F:Sources/ISOInspectorKit/Validation/ResearchLogWriter.swift†L19-L60】 |
-| **ISOInspectorApp** | SwiftUI workspace combines streaming tree, detail inspector, notes, and hex panes with bookmark syncing across launches.【F:Documentation/ISOInspector.docc/Manuals/App.md†L1-L114】 | Restores sessions, bookmarks, and notes through Core Data while resolving security-scoped bookmarks for sandboxed distribution builds.【F:Documentation/ISOInspector.docc/Manuals/App.md†L69-L110】【F:Documentation/ISOInspector.docc/Manuals/App.md†L115-L149】 |
+| **ISOInspectorApp** | SwiftUI workspace combines streaming tree, detail inspector, notes, and hex panes with bookmark syncing across launches. UI built with **FoundationUI design system** for consistent, accessible, cross-platform components.【F:Documentation/ISOInspector.docc/Manuals/App.md†L1-L114】【F:DOCS/AI/ISOInspector_Execution_Guide/03_Technical_Spec.md†L137-L396】 | Restores sessions, bookmarks, and notes through Core Data while resolving security-scoped bookmarks for sandboxed distribution builds. Integration patterns documented in Technical Spec with 123 comprehensive tests.【F:Documentation/ISOInspector.docc/Manuals/App.md†L69-L110】【F:DOCS/AI/ISOInspector_Execution_Guide/03_Technical_Spec.md†L389-L1074】【F:Tests/ISOInspectorAppTests/FoundationUI/】 |
 | **`isoinspect` CLI** | Shared parsers stream validation summaries and box events with commands for inspect, validate, export, and batch workflows.【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L1-L83】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L96-L165】 | Global flags toggle verbose output, telemetry, and sandbox-friendly bookmark automation so jobs can run unattended with captured research logs and MP4RA refresh tooling.【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L11-L63】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L66-L141】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L182-L229】 |
 
 ## Supported Platforms & Box Families
@@ -27,7 +27,9 @@ The overview illustrates the tri-pane layout documented in the app manual so rea
 - `Sources/ISOInspectorKit` — Core parsing and validation library (currently scaffolded).
 - `Sources/ISOInspectorCLI` — Command-line interface with a custom bootstrap runner.
 - `Sources/ISOInspectorApp` — SwiftUI application shell for macOS/iPadOS/iOS.
+- `Examples/ComponentTestApp` — Interactive FoundationUI component showcase and testing app.
 - `Tests/*` — XCTest suites for the library, CLI surface, and app composition.
+- `Tests/ISOInspectorAppTests/FoundationUI/` — Integration test suite for FoundationUI components (123 tests).
 - `Docs` — Living documentation (architecture notes, guides, manuals).
 - `Sources/*/*.docc` — DocC catalogs for the kit, CLI, and SwiftUI app.
 
@@ -143,6 +145,41 @@ To update the snapshot and keep CI green:
    newlines, valid identifiers, etc.).
 3. Commit the refreshed snapshot together with any fixes required by the validator. The GitHub Actions workflow
    (`validate-mp4ra-minimal.yml`) executes the same script on pull requests and pushes to `main` to enforce consistency.
+
+## FoundationUI Integration
+
+ISOInspectorApp integrates the **FoundationUI design system** for consistent, accessible, cross-platform UI components. The integration follows a structured 6-phase gradual migration plan with comprehensive testing at each stage.
+
+### Quick Links
+
+- **Integration Architecture:** [`DOCS/AI/ISOInspector_Execution_Guide/03_Technical_Spec.md`](DOCS/AI/ISOInspector_Execution_Guide/03_Technical_Spec.md#foundationui-integration-architecture) — Design patterns, code examples, Do's and Don'ts
+- **Design System Guide:** [`DOCS/AI/ISOInspector_Execution_Guide/10_DESIGN_SYSTEM_GUIDE.md`](DOCS/AI/ISOInspector_Execution_Guide/10_DESIGN_SYSTEM_GUIDE.md) — Core principles and semantic composition rules
+- **Component Showcase:** [`Examples/ComponentTestApp/`](Examples/ComponentTestApp/) — Interactive demo app for all FoundationUI components
+- **Integration Tests:** [`Tests/ISOInspectorAppTests/FoundationUI/`](Tests/ISOInspectorAppTests/FoundationUI/) — 123 comprehensive tests across Badge, Card, KeyValueRow components
+- **Integration Strategy:** [`DOCS/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Suite/FoundationUI_Integration_Strategy.md`](DOCS/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Suite/FoundationUI_Integration_Strategy.md) — Detailed 9-week phased integration roadmap
+
+### Key Features
+
+- **Design Tokens:** Zero magic numbers — all spacing, colors, typography, and animations use `DS.*` tokens
+- **Component Wrappers:** Domain-specific wrappers (e.g., `BoxStatusBadge`) map ISO semantics to FoundationUI
+- **Accessibility:** WCAG 2.1 AA compliance with VoiceOver, Dynamic Type, and high contrast support
+- **Testing:** 80%+ code coverage with unit tests, snapshot tests, and accessibility tests
+- **Platform Adaptation:** Automatic macOS/iOS/iPadOS layout adjustments via environment contexts
+
+### Running ComponentTestApp
+
+Explore live FoundationUI components interactively:
+
+```sh
+cd Examples/ComponentTestApp
+tuist generate
+open ComponentTestApp.xcworkspace
+# Select ComponentTestApp-iOS or ComponentTestApp-macOS scheme and run
+```
+
+See [`Examples/ComponentTestApp/README.md`](Examples/ComponentTestApp/README.md) for detailed usage.
+
+---
 
 ## Next Steps
 Consult `DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md` for feature-level deliverables and `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md` for task sequencing. Begin by enhancing the IO foundations described in Phase A.
