@@ -28,7 +28,7 @@ jobs:
           swift package generate-documentation \
             --target FoundationUI \
             --transform-for-static-hosting \
-            --hosting-base-path documentation/foundationui
+            --hosting-base-path FoundationUI/documentation/foundationui
 
       - name: Prepare documentation bundle
         run: |

@@ -7,7 +7,7 @@ Automate publishing of the FoundationUI DocC archive to the dedicated `soundblas
 ## 2. Research Summary
 
 - GitHub Pages supports only one site per repository. ISOInspector docs already occupy the `soundblaster/ISOInspector` site, so FoundationUI must ship to its own repository (`soundblaster/FoundationUI`).
-- The existing ISOInspector workflow (`.github/workflows/documentation.yml`) already builds DocC successfully; it only needs a hosting base path update so the generated links match `documentation/isoinspectorkit/`.
+- The existing ISOInspector workflow (`.github/workflows/documentation.yml`) already builds DocC successfully; it only needs a hosting base path update so the generated links match `ISOInspector/documentation/isoinspectorkit/`.
 - `swift package generate-documentation --target FoundationUI` produces `FoundationUI.doccarchive` with the required `documentation/foundationui/` folder when the hosting base path is set appropriately.
 - Publishing to another repository requires a personal access token; a new workflow can fetch the `gh-pages` branch, copy the archive, and push updates.
 
@@ -15,7 +15,7 @@ Automate publishing of the FoundationUI DocC archive to the dedicated `soundblas
 
 ### Included
 
-- Retain the ISOInspector workflow for ISOInspectorKit only, adjusting its hosting base path to `documentation/isoinspectorkit`.
+- Retain the ISOInspector workflow for ISOInspectorKit only, adjusting its hosting base path to `ISOInspector/documentation/isoinspectorkit`.
 - Add a dedicated workflow (`.github/workflows/foundationui-documentation.yml`) that builds the FoundationUI DocC archive on macOS runners.
 - Copy the generated archive into the `soundblaster/FoundationUI` repository’s `gh-pages` branch, add `.nojekyll`, and create an `index.html` redirect to `documentation/foundationui/`.
 - Require a `FOUNDATIONUI_PAGES_TOKEN` secret with write access to the target repository and fail fast if it is missing.
@@ -30,7 +30,7 @@ Automate publishing of the FoundationUI DocC archive to the dedicated `soundblas
 
 | Artifact | Location | Notes |
 | --- | --- | --- |
-| Updated ISOInspector workflow | `.github/workflows/documentation.yml` | Builds ISOInspectorKit DocC with correct `documentation/isoinspectorkit/` links. |
+| Updated ISOInspector workflow | `.github/workflows/documentation.yml` | Builds ISOInspectorKit DocC with correct `ISOInspector/documentation/isoinspectorkit/` links. |
 | New FoundationUI workflow | `.github/workflows/foundationui-documentation.yml` | Builds/publishes FoundationUI DocC to `soundblaster/FoundationUI` via PAT. |
 | Publishing documentation | `DOCS/AI/github-workflows/02_foundationui_docs_publish/` | Captures requirements, risks, and TODO tracking. |
 
