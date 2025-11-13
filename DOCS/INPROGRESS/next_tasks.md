@@ -16,7 +16,8 @@
   - Created integration test suite at `Tests/ISOInspectorAppTests/FoundationUI/`
   - See `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/212_I0_1_Add_FoundationUI_Dependency.md` for full details
 
-- [ ] **I0.2 — Create Integration Test Suite** (Effort: 0.5d)
+- [x] **I0.2 — Create Integration Test Suite** (Effort: 0.5d) 🔄 **IN PROGRESS (2025-11-13)**
+  - See detailed PRD at `DOCS/INPROGRESS/212_I0_2_Create_Integration_Test_Suite.md`
   - Expand `Tests/ISOInspectorAppTests/FoundationUI/` with comprehensive test coverage
   - Add tests for core components: Badge, Card, KeyValueRow, Button, TextField
   - Set up snapshot testing for visual regression detection
