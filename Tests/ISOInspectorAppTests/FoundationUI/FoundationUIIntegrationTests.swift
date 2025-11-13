@@ -60,7 +60,7 @@ final class FoundationUIIntegrationTests: XCTestCase {
     ///
     /// KeyValueRow will be used in Phase 1.3 (I1.3) for metadata display.
     func testKeyValueRowComponentAvailable() {
-        let row = KeyValueRow(label: "Test Key", value: "Test Value")
+        let row = KeyValueRow(key: "Test Key", value: "Test Value")
 
         XCTAssertNotNil(row, "KeyValueRow component should be instantiable")
     }
@@ -72,9 +72,9 @@ final class FoundationUIIntegrationTests: XCTestCase {
     /// Design tokens are essential for maintaining consistent styling throughout
     /// the integration phases.
     func testDesignTokensAccessible() {
-        // Verify spacing tokens are accessible
-        let spacing = DS.Spacing.small
-        XCTAssertNotNil(spacing, "Design token DS.Spacing.small should be accessible")
+        // Verify spacing tokens are accessible (using short-form names: s, m, l, xl)
+        let spacing = DS.Spacing.s
+        XCTAssertGreaterThan(spacing, 0, "Design token DS.Spacing.s should be accessible and positive")
     }
 
     // MARK: - Platform Compatibility Tests
