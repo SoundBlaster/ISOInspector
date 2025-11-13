@@ -1,4 +1,5 @@
 #if canImport(SnapshotTesting) && !os(Linux)
+    import Foundation
     import XCTest
     import SwiftUI
     #if os(iOS) || os(tvOS)
@@ -62,6 +63,8 @@
                 assertSnapshot(
                     of: controller,
                     as: .image,
+                    named: snapshotPlatformName,
+                    record: shouldRecordSnapshots,
                     file: file,
                     testName: testName,
                     line: line
@@ -70,11 +73,46 @@
                 assertSnapshot(
                     of: view,
                     as: .image(layout: .sizeThatFits),
+                    named: snapshotPlatformName,
+                    record: shouldRecordSnapshots,
                     file: file,
                     testName: testName,
                     line: line
                 )
             #endif
+        }
+
+        private var snapshotPlatformName: String {
+            #if os(macOS)
+                return "macOS"
+            #elseif os(tvOS)
+                return "tvOS"
+            #elseif os(iOS)
+                #if targetEnvironment(macCatalyst)
+                    return "macCatalyst"
+                #else
+                    switch UIDevice.current.userInterfaceIdiom {
+                    case .pad:
+                        return "iPadOS"
+                    case .phone:
+                        return "iOS"
+                    case .mac:
+                        return "macCatalyst"
+                    case .tv:
+                        return "tvOS"
+                    case .carPlay:
+                        return "carPlay"
+                    default:
+                        return "iOS"
+                    }
+                #endif
+            #else
+                return "unknown"
+            #endif
+        }
+
+        private var shouldRecordSnapshots: Bool {
+            ProcessInfo.processInfo.environment["SNAPSHOT_RECORDING"] == "1"
         }
     }
 #endif
