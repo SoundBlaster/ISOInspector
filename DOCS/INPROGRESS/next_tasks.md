@@ -43,12 +43,13 @@
     - ✅ Platform support: iOS 17+, macOS 14+
   - See `Examples/ComponentTestApp/README.md` for full documentation
 
-- [ ] **I0.4 — Document Integration Patterns** (Effort: 0.5d)
+- [ ] **I0.4 — Document Integration Patterns** (Effort: 0.5d) **🔄 IN PROGRESS**
   - Add "FoundationUI Integration" section to `03_Technical_Spec.md`
   - Document architecture patterns for wrapping FoundationUI components
   - Add code examples: badge wrappers, card layouts, pattern implementations
   - Document design token usage (DS.Spacing, DS.Colors, etc.)
   - Create "Do's and Don'ts" guidelines
+  - **PRD Document:** [`DOCS/INPROGRESS/I0_4_Document_Integration_Patterns.md`](../INPROGRESS/I0_4_Document_Integration_Patterns.md) (Created 2025-11-13)
 
 - [ ] **I0.5 — Update Design System Guide** (Effort: 0.5d)
   - Update `10_DESIGN_SYSTEM_GUIDE.md` with FoundationUI integration checklist
