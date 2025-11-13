@@ -129,31 +129,36 @@
                 let hostingView = NSHostingView(rootView: view)
                 hostingView.frame.size = hostingView.fittingSize
                 hostingView.layoutSubtreeIfNeeded()
+                hostingView.wantsLayer = true
+                hostingView.layer?.contentsScale = scale
+
                 let size = hostingView.bounds.size
-                let pixelsWide = Int(size.width * scale)
-                let pixelsHigh = Int(size.height * scale)
+                let pixelWidth = Int(size.width * scale)
+                let pixelHeight = Int(size.height * scale)
 
                 guard
-                    let representation = NSBitmapImageRep(
-                        bitmapDataPlanes: nil,
-                        pixelsWide: max(pixelsWide, 1),
-                        pixelsHigh: max(pixelsHigh, 1),
-                        bitsPerSample: 8,
-                        samplesPerPixel: 4,
-                        hasAlpha: true,
-                        isPlanar: false,
-                        colorSpaceName: .deviceRGB,
+                    let context = CGContext(
+                        data: nil,
+                        width: max(pixelWidth, 1),
+                        height: max(pixelHeight, 1),
+                        bitsPerComponent: 8,
                         bytesPerRow: 0,
-                        bitsPerPixel: 0
+                        space: CGColorSpaceCreateDeviceRGB(),
+                        bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
                     )
                 else {
-                    fatalError("Unable to allocate bitmap representation for snapshot.")
+                    fatalError("Unable to allocate CGContext for snapshot.")
                 }
 
-                representation.size = size
-                hostingView.cacheDisplay(in: hostingView.bounds, to: representation)
+                context.scaleBy(x: scale, y: scale)
+                hostingView.layer?.render(in: context)
+
+                guard let cgImage = context.makeImage() else {
+                    fatalError("Unable to capture snapshot image.")
+                }
+
                 let image = NSImage(size: size)
-                image.addRepresentation(representation)
+                image.addRepresentation(NSBitmapImageRep(cgImage: cgImage))
                 return image
             }
         #endif
