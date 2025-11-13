@@ -26,15 +26,22 @@
   - Platform-specific tests included for iOS and macOS
   - See `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/212_I0_2_Create_Integration_Test_Suite.md` for full details
 
-- [ ] **I0.3 — Build Component Showcase** (Effort: 1.5d)
-  - Create SwiftUI view: `ComponentShowcase.swift` in ISOInspectorApp
-  - Implement tabbed interface for each FoundationUI layer:
-    - Foundation (Design Tokens, Colors, Spacing)
-    - Components (Badge, Card, KeyValueRow, Button, etc.)
-    - Patterns (Sidebar, Inspector, Tree layouts)
-    - Contexts (Dark mode, Accessibility)
-  - Add scrollable, searchable interface for development velocity
-  - Include usage examples for each component
+- [x] **I0.3 — Build Component Showcase** (Effort: 1.5d) ✅ **COMPLETED (Pre-existing)**
+  - **Already implemented as `ComponentTestApp`** in `Examples/ComponentTestApp/`
+  - Comprehensive demo application with 14+ showcase screens:
+    - ✅ Design Tokens showcase (Spacing, Colors, Typography, Radius, Animation)
+    - ✅ View Modifiers showcase (BadgeChipStyle, CardStyle, InteractiveStyle, SurfaceStyle)
+    - ✅ Component showcases: Badge, Card, KeyValueRow, SectionHeader
+    - ✅ Pattern showcases: InspectorPattern, SidebarPattern, ToolbarPattern, BoxTreePattern
+    - ✅ ISO Inspector Demo screen
+    - ✅ Accessibility Testing and Performance Monitoring screens
+  - Features:
+    - ✅ Theme toggle (Light/Dark/System)
+    - ✅ Dynamic Type support with custom controls
+    - ✅ Live preview capabilities
+    - ✅ Interactive component variations
+    - ✅ Platform support: iOS 17+, macOS 14+
+  - See `Examples/ComponentTestApp/README.md` for full documentation
 
 - [ ] **I0.4 — Document Integration Patterns** (Effort: 0.5d)
   - Add "FoundationUI Integration" section to `03_Technical_Spec.md`
