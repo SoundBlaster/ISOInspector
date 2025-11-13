@@ -3,24 +3,25 @@
 ## Active
 
 ### Core Work (Current Priority)
-- [ ] **T6.3 — SDK Tolerant Parsing Documentation** (Priority: Medium, Effort: 1 day)
+- [x] **T6.3 — SDK Tolerant Parsing Documentation** (Priority: Medium, Effort: 1 day) ✅ **COMPLETED 2025-11-12**
   - Create DocC article `TolerantParsingGuide.md` in `Sources/ISOInspectorKit/ISOInspectorKit.docc/Articles/`
   - Add code examples for tolerant parsing setup and `ParseIssueStore` usage
   - Update inline documentation for `ParsePipeline.Options`, `.strict`, `.tolerant`
   - Link new guide from main `Documentation.md` Topics section
   - Verify examples with test file in `Tests/ISOInspectorKitTests/`
-  - See `DOCS/INPROGRESS/211_T6_3_SDK_Tolerant_Parsing_Documentation.md` for full PRD
+  - See `DOCS/TASK_ARCHIVE/211_T6_3_SDK_Tolerant_Parsing_Documentation/Summary_of_Work.md` for completion details
 
 ### FoundationUI Integration (New Feature)
 **See detailed plan in:** `DOCS/INPROGRESS/FoundationUI_Integration_Strategy.md`
 
-#### Phase 0: Setup & Verification (Upcoming)
+#### Phase 0: Setup & Verification (In Progress)
 **Duration:** 3-4 days | **Priority:** P0 (blocks all following phases)
 
-- [ ] **I0.1 — Add FoundationUI Dependency** (Effort: 0.5d)
+- [ ] **I0.1 — Add FoundationUI Dependency** (Effort: 0.5d) 🔄 **ACTIVE**
   - Add FoundationUI as dependency in ISOInspectorApp Package.swift
   - Verify builds with FoundationUI target
   - Update Package.swift platform requirements if needed
+  - See `DOCS/INPROGRESS/212_I0_1_Add_FoundationUI_Dependency.md` for full task details
 
 - [ ] **I0.2 — Create Integration Test Suite** (Effort: 0.5d)
   - Create `Tests/ISOInspectorAppTests/FoundationUI/` directory structure
