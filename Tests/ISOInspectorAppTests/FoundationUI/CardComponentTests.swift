@@ -355,6 +355,7 @@ final class CardComponentTests: XCTestCase {
     // MARK: - AgentDescribable Tests (iOS 17+/macOS 14+)
 
     @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
     func testCardAgentDescribableComponentType() {
         let card = Card {
             Text("Test")
@@ -364,6 +365,7 @@ final class CardComponentTests: XCTestCase {
     }
 
     @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
     func testCardAgentDescribableProperties() {
         let card = Card(elevation: .high, cornerRadius: DS.Radius.card) {
             Text("Test")
@@ -375,6 +377,7 @@ final class CardComponentTests: XCTestCase {
     }
 
     @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
     func testCardAgentDescribablePropertiesWithMaterial() {
         let card = Card(elevation: .medium, material: .regular) {
             Text("Test")
@@ -386,6 +389,7 @@ final class CardComponentTests: XCTestCase {
     }
 
     @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
     func testCardAgentDescribableSemantics() {
         let card = Card(elevation: .high, cornerRadius: 10) {
             Text("Test")

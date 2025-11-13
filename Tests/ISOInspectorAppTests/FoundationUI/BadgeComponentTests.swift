@@ -131,10 +131,10 @@ final class BadgeComponentTests: XCTestCase {
 
     /// Verifies that each BadgeLevel has an associated SF Symbol icon
     func testBadgeLevelIcons() {
-        XCTAssertEqual(BadgeLevel.info.icon, "info.circle.fill")
-        XCTAssertEqual(BadgeLevel.warning.icon, "exclamationmark.triangle.fill")
-        XCTAssertEqual(BadgeLevel.error.icon, "xmark.circle.fill")
-        XCTAssertEqual(BadgeLevel.success.icon, "checkmark.circle.fill")
+        XCTAssertEqual(BadgeLevel.info.iconName, "info.circle.fill")
+        XCTAssertEqual(BadgeLevel.warning.iconName, "exclamationmark.triangle.fill")
+        XCTAssertEqual(BadgeLevel.error.iconName, "xmark.circle.fill")
+        XCTAssertEqual(BadgeLevel.success.iconName, "checkmark.circle.fill")
     }
 
     // MARK: - Text Content Tests
@@ -240,6 +240,7 @@ final class BadgeComponentTests: XCTestCase {
     // MARK: - AgentDescribable Tests (iOS 17+/macOS 14+)
 
     @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
     func testBadgeAgentDescribableComponentType() {
         let badge = Badge(text: "TEST", level: .info)
 
@@ -247,6 +248,7 @@ final class BadgeComponentTests: XCTestCase {
     }
 
     @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
     func testBadgeAgentDescribableProperties() {
         let badge = Badge(text: "TEST", level: .warning, showIcon: true)
         let properties = badge.properties
@@ -257,6 +259,7 @@ final class BadgeComponentTests: XCTestCase {
     }
 
     @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
     func testBadgeAgentDescribableSemantics() {
         let badge = Badge(text: "ERROR", level: .error, showIcon: true)
         let semantics = badge.semantics
