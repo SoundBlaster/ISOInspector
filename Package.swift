@@ -110,6 +110,7 @@ let package = Package(
             dependencies: [
                 "ISOInspectorApp",
                 "ISOInspectorKit",
+                .target(name: "FoundationUI", condition: .when(platforms: [.iOS, .macOS])),
             ]
         ),
         .testTarget(

@@ -1,4 +1,4 @@
-#if canImport(SwiftUI) && canImport(FoundationUI)
+#if canImport(SwiftUI)
 import XCTest
 import SwiftUI
 @testable import FoundationUI
