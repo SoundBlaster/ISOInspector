@@ -59,6 +59,7 @@
             #if os(macOS)
                 let controller = NSHostingController(rootView: view)
                 controller.view.frame.size = controller.view.fittingSize
+                enforceRetinaScaleIfPossible(on: controller.view)
 
                 assertSnapshot(
                     of: controller,
@@ -70,9 +71,11 @@
                     line: line
                 )
             #else
+                let traitCollection = UITraitCollection(displayScale: targetDisplayScale)
+
                 assertSnapshot(
                     of: view,
-                    as: .image(layout: .sizeThatFits),
+                    as: .image(layout: .sizeThatFits, traits: traitCollection),
                     named: snapshotPlatformName,
                     record: shouldRecordSnapshots,
                     file: file,
@@ -113,6 +116,25 @@
 
         private var shouldRecordSnapshots: Bool {
             ProcessInfo.processInfo.environment["SNAPSHOT_RECORDING"] == "1"
+        }
+
+        #if os(macOS)
+            private func enforceRetinaScaleIfPossible(on view: NSView) {
+                view.wantsLayer = true
+                guard let layer = view.layer else { return }
+                layer.contentsScale = targetDisplayScale
+                layer.rasterizationScale = targetDisplayScale
+            }
+        #endif
+
+        private var targetDisplayScale: CGFloat {
+            #if os(macOS)
+                return NSScreen.main?.backingScaleFactor ?? 2.0
+            #elseif os(iOS) || os(tvOS)
+                return UIScreen.main.scale
+            #else
+                return 1.0
+            #endif
         }
     }
 #endif
