@@ -36,7 +36,7 @@ jobs:
           swift package generate-documentation \
             --target ISOInspectorKit \
             --transform-for-static-hosting \
-            --hosting-base-path ISOInspector/documentation/isoinspectorkit
+            --hosting-base-path ISOInspector
 
       - name: Copy documentation to gh-pages
         run: |
