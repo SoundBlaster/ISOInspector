@@ -4,7 +4,7 @@
 
 ### FoundationUI Integration (Priority Feature)
 
-**See detailed plan in:** `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/FoundationUI_Integration_Strategy.md`
+**See detailed plan in:** `DOCS/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Suite/FoundationUI_Integration_Strategy.md`
 
 #### Phase 0: Setup & Verification (In Progress)
 **Duration:** 3-4 days | **Priority:** P0 (blocks all following phases)
@@ -24,7 +24,7 @@
   - Existing `FoundationUIIntegrationTests.swift` has 7 integration tests
   - Test coverage: comprehensive coverage for all three core FoundationUI components (Badge, Card, KeyValueRow)
   - Platform-specific tests included for iOS and macOS
-  - See `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/212_I0_2_Create_Integration_Test_Suite.md` for full details
+  - See `DOCS/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Suite/Summary_of_Work.md` for full details
 
 - [x] **I0.3 — Build Component Showcase** (Effort: 1.5d) ✅ **COMPLETED (Pre-existing)**
   - **Already implemented as `ComponentTestApp`** in `Examples/ComponentTestApp/`
@@ -79,7 +79,7 @@
   - Add reset actions ("Reset Global", "Reset Session"), logging, and DocC/README callouts describing layered persistence behavior.
 
 #### Future Phases (4-6)
-See detailed breakdown in `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/FoundationUI_Integration_Strategy.md`:
+See detailed breakdown in `DOCS/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Suite/FoundationUI_Integration_Strategy.md`:
 - Phase 2: Interactive Components (Week 4)
 - Phase 3: Layout Patterns (Weeks 5-7)
 - Phase 4: Platform Adaptation & Contexts (Week 8)
