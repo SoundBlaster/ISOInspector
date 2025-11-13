@@ -223,6 +223,7 @@ final class KeyValueRowComponentTests: XCTestCase {
     // MARK: - AgentDescribable Tests (iOS 17+/macOS 14+)
 
     @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
     func testKeyValueRowAgentDescribableComponentType() {
         let row = KeyValueRow(key: "Type", value: "ftyp")
 
@@ -230,6 +231,7 @@ final class KeyValueRowComponentTests: XCTestCase {
     }
 
     @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
     func testKeyValueRowAgentDescribableProperties() {
         let row = KeyValueRow(key: "Size", value: "1024", layout: .horizontal, copyable: true)
         let properties = row.properties
@@ -241,6 +243,7 @@ final class KeyValueRowComponentTests: XCTestCase {
     }
 
     @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
     func testKeyValueRowAgentDescribablePropertiesVertical() {
         let row = KeyValueRow(key: "Path", value: "/home/user", layout: .vertical)
         let properties = row.properties
@@ -250,6 +253,7 @@ final class KeyValueRowComponentTests: XCTestCase {
     }
 
     @available(iOS 17.0, macOS 14.0, *)
+    @MainActor
     func testKeyValueRowAgentDescribableSemantics() {
         let row = KeyValueRow(key: "Type", value: "ftyp", copyable: true)
         let semantics = row.semantics
