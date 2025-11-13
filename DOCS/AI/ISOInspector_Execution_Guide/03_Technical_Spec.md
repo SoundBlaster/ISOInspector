@@ -79,6 +79,14 @@ struct ParseEvent: Sendable, Codable {
 - Export pipelines emit a `disabledRules` collection whose entries include `{ id, status: "skipped" }`; CLI text reports omit those rules from their issue tables but retain preset metadata in the header.
 - CLI conveniences register alias flags (for example, `--structural-only`) that map directly to preset identifiers in addition to the generic `--preset <name>` option.
 
+## User Settings Panel Architecture
+- `SettingsPanelScene` is a shared SwiftUI view that can be hosted inside an `NSPanel` (macOS) or a `.sheet`/`.presentationDetents` modal (iPadOS/iOS). Platform adapters determine chrome only; all layout/styling flows through FoundationUI wrappers so cards, section headers, and inspectors stay consistent with the migration plan in `DOCS/INPROGRESS/FoundationUI_Integration_Strategy.md`.
+- The panel's view model exposes two published collections: `permanentGroups` sourced from `UserPreferencesStore` (which already wraps `ValidationPreferences` and future telemetry toggles) and `sessionGroups` sourced from `DocumentSessionController.currentSessionSettings`. Each group reports whether it diverges from global defaults so the UI can badge changed values.
+- A dedicated `SettingsBridge` actor serializes write operations, ensuring that permanent changes optimistically persist via `UserPreferencesStore.persist()` and emit diagnostics (Task E6) when writes fail, while session changes call `DocumentSessionController.updateSessionSettings(for:documentID:)` so CoreData + JSON snapshots (Task E3) remain authoritative.
+- macOS builds expose a `SettingsPanelWindowController` hosting the SwiftUI scene inside an `NSPanel` with floating window level and remembered frame stored in the session payload; iPad/iOS builds expose the same SwiftUI scene via `.sheet` with detents that match the FoundationUI inspector pattern.
+- Keyboard shortcuts (`⌘,`) and toolbar buttons toggle the panel. Automation hooks publish `SettingsPanelDidPresent` / `SettingsPanelDidDismiss` events for integration tests so UI automation can assert state synchronization.
+- Reset affordances call helpers that either reset the global preferences file (permanent) or clear only the current session's overrides before reloading the view model, mirroring the behavior previously implemented for `ValidationSettingsView` (Task C19).
+
 ## Concurrency Model
 - Parsing executes on dedicated background task using Swift concurrency (`Task`, `AsyncStream`).
 - UI subscribes via `@StateObject` stores bridging Combine to SwiftUI.
