@@ -57,12 +57,8 @@
             line: UInt = #line
         ) {
             #if os(macOS)
-                let controller = NSHostingController(rootView: view)
-                controller.view.frame.size = controller.view.fittingSize
-                enforceRetinaScaleIfPossible(on: controller.view)
-
                 assertSnapshot(
-                    of: controller,
+                    of: renderImage(for: view, scale: targetDisplayScale),
                     as: .image,
                     named: snapshotPlatformName,
                     record: shouldRecordSnapshots,
@@ -118,23 +114,48 @@
             ProcessInfo.processInfo.environment["SNAPSHOT_RECORDING"] == "1"
         }
 
-        #if os(macOS)
-            private func enforceRetinaScaleIfPossible(on view: NSView) {
-                view.wantsLayer = true
-                guard let layer = view.layer else { return }
-                layer.contentsScale = targetDisplayScale
-                layer.rasterizationScale = targetDisplayScale
-            }
-        #endif
-
         private var targetDisplayScale: CGFloat {
             #if os(macOS)
-                return NSScreen.main?.backingScaleFactor ?? 2.0
+                return max(NSScreen.main?.backingScaleFactor ?? 2.0, 2.0)
             #elseif os(iOS) || os(tvOS)
                 return UIScreen.main.scale
             #else
                 return 1.0
             #endif
         }
+
+        #if os(macOS)
+            private func renderImage<V: View>(for view: V, scale: CGFloat) -> NSImage {
+                let hostingView = NSHostingView(rootView: view)
+                hostingView.frame.size = hostingView.fittingSize
+                hostingView.layoutSubtreeIfNeeded()
+                let size = hostingView.bounds.size
+                let pixelsWide = Int(size.width * scale)
+                let pixelsHigh = Int(size.height * scale)
+
+                guard
+                    let representation = NSBitmapImageRep(
+                        bitmapDataPlanes: nil,
+                        pixelsWide: max(pixelsWide, 1),
+                        pixelsHigh: max(pixelsHigh, 1),
+                        bitsPerSample: 8,
+                        samplesPerPixel: 4,
+                        hasAlpha: true,
+                        isPlanar: false,
+                        colorSpaceName: .deviceRGB,
+                        bytesPerRow: 0,
+                        bitsPerPixel: 0
+                    )
+                else {
+                    fatalError("Unable to allocate bitmap representation for snapshot.")
+                }
+
+                representation.size = size
+                hostingView.cacheDisplay(in: hostingView.bounds, to: representation)
+                let image = NSImage(size: size)
+                image.addRepresentation(representation)
+                return image
+            }
+        #endif
     }
 #endif
