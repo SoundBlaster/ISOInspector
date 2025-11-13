@@ -49,6 +49,19 @@
 - I1.2 Card Containers & Sections (2-3d)
 - I1.3 Key-Value Rows & Metadata (2-3d)
 
+### User Settings Panel (Floating Preferences)
+**Reference:** `DOCS/AI/ISOInspector_Execution_Guide/14_User_Settings_Panel_PRD.md`
+
+- [ ] **C21 — Floating Settings Panel Shell** (Priority: Medium, Effort: 1 day)
+  - Implement `SettingsPanelScene` with FoundationUI cards separating permanent vs. session groups.
+  - macOS: host inside an `NSPanel` window controller with remembered frame + keyboard shortcut (`⌘,`).
+  - iPad/iOS: present via `.sheet` detents; ensure VoiceOver focus starts at the selected section and dismissal events fire automation hooks.
+  - Snapshot + accessibility tests validate both presentations.
+- [ ] **C22 — Persistence + Reset Wiring** (Priority: Medium, Effort: 1 day)
+  - Thread permanent changes through `UserPreferencesStore` and emit diagnostics on failures (reuse Task E6 harness).
+  - Update `DocumentSessionController` with `SessionSettingsPayload` mutations for session-only toggles and persist them via CoreData + JSON fallbacks.
+  - Add reset actions (“Reset Global”, “Reset Session”), logging, and DocC/README callouts describing layered persistence behavior.
+
 #### Future Phases (4-6)
 See detailed breakdown in `FoundationUI_Integration_Strategy.md`:
 - Phase 2: Interactive Components (Week 4)

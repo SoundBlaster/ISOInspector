@@ -114,6 +114,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 | C6 | Integrate ResearchLogMonitor audit results into SwiftUI previews that display VR-006 research log entries. | Medium | 1 | C3, B5 | SwiftUI Previews, DocC | Previews render VR-006 entries with audit context; mismatched schema cases surface actionable errors. **(Completed — see `DOCS/TASK_ARCHIVE/C6_Integrate_ResearchLogMonitor_Previews/Summary_of_Work.md`.)** |
 | C7 | Connect persisted bookmark diff entities to resolved bookmark records once reconciliation rules are finalized. | Medium | 0.5 | C4 | CoreData, Swift | Bookmark diff persistence reconciles with bookmark entities; unit tests cover add/update/remove flows. **(Completed ✅ — see `DOCS/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/Summary_of_Work.md`.)** |
 | C19 | Surface validation presets and per-rule toggles in the UI settings workflow. | Medium | 1.5 | B7, C3 | SwiftUI | Settings pane lists presets, rule toggles, respects global defaults from user preferences, persists per-workspace overrides, and includes a “Reset to Global” affordance per `13_Validation_Rule_Toggle_Presets_PRD.md`. **(Completed — see `DOCS/TASK_ARCHIVE/147_Summary_of_Work_2025-10-22_Validation_Preset_UI_Settings_Integration/Summary_of_Work.md` for delivery notes.)** |
+| C21 | Build the floating user settings panel shell with platform-aware presentation. | Medium | 1 | C3, C19 | SwiftUI, FoundationUI | Keyboard shortcut summons an `NSPanel` (macOS) or modal sheet (iPad/iOS), the UI renders separate sections for permanent vs. session settings as defined in `14_User_Settings_Panel_PRD.md`, and accessibility (VoiceOver, keyboard focus) passes regression tests. |
+| C22 | Wire permanent + session persistence flows plus reset affordances for the floating panel. | Medium | 1 | C21, B7, E3 | SwiftUI, CoreData/JSON | Permanent changes persist via `UserPreferencesStore`, session edits update `DocumentSessionController`, diagnostics emit failures, and the “Reset Global”/“Reset Session” actions behave as documented in `14_User_Settings_Panel_PRD.md`. |
 
 > **Completed:** Task R3 – Accessibility guidelines now live in <doc:AccessibilityGuidelines>, with verification notes in `DOCS/TASK_ARCHIVE/91_R3_Accessibility_Guidelines/Summary_of_Work.md`.
 
@@ -239,6 +241,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 - Phase A must complete before downstream phases begin.
 - Within Phase B, tasks B1–B3 and B4–B6 follow sequential order; B4 can start once B3 has event emission stubs.
 - Phase C tasks C2 and C3 can run in parallel after C1. C4 depends on annotation store definitions from C3.
+- C21 should follow C19 so it can reuse the existing settings view models, while C22 cannot start until E3's session persistence APIs are stable (the shared `DocumentSessionController` hooks gate that work).
 - Phase D tasks proceed sequentially due to CLI command dependencies.
 - Phase E tasks E2 and E3 depend on UI components from Phase C.
 - Documentation and QA tasks in Phase F can overlap once dependent features stabilize.
