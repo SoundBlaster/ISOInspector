@@ -136,6 +136,9 @@
                 let pixelWidth = Int(size.width * scale)
                 let pixelHeight = Int(size.height * scale)
 
+                let colorSpace =
+                    CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB()
+
                 guard
                     let context = CGContext(
                         data: nil,
@@ -143,7 +146,7 @@
                         height: max(pixelHeight, 1),
                         bitsPerComponent: 8,
                         bytesPerRow: 0,
-                        space: CGColorSpaceCreateDeviceRGB(),
+                        space: colorSpace,
                         bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
                     )
                 else {
@@ -157,8 +160,10 @@
                     fatalError("Unable to capture snapshot image.")
                 }
 
+                let representation = NSBitmapImageRep(cgImage: cgImage)
+                representation.size = size
                 let image = NSImage(size: size)
-                image.addRepresentation(NSBitmapImageRep(cgImage: cgImage))
+                image.addRepresentation(representation)
                 return image
             }
         #endif
