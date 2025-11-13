@@ -1086,3 +1086,38 @@
 - **Archived location:** `DOCS/TASK_ARCHIVE/209_T5_5_Tolerant_Parsing_Fuzzing_Harness/`.
 - **Highlights:** Captures the completion of Task T5.5, including the fuzzing harness objectives, daily status recap, full implementation summary, and the outgoing blocker/next-task context for the tolerance parsing milestone.
 - **Next steps carried forward:** The macOS 1 GiB lenient-versus-strict benchmark rerun for Task T5.4 remains active via `DOCS/INPROGRESS/next_tasks.md`, with recoverable blockers preserved in the refreshed `DOCS/INPROGRESS/blocked.md`.
+
+## 210_T5_3_UI_Corruption_Smoke_Tests
+- **Archived files:** `210_T5_3_UI_Corruption_Smoke_Tests.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/210_T5_3_UI_Corruption_Smoke_Tests/`.
+- **Highlights:** Captures the completion of Task T5.3, including the UI smoke test objectives, validation scenarios, and implementation summary for corruption detection across the SwiftUI interface.
+- **Next steps carried forward:** Continue with tolerant parsing feature integration and fixture maintenance tracking in the active blocker log at `DOCS/INPROGRESS/blocked.md`.
+
+## 211_T6_3_SDK_Tolerant_Parsing_Documentation
+- **Archived files:** `PRD.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/211_T6_3_SDK_Tolerant_Parsing_Documentation/`.
+- **Highlights:** Documents Task T6.3 completion, including the SDK tolerant parsing documentation delivery with DocC guides, code examples, and inline documentation updates that enable developers to leverage tolerant parsing in their applications.
+- **Next steps carried forward:** Proceed with FoundationUI Integration Phase 0 setup tasks as outlined in the refreshed `DOCS/INPROGRESS/next_tasks.md`.
+
+## 212_FoundationUI_Phase_0_Integration_Setup
+- **Archived files:** `212_I0_1_Add_FoundationUI_Dependency.md`, `FoundationUI_Integration_Planning_Complete.md`, `FoundationUI_Integration_Strategy.md`, `Summary_of_Work.md`, `blocked.md`, `next_tasks.md`, `replace_bento4_test_fixtures.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/`.
+- **Highlights:** Captures the FoundationUI integration Phase 0 setup completion, including:
+  - ✅ **I0.1 — Add FoundationUI Dependency** (completed 2025-11-13): Verified FoundationUI integration in Package.swift, created integration test suite, and documented findings.
+  - Comprehensive FoundationUI integration strategy covering 6 phases over 9 weeks
+  - Detailed planning for Phase 0 (Setup & Verification), Phase 1-6 (Component integration through final validation)
+  - Integration testing infrastructure and component showcase planning
+  - Design system and accessibility requirements documentation
+- **Key outcomes:**
+  - ✅ FoundationUI dependency verified and active in ISOInspectorApp
+  - ✅ Integration test suite established at `Tests/ISOInspectorAppTests/FoundationUI/`
+  - ✅ Active usage confirmed in `Sources/ISOInspectorApp/Support/ParseTreeStatusBadge.swift`
+  - ✅ Phase 0 planning complete with detailed subtasks for I0.2 through I0.5
+- **Next steps carried forward:** 
+  - **I0.2 — Create Integration Test Suite** (expand existing tests with snapshot/unit/integration patterns)
+  - **I0.3 — Build Component Showcase** (SwiftUI tabbed interface for all FoundationUI layers)
+  - **I0.4 — Document Integration Patterns** (architectural guidelines and code examples)
+  - **I0.5 — Update Design System Guide** (integration checklist and migration path)
+  - **Phase 1 (Weeks 2-3):** Foundation Components (Badges, Cards, Metadata rows)
+  - Continue tracking recoverable blockers (hardware, licensing, manual testing) in refreshed `DOCS/INPROGRESS/blocked.md`.
+

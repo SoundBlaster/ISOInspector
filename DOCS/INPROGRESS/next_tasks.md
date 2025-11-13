@@ -2,47 +2,49 @@
 
 ## Active
 
-### Core Work (Current Priority)
-- [x] **T6.3 — SDK Tolerant Parsing Documentation** (Priority: Medium, Effort: 1 day) ✅ **COMPLETED 2025-11-12**
-  - Create DocC article `TolerantParsingGuide.md` in `Sources/ISOInspectorKit/ISOInspectorKit.docc/Articles/`
-  - Add code examples for tolerant parsing setup and `ParseIssueStore` usage
-  - Update inline documentation for `ParsePipeline.Options`, `.strict`, `.tolerant`
-  - Link new guide from main `Documentation.md` Topics section
-  - Verify examples with test file in `Tests/ISOInspectorKitTests/`
-  - See `DOCS/TASK_ARCHIVE/211_T6_3_SDK_Tolerant_Parsing_Documentation/Summary_of_Work.md` for completion details
+### FoundationUI Integration (Priority Feature)
 
-### FoundationUI Integration (New Feature)
-**See detailed plan in:** `DOCS/INPROGRESS/FoundationUI_Integration_Strategy.md`
+**See detailed plan in:** `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/FoundationUI_Integration_Strategy.md`
 
 #### Phase 0: Setup & Verification (In Progress)
 **Duration:** 3-4 days | **Priority:** P0 (blocks all following phases)
 
-- [ ] **I0.1 — Add FoundationUI Dependency** (Effort: 0.5d) 🔄 **ACTIVE**
-  - Add FoundationUI as dependency in ISOInspectorApp Package.swift
-  - Verify builds with FoundationUI target
-  - Update Package.swift platform requirements if needed
-  - See `DOCS/INPROGRESS/212_I0_1_Add_FoundationUI_Dependency.md` for full task details
+- [x] **I0.1 — Add FoundationUI Dependency** (Effort: 0.5d) ✅ **COMPLETED 2025-11-13**
+  - Added FoundationUI as dependency in ISOInspectorApp Package.swift
+  - Verified builds with FoundationUI target
+  - Updated Package.swift platform requirements
+  - Created integration test suite at `Tests/ISOInspectorAppTests/FoundationUI/`
+  - See `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/212_I0_1_Add_FoundationUI_Dependency.md` for full details
 
 - [ ] **I0.2 — Create Integration Test Suite** (Effort: 0.5d)
-  - Create `Tests/ISOInspectorAppTests/FoundationUI/` directory structure
-  - Set up XCTest framework for FoundationUI tests
-  - Create test templates for snapshot/unit/integration patterns
+  - Expand `Tests/ISOInspectorAppTests/FoundationUI/` with comprehensive test coverage
+  - Add tests for core components: Badge, Card, KeyValueRow, Button, TextField
+  - Set up snapshot testing for visual regression detection
+  - Create platform-specific tests (iOS, macOS)
+  - Target test coverage: ≥80%
 
 - [ ] **I0.3 — Build Component Showcase** (Effort: 1.5d)
-  - Create SwiftUI view: `ComponentShowcase.swift`
-  - Add tabs for each FoundationUI layer (Foundation, Components, Patterns, Contexts)
-  - Render all components from FoundationUI for visual testing
-  - Make scrollable and searchable for development velocity
+  - Create SwiftUI view: `ComponentShowcase.swift` in ISOInspectorApp
+  - Implement tabbed interface for each FoundationUI layer:
+    - Foundation (Design Tokens, Colors, Spacing)
+    - Components (Badge, Card, KeyValueRow, Button, etc.)
+    - Patterns (Sidebar, Inspector, Tree layouts)
+    - Contexts (Dark mode, Accessibility)
+  - Add scrollable, searchable interface for development velocity
+  - Include usage examples for each component
 
 - [ ] **I0.4 — Document Integration Patterns** (Effort: 0.5d)
   - Add "FoundationUI Integration" section to `03_Technical_Spec.md`
   - Document architecture patterns for wrapping FoundationUI components
-  - Add code examples for badge, card, pattern wrappers
+  - Add code examples: badge wrappers, card layouts, pattern implementations
+  - Document design token usage (DS.Spacing, DS.Colors, etc.)
+  - Create "Do's and Don'ts" guidelines
 
 - [ ] **I0.5 — Update Design System Guide** (Effort: 0.5d)
-  - Update `10_DESIGN_SYSTEM_GUIDE.md` with integration checklist
+  - Update `10_DESIGN_SYSTEM_GUIDE.md` with FoundationUI integration checklist
   - Document migration path: old UI → FoundationUI
   - Add quality gates per phase
+  - Document accessibility requirements (≥98% WCAG 2.1 AA compliance)
 
 #### Phase 1: Foundation Components (Weeks 2-3)
 **Subtasks to be created after Phase 0 completion**
@@ -50,7 +52,9 @@
 - I1.2 Card Containers & Sections (2-3d)
 - I1.3 Key-Value Rows & Metadata (2-3d)
 
-### User Settings Panel (Floating Preferences)
+### Other Prioritized Work
+
+#### User Settings Panel (Floating Preferences)
 **Reference:** `DOCS/AI/ISOInspector_Execution_Guide/14_User_Settings_Panel_PRD.md`
 
 - [ ] **C21 — Floating Settings Panel Shell** (Priority: Medium, Effort: 1 day)
@@ -58,31 +62,23 @@
   - macOS: host inside an `NSPanel` window controller with remembered frame + keyboard shortcut (`⌘,`).
   - iPad/iOS: present via `.sheet` detents; ensure VoiceOver focus starts at the selected section and dismissal events fire automation hooks.
   - Snapshot + accessibility tests validate both presentations.
+
 - [ ] **C22 — Persistence + Reset Wiring** (Priority: Medium, Effort: 1 day)
   - Thread permanent changes through `UserPreferencesStore` and emit diagnostics on failures (reuse Task E6 harness).
   - Update `DocumentSessionController` with `SessionSettingsPayload` mutations for session-only toggles and persist them via CoreData + JSON fallbacks.
-  - Add reset actions (“Reset Global”, “Reset Session”), logging, and DocC/README callouts describing layered persistence behavior.
+  - Add reset actions ("Reset Global", "Reset Session"), logging, and DocC/README callouts describing layered persistence behavior.
 
 #### Future Phases (4-6)
-See detailed breakdown in `FoundationUI_Integration_Strategy.md`:
+See detailed breakdown in `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/FoundationUI_Integration_Strategy.md`:
 - Phase 2: Interactive Components (Week 4)
 - Phase 3: Layout Patterns (Weeks 5-7)
 - Phase 4: Platform Adaptation & Contexts (Week 8)
 - Phase 5: Advanced Features (Week 9)
 - Phase 6: Full Integration & Validation (Week 10)
 
-## Blocked (Hardware)
-
-- [ ] Run the lenient-versus-strict benchmark on macOS hardware with Combine enabled using the 1 GiB fixture:
-  - Export `ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824`.
-  - Invoke `swift test --filter LargeFileBenchmarkTests/testCLIValidationLenientModePerformanceStaysWithinToleranceBudget`.
-  - Archive the printed runtime and RSS metrics under `Documentation/Performance/` alongside the existing 32 MiB results.
-  - Cross-check results against the archived Linux baseline in `Documentation/Performance/2025-11-04-lenient-vs-strict-benchmark.log` and note deviations in the summary log.
-
 ## Notes
 
-- FoundationUI Integration is tracked separately to avoid mixing with SDK documentation work (T6.3)
-- Phase 0 is a critical blocker for all integration phases
+- FoundationUI Integration Phase 0 is the critical P0 blocker for all subsequent integration phases
 - Each phase gates on test coverage ≥80%, accessibility ≥95%, performance baselines
 - Roadmap: 9 weeks total (45 working days) if executing serially
-- Can parallelize T6.3 (documentation) with FoundationUI Phase 0 (setup)
+- Can parallelize C21/C22 (User Settings) with Phase 1-2 FoundationUI work if needed
