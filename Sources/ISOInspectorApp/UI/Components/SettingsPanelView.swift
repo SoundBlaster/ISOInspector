@@ -2,6 +2,29 @@
 import SwiftUI
 import FoundationUI
 
+/// Floating settings panel view with FoundationUI components
+///
+/// `SettingsPanelView` provides a unified interface for managing both permanent
+/// and session-scoped settings. It features:
+/// - Sidebar navigation using SidebarPattern (Permanent, Session, Advanced)
+/// - Content sections with FoundationUI cards for settings groups
+/// - Async settings loading on view appearance
+/// - Reset affordances for permanent and session settings
+///
+/// ## Design System Integration
+/// Uses FoundationUI components:
+/// - ``SidebarPattern`` for sidebar navigation
+/// - ``Card`` for settings groups
+/// - Design System spacing and typography tokens
+///
+/// ## Platform Adaptation
+/// - macOS: Floating NSPanel or detent-based sheet
+/// - iPad: Modal sheet with detents (.medium, .large)
+/// - iPhone: Full-screen modal
+///
+/// ## See Also
+/// - ``SettingsPanelViewModel``
+/// - ``ValidationSettingsView``
 struct SettingsPanelView: View {
     @ObservedObject var viewModel: SettingsPanelViewModel
 
