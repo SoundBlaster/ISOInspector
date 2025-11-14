@@ -41,15 +41,18 @@ Completed tasks:
   - Task document archived: `DOCS/TASK_ARCHIVE/217_I1_2_Card_Containers_Sections/`
   - Archived: `DOCS/TASK_ARCHIVE/217_I1_2_Card_Containers_Sections/`
 
-**Queued Tasks:**
+**Active Task:**
 
-- [ ] **I1.3 — Key-Value Rows & Metadata Display** (Priority: P1, Effort: 2-3d)
+- [⏳] **I1.3 — Key-Value Rows & Metadata Display** 🔄 **IN PROGRESS** (Started: 2025-11-14)
+  - Priority: P1 | Effort: 2-3d | Task Document: `DOCS/INPROGRESS/218_I1_3_Key_Value_Rows_Metadata_Display.md`
   - Audit metadata display patterns
   - Create `BoxMetadataRow` wrapper around `DS.KeyValueRow`
   - Refactor all field displays to use KeyValueRow
   - Add copyable action integration
   - Add unit + snapshot + accessibility tests
   - Add to component showcase
+
+**Queued Tasks:**
 
 ### Other Prioritized Work
 
