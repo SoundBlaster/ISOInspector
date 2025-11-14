@@ -7,7 +7,7 @@ The following efforts cannot proceed until their upstream dependencies are resol
 - **Blocking issue:** Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures are still pending.
 - **Next step once unblocked:** Import the licensed assets and refresh regression baselines so tolerant parsing and export scenarios can validate against real-world payloads.
 - **Notes:** Review the permanent blockers stored under [`DOCS/TASK_ARCHIVE/BLOCKED`](../TASK_ARCHIVE/BLOCKED) to avoid duplicating retired work.
-- **Historical context:** `DOCS/TASK_ARCHIVE/100_I0_4_Document_Integration_Patterns/blocked.md`
+- **Historical context:** `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/FoundationUI_Integration_Strategy.md`
 
 ## macOS Benchmark Execution
 
@@ -30,7 +30,7 @@ The following efforts cannot proceed until their upstream dependencies are resol
   6. Test on iOS 17 device (oldest supported)
   7. Test on macOS 14 device (oldest supported)
   8. Document findings in performance report
-- **Task reference:** `DOCS/TASK_ARCHIVE/100_I0_4_Document_Integration_Patterns/blocked.md`
+- **Task reference:** `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/FoundationUI_Integration_Strategy.md`
 - **Next step once unblocked:** Publish performance baselines in `PERFORMANCE.md`
 
 ### Performance Benchmarks (**MANUAL** ⚠️)
@@ -43,7 +43,7 @@ The following efforts cannot proceed until their upstream dependencies are resol
   4. Verify 60 FPS on all platforms during interactions
   5. Test BoxTreePattern with 1000+ nodes for performance
   6. Document baseline metrics
-- **Task reference:** `DOCS/TASK_ARCHIVE/100_I0_4_Document_Integration_Patterns/blocked.md`
+- **Task reference:** `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/FoundationUI_Integration_Strategy.md`
 - **Next step once unblocked:** CI integration with performance gates
 
 ### Cross-Platform Testing (**MANUAL** ⚠️)
@@ -56,7 +56,7 @@ The following efforts cannot proceed until their upstream dependencies are resol
   4. Dark Mode verification across all platforms
   5. RTL language testing (Arabic, Hebrew)
   6. Multiple locale/region testing
-- **Task reference:** `DOCS/TASK_ARCHIVE/100_I0_4_Document_Integration_Patterns/blocked.md`
+- **Task reference:** `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/FoundationUI_Integration_Strategy.md`
 - **Tools:** ComponentTestApp with comprehensive testing screens available
 - **Next step once unblocked:** Compile test results and create cross-platform report
 
@@ -71,7 +71,7 @@ The following efforts cannot proceed until their upstream dependencies are resol
   5. Reduce Motion and accessibility settings testing
   6. Increase Contrast testing
   7. Bold Text testing
-- **Task reference:** `DOCS/TASK_ARCHIVE/100_I0_4_Document_Integration_Patterns/blocked.md`
+- **Task reference:** `DOCS/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/FoundationUI_Integration_Strategy.md`
 - **Tools:** AccessibilityTestingScreen in ComponentTestApp (available for manual validation)
 - **Status:** 98% accessibility score already achieved via automated tests; manual testing for edge cases
 - **Next step once unblocked:** Final accessibility sign-off
