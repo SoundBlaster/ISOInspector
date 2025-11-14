@@ -302,7 +302,8 @@ func appTestsTarget() -> Target {
         dependencies: [
             .target(name: "ISOInspectorApp-macOS"),
             .target(name: "ISOInspectorApp-iOS"),
-            .target(name: "ISOInspectorApp-iPadOS"),
+            // Note: ISOInspectorApp-iOS already supports iPad via .iPhone destination
+            // Including ISOInspectorApp-iPadOS causes module name conflicts during build
             .target(name: "ISOInspectorKit"),
             .package(product: "NestedA11yIDs"),
             .project(target: "FoundationUI", path: .relativeToRoot("FoundationUI")),
