@@ -23,11 +23,12 @@
 
 **Remaining Phase 1 Tasks:**
 
-- [ ] **I1.5 — Advanced Layouts & Navigation** (Priority: P1, Effort: 2 days)
+- [ ] **I1.5 — Advanced Layouts & Navigation** (Priority: P1, Effort: 2 days) 🔄 **IN PROGRESS**
   - Implement layout patterns using FoundationUI grid and spacing system
   - Migrate sidebar and detail view layouts
   - Validate responsive behavior across device sizes
   - Accessibility and dark mode support
+  - **Details:** `DOCS/INPROGRESS/221_I1_5_Advanced_Layouts_Navigation.md`
 
 ---
 
