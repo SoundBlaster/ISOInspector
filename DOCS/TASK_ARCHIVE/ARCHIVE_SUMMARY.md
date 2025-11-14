@@ -1141,3 +1141,26 @@
   - **Phase 1 (Weeks 2-3):** Foundation Components (I1.1: Badge & Status Indicators, I1.2: Card Containers & Sections, I1.3: Key-Value Rows & Metadata)
   - Continue tracking recoverable blockers (asset licensing, macOS hardware, manual testing) in `DOCS/INPROGRESS/blocked.md`.
 
+## 100_I0_4_Document_Integration_Patterns
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/100_I0_4_Document_Integration_Patterns/`.
+- **Highlights:** Captures the completion of Task I0.4 within FoundationUI Integration Phase 0, including:
+  - ✅ **I0.4 — Document Integration Patterns** (completed 2025-11-13): Comprehensive documentation of FoundationUI integration patterns, architecture guidelines, and code examples
+  - Added ~685 lines of FoundationUI integration documentation to `DOCS/AI/ISOInspector_Execution_Guide/03_Technical_Spec.md`
+  - 4 detailed code examples: Badge Integration, Card Integration, KeyValueRow Integration, Complex Composition Pattern
+  - Design token usage guidelines covering Spacing, Colors, Typography, and Animation
+  - 13 "Do's and Don'ts" guidelines with code examples and rationale
+  - 19-point integration checklist for verification
+  - Updated `README.md` with FoundationUI Integration section, ComponentTestApp documentation, and cross-references to technical specifications
+- **Key outcomes:**
+  - ✅ Phase 0 now 4 of 5 tasks completed (I0.1, I0.2, I0.3 pre-existing, I0.4)
+  - ✅ Documentation establishes authoritative patterns for integrating FoundationUI components
+  - ✅ Design token enforcement documented to prevent magic numbers
+  - ✅ Cross-links from README guide developers to implementation resources
+  - ✅ Ready for Phase 1 implementation with clear architectural guidelines
+- **Next steps carried forward:**
+  - **I0.5 — Update Design System Guide** (0.5d): Final Phase 0 completion task
+  - **Phase 1 (Weeks 2-3):** Foundation Components (I1.1: Badge & Status Indicators, I1.2: Card Containers & Sections, I1.3: Key-Value Rows & Metadata)
+  - **User Settings Panel:** Proceed with C21 and C22 as secondary priority feature
+  - Continue tracking recoverable blockers (asset licensing, macOS hardware, manual testing) in refreshed `DOCS/INPROGRESS/blocked.md`.
+
