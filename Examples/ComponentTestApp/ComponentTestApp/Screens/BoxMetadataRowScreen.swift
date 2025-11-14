@@ -31,7 +31,8 @@ struct BoxMetadataRowScreen: View {
                     Text("BoxMetadataRow Component")
                         .font(DS.Typography.title)
 
-                    Text("A wrapper around DS.KeyValueRow for consistent metadata display in ISOInspector, with copyable actions and dark mode support.")
+                    Text("Wrapper around DS.KeyValueRow for consistent metadata display "
+                        + "in ISOInspector, with copyable actions and dark mode support.")
                         .font(DS.Typography.body)
                         .foregroundStyle(.secondary)
                 }
@@ -99,7 +100,8 @@ struct BoxMetadataRowScreen: View {
 
                     BoxMetadataRow(
                         label: "Description",
-                        value: "This is a very long description that demonstrates how the component handles text wrapping and layout adjustments for long content.",
+                        value: "Very long description demonstrating text wrapping and layout "
+                            + "adjustments for long content",
                         layout: layout,
                         copyable: isCopyable
                     )
@@ -246,7 +248,8 @@ struct BoxMetadataRowScreen: View {
                     Text("Dark Mode Support")
                         .font(DS.Typography.subheadline)
 
-                    Text("BoxMetadataRow automatically inherits dark mode adaptation from FoundationUI's Design System tokens.")
+                    Text("BoxMetadataRow automatically inherits dark mode adaptation "
+                        + "from FoundationUI's Design System tokens.")
                         .font(DS.Typography.caption)
                         .foregroundStyle(.secondary)
 
