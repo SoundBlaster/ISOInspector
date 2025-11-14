@@ -501,13 +501,6 @@
 			remoteGlobalIDString = CDDCE6E9DE3EBF91EA1F7A6D;
 			remoteInfo = "ISOInspectorApp-macOS";
 		};
-		8A0EC73CF49BAC50B479382B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 52DD0274E1C94AD0AE17E660 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 69BB95BE78583C259FCB7544;
-			remoteInfo = "ISOInspectorApp-iPadOS";
-		};
 		8BD16E72D2BBA4AC016DEB86 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 52DD0274E1C94AD0AE17E660 /* Project object */;
@@ -1890,7 +1883,6 @@
 			);
 			dependencies = (
 				B27C20F3BF68A4B7EB336650 /* PBXTargetDependency */,
-				04E96E96E4F6E7F6C9D260C8 /* PBXTargetDependency */,
 				A41717132030D9C41817788E /* PBXTargetDependency */,
 				937D2823546874552534F1DB /* PBXTargetDependency */,
 			);
@@ -2611,12 +2603,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		04E96E96E4F6E7F6C9D260C8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "ISOInspectorApp-iPadOS";
-			target = 69BB95BE78583C259FCB7544 /* ISOInspectorApp-iPadOS */;
-			targetProxy = 8A0EC73CF49BAC50B479382B /* PBXContainerItemProxy */;
-		};
 		0551A0505D80FB744E532DC3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ISOInspectorKit;
