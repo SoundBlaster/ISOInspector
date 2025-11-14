@@ -1249,3 +1249,29 @@
   - **I1.3 — Key-Value Rows & Metadata Display** (2-3d): Migrate metadata displays to `DS.KeyValueRow`, create BoxMetadataRow wrapper
   - **Phase 2 (Week 4):** Interactive Components (Buttons, Text Fields, Toggles)
   - Continue tracking recoverable blockers (asset licensing, macOS hardware, manual testing) in `DOCS/INPROGRESS/blocked.md`.
+
+## 217_I1_2_Card_Containers_Sections
+- **Archived files:** `217_I1_2_Card_Containers_Sections.md`, `next_tasks.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/217_I1_2_Card_Containers_Sections/`.
+- **Highlights:** Captures Task I1.2 within FoundationUI Integration Phase 1 archiving point. Task document archived as work-in-progress for future continuation.
+  - **Task scope:** Migrate ISOInspectorApp details panel from manual container styling to FoundationUI `DS.Card` and `DS.SectionHeader` components
+  - **Planned deliverables:**
+    - Audit current container styles and elevation patterns
+    - Create `BoxDetailsCard` wrapper around `DS.Card` with elevation support (thin/regular/thick)
+    - Create `BoxSectionHeader` wrapper around `DS.SectionHeader`
+    - Refactor details panel layout (BoxDetailView.swift) to use new wrappers
+    - Unit + snapshot + integration + accessibility tests for card variants
+    - Dark mode verification and platform-specific testing
+  - **Estimated effort:** 2-3 days (16-24 hours)
+  - **Dependencies:** Phase 0 ✅ complete, I1.1 ✅ complete
+- **Status at archiving:** Ready to Start (no implementation begun)
+- **Key context:**
+  - All container sections currently use manual background colors, borders, corner radius, shadows
+  - Section headers implemented with custom dividers and typography
+  - Metadata cards have hardcoded spacing values (magic numbers)
+  - Target state: All spacing uses Design System tokens, automatic dark mode via ColorSchemeAdapter
+- **Next steps carried forward:**
+  - **I1.3 — Key-Value Rows & Metadata Display** (2-3d): Next queued task in Phase 1
+  - **I1.2 continuation:** Resume card migration when prioritized (task document preserved in archive)
+  - **Phase 2 (Week 4):** Interactive Components (Buttons, Text Fields, Toggles)
+  - Continue tracking recoverable blockers (asset licensing, macOS hardware, manual testing) in `DOCS/INPROGRESS/blocked.md`.
