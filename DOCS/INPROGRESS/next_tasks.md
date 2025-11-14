@@ -31,11 +31,14 @@ Completed tasks:
 
 ---
 
-#### Phase 1: Foundation Components (Weeks 2-3) ⏳ **READY TO START**
+#### Phase 1: Foundation Components (Weeks 2-3) 🔄 **IN PROGRESS**
 **Duration:** 5-7 days | **Priority:** P1 | **Dependencies:** Phase 0 ✅ complete
+**Started:** 2025-11-14
 
-**Next Tasks:**
-- [ ] **I1.1 — Badge & Status Indicators** (Priority: P1, Effort: 1-2d)
+**Current Task:**
+- [x] **I1.1 — Badge & Status Indicators** 🔄 **IN PROGRESS** (Priority: P1, Effort: 1-2d)
+  - **Task Document:** `DOCS/INPROGRESS/214_I1_1_Badge_Status_Indicators.md`
+  - **Started:** 2025-11-14
   - Audit current badge usage in codebase
   - Create `BoxStatusBadgeView` wrapper around `DS.Badge`
   - Create `ParseStatusIndicator` for tree view nodes
@@ -44,6 +47,8 @@ Completed tasks:
   - Add accessibility tests (VoiceOver, contrast, focus)
   - Update component showcase with examples
   - Document migration path
+
+**Queued Tasks:**
 
 - [ ] **I1.2 — Card Containers & Sections** (Priority: P1, Effort: 2-3d)
   - Audit current container styles
