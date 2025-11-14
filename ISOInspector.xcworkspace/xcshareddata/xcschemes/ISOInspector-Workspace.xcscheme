@@ -112,9 +112,23 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "746CDA883F54403888D340D7"
-               BuildableName = "ISOInspectorAppTests.xctest"
-               BlueprintName = "ISOInspectorAppTests"
+               BlueprintIdentifier = "C4F94193D9F7FEA4B6932AAE"
+               BuildableName = "ISOInspectorAppTests_iOS.xctest"
+               BlueprintName = "ISOInspectorAppTests-iOS"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F04B318BF6DE5943F403EB1C"
+               BuildableName = "ISOInspectorAppTests_macOS.xctest"
+               BlueprintName = "ISOInspectorAppTests-macOS"
                ReferencedContainer = "container:ISOInspector.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -226,9 +240,20 @@
             parallelizable = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "746CDA883F54403888D340D7"
-               BuildableName = "ISOInspectorAppTests.xctest"
-               BlueprintName = "ISOInspectorAppTests"
+               BlueprintIdentifier = "C4F94193D9F7FEA4B6932AAE"
+               BuildableName = "ISOInspectorAppTests_iOS.xctest"
+               BlueprintName = "ISOInspectorAppTests-iOS"
+               ReferencedContainer = "container:ISOInspector.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "F04B318BF6DE5943F403EB1C"
+               BuildableName = "ISOInspectorAppTests_macOS.xctest"
+               BlueprintName = "ISOInspectorAppTests-macOS"
                ReferencedContainer = "container:ISOInspector.xcodeproj">
             </BuildableReference>
          </TestableReference>

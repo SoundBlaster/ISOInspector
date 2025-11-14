@@ -290,20 +290,29 @@ func performanceTestsTarget() -> Target {
     )
 }
 
-func appTestsTarget() -> Target {
-    Target.target(
-        name: "ISOInspectorAppTests",
-        destinations: [.mac, .iPad, .iPhone],
+func appTestsTarget(for platform: DistributionPlatform) -> Target {
+    let targetName: String
+    let appTargetName: String
+
+    switch platform {
+    case .macOS:
+        targetName = "ISOInspectorAppTests-macOS"
+        appTargetName = "ISOInspectorApp-macOS"
+    case .iOS, .iPadOS:
+        targetName = "ISOInspectorAppTests-iOS"
+        appTargetName = "ISOInspectorApp-iOS"
+    }
+
+    return Target.target(
+        name: targetName,
+        destinations: destinations(for: platform),
         product: .unitTests,
-        bundleId: "ru.egormerkushev.isoinspector.app.tests",
-        deploymentTargets: DeploymentTargets.multiplatform(iOS: "16.0", macOS: "14.0"),
+        bundleId: "ru.egormerkushev.isoinspector.app.tests.\(platform.rawValue.lowercased())",
+        deploymentTargets: deploymentTargets(for: platform),
         infoPlist: .default,
         sources: ["Tests/ISOInspectorAppTests/**"],
         dependencies: [
-            .target(name: "ISOInspectorApp-macOS"),
-            .target(name: "ISOInspectorApp-iOS"),
-            // Note: ISOInspectorApp-iOS already supports iPad via .iPhone destination
-            // Including ISOInspectorApp-iPadOS causes module name conflicts during build
+            .target(name: appTargetName),
             .target(name: "ISOInspectorKit"),
             .package(product: "NestedA11yIDs"),
             .project(target: "FoundationUI", path: .relativeToRoot("FoundationUI")),
@@ -334,6 +343,7 @@ let project = Project(
         kitTestsTarget(),
         cliTestsTarget(),
         performanceTestsTarget(),
-        appTestsTarget(),
+        appTestsTarget(for: .macOS),
+        appTestsTarget(for: .iOS),
     ]
 )
