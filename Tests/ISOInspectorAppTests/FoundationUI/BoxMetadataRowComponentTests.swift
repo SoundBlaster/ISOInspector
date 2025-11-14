@@ -277,45 +277,40 @@ final class BoxMetadataRowComponentTests: XCTestCase {
     @available(iOS 17.0, macOS 14.0, *)
     func testBoxMetadataRowAgentDescribableConformance() {
         let row = BoxMetadataRow(label: "Test", value: "Value")
-
-        XCTAssertTrue(row is AgentDescribable)
+        // BoxMetadataRow conforms to AgentDescribable via extension
+        // Verify it's accessible and has expected properties
+        XCTAssertNotNil(row as? AgentDescribable)
     }
 
     /// Verifies that BoxMetadataRow provides correct componentType
+    @MainActor
     @available(iOS 17.0, macOS 14.0, *)
     func testBoxMetadataRowComponentType() {
         let row = BoxMetadataRow(label: "Type", value: "ftyp")
-
-        if #available(iOS 17.0, macOS 14.0, *) {
-            XCTAssertEqual(row.componentType, "BoxMetadataRow")
-        }
+        XCTAssertEqual(row.componentType, "BoxMetadataRow")
     }
 
     /// Verifies that BoxMetadataRow provides properties for agent description
+    @MainActor
     @available(iOS 17.0, macOS 14.0, *)
     func testBoxMetadataRowAgentProperties() {
         let row = BoxMetadataRow(label: "Offset", value: "0x1234", layout: .vertical, copyable: true)
-
-        if #available(iOS 17.0, macOS 14.0, *) {
-            let properties = row.properties
-            XCTAssertEqual(properties["label"] as? String, "Offset")
-            XCTAssertEqual(properties["value"] as? String, "0x1234")
-            XCTAssertEqual(properties["layout"] as? String, "vertical")
-            XCTAssertEqual(properties["copyable"] as? Bool, true)
-        }
+        let properties = row.properties
+        XCTAssertEqual(properties["label"] as? String, "Offset")
+        XCTAssertEqual(properties["value"] as? String, "0x1234")
+        XCTAssertEqual(properties["layout"] as? String, "vertical")
+        XCTAssertEqual(properties["copyable"] as? Bool, true)
     }
 
     /// Verifies that BoxMetadataRow provides semantic description
+    @MainActor
     @available(iOS 17.0, macOS 14.0, *)
     func testBoxMetadataRowAgentSemantics() {
         let row = BoxMetadataRow(label: "Type", value: "ftyp", copyable: true)
-
-        if #available(iOS 17.0, macOS 14.0, *) {
-            let semantics = row.semantics
-            XCTAssertTrue(semantics.contains("Type"))
-            XCTAssertTrue(semantics.contains("ftyp"))
-            XCTAssertTrue(semantics.contains("copyable"))
-        }
+        let semantics = row.semantics
+        XCTAssertTrue(semantics.contains("Type"))
+        XCTAssertTrue(semantics.contains("ftyp"))
+        XCTAssertTrue(semantics.contains("copyable"))
     }
 
     // MARK: - Integration Tests
