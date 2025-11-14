@@ -8,7 +8,9 @@ OUTPUT_ROOT="${1:-${REPO_ROOT}/Documentation/DocC}"
 echo "Generating DocC archives into ${OUTPUT_ROOT}" >&2
 mkdir -p "${OUTPUT_ROOT}"
 
-TARGETS=(ISOInspectorKit ISOInspectorCLI ISOInspectorApp)
+# Build docs for platform-independent targets only
+# ISOInspectorApp is platform-specific (iOS/macOS) and not available on Linux
+TARGETS=(ISOInspectorKit ISOInspectorCLI)
 
 for target in "${TARGETS[@]}"; do
   TARGET_OUTPUT="${OUTPUT_ROOT}/${target}"
