@@ -14,34 +14,50 @@
     ///
     /// Records visual baselines for all badge levels and size variants in
     /// both light and dark appearances. Executed on Apple platforms only.
+    ///
+    /// Note: macOS snapshot tests are disabled due to rendering inconsistencies
+    /// between local machines and CI headless virtual machines (different display
+    /// scales, font rendering, and color profiles).
     @MainActor
     final class IndicatorSnapshotTests: XCTestCase {
 
-        func testIndicatorCatalogLightMode() {
-            let view = indicatorCatalog()
-                .padding(DS.Spacing.l)
+        func testIndicatorCatalogLightMode() throws {
+            #if os(macOS)
+                throw XCTSkip("macOS snapshot tests disabled due to CI rendering inconsistencies")
+            #else
+                let view = indicatorCatalog()
+                    .padding(DS.Spacing.l)
 
-            assertIndicatorSnapshot(view, testName: #function)
+                assertIndicatorSnapshot(view, testName: #function)
+            #endif
         }
 
-        func testIndicatorCatalogDarkMode() {
-            let view = indicatorCatalog()
-                .padding(DS.Spacing.l)
-                .preferredColorScheme(.dark)
+        func testIndicatorCatalogDarkMode() throws {
+            #if os(macOS)
+                throw XCTSkip("macOS snapshot tests disabled due to CI rendering inconsistencies")
+            #else
+                let view = indicatorCatalog()
+                    .padding(DS.Spacing.l)
+                    .preferredColorScheme(.dark)
 
-            assertIndicatorSnapshot(view, testName: #function)
+                assertIndicatorSnapshot(view, testName: #function)
+            #endif
         }
 
-        func testIndicatorSingleLightMode() {
-            let view = Indicator(
-                level: .warning,
-                size: .medium,
-                reason: "Preview",
-                tooltip: .text("Preview")
-            )
-            .padding(DS.Spacing.l)
+        func testIndicatorSingleLightMode() throws {
+            #if os(macOS)
+                throw XCTSkip("macOS snapshot tests disabled due to CI rendering inconsistencies")
+            #else
+                let view = Indicator(
+                    level: .warning,
+                    size: .medium,
+                    reason: "Preview",
+                    tooltip: .text("Preview")
+                )
+                .padding(DS.Spacing.l)
 
-            assertIndicatorSnapshot(view, testName: #function)
+                assertIndicatorSnapshot(view, testName: #function)
+            #endif
         }
 
         private func indicatorCatalog() -> some View {
