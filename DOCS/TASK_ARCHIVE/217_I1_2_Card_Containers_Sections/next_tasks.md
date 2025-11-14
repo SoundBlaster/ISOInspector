@@ -37,9 +37,16 @@ Completed tasks:
   - Accessibility ≥98% WCAG 2.1 AA compliance
   - Archived: `DOCS/TASK_ARCHIVE/216_I1_1_Badge_Status_Indicators/`
 
-- [x] **I1.2 — Card Containers & Sections** ✅ **COMPLETED** (2025-11-14)
-  - Task document archived: `DOCS/TASK_ARCHIVE/217_I1_2_Card_Containers_Sections/`
-  - Archived: `DOCS/TASK_ARCHIVE/217_I1_2_Card_Containers_Sections/`
+**Active Task:**
+
+- [⏳] **I1.2 — Card Containers & Sections** 🔄 **IN PROGRESS** (Started: 2025-11-14)
+  - Priority: P1 | Effort: 2-3d | Task Document: `DOCS/INPROGRESS/217_I1_2_Card_Containers_Sections.md`
+  - Audit current container styles
+  - Create `BoxDetailsCard` wrapper around `DS.Card`
+  - Create `BoxSectionHeader` wrapper around `DS.SectionHeader`
+  - Refactor details panel layout to use Cards
+  - Add unit + snapshot + accessibility tests
+  - Verify dark mode adaptation
 
 **Queued Tasks:**
 
@@ -67,7 +74,7 @@ Completed tasks:
   - Update `DocumentSessionController` with `SessionSettingsPayload` mutations for session-only toggles and persist them via CoreData + JSON fallbacks.
   - Add reset actions ("Reset Global", "Reset Session"), logging, and DocC/README callouts describing layered persistence behavior.
 
-#### Future Phases (2-6)
+#### Future Phases (4-6)
 See detailed breakdown in `DOCS/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Suite/FoundationUI_Integration_Strategy.md`:
 - Phase 2: Interactive Components (Week 4)
 - Phase 3: Layout Patterns (Weeks 5-7)
@@ -77,9 +84,7 @@ See detailed breakdown in `DOCS/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Su
 
 ## Notes
 
-- FoundationUI Integration Phase 0 is complete ✅ (all 5 tasks completed 2025-11-14)
-- Phase 1 Task I1.1 complete ✅ (2025-11-14)
-- Phase 1 Task I1.2 archived ✅ (2025-11-14)
+- FoundationUI Integration Phase 0 is the critical P0 blocker for all subsequent integration phases
 - Each phase gates on test coverage ≥80%, accessibility ≥95%, performance baselines
 - Roadmap: 9 weeks total (45 working days) if executing serially
-- Can parallelize C21/C22 (User Settings) with Phase 1-3 FoundationUI work if needed
+- Can parallelize C21/C22 (User Settings) with Phase 1-2 FoundationUI work if needed
