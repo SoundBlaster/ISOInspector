@@ -17,11 +17,12 @@
 
 **Remaining Phase 1 Tasks:**
 
-- [ ] **I1.4 — Form Controls & Input Wrappers** (Priority: P1, Effort: 2 days)
+- [ ] **I1.4 — Form Controls & Input Wrappers** (Priority: P1, Effort: 2 days) 🔄 **IN PROGRESS** (2025-11-14)
   - Wrap FoundationUI form components (`DS.TextInput`, `DS.Toggle`, `DS.Picker`)
   - Migrate existing input patterns in settings and configuration dialogs
   - Comprehensive test suite (≥90% coverage)
   - Accessibility validation (WCAG 2.1 AA)
+  - **Details:** `DOCS/INPROGRESS/220_I1_4_Form_Controls_Input_Wrappers.md`
 
 - [ ] **I1.5 — Advanced Layouts & Navigation** (Priority: P1, Effort: 2 days)
   - Implement layout patterns using FoundationUI grid and spacing system
@@ -63,7 +64,7 @@
 ## Notes
 
 - Phase 1 Task I1.3 archived: `DOCS/TASK_ARCHIVE/219_I1_3_Key_Value_Rows_Metadata_Display/`
-- Phase 1 Progress: 3/5 tasks completed (60% complete)
-- Next: I1.4, I1.5 remaining in Phase 1
+- Phase 1 Progress: 3/5 tasks completed + 1 in progress (80% active)
+- Now: I1.4 in progress, I1.5 remaining in Phase 1
 - Can parallelize C21/C22 (User Settings) with Phase 1-3 FoundationUI work if needed
 - Roadmap: 9 weeks total (45 working days) if executing serially
