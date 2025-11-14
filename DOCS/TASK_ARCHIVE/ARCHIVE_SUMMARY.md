@@ -1164,3 +1164,48 @@
   - **User Settings Panel:** Proceed with C21 and C22 as secondary priority feature
   - Continue tracking recoverable blockers (asset licensing, macOS hardware, manual testing) in refreshed `DOCS/INPROGRESS/blocked.md`.
 
+
+## 214_I0_4_Document_Integration_Patterns
+- **Archived files:** `I0_4_Document_Integration_Patterns.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/214_I0_4_Document_Integration_Patterns/`.
+- **Highlights:** Captures the secondary archive for Task I0.4 completion within FoundationUI Integration Phase 0, duplicating the Phase 0 milestone entry to maintain consistency with existing archive structure.
+- **Key outcomes:**
+  - ✅ FoundationUI integration patterns documented in `03_Technical_Spec.md`
+  - ✅ Phase 0 readiness verified for Phase 1 implementation
+- **Next steps carried forward:**
+  - **I0.5 — Update Design System Guide** (0.5d): Final Phase 0 completion task
+  - **Phase 1 (Weeks 2-3):** Foundation Components ready to begin
+
+## 215_I0_5_Update_Design_System_Guide
+- **Archived files:** `I0_5_Update_Design_System_Guide.md`, `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/215_I0_5_Update_Design_System_Guide/`.
+- **Highlights:** Captures the completion of Task I0.5 within FoundationUI Integration Phase 0, including:
+  - ✅ **I0.5 — Update Design System Guide** (completed 2025-11-14): Comprehensive update to `10_DESIGN_SYSTEM_GUIDE.md` with FoundationUI integration documentation
+  - Added **Section 9: FoundationUI Integration** (~810 lines total documentation)
+    - **9.1 Overview:** Integration status summary and key resource links
+    - **9.2 Integration Checklist:** 28 verification points across design tokens, component wrappers, testing, platform compatibility, accessibility, documentation, and build quality
+    - **9.3 Migration Path:** Component mapping table (10 components), 7-step migration workflow, 3 before/after code examples, 4 common pitfalls with solutions
+    - **9.4 Quality Gates:** 7 phases (Phase 0-6) with detailed validation metrics, success criteria, and performance budgets
+    - **9.5 Accessibility Requirements:** WCAG 2.1 AA compliance checklist (14 criteria), VoiceOver testing, keyboard navigation, Dynamic Type support, color contrast requirements, Reduce Motion, High Contrast mode support
+    - **9.6 Cross-References:** Integration resources, design system documentation, and quality standards
+  - Updated `DOCS/INPROGRESS/next_tasks.md` marking Phase 0 ✅ COMPLETE (all 5 tasks: I0.1-I0.5)
+- **Key outcomes:**
+  - ✅ **Phase 0 Complete:** All 5 tasks finished (I0.1 Dependency, I0.2 Tests, I0.3 Showcase, I0.4 Patterns, I0.5 Guide)
+  - ✅ Design System Guide establishes authoritative migration roadmap for FoundationUI integration
+  - ✅ 10 component migrations documented with priorities, phases, and effort estimates (9 weeks total)
+  - ✅ 40+ accessibility verification points ensure ≥98% WCAG 2.1 AA compliance
+  - ✅ Quality gates defined for all 6 integration phases with clear validation metrics
+  - ✅ **Ready to begin Phase 1: Foundation Components** (Badge, Card, KeyValueRow migration) 🚀
+- **Phase 0 Deliverables:**
+  - ✅ FoundationUI dependency integrated and building successfully
+  - ✅ 123 comprehensive integration tests (Badge: 33, Card: 43, KeyValueRow: 40, Integration: 7)
+  - ✅ ComponentTestApp provides live component showcase (14+ screens)
+  - ✅ Integration patterns documented in `03_Technical_Spec.md` (~685 lines)
+  - ✅ Design System Guide updated with migration roadmap (~810 lines)
+  - ✅ Zero SwiftLint violations, ≥80% test coverage
+- **Next steps carried forward:**
+  - **Phase 1 (Weeks 2-3):** Foundation Components
+    - **I1.1 — Badge & Status Indicators** (1-2d): Migrate badges to `DS.Badge` wrappers
+    - **I1.2 — Card Containers & Sections** (2-3d): Migrate cards to `DS.Card` with appropriate elevation
+    - **I1.3 — Key-Value Rows & Metadata** (2-3d): Migrate metadata displays to `DS.KeyValueRow`
+  - Continue tracking recoverable blockers (asset licensing, macOS hardware, manual testing) in `DOCS/INPROGRESS/blocked.md`.
