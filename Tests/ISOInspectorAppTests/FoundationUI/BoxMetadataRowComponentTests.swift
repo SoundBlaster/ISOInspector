@@ -210,9 +210,10 @@ final class BoxMetadataRowComponentTests: XCTestCase {
 
     /// Verifies that BoxMetadataRow handles special characters in values
     func testBoxMetadataRowSpecialCharactersValue() {
-        let row = BoxMetadataRow(label: "Hash", value: "a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b0c2d4e6f8a0b2c4d6e8f0a2b4")
+        let hashValue = "a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b0c2d4e6f8a0b2c4d6e8f0a2b4"
+        let row = BoxMetadataRow(label: "Hash", value: hashValue)
 
-        XCTAssertEqual(row.value, "a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b0c2d4e6f8a0b2c4d6e8f0a2b4")
+        XCTAssertEqual(row.value, hashValue)
     }
 
     // MARK: - Real World Metadata Tests
@@ -527,9 +528,11 @@ final class BoxMetadataRowComponentTests: XCTestCase {
     func testBoxMetadataRowVariousContentLengths() {
         let shortRow = BoxMetadataRow(label: "ID", value: "1")
         let mediumRow = BoxMetadataRow(label: "File Type", value: "ISO Media File")
+        let longDescription = "This is a very long description that spans multiple words and "
+            + "provides detailed information about the content"
         let longRow = BoxMetadataRow(
             label: "Description",
-            value: "This is a very long description that spans multiple words and provides detailed information about the content",
+            value: longDescription,
             layout: .vertical
         )
 
