@@ -39,6 +39,10 @@ func componentTestAppIOS() -> Target {
             .project(
                 target: "FoundationUI",
                 path: .relativeToRoot("FoundationUI")
+            ),
+            .project(
+                target: "ISOInspectorApp",
+                path: .relativeToRoot(".")
             )
         ],
         settings: .settings(base: baseSettings)
@@ -63,6 +67,10 @@ func componentTestAppMacOS() -> Target {
             .project(
                 target: "FoundationUI",
                 path: .relativeToRoot("FoundationUI")
+            ),
+            .project(
+                target: "ISOInspectorApp",
+                path: .relativeToRoot(".")
             )
         ],
         settings: .settings(base: baseSettings)
