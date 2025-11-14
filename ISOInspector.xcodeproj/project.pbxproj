@@ -501,6 +501,13 @@
 			remoteGlobalIDString = CDDCE6E9DE3EBF91EA1F7A6D;
 			remoteInfo = "ISOInspectorApp-macOS";
 		};
+		8A0EC73CF49BAC50B479382B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52DD0274E1C94AD0AE17E660 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 69BB95BE78583C259FCB7544;
+			remoteInfo = "ISOInspectorApp-iPadOS";
+		};
 		8BD16E72D2BBA4AC016DEB86 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 52DD0274E1C94AD0AE17E660 /* Project object */;
@@ -528,6 +535,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 76A111F6270B25091FDBFE2B;
 			remoteInfo = ISOInspectorKit;
+		};
+		E0856BF88EA8D88040E24C08 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 52DD0274E1C94AD0AE17E660 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 97336DB0E111BB9614B2D9DF;
+			remoteInfo = "ISOInspectorApp-iOS";
 		};
 		E9B52F12D4D5419BB6674F4A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1875,6 +1889,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				B27C20F3BF68A4B7EB336650 /* PBXTargetDependency */,
+				04E96E96E4F6E7F6C9D260C8 /* PBXTargetDependency */,
 				A41717132030D9C41817788E /* PBXTargetDependency */,
 				937D2823546874552534F1DB /* PBXTargetDependency */,
 			);
@@ -2007,7 +2023,7 @@
 						TestTargetID = CDDCE6E9DE3EBF91EA1F7A6D;
 					};
 					746CDA883F54403888D340D7 = {
-						TestTargetID = CDDCE6E9DE3EBF91EA1F7A6D;
+						TestTargetID = 97336DB0E111BB9614B2D9DF;
 					};
 				};
 			};
@@ -2595,6 +2611,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		04E96E96E4F6E7F6C9D260C8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ISOInspectorApp-iPadOS";
+			target = 69BB95BE78583C259FCB7544 /* ISOInspectorApp-iPadOS */;
+			targetProxy = 8A0EC73CF49BAC50B479382B /* PBXContainerItemProxy */;
+		};
 		0551A0505D80FB744E532DC3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ISOInspectorKit;
@@ -2654,6 +2676,12 @@
 			name = "ISOInspectorApp-macOS";
 			target = CDDCE6E9DE3EBF91EA1F7A6D /* ISOInspectorApp-macOS */;
 			targetProxy = 75840F479F5C2764A97D86A0 /* PBXContainerItemProxy */;
+		};
+		B27C20F3BF68A4B7EB336650 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ISOInspectorApp-iOS";
+			target = 97336DB0E111BB9614B2D9DF /* ISOInspectorApp-iOS */;
+			targetProxy = E0856BF88EA8D88040E24C08 /* PBXContainerItemProxy */;
 		};
 		BA8D933368A8984DD0FA7363 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2872,10 +2900,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "-";
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorAppTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
@@ -2884,12 +2917,17 @@
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector.app.tests;
 				PRODUCT_NAME = ISOInspectorAppTests;
-				SDKROOT = macosx;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ISOInspectorApp_macOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ISOInspectorApp_macOS";
-				TEST_TARGET_NAME = "ISOInspectorApp-macOS";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ISOInspectorApp_iOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ISOInspectorApp_iOS";
+				TEST_TARGET_NAME = "ISOInspectorApp-iOS";
 			};
 			name = Release;
 		};
@@ -3066,10 +3104,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "-";
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = "Derived/InfoPlists/ISOInspectorAppTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
@@ -3078,7 +3121,11 @@
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector.app.tests;
 				PRODUCT_NAME = ISOInspectorAppTests;
-				SDKROOT = macosx;
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = (
 					"$(inherited)",
 					DEBUG,
@@ -3086,8 +3133,9 @@
 				SWIFT_COMPILATION_MODE = singlefile;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ISOInspectorApp_macOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ISOInspectorApp_macOS";
-				TEST_TARGET_NAME = "ISOInspectorApp-macOS";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ISOInspectorApp_iOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ISOInspectorApp_iOS";
+				TEST_TARGET_NAME = "ISOInspectorApp-iOS";
 			};
 			name = Debug;
 		};
