@@ -148,14 +148,33 @@ struct ParseTreeDetailView: View {
                     .font(DS.Typography.body)
                     .foregroundStyle(.secondary)
                 Spacer()
-                // @todo #I1.1 Consider DS.Indicator for inline status in metadata rows
-                // DS.Indicator could provide a compact dot-style indicator alongside text
-                ParseTreeStatusBadge(descriptor: descriptor)
+                HStack(spacing: DS.Spacing.s) {
+                    Indicator(
+                        level: descriptorBadgeLevel(descriptor.level),
+                        size: .small,
+                        reason: descriptor.accessibilityLabel,
+                        tooltip: .text(descriptor.text)
+                    )
+                    ParseTreeStatusBadge(descriptor: descriptor)
+                }
             }
             .accessibilityElement(children: .combine)
             .accessibilityLabel(descriptor.accessibilityLabel)
         } else {
             BoxMetadataRow(label: "Status", value: status.rawValue.capitalized)
+        }
+    }
+
+    private func descriptorBadgeLevel(_ level: ParseTreeStatusDescriptor.Level) -> BadgeLevel {
+        switch level {
+        case .info:
+            return .info
+        case .warning:
+            return .warning
+        case .error:
+            return .error
+        case .success:
+            return .success
         }
     }
 
