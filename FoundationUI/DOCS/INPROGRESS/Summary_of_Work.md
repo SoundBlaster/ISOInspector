@@ -27,3 +27,10 @@
 ## Follow-ups
 - Generate fresh `iPadOS` baselines (`testIndicatorCatalog{Light,Dark}Mode.iPadOS.png`) after validating sizing on an iPad simulator, then rerun Indicator snapshots without `SNAPSHOT_RECORDING=1`.
 - Consider capturing Catalyst/tvOS references if/when those destinations join CI, leveraging the new identifier plumbing.
+
+## Snapshot Testing Technique
+
+- Snapshot coverage for Indicator ensures catalog and single indicator states are rendered deterministically with a forced Retina scale and sRGB color space.
+- Tests log metadata (view size, pixel size, scale, color space, CI env) via `XCTContext` to debug CI differences.
+- macOS path uses an offscreen `NSHostingView` + custom `CGContext` render to avoid host screen variability; iOS/tvOS path fixes scale via trait collection.
+- Recording flow: run `SNAPSHOT_RECORDING=1 xcodebuild test -scheme FoundationUI -destination 'platform=macOS,arch=arm64'` and commit updated PNGs under `Tests/FoundationUITests/SnapshotTests/__Snapshots__`.
