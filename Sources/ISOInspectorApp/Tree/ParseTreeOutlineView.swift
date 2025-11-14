@@ -547,11 +547,16 @@ private struct ParseTreeOutlineRowView: View {
                 }
             }
             Spacer()
-            // @todo #I1.1 Consider using DS.Indicator for compact inline status indicators in tree view nodes
-            // Currently using Badge components. DS.Indicator could provide smaller, dot-style indicators
-            // for parse status (valid/partial/corrupt) alongside badges for validation issues.
             if let statusDescriptor = row.statusDescriptor {
-                ParseTreeStatusBadge(descriptor: statusDescriptor)
+                HStack(spacing: DS.Spacing.xs) {
+                    Indicator(
+                        level: descriptorBadgeLevel(statusDescriptor.level),
+                        size: .mini,
+                        reason: statusDescriptor.accessibilityLabel,
+                        tooltip: .text(statusDescriptor.text)
+                    )
+                    ParseTreeStatusBadge(descriptor: statusDescriptor)
+                }
             }
             if let corruption = row.corruptionSummary {
                 CorruptionBadge(summary: corruption)
@@ -633,6 +638,19 @@ private struct ParseTreeOutlineRowView: View {
 
     private var accessibilityDescriptor: AccessibilityDescriptor {
         row.accessibilityDescriptor(isBookmarked: isBookmarked)
+    }
+
+    private func descriptorBadgeLevel(_ level: ParseTreeStatusDescriptor.Level) -> BadgeLevel {
+        switch level {
+        case .info:
+            return .info
+        case .warning:
+            return .warning
+        case .error:
+            return .error
+        case .success:
+            return .success
+        }
     }
 }
 
