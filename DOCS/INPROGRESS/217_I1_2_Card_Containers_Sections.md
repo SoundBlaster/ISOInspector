@@ -220,7 +220,7 @@ Tests/ISOInspectorAppTests/FoundationUI/CardSectionAccessibilityTests.swift (NEW
 - [ ] **I1.2.2** — Create `BoxDetailsCard` wrapper around `DS.Card`
 - [ ] **I1.2.3** — Create `BoxSectionHeader` wrapper around `DS.SectionHeader`
 - [ ] **I1.2.4** — Refactor details panel layout to use Cards
-- [ ] **I1.2.5** — Add unit + snapshot tests for card variants (elevation, material)
+- [ ] **I1.2.5** — Add unit + snapshot tests for card elevation and material variants
 - [ ] **I1.2.6** — Add integration tests for card nesting
 - [ ] **I1.2.7** — Add accessibility tests (semantic structure, landmarks)
 - [ ] **I1.2.8** — Verify dark mode adaptation
