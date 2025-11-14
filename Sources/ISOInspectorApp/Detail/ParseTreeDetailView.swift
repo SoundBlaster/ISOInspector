@@ -135,6 +135,8 @@ struct ParseTreeDetailView: View {
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundColor(.secondary)
+                // @todo #I1.1 Consider DS.Indicator for inline status in metadata rows
+                // DS.Indicator could provide a compact dot-style indicator alongside text
                 ParseTreeStatusBadge(descriptor: descriptor)
             }
             .accessibilityElement(children: .combine)
