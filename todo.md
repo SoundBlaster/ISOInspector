@@ -77,6 +77,11 @@
 
 ### Testing & Accessibility
 
+- [ ] #222 Add validation preset control IDs to SettingsPanelAccessibilityID (Sources/ISOInspectorApp/Accessibility/SettingsPanelAccessibilityID.swift:50)
+- [ ] #222 Add telemetry/logging control IDs to SettingsPanelAccessibilityID (Sources/ISOInspectorApp/Accessibility/SettingsPanelAccessibilityID.swift:51)
+- [ ] #222 Add workspace scope control IDs to SettingsPanelAccessibilityID (Sources/ISOInspectorApp/Accessibility/SettingsPanelAccessibilityID.swift:63)
+- [ ] #222 Add pane layout control IDs to SettingsPanelAccessibilityID (Sources/ISOInspectorApp/Accessibility/SettingsPanelAccessibilityID.swift:64)
+- [ ] #222 Add advanced configuration control IDs to SettingsPanelAccessibilityID (Sources/ISOInspectorApp/Accessibility/SettingsPanelAccessibilityID.swift:75)
 - [ ] #222 Migrate to proper XCUITest UI tests for full accessibility validation (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:12)
 - [ ] #222 Test VoiceOver focus order starts on first control (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:13)
 - [ ] #222 Test keyboard navigation between sections (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:14)
