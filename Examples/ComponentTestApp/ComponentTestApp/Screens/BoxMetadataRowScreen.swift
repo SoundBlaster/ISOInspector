@@ -15,6 +15,7 @@
 /// - WCAG 2.1 AA accessibility compliance
 /// - Flexible layouts for different content types
 
+#if canImport(SwiftUI)
 import SwiftUI
 import FoundationUI
 import ISOInspectorApp
@@ -340,3 +341,5 @@ struct BoxMetadataRowScreen: View {
     }
     .preferredColorScheme(.dark)
 }
+
+#endif
