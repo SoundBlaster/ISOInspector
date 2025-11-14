@@ -1,4 +1,3 @@
-#if canImport(SwiftUI)
 import XCTest
 import SwiftUI
 @testable import ISOInspectorApp
@@ -573,4 +572,3 @@ final class BoxMetadataRowComponentTests: XCTestCase {
         }
     }
 }
-#endif
