@@ -3,6 +3,7 @@ import SwiftUI
 import Foundation
 import NestedA11yIDs
 import ISOInspectorKit
+import FoundationUI
 
 #if canImport(AppKit)
 import AppKit
@@ -104,25 +105,37 @@ struct ParseTreeDetailView: View {
     }
 
     private func metadataGrid(detail: ParseTreeNodeDetail) -> some View {
-        Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 6) {
-            metadataRow(label: "Type", value: detail.header.identifierString)
+        VStack(alignment: .leading, spacing: DS.Spacing.m) {
+            BoxMetadataRow(label: "Type", value: detail.header.identifierString)
             metadataStatusRow(status: detail.status)
-            metadataRow(label: "Range", value: byteRangeString(for: detail.header.range))
-            metadataRow(label: "Payload", value: byteRangeString(for: detail.header.payloadRange))
+            BoxMetadataRow(label: "Range", value: byteRangeString(for: detail.header.range))
+            BoxMetadataRow(label: "Payload", value: byteRangeString(for: detail.header.payloadRange))
             if let name = detail.metadata?.name, !name.isEmpty {
-                metadataRow(label: "Name", value: name)
+                BoxMetadataRow(label: "Name", value: name)
             }
             if let summary = detail.metadata?.summary, !summary.isEmpty {
-                metadataRow(label: "Summary", value: summary)
+                BoxMetadataRow(
+                    label: "Summary",
+                    value: summary,
+                    layout: .vertical
+                )
             }
             if let specification = detail.metadata?.specification, !specification.isEmpty {
-                metadataRow(label: "Spec", value: specification)
+                BoxMetadataRow(
+                    label: "Spec",
+                    value: specification,
+                    layout: .vertical
+                )
             }
             if let version = detail.metadata?.version {
-                metadataRow(label: "Version", value: "v\(version)")
+                BoxMetadataRow(label: "Version", value: "v\(version)")
             }
             if let flags = detail.metadata?.flags {
-                metadataRow(label: "Flags", value: "0x\(String(flags, radix: 16, uppercase: true))")
+                BoxMetadataRow(
+                    label: "Flags",
+                    value: "0x\(String(flags, radix: 16, uppercase: true))",
+                    copyable: true
+                )
             }
         }
     }
@@ -130,11 +143,11 @@ struct ParseTreeDetailView: View {
     @ViewBuilder
     private func metadataStatusRow(status: ParseTreeNode.Status) -> some View {
         if let descriptor = ParseTreeStatusDescriptor(status: status) {
-            GridRow {
+            HStack(spacing: DS.Spacing.m) {
                 Text("Status")
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.secondary)
+                    .font(DS.Typography.body)
+                    .foregroundStyle(.secondary)
+                Spacer()
                 // @todo #I1.1 Consider DS.Indicator for inline status in metadata rows
                 // DS.Indicator could provide a compact dot-style indicator alongside text
                 ParseTreeStatusBadge(descriptor: descriptor)
@@ -142,21 +155,10 @@ struct ParseTreeDetailView: View {
             .accessibilityElement(children: .combine)
             .accessibilityLabel(descriptor.accessibilityLabel)
         } else {
-            metadataRow(label: "Status", value: status.rawValue.capitalized)
+            BoxMetadataRow(label: "Status", value: status.rawValue.capitalized)
         }
     }
 
-    private func metadataRow(label: String, value: String) -> some View {
-        GridRow {
-            Text(label)
-                .font(.caption)
-                .fontWeight(.semibold)
-                .foregroundColor(.secondary)
-            Text(value)
-                .font(.caption)
-                .textSelection(.enabled)
-        }
-    }
 
     @ViewBuilder
     private func encryptionSection(detail: ParseTreeNodeDetail) -> some View {
@@ -201,13 +203,13 @@ struct ParseTreeDetailView: View {
     }
 
     private func encryptionSubsection(title: String, rows: [(String, String)]) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.m) {
             Text(title)
                 .font(.subheadline)
                 .fontWeight(.semibold)
-            Grid(alignment: .leading, horizontalSpacing: 12, verticalSpacing: 6) {
+            VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 ForEach(Array(rows.enumerated()), id: \.offset) { _, row in
-                    metadataRow(label: row.0, value: row.1)
+                    BoxMetadataRow(label: row.0, value: row.1)
                 }
             }
         }
