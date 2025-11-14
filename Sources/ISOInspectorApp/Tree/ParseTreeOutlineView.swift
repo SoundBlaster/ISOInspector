@@ -3,6 +3,7 @@ import Combine
 import SwiftUI
 import NestedA11yIDs
 import ISOInspectorKit
+import FoundationUI
 
 struct ParseTreeExplorerView: View {
     enum Tab {
@@ -546,6 +547,9 @@ private struct ParseTreeOutlineRowView: View {
                 }
             }
             Spacer()
+            // @todo #I1.1 Consider using DS.Indicator for compact inline status indicators in tree view nodes
+            // Currently using Badge components. DS.Indicator could provide smaller, dot-style indicators
+            // for parse status (valid/partial/corrupt) alongside badges for validation issues.
             if let statusDescriptor = row.statusDescriptor {
                 ParseTreeStatusBadge(descriptor: statusDescriptor)
             }
@@ -636,27 +640,25 @@ private struct CorruptionBadge: View {
     let summary: ParseTreeOutlineRow.CorruptionSummary
 
     var body: some View {
-        HStack(spacing: 4) {
-            Image(systemName: summary.dominantSeverity.iconName)
-                .font(.caption2.weight(.bold))
-                .accessibilityHidden(true)
-            Text(summary.badgeText)
-                .font(.caption2)
-                .fontWeight(.semibold)
-        }
-        .padding(.horizontal, 8)
-        .padding(.vertical, 4)
-        .foregroundColor(summary.dominantSeverity.color)
-        .background(summary.dominantSeverity.color.opacity(0.2))
-        .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
-        .contentShape(Rectangle())
-        .help(summary.tooltipText ?? summary.badgeText)
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(summary.accessibilityLabel)
-        .accessibilityHint(optional: summary.accessibilityHint)
+        Badge(text: summary.badgeText, level: badgeLevel, showIcon: true)
+            .help(summary.tooltipText ?? summary.badgeText)
+            .accessibilityElement(children: .ignore)
+            .accessibilityLabel(summary.accessibilityLabel)
+            .accessibilityHint(optional: summary.accessibilityHint)
 #if os(macOS)
-        .focusable(true)
+            .focusable(true)
 #endif
+    }
+
+    private var badgeLevel: BadgeLevel {
+        switch summary.dominantSeverity {
+        case .info:
+            return .info
+        case .warning:
+            return .warning
+        case .error:
+            return .error
+        }
     }
 }
 
@@ -664,14 +666,18 @@ private struct SeverityBadge: View {
     let severity: ValidationIssue.Severity
 
     var body: some View {
-        Text(severity.label.uppercased())
-            .font(.caption2)
-            .fontWeight(.semibold)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
-            .background(severity.color.opacity(0.2))
-            .foregroundColor(severity.color)
-            .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+        Badge(text: severity.label.uppercased(), level: badgeLevel)
+    }
+
+    private var badgeLevel: BadgeLevel {
+        switch severity {
+        case .info:
+            return .info
+        case .warning:
+            return .warning
+        case .error:
+            return .error
+        }
     }
 }
 
@@ -679,13 +685,7 @@ private struct ParseStateBadge: View {
     let state: ParseTreeStoreState
 
     var body: some View {
-        Text(stateDescription)
-            .font(.caption)
-            .padding(.horizontal, 8)
-            .padding(.vertical, 4)
-            .background(stateColor.opacity(0.15))
-            .foregroundColor(stateColor)
-            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        Badge(text: stateDescription, level: badgeLevel)
     }
 
     private var stateDescription: String {
@@ -697,12 +697,12 @@ private struct ParseStateBadge: View {
         }
     }
 
-    private var stateColor: Color {
+    private var badgeLevel: BadgeLevel {
         switch state {
-        case .idle: return .secondary
-        case .parsing: return .blue
-        case .finished: return .green
-        case .failed: return .red
+        case .idle: return .info
+        case .parsing: return .info
+        case .finished: return .success
+        case .failed: return .error
         }
     }
 }
@@ -721,14 +721,6 @@ private extension ParseIssue.Severity {
         case .info: return .blue
         case .warning: return .orange
         case .error: return .red
-        }
-    }
-
-    var iconName: String {
-        switch self {
-        case .info: return "info.circle.fill"
-        case .warning: return "exclamationmark.triangle.fill"
-        case .error: return "xmark.octagon.fill"
         }
     }
 }
