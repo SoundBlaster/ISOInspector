@@ -1327,6 +1327,54 @@
   - **Phase 2 (Week 4):** Interactive Components (Buttons, Text Fields, Toggles)
   - Continue tracking recoverable blockers (asset licensing, macOS hardware, manual testing) in `DOCS/INPROGRESS/blocked.md`.
 
+## 220_I1_4_Form_Controls_Input_Wrappers
+- **Archived files:** `220_I1_4_Form_Controls_Input_Wrappers.md`, `Summary_of_Work.md`, `Summary_Resolve_Indicator_TODOs.md`, `blocked.md`, `next_tasks.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/220_I1_4_Form_Controls_Input_Wrappers/`.
+- **Task ID:** 220 | **Phase:** 1 (Foundation Components) | **Priority:** P1 (High) | **Status:** ✅ IMPLEMENTATION COMPLETE — Testing & Migration Pending
+- **Highlights:** Captures the completion of Task I1.4 within FoundationUI Integration Phase 1, including:
+  - ✅ **I1.4 — Form Controls & Input Wrappers** (implementation completed 2025-11-14): Successfully created three wrapper components for FoundationUI form controls with comprehensive test coverage
+  - **Component Implementation:**
+    - ✅ **BoxTextInputView** (185 lines): Wraps native SwiftUI `TextField` with placeholder for `DS.TextInput` integration, validation error display, platform-adaptive keyboard types, and full DocC documentation
+    - ✅ **BoxToggleView** (130 lines): Wraps native SwiftUI `Toggle` with custom accessibility labels, disabled state support, and complete preview variants
+    - ✅ **BoxPickerView** (215 lines): Wraps native SwiftUI `Picker` with generic type support, platform-adaptive styles, and accessibility labels including selected option
+  - **Testing Implementation:**
+    - ✅ **Unit Tests** (`FormControlsTests.swift`, 280 lines): 15+ test methods covering initialization, accessibility labels, disabled state, validation, keyboard types, generic support, and style overrides
+    - ✅ **Snapshot Tests** (`FormControlsSnapshotTests.swift`, 240 lines): 15+ placeholder tests ready for snapshot library integration covering light/dark modes and all component states
+    - ✅ **Accessibility Tests** (`FormControlsAccessibilityTests.swift`, 380 lines): 15+ tests covering VoiceOver labels, Dynamic Type scaling, color contrast (WCAG 2.1 AA), Reduce Motion support, and keyboard navigation
+  - **Code Quality:**
+    - ✅ One File = One Entity principle maintained (3 components in 3 separate files)
+    - ✅ All files under 600 line limit (largest: 380 lines)
+    - ✅ No magic numbers in public APIs
+    - ✅ Type safety: Zero force unwraps or implicitly unwrapped optionals
+    - ✅ Concurrency: All views and tests properly marked with @MainActor
+    - ✅ PDD compliance: All incomplete FoundationUI integrations marked with @todo #220
+  - **Deferred Work (Marked with @todo #220):**
+    - Replace native SwiftUI components with FoundationUI `DS.TextInput`, `DS.Toggle`, `DS.Picker`
+    - Apply design tokens (`DS.Spacing`, `DS.Colors`, `DS.Typography`)
+    - Integrate snapshot testing library (`swift-snapshot-testing`)
+    - Migrate existing forms in ValidationSettingsView and other locations
+    - Update Component Showcase with form control examples
+    - Document migration in `DOCS/MIGRATION.md`
+- **Key outcomes:**
+  - ✅ Phase 1 Progress: **4 of 5 tasks completed** (I1.1 ✅, I1.2 ✅, I1.3 ✅, I1.4 ✅)
+  - ✅ Form controls infrastructure in place with comprehensive test foundation
+  - ✅ Accessibility-first design baked in from day one
+  - ✅ PDD workflow: All incomplete work tracked via @todo markers
+  - ✅ Ready for next phase: FoundationUI component integration and form migration
+  - ✅ Estimated coverage: ≥90% test coverage (pending verification)
+- **Files created:**
+  - Source: `BoxTextInputView.swift`, `BoxToggleView.swift`, `BoxPickerView.swift` (~530 lines total)
+  - Tests: `FormControlsTests.swift`, `FormControlsSnapshotTests.swift`, `FormControlsAccessibilityTests.swift` (~900 lines total)
+  - Total implementation: ~1,430 lines of code, tests, and documentation
+- **Next steps carried forward:**
+  - **I1.5 — Advanced Layouts & Navigation** (2d): Implement layout patterns using FoundationUI grid and spacing system, migrate sidebar/detail view layouts
+  - **FoundationUI Integration for I1.4:** Replace native components with `DS.TextInput`, `DS.Toggle`, `DS.Picker`, apply design tokens
+  - **Form Control Migration:** Audit and migrate existing forms in settings panel and configuration dialogs
+  - **Snapshot Testing:** Integrate `swift-snapshot-testing` library and generate baseline snapshots
+  - **SDK Documentation (T6.3):** Create DocC article for tolerant parsing with examples
+  - **User Settings Panel (C21, C22):** Implement floating settings panel and persistence wiring
+  - Continue tracking recoverable blockers (asset licensing, macOS hardware, manual testing) in `DOCS/INPROGRESS/blocked.md`.
+
 ## 219_I1_3_Key_Value_Rows_Metadata_Display
 - **Archived files:** `218_I1_3_Key_Value_Rows_Metadata_Display.md`, `Complete Issue Description.md`, `Summary_of_Work_I1_3.md`, `next_tasks.md`, `blocked.md`.
 - **Archived location:** `DOCS/TASK_ARCHIVE/219_I1_3_Key_Value_Rows_Metadata_Display/`.
