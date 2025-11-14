@@ -159,7 +159,6 @@ struct ParseTreeDetailView: View {
         }
     }
 
-
     @ViewBuilder
     private func encryptionSection(detail: ParseTreeNodeDetail) -> some View {
         let summary = EncryptionSummary(detail: detail)

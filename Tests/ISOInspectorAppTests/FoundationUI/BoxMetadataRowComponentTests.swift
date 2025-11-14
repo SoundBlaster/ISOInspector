@@ -560,7 +560,7 @@ final class BoxMetadataRowComponentTests: XCTestCase {
     /// Verifies that BoxMetadataRow initializes efficiently
     func testBoxMetadataRowInitializationPerformance() {
         measure {
-            let _ = BoxMetadataRow(label: "Type", value: "ftyp")
+            _ = BoxMetadataRow(label: "Type", value: "ftyp")
         }
     }
 
@@ -568,7 +568,7 @@ final class BoxMetadataRowComponentTests: XCTestCase {
     func testBoxMetadataRowBulkCreationPerformance() {
         measure {
             for _ in 0..<100 {
-                let _ = BoxMetadataRow(label: "Label", value: "Value", copyable: true)
+                _ = BoxMetadataRow(label: "Label", value: "Value", copyable: true)
             }
         }
     }
