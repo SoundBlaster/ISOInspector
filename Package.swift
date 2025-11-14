@@ -10,10 +10,6 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "FoundationUI",
-            targets: ["FoundationUI"]
-        ),
-        .library(
             name: "ISOInspectorKit",
             targets: ["ISOInspectorKit"]
         ),
@@ -21,10 +17,16 @@ let package = Package(
             name: "isoinspect",
             targets: ["ISOInspectorCLIRunner"]
         ),
+        #if os(macOS) || os(iOS)
+        .library(
+            name: "FoundationUI",
+            targets: ["FoundationUI"]
+        ),
         .executable(
             name: "ISOInspectorApp",
             targets: ["ISOInspectorApp"]
         ),
+        #endif
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0"),
@@ -53,6 +55,7 @@ let package = Package(
             name: "ISOInspectorCLIRunner",
             dependencies: ["ISOInspectorCLI"]
         ),
+        #if os(macOS) || os(iOS)
         .executableTarget(
             name: "ISOInspectorApp",
             dependencies: [
@@ -88,6 +91,7 @@ let package = Package(
                 .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release)),
             ]
         ),
+        #endif
         .testTarget(
             name: "ISOInspectorKitTests",
             dependencies: ["ISOInspectorKit"],
@@ -105,6 +109,7 @@ let package = Package(
                 ),
             ]
         ),
+        #if os(macOS) || os(iOS)
         .testTarget(
             name: "ISOInspectorAppTests",
             dependencies: [
@@ -121,5 +126,6 @@ let package = Package(
                 "ISOInspectorKit",
             ]
         ),
+        #endif
     ]
 )

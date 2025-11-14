@@ -1,4 +1,3 @@
-#if canImport(SwiftUI)
 import SwiftUI
 import FoundationUI
 
@@ -198,5 +197,3 @@ extension BoxMetadataRow: AgentDescribable {
         return "A metadata row displaying '\(label)': '\(value)' \(layoutDesc)\(copyableDesc)."
     }
 }
-
-#endif
