@@ -254,7 +254,7 @@ Insert bug fix tasks into [FoundationUI Task Plan](../../../DOCS/AI/ISOViewer/Fo
      - Impact: {severity and user impact}
    ```
 
-3. **Update progress counters**:
+1. **Update progress counters**:
    - Increment total task count for the phase
    - Update percentage in Overall Progress Tracker
 
