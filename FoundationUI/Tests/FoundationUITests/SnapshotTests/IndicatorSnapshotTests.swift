@@ -32,6 +32,18 @@
             assertIndicatorSnapshot(view, testName: #function)
         }
 
+        func testIndicatorSingleLightMode() {
+            let view = Indicator(
+                level: .warning,
+                size: .medium,
+                reason: "Preview",
+                tooltip: .text("Preview")
+            )
+            .padding(DS.Spacing.l)
+
+            assertIndicatorSnapshot(view, testName: #function)
+        }
+
         private func indicatorCatalog() -> some View {
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 ForEach(Array(BadgeLevel.allCases.enumerated()), id: \.offset) { _, level in
@@ -57,8 +69,19 @@
             line: UInt = #line
         ) {
             #if os(macOS)
+                let renderResult = renderImage(for: view, scale: targetDisplayScale)
+                logSnapshotMetadata(
+                    platformName: snapshotPlatformName,
+                    viewSize: renderResult.viewSize,
+                    pixelWidth: renderResult.pixelWidth,
+                    pixelHeight: renderResult.pixelHeight,
+                    scale: renderResult.scale,
+                    colorSpace: renderResult.colorSpaceDescription,
+                    screenScale: NSScreen.main?.backingScaleFactor
+                )
+
                 assertSnapshot(
-                    of: renderImage(for: view, scale: targetDisplayScale),
+                    of: renderResult.image,
                     as: .image,
                     named: snapshotPlatformName,
                     record: shouldRecordSnapshots,
@@ -68,6 +91,15 @@
                 )
             #else
                 let traitCollection = UITraitCollection(displayScale: targetDisplayScale)
+                logSnapshotMetadata(
+                    platformName: snapshotPlatformName,
+                    viewSize: nil,
+                    pixelWidth: nil,
+                    pixelHeight: nil,
+                    scale: traitCollection.displayScale,
+                    colorSpace: "UIKit default",
+                    screenScale: traitCollection.displayScale
+                )
 
                 assertSnapshot(
                     of: view,
@@ -125,7 +157,16 @@
         }
 
         #if os(macOS)
-            private func renderImage<V: View>(for view: V, scale: CGFloat) -> NSImage {
+            private struct SnapshotRenderResult {
+                let image: NSImage
+                let viewSize: CGSize
+                let pixelWidth: Int
+                let pixelHeight: Int
+                let scale: CGFloat
+                let colorSpaceDescription: String
+            }
+
+            private func renderImage<V: View>(for view: V, scale: CGFloat) -> SnapshotRenderResult {
                 let hostingView = NSHostingView(rootView: view)
                 hostingView.frame.size = hostingView.fittingSize
                 hostingView.layoutSubtreeIfNeeded()
@@ -138,6 +179,7 @@
 
                 let colorSpace =
                     CGColorSpace(name: CGColorSpace.sRGB) ?? CGColorSpaceCreateDeviceRGB()
+                let colorSpaceName = (colorSpace.name as String?) ?? "Device RGB"
 
                 guard
                     let context = CGContext(
@@ -164,8 +206,51 @@
                 representation.size = size
                 let image = NSImage(size: size)
                 image.addRepresentation(representation)
-                return image
+                return SnapshotRenderResult(
+                    image: image,
+                    viewSize: size,
+                    pixelWidth: pixelWidth,
+                    pixelHeight: pixelHeight,
+                    scale: scale,
+                    colorSpaceDescription: colorSpaceName
+                )
             }
         #endif
+
+        private func logSnapshotMetadata(
+            platformName: String,
+            viewSize: CGSize?,
+            pixelWidth: Int?,
+            pixelHeight: Int?,
+            scale: CGFloat,
+            colorSpace: String,
+            screenScale: CGFloat?
+        ) {
+            #if canImport(XCTest)
+                XCTContext.runActivity(named: "Snapshot context (\(platformName))") { activity in
+                    var lines: [String] = []
+                    if let size = viewSize {
+                        lines.append(
+                            String(format: "View size: %.2fx%.2fpt", size.width, size.height))
+                    }
+                    if let px = pixelWidth, let py = pixelHeight {
+                        lines.append("Pixel size: \(px)x\(py)")
+                    }
+                    lines.append(String(format: "Target scale: %.2f", scale))
+                    if let screenScale = screenScale {
+                        lines.append(String(format: "Screen scale: %.2f", screenScale))
+                    }
+                    lines.append("Color space: \(colorSpace)")
+                    let env = ProcessInfo.processInfo.environment
+                    lines.append("SNAPSHOT_RECORDING=\(env["SNAPSHOT_RECORDING"] ?? "0")")
+                    lines.append("CI=\(env["CI"] ?? "nil")")
+                    lines.append("Host=\(ProcessInfo.processInfo.hostName)")
+                    let attachment = XCTAttachment(string: lines.joined(separator: "\n"))
+                    attachment.name = "Snapshot metadata"
+                    activity.add(attachment)
+                    print(lines)
+                }
+            #endif
+        }
     }
 #endif
