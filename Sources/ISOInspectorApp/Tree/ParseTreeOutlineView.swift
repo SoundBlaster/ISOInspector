@@ -548,7 +548,7 @@ private struct ParseTreeOutlineRowView: View {
             }
             Spacer()
             if let statusDescriptor = row.statusDescriptor {
-                HStack(spacing: DS.Spacing.xs) {
+                HStack(spacing: DS.Spacing.s) {
                     Indicator(
                         level: descriptorBadgeLevel(statusDescriptor.level),
                         size: .mini,
