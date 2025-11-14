@@ -2,7 +2,7 @@
 import XCTest
 import SwiftUI
 @testable import ISOInspectorApp
-@testable import FoundationUI
+import FoundationUI
 
 /// Comprehensive test suite for the BoxMetadataRow component
 ///
