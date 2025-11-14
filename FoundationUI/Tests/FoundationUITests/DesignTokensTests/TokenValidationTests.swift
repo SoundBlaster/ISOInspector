@@ -15,6 +15,8 @@ final class TokenValidationTests: XCTestCase {
     // MARK: - Spacing Token Tests
 
     func testSpacingTokensArePositive() {
+        XCTAssertGreaterThan(DS.Spacing.xxs, 0, "Extra extra small spacing must be positive")
+        XCTAssertGreaterThan(DS.Spacing.xs, 0, "Extra small spacing must be positive")
         XCTAssertGreaterThan(DS.Spacing.s, 0, "Small spacing must be positive")
         XCTAssertGreaterThan(DS.Spacing.m, 0, "Medium spacing must be positive")
         XCTAssertGreaterThan(DS.Spacing.l, 0, "Large spacing must be positive")
@@ -22,7 +24,9 @@ final class TokenValidationTests: XCTestCase {
     }
 
     func testSpacingTokensAreOrdered() {
-        // Spacing should follow logical progression: s < m < l < xl
+        // Spacing should follow logical progression: xxs < xs < s < m < l < xl
+        XCTAssertLessThan(DS.Spacing.xxs, DS.Spacing.xs, "Extra extra small should be less than extra small")
+        XCTAssertLessThan(DS.Spacing.xs, DS.Spacing.s, "Extra small should be less than small")
         XCTAssertLessThan(DS.Spacing.s, DS.Spacing.m, "Small should be less than medium")
         XCTAssertLessThan(DS.Spacing.m, DS.Spacing.l, "Medium should be less than large")
         XCTAssertLessThan(DS.Spacing.l, DS.Spacing.xl, "Large should be less than extra large")
@@ -30,6 +34,8 @@ final class TokenValidationTests: XCTestCase {
 
     func testSpacingTokenValues() {
         // Verify exact values match specification
+        XCTAssertEqual(DS.Spacing.xxs, 4, "Extra extra small spacing should be 4pt")
+        XCTAssertEqual(DS.Spacing.xs, 6, "Extra small spacing should be 6pt")
         XCTAssertEqual(DS.Spacing.s, 8, "Small spacing should be 8pt")
         XCTAssertEqual(DS.Spacing.m, 12, "Medium spacing should be 12pt")
         XCTAssertEqual(DS.Spacing.l, 16, "Large spacing should be 16pt")
@@ -207,12 +213,14 @@ final class TokenValidationTests: XCTestCase {
 
         // Spacing tokens use constants
         let spacingValues: Set<CGFloat> = [
+            DS.Spacing.xxs,
+            DS.Spacing.xs,
             DS.Spacing.s,
             DS.Spacing.m,
             DS.Spacing.l,
             DS.Spacing.xl
         ]
-        XCTAssertEqual(spacingValues.count, 4, "All spacing values should be unique")
+        XCTAssertEqual(spacingValues.count, 6, "All spacing values should be unique")
 
         // Radius tokens use constants
         let radiusValues: Set<CGFloat> = [
@@ -249,6 +257,8 @@ final class TokenValidationTests: XCTestCase {
         // Only platformDefault should vary
 
         // Spacing tokens are platform-agnostic
+        XCTAssertEqual(DS.Spacing.xxs, 4, "Extra extra small spacing is platform-agnostic")
+        XCTAssertEqual(DS.Spacing.xs, 6, "Extra small spacing is platform-agnostic")
         XCTAssertEqual(DS.Spacing.s, 8, "Small spacing is platform-agnostic")
         XCTAssertEqual(DS.Spacing.m, 12, "Medium spacing is platform-agnostic")
         XCTAssertEqual(DS.Spacing.l, 16, "Large spacing is platform-agnostic")

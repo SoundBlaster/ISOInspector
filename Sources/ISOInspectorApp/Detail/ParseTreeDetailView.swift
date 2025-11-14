@@ -21,7 +21,7 @@ struct ParseTreeDetailView: View {
     let focusTarget: FocusState<InspectorFocusTarget?>.Binding
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: DS.Spacing.m) {
             header
             content
         }
@@ -31,7 +31,7 @@ struct ParseTreeDetailView: View {
     }
 
     private var header: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
             Text("Selection Details")
                 .font(.title3)
                 .bold()
@@ -45,7 +45,7 @@ struct ParseTreeDetailView: View {
     private var content: some View {
         if let detail = viewModel.detail {
             ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
+                VStack(alignment: .leading, spacing: DS.Spacing.l) {
                     metadataSection(detail: detail)
                     corruptionSection(detail: detail)
                     encryptionSection(detail: detail)
@@ -72,7 +72,7 @@ struct ParseTreeDetailView: View {
             )
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else {
-            VStack(spacing: 12) {
+            VStack(spacing: DS.Spacing.m) {
                 Image(systemName: "square.dashed")
                     .font(.system(size: 44))
                     .foregroundColor(.secondary)
@@ -88,7 +88,7 @@ struct ParseTreeDetailView: View {
     }
 
     private func metadataSection(detail: ParseTreeNodeDetail) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: DS.Spacing.m) {
             HStack(alignment: .firstTextBaseline) {
                 sectionHeader(title: "Metadata", icon: "info.circle")
                 Spacer()

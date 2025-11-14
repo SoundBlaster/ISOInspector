@@ -2,6 +2,7 @@
 import SwiftUI
 import NestedA11yIDs
 import ISOInspectorKit
+import FoundationUI
 
 struct AppShellView: View {
     static let corruptionRibbonDismissedDefaultsKey = "corruption-warning-ribbon-dismissed"
@@ -34,7 +35,7 @@ struct AppShellView: View {
         }
         .navigationSplitViewStyle(.balanced)
         .overlay(alignment: .top) {
-            VStack(spacing: 12) {
+            VStack(spacing: DS.Spacing.m) {
                 if shouldShowCorruptionRibbon {
                     CorruptionWarningRibbon(
                         metrics: controller.issueMetrics,
@@ -136,8 +137,8 @@ struct AppShellView: View {
     }
 
     private var sidebar: some View {
-        VStack(alignment: .leading, spacing: 16) {
-            VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.l) {
+            VStack(alignment: .leading, spacing: DS.Spacing.s) {
                 Text("ISO Inspector")
                     .font(.title2)
                     .bold()
@@ -293,13 +294,13 @@ private struct CorruptionWarningRibbon: View {
     }
 
     var body: some View {
-        HStack(alignment: .center, spacing: 16) {
+        HStack(alignment: .center, spacing: DS.Spacing.l) {
             Image(systemName: "exclamationmark.triangle.fill")
                 .font(.title3)
                 .foregroundStyle(Color.orange)
                 .accessibilityHidden(true)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                 Text("Tolerant parsing detected issues")
                     .font(.subheadline)
                     .bold()
@@ -310,9 +311,9 @@ private struct CorruptionWarningRibbon: View {
                     .foregroundColor(.secondary)
             }
 
-            Spacer(minLength: 12)
+            Spacer(minLength: DS.Spacing.m)
 
-            HStack(spacing: 6) {
+            HStack(spacing: DS.Spacing.xs) {
                 Text("View Integrity Report")
                     .font(.subheadline)
                     .fontWeight(.semibold)
@@ -327,19 +328,19 @@ private struct CorruptionWarningRibbon: View {
                     .symbolRenderingMode(.hierarchical)
                     .foregroundStyle(Color.secondary)
                     .font(.system(size: 18, weight: .semibold))
-                    .padding(4)
+                    .padding(DS.Spacing.xxs)
             }
             .buttonStyle(.borderless)
             .accessibilityLabel("Dismiss corruption warning")
         }
-        .padding(.vertical, 14)
-        .padding(.horizontal, 18)
+        .padding(.vertical, DS.Spacing.m + 2)
+        .padding(.horizontal, DS.Spacing.l + 2)
         .background(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
+            RoundedRectangle(cornerRadius: DS.Radius.card + 4, style: .continuous)
                 .fill(.regularMaterial)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
+            RoundedRectangle(cornerRadius: DS.Radius.card + 4, style: .continuous)
                 .stroke(Color.orange.opacity(0.35), lineWidth: 1)
         )
         .shadow(color: Color.black.opacity(0.08), radius: 14, y: 6)
@@ -400,14 +401,14 @@ private struct DocumentLoadFailureBanner: View {
     let openFileAction: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack(alignment: .top, spacing: 12) {
+        VStack(alignment: .leading, spacing: DS.Spacing.m) {
+            HStack(alignment: .top, spacing: DS.Spacing.m) {
                 Image(systemName: "exclamationmark.triangle.fill")
                     .font(.title3)
                     .foregroundColor(.orange)
                     .accessibilityHidden(true)
 
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: DS.Spacing.xs) {
                     Text(failure.title)
                         .font(.headline)
                     Text(failure.message)
@@ -430,7 +431,7 @@ private struct DocumentLoadFailureBanner: View {
                         .symbolRenderingMode(.hierarchical)
                         .foregroundStyle(Color.secondary)
                         .font(.system(size: 16, weight: .semibold))
-                        .padding(4)
+                        .padding(DS.Spacing.xxs)
                         .accessibilityHidden(true)
                 }
                 .buttonStyle(.borderless)
@@ -438,7 +439,7 @@ private struct DocumentLoadFailureBanner: View {
                 .accessibilityAddTraits(.isButton)
             }
 
-            HStack(spacing: 12) {
+            HStack(spacing: DS.Spacing.m) {
                 Button("Try Again", action: retryAction)
                     .buttonStyle(.borderedProminent)
                 Button("Open File…", action: openFileAction)
@@ -448,11 +449,11 @@ private struct DocumentLoadFailureBanner: View {
         }
         .padding()
         .background(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
+            RoundedRectangle(cornerRadius: DS.Radius.card + 4, style: .continuous)
                 .fill(.ultraThinMaterial)
         )
         .overlay(
-            RoundedRectangle(cornerRadius: 14, style: .continuous)
+            RoundedRectangle(cornerRadius: DS.Radius.card + 4, style: .continuous)
                 .stroke(Color.red.opacity(0.35), lineWidth: 1)
         )
         .shadow(color: Color.black.opacity(0.08), radius: 14, y: 6)
@@ -469,7 +470,7 @@ private struct RecentRow: View {
     }()
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
+        VStack(alignment: .leading, spacing: 2) {  // @todo #I1.5 Replace spacing: 2 with DS token when xxxs (2pt) is added
             Text(recent.displayName)
                 .font(.headline)
             Text(formattedDate())
@@ -492,11 +493,11 @@ private struct OnboardingView: View {
     let openAction: () -> Void
 
     var body: some View {
-        VStack(spacing: 24) {
+        VStack(spacing: DS.Spacing.xl) {
             Image(systemName: "film")
                 .font(.system(size: 48))
                 .foregroundColor(.secondary)
-            VStack(spacing: 8) {
+            VStack(spacing: DS.Spacing.s) {
                 Text("Open an MP4 or QuickTime file to begin")
                     .font(.title2)
                     .bold()

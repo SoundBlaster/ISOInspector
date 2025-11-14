@@ -44,7 +44,7 @@ struct ParseTreeExplorerView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 16) {
+        VStack(alignment: .leading, spacing: DS.Spacing.l) {
             header
             TabView(selection: $selectedTab) {
                 explorerTab
@@ -72,7 +72,7 @@ struct ParseTreeExplorerView: View {
     }
 
     private var explorerTab: some View {
-        HStack(alignment: .top, spacing: 16) {
+        HStack(alignment: .top, spacing: DS.Spacing.l) {
             ParseTreeOutlineView(
                 viewModel: outlineViewModel,
                 selectedNodeID: selectionBinding,
@@ -123,7 +123,7 @@ struct ParseTreeExplorerView: View {
 
     private var header: some View {
         HStack {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                 Text(headerTitle)
                     .font(.title2)
                     .bold()
@@ -243,7 +243,7 @@ struct ParseTreeOutlineView: View {
     @State private var keyboardSelectionID: ParseTreeNode.ID?
 
     var body: some View {
-        VStack(spacing: 12) {
+        VStack(spacing: DS.Spacing.m) {
             searchBar
             severityFilterBar
             if !viewModel.availableCategories.isEmpty {
@@ -272,16 +272,16 @@ struct ParseTreeOutlineView: View {
     }
 
     private var severityFilterBar: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: DS.Spacing.s) {
             ForEach(ValidationIssue.Severity.allCases, id: \.self) { severity in
                 Toggle(isOn: binding(for: severity)) {
                     Text(severity.label)
                         .font(.caption)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 4)
+                        .padding(.horizontal, DS.Spacing.s)
+                        .padding(.vertical, DS.Spacing.xxs)
                         .background(filterBackground(for: severity))
                         .foregroundColor(filterForeground(for: severity))
-                        .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.medium, style: .continuous))
                 }
                 .toggleStyle(.button)
                 .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.Filters.severityToggle(severity))
@@ -289,11 +289,11 @@ struct ParseTreeOutlineView: View {
             Toggle(isOn: bindingForIssuesOnly) {
                 Label("Issues only", systemImage: issuesToggleIconName)
                     .font(.caption)
-                    .padding(.horizontal, 10)
-                    .padding(.vertical, 4)
+                    .padding(.horizontal, DS.Spacing.m - 2)
+                    .padding(.vertical, DS.Spacing.xxs)
                     .background(issuesToggleBackground)
                     .foregroundColor(issuesToggleForeground)
-                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .clipShape(RoundedRectangle(cornerRadius: DS.Radius.medium, style: .continuous))
             }
             .toggleStyle(.button)
             .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.Filters.issuesOnlyToggle)
@@ -310,16 +310,16 @@ struct ParseTreeOutlineView: View {
 
     private var categoryFilterBar: some View {
         ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+            HStack(spacing: DS.Spacing.s) {
                 ForEach(viewModel.availableCategories, id: \.self) { category in
                     Toggle(isOn: binding(for: category)) {
                         Text(category.label)
                             .font(.caption)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
+                            .padding(.horizontal, DS.Spacing.s)
+                            .padding(.vertical, DS.Spacing.xxs)
                             .background(categoryBackground(for: category))
                             .foregroundColor(categoryForeground(for: category))
-                            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.medium, style: .continuous))
                     }
                     .toggleStyle(.button)
                     .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.Filters.categoryToggle(category))
@@ -404,7 +404,7 @@ struct ParseTreeOutlineView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.emptyState)
         } else {
-            VStack(spacing: 12) {
+            VStack(spacing: DS.Spacing.m) {
                 Image(systemName: "tray")
                     .font(.system(size: 44))
                     .foregroundColor(.secondary)
@@ -529,9 +529,9 @@ private struct ParseTreeOutlineRowView: View {
     let onExportIssueSummary: (@MainActor () -> Void)?
 
     var body: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: DS.Spacing.s) {
             icon
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 2) {  // @todo #I1.5 Replace spacing: 2 with DS token when xxxs (2pt) is added
                 Text(row.displayName)
                     .font(.body)
                     .fontWeight(row.isSearchMatch ? .semibold : .regular)
@@ -567,9 +567,9 @@ private struct ParseTreeOutlineRowView: View {
             }
             bookmarkButton
         }
-        .padding(.vertical, 6)
-        .padding(.leading, CGFloat(row.depth) * 16 + 4)
-        .padding(.trailing, 8)
+        .padding(.vertical, DS.Spacing.xs)
+        .padding(.leading, CGFloat(row.depth) * DS.Spacing.l + DS.Spacing.xxs)
+        .padding(.trailing, DS.Spacing.s)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(background)
         .contentShape(Rectangle())
@@ -622,7 +622,7 @@ private struct ParseTreeOutlineRowView: View {
     }
 
     private var background: some View {
-        RoundedRectangle(cornerRadius: 6, style: .continuous)
+        RoundedRectangle(cornerRadius: DS.Radius.small, style: .continuous)
             .fill(backgroundColor)
     }
 
