@@ -98,14 +98,14 @@ jobs:
       - name: Generate Xcode project with Tuist
         run: tuist generate --no-open
 
-      - name: Run ISOInspectorAppTests
+      - name: Run ISOInspectorAppTests-macOS
         run: |
           set -eo pipefail
           xcodebuild test \
             -workspace ISOInspector.xcworkspace \
-            -scheme ISOInspectorAppTests \
+            -scheme ISOInspectorAppTests-macOS \
             -destination 'platform=macOS' \
-            | tee xcodebuild-test.log
+            | tee xcodebuild-test-macos.log
 
       - name: Archive ISOInspectorApp (unsigned)
         run: |
