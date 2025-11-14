@@ -19,7 +19,6 @@ enum ScreenDestination: Hashable, Identifiable {
     case indicator
     case card
     case keyValueRow
-    case boxMetadataRow
     case sectionHeader
     case inspectorPattern
     case sidebarPattern
@@ -46,8 +45,6 @@ enum ScreenDestination: Hashable, Identifiable {
             return "Indicator Component"
         case .keyValueRow:
             return "KeyValueRow Component"
-        case .boxMetadataRow:
-            return "BoxMetadataRow Component"
         case .sectionHeader:
             return "SectionHeader Component"
         case .inspectorPattern:
@@ -134,9 +131,6 @@ struct ContentView: View {
                     }
                     NavigationLink(value: ScreenDestination.keyValueRow) {
                         Label("KeyValueRow", systemImage: "list.bullet.rectangle")
-                    }
-                    NavigationLink(value: ScreenDestination.boxMetadataRow) {
-                        Label("BoxMetadataRow", systemImage: "list.bullet.rectangle.fill")
                     }
                     NavigationLink(value: ScreenDestination.sectionHeader) {
                         Label("SectionHeader", systemImage: "text.justify.leading")
@@ -245,8 +239,6 @@ struct ContentView: View {
             CardScreen()
         case .keyValueRow:
             KeyValueRowScreen()
-        case .boxMetadataRow:
-            BoxMetadataRowScreen()
         case .sectionHeader:
             SectionHeaderScreen()
         case .inspectorPattern:
