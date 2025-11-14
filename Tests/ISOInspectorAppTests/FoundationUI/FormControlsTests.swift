@@ -343,4 +343,3 @@ final class FormControlsTests: XCTestCase {
 }
 
 #endif
-
