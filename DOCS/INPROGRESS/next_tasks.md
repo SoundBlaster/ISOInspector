@@ -41,16 +41,13 @@ Completed tasks:
   - Task document archived: `DOCS/TASK_ARCHIVE/217_I1_2_Card_Containers_Sections/`
   - Archived: `DOCS/TASK_ARCHIVE/217_I1_2_Card_Containers_Sections/`
 
-**Active Task:**
-
-- [⏳] **I1.3 — Key-Value Rows & Metadata Display** 🔄 **IN PROGRESS** (Started: 2025-11-14)
-  - Priority: P1 | Effort: 2-3d | Task Document: `DOCS/INPROGRESS/218_I1_3_Key_Value_Rows_Metadata_Display.md`
-  - Audit metadata display patterns
-  - Create `BoxMetadataRow` wrapper around `DS.KeyValueRow`
-  - Refactor all field displays to use KeyValueRow
-  - Add copyable action integration
-  - Add unit + snapshot + accessibility tests
-  - Add to component showcase
+- [x] **I1.3 — Key-Value Rows & Metadata Display** ✅ **COMPLETED** (2025-11-14)
+  - Created `BoxMetadataRow` wrapper around `DS.KeyValueRow`
+  - 60+ comprehensive tests (unit, accessibility, dark mode, performance)
+  - Refactored all metadata displays in ParseTreeDetailView
+  - Added BoxMetadataRow to ComponentTestApp showcase
+  - Full WCAG 2.1 AA accessibility compliance
+  - Archived: `DOCS/TASK_ARCHIVE/218_I1_3_Key_Value_Rows_Metadata_Display/`
 
 **Queued Tasks:**
 
@@ -81,8 +78,11 @@ See detailed breakdown in `DOCS/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Su
 ## Notes
 
 - FoundationUI Integration Phase 0 is complete ✅ (all 5 tasks completed 2025-11-14)
-- Phase 1 Task I1.1 complete ✅ (2025-11-14)
-- Phase 1 Task I1.2 archived ✅ (2025-11-14)
+- Phase 1 Task I1.1 complete ✅ (2025-11-14) — Badge & Status Indicators
+- Phase 1 Task I1.2 complete ✅ (2025-11-14) — Card Containers & Sections
+- Phase 1 Task I1.3 complete ✅ (2025-11-14) — Key-Value Rows & Metadata Display
+- Phase 1 Progress: 3/5 tasks completed (60% complete)
+- Next: I1.4, I1.5 remaining in Phase 1
 - Each phase gates on test coverage ≥80%, accessibility ≥95%, performance baselines
 - Roadmap: 9 weeks total (45 working days) if executing serially
 - Can parallelize C21/C22 (User Settings) with Phase 1-3 FoundationUI work if needed
