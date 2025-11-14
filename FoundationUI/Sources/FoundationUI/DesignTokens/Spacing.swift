@@ -25,6 +25,8 @@ import CoreGraphics
 /// - iOS/iPadOS: Uses `l` (16pt) for touch-friendly spacing
 ///
 /// ## Tokens
+/// - `xxs` (4pt): Extra tight spacing for inline elements
+/// - `xs` (6pt): Very tight spacing for dense UI
 /// - `s` (8pt): Tight spacing for compact layouts
 /// - `m` (12pt): Standard spacing for macOS
 /// - `l` (16pt): Standard spacing for iOS/iPadOS
@@ -35,6 +37,12 @@ import CoreGraphics
 /// minimum touch target sizes of 44×44pt on iOS.
 public extension DS {
     enum Spacing {
+        /// Extra extra small spacing (4pt) - for inline elements and very tight grouping
+        public static let xxs: CGFloat = 4
+
+        /// Extra small spacing (6pt) - for dense UI and small padding
+        public static let xs: CGFloat = 6
+
         /// Small spacing (8pt) - for compact layouts and tight grouping
         public static let s: CGFloat = 8
 
