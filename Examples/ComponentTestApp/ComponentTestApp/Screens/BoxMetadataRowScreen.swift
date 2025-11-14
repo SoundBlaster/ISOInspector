@@ -17,7 +17,7 @@
 
 import SwiftUI
 import FoundationUI
-@testable import ISOInspectorApp
+import ISOInspectorApp
 
 struct BoxMetadataRowScreen: View {
     @State private var layout: KeyValueLayout = .horizontal
