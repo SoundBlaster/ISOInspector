@@ -1209,3 +1209,43 @@
     - **I1.2 — Card Containers & Sections** (2-3d): Migrate cards to `DS.Card` with appropriate elevation
     - **I1.3 — Key-Value Rows & Metadata** (2-3d): Migrate metadata displays to `DS.KeyValueRow`
   - Continue tracking recoverable blockers (asset licensing, macOS hardware, manual testing) in `DOCS/INPROGRESS/blocked.md`.
+## 216_I1_1_Badge_Status_Indicators
+- **Archived files:** `214_I1_1_Badge_Status_Indicators.md`, `Summary_of_Work.md`, `next_tasks.md`, `blocked.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/216_I1_1_Badge_Status_Indicators/`.
+- **Highlights:** Captures the completion of Task I1.1 within FoundationUI Integration Phase 1, including:
+  - ✅ **I1.1 — Badge & Status Indicators** (completed 2025-11-14): Successfully migrated scattered manual badge implementations to FoundationUI `DS.Badge` component
+  - **Migration completed:**
+    - ✅ CorruptionBadge (ParseTreeOutlineView.swift:636-660): Migrated to `Badge(text:level:showIcon:)` with computed badgeLevel mapping
+    - ✅ SeverityBadge (ParseTreeOutlineView.swift:662-679): Migrated to `Badge(text:level:)` with semantic level mapping
+    - ✅ ParseStateBadge (ParseTreeOutlineView.swift:681-705): Migrated to `Badge(text:level:)` with parse state mapping (idle/parsing → .info, finished → .success, failed → .error)
+  - **Code improvements:**
+    - Added `import FoundationUI` to ParseTreeOutlineView.swift
+    - Removed unused `.iconName` extension from `ParseIssue.Severity`
+    - Preserved `.label` and `.color` extensions for other UI elements
+    - Reduced code complexity while maintaining full functionality (tooltips, accessibility labels, focus behavior)
+  - **Future-proofing:**
+    - Added @todo #I1.1 comment in ParseTreeOutlineView.swift:550-552 for potential `DS.Indicator` usage in tree view nodes
+    - Added @todo #I1.1 comment in ParseTreeDetailView.swift:138-139 for inline status in metadata rows
+  - **Testing:**
+    - ✅ 33 comprehensive Badge tests inherited from Phase 0 (BadgeComponentTests.swift)
+    - ✅ Snapshot tests for light/dark modes, all 4 status levels (info/warning/error/success)
+    - ✅ Accessibility tests for VoiceOver labels, contrast ratios, focus management
+    - ✅ Test coverage ≥90% for Badge component
+    - ✅ Accessibility score ≥98% (WCAG 2.1 AA compliance via FoundationUI Badge)
+- **Key outcomes:**
+  - ✅ All manual badge implementations now use `DS.Badge` consistently
+  - ✅ Unified badge appearance across all parse states, error levels, and corruption indicators
+  - ✅ Automatic dark mode support and accessibility compliance
+  - ✅ Preserved existing behavior (tooltips, custom accessibility labels, platform-specific features)
+  - ⚠️ DS.Indicator deferred (not needed at this time, marked with @todo for future consideration)
+  - ⚠️ MIGRATION.md deferred to later phase
+  - ✅ **Phase 1 Task 1 of 3 completed** (I1.1 done, I1.2 and I1.3 queued)
+- **Deferred components:**
+  - BoxStatusBadgeView wrapper: Not needed (ParseTreeStatusBadge already serves this purpose)
+  - ParseStatusIndicator wrapper: Deferred (DS.Indicator not required yet)
+  - MIGRATION.md: Deferred to later phase (code changes demonstrate migration pattern clearly)
+- **Next steps carried forward:**
+  - **I1.2 — Card Containers & Sections** (2-3d): Migrate card containers to `DS.Card`, create BoxDetailsCard and BoxSectionHeader wrappers
+  - **I1.3 — Key-Value Rows & Metadata Display** (2-3d): Migrate metadata displays to `DS.KeyValueRow`, create BoxMetadataRow wrapper
+  - **Phase 2 (Week 4):** Interactive Components (Buttons, Text Fields, Toggles)
+  - Continue tracking recoverable blockers (asset licensing, macOS hardware, manual testing) in `DOCS/INPROGRESS/blocked.md`.
