@@ -168,6 +168,11 @@ final class FormControlsTests: XCTestCase {
         XCTAssertTrue(type(of: input) == BoxTextInputView.self,
                      "Input should be created with callback")
 
+        // Verify initial state before any UI interaction
+        // @todo 222 Add callback calling, change test values
+        XCTAssertFalse(callbackFired, "Callback should not have fired on initialization")
+        XCTAssertNil(editingState, "Editing state should be nil before any interaction")
+
         // Note: Actual callback invocation requires UI interaction testing
         // which is beyond the scope of unit tests. We verify the component
         // was created with the callback property.
@@ -338,3 +343,4 @@ final class FormControlsTests: XCTestCase {
 }
 
 #endif
+
