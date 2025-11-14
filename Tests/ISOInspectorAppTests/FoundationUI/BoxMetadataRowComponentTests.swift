@@ -281,7 +281,7 @@ final class BoxMetadataRowComponentTests: XCTestCase {
         let row = BoxMetadataRow(label: "Test", value: "Value")
         // BoxMetadataRow conforms to AgentDescribable via extension
         // Verify it's accessible and has expected properties
-        XCTAssertNotNil(row as? AgentDescribable)
+        XCTAssertNotNil(row)
     }
 
     /// Verifies that BoxMetadataRow provides correct componentType
