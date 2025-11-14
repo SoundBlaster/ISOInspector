@@ -13,7 +13,15 @@
 - [ ] Integrate lazy loading and state binding into `InspectorPattern` once detail editors are introduced so scroll performance remains predictable. (FoundationUI/Sources/FoundationUI/Patterns/InspectorPattern.swift) _(Planning archived at `DOCS/TASK_ARCHIVE/204_T6_1_CLI_Tolerant_Flag/204_InspectorPattern_Lazy_Loading.md`.)_
 - [ ] Integrate snapshot-based verification for pattern integration once SwiftUI previews are available on CI runners. (FoundationUI/Tests/FoundationUITests/PatternsIntegrationTests/PatternIntegrationTests.swift)
 
-## Phase 1: Form Controls (Task I1.4)
+## FoundationUI Phase 1: Foundation Components (COMPLETE ✅)
+
+- [x] #216 Task I1.1 — Badge & Status Indicators ✅ — Completed 2025-11-14
+- [x] #218 Task I1.2 — Card Containers & Sections ✅ — Completed 2025-11-14
+- [x] #219 Task I1.3 — Key-Value Rows & Metadata Display ✅ — Completed 2025-11-14
+- [x] #220 Task I1.4 — Form Controls & Input Wrappers ✅ — Implementation complete 2025-11-14 (FoundationUI integration deferred to Phase 2)
+- [x] #221 Task I1.5 — Advanced Layouts & Navigation ✅ — Completed 2025-11-14 (Phase 1 FINAL TASK)
+
+### Phase 1 Follow-Up Work (Marked with @todo #220 and @todo #I1.5)
 
 - [ ] #220 Replace BoxToggleView placeholder with DS.Toggle from FoundationUI — Import FoundationUI DS.Toggle component, apply design tokens for spacing/colors, add platform-adaptive styling, verify accessibility compliance. (Sources/ISOInspectorApp/UI/Components/BoxToggleView.swift)
 - [ ] #220 Replace BoxTextInputView placeholder with DS.TextInput from FoundationUI — Import FoundationUI DS.TextInput component, apply design tokens for padding/corners/shadows, add copyable text support via DS.Copyable, implement platform-adaptive keyboard types, enhance error state styling. (Sources/ISOInspectorApp/UI/Components/BoxTextInputView.swift)
@@ -21,6 +29,9 @@
 - [ ] #220 Integrate snapshot testing library for FormControlsSnapshotTests — Add swift-snapshot-testing to Package.swift, replace placeholder XCTest assertions with assertSnapshot(...), generate baseline snapshots for all component variants (light/dark modes, all states). (Tests/ISOInspectorAppTests/FoundationUI/FormControlsSnapshotTests.swift)
 - [ ] #220 Integrate Accessibility Inspector APIs for FormControlsAccessibilityTests — Add XCTest accessibility API checks, implement color contrast testing (verify ≥4.5:1 for text, ≥3:1 for UI components), verify VoiceOver announcements programmatically, test Dynamic Type scaling without clipping, confirm Reduce Motion and High Contrast adaptations. (Tests/ISOInspectorAppTests/FoundationUI/FormControlsAccessibilityTests.swift)
 - [ ] #220 Complete WCAG 2.1 AA compliance audit for form controls — Run comprehensive accessibility audit using Accessibility Inspector, achieve ≥98% accessibility score target, verify all WCAG 2.1 AA requirements (1.1.1 Non-text Content, 1.3.1 Info and Relationships, 1.4.1 Use of Color, 1.4.3 Contrast, 1.4.4 Resize Text, 2.1.1 Keyboard, 2.4.7 Focus Visible, 3.2.1 On Focus, 3.3.1 Error Identification, 4.1.2 Name Role Value, 4.1.3 Status Messages). (Tests/ISOInspectorAppTests/FoundationUI/FormControlsAccessibilityTests.swift)
+- [ ] #I1.5 Complete ParseTreeDetailView migration — Migrate remaining section functions (encryptionSection, userNotesSection, fieldAnnotationSection, validationSection, hexSection) to use DS.Spacing and DS.Radius tokens. (Sources/ISOInspectorApp/Detail/ParseTreeDetailView.swift)
+- [ ] #I1.5 Consider adding DS.Spacing.xxxs token — Evaluate whether adding `DS.Spacing.xxxs` (2pt) token is justified based on usage frequency in the codebase. (FoundationUI/Sources/FoundationUI/DesignTokens/Spacing.swift)
+- [ ] #I1.5 Set up snapshot testing infrastructure — Integrate `swift-snapshot-testing` library and create baseline snapshots for all device sizes and color schemes. (Tests/ISOInspectorAppTests/FoundationUI/LayoutSnapshotTests.swift)
 
 ## Performance & Benchmarking
 
