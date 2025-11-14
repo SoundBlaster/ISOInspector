@@ -111,8 +111,7 @@
                 return root
             }
             if let elements = root.accessibilityElements as? [UIAccessibilityIdentification],
-                elements.contains(where: { $0.accessibilityIdentifier == identifier })
-            {
+                elements.contains(where: { $0.accessibilityIdentifier == identifier }) {
                 return root
             }
             for subview in root.subviews {
