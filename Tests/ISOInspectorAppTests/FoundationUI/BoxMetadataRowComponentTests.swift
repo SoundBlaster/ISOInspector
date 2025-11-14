@@ -1,7 +1,8 @@
-import XCTest
-import SwiftUI
-@testable import ISOInspectorApp
 import FoundationUI
+import SwiftUI
+import XCTest
+
+@testable import ISOInspectorApp
 
 /// Comprehensive test suite for the BoxMetadataRow component
 ///
@@ -186,7 +187,8 @@ final class BoxMetadataRowComponentTests: XCTestCase {
 
     /// Verifies that BoxMetadataRow displays long value correctly
     func testBoxMetadataRowLongValue() {
-        let longValue = "This is a very long value that should be displayed correctly in the metadata row component"
+        let longValue =
+            "This is a very long value that should be displayed correctly in the metadata row component"
         let row = BoxMetadataRow(label: "Description", value: longValue)
 
         XCTAssertEqual(row.value, longValue)
@@ -294,7 +296,8 @@ final class BoxMetadataRowComponentTests: XCTestCase {
     @MainActor
     @available(iOS 17.0, macOS 14.0, *)
     func testBoxMetadataRowAgentProperties() {
-        let row = BoxMetadataRow(label: "Offset", value: "0x1234", layout: .vertical, copyable: true)
+        let row = BoxMetadataRow(
+            label: "Offset", value: "0x1234", layout: .vertical, copyable: true)
         let properties = row.properties
         XCTAssertEqual(properties["label"] as? String, "Offset")
         XCTAssertEqual(properties["value"] as? String, "0x1234")
@@ -341,7 +344,8 @@ final class BoxMetadataRowComponentTests: XCTestCase {
     /// Verifies that multiple BoxMetadataRow instances can be created and displayed
     func testMultipleBoxMetadataRows() {
         let rows = (1...10).map { index in
-            BoxMetadataRow(label: "Field \(index)", value: "Value \(index)", copyable: index % 2 == 0)
+            BoxMetadataRow(
+                label: "Field \(index)", value: "Value \(index)", copyable: index % 2 == 0)
         }
 
         XCTAssertEqual(rows.count, 10)
@@ -350,15 +354,17 @@ final class BoxMetadataRowComponentTests: XCTestCase {
     }
 
     /// Verifies that BoxMetadataRow can be used in a ScrollView with multiple rows
+    @MainActor
     func testBoxMetadataRowInLargeScrollView() {
         var rows: [BoxMetadataRow] = []
         for i in 0..<50 {
-            rows.append(BoxMetadataRow(
-                label: "Field \(i)",
-                value: "Value \(i)",
-                layout: i % 2 == 0 ? .horizontal : .vertical,
-                copyable: i % 3 == 0
-            ))
+            rows.append(
+                BoxMetadataRow(
+                    label: "Field \(i)",
+                    value: "Value \(i)",
+                    layout: i % 2 == 0 ? .horizontal : .vertical,
+                    copyable: i % 3 == 0
+                ))
         }
 
         XCTAssertEqual(rows.count, 50)
@@ -522,7 +528,8 @@ final class BoxMetadataRowComponentTests: XCTestCase {
     func testBoxMetadataRowVariousContentLengths() {
         let shortRow = BoxMetadataRow(label: "ID", value: "1")
         let mediumRow = BoxMetadataRow(label: "File Type", value: "ISO Media File")
-        let longDescription = "This is a very long description that spans multiple words and "
+        let longDescription =
+            "This is a very long description that spans multiple words and "
             + "provides detailed information about the content"
         let longRow = BoxMetadataRow(
             label: "Description",

@@ -293,14 +293,16 @@ func performanceTestsTarget() -> Target {
 func appTestsTarget() -> Target {
     Target.target(
         name: "ISOInspectorAppTests",
-        destinations: [.mac],
+        destinations: [.mac, .iPad, .iPhone],
         product: .unitTests,
         bundleId: "ru.egormerkushev.isoinspector.app.tests",
-        deploymentTargets: .macOS("14.0"),
+        deploymentTargets: DeploymentTargets.multiplatform(iOS: "16.0", macOS: "14.0"),
         infoPlist: .default,
         sources: ["Tests/ISOInspectorAppTests/**"],
         dependencies: [
             .target(name: "ISOInspectorApp-macOS"),
+            .target(name: "ISOInspectorApp-iOS"),
+            .target(name: "ISOInspectorApp-iPadOS"),
             .target(name: "ISOInspectorKit"),
             .package(product: "NestedA11yIDs"),
             .project(target: "FoundationUI", path: .relativeToRoot("FoundationUI")),
