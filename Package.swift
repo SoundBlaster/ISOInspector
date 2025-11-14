@@ -66,8 +66,7 @@ let package = Package(
             ],
             resources: [
                 .process("Resources")
-            ],
-            platforms: [.iOS, .macOS]
+            ]
         ),
         .target(
             name: "FoundationUI",
@@ -112,8 +111,7 @@ let package = Package(
                 "ISOInspectorApp",
                 "ISOInspectorKit",
                 .target(name: "FoundationUI", condition: .when(platforms: [.iOS, .macOS])),
-            ],
-            platforms: [.iOS, .macOS]
+            ]
         ),
         .testTarget(
             name: "ISOInspectorPerformanceTests",
