@@ -37,15 +37,18 @@ Completed tasks:
   - Accessibility ≥98% WCAG 2.1 AA compliance
   - Archived: `DOCS/TASK_ARCHIVE/216_I1_1_Badge_Status_Indicators/`
 
-**Queued Tasks:**
+**Active Task:**
 
-- [ ] **I1.2 — Card Containers & Sections** (Priority: P1, Effort: 2-3d)
+- [⏳] **I1.2 — Card Containers & Sections** 🔄 **IN PROGRESS** (Started: 2025-11-14)
+  - Priority: P1 | Effort: 2-3d | Task Document: `DOCS/INPROGRESS/217_I1_2_Card_Containers_Sections.md`
   - Audit current container styles
   - Create `BoxDetailsCard` wrapper around `DS.Card`
   - Create `BoxSectionHeader` wrapper around `DS.SectionHeader`
   - Refactor details panel layout to use Cards
   - Add unit + snapshot + accessibility tests
   - Verify dark mode adaptation
+
+**Queued Tasks:**
 
 - [ ] **I1.3 — Key-Value Rows & Metadata Display** (Priority: P1, Effort: 2-3d)
   - Audit metadata display patterns
