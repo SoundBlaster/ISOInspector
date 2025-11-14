@@ -3,6 +3,7 @@
 ## Background
 
 Currently, the CLI compatibility tests use Bento4 sample files located in:
+
 - `DOCS/SAMPLES/Bento4-master/Test/Data/`
 
 Specifically, the test asserts that `DOCS/SAMPLES/Bento4-master/Test/Data/video-h264-001.mp4` exists before exercising the exporter.
@@ -10,6 +11,7 @@ Specifically, the test asserts that `DOCS/SAMPLES/Bento4-master/Test/Data/video-
 ## Task
 
 Replace these external test fixtures with our own sample MP4 files to:
+
 1. Remove dependency on Bento4 samples
 2. Have full control over test data
 3. Ensure test files match our specific testing needs
@@ -17,6 +19,7 @@ Replace these external test fixtures with our own sample MP4 files to:
 ## Files to Replace
 
 The following test data files are currently in use:
+
 - video-h264-001.mp4
 - video-h264-002.mp4
 - audio-aac-001.mp4

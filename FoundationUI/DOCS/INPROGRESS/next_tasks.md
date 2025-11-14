@@ -14,6 +14,7 @@ Phase 4.1 Agent-Driven UI Generation is past the midway point. Parser/validator 
 - **Follow-up**: Verify snapshot baselines on Apple platforms during next macOS CI run
 
 **Subtasks**:
+
 1. [x] Build `Indicator` component with size variants, tooltip behavior, and Copyable support
 2. [x] Author unit/snapshot/accessibility/performance tests across all BadgeLevel cases
 3. [x] Document API + previews + AgentDescribable schema updates
@@ -26,6 +27,7 @@ Phase 4.1 Agent-Driven UI Generation is past the midway point. Parser/validator 
 - **Task Plan Reference**: `FoundationUI_TaskPlan.md` → Phase 4.1 Agent-Driven UI Generation
 
 **Scope**:
+
 - [ ] Create `Examples/AgentIntegration/` samples that load YAML and render SwiftUI views
 - [ ] Provide CLI walkthrough for generating previews from YAML inputs
 - [ ] Capture screenshots / SwiftUI previews for DocC articles
@@ -37,6 +39,7 @@ Phase 4.1 Agent-Driven UI Generation is past the midway point. Parser/validator 
 - **Task Plan Reference**: `FoundationUI_TaskPlan.md` → Phase 4.1 Agent-Driven UI Generation
 
 **Scope**:
+
 - [ ] API reference for YAML-driven UI workflows
 - [ ] Best practices + troubleshooting for agent developers
 - [ ] Integration checklist for Platform (macOS/iOS/iPadOS)

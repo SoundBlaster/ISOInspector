@@ -66,18 +66,21 @@
 ## Active Work Items
 
 ### Current Priority: T6.3 (SDK Documentation)
+
 - Status: Ready to execute
 - Dependencies: T1.3✅, T6.1✅, T6.2✅ (all satisfied)
 - Effort: 1 day
 - See: `DOCS/INPROGRESS/211_T6_3_SDK_Tolerant_Parsing_Documentation.md`
 
 ### Upcoming Priority: FoundationUI Integration (Phase 0)
+
 - Status: Planning complete, ready for kickoff after T6.3
 - Duration: 3-4 days (Phase 0), then 6 phases over 9 weeks
 - Can parallelize: T6.3 documentation work can run alongside Phase 0 setup tasks
 - See: `DOCS/INPROGRESS/FoundationUI_Integration_Strategy.md`
 
 **Phase 0 Priority Tasks:**
+
 1. I0.1 — Add FoundationUI dependency to ISOInspectorApp (0.5d)
 2. I0.2 — Create integration test suite structure (0.5d)
 3. I0.3 — Build Component Showcase view (1.5d)
@@ -87,6 +90,7 @@
 ## Integration Strategy Highlights
 
 ### Phased Approach
+
 ```
 Phase 0: Setup & Verification (3-4d) — Dependency + test infrastructure
 Phase 1: Foundation Components (5-7d) — Badges, cards, metadata rows
@@ -98,6 +102,7 @@ Phase 6: Full Integration (5-7d) — E2E tests, performance, beta, docs
 ```
 
 ### Key Success Criteria
+
 - ✅ Zero hardcoded magic numbers (all DS.Spacing tokens)
 - ✅ Test coverage ≥80% per phase
 - ✅ Accessibility score ≥98% (WCAG 2.1 AA)
@@ -118,6 +123,7 @@ Applied decision framework from `DOCS/RULES/03_Next_Task_Selection.md`:
 ## Next Focus
 
 ### Immediate (1-2 days)
+
 - Execute T6.3 implementation:
   - Create `TolerantParsingGuide.md` DocC article with examples
   - Update `ParsePipeline.Options` inline documentation
@@ -125,6 +131,7 @@ Applied decision framework from `DOCS/RULES/03_Next_Task_Selection.md`:
   - Build and validate DocC output
 
 ### After T6.3 Completion (3-4 days)
+
 - Execute Phase 0 FoundationUI Integration Setup:
   - Add dependency to ISOInspectorApp
   - Create test infrastructure
@@ -132,6 +139,7 @@ Applied decision framework from `DOCS/RULES/03_Next_Task_Selection.md`:
   - Document patterns + quality gates
 
 ### Following Weeks
+
 - Execute Phase 1 (Foundation Components) sequentially
 - Can parallelize T6.4 (manual updates) with Phase 1 if needed
 - See full roadmap in `FoundationUI_Integration_Strategy.md`

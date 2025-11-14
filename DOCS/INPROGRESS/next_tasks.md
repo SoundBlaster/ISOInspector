@@ -2,6 +2,16 @@
 
 ## Active
 
+### Core Work (Current Priority)
+
+- [ ] **T6.3 — SDK Tolerant Parsing Documentation** (Priority: Medium, Effort: 1 day)
+  - Create DocC article `TolerantParsingGuide.md` in `Sources/ISOInspectorKit/ISOInspectorKit.docc/Articles/`
+  - Add code examples for tolerant parsing setup and `ParseIssueStore` usage
+  - Update inline documentation for `ParsePipeline.Options`, `.strict`, `.tolerant`
+  - Link new guide from main `Documentation.md` Topics section
+  - Verify examples with test file in `Tests/ISOInspectorKitTests/`
+  - See `DOCS/INPROGRESS/211_T6_3_SDK_Tolerant_Parsing_Documentation.md` for full PRD
+
 ### FoundationUI Integration (Priority Feature)
 
 **See detailed plan in:** `DOCS/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Suite/FoundationUI_Integration_Strategy.md`

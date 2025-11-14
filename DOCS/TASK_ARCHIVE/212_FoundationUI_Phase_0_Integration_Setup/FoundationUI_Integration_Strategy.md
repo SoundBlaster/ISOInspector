@@ -1,4 +1,5 @@
 # FoundationUI Integration Strategy for ISOInspectorApp
+
 **Project:** ISO Inspector
 **Created:** 2025-11-12
 **Status:** Planning & Documentation
@@ -11,6 +12,7 @@
 This document describes a **gradual, step-by-step integration strategy** for FoundationUI into ISOInspectorApp. The approach prioritizes stability, testability, and continuous validation while scaling from small components to full-scale UI migration.
 
 ### Key Principles
+
 1. **Start Small** — Begin with isolated, low-risk UI elements
 2. **Test Thoroughly** — Each phase includes comprehensive unit, integration, and snapshot tests
 3. **Iterate Safely** — No breaking changes to existing app functionality
@@ -23,17 +25,20 @@ This document describes a **gradual, step-by-step integration strategy** for Fou
 ## 🎯 Integration Phases
 
 ### Phase 0: Setup & Verification (Phase 6.1-6.2 from FoundationUI)
+
 **Duration:** 3-4 days
 **Status:** ⏳ Pending
 **Effort:** Low-Medium
 
 #### Objectives
+
 - Verify FoundationUI Swift Package in ISOInspectorApp build
 - Establish integration test patterns
 - Create Component Showcase module for incremental UI testing
 - Document integration points in technical spec
 
 #### Subtasks
+
 - [ ] **I0.1** — Add FoundationUI as dependency in `ISOInspectorApp` target (Package.swift)
 - [ ] **I0.2** — Create integration test suite: `Tests/ISOInspectorAppTests/FoundationUI/`
 - [ ] **I0.3** — Build Component Showcase SwiftUI view for development/testing
@@ -41,6 +46,7 @@ This document describes a **gradual, step-by-step integration strategy** for Fou
 - [ ] **I0.5** — Update 10_DESIGN_SYSTEM_GUIDE.md with integration checklist
 
 **Success Criteria:**
+
 - ✅ ISOInspectorApp builds with FoundationUI dependency
 - ✅ Integration test suite structure in place
 - ✅ All FoundationUI components render in Showcase (no crashes)
@@ -50,6 +56,7 @@ This document describes a **gradual, step-by-step integration strategy** for Fou
 ---
 
 ### Phase 1: Foundation Components (Weeks 1-2)
+
 **Duration:** 5-7 days
 **Status:** ⏳ Pending
 **Effort:** Low
@@ -57,17 +64,20 @@ This document describes a **gradual, step-by-step integration strategy** for Fou
 These are **atomic, reusable UI elements** with minimal state dependencies. No breaking changes to app logic.
 
 #### 1.1 Badge & Status Indicators
+
 **Priority:** P1 | **Effort:** 1-2 days | **Risk:** Low
 
 **Current State:** ISOInspectorApp has manual badge implementations scattered in views.
 **Target:** Consolidate into `DS.Badge` and `DS.Indicator` components.
 
 **Components to Replace:**
+
 - Manual text styling for status indicators
 - Parse error/warning badges
 - Processing status indicators
 
 **Subtasks:**
+
 - [ ] **I1.1.1** — Audit current badge usage in codebase (grep for status indicators)
 - [ ] **I1.1.2** — Create `BoxStatusBadgeView` wrapper around `DS.Badge` (level: .info/.warning/.error/.success)
 - [ ] **I1.1.3** — Create `ParseStatusIndicator` for tree view nodes (mini/small/medium sizes)
@@ -78,6 +88,7 @@ These are **atomic, reusable UI elements** with minimal state dependencies. No b
 - [ ] **I1.1.8** — Document migration path in MIGRATION.md
 
 **Files to Modify:**
+
 ```
 Sources/ISOInspectorApp/UI/Components/BoxStatusBadgeView.swift (NEW)
 Sources/ISOInspectorApp/UI/Components/ParseStatusIndicator.swift (NEW)
@@ -89,6 +100,7 @@ DOCS/MIGRATION.md (NEW)
 ```
 
 **Success Criteria:**
+
 - ✅ All manual badges replaced with `DS.Badge`
 - ✅ All status indicators use `DS.Indicator`
 - ✅ Unit test coverage ≥90%
@@ -99,17 +111,20 @@ DOCS/MIGRATION.md (NEW)
 ---
 
 #### 1.2 Card Containers & Sections
+
 **Priority:** P1 | **Effort:** 2-3 days | **Risk:** Low-Medium
 
 **Current State:** Details panel uses manual padding/corners/shadows.
 **Target:** Migrate to `DS.Card` and `DS.SectionHeader` components.
 
 **Components to Replace:**
+
 - Details panel sections with borders/backgrounds
 - Manual section headers with dividers
 - Info/metadata card containers
 
 **Subtasks:**
+
 - [ ] **I1.2.1** — Audit current container styles (CardStyle, elevation levels)
 - [ ] **I1.2.2** — Create `BoxDetailsCard` wrapper around `DS.Card`
 - [ ] **I1.2.3** — Create `BoxSectionHeader` wrapper around `DS.SectionHeader`
@@ -120,6 +135,7 @@ DOCS/MIGRATION.md (NEW)
 - [ ] **I1.2.8** — Verify dark mode adaptation
 
 **Files to Modify:**
+
 ```
 Sources/ISOInspectorApp/UI/Components/BoxDetailsCard.swift (NEW)
 Sources/ISOInspectorApp/UI/Components/BoxSectionHeader.swift (NEW)
@@ -130,6 +146,7 @@ Tests/ISOInspectorAppTests/FoundationUI/CardSectionAccessibilityTests.swift (NEW
 ```
 
 **Success Criteria:**
+
 - ✅ All container styling uses `DS.Card`
 - ✅ All section headers use `DS.SectionHeader`
 - ✅ No manual padding/corners magic numbers (use DS.Spacing tokens)
@@ -139,12 +156,14 @@ Tests/ISOInspectorAppTests/FoundationUI/CardSectionAccessibilityTests.swift (NEW
 ---
 
 #### 1.3 Key-Value Rows & Metadata Display
+
 **Priority:** P1 | **Effort:** 2-3 days | **Risk:** Low
 
 **Current State:** Details panel displays metadata as manual HStack/VStack layouts.
 **Target:** Use `DS.KeyValueRow` component for consistent metadata presentation.
 
 **Subtasks:**
+
 - [ ] **I1.3.1** — Audit metadata display patterns (horizontal vs. vertical layouts)
 - [ ] **I1.3.2** — Create `BoxMetadataRow` wrapper around `DS.KeyValueRow` with ISO-specific formatting
 - [ ] **I1.3.3** — Refactor all field displays to use KeyValueRow
@@ -154,6 +173,7 @@ Tests/ISOInspectorAppTests/FoundationUI/CardSectionAccessibilityTests.swift (NEW
 - [ ] **I1.3.7** — Add to component showcase
 
 **Files to Modify:**
+
 ```
 Sources/ISOInspectorApp/UI/Components/BoxMetadataRow.swift (NEW)
 Sources/ISOInspectorApp/Views/Details/BoxDetailView.swift (REFACTOR)
@@ -162,6 +182,7 @@ Tests/ISOInspectorAppTests/FoundationUI/KeyValueRowSnapshotTests.swift (NEW)
 ```
 
 **Success Criteria:**
+
 - ✅ All metadata displayed via `DS.KeyValueRow`
 - ✅ Consistent spacing via DS tokens (no magic numbers)
 - ✅ Copyable actions integrated
@@ -170,6 +191,7 @@ Tests/ISOInspectorAppTests/FoundationUI/KeyValueRowSnapshotTests.swift (NEW)
 ---
 
 ### Phase 2: Interactive Components & Modifiers (Weeks 3-4)
+
 **Duration:** 5-7 days
 **Status:** ⏳ Pending
 **Effort:** Low-Medium
@@ -177,12 +199,14 @@ Tests/ISOInspectorAppTests/FoundationUI/KeyValueRowSnapshotTests.swift (NEW)
 These components involve **user interaction** and **state changes**. Requires careful integration with existing event handlers.
 
 #### 2.1 Copyable Text & Actions
+
 **Priority:** P2 | **Effort:** 1-2 days | **Risk:** Low
 
 **Current State:** Manual copy buttons next to text fields.
 **Target:** Use `DS.Copyable` wrapper for universal copy functionality.
 
 **Subtasks:**
+
 - [ ] **I2.1.1** — Integrate `DS.CopyableText` into metadata values
 - [ ] **I2.1.2** — Integrate `DS.Copyable` wrapper into hex viewer addresses
 - [ ] **I2.1.3** — Add platform-specific shortcuts (Cmd+C on macOS, Ctrl+C on iOS)
@@ -191,6 +215,7 @@ These components involve **user interaction** and **state changes**. Requires ca
 - [ ] **I2.1.6** — Snapshot tests for copy feedback UI
 
 **Success Criteria:**
+
 - ✅ Copy works on all platforms
 - ✅ Visual feedback appears (toast/confirmation)
 - ✅ Keyboard shortcuts functional
@@ -199,12 +224,14 @@ These components involve **user interaction** and **state changes**. Requires ca
 ---
 
 #### 2.2 Interactive Styles & Hover Effects
+
 **Priority:** P2 | **Effort:** 2-3 days | **Risk:** Medium
 
 **Current State:** Manual hover/press state handling.
 **Target:** Use `DS.InteractiveStyle` modifier for consistent interaction feedback.
 
 **Subtasks:**
+
 - [ ] **I2.2.1** — Apply `DS.InteractiveStyle` to clickable rows
 - [ ] **I2.2.2** — Apply to expand/collapse tree controls
 - [ ] **I2.2.3** — Apply to toolbar buttons
@@ -213,6 +240,7 @@ These components involve **user interaction** and **state changes**. Requires ca
 - [ ] **I2.2.6** — Integration tests for interaction sequences
 
 **Success Criteria:**
+
 - ✅ All interactive elements have consistent feedback
 - ✅ macOS: hover state working
 - ✅ iOS: touch feedback visible
@@ -221,12 +249,14 @@ These components involve **user interaction** and **state changes**. Requires ca
 ---
 
 #### 2.3 Surface Material & Elevation
+
 **Priority:** P2 | **Effort:** 1-2 days | **Risk:** Low
 
 **Current State:** Manual background and shadow application.
 **Target:** Use `DS.SurfaceStyle` environment key for layered material design.
 
 **Subtasks:**
+
 - [ ] **I2.3.1** — Apply `.surfaceStyle(.thin)` to primary surfaces
 - [ ] **I2.3.2** — Apply `.surfaceStyle(.regular)` to detail panels
 - [ ] **I2.3.3** — Apply `.surfaceStyle(.thick)` to modals/popovers
@@ -235,6 +265,7 @@ These components involve **user interaction** and **state changes**. Requires ca
 - [ ] **I2.3.6** — Accessibility tests (no color-only differentiation)
 
 **Success Criteria:**
+
 - ✅ All surfaces use appropriate SurfaceStyle
 - ✅ Elevation hierarchy clear visually
 - ✅ Dark mode shadows correct
@@ -243,6 +274,7 @@ These components involve **user interaction** and **state changes**. Requires ca
 ---
 
 ### Phase 3: Layout Patterns & Navigation (Weeks 5-6)
+
 **Duration:** 7-10 days
 **Status:** ⏳ Pending
 **Effort:** Medium-High
@@ -250,17 +282,20 @@ These components involve **user interaction** and **state changes**. Requires ca
 These are **complex, structural components** that significantly impact app layout. Requires extensive testing and phased rollout.
 
 #### 3.1 Sidebar Pattern (macOS/iPad)
+
 **Priority:** P3 | **Effort:** 3-4 days | **Risk:** Medium
 
 **Current State:** Manual NavigationSplitView with custom sidebar styling.
 **Target:** Replace with `DS.SidebarPattern` for consistent sidebar layout.
 
 **Components to Replace:**
+
 - Manual sidebar section headers
 - Manual navigation styling
 - Search/filter placement
 
 **Subtasks:**
+
 - [ ] **I3.1.1** — Create `BoxesSidebar` using `DS.SidebarPattern`
 - [ ] **I3.1.2** — Move file browser to sidebar pattern
 - [ ] **I3.1.3** — Integrate search/filter into pattern
@@ -271,6 +306,7 @@ These are **complex, structural components** that significantly impact app layou
 - [ ] **I3.1.8** — VoiceOver and keyboard navigation tests
 
 **Platform-Specific:**
+
 ```
 macOS:   SidebarPattern + Cmd+1,2,3 shortcuts for sections
 iPad:    SidebarPattern + CollapsibleButton on portrait
@@ -278,6 +314,7 @@ iOS:     Hide sidebar behind NavigationStack (fallback)
 ```
 
 **Files to Modify:**
+
 ```
 Sources/ISOInspectorApp/Views/Sidebar/BoxesSidebar.swift (NEW)
 Sources/ISOInspectorApp/Views/ContentView.swift (REFACTOR)
@@ -287,6 +324,7 @@ Tests/ISOInspectorAppTests/FoundationUI/SidebarPatternAccessibilityTests.swift (
 ```
 
 **Success Criteria:**
+
 - ✅ Sidebar pattern working on macOS/iPad
 - ✅ File browser navigation functional
 - ✅ Search/filter integrated
@@ -297,12 +335,14 @@ Tests/ISOInspectorAppTests/FoundationUI/SidebarPatternAccessibilityTests.swift (
 ---
 
 #### 3.2 Inspector Pattern (Details Panel)
+
 **Priority:** P3 | **Effort:** 2-3 days | **Risk:** Medium
 
 **Current State:** Manual scrollable details layout.
 **Target:** Replace with `DS.InspectorPattern` for consistent inspector layout.
 
 **Subtasks:**
+
 - [ ] **I3.2.1** — Create `BoxInspector` using `DS.InspectorPattern`
 - [ ] **I3.2.2** — Migrate all detail sections to pattern
 - [ ] **I3.2.3** — Test fixed header positioning
@@ -312,6 +352,7 @@ Tests/ISOInspectorAppTests/FoundationUI/SidebarPatternAccessibilityTests.swift (
 - [ ] **I3.2.7** — Accessibility: heading hierarchy, landmarks
 
 **Files to Modify:**
+
 ```
 Sources/ISOInspectorApp/Views/Details/BoxInspector.swift (NEW)
 Sources/ISOInspectorApp/Views/Details/BoxDetailView.swift (REFACTOR)
@@ -319,6 +360,7 @@ Tests/ISOInspectorAppTests/FoundationUI/InspectorPatternTests.swift (NEW)
 ```
 
 **Success Criteria:**
+
 - ✅ Inspector pattern applied to all detail sections
 - ✅ Fixed header sticky and functional
 - ✅ Scroll performance maintained
@@ -327,18 +369,21 @@ Tests/ISOInspectorAppTests/FoundationUI/InspectorPatternTests.swift (NEW)
 ---
 
 #### 3.3 Tree Box Pattern (Hierarchical Structure)
+
 **Priority:** P3 | **Effort:** 3-4 days | **Risk:** Medium-High
 
 **Current State:** Manual OutlineGroup with custom tree styling.
 **Target:** Replace with `DS.BoxTreePattern` for optimized hierarchical display.
 
 **Key Features:**
+
 - Lazy rendering (virtualization for large trees)
 - Expand/collapse animations
 - Selection highlighting
 - Node metadata display
 
 **Subtasks:**
+
 - [ ] **I3.3.1** — Create `BoxTree` wrapper around `DS.BoxTreePattern`
 - [ ] **I3.3.2** — Adapt BoxNode model to pattern requirements
 - [ ] **I3.3.3** — Integrate lazy rendering
@@ -351,6 +396,7 @@ Tests/ISOInspectorAppTests/FoundationUI/InspectorPatternTests.swift (NEW)
 - [ ] **I3.3.10** — Keyboard arrow key navigation tests
 
 **Considerations:**
+
 ```
 ⚠️ Large Trees: OutlineGroup + lazy rendering can be slow
    Solution: Use LazyVStack with .id(_:) for lazy rendering
@@ -363,6 +409,7 @@ Tests/ISOInspectorAppTests/FoundationUI/InspectorPatternTests.swift (NEW)
 ```
 
 **Files to Modify:**
+
 ```
 Sources/ISOInspectorApp/Views/Tree/BoxTree.swift (NEW/REFACTOR)
 Sources/ISOInspectorApp/Models/BoxNode.swift (MINOR UPDATE)
@@ -372,6 +419,7 @@ Tests/ISOInspectorAppTests/FoundationUI/BoxTreePatternPerformanceTests.swift (NE
 ```
 
 **Success Criteria:**
+
 - ✅ Tree renders with <16ms frame time
 - ✅ Memory stable during expand/collapse (monitor with Instruments)
 - ✅ Large tree (1000+ nodes) renders responsively
@@ -381,12 +429,14 @@ Tests/ISOInspectorAppTests/FoundationUI/BoxTreePatternPerformanceTests.swift (NE
 ---
 
 #### 3.4 Toolbar Pattern
+
 **Priority:** P3 | **Effort:** 1-2 days | **Risk:** Low
 
 **Current State:** Manual toolbar button arrangement.
 **Target:** Use `DS.ToolbarPattern` for adaptive toolbar layout.
 
 **Subtasks:**
+
 - [ ] **I3.4.1** — Apply `DS.ToolbarPattern` to top toolbar
 - [ ] **I3.4.2** — Test icon+label rendering
 - [ ] **I3.4.3** — Test overflow menu on small screens
@@ -395,6 +445,7 @@ Tests/ISOInspectorAppTests/FoundationUI/BoxTreePatternPerformanceTests.swift (NE
 - [ ] **I3.4.6** — Accessibility: button labels, focus
 
 **Success Criteria:**
+
 - ✅ Toolbar layout adaptive
 - ✅ Overflow menu functional
 - ✅ Icons + labels clear
@@ -403,6 +454,7 @@ Tests/ISOInspectorAppTests/FoundationUI/BoxTreePatternPerformanceTests.swift (NE
 ---
 
 ### Phase 4: Platform Adaptation & Contexts (Week 7)
+
 **Duration:** 4-5 days
 **Status:** ⏳ Pending
 **Effort:** Medium
@@ -410,12 +462,14 @@ Tests/ISOInspectorAppTests/FoundationUI/BoxTreePatternPerformanceTests.swift (NE
 Apply FoundationUI **environment contexts** for platform-specific behavior and accessibility.
 
 #### 4.1 Platform Adaptation
+
 **Priority:** P4 | **Effort:** 1-2 days | **Risk:** Low
 
 **Current State:** Manual platform-specific spacing/sizing.
 **Target:** Use `DS.PlatformAdaptation` context for automatic adaptation.
 
 **Subtasks:**
+
 - [ ] **I4.1.1** — Apply `@Environment(\.platformAdaptation)` in key views
 - [ ] **I4.1.2** — Test macOS 12pt vs iOS 16pt spacing
 - [ ] **I4.1.3** — Size class adaptation (regular vs. compact)
@@ -423,12 +477,14 @@ Apply FoundationUI **environment contexts** for platform-specific behavior and a
 - [ ] **I4.1.5** — Snapshot tests for platform-specific layouts
 
 **Files to Modify:**
+
 ```
 Sources/ISOInspectorApp/Contexts/PlatformAdaptationSetup.swift (NEW)
 Sources/ISOInspectorApp/Views/ContentView.swift (ADD CONTEXT)
 ```
 
 **Success Criteria:**
+
 - ✅ Spacing correct on all platforms
 - ✅ Size classes respected
 - ✅ Snapshot tests pass platform-specific variants
@@ -436,12 +492,14 @@ Sources/ISOInspectorApp/Views/ContentView.swift (ADD CONTEXT)
 ---
 
 #### 4.2 Accessibility Contexts
+
 **Priority:** P4 | **Effort:** 2-3 days | **Risk:** Low
 
 **Current State:** Manual accessibility implementations scattered.
 **Target:** Use `DS.AccessibilityContext` for Reduce Motion, Increase Contrast, Dynamic Type, Bold Text.
 
 **Subtasks:**
+
 - [ ] **I4.2.1** — Apply AccessibilityContext to animations (reduce motion)
 - [ ] **I4.2.2** — Test high contrast mode on all components
 - [ ] **I4.2.3** — Dynamic Type support for all text elements
@@ -452,6 +510,7 @@ Sources/ISOInspectorApp/Views/ContentView.swift (ADD CONTEXT)
 - [ ] **I4.2.8** — Accessibility audit: WCAG 2.1 AA level
 
 **Test Coverage:**
+
 ```
 Accessibility Tests:
 - [ ] 50+ VoiceOver narration tests
@@ -463,6 +522,7 @@ Target: 98%+ accessibility score
 ```
 
 **Files to Modify:**
+
 ```
 Sources/ISOInspectorApp/Contexts/AccessibilitySetup.swift (NEW)
 Sources/ISOInspectorApp/Views/ContentView.swift (ADD CONTEXT)
@@ -470,6 +530,7 @@ Tests/ISOInspectorAppTests/FoundationUI/AccessibilityTests.swift (NEW)
 ```
 
 **Success Criteria:**
+
 - ✅ WCAG 2.1 AA compliance verified
 - ✅ 98%+ accessibility audit score
 - ✅ All animations respect Reduce Motion
@@ -479,12 +540,14 @@ Tests/ISOInspectorAppTests/FoundationUI/AccessibilityTests.swift (NEW)
 ---
 
 #### 4.3 Color Scheme & Dark Mode
+
 **Priority:** P4 | **Effort:** 1-2 days | **Risk:** Low
 
 **Current State:** Some manual dark mode handling.
 **Target:** Centralized dark mode via `DS.ColorSchemeAdapter` context.
 
 **Subtasks:**
+
 - [ ] **I4.3.1** — Apply `DS.ColorSchemeAdapter` globally
 - [ ] **I4.3.2** — Audit all hardcoded colors (replace with DS.Colors)
 - [ ] **I4.3.3** — Test dark mode on all views
@@ -492,6 +555,7 @@ Tests/ISOInspectorAppTests/FoundationUI/AccessibilityTests.swift (NEW)
 - [ ] **I4.3.5** — High contrast + dark mode combination test
 
 **Success Criteria:**
+
 - ✅ Zero hardcoded colors in UI code
 - ✅ Dark mode rendering consistent
 - ✅ Snapshots pass for light/dark/high-contrast
@@ -500,6 +564,7 @@ Tests/ISOInspectorAppTests/FoundationUI/AccessibilityTests.swift (NEW)
 ---
 
 ### Phase 5: Advanced Features & Integration (Week 8)
+
 **Duration:** 5-7 days
 **Status:** ⏳ Pending
 **Effort:** High
@@ -507,12 +572,14 @@ Tests/ISOInspectorAppTests/FoundationUI/AccessibilityTests.swift (NEW)
 Integrate advanced FoundationUI features with ISOInspectorApp business logic.
 
 #### 5.1 Search & Filter with DS Components
+
 **Priority:** P5 | **Effort:** 2-3 days | **Risk:** Medium
 
 **Current State:** Manual search box and filter logic.
 **Target:** Integrate with FoundationUI and create consistent search patterns.
 
 **Subtasks:**
+
 - [ ] **I5.1.1** — Create `BoxSearchView` using FoundationUI typography/spacing
 - [ ] **I5.1.2** — Create `BoxFilterView` with filter chips
 - [ ] **I5.1.3** — Connect to existing BoxTreeStore search
@@ -522,6 +589,7 @@ Integrate advanced FoundationUI features with ISOInspectorApp business logic.
 - [ ] **I5.1.7** — Accessibility: search input labels, filter results announcement
 
 **Success Criteria:**
+
 - ✅ Search UI using FoundationUI
 - ✅ Search performance <100ms for 10K boxes
 - ✅ Filter chips interactive
@@ -530,12 +598,14 @@ Integrate advanced FoundationUI features with ISOInspectorApp business logic.
 ---
 
 #### 5.2 Progress & Async Streaming
+
 **Priority:** P5 | **Effort:** 2-3 days | **Risk:** Medium
 
 **Current State:** Manual progress indicator and async handling.
 **Target:** Integrate FoundationUI ProgressView with async parsing updates.
 
 **Subtasks:**
+
 - [ ] **I5.2.1** — Create `BoxParsingProgressView` using FoundationUI
 - [ ] **I5.2.2** — Connect to AsyncThrowingStream from ISOInspectorCore
 - [ ] **I5.2.3** — Display live progress percentage
@@ -544,6 +614,7 @@ Integrate advanced FoundationUI features with ISOInspectorApp business logic.
 - [ ] **I5.2.6** — Accessibility: progress announcement via Live Region
 
 **Success Criteria:**
+
 - ✅ Progress updates in real-time
 - ✅ Status updates clear
 - ✅ No freezing during async operations
@@ -552,12 +623,14 @@ Integrate advanced FoundationUI features with ISOInspectorApp business logic.
 ---
 
 #### 5.3 Export & Share Actions
+
 **Priority:** P5 | **Effort:** 2-3 days | **Risk:** Low-Medium
 
 **Current State:** Basic export functionality.
 **Target:** Enhanced export UI using FoundationUI patterns.
 
 **Subtasks:**
+
 - [ ] **I5.3.1** — Create `BoxExportView` modal using FoundationUI
 - [ ] **I5.3.2** — Add export format selection (JSON, YAML, CSV)
 - [ ] **I5.3.3** — Share sheet integration
@@ -566,6 +639,7 @@ Integrate advanced FoundationUI features with ISOInspectorApp business logic.
 - [ ] **I5.3.6** — Accessibility: export options selectable via keyboard
 
 **Success Criteria:**
+
 - ✅ Export modal using FoundationUI design system
 - ✅ All format options functional
 - ✅ Share sheet working
@@ -574,12 +648,14 @@ Integrate advanced FoundationUI features with ISOInspectorApp business logic.
 ---
 
 #### 5.4 Hex Viewer Enhancement
+
 **Priority:** P5 | **Effort:** 2-3 days | **Risk:** Medium
 
 **Current State:** Basic hex display.
 **Target:** Enhanced hex viewer with FoundationUI typography and copyable data.
 
 **Subtasks:**
+
 - [ ] **I5.4.1** — Apply DS.Typography for hex content (monospace)
 - [ ] **I5.4.2** — Create `HexCopyableRow` wrapper
 - [ ] **I5.4.3** — Implement byte highlighting selection
@@ -588,6 +664,7 @@ Integrate advanced FoundationUI features with ISOInspectorApp business logic.
 - [ ] **I5.4.6** — Accessibility: hex content readable to screen readers
 
 **Success Criteria:**
+
 - ✅ Hex viewer using DS typography
 - ✅ Copy functionality for hex ranges
 - ✅ Performance: <50ms render time
@@ -596,6 +673,7 @@ Integrate advanced FoundationUI features with ISOInspectorApp business logic.
 ---
 
 ### Phase 6: Full App Integration & Validation (Week 9)
+
 **Duration:** 5-7 days
 **Status:** ⏳ Pending
 **Effort:** High
@@ -603,11 +681,13 @@ Integrate advanced FoundationUI features with ISOInspectorApp business logic.
 Complete integration, validation, and release preparation.
 
 #### 6.1 Integration Testing Suite
+
 **Priority:** P6 | **Effort:** 2-3 days | **Risk:** Medium
 
 Comprehensive end-to-end tests covering all integrated FoundationUI components.
 
 **Test Suites to Create:**
+
 ```
 Tests/ISOInspectorAppTests/FoundationUI/IntegrationTests/
 ├── AppLaunchTests.swift                    — App startup with FoundationUI
@@ -621,6 +701,7 @@ Tests/ISOInspectorAppTests/FoundationUI/IntegrationTests/
 ```
 
 **Subtasks:**
+
 - [ ] **I6.1.1** — Create app launch test (no crashes)
 - [ ] **I6.1.2** — Navigation flow: sidebar → tree → details
 - [ ] **I6.1.3** — Search/filter workflow integration
@@ -632,6 +713,7 @@ Tests/ISOInspectorAppTests/FoundationUI/IntegrationTests/
 - [ ] **I6.1.9** — Visual regression snapshots (all platforms)
 
 **Success Criteria:**
+
 - ✅ 100% app launch success rate
 - ✅ All navigation flows functional
 - ✅ WCAG 2.1 AA compliance verified
@@ -641,9 +723,11 @@ Tests/ISOInspectorAppTests/FoundationUI/IntegrationTests/
 ---
 
 #### 6.2 Performance Validation
+
 **Priority:** P6 | **Effort:** 1-2 days | **Risk:** Medium
 
 **Performance Budgets:**
+
 ```
 Metric                      Target        Measurement Tool
 ─────────────────────────────────────────────────────────
@@ -656,6 +740,7 @@ Binary Size Impact          <10%          xcodesign + dsymutil
 ```
 
 **Subtasks:**
+
 - [ ] **I6.2.1** — Measure app launch time (baseline + FoundationUI)
 - [ ] **I6.2.2** — Profile tree rendering (1000 node benchmark)
 - [ ] **I6.2.3** — Monitor memory during expand/collapse cycles
@@ -664,6 +749,7 @@ Binary Size Impact          <10%          xcodesign + dsymutil
 - [ ] **I6.2.6** — Identify and optimize bottlenecks
 
 **Success Criteria:**
+
 - ✅ App launch <2s
 - ✅ Tree scroll ≥55fps
 - ✅ Memory leak-free
@@ -672,9 +758,11 @@ Binary Size Impact          <10%          xcodesign + dsymutil
 ---
 
 #### 6.3 Documentation & Migration Guide
+
 **Priority:** P6 | **Effort:** 2-3 days | **Risk:** Low
 
 **Documents to Create/Update:**
+
 - [ ] **I6.3.1** — Update 03_Technical_Spec.md with full integration details
 - [ ] **I6.3.2** — Create MIGRATION.md documenting old → new component mapping
 - [ ] **I6.3.3** — Create INTEGRATION_GUIDE.md for future FoundationUI updates
@@ -682,6 +770,7 @@ Binary Size Impact          <10%          xcodesign + dsymutil
 - [ ] **I6.3.5** — Add integration examples to ComponentShowcase
 
 **Files to Create:**
+
 ```
 DOCS/AI/ISOInspector_Execution_Guide/MIGRATION.md (NEW)
 DOCS/AI/ISOInspector_Execution_Guide/INTEGRATION_GUIDE.md (NEW)
@@ -689,6 +778,7 @@ DOCS/INPROGRESS/FoundationUI_Integration_Completed.md (NEW)
 ```
 
 **Success Criteria:**
+
 - ✅ All migration paths documented
 - ✅ Integration guide covers all scenarios
 - ✅ API documentation complete
@@ -697,9 +787,11 @@ DOCS/INPROGRESS/FoundationUI_Integration_Completed.md (NEW)
 ---
 
 #### 6.4 Beta Testing & Rollout
+
 **Priority:** P6 | **Effort:** 2-3 days | **Risk:** Medium
 
 **Testing Plan:**
+
 ```
 1. Internal Testing (1 day)
    - All team members test on own devices
@@ -715,6 +807,7 @@ DOCS/INPROGRESS/FoundationUI_Integration_Completed.md (NEW)
 ```
 
 **Success Criteria:**
+
 - ✅ Zero critical bugs in beta
 - ✅ Positive feedback from beta testers
 - ✅ Performance metrics confirmed
@@ -773,12 +866,14 @@ TOTAL: 9 weeks (45 working days)
 ## 🎯 Success Criteria (All Phases)
 
 ### Code Quality
+
 - ✅ SwiftLint: 0 violations (strict mode)
 - ✅ Test Coverage: ≥80% per phase
 - ✅ Type Safety: No `@unchecked Sendable`
 - ✅ Concurrency: All actors/tasks properly isolated
 
 ### Testing
+
 - ✅ Unit Tests: 300+ total (all phases)
 - ✅ Snapshot Tests: 150+ visual regressions
 - ✅ Accessibility Tests: 150+ a11y checks
@@ -786,12 +881,14 @@ TOTAL: 9 weeks (45 working days)
 - ✅ Performance Tests: Memory, CPU, render time
 
 ### Documentation
+
 - ✅ API docs: 100% coverage (DocC)
 - ✅ Migration guide: Complete old→new mapping
 - ✅ Technical spec: Updated per phase
 - ✅ Examples: All components in ComponentShowcase
 
 ### Accessibility
+
 - ✅ WCAG 2.1 AA compliance
 - ✅ VoiceOver: All content readable
 - ✅ Keyboard: All features accessible
@@ -800,6 +897,7 @@ TOTAL: 9 weeks (45 working days)
 - ✅ Audit Score: ≥98%
 
 ### Performance
+
 - ✅ App Launch: <2s
 - ✅ Tree Scroll: ≥55fps (1000 nodes)
 - ✅ Memory: No leaks, <250MB (large files)
@@ -807,6 +905,7 @@ TOTAL: 9 weeks (45 working days)
 - ✅ Battery: No regression vs. baseline
 
 ### User Experience
+
 - ✅ Dark Mode: Fully functional
 - ✅ Platform Adaptation: Correct on macOS/iOS/iPadOS
 - ✅ Responsiveness: No freezing, smooth animations
@@ -818,6 +917,7 @@ TOTAL: 9 weeks (45 working days)
 ## 🔄 Iteration & Feedback Loop
 
 ### Weekly Reviews
+
 ```
 Every Friday (End of Phase):
 - Review completed tasks (code + tests)
@@ -829,7 +929,9 @@ Every Friday (End of Phase):
 ```
 
 ### Phase Gate Criteria
+
 **Before proceeding to next phase:**
+
 1. ✅ All tasks in current phase complete
 2. ✅ Tests pass (unit + integration + snapshots)
 3. ✅ Code review approved
@@ -838,7 +940,9 @@ Every Friday (End of Phase):
 6. ✅ Documentation updated
 
 ### Rollback Plan
+
 **If critical issues found:**
+
 ```
 1. Identify affected components (via test failures)
 2. Revert latest changes (git revert)
@@ -854,34 +958,42 @@ Every Friday (End of Phase):
 ## 📝 Decision Log
 
 ### Decision 1: Gradual vs. Big Bang
+
 **Date:** 2025-11-12
 **Decision:** Gradual, phased integration (9 weeks)
 **Rationale:**
+
 - Safer for production app (minimize risk of regressions)
 - Allows testing each component independently
 - Enables parallel work (multiple phases simultaneously)
 - Provides clear feedback loops and validation points
 
 ### Decision 2: Phase 0 (Setup)
+
 **Date:** 2025-11-12
 **Decision:** Add Phase 0 for dependency setup and test infrastructure
 **Rationale:**
+
 - Ensures FoundationUI builds correctly in ISOInspectorApp context
 - Establishes integration test patterns before actual integration
 - Creates Component Showcase for development velocity
 
 ### Decision 3: Phase Sequencing
+
 **Date:** 2025-11-12
 **Decision:** Foundation → Interactive → Patterns → Contexts → Advanced → Integration
 **Rationale:**
+
 - Dependencies: Patterns depend on Components depend on Foundation
 - Risk: Low-risk components first (Foundation), high-risk later (Patterns)
 - Testability: Each phase builds on previous tests
 
 ### Decision 4: Accessibility as Cross-Cutting Concern
+
 **Date:** 2025-11-12
 **Decision:** Accessibility tests in every phase, not a separate phase
 **Rationale:**
+
 - WCAG 2.1 AA compliance must be maintained throughout
 - Accessibility == core feature, not "nice to have"
 - Testing early catches issues before they compound
@@ -904,17 +1016,20 @@ Every Friday (End of Phase):
 ## 📚 Dependencies & Prerequisites
 
 ### FoundationUI Status
+
 - ✅ Foundation (Layer 0) — Complete
 - ✅ Components (Layer 2) — Complete (95.7%)
 - ✅ Patterns (Layer 3) — Complete
 - ✅ Contexts (Layer 4) — Complete
 
 ### ISOInspectorApp Status
+
 - ✅ Core parsing — Complete
 - ✅ Current UI — Functional
 - ⏳ FoundationUI integration — Pending
 
 ### External Dependencies
+
 - ✅ Swift 5.9+
 - ✅ iOS 17+, iPadOS 17+, macOS 14+
 - ✅ Xcode 15+
@@ -924,16 +1039,19 @@ Every Friday (End of Phase):
 ## 📞 Communication & Handoff
 
 ### Documentation Updates
+
 - Update `DOCS/INPROGRESS/next_tasks.md` after each phase
 - Archive completed phases to `DOCS/TASKS_ARCHIVE/`
 - Publish milestone summaries weekly
 
 ### Team Synchronization
+
 - Weekly standups (Monday/Friday)
 - Slack #iso-inspector-foundationui channel
 - GitHub issues for bug tracking
 
 ### External Communication
+
 - Product updates on ISOInspector website
 - Beta tester feedback loop
 - Release notes for v1.0-foundationui
