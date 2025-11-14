@@ -185,8 +185,7 @@
                 return root
             }
             if let elements = root.accessibilityElements as? [UIAccessibilityIdentification],
-                elements.contains(where: { $0.accessibilityIdentifier == identifier })
-            {
+                elements.contains(where: { $0.accessibilityIdentifier == identifier }) {
                 return root
             }
             for subview in root.subviews {
@@ -240,8 +239,7 @@
             bookmarks
         }
 
-        func createAnnotation(for file: URL, nodeID: Int64, note: String) throws -> AnnotationRecord
-        {
+        func createAnnotation(for file: URL, nodeID: Int64, note: String) throws -> AnnotationRecord {
             let record = AnnotationRecord(
                 nodeID: nodeID,
                 note: note,
@@ -253,8 +251,7 @@
         }
 
         func updateAnnotation(for file: URL, annotationID: UUID, note: String) throws
-            -> AnnotationRecord
-        {
+            -> AnnotationRecord {
             guard let index = annotations.firstIndex(where: { $0.id == annotationID }) else {
                 throw NSError(domain: "MockAnnotationStore", code: 1)
             }
