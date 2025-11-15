@@ -1,16 +1,16 @@
 #if canImport(SwiftUI)
-import XCTest
-import SwiftUI
-@testable import FoundationUI
+  import XCTest
+  import SwiftUI
+  @testable import FoundationUI
 
-/// Integration tests verifying FoundationUI components work within ISOInspectorApp context.
-///
-/// These tests ensure that FoundationUI is properly integrated as a dependency and that
-/// core components can be instantiated and used by ISOInspectorApp.
-///
-/// **Phase:** I0.1 - Add FoundationUI Dependency
-/// **Purpose:** Verify successful integration of FoundationUI package
-final class FoundationUIIntegrationTests: XCTestCase {
+  /// Integration tests verifying FoundationUI components work within ISOInspectorApp context.
+  ///
+  /// These tests ensure that FoundationUI is properly integrated as a dependency and that
+  /// core components can be instantiated and used by ISOInspectorApp.
+  ///
+  /// **Phase:** I0.1 - Add FoundationUI Dependency
+  /// **Purpose:** Verify successful integration of FoundationUI package
+  final class FoundationUIIntegrationTests: XCTestCase {
 
     // MARK: - Import Verification
 
@@ -19,8 +19,8 @@ final class FoundationUIIntegrationTests: XCTestCase {
     /// This is a basic smoke test ensuring the package dependency is configured correctly
     /// and the module is accessible from test targets.
     func testFoundationUIModuleImport() {
-        // Test passes if compilation succeeds (import statement at top of file works)
-        XCTAssertTrue(true, "FoundationUI module imported successfully")
+      // Test passes if compilation succeeds (import statement at top of file works)
+      XCTAssertTrue(true, "FoundationUI module imported successfully")
     }
 
     // MARK: - Component Availability Tests
@@ -30,11 +30,11 @@ final class FoundationUIIntegrationTests: XCTestCase {
     /// Badge is used by ParseTreeStatusBadge in ISOInspectorApp, so this test ensures
     /// the integration point works correctly.
     func testBadgeComponentAvailable() {
-        // Create a Badge instance with basic configuration
-        let badge = Badge(text: "TEST", level: .info)
+      // Create a Badge instance with basic configuration
+      let badge = Badge(text: "TEST", level: .info)
 
-        // Verify the component can be created without errors
-        XCTAssertNotNil(badge, "Badge component should be instantiable")
+      // Verify the component can be created without errors
+      XCTAssertNotNil(badge, "Badge component should be instantiable")
     }
 
     /// Verifies that all BadgeLevel cases are available and compatible.
@@ -42,27 +42,27 @@ final class FoundationUIIntegrationTests: XCTestCase {
     /// ParseTreeStatusBadge maps between ParseTreeStatusDescriptor.Level and BadgeLevel,
     /// so this test ensures all expected levels are available.
     func testBadgeLevelCasesAvailable() {
-        let levels: [BadgeLevel] = [.info, .warning, .error, .success]
+      let levels: [BadgeLevel] = [.info, .warning, .error, .success]
 
-        XCTAssertEqual(levels.count, 4, "All four badge levels should be available")
+      XCTAssertEqual(levels.count, 4, "All four badge levels should be available")
     }
 
     /// Verifies that the Card component is available for future integration phases.
     ///
     /// Card will be used in Phase 1.2 (I1.2) for details panel sections.
     func testCardComponentAvailable() {
-        let card = Card(content: { Text("Test Content") })
+      let card = Card(content: { Text("Test Content") })
 
-        XCTAssertNotNil(card, "Card component should be instantiable")
+      XCTAssertNotNil(card, "Card component should be instantiable")
     }
 
     /// Verifies that the KeyValueRow component is available for future integration phases.
     ///
     /// KeyValueRow will be used in Phase 1.3 (I1.3) for metadata display.
     func testKeyValueRowComponentAvailable() {
-        let row = KeyValueRow(key: "Test Key", value: "Test Value")
+      let row = KeyValueRow(key: "Test Key", value: "Test Value")
 
-        XCTAssertNotNil(row, "KeyValueRow component should be instantiable")
+      XCTAssertNotNil(row, "KeyValueRow component should be instantiable")
     }
 
     // MARK: - Design Token Access Tests
@@ -72,9 +72,10 @@ final class FoundationUIIntegrationTests: XCTestCase {
     /// Design tokens are essential for maintaining consistent styling throughout
     /// the integration phases.
     func testDesignTokensAccessible() {
-        // Verify spacing tokens are accessible (using short-form names: s, m, l, xl)
-        let spacing = DS.Spacing.s
-        XCTAssertGreaterThan(spacing, 0, "Design token DS.Spacing.s should be accessible and positive")
+      // Verify spacing tokens are accessible (using short-form names: s, m, l, xl)
+      let spacing = DS.Spacing.s
+      XCTAssertGreaterThan(
+        spacing, 0, "Design token DS.Spacing.s should be accessible and positive")
     }
 
     // MARK: - Platform Compatibility Tests
@@ -84,15 +85,15 @@ final class FoundationUIIntegrationTests: XCTestCase {
     /// ISOInspectorApp supports iOS 16+ and macOS 14+, so FoundationUI must be
     /// compatible with these platform versions.
     func testPlatformCompatibility() {
-        #if os(iOS)
+      #if os(iOS)
         XCTAssertTrue(true, "FoundationUI works on iOS platform")
-        #elseif os(macOS)
+      #elseif os(macOS)
         XCTAssertTrue(true, "FoundationUI works on macOS platform")
-        #else
+      #else
         XCTFail("Unsupported platform detected")
-        #endif
+      #endif
     }
-}
+  }
 
 // MARK: - Test Documentation
 

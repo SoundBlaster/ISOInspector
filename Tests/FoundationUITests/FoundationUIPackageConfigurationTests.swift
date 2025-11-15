@@ -1,10 +1,10 @@
 #if canImport(SwiftUI)
-import XCTest
-@testable import FoundationUI
+  import XCTest
+  @testable import FoundationUI
 
-final class FoundationUIPackageConfigurationTests: XCTestCase {
+  final class FoundationUIPackageConfigurationTests: XCTestCase {
     func testModuleIdentifierMatchesExpectedName() {
-        XCTAssertEqual(FoundationUI.moduleIdentifier, "FoundationUI")
+      XCTAssertEqual(FoundationUI.moduleIdentifier, "FoundationUI")
     }
-}
+  }
 #endif

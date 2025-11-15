@@ -20,65 +20,65 @@ import NestedA11yIDs
 /// - ``SettingsPanelView``
 /// - ``SettingsPanelViewModel``
 public enum SettingsPanelA11yID {
-    /// Root identifier for the settings panel
-    public static let root = "settings-panel"
+  /// Root identifier for the settings panel
+  public static let root = "settings-panel"
 
-    /// Sidebar section identifiers
-    public enum sidebar {
-        static let root = "\(SettingsPanelA11yID.root).sidebar"
+  /// Sidebar section identifiers
+  public enum sidebar {
+    static let root = "\(SettingsPanelA11yID.root).sidebar"
 
-        public static func section(_ sectionID: String) -> String {
-            "\(root).section.\(sectionID)"
-        }
-
-        // Convenience constants for common sections
-        public static let permanentSection = section("permanent")
-        public static let sessionSection = section("session")
-        public static let advancedSection = section("advanced")
+    public static func section(_ sectionID: String) -> String {
+      "\(root).section.\(sectionID)"
     }
 
-    /// Search bar identifiers
-    public enum search {
-        static let root = "\(SettingsPanelA11yID.root).search"
+    // Convenience constants for common sections
+    public static let permanentSection = section("permanent")
+    public static let sessionSection = section("session")
+    public static let advancedSection = section("advanced")
+  }
 
-        public static let field = "\(root).field"
-        public static let clearButton = "\(root).clear-button"
-    }
+  /// Search bar identifiers
+  public enum search {
+    static let root = "\(SettingsPanelA11yID.root).search"
 
-    /// Permanent settings identifiers
-    public enum permanentSettings {
-        static let root = "\(SettingsPanelA11yID.root).permanent"
+    public static let field = "\(root).field"
+    public static let clearButton = "\(root).clear-button"
+  }
 
-        public static let card = "\(root).card"
-        public static let title = "\(root).title"
-        public static let description = "\(root).description"
-        public static let resetButton = "\(root).reset-button"
+  /// Permanent settings identifiers
+  public enum permanentSettings {
+    static let root = "\(SettingsPanelA11yID.root).permanent"
 
-        // @todo #222 Add validation preset control IDs
-        // @todo #222 Add telemetry/logging control IDs
-    }
+    public static let card = "\(root).card"
+    public static let title = "\(root).title"
+    public static let description = "\(root).description"
+    public static let resetButton = "\(root).reset-button"
 
-    /// Session settings identifiers
-    public enum sessionSettings {
-        static let root = "\(SettingsPanelA11yID.root).session"
+    // @todo #222 Add validation preset control IDs
+    // @todo #222 Add telemetry/logging control IDs
+  }
 
-        public static let card = "\(root).card"
-        public static let title = "\(root).title"
-        public static let description = "\(root).description"
-        public static let resetButton = "\(root).reset-button"
+  /// Session settings identifiers
+  public enum sessionSettings {
+    static let root = "\(SettingsPanelA11yID.root).session"
 
-        // @todo #222 Add workspace scope control IDs
-        // @todo #222 Add pane layout control IDs
-    }
+    public static let card = "\(root).card"
+    public static let title = "\(root).title"
+    public static let description = "\(root).description"
+    public static let resetButton = "\(root).reset-button"
 
-    /// Advanced settings identifiers
-    public enum advancedSettings {
-        static let root = "\(SettingsPanelA11yID.root).advanced"
+    // @todo #222 Add workspace scope control IDs
+    // @todo #222 Add pane layout control IDs
+  }
 
-        public static let card = "\(root).card"
-        public static let title = "\(root).title"
-        public static let description = "\(root).description"
+  /// Advanced settings identifiers
+  public enum advancedSettings {
+    static let root = "\(SettingsPanelA11yID.root).advanced"
 
-        // @todo #222 Add advanced configuration control IDs
-    }
+    public static let card = "\(root).card"
+    public static let title = "\(root).title"
+    public static let description = "\(root).description"
+
+    // @todo #222 Add advanced configuration control IDs
+  }
 }
