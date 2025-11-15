@@ -1,5 +1,5 @@
-import SwiftUI
 import FoundationUI
+import SwiftUI
 
 /// A wrapper component for displaying metadata rows in the ISOInspectorApp
 ///
@@ -43,134 +43,134 @@ import FoundationUI
 /// - ``ParseTreeDetailView`` - Primary usage location
 ///
 public struct BoxMetadataRow: View {
-    // MARK: - Properties
+  // MARK: - Properties
 
-    /// The label/key text displayed for the metadata field
-    public let label: String
+  /// The label/key text displayed for the metadata field
+  public let label: String
 
-    /// The value text displayed (typically rendered in monospaced font)
-    public let value: String
+  /// The value text displayed (typically rendered in monospaced font)
+  public let value: String
 
-    /// The layout style (horizontal or vertical)
-    public let layout: KeyValueLayout
+  /// The layout style (horizontal or vertical)
+  public let layout: KeyValueLayout
 
-    /// Whether the value text can be copied to clipboard
-    public let copyable: Bool
+  /// Whether the value text can be copied to clipboard
+  public let copyable: Bool
 
-    // MARK: - Initialization
+  // MARK: - Initialization
 
-    /// Creates a new BoxMetadataRow component
-    ///
-    /// - Parameters:
-    ///   - label: The label/key text to display
-    ///   - value: The value text to display (rendered in monospaced font)
-    ///   - layout: The layout style (horizontal or vertical). Default: `.horizontal`
-    ///   - copyable: Whether to enable copy-to-clipboard functionality. Default: `false`
-    public init(
-        label: String,
-        value: String,
-        layout: KeyValueLayout = .horizontal,
-        copyable: Bool = false
-    ) {
-        self.label = label
-        self.value = value
-        self.layout = layout
-        self.copyable = copyable
-    }
+  /// Creates a new BoxMetadataRow component
+  ///
+  /// - Parameters:
+  ///   - label: The label/key text to display
+  ///   - value: The value text to display (rendered in monospaced font)
+  ///   - layout: The layout style (horizontal or vertical). Default: `.horizontal`
+  ///   - copyable: Whether to enable copy-to-clipboard functionality. Default: `false`
+  public init(
+    label: String,
+    value: String,
+    layout: KeyValueLayout = .horizontal,
+    copyable: Bool = false
+  ) {
+    self.label = label
+    self.value = value
+    self.layout = layout
+    self.copyable = copyable
+  }
 
-    // MARK: - Body
+  // MARK: - Body
 
-    public var body: some View {
-        KeyValueRow(
-            key: label,
-            value: value,
-            layout: layout,
-            copyable: copyable
-        )
-    }
+  public var body: some View {
+    KeyValueRow(
+      key: label,
+      value: value,
+      layout: layout,
+      copyable: copyable
+    )
+  }
 }
 
 // MARK: - SwiftUI Previews
 
 #Preview("BoxMetadataRow - Horizontal Layout") {
-    VStack(alignment: .leading, spacing: DS.Spacing.m) {
-        BoxMetadataRow(label: "Type", value: "ftyp")
-        BoxMetadataRow(label: "Size", value: "1024 bytes")
-        BoxMetadataRow(label: "Offset", value: "0x00001234")
-        BoxMetadataRow(label: "Duration", value: "5:32")
-    }
-    .padding()
+  VStack(alignment: .leading, spacing: DS.Spacing.m) {
+    BoxMetadataRow(label: "Type", value: "ftyp")
+    BoxMetadataRow(label: "Size", value: "1024 bytes")
+    BoxMetadataRow(label: "Offset", value: "0x00001234")
+    BoxMetadataRow(label: "Duration", value: "5:32")
+  }
+  .padding()
 }
 
 #Preview("BoxMetadataRow - Vertical Layout") {
-    VStack(alignment: .leading, spacing: DS.Spacing.l) {
-        BoxMetadataRow(
-            label: "Description",
-            value: "This is a very long description that works better in vertical layout",
-            layout: .vertical
-        )
-        BoxMetadataRow(
-            label: "Full Path",
-            value: "/Users/username/Documents/Projects/ISOInspector/test.iso",
-            layout: .vertical
-        )
-    }
-    .padding()
+  VStack(alignment: .leading, spacing: DS.Spacing.l) {
+    BoxMetadataRow(
+      label: "Description",
+      value: "This is a very long description that works better in vertical layout",
+      layout: .vertical
+    )
+    BoxMetadataRow(
+      label: "Full Path",
+      value: "/Users/username/Documents/Projects/ISOInspector/test.iso",
+      layout: .vertical
+    )
+  }
+  .padding()
 }
 
 #Preview("BoxMetadataRow - Copyable Values") {
-    VStack(alignment: .leading, spacing: DS.Spacing.m) {
-        BoxMetadataRow(label: "Type", value: "ftyp", copyable: true)
-        BoxMetadataRow(label: "Size", value: "1024 bytes", copyable: true)
-        BoxMetadataRow(label: "Offset", value: "0x00001234", copyable: true)
-        BoxMetadataRow(label: "Hash", value: "0xDEADBEEF", copyable: true)
-    }
-    .padding()
+  VStack(alignment: .leading, spacing: DS.Spacing.m) {
+    BoxMetadataRow(label: "Type", value: "ftyp", copyable: true)
+    BoxMetadataRow(label: "Size", value: "1024 bytes", copyable: true)
+    BoxMetadataRow(label: "Offset", value: "0x00001234", copyable: true)
+    BoxMetadataRow(label: "Hash", value: "0xDEADBEEF", copyable: true)
+  }
+  .padding()
 }
 
 #Preview("BoxMetadataRow - Dark Mode") {
-    VStack(alignment: .leading, spacing: DS.Spacing.m) {
-        BoxMetadataRow(label: "Type", value: "ftyp", copyable: true)
-        BoxMetadataRow(
-            label: "Description",
-            value: "Long description in dark mode",
-            layout: .vertical
-        )
-        BoxMetadataRow(label: "Offset", value: "0x00001234", copyable: true)
-    }
-    .padding()
-    .preferredColorScheme(.dark)
+  VStack(alignment: .leading, spacing: DS.Spacing.m) {
+    BoxMetadataRow(label: "Type", value: "ftyp", copyable: true)
+    BoxMetadataRow(
+      label: "Description",
+      value: "Long description in dark mode",
+      layout: .vertical
+    )
+    BoxMetadataRow(label: "Offset", value: "0x00001234", copyable: true)
+  }
+  .padding()
+  .preferredColorScheme(.dark)
 }
 
 #Preview("BoxMetadataRow - Real World ISO Metadata") {
-    ScrollView {
-        VStack(alignment: .leading, spacing: DS.Spacing.l) {
-            // Box information section
-            VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                BoxMetadataRow(label: "Box Type", value: "ftyp", copyable: true)
-                BoxMetadataRow(label: "Size", value: "32 bytes", copyable: true)
-                BoxMetadataRow(label: "Offset", value: "0x00000000", copyable: true)
-                BoxMetadataRow(
-                    label: "Description",
-                    value: "File Type Box - defines brand and version compatibility",
-                    layout: .vertical
-                )
-            }
+  ScrollView {
+    VStack(alignment: .leading, spacing: DS.Spacing.l) {
+      // Box information section
+      VStack(alignment: .leading, spacing: DS.Spacing.m) {
+        BoxMetadataRow(label: "Box Type", value: "ftyp", copyable: true)
+        BoxMetadataRow(label: "Size", value: "32 bytes", copyable: true)
+        BoxMetadataRow(label: "Offset", value: "0x00000000", copyable: true)
+        BoxMetadataRow(
+          label: "Description",
+          value: "File Type Box - defines brand and version compatibility",
+          layout: .vertical
+        )
+      }
 
-            // Extended metadata
-            VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                BoxMetadataRow(label: "Major Brand", value: "isom", copyable: true)
-                BoxMetadataRow(label: "Minor Version", value: "512", copyable: true)
-                BoxMetadataRow(
-                    label: "Compatible Brands",
-                    value: "isom, iso2, avc1, mp41",
-                    layout: .vertical,
-                    copyable: true
-                )
-            }
-        }
-        .padding()
+      // Extended metadata
+      VStack(alignment: .leading, spacing: DS.Spacing.m) {
+        BoxMetadataRow(label: "Major Brand", value: "isom", copyable: true)
+        BoxMetadataRow(label: "Minor Version", value: "512", copyable: true)
+        BoxMetadataRow(
+          label: "Compatible Brands",
+          value: "isom, iso2, avc1, mp41",
+          layout: .vertical,
+          copyable: true
+        )
+      }
     }
+    .padding()
+  }
 }
 
 // MARK: - AgentDescribable Conformance
@@ -178,22 +178,22 @@ public struct BoxMetadataRow: View {
 @available(iOS 17.0, macOS 14.0, *)
 @MainActor
 extension BoxMetadataRow: AgentDescribable {
-    public var componentType: String {
-        "BoxMetadataRow"
-    }
+  public var componentType: String {
+    "BoxMetadataRow"
+  }
 
-    public var properties: [String: Any] {
-        [
-            "label": label,
-            "value": value,
-            "layout": layout == .horizontal ? "horizontal" : "vertical",
-            "copyable": copyable,
-        ]
-    }
+  public var properties: [String: Any] {
+    [
+      "label": label,
+      "value": value,
+      "layout": layout == .horizontal ? "horizontal" : "vertical",
+      "copyable": copyable,
+    ]
+  }
 
-    public var semantics: String {
-        let layoutDesc = layout == .horizontal ? "side-by-side" : "stacked vertically"
-        let copyableDesc = copyable ? " with copyable value" : ""
-        return "A metadata row displaying '\(label)': '\(value)' \(layoutDesc)\(copyableDesc)."
-    }
+  public var semantics: String {
+    let layoutDesc = layout == .horizontal ? "side-by-side" : "stacked vertically"
+    let copyableDesc = copyable ? " with copyable value" : ""
+    return "A metadata row displaying '\(label)': '\(value)' \(layoutDesc)\(copyableDesc)."
+  }
 }

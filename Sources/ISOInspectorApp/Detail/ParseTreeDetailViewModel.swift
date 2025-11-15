@@ -1,10 +1,10 @@
 #if canImport(Combine)
-import Combine
-import Foundation
-import ISOInspectorKit
+  import Combine
+  import Foundation
+  import ISOInspectorKit
 
-@MainActor
-final class ParseTreeDetailViewModel: ObservableObject {
+  @MainActor
+  final class ParseTreeDetailViewModel: ObservableObject {
     @Published private(set) var detail: ParseTreeNodeDetail?
     @Published private(set) var hexError: String?
     @Published private(set) var annotations: [PayloadAnnotation] = []
@@ -22,270 +22,279 @@ final class ParseTreeDetailViewModel: ObservableObject {
     private var annotationProvider: PayloadAnnotationProvider?
     private let windowSize: Int
 
-    init(hexSliceProvider: HexSliceProvider?, annotationProvider: PayloadAnnotationProvider?, windowSize: Int = 256) {
-        self.hexSliceProvider = hexSliceProvider
-        self.annotationProvider = annotationProvider
-        self.windowSize = windowSize
+    init(
+      hexSliceProvider: HexSliceProvider?, annotationProvider: PayloadAnnotationProvider?,
+      windowSize: Int = 256
+    ) {
+      self.hexSliceProvider = hexSliceProvider
+      self.annotationProvider = annotationProvider
+      self.windowSize = windowSize
     }
 
-    func update(hexSliceProvider: HexSliceProvider?, annotationProvider: PayloadAnnotationProvider?) {
-        self.hexSliceProvider = hexSliceProvider
-        self.annotationProvider = annotationProvider
-        rebuildDetail()
+    func update(hexSliceProvider: HexSliceProvider?, annotationProvider: PayloadAnnotationProvider?)
+    {
+      self.hexSliceProvider = hexSliceProvider
+      self.annotationProvider = annotationProvider
+      rebuildDetail()
     }
 
-    func bind<P: Publisher>(to publisher: P) where P.Output == ParseTreeSnapshot, P.Failure == Never {
-        cancellables.forEach { $0.cancel() }
-        cancellables.removeAll()
+    func bind<P: Publisher>(to publisher: P)
+    where P.Output == ParseTreeSnapshot, P.Failure == Never {
+      cancellables.forEach { $0.cancel() }
+      cancellables.removeAll()
 
-        publisher
-            .sink { [weak self] snapshot in
-                guard let self else { return }
-                Task { @MainActor [weak self] in
-                    self?.apply(snapshot: snapshot)
-                }
-            }
-            .store(in: &cancellables)
+      publisher
+        .sink { [weak self] snapshot in
+          guard let self else { return }
+          Task { @MainActor [weak self] in
+            self?.apply(snapshot: snapshot)
+          }
+        }
+        .store(in: &cancellables)
     }
 
     func select(nodeID: ParseTreeNode.ID?) {
-        selectedID = nodeID
-        rebuildDetail()
+      selectedID = nodeID
+      rebuildDetail()
     }
 
     func select(annotationID: PayloadAnnotation.ID?) {
-        guard selectedAnnotationID != annotationID else { return }
-        selectedAnnotationID = annotationID
-        updateHighlightedRange()
+      guard selectedAnnotationID != annotationID else { return }
+      selectedAnnotationID = annotationID
+      updateHighlightedRange()
     }
 
     func selectByte(at offset: Int64) {
-        guard let annotation = annotations.first(where: { $0.byteRange.contains(offset) }) else {
-            return
-        }
-        select(annotationID: annotation.id)
+      guard let annotation = annotations.first(where: { $0.byteRange.contains(offset) }) else {
+        return
+      }
+      select(annotationID: annotation.id)
     }
 
     func apply(snapshot: ParseTreeSnapshot) {
-        self.snapshot = snapshot
-        rebuildDetail()
+      self.snapshot = snapshot
+      rebuildDetail()
     }
 
     private func rebuildDetail() {
-        hexTask?.cancel()
-        hexTask = nil
-        annotationTask?.cancel()
-        annotationTask = nil
+      hexTask?.cancel()
+      hexTask = nil
+      annotationTask?.cancel()
+      annotationTask = nil
 
-        guard let selectedID, let node = findNode(with: selectedID, in: snapshot.nodes) else {
-            detail = nil
-            hexError = nil
-            annotations = []
-            annotationError = nil
-            selectedAnnotationID = nil
-            highlightedRange = nil
-            return
-        }
-
-        let metadata = node.metadata ?? BoxCatalog.shared.descriptor(for: node.header)
-        let detail = ParseTreeNodeDetail(
-            header: node.header,
-            metadata: metadata,
-            payload: node.payload,
-            validationIssues: node.validationIssues,
-            issues: node.issues,
-            status: node.status,
-            snapshotTimestamp: snapshot.lastUpdatedAt,
-            hexSlice: nil
-        )
-        self.detail = detail
+      guard let selectedID, let node = findNode(with: selectedID, in: snapshot.nodes) else {
+        detail = nil
         hexError = nil
-
-        let preservedAnnotationID = selectedAnnotationID
+        annotations = []
         annotationError = nil
+        selectedAnnotationID = nil
+        highlightedRange = nil
+        return
+      }
 
-        if let payload = node.payload, let derived = annotations(from: payload), !derived.isEmpty {
-            annotations = derived
-            if let preservedAnnotationID,
-               let preserved = derived.first(where: { $0.id == preservedAnnotationID }) {
-                selectedAnnotationID = preserved.id
-            } else {
-                selectedAnnotationID = derived.first?.id
-            }
-            updateHighlightedRange()
+      let metadata = node.metadata ?? BoxCatalog.shared.descriptor(for: node.header)
+      let detail = ParseTreeNodeDetail(
+        header: node.header,
+        metadata: metadata,
+        payload: node.payload,
+        validationIssues: node.validationIssues,
+        issues: node.issues,
+        status: node.status,
+        snapshotTimestamp: snapshot.lastUpdatedAt,
+        hexSlice: nil
+      )
+      self.detail = detail
+      hexError = nil
+
+      let preservedAnnotationID = selectedAnnotationID
+      annotationError = nil
+
+      if let payload = node.payload, let derived = annotations(from: payload), !derived.isEmpty {
+        annotations = derived
+        if let preservedAnnotationID,
+          let preserved = derived.first(where: { $0.id == preservedAnnotationID })
+        {
+          selectedAnnotationID = preserved.id
         } else {
-            annotations = []
-            selectedAnnotationID = nil
-            highlightedRange = nil
-            loadAnnotations(for: node, preserving: preservedAnnotationID)
+          selectedAnnotationID = derived.first?.id
         }
-        loadHexSlice(for: node, detail: detail)
+        updateHighlightedRange()
+      } else {
+        annotations = []
+        selectedAnnotationID = nil
+        highlightedRange = nil
+        loadAnnotations(for: node, preserving: preservedAnnotationID)
+      }
+      loadHexSlice(for: node, detail: detail)
     }
 
     func focusIssue(on range: Range<Int64>) {
-        highlightedRange = range
-        selectedAnnotationID = nil
+      highlightedRange = range
+      selectedAnnotationID = nil
 
-        guard let selectedID,
-              let node = findNode(with: selectedID, in: snapshot.nodes),
-              let detail
-        else {
-            return
-        }
+      guard let selectedID,
+        let node = findNode(with: selectedID, in: snapshot.nodes),
+        let detail
+      else {
+        return
+      }
 
-        loadHexSlice(for: node, detail: detail, focusRange: range)
+      loadHexSlice(for: node, detail: detail, focusRange: range)
     }
 
     private func loadHexSlice(
-        for node: ParseTreeNode,
-        detail: ParseTreeNodeDetail,
-        focusRange: Range<Int64>? = nil
+      for node: ParseTreeNode,
+      detail: ParseTreeNodeDetail,
+      focusRange: Range<Int64>? = nil
     ) {
-        guard let provider = hexSliceProvider else {
-            return
-        }
+      guard let provider = hexSliceProvider else {
+        return
+      }
 
-        let window = makeWindow(for: node.header, focusRange: focusRange)
-        guard window.length > 0 else {
-            return
-        }
+      let window = makeWindow(for: node.header, focusRange: focusRange)
+      guard window.length > 0 else {
+        return
+      }
 
-        let request = HexSliceRequest(header: node.header, window: window)
-        let currentSelection = selectedID
+      let request = HexSliceRequest(header: node.header, window: window)
+      let currentSelection = selectedID
 
-        hexTask?.cancel()
-        hexTask = Task { [weak self] in
-            do {
-                let slice = try await provider.loadSlice(for: request)
-                await MainActor.run {
-                    guard let self, self.selectedID == currentSelection else { return }
-                    var updated = detail
-                    updated.hexSlice = slice
-                    self.detail = updated
-                }
-            } catch {
-                await MainActor.run {
-                    guard let self, self.selectedID == currentSelection else { return }
-                    self.hexError = error.localizedDescription
-                }
-            }
+      hexTask?.cancel()
+      hexTask = Task { [weak self] in
+        do {
+          let slice = try await provider.loadSlice(for: request)
+          await MainActor.run {
+            guard let self, self.selectedID == currentSelection else { return }
+            var updated = detail
+            updated.hexSlice = slice
+            self.detail = updated
+          }
+        } catch {
+          await MainActor.run {
+            guard let self, self.selectedID == currentSelection else { return }
+            self.hexError = error.localizedDescription
+          }
         }
+      }
     }
 
-    private func loadAnnotations(for node: ParseTreeNode, preserving preservedID: PayloadAnnotation.ID?) {
-        guard let provider = annotationProvider else {
-            return
-        }
+    private func loadAnnotations(
+      for node: ParseTreeNode, preserving preservedID: PayloadAnnotation.ID?
+    ) {
+      guard let provider = annotationProvider else {
+        return
+      }
 
-        let currentSelection = selectedID
-        annotationTask = Task { [weak self] in
-            do {
-                let annotations = try await provider.annotations(for: node.header)
-                await MainActor.run {
-                    guard let self, self.selectedID == currentSelection else { return }
-                    self.annotationError = nil
-                    let sorted = annotations.sorted { $0.byteRange.lowerBound < $1.byteRange.lowerBound }
-                    self.annotations = sorted
-                    if let preservedID, sorted.contains(where: { $0.id == preservedID }) {
-                        self.selectedAnnotationID = preservedID
-                    } else {
-                        self.selectedAnnotationID = sorted.first?.id
-                    }
-                    self.updateHighlightedRange()
-                }
-            } catch {
-                await MainActor.run {
-                    guard let self, self.selectedID == currentSelection else { return }
-                    self.annotationError = error.localizedDescription
-                    self.annotations = []
-                    self.selectedAnnotationID = nil
-                    self.highlightedRange = nil
-                }
+      let currentSelection = selectedID
+      annotationTask = Task { [weak self] in
+        do {
+          let annotations = try await provider.annotations(for: node.header)
+          await MainActor.run {
+            guard let self, self.selectedID == currentSelection else { return }
+            self.annotationError = nil
+            let sorted = annotations.sorted { $0.byteRange.lowerBound < $1.byteRange.lowerBound }
+            self.annotations = sorted
+            if let preservedID, sorted.contains(where: { $0.id == preservedID }) {
+              self.selectedAnnotationID = preservedID
+            } else {
+              self.selectedAnnotationID = sorted.first?.id
             }
+            self.updateHighlightedRange()
+          }
+        } catch {
+          await MainActor.run {
+            guard let self, self.selectedID == currentSelection else { return }
+            self.annotationError = error.localizedDescription
+            self.annotations = []
+            self.selectedAnnotationID = nil
+            self.highlightedRange = nil
+          }
         }
+      }
     }
 
     private func updateHighlightedRange() {
-        if let selectedAnnotationID,
-           let annotation = annotations.first(where: { $0.id == selectedAnnotationID }) {
-            highlightedRange = annotation.byteRange
-        } else {
-            highlightedRange = nil
-        }
+      if let selectedAnnotationID,
+        let annotation = annotations.first(where: { $0.id == selectedAnnotationID })
+      {
+        highlightedRange = annotation.byteRange
+      } else {
+        highlightedRange = nil
+      }
     }
 
     private func annotations(from payload: ParsedBoxPayload) -> [PayloadAnnotation]? {
-        let mapped = payload.fields.compactMap { field -> PayloadAnnotation? in
-            guard let range = field.byteRange else { return nil }
-            return PayloadAnnotation(
-                label: field.name,
-                value: field.value,
-                byteRange: range,
-                summary: field.description
-            )
-        }
-        return mapped.isEmpty ? nil : mapped
+      let mapped = payload.fields.compactMap { field -> PayloadAnnotation? in
+        guard let range = field.byteRange else { return nil }
+        return PayloadAnnotation(
+          label: field.name,
+          value: field.value,
+          byteRange: range,
+          summary: field.description
+        )
+      }
+      return mapped.isEmpty ? nil : mapped
     }
 
     private func makeWindow(
-        for header: BoxHeader,
-        focusRange: Range<Int64>? = nil
+      for header: BoxHeader,
+      focusRange: Range<Int64>? = nil
     ) -> HexSliceRequest.Window {
-        let payloadStart = header.payloadRange.lowerBound
-        let payloadEnd = header.payloadRange.upperBound
-        let payloadLength64 = max(0, payloadEnd - payloadStart)
-        let payloadLength = clampToInt(payloadLength64)
-        guard payloadLength > 0 else {
-            return HexSliceRequest.Window(offset: payloadStart, length: 0)
-        }
+      let payloadStart = header.payloadRange.lowerBound
+      let payloadEnd = header.payloadRange.upperBound
+      let payloadLength64 = max(0, payloadEnd - payloadStart)
+      let payloadLength = clampToInt(payloadLength64)
+      guard payloadLength > 0 else {
+        return HexSliceRequest.Window(offset: payloadStart, length: 0)
+      }
 
-        let length = min(windowSize, payloadLength)
+      let length = min(windowSize, payloadLength)
 
-        guard let focusRange else {
-            return HexSliceRequest.Window(offset: payloadStart, length: length)
-        }
+      guard let focusRange else {
+        return HexSliceRequest.Window(offset: payloadStart, length: length)
+      }
 
-        let clampedStart = max(focusRange.lowerBound, payloadStart)
-        let clampedEnd = min(focusRange.upperBound, payloadEnd)
-        let focusLength = max(0, clampedEnd - clampedStart)
-        var offset = clampedStart
+      let clampedStart = max(focusRange.lowerBound, payloadStart)
+      let clampedEnd = min(focusRange.upperBound, payloadEnd)
+      let focusLength = max(0, clampedEnd - clampedStart)
+      var offset = clampedStart
 
-        if focusLength < Int64(length) {
-            let slack = Int64(length) - focusLength
-            offset -= slack / 2
-        }
+      if focusLength < Int64(length) {
+        let slack = Int64(length) - focusLength
+        offset -= slack / 2
+      }
 
-        let minOffset = payloadStart
-        let maxOffset = max(payloadStart, payloadEnd - Int64(length))
-        if maxOffset <= minOffset {
-            offset = minOffset
-        } else {
-            offset = min(max(offset, minOffset), maxOffset)
-        }
+      let minOffset = payloadStart
+      let maxOffset = max(payloadStart, payloadEnd - Int64(length))
+      if maxOffset <= minOffset {
+        offset = minOffset
+      } else {
+        offset = min(max(offset, minOffset), maxOffset)
+      }
 
-        return HexSliceRequest.Window(offset: offset, length: length)
+      return HexSliceRequest.Window(offset: offset, length: length)
     }
 
     private func findNode(with id: ParseTreeNode.ID, in nodes: [ParseTreeNode]) -> ParseTreeNode? {
-        var stack: [ParseTreeNode] = nodes.reversed()
-        while let node = stack.popLast() {
-            if node.id == id {
-                return node
-            }
-            stack.append(contentsOf: node.children)
+      var stack: [ParseTreeNode] = nodes.reversed()
+      while let node = stack.popLast() {
+        if node.id == id {
+          return node
         }
-        return nil
+        stack.append(contentsOf: node.children)
+      }
+      return nil
     }
 
     private func clampToInt(_ value: Int64) -> Int {
-        if value <= 0 { return 0 }
-        if value >= Int64(Int.max) { return Int.max }
-        return Int(value)
+      if value <= 0 { return 0 }
+      if value >= Int64(Int.max) { return Int.max }
+      return Int(value)
     }
 
     deinit {
-        hexTask?.cancel()
-        annotationTask?.cancel()
+      hexTask?.cancel()
+      annotationTask?.cancel()
     }
-}
+  }
 #endif

@@ -1,74 +1,77 @@
 import Foundation
 
 public struct ParseTreePlaceholderIDGenerator: Sendable {
-    private var nextIdentifier: Int64
+  private var nextIdentifier: Int64
 
-    public init(startingAt initial: Int64 = -1) {
-        self.nextIdentifier = initial
-    }
+  public init(startingAt initial: Int64 = -1) {
+    self.nextIdentifier = initial
+  }
 
-    public mutating func next() -> Int64 {
-        let identifier = nextIdentifier
-        nextIdentifier -= 1
-        return identifier
-    }
+  public mutating func next() -> Int64 {
+    let identifier = nextIdentifier
+    nextIdentifier -= 1
+    return identifier
+  }
 }
 
 public enum ParseTreePlaceholderPlanner {
-    public struct Requirement: Equatable, Sendable {
-        public let childType: FourCharCode
+  public struct Requirement: Equatable, Sendable {
+    public let childType: FourCharCode
 
-        public init(childType: FourCharCode) {
-            self.childType = childType
-        }
+    public init(childType: FourCharCode) {
+      self.childType = childType
     }
+  }
 
-    private static let requirements: [FourCharCode: [Requirement]] = {
-        var mapping: [FourCharCode: [Requirement]] = [:]
-        if let minf = try? FourCharCode("minf"),
-           let stbl = try? FourCharCode("stbl") {
-            mapping[minf] = [Requirement(childType: stbl)]
-        }
-        if let traf = try? FourCharCode("traf"),
-           let tfhd = try? FourCharCode("tfhd") {
-            mapping[traf] = [Requirement(childType: tfhd)]
-        }
-        return mapping
-    }()
-
-    public static func missingRequirements(
-        for parent: BoxHeader,
-        existingChildTypes: Set<FourCharCode>
-    ) -> [Requirement] {
-        guard let expected = requirements[parent.type] else { return [] }
-        return expected.filter { !existingChildTypes.contains($0.childType) }
+  private static let requirements: [FourCharCode: [Requirement]] = {
+    var mapping: [FourCharCode: [Requirement]] = [:]
+    if let minf = try? FourCharCode("minf"),
+      let stbl = try? FourCharCode("stbl")
+    {
+      mapping[minf] = [Requirement(childType: stbl)]
     }
-
-    public static func makeIssue(
-        for requirement: Requirement,
-        parent: BoxHeader,
-        placeholder: BoxHeader
-    ) -> ParseIssue {
-        let message = "\(parent.identifierString) missing required child \(requirement.childType.rawValue)."
-        let range = anchorRange(for: parent)
-        let affected = [parent.startOffset, placeholder.startOffset]
-        return ParseIssue(
-            severity: .error,
-            code: "structure.missing_child",
-            message: message,
-            byteRange: range,
-            affectedNodeIDs: affected
-        )
+    if let traf = try? FourCharCode("traf"),
+      let tfhd = try? FourCharCode("tfhd")
+    {
+      mapping[traf] = [Requirement(childType: tfhd)]
     }
+    return mapping
+  }()
 
-    public static func metadata(for header: BoxHeader) -> BoxDescriptor? {
-        BoxCatalog.shared.descriptor(for: header)
-    }
+  public static func missingRequirements(
+    for parent: BoxHeader,
+    existingChildTypes: Set<FourCharCode>
+  ) -> [Requirement] {
+    guard let expected = requirements[parent.type] else { return [] }
+    return expected.filter { !existingChildTypes.contains($0.childType) }
+  }
 
-    public static func anchorRange(for parent: BoxHeader) -> Range<Int64>? {
-        if parent.payloadRange.isEmpty {
-            return parent.range.isEmpty ? nil : parent.range
-        }
-        return parent.payloadRange
+  public static func makeIssue(
+    for requirement: Requirement,
+    parent: BoxHeader,
+    placeholder: BoxHeader
+  ) -> ParseIssue {
+    let message =
+      "\(parent.identifierString) missing required child \(requirement.childType.rawValue)."
+    let range = anchorRange(for: parent)
+    let affected = [parent.startOffset, placeholder.startOffset]
+    return ParseIssue(
+      severity: .error,
+      code: "structure.missing_child",
+      message: message,
+      byteRange: range,
+      affectedNodeIDs: affected
+    )
+  }
+
+  public static func metadata(for header: BoxHeader) -> BoxDescriptor? {
+    BoxCatalog.shared.descriptor(for: header)
+  }
+
+  public static func anchorRange(for parent: BoxHeader) -> Range<Int64>? {
+    if parent.payloadRange.isEmpty {
+      return parent.range.isEmpty ? nil : parent.range
     }
+    return parent.payloadRange
+  }
 }

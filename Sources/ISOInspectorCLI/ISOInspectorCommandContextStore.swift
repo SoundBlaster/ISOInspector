@@ -1,15 +1,15 @@
 @MainActor enum ISOInspectorCommandContextStore {
-    private static var cached = ISOInspectorCommandContext()
+  private static var cached = ISOInspectorCommandContext()
 
-    static var current: ISOInspectorCommandContext {
-        cached
-    }
+  static var current: ISOInspectorCommandContext {
+    cached
+  }
 
-    static func bootstrap(with context: ISOInspectorCommandContext) {
-        cached = context
-    }
+  static func bootstrap(with context: ISOInspectorCommandContext) {
+    cached = context
+  }
 
-    static func reset() {
-        cached = ISOInspectorCommandContext()
-    }
+  static func reset() {
+    cached = ISOInspectorCommandContext()
+  }
 }

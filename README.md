@@ -68,6 +68,43 @@ Validate YAML files ad-hoc with:
 scripts/check_yaml.py path/to/workflow.yml another/config.yaml
 ```
 
+## Code Formatting
+
+The repository enforces consistent Swift code style using **swift-format** (Apple's official Swift formatter). All Swift files are automatically formatted before commits via pre-commit hooks, and formatting compliance is validated in CI.
+
+### Local Formatting
+
+Format all Swift files before committing:
+
+```sh
+swift format --in-place --recursive Sources Tests
+```
+
+Check formatting without modifying files (mirrors CI check):
+
+```sh
+swift format lint --recursive Sources Tests
+```
+
+### Pre-commit Hook
+
+The `.pre-commit-config.yaml` includes a `swift-format-all` hook that automatically formats staged Swift files before each commit. Install pre-commit hooks:
+
+```sh
+pip install pre-commit
+pre-commit install --hook-type pre-commit --hook-type pre-push
+```
+
+Run all hooks manually:
+
+```sh
+pre-commit run --all-files
+```
+
+### CI Enforcement
+
+The GitHub Actions workflow includes a `swift-format-check` job that runs `swift format lint` on all Swift files. If unformatted code is detected, the workflow fails with instructions to run the formatter locally.
+
 ## Documentation
 
 Browse the online documentation at: https://soundblaster.github.io/ISOInspector/documentation/isoinspectorkit/

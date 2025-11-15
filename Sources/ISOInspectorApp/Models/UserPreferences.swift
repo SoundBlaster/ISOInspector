@@ -1,10 +1,10 @@
 #if canImport(Foundation)
-import Foundation
-import ISOInspectorKit
+  import Foundation
+  import ISOInspectorKit
 
-/// User preferences persisted across app launches.
-/// Stored in Application Support/ISOInspector/UserPreferences.json
-public struct UserPreferences: Codable, Equatable, Sendable {
+  /// User preferences persisted across app launches.
+  /// Stored in Application Support/ISOInspector/UserPreferences.json
+  public struct UserPreferences: Codable, Equatable, Sendable {
     /// Active validation preset ID (e.g., "strict", "lenient")
     public var validationPresetID: String
 
@@ -29,26 +29,26 @@ public struct UserPreferences: Codable, Equatable, Sendable {
     // @todo #222 Add panel frame persistence for macOS floating window position
 
     public init(
-        validationPresetID: String = "default",
-        validationRuleOverrides: [String: Bool] = [:],
-        telemetryVerbosity: Int = 0,
-        loggingVerbosity: Int = 2,
-        reduceMotionOverride: Bool? = nil,
-        experimentalFeatures: [String] = [],
-        lastActiveSectionID: String? = nil
+      validationPresetID: String = "default",
+      validationRuleOverrides: [String: Bool] = [:],
+      telemetryVerbosity: Int = 0,
+      loggingVerbosity: Int = 2,
+      reduceMotionOverride: Bool? = nil,
+      experimentalFeatures: [String] = [],
+      lastActiveSectionID: String? = nil
     ) {
-        self.validationPresetID = validationPresetID
-        self.validationRuleOverrides = validationRuleOverrides
-        self.telemetryVerbosity = telemetryVerbosity
-        self.loggingVerbosity = loggingVerbosity
-        self.reduceMotionOverride = reduceMotionOverride
-        self.experimentalFeatures = experimentalFeatures
-        self.lastActiveSectionID = lastActiveSectionID
+      self.validationPresetID = validationPresetID
+      self.validationRuleOverrides = validationRuleOverrides
+      self.telemetryVerbosity = telemetryVerbosity
+      self.loggingVerbosity = loggingVerbosity
+      self.reduceMotionOverride = reduceMotionOverride
+      self.experimentalFeatures = experimentalFeatures
+      self.lastActiveSectionID = lastActiveSectionID
     }
 
     /// Returns default user preferences.
     public static var `default`: UserPreferences {
-        UserPreferences()
+      UserPreferences()
     }
-}
+  }
 #endif
