@@ -7,39 +7,117 @@ import XCTest
 
 @MainActor
 final class SettingsPanelViewModelTests: XCTestCase {
-    func testInitializationSetsDefaultState() {
-        let viewModel = SettingsPanelViewModel()
+    var mockStore: MockUserPreferencesStore!
+    var sut: SettingsPanelViewModel!
 
-        XCTAssertEqual(viewModel.activeSection, .permanent)
-        XCTAssertFalse(viewModel.isLoading)
-        XCTAssertNil(viewModel.errorMessage)
+    override func setUp() {
+        super.setUp()
+        mockStore = MockUserPreferencesStore()
+        sut = SettingsPanelViewModel(preferencesStore: mockStore)
+    }
+
+    override func tearDown() {
+        sut = nil
+        mockStore = nil
+        super.tearDown()
+    }
+
+    func testInitializationSetsDefaultState() {
+        XCTAssertEqual(sut.activeSection, .permanent)
+        XCTAssertFalse(sut.isLoading)
+        XCTAssertNil(sut.errorMessage)
     }
 
     func testLoadPermanentSettingsUpdatesState() async {
-        let viewModel = SettingsPanelViewModel()
+        await sut.loadSettings()
 
-        await viewModel.loadSettings()
+        XCTAssertFalse(sut.isLoading)
+        XCTAssertNotNil(sut.permanentSettings)
+        XCTAssertEqual(sut.permanentSettings, .default)
+    }
 
-        XCTAssertFalse(viewModel.isLoading)
-        XCTAssertNotNil(viewModel.permanentSettings)
+    func testLoadPermanentSettings_LoadsFromStore() async {
+        let customPreferences = UserPreferences(
+            validationPresetID: "strict",
+            loggingVerbosity: 3
+        )
+        mockStore.storedPreferences = customPreferences
+
+        await sut.loadSettings()
+
+        XCTAssertEqual(sut.permanentSettings, customPreferences)
     }
 
     func testActiveSectionCanBeChanged() {
-        let viewModel = SettingsPanelViewModel()
+        sut.setActiveSection(.session)
 
-        viewModel.setActiveSection(.session)
-
-        XCTAssertEqual(viewModel.activeSection, .session)
+        XCTAssertEqual(sut.activeSection, .session)
     }
 
-    func testResetPermanentSettingsClearsChanges() async {
-        let viewModel = SettingsPanelViewModel()
-        await viewModel.loadSettings()
+    func testResetPermanentSettings_CallsStoreReset() async {
+        await sut.loadSettings()
 
-        await viewModel.resetPermanentSettings()
+        await sut.resetPermanentSettings()
 
-        XCTAssertFalse(viewModel.isLoading)
-        XCTAssertNil(viewModel.errorMessage)
+        XCTAssertTrue(mockStore.resetCalled)
+        XCTAssertFalse(sut.isLoading)
+        XCTAssertNil(sut.errorMessage)
+        XCTAssertEqual(sut.permanentSettings, .default)
+    }
+
+    func testUpdatePermanentSettings_SavesToStore() async {
+        let updatedPreferences = UserPreferences(
+            validationPresetID: "lenient",
+            telemetryVerbosity: 1
+        )
+
+        await sut.updatePermanentSettings(updatedPreferences)
+
+        XCTAssertEqual(mockStore.storedPreferences, updatedPreferences)
+        XCTAssertEqual(sut.permanentSettings, updatedPreferences)
+        XCTAssertFalse(sut.isLoading)
+        XCTAssertNil(sut.errorMessage)
+    }
+
+    func testUpdatePermanentSettings_OnError_RevertsState() async {
+        mockStore.shouldThrowOnSave = true
+        let originalPreferences = UserPreferences()
+        mockStore.storedPreferences = originalPreferences
+        await sut.loadSettings()
+
+        let failedUpdate = UserPreferences(validationPresetID: "strict")
+        await sut.updatePermanentSettings(failedUpdate)
+
+        XCTAssertNotNil(sut.errorMessage)
+        XCTAssertEqual(sut.permanentSettings, originalPreferences)
+    }
+}
+
+// MARK: - Mock Store
+
+final class MockUserPreferencesStore: UserPreferencesPersisting {
+    var storedPreferences: UserPreferences?
+    var resetCalled = false
+    var shouldThrowOnSave = false
+    var shouldThrowOnLoad = false
+
+    func loadPreferences() throws -> UserPreferences? {
+        if shouldThrowOnLoad {
+            throw NSError(domain: "TestError", code: 1, userInfo: nil)
+        }
+        return storedPreferences
+    }
+
+    func savePreferences(_ preferences: UserPreferences) throws {
+        if shouldThrowOnSave {
+            throw NSError(domain: "TestError", code: 2, userInfo: nil)
+        }
+        storedPreferences = preferences
+    }
+
+    func reset() throws {
+        resetCalled = true
+        storedPreferences = nil
     }
 }
 #endif
