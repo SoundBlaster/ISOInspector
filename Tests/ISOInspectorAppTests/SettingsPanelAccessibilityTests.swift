@@ -107,22 +107,4 @@ final class SettingsPanelAccessibilityTests: XCTestCase {
     // @todo #222 Add Dynamic Type scaling tests
     // @todo #222 Add Reduce Motion compliance tests
 }
-
-// MARK: - Mock Store
-
-final class MockUserPreferencesStore: UserPreferencesPersisting {
-    var storedPreferences: UserPreferences?
-
-    func loadPreferences() throws -> UserPreferences? {
-        storedPreferences
-    }
-
-    func savePreferences(_ preferences: UserPreferences) throws {
-        storedPreferences = preferences
-    }
-
-    func reset() throws {
-        storedPreferences = nil
-    }
-}
 #endif
