@@ -22,6 +22,9 @@ struct SettingsPanelScene: View {
     // MARK: - Platform-Specific Presentations
 
     #if os(macOS)
+        // @todo #222 Replace sheet with NSPanel window controller for floating window behavior
+        // @todo #222 Remember panel frame/position in UserPreferences
+        // @todo #222 NSPanel benefits: always-on-top, floating, better positioning control
         private var macOSPresentation: some View {
             SettingsPanelView(viewModel: viewModel)
                 .frame(minWidth: 600, minHeight: 400)
@@ -84,9 +87,13 @@ extension View {
             }
         #elseif os(iOS)
             // @todo #222 Add detent support for iPad (.medium, .large)
-            // @todo #222 Add fullScreenCover for iPhone
+            // @todo #222 Add fullScreenCover for iPhone based on horizontalSizeClass
+            // @todo #222 Platform detection: if UIDevice.current.userInterfaceIdiom == .pad
             self.sheet(isPresented: isPresented) {
                 SettingsPanelScene(isPresented: isPresented)
+                    // Detents for iPad (iOS 16+)
+                    // .presentationDetents([.medium, .large])
+                    // .presentationDragIndicator(.visible)
             }
         #else
             self
