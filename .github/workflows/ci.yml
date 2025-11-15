@@ -114,6 +114,49 @@ jobs:
           swift test --filter ISOInspectorKitTests
           swift test --filter ISOInspectorCLITests
 
+  strict-concurrency:
+    name: Strict Concurrency Compliance
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Swift
+        uses: SwiftyLab/setup-swift@v1
+        with:
+          swift-version: '6.0.1'
+
+      - name: Cache SwiftPM build artifacts
+        uses: actions/cache@v4
+        with:
+          path: .build
+          key: ${{ runner.os }}-spm-strict-concurrency-${{ hashFiles('Package.swift', 'Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
+      - name: Create log directory
+        run: mkdir -p Documentation/Quality
+
+      - name: Check strict concurrency (build)
+        run: |
+          swift build --target ISOInspectorKit 2>&1 | tee Documentation/Quality/strict-concurrency-build.log
+          swift build --target ISOInspectorCLI 2>&1 | tee -a Documentation/Quality/strict-concurrency-build.log
+          swift build --target ISOInspectorCLIRunner 2>&1 | tee -a Documentation/Quality/strict-concurrency-build.log
+
+      - name: Check strict concurrency (test)
+        run: |
+          swift test --filter ISOInspectorKitTests 2>&1 | tee Documentation/Quality/strict-concurrency-test.log
+          swift test --filter ISOInspectorCLITests 2>&1 | tee -a Documentation/Quality/strict-concurrency-test.log
+
+      - name: Upload strict concurrency logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: strict-concurrency-logs
+          path: Documentation/Quality/strict-concurrency-*.log
+          if-no-files-found: error
+          retention-days: 14
+
   docc-archives:
     name: Generate DocC Archives
     runs-on: ubuntu-22.04
