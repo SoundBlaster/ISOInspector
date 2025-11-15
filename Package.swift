@@ -15,14 +15,16 @@ var products: [Product] = [
 
 // Add iOS/macOS-only products
 #if os(macOS) || os(iOS)
-products.append(.library(
-    name: "FoundationUI",
-    targets: ["FoundationUI"]
-))
-products.append(.executable(
-    name: "ISOInspectorApp",
-    targets: ["ISOInspectorApp"]
-))
+    products.append(
+        .library(
+            name: "FoundationUI",
+            targets: ["FoundationUI"]
+        ))
+    products.append(
+        .executable(
+            name: "ISOInspectorApp",
+            targets: ["ISOInspectorApp"]
+        ))
 #endif
 
 // Platform-independent targets
@@ -31,6 +33,9 @@ var targets: [Target] = [
         name: "ISOInspectorKit",
         resources: [
             .process("Resources")
+        ],
+        swiftSettings: [
+            .enableUpcomingFeature("StrictConcurrency")
         ]
     ),
     .target(
@@ -41,17 +46,26 @@ var targets: [Target] = [
                 name: "ArgumentParser",
                 package: "swift-argument-parser"
             ),
+        ],
+        swiftSettings: [
+            .enableUpcomingFeature("StrictConcurrency")
         ]
     ),
     .executableTarget(
         name: "ISOInspectorCLIRunner",
-        dependencies: ["ISOInspectorCLI"]
+        dependencies: ["ISOInspectorCLI"],
+        swiftSettings: [
+            .enableUpcomingFeature("StrictConcurrency")
+        ]
     ),
     .testTarget(
         name: "ISOInspectorKitTests",
         dependencies: ["ISOInspectorKit"],
         resources: [
             .process("Fixtures")
+        ],
+        swiftSettings: [
+            .enableUpcomingFeature("StrictConcurrency")
         ]
     ),
     .testTarget(
@@ -62,66 +76,82 @@ var targets: [Target] = [
                 name: "ArgumentParser",
                 package: "swift-argument-parser"
             ),
+        ],
+        swiftSettings: [
+            .enableUpcomingFeature("StrictConcurrency")
         ]
     ),
 ]
 
 // Add iOS/macOS-only targets
 #if os(macOS) || os(iOS)
-targets.append(.executableTarget(
-    name: "ISOInspectorApp",
-    dependencies: [
-        "ISOInspectorKit",
-        .product(
-            name: "NestedA11yIDs",
-            package: "NestedA11yIDs",
-            condition: .when(platforms: [.iOS, .macOS])
-        ),
-        .target(name: "FoundationUI", condition: .when(platforms: [.iOS, .macOS])),
-    ],
-    resources: [
-        .process("Resources")
-    ]
-))
+    targets.append(
+        .executableTarget(
+            name: "ISOInspectorApp",
+            dependencies: [
+                "ISOInspectorKit",
+                .product(
+                    name: "NestedA11yIDs",
+                    package: "NestedA11yIDs",
+                    condition: .when(platforms: [.iOS, .macOS])
+                ),
+                .target(name: "FoundationUI", condition: .when(platforms: [.iOS, .macOS])),
+            ],
+            resources: [
+                .process("Resources")
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ]
+        ))
 
-targets.append(.target(
-    name: "FoundationUI",
-    dependencies: [
-        .product(name: "Yams", package: "Yams")
-    ],
-    path: "FoundationUI/Sources/FoundationUI",
-    exclude: [
-        "README.md",
-        ".swiftlint.yml",
-        "AgentSupport/ComponentSchema.yaml",
-        "AgentSupport/Examples/README.md",
-        "AgentSupport/Examples/badge_examples.yaml",
-        "AgentSupport/Examples/inspector_pattern_examples.yaml",
-        "AgentSupport/Examples/complete_ui_example.yaml",
-    ],
-    swiftSettings: [
-        .enableUpcomingFeature("StrictConcurrency"),
-        .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release)),
-    ]
-))
+    targets.append(
+        .target(
+            name: "FoundationUI",
+            dependencies: [
+                .product(name: "Yams", package: "Yams")
+            ],
+            path: "FoundationUI/Sources/FoundationUI",
+            exclude: [
+                "README.md",
+                ".swiftlint.yml",
+                "AgentSupport/ComponentSchema.yaml",
+                "AgentSupport/Examples/README.md",
+                "AgentSupport/Examples/badge_examples.yaml",
+                "AgentSupport/Examples/inspector_pattern_examples.yaml",
+                "AgentSupport/Examples/complete_ui_example.yaml",
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency"),
+                .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release)),
+            ]
+        ))
 
-targets.append(.testTarget(
-    name: "ISOInspectorAppTests",
-    dependencies: [
-        "ISOInspectorApp",
-        "ISOInspectorKit",
-        .target(name: "FoundationUI", condition: .when(platforms: [.iOS, .macOS])),
-    ]
-))
+    targets.append(
+        .testTarget(
+            name: "ISOInspectorAppTests",
+            dependencies: [
+                "ISOInspectorApp",
+                "ISOInspectorKit",
+                .target(name: "FoundationUI", condition: .when(platforms: [.iOS, .macOS])),
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ]
+        ))
 
-targets.append(.testTarget(
-    name: "ISOInspectorPerformanceTests",
-    dependencies: [
-        "ISOInspectorCLI",
-        "ISOInspectorApp",
-        "ISOInspectorKit",
-    ]
-))
+    targets.append(
+        .testTarget(
+            name: "ISOInspectorPerformanceTests",
+            dependencies: [
+                "ISOInspectorCLI",
+                "ISOInspectorApp",
+                "ISOInspectorKit",
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("StrictConcurrency")
+            ]
+        ))
 #endif
 
 let package = Package(

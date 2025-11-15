@@ -1,7 +1,7 @@
 #!/bin/bash
-# Pre-push hook for FoundationUI
-# This hook runs before pushing to ensure code quality
-# Install: cp .githooks/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+# Pre-push hook for ISOInspector
+# This hook runs before pushing to ensure code quality and strict concurrency compliance
+# Install: git config core.hooksPath .githooks
 
 set -eo pipefail
 
@@ -27,40 +27,49 @@ echo ""
 # 1. Check for SwiftLint violations (if installed)
 echo "1️⃣  Checking code quality with SwiftLint..."
 if command -v swiftlint &> /dev/null; then
-    if cd FoundationUI && swiftlint --config .swiftlint.yml --quiet; then
+    if swiftlint --quiet; then
         echo -e "${GREEN}✅ SwiftLint check passed${NC}"
     else
         echo -e "${RED}❌ SwiftLint violations found${NC}"
-        echo "   Run: cd FoundationUI && swiftlint --config .swiftlint.yml --fix"
+        echo "   Run: swiftlint --fix"
         FAILED=$((FAILED + 1))
     fi
-    cd - > /dev/null
 else
     echo -e "${YELLOW}⚠️  SwiftLint not installed (optional)${NC}"
     echo "   Install: brew install swiftlint"
 fi
 echo ""
 
-# 2. Run unit tests
-echo "2️⃣  Running unit tests..."
-if cd FoundationUI && swift test --quiet; then
-    echo -e "${GREEN}✅ All tests passed${NC}"
+# 2. Verify strict concurrency compliance (build)
+echo "2️⃣  Verifying strict concurrency compliance (build)..."
+LOG_DIR="Documentation/Quality"
+mkdir -p "$LOG_DIR"
+BUILD_LOG="$LOG_DIR/strict-concurrency-build-$(date +%Y%m%d-%H%M%S).log"
+
+if swift build --target ISOInspectorKit 2>&1 | tee "$BUILD_LOG"; then
+    echo -e "${GREEN}✅ Build with strict concurrency passed${NC}"
+    echo "   Log: $BUILD_LOG"
 else
-    echo -e "${RED}❌ Tests failed${NC}"
+    echo -e "${RED}❌ Build with strict concurrency failed${NC}"
+    echo "   Log: $BUILD_LOG"
+    echo "   Review the log for concurrency violations"
     FAILED=$((FAILED + 1))
 fi
-cd - > /dev/null
 echo ""
 
-# 3. Check build succeeds
-echo "3️⃣  Verifying build..."
-if cd FoundationUI && swift build --quiet; then
-    echo -e "${GREEN}✅ Build successful${NC}"
+# 3. Verify strict concurrency compliance (tests)
+echo "3️⃣  Verifying strict concurrency compliance (tests)..."
+TEST_LOG="$LOG_DIR/strict-concurrency-test-$(date +%Y%m%d-%H%M%S).log"
+
+if swift test --filter ISOInspectorKitTests 2>&1 | tee "$TEST_LOG"; then
+    echo -e "${GREEN}✅ Tests with strict concurrency passed${NC}"
+    echo "   Log: $TEST_LOG"
 else
-    echo -e "${RED}❌ Build failed${NC}"
+    echo -e "${RED}❌ Tests with strict concurrency failed${NC}"
+    echo "   Log: $TEST_LOG"
+    echo "   Review the log for concurrency violations"
     FAILED=$((FAILED + 1))
 fi
-cd - > /dev/null
 echo ""
 
 # 4. Check for large files in commits being pushed
