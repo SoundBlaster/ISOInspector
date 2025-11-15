@@ -1460,3 +1460,72 @@
   - **SDK Documentation (T6.3):** Create DocC article for tolerant parsing guide
   - **User Settings Panel (C21, C22):** Implement floating settings panel and persistence wiring
   - Continue tracking recoverable blockers (asset licensing, macOS hardware, manual testing) in `DOCS/INPROGRESS/blocked.md`.
+
+## 222_C21_Floating_Settings_Panel
+- **Status:** 🔄 In Progress (Phase 1 Complete)
+- **Archived location:** `DOCS/TASK_ARCHIVE/222_C21_Floating_Settings_Panel/`
+- **Date archived:** 2025-11-15
+- **Archived files:** `222_C21_Floating_Settings_Panel.md`, `Summary_of_Work.md`, `next_tasks.md`, `blocked.md`
+- **Task reference:** Task C21 from `DOCS/AI/ISOInspector_Execution_Guide/14_User_Settings_Panel_PRD.md`
+- **Highlights:**
+  - ✅ **Phase 1 Architecture Complete:**
+    - `SettingsPanelViewModel` with state management (MainActor-isolated, published state)
+    - `SettingsPanelState` with section navigation and search filter
+    - `SettingsPanelSection` enumeration (Permanent, Session, Advanced)
+  - ✅ **UI Shell Implemented:**
+    - `SettingsPanelView` using NavigationSplitView with sidebar and detail panes
+    - FoundationUI `Card` components for visual hierarchy
+    - Design system spacing tokens (`DS.Spacing`) for consistency
+    - Dark mode and light mode preview support
+  - ✅ **Accessibility Infrastructure:**
+    - Hierarchical accessibility identifiers for all interactive elements
+    - VoiceOver-friendly labels and SF Symbol icons
+    - Test coverage for accessibility compliance
+  - ✅ **Test Coverage:**
+    - Unit tests for `SettingsPanelViewModel` (4 tests: init, section navigation, search filter, Combine publication)
+    - Integration tests for `SettingsPanelView` (4 tests: rendering, sidebar presence, content area, view-ViewModel sync)
+    - Accessibility tests for identifier presence, VoiceOver labels, icon verification, hierarchical naming (6 tests)
+  - ✅ **Code Quality:**
+    - Follows TDD workflow (outside-in approach)
+    - Puzzle-Driven Development markers (`@todo #222`) for incomplete work
+    - Files maintained under 600 line limit
+    - One Entity Per File principle observed
+    - Zero SwiftLint violations (pending CI confirmation)
+- **Current Phase 1 Scope:**
+  - ✅ SettingsPanelViewModel with state management
+  - ✅ SettingsPanelView with FoundationUI components
+  - ✅ Accessibility identifiers and tests
+  - ✅ Unit and integration tests
+  - ✅ SwiftUI previews for light/dark mode
+  - ⏳ Platform-specific presentation (NSPanel/sheet) — deferred to C22
+  - ⏳ Persistence wiring (UserPreferencesStore integration) — deferred to C22
+  - ⏳ Keyboard shortcut support (⌘,) — deferred to C22
+  - ⏳ Reset action implementations — deferred to C22
+  - ⏳ Snapshot tests for all platforms — deferred to C22
+- **Key outcomes:**
+  - ✅ UI shell ready for Phase 2 persistence integration
+  - ✅ All architectural patterns in place
+  - ✅ Comprehensive test foundation laid
+  - ✅ Accessibility validated from day one
+  - ✅ FoundationUI design system integrated
+- **Deferred Work (Phase 2 — Task C22 — Persistence + Reset Wiring):**
+  - **Puzzle #222.1:** Thread permanent changes through `UserPreferencesStore`
+  - **Puzzle #222.2:** Update `DocumentSessionController` with `SessionSettingsPayload` mutations
+  - **Puzzle #222.3:** Implement reset actions ("Reset Global", "Reset Session")
+  - **Puzzle #222.4:** Add keyboard shortcut support (⌘,)
+  - **Puzzle #222.5:** Platform-specific presentation (NSPanel on macOS, sheet on iPad/iOS)
+  - **Puzzle #222.6:** Snapshot tests for all platforms and color schemes
+  - **Puzzle #222.7:** Dynamic Type scaling and advanced accessibility tests
+- **Files created:** ~590 lines total
+  1. `Sources/ISOInspectorApp/State/SettingsPanelViewModel.swift` (~100 lines)
+  2. `Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift` (~190 lines)
+  3. `Sources/ISOInspectorApp/Accessibility/SettingsPanelAccessibilityID.swift` (~80 lines)
+  4. `Tests/ISOInspectorAppTests/SettingsPanelViewModelTests.swift` (~70 lines)
+  5. `Tests/ISOInspectorAppTests/SettingsPanelViewTests.swift` (~60 lines)
+  6. `Tests/ISOInspectorAppTests/SettingsPanelAccessibilityTests.swift` (~90 lines)
+- **Files modified:** `todo.md` (added 29 subtasks for C21)
+- **Next steps carried forward:**
+  - **Phase 2 (C22):** Persistence + Reset Wiring (blocked on C21 completion)
+  - **SDK Documentation (T6.3):** Create DocC article for tolerant parsing guide (unblocked, parallel work possible)
+  - **FoundationUI Phase 2:** Interactive Components (I2.1–I2.3) — scheduled after C22
+  - Continue tracking recoverable blockers in `DOCS/INPROGRESS/blocked.md` (licensing, macOS hardware, manual testing)
