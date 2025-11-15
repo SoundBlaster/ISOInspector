@@ -15,12 +15,14 @@ final class SettingsPanelViewModel: ObservableObject {
     @Published private(set) var activeSection: Section = .permanent
     @Published private(set) var isLoading: Bool = false
     @Published private(set) var errorMessage: String?
-    @Published private(set) var permanentSettings: PermanentSettings?
+    @Published private(set) var permanentSettings: UserPreferences?
     @Published private(set) var sessionSettings: SessionSettings?
 
+    private let preferencesStore: UserPreferencesPersisting
     private let logger = Logger(subsystem: "ISOInspectorApp", category: "SettingsPanel")
 
-    init() {
+    init(preferencesStore: UserPreferencesPersisting) {
+        self.preferencesStore = preferencesStore
         logger.debug("SettingsPanelViewModel initialized")
     }
 
@@ -28,12 +30,20 @@ final class SettingsPanelViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
-        // @todo #222 Load actual permanent settings from UserPreferencesStore
-        // @todo #222 Load actual session settings from DocumentSessionController
-        permanentSettings = PermanentSettings()
+        do {
+            // Load permanent settings from UserPreferencesStore
+            permanentSettings = try preferencesStore.loadPreferences() ?? .default
+            logger.debug("Permanent settings loaded successfully")
+
+            // @todo #222 Load actual session settings from DocumentSessionController
+            sessionSettings = SessionSettings()
+        } catch {
+            errorMessage = "Failed to load settings: \(error.localizedDescription)"
+            logger.error("Failed to load settings: \(error.localizedDescription)")
+            // @todo #222 Emit diagnostic event via E6 diagnostics logging
+        }
 
         isLoading = false
-        logger.debug("Settings loaded successfully")
     }
 
     func setActiveSection(_ section: Section) {
@@ -45,30 +55,48 @@ final class SettingsPanelViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
 
-        // @todo #222 Call UserPreferencesStore.reset() to clear permanent settings
-        // @todo #222 Reload permanent settings after reset
-        permanentSettings = PermanentSettings()
+        do {
+            // Reset permanent settings to defaults
+            try preferencesStore.reset()
+            permanentSettings = .default
+            logger.debug("Permanent settings reset completed")
+        } catch {
+            errorMessage = "Failed to reset settings: \(error.localizedDescription)"
+            logger.error("Failed to reset settings: \(error.localizedDescription)")
+            // @todo #222 Emit diagnostic event via E6 diagnostics logging
+        }
 
         isLoading = false
-        logger.debug("Permanent settings reset completed")
+    }
+
+    func updatePermanentSettings(_ updatedSettings: UserPreferences) async {
+        isLoading = true
+        errorMessage = nil
+
+        do {
+            // Optimistic write - update UI immediately
+            permanentSettings = updatedSettings
+
+            // Persist to disk
+            try preferencesStore.savePreferences(updatedSettings)
+            logger.debug("Permanent settings saved successfully")
+        } catch {
+            errorMessage = "Failed to save settings: \(error.localizedDescription)"
+            logger.error("Failed to save settings: \(error.localizedDescription)")
+            // @todo #222 Emit diagnostic event via E6 diagnostics logging
+
+            // Revert UI state on failure
+            permanentSettings = try? preferencesStore.loadPreferences() ?? .default
+        }
+
+        isLoading = false
     }
 
     // @todo #222 Add resetSessionSettings() method
-    // @todo #222 Add updatePermanentSetting(key:value:) method
     // @todo #222 Add updateSessionSetting(key:value:) method
 }
 
 // MARK: - Supporting Types
-
-struct PermanentSettings {
-    // @todo #222 Add validation configuration properties
-    // @todo #222 Add telemetry/logging verbosity properties
-    // @todo #222 Add accessibility preferences
-
-    init() {
-        // Minimal stub for now
-    }
-}
 
 struct SessionSettings {
     // @todo #222 Add workspace scope properties
