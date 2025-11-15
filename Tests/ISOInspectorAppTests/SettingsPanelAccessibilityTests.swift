@@ -6,13 +6,16 @@ import SwiftUI
 @MainActor
 final class SettingsPanelAccessibilityTests: XCTestCase {
     var viewModel: SettingsPanelViewModel!
+    var mockStore: MockUserPreferencesStore!
 
     override func setUp() async throws {
-        viewModel = SettingsPanelViewModel()
+        mockStore = MockUserPreferencesStore()
+        viewModel = SettingsPanelViewModel(preferencesStore: mockStore)
     }
 
     override func tearDown() async throws {
         viewModel = nil
+        mockStore = nil
     }
 
     // MARK: - Accessibility Identifier Tests
@@ -103,5 +106,23 @@ final class SettingsPanelAccessibilityTests: XCTestCase {
     // @todo #222 Add keyboard navigation tests (⌘, shortcut)
     // @todo #222 Add Dynamic Type scaling tests
     // @todo #222 Add Reduce Motion compliance tests
+}
+
+// MARK: - Mock Store
+
+final class MockUserPreferencesStore: UserPreferencesPersisting {
+    var storedPreferences: UserPreferences?
+
+    func loadPreferences() throws -> UserPreferences? {
+        storedPreferences
+    }
+
+    func savePreferences(_ preferences: UserPreferences) throws {
+        storedPreferences = preferences
+    }
+
+    func reset() throws {
+        storedPreferences = nil
+    }
 }
 #endif
