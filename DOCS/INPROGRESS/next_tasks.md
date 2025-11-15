@@ -68,6 +68,9 @@
 - 📅 **Candidate Tasks (If Resources Allow):**
   - **T6.3 — SDK Documentation** (unblocked, can run in parallel with C22)
   - **FoundationUI Phase 2 — Interactive Components (I2.1–I2.3)** (scheduled after C22 if prioritized)
+  - **A10 — Swift Duplication Workflow Gate** (new CI quality gate)
+    - Implements `.github/workflows/swift-duplication.yml` using `jscpd` to block copy/paste regressions.
+    - Scope + acceptance criteria captured in `DOCS/AI/github-workflows/02_swift_duplication_guard/prd.md`; puzzles tracked in that folder's `TODO.md`.
 
 ---
 
