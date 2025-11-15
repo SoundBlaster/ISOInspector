@@ -2,37 +2,17 @@
 
 ## Recently Completed
 
-### ✅ User Settings Panel: Phase 2 — Persistence + Reset Wiring (Completed 2025-11-15)
-
-**Task:** C22 — Persistence + Reset Wiring
-**Status:** ✅ **COMPLETED** (5/7 puzzles fully implemented, 2/7 deferred with @todo markers)
-**Duration:** 1 day | **Priority:** P1 | **Dependencies:** C21 ✅ complete
-
-**Description:** Completed the settings panel by threading persistence through `UserPreferencesStore` and `DocumentSessionController`, implementing reset actions with confirmation dialogs, and documenting keyboard shortcut + platform-specific presentation approaches.
-
-**See full summary in:** `DOCS/TASK_ARCHIVE/223_C22_User_Settings_Persistence_and_Reset/Summary_of_Work.md`
-
-**Archived location:** `DOCS/TASK_ARCHIVE/223_C22_User_Settings_Persistence_and_Reset/`
-
----
-
-## Active Tasks
-
-### 🔄 A9 — Automate Strict Concurrency Checks (In Progress 2025-11-15)
+### ✅ A9 — Automate Strict Concurrency Checks (Completed 2025-11-15)
 
 **Task:** A9 — Automate Strict Concurrency Checks
-**Status:** 🔄 **IN PROGRESS** (Phase A Infrastructure)
-**Priority:** P0 (High) | **Dependencies:** A2 ✅ complete
-**Duration:** 1 day | **PRD Reference:** [`DOCS/AI/PRD_SwiftStrictConcurrency_Store.md`](../AI/PRD_SwiftStrictConcurrency_Store.md)
+**Status:** ✅ **COMPLETED** (including post-A9 Swift 6 migration cleanup)
+**Duration:** 1 day | **Priority:** P0 | **Dependencies:** A2 ✅ complete
 
-**Description:** Establish automated strict concurrency checking via `--strict-concurrency=complete` flag across build and test phases, enforcing thread-safe concurrent design patterns through pre-push hooks and GitHub Actions CI.
+**Description:** Established automated strict concurrency checking via Swift's `.enableUpcomingFeature("StrictConcurrency")` across all build and test phases, enforcing thread-safe concurrent design patterns through both pre-push hooks and GitHub Actions CI. Followed up with Swift 6 migration cleanup to remove redundant flags and align CI environments.
 
-**See task plan in:** `DOCS/INPROGRESS/224_A9_Automate_Strict_Concurrency_Checks.md`
+**See full summary in:** `DOCS/TASK_ARCHIVE/225_A9_Swift6_Concurrency_Cleanup/Summary_of_Work.md`
 
-**Sub-tasks:**
-- Phase 1: Update `.githooks/pre-push` with strict concurrency checks (0.5 days)
-- Phase 2: Extend `.github/workflows/ci.yml` with strict concurrency jobs (0.3 days)
-- Phase 3: Documentation & rollout, update PRD with passing logs (0.2 days)
+**Archived location:** `DOCS/TASK_ARCHIVE/225_A9_Swift6_Concurrency_Cleanup/`
 
 ---
 
@@ -45,35 +25,84 @@
   - Archived location: `DOCS/TASK_ARCHIVE/222_C21_Floating_Settings_Panel/`
 
 - ✅ **User Settings Panel Phase 2 (C22):** Completed 2025-11-15
-  - Summary: `DOCS/TASK_ARCHIVE/223_C22_User_Settings_Persistence_and_Reset/Summary_of_Work.md`
-  - 5/7 puzzles complete, 2/7 deferred with @todo markers
-  - Core functionality (persistence, reset actions) fully implemented
+  - Archived location: `DOCS/TASK_ARCHIVE/223_C22_User_Settings_Persistence_and_Reset/`
+
+- ✅ **A9 — Automate Strict Concurrency Checks:** Completed 2025-11-15
+  - Archived location: `DOCS/TASK_ARCHIVE/225_A9_Swift6_Concurrency_Cleanup/`
 
 - ✅ **T6.3 — SDK Tolerant Parsing Documentation:** Completed 2025-11-12
   - Archived location: `DOCS/TASK_ARCHIVE/211_T6_3_SDK_Tolerant_Parsing_Documentation/`
 
-- 📅 **Candidate Tasks (For Next Selection):**
-  - **A6 — Enforce SwiftFormat Formatting** (Priority: Medium, Effort: 0.5 days)
-  - **A7 — Reinstate SwiftLint Complexity Thresholds** (Priority: Medium, Effort: 0.75 days)
-  - **A8 — Gate Test Coverage Using `coverage_analysis.py`** (Priority: Medium, Effort: 1 day)
-  - **A10 — Add Swift Duplication Detection to CI** (Priority: Medium, Effort: 1 day)
-    - Implements `.github/workflows/swift-duplication.yml` using `jscpd` to block copy/paste regressions.
-    - Scope + acceptance criteria captured in `DOCS/AI/github-workflows/02_swift_duplication_guard/prd.md`
-  - **FoundationUI Phase 2 — Interactive Components (I2.1–I2.3)** (Priority: Medium, Effort: 4-7 days)
+---
+
+## Candidate Tasks (For Next Selection)
+
+### Automation Track (High Priority)
+
+#### **A6 — Enforce SwiftFormat Formatting**
+- **Priority:** Medium
+- **Effort:** 0.5 days
+- **Dependencies:** A2 ✅ complete
+- **Description:** Add SwiftFormat enforcement to pre-push hook and CI workflow to maintain consistent code style across the project.
+
+#### **A7 — Reinstate SwiftLint Complexity Thresholds**
+- **Priority:** Medium
+- **Effort:** 0.75 days
+- **Dependencies:** A2 ✅ complete
+- **Description:** Restore and enforce SwiftLint complexity thresholds (cyclomatic, function length, type length) to prevent code quality regressions.
+
+#### **A8 — Gate Test Coverage Using `coverage_analysis.py`**
+- **Priority:** Medium
+- **Effort:** 1 day
+- **Dependencies:** A2 ✅ complete
+- **Description:** Integrate test coverage analysis into CI using existing `coverage_analysis.py` script to enforce minimum coverage thresholds.
+
+#### **A10 — Add Swift Duplication Detection to CI**
+- **Priority:** Medium
+- **Effort:** 1 day
+- **Dependencies:** A2 ✅ complete
+- **Description:** Implement `.github/workflows/swift-duplication.yml` using `jscpd` to block copy/paste regressions.
+- **Reference:** `DOCS/AI/github-workflows/02_swift_duplication_guard/prd.md`
+
+---
+
+### Feature Development Track
+
+#### **FoundationUI Phase 2 — Interactive Components (I2.1–I2.3)**
+- **Priority:** Medium
+- **Effort:** 4-7 days
+- **Dependencies:** FoundationUI Phase 1 ✅ complete
+- **Description:** Implement interactive SwiftUI components including buttons, sliders, toggles, and other user input controls.
+
+---
+
+### Store Migration Track (Long-term)
+
+#### **Phase 2 — Migrate ParseIssueStore to Swift Concurrency**
+- **Priority:** Low (infrastructure complete via A9)
+- **Effort:** 2-3 days
+- **Dependencies:** A9 ✅ complete
+- **Description:** Migrate `ParseIssueStore` from GCD queues to `@MainActor` or custom `actor` isolation.
+- **Reference:** `DOCS/AI/PRD_SwiftStrictConcurrency_Store.md`
+
+#### **Phase 3 — Remove @unchecked Sendable**
+- **Priority:** Low
+- **Dependencies:** Phase 2
+- **Description:** Remove `@unchecked Sendable` conformance once actor isolation is complete.
+
+#### **Phase 4 — Migrate Other Stores**
+- **Priority:** Low
+- **Dependencies:** Phase 3
+- **Description:** Migrate other stores following the ParseIssueStore pattern.
 
 ---
 
 ## Execution Context
 
-**Current Active Task:**
-- [A9 — Automate Strict Concurrency Checks](./224_A9_Automate_Strict_Concurrency_Checks.md)
-
 **Reference materials:**
 - [Execution workplan](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
 - [Task selection rules](../RULES/03_Next_Task_Selection.md)
-- [A9 PRD — Swift Strict Concurrency](../AI/PRD_SwiftStrictConcurrency_Store.md)
-- [C22 PRD](../AI/ISOInspector_Execution_Guide/14_User_Settings_Panel_PRD.md)
-- [C22 Summary of Work](../TASK_ARCHIVE/223_C22_User_Settings_Persistence_and_Reset/Summary_of_Work.md)
-- [C21 Summary of Work](../TASK_ARCHIVE/222_C21_Floating_Settings_Panel/Summary_of_Work.md)
+- [Root TODO list](../../todo.md)
+- [Backlog detail](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [Blocked tasks log](./blocked.md)
 - [Archive index](../TASK_ARCHIVE/ARCHIVE_SUMMARY.md)
