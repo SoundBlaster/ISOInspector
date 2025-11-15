@@ -10,6 +10,12 @@ Integrate the external `NavigationSplitViewKit` Swift package to provide a reusa
 - `SidebarPattern` and `InspectorPattern` remain focused, column-scoped patterns; they plug into the scaffold instead of replacing it.
 - Downstream contexts (BoxTree, Toolbar, inspector detail panes) rely on the scaffold to understand how their column is presented, eliminating duplicated navigation rules.
 
+#### Column responsibilities inside ISOInspector
+
+- **Sidebar (Column 1)** – lightweight list for recent files and global management affordances so agents/users can jump between ISO archives before drilling into structure.
+- **Content (Column 2)** – hosts the `BoxTreePattern` that reveals the hierarchical structure of the currently opened ISO; selections from this tree drive context for downstream panes.
+- **Inspector (Column 3)** – deep context surface for the currently selected box. It aggregates metadata, related Box elements, and user-authored artifacts (Bookmarks, Notes, upcoming annotations) without duplicating the raw box contents that live in Column 2.
+
 ## Layer Classification
 
 - **Layer**: 3
