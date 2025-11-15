@@ -7,6 +7,7 @@
 - [ ] Promote `coverage_analysis.py` to a shared quality gate by wiring it into `.githooks/pre-push` and `.github/workflows/ci.yml` after `swift test --enable-code-coverage`. (Scripts: `.githooks/pre-push`, `coverage_analysis.py`, `.github/workflows/ci.yml`)
 - [ ] Add DocC + `missing_docs` enforcement to the lint pipeline so public APIs fail CI without documentation coverage, and capture the suppression playbook in `Documentation/ISOInspector.docc/Guides/DocumentationStyle.md`. (Config: `.swiftlint.yml`, `.github/workflows/documentation.yml`)
 - [ ] Extend `.githooks/pre-push` and `.github/workflows/ci.yml` with `swift build --strict-concurrency=complete`/`swift test --strict-concurrency=complete` runs, publishing logs referenced from `DOCS/AI/PRD_SwiftStrictConcurrency_Store.md`. (Scripts: `.githooks/pre-push`, `.github/workflows/ci.yml`)
+- [ ] Add `.github/workflows/swift-duplication.yml` that runs `scripts/run_swift_duplication_check.sh` (wrapper around `npx jscpd@3.5.10`) on all Swift targets, fails when duplicates exceed 1% or blocks >45 lines repeat, and uploads a console artifact. (Docs: `DOCS/AI/github-workflows/02_swift_duplication_guard/prd.md` + `TODO.md`)
 
 ## FoundationUI Integration
 
