@@ -33,9 +33,6 @@ var targets: [Target] = [
         name: "ISOInspectorKit",
         resources: [
             .process("Resources")
-        ],
-        swiftSettings: [
-            .enableUpcomingFeature("StrictConcurrency")
         ]
     ),
     .target(
@@ -46,26 +43,17 @@ var targets: [Target] = [
                 name: "ArgumentParser",
                 package: "swift-argument-parser"
             ),
-        ],
-        swiftSettings: [
-            .enableUpcomingFeature("StrictConcurrency")
         ]
     ),
     .executableTarget(
         name: "ISOInspectorCLIRunner",
-        dependencies: ["ISOInspectorCLI"],
-        swiftSettings: [
-            .enableUpcomingFeature("StrictConcurrency")
-        ]
+        dependencies: ["ISOInspectorCLI"]
     ),
     .testTarget(
         name: "ISOInspectorKitTests",
         dependencies: ["ISOInspectorKit"],
         resources: [
             .process("Fixtures")
-        ],
-        swiftSettings: [
-            .enableUpcomingFeature("StrictConcurrency")
         ]
     ),
     .testTarget(
@@ -76,9 +64,6 @@ var targets: [Target] = [
                 name: "ArgumentParser",
                 package: "swift-argument-parser"
             ),
-        ],
-        swiftSettings: [
-            .enableUpcomingFeature("StrictConcurrency")
         ]
     ),
 ]
@@ -99,9 +84,6 @@ var targets: [Target] = [
             ],
             resources: [
                 .process("Resources")
-            ],
-            swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
             ]
         ))
 
@@ -122,8 +104,7 @@ var targets: [Target] = [
                 "AgentSupport/Examples/complete_ui_example.yaml",
             ],
             swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency"),
-                .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release)),
+                .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
             ]
         ))
 
@@ -134,9 +115,6 @@ var targets: [Target] = [
                 "ISOInspectorApp",
                 "ISOInspectorKit",
                 .target(name: "FoundationUI", condition: .when(platforms: [.iOS, .macOS])),
-            ],
-            swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
             ]
         ))
 
@@ -147,9 +125,6 @@ var targets: [Target] = [
                 "ISOInspectorCLI",
                 "ISOInspectorApp",
                 "ISOInspectorKit",
-            ],
-            swiftSettings: [
-                .enableUpcomingFeature("StrictConcurrency")
             ]
         ))
 #endif
