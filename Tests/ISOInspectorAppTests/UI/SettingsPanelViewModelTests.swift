@@ -114,7 +114,6 @@ final class SettingsPanelViewModelTests: XCTestCase {
     // @todo #222 Test hasSessionOverrides badge indicator when workspace differs from global
 }
 
-
 // MARK: - Mock Store
 
 final class MockUserPreferencesStore: UserPreferencesPersisting {
