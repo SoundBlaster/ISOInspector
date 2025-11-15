@@ -447,12 +447,12 @@
   - Provide environment key for downstream patterns to access navigation state while keeping sidebar/inspector logic scoped to their own components
   - Implement DS-driven appearance (`.navigationSplitAppearance(.foundation)`) with zero magic numbers
   - Author DocC article + previews showing Sidebar/Inspector composition across platforms with the scaffold acting as the application skeleton
-  - Capture ISOInspector column responsibilities: Sidebar → recent files/global controls, Content → BoxTree/work surface, Inspector → deep context (metadata + Bookmarks/Notes tied to the selected box)
+  - Capture ISOInspector column responsibilities: Sidebar → recent files/global controls, Content → BoxTree navigator, Detail → Box content/preview surface, Inspector → optional property overlay (metadata + Bookmarks/Notes tied to the selected box)
   - Unit + integration tests covering three/two/single-column behavior on iOS, iPadOS, macOS
 
 - [ ] **P1** Update existing patterns to adopt shared navigation model → **NEW 2025-11-12**
   - Refactor `SidebarPattern`, `InspectorPattern`, `ToolbarPattern` previews/tests to consume `NavigationSplitScaffold` as the authoritative navigation skeleton
-  - Ensure column visibility controls expose accessibility shortcuts and VoiceOver labels, and demonstrate the inspector consuming Box-derived metadata plus user Bookmarks/Notes separate from the BoxTree column
+  - Ensure column visibility controls expose accessibility shortcuts and VoiceOver labels, and demonstrate the inspector as an optional property overlay that consumes Box-derived metadata plus user Bookmarks/Notes without duplicating BoxTree or Detail content
   - Update agent YAML schemas + demo apps to surface navigation bindings (ISOInspectorApp skeleton)
   - Snapshot tests for navigation layouts (Light/Dark, Dynamic Type, platform variants)
   - Integration tests verifying NavigationModel synchronization with BoxTreePattern selections

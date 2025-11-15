@@ -319,16 +319,18 @@ To deliver a first-class navigation experience across iOS, iPadOS, and macOS, Fo
 **Column Responsibilities (ISOInspector reference implementation)**
 
 - **Sidebar** — lightweight hub for recent files plus global actions (import ISO, toggle agent overlays) so users can open/manage archives before touching content.
-- **Content** — powered by `BoxTreePattern`, presents the hierarchical Box data and acts as the primary working surface for exploring ISO contents.
-- **Inspector** — deep context for the selected Box node: metadata, related children, and user-authored artifacts such as Bookmarks and Notes move here to avoid cluttering the tree/content column.
+- **Content** — powered by `BoxTreePattern`, presents the hierarchical Box data and acts as the navigator/selection surface.
+- **Detail** — renders the actual Box contents or preview experience that users work within after making a selection.
+- **Inspector (optional overlay/panel)** — appears above whichever column is active, showing properties, metadata, bookmarks, and notes about the selected Box. It purposely avoids duplicating the underlying content and is summoned only when those attributes are needed.
 
 **FoundationUI Integration Requirements**
 
 1. Add `NavigationSplitViewKit` as an SPM dependency (Package.swift, Project.swift, Package.resolved).
-2. Expose a `NavigationSplitScaffold` wrapper that applies Composable Clarity tokens (spacing, colors, typography, animation) and becomes the canonical host for Sidebar/Content/Inspector composition.
+2. Expose a `NavigationSplitScaffold` wrapper that applies Composable Clarity tokens (spacing, colors, typography, animation) and becomes the canonical host for Sidebar/Content/Detail composition.
 3. Provide environment keys so existing patterns (`SidebarPattern`, `InspectorPattern`, `ToolbarPattern`) can access the shared navigation model without owning navigation state themselves.
 4. Support single-/two-/three-column variants automatically based on size class and platform via PlatformAdaptation utilities.
 5. Publish DocC tutorials demonstrating ISOInspector navigation flows and agent YAML schemas for navigation-driven layouts.
+6. Classify the scaffold as a **Community** in FoundationUI’s taxonomy so downstream Organisms (SidebarPattern, InspectorPattern, BoxTree hosts) explicitly depend on it instead of duplicating layout rules.
 
 **Success Criteria**
 

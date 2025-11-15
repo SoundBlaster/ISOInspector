@@ -6,15 +6,17 @@ Integrate the external `NavigationSplitViewKit` Swift package to provide a reusa
 
 ### Role inside FoundationUI
 
-- `NavigationSplitScaffold` is the skeleton for ISOInspectorApp – it owns layout orchestration for Sidebar → Content → Inspector and exposes a single navigation state to the rest of the design system.
+- `NavigationSplitScaffold` is the skeleton for ISOInspectorApp – it owns layout orchestration for Sidebar → Content → Detail and exposes a single navigation state to the rest of the design system.
 - `SidebarPattern` and `InspectorPattern` remain focused, column-scoped patterns; they plug into the scaffold instead of replacing it.
 - Downstream contexts (BoxTree, Toolbar, inspector detail panes) rely on the scaffold to understand how their column is presented, eliminating duplicated navigation rules.
+- Within the Composable Clarity taxonomy, this scaffold is treated as a **Community** that coordinates multiple Layer 3 Organisms (Sidebar, Content hosts, Inspector) instead of being another Organism itself.
 
 #### Column responsibilities inside ISOInspector
 
 - **Sidebar (Column 1)** – lightweight list for recent files and global management affordances so agents/users can jump between ISO archives before drilling into structure.
-- **Content (Column 2)** – hosts the `BoxTreePattern` that reveals the hierarchical structure of the currently opened ISO; selections from this tree drive context for downstream panes.
-- **Inspector (Column 3)** – deep context surface for the currently selected box. It aggregates metadata, related Box elements, and user-authored artifacts (Bookmarks, Notes, upcoming annotations) without duplicating the raw box contents that live in Column 2.
+- **Content (Column 2)** – powered by `BoxTreePattern`, presents the hierarchical Box data and serves as the navigator/selection surface.
+- **Detail (Column 3)** – renders the actual Box contents or preview surface that users work in after selecting a node from the Content column.
+- **Inspector (Optional overlay/panel)** – floats above whichever column is most relevant and shows **properties**, metadata, bookmarks, or notes about the currently selected Box. It never re-renders the core content—only the contextual attributes users need sporadically.
 
 ## Layer Classification
 
