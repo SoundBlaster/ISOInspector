@@ -44,6 +44,8 @@ struct SettingsPanelView: View {
     // MARK: - Private Helpers
 
     @State private var selectedSectionID: String? = "permanent"
+    @State private var showResetPermanentConfirmation = false
+    @State private var showResetSessionConfirmation = false
 
     private var sidebarSections: [SidebarPattern<String, AnyView>.Section] {
         [
@@ -118,12 +120,13 @@ struct SettingsPanelView: View {
                         Text("Settings controls will appear here")
                             .foregroundColor(.secondary)
 
-                        Button("Reset to Global") {
-                            Task {
-                                await viewModel.resetPermanentSettings()
-                            }
+                        Divider()
+
+                        Button("Reset to Defaults") {
+                            showResetPermanentConfirmation = true
                         }
                         .buttonStyle(.bordered)
+                        .accessibilityIdentifier("ResetPermanentSettingsButton")
                     }
                     .padding(DS.Spacing.l)
                 }
@@ -131,6 +134,16 @@ struct SettingsPanelView: View {
             .padding(DS.Spacing.l)
         }
         .accessibilityIdentifier("PermanentSettingsContent")
+        .alert("Reset Permanent Settings?", isPresented: $showResetPermanentConfirmation) {
+            Button("Cancel", role: .cancel) {}
+            Button("Reset", role: .destructive) {
+                Task {
+                    await viewModel.resetPermanentSettings()
+                }
+            }
+        } message: {
+            Text("This will restore all permanent settings to their default values. This action cannot be undone.")
+        }
     }
 
     private var sessionSettingsContent: some View {
@@ -150,6 +163,24 @@ struct SettingsPanelView: View {
                         // @todo #222 Add pane layout controls
                         Text("Session controls will appear here")
                             .foregroundColor(.secondary)
+
+                        if viewModel.hasSessionOverrides {
+                            HStack {
+                                Image(systemName: "exclamationmark.circle")
+                                    .foregroundColor(.orange)
+                                Text("Session has custom overrides")
+                                    .font(DS.Typography.caption)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+
+                        Divider()
+
+                        Button("Reset to Global") {
+                            showResetSessionConfirmation = true
+                        }
+                        .buttonStyle(.bordered)
+                        .accessibilityIdentifier("ResetSessionSettingsButton")
                     }
                     .padding(DS.Spacing.l)
                 }
@@ -157,6 +188,16 @@ struct SettingsPanelView: View {
             .padding(DS.Spacing.l)
         }
         .accessibilityIdentifier("SessionSettingsContent")
+        .alert("Reset Session Settings?", isPresented: $showResetSessionConfirmation) {
+            Button("Cancel", role: .cancel) {}
+            Button("Reset", role: .destructive) {
+                Task {
+                    await viewModel.resetSessionSettings()
+                }
+            }
+        } message: {
+            Text("This will reset all session settings to match global defaults. This action only affects the current document session.")
+        }
     }
 
     private var advancedSettingsContent: some View {
@@ -190,7 +231,16 @@ struct SettingsPanelView: View {
 #if DEBUG
     struct SettingsPanelView_Previews: PreviewProvider {
         static var previews: some View {
-            SettingsPanelView(viewModel: SettingsPanelViewModel())
+            // Mock store for preview
+            struct MockStore: UserPreferencesPersisting {
+                func loadPreferences() throws -> UserPreferences? { .default }
+                func savePreferences(_ preferences: UserPreferences) throws {}
+                func reset() throws {}
+            }
+
+            let mockStore = MockStore()
+            let viewModel = SettingsPanelViewModel(preferencesStore: mockStore)
+            return SettingsPanelView(viewModel: viewModel)
         }
     }
 #endif
