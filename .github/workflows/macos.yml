@@ -81,10 +81,10 @@ jobs:
       - name: Show Tuist version
         run: tuist version
 
-      - name: Select Xcode 16.0 (required for `.icon` assets)
+      - name: Select Xcode 16.2
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "16.0"
+          xcode-version: "16.2"
 
       - name: Show Xcode version
         run: xcodebuild -version

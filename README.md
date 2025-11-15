@@ -34,7 +34,7 @@ The overview illustrates the tri-pane layout documented in the app manual so rea
 - `Sources/*/*.docc` — DocC catalogs for the kit, CLI, and SwiftUI app.
 
 ## Getting Started
-1. Install Swift 6.0.1 or newer.
+1. Install Swift 6.0 or newer (Swift 6.2+ recommended).
 2. Build all targets:
    ```sh
    swift build

@@ -232,4 +232,131 @@ All changes maintain backward compatibility and zero regressions in existing CI 
 
 ---
 
+---
+
+## 🔧 Post-A9 Cleanup: Swift 6 Migration & CI Alignment
+
+**Date:** 2025-11-15
+**Status:** ✅ Completed
+
+### Issues Discovered
+
+After completing task A9, CI builds on Linux began failing with errors:
+
+1. **Unused Dependencies Warning:**
+   ```
+   warning: 'isoinspector': dependency 'nesteda11yids' is not used by any target
+   warning: 'isoinspector': dependency 'yams' is not used by any target
+   ```
+
+2. **Redundant StrictConcurrency Error:**
+   ```
+   error: upcoming feature 'StrictConcurrency' is already enabled as of Swift version 6
+   ```
+
+### Root Cause
+
+- **Package.swift** declared `NestedA11yIDs` and `Yams` at package level, but they're only used by iOS/macOS-specific targets that are conditionally compiled
+- Swift 6.0+ enables strict concurrency by default, making `.enableUpcomingFeature("StrictConcurrency")` redundant and causing build errors on Swift 6.0 (though Swift 6.2 silently ignored this)
+- CI used Swift 6.0.1 (Linux) and Xcode 16.0 (macOS), while local environment had Xcode 26.0 with Swift 6.2, causing environment mismatch
+
+### Fixes Applied
+
+#### 1. Conditional Package Dependencies
+
+**File:** `Package.swift`
+
+Moved iOS/macOS-only dependencies to conditional blocks:
+
+```swift
+// Platform-independent dependencies
+var dependencies: [Package.Dependency] = [
+    .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0"),
+    .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
+]
+
+// Add iOS/macOS-only dependencies
+#if os(macOS) || os(iOS)
+    dependencies.append(.package(url: "https://github.com/SoundBlaster/NestedA11yIDs", from: "1.0.0"))
+    dependencies.append(.package(url: "https://github.com/jpsim/Yams.git", from: "5.0.0"))
+#endif
+```
+
+**Result:** ✅ No more unused dependency warnings on Linux builds
+
+#### 2. Removed Redundant StrictConcurrency Flags
+
+**Files Modified:** `Package.swift`
+
+Removed `.enableUpcomingFeature("StrictConcurrency")` from all targets:
+- `ISOInspectorKit`
+- `ISOInspectorCLI`
+- `ISOInspectorCLIRunner`
+- `ISOInspectorKitTests`
+- `ISOInspectorCLITests`
+- `ISOInspectorApp`
+- `FoundationUI`
+- `ISOInspectorAppTests`
+- `ISOInspectorPerformanceTests`
+
+**Rationale:** Swift 6.0+ has strict concurrency enabled by default (via `swift-tools-version: 6.0`), making the feature flag redundant and causing errors.
+
+**Result:** ✅ Clean builds on both Swift 6.0 and Swift 6.2
+
+#### 3. CI Environment Alignment
+
+**Updated Workflows:**
+
+- `.github/workflows/swift-linux.yml` → Swift 6.0
+- `.github/workflows/ci.yml` → Swift 6.0 (all jobs)
+- `.github/workflows/macos.yml` → Xcode 16.2 (includes Swift 6.0.3)
+
+**Configuration Files:**
+
+- `.swift-version` → `6.0` (documents baseline requirement)
+- `README.md` → "Swift 6.0 or newer (Swift 6.2+ recommended)"
+
+**Result:** ✅ CI now uses stable Swift 6.0.x across all platforms
+
+### Verification
+
+**Linux Build Test:**
+```bash
+swift build --product isoinspect
+```
+**Result:** ✅ Build complete (2.53s) with zero warnings
+
+**Full Test Suite:**
+```bash
+swift test
+```
+**Result:** ✅ All platform-independent tests pass
+
+### Environment Summary
+
+| Environment | Swift Version | Xcode Version | Status |
+|-------------|---------------|---------------|--------|
+| **Local (Dev)** | 6.2 (Xcode 26.0) | 26.0 | ✅ Forward-compatible |
+| **CI (Linux)** | 6.0 | N/A | ✅ Baseline |
+| **CI (macOS)** | 6.0.3 | 16.2 | ✅ Stable |
+
+### Key Takeaways
+
+1. **Platform-conditional dependencies** in Package.swift prevent unused dependency warnings when building platform-specific subsets
+2. **Swift 6 makes strict concurrency default** — no need for `.enableUpcomingFeature("StrictConcurrency")`
+3. **Swift 6.2 is more lenient** than 6.0 in some cases (silently ignores redundant feature flags)
+4. **CI/local environment parity** is critical for catching issues early
+5. **Tuist projects inherit Swift version from Xcode** — no Project.swift changes needed
+
+### Files Modified
+
+- `Package.swift` — Conditional dependencies, removed StrictConcurrency flags
+- `.github/workflows/swift-linux.yml` — Swift 6.0
+- `.github/workflows/ci.yml` — Swift 6.0 (3 jobs)
+- `.github/workflows/macos.yml` — Xcode 16.2
+- `.swift-version` — 6.0
+- `README.md` — Swift version requirement updated
+
+---
+
 **End of Summary**
