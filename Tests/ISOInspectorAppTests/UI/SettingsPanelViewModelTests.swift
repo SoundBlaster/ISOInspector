@@ -91,7 +91,29 @@ final class SettingsPanelViewModelTests: XCTestCase {
         XCTAssertNotNil(sut.errorMessage)
         XCTAssertEqual(sut.permanentSettings, originalPreferences)
     }
+
+    // MARK: - Session Settings Tests
+
+    func testLoadSettings_WithoutSessionController_LoadsDefaultSessionSettings() async {
+        await sut.loadSettings()
+
+        XCTAssertNotNil(sut.sessionSettings)
+        XCTAssertFalse(sut.hasSessionOverrides)
+    }
+
+    func testResetSessionSettings_WithoutSessionController_DoesNotCrash() async {
+        await sut.resetSessionSettings()
+
+        XCTAssertFalse(sut.isLoading)
+        XCTAssertNil(sut.errorMessage)
+    }
+
+    // @todo #222 Add tests with mock DocumentSessionController for session settings integration
+    // @todo #222 Test selectValidationPreset with both .global and .workspace scopes
+    // @todo #222 Test setValidationRule with both scopes
+    // @todo #222 Test hasSessionOverrides badge indicator when workspace differs from global
 }
+
 
 // MARK: - Mock Store
 
