@@ -316,6 +316,12 @@ To deliver a first-class navigation experience across iOS, iPadOS, and macOS, Fo
 - ✅ Comprehensive DocC reference and Tuist demo for onboarding
 - 🔁 Acts as the navigation skeleton for ISOInspectorApp, coordinating how SidebarPattern, Content areas, and InspectorPattern collaborate without redefining layout rules inside each pattern
 
+**Column Responsibilities (ISOInspector reference implementation)**
+
+- **Sidebar** — lightweight hub for recent files plus global actions (import ISO, toggle agent overlays) so users can open/manage archives before touching content.
+- **Content** — powered by `BoxTreePattern`, presents the hierarchical Box data and acts as the primary working surface for exploring ISO contents.
+- **Inspector** — deep context for the selected Box node: metadata, related children, and user-authored artifacts such as Bookmarks and Notes move here to avoid cluttering the tree/content column.
+
 **FoundationUI Integration Requirements**
 
 1. Add `NavigationSplitViewKit` as an SPM dependency (Package.swift, Project.swift, Package.resolved).
