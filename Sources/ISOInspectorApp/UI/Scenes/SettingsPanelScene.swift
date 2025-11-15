@@ -8,8 +8,13 @@ import SwiftUI
 /// - iPadOS: Modal sheet with detents (.medium, .large)
 /// - iOS: Full-screen modal sheet
 struct SettingsPanelScene: View {
-    @StateObject private var viewModel = SettingsPanelViewModel()
     @Binding var isPresented: Bool
+
+    // @todo #222 Replace with proper dependency injection from app-level
+    // Currently uses in-memory mock store; production needs real FileBackedUserPreferencesStore
+    @StateObject private var viewModel = SettingsPanelViewModel(
+        preferencesStore: InMemoryUserPreferencesStore()
+    )
 
     var body: some View {
         #if os(macOS)
@@ -160,6 +165,26 @@ extension View {
         #else
             self
         #endif
+    }
+}
+
+// MARK: - In-Memory Mock Store
+
+/// Temporary in-memory store for SettingsPanelScene
+/// @todo #222 Replace with proper dependency injection of FileBackedUserPreferencesStore from app level
+private final class InMemoryUserPreferencesStore: UserPreferencesPersisting {
+    private var preferences: UserPreferences?
+
+    func loadPreferences() throws -> UserPreferences? {
+        preferences
+    }
+
+    func savePreferences(_ preferences: UserPreferences) throws {
+        self.preferences = preferences
+    }
+
+    func reset() throws {
+        preferences = nil
     }
 }
 
