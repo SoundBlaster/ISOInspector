@@ -1,37 +1,50 @@
 # Next Tasks
 
-## Active
+## Active (Following C21 Completion)
 
-### FoundationUI Integration (Priority Feature)
+### User Settings Panel: Phase 2 — Persistence + Reset Wiring (Priority Feature)
 
-**See detailed plan in:** `DOCS/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Suite/FoundationUI_Integration_Strategy.md`
+**Task:** C22 — Persistence + Reset Wiring
+**Status:** 🔓 **NOW UNBLOCKED** (C21 Phase 1 completed 2025-11-14)
+**Duration:** 1 day | **Priority:** P1 | **Dependencies:** C21 ✅ complete
 
-#### Phase 1: Foundation Components (Weeks 2-3) ✅ **COMPLETED**
-**Duration:** 5-7 days | **Priority:** P1 | **Dependencies:** Phase 0 ✅ complete
-**Started:** 2025-11-14 | **Completed:** 2025-11-14
+**Description:** Complete the settings panel by threading persistence through `UserPreferencesStore` and `DocumentSessionController`, implementing reset actions, keyboard shortcut support, and finalizing platform-specific presentation (NSPanel on macOS, sheet on iPad/iOS).
 
-**All Phase 1 Tasks Completed:**
-- [x] **I1.1 — Badge & Status Indicators** ✅ **COMPLETED** (2025-11-14)
-- [x] **I1.2 — Card Containers & Sections** ✅ **COMPLETED** (2025-11-14)
-- [x] **I1.3 — Key-Value Rows & Metadata Display** ✅ **COMPLETED** (2025-11-14)
-- [x] **I1.4 — Form Controls & Input Wrappers** ✅ **IMPLEMENTATION COMPLETE** (2025-11-14)
-  - Implementation complete, pending:
-    - FoundationUI component integration (replace native SwiftUI with DS components)
-    - Snapshot testing library integration
-    - Form migration in settings/dialogs
-  - **Details:** `DOCS/TASK_ARCHIVE/220_I1_4_Form_Controls_Input_Wrappers/Summary_of_Work.md`
-- [x] **I1.5 — Advanced Layouts & Navigation** ✅ **COMPLETED** (2025-11-14)
-  - Implemented layout patterns using FoundationUI grid and spacing system
-  - Migrated sidebar and detail view layouts
-  - Validated responsive behavior across device sizes
-  - Accessibility and dark mode support
-  - **Details:** `DOCS/TASK_ARCHIVE/221_I1_5_Advanced_Layouts_Navigation/Summary_of_Work.md`
+**See detailed plan in:** `DOCS/TASK_ARCHIVE/222_C21_Floating_Settings_Panel/Summary_of_Work.md` (Section "Next Steps (C22)")
+
+**Subtasks (Puzzles #222.1–#222.7):**
+- [ ] **#222.1 — UserPreferencesStore Integration** (Puzzle)
+  - Thread permanent settings changes through `UserPreferencesStore`
+  - Update ViewModel to load/save global preferences on app startup
+- [ ] **#222.2 — SessionSettingsPayload Mutations** (Puzzle)
+  - Update `DocumentSessionController` to bind session settings changes
+  - Implement dirty tracking for session scope
+- [ ] **#222.3 — Reset Actions** (Puzzle)
+  - Implement "Reset Global" button → restore defaults in UserPreferencesStore
+  - Implement "Reset Session" button → restore current document's session defaults
+  - Add confirmation dialogs
+- [ ] **#222.4 — Keyboard Shortcut (⌘,)** (Puzzle)
+  - Bind keyboard shortcut to toggle settings panel visibility
+  - Ensure shortcut works across app lifecycle
+- [ ] **#222.5 — Platform-Specific Presentation** (Puzzle)
+  - macOS: Host in NSPanel window controller with remembered frame
+  - iPad: Present via `.sheet` with detents
+  - iPhone: Full screen cover or modal presentation
+- [ ] **#222.6 — Snapshot Tests** (Puzzle)
+  - Test all platforms (iOS, macOS, iPadOS)
+  - Test all color schemes (light, dark, auto)
+  - Validate responsive behavior
+- [ ] **#222.7 — Advanced Accessibility Tests** (Puzzle)
+  - Dynamic Type scaling across all sizes (XS–XXXL)
+  - Reduce Motion compliance
+  - Advanced VoiceOver focus order tests
 
 ---
 
-### SDK Documentation (High Priority)
+### SDK Documentation (Parallel Work Option)
 
 - [ ] **T6.3 — SDK Tolerant Parsing Documentation** (Priority: Medium, Effort: 1 day)
+  - Can be done in parallel with C22 if resources allow
   - Create DocC article `TolerantParsingGuide.md` in `Sources/ISOInspectorKit/ISOInspectorKit.docc/Articles/`
   - Add code examples for tolerant parsing setup and `ParseIssueStore` usage
   - Update inline documentation for `ParsePipeline.Options`, `.strict`, `.tolerant`
@@ -40,32 +53,30 @@
 
 ---
 
-### User Settings Panel (Floating Preferences)
+## Backlog Notes
 
-**Reference:** `DOCS/AI/ISOInspector_Execution_Guide/14_User_Settings_Panel_PRD.md`
+- ✅ **FoundationUI Phase 1 Complete (5/5 tasks):** All completed 2025-11-14
+  - Archived locations: `DOCS/TASK_ARCHIVE/218_*` through `DOCS/TASK_ARCHIVE/221_*`
 
-- [ ] **C21 — Floating Settings Panel Shell** (Priority: Medium, Effort: 1 day) 🔄 **IN PROGRESS**
-  - Implement `SettingsPanelScene` with FoundationUI cards separating permanent vs. session groups
-  - macOS: host inside an `NSPanel` window controller with remembered frame + keyboard shortcut (`⌘,`)
-  - iPad/iOS: present via `.sheet` detents; ensure VoiceOver focus starts at the selected section
-  - Snapshot + accessibility tests validate both presentations
-  - **Details:** `DOCS/INPROGRESS/222_C21_Floating_Settings_Panel.md`
+- 🔄 **Current:** User Settings Panel Phase 1 (C21) — archived 2025-11-15
+  - Archived location: `DOCS/TASK_ARCHIVE/222_C21_Floating_Settings_Panel/`
 
-- [ ] **C22 — Persistence + Reset Wiring** (Priority: Medium, Effort: 1 day)
-  - Thread permanent changes through `UserPreferencesStore`
-  - Update `DocumentSessionController` with `SessionSettingsPayload` mutations
-  - Add reset actions ("Reset Global", "Reset Session")
-  - Logging and DocC documentation of layered persistence behavior
-  - **Dependency:** C21 must be completed first
+- 🎯 **Next Priority:** C22 (Persistence + Reset Wiring) now unblocked after C21
+  - Estimated start: 2025-11-15 (same day as C21 archive)
+  - Estimated completion: 2025-11-16
+
+- 📅 **Candidate Tasks (If Resources Allow):**
+  - **T6.3 — SDK Documentation** (unblocked, can run in parallel with C22)
+  - **FoundationUI Phase 2 — Interactive Components (I2.1–I2.3)** (scheduled after C22 if prioritized)
 
 ---
 
-## Notes
+## Execution Context
 
-- ✅ **FoundationUI Phase 1 Complete:** All 5 tasks (I1.1–I1.5) completed 2025-11-14
-  - Archived locations: `DOCS/TASK_ARCHIVE/218_*` through `DOCS/TASK_ARCHIVE/221_*`
-- 🔄 **Next Phase:** User Settings Panel (C21–C22) kicks off after Phase 1
-  - C21 selected as next task per prioritization rules (Phase C, Medium priority, unblocked)
-  - C22 depends on C21 completion
-  - Both tasks parallel to SDK Documentation (T6.3) if resources allow
-- 🎯 **Next Candidate Tasks:** T6.3 (SDK Documentation), or Phase 2 FoundationUI (if prioritized higher)
+**Reference materials:**
+- [Execution workplan](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
+- [Task selection rules](../RULES/03_Next_Task_Selection.md)
+- [C22 PRD](../AI/ISOInspector_Execution_Guide/14_User_Settings_Panel_PRD.md)
+- [C21 Summary of Work](../TASK_ARCHIVE/222_C21_Floating_Settings_Panel/Summary_of_Work.md)
+- [Blocked tasks log](./blocked.md)
+- [Archive index](../TASK_ARCHIVE/ARCHIVE_SUMMARY.md)
