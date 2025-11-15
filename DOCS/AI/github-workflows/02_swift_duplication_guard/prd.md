@@ -33,7 +33,7 @@ Prevent copy‑paste regressions across ISOInspector's Swift targets by adding a
    - Steps:
      1. `actions/checkout@v4` with fetch-depth 1.
      2. `actions/setup-node@v4` with `node-version: '20'` and `cache: 'npm'` to reuse downloads between runs.
-     3. Run `npx jscpd@3.5.10 --languages swift --reporters console --min-tokens 120 --max-lines 45 --threshold 1 --ignore "**/Derived/**" "**/Documentation/**"`.
+    3. Run `npx jscpd@3.5.10 --languages swift --reporters console --min-tokens 120 --threshold 1 --ignore "**/Derived/**" "**/Documentation/**"` (omit `--max-lines` so clones longer than 45 lines are still detected and can fail the job as required).
      4. Pipe the output to `tee artifacts/swift-duplication-report.txt` and upload via `actions/upload-artifact@v4`.
    - The job fails automatically when `jscpd` exits with status 1 (duplicates detected over threshold).
 
