@@ -154,6 +154,19 @@ var targets: [Target] = [
         ))
 #endif
 
+// Platform-independent dependencies
+var dependencies: [Package.Dependency] = [
+    .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0"),
+    .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
+]
+
+// Add iOS/macOS-only dependencies
+#if os(macOS) || os(iOS)
+    dependencies.append(
+        .package(url: "https://github.com/SoundBlaster/NestedA11yIDs", from: "1.0.0"))
+    dependencies.append(.package(url: "https://github.com/jpsim/Yams.git", from: "5.0.0"))
+#endif
+
 let package = Package(
     name: "ISOInspector",
     defaultLocalization: "en",
@@ -162,11 +175,6 @@ let package = Package(
         .macOS(.v14),
     ],
     products: products,
-    dependencies: [
-        .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0"),
-        .package(url: "https://github.com/SoundBlaster/NestedA11yIDs", from: "1.0.0"),
-        .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
-        .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.0"),
-    ],
+    dependencies: dependencies,
     targets: targets
 )
