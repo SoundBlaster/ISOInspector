@@ -35,15 +35,20 @@
 
 ---
 
-## Candidate Tasks (For Next Selection)
+## Currently Selected Task (In Progress)
 
-### Automation Track (High Priority)
-
-#### **A6 — Enforce SwiftFormat Formatting**
+### ✋ A6 — Enforce SwiftFormat Formatting (Selected 2025-11-15)
 - **Priority:** Medium
 - **Effort:** 0.5 days
 - **Dependencies:** A2 ✅ complete
 - **Description:** Add SwiftFormat enforcement to pre-push hook and CI workflow to maintain consistent code style across the project.
+- **INPROGRESS Document:** `DOCS/INPROGRESS/226_A6_Enforce_SwiftFormat_Formatting.md`
+
+---
+
+## Candidate Tasks (For Next Selection)
+
+### Automation Track (High Priority)
 
 #### **A7 — Reinstate SwiftLint Complexity Thresholds**
 - **Priority:** Medium
