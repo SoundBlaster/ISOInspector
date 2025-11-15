@@ -17,12 +17,18 @@ final class SettingsPanelViewModel: ObservableObject {
     @Published private(set) var errorMessage: String?
     @Published private(set) var permanentSettings: UserPreferences?
     @Published private(set) var sessionSettings: SessionSettings?
+    @Published private(set) var hasSessionOverrides: Bool = false
 
     private let preferencesStore: UserPreferencesPersisting
+    private weak var sessionController: DocumentSessionController?
     private let logger = Logger(subsystem: "ISOInspectorApp", category: "SettingsPanel")
 
-    init(preferencesStore: UserPreferencesPersisting) {
+    init(
+        preferencesStore: UserPreferencesPersisting,
+        sessionController: DocumentSessionController? = nil
+    ) {
         self.preferencesStore = preferencesStore
+        self.sessionController = sessionController
         logger.debug("SettingsPanelViewModel initialized")
     }
 
@@ -35,8 +41,18 @@ final class SettingsPanelViewModel: ObservableObject {
             permanentSettings = try preferencesStore.loadPreferences() ?? .default
             logger.debug("Permanent settings loaded successfully")
 
-            // @todo #222 Load actual session settings from DocumentSessionController
-            sessionSettings = SessionSettings()
+            // Load session settings from DocumentSessionController
+            if let sessionController = sessionController {
+                sessionSettings = SessionSettings(
+                    validationConfiguration: sessionController.validationConfiguration,
+                    globalValidationConfiguration: sessionController.globalValidationConfiguration
+                )
+                hasSessionOverrides = sessionController.isUsingWorkspaceValidationOverride
+                logger.debug("Session settings loaded successfully")
+            } else {
+                sessionSettings = SessionSettings()
+                hasSessionOverrides = false
+            }
         } catch {
             errorMessage = "Failed to load settings: \(error.localizedDescription)"
             logger.error("Failed to load settings: \(error.localizedDescription)")
@@ -92,19 +108,83 @@ final class SettingsPanelViewModel: ObservableObject {
         isLoading = false
     }
 
-    // @todo #222 Add resetSessionSettings() method
-    // @todo #222 Add updateSessionSetting(key:value:) method
+    func resetSessionSettings() async {
+        isLoading = true
+        errorMessage = nil
+
+        guard let sessionController = sessionController else {
+            logger.warning("Cannot reset session settings: DocumentSessionController not available")
+            isLoading = false
+            return
+        }
+
+        sessionController.resetWorkspaceValidationOverrides()
+        await loadSettings()  // Reload to refresh UI
+        logger.debug("Session settings reset completed")
+
+        isLoading = false
+    }
+
+    func selectValidationPreset(
+        _ presetID: String,
+        scope: DocumentSessionController.ValidationConfigurationScope
+    ) {
+        guard let sessionController = sessionController else {
+            logger.warning("Cannot update validation preset: DocumentSessionController not available")
+            return
+        }
+
+        sessionController.selectValidationPreset(presetID, scope: scope)
+
+        // Update local state
+        Task {
+            await loadSettings()
+        }
+    }
+
+    func setValidationRule(
+        _ rule: ValidationRuleIdentifier,
+        isEnabled: Bool,
+        scope: DocumentSessionController.ValidationConfigurationScope
+    ) {
+        guard let sessionController = sessionController else {
+            logger.warning("Cannot update validation rule: DocumentSessionController not available")
+            return
+        }
+
+        sessionController.setValidationRule(rule, isEnabled: isEnabled, scope: scope)
+
+        // Update local state
+        Task {
+            await loadSettings()
+        }
+    }
 }
 
 // MARK: - Supporting Types
 
-struct SessionSettings {
-    // @todo #222 Add workspace scope properties
-    // @todo #222 Add pane layout properties
-    // @todo #222 Add temporary validation overrides
+struct SessionSettings: Equatable {
+    var validationConfiguration: ValidationConfiguration
+    var globalValidationConfiguration: ValidationConfiguration
 
-    init() {
-        // Minimal stub for now
+    // @todo #222 Add workspace scope properties (per document vs. shared)
+    // @todo #222 Add pane layout properties
+    // @todo #222 Add recently opened tabs
+
+    init(
+        validationConfiguration: ValidationConfiguration = ValidationConfiguration(
+            activePresetID: "default"
+        ),
+        globalValidationConfiguration: ValidationConfiguration = ValidationConfiguration(
+            activePresetID: "default"
+        )
+    ) {
+        self.validationConfiguration = validationConfiguration
+        self.globalValidationConfiguration = globalValidationConfiguration
+    }
+
+    var hasOverrides: Bool {
+        validationConfiguration != globalValidationConfiguration
     }
 }
 #endif
