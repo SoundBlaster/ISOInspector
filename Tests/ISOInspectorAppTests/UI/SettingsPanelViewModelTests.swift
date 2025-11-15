@@ -113,32 +113,4 @@ final class SettingsPanelViewModelTests: XCTestCase {
     // @todo #222 Test setValidationRule with both scopes
     // @todo #222 Test hasSessionOverrides badge indicator when workspace differs from global
 }
-
-// MARK: - Mock Store
-
-final class MockUserPreferencesStore: UserPreferencesPersisting {
-    var storedPreferences: UserPreferences?
-    var resetCalled = false
-    var shouldThrowOnSave = false
-    var shouldThrowOnLoad = false
-
-    func loadPreferences() throws -> UserPreferences? {
-        if shouldThrowOnLoad {
-            throw NSError(domain: "TestError", code: 1, userInfo: nil)
-        }
-        return storedPreferences
-    }
-
-    func savePreferences(_ preferences: UserPreferences) throws {
-        if shouldThrowOnSave {
-            throw NSError(domain: "TestError", code: 2, userInfo: nil)
-        }
-        storedPreferences = preferences
-    }
-
-    func reset() throws {
-        resetCalled = true
-        storedPreferences = nil
-    }
-}
 #endif
