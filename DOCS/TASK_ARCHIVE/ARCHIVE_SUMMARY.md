@@ -1591,3 +1591,29 @@
   - **Testing Expansion (Puzzles #222.6-7):** Snapshot tests and accessibility tests for all platforms and color schemes
   - **SDK Documentation (T6.3):** Create DocC article for tolerant parsing guide (unblocked, can run in parallel)
   - **FoundationUI Phase 2:** Interactive Components (I2.1–I2.3) — scheduled after C22 completion
+
+## 225_A9_Swift6_Concurrency_Cleanup
+- **Archived files:** `Summary_of_Work.md`, `next_tasks.md`, `blocked.md`
+- **Archived location:** `DOCS/TASK_ARCHIVE/225_A9_Swift6_Concurrency_Cleanup/`
+- **Highlights:** Documents completion of Task A9 (Automate Strict Concurrency Checks), including enabling strict concurrency across all targets in Package.swift, implementing pre-push hooks and GitHub Actions CI workflows for concurrency validation, and post-A9 cleanup work that aligned CI to Swift 6.0/Xcode 16.2 while removing redundant StrictConcurrency flags and making package dependencies platform-conditional.
+- **Key outcomes:**
+  - ✅ Strict concurrency enabled for all targets (ISOInspectorKit, CLI, App, tests)
+  - ✅ Pre-push hook with build/test validation and quality gates
+  - ✅ GitHub Actions CI workflow with strict concurrency job and artifact publishing
+  - ✅ Fixed real concurrency issues discovered: UserPreferencesPersisting protocol isolation, mock store sendability, test lifecycle async
+  - ✅ Post-A9 Swift 6 migration: Removed redundant `.enableUpcomingFeature("StrictConcurrency")` (default in Swift 6.0+)
+  - ✅ Platform-conditional Package.swift dependencies (NestedA11yIDs, Yams only on macOS/iOS)
+  - ✅ CI alignment to Swift 6.0 and Xcode 16.2
+  - ✅ Zero strict concurrency warnings across all platform-independent targets
+  - ✅ 751 tests passing with zero concurrency diagnostics
+- **Next steps carried forward:**
+  - **Phase 2 Store Migration:** Migrate `ParseIssueStore` from GCD queues to `@MainActor` or custom `actor` isolation
+  - **Phase 3:** Remove `@unchecked Sendable` conformance once actor isolation is complete
+  - **Phase 4:** Migrate other stores following the same pattern
+  - **Automation Tasks:** A6 (SwiftFormat), A7 (SwiftLint complexity), A8 (Test coverage gate), A10 (Swift duplication detection)
+  - **FoundationUI Phase 2:** Interactive Components (I2.1–I2.3)
+- **Technical Decisions:**
+  - Swift 6.0+ has strict concurrency enabled by default (via `swift-tools-version: 6.0`), making feature flag redundant
+  - Platform-conditional dependencies prevent unused dependency warnings on Linux builds
+  - Separate cache key for strict concurrency checks prevents cache contamination
+  - 14-day retention for CI logs balances storage costs with debugging needs
