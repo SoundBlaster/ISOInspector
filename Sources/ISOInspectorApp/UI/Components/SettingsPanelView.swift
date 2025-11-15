@@ -77,11 +77,11 @@ struct SettingsPanelView: View {
 
     private var permanentSettingsContent: some View {
         ScrollView {
-            VStack(spacing: DS.Spacing.large) {
+            VStack(spacing: DS.Spacing.l) {
                 Card {
-                    VStack(alignment: .leading, spacing: DS.Spacing.medium) {
+                    VStack(alignment: .leading, spacing: DS.Spacing.m) {
                         Text("Permanent Settings")
-                            .font(DS.Typography.title2)
+                            .font(DS.Typography.title)
                         Text(
                             "These settings persist across all sessions and app restarts."
                         )
@@ -102,21 +102,21 @@ struct SettingsPanelView: View {
                         }
                         .buttonStyle(.bordered)
                     }
-                    .padding(DS.Spacing.large)
+                    .padding(DS.Spacing.l)
                 }
             }
-            .padding(DS.Spacing.large)
+            .padding(DS.Spacing.l)
         }
         .accessibilityIdentifier("PermanentSettingsContent")
     }
 
     private var sessionSettingsContent: some View {
         ScrollView {
-            VStack(spacing: DS.Spacing.large) {
+            VStack(spacing: DS.Spacing.l) {
                 Card {
-                    VStack(alignment: .leading, spacing: DS.Spacing.medium) {
+                    VStack(alignment: .leading, spacing: DS.Spacing.m) {
                         Text("Session Settings")
-                            .font(DS.Typography.title2)
+                            .font(DS.Typography.title)
                         Text("These settings only affect the current document session.")
                             .font(DS.Typography.caption)
                             .foregroundColor(.secondary)
@@ -128,21 +128,21 @@ struct SettingsPanelView: View {
                         Text("Session controls will appear here")
                             .foregroundColor(.secondary)
                     }
-                    .padding(DS.Spacing.large)
+                    .padding(DS.Spacing.l)
                 }
             }
-            .padding(DS.Spacing.large)
+            .padding(DS.Spacing.l)
         }
         .accessibilityIdentifier("SessionSettingsContent")
     }
 
     private var advancedSettingsContent: some View {
         ScrollView {
-            VStack(spacing: DS.Spacing.large) {
+            VStack(spacing: DS.Spacing.l) {
                 Card {
-                    VStack(alignment: .leading, spacing: DS.Spacing.medium) {
+                    VStack(alignment: .leading, spacing: DS.Spacing.m) {
                         Text("Advanced Settings")
-                            .font(DS.Typography.title2)
+                            .font(DS.Typography.title)
                         Text("Advanced configuration options.")
                             .font(DS.Typography.caption)
                             .foregroundColor(.secondary)
@@ -153,10 +153,10 @@ struct SettingsPanelView: View {
                         Text("Advanced controls will appear here")
                             .foregroundColor(.secondary)
                     }
-                    .padding(DS.Spacing.large)
+                    .padding(DS.Spacing.l)
                 }
             }
-            .padding(DS.Spacing.large)
+            .padding(DS.Spacing.l)
         }
         .accessibilityIdentifier("AdvancedSettingsContent")
     }
