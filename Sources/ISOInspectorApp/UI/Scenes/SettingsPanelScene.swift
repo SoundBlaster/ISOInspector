@@ -97,6 +97,51 @@ extension View {
     ///
     /// - Parameter isPresented: Binding controlling panel visibility
     /// - Returns: Modified view with keyboard shortcut
+    ///
+    /// ## Implementation Status
+    ///
+    /// **Partial Implementation (Puzzle #222.4)**
+    ///
+    /// Current status:
+    /// - ✅ Scene infrastructure ready (SettingsPanelScene)
+    /// - ✅ Platform-specific presentation (sheet modifiers)
+    /// - ⏳ Keyboard shortcut binding (stub via NotificationCenter)
+    /// - ❌ CommandGroup integration in ISOInspectorApp
+    /// - ❌ Focus restoration after toggle
+    ///
+    /// ## Full Implementation Required
+    ///
+    /// To complete keyboard shortcut support:
+    ///
+    /// 1. Add CommandGroup to ISOInspectorApp.body.commands:
+    ///    ```swift
+    ///    .commands {
+    ///        CommandGroup(replacing: .appSettings) {
+    ///            Button("Settings...") {
+    ///                NotificationCenter.default.post(
+    ///                    name: NSNotification.Name("ToggleSettingsPanel"),
+    ///                    object: nil
+    ///                )
+    ///            }
+    ///            .keyboardShortcut(",", modifiers: .command)
+    ///        }
+    ///    }
+    ///    ```
+    ///
+    /// 2. Add @State var isSettingsPanelPresented = false to AppShellView
+    ///
+    /// 3. Wire sheet presentation in AppShellView:
+    ///    ```swift
+    ///    .settingsPanelSheet(isPresented: $isSettingsPanelPresented)
+    ///    .settingsPanelKeyboardShortcut(isPresented: $isSettingsPanelPresented)
+    ///    ```
+    ///
+    /// 4. Implement focus restoration on dismiss (store last focused element)
+    ///
+    /// @todo #222 Add CommandGroup to ISOInspectorApp for Settings menu item with ⌘, shortcut
+    /// @todo #222 Wire isSettingsPanelPresented state through AppShellView
+    /// @todo #222 Implement focus restoration when panel toggles
+    /// @todo #222 Test keyboard shortcut across macOS, iPad, iPhone
     func settingsPanelKeyboardShortcut(isPresented: Binding<Bool>) -> some View {
         #if os(macOS)
             self.onReceive(
