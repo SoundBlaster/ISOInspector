@@ -1,18 +1,21 @@
 # PRD: Swift Strict Concurrency for Store Architecture
 
-**Document Version**: 1.1
-**Date**: 2025-10-27 (last updated 2025-11-02)
-**Status**: Proposed – implementation not yet started in main branch
+**Document Version**: 1.2
+**Date**: 2025-10-27 (last updated 2025-11-15)
+**Status**: Automation Gate Established
 **Priority**: P1 (High Priority - Foundation Enhancement)
 **Related To**: ISOInspectorKit Store Architecture (ParseIssueStore)
 
-> **Reality Check (2025-11-02)**
+> **Status Update (2025-11-15)**
 >
-> The production `ParseIssueStore` in `Sources/ISOInspectorKit/Stores/ParseIssueStore.swift` still uses the queue-based
-> `performOnQueue`/`readOnQueue` helpers with `DispatchQueue.sync` for reads and `DispatchQueue.async` for writes. No actor-
-> isolated or `@MainActor` variants exist yet, and the type continues to declare `@unchecked Sendable` conformance. This PRD
-> therefore reflects a future-state plan rather than completed work; the migration phases and success criteria below remain
-> entirely outstanding.
+> ✅ **Automation Gate Established:** Strict concurrency checking is now enforced across all build and test targets via
+> `.enableUpcomingFeature("StrictConcurrency")` in Package.swift. Pre-push hooks and GitHub Actions CI both verify zero
+> concurrency warnings. All logs are published to `Documentation/Quality/` and archived as CI artifacts.
+>
+> ⚠️ **Store Migration Pending:** The production `ParseIssueStore` in `Sources/ISOInspectorKit/Stores/ParseIssueStore.swift`
+> still uses the queue-based `performOnQueue`/`readOnQueue` helpers with `DispatchQueue.sync` for reads and `DispatchQueue.async`
+> for writes. No actor-isolated or `@MainActor` variants exist yet, and the type continues to declare `@unchecked Sendable`
+> conformance. The migration phases and success criteria below remain pending future work.
 
 ---
 
@@ -46,10 +49,11 @@ The current `ParseIssueStore` uses GCD queues with manual synchronization via `D
 - ✅ CI and git hooks compile/test with `--strict-concurrency=complete` without warnings
 
 ### Automation Alignment
-- **Workplan linkage:** Execution plan task **A9** codifies the requirement for pre-push and GitHub Actions jobs to run `swift build --strict-concurrency=complete` and `swift test --strict-concurrency=complete`, failing on any diagnostic so regressions never land unnoticed.【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L14】
-- **Hook integration:** `.githooks/pre-push` mirrors the CI invocation and publishes log paths recorded in this PRD for auditability, ensuring developer workstations catch violations before remote execution.【F:todo.md†L7】
-- **CI surfacing:** `.github/workflows/ci.yml` archives concurrency logs as workflow artifacts and references this PRD in failure guidance so teams know the migration status and remediation steps.【F:todo.md†L19-L23】
-- **Status tracking:** Once actors replace the queue-based store, update this section with links to the passing logs and remove the `@unchecked Sendable` escape hatch noted in the Reality Check.
+- ✅ **Workplan linkage:** Task A9 automation is complete. All targets now build with `.enableUpcomingFeature("StrictConcurrency")` in Package.swift, enforcing compile-time concurrency checks.
+- ✅ **Hook integration:** `.githooks/pre-push` runs `swift build` and `swift test` with strict concurrency enabled, logging to `Documentation/Quality/strict-concurrency-{build,test}-$(date).log`. Developers catch violations before pushing.
+- ✅ **CI surfacing:** `.github/workflows/ci.yml` runs a dedicated `strict-concurrency` job that builds and tests all targets, uploads logs as artifacts (retention: 14 days), and fails on any concurrency warnings.
+- ✅ **Log publication:** First successful run completed 2025-11-15. Build and test logs show zero strict concurrency diagnostics.
+- ⚠️ **Store migration:** Actors have not yet replaced the queue-based store. The `@unchecked Sendable` escape hatch remains in `ParseIssueStore.swift` pending future migration work.
 
 ---
 

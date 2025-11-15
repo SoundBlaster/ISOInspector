@@ -1,0 +1,3 @@
+# Ignore local strict concurrency logs
+# CI logs are uploaded as artifacts and should not be committed
+strict-concurrency-*.log
