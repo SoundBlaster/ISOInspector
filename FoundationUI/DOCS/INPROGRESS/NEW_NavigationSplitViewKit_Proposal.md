@@ -4,6 +4,12 @@
 
 Integrate the external `NavigationSplitViewKit` Swift package to provide a reusable, adaptive navigation scaffold for FoundationUI patterns. This dependency unlocks a consistent three-column navigation experience for ISOInspectorApp (iOS, iPadOS, macOS) and ensures Sidebar, Inspector, and future navigation-driven patterns share a unified state model.
 
+### Role inside FoundationUI
+
+- `NavigationSplitScaffold` is the skeleton for ISOInspectorApp – it owns layout orchestration for Sidebar → Content → Inspector and exposes a single navigation state to the rest of the design system.
+- `SidebarPattern` and `InspectorPattern` remain focused, column-scoped patterns; they plug into the scaffold instead of replacing it.
+- Downstream contexts (BoxTree, Toolbar, inspector detail panes) rely on the scaffold to understand how their column is presented, eliminating duplicated navigation rules.
+
 ## Layer Classification
 
 - **Layer**: 3
@@ -66,8 +72,8 @@ public struct NavigationSplitScaffold<Sidebar: View, Content: View, Detail: View
 
 ### Dependencies
 
-- `NavigationSplitViewKit.NavigationModel` for synchronized state management
-- Existing FoundationUI patterns (`SidebarPattern`, `InspectorPattern`, `ToolbarPattern`)
+- `NavigationSplitViewKit.NavigationModel` for synchronized state management across all columns
+- Existing FoundationUI patterns (`SidebarPattern`, `InspectorPattern`, `ToolbarPattern`) which render inside the scaffold without reimplementing navigation rules
 - Platform adaptation utilities (e.g., `PlatformAdaptation`) for size-class awareness
 - Composable Clarity tokens (zero magic numbers rule)
 

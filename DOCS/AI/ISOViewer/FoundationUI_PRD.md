@@ -314,12 +314,13 @@ To deliver a first-class navigation experience across iOS, iPadOS, and macOS, Fo
 - ✅ Column visibility orchestration for compact size classes
 - ✅ Inspector pinning and resize behaviors on desktop/tablet
 - ✅ Comprehensive DocC reference and Tuist demo for onboarding
+- 🔁 Acts as the navigation skeleton for ISOInspectorApp, coordinating how SidebarPattern, Content areas, and InspectorPattern collaborate without redefining layout rules inside each pattern
 
 **FoundationUI Integration Requirements**
 
 1. Add `NavigationSplitViewKit` as an SPM dependency (Package.swift, Project.swift, Package.resolved).
-2. Expose a `NavigationSplitScaffold` wrapper that applies Composable Clarity tokens (spacing, colors, typography, animation).
-3. Provide environment keys so existing patterns (`SidebarPattern`, `InspectorPattern`, `ToolbarPattern`) can access the shared navigation model.
+2. Expose a `NavigationSplitScaffold` wrapper that applies Composable Clarity tokens (spacing, colors, typography, animation) and becomes the canonical host for Sidebar/Content/Inspector composition.
+3. Provide environment keys so existing patterns (`SidebarPattern`, `InspectorPattern`, `ToolbarPattern`) can access the shared navigation model without owning navigation state themselves.
 4. Support single-/two-/three-column variants automatically based on size class and platform via PlatformAdaptation utilities.
 5. Publish DocC tutorials demonstrating ISOInspector navigation flows and agent YAML schemas for navigation-driven layouts.
 

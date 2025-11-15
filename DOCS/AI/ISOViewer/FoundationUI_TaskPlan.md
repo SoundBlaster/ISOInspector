@@ -444,13 +444,13 @@
 
 - [ ] **P0** Create NavigationSplitScaffold pattern → **NEW 2025-11-12**
   - Wrap `NavigationSplitViewKit.NavigationModel` in FoundationUI-friendly API (`NavigationSplitScaffold`)
-  - Provide environment key for downstream patterns to access navigation state
+  - Provide environment key for downstream patterns to access navigation state while keeping sidebar/inspector logic scoped to their own components
   - Implement DS-driven appearance (`.navigationSplitAppearance(.foundation)`) with zero magic numbers
-  - Author DocC article + previews showing Sidebar/Inspector composition across platforms
+  - Author DocC article + previews showing Sidebar/Inspector composition across platforms with the scaffold acting as the application skeleton
   - Unit + integration tests covering three/two/single-column behavior on iOS, iPadOS, macOS
 
 - [ ] **P1** Update existing patterns to adopt shared navigation model → **NEW 2025-11-12**
-  - Refactor `SidebarPattern`, `InspectorPattern`, `ToolbarPattern` previews/tests to consume `NavigationSplitScaffold`
+  - Refactor `SidebarPattern`, `InspectorPattern`, `ToolbarPattern` previews/tests to consume `NavigationSplitScaffold` as the authoritative navigation skeleton
   - Ensure column visibility controls expose accessibility shortcuts and VoiceOver labels
   - Update agent YAML schemas + demo apps to surface navigation bindings (ISOInspectorApp skeleton)
   - Snapshot tests for navigation layouts (Light/Dark, Dynamic Type, platform variants)
