@@ -40,3 +40,49 @@
 - [x] #T36 Resolve Integrity navigation filters, outline shortcuts, and issue-only toggle so tolerant parsing hand-offs stay focused. (Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift) _(Completed — see `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/200_T3_7_Integrity_Navigation_Filters.md`.)_
 - [x] #T5.2 Land tolerant traversal regression tests that exercise the corrupt fixture corpus and strict-mode guards. (Tests/ISOInspectorKitTests/TolerantTraversalRegressionTests.swift) _(Completed — see `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/Summary_of_Work.md`.)_
 - [x] #T6.2 Surface tolerant-mode corruption summary metrics in the CLI output, including severity counts and deepest affected depth. (Sources/ISOInspectorCLI/Commands/InspectCommand.swift) _(Completed — see `DOCS/TASK_ARCHIVE/208_T6_2_CLI_Corruption_Summary_Output/Summary_of_Work.md`.)_
+
+## Task C21 — Floating Settings Panel Shell (In Progress)
+
+### ViewModel Integration & Data Layer
+
+- [ ] #222 Load actual permanent settings from UserPreferencesStore (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:31)
+- [ ] #222 Load actual session settings from DocumentSessionController (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:32)
+- [ ] #222 Call UserPreferencesStore.reset() to clear permanent settings (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:48)
+- [ ] #222 Reload permanent settings after reset (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:49)
+- [ ] #222 Add resetSessionSettings() method (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:56)
+- [ ] #222 Add updatePermanentSetting(key:value:) method (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:57)
+- [ ] #222 Add updateSessionSetting(key:value:) method (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:58)
+
+### Data Model Extensions
+
+- [ ] #222 Add validation configuration properties to PermanentSettings (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:64)
+- [ ] #222 Add telemetry/logging verbosity properties to PermanentSettings (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:65)
+- [ ] #222 Add accessibility preferences to PermanentSettings (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:66)
+- [ ] #222 Add workspace scope properties to SessionSettings (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:74)
+- [ ] #222 Add pane layout properties to SessionSettings (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:75)
+- [ ] #222 Add temporary validation overrides to SessionSettings (Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift:76)
+
+### UI Controls & Presentation
+
+- [ ] #222 Add validation preset controls to permanent settings section (Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:93)
+- [ ] #222 Add telemetry/logging verbosity controls to permanent settings section (Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:94)
+- [ ] #222 Add workspace scope controls to session settings section (Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:126)
+- [ ] #222 Add pane layout controls to session settings section (Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:127)
+- [ ] #222 Add advanced configuration controls to advanced settings section (Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:152)
+
+### Platform-Specific Enhancements
+
+- [ ] #222 Add detent support for iPad (.medium, .large) (Sources/ISOInspectorApp/UI/Scenes/SettingsPanelScene.swift:86)
+- [ ] #222 Add fullScreenCover for iPhone (Sources/ISOInspectorApp/UI/Scenes/SettingsPanelScene.swift:87)
+
+### Testing & Accessibility
+
+- [ ] #222 Migrate to proper XCUITest UI tests for full accessibility validation (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:12)
+- [ ] #222 Test VoiceOver focus order starts on first control (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:13)
+- [ ] #222 Test keyboard navigation between sections (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:14)
+- [ ] #222 Test Dynamic Type support (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:15)
+- [ ] #222 Verify platform-specific accessibility identifiers (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:26)
+- [ ] #222 Test keyboard shortcut (⌘,) on macOS (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:27)
+- [ ] #222 Test VoiceOver announcements for state changes (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:28)
+- [ ] #222 Add proper state change tests with XCTest expectations (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:42)
+- [ ] #222 Test error message announcements for screen readers (Tests/ISOInspectorAppTests/UI/SettingsPanelAccessibilityTests.swift:43)
