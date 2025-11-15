@@ -5,7 +5,7 @@
 ### User Settings Panel: Phase 2 — Persistence + Reset Wiring (Priority Feature)
 
 **Task:** C22 — Persistence + Reset Wiring
-**Status:** 🔓 **NOW UNBLOCKED** (C21 Phase 1 completed 2025-11-14)
+**Status:** 🎬 **IN PROGRESS** (Selected 2025-11-15, Task document: `223_C22_User_Settings_Persistence_and_Reset.md`)
 **Duration:** 1 day | **Priority:** P1 | **Dependencies:** C21 ✅ complete
 
 **Description:** Complete the settings panel by threading persistence through `UserPreferencesStore` and `DocumentSessionController`, implementing reset actions, keyboard shortcut support, and finalizing platform-specific presentation (NSPanel on macOS, sheet on iPad/iOS).
