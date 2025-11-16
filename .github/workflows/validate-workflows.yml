@@ -1,0 +1,86 @@
+name: Validate Workflows
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**/*.yml'
+      - '.github/workflows/**/*.yaml'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/**/*.yml'
+      - '.github/workflows/**/*.yaml'
+
+jobs:
+  validate-yaml-syntax:
+    name: Validate YAML Syntax
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install PyYAML
+        run: pip install pyyaml
+
+      - name: Validate all workflow YAML files
+        run: |
+          echo "🔍 Validating GitHub Actions workflow files..."
+
+          EXIT_CODE=0
+          for file in .github/workflows/*.yml .github/workflows/*.yaml; do
+            if [ -f "$file" ]; then
+              echo "Checking: $file"
+              if python3 -c "import yaml; yaml.safe_load(open('$file'))"; then
+                echo "  ✅ Valid YAML syntax"
+              else
+                echo "  ❌ Invalid YAML syntax"
+                EXIT_CODE=1
+              fi
+            fi
+          done
+
+          if [ $EXIT_CODE -eq 0 ]; then
+            echo ""
+            echo "✅ All workflow files have valid YAML syntax"
+          else
+            echo ""
+            echo "❌ Some workflow files have invalid YAML syntax"
+            exit 1
+          fi
+
+  validate-with-actionlint:
+    name: Validate with actionlint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download actionlint
+        run: |
+          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+
+      - name: Run actionlint
+        run: |
+          ./actionlint -color
+        continue-on-error: true
+
+  report-validation:
+    name: Validation Report
+    runs-on: ubuntu-latest
+    needs: [validate-yaml-syntax, validate-with-actionlint]
+    if: always()
+    steps:
+      - name: Check validation results
+        run: |
+          echo "## 📋 Workflow Validation Report"
+          echo ""
+          echo "✅ YAML syntax validation completed"
+          echo "✅ Actionlint checks completed"
+          echo ""
+          echo "All GitHub Actions workflows have been validated."

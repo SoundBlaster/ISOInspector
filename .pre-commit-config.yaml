@@ -3,6 +3,43 @@
 # Run manually: pre-commit run --all-files
 
 repos:
+  # YAML validation
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-yaml
+        name: Check YAML syntax
+        args: [--safe]
+        description: Validate YAML files including GitHub Actions workflows
+        stages: [commit]
+
+      - id: check-added-large-files
+        name: Check for large files
+        args: ['--maxkb=1000']
+        description: Prevent accidentally committing large files
+        stages: [commit]
+
+      - id: trailing-whitespace
+        name: Trim trailing whitespace
+        description: Remove trailing whitespace from all files
+        stages: [commit]
+
+      - id: end-of-file-fixer
+        name: Fix end of files
+        description: Ensure files end with a newline
+        stages: [commit]
+  # GitHub Actions workflow validation
+  - repo: local
+    hooks:
+      - id: validate-github-workflows
+        name: Validate GitHub Actions workflows
+        entry: sh -c 'for file in "$@"; do python3 -c "import yaml; yaml.safe_load(open(\"$file\"))" || exit 1; done'
+        language: system
+        files: ^\.github/workflows/.*\.ya?ml$
+        types: [yaml]
+        stages: [commit]
+        description: Validate GitHub Actions workflow YAML syntax
+
   # Swift linting with SwiftLint
   - repo: local
     hooks:
