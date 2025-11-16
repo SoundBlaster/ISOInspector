@@ -1659,3 +1659,14 @@
   - Delete redundant Asset Catalog color definitions
   - Add design token compliance tests to prevent regression
 - **Priority:** Medium (design system consistency; blocks FoundationUI Phase 5.2 finalization)
+
+## 228_A7_A8_SwiftLint_and_Coverage_Gates
+- **Archived files:** `README.md`, `next_tasks.md`, `blocked.md`, `code_review.md`, `lint_issue_index.md`, `Summary_A7_SwiftLint_Complexity_Thresholds.md`, `228_A7_Reinstate_SwiftLint_Complexity_Thresholds.md`, `229_A8_Gate_Test_Coverage.md`, `229_BUG_Docc_Warnings.md`, log captures (`git_log*.log`, `Build Documentation ISOInspectorApp-macOS_2025-11-16T16-20-27.txt`), and supporting roll-up summaries.
+- **Archived location:** `DOCS/TASK_ARCHIVE/228_A7_A8_SwiftLint_and_Coverage_Gates/`
+- **Highlights:** Captures the late-November automation push that reinstated strict SwiftLint complexity thresholds, wired them into the pre-push hook plus CI, documented the final configuration (Summary_A7), and staged the follow-on coverage gating work (A8) alongside an investigation of DocC warning noise affecting ISOInspector documentation builds.
+- **Key outcomes:**
+  - ✅ `.swiftlint.yml`, `.githooks/pre-push`, and `.github/workflows/ci.yml` now enforce cyclomatic complexity, function length, nesting, and type length thresholds with SARIF artifact publishing on failure.
+  - ✅ `next_tasks.md` rolled forward FoundationUI follow-ups plus Automation Track candidates (A10/A11) after marking A6/A7 complete, and captured execution notes for coverage enforcement using `coverage_analysis.py`.
+  - ✅ `blocked.md` snapshot retains recoverable hardware/licensing dependencies (macOS 1 GiB benchmark, real-world fixture acquisition, manual FoundationUI performance runs) for re-seeding the next planning cycle.
+  - ✅ DocC warning log (`Build Documentation …`) and bug write-up (`229_BUG_Docc_Warnings.md`) consolidate the remediation plan for remaining documentation build issues.
+- **Next steps carried forward:** Finish implementing Task A8 by integrating `coverage_analysis.py --threshold 0.67` into the pre-push hook and CI workflows, rehydrate `DOCS/INPROGRESS/blocked.md` with any still-active hardware/manual tasks, continue DocC cleanup per the captured diagnostics plan, and begin Automation Track tasks A10–A11 once coverage gating lands.
