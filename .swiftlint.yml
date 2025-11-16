@@ -29,6 +29,12 @@ disabled_rules:
 # future complexity regressions. Adjust thresholds when parser generators expand
 # or design system refactoring requires higher limits.
 #
+# @todo #A7 Enable strict mode for main project after refactoring large files
+#   CI currently runs main project (Sources/, Tests/) in informational mode because
+#   3 files exceed type_body_length threshold: JSONParseTreeExporter.swift (2127 lines),
+#   BoxValidator.swift (1738 lines), DocumentSessionController.swift (1634 lines).
+#   After refactoring these files below 1500 lines, switch CI to --strict mode.
+#
 # Related tasks: A2 (CI pipeline), A8 (test coverage gates), A10 (duplication detection)
 # ========================================
 

@@ -61,6 +61,12 @@ jobs:
           # Verify installation
           swiftlint --version
 
+      # @todo #A7 Switch to strict mode after refactoring large files
+      #   Currently running in informational mode (no --strict flag) because 3 files
+      #   exceed type_body_length threshold. After refactoring JSONParseTreeExporter.swift,
+      #   BoxValidator.swift, and DocumentSessionController.swift to <1500 lines each,
+      #   change this to: swiftlint lint --strict --config .swiftlint.yml
+      #   and remove the continue-on-error or make it fail on ERRORS > 0.
       - name: Run SwiftLint on Main Project (Sources & Tests)
         id: swiftlint-main
         continue-on-error: true
