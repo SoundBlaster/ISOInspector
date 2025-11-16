@@ -1617,3 +1617,45 @@
   - Platform-conditional dependencies prevent unused dependency warnings on Linux builds
   - Separate cache key for strict concurrency checks prevents cache contamination
   - 14-day retention for CI logs balances storage costs with debugging needs
+
+## 226_A6_Enforce_SwiftFormat_Formatting
+- **Archived files:** `226_A6_Enforce_SwiftFormat_Formatting.md`, `Summary_of_Work.md`
+- **Archived location:** `DOCS/TASK_ARCHIVE/226_A6_Enforce_SwiftFormat_Formatting/`
+- **Highlights:** Documents completion of Task A6 (Enforce SwiftFormat Formatting), including integration of SwiftFormat enforcement into pre-push hooks and GitHub Actions CI workflows to maintain consistent code style across the project.
+- **Key outcomes:**
+  - ✅ SwiftFormat pre-push hook configured to validate formatting on every commit
+  - ✅ GitHub Actions CI workflow integrated with SwiftFormat checks
+  - ✅ All source files formatted consistently
+  - ✅ Zero SwiftFormat violations in codebase
+- **Next steps carried forward:**
+  - **A7 — Reinstate SwiftLint Complexity Thresholds:** Restore and enforce cyclomatic, function length, and type length thresholds
+  - **A8 — Gate Test Coverage:** Integrate coverage_analysis.py for minimum coverage enforcement
+  - **A10 — Swift Duplication Detection:** Add jscpd-based duplication detection to CI
+  - **FoundationUI Phase 2:** Interactive Components (I2.1–I2.3)
+
+## 227_Bug001_Design_System_Color_Token_Migration
+- **Archived files:** `001_Design_System_Color_Token_Migration.md`, `BUG_Manual_Color_Usage_vs_FoundationUI.md`, `Summary_Color_Theme_Resolution.md`, `blocked.md`, `next_tasks.md`
+- **Archived location:** `DOCS/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/`
+- **Highlights:** Documents BUG #001 investigation into inconsistent manual color usage vs FoundationUI design system integration. ISOInspectorApp continues to use hardcoded `.accentColor` and manual opacity values instead of FoundationUI design tokens in 6 view files, violating design system architecture and preventing Phase 5.2 completion.
+- **Key documents:**
+  - `001_Design_System_Color_Token_Migration.md` — Comprehensive 8-step bug report with diagnostics plan, TDD/XP/PDD execution strategy, and blockers analysis
+  - `BUG_Manual_Color_Usage_vs_FoundationUI.md` — High-level summary with recommended 4-phase resolution approach
+  - `Summary_Color_Theme_Resolution.md` — Recent fix to color resolution tests (changed Asset Catalog initialization to direct ISOInspectorBrandPalette usage)
+- **Affected code locations:**
+  - `ParseTreeOutlineView.swift` (5 manual color usages)
+  - `ParseTreeDetailView.swift` (4 usages)
+  - `ValidationSettingsView.swift` (3 usages)
+  - `IntegritySummaryView.swift` (1 usage)
+  - `ISOInspectorAppTheme.swift` (2 usages)
+- **Root cause:** Migration to FoundationUI ongoing but these views not updated to use `DS.*` tokens; opacity values hardcoded (0.08, 0.12, 0.15, 0.18, 0.25) without semantic meaning
+- **Blocking factors:**
+  - FoundationUI design token documentation incomplete or inaccessible
+  - Phase 5.2 completion criteria not formally defined
+  - Custom opacity values may lack FoundationUI equivalents (needs audit)
+- **Next steps when unblocked:**
+  - Complete FoundationUI token audit to map current opacity values to semantic tokens
+  - Update all 6 view files to use `DS.Color.*` tokens exclusively
+  - Remove `ISOInspectorAppTheme.swift` if FoundationUI provides equivalent functions
+  - Delete redundant Asset Catalog color definitions
+  - Add design token compliance tests to prevent regression
+- **Priority:** Medium (design system consistency; blocks FoundationUI Phase 5.2 finalization)

@@ -2,34 +2,17 @@
 
 ## Recently Completed
 
-### ✅ A6 — Enforce SwiftFormat Formatting (Completed 2025-11-15)
+### ✅ A9 — Automate Strict Concurrency Checks (Completed 2025-11-15)
 
-**Task:** A6 — Enforce SwiftFormat Formatting
-**Status:** ✅ **COMPLETED**
-**Duration:** 0.5 days | **Priority:** Medium | **Dependencies:** A2 ✅ complete
+**Task:** A9 — Automate Strict Concurrency Checks
+**Status:** ✅ **COMPLETED** (including post-A9 Swift 6 migration cleanup)
+**Duration:** 1 day | **Priority:** P0 | **Dependencies:** A2 ✅ complete
 
-**Description:** Added SwiftFormat enforcement to pre-push hook and CI workflow to maintain consistent code style across the project.
+**Description:** Established automated strict concurrency checking via Swift's `.enableUpcomingFeature("StrictConcurrency")` across all build and test phases, enforcing thread-safe concurrent design patterns through both pre-push hooks and GitHub Actions CI. Followed up with Swift 6 migration cleanup to remove redundant flags and align CI environments.
 
-**See full summary in:** `DOCS/TASK_ARCHIVE/226_A6_Enforce_SwiftFormat_Formatting/Summary_of_Work.md`
+**See full summary in:** `DOCS/TASK_ARCHIVE/225_A9_Swift6_Concurrency_Cleanup/Summary_of_Work.md`
 
-**Archived location:** `DOCS/TASK_ARCHIVE/226_A6_Enforce_SwiftFormat_Formatting/`
-
----
-
-### 📋 BUG #001 — Design System Color Token Migration (Archived 2025-11-16)
-
-**Issue:** ISOInspectorApp continues to use hardcoded `.accentColor` and manual opacity values instead of FoundationUI design tokens.
-
-**Status:** Archived as in-progress work; documented in `DOCS/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/`
-
-**Key documents:**
-- `001_Design_System_Color_Token_Migration.md` — Detailed bug report with 8 steps
-- `BUG_Manual_Color_Usage_vs_FoundationUI.md` — Summary with recommended resolution phases
-- `Summary_Color_Theme_Resolution.md` — Recent fix to color resolution tests
-
-**Blocked by:** FoundationUI token documentation and Phase 5.2 completion criteria
-
-**Next step:** Audit FoundationUI design tokens, map opacity values to semantic tokens, and update views to use `DS.*` tokens exclusively.
+**Archived location:** `DOCS/TASK_ARCHIVE/225_A9_Swift6_Concurrency_Cleanup/`
 
 ---
 
@@ -50,8 +33,16 @@
 - ✅ **T6.3 — SDK Tolerant Parsing Documentation:** Completed 2025-11-12
   - Archived location: `DOCS/TASK_ARCHIVE/211_T6_3_SDK_Tolerant_Parsing_Documentation/`
 
-- ✅ **A6 — Enforce SwiftFormat Formatting:** Completed 2025-11-15
-  - Archived location: `DOCS/TASK_ARCHIVE/226_A6_Enforce_SwiftFormat_Formatting/`
+---
+
+## Currently Selected Task (In Progress)
+
+### ✋ A6 — Enforce SwiftFormat Formatting (Selected 2025-11-15)
+- **Priority:** Medium
+- **Effort:** 0.5 days
+- **Dependencies:** A2 ✅ complete
+- **Description:** Add SwiftFormat enforcement to pre-push hook and CI workflow to maintain consistent code style across the project.
+- **INPROGRESS Document:** `DOCS/INPROGRESS/226_A6_Enforce_SwiftFormat_Formatting.md`
 
 ---
 
@@ -87,13 +78,6 @@
 - **Effort:** 4-7 days
 - **Dependencies:** FoundationUI Phase 1 ✅ complete
 - **Description:** Implement interactive SwiftUI components including buttons, sliders, toggles, and other user input controls.
-
-#### **BUG #001 — Design System Color Token Migration**
-- **Priority:** Medium
-- **Effort:** 2-3 days
-- **Dependencies:** FoundationUI Phase 5.2 completion, token documentation availability
-- **Description:** Migrate manual `.accentColor` usages to FoundationUI design tokens (`DS.Color.*`)
-- **Reference:** `DOCS/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/`
 
 ---
 
