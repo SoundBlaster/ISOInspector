@@ -14,12 +14,29 @@ Apply the decision framework in [`DOCS/RULES/03_Next_Task_Selection.md`](../RULE
 
 - [Task selection rules (`03_Next_Task_Selection.md`)](../RULES/03_Next_Task_Selection.md)
 - [Workflow rules (`02_TDD_XP_Workflow.md`)](../RULES/02_TDD_XP_Workflow.md)
+- [PDD methodology (`04_PDD.md`)](../RULES/04_PDD.md)
 - [Master PRD (`ISOInspector_Master_PRD.md`)](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
 - [Execution workplan (`04_TODO_Workplan.md`)](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
 - [Detailed backlog (`ISOInspector_PRD_TODO.md`)](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [Root TODO list (`todo.md`)](../../todo.md)
 - [Current blocked list (`DOCS/INPROGRESS/blocked.md`)](../INPROGRESS/blocked.md)
 - [Permanent blockers (`DOCS/TASK_ARCHIVE/BLOCKED`)](../TASK_ARCHIVE/BLOCKED)
+
+### 🔧 PDD Task Discovery Tool
+
+The `scripts/collect_todos.py` script scans the codebase for `@todo` puzzles and generates a comprehensive report following PDD (Puzzle-Driven Development) methodology:
+
+```bash
+# Generate PDD puzzle report
+python3 scripts/collect_todos.py --output DOCS/TODO_REPORT.md
+
+# View the report
+cat DOCS/TODO_REPORT.md
+```
+
+**Purpose:** Extract all `@todo #TaskID description` comments from code, group by task ID, and generate a sorted Markdown report. Use this to discover code-level tasks that may not be in planning documents.
+
+**Documentation:** See `scripts/README.md` for full usage details.
 
 ---
 
@@ -43,6 +60,10 @@ Apply the decision framework in [`DOCS/RULES/03_Next_Task_Selection.md`](../RULE
   - [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
   - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
   - [`todo.md`](../../todo.md)
+- **Optional:** Run `python3 scripts/collect_todos.py` to generate a PDD puzzle report from `@todo` comments in the codebase. This reveals code-level tasks that may not appear in planning documents.
+  - The report groups tasks by ID (e.g., `#A7`, `#220`) and shows exact file locations
+  - Particularly useful for finding refactoring tasks, technical debt, and blocked work
+  - Tasks without IDs appear in a separate "Unnumbered Tasks" section
 - Note dependencies, prerequisites, and any context captured in archived summaries under [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE).
 
 ### Step 4. Apply Selection Rules
