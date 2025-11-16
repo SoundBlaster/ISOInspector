@@ -451,6 +451,9 @@ private struct StructuredPayload: Encodable {
   let metadataKeys: MetadataKeyTableDetail?
   let metadataItems: MetadataItemListDetail?
 
+  // Rationale: Exhaustive dispatcher for all ParsedBoxPayload.Detail cases to JSON export representation.
+  // @todo #A7 Consider code generation or protocol-based approach if detail types continue to grow.
+  // swiftlint:disable:next cyclomatic_complexity
   init(detail: ParsedBoxPayload.Detail) {
     var fileType: FileTypeDetail?
     var mediaData: MediaDataDetail?

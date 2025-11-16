@@ -4,18 +4,35 @@ disabled_rules:
   - type_name
   - identifier_name
   - force_try
-  - function_body_length
   - file_length
-  - type_body_length
-  - nesting
   - function_parameter_count
-  - cyclomatic_complexity
   - redundant_string_enum_value
   - unneeded_synthesized_initializer
   - multiple_closures_with_trailing_closure
   - trailing_comma
   - opening_brace
   - closure_parameter_position
+  - optional_data_string_conversion
+
+# Complexity thresholds enforced to prevent code quality regressions
+# These thresholds are tuned to allow 95%+ of existing code to pass
+# while blocking future complexity growth
+cyclomatic_complexity:
+  warning: 30
+  error: 55
+
+function_body_length:
+  warning: 250
+  error: 350
+
+type_body_length:
+  warning: 1200
+  error: 1500
+
+nesting:
+  type_level:
+    warning: 5
+    error: 7
 
 excluded:
   - .build

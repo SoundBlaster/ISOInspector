@@ -98,6 +98,30 @@ jobs:
           fi
           echo "All Swift files are correctly formatted."
 
+  swiftlint-complexity:
+    name: SwiftLint Complexity Check
+    runs-on: macos-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install SwiftLint
+        run: brew install swiftlint
+
+      - name: Run SwiftLint (strict mode)
+        run: |
+          swiftlint lint --strict --reporter sarif > swiftlint-report.sarif || true
+          swiftlint lint --strict
+
+      - name: Upload SwiftLint SARIF report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swiftlint-report
+          path: swiftlint-report.sarif
+          if-no-files-found: warn
+          retention-days: 14
+
   build-and-test:
     name: Build and Test (Ubuntu)
     runs-on: ubuntu-22.04

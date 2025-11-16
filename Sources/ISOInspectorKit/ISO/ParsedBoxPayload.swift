@@ -1,5 +1,8 @@
 import Foundation
 
+// Rationale: Large struct containing all ISO box payload types. Splitting would reduce discoverability and type safety.
+// @todo #A7 Consider refactoring into smaller domain-specific payload groups if the enum continues to grow.
+// swiftlint:disable:next type_body_length
 public struct ParsedBoxPayload: Equatable, Sendable {
   public enum Detail: Equatable, Sendable {
     case fileType(FileTypeBox)

@@ -119,6 +119,49 @@ The repository uses both **SwiftFormat** (for automatic code formatting) and **S
 
 This configuration allows both tools to work together harmoniously without creating conflicting formatting requirements.
 
+## Code Quality Gates
+
+The repository enforces complexity thresholds using **SwiftLint** to prevent code quality regressions:
+
+- **Cyclomatic Complexity:** Warning at 30, error at 55
+- **Function Body Length:** Warning at 250 lines, error at 350 lines
+- **Type Body Length:** Warning at 1200 lines, error at 1500 lines
+- **Nesting Depth:** Warning at 5 type levels, error at 7 levels
+
+These thresholds are tuned to allow 95%+ of existing code to pass while blocking future complexity growth. Pre-push hooks and CI workflows run `swiftlint lint --strict` to enforce these limits.
+
+### Running SwiftLint Locally
+
+Check for complexity violations:
+
+```sh
+swiftlint lint --strict
+```
+
+Install SwiftLint (macOS):
+
+```sh
+brew install swiftlint
+```
+
+### Exceeding Thresholds
+
+If you need to exceed complexity thresholds for legitimate reasons:
+
+1. Extract helper functions or break large types into smaller units
+2. If refactoring is not feasible, document the exception with a `swiftlint:disable:next` comment:
+
+```swift
+// Rationale: Complex parser handling all ISO box flags per specification.
+// TODO: Consider extracting flag interpretation into helper methods.
+// swiftlint:disable:next cyclomatic_complexity
+func parseComplexBox(...) {
+  // ...
+}
+```
+
+See existing disable pragmas in the codebase for examples of documented exceptions.
+
 ## Documentation
 
 Browse the online documentation at: https://soundblaster.github.io/ISOInspector/documentation/isoinspectorkit/

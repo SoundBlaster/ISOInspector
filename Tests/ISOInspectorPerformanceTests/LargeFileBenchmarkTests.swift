@@ -9,7 +9,6 @@ import _Concurrency
 #if os(Linux)
   import Glibc
 #else
-  import Darwin
   import Darwin.Mach
 #endif
 

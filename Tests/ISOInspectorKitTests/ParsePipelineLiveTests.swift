@@ -3,6 +3,9 @@ import XCTest
 
 @testable import ISOInspectorKit
 
+// Rationale: Large test suite with comprehensive parse pipeline scenarios.
+// @todo #A7 Consider splitting into multiple test files by functional area (e.g., ParsePipelineContainersTests, ParsePipelineFragmentsTests).
+// swiftlint:disable:next type_body_length
 final class ParsePipelineLiveTests: XCTestCase {
   func testLivePipelineEmitsEventsForNestedBoxes() async throws {
     let tkhd = makeBox(type: "tkhd", payload: Data())

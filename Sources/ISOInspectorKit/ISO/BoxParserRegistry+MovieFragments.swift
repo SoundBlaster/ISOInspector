@@ -284,6 +284,9 @@ extension BoxParserRegistry.DefaultParsers {
     }
   }
 
+  // Rationale: Complex parser handling all trun box flags and optional fields per ISO/IEC 14496-12 specification.
+  // @todo #A7 Consider extracting flag interpretation and optional field parsing into separate helper methods.
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
   @Sendable static func trackRun(header: BoxHeader, reader: RandomAccessReader) throws
     -> ParsedBoxPayload?
   {
