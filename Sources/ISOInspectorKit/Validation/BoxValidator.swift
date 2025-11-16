@@ -1,5 +1,12 @@
 import Foundation
 
+// @todo #A7 Refactor BoxValidator.swift to comply with type_body_length threshold
+//   This file currently contains 1738 lines, exceeding the SwiftLint type_body_length
+//   error threshold of 1500 lines. Refactor by extracting individual validation rules
+//   into separate files (one rule per file). Consider creating a ValidationRules
+//   directory. Each rule should live in its own file (e.g., FtypValidationRule.swift,
+//   MoovValidationRule.swift). This is blocking strict SwiftLint enforcement on the
+//   main project in CI. Target: reduce to <1200 lines (warning threshold).
 protocol BoxValidationRule: Sendable {
   func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue]
 }

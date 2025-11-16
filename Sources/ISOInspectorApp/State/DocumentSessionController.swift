@@ -25,7 +25,13 @@
 
   @MainActor
   // Rationale: Central controller coordinating document lifecycle, bookmarks, recents, and parse state.
-  // @todo #A7 Consider extracting bookmark management, recent files management, and parse pipeline coordination into separate services.
+  // @todo #A7 Refactor DocumentSessionController to comply with type_body_length threshold
+  //   This file currently contains 1634 lines, exceeding the SwiftLint type_body_length
+  //   error threshold of 1500 lines. Extract bookmark management, recent files management,
+  //   and parse pipeline coordination into separate services (e.g., BookmarkService,
+  //   RecentsService, ParseCoordinationService). This is blocking strict SwiftLint
+  //   enforcement on the main project in CI. Target: reduce to <1200 lines (warning threshold).
+  //   Remove the swiftlint:disable directive below once refactored.
   // swiftlint:disable:next type_body_length
   final class DocumentSessionController: ObservableObject {
     @Published private(set) var recents: [DocumentRecent]

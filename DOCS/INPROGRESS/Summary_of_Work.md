@@ -153,7 +153,28 @@ These values allow 95%+ of existing code to pass while blocking future regressio
 
 ## PDD Status
 
-No `@todo` puzzles were created during this task. All work was completed as specified.
+Following the Puzzle-Driven Development (PDD) methodology, `@todo` puzzles were added to mark incomplete work:
+
+### Code Puzzles
+
+1. **JSONParseTreeExporter.swift:3** - `@todo #A7` Refactor to <1200 lines by extracting nested types
+2. **BoxValidator.swift:3** - `@todo #A7` Refactor to <1200 lines by extracting validation rules
+3. **DocumentSessionController.swift:28** - `@todo #A7` Refactor to <1200 lines by extracting services
+
+### Configuration Puzzles
+
+4. **.swiftlint.yml:32** - `@todo #A7` Enable strict mode for main project after refactoring
+5. **.github/workflows/swiftlint.yml:64** - `@todo #A7` Switch to strict mode after refactoring
+
+### Task Tracking (todo.md)
+
+Added 4 follow-up tasks under "Task A7 Follow-up: Refactor Large Files":
+- Refactor JSONParseTreeExporter.swift
+- Refactor BoxValidator.swift
+- Refactor DocumentSessionController
+- Enable strict mode after refactoring
+
+These puzzles ensure the incomplete work (enabling strict mode) is tracked and will be addressed in future iterations.
 
 ## References
 

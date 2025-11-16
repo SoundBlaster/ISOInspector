@@ -1,5 +1,11 @@
 import Foundation
 
+// @todo #A7 Refactor JSONParseTreeExporter.swift to comply with type_body_length threshold
+//   This file currently contains 2127 lines, exceeding the SwiftLint type_body_length
+//   error threshold of 1500 lines. Refactor by extracting nested types (Node, Issue,
+//   Payload, etc.) into separate files. Consider creating a JSONPayloadTypes directory
+//   with one file per encodable type. This is blocking strict SwiftLint enforcement
+//   on the main project in CI. Target: reduce to <1200 lines (warning threshold).
 public struct JSONParseTreeExporter {
   private let encoder: JSONEncoder
 
