@@ -67,8 +67,8 @@ jobs:
 
       - name: Run actionlint
         run: |
+          echo "🔍 Running actionlint on GitHub Actions workflows..."
           ./actionlint -color
-        continue-on-error: true
 
   report-validation:
     name: Validation Report
@@ -80,7 +80,30 @@ jobs:
         run: |
           echo "## 📋 Workflow Validation Report"
           echo ""
-          echo "✅ YAML syntax validation completed"
-          echo "✅ Actionlint checks completed"
+
+          # Check YAML syntax validation result
+          if [ "${{ needs.validate-yaml-syntax.result }}" == "success" ]; then
+            echo "✅ YAML syntax validation: **PASSED**"
+          else
+            echo "❌ YAML syntax validation: **FAILED**"
+          fi
+
+          # Check actionlint validation result
+          if [ "${{ needs.validate-with-actionlint.result }}" == "success" ]; then
+            echo "✅ Actionlint validation: **PASSED**"
+          else
+            echo "❌ Actionlint validation: **FAILED**"
+          fi
+
           echo ""
-          echo "All GitHub Actions workflows have been validated."
+
+          # Overall result
+          if [ "${{ needs.validate-yaml-syntax.result }}" == "success" ] && [ "${{ needs.validate-with-actionlint.result }}" == "success" ]; then
+            echo "### ✅ All validations passed successfully"
+            exit 0
+          else
+            echo "### ❌ Some validations failed"
+            echo ""
+            echo "Please review the logs above and fix the issues before merging."
+            exit 1
+          fi
