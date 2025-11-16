@@ -1,4 +1,4 @@
-# Utilities
+# Utilities Catalog
 
 Helper utilities for common tasks.
 
@@ -91,18 +91,21 @@ let displayString = KeyboardShortcuts.copy.displayString
 // Other: "Ctrl+C"
 ```
 
-**Predefined Shortcuts**:
-- `copy` — Copy (⌘C / Ctrl+C)
-- `paste` — Paste (⌘V / Ctrl+V)
-- `cut` — Cut (⌘X / Ctrl+X)
-- `selectAll` — Select All (⌘A / Ctrl+A)
-- `undo` — Undo (⌘Z / Ctrl+Z)
-- `redo` — Redo (⌘⇧Z / Ctrl+Y)
-- `find` — Find (⌘F / Ctrl+F)
-- `save` — Save (⌘S / Ctrl+S)
-- `open` — Open (⌘O / Ctrl+O)
-- `newWindow` — New Window (⌘N / Ctrl+N)
-- `closeWindow` — Close Window (⌘W / Ctrl+W)
+**Predefined Shortcuts**
+
+| Shortcut | Action |
+| --- | --- |
+| `copy` | Copy (⌘C / Ctrl+C) |
+| `paste` | Paste (⌘V / Ctrl+V) |
+| `cut` | Cut (⌘X / Ctrl+X) |
+| `selectAll` | Select All (⌘A / Ctrl+A) |
+| `undo` | Undo (⌘Z / Ctrl+Z) |
+| `redo` | Redo (⌘⇧Z / Ctrl+Y) |
+| `find` | Find (⌘F / Ctrl+F) |
+| `save` | Save (⌘S / Ctrl+S) |
+| `open` | Open (⌘O / Ctrl+O) |
+| `newWindow` | New Window (⌘N / Ctrl+N) |
+| `closeWindow` | Close Window (⌘W / Ctrl+W) |
 
 **Features**:
 - Platform-specific key modifiers (Command/Control)
@@ -297,13 +300,13 @@ class MetadataViewTests: XCTestCase {
 
 ## Further Reading
 
-- <doc:Components> — Components catalog
-- <doc:Accessibility> — Accessibility best practices
-- <doc:PlatformAdaptation> — Platform-specific features
-- ``CopyableText`` — CopyableText API
-- ``Copyable`` — Copyable wrapper API
-- ``KeyboardShortcuts`` — Keyboard shortcuts API
-- ``AccessibilityHelpers`` — Accessibility helpers API
+- <doc:Components>
+- <doc:Accessibility>
+- <doc:PlatformAdaptation>
+- ``CopyableText``
+- ``Copyable``
+- ``KeyboardShortcuts``
+- ``AccessibilityHelpers``
 
 ## See Also
 

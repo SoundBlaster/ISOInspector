@@ -34,10 +34,10 @@ import AppKit
 ///
 /// ## Semantic Colors
 /// Colors are named by semantic meaning, not visual appearance:
-/// - `infoBG`: Neutral informational state (gray)
-/// - `warnBG`: Warning or caution state (orange)
-/// - `errorBG`: Error or failure state (red)
-/// - `successBG`: Success or completion state (green)
+/// - `infoBG`
+/// - `warnBG`
+/// - `errorBG`
+/// - `successBG`
 ///
 /// ## Dark Mode
 /// Colors automatically adapt to the system color scheme:

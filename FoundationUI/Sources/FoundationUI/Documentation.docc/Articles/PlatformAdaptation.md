@@ -278,7 +278,7 @@ Button { }.frame(width: 20, height: 20)  // Too small!
 
 ## See Also
 
-- <doc:Performance> — Platform-specific performance
-- <doc:Accessibility> — Platform-specific accessibility
-- ``PlatformAdaptation`` — Platform adaptation API
-- ``PlatformAdapter`` — Platform detection
+- <doc:Performance>
+- <doc:Accessibility>
+- ``PlatformAdaptation``
+- ``PlatformAdapter``

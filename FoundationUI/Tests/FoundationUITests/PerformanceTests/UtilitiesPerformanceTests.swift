@@ -1,12 +1,13 @@
+import SwiftUI
 // swift-tools-version: 6.0
 import XCTest
-import SwiftUI
+
 @testable import FoundationUI
 
 #if canImport(AppKit)
-import AppKit
+  import AppKit
 #elseif canImport(UIKit)
-import UIKit
+  import UIKit
 #endif
 
 /// Performance tests for FoundationUI utility components
@@ -41,28 +42,27 @@ import UIKit
 /// - Linux: Tests compile but clipboard/UI operations are unavailable
 @MainActor
 final class UtilitiesPerformanceTests: XCTestCase {
+  // MARK: - Performance Baselines
 
-    // MARK: - Performance Baselines
+  /// Target clipboard operation time (in seconds)
+  /// Target: <10ms per clipboard write
+  private let clipboardOperationTarget: TimeInterval = 0.010  // 10ms
 
-    /// Target clipboard operation time (in seconds)
-    /// Target: <10ms per clipboard write
-    private let clipboardOperationTarget: TimeInterval = 0.010 // 10ms
+  /// Target contrast ratio calculation time (in seconds)
+  /// Target: <1ms per color pair calculation
+  private let contrastCalculationTarget: TimeInterval = 0.001  // 1ms
 
-    /// Target contrast ratio calculation time (in seconds)
-    /// Target: <1ms per color pair calculation
-    private let contrastCalculationTarget: TimeInterval = 0.001 // 1ms
+  /// Target accessibility audit time (in seconds)
+  /// Target: <50ms for 100 view hierarchy
+  private let accessibilityAuditTarget: TimeInterval = 0.050  // 50ms
 
-    /// Target accessibility audit time (in seconds)
-    /// Target: <50ms for 100 view hierarchy
-    private let accessibilityAuditTarget: TimeInterval = 0.050 // 50ms
+  /// Target memory footprint (in bytes)
+  /// Target: <5MB for all utilities combined
+  private let memoryFootprintTarget: Int = 5 * 1024 * 1024  // 5MB
 
-    /// Target memory footprint (in bytes)
-    /// Target: <5MB for all utilities combined
-    private let memoryFootprintTarget: Int = 5 * 1024 * 1024 // 5MB
+  // MARK: - CopyableText Performance Tests
 
-    // MARK: - CopyableText Performance Tests
-
-    #if canImport(SwiftUI)
+  #if canImport(SwiftUI)
     /// Test clipboard operation performance for small text
     ///
     /// Measures the time to copy a short string (16 characters) to the clipboard.
@@ -71,22 +71,22 @@ final class UtilitiesPerformanceTests: XCTestCase {
     /// **Target**: <10ms per operation
     /// **Baseline**: First run establishes baseline for regression detection
     func testClipboardPerformance_SmallText() throws {
-        #if os(macOS) || os(iOS)
+      #if os(macOS) || os(iOS)
         let testText = "0x1234ABCD5678EF"
 
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            // Measure clipboard write time
-            #if canImport(AppKit)
+          // Measure clipboard write time
+          #if canImport(AppKit)
             let pasteboard = NSPasteboard.general
             pasteboard.clearContents()
             pasteboard.setString(testText, forType: .string)
-            #elseif canImport(UIKit)
+          #elseif canImport(UIKit)
             UIPasteboard.general.string = testText
-            #endif
+          #endif
         }
-        #else
+      #else
         throw XCTSkip("Clipboard operations require macOS or iOS")
-        #endif
+      #endif
     }
 
     /// Test clipboard operation performance for medium text
@@ -96,21 +96,21 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <10ms per operation
     func testClipboardPerformance_MediumText() throws {
-        #if os(macOS) || os(iOS)
+      #if os(macOS) || os(iOS)
         let testText = String(repeating: "A", count: 256)
 
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            #if canImport(AppKit)
+          #if canImport(AppKit)
             let pasteboard = NSPasteboard.general
             pasteboard.clearContents()
             pasteboard.setString(testText, forType: .string)
-            #elseif canImport(UIKit)
+          #elseif canImport(UIKit)
             UIPasteboard.general.string = testText
-            #endif
+          #endif
         }
-        #else
+      #else
         throw XCTSkip("Clipboard operations require macOS or iOS")
-        #endif
+      #endif
     }
 
     /// Test clipboard operation performance for large text
@@ -120,21 +120,21 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <10ms per operation
     func testClipboardPerformance_LargeText() throws {
-        #if os(macOS) || os(iOS)
+      #if os(macOS) || os(iOS)
         let testText = String(repeating: "A", count: 4096)
 
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            #if canImport(AppKit)
+          #if canImport(AppKit)
             let pasteboard = NSPasteboard.general
             pasteboard.clearContents()
             pasteboard.setString(testText, forType: .string)
-            #elseif canImport(UIKit)
+          #elseif canImport(UIKit)
             UIPasteboard.general.string = testText
-            #endif
+          #endif
         }
-        #else
+      #else
         throw XCTSkip("Clipboard operations require macOS or iOS")
-        #endif
+      #endif
     }
 
     /// Test CopyableText view rendering performance
@@ -144,9 +144,9 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <1ms per view creation
     func testCopyableTextViewPerformance() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            _ = CopyableText(text: "0x1234ABCD", label: "Test Value")
-        }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        _ = CopyableText(text: "0x1234ABCD", label: "Test Value")
+      }
     }
 
     /// Test CopyableText view hierarchy performance
@@ -156,18 +156,18 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <10ms for 50 views
     func testCopyableTextHierarchyPerformance() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            let views = (0..<50).map { index in
-                CopyableText(text: "Value \(index)", label: "Label \(index)")
-            }
-            _ = views.count // Ensure views are created
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        let views = (0..<50).map { index in
+          CopyableText(text: "Value \(index)", label: "Label \(index)")
         }
+        _ = views.count  // Ensure views are created
+      }
     }
-    #endif
+  #endif
 
-    // MARK: - KeyboardShortcuts Performance Tests
+  // MARK: - KeyboardShortcuts Performance Tests
 
-    #if canImport(SwiftUI)
+  #if canImport(SwiftUI)
     /// Test keyboard shortcut display string formatting performance
     ///
     /// Measures the time to format a keyboard shortcut display string (e.g., "⌘C").
@@ -175,20 +175,20 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <0.1ms per format operation
     func testKeyboardShortcutFormattingPerformance() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            // Test all standard shortcuts
-            _ = KeyboardShortcutType.copy.displayString
-            _ = KeyboardShortcutType.paste.displayString
-            _ = KeyboardShortcutType.cut.displayString
-            _ = KeyboardShortcutType.selectAll.displayString
-            _ = KeyboardShortcutType.undo.displayString
-            _ = KeyboardShortcutType.redo.displayString
-            _ = KeyboardShortcutType.find.displayString
-            _ = KeyboardShortcutType.save.displayString
-            _ = KeyboardShortcutType.newItem.displayString
-            _ = KeyboardShortcutType.close.displayString
-            _ = KeyboardShortcutType.refresh.displayString
-        }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        // Test all standard shortcuts
+        _ = KeyboardShortcutType.copy.displayString
+        _ = KeyboardShortcutType.paste.displayString
+        _ = KeyboardShortcutType.cut.displayString
+        _ = KeyboardShortcutType.selectAll.displayString
+        _ = KeyboardShortcutType.undo.displayString
+        _ = KeyboardShortcutType.redo.displayString
+        _ = KeyboardShortcutType.find.displayString
+        _ = KeyboardShortcutType.save.displayString
+        _ = KeyboardShortcutType.newItem.displayString
+        _ = KeyboardShortcutType.close.displayString
+        _ = KeyboardShortcutType.refresh.displayString
+      }
     }
 
     /// Test keyboard shortcut accessibility label generation performance
@@ -198,14 +198,14 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <0.1ms per label generation
     func testKeyboardShortcutAccessibilityLabelPerformance() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            _ = KeyboardShortcutType.copy.accessibilityLabel
-            _ = KeyboardShortcutType.paste.accessibilityLabel
-            _ = KeyboardShortcutType.cut.accessibilityLabel
-            _ = KeyboardShortcutType.selectAll.accessibilityLabel
-            _ = KeyboardShortcutType.undo.accessibilityLabel
-            _ = KeyboardShortcutType.redo.accessibilityLabel
-        }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        _ = KeyboardShortcutType.copy.accessibilityLabel
+        _ = KeyboardShortcutType.paste.accessibilityLabel
+        _ = KeyboardShortcutType.cut.accessibilityLabel
+        _ = KeyboardShortcutType.selectAll.accessibilityLabel
+        _ = KeyboardShortcutType.undo.accessibilityLabel
+        _ = KeyboardShortcutType.redo.accessibilityLabel
+      }
     }
 
     /// Test keyboard shortcut platform detection performance
@@ -215,20 +215,20 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <0.01ms per detection
     func testKeyboardShortcutPlatformDetectionPerformance() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            // Test platform-specific modifiers
-            #if os(macOS)
-            _ = KeyboardShortcutModifiers.command
-            #else
-            _ = KeyboardShortcutModifiers.control
-            #endif
-        }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        // Test platform-specific modifiers
+        #if os(macOS)
+          _ = KeyboardShortcutModifiers.command
+        #else
+          _ = KeyboardShortcutModifiers.control
+        #endif
+      }
     }
-    #endif
+  #endif
 
-    // MARK: - AccessibilityHelpers Performance Tests
+  // MARK: - AccessibilityHelpers Performance Tests
 
-    #if canImport(SwiftUI)
+  #if canImport(SwiftUI)
     /// Test contrast ratio calculation performance for single color pair
     ///
     /// Measures the time to calculate contrast ratio between two colors.
@@ -237,12 +237,12 @@ final class UtilitiesPerformanceTests: XCTestCase {
     /// **Target**: <1ms per calculation
     /// **WCAG 2.1**: Contrast ratio must be calculated accurately for AA/AAA compliance
     func testContrastRatioCalculationPerformance_SinglePair() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            _ = AccessibilityHelpers.contrastRatio(
-                foreground: .black,
-                background: .white
-            )
-        }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        _ = AccessibilityHelpers.contrastRatio(
+          foreground: .black,
+          background: .white
+        )
+      }
     }
 
     /// Test contrast ratio calculation performance for all DS colors
@@ -252,28 +252,28 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <5ms for all DS color pairs
     func testContrastRatioCalculationPerformance_AllDSColors() {
-        let colors: [Color] = [
-            DS.Colors.infoBG,
-            DS.Colors.warnBG,
-            DS.Colors.errorBG,
-            DS.Colors.successBG,
-            DS.Colors.accent,
-            DS.Colors.secondary,
-            DS.Colors.tertiary,
-            DS.Colors.textPrimary,
-            DS.Colors.textSecondary
-        ]
+      let colors: [Color] = [
+        DS.Colors.infoBG,
+        DS.Colors.warnBG,
+        DS.Colors.errorBG,
+        DS.Colors.successBG,
+        DS.Colors.accent,
+        DS.Colors.secondary,
+        DS.Colors.tertiary,
+        DS.Colors.textPrimary,
+        DS.Colors.textSecondary,
+      ]
 
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            for foreground in colors {
-                for background in colors {
-                    _ = AccessibilityHelpers.contrastRatio(
-                        foreground: foreground,
-                        background: background
-                    )
-                }
-            }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        for foreground in colors {
+          for background in colors {
+            _ = AccessibilityHelpers.contrastRatio(
+              foreground: foreground,
+              background: background
+            )
+          }
         }
+      }
     }
 
     /// Test WCAG AA validation performance
@@ -283,12 +283,12 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <1ms per validation
     func testWCAG_AA_ValidationPerformance() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            _ = AccessibilityHelpers.meetsWCAG_AA(
-                foreground: DS.Colors.textPrimary,
-                background: DS.Colors.infoBG
-            )
-        }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        _ = AccessibilityHelpers.meetsWCAG_AA(
+          foreground: DS.Colors.textPrimary,
+          background: DS.Colors.infoBG
+        )
+      }
     }
 
     /// Test WCAG AAA validation performance
@@ -297,12 +297,12 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <1ms per validation
     func testWCAG_AAA_ValidationPerformance() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            _ = AccessibilityHelpers.meetsWCAG_AAA(
-                foreground: DS.Colors.textPrimary,
-                background: DS.Colors.infoBG
-            )
-        }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        _ = AccessibilityHelpers.meetsWCAG_AAA(
+          foreground: DS.Colors.textPrimary,
+          background: DS.Colors.infoBG
+        )
+      }
     }
 
     /// Test color contrast calculation overhead
@@ -312,13 +312,21 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <1ms per calculation (includes luminance calculation overhead)
     func testColorContrastCalculationOverhead() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            // Test contrast with same color (1:1 ratio) to measure pure calculation overhead
-            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.infoBG, background: DS.Colors.infoBG)
-            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.warnBG, background: DS.Colors.warnBG)
-            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.errorBG, background: DS.Colors.errorBG)
-            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.successBG, background: DS.Colors.successBG)
-        }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        // Test contrast with same color (1:1 ratio) to measure pure calculation overhead
+        _ = AccessibilityHelpers.contrastRatio(
+          foreground: DS.Colors.infoBG, background: DS.Colors.infoBG
+        )
+        _ = AccessibilityHelpers.contrastRatio(
+          foreground: DS.Colors.warnBG, background: DS.Colors.warnBG
+        )
+        _ = AccessibilityHelpers.contrastRatio(
+          foreground: DS.Colors.errorBG, background: DS.Colors.errorBG
+        )
+        _ = AccessibilityHelpers.contrastRatio(
+          foreground: DS.Colors.successBG, background: DS.Colors.successBG
+        )
+      }
     }
 
     /// Test VoiceOver hint builder performance
@@ -327,11 +335,11 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <0.1ms per hint
     func testVoiceOverHintBuilderPerformance() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            _ = AccessibilityHelpers.voiceOverHint(action: "copy", target: "value")
-            _ = AccessibilityHelpers.voiceOverHint(action: "paste", target: "text")
-            _ = AccessibilityHelpers.voiceOverHint(action: "delete", target: "item")
-        }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        _ = AccessibilityHelpers.voiceOverHint(action: "copy", target: "value")
+        _ = AccessibilityHelpers.voiceOverHint(action: "paste", target: "text")
+        _ = AccessibilityHelpers.voiceOverHint(action: "delete", target: "item")
+      }
     }
 
     /// Test accessibility audit performance for small hierarchy
@@ -340,18 +348,18 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <5ms for 10 views
     func testAccessibilityAuditPerformance_SmallHierarchy() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            // Audit 10 views
-            for _ in 0..<10 {
-                let audit = AccessibilityHelpers.auditView(
-                    hasLabel: true,
-                    hasHint: true,
-                    touchTargetSize: CGSize(width: 44, height: 44),
-                    contrastRatio: 7.0
-                )
-                _ = audit.passes
-            }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        // Audit 10 views
+        for _ in 0..<10 {
+          let audit = AccessibilityHelpers.auditView(
+            hasLabel: true,
+            hasHint: true,
+            touchTargetSize: CGSize(width: 44, height: 44),
+            contrastRatio: 7.0
+          )
+          _ = audit.passes
         }
+      }
     }
 
     /// Test accessibility audit performance for medium hierarchy
@@ -360,18 +368,18 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <25ms for 50 views
     func testAccessibilityAuditPerformance_MediumHierarchy() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            // Audit 50 views
-            for _ in 0..<50 {
-                let audit = AccessibilityHelpers.auditView(
-                    hasLabel: true,
-                    hasHint: true,
-                    touchTargetSize: CGSize(width: 44, height: 44),
-                    contrastRatio: 7.0
-                )
-                _ = audit.passes
-            }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        // Audit 50 views
+        for _ in 0..<50 {
+          let audit = AccessibilityHelpers.auditView(
+            hasLabel: true,
+            hasHint: true,
+            touchTargetSize: CGSize(width: 44, height: 44),
+            contrastRatio: 7.0
+          )
+          _ = audit.passes
         }
+      }
     }
 
     /// Test accessibility audit performance for large hierarchy
@@ -381,18 +389,18 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <50ms for 100 views
     func testAccessibilityAuditPerformance_LargeHierarchy() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            // Audit 100 views
-            for _ in 0..<100 {
-                let audit = AccessibilityHelpers.auditView(
-                    hasLabel: true,
-                    hasHint: true,
-                    touchTargetSize: CGSize(width: 44, height: 44),
-                    contrastRatio: 7.0
-                )
-                _ = audit.passes
-            }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        // Audit 100 views
+        for _ in 0..<100 {
+          let audit = AccessibilityHelpers.auditView(
+            hasLabel: true,
+            hasHint: true,
+            touchTargetSize: CGSize(width: 44, height: 44),
+            contrastRatio: 7.0
+          )
+          _ = audit.passes
         }
+      }
     }
 
     /// Test touch target size validation performance
@@ -401,24 +409,24 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <0.1ms per validation
     func testTouchTargetValidationPerformance() {
-        let sizes: [CGSize] = [
-            CGSize(width: 44, height: 44),  // Minimum iOS
-            CGSize(width: 48, height: 48),  // Comfortable
-            CGSize(width: 32, height: 32),  // Too small
-            CGSize(width: 60, height: 60)   // Large
-        ]
+      let sizes: [CGSize] = [
+        CGSize(width: 44, height: 44),  // Minimum iOS
+        CGSize(width: 48, height: 48),  // Comfortable
+        CGSize(width: 32, height: 32),  // Too small
+        CGSize(width: 60, height: 60),  // Large
+      ]
 
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            for size in sizes {
-                _ = AccessibilityHelpers.isValidTouchTarget(size: size)
-            }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        for size in sizes {
+          _ = AccessibilityHelpers.isValidTouchTarget(size: size)
         }
+      }
     }
-    #endif
+  #endif
 
-    // MARK: - Combined Utilities Performance Tests
+  // MARK: - Combined Utilities Performance Tests
 
-    #if canImport(SwiftUI)
+  #if canImport(SwiftUI)
     /// Test memory footprint of all utilities combined
     ///
     /// Measures the memory usage when all utilities are used together in a typical screen.
@@ -429,27 +437,27 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <5MB combined memory footprint
     func testCombinedUtilitiesMemoryFootprint() {
-        measure(metrics: [XCTStorageMetric()]) {
-            // Create a screen with all utilities
-            _ = (0..<20).map { index in
-                CopyableText(text: "Value \(index)", label: "Label \(index)")
-            }
-
-            // Format keyboard shortcuts
-            _ = [
-                KeyboardShortcutType.copy.displayString,
-                KeyboardShortcutType.paste.displayString,
-                KeyboardShortcutType.cut.displayString
-            ]
-
-            // Perform accessibility checks
-            for _ in 0..<10 {
-                _ = AccessibilityHelpers.contrastRatio(
-                    foreground: DS.Colors.textPrimary,
-                    background: DS.Colors.infoBG
-                )
-            }
+      measure(metrics: [XCTStorageMetric()]) {
+        // Create a screen with all utilities
+        _ = (0..<20).map { index in
+          CopyableText(text: "Value \(index)", label: "Label \(index)")
         }
+
+        // Format keyboard shortcuts
+        _ = [
+          KeyboardShortcutType.copy.displayString,
+          KeyboardShortcutType.paste.displayString,
+          KeyboardShortcutType.cut.displayString,
+        ]
+
+        // Perform accessibility checks
+        for _ in 0..<10 {
+          _ = AccessibilityHelpers.contrastRatio(
+            foreground: DS.Colors.textPrimary,
+            background: DS.Colors.infoBG
+          )
+        }
+      }
     }
 
     /// Test combined utilities CPU performance
@@ -458,39 +466,39 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <20ms total CPU time
     func testCombinedUtilitiesCPUPerformance() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            // Create copyable text views
-            let copyableViews = (0..<10).map { index in
-                CopyableText(text: "Value \(index)", label: "Label \(index)")
-            }
-            _ = copyableViews.count
-
-            // Format keyboard shortcuts
-            let shortcuts = [
-                KeyboardShortcutType.copy.displayString,
-                KeyboardShortcutType.paste.displayString,
-                KeyboardShortcutType.cut.displayString,
-                KeyboardShortcutType.selectAll.displayString
-            ]
-            _ = shortcuts.count
-
-            // Perform accessibility audits
-            for _ in 0..<10 {
-                let audit = AccessibilityHelpers.auditView(
-                    hasLabel: true,
-                    hasHint: true,
-                    touchTargetSize: CGSize(width: 44, height: 44),
-                    contrastRatio: 7.0
-                )
-                _ = audit.passes
-            }
-
-            // Calculate contrast ratios for DS colors
-            _ = AccessibilityHelpers.contrastRatio(
-                foreground: DS.Colors.textPrimary,
-                background: DS.Colors.infoBG
-            )
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        // Create copyable text views
+        let copyableViews = (0..<10).map { index in
+          CopyableText(text: "Value \(index)", label: "Label \(index)")
         }
+        _ = copyableViews.count
+
+        // Format keyboard shortcuts
+        let shortcuts = [
+          KeyboardShortcutType.copy.displayString,
+          KeyboardShortcutType.paste.displayString,
+          KeyboardShortcutType.cut.displayString,
+          KeyboardShortcutType.selectAll.displayString,
+        ]
+        _ = shortcuts.count
+
+        // Perform accessibility audits
+        for _ in 0..<10 {
+          let audit = AccessibilityHelpers.auditView(
+            hasLabel: true,
+            hasHint: true,
+            touchTargetSize: CGSize(width: 44, height: 44),
+            contrastRatio: 7.0
+          )
+          _ = audit.passes
+        }
+
+        // Calculate contrast ratios for DS colors
+        _ = AccessibilityHelpers.contrastRatio(
+          foreground: DS.Colors.textPrimary,
+          background: DS.Colors.infoBG
+        )
+      }
     }
 
     /// Test stress scenario with many utilities
@@ -500,103 +508,103 @@ final class UtilitiesPerformanceTests: XCTestCase {
     ///
     /// **Target**: <100ms total CPU time
     func testStressScenario_ManyUtilities() {
-        measure(metrics: PerformanceTestHelpers.cpuMetrics) {
-            // Create 100 copyable text views
-            let views = (0..<100).map { index in
-                CopyableText(text: "Value \(index)", label: "Label \(index)")
-            }
-            _ = views.count
-
-            // Calculate contrast for all DS color pairs
-            let colors = [
-                DS.Colors.infoBG,
-                DS.Colors.warnBG,
-                DS.Colors.errorBG,
-                DS.Colors.successBG
-            ]
-            for foreground in colors {
-                for background in colors {
-                    _ = AccessibilityHelpers.contrastRatio(
-                        foreground: foreground,
-                        background: background
-                    )
-                }
-            }
-
-            // Audit 100 views
-            for _ in 0..<100 {
-                _ = AccessibilityHelpers.auditView(
-                    hasLabel: true,
-                    hasHint: true,
-                    touchTargetSize: CGSize(width: 44, height: 44),
-                    contrastRatio: 7.0
-                )
-            }
+      measure(metrics: PerformanceTestHelpers.cpuMetrics) {
+        // Create 100 copyable text views
+        let views = (0..<100).map { index in
+          CopyableText(text: "Value \(index)", label: "Label \(index)")
         }
+        _ = views.count
+
+        // Calculate contrast for all DS color pairs
+        let colors = [
+          DS.Colors.infoBG,
+          DS.Colors.warnBG,
+          DS.Colors.errorBG,
+          DS.Colors.successBG,
+        ]
+        for foreground in colors {
+          for background in colors {
+            _ = AccessibilityHelpers.contrastRatio(
+              foreground: foreground,
+              background: background
+            )
+          }
+        }
+
+        // Audit 100 views
+        for _ in 0..<100 {
+          _ = AccessibilityHelpers.auditView(
+            hasLabel: true,
+            hasHint: true,
+            touchTargetSize: CGSize(width: 44, height: 44),
+            contrastRatio: 7.0
+          )
+        }
+      }
     }
-    #endif
+  #endif
 
-    // MARK: - Regression Guards
+  // MARK: - Regression Guards
 
-    /// Test that clipboard operations don't cause memory leaks
-    ///
-    /// Ensures that repeated clipboard operations don't leak memory.
-    ///
-    /// **Target**: No memory growth after warmup
-    func testClipboardMemoryLeak() throws {
-        #if os(macOS) || os(iOS)
-        // Warm up
-        for _ in 0..<10 {
-            #if canImport(AppKit)
+  /// Test that clipboard operations don't cause memory leaks
+  ///
+  /// Ensures that repeated clipboard operations don't leak memory.
+  ///
+  /// **Target**: No memory growth after warmup
+  func testClipboardMemoryLeak() throws {
+    #if os(macOS) || os(iOS)
+      // Warm up
+      for _ in 0..<10 {
+        #if canImport(AppKit)
+          let pasteboard = NSPasteboard.general
+          pasteboard.clearContents()
+          pasteboard.setString("Test", forType: .string)
+        #elseif canImport(UIKit)
+          UIPasteboard.general.string = "Test"
+        #endif
+      }
+
+      // Measure with storage metric to detect leaks
+      measure(metrics: [XCTStorageMetric()]) {
+        for _ in 0..<1000 {
+          #if canImport(AppKit)
             let pasteboard = NSPasteboard.general
             pasteboard.clearContents()
             pasteboard.setString("Test", forType: .string)
-            #elseif canImport(UIKit)
+          #elseif canImport(UIKit)
             UIPasteboard.general.string = "Test"
-            #endif
+          #endif
         }
+      }
+    #else
+      throw XCTSkip("Clipboard operations require macOS or iOS")
+    #endif
+  }
 
-        // Measure with storage metric to detect leaks
-        measure(metrics: [XCTStorageMetric()]) {
-            for _ in 0..<1000 {
-                #if canImport(AppKit)
-                let pasteboard = NSPasteboard.general
-                pasteboard.clearContents()
-                pasteboard.setString("Test", forType: .string)
-                #elseif canImport(UIKit)
-                UIPasteboard.general.string = "Test"
-                #endif
-            }
-        }
-        #else
-        throw XCTSkip("Clipboard operations require macOS or iOS")
-        #endif
-    }
-
-    #if canImport(SwiftUI)
+  #if canImport(SwiftUI)
     /// Test that contrast ratio calculations don't cause memory leaks
     ///
     /// Ensures that repeated color operations don't leak memory.
     ///
     /// **Target**: No memory growth after warmup
     func testContrastCalculationMemoryLeak() {
-        // Warm up
-        for _ in 0..<10 {
-            _ = AccessibilityHelpers.contrastRatio(
-                foreground: .black,
-                background: .white
-            )
-        }
+      // Warm up
+      for _ in 0..<10 {
+        _ = AccessibilityHelpers.contrastRatio(
+          foreground: .black,
+          background: .white
+        )
+      }
 
-        // Measure with storage metric to detect leaks
-        measure(metrics: [XCTStorageMetric()]) {
-            for _ in 0..<1000 {
-                _ = AccessibilityHelpers.contrastRatio(
-                    foreground: DS.Colors.textPrimary,
-                    background: DS.Colors.infoBG
-                )
-            }
+      // Measure with storage metric to detect leaks
+      measure(metrics: [XCTStorageMetric()]) {
+        for _ in 0..<1000 {
+          _ = AccessibilityHelpers.contrastRatio(
+            foreground: DS.Colors.textPrimary,
+            background: DS.Colors.infoBG
+          )
         }
+      }
     }
-    #endif
+  #endif
 }

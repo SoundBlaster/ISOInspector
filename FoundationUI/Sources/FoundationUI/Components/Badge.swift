@@ -45,9 +45,9 @@ import SwiftUI
 /// - macOS 14.0+
 ///
 /// ## See Also
-/// - ``BadgeLevel``: Semantic badge level enumeration
-/// - ``BadgeChipStyle``: View modifier for badge chip styling
-/// - ``DS/Color``: Design System color tokens
+/// - ``BadgeLevel``
+/// - ``BadgeChipStyle``
+/// - ``DS/Colors``
 public struct Badge: View {
     // MARK: - Properties
 

@@ -63,10 +63,10 @@ This document provides an index and summary of all archived FoundationUI impleme
   - Agent usage guidelines and best practices
 
 - **Example YAML Files** (4 files, ~12KB total)
-  - `badge_examples.yaml`: 6 comprehensive Badge examples (all levels, composition)
-  - `inspector_pattern_examples.yaml`: 3 InspectorPattern examples (metadata, hex viewer, audio)
-  - `complete_ui_example.yaml`: Full three-column ISO Inspector layout demonstration
-  - `README.md`: Agent usage guide with parsing and validation workflow
+  - `badge_examples.yaml`
+  - `inspector_pattern_examples.yaml`
+  - `complete_ui_example.yaml`
+  - `README.md`
 
 **Files Created**:
 - `Sources/FoundationUI/AgentSupport/ComponentSchema.yaml` (22KB, 758 lines)

@@ -92,11 +92,11 @@ Documentation.docc/
 **Files**: Add DocC comments to existing tokens
 
 **Coverage**:
-- `DS.Spacing`: All spacing values (s, m, l, xl, platformDefault)
-- `DS.Typography`: All font styles (label, body, title, caption, code, headline, subheadline)
-- `DS.Colors`: All semantic colors (infoBG, warnBG, errorBG, successBG, accent, text colors)
-- `DS.Radius`: All corner radii (small, medium, card, chip)
-- `DS.Animation`: All animation presets (quick, medium, slow, spring)
+- `DS.Spacing`
+- `DS.Typography`
+- `DS.Colors`
+- `DS.Radius`
+- `DS.Animation`
 
 **Visual Examples**:
 - Color swatches with hex values (Light/Dark mode)
@@ -117,11 +117,11 @@ Documentation.docc/
 **Files**: Add DocC comments to modifiers
 
 **Coverage**:
-- `BadgeChipStyle`: Badge styling with semantic levels
-- `CardStyle`: Card elevation and shadows
-- `InteractiveStyle`: Hover and touch feedback
-- `SurfaceStyle`: Material-based backgrounds
-- `CopyableModifier`: Universal copyable text modifier
+- `BadgeChipStyle`
+- `CardStyle`
+- `InteractiveStyle`
+- `SurfaceStyle`
+- `CopyableModifier`
 
 **Documentation Format**:
 ```swift
@@ -169,12 +169,12 @@ Documentation.docc/
 **Files**: Add DocC comments to components
 
 **Coverage**:
-- `Badge`: Semantic status indicators
-- `Card`: Container with elevation and materials
-- `KeyValueRow`: Key-value pair display
-- `SectionHeader`: Section titles with dividers
-- `CopyableText`: Copyable text utility component
-- `Copyable<Content>`: Generic copyable wrapper
+- `Badge`
+- `Card`
+- `KeyValueRow`
+- `SectionHeader`
+- `CopyableText`
+- `Copyable<Content>`
 
 **Documentation Format**:
 - Component overview and purpose
@@ -230,10 +230,10 @@ Documentation.docc/
 **Files**: Add DocC comments to patterns
 
 **Coverage**:
-- `InspectorPattern`: Scrollable inspector with header
-- `SidebarPattern`: Navigation sidebar with sections
-- `ToolbarPattern`: Platform-adaptive toolbar
-- `BoxTreePattern`: Hierarchical tree view
+- `InspectorPattern`
+- `SidebarPattern`
+- `ToolbarPattern`
+- `BoxTreePattern`
 
 **Documentation Format**:
 - Pattern purpose and use cases

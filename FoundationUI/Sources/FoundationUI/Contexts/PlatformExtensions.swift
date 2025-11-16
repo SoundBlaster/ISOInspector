@@ -6,48 +6,48 @@ import UIKit
 
 // MARK: - Platform-Specific Extensions
 
-/// Platform-specific view extensions for macOS, iOS, and iPadOS
-///
-/// `PlatformExtensions` provides platform-native behavior through view extensions:
-/// - **macOS**: Keyboard shortcuts (⌘C, ⌘V, ⌘X, ⌘A)
-/// - **iOS**: Touch gestures (tap, long press, swipe)
-/// - **iPadOS**: Pointer interactions (hover effects)
-///
-/// ## Overview
-/// The extensions follow FoundationUI's **zero magic numbers** principle, using only
-/// Design System (DS) tokens for timing and animation values.
-///
-/// ## Platform-Specific Usage
-///
-/// ### macOS Keyboard Shortcuts
-/// ```swift
-/// Button("Copy") { /* action */ }
-///     .platformKeyboardShortcut(.copy)
-/// ```
-///
-/// ### iOS Gestures
-/// ```swift
-/// Text("Tap me")
-///     .platformTapGesture {
-///         print("Tapped!")
-///     }
-/// ```
-///
-/// ### iPadOS Pointer Interactions
-/// ```swift
-/// Button("Hover") { /* action */ }
-///     .platformHoverEffect()  // Only applies on iPad
-/// ```
-///
-/// ## Conditional Compilation
-/// All extensions use conditional compilation for platform-specific code:
-/// - `#if os(macOS)` for macOS-only features
-/// - `#if os(iOS)` for iOS/iPadOS features
-/// - Runtime `UIDevice.current.userInterfaceIdiom == .pad` for iPadOS detection
-///
-/// ## See Also
-/// - ``PlatformAdapter``
-/// - ``DS/Animation``
+// Platform-specific view extensions for macOS, iOS, and iPadOS
+//
+// `PlatformExtensions` provides platform-native behavior through view extensions:
+// - **macOS**: Keyboard shortcuts (⌘C, ⌘V, ⌘X, ⌘A)
+// - **iOS**: Touch gestures (tap, long press, swipe)
+// - **iPadOS**: Pointer interactions (hover effects)
+//
+// ## Overview
+// The extensions follow FoundationUI's **zero magic numbers** principle, using only
+// Design System (DS) tokens for timing and animation values.
+//
+// ## Platform-Specific Usage
+//
+// ### macOS Keyboard Shortcuts
+// ```swift
+// Button("Copy") { /* action */ }
+//     .platformKeyboardShortcut(.copy)
+// ```
+//
+// ### iOS Gestures
+// ```swift
+// Text("Tap me")
+//     .platformTapGesture {
+//         print("Tapped!")
+//     }
+// ```
+//
+// ### iPadOS Pointer Interactions
+// ```swift
+// Button("Hover") { /* action */ }
+//     .platformHoverEffect()  // Only applies on iPad
+// ```
+//
+// ## Conditional Compilation
+// All extensions use conditional compilation for platform-specific code:
+// - `#if os(macOS)` for macOS-only features
+// - `#if os(iOS)` for iOS/iPadOS features
+// - Runtime `UIDevice.current.userInterfaceIdiom == .pad` for iPadOS detection
+//
+// ## See Also
+// - ``PlatformAdapter``
+// - ``DS/Animation``
 
 // MARK: - macOS Keyboard Shortcuts
 
@@ -69,16 +69,16 @@ public enum PlatformKeyboardShortcutType {
     /// Key equivalent for the shortcut
     var keyEquivalent: KeyEquivalent {
         switch self {
-        case .copy: return "c"
-        case .paste: return "v"
-        case .cut: return "x"
-        case .selectAll: return "a"
+        case .copy: "c"
+        case .paste: "v"
+        case .cut: "x"
+        case .selectAll: "a"
         }
     }
 
     /// Event modifiers for the shortcut (always Command on macOS)
     var modifiers: EventModifiers {
-        return .command
+        .command
     }
 }
 
@@ -101,17 +101,17 @@ public extension View {
     /// - **iOS/iPadOS**: Not available (conditional compilation)
     ///
     /// ## Keyboard Shortcuts
-    /// - `.copy`: ⌘C
-    /// - `.paste`: ⌘V
-    /// - `.cut`: ⌘X
-    /// - `.selectAll`: ⌘A
+    /// - `.copy`
+    /// - `.paste`
+    /// - `.cut`
+    /// - `.selectAll`
     ///
     /// - Parameter type: The type of keyboard shortcut to apply
     /// - Returns: View with keyboard shortcut applied
     func platformKeyboardShortcut(
         _ type: PlatformKeyboardShortcutType
     ) -> some View {
-        self.keyboardShortcut(type.keyEquivalent, modifiers: type.modifiers)
+        keyboardShortcut(type.keyEquivalent, modifiers: type.modifiers)
     }
 
     /// Applies a platform-specific keyboard shortcut with custom action on macOS
@@ -191,7 +191,7 @@ public extension View {
         count: Int = 1,
         perform action: @escaping () -> Void
     ) -> some View {
-        self.onTapGesture(count: count, perform: action)
+        onTapGesture(count: count, perform: action)
     }
 
     /// Applies a platform-specific long press gesture on iOS/iPadOS
@@ -223,7 +223,7 @@ public extension View {
         minimumDuration: Double = 0.5,
         perform action: @escaping () -> Void
     ) -> some View {
-        self.onLongPressGesture(minimumDuration: minimumDuration, perform: action)
+        onLongPressGesture(minimumDuration: minimumDuration, perform: action)
     }
 
     /// Applies a platform-specific swipe gesture on iOS/iPadOS
@@ -255,7 +255,7 @@ public extension View {
         direction: PlatformSwipeDirection,
         perform action: @escaping () -> Void
     ) -> some View {
-        self.gesture(
+        gesture(
             DragGesture(minimumDistance: DS.Spacing.xl)
                 .onEnded { value in
                     let horizontalAmount = value.translation.width
@@ -264,16 +264,16 @@ public extension View {
                     // Determine primary direction based on larger magnitude
                     if abs(horizontalAmount) > abs(verticalAmount) {
                         // Horizontal swipe
-                        if horizontalAmount < 0 && direction == .left {
+                        if horizontalAmount < 0, direction == .left {
                             action()
-                        } else if horizontalAmount > 0 && direction == .right {
+                        } else if horizontalAmount > 0, direction == .right {
                             action()
                         }
                     } else {
                         // Vertical swipe
-                        if verticalAmount < 0 && direction == .up {
+                        if verticalAmount < 0, direction == .up {
                             action()
-                        } else if verticalAmount > 0 && direction == .down {
+                        } else if verticalAmount > 0, direction == .down {
                             action()
                         }
                     }
@@ -336,11 +336,11 @@ public extension View {
             // Only apply hover effect on iPad
             switch style {
             case .lift:
-                self.hoverEffect(.lift)
+                hoverEffect(.lift)
             case .highlight:
-                self.hoverEffect(.highlight)
+                hoverEffect(.highlight)
             case .automatic:
-                self.hoverEffect(.automatic)
+                hoverEffect(.automatic)
             }
         } else {
             // On iPhone, return unchanged
@@ -366,8 +366,8 @@ public extension View {
     ///
     /// ## Animation Timing
     /// Uses DS.Animation tokens for consistent timing across the design system:
-    /// - `DS.Animation.quick`: Fast, snappy hover (0.15s)
-    /// - `DS.Animation.medium`: Standard hover (0.25s)
+    /// - `DS.Animation.quick`
+    /// - `DS.Animation.medium`
     ///
     /// - Parameters:
     ///   - style: The hover effect style
@@ -382,13 +382,13 @@ public extension View {
             // Only apply hover effect on iPad with animation
             switch style {
             case .lift:
-                self.hoverEffect(.lift)
+                hoverEffect(.lift)
                     .animation(animation, value: UUID()) // Trigger animation
             case .highlight:
-                self.hoverEffect(.highlight)
+                hoverEffect(.highlight)
                     .animation(animation, value: UUID())
             case .automatic:
-                self.hoverEffect(.automatic)
+                hoverEffect(.automatic)
                     .animation(animation, value: UUID())
             }
         } else {

@@ -27,9 +27,9 @@ import SwiftUI
 /// - When Reduce Motion is **enabled**: Animations are instant (duration → 0)
 ///
 /// ## Tokens
-/// - `quick`: Fast, snappy animations for immediate feedback (0.15s)
-/// - `medium`: Standard animations for most UI transitions (0.25s)
-/// - `slow`: Slower animations for complex state changes (0.35s)
+/// - `quick`
+/// - `medium`
+/// - `slow`
 ///
 /// ## Design Rationale
 /// - **quick**: Used for button presses, hover states, immediate visual feedback
@@ -127,7 +127,7 @@ public extension DS {
         ) -> SwiftUI.Animation? {
             // Note: In a real implementation, we'd check AccessibilitySettings
             // For now, we return the animation as-is since SwiftUI handles this
-            return animation
+            animation
         }
     }
 }

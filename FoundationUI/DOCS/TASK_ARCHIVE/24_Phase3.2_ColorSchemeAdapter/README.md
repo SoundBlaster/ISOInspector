@@ -53,13 +53,13 @@ if adapter.isDarkMode {
 ```
 
 ### 2. Adaptive Color Properties
-- `adaptiveBackground`: Primary background color
-- `adaptiveSecondaryBackground`: Secondary background for panels
-- `adaptiveElevatedSurface`: Elevated cards and panels
-- `adaptiveTextColor`: Primary text color
-- `adaptiveSecondaryTextColor`: Secondary/muted text
-- `adaptiveBorderColor`: Border and outline colors
-- `adaptiveDividerColor`: Subtle dividers and separators
+- `adaptiveBackground`
+- `adaptiveSecondaryBackground`
+- `adaptiveElevatedSurface`
+- `adaptiveTextColor`
+- `adaptiveSecondaryTextColor`
+- `adaptiveBorderColor`
+- `adaptiveDividerColor`
 
 ### 3. View Modifier
 ```swift

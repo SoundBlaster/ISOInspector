@@ -21,18 +21,19 @@ VStack {
 .environment(\.surfaceStyle, .thick)
 ```
 
-**Material Types**:
-- `.thin` — Subtle translucency
-- `.regular` — Balanced opacity (default)
-- `.thick` — Prominent material effect
-- `.ultraThin` — Maximum translucency
-- `.ultraThick` — Maximum opacity
+**Material Types**
 
-**Features**:
-- Environment propagation to child views
-- Platform-adaptive rendering
-- Automatic Dark Mode adaptation
-- Material blur effects
+| Material | Description |
+| --- | --- |
+| `.thin` | Subtle translucency |
+| `.regular` | Balanced opacity (default) |
+| `.thick` | Prominent material effect |
+| `.ultraThin` | Maximum translucency |
+| `.ultraThick` | Maximum opacity |
+
+**Features**
+
+Environment propagation to child views, platform-adaptive rendering, automatic Dark Mode adaptation, and material blur effects.
 
 **Use Cases**: Panels, overlays, sidebars, inspector backgrounds
 
@@ -61,16 +62,17 @@ let isMacOS = PlatformAdapter.isMacOS
 let isIOS = PlatformAdapter.isIOS
 ```
 
-**Features**:
-- Automatic spacing adaptation (12pt macOS, 16pt iOS)
-- Touch target sizing (≥44×44 pt iOS, ≥24×24 pt macOS)
-- Platform-specific behaviors
-- Conditional compilation support
+**Features**
 
-**Platform Differences**:
-- **macOS**: Keyboard shortcuts, hover effects, focus rings, 12pt default spacing
-- **iOS**: Touch gestures, 44pt touch targets, 16pt default spacing
-- **iPadOS**: Size classes, pointer interactions, adaptive layouts
+Automatic spacing adaptation (12pt macOS, 16pt iOS), touch target sizing (≥44×44 pt iOS, ≥24×24 pt macOS), platform-specific behaviors, and conditional compilation support.
+
+**Platform Differences**
+
+| Platform | Details |
+| --- | --- |
+| macOS | Keyboard shortcuts, hover effects, focus rings, 12pt spacing |
+| iOS | Touch gestures, 44pt touch targets, 16pt spacing |
+| iPadOS | Size classes, pointer interactions, adaptive layouts |
 
 ### ColorSchemeAdapter
 
@@ -88,11 +90,9 @@ var body: some View {
 let isDarkMode = ColorSchemeAdapter.isDarkMode
 ```
 
-**Features**:
-- Automatic light/dark mode detection
-- Adaptive color properties (background, text, border, divider)
-- System color integration
-- Platform-specific color handling
+**Features**
+
+Automatic light/dark mode detection, adaptive color properties (background, text, border, divider), system color integration, and platform-specific color handling.
 
 **Adaptive Colors**:
 
@@ -117,19 +117,19 @@ Text("Hello")
     .padding(a11yContext.scaledSpacing(DS.Spacing.m))
 ```
 
-**Accessibility Preferences**:
-- `reduceMotion` — Disable animations when requested
-- `increaseContrast` — Use high-contrast colors
-- `boldText` — Use bold font weights (iOS)
-- `sizeCategory` — Current Dynamic Type size
-- `isAccessibilitySize` — True for extra-large text sizes
+**Accessibility Preferences**
 
-**Features**:
-- Reduce Motion support (animations → instant)
-- Increase Contrast mode (higher contrast colors)
-- Bold Text handling (iOS legibilityWeight)
-- Dynamic Type scaling (XS to XXXL)
-- Automatic font and spacing scaling
+| Preference | Description |
+| --- | --- |
+| `reduceMotion` | Disables animations when requested |
+| `increaseContrast` | Enables high-contrast colors |
+| `boldText` | Uses bold font weights on iOS |
+| `sizeCategory` | Current Dynamic Type size |
+| `isAccessibilitySize` | Indicates extra-large Dynamic Type settings |
+
+**Features**
+
+Reduce Motion support (animations → instant), Increase Contrast mode (higher contrast colors), Bold Text handling (iOS legibilityWeight), Dynamic Type scaling (XS to XXXL), and automatic font plus spacing adjustments.
 
 **Adaptive Methods**:
 
@@ -280,13 +280,13 @@ struct ContentView: View {
 
 ## Further Reading
 
-- <doc:PlatformAdaptation> — Platform adaptation tutorial
-- <doc:Accessibility> — Accessibility best practices
-- <doc:Architecture> — Understanding Layer 4 (Contexts)
-- ``SurfaceStyleKey`` — Surface material environment key
-- ``PlatformAdaptation`` — Platform adaptation API
-- ``ColorSchemeAdapter`` — Color scheme API
-- ``AccessibilityContext`` — Accessibility API
+- <doc:PlatformAdaptation>
+- <doc:Accessibility>
+- <doc:Architecture>
+- ``SurfaceStyleKey``
+- ``PlatformAdaptation``
+- ``ColorSchemeAdapter``
+- ``AccessibilityContext``
 
 ## See Also
 

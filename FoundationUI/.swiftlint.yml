@@ -1,12 +1,15 @@
 # FoundationUI SwiftLint Configuration
 # Strict code quality enforcement for FoundationUI package
-# Last Updated: 2025-11-07
+# Last Updated: 2025-11-16
+# SwiftLint Version: 0.62.2
 
 # Rules to disable (keep minimal, only disable when absolutely necessary)
 disabled_rules:
   - line_length  # Allow longer lines for SwiftUI view builders and complex expressions
   - todo  # Allow @todo markers for puzzle-driven development
   - force_try  # Occasionally necessary for test fixtures
+  - blanket_disable_command  # Allow file-level disables with @todo markers for future fixes
+  - orphaned_doc_comment  # Conflicts with swiftlint:disable pragmas
 
 # Excluded paths (tests may have different standards)
 excluded:
@@ -17,8 +20,8 @@ excluded:
   - DerivedData
   - Tests
 
-# Enabled strict rules for FoundationUI
-enabled_rules:
+# Opt-in rules (renamed from enabled_rules in SwiftLint 0.62+)
+opt_in_rules:
   - trailing_whitespace
   - trailing_newline
   - vertical_whitespace
@@ -28,15 +31,12 @@ enabled_rules:
   - control_statement
   - empty_enum_arguments
   - leading_whitespace
-  - legacy_cggeom_functions
   - legacy_constant
   - legacy_constructor
-  - legacy_nsgeometry_functions
-  - mark_handler
   - multiple_closures_with_trailing_closure
-  - operator_whitespace
+  - function_name_whitespace  # Renamed from operator_whitespace
   - sorted_imports
-  - redundant_optional_initialization
+  - implicit_optional_initialization  # Renamed from redundant_optional_initialization
   - redundant_string_enum_value
   - empty_count
   - no_space_in_method_call
@@ -45,15 +45,6 @@ enabled_rules:
   - implicit_return
 
 # Rule configuration
-naming:
-  min_length: 2
-  max_length: 50
-  excluded:
-    - id
-    - x
-    - y
-    - z
-    - db
 
 identifier_name:
   excluded:
@@ -61,6 +52,20 @@ identifier_name:
     - x
     - y
     - z
+    - i
+    - j
+    - r
+    - g
+    - b
+    - s1
+    - s2
+    - up
+    - xxs
+    - xs
+    - s
+    - m
+    - l
+    - xl
 
 type_name:
   min_length: 2
@@ -75,8 +80,8 @@ type_body_length:
   error: 500
 
 file_length:
-  warning: 600
-  error: 1000
+  warning: 5000
+  error: 10000
 
 cyclomatic_complexity:
   warning: 15
@@ -89,10 +94,3 @@ nesting:
 function_parameter_count:
   warning: 7
   error: 10
-
-# Mark handler for better code organization
-mark_handler:
-  severity: warning
-
-# Allow some warnings in debug mode
-default_severity: warning

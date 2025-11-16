@@ -17,11 +17,14 @@ Text("ERROR")
     .badgeChipStyle(level: .error)
 ```
 
-**Levels**:
-- `.info` — Neutral informational (gray)
-- `.warning` — Warning or caution (orange)
-- `.error` — Error or failure (red)
-- `.success` — Success or completion (green)
+**Levels**
+
+| Level | Description |
+| --- | --- |
+| `.info` | Neutral informational (gray) |
+| `.warning` | Warning or caution (orange) |
+| `.error` | Error or failure (red) |
+| `.success` | Success or completion (green) |
 
 **Features**:
 - Semantic color coding (WCAG 2.1 AA compliant)
@@ -42,11 +45,14 @@ VStack {
 .cardStyle(elevation: .medium, radius: DS.Radius.card)
 ```
 
-**Elevation Levels**:
-- `.none` — Flat appearance (no shadow)
-- `.low` — Subtle shadow (radius: 2pt, opacity: 0.1)
-- `.medium` — Moderate shadow (radius: 4pt, opacity: 0.15)
-- `.high` — Prominent shadow (radius: 8pt, opacity: 0.2)
+**Elevation Levels**
+
+| Level | Description |
+| --- | --- |
+| `.none` | Flat appearance (no shadow) |
+| `.low` | Subtle shadow (radius 2pt, opacity 0.1) |
+| `.medium` | Moderate shadow (radius 4pt, opacity 0.15) |
+| `.high` | Prominent shadow (radius 8pt, opacity 0.2) |
 
 **Features**:
 - Platform-adaptive shadows (iOS/macOS)
@@ -71,10 +77,13 @@ Button("Action") { }
 - Keyboard focus indicators
 - Accessibility hints
 
-**Platform Behavior**:
-- **macOS**: Hover scale effect, cursor changes
-- **iOS**: Touch highlight, haptic feedback
-- **iPadOS**: Pointer interactions, hover states
+**Platform Behavior**
+
+| Platform | Interaction |
+| --- | --- |
+| macOS | Hover scale effect with cursor changes |
+| iOS | Touch highlight with haptic feedback |
+| iPadOS | Pointer interactions and hover states |
 
 **Use Cases**: Buttons, interactive cards, clickable rows
 
@@ -87,12 +96,15 @@ VStack { }
     .surfaceStyle(material: .regular)
 ```
 
-**Material Types**:
-- `.thin` — Subtle translucency
-- `.regular` — Balanced opacity (default)
-- `.thick` — Prominent material effect
-- `.ultraThin` — Maximum translucency
-- `.ultraThick` — Maximum opacity
+**Material Types**
+
+| Material | Description |
+| --- | --- |
+| `.thin` | Subtle translucency |
+| `.regular` | Balanced opacity (default) |
+| `.thick` | Prominent material effect |
+| `.ultraThin` | Maximum translucency |
+| `.ultraThick` | Maximum opacity |
 
 **Features**:
 - Platform-adaptive materials
@@ -196,14 +208,14 @@ HStack {
 
 ## Further Reading
 
-- <doc:BuildingComponents> — Using modifiers in custom components
-- <doc:DesignTokens> — Design Tokens used by modifiers
-- <doc:Components> — Components built with modifiers
-- ``BadgeChipStyle`` — Badge modifier API
-- ``CardStyle`` — Card modifier API
-- ``InteractiveStyle`` — Interactive modifier API
-- ``SurfaceStyle`` — Surface modifier API
-- ``CopyableModifier`` — Copyable modifier API
+- <doc:BuildingComponents>
+- <doc:DesignTokens>
+- <doc:Components>
+- ``BadgeChipStyle``
+- ``CardStyle``
+- ``InteractiveStyle``
+- ``SurfaceStyle``
+- ``CopyableModifier``
 
 ## See Also
 

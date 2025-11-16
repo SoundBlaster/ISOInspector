@@ -69,9 +69,9 @@ import SwiftUI
 /// - macOS 14.0+
 ///
 /// ## See Also
-/// - ``CardElevation``: Semantic elevation level enumeration
-/// - ``CardStyle``: View modifier for card styling
-/// - ``DS/Radius``: Design System radius tokens
+/// - ``CardElevation``
+/// - ``CardStyle``
+/// - ``DS/Radius``
 public struct Card<Content: View>: View {
     // MARK: - Properties
 
@@ -109,9 +109,9 @@ public struct Card<Content: View>: View {
     /// - content: The SwiftUI view content to display inside the card
     ///
     /// ## Design Tokens Used
-    /// - `DS.Radius.card`: Standard card corner radius (10pt) - Default
-    /// - `DS.Radius.small`: Subtle corner radius (6pt)
-    /// - `DS.Radius.medium`: Balanced corner radius (8pt)
+    /// - `DS.Radius.card`
+    /// - `DS.Radius.small`
+    /// - `DS.Radius.medium`
     ///
     /// ## Platform Adaptation
     /// - macOS: Stronger shadows for desktop UI aesthetics
@@ -139,7 +139,7 @@ public struct Card<Content: View>: View {
 
     public var body: some View {
         Group {
-            if let material = material {
+            if let material {
                 // Card with material background
                 content
                     .background(material)
@@ -513,7 +513,7 @@ extension Card: AgentDescribable {
             "cornerRadius": cornerRadius
         ]
 
-        if let material = material {
+        if let material {
             props["material"] = String(describing: material)
         }
 

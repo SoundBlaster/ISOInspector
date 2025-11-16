@@ -42,9 +42,9 @@ public enum InteractionType: Equatable, Sendable {
     public var hasEffect: Bool {
         switch self {
         case .none:
-            return false
+            false
         case .subtle, .standard, .prominent:
-            return true
+            true
         }
     }
 
@@ -55,13 +55,13 @@ public enum InteractionType: Equatable, Sendable {
     public var scaleFactor: CGFloat {
         switch self {
         case .none:
-            return 1.0
+            1.0
         case .subtle:
-            return 1.02  // 2% increase
+            1.02 // 2% increase
         case .standard:
-            return 1.05  // 5% increase
+            1.05 // 5% increase
         case .prominent:
-            return 1.08  // 8% increase
+            1.08 // 8% increase
         }
     }
 
@@ -72,13 +72,13 @@ public enum InteractionType: Equatable, Sendable {
     public var hoverOpacity: Double {
         switch self {
         case .none:
-            return 1.0
+            1.0
         case .subtle:
-            return 0.95  // 5% reduction
+            0.95 // 5% reduction
         case .standard:
-            return 0.9   // 10% reduction
+            0.9 // 10% reduction
         case .prominent:
-            return 0.85  // 15% reduction
+            0.85 // 15% reduction
         }
     }
 
@@ -89,13 +89,13 @@ public enum InteractionType: Equatable, Sendable {
     public var accessibilityHint: String {
         switch self {
         case .none:
-            return ""
+            ""
         case .subtle:
-            return "Interactive element with subtle feedback"
+            "Interactive element with subtle feedback"
         case .standard:
-            return "Interactive element"
+            "Interactive element"
         case .prominent:
-            return "Primary interactive element with prominent feedback"
+            "Primary interactive element with prominent feedback"
         }
     }
 
@@ -103,14 +103,14 @@ public enum InteractionType: Equatable, Sendable {
     ///
     /// Interactive elements should be keyboard-navigable for accessibility.
     public var supportsKeyboardFocus: Bool {
-        return hasEffect
+        hasEffect
     }
 
     /// Focus ring color for keyboard navigation
     ///
     /// Uses system accent color for consistency with platform conventions.
     public var focusRingColor: Color {
-        return DS.Colors.accent
+        DS.Colors.accent
     }
 
     /// Focus ring width in points
@@ -119,13 +119,13 @@ public enum InteractionType: Equatable, Sendable {
     public var focusRingWidth: CGFloat {
         switch self {
         case .none:
-            return 0
+            0
         case .subtle:
-            return 1
+            1
         case .standard:
-            return 2
+            2
         case .prominent:
-            return 3
+            3
         }
     }
 }
@@ -149,7 +149,7 @@ public enum InteractionType: Equatable, Sendable {
 /// - iOS 17.0+: Touch feedback with button traits
 /// - macOS 14.0+: Hover effects with pointer interactions
 /// - iPadOS 17.0+: Touch and pointer feedback (hybrid)
-private struct InteractiveStyleModifier: ViewModifier {
+public struct InteractiveStyle: ViewModifier {
     /// The interaction type determining feedback intensity
     let type: InteractionType
 
@@ -165,13 +165,13 @@ private struct InteractiveStyleModifier: ViewModifier {
     /// State tracking whether the view has keyboard focus
     @FocusState private var isFocused: Bool
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .scaleEffect(effectiveScale)
             .opacity(effectiveOpacity)
             .overlay(
                 Group {
-                    if showFocusRing && isFocused && type.supportsKeyboardFocus {
+                    if showFocusRing, isFocused, type.supportsKeyboardFocus {
                         RoundedRectangle(cornerRadius: DS.Radius.small)
                             .strokeBorder(type.focusRingColor, lineWidth: type.focusRingWidth)
                     }
@@ -275,9 +275,9 @@ public extension View {
     /// - showFocusRing: Whether to show focus indicator for keyboard navigation (default: true)
     ///
     /// ## Design Tokens Used
-    /// - `DS.Animation.quick`: Fast, snappy animation for responsiveness
-    /// - `DS.Colors.accent`: Focus ring color
-    /// - `DS.Radius.small`: Focus ring corner radius
+    /// - `DS.Animation.quick`
+    /// - `DS.Colors.accent`
+    /// - `DS.Radius.small`
     ///
     /// ## Platform Adaptation
     /// - macOS: Uses `.onHover()` for cursor-based interaction
@@ -296,7 +296,7 @@ public extension View {
         showFocusRing: Bool = true
     ) -> some View {
         modifier(
-            InteractiveStyleModifier(
+            InteractiveStyle(
                 type: type,
                 showFocusRing: showFocusRing
             )
@@ -429,7 +429,7 @@ public extension View {
 
 #Preview("Interactive Styles - List Items") {
     List {
-        ForEach(1...5, id: \.self) { index in
+        ForEach(1 ... 5, id: \.self) { index in
             HStack {
                 Image(systemName: "\(index).circle.fill")
                     .foregroundStyle(DS.Colors.accent)

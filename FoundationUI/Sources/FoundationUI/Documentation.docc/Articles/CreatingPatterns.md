@@ -318,11 +318,11 @@ Test with VoiceOver:
 
 ## Next Steps
 
-- <doc:PlatformAdaptation> — Optimize for each platform
-- <doc:Performance> — Performance best practices
-- ``InspectorPattern`` — Inspector API
-- ``SidebarPattern`` — Sidebar API
-- ``BoxTreePattern`` — Tree API
+- <doc:PlatformAdaptation>
+- <doc:Performance>
+- ``InspectorPattern``
+- ``SidebarPattern``
+- ``BoxTreePattern``
 
 ## See Also
 

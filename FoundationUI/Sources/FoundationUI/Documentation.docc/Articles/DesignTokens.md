@@ -395,15 +395,11 @@ swift test --filter TokenValidationTests
 
 ### macOS
 
-- Default spacing: `DS.Spacing.m` (12pt) — more compact
-- Focus indicators: Visible with keyboard navigation
-- Hover states: Use `InteractiveStyle` modifier
+Default spacing uses `DS.Spacing.m` (12pt) for compact layouts, focus indicators remain visible during keyboard navigation, and hover states rely on the `InteractiveStyle` modifier.
 
 ### iOS/iPadOS
 
-- Default spacing: `DS.Spacing.l` (16pt) — more generous
-- Touch targets: Minimum 44×44 pt (use `PlatformAdaptation`)
-- Gestures: Tap, swipe, long press support
+Default spacing uses `DS.Spacing.l` (16pt) for touch comfort, touch targets stay above 44×44 pt via `PlatformAdaptation`, and gestures cover tap, swipe, and long-press interactions.
 
 ### Cross-Platform
 
@@ -464,10 +460,10 @@ swiftlint lint --strict
 
 ## Further Reading
 
-- <doc:Architecture> — Understanding the layered architecture
-- <doc:Components> — How components use Design Tokens
-- <doc:Accessibility> — WCAG compliance and accessibility considerations
-- ``DS`` — Complete DS namespace API reference
+- <doc:Architecture>
+- <doc:Components>
+- <doc:Accessibility>
+- ``DS``
 
 ## See Also
 

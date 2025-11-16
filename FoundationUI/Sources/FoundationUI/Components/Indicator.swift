@@ -1,3 +1,6 @@
+// @todo #239 Fix SwiftFormat/SwiftLint indentation conflict for multi-line if conditions
+// swiftlint:disable indentation_width
+
 import SwiftUI
 
 /// A semantic status indicator that visualizes ``BadgeLevel`` without text.
@@ -7,7 +10,6 @@ import SwiftUI
 /// It is designed for dashboards, inspectors, and compact metadata displays
 /// where textual badges would be too heavy.
 public struct Indicator: View, Sendable {
-
     /// The semantic level conveyed by the indicator.
     public let level: BadgeLevel
 
@@ -79,9 +81,9 @@ public struct Indicator: View, Sendable {
 
 // MARK: - Size
 
-extension Indicator {
+public extension Indicator {
     /// Indicator size presets.
-    public enum Size: CaseIterable, Equatable, Sendable {
+    enum Size: CaseIterable, Equatable, Sendable {
         /// Compact indicator sized with ``DS/Spacing/s``.
         case mini
         /// Default indicator sized with ``DS/Spacing/m``.
@@ -93,11 +95,11 @@ extension Indicator {
         public var diameter: CGFloat {
             switch self {
             case .mini:
-                return DS.Spacing.s
+                DS.Spacing.s
             case .small:
-                return DS.Spacing.m
+                DS.Spacing.m
             case .medium:
-                return DS.Spacing.l
+                DS.Spacing.l
             }
         }
 
@@ -109,11 +111,11 @@ extension Indicator {
         /// Minimum hit target size for accessibility compliance.
         var minimumHitTarget: CGSize {
             #if os(iOS) || os(tvOS)
-                let minimum = PlatformAdapter.minimumTouchTarget
-                return CGSize(width: minimum, height: minimum)
+            let minimum = PlatformAdapter.minimumTouchTarget
+            return CGSize(width: minimum, height: minimum)
             #else
-                let length = DS.Spacing.xl + DS.Spacing.m + DS.Spacing.s
-                return CGSize(width: length, height: length)
+            let length = DS.Spacing.xl + DS.Spacing.m + DS.Spacing.s
+            return CGSize(width: length, height: length)
             #endif
         }
 
@@ -128,11 +130,11 @@ extension Indicator {
         var stringValue: String {
             switch self {
             case .mini:
-                return "mini"
+                "mini"
             case .small:
-                return "small"
+                "small"
             case .medium:
-                return "medium"
+                "medium"
             }
         }
     }
@@ -140,9 +142,9 @@ extension Indicator {
 
 // MARK: - Tooltip
 
-extension Indicator {
+public extension Indicator {
     /// Tooltip payload describing an indicator state.
-    public struct Tooltip: Equatable, Sendable {
+    struct Tooltip: Equatable, Sendable {
         /// Tooltip content variants.
         public enum Content: Equatable, Sendable {
             /// Plain textual tooltip.
@@ -177,56 +179,56 @@ extension Indicator {
         func preferredContent(style: Indicator.TooltipStyle, fallbackLevel: BadgeLevel) -> Content {
             switch style {
             case .automatic:
-                return content
+                content
             case .text:
                 switch content {
-                case .badge(let text, _):
-                    return .text(text)
+                case let .badge(text, _):
+                    .text(text)
                 case .text:
-                    return content
+                    content
                 }
             case .badge:
                 switch content {
                 case .badge:
-                    return content
-                case .text(let text):
-                    return .badge(text: text, level: fallbackLevel)
+                    content
+                case let .text(text):
+                    .badge(text: text, level: fallbackLevel)
                 }
             case .none:
-                return .text("")
+                .text("")
             }
         }
 
         /// Accessibility-friendly text description.
         var accessibilityHint: String? {
             switch content {
-            case .text(let value):
-                return value
-            case .badge(let text, _):
-                return text
+            case let .text(value):
+                value
+            case let .badge(text, _):
+                text
             }
         }
 
         /// Agent metadata describing the tooltip.
         var agentPayload: [String: Any] {
             switch content {
-            case .text(let value):
-                return [
+            case let .text(value):
+                [
                     "kind": "text",
-                    "value": value,
+                    "value": value
                 ]
-            case .badge(let text, let level):
-                return [
+            case let .badge(text, level):
+                [
                     "kind": "badge",
                     "text": text,
-                    "level": level.stringValue,
+                    "level": level.stringValue
                 ]
             }
         }
     }
 
     /// Tooltip presentation style environment value.
-    public enum TooltipStyle: Equatable, Sendable {
+    enum TooltipStyle: Equatable, Sendable {
         /// Automatically uses the provided tooltip content.
         case automatic
         /// Forces textual presentation.
@@ -240,9 +242,9 @@ extension Indicator {
 
 // MARK: - Accessibility
 
-extension Indicator {
+public extension Indicator {
     /// Accessibility metadata describing the indicator.
-    public struct AccessibilityConfiguration: Equatable, Sendable {
+    struct AccessibilityConfiguration: Equatable, Sendable {
         /// VoiceOver label for the indicator.
         public let label: String
         /// Optional VoiceOver hint.
@@ -262,13 +264,12 @@ extension Indicator {
         ) -> AccessibilityConfiguration {
             let sanitizedReason = reason?.trimmingCharacters(in: .whitespacesAndNewlines)
             let baseLabel = "\(level.accessibilityLabel) indicator"
-            let label: String
-
-            if let sanitizedReason, !sanitizedReason.isEmpty {
-                label = "\(baseLabel) — \(sanitizedReason)"
-            } else {
-                label = baseLabel
-            }
+            let label: String =
+                if let sanitizedReason, !sanitizedReason.isEmpty {
+                    "\(baseLabel) — \(sanitizedReason)"
+                } else {
+                    baseLabel
+                }
 
             if let sanitizedReason, !sanitizedReason.isEmpty {
                 return AccessibilityConfiguration(label: label, hint: sanitizedReason)
@@ -276,8 +277,7 @@ extension Indicator {
 
             if let tooltipHint = tooltip?.accessibilityHint?
                 .trimmingCharacters(in: .whitespacesAndNewlines),
-                !tooltipHint.isEmpty
-            {
+               !tooltipHint.isEmpty {
                 return AccessibilityConfiguration(label: label, hint: tooltipHint)
             }
 
@@ -292,17 +292,17 @@ private struct IndicatorTooltipStyleKey: EnvironmentKey {
     static let defaultValue: Indicator.TooltipStyle = .automatic
 }
 
-extension EnvironmentValues {
+public extension EnvironmentValues {
     /// Controls how indicator tooltips are rendered.
-    public var indicatorTooltipStyle: Indicator.TooltipStyle {
+    var indicatorTooltipStyle: Indicator.TooltipStyle {
         get { self[IndicatorTooltipStyleKey.self] }
         set { self[IndicatorTooltipStyleKey.self] = newValue }
     }
 }
 
-extension View {
+public extension View {
     /// Overrides the tooltip style for nested indicators.
-    public func indicatorTooltipStyle(_ style: Indicator.TooltipStyle) -> some View {
+    func indicatorTooltipStyle(_ style: Indicator.TooltipStyle) -> some View {
         environment(\.indicatorTooltipStyle, style)
     }
 }
@@ -318,11 +318,12 @@ private struct IndicatorTooltipModifier: ViewModifier {
     func body(content: Content) -> some View {
         if let tooltip {
             let resolvedContent = tooltip.preferredContent(
-                style: style, fallbackLevel: fallbackLevel)
+                style: style, fallbackLevel: fallbackLevel
+            )
             switch resolvedContent {
-            case .text(let value):
+            case let .text(value):
                 applyTextTooltip(value: value, to: content)
-            case .badge(let text, let level):
+            case let .badge(text, level):
                 applyBadgeTooltip(text: text, level: level, to: content)
             }
         } else {
@@ -337,33 +338,32 @@ private struct IndicatorTooltipModifier: ViewModifier {
             content
         default:
             #if os(macOS)
-                content.help(value)
+            content.help(value)
             #elseif os(iOS) || os(tvOS)
-                content.contextMenu {
-                    Text(value)
-                }
+            content.contextMenu {
+                Text(value)
+            }
             #else
-                content
+            content
             #endif
         }
     }
 
     @ViewBuilder
     private func applyBadgeTooltip(text: String, level: BadgeLevel, to content: Content)
-        -> some View
-    {
+    -> some View {
         switch style {
         case .none:
             content
         default:
             #if os(macOS)
-                content.help(text)
+            content.help(text)
             #elseif os(iOS) || os(tvOS)
-                content.contextMenu {
-                    Badge(text: text, level: level)
-                }
+            content.contextMenu {
+                Badge(text: text, level: level)
+            }
             #else
-                content
+            content
             #endif
         }
     }
@@ -384,37 +384,37 @@ private struct OptionalAccessibilityHintModifier: ViewModifier {
 // @todo: Add macOS hover effect previews once CI can build SwiftUI previews.
 
 #if canImport(SwiftUI)
-    @available(iOS 17.0, macOS 14.0, *)
-    @MainActor
-    extension Indicator: AgentDescribable {
-        public var componentType: String {
-            "Indicator"
-        }
-
-        public var properties: [String: Any] {
-            var values: [String: Any] = [
-                "level": level.stringValue,
-                "size": size.stringValue,
-            ]
-
-            if let reason, !reason.isEmpty {
-                values["reason"] = reason
-            }
-
-            if let tooltip {
-                values["tooltip"] = tooltip.agentPayload
-            }
-
-            return values
-        }
-
-        public var semantics: String {
-            if let reason, !reason.isEmpty {
-                return "\(level.accessibilityLabel) indicator — \(reason)"
-            }
-            return "\(level.accessibilityLabel) indicator"
-        }
+@available(iOS 17.0, macOS 14.0, *)
+@MainActor
+extension Indicator: AgentDescribable {
+    public var componentType: String {
+        "Indicator"
     }
+
+    public var properties: [String: Any] {
+        var values: [String: Any] = [
+            "level": level.stringValue,
+            "size": size.stringValue
+        ]
+
+        if let reason, !reason.isEmpty {
+            values["reason"] = reason
+        }
+
+        if let tooltip {
+            values["tooltip"] = tooltip.agentPayload
+        }
+
+        return values
+    }
+
+    public var semantics: String {
+        if let reason, !reason.isEmpty {
+            return "\(level.accessibilityLabel) indicator — \(reason)"
+        }
+        return "\(level.accessibilityLabel) indicator"
+    }
+}
 #endif
 
 #Preview("Indicator Levels") {
@@ -432,7 +432,8 @@ private struct OptionalAccessibilityHintModifier: ViewModifier {
         Indicator(level: .warning, size: .small, reason: "Processing")
         Indicator(
             level: .error, size: .medium, reason: "Failure",
-            tooltip: .badge(text: "Integrity failure", level: .error))
+            tooltip: .badge(text: "Integrity failure", level: .error)
+        )
     }
     .padding(DS.Spacing.l)
     .indicatorTooltipStyle(.badge)

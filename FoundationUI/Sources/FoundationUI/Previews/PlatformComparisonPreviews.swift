@@ -6,66 +6,66 @@ import UIKit
 
 // MARK: - Platform Comparison Previews
 
-/// Platform comparison previews showcasing FoundationUI's cross-platform adaptation
-///
-/// These previews demonstrate how FoundationUI components automatically adapt
-/// across macOS, iOS, and iPadOS platforms, highlighting:
-/// - **Platform detection** via `PlatformAdapter`
-/// - **Adaptive spacing** (macOS: 12pt, iOS: 16pt, iPad: size class-based)
-/// - **Platform-specific interactions** (keyboard shortcuts, gestures, hover effects)
-/// - **Color scheme adaptation** (automatic Dark Mode support)
-/// - **Component adaptation** (touch targets, spacing, visual hierarchy)
-/// - **DS token usage** (zero magic numbers, semantic naming)
-///
-/// ## Purpose
-/// These previews serve multiple purposes:
-/// - **Developer reference**: Understanding platform-specific behavior
-/// - **Visual test**: Verifying adaptive features work correctly
-/// - **Documentation**: Showcasing FoundationUI's capabilities
-/// - **Design validation**: Ensuring consistent experience across platforms
-///
-/// ## Platform-Specific Features
-///
-/// ### macOS (Desktop)
-/// - **Spacing**: `DS.Spacing.m` (12pt) for denser UI
-/// - **Keyboard shortcuts**: ⌘C, ⌘V, ⌘X, ⌘A
-/// - **Hover effects**: Pointer-based interactions
-/// - **Visual density**: Optimized for desktop screens
-///
-/// ### iOS (iPhone)
-/// - **Spacing**: `DS.Spacing.l` (16pt) for touch-friendly UI
-/// - **Touch targets**: Minimum 44×44pt per Apple HIG
-/// - **Gestures**: Tap, double tap, long press, swipe
-/// - **Safe areas**: Respects notch and home indicator
-///
-/// ### iPadOS (iPad)
-/// - **Spacing**: Adaptive based on size class
-///   - Compact: `DS.Spacing.m` (12pt)
-///   - Regular: `DS.Spacing.l` (16pt)
-/// - **Pointer interactions**: Hover effects with runtime detection
-/// - **Split view**: Multi-column layouts
-/// - **Hybrid input**: Supports both touch and keyboard/pointer
-///
-/// ## Design System Integration
-/// All previews use DS tokens exclusively:
-/// - **Spacing**: `DS.Spacing.s/m/l/xl`
-/// - **Colors**: `DS.Colors.*` (not shown, but available)
-/// - **Radius**: `DS.Radius.small/card/chip`
-/// - **Animation**: `DS.Animation.quick/medium/slow`
-/// - **Typography**: `DS.Typography.*`
-///
-/// ## SwiftUI Previews
-/// Each preview is designed to run in Xcode's Canvas, allowing developers to:
-/// - Compare platforms side-by-side
-/// - Test different device sizes
-/// - Verify Dark Mode adaptation
-/// - Validate accessibility features
-///
-/// ## See Also
-/// - ``PlatformAdapter``
-/// - ``PlatformExtensions``
-/// - ``ColorSchemeAdapter``
-/// - ``DS``
+// Platform comparison previews showcasing FoundationUI's cross-platform adaptation
+//
+// These previews demonstrate how FoundationUI components automatically adapt
+// across macOS, iOS, and iPadOS platforms, highlighting:
+// - **Platform detection** via `PlatformAdapter`
+// - **Adaptive spacing** (macOS: 12pt, iOS: 16pt, iPad: size class-based)
+// - **Platform-specific interactions** (keyboard shortcuts, gestures, hover effects)
+// - **Color scheme adaptation** (automatic Dark Mode support)
+// - **Component adaptation** (touch targets, spacing, visual hierarchy)
+// - **DS token usage** (zero magic numbers, semantic naming)
+//
+// ## Purpose
+// These previews serve multiple purposes:
+// - **Developer reference**: Understanding platform-specific behavior
+// - **Visual test**: Verifying adaptive features work correctly
+// - **Documentation**: Showcasing FoundationUI's capabilities
+// - **Design validation**: Ensuring consistent experience across platforms
+//
+// ## Platform-Specific Features
+//
+// ### macOS (Desktop)
+// - **Spacing**: `DS.Spacing.m` (12pt) for denser UI
+// - **Keyboard shortcuts**: ⌘C, ⌘V, ⌘X, ⌘A
+// - **Hover effects**: Pointer-based interactions
+// - **Visual density**: Optimized for desktop screens
+//
+// ### iOS (iPhone)
+// - **Spacing**: `DS.Spacing.l` (16pt) for touch-friendly UI
+// - **Touch targets**: Minimum 44×44pt per Apple HIG
+// - **Gestures**: Tap, double tap, long press, swipe
+// - **Safe areas**: Respects notch and home indicator
+//
+// ### iPadOS (iPad)
+// - **Spacing**: Adaptive based on size class
+//   - Compact: `DS.Spacing.m` (12pt)
+//   - Regular: `DS.Spacing.l` (16pt)
+// - **Pointer interactions**: Hover effects with runtime detection
+// - **Split view**: Multi-column layouts
+// - **Hybrid input**: Supports both touch and keyboard/pointer
+//
+// ## Design System Integration
+// All previews use DS tokens exclusively:
+// - **Spacing**: `DS.Spacing.s/m/l/xl`
+// - **Colors**: `DS.Colors.*` (not shown, but available)
+// - **Radius**: `DS.Radius.small/card/chip`
+// - **Animation**: `DS.Animation.quick/medium/slow`
+// - **Typography**: `DS.Typography.*`
+//
+// ## SwiftUI Previews
+// Each preview is designed to run in Xcode's Canvas, allowing developers to:
+// - Compare platforms side-by-side
+// - Test different device sizes
+// - Verify Dark Mode adaptation
+// - Validate accessibility features
+//
+// ## See Also
+// - ``PlatformAdapter``
+// - ``PlatformExtensions``
+// - ``ColorSchemeAdapter``
+// - ``DS``
 
 // MARK: - Preview: Platform Detection
 
@@ -170,8 +170,8 @@ import UIKit
                     Text("\(Int(DS.Spacing.m))pt")
                         .font(DS.Typography.caption)
                         .foregroundColor(.blue)
-                        .padding(DS.Spacing.s)
-                    , alignment: .topTrailing
+                        .padding(DS.Spacing.s),
+                    alignment: .topTrailing
                 )
             }
 
@@ -193,8 +193,8 @@ import UIKit
                     Text("\(Int(DS.Spacing.l))pt")
                         .font(DS.Typography.caption)
                         .foregroundColor(.green)
-                        .padding(DS.Spacing.s)
-                    , alignment: .topTrailing
+                        .padding(DS.Spacing.s),
+                    alignment: .topTrailing
                 )
             }
         }
@@ -327,10 +327,12 @@ import UIKit
             .font(DS.Typography.body)
             .foregroundColor(.orange)
 
-        Text("Keyboard shortcuts are macOS-specific and use conditional compilation (#if os(macOS))")
-            .font(DS.Typography.caption)
-            .foregroundColor(.secondary)
-            .multilineTextAlignment(.center)
+        Text(
+            "Keyboard shortcuts are macOS-specific and use conditional compilation (#if os(macOS))"
+        )
+        .font(DS.Typography.caption)
+        .foregroundColor(.secondary)
+        .multilineTextAlignment(.center)
     }
     .padding(DS.Spacing.xl)
     #endif
@@ -523,10 +525,12 @@ import UIKit
             .font(DS.Typography.body)
             .foregroundColor(.orange)
 
-        Text("Pointer interactions are iPadOS-specific with runtime device detection (UIDevice.current.userInterfaceIdiom == .pad)")
-            .font(DS.Typography.caption)
-            .foregroundColor(.secondary)
-            .multilineTextAlignment(.center)
+        Text(
+            "Pointer interactions are iPadOS-specific with runtime device detection (UIDevice.current.userInterfaceIdiom == .pad)"
+        )
+        .font(DS.Typography.caption)
+        .foregroundColor(.secondary)
+        .multilineTextAlignment(.center)
     }
     .padding(DS.Spacing.xl)
     #endif

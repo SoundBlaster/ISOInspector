@@ -37,8 +37,8 @@ Created comprehensive `.swiftlint.yml` at `FoundationUI/.swiftlint.yml` with:
 - 30+ additional quality rules
 
 **Custom Rules**:
-- `design_system_token_usage`: Regex-based detection of hardcoded spacing/animation values
-- `public_documentation`: Ensures all public declarations have DocC comments
+- `design_system_token_usage`
+- `public_documentation`
 
 **Exclusions**:
 - Tests/ (test code has different standards)

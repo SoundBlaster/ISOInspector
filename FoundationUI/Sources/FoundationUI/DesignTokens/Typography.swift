@@ -25,11 +25,11 @@ import SwiftUI
 /// - Respect user's preferred reading size
 ///
 /// ## Tokens
-/// - `label`: Small, semibold text for badges and labels (caption2 weight)
-/// - `body`: Standard body text (system body)
-/// - `title`: Section and component titles (title3 weight)
-/// - `caption`: Small descriptive text (caption)
-/// - `code`: Monospaced text for hex values and technical content
+/// - `label`
+/// - `body`
+/// - `title`
+/// - `caption`
+/// - `code`
 ///
 /// ## Platform Considerations
 /// Typography scales slightly differently between platforms:

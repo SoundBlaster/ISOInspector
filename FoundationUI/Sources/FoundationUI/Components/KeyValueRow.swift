@@ -1,9 +1,9 @@
 import SwiftUI
 
 #if canImport(AppKit)
-    import AppKit
+import AppKit
 #elseif canImport(UIKit)
-    import UIKit
+import UIKit
 #endif
 
 /// A component for displaying key-value pairs with semantic styling
@@ -55,9 +55,9 @@ import SwiftUI
 /// - macOS 14.0+
 ///
 /// ## See Also
-/// - ``KeyValueLayout``: Layout enumeration
-/// - ``DS/Typography``: Design System typography tokens
-/// - ``DS/Spacing``: Design System spacing tokens
+/// - ``KeyValueLayout``
+/// - ``DS/Typography``
+/// - ``DS/Spacing``
 public struct KeyValueRow: View {
     // MARK: - Properties
 
@@ -186,10 +186,10 @@ public struct KeyValueRow: View {
     /// Copies the value to the system clipboard
     private func copyToClipboard() {
         #if os(macOS)
-            NSPasteboard.general.clearContents()
-            NSPasteboard.general.setString(value, forType: .string)
+        NSPasteboard.general.clearContents()
+        NSPasteboard.general.setString(value, forType: .string)
         #else
-            UIPasteboard.general.string = value
+        UIPasteboard.general.string = value
         #endif
 
         // Show visual feedback
@@ -226,12 +226,11 @@ public enum KeyValueLayout: Equatable {
 
 // MARK: - Conditional View Modifier Helper
 
-extension View {
+private extension View {
     /// Conditionally applies a view modifier
     @ViewBuilder
-    fileprivate func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content)
-        -> some View
-    {
+    func `if`(_ condition: Bool, transform: (Self) -> some View)
+    -> some View {
         if condition {
             transform(self)
         } else {
@@ -380,7 +379,7 @@ extension KeyValueRow: AgentDescribable {
             "key": key,
             "value": value,
             "layout": layout == .horizontal ? "horizontal" : "vertical",
-            "isCopyable": copyable,
+            "isCopyable": copyable
         ]
     }
 

@@ -43,13 +43,13 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     public var backgroundColor: Color {
         switch self {
         case .info:
-            return DS.Colors.infoBG
+            DS.Colors.infoBG
         case .warning:
-            return DS.Colors.warnBG
+            DS.Colors.warnBG
         case .error:
-            return DS.Colors.errorBG
+            DS.Colors.errorBG
         case .success:
-            return DS.Colors.successBG
+            DS.Colors.successBG
         }
     }
 
@@ -60,13 +60,13 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     public var foregroundColor: Color {
         switch self {
         case .info:
-            return Color.gray
+            Color.gray
         case .warning:
-            return Color.orange
+            Color.orange
         case .error:
-            return Color.red
+            Color.red
         case .success:
-            return Color.green
+            Color.green
         }
     }
 
@@ -77,13 +77,13 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     public var stringValue: String {
         switch self {
         case .info:
-            return "info"
+            "info"
         case .warning:
-            return "warning"
+            "warning"
         case .error:
-            return "error"
+            "error"
         case .success:
-            return "success"
+            "success"
         }
     }
 
@@ -94,13 +94,13 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     public var accessibilityLabel: String {
         switch self {
         case .info:
-            return "Information"
+            "Information"
         case .warning:
-            return "Warning"
+            "Warning"
         case .error:
-            return "Error"
+            "Error"
         case .success:
-            return "Success"
+            "Success"
         }
     }
 
@@ -111,13 +111,13 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     public var iconName: String {
         switch self {
         case .info:
-            return "info.circle.fill"
+            "info.circle.fill"
         case .warning:
-            return "exclamationmark.triangle.fill"
+            "exclamationmark.triangle.fill"
         case .error:
-            return "xmark.circle.fill"
+            "xmark.circle.fill"
         case .success:
-            return "checkmark.circle.fill"
+            "checkmark.circle.fill"
         }
     }
 }
@@ -141,14 +141,14 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
 /// - iOS 17.0+
 /// - macOS 14.0+
 /// - iPadOS 17.0+
-private struct BadgeChipStyleModifier: ViewModifier {
+public struct BadgeChipStyle: ViewModifier {
     /// The semantic level of the badge
     let level: BadgeLevel
 
     /// Indicates whether to show an icon alongside the text
     let showIcon: Bool
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         HStack(spacing: DS.Spacing.s) {
             if showIcon {
                 Image(systemName: level.iconName)
@@ -191,10 +191,10 @@ public extension View {
     /// - showIcon: Whether to display an SF Symbol icon (default: false)
     ///
     /// ## Design Tokens Used
-    /// - `DS.Spacing.m`: Horizontal padding
-    /// - `DS.Spacing.s`: Vertical padding and icon spacing
-    /// - `DS.Radius.chip`: Corner radius for pill shape
-    /// - `DS.Colors.{level}BG`: Background color based on level
+    /// - `DS.Spacing.m`
+    /// - `DS.Spacing.s`
+    /// - `DS.Radius.chip`
+    /// - `DS.Colors.{level}BG`
     ///
     /// ## Accessibility
     /// - Adds semantic accessibility label for VoiceOver
@@ -203,7 +203,7 @@ public extension View {
     ///
     /// - Returns: A view styled as a badge chip
     func badgeChipStyle(level: BadgeLevel, showIcon: Bool = false) -> some View {
-        modifier(BadgeChipStyleModifier(level: level, showIcon: showIcon))
+        modifier(BadgeChipStyle(level: level, showIcon: showIcon))
     }
 }
 

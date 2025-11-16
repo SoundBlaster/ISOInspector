@@ -40,8 +40,8 @@ import SwiftUI
 /// - macOS 14.0+
 ///
 /// ## See Also
-/// - ``DS/Typography``: Design System typography tokens
-/// - ``DS/Spacing``: Design System spacing tokens
+/// - ``DS/Typography``
+/// - ``DS/Spacing``
 public struct SectionHeader: View {
     // MARK: - Properties
 

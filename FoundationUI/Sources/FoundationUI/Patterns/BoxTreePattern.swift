@@ -1,3 +1,6 @@
+// @todo #233 Fix BoxTreePattern preview trailing closures and indentation issues
+// swiftlint:disable multiple_closures_with_trailing_closure indentation_width
+
 import SwiftUI
 
 /// A hierarchical tree view pattern for displaying nested structures like ISO box hierarchies.
@@ -59,12 +62,12 @@ import SwiftUI
 /// - Custom content can provide additional labels
 /// - Full keyboard navigation support
 public struct BoxTreePattern<Data, ID, Content>: View
-where Data: RandomAccessCollection,
-      Data.Element: Identifiable,
-      ID == Data.Element.ID,
-      ID: Hashable,
-      Content: View
-{
+where
+    Data: RandomAccessCollection,
+    Data.Element: Identifiable,
+    ID == Data.Element.ID,
+    ID: Hashable,
+    Content: View {
     // MARK: - Properties
 
     /// The hierarchical data to display
@@ -110,12 +113,12 @@ where Data: RandomAccessCollection,
     ) {
         self.data = data
         self.children = children
-        self._expandedNodes = expandedNodes
-        self._selection = selection
-        self._multiSelection = .constant([])
+        _expandedNodes = expandedNodes
+        _selection = selection
+        _multiSelection = .constant([])
         self.content = content
-        self.level = 0
-        self.isMultiSelectionMode = false
+        level = 0
+        isMultiSelectionMode = false
     }
 
     /// Creates a tree pattern with multi-selection support.
@@ -135,12 +138,12 @@ where Data: RandomAccessCollection,
     ) {
         self.data = data
         self.children = children
-        self._expandedNodes = expandedNodes
-        self._selection = .constant(nil)
-        self._multiSelection = multiSelection
+        _expandedNodes = expandedNodes
+        _selection = .constant(nil)
+        _multiSelection = multiSelection
         self.content = content
-        self.level = 0
-        self.isMultiSelectionMode = true
+        level = 0
+        isMultiSelectionMode = true
     }
 
     /// Internal initializer for recursive tree rendering with level tracking
@@ -156,9 +159,9 @@ where Data: RandomAccessCollection,
     ) {
         self.data = data
         self.children = children
-        self._expandedNodes = expandedNodes
-        self._selection = selection
-        self._multiSelection = multiSelection
+        _expandedNodes = expandedNodes
+        _selection = selection
+        _multiSelection = multiSelection
         self.content = content
         self.level = level
         self.isMultiSelectionMode = isMultiSelectionMode
@@ -268,9 +271,9 @@ where Data: RandomAccessCollection,
     /// Determines if a node is currently selected
     private func isSelected(_ item: Data.Element) -> Bool {
         if isMultiSelectionMode {
-            return multiSelection.contains(item.id)
+            multiSelection.contains(item.id)
         } else {
-            return selection == item.id
+            selection == item.id
         }
     }
 
@@ -308,8 +311,8 @@ where Data: RandomAccessCollection,
 
     /// Generates accessibility label for a node
     private func accessibilityLabel(for item: Data.Element) -> Text {
-        let expandedState = hasChildren(item) ?
-            (expandedNodes.contains(item.id) ? "expanded" : "collapsed") : ""
+        let expandedState =
+            hasChildren(item) ? (expandedNodes.contains(item.id) ? "expanded" : "collapsed") : ""
         let levelLabel = "Level \(level)"
 
         if expandedState.isEmpty {
@@ -355,20 +358,29 @@ private struct SimpleTreePreview: View {
     }
 
     @State var expandedNodes: Set<UUID> = []
-    @State var selection: UUID? = nil
+    @State var selection: UUID?
 
     let sampleData = [
         PreviewNode(title: "ftyp", children: []),
-        PreviewNode(title: "moov", children: [
-            PreviewNode(title: "mvhd", children: []),
-            PreviewNode(title: "trak", children: [
-                PreviewNode(title: "tkhd", children: []),
-                PreviewNode(title: "mdia", children: [
-                    PreviewNode(title: "mdhd", children: []),
-                    PreviewNode(title: "hdlr", children: [])
-                ])
-            ])
-        ]),
+        PreviewNode(
+            title: "moov",
+            children: [
+                PreviewNode(title: "mvhd", children: []),
+                PreviewNode(
+                    title: "trak",
+                    children: [
+                        PreviewNode(title: "tkhd", children: []),
+                        PreviewNode(
+                            title: "mdia",
+                            children: [
+                                PreviewNode(title: "mdhd", children: []),
+                                PreviewNode(title: "hdlr", children: [])
+                            ]
+                        )
+                    ]
+                )
+            ]
+        ),
         PreviewNode(title: "mdat", children: [])
     ]
 
@@ -378,15 +390,16 @@ private struct SimpleTreePreview: View {
                 data: sampleData,
                 children: { $0.children.isEmpty ? nil : $0.children },
                 expandedNodes: $expandedNodes,
-                selection: $selection
-            ) { node in
-                HStack {
-                    Text(node.title)
-                        .font(DS.Typography.code)
-                    Spacer()
-                    Badge(text: "BOX", level: .info)
+                selection: $selection,
+                content: { node in
+                    HStack {
+                        Text(node.title)
+                            .font(DS.Typography.code)
+                        Spacer()
+                        Badge(text: "BOX", level: .info)
+                    }
                 }
-            }
+            )
             .padding(DS.Spacing.l)
         }
         .frame(width: 400, height: 600)
@@ -451,13 +464,19 @@ private struct MultiSelectionPreview: View {
     @State var selection: Set<UUID> = []
 
     let sampleData = [
-        PreviewNode(title: "Root 1", children: [
-            PreviewNode(title: "Child 1.1", children: []),
-            PreviewNode(title: "Child 1.2", children: [])
-        ]),
-        PreviewNode(title: "Root 2", children: [
-            PreviewNode(title: "Child 2.1", children: [])
-        ])
+        PreviewNode(
+            title: "Root 1",
+            children: [
+                PreviewNode(title: "Child 1.1", children: []),
+                PreviewNode(title: "Child 1.2", children: [])
+            ]
+        ),
+        PreviewNode(
+            title: "Root 2",
+            children: [
+                PreviewNode(title: "Child 2.1", children: [])
+            ]
+        )
     ]
 
     var body: some View {
@@ -499,10 +518,10 @@ private struct LargeTreePreview: View {
 
     var body: some View {
         // Generate 100 root nodes with 10 children each (1000+ total nodes)
-        let largeData = (0..<100).map { i in
+        let largeData = (0 ..< 100).map { i in
             PreviewNode(
                 title: "Node \(i)",
-                children: (0..<10).map { j in
+                children: (0 ..< 10).map { j in
                     PreviewNode(title: "Child \(i).\(j)", children: [])
                 }
             )
@@ -542,14 +561,17 @@ private struct DarkModePreview: View {
     }
 
     @State var expandedNodes: Set<UUID> = []
-    @State var selection: UUID? = nil
+    @State var selection: UUID?
 
     let sampleData = [
         PreviewNode(title: "ftyp", children: []),
-        PreviewNode(title: "moov", children: [
-            PreviewNode(title: "mvhd", children: []),
-            PreviewNode(title: "trak", children: [])
-        ])
+        PreviewNode(
+            title: "moov",
+            children: [
+                PreviewNode(title: "mvhd", children: []),
+                PreviewNode(title: "trak", children: [])
+            ]
+        )
     ]
 
     var body: some View {
@@ -584,14 +606,17 @@ private struct WithInspectorPatternPreview: View {
     }
 
     @State var expandedNodes: Set<UUID> = []
-    @State var selection: UUID? = nil
+    @State var selection: UUID?
 
     let sampleData = [
         PreviewNode(name: "ftyp", type: "File Type", offset: "0x0000", children: []),
-        PreviewNode(name: "moov", type: "Movie", offset: "0x0020", children: [
-            PreviewNode(name: "mvhd", type: "Movie Header", offset: "0x0028", children: []),
-            PreviewNode(name: "trak", type: "Track", offset: "0x0068", children: [])
-        ])
+        PreviewNode(
+            name: "moov", type: "Movie", offset: "0x0020",
+            children: [
+                PreviewNode(name: "mvhd", type: "Movie Header", offset: "0x0028", children: []),
+                PreviewNode(name: "trak", type: "Track", offset: "0x0068", children: [])
+            ]
+        )
     ]
 
     var body: some View {
@@ -664,10 +689,13 @@ private struct DynamicTypeSmallPreview: View {
     @State var expandedNodes: Set<UUID> = []
 
     let sampleData = [
-        PreviewNode(title: "Root 1", children: [
-            PreviewNode(title: "Child 1.1", children: []),
-            PreviewNode(title: "Child 1.2", children: [])
-        ]),
+        PreviewNode(
+            title: "Root 1",
+            children: [
+                PreviewNode(title: "Child 1.1", children: []),
+                PreviewNode(title: "Child 1.2", children: [])
+            ]
+        ),
         PreviewNode(title: "Root 2", children: [])
     ]
 
@@ -702,9 +730,12 @@ private struct DynamicTypeLargePreview: View {
     @State var expandedNodes: Set<UUID> = []
 
     let sampleData = [
-        PreviewNode(title: "Root Node", children: [
-            PreviewNode(title: "Child Node", children: [])
-        ])
+        PreviewNode(
+            title: "Root Node",
+            children: [
+                PreviewNode(title: "Child Node", children: [])
+            ]
+        )
     ]
 
     var body: some View {
@@ -785,7 +816,7 @@ private struct FlatListPreview: View {
     }
 
     @State var expandedNodes: Set<UUID> = []
-    @State var selection: UUID? = nil
+    @State var selection: UUID?
 
     let flatData = [
         PreviewNode(title: "Item 1", children: []),

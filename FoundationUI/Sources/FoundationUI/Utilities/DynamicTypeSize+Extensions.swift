@@ -25,7 +25,6 @@ import SwiftUI
 /// let sorted = sizes.sorted() // Automatic ordering
 /// ```
 public extension DynamicTypeSize {
-
     // MARK: - Semantic Accessibility Names
 
     /// Accessibility Medium size (equivalent to .accessibility1)

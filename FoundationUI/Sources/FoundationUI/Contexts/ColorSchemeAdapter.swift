@@ -42,13 +42,13 @@ import SwiftUI
 ///
 /// ## Adaptive Color Properties
 /// The adapter provides semantic color properties that automatically adapt:
-/// - ``adaptiveBackground``: Primary background color
-/// - ``adaptiveSecondaryBackground``: Secondary background for panels
-/// - ``adaptiveTextColor``: Primary text color
-/// - ``adaptiveSecondaryTextColor``: Secondary/muted text
-/// - ``adaptiveBorderColor``: Border and outline colors
-/// - ``adaptiveDividerColor``: Subtle dividers and separators
-/// - ``adaptiveElevatedSurface``: Elevated cards and panels
+/// - ``adaptiveBackground``
+/// - ``adaptiveSecondaryBackground``
+/// - ``adaptiveTextColor``
+/// - ``adaptiveSecondaryTextColor``
+/// - ``adaptiveBorderColor``
+/// - ``adaptiveDividerColor``
+/// - ``adaptiveElevatedSurface``
 ///
 /// ## Color Scheme Detection
 /// ```swift
@@ -127,9 +127,8 @@ import SwiftUI
 /// ## See Also
 /// - ``adaptiveBackground``
 /// - ``adaptiveTextColor``
-/// - ``View/adaptiveColorScheme()``
+/// - `View.adaptiveColorScheme()` modifier
 public struct ColorSchemeAdapter {
-
     // MARK: - Properties
 
     /// The current color scheme (light or dark)
@@ -442,7 +441,6 @@ public struct ColorSchemeAdapter {
 // MARK: - View Extensions
 
 public extension View {
-
     /// Applies adaptive color scheme to the view
     ///
     /// Automatically adapts view colors based on the system color scheme.
@@ -497,7 +495,7 @@ public extension View {
 /// Reads the color scheme from the environment and applies adaptive colors.
 ///
 /// ## See Also
-/// - ``View/adaptiveColorScheme()``
+/// - `View.adaptiveColorScheme()` modifier
 /// - ``ColorSchemeAdapter``
 private struct AdaptiveColorSchemeModifier: ViewModifier {
     @Environment(\.colorScheme) var colorScheme
@@ -524,7 +522,9 @@ private struct AdaptiveColorSchemeModifier: ViewModifier {
 
                 VStack(spacing: DS.Spacing.m) {
                     ColorSwatch(label: "Primary Background", color: adapter.adaptiveBackground)
-                    ColorSwatch(label: "Secondary Background", color: adapter.adaptiveSecondaryBackground)
+                    ColorSwatch(
+                        label: "Secondary Background", color: adapter.adaptiveSecondaryBackground
+                    )
                     ColorSwatch(label: "Elevated Surface", color: adapter.adaptiveElevatedSurface)
                     ColorSwatch(label: "Primary Text", color: adapter.adaptiveTextColor)
                     ColorSwatch(label: "Secondary Text", color: adapter.adaptiveSecondaryTextColor)
@@ -553,7 +553,9 @@ private struct AdaptiveColorSchemeModifier: ViewModifier {
 
                 VStack(spacing: DS.Spacing.m) {
                     ColorSwatch(label: "Primary Background", color: adapter.adaptiveBackground)
-                    ColorSwatch(label: "Secondary Background", color: adapter.adaptiveSecondaryBackground)
+                    ColorSwatch(
+                        label: "Secondary Background", color: adapter.adaptiveSecondaryBackground
+                    )
                     ColorSwatch(label: "Elevated Surface", color: adapter.adaptiveElevatedSurface)
                     ColorSwatch(label: "Primary Text", color: adapter.adaptiveTextColor)
                     ColorSwatch(label: "Secondary Text", color: adapter.adaptiveSecondaryTextColor)

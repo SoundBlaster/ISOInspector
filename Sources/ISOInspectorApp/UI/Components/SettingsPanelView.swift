@@ -13,8 +13,8 @@
   ///
   /// ## Design System Integration
   /// Uses FoundationUI components:
-  /// - ``SidebarPattern`` for sidebar navigation
-  /// - ``Card`` for settings groups
+  /// - SidebarPattern for sidebar navigation
+  /// - Card for settings groups
   /// - Design System spacing and typography tokens
   ///
   /// ## Platform Adaptation
@@ -76,7 +76,6 @@
       ]
     }
 
-    @ViewBuilder
     private func detailContent(for sectionID: String?) -> AnyView {
       guard let sectionID = sectionID else {
         return AnyView(

@@ -130,10 +130,10 @@ import SwiftUI
 /// ## Best Practices
 ///
 /// 1. **Use Semantic Materials**: Choose materials based on UI hierarchy
-///    - `.thin`: Overlays, popovers, tooltips
-///    - `.regular`: Panels, inspectors, sidebars
-///    - `.thick`: Modal sheets, prominent containers
-///    - `.ultra`: Critical modals, blocking overlays
+///    - `.thin`
+///    - `.regular`
+///    - `.thick`
+///    - `.ultra`
 ///
 /// 2. **Minimize Overrides**: Let materials propagate naturally when possible
 ///
@@ -142,9 +142,9 @@ import SwiftUI
 /// 4. **Platform Adaptation**: Consider platform-specific defaults
 ///
 /// ## See Also
-/// - ``SurfaceMaterial``: The material type enum
-/// - ``SurfaceStyleModifier``: The modifier that applies materials
-/// - `EnvironmentValues/surfaceStyle`: The environment value accessor
+/// - ``SurfaceMaterial``
+/// - ``SurfaceStyle``
+/// - `EnvironmentValues.surfaceStyle`
 public struct SurfaceStyleKey: EnvironmentKey {
     /// The default surface material
     ///
@@ -236,9 +236,9 @@ public extension EnvironmentValues {
     /// - Dark Mode: Adapts material appearance
     ///
     /// ## See Also
-    /// - ``SurfaceStyleKey``: The environment key definition
-    /// - ``SurfaceMaterial``: Available material types
-    /// - ``View/surfaceStyle(material:allowFallback:)``: Modifier to apply materials
+    /// - ``SurfaceStyleKey``
+    /// - ``SurfaceMaterial``
+    /// - The `surfaceStyle(material:allowFallback:)` modifier for applying materials
     var surfaceStyle: SurfaceMaterial {
         get { self[SurfaceStyleKey.self] }
         set { self[SurfaceStyleKey.self] = newValue }
@@ -251,16 +251,16 @@ public extension EnvironmentValues {
     /// Demonstrates the default surface style (.regular)
     struct DefaultView: View {
         @Environment(\.surfaceStyle) var surfaceStyle
-        
+
         var body: some View {
             VStack(spacing: DS.Spacing.l) {
                 Text("Default Surface Style")
                     .font(DS.Typography.headline)
-                
+
                 Text(surfaceStyle.description)
                     .font(DS.Typography.body)
                     .foregroundStyle(.secondary)
-                
+
                 Text("No explicit environment set")
                     .font(DS.Typography.caption)
                     .foregroundStyle(.tertiary)
@@ -270,7 +270,7 @@ public extension EnvironmentValues {
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
         }
     }
-    
+
     return DefaultView()
         .padding()
 }
@@ -292,10 +292,10 @@ public extension EnvironmentValues {
             VStack(spacing: DS.Spacing.l) {
                 Text("Parent (.thick)")
                     .font(DS.Typography.headline)
-                
+
                 // Child inherits .thick from parent
                 ChildView(label: "Child (inherited)")
-                
+
                 // Child overrides to .thin
                 ChildView(label: "Child (override to .thin)")
                     .environment(\.surfaceStyle, .thin)
@@ -306,11 +306,11 @@ public extension EnvironmentValues {
             .environment(\.surfaceStyle, .thick)
         }
     }
-    
+
     struct ChildView: View {
         let label: String
         @Environment(\.surfaceStyle) var surfaceStyle
-        
+
         var body: some View {
             VStack(spacing: DS.Spacing.s) {
                 Text(label)
@@ -324,7 +324,7 @@ public extension EnvironmentValues {
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.medium))
         }
     }
-    
+
     return ParentView()
         .padding()
 }
@@ -336,25 +336,25 @@ public extension EnvironmentValues {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             Text("Main Content")
                 .font(DS.Typography.title)
-            
+
             Text("Uses .regular surface")
                 .font(DS.Typography.body)
                 .foregroundStyle(.secondary)
-            
+
             Spacer()
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .surfaceStyle(material: .regular)
         .environment(\.surfaceStyle, .regular)
-        
+
         // Inspector panel - thick surface for visual separation
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             Text("Inspector")
                 .font(DS.Typography.headline)
-            
+
             Divider()
-            
+
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
                 Text("Surface Style")
                     .font(DS.Typography.caption)
@@ -362,7 +362,7 @@ public extension EnvironmentValues {
                 Text(".thick material")
                     .font(DS.Typography.body)
             }
-            
+
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
                 Text("Purpose")
                     .font(DS.Typography.caption)
@@ -370,7 +370,7 @@ public extension EnvironmentValues {
                 Text("Visual separation")
                     .font(DS.Typography.body)
             }
-            
+
             Spacer()
         }
         .padding()
@@ -386,7 +386,7 @@ public extension EnvironmentValues {
     /// Demonstrates surface style for layered UI elements
     struct LayeredView: View {
         @State private var showModal = true
-        
+
         var body: some View {
             ZStack {
                 // Background content - regular
@@ -402,17 +402,17 @@ public extension EnvironmentValues {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .surfaceStyle(material: .regular)
                 .environment(\.surfaceStyle, .regular)
-                
+
                 // Modal overlay - ultra thick for prominence
                 if showModal {
                     VStack(spacing: DS.Spacing.m) {
                         Text("Modal Dialog")
                             .font(DS.Typography.headline)
-                        
+
                         Text("Ultra thick surface")
                             .font(DS.Typography.caption)
                             .foregroundStyle(.secondary)
-                        
+
                         Text("Maximum visual separation")
                             .font(DS.Typography.caption)
                             .foregroundStyle(.tertiary)
@@ -428,7 +428,7 @@ public extension EnvironmentValues {
             .frame(height: 400)
         }
     }
-    
+
     return LayeredView()
 }
 
@@ -437,7 +437,7 @@ public extension EnvironmentValues {
     VStack(spacing: DS.Spacing.l) {
         Text("Dark Mode Surface Styles")
             .font(DS.Typography.headline)
-        
+
         ForEach([SurfaceMaterial.thin, .regular, .thick, .ultra], id: \.self) { material in
             MaterialCard(material: material)
         }
@@ -452,12 +452,12 @@ public extension EnvironmentValues {
 private struct MaterialCard: View {
     let material: SurfaceMaterial
     @Environment(\.surfaceStyle) var surfaceStyle
-    
+
     var body: some View {
         VStack(spacing: DS.Spacing.s) {
             Text(material.description)
                 .font(DS.Typography.body)
-            
+
             Text(material.accessibilityLabel)
                 .font(DS.Typography.caption)
                 .foregroundStyle(.secondary)

@@ -306,21 +306,21 @@ The accessibility audit includes:
 ### AccessibilityContext (Layer 4)
 
 ✅ **Environment Integration**
-- `reduceMotion`: Boolean flag
-- `increaseContrast`: Boolean flag
-- `boldText`: Boolean flag (iOS)
-- `dynamicTypeSize`: DynamicTypeSize
+- `reduceMotion`
+- `increaseContrast`
+- `boldText`
+- `dynamicTypeSize`
 
 ✅ **Adaptive Properties**
-- `animation`: Conditional based on Reduce Motion
-- `foreground`: High-contrast adaptive color
-- `background`: High-contrast adaptive color
-- `fontWeight`: Bold text adaptation
+- `animation`
+- `foreground`
+- `background`
+- `fontWeight`
 
 ✅ **Helper Methods**
-- `scaledFont(for:)`: Dynamic Type scaling
-- `scaledSpacing(_:)`: Proportional spacing
-- `isAccessibilitySize`: Size level detection
+- `scaledFont(for:)`
+- `scaledSpacing(_:)`
+- `isAccessibilitySize`
 
 ---
 

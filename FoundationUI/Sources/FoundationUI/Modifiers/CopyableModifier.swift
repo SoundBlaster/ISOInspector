@@ -67,8 +67,8 @@ import UIKit
 ///
 /// ## See Also
 ///
-/// - ``CopyableText``: Convenience component for simple text copying
-/// - ``Copyable``: Generic wrapper for complex copyable views
+/// - ``CopyableText``
+/// - ``Copyable``
 public struct CopyableModifier: ViewModifier {
     // MARK: - Properties
 
@@ -244,9 +244,9 @@ public extension View {
     ///
     /// ## See Also
     ///
-    /// - ``CopyableModifier``: The underlying view modifier
-    /// - ``CopyableText``: Convenience component for text copying
-    /// - ``Copyable``: Generic wrapper for complex views
+    /// - ``CopyableModifier``
+    /// - ``CopyableText``
+    /// - ``Copyable``
     func copyable(text: String, showFeedback: Bool = true) -> some View {
         modifier(CopyableModifier(textToCopy: text, showFeedback: showFeedback))
     }

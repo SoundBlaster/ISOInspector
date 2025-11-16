@@ -262,13 +262,13 @@ struct ISOInspectorView: View {
 
 ## Further Reading
 
-- <doc:CreatingPatterns> — Tutorial for building with patterns
-- <doc:Components> — Components used in patterns
-- <doc:Performance> — Pattern performance optimization
-- ``InspectorPattern`` — Inspector API
-- ``SidebarPattern`` — Sidebar API
-- ``ToolbarPattern`` — Toolbar API
-- ``BoxTreePattern`` — Tree API
+- <doc:CreatingPatterns>
+- <doc:Components>
+- <doc:Performance>
+- ``InspectorPattern``
+- ``SidebarPattern``
+- ``ToolbarPattern``
+- ``BoxTreePattern``
 
 ## See Also
 

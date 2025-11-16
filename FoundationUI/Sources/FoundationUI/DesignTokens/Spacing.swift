@@ -91,7 +91,7 @@ public extension DS {
 /// ## See Also
 /// - ``DS/Spacing``
 /// - ``DS/Typography``
-/// - ``DS/Color``
+/// - ``DS/Colors``
 /// - ``DS/Radius``
 /// - ``DS/Animation``
 public enum DS {}

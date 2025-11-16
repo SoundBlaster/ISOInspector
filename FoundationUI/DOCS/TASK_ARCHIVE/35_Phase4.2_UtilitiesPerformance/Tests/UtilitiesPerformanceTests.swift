@@ -1,6 +1,10 @@
+// @todo #236 Split UtilitiesPerformanceTests into smaller test classes
+// swiftlint:disable type_body_length
+
+import SwiftUI
 // swift-tools-version: 6.0
 import XCTest
-import SwiftUI
+
 @testable import FoundationUI
 
 #if canImport(AppKit)
@@ -41,24 +45,23 @@ import UIKit
 /// - Linux: Tests compile but clipboard/UI operations are unavailable
 @MainActor
 final class UtilitiesPerformanceTests: XCTestCase {
-
     // MARK: - Performance Baselines
 
     /// Target clipboard operation time (in seconds)
     /// Target: <10ms per clipboard write
-    private let clipboardOperationTarget: TimeInterval = 0.010 // 10ms
+    private let clipboardOperationTarget: TimeInterval = 0.010  // 10ms
 
     /// Target contrast ratio calculation time (in seconds)
     /// Target: <1ms per color pair calculation
-    private let contrastCalculationTarget: TimeInterval = 0.001 // 1ms
+    private let contrastCalculationTarget: TimeInterval = 0.001  // 1ms
 
     /// Target accessibility audit time (in seconds)
     /// Target: <50ms for 100 view hierarchy
-    private let accessibilityAuditTarget: TimeInterval = 0.050 // 50ms
+    private let accessibilityAuditTarget: TimeInterval = 0.050  // 50ms
 
     /// Target memory footprint (in bytes)
     /// Target: <5MB for all utilities combined
-    private let memoryFootprintTarget: Int = 5 * 1024 * 1024 // 5MB
+    private let memoryFootprintTarget: Int = 5 * 1024 * 1024  // 5MB
 
     // MARK: - CopyableText Performance Tests
 
@@ -160,7 +163,7 @@ final class UtilitiesPerformanceTests: XCTestCase {
             let views = (0..<50).map { index in
                 CopyableText(text: "Value \(index)", label: "Label \(index)")
             }
-            _ = views.count // Ensure views are created
+            _ = views.count  // Ensure views are created
         }
     }
     #endif
@@ -314,10 +317,18 @@ final class UtilitiesPerformanceTests: XCTestCase {
     func testColorContrastCalculationOverhead() {
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {
             // Test contrast with same color (1:1 ratio) to measure pure calculation overhead
-            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.infoBG, background: DS.Colors.infoBG)
-            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.warnBG, background: DS.Colors.warnBG)
-            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.errorBG, background: DS.Colors.errorBG)
-            _ = AccessibilityHelpers.contrastRatio(foreground: DS.Colors.successBG, background: DS.Colors.successBG)
+            _ = AccessibilityHelpers.contrastRatio(
+                foreground: DS.Colors.infoBG, background: DS.Colors.infoBG
+            )
+            _ = AccessibilityHelpers.contrastRatio(
+                foreground: DS.Colors.warnBG, background: DS.Colors.warnBG
+            )
+            _ = AccessibilityHelpers.contrastRatio(
+                foreground: DS.Colors.errorBG, background: DS.Colors.errorBG
+            )
+            _ = AccessibilityHelpers.contrastRatio(
+                foreground: DS.Colors.successBG, background: DS.Colors.successBG
+            )
         }
     }
 
@@ -405,7 +416,7 @@ final class UtilitiesPerformanceTests: XCTestCase {
             CGSize(width: 44, height: 44),  // Minimum iOS
             CGSize(width: 48, height: 48),  // Comfortable
             CGSize(width: 32, height: 32),  // Too small
-            CGSize(width: 60, height: 60)   // Large
+            CGSize(width: 60, height: 60)  // Large
         ]
 
         measure(metrics: PerformanceTestHelpers.cpuMetrics) {

@@ -47,7 +47,6 @@ import Yams
 ///
 @available(iOS 17.0, macOS 14.0, *)
 public struct YAMLParser {
-
     // MARK: - Data Structures
 
     /// A parsed component description from YAML.
@@ -66,10 +65,10 @@ public struct YAMLParser {
     /// ```
     ///
     /// This YAML produces a ComponentDescription with:
-    /// - `componentType`: "Badge"
-    /// - `properties`: ["text": "Warning", "level": "warning"]
-    /// - `semantics`: "Status indicator for validation warnings"
-    /// - `content`: nil
+    /// - `componentType`
+    /// - `properties`
+    /// - `semantics`
+    /// - `content`
     ///
     public struct ComponentDescription {
         /// The type of component (e.g., "Badge", "Card", "InspectorPattern")
@@ -122,19 +121,18 @@ public struct YAMLParser {
 
         public var errorDescription: String? {
             switch self {
-            case .invalidYAML(let details):
-                return "Invalid YAML syntax: \(details)"
-            case .missingComponentType(let line):
-                if let line = line {
-                    return "Missing required 'componentType' field at line \(line)"
+            case let .invalidYAML(details):
+                "Invalid YAML syntax: \(details)"
+            case let .missingComponentType(line):
+                if let line {
+                    "Missing required 'componentType' field at line \(line)"
                 } else {
-                    return "Missing required 'componentType' field"
+                    "Missing required 'componentType' field"
                 }
-            case .invalidStructure(let details):
-                return
-                    "Invalid YAML structure: \(details). Expected array of component definitions or single component."
-            case .fileReadError(let url, let error):
-                return "Failed to read file at \(url.path): \(error.localizedDescription)"
+            case let .invalidStructure(details):
+                "Invalid YAML structure: \(details). Expected array of component definitions or single component."
+            case let .fileReadError(url, error):
+                "Failed to read file at \(url.path): \(error.localizedDescription)"
             }
         }
     }
@@ -251,7 +249,7 @@ public struct YAMLParser {
     private static func parseComponentDict(
         _ dict: [String: Any],
         documentIndex: Int,
-        itemIndex: Int
+        itemIndex _: Int
     ) throws -> ComponentDescription {
         // Extract componentType (required)
         guard let componentType = dict["componentType"] as? String else {
@@ -265,18 +263,18 @@ public struct YAMLParser {
         let semantics = dict["semantics"] as? String
 
         // Extract and parse nested content (optional)
-        let content: [ComponentDescription]?
-        if let contentArray = dict["content"] as? [[String: Any]] {
-            content = try contentArray.enumerated().map { (index, contentDict) in
-                try parseComponentDict(
-                    contentDict,
-                    documentIndex: documentIndex,
-                    itemIndex: index
-                )
+        let content: [ComponentDescription]? =
+            if let contentArray = dict["content"] as? [[String: Any]] {
+                try contentArray.enumerated().map { index, contentDict in
+                    try parseComponentDict(
+                        contentDict,
+                        documentIndex: documentIndex,
+                        itemIndex: index
+                    )
+                }
+            } else {
+                nil
             }
-        } else {
-            content = nil
-        }
 
         return ComponentDescription(
             componentType: componentType,
@@ -290,7 +288,7 @@ public struct YAMLParser {
     private static func validateYAMLSyntax(_ yaml: String) throws {
         var inDoubleQuote = false
         var inSingleQuote = false
-        var previousChar: Character? = nil
+        var previousChar: Character?
 
         for char in yaml {
             // Handle escape sequences
@@ -299,9 +297,9 @@ public struct YAMLParser {
                 continue
             }
 
-            if char == "\"" && !inSingleQuote {
+            if char == "\"", !inSingleQuote {
                 inDoubleQuote.toggle()
-            } else if char == "'" && !inDoubleQuote {
+            } else if char == "'", !inDoubleQuote {
                 inSingleQuote.toggle()
             }
 

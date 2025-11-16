@@ -75,9 +75,9 @@ import SwiftUI
 ///
 /// ## See Also
 ///
-/// - ``CopyableModifier``: The underlying view modifier
-/// - ``CopyableText``: Convenience component for simple text
-/// - `.copyable(text:showFeedback:)`: View extension for direct modifier application
+/// - ``CopyableModifier``
+/// - ``CopyableText``
+/// - `.copyable(text:showFeedback:)`
 public struct Copyable<Content: View>: View {
     // MARK: - Properties
 
@@ -130,7 +130,7 @@ public struct Copyable<Content: View>: View {
         showFeedback: Bool = true,
         @ViewBuilder content: () -> Content
     ) {
-        self.textToCopy = text
+        textToCopy = text
         self.showFeedback = showFeedback
         self.content = content()
     }

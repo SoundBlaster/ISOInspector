@@ -4,11 +4,11 @@ import Foundation
 ///
 /// ``BoxNode`` snapshots capture the header offsets, catalog metadata,
 /// parsed payload details, validation issues, and nested children produced by
-/// the streaming ``ParsePipeline``. The type is ``Sendable`` so callers can
+/// the streaming ``ParsePipeline``. The type conforms to Sendable so callers can
 /// freely share snapshots across concurrency domains (CLI formatting,
 /// SwiftUI stores, exporters).
-public struct BoxNode: Equatable, Sendable {
-  public enum Status: String, Equatable, Sendable, Codable {
+public struct BoxNode: Equatable, Swift.Sendable {
+  public enum Status: String, Equatable, Swift.Sendable, Codable {
     case valid
     case partial
     case corrupt

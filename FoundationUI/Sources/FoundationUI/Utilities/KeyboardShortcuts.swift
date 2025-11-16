@@ -89,18 +89,18 @@ public enum KeyboardShortcutType: Sendable {
     /// Returns the character key that should be pressed along with modifier keys.
     public var keyEquivalent: KeyEquivalent {
         switch self {
-        case .copy: return "c"
-        case .paste: return "v"
-        case .cut: return "x"
-        case .selectAll: return "a"
-        case .undo: return "z"
-        case .redo: return "z"
-        case .save: return "s"
-        case .find: return "f"
-        case .newItem: return "n"
-        case .close: return "w"
-        case .refresh: return "r"
-        case .custom(let key, _): return key
+        case .copy: "c"
+        case .paste: "v"
+        case .cut: "x"
+        case .selectAll: "a"
+        case .undo: "z"
+        case .redo: "z"
+        case .save: "s"
+        case .find: "f"
+        case .newItem: "n"
+        case .close: "w"
+        case .refresh: "r"
+        case let .custom(key, _): key
         }
     }
 
@@ -112,11 +112,11 @@ public enum KeyboardShortcutType: Sendable {
     public var modifiers: EventModifiers {
         switch self {
         case .copy, .paste, .cut, .selectAll, .undo, .save, .find, .newItem, .close, .refresh:
-            return KeyboardShortcutModifiers.command
+            KeyboardShortcutModifiers.command
         case .redo:
-            return KeyboardShortcutModifiers.commandShift
-        case .custom(_, let modifiers):
-            return modifiers
+            KeyboardShortcutModifiers.commandShift
+        case let .custom(_, modifiers):
+            modifiers
         }
     }
 
@@ -144,7 +144,7 @@ public enum KeyboardShortcutType: Sendable {
     private var macOSDisplayString: String {
         let keyChar = keyEquivalent.character.uppercased()
 
-        if modifiers.contains(.shift) && modifiers.contains(.command) {
+        if modifiers.contains(.shift), modifiers.contains(.command) {
             return "⌘⇧\(keyChar)"
         } else if modifiers.contains(.command) {
             return "⌘\(keyChar)"
@@ -188,7 +188,7 @@ public enum KeyboardShortcutType: Sendable {
     /// // "Copy, Command C" on macOS, "Copy, Control C" elsewhere
     /// ```
     public var accessibilityLabel: String {
-        let actionName = self.actionName
+        let actionName = actionName
         let keyChar = keyEquivalent.character.uppercased()
 
         #if os(macOS)
@@ -203,18 +203,18 @@ public enum KeyboardShortcutType: Sendable {
     /// Returns the human-readable action name for this shortcut
     private var actionName: String {
         switch self {
-        case .copy: return "Copy"
-        case .paste: return "Paste"
-        case .cut: return "Cut"
-        case .selectAll: return "Select All"
-        case .undo: return "Undo"
-        case .redo: return "Redo"
-        case .save: return "Save"
-        case .find: return "Find"
-        case .newItem: return "New"
-        case .close: return "Close"
-        case .refresh: return "Refresh"
-        case .custom: return "Custom Action"
+        case .copy: "Copy"
+        case .paste: "Paste"
+        case .cut: "Cut"
+        case .selectAll: "Select All"
+        case .undo: "Undo"
+        case .redo: "Redo"
+        case .save: "Save"
+        case .find: "Find"
+        case .newItem: "New"
+        case .close: "Close"
+        case .refresh: "Refresh"
+        case .custom: "Custom Action"
         }
     }
 
@@ -268,7 +268,7 @@ public enum KeyboardShortcutType: Sendable {
 /// // This returns [.command, .shift] on macOS, [.control, .shift] elsewhere
 /// let combination = KeyboardShortcutModifiers.commandShift
 /// ```
-public struct KeyboardShortcutModifiers {
+public enum KeyboardShortcutModifiers {
     /// Primary modifier key (Command on macOS, Control elsewhere)
     ///
     /// Use this for the primary "command" modifier that should be:
@@ -301,14 +301,14 @@ public struct KeyboardShortcutModifiers {
     /// - `.option` on macOS
     /// - `.option` on other platforms (maps to Alt)
     public static var option: EventModifiers {
-        return .option
+        .option
     }
 
     /// Shift modifier key
     ///
     /// This is consistent across all platforms.
     public static var shift: EventModifiers {
-        return .shift
+        .shift
     }
 
     /// Control modifier key
@@ -316,7 +316,7 @@ public struct KeyboardShortcutModifiers {
     /// Note: On macOS, Control is less commonly used than Command.
     /// Consider using `command` instead for cross-platform shortcuts.
     public static var control: EventModifiers {
-        return .control
+        .control
     }
 }
 
@@ -354,11 +354,16 @@ public extension View {
     ///   - action: The action to perform when the shortcut is triggered
     /// - Returns: A view with the keyboard shortcut applied
     @ViewBuilder
-    func shortcut(_ type: KeyboardShortcutType, action: @escaping () -> Void) -> some View {
-        self.keyboardShortcut(type.keyEquivalent, modifiers: type.modifiers)
+    func shortcut(_ type: KeyboardShortcutType, action _: @escaping () -> Void)
+    -> some View {
+        keyboardShortcut(type.keyEquivalent, modifiers: type.modifiers)
             .accessibilityLabel(Text(type.accessibilityLabel))
     }
 }
+
+/// Convenience alias so DocC references ``KeyboardShortcuts`` resolve to
+/// the canonical ``KeyboardShortcutType`` enum without duplicating APIs.
+public typealias KeyboardShortcuts = KeyboardShortcutType
 
 // MARK: - Previews
 
