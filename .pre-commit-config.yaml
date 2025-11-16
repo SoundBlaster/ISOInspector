@@ -10,23 +10,23 @@ repos:
       - id: check-yaml
         name: Check YAML syntax
         description: Validate YAML files including GitHub Actions workflows
-        stages: [pre-commit]
+        stages: [commit]
 
       - id: check-added-large-files
         name: Check for large files
         args: ['--maxkb=1000']
         description: Prevent accidentally committing large files
-        stages: [pre-commit]
+        stages: [commit]
 
       - id: trailing-whitespace
         name: Trim trailing whitespace
         description: Remove trailing whitespace from all files
-        stages: [pre-commit]
+        stages: [commit]
 
       - id: end-of-file-fixer
         name: Fix end of files
         description: Ensure files end with a newline
-        stages: [pre-commit]
+        stages: [commit]
   # GitHub Actions workflow validation
   - repo: local
     hooks:
@@ -36,7 +36,7 @@ repos:
         language: system
         files: ^\.github/workflows/.*\.ya?ml$
         types: [yaml]
-        stages: [pre-commit]
+        stages: [commit]
         description: Validate GitHub Actions workflow YAML syntax
 
   # Swift linting with SwiftLint
@@ -48,7 +48,7 @@ repos:
         language: system
         files: ^FoundationUI/.*\.swift$
         types: [swift]
-        stages: [pre-commit]
+        stages: [commit]
         description: Run SwiftLint on FoundationUI source files
 
       - id: swiftlint-componenttestapp
@@ -57,7 +57,7 @@ repos:
         language: system
         files: ^Examples/ComponentTestApp/.*\.swift$
         types: [swift]
-        stages: [pre-commit]
+        stages: [commit]
         description: Run SwiftLint on ComponentTestApp source files
 
       - id: swift-build-foundationui
@@ -66,7 +66,7 @@ repos:
         language: system
         files: ^FoundationUI/.*\.swift$
         types: [swift]
-        stages: [pre-push]
+        stages: [push]
         description: Verify FoundationUI builds successfully before push
 
       - id: swift-format-all
@@ -74,7 +74,7 @@ repos:
         entry: swift format --in-place
         language: system
         types: [swift]
-        stages: [pre-commit]
+        stages: [commit]
         description: Auto-format Swift files with swift-format before commit
 
       - id: swift-test-foundationui
@@ -83,7 +83,7 @@ repos:
         language: system
         files: ^FoundationUI/(Sources|Tests)/.*\.swift$
         types: [swift]
-        stages: [pre-push]
+        stages: [push]
         description: Run unit tests before push
 
   # Git hooks for commit messages
@@ -93,7 +93,7 @@ repos:
         name: Commit Message Format
         entry: sh -c 'echo "Commit message validation passed"'
         language: system
-        stages: [pre-commit]
+        stages: [commit]
         description: Validate commit message format (task #XX references)
 
 # Additional pre-commit configurations
