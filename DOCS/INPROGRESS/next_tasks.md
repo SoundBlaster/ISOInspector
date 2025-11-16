@@ -55,15 +55,20 @@
 
 ---
 
-## Candidate Tasks (For Next Selection)
+## Currently In Progress
 
-### Automation Track (High Priority)
-
-#### **A7 — Reinstate SwiftLint Complexity Thresholds**
+### 🔄 A7 — Reinstate SwiftLint Complexity Thresholds
+- **Status:** 🔄 IN PROGRESS (2025-11-16)
 - **Priority:** Medium
 - **Effort:** 0.75 days
 - **Dependencies:** A2 ✅ complete
-- **Description:** Restore and enforce SwiftLint complexity thresholds (cyclomatic, function length, type length) to prevent code quality regressions.
+- **Document:** `DOCS/INPROGRESS/228_A7_Reinstate_SwiftLint_Complexity_Thresholds.md`
+
+---
+
+## Candidate Tasks (For Next Selection)
+
+### Automation Track (High Priority)
 
 #### **A8 — Gate Test Coverage Using `coverage_analysis.py`**
 - **Priority:** Medium
