@@ -360,7 +360,7 @@
       XCTAssertEqual(descriptions.count, 1)
 
       // Validate
-      try YAMLValidator.validate(descriptions[0])
+      try YAMLValidator.validateComponent(descriptions[0])
 
       // Generate
       let view = try YAMLViewGenerator.generateView(from: descriptions[0])
@@ -396,7 +396,7 @@
       XCTAssertEqual(descriptions.count, 5)
 
       for description in descriptions {
-        try YAMLValidator.validate(description)
+        try YAMLValidator.validateComponent(description)
         let view = try YAMLViewGenerator.generateView(from: description)
         XCTAssertNotNil(view)
       }

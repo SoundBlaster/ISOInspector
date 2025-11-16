@@ -27,7 +27,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertNoThrow(try YAMLValidator.validate(description))
+    XCTAssertNoThrow(try YAMLValidator.validateComponent(description))
   }
 
   func testValidateCard() throws {
@@ -40,7 +40,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertNoThrow(try YAMLValidator.validate(description))
+    XCTAssertNoThrow(try YAMLValidator.validateComponent(description))
   }
 
   func testValidateKeyValueRow() throws {
@@ -54,7 +54,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertNoThrow(try YAMLValidator.validate(description))
+    XCTAssertNoThrow(try YAMLValidator.validateComponent(description))
   }
 
   func testValidateSectionHeader() throws {
@@ -66,7 +66,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertNoThrow(try YAMLValidator.validate(description))
+    XCTAssertNoThrow(try YAMLValidator.validateComponent(description))
   }
 
   func testValidateInspectorPattern() throws {
@@ -78,7 +78,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertNoThrow(try YAMLValidator.validate(description))
+    XCTAssertNoThrow(try YAMLValidator.validateComponent(description))
   }
 
   // MARK: - Component Type Validation
@@ -89,7 +89,7 @@ final class YAMLValidatorTests: XCTestCase {
       properties: [:]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       guard case YAMLValidator.ValidationError.unknownComponentType(let type) = error else {
         XCTFail("Expected unknownComponentType error, got \(error)")
         return
@@ -108,7 +108,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       guard
         case YAMLValidator.ValidationError.missingRequiredProperty(
           let
@@ -131,7 +131,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       guard
         case YAMLValidator.ValidationError.missingRequiredProperty(
           let
@@ -154,7 +154,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       guard case YAMLValidator.ValidationError.missingRequiredProperty = error else {
         XCTFail("Expected missingRequiredProperty error, got \(error)")
         return
@@ -173,7 +173,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       guard case YAMLValidator.ValidationError.invalidPropertyType = error else {
         XCTFail("Expected invalidPropertyType error, got \(error)")
         return
@@ -191,7 +191,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       guard case YAMLValidator.ValidationError.invalidPropertyType = error else {
         XCTFail("Expected invalidPropertyType error, got \(error)")
         return
@@ -210,7 +210,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       guard
         case YAMLValidator.ValidationError.invalidEnumValue(
           let
@@ -235,7 +235,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       guard case YAMLValidator.ValidationError.invalidEnumValue = error else {
         XCTFail("Expected invalidEnumValue error, got \(error)")
         return
@@ -251,7 +251,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       guard
         case YAMLValidator.ValidationError.invalidEnumValue(
           _, let property, let value, let validValues
@@ -278,7 +278,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       guard
         case YAMLValidator.ValidationError.valueOutOfBounds(
           let
@@ -304,7 +304,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       guard case YAMLValidator.ValidationError.valueOutOfBounds = error else {
         XCTFail("Expected valueOutOfBounds error, got \(error)")
         return
@@ -320,7 +320,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertNoThrow(try YAMLValidator.validate(description))
+    XCTAssertNoThrow(try YAMLValidator.validateComponent(description))
   }
 
   // MARK: - Typo Suggestion Tests
@@ -334,7 +334,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       if case YAMLValidator.ValidationError.invalidEnumValue = error {
         let errorMessage = error.localizedDescription
         XCTAssertTrue(errorMessage.contains("Did you mean 'error'?"))
@@ -353,7 +353,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(description)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(description)) { error in
       if case YAMLValidator.ValidationError.invalidEnumValue = error {
         let errorMessage = error.localizedDescription
         XCTAssertTrue(errorMessage.contains("Did you mean 'warning'?"))
@@ -382,7 +382,7 @@ final class YAMLValidatorTests: XCTestCase {
       content: [nestedBadge]
     )
 
-    XCTAssertNoThrow(try YAMLValidator.validate(card))
+    XCTAssertNoThrow(try YAMLValidator.validateComponent(card))
   }
 
   func testRejectInvalidNestedComponent() {
@@ -400,7 +400,7 @@ final class YAMLValidatorTests: XCTestCase {
       content: [invalidBadge]
     )
 
-    XCTAssertThrowsError(try YAMLValidator.validate(card)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(card)) { error in
       guard case YAMLValidator.ValidationError.missingRequiredProperty = error else {
         XCTFail("Expected missingRequiredProperty error, got \(error)")
         return
@@ -425,7 +425,7 @@ final class YAMLValidatorTests: XCTestCase {
       )
     }
 
-    XCTAssertThrowsError(try YAMLValidator.validate(current)) { error in
+    XCTAssertThrowsError(try YAMLValidator.validateComponent(current)) { error in
       guard case YAMLValidator.ValidationError.invalidComposition(let details) = error else {
         XCTFail("Expected invalidComposition error, got \(error)")
         return
@@ -449,7 +449,7 @@ final class YAMLValidatorTests: XCTestCase {
       )
     }
 
-    XCTAssertNoThrow(try YAMLValidator.validate(current))
+    XCTAssertNoThrow(try YAMLValidator.validateComponent(current))
   }
 
   // MARK: - Multiple Components Validation
@@ -470,7 +470,7 @@ final class YAMLValidatorTests: XCTestCase {
       ),
     ]
 
-    XCTAssertNoThrow(try YAMLValidator.validate(descriptions))
+    XCTAssertNoThrow(try YAMLValidator.validateComponents(descriptions))
   }
 
   func testRejectMultipleComponentsWithInvalid() {
@@ -489,7 +489,7 @@ final class YAMLValidatorTests: XCTestCase {
       ),
     ]
 
-    XCTAssertThrowsError(try YAMLValidator.validate(descriptions))
+    XCTAssertThrowsError(try YAMLValidator.validateComponents(descriptions))
   }
 
   // MARK: - Optional Properties
@@ -504,7 +504,7 @@ final class YAMLValidatorTests: XCTestCase {
       ]
     )
 
-    XCTAssertNoThrow(try YAMLValidator.validate(description))
+    XCTAssertNoThrow(try YAMLValidator.validateComponent(description))
   }
 
   func testAcceptCardWithoutOptionalProperties() throws {
@@ -513,6 +513,6 @@ final class YAMLValidatorTests: XCTestCase {
       properties: [:]  // All Card properties are optional
     )
 
-    XCTAssertNoThrow(try YAMLValidator.validate(description))
+    XCTAssertNoThrow(try YAMLValidator.validateComponent(description))
   }
 }

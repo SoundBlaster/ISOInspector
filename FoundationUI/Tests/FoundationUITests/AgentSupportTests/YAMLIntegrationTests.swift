@@ -72,7 +72,7 @@ final class YAMLIntegrationTests: XCTestCase {
     XCTAssertEqual(descriptions.count, 6, "Should parse 6 badge examples")
 
     // Validate all
-    try YAMLValidator.validate(descriptions)
+    try YAMLValidator.validateComponents(descriptions)
 
     // Verify properties
     XCTAssertEqual(descriptions[0].properties["level"] as? String, "info")
@@ -152,7 +152,7 @@ final class YAMLIntegrationTests: XCTestCase {
     XCTAssertEqual(descriptions.count, 3, "Should parse 3 inspector examples")
 
     // Validate all
-    try YAMLValidator.validate(descriptions)
+    try YAMLValidator.validateComponents(descriptions)
 
     // Verify content structure
     XCTAssertNotNil(descriptions[0].content)
@@ -254,7 +254,7 @@ final class YAMLIntegrationTests: XCTestCase {
     XCTAssertEqual(descriptions.count, 1, "Should parse 1 complete UI example")
 
     // Validate
-    try YAMLValidator.validate(descriptions)
+    try YAMLValidator.validateComponents(descriptions)
 
     // Verify complex structure
     let inspector = descriptions[0]
@@ -286,7 +286,7 @@ final class YAMLIntegrationTests: XCTestCase {
 
     do {
       let descriptions = try YAMLParser.parse(yaml)
-      XCTAssertThrowsError(try YAMLValidator.validate(descriptions))
+      XCTAssertThrowsError(try YAMLValidator.validateComponents(descriptions))
     } catch {
       XCTFail("Parsing should succeed even if validation fails: \(error)")
     }
@@ -305,7 +305,7 @@ final class YAMLIntegrationTests: XCTestCase {
     XCTAssertEqual(descriptions.count, 1)
 
     // Step 2: Validate
-    XCTAssertNoThrow(try YAMLValidator.validate(descriptions[0]))
+    XCTAssertNoThrow(try YAMLValidator.validateComponent(descriptions[0]))
 
     // Step 3: Generate (if SwiftUI available)
     #if canImport(SwiftUI)
@@ -352,7 +352,7 @@ final class YAMLIntegrationTests: XCTestCase {
     let parsedDescription = parsedDescriptions[0]
 
     // Step 4: Validate
-    try YAMLValidator.validate(parsedDescription)
+    try YAMLValidator.validateComponent(parsedDescription)
 
     // Step 5: Verify round-trip consistency
     XCTAssertEqual(parsedDescription.componentType, originalDescription.componentType)
@@ -398,7 +398,7 @@ final class YAMLIntegrationTests: XCTestCase {
 
     // Validate
     let validateStart = Date()
-    try YAMLValidator.validate(descriptions)
+    try YAMLValidator.validateComponents(descriptions)
     let validateTime = Date().timeIntervalSince(validateStart)
 
     // Generate (sample - don't generate all 100)
@@ -481,7 +481,7 @@ final class YAMLIntegrationTests: XCTestCase {
 
     // Full pipeline test
     let descriptions = try YAMLParser.parse(yaml)
-    try YAMLValidator.validate(descriptions)
+    try YAMLValidator.validateComponents(descriptions)
 
     let inspector = descriptions[0]
     XCTAssertEqual(inspector.componentType, "InspectorPattern")
