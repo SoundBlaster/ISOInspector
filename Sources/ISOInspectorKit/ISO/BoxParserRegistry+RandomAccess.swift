@@ -49,6 +49,9 @@ extension BoxParserRegistry.DefaultParsers {
     return ParsedBoxPayload(fields: fields, detail: .movieFragmentRandomAccessOffset(detail))
   }
 
+  // Rationale: Parser for tfra box with complex nested entry structures per ISO/IEC 14496-12 specification.
+  // @todo #A7 Consider extracting entry parsing loop into a separate helper method.
+  // swiftlint:disable:next function_body_length
   @Sendable static func trackFragmentRandomAccess(header: BoxHeader, reader: RandomAccessReader)
     throws -> ParsedBoxPayload?
   {

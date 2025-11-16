@@ -1,6 +1,9 @@
 import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
+  // Rationale: Parser for tkhd box with many optional fields per ISO/IEC 14496-12 specification.
+  // @todo #A7 Consider extracting version-specific field parsing into helper methods.
+  // swiftlint:disable:next function_body_length
   @Sendable static func trackHeader(header: BoxHeader, reader: RandomAccessReader) throws
     -> ParsedBoxPayload?
   {

@@ -44,6 +44,9 @@ public struct EventConsoleFormatter: Sendable {
     }
   }
 
+  // Rationale: Central formatting dispatcher for all ISO box types. Refactoring to multiple formatters would reduce clarity.
+  // @todo #A7 Consider extracting box-type-specific formatters if complexity grows beyond current threshold.
+  // swiftlint:disable:next cyclomatic_complexity
   private func detailDescription(for event: ParseEvent) -> String? {
     if let encryption = event.payload?.sampleEncryption {
       var parts: [String] = ["encryption", "samples=\(encryption.sampleCount)"]

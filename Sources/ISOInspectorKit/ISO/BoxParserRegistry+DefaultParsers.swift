@@ -2,6 +2,9 @@ import Foundation
 
 extension BoxParserRegistry {
   enum DefaultParsers {
+    // Rationale: Parser registration dispatcher for all standard ISO box types. Breaking into multiple functions reduces clarity.
+    // @todo #A7 Consider grouping parser registrations by box category (media, metadata, fragments) if complexity increases.
+    // swiftlint:disable:next cyclomatic_complexity
     static func registerAll(into registry: inout BoxParserRegistry) {
       if let ftyp = try? FourCharCode("ftyp") {
         registry.register(parser: fileType, for: ftyp)

@@ -24,6 +24,9 @@
   extension BookmarkPersistenceStore: BookmarkPersistenceManaging {}
 
   @MainActor
+  // Rationale: Central controller coordinating document lifecycle, bookmarks, recents, and parse state.
+  // @todo #A7 Consider extracting bookmark management, recent files management, and parse pipeline coordination into separate services.
+  // swiftlint:disable:next type_body_length
   final class DocumentSessionController: ObservableObject {
     @Published private(set) var recents: [DocumentRecent]
     @Published private(set) var currentDocument: DocumentRecent?
