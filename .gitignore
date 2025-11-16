@@ -7,3 +7,6 @@ Documentation/DocC/
 .claude/settings.local.json
 DerivedData
 gh-pages/
+
+# Auto-generated PDD reports
+DOCS/TODO_REPORT.md

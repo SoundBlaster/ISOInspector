@@ -6,6 +6,61 @@ This directory contains utility scripts for CI/CD pipelines and local developmen
 
 ## 📄 Available Scripts
 
+### `collect_todos.py`
+
+Scans the codebase for `@todo` comments and generates a comprehensive Markdown report following PDD (Puzzle-Driven Development) methodology.
+
+**Purpose:**
+- Implement PDD task tracking by collecting all `@todo` puzzles
+- Group tasks by task ID (e.g., `@todo #A7`)
+- Generate organized Markdown report with tasks sorted by number
+- Separate numbered tasks from unnumbered tasks
+- Track progress on refactoring and incomplete work
+
+**Usage:**
+```bash
+python3 scripts/collect_todos.py [--output OUTPUT_FILE] [--root ROOT_DIR]
+```
+
+**Options:**
+- `--output, -o <path>` - Output file path (default: `DOCS/TODO_REPORT.md`)
+- `--root, -r <path>` - Root directory to scan (default: current directory)
+
+**Examples:**
+```bash
+# Generate report with default output
+python3 scripts/collect_todos.py
+
+# Custom output location
+python3 scripts/collect_todos.py --output TODO.md
+
+# Scan specific directory
+python3 scripts/collect_todos.py --root /path/to/project
+```
+
+**Requirements:**
+- Python 3.6+
+- No external dependencies
+
+**Todo Comment Format:**
+```swift
+// @todo #A7 Refactor this file to comply with complexity threshold
+//   Additional context can be provided on continuation lines.
+//   The script will capture all indented lines as part of the puzzle.
+```
+
+**Output:**
+- Markdown report with sections for numbered and unnumbered tasks
+- Tasks grouped by task ID and sorted alphabetically
+- Full file location (path:line) for each puzzle
+- Complete puzzle description with all continuation lines
+- Summary table with puzzle counts per task
+
+**Integration with PDD:**
+This script implements the PDD principle that "code is the single source of truth" by extracting task tracking directly from code comments rather than maintaining separate task lists.
+
+---
+
 ### `convert_coverage_to_cobertura.sh`
 
 Converts Xcode code coverage reports to Cobertura XML format for use with coverage quality gates and reporting tools.
