@@ -1,0 +1,1367 @@
+
+Showing All Issues
+
+Build target NestedA11yIDs with configuration Debug
+
+CompileDocumentation /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc (in target 'NestedA11yIDs' from project 'NestedA11yIDs')
+    cd /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/docc convert --emit-lmdb-index --fallback-display-name NestedA11yIDs --fallback-bundle-identifier nesteda11yids.NestedA11yIDs --output-dir /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Products/Debug/NestedA11yIDs.doccarchive --ide-console-output --diagnostics-file /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Intermediates.noindex/NestedA11yIDs.build/Debug/NestedA11yIDs.build/NestedA11yIDs-diagnostics.json /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc --additional-symbol-graph-dir /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Intermediates.noindex/NestedA11yIDs.build/Debug/NestedA11yIDs.build/symbol-graph
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:50:5: warning: 'View' doesn't exist at '/NestedA11yIDs' (in target 'NestedA11yIDs' from project 'NestedA11yIDs')
+    note: Replace 'View' with 'View-Modifiers'
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:51:5: warning: 'View' doesn't exist at '/NestedA11yIDs' (in target 'NestedA11yIDs' from project 'NestedA11yIDs')
+    note: Replace 'View' with 'View-Modifiers'
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:55:5: warning: 'EnvironmentValues' doesn't exist at '/NestedA11yIDs' (in target 'NestedA11yIDs' from project 'NestedA11yIDs')
+    note: Replace 'EnvironmentValues' with 'Environment'
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:50:5: warning: 'View' doesn't exist at '/NestedA11yIDs' Replace 'View' with 'View-Modifiers'
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:50:5-50:9: fixit: View-Modifiers
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:51:5: warning: 'View' doesn't exist at '/NestedA11yIDs' Replace 'View' with 'View-Modifiers'
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:51:5-51:9: fixit: View-Modifiers
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:55:5: warning: 'EnvironmentValues' doesn't exist at '/NestedA11yIDs' Replace 'EnvironmentValues' with 'Environment'
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:55:5-55:22: fixit: Environment
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:50:5: 'View' doesn't exist at '/NestedA11yIDs'
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:51:5: 'View' doesn't exist at '/NestedA11yIDs'
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/NestedA11yIDs/Sources/NestedA11yIDs/NestedA11yIDs.docc/NestedA11yIDs.md:55:5: 'EnvironmentValues' doesn't exist at '/NestedA11yIDs'
+
+
+Build target ISOInspectorKit of project ISOInspector with configuration Debug
+
+CompileDocumentation /Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorKit/ISOInspectorKit.docc (in target 'ISOInspectorKit' from project 'ISOInspector')
+    cd /Users/egor/Development/GitHub/ISOInspector
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/docc convert --emit-lmdb-index --fallback-display-name ISOInspectorKit --fallback-bundle-identifier ru.egormerkushev.isoinspector.kit --output-dir /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Products/Debug/ISOInspectorKit.doccarchive --ide-console-output --diagnostics-file /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Intermediates.noindex/ISOInspector.build/Debug/ISOInspectorKit.build/ISOInspectorKit-diagnostics.json /Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorKit/ISOInspectorKit.docc --additional-symbol-graph-dir /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Intermediates.noindex/ISOInspector.build/Debug/ISOInspectorKit.build/symbol-graph
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorKit/ISO/BoxNode.swift:7:52: warning: 'Sendable' doesn't exist at '/ISOInspectorKit/BoxNode' (in target 'ISOInspectorKit' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorKit/ISO/BoxNode.swift:7:52: warning: 'Sendable' doesn't exist at '/ISOInspectorKit/BoxNode'
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorKit/ISO/BoxNode.swift:7:52: 'Sendable' doesn't exist at '/ISOInspectorKit/BoxNode'
+
+
+Build target Yams with configuration Debug
+
+CompileDocumentation (in target 'Yams' from project 'Yams')
+    cd /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/docc convert --emit-lmdb-index --fallback-display-name Yams --fallback-bundle-identifier yams.Yams --output-dir /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Products/Debug/Yams.doccarchive --ide-console-output --diagnostics-file /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Intermediates.noindex/Yams.build/Debug/Yams.build/Yams-diagnostics.json --additional-symbol-graph-dir /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Intermediates.noindex/Yams.build/Debug/Yams.build/symbol-graph
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Scalar.swift:52:54: warning: Parameter 'anchor' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'anchor' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:142:5: warning: Parameter 'redundancyAliasingStrategy' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'redundancyAliasingStrategy' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:142:5: warning: Parameter 'newLineScalarStyle' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'newLineScalarStyle' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Sequence.swift:39:55: warning: Parameter 'anchor' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'anchor' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Alias.swift:24:54: warning: Parameter 'anchor' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'anchor' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Parser.swift:204:9: warning: Parameter 'string' not found in initializer declaration (in target 'Yams' from project 'Yams')
+    note: Remove 'string' parameter documentation
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Parser.swift:208:9: warning: Parameter 'data' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'data' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Decoder.swift:102:21: warning: Parameter 'yaml' not found in instance method declaration (in target 'Yams' from project 'Yams')
+    note: Replace 'yaml' with 'yamlData'
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Decoder.swift:104:9: warning: Parameter 'yamlData' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'yamlData' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:197:5: warning: Parameter 'newLineScalarStyle' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'newLineScalarStyle' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:197:5: warning: Parameter 'redundancyAliasingStrategy' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'redundancyAliasingStrategy' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:40:66: warning: Parameter 'anchor' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'anchor' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Mapping.swift:37:54: warning: Parameter 'anchor' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'anchor' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:34:5: warning: Parameter 'newLineScalarStyle' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'newLineScalarStyle' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:91:5: warning: Parameter 'newLineScalarStyle' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'newLineScalarStyle' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:91:5: warning: Parameter 'redundancyAliasingStrategy' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'redundancyAliasingStrategy' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:52:66: warning: Parameter 'anchor' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'anchor' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:28:66: warning: Parameter 'anchor' is missing documentation (in target 'Yams' from project 'Yams')
+    note: Document 'anchor' parameter
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Scalar.swift:52:54: warning: Parameter 'anchor' is missing documentation. Document 'anchor' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Scalar.swift:52:54-52:54: fixit:
+///- Parameter anchor: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:142:5: warning: Parameter 'redundancyAliasingStrategy' is missing documentation. Document 'redundancyAliasingStrategy' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:142:5-142:5: fixit:
+///- Parameter redundancyAliasingStrategy: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:142:5: warning: Parameter 'newLineScalarStyle' is missing documentation. Document 'newLineScalarStyle' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:142:5-142:5: fixit:
+///- Parameter newLineScalarStyle: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Sequence.swift:39:55: warning: Parameter 'anchor' is missing documentation. Document 'anchor' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Sequence.swift:39:55-39:55: fixit:
+///- Parameter anchor: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Alias.swift:24:54: warning: Parameter 'anchor' is missing documentation. Document 'anchor' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Alias.swift:23:13-23:13: fixit: - Parameter anchor: <#parameter description#>
+///
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Parser.swift:204:9: warning: Parameter 'string' not found in initializer declaration. Remove 'string' parameter documentation.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Parser.swift:204:9-204:77: fixit:
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Parser.swift:208:9: warning: Parameter 'data' is missing documentation. Document 'data' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Parser.swift:205:9-205:9: fixit: - Parameter data: <#parameter description#>
+///
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Decoder.swift:102:21: warning: Parameter 'yaml' not found in instance method declaration. Replace 'yaml' with 'yamlData'
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Decoder.swift:102:21-102:25: fixit: yamlData
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Decoder.swift:104:9: warning: Parameter 'yamlData' is missing documentation. Document 'yamlData' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Decoder.swift:103:9-103:9: fixit: - Parameter yamlData: <#parameter description#>
+///
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:197:5: warning: Parameter 'newLineScalarStyle' is missing documentation. Document 'newLineScalarStyle' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:197:5-197:5: fixit:
+///- Parameter newLineScalarStyle: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:197:5: warning: Parameter 'redundancyAliasingStrategy' is missing documentation. Document 'redundancyAliasingStrategy' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:197:5-197:5: fixit:
+///- Parameter redundancyAliasingStrategy: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:40:66: warning: Parameter 'anchor' is missing documentation. Document 'anchor' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:40:66-40:66: fixit:
+///- Parameter anchor: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Mapping.swift:37:54: warning: Parameter 'anchor' is missing documentation. Document 'anchor' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Mapping.swift:37:54-37:54: fixit:
+///- Parameter anchor: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:34:5: warning: Parameter 'newLineScalarStyle' is missing documentation. Document 'newLineScalarStyle' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:34:5-34:5: fixit:
+///- Parameter newLineScalarStyle: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:91:5: warning: Parameter 'newLineScalarStyle' is missing documentation. Document 'newLineScalarStyle' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:91:5-91:5: fixit:
+///- Parameter newLineScalarStyle: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:91:5: warning: Parameter 'redundancyAliasingStrategy' is missing documentation. Document 'redundancyAliasingStrategy' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:91:5-91:5: fixit:
+///- Parameter redundancyAliasingStrategy: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:52:66: warning: Parameter 'anchor' is missing documentation. Document 'anchor' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:52:66-52:66: fixit:
+///- Parameter anchor: <#parameter description#>
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:28:66: warning: Parameter 'anchor' is missing documentation. Document 'anchor' parameter.
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:28:66-28:66: fixit:
+///- Parameter anchor: <#parameter description#>
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Scalar.swift:52:54: Parameter 'anchor' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:142:5: Parameter 'redundancyAliasingStrategy' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:142:5: Parameter 'newLineScalarStyle' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Sequence.swift:39:55: Parameter 'anchor' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Alias.swift:24:54: Parameter 'anchor' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Parser.swift:204:9: Parameter 'string' not found in initializer declaration
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Parser.swift:208:9: Parameter 'data' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Decoder.swift:102:21: Parameter 'yaml' not found in instance method declaration
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Decoder.swift:104:9: Parameter 'yamlData' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:197:5: Parameter 'newLineScalarStyle' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:197:5: Parameter 'redundancyAliasingStrategy' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:40:66: Parameter 'anchor' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.Mapping.swift:37:54: Parameter 'anchor' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:34:5: Parameter 'newLineScalarStyle' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:91:5: Parameter 'newLineScalarStyle' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Emitter.swift:91:5: Parameter 'redundancyAliasingStrategy' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:52:66: Parameter 'anchor' is missing documentation
+
+/Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/SourcePackages/checkouts/Yams/Sources/Yams/Node.swift:28:66: Parameter 'anchor' is missing documentation
+
+
+Build target FoundationUI of project FoundationUI with configuration Debug
+
+CompileDocumentation /Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc (in target 'FoundationUI' from project 'FoundationUI')
+    cd /Users/egor/Development/GitHub/ISOInspector/FoundationUI
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/docc convert --emit-lmdb-index --fallback-display-name FoundationUI --fallback-bundle-identifier ru.egormerkushev.foundationui --output-dir /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Products/Debug/FoundationUI.doccarchive --ide-console-output --diagnostics-file /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Intermediates.noindex/FoundationUI.build/Debug/FoundationUI.build/FoundationUI-diagnostics.json /Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc --additional-symbol-graph-dir /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Intermediates.noindex/FoundationUI.build/Debug/FoundationUI.build/symbol-graph
+
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:141:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:141:1-141:17: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:142:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:142:1-142:20: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:143:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:143:1-143:19: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:144:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:144:1-144:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:145:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:145:1-146:1: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:164:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:164:1-164:29: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:165:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:165:1-165:30: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:166:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:166:1-166:40: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:167:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:167:1-167:41: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:168:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:168:1-169:1: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:173:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:173:1-173:59: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:174:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:174:1-174:68: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:175:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:175:1-176:1: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:200:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:200:1-200:76: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:201:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:201:1-201:70: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:202:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:202:1-202:68: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:203:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:203:1-203:71: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:204:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:204:1-205:1: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:210:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:210:1-210:70: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:211:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:211:1-211:59: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:212:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:212:1-212:49: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:213:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:213:1-213:73: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:214:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:214:1-215:1: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:220:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:220:1-220:52: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:221:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:221:1-221:58: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:222:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:222:1-222:51: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:223:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:223:1-223:61: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:224:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:224:1-224:59: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:225:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:225:1-225:55: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:226:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:226:1-227:1: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:232:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:232:1-232:63: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:233:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:233:1-233:55: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:234:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:234:1-234:63: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:235:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:235:1-236:1: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:241:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:241:1-241:61: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:242:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:242:1-242:63: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:243:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:243:1-243:47: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:244:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:244:1-245:1: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:250:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:250:1-250:42: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:251:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:251:1-251:60: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:252:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:252:1-252:44: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:253:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:253:1-253:45: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:254:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:254:1-254:48: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:255:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:255:1-256:1: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:306:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:306:1-306:67: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:307:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:307:1-307:59: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:308:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:308:1-308:75: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:309:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:309:1-309:59: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:310:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:310:1-310:35: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:311:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:311:1-312:1: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:317:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:317:1-317:66: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:318:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:318:1-318:79: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:319:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:319:1-319:48: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:320:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:320:1-320:56: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:321:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:321:1-321:68: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:322:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:322:1-322:46: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:323:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:323:1-323:64: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:324:1: warning: Only links are allowed in task group list items. Remove non-link item.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:324:1-325:1: fixit:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:491:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:492:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:493:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:494:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:495:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:496:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:591:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:592:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:593:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:594:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:281:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:282:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:283:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:284:3: warning: Extraneous content found after a link in task group list item. Remove extraneous content.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:344:3: warning: The link 'https://github.com/YourOrg/FoundationUI' isn't valid
+Expected a well-formed URL that uses the 'doc' scheme. You can only curate external links in a 'See Also' section.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:345:3: warning: The link 'https://docs.foundationui.dev/api' isn't valid
+Expected a well-formed URL that uses the 'doc' scheme. You can only curate external links in a 'See Also' section.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:346:3: warning: The link 'https://docs.foundationui.dev/tutorials' isn't valid
+Expected a well-formed URL that uses the 'doc' scheme. You can only curate external links in a 'See Also' section.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:347:3: warning: The link 'https://github.com/YourOrg/ISOInspector' isn't valid
+Expected a well-formed URL that uses the 'doc' scheme. You can only curate external links in a 'See Also' section.
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Only links are allowed in task group list items
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Patterns/InspectorPattern.swift:33:62: warning: 'Material' doesn't exist at '/FoundationUI/InspectorPattern/init(title:material:content:)'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:202:5: warning: Symbol links can only resolve symbols. Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:202:3-202:5: fixit: <doc:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:202:19-202:21: fixit: >
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:203:5: warning: Symbol links can only resolve symbols. Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:203:3-203:5: fixit: <doc:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:203:14-203:16: fixit: >
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:204:5: warning: Symbol links can only resolve symbols. Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:204:3-204:5: fixit: <doc:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:204:21-204:23: fixit: >
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:205:5: warning: Symbol links can only resolve symbols. Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:205:3-205:5: fixit: <doc:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:205:17-205:19: fixit: >
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/SurfaceStyleKey.swift:146:9: warning: 'SurfaceStyleModifier' doesn't exist at '/FoundationUI/SurfaceStyleKey'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Utilities.md:305:5: warning: Symbol links can only resolve symbols. Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Utilities.md:305:3-305:5: fixit: <doc:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Utilities.md:305:22-305:24: fixit: >
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Utilities.md:315:5: warning: Symbol links can only resolve symbols. Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Utilities.md:315:3-315:5: fixit: <doc:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Utilities.md:315:22-315:24: fixit: >
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/AgentSupport/AgentDescribable.swift:82:39: warning: 'ComponentSchema' doesn't exist at '/FoundationUI/AgentDescribable' Replace 'ComponentSchema' with 'componentType'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/AgentSupport/AgentDescribable.swift:82:39-82:54: fixit: componentType
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/ColorSchemeAdapter.swift:130:9: warning: 'View' doesn't exist at '/FoundationUI/ColorSchemeAdapter'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/PlatformAdaptation.swift:190:9: warning: 'View' doesn't exist at '/FoundationUI/PlatformAdaptiveModifier'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/PlatformAdaptation.swift:191:9: warning: 'View' doesn't exist at '/FoundationUI/PlatformAdaptiveModifier'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Architecture.md:467:5: warning: 'BadgeChipStyle' doesn't exist at '/FoundationUI/Architecture'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Architecture.md:470:5: warning: Symbol links can only resolve symbols. Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Architecture.md:470:3-470:5: fixit: <doc:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Architecture.md:470:23-470:25: fixit: >
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:141:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:142:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:143:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:144:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:145:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:164:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:165:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:166:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:167:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:168:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:173:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:174:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:175:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:200:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:201:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:202:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:203:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:204:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:210:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:211:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:212:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:213:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:214:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:220:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:221:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:222:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:223:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:224:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:225:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:226:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:232:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:233:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:234:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:235:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:241:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:242:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:243:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:244:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:250:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:251:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:252:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:253:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:254:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:255:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:306:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:307:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:308:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:309:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:310:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:311:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:317:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:318:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:319:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:320:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:321:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:322:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:323:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:324:1: warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove non-link item
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:491:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:492:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:493:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:494:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:495:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:496:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:591:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:592:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:593:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:594:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:281:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:282:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:283:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:284:3: warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+    note: Remove extraneous content
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:344:3: warning: The link 'https://github.com/YourOrg/FoundationUI' isn't valid (in target 'FoundationUI' from project 'FoundationUI')
+    note: Expected a well-formed URL that uses the 'doc' scheme. You can only curate external links in a 'See Also' section.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:345:3: warning: The link 'https://docs.foundationui.dev/api' isn't valid (in target 'FoundationUI' from project 'FoundationUI')
+    note: Expected a well-formed URL that uses the 'doc' scheme. You can only curate external links in a 'See Also' section.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:346:3: warning: The link 'https://docs.foundationui.dev/tutorials' isn't valid (in target 'FoundationUI' from project 'FoundationUI')
+    note: Expected a well-formed URL that uses the 'doc' scheme. You can only curate external links in a 'See Also' section.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:347:3: warning: The link 'https://github.com/YourOrg/ISOInspector' isn't valid (in target 'FoundationUI' from project 'FoundationUI')
+    note: Expected a well-formed URL that uses the 'doc' scheme. You can only curate external links in a 'See Also' section.
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Only links are allowed in task group list items (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+warning: Extraneous content found after a link in task group list item (in target 'FoundationUI' from project 'FoundationUI')
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Patterns/InspectorPattern.swift:33:62: warning: 'Material' doesn't exist at '/FoundationUI/InspectorPattern/init(title:material:content:)' (in target 'FoundationUI' from project 'FoundationUI')
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:202:5: warning: Symbol links can only resolve symbols (in target 'FoundationUI' from project 'FoundationUI')
+    note: Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:203:5: warning: Symbol links can only resolve symbols (in target 'FoundationUI' from project 'FoundationUI')
+    note: Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:204:5: warning: Symbol links can only resolve symbols (in target 'FoundationUI' from project 'FoundationUI')
+    note: Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:205:5: warning: Symbol links can only resolve symbols (in target 'FoundationUI' from project 'FoundationUI')
+    note: Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/SurfaceStyleKey.swift:146:9: warning: 'SurfaceStyleModifier' doesn't exist at '/FoundationUI/SurfaceStyleKey' (in target 'FoundationUI' from project 'FoundationUI')
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Utilities.md:305:5: warning: Symbol links can only resolve symbols (in target 'FoundationUI' from project 'FoundationUI')
+    note: Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Utilities.md:315:5: warning: Symbol links can only resolve symbols (in target 'FoundationUI' from project 'FoundationUI')
+    note: Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/AgentSupport/AgentDescribable.swift:82:39: warning: 'ComponentSchema' doesn't exist at '/FoundationUI/AgentDescribable' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace 'ComponentSchema' with 'componentType'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/ColorSchemeAdapter.swift:130:9: warning: 'View' doesn't exist at '/FoundationUI/ColorSchemeAdapter' (in target 'FoundationUI' from project 'FoundationUI')
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/PlatformAdaptation.swift:190:9: warning: 'View' doesn't exist at '/FoundationUI/PlatformAdaptiveModifier' (in target 'FoundationUI' from project 'FoundationUI')
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/PlatformAdaptation.swift:191:9: warning: 'View' doesn't exist at '/FoundationUI/PlatformAdaptiveModifier' (in target 'FoundationUI' from project 'FoundationUI')
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Architecture.md:467:5: warning: 'BadgeChipStyle' doesn't exist at '/FoundationUI/Architecture' (in target 'FoundationUI' from project 'FoundationUI')
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Architecture.md:470:5: warning: Symbol links can only resolve symbols (in target 'FoundationUI' from project 'FoundationUI')
+    note: Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/AgentSupport/YAMLValidator.swift:38:21: warning: '4v8zb' isn't a disambiguation for 'validate(_:)' at '/FoundationUI/YAMLValidator' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace '4v8zb' with '(YAMLParser.ComponentDescription)' for
+'static func validate(_ description: YAMLParser.ComponentDescription) throws'
+    note: Replace '4v8zb' with '([YAMLParser.ComponentDescription])' for
+'static func validate(_ descriptions: [YAMLParser.ComponentDescription]) throws'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/AgentSupport/YAMLValidator.swift:39:21: warning: '8c9zt' isn't a disambiguation for 'validate(_:)' at '/FoundationUI/YAMLValidator' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace '8c9zt' with '(YAMLParser.ComponentDescription)' for
+'static func validate(_ description: YAMLParser.ComponentDescription) throws'
+    note: Replace '8c9zt' with '([YAMLParser.ComponentDescription])' for
+'static func validate(_ descriptions: [YAMLParser.ComponentDescription]) throws'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/DesignTokens/Spacing.swift:94:12: warning: 'Color' doesn't exist at '/FoundationUI/DS' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace 'Color' with 'Colors'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:283:5: warning: Symbol links can only resolve symbols (in target 'FoundationUI' from project 'FoundationUI')
+    note: Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Contexts.md:287:5: warning: Symbol links can only resolve symbols (in target 'FoundationUI' from project 'FoundationUI')
+    note: Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Contexts.md:297:5: warning: Symbol links can only resolve symbols (in target 'FoundationUI' from project 'FoundationUI')
+    note: Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:55:8: warning: 'Utilities' is ambiguous at '/FoundationUI' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Insert '-anchor' for
+'Utilities'
+    note: Insert '-article' for
+'Utilities'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:74:5: warning: 'BadgeChipStyle' doesn't exist at '/FoundationUI' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace 'BadgeChipStyle' with 'Badge'
+    note: Replace 'BadgeChipStyle' with 'BadgeLevel'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:75:5: warning: 'CardStyle' doesn't exist at '/FoundationUI' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace 'CardStyle' with 'Card'
+    note: Replace 'CardStyle' with 'CardElevation'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:76:5: warning: 'InteractiveStyle' doesn't exist at '/FoundationUI' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace 'InteractiveStyle' with 'InteractionType'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:77:5: warning: 'SurfaceStyle' doesn't exist at '/FoundationUI' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace 'SurfaceStyle' with 'SurfaceStyleKey'
+    note: Replace 'SurfaceStyle' with 'SurfaceMaterial'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:99:5: warning: Symbol links can only resolve symbols (in target 'FoundationUI' from project 'FoundationUI')
+    note: Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:106:5: warning: 'KeyboardShortcuts' doesn't exist at '/FoundationUI' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace 'KeyboardShortcuts' with 'KeyboardShortcutType'
+    note: Replace 'KeyboardShortcuts' with 'KeyboardShortcutModifiers'
+    note: Replace 'KeyboardShortcuts' with 'PlatformKeyboardShortcutType'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Card.swift:73:9: warning: 'CardStyle' doesn't exist at '/FoundationUI/Card' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace 'CardStyle' with 'backgroundStyle(_:)'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Badge.swift:49:9: warning: 'BadgeChipStyle' doesn't exist at '/FoundationUI/Badge' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace 'BadgeChipStyle' with 'badgeChipStyle(level:showIcon:)'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Badge.swift:50:12: warning: 'Color' doesn't exist at '/FoundationUI/DS' (in target 'FoundationUI' from project 'FoundationUI')
+    note: Replace 'Color' with 'Colors'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/AgentSupport/YAMLValidator.swift:38:21: warning: '4v8zb' isn't a disambiguation for 'validate(_:)' at '/FoundationUI/YAMLValidator' Replace '4v8zb' with '(YAMLParser.ComponentDescription)' for
+'static func validate(_ description: YAMLParser.ComponentDescription) throws' Replace '4v8zb' with '([YAMLParser.ComponentDescription])' for
+'static func validate(_ descriptions: [YAMLParser.ComponentDescription]) throws'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/AgentSupport/YAMLValidator.swift:39:21: warning: '8c9zt' isn't a disambiguation for 'validate(_:)' at '/FoundationUI/YAMLValidator' Replace '8c9zt' with '(YAMLParser.ComponentDescription)' for
+'static func validate(_ description: YAMLParser.ComponentDescription) throws' Replace '8c9zt' with '([YAMLParser.ComponentDescription])' for
+'static func validate(_ descriptions: [YAMLParser.ComponentDescription]) throws'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/DesignTokens/Spacing.swift:94:12: warning: 'Color' doesn't exist at '/FoundationUI/DS' Replace 'Color' with 'Colors'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/DesignTokens/Spacing.swift:94:12-94:17: fixit: Colors
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:283:5: warning: Symbol links can only resolve symbols. Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:283:3-283:5: fixit: <doc:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:283:23-283:25: fixit: >
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Contexts.md:287:5: warning: Symbol links can only resolve symbols. Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Contexts.md:287:3-287:5: fixit: <doc:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Contexts.md:287:23-287:25: fixit: >
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Contexts.md:297:5: warning: Symbol links can only resolve symbols. Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Contexts.md:297:3-297:5: fixit: <doc:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Contexts.md:297:23-297:25: fixit: >
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:55:8: warning: 'Utilities' is ambiguous at '/FoundationUI' Insert '-anchor' for
+'Utilities' Insert '-article' for
+'Utilities'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:74:5: warning: 'BadgeChipStyle' doesn't exist at '/FoundationUI' Replace 'BadgeChipStyle' with 'Badge' Replace 'BadgeChipStyle' with 'BadgeLevel'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:75:5: warning: 'CardStyle' doesn't exist at '/FoundationUI' Replace 'CardStyle' with 'Card' Replace 'CardStyle' with 'CardElevation'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:76:5: warning: 'InteractiveStyle' doesn't exist at '/FoundationUI' Replace 'InteractiveStyle' with 'InteractionType'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:76:5-76:21: fixit: InteractionType
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:77:5: warning: 'SurfaceStyle' doesn't exist at '/FoundationUI' Replace 'SurfaceStyle' with 'SurfaceStyleKey' Replace 'SurfaceStyle' with 'SurfaceMaterial'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:99:5: warning: Symbol links can only resolve symbols. Use a '<doc:>' style reference.
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:99:3-99:5: fixit: <doc:
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:99:23-99:25: fixit: >
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:106:5: warning: 'KeyboardShortcuts' doesn't exist at '/FoundationUI' Replace 'KeyboardShortcuts' with 'KeyboardShortcutType' Replace 'KeyboardShortcuts' with 'KeyboardShortcutModifiers' Replace 'KeyboardShortcuts' with 'PlatformKeyboardShortcutType'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Card.swift:73:9: warning: 'CardStyle' doesn't exist at '/FoundationUI/Card' Replace 'CardStyle' with 'backgroundStyle(_:)'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Card.swift:73:9-73:18: fixit: backgroundStyle(_:)
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Badge.swift:49:9: warning: 'BadgeChipStyle' doesn't exist at '/FoundationUI/Badge' Replace 'BadgeChipStyle' with 'badgeChipStyle(level:showIcon:)'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Badge.swift:49:9-49:23: fixit: badgeChipStyle(level:showIcon:)
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Badge.swift:50:12: warning: 'Color' doesn't exist at '/FoundationUI/DS' Replace 'Color' with 'Colors'
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Badge.swift:50:12-50:17: fixit: Colors
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:141:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:142:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:143:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:144:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:145:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:164:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:165:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:166:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:167:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:168:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:173:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:174:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:175:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:200:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:201:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:202:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:203:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:204:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:210:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:211:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:212:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:213:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:214:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:220:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:221:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:222:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:223:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:224:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:225:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:226:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:232:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:233:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:234:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:235:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:241:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:242:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:243:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:244:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:250:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:251:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:252:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:253:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:254:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:255:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:306:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:307:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:308:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:309:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:310:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:311:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:317:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:318:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:319:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:320:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:321:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:322:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:323:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:324:1: Only links are allowed in task group list items
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:491:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:492:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:493:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:494:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:495:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/GettingStarted.md:496:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:591:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:592:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:593:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Performance.md:594:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:281:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:282:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:283:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:284:3: Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:344:3: The link 'https://github.com/YourOrg/FoundationUI' isn't valid
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:345:3: The link 'https://docs.foundationui.dev/api' isn't valid
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:346:3: The link 'https://docs.foundationui.dev/tutorials' isn't valid
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:347:3: The link 'https://github.com/YourOrg/ISOInspector' isn't valid
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Only links are allowed in task group list items
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Patterns/InspectorPattern.swift:33:62: 'Material' doesn't exist at '/FoundationUI/InspectorPattern/init(title:material:content:)'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:202:5: Symbol links can only resolve symbols
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:203:5: Symbol links can only resolve symbols
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:204:5: Symbol links can only resolve symbols
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Modifiers.md:205:5: Symbol links can only resolve symbols
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/SurfaceStyleKey.swift:146:9: 'SurfaceStyleModifier' doesn't exist at '/FoundationUI/SurfaceStyleKey'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Utilities.md:305:5: Symbol links can only resolve symbols
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Utilities.md:315:5: Symbol links can only resolve symbols
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/AgentSupport/AgentDescribable.swift:82:39: 'ComponentSchema' doesn't exist at '/FoundationUI/AgentDescribable'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/ColorSchemeAdapter.swift:130:9: 'View' doesn't exist at '/FoundationUI/ColorSchemeAdapter'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/PlatformAdaptation.swift:190:9: 'View' doesn't exist at '/FoundationUI/PlatformAdaptiveModifier'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Contexts/PlatformAdaptation.swift:191:9: 'View' doesn't exist at '/FoundationUI/PlatformAdaptiveModifier'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Architecture.md:467:5: 'BadgeChipStyle' doesn't exist at '/FoundationUI/Architecture'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Architecture.md:470:5: Symbol links can only resolve symbols
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/AgentSupport/YAMLValidator.swift:38:21: '4v8zb' isn't a disambiguation for 'validate(_:)' at '/FoundationUI/YAMLValidator'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/AgentSupport/YAMLValidator.swift:39:21: '8c9zt' isn't a disambiguation for 'validate(_:)' at '/FoundationUI/YAMLValidator'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/DesignTokens/Spacing.swift:94:12: 'Color' doesn't exist at '/FoundationUI/DS'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/PlatformAdaptation.md:283:5: Symbol links can only resolve symbols
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Contexts.md:287:5: Symbol links can only resolve symbols
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/Articles/Contexts.md:297:5: Symbol links can only resolve symbols
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:55:8: 'Utilities' is ambiguous at '/FoundationUI'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:74:5: 'BadgeChipStyle' doesn't exist at '/FoundationUI'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:75:5: 'CardStyle' doesn't exist at '/FoundationUI'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:76:5: 'InteractiveStyle' doesn't exist at '/FoundationUI'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:77:5: 'SurfaceStyle' doesn't exist at '/FoundationUI'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:99:5: Symbol links can only resolve symbols
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Documentation.docc/FoundationUI.md:106:5: 'KeyboardShortcuts' doesn't exist at '/FoundationUI'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Card.swift:73:9: 'CardStyle' doesn't exist at '/FoundationUI/Card'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Badge.swift:49:9: 'BadgeChipStyle' doesn't exist at '/FoundationUI/Badge'
+
+/Users/egor/Development/GitHub/ISOInspector/FoundationUI/Sources/FoundationUI/Components/Badge.swift:50:12: 'Color' doesn't exist at '/FoundationUI/DS'
+
+
+Build target ISOInspectorApp-macOS of project ISOInspector with configuration Debug
+
+SwiftCompile normal arm64 Compiling\ BoxToggleView.swift,\ SettingsPanelView.swift,\ SettingsPanelScene.swift,\ SettingsPanelViewModel.swift,\ GeneratedAssetSymbols.swift /Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/BoxToggleView.swift /Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift /Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Scenes/SettingsPanelScene.swift /Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/ViewModels/SettingsPanelViewModel.swift /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Intermediates.noindex/ISOInspector.build/Debug/ISOInspectorApp-macOS.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+
+SwiftCompile normal arm64 /Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    cd /Users/egor/Development/GitHub/ISOInspector
+
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:82:9: warning: application of result builder 'ViewBuilder' disabled by explicit 'return' statement
+        return AnyView(
+        ^
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:79:5: note: remove the attribute to explicitly disable the result builder
+    @ViewBuilder
+    ^~~~~~~~~~~~
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:82:9: note: remove 'return' statements to apply the result builder
+        return AnyView(
+        ^~~~~~~
+
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:82:9: Application of result builder 'ViewBuilder' disabled by explicit 'return' statement
+
+CompileDocumentation /Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    cd /Users/egor/Development/GitHub/ISOInspector
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/docc convert --emit-lmdb-index --fallback-display-name ISOInspectorApp_macOS --fallback-bundle-identifier ru.egormerkushev.isoinspector.app.mac --output-dir /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Products/Debug/ISOInspectorApp_macOS.doccarchive --ide-console-output --diagnostics-file /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Intermediates.noindex/ISOInspector.build/Debug/ISOInspectorApp-macOS.build/ISOInspectorApp_macOS-diagnostics.json /Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc --additional-symbol-graph-dir /Users/egor/Library/Developer/Xcode/DerivedData/ISOInspector-avdicgjcmfjrvehfaiohofjvozty/Build/Intermediates.noindex/ISOInspector.build/Debug/ISOInspectorApp-macOS.build/symbol-graph --fallback-default-module-kind Application
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:14:13: warning: Unknown argument 'title' in Step.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:15:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive. Remove unsupported child content.
+These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:15:17-17:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:15:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption. Remove extraneous element.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:15:17-17:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:14:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:19:13: warning: Unknown argument 'title' in Step.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:20:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive. Remove unsupported child content.
+These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:20:17-22:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:20:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption. Remove extraneous element.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:20:17-22:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:19:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:34:13: warning: Unknown argument 'title' in Step.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:35:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive. Remove unsupported child content.
+These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:35:17-37:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:35:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption. Remove extraneous element.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:35:17-37:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:34:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:39:13: warning: Unknown argument 'title' in Step.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:40:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive. Remove unsupported child content.
+These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:40:17-42:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:40:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption. Remove extraneous element.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:40:17-42:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:39:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:54:13: warning: Unknown argument 'title' in Step.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:55:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive. Remove unsupported child content.
+These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:55:17-57:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:55:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption. Remove extraneous element.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:55:17-57:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:54:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:59:13: warning: Unknown argument 'title' in Step.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:60:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive. Remove unsupported child content.
+These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:60:17-62:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:60:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption. Remove extraneous element.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:60:17-62:18: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:59:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:72:9: warning: 'CallToAction' directive is unsupported as a child of the 'Section' directive. Remove unsupported child content.
+These directives are allowed: 'Comment', 'ContentAndMedia', 'Redirected', 'Stack', 'Steps'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:72:9-74:10: fixit:
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:67:5: warning: Missing 'Steps' child directive
+The 'Section' directive must have exactly one 'Steps' child directive
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/Annotations/CoreDataAnnotationBookmarkStore.swift:28:48: warning: Parameter 'modelVersion' is missing documentation. Document 'modelVersion' parameter.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/Annotations/CoreDataAnnotationBookmarkStore.swift:27:11-27:11: fixit: - modelVersion: <#parameter description#>
+///
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+warning: Extraneous content found after a link in task group list item
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:14:13: warning: Unknown argument 'title' in Step. (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:15:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove unsupported child content
+    note: These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:15:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove extraneous element
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:14:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:19:13: warning: Unknown argument 'title' in Step. (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:20:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove unsupported child content
+    note: These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:20:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove extraneous element
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:19:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:34:13: warning: Unknown argument 'title' in Step. (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:35:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove unsupported child content
+    note: These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:35:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove extraneous element
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:34:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:39:13: warning: Unknown argument 'title' in Step. (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:40:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove unsupported child content
+    note: These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:40:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove extraneous element
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:39:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:54:13: warning: Unknown argument 'title' in Step. (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:55:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove unsupported child content
+    note: These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:55:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove extraneous element
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:54:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:59:13: warning: Unknown argument 'title' in Step. (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:60:17: warning: 'StepContent' directive is unsupported as a child of the 'Step' directive (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove unsupported child content
+    note: These directives are allowed: 'Code', 'Comment', 'Image', 'Video'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:60:17: warning: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove extraneous element
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:59:13: warning: 'Step' has no content; 'Step' directive should at least have an instructional sentence (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:72:9: warning: 'CallToAction' directive is unsupported as a child of the 'Section' directive (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Remove unsupported child content
+    note: These directives are allowed: 'Comment', 'ContentAndMedia', 'Redirected', 'Stack', 'Steps'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:67:5: warning: Missing 'Steps' child directive (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: The 'Section' directive must have exactly one 'Steps' child directive
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/Annotations/CoreDataAnnotationBookmarkStore.swift:28:48: warning: Parameter 'modelVersion' is missing documentation (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Document 'modelVersion' parameter
+warning: Extraneous content found after a link in task group list item (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+warning: Extraneous content found after a link in task group list item (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+warning: Extraneous content found after a link in task group list item (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+warning: Extraneous content found after a link in task group list item (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+warning: Extraneous content found after a link in task group list item (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+warning: Extraneous content found after a link in task group list item (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:16:11: warning: 'SidebarPattern' doesn't exist at '/ISOInspectorApp/SettingsPanelView' (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:17:11: warning: 'Card' doesn't exist at '/ISOInspectorApp/SettingsPanelView' (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/Detail/BoxMetadataRow.swift:41:9: warning: 'DS.KeyValueRow' doesn't exist at '/ISOInspectorApp/BoxMetadataRow' (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/Detail/BoxMetadataRow.swift:42:9: warning: 'DS.KeyValueLayout' doesn't exist at '/ISOInspectorApp/BoxMetadataRow' (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:1:1: warning: The tutorial 'AnnotationAndBookmarkWalkthrough' must be referenced from a Tutorial Table of Contents (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Use a 'TutorialReference' directive inside 'Tutorials' to reference the tutorial.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/table-of-contents.tutorial:1:1: warning: Missing tutorial table of contents page. (in target 'ISOInspectorApp-macOS' from project 'ISOInspector')
+    note: Create a `@Tutorials` table of content page.
+    note: `@Tutorial` and `@Article` pages require a `@Tutorials` table of content page to define the documentation hierarchy.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:16:11: warning: 'SidebarPattern' doesn't exist at '/ISOInspectorApp/SettingsPanelView'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:17:11: warning: 'Card' doesn't exist at '/ISOInspectorApp/SettingsPanelView'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/Detail/BoxMetadataRow.swift:41:9: warning: 'DS.KeyValueRow' doesn't exist at '/ISOInspectorApp/BoxMetadataRow'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/Detail/BoxMetadataRow.swift:42:9: warning: 'DS.KeyValueLayout' doesn't exist at '/ISOInspectorApp/BoxMetadataRow'
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial: warning: The tutorial 'AnnotationAndBookmarkWalkthrough' must be referenced from a Tutorial Table of Contents. Use a 'TutorialReference' directive inside 'Tutorials' to reference the tutorial.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/table-of-contents.tutorial: warning: Missing tutorial table of contents page. Create a `@Tutorials` table of content page.
+`@Tutorial` and `@Article` pages require a `@Tutorials` table of content page to define the documentation hierarchy.
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/table-of-contents.tutorial:1:1-1:1: fixit: @Tutorials(name: "ISOInspectorApp_macOS") {
+    @Intro(title: "Tutorial Introduction") {
+        Add one or more paragraphs that introduce your tutorial.
+    }
+    @Chapter(name: "Chapter Name") {
+        @Image(source: "add-your-chapter-image-filename-here.jpg", alt: "Add an accessible description for your image here.")
+        @TutorialReference(tutorial: "doc:page-01")
+    }
+}
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:14:13: Unknown argument 'title' in Step.
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:15:17: 'StepContent' directive is unsupported as a child of the 'Step' directive
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:15:17: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:14:13: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:19:13: Unknown argument 'title' in Step.
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:20:17: 'StepContent' directive is unsupported as a child of the 'Step' directive
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:20:17: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:19:13: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:34:13: Unknown argument 'title' in Step.
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:35:17: 'StepContent' directive is unsupported as a child of the 'Step' directive
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:35:17: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:34:13: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:39:13: Unknown argument 'title' in Step.
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:40:17: 'StepContent' directive is unsupported as a child of the 'Step' directive
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:40:17: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:39:13: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:54:13: Unknown argument 'title' in Step.
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:55:17: 'StepContent' directive is unsupported as a child of the 'Step' directive
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:55:17: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:54:13: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:59:13: Unknown argument 'title' in Step.
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:60:17: 'StepContent' directive is unsupported as a child of the 'Step' directive
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:60:17: Extraneous element: 'Step' directive should only have a single paragraph for its instructional content and an optional paragraph to serve as a caption
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:59:13: 'Step' has no content; 'Step' directive should at least have an instructional sentence
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:72:9: 'CallToAction' directive is unsupported as a child of the 'Section' directive
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:67:5: Missing 'Steps' child directive
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/Annotations/CoreDataAnnotationBookmarkStore.swift:28:48: Parameter 'modelVersion' is missing documentation
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+Extraneous content found after a link in task group list item
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:16:11: 'SidebarPattern' doesn't exist at '/ISOInspectorApp/SettingsPanelView'
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/UI/Components/SettingsPanelView.swift:17:11: 'Card' doesn't exist at '/ISOInspectorApp/SettingsPanelView'
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/Detail/BoxMetadataRow.swift:41:9: 'DS.KeyValueRow' doesn't exist at '/ISOInspectorApp/BoxMetadataRow'
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/Detail/BoxMetadataRow.swift:42:9: 'DS.KeyValueLayout' doesn't exist at '/ISOInspectorApp/BoxMetadataRow'
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/Tutorials/AnnotationAndBookmarkWalkthrough.tutorial:1:1: The tutorial 'AnnotationAndBookmarkWalkthrough' must be referenced from a Tutorial Table of Contents
+
+/Users/egor/Development/GitHub/ISOInspector/Sources/ISOInspectorApp/ISOInspectorApp.docc/table-of-contents.tutorial:1:1: Missing tutorial table of contents page.
+
+
+
+Build succeeded    11/16/25, 4:20 PM    14.3 seconds
