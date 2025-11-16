@@ -64,17 +64,18 @@
 - **Dependencies:** A2 ✅ complete
 - **Document:** `DOCS/INPROGRESS/228_A7_Reinstate_SwiftLint_Complexity_Thresholds.md`
 
+### 🔄 A8 — Gate Test Coverage Using `coverage_analysis.py`
+- **Status:** 🔄 IN PROGRESS (2025-11-16)
+- **Priority:** Medium
+- **Effort:** 1 day
+- **Dependencies:** A2 ✅ complete
+- **Document:** `DOCS/INPROGRESS/229_A8_Gate_Test_Coverage.md`
+
 ---
 
 ## Candidate Tasks (For Next Selection)
 
 ### Automation Track (High Priority)
-
-#### **A8 — Gate Test Coverage Using `coverage_analysis.py`**
-- **Priority:** Medium
-- **Effort:** 1 day
-- **Dependencies:** A2 ✅ complete
-- **Description:** Integrate test coverage analysis into CI using existing `coverage_analysis.py` script to enforce minimum coverage thresholds.
 
 #### **A10 — Add Swift Duplication Detection to CI**
 - **Priority:** Medium
