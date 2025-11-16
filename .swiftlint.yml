@@ -14,25 +14,40 @@ disabled_rules:
   - closure_parameter_position
   - optional_data_string_conversion
 
-# Complexity thresholds enforced to prevent code quality regressions
-# These thresholds are tuned to allow 95%+ of existing code to pass
-# while blocking future complexity growth
+# ========================================
+# Complexity Thresholds (Task A7)
+# ========================================
+# Reinstated as part of Task A7 to establish guardrails on parser and UI code growth.
+# These thresholds block merges when complexity limits are exceeded.
+#
+# Enforcement:
+# - Local: .githooks/pre-push runs `swiftlint lint --strict`
+# - CI: .github/workflows/swiftlint.yml runs on all Swift code
+# - Artifacts: SwiftLint reports are published to PRs for detailed analysis
+#
+# Thresholds tuned to allow 95%+ of existing code to pass while preventing
+# future complexity regressions. Adjust thresholds when parser generators expand
+# or design system refactoring requires higher limits.
+#
+# Related tasks: A2 (CI pipeline), A8 (test coverage gates), A10 (duplication detection)
+# ========================================
+
 cyclomatic_complexity:
-  warning: 30
-  error: 55
+  warning: 30  # Functions with complexity > 30 trigger warnings
+  error: 55    # Functions with complexity > 55 fail the build
 
 function_body_length:
-  warning: 250
-  error: 350
+  warning: 250  # Functions > 250 lines trigger warnings
+  error: 350    # Functions > 350 lines fail the build
 
 type_body_length:
-  warning: 1200
-  error: 1500
+  warning: 1200  # Types > 1200 lines trigger warnings
+  error: 1500    # Types > 1500 lines fail the build
 
 nesting:
   type_level:
-    warning: 5
-    error: 7
+    warning: 5  # Nesting depth > 5 triggers warnings
+    error: 7    # Nesting depth > 7 fails the build
 
 excluded:
   - .build

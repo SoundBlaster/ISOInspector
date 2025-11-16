@@ -6,17 +6,23 @@ on:
     branches:
       - "**"
     paths:
+      - 'Sources/**/*.swift'
+      - 'Tests/**/*.swift'
       - 'FoundationUI/**/*.swift'
       - 'FoundationUI/.swiftlint.yml'
       - 'Examples/ComponentTestApp/**/*.swift'
+      - '.swiftlint.yml'
       - '.github/workflows/swiftlint.yml'
   push:
     branches:
       - main
     paths:
+      - 'Sources/**/*.swift'
+      - 'Tests/**/*.swift'
       - 'FoundationUI/**/*.swift'
       - 'FoundationUI/.swiftlint.yml'
       - 'Examples/ComponentTestApp/**/*.swift'
+      - '.swiftlint.yml'
 
 # Permissions for commenting on PRs
 permissions:
@@ -55,6 +61,47 @@ jobs:
           # Verify installation
           swiftlint --version
 
+      - name: Run SwiftLint on Main Project (Sources & Tests)
+        id: swiftlint-main
+        continue-on-error: true
+        run: |
+          set -eo pipefail
+
+          echo "🔍 Running SwiftLint on main project (Sources/, Tests/)..."
+          swiftlint lint --strict --config .swiftlint.yml --reporter json > /tmp/swiftlint-main.json || true
+
+          # Parse and display results
+          if command -v jq &> /dev/null; then
+            VIOLATIONS=$(jq 'length' /tmp/swiftlint-main.json)
+            ERRORS=$(jq '[.[] | select(.severity == "error")] | length' /tmp/swiftlint-main.json)
+            WARNINGS=$(jq '[.[] | select(.severity == "warning")] | length' /tmp/swiftlint-main.json)
+
+            echo "violations=$VIOLATIONS" >> $GITHUB_OUTPUT
+            echo "errors=$ERRORS" >> $GITHUB_OUTPUT
+            echo "warnings=$WARNINGS" >> $GITHUB_OUTPUT
+
+            echo "📊 Main Project SwiftLint Results:"
+            echo "  Total violations: $VIOLATIONS"
+            echo "  Errors: $ERRORS"
+            echo "  Warnings: $WARNINGS"
+
+            if [ "$ERRORS" -gt 0 ]; then
+              echo "❌ SwiftLint errors found in main project!"
+              echo ""
+              echo "Top violations:"
+              swiftlint lint --strict --config .swiftlint.yml --reporter xcode | head -50
+              exit 1
+            fi
+          fi
+
+      - name: Upload SwiftLint Main Project Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swiftlint-main-report
+          path: /tmp/swiftlint-main.json
+          retention-days: 30
+
       - name: Run SwiftLint on FoundationUI
         id: swiftlint-foundationui
         continue-on-error: true
@@ -85,6 +132,14 @@ jobs:
               exit 1
             fi
           fi
+
+      - name: Upload SwiftLint FoundationUI Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swiftlint-foundationui-report
+          path: /tmp/swiftlint-foundationui.json
+          retention-days: 30
 
       - name: Run SwiftLint on ComponentTestApp
         id: swiftlint-componenttestapp
@@ -117,27 +172,67 @@ jobs:
             fi
           fi
 
+      - name: Upload SwiftLint ComponentTestApp Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swiftlint-componenttestapp-report
+          path: /tmp/swiftlint-componenttestapp.json
+          retention-days: 30
+
       - name: Comment on PR with SwiftLint Results
         if: always() && github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
-            const violations = "${{ steps.swiftlint-foundationui.outputs.violations }}" || "0";
-            const errors = "${{ steps.swiftlint-foundationui.outputs.errors }}" || "0";
-            const warnings = "${{ steps.swiftlint-foundationui.outputs.warnings }}" || "0";
+            const mainViolations = parseInt("${{ steps.swiftlint-main.outputs.violations }}" || "0");
+            const mainErrors = parseInt("${{ steps.swiftlint-main.outputs.errors }}" || "0");
+            const mainWarnings = parseInt("${{ steps.swiftlint-main.outputs.warnings }}" || "0");
+
+            const foundationuiViolations = parseInt("${{ steps.swiftlint-foundationui.outputs.violations }}" || "0");
+            const foundationuiErrors = parseInt("${{ steps.swiftlint-foundationui.outputs.errors }}" || "0");
+            const foundationuiWarnings = parseInt("${{ steps.swiftlint-foundationui.outputs.warnings }}" || "0");
+
+            const componenttestappViolations = parseInt("${{ steps.swiftlint-componenttestapp.outputs.violations }}" || "0");
+            const componenttestappErrors = parseInt("${{ steps.swiftlint-componenttestapp.outputs.errors }}" || "0");
+            const componenttestappWarnings = parseInt("${{ steps.swiftlint-componenttestapp.outputs.warnings }}" || "0");
+
+            const totalViolations = mainViolations + foundationuiViolations + componenttestappViolations;
+            const totalErrors = mainErrors + foundationuiErrors + componenttestappErrors;
+            const totalWarnings = mainWarnings + foundationuiWarnings + componenttestappWarnings;
 
             let comment = "## 🔍 SwiftLint Code Quality Report\n\n";
 
-            if (parseInt(violations) === 0) {
+            if (totalViolations === 0) {
               comment += "✅ **No violations found!** Code quality check passed.\n";
             } else {
               comment += `⚠️ **Code Quality Issues Found**\n\n`;
-              comment += `| Type | Count |\n`;
-              comment += `|------|-------|\n`;
-              comment += `| Errors | ${errors} |\n`;
-              comment += `| Warnings | ${warnings} |\n`;
-              comment += `| Total | ${violations} |\n\n`;
-              comment += "Please review and fix the violations reported above.\n";
+              comment += `### Summary\n\n`;
+              comment += `| Component | Errors | Warnings | Total |\n`;
+              comment += `|-----------|--------|----------|-------|\n`;
+              comment += `| Main Project (Sources & Tests) | ${mainErrors} | ${mainWarnings} | ${mainViolations} |\n`;
+              comment += `| FoundationUI | ${foundationuiErrors} | ${foundationuiWarnings} | ${foundationuiViolations} |\n`;
+              comment += `| ComponentTestApp | ${componenttestappErrors} | ${componenttestappWarnings} | ${componenttestappViolations} |\n`;
+              comment += `| **Total** | **${totalErrors}** | **${totalWarnings}** | **${totalViolations}** |\n\n`;
+
+              if (totalErrors > 0) {
+                comment += "❌ **Action Required:** Please fix all errors before merging.\n\n";
+              }
+
+              comment += "### 📦 Artifacts\n\n";
+              comment += "Detailed SwiftLint reports are available as workflow artifacts:\n";
+              comment += "- `swiftlint-main-report` - Main project analysis\n";
+              comment += "- `swiftlint-foundationui-report` - FoundationUI analysis\n";
+              comment += "- `swiftlint-componenttestapp-report` - ComponentTestApp analysis\n\n";
+
+              comment += "### 🔧 How to Fix\n\n";
+              comment += "Run locally:\n";
+              comment += "```bash\n";
+              comment += "# Check violations\n";
+              comment += "swiftlint lint --strict --config .swiftlint.yml\n\n";
+              comment += "# Auto-fix when possible\n";
+              comment += "swiftlint --fix --config .swiftlint.yml\n";
+              comment += "```\n";
             }
 
             github.rest.issues.createComment({
@@ -150,20 +245,32 @@ jobs:
       - name: Quality Gate
         if: always()
         run: |
+          MAIN_RESULT="${{ steps.swiftlint-main.outcome }}"
           FOUNDATIONUI_RESULT="${{ steps.swiftlint-foundationui.outcome }}"
           COMPONENTTESTAPP_RESULT="${{ steps.swiftlint-componenttestapp.outcome }}"
 
-          if [ "$FOUNDATIONUI_RESULT" = "failure" ] || [ "$COMPONENTTESTAPP_RESULT" = "failure" ]; then
+          echo "📊 SwiftLint Quality Gate Results:"
+          echo "  Main Project: $MAIN_RESULT"
+          echo "  FoundationUI: $FOUNDATIONUI_RESULT"
+          echo "  ComponentTestApp: $COMPONENTTESTAPP_RESULT"
+          echo ""
+
+          if [ "$MAIN_RESULT" = "failure" ] || [ "$FOUNDATIONUI_RESULT" = "failure" ] || [ "$COMPONENTTESTAPP_RESULT" = "failure" ]; then
             echo "❌ SwiftLint quality gate failed!"
             echo ""
             echo "Next steps:"
             echo "1. Review violations reported above"
-            echo "2. Fix code style issues:"
-            echo "   - Run: cd FoundationUI && swiftlint --config .swiftlint.yml --fix"
-            echo "   - Run: cd Examples/ComponentTestApp && swiftlint --fix"
+            echo "2. Fix code style and complexity issues:"
+            echo "   - Main project: swiftlint lint --strict --config .swiftlint.yml"
+            echo "   - Auto-fix: swiftlint --fix --config .swiftlint.yml"
+            echo "   - FoundationUI: cd FoundationUI && swiftlint --config .swiftlint.yml --fix"
+            echo "   - ComponentTestApp: cd Examples/ComponentTestApp && swiftlint --fix"
             echo "3. Commit fixed code"
             echo "4. Push changes"
+            echo ""
+            echo "💡 Tip: Download the SwiftLint report artifacts for detailed analysis"
             exit 1
           else
             echo "✅ SwiftLint quality gate passed!"
+            echo "All code meets complexity and style requirements."
           fi
