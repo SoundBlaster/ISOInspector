@@ -436,9 +436,9 @@ public enum AccessibilityHelpers {
     /// Applies gamma correction to a color component
     private static func gammaCorrect(_ component: CGFloat) -> CGFloat {
         if component <= 0.03928 {
-            component / 12.92
+            return component / 12.92
         } else {
-            pow((component + 0.055) / 1.055, 2.4)
+            return pow((component + 0.055) / 1.055, 2.4)
         }
     }
 
@@ -642,9 +642,9 @@ public enum AccessibilityFocusPriority {
     /// Maps priority to SwiftUI's accessibilitySortPriority value
     var rawValue: Double {
         switch self {
-        case .low: -1.0
-        case .medium: 0.0
-        case .high: 1.0
+        case .low: return -1.0
+        case .medium: return 0.0
+        case .high: return 1.0
         }
     }
 }
