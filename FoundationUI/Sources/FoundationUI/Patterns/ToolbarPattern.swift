@@ -1,3 +1,6 @@
+// @todo #234 Fix ToolbarPattern closure parameter positions
+// swiftlint:disable closure_parameter_position
+
 import SwiftUI
 
 #if canImport(UIKit)
@@ -166,9 +169,9 @@ public struct ToolbarPattern: View {
 
 // MARK: - Public Types
 
-public extension ToolbarPattern {
+extension ToolbarPattern {
     /// Represents grouped toolbar items.
-    struct Items {
+    public struct Items {
         public var primary: [Item]
         public var secondary: [Item]
         public var overflow: [Item]
@@ -181,7 +184,7 @@ public extension ToolbarPattern {
     }
 
     /// Describes a single toolbar action item.
-    struct Item: Identifiable {
+    public struct Item: Identifiable {
         public let id: String
         public let iconSystemName: String
         public let title: String?
@@ -227,7 +230,7 @@ public extension ToolbarPattern {
     }
 
     /// Keyboard shortcut metadata attached to toolbar items.
-    struct Shortcut: Hashable {
+    public struct Shortcut: Hashable {
         public enum Modifier: Hashable {
             case command
             case option
@@ -246,13 +249,13 @@ public extension ToolbarPattern {
         }
 
         fileprivate var glyphRepresentation: String {
-            let glyphs = modifiers.map { $0.glyph }.joined()
+            let glyphs = modifiers.map(\.glyph).joined()
             return glyphs + key.uppercased()
         }
     }
 
     /// Semantic role classification for toolbar items.
-    enum Role {
+    public enum Role {
         case primaryAction
         case destructive
         case neutral
@@ -260,30 +263,30 @@ public extension ToolbarPattern {
         fileprivate var backgroundColor: Color {
             switch self {
             case .primaryAction:
-                return DS.Colors.tertiary
+                DS.Colors.tertiary
             case .destructive:
-                return DS.Colors.errorBG
+                DS.Colors.errorBG
             case .neutral:
-                return DS.Colors.infoBG
+                DS.Colors.infoBG
             }
         }
     }
 
     /// Layout modes supported by the toolbar.
-    enum Layout: Equatable {
+    public enum Layout: Equatable {
         case compact
         case expanded
     }
 
     /// Supported platform contexts for layout resolution.
-    enum Platform: Equatable {
+    public enum Platform: Equatable {
         case iOS
         case iPadOS
         case macOS
     }
 
     /// Encapsulates runtime traits used for resolving layout.
-    struct Traits: Equatable {
+    public struct Traits: Equatable {
         public let horizontalSizeClass: UserInterfaceSizeClass?
         public let platform: Platform
         public let prefersLargeContent: Bool
@@ -299,7 +302,7 @@ public extension ToolbarPattern {
         }
     }
 
-    enum LayoutResolver {
+    public enum LayoutResolver {
         public static func layout(for traits: Traits) -> Layout {
             if traits.prefersLargeContent {
                 return .expanded
@@ -321,28 +324,29 @@ public extension ToolbarPattern {
     }
 }
 
-private extension ToolbarPattern.Shortcut.Modifier {
-    var glyph: String {
+extension ToolbarPattern.Shortcut.Modifier {
+    fileprivate var glyph: String {
         switch self {
         case .command:
-            return "⌘"
+            "⌘"
         case .option:
-            return "⌥"
+            "⌥"
         case .shift:
-            return "⇧"
+            "⇧"
         case .control:
-            return "⌃"
+            "⌃"
         }
     }
 }
 
 #if canImport(SwiftUI)
-private extension View {
+extension View {
     @ViewBuilder
-    func keyboardShortcut(_ shortcut: ToolbarPattern.Shortcut?) -> some View {
+    fileprivate func keyboardShortcut(_ shortcut: ToolbarPattern.Shortcut?) -> some View {
         if let shortcut {
             #if os(macOS) || os(iOS)
-            let modifiers = shortcut.modifiers.reduce(into: SwiftUI.EventModifiers()) { result, modifier in
+            let modifiers = shortcut.modifiers.reduce(into: SwiftUI.EventModifiers()) {
+                result, modifier in
                 switch modifier {
                 case .command:
                     result.insert(.command)
@@ -355,7 +359,7 @@ private extension View {
                 }
             }
             if let firstCharacter = shortcut.key.lowercased().first {
-                self.keyboardShortcut(
+                keyboardShortcut(
                     KeyEquivalent(firstCharacter),
                     modifiers: modifiers
                 )
@@ -450,7 +454,9 @@ private extension View {
         ToolbarPattern(
             items: .init(
                 primary: [
-                    .init(id: "save", iconSystemName: "square.and.arrow.down", title: "Save", role: .primaryAction),
+                    .init(
+                        id: "save", iconSystemName: "square.and.arrow.down", title: "Save", role: .primaryAction
+                    ),
                     .init(id: "open", iconSystemName: "folder", title: "Open", role: .primaryAction)
                 ]
             ),

@@ -1,9 +1,9 @@
 import SwiftUI
 
 #if canImport(UIKit)
-    import UIKit
+import UIKit
 #elseif canImport(AppKit)
-    import AppKit
+import AppKit
 #endif
 
 // MARK: - AccessibilityContext
@@ -44,7 +44,6 @@ import SwiftUI
 /// }
 /// ```
 public struct AccessibilityContext: Equatable, Sendable {
-
     // MARK: - Stored Properties
 
     /// Indicates whether the user prefers reduced motion.
@@ -126,9 +125,9 @@ public struct AccessibilityContext: Equatable, Sendable {
     }
 }
 
-extension DynamicTypeSize {
+private extension DynamicTypeSize {
     /// Indicates whether the dynamic type size is an accessibility category.
-    fileprivate var isAccessibilityCategory: Bool {
+    var isAccessibilityCategory: Bool {
         self >= .accessibility1
     }
 }
@@ -174,13 +173,13 @@ extension EnvironmentValues {
 }
 
 @MainActor
-extension EnvironmentValues {
+public extension EnvironmentValues {
     /// Accessibility preferences used by FoundationUI components.
     ///
     /// This property is isolated to the MainActor because it accesses
     /// `baselinePrefersIncreasedContrast`, which requires main thread access
     /// to UIKit/AppKit accessibility APIs.
-    public var accessibilityContext: AccessibilityContext {
+    var accessibilityContext: AccessibilityContext {
         get {
             if let storedContext = self[AccessibilityContextKey.self] {
                 return storedContext
@@ -208,22 +207,22 @@ extension EnvironmentValues {
 }
 
 @MainActor
-extension EnvironmentValues {
+private extension EnvironmentValues {
     /// Determines whether the environment requests increased contrast.
     ///
     /// This property is isolated to the MainActor because it accesses
     /// MainActor-isolated APIs from UIKit and AppKit:
     /// - `UIAccessibility.isDarkerSystemColorsEnabled` (iOS/tvOS)
     /// - `NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast` (macOS)
-    fileprivate var baselinePrefersIncreasedContrast: Bool {
+    var baselinePrefersIncreasedContrast: Bool {
         #if canImport(UIKit)
-            if #available(iOS 13.0, tvOS 13.0, *) {
-                return UIAccessibility.isDarkerSystemColorsEnabled
-            }
+        if #available(iOS 13.0, tvOS 13.0, *) {
+            return UIAccessibility.isDarkerSystemColorsEnabled
+        }
         #elseif canImport(AppKit)
-            if #available(macOS 10.10, *) {
-                return NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast
-            }
+        if #available(macOS 10.10, *) {
+            return NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast
+        }
         #endif
 
         return accessibilityDifferentiateWithoutColor
@@ -240,7 +239,7 @@ private struct AccessibilityContextModifier: ViewModifier {
     }
 }
 
-extension View {
+public extension View {
     /// Applies the provided accessibility context to the view hierarchy.
     ///
     /// The modifier stores the context in the environment and sets the
@@ -249,7 +248,7 @@ extension View {
     ///
     /// - Parameter context: The accessibility context to apply.
     /// - Returns: A view configured with the provided accessibility context.
-    public func accessibilityContext(_ context: AccessibilityContext) -> some View {
+    func accessibilityContext(_ context: AccessibilityContext) -> some View {
         modifier(AccessibilityContextModifier(context: context))
     }
 }

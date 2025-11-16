@@ -24,6 +24,7 @@
     ///
     /// - Parameters:
     ///   - directory: Location that will host the persistent SQLite store.
+    ///   - modelVersion: Schema version to load when preparing the Core Data model.
     ///   - makeDate: Factory returning the current date, primarily injected by
     ///     tests for deterministic timestamps.
     public init(
@@ -531,7 +532,8 @@
         preconditionFailure("Missing entity name for \(T.self)")
       }
       guard
-        let object = NSEntityDescription.insertNewObject(forEntityName: entityName, into: self)
+        let object = NSEntityDescription.insertNewObject(
+          forEntityName: entityName, into: self)
           as? T
       else {
         preconditionFailure("Failed to insert \(entityName) as \(T.self)")

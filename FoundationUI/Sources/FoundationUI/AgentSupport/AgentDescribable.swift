@@ -79,7 +79,7 @@ import Foundation
 /// ## YAML Schema Integration
 ///
 /// Components conforming to `AgentDescribable` can be defined in YAML schemas for
-/// agent-driven UI generation. See ``ComponentSchema`` for YAML schema definitions.
+/// agent-driven UI generation. See ``YAMLValidator/ComponentSchema`` for YAML schema definitions.
 ///
 /// ```yaml
 /// # Example YAML definition for agent consumption
@@ -116,13 +116,12 @@ import Foundation
 ///
 /// ### Related Protocols
 ///
-/// - `Codable` (for full JSON encoding/decoding)
-/// - `Identifiable` (for managing component instances)
+/// - ``Swift/Codable``
+/// - ``Swift/Identifiable``
 ///
 @available(iOS 17.0, macOS 14.0, *)
 @MainActor
 public protocol AgentDescribable {
-
     /// A unique string identifier for the component type.
     ///
     /// This identifier allows agents to distinguish between different component types
@@ -272,7 +271,6 @@ public protocol AgentDescribable {
 
 @available(iOS 17.0, macOS 14.0, *)
 public extension AgentDescribable {
-
     /// Default implementation for debugging and development.
     ///
     /// Returns a formatted string representation of the component's agent-describable state.

@@ -21,9 +21,9 @@ import CoreGraphics
 /// ```
 ///
 /// ## Tokens
-/// - `small`: Subtle rounding for compact UI elements (6pt)
-/// - `card`: Standard rounding for cards and panels (10pt)
-/// - `chip`: Fully rounded capsule shape (999pt = infinite radius)
+/// - `small`
+/// - `card`
+/// - `chip`
 ///
 /// ## Design Rationale
 /// - **small**: Used for tight spaces where less rounding maintains visual density

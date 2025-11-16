@@ -41,7 +41,6 @@ import SwiftUI
 /// - ``PlatformAdaptiveModifier``
 /// - ``DS/Spacing``
 public enum PlatformAdapter {
-
     // MARK: - Platform Detection
 
     /// Indicates if the current platform is macOS
@@ -119,7 +118,7 @@ public enum PlatformAdapter {
     /// - Parameter sizeClass: The current size class (horizontal or vertical)
     /// - Returns: Spacing value from DS tokens appropriate for the size class
     public static func spacing(for sizeClass: UserInterfaceSizeClass?) -> CGFloat {
-        guard let sizeClass = sizeClass else {
+        guard let sizeClass else {
             return defaultSpacing
         }
 
@@ -156,6 +155,10 @@ public enum PlatformAdapter {
     #endif
 }
 
+/// Alias exposed for documentation consistency so ``PlatformAdaptation``
+/// resolves to the same utilities as ``PlatformAdapter``.
+public typealias PlatformAdaptation = PlatformAdapter
+
 // MARK: - Platform Adaptive Modifier
 
 /// A view modifier that applies platform-adaptive spacing and layout
@@ -187,10 +190,9 @@ public enum PlatformAdapter {
 ///
 /// ## See Also
 /// - ``PlatformAdapter``
-/// - ``View/platformAdaptive()``
-/// - ``View/platformAdaptive(spacing:)``
+/// - `View.platformAdaptive()` modifier
+/// - `View.platformAdaptive(spacing:)` modifier
 public struct PlatformAdaptiveModifier: ViewModifier {
-
     /// Custom spacing override (optional)
     ///
     /// If provided, uses this spacing instead of platform default.
@@ -209,7 +211,7 @@ public struct PlatformAdaptiveModifier: ViewModifier {
     ///   - spacing: Custom spacing override (defaults to platform default)
     ///   - sizeClass: Size class for adaptation (defaults to nil)
     public init(spacing: CGFloat? = nil, sizeClass: UserInterfaceSizeClass? = nil) {
-        self.customSpacing = spacing
+        customSpacing = spacing
         self.sizeClass = sizeClass
     }
 
@@ -238,11 +240,11 @@ public struct PlatformAdaptiveModifier: ViewModifier {
     ///
     /// - Returns: Resolved spacing value from DS tokens
     private func resolveSpacing() -> CGFloat {
-        if let customSpacing = customSpacing {
+        if let customSpacing {
             return customSpacing
         }
 
-        if let sizeClass = sizeClass {
+        if let sizeClass {
             return PlatformAdapter.spacing(for: sizeClass)
         }
 
@@ -253,7 +255,6 @@ public struct PlatformAdaptiveModifier: ViewModifier {
 // MARK: - View Extensions
 
 public extension View {
-
     /// Applies platform-adaptive spacing and layout
     ///
     /// Automatically adjusts spacing based on the current platform:
@@ -336,7 +337,7 @@ public extension View {
     /// - Parameter value: Custom spacing value (defaults to platform default)
     /// - Returns: A view with platform spacing applied via padding
     func platformSpacing(_ value: CGFloat = PlatformAdapter.defaultSpacing) -> some View {
-        self.padding(value)
+        padding(value)
     }
 
     /// Applies platform-specific padding to specific edges
@@ -354,7 +355,7 @@ public extension View {
     /// - Parameter edges: The edges to apply padding to (defaults to all edges)
     /// - Returns: A view with platform-specific padding applied
     func platformPadding(_ edges: Edge.Set = .all) -> some View {
-        self.padding(edges, PlatformAdapter.defaultSpacing)
+        padding(edges, PlatformAdapter.defaultSpacing)
     }
 }
 

@@ -1,0 +1,11 @@
+@Tutorials(name: "ISOInspector Guides") {
+    @Intro(title: "Build trustworthy ISO investigations") {
+        @Image(source: "intro-image", alt: "ISO Inspector UI preview")
+        Text("Learn how annotations, bookmarks, and CLI captures fit together across ISOInspector surfaces.")
+    }
+
+    @Chapter(name: "Annotation Workflows") {
+        @Image(source: "intro-image", alt: "Bookmarks and annotations overview")
+        @TutorialReference(tutorial: "doc:AnnotationAndBookmarkWalkthrough")
+    }
+}

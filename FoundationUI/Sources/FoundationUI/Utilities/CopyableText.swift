@@ -65,9 +65,9 @@ import UIKit
 ///
 /// ## See Also
 ///
-/// - ``CopyableModifier``: The underlying view modifier for any view
-/// - ``Copyable``: Generic wrapper for complex copyable views
-/// - `.copyable(text:showFeedback:)`: View extension for applying copy functionality
+/// - ``CopyableModifier``
+/// - ``Copyable``
+/// - `.copyable(text:showFeedback:)`
 public struct CopyableText: View {
     // MARK: - Properties
 
@@ -114,10 +114,10 @@ public struct CopyableText: View {
 
     /// Accessibility label for the copy button
     private var accessibilityLabelText: String {
-        if let label = label {
-            return "Copy \(label): \(text)"
+        if let label {
+            "Copy \(label): \(text)"
         } else {
-            return "Copy \(text)"
+            "Copy \(text)"
         }
     }
 }

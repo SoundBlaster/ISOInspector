@@ -588,7 +588,7 @@ func memoryFootprint() -> Double {
 
 ## See Also
 
-- <doc:Architecture> — Understanding component architecture
-- ``BoxTreePattern`` — Large tree optimization
-- ``InspectorPattern`` — Efficient scrolling patterns
-- ``DS/Animation`` — Performance-friendly animations
+- <doc:Architecture>
+- ``BoxTreePattern``
+- ``InspectorPattern``
+- ``DS/Animation``

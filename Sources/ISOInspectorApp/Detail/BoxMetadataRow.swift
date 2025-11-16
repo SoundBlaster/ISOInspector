@@ -5,7 +5,7 @@ import SwiftUI
 ///
 /// `BoxMetadataRow` provides a consistent, accessible interface for displaying
 /// key-value metadata pairs throughout the ISOInspector UI. It wraps the FoundationUI
-/// `DS.KeyValueRow` component and integrates copyable actions for field values.
+/// KeyValueRow component and integrates copyable actions for field values.
 ///
 /// ## Design System Integration
 /// - Inherits dark mode adaptation automatically from FoundationUI
@@ -38,8 +38,8 @@ import SwiftUI
 /// - **Responsive Layouts:** Horizontal (compact) and vertical (long content) modes
 ///
 /// ## See Also
-/// - ``DS.KeyValueRow`` - Underlying component
-/// - ``DS.KeyValueLayout`` - Layout enumeration
+/// - KeyValueRow - Underlying component
+/// - KeyValueLayout - Layout enumeration
 /// - ``ParseTreeDetailView`` - Primary usage location
 ///
 public struct BoxMetadataRow: View {

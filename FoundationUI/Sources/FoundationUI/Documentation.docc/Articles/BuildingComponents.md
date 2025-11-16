@@ -252,10 +252,10 @@ struct BoxInfoCard: View {
 
 ## Next Steps
 
-- <doc:CreatingPatterns> — Build complex layouts with patterns
-- <doc:PlatformAdaptation> — Optimize for each platform
-- <doc:Components> — Complete component catalog
-- <doc:Modifiers> — All available modifiers
+- <doc:CreatingPatterns>
+- <doc:PlatformAdaptation>
+- <doc:Components>
+- <doc:Modifiers>
 
 ## See Also
 

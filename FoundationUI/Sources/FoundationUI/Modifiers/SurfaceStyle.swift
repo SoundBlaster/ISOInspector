@@ -44,13 +44,13 @@ public enum SurfaceMaterial: Equatable, Sendable {
     public var description: String {
         switch self {
         case .thin:
-            return "Thin material"
+            "Thin material"
         case .regular:
-            return "Regular material"
+            "Regular material"
         case .thick:
-            return "Thick material"
+            "Thick material"
         case .ultra:
-            return "Ultra thick material"
+            "Ultra thick material"
         }
     }
 
@@ -61,13 +61,13 @@ public enum SurfaceMaterial: Equatable, Sendable {
     public var accessibilityLabel: String {
         switch self {
         case .thin:
-            return "Thin material background"
+            "Thin material background"
         case .regular:
-            return "Regular material background"
+            "Regular material background"
         case .thick:
-            return "Thick material background"
+            "Thick material background"
         case .ultra:
-            return "Ultra thick material background"
+            "Ultra thick material background"
         }
     }
 
@@ -79,16 +79,16 @@ public enum SurfaceMaterial: Equatable, Sendable {
         switch self {
         case .thin:
             // Very light, almost transparent
-            return Color.gray.opacity(0.05)
+            Color.gray.opacity(0.05)
         case .regular:
             // Standard background from Design System
-            return DS.Colors.tertiary
+            DS.Colors.tertiary
         case .thick:
             // More opaque for stronger separation
-            return Color.gray.opacity(0.15)
+            Color.gray.opacity(0.15)
         case .ultra:
             // Nearly opaque for maximum separation
-            return Color.gray.opacity(0.20)
+            Color.gray.opacity(0.20)
         }
     }
 
@@ -100,13 +100,13 @@ public enum SurfaceMaterial: Equatable, Sendable {
     public var swiftUIMaterial: Material {
         switch self {
         case .thin:
-            return .thinMaterial
+            .thinMaterial
         case .regular:
-            return .regularMaterial
+            .regularMaterial
         case .thick:
-            return .thickMaterial
+            .thickMaterial
         case .ultra:
-            return .ultraThickMaterial
+            .ultraThickMaterial
         }
     }
 }
@@ -131,7 +131,7 @@ public enum SurfaceMaterial: Equatable, Sendable {
 /// - iOS 17.0+: Full material support
 /// - macOS 14.0+: Full material support
 /// - Earlier versions: Solid color fallback
-private struct SurfaceStyleModifier: ViewModifier {
+public struct SurfaceStyle: ViewModifier {
     /// The material type for the surface
     let material: SurfaceMaterial
 
@@ -141,7 +141,7 @@ private struct SurfaceStyleModifier: ViewModifier {
     /// Whether reduce transparency is enabled (for fallback)
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .background(backgroundView)
             .accessibilityElement(children: .contain)
@@ -192,7 +192,7 @@ public extension View {
     /// - allowFallback: Whether to use solid color on unsupported platforms (default: true)
     ///
     /// ## Design Tokens Used
-    /// - `DS.Colors.tertiary`: Fallback for regular material
+    /// - `DS.Colors.tertiary`
     /// - Gray opacity: Fallbacks for thin/thick/ultra materials
     ///
     /// ## Platform Adaptation
@@ -218,7 +218,7 @@ public extension View {
         allowFallback: Bool = true
     ) -> some View {
         modifier(
-            SurfaceStyleModifier(
+            SurfaceStyle(
                 material: material,
                 allowFallback: allowFallback
             )

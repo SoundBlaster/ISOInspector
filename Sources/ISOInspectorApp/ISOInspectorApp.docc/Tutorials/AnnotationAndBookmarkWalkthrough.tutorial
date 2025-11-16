@@ -11,15 +11,11 @@
         }
 
         @Steps {
-            @Step(title: "Choose the source") {
-                @StepContent {
-                    Text("Use **File → Open Recent** for sandbox bookmarks or drag a file onto the dock icon. For research log replays, select the exported `.capture` file to hydrate the outline and detail panes.")
-                }
+            @Step {
+                Text("**Choose the source** — Use **File → Open Recent** for sandbox bookmarks or drag a file onto the dock icon. For research log replays, select the exported `.capture` file to hydrate the outline and detail panes.")
             }
-            @Step(title: "Sync persisted notes") {
-                @StepContent {
-                    Text("When the document loads, `CoreDataAnnotationBookmarkStore` fetches prior annotations and bookmarks keyed by the file URL. The UI reflects saved decisions immediately, keeping the review history intact.")
-                }
+            @Step {
+                Text("**Sync persisted notes** — When the document loads, `CoreDataAnnotationBookmarkStore` fetches prior annotations and bookmarks keyed by the file URL. The UI reflects saved decisions immediately, keeping the review history intact.")
             }
         }
     }
@@ -31,15 +27,11 @@
         }
 
         @Steps {
-            @Step(title: "Select a box") {
-                @StepContent {
-                    Text("Pick the node in the outline or detail inspector. The annotation form targets the active selection and includes contextual metadata for downstream queries.")
-                }
+            @Step {
+                Text("**Select a box** — Pick the node in the outline or detail inspector. The annotation form targets the active selection and includes contextual metadata for downstream queries.")
             }
-            @Step(title: "Write and save") {
-                @StepContent {
-                    Text("Enter a concise title, add markdown-friendly notes, and press **Command-S** or dismiss focus. The store writes the record through a private queue context to keep the UI responsive.")
-                }
+            @Step {
+                Text("**Write and save** — Enter a concise title, add markdown-friendly notes, and press **Command-S** or dismiss focus. The store writes the record through a private queue context to keep the UI responsive.")
             }
         }
     }
@@ -51,15 +43,11 @@
         }
 
         @Steps {
-            @Step(title: "Toggle the bookmark state") {
-                @StepContent {
-                    Text("Use the star button in the detail inspector or press the keyboard shortcut shown in the toolbar tooltip. The state syncs with persisted records immediately.")
-                }
+            @Step {
+                Text("**Toggle the bookmark state** — Use the star button in the detail inspector or press the keyboard shortcut shown in the toolbar tooltip. The state syncs with persisted records immediately.")
             }
-            @Step(title: "Review bookmarked nodes") {
-                @StepContent {
-                    Text("Filter the outline to **Bookmarks** to step through saved highlights. Each bookmark entry retains timestamp metadata, so you can replay the evidence quickly in demos.")
-                }
+            @Step {
+                Text("**Review bookmarked nodes** — Filter the outline to **Bookmarks** to step through saved highlights. Each bookmark entry retains timestamp metadata, so you can replay the evidence quickly in demos.")
             }
         }
     }
@@ -69,8 +57,13 @@
             Text("Need to regenerate context or share logs with tooling? The CLI tutorial shows how to produce research logs and replay captures that feed this interface.")
         }
 
-        @CallToAction(destination: "doc:RecordingResearchLogs") {
-            Text("Create research logs from the CLI")
+        @Steps {
+            @Step {
+                Text("**Export a capture** — Run `isoinspector record --input movie.mp4 --out Session.capture` to capture detections and bookmarks.")
+            }
+            @Step {
+                Text("**Replay inside the app** — Open the exported capture from ISOInspectorApp to hydrate annotations before collaborating on fresh footage.")
+            }
         }
     }
 }

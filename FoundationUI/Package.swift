@@ -13,19 +13,19 @@ let package = Package(
         .library(
             name: "FoundationUI",
             targets: ["FoundationUI"]
-        ),
+        )
     ],
     dependencies: [
         // NOTE: swift-snapshot-testing removed from SPM dependencies
         // Snapshot tests are only run via Tuist + xcodebuild (not SPM)
         // See FoundationUI/Project.swift for Tuist configuration
-        .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.0"),
+        .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.0")
     ],
     targets: [
         .target(
             name: "FoundationUI",
             dependencies: [
-                .product(name: "Yams", package: "Yams"),
+                .product(name: "Yams", package: "Yams")
             ],
             exclude: [
                 "README.md",
@@ -39,7 +39,9 @@ let package = Package(
                 .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
             ]
         ),
+
         // MARK: - Test Targets
+
         .testTarget(
             name: "FoundationUITests",
             dependencies: [
@@ -51,7 +53,7 @@ let package = Package(
             ]
             // NOTE: StrictConcurrency is enabled by default in Swift 6.0
             // No need for .enableUpcomingFeature("StrictConcurrency")
-        ),
+        )
         // NOTE: FoundationUISnapshotTests removed from SPM configuration
         // Snapshot tests are only run via Tuist + xcodebuild in CI
         // SPM validation job runs only unit tests (FoundationUITests)

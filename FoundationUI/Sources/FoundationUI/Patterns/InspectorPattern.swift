@@ -30,7 +30,7 @@ public struct InspectorPattern<Content: View>: View {
     /// Creates a new inspector pattern with the provided title and content.
     /// - Parameters:
     ///   - title: The title to show within the header area.
-    ///   - material: The material background. Defaults to ``Material/thinMaterial``.
+    ///   - material: The SwiftUI material background. Defaults to `.thinMaterial`.
     ///   - content: A view builder that produces the inspector body content.
     public init(
         title: String,
@@ -245,7 +245,7 @@ extension InspectorPattern: AgentDescribable {
 
 #Preview("Long Scrollable Content") {
     InspectorPattern(title: "Extended Metadata") {
-        ForEach(0..<20, id: \.self) { index in
+        ForEach(0 ..< 20, id: \.self) { index in
             if index % 5 == 0 {
                 SectionHeader(title: "Section \(index / 5 + 1)", showDivider: true)
             }

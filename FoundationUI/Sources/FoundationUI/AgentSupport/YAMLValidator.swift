@@ -1,3 +1,7 @@
+// @todo #231 Refactor YAMLValidator to reduce type/function body length and complexity
+// @todo #238 Fix SwiftFormat/SwiftLint indentation conflict for multi-line enum cases
+// swiftlint:disable type_body_length cyclomatic_complexity function_body_length indentation_width
+
 import Foundation
 
 /// Validates parsed YAML component descriptions against the FoundationUI ComponentSchema.
@@ -23,27 +27,26 @@ import Foundation
 ///     componentType: "Badge",
 ///     properties: ["text": "Success", "level": "success"]
 /// )
-/// try YAMLValidator.validate(description)
+/// try YAMLValidator.validateComponent(description)
 /// ```
 ///
 /// Validate multiple components:
 /// ```swift
 /// let descriptions = try YAMLParser.parse(yamlString)
-/// try YAMLValidator.validate(descriptions)
+/// try YAMLValidator.validateComponents(descriptions)
 /// ```
 ///
 /// ## Topics
 ///
 /// ### Validation Methods
-/// - ``validate(_:)-4v8zb``
-/// - ``validate(_:)-8c9zt``
+/// - ``validateComponent(_:)``
+/// - ``validateComponents(_:)``
 ///
 /// ### Error Types
 /// - ``ValidationError``
 ///
 @available(iOS 17.0, macOS 14.0, *)
 public struct YAMLValidator {
-
     // MARK: - Error Types
 
     /// Errors that can occur during component validation.
@@ -56,51 +59,54 @@ public struct YAMLValidator {
 
         /// A property has an invalid type
         case invalidPropertyType(
-            component: String, property: String, expected: String, actual: String)
+                component: String, property: String, expected: String, actual: String
+             )
 
         /// An enum property has an invalid value
         case invalidEnumValue(
-            component: String, property: String, value: String, validValues: [String])
+                component: String, property: String, value: String, validValues: [String]
+             )
 
         /// A numeric property is out of bounds
         case valueOutOfBounds(
-            component: String, property: String, value: String, min: String?, max: String?)
+                component: String, property: String, value: String, min: String?, max: String?
+             )
 
         /// Invalid component composition (e.g., circular reference)
         case invalidComposition(String)
 
         public var errorDescription: String? {
             switch self {
-            case .unknownComponentType(let type):
+            case let .unknownComponentType(type):
                 return
                     "Unknown component type '\(type)'. Valid types: \(Schema.allComponentTypes.joined(separator: ", "))"
 
-            case .missingRequiredProperty(let component, let property):
+            case let .missingRequiredProperty(component, property):
                 return "Missing required property '\(property)' in \(component) component"
 
-            case .invalidPropertyType(let component, let property, let expected, let actual):
+            case let .invalidPropertyType(component, property, expected, actual):
                 return
                     "Invalid type for property '\(property)' in \(component): expected \(expected), got \(actual)"
 
-            case .invalidEnumValue(let component, let property, let value, let validValues):
+            case let .invalidEnumValue(component, property, value, validValues):
                 let suggestion = Schema.suggestCorrection(for: value, in: validValues)
                 let suggestionText = suggestion.map { ". Did you mean '\($0)'?" } ?? ""
                 return
                     "Invalid value '\(value)' for property '\(property)' in \(component). Valid values: [\(validValues.joined(separator: ", "))]\(suggestionText)"
 
-            case .valueOutOfBounds(let component, let property, let value, let min, let max):
+            case let .valueOutOfBounds(component, property, value, min, max):
                 var boundsText = ""
-                if let min = min, let max = max {
+                if let min, let max {
                     boundsText = " (must be between \(min) and \(max))"
-                } else if let min = min {
+                } else if let min {
                     boundsText = " (must be >= \(min))"
-                } else if let max = max {
+                } else if let max {
                     boundsText = " (must be <= \(max))"
                 }
                 return
                     "Value '\(value)' for property '\(property)' in \(component) is out of bounds\(boundsText)"
 
-            case .invalidComposition(let details):
+            case let .invalidComposition(details):
                 return "Invalid component composition: \(details)"
             }
         }
@@ -115,7 +121,9 @@ public struct YAMLValidator {
     ///
     /// - Parameter description: The component description to validate
     /// - Throws: ``ValidationError`` if validation fails
-    public static func validate(_ description: YAMLParser.ComponentDescription) throws {
+    public static func validateComponent(
+        _ description: YAMLParser.ComponentDescription
+    ) throws {
         // Validate component type
         guard Schema.allComponentTypes.contains(description.componentType) else {
             throw ValidationError.unknownComponentType(description.componentType)
@@ -147,7 +155,7 @@ public struct YAMLValidator {
         // Validate nested content recursively
         if let content = description.content {
             for nestedComponent in content {
-                try validate(nestedComponent)
+                try validateComponent(nestedComponent)
             }
         }
 
@@ -161,9 +169,11 @@ public struct YAMLValidator {
     ///
     /// - Parameter descriptions: Array of component descriptions to validate
     /// - Throws: ``ValidationError`` if any validation fails
-    public static func validate(_ descriptions: [YAMLParser.ComponentDescription]) throws {
+    public static func validateComponents(
+        _ descriptions: [YAMLParser.ComponentDescription]
+    ) throws {
         for description in descriptions {
-            try validate(description)
+            try validateComponent(description)
         }
 
         // Check for composition issues (circular references)
@@ -302,8 +312,7 @@ public struct YAMLValidator {
 
     /// Validates component composition (no circular references, valid nesting).
     private static func validateComposition(_ descriptions: [YAMLParser.ComponentDescription])
-        throws
-    {
+    throws {
         // Check for circular references by tracking visited component IDs
         // For now, we'll just check nesting depth
         for description in descriptions {
@@ -326,7 +335,8 @@ public struct YAMLValidator {
         if let content = description.content {
             for nestedComponent in content {
                 try validateNestingDepth(
-                    nestedComponent, currentDepth: currentDepth + 1, maxDepth: maxDepth)
+                    nestedComponent, currentDepth: currentDepth + 1, maxDepth: maxDepth
+                )
             }
         }
     }
@@ -334,37 +344,37 @@ public struct YAMLValidator {
     // MARK: - Schema Definition
 
     /// Internal schema definition for component validation.
-    private struct ComponentSchema {
-        let componentType: String
-        let requiredProperties: [String]
-        let optionalProperties: [String: String]
-        let enums: [String: [String]]
-        let bounds: [String: (min: Int?, max: Int?)]
+    public struct ComponentSchema {
+        public let componentType: String
+        public let requiredProperties: [String]
+        public let optionalProperties: [String: String]
+        public let enums: [String: [String]]
+        public let bounds: [String: (min: Int?, max: Int?)]
 
         func propertyType(for property: String) -> String {
-            return optionalProperties[property] ?? "String"
+            optionalProperties[property] ?? "String"
         }
 
         func enumValues(for property: String) -> [String]? {
-            return enums[property]
+            enums[property]
         }
 
         func numericBounds(for property: String) -> (min: Int?, max: Int?)? {
-            return bounds[property]
+            bounds[property]
         }
     }
 
     /// Schema definitions for all component types.
-    private struct Schema {
+    private enum Schema {
         static let allComponentTypes: [String] = [
             "Badge", "Card", "KeyValueRow", "SectionHeader",
-            "InspectorPattern", "SidebarPattern", "ToolbarPattern", "BoxTreePattern",
+            "InspectorPattern", "SidebarPattern", "ToolbarPattern", "BoxTreePattern"
         ]
 
         static func schema(for componentType: String) -> ComponentSchema {
             switch componentType {
             case "Badge":
-                return ComponentSchema(
+                ComponentSchema(
                     componentType: "Badge",
                     requiredProperties: ["text", "level"],
                     optionalProperties: ["showIcon": "Bool"],
@@ -373,35 +383,35 @@ public struct YAMLValidator {
                 )
 
             case "Card":
-                return ComponentSchema(
+                ComponentSchema(
                     componentType: "Card",
                     requiredProperties: [],
                     optionalProperties: [
                         "elevation": "String",
                         "cornerRadius": "Double",
-                        "material": "String",
+                        "material": "String"
                     ],
                     enums: [
                         "elevation": ["none", "low", "medium", "high"],
-                        "material": ["thin", "regular", "thick", "ultraThin", "ultraThick"],
+                        "material": ["thin", "regular", "thick", "ultraThin", "ultraThick"]
                     ],
                     bounds: ["cornerRadius": (min: 0, max: 50)]
                 )
 
             case "KeyValueRow":
-                return ComponentSchema(
+                ComponentSchema(
                     componentType: "KeyValueRow",
                     requiredProperties: ["key", "value"],
                     optionalProperties: [
                         "layout": "String",
-                        "isCopyable": "Bool",
+                        "isCopyable": "Bool"
                     ],
                     enums: ["layout": ["horizontal", "vertical"]],
                     bounds: [:]
                 )
 
             case "SectionHeader":
-                return ComponentSchema(
+                ComponentSchema(
                     componentType: "SectionHeader",
                     requiredProperties: ["title"],
                     optionalProperties: ["showDivider": "Bool"],
@@ -410,7 +420,7 @@ public struct YAMLValidator {
                 )
 
             case "InspectorPattern":
-                return ComponentSchema(
+                ComponentSchema(
                     componentType: "InspectorPattern",
                     requiredProperties: ["title"],
                     optionalProperties: ["material": "String"],
@@ -419,7 +429,7 @@ public struct YAMLValidator {
                 )
 
             case "SidebarPattern":
-                return ComponentSchema(
+                ComponentSchema(
                     componentType: "SidebarPattern",
                     requiredProperties: ["sections"],
                     optionalProperties: ["selection": "String"],
@@ -428,7 +438,7 @@ public struct YAMLValidator {
                 )
 
             case "ToolbarPattern":
-                return ComponentSchema(
+                ComponentSchema(
                     componentType: "ToolbarPattern",
                     requiredProperties: ["items"],
                     optionalProperties: [:],
@@ -437,7 +447,7 @@ public struct YAMLValidator {
                 )
 
             case "BoxTreePattern":
-                return ComponentSchema(
+                ComponentSchema(
                     componentType: "BoxTreePattern",
                     requiredProperties: ["nodeCount"],
                     optionalProperties: ["level": "Int"],
@@ -446,7 +456,7 @@ public struct YAMLValidator {
                 )
 
             default:
-                return ComponentSchema(
+                ComponentSchema(
                     componentType: componentType,
                     requiredProperties: [],
                     optionalProperties: [:],
@@ -463,7 +473,7 @@ public struct YAMLValidator {
             }
             let closest = suggestions.min { $0.distance < $1.distance }
             // Only suggest if distance is reasonable (< 3 edits)
-            if let closest = closest, closest.distance < 3 {
+            if let closest, closest.distance < 3 {
                 return closest.candidate
             }
             return nil
@@ -474,24 +484,25 @@ public struct YAMLValidator {
             let s1 = Array(s1.lowercased())
             let s2 = Array(s2.lowercased())
             var dist = [[Int]](
-                repeating: [Int](repeating: 0, count: s2.count + 1), count: s1.count + 1)
+                repeating: [Int](repeating: 0, count: s2.count + 1), count: s1.count + 1
+            )
 
-            for i in 0...s1.count {
+            for i in 0 ... s1.count {
                 dist[i][0] = i
             }
-            for j in 0...s2.count {
+            for j in 0 ... s2.count {
                 dist[0][j] = j
             }
 
-            for i in 1...s1.count {
-                for j in 1...s2.count {
+            for i in 1 ... s1.count {
+                for j in 1 ... s2.count {
                     if s1[i - 1] == s2[j - 1] {
                         dist[i][j] = dist[i - 1][j - 1]
                     } else {
                         dist[i][j] = min(
-                            dist[i - 1][j] + 1,  // deletion
-                            dist[i][j - 1] + 1,  // insertion
-                            dist[i - 1][j - 1] + 1  // substitution
+                            dist[i - 1][j] + 1, // deletion
+                            dist[i][j - 1] + 1, // insertion
+                            dist[i - 1][j - 1] + 1 // substitution
                         )
                     }
                 }

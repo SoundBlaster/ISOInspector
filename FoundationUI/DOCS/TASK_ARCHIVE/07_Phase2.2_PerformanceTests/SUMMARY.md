@@ -262,21 +262,21 @@ measureMetrics([.memoryPhysical], automaticallyStartMeasuring: false) {
 ### PerformanceTestHelpers Utilities
 
 1. **Standard Metrics Sets**
-   - `standardMetrics`: Clock, CPU, Memory, Storage
-   - `memoryMetrics`: Memory-focused testing
-   - `cpuMetrics`: CPU and Clock testing
+   - `standardMetrics`
+   - `memoryMetrics`
+   - `cpuMetrics`
 
 2. **Helper Methods**
-   - `measureViewCreation()`: Measure view creation overhead
-   - `measureMemoryFootprint()`: Measure component memory usage
-   - `measureComplexHierarchy()`: Measure hierarchy rendering
-   - `verifyPerformanceThreshold()`: Assert against targets
+   - `measureViewCreation()`
+   - `measureMemoryFootprint()`
+   - `measureComplexHierarchy()`
+   - `verifyPerformanceThreshold()`
 
 3. **Performance Baselines**
-   - `simpleComponentRenderTimeTarget`: 1ms
-   - `complexHierarchyRenderTimeTarget`: 10ms
-   - `typicalScreenMemoryTarget`: 5MB
-   - `targetFrameTime`: 16.67ms (60 FPS)
+   - `simpleComponentRenderTimeTarget`
+   - `complexHierarchyRenderTimeTarget`
+   - `typicalScreenMemoryTarget`
+   - `targetFrameTime`
 
 ---
 

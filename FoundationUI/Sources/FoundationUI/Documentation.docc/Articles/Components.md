@@ -481,10 +481,10 @@ See <doc:Performance> for detailed benchmarks.
 
 ## Further Reading
 
-- <doc:DesignTokens> — Token reference
-- <doc:Modifiers> — View Modifiers guide
-- <doc:Patterns> — Composite patterns
-- <doc:BuildingComponents> — Tutorial
+- <doc:DesignTokens>
+- <doc:Modifiers>
+- <doc:Patterns>
+- <doc:BuildingComponents>
 
 ## See Also
 

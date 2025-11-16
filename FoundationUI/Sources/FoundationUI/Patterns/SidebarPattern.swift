@@ -18,16 +18,16 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
     public struct Item: Identifiable, Hashable {
         /// The unique identifier representing the selection.
         public let id: Selection
-        
+
         /// The visible title for the row.
         public let title: String
-        
+
         /// Optional SF Symbol identifier displayed alongside the title.
         public let iconSystemName: String?
-        
+
         /// Accessibility label used by VoiceOver. Defaults to the visible title.
         public let accessibilityLabel: String
-        
+
         /// Creates a sidebar item.
         /// - Parameters:
         ///   - id: Unique identifier for the sidebar item.
@@ -46,18 +46,18 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
             self.accessibilityLabel = accessibilityLabel ?? title
         }
     }
-    
+
     /// A logical section grouping multiple sidebar items.
     public struct Section: Identifiable, Hashable {
         /// Stable identifier for diffing and accessibility grouping.
         public let id: String
-        
+
         /// Visible section title.
         public let title: String
-        
+
         /// Items contained within the section.
         public let items: [Item]
-        
+
         /// Creates a sidebar section.
         /// - Parameters:
         ///   - id: Optional explicit identifier. Defaults to the provided title.
@@ -69,16 +69,16 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
             self.items = items
         }
     }
-    
+
     /// Sections rendered within the sidebar.
     public let sections: [Section]
-    
+
     /// Binding to the currently selected item identifier.
     @Binding public var selection: Selection?
-    
+
     /// Builder used to render the corresponding detail view.
     public let detailBuilder: (Selection?) -> Detail
-    
+
     /// Creates a new sidebar pattern instance.
     /// - Parameters:
     ///   - sections: Sections rendered inside the sidebar list.
@@ -90,10 +90,10 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
         @ViewBuilder detail: @escaping (Selection?) -> Detail
     ) {
         self.sections = sections
-        self._selection = selection
-        self.detailBuilder = detail
+        _selection = selection
+        detailBuilder = detail
     }
-    
+
     public var body: some View {
         NavigationSplitView {
             sidebarContent
@@ -103,12 +103,13 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
                 .accessibilityIdentifier("FoundationUI.SidebarPattern.detail")
         }
         .navigationSplitViewStyle(.balanced)
-#if os(macOS)
+        #if os(macOS)
         .navigationSplitViewColumnWidth(
-            min: Layout.sidebarMinimumWidth, ideal: Layout.sidebarIdealWidth)
-#endif
+            min: Layout.sidebarMinimumWidth, ideal: Layout.sidebarIdealWidth
+        )
+        #endif
     }
-    
+
     @ViewBuilder
     private var sidebarContent: some View {
         List(selection: $selection) {
@@ -123,7 +124,7 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
         .listStyle(.sidebar)
         .accessibilityLabel(Text("Navigation"))
     }
-    
+
     @ViewBuilder
     private func sectionHeader(for section: Section) -> some View {
         Text(section.title)
@@ -135,7 +136,7 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
             .padding(.bottom, DS.Spacing.s)
             .accessibilityAddTraits(.isHeader)
     }
-    
+
     @ViewBuilder
     private func sidebarRow(for item: Item) -> some View {
         Label {
@@ -163,7 +164,7 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
         .contentShape(Rectangle())
         .accessibilityLabel(Text(item.accessibilityLabel))
     }
-    
+
     @ViewBuilder
     private var detailContent: some View {
         ScrollView {
@@ -175,23 +176,23 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
         }
         .background(DS.Colors.tertiary)
     }
-    
+
     private var detailPadding: EdgeInsets {
-#if os(macOS)
+        #if os(macOS)
         return EdgeInsets(
             top: DS.Spacing.xl,
             leading: DS.Spacing.xl,
             bottom: DS.Spacing.xl,
             trailing: DS.Spacing.xl
         )
-#else
+        #else
         return EdgeInsets(
             top: DS.Spacing.l,
             leading: DS.Spacing.l,
             bottom: DS.Spacing.l,
             trailing: DS.Spacing.l
         )
-#endif
+        #endif
     }
 }
 
@@ -204,8 +205,8 @@ private enum Layout {
 
 #Preview("Sidebar Navigation") {
     struct SidebarPatternPreviewContainer: View {
-        @State private var selection: UUID? = nil
-        
+        @State private var selection: UUID?
+
         var body: some View {
             SidebarPattern(
                 sections: [
@@ -213,8 +214,9 @@ private enum Layout {
                         title: "Media",
                         items: [
                             .init(
-                                id: UUID(), title: "Overview", iconSystemName: "doc.richtext"),
-                            .init(id: UUID(), title: "Metadata", iconSystemName: "info.circle"),
+                                id: UUID(), title: "Overview", iconSystemName: "doc.richtext"
+                            ),
+                            .init(id: UUID(), title: "Metadata", iconSystemName: "info.circle")
                         ]
                     ),
                     .init(
@@ -222,7 +224,7 @@ private enum Layout {
                         items: [
                             .init(id: UUID(), title: "Waveform", iconSystemName: "waveform")
                         ]
-                    ),
+                    )
                 ],
                 selection: $selection
             ) { selection in
@@ -241,14 +243,14 @@ private enum Layout {
             }
         }
     }
-    
+
     return SidebarPatternPreviewContainer()
 }
 
 #Preview("Dark Mode") {
     struct PreviewContainer: View {
         @State private var selection: UUID? = UUID()
-        
+
         // Note: Explicit AnyView type annotation is required for previews with multiple
         // detail view types. This allows type-erased detail builder for demonstration purposes.
         private let sections: [SidebarPattern<UUID, AnyView>.Section] = {
@@ -259,9 +261,11 @@ private enum Layout {
                     items: [
                         .init(id: overviewId, title: "Overview", iconSystemName: "doc.text"),
                         .init(
-                            id: UUID(), title: "Structure", iconSystemName: "square.grid.3x3"),
+                            id: UUID(), title: "Structure", iconSystemName: "square.grid.3x3"
+                        ),
                         .init(
-                            id: UUID(), title: "Validation", iconSystemName: "checkmark.seal"),
+                            id: UUID(), title: "Validation", iconSystemName: "checkmark.seal"
+                        )
                     ]
                 ),
                 .init(
@@ -269,12 +273,12 @@ private enum Layout {
                     items: [
                         .init(id: UUID(), title: "Video Tracks", iconSystemName: "video"),
                         .init(id: UUID(), title: "Audio Tracks", iconSystemName: "waveform"),
-                        .init(id: UUID(), title: "Subtitles", iconSystemName: "text.bubble"),
+                        .init(id: UUID(), title: "Subtitles", iconSystemName: "text.bubble")
                     ]
-                ),
+                )
             ]
         }()
-        
+
         var body: some View {
             SidebarPattern(
                 sections: sections,
@@ -286,20 +290,20 @@ private enum Layout {
                         KeyValueRow(key: "Codec", value: "H.264")
                         KeyValueRow(key: "Bitrate", value: "5 Mbps")
                     }
-                        .material(.regular)
+                    .material(.regular)
                 )
             }
             .preferredColorScheme(.dark)
         }
     }
-    
+
     return PreviewContainer()
 }
 
 #Preview("ISO Inspector Workflow") {
     struct PreviewContainer: View {
         @State private var selection: String? = "overview"
-        
+
         // Note: Explicit AnyView type annotation is required for previews with multiple
         // detail view types. The switch statement returns different view types per case.
         private let sections: [SidebarPattern<String, AnyView>.Section] = [
@@ -309,9 +313,11 @@ private enum Layout {
                     .init(id: "overview", title: "Overview", iconSystemName: "doc.text"),
                     .init(
                         id: "structure", title: "Box Structure",
-                        iconSystemName: "square.stack.3d.up"),
+                        iconSystemName: "square.stack.3d.up"
+                    ),
                     .init(
-                        id: "validation", title: "Validation", iconSystemName: "checkmark.seal"),
+                        id: "validation", title: "Validation", iconSystemName: "checkmark.seal"
+                    )
                 ]
             ),
             .init(
@@ -319,7 +325,7 @@ private enum Layout {
                 items: [
                     .init(id: "video", title: "Video Tracks", iconSystemName: "video"),
                     .init(id: "audio", title: "Audio Tracks", iconSystemName: "waveform"),
-                    .init(id: "text", title: "Text Tracks", iconSystemName: "text.bubble"),
+                    .init(id: "text", title: "Text Tracks", iconSystemName: "text.bubble")
                 ]
             ),
             .init(
@@ -328,11 +334,12 @@ private enum Layout {
                     .init(id: "hex", title: "Hex Viewer", iconSystemName: "number"),
                     .init(
                         id: "export", title: "Export Data",
-                        iconSystemName: "square.and.arrow.up"),
+                        iconSystemName: "square.and.arrow.up"
+                    )
                 ]
-            ),
+            )
         ]
-        
+
         var body: some View {
             SidebarPattern(
                 sections: sections,
@@ -347,7 +354,7 @@ private enum Layout {
                                 KeyValueRow(key: "File Name", value: "sample_video.mp4")
                                 KeyValueRow(key: "Size", value: "125.4 MB")
                                 KeyValueRow(key: "Format", value: "ISO Base Media File")
-                                
+
                                 SectionHeader(title: "Status", showDivider: true)
                                 HStack(spacing: DS.Spacing.s) {
                                     Badge(text: "Valid", level: .success)
@@ -355,7 +362,7 @@ private enum Layout {
                                 }
                             }
                             .material(.regular)
-                            
+
                         case "structure":
                             InspectorPattern(title: "Box Structure") {
                                 SectionHeader(title: "Root Boxes", showDivider: true)
@@ -381,7 +388,7 @@ private enum Layout {
                                 }
                             }
                             .material(.regular)
-                            
+
                         case "video":
                             InspectorPattern(title: "Video Track") {
                                 SectionHeader(title: "Codec Information", showDivider: true)
@@ -389,7 +396,7 @@ private enum Layout {
                                 KeyValueRow(key: "Resolution", value: "1920x1080")
                                 KeyValueRow(key: "Frame Rate", value: "29.97 fps")
                                 KeyValueRow(key: "Bitrate", value: "5 Mbps")
-                                
+
                                 SectionHeader(title: "Quality", showDivider: true)
                                 HStack(spacing: DS.Spacing.s) {
                                     Badge(text: "HD", level: .success)
@@ -397,7 +404,7 @@ private enum Layout {
                                 }
                             }
                             .material(.regular)
-                            
+
                         default:
                             VStack(alignment: .center, spacing: DS.Spacing.l) {
                                 Image(systemName: "doc.questionmark")
@@ -414,7 +421,7 @@ private enum Layout {
             }
         }
     }
-    
+
     return PreviewContainer()
         .frame(minWidth: 800, minHeight: 600)
 }
@@ -422,7 +429,7 @@ private enum Layout {
 #Preview("Multiple Sections") {
     struct PreviewContainer: View {
         @State private var selection: Int? = 1
-        
+
         // Note: Explicit AnyView type annotation is required for previews with multiple
         // detail view types. The if-else statement returns different view types per branch.
         private let sections: [SidebarPattern<Int, AnyView>.Section] = [
@@ -431,13 +438,16 @@ private enum Layout {
                 items: [
                     .init(
                         id: 1, title: "ftyp", iconSystemName: "doc",
-                        accessibilityLabel: "File Type Box"),
+                        accessibilityLabel: "File Type Box"
+                    ),
                     .init(
                         id: 2, title: "moov", iconSystemName: "film",
-                        accessibilityLabel: "Movie Box"),
+                        accessibilityLabel: "Movie Box"
+                    ),
                     .init(
                         id: 3, title: "mdat", iconSystemName: "cube",
-                        accessibilityLabel: "Media Data Box"),
+                        accessibilityLabel: "Media Data Box"
+                    )
                 ]
             ),
             .init(
@@ -445,10 +455,12 @@ private enum Layout {
                 items: [
                     .init(
                         id: 4, title: "mvhd", iconSystemName: "info.circle",
-                        accessibilityLabel: "Movie Header"),
+                        accessibilityLabel: "Movie Header"
+                    ),
                     .init(
                         id: 5, title: "iods", iconSystemName: "gearshape",
-                        accessibilityLabel: "Object Descriptor"),
+                        accessibilityLabel: "Object Descriptor"
+                    )
                 ]
             ),
             .init(
@@ -456,11 +468,11 @@ private enum Layout {
                 items: [
                     .init(id: 6, title: "trak (Video)", iconSystemName: "video"),
                     .init(id: 7, title: "trak (Audio)", iconSystemName: "speaker.wave.2"),
-                    .init(id: 8, title: "trak (Subtitle)", iconSystemName: "text.bubble"),
+                    .init(id: 8, title: "trak (Subtitle)", iconSystemName: "text.bubble")
                 ]
-            ),
+            )
         ]
-        
+
         var body: some View {
             SidebarPattern(
                 sections: sections,
@@ -484,15 +496,15 @@ private enum Layout {
             }
         }
     }
-    
+
     return PreviewContainer()
         .frame(minWidth: 700, minHeight: 500)
 }
 
 #Preview("Dynamic Type - Small") {
     struct PreviewContainer: View {
-        @State private var selection: UUID? = nil
-        
+        @State private var selection: UUID?
+
         var body: some View {
             SidebarPattern(
                 sections: [
@@ -500,7 +512,7 @@ private enum Layout {
                         title: "Analysis",
                         items: [
                             .init(id: UUID(), title: "Overview", iconSystemName: "doc.text"),
-                            .init(id: UUID(), title: "Details", iconSystemName: "info.circle"),
+                            .init(id: UUID(), title: "Details", iconSystemName: "info.circle")
                         ]
                     )
                 ],
@@ -512,15 +524,15 @@ private enum Layout {
             .environment(\.dynamicTypeSize, .xSmall)
         }
     }
-    
+
     return PreviewContainer()
         .frame(minWidth: 600, minHeight: 400)
 }
 
 #Preview("Dynamic Type - Large") {
     struct PreviewContainer: View {
-        @State private var selection: UUID? = nil
-        
+        @State private var selection: UUID?
+
         var body: some View {
             SidebarPattern(
                 sections: [
@@ -528,7 +540,7 @@ private enum Layout {
                         title: "Analysis",
                         items: [
                             .init(id: UUID(), title: "Overview", iconSystemName: "doc.text"),
-                            .init(id: UUID(), title: "Details", iconSystemName: "info.circle"),
+                            .init(id: UUID(), title: "Details", iconSystemName: "info.circle")
                         ]
                     )
                 ],
@@ -540,15 +552,15 @@ private enum Layout {
             .environment(\.dynamicTypeSize, .xxxLarge)
         }
     }
-    
+
     return PreviewContainer()
         .frame(minWidth: 700, minHeight: 500)
 }
 
 #Preview("Empty State") {
     struct PreviewContainer: View {
-        @State private var selection: UUID? = nil
-        
+        @State private var selection: UUID?
+
         var body: some View {
             SidebarPattern(
                 sections: [
@@ -571,29 +583,29 @@ private enum Layout {
             }
         }
     }
-    
+
     return PreviewContainer()
         .frame(minWidth: 600, minHeight: 400)
 }
 
 #Preview("Platform-Specific Width") {
     struct PreviewContainer: View {
-        @State private var selection: UUID? = nil
-        
+        @State private var selection: UUID?
+
         var body: some View {
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
-#if os(macOS)
+                #if os(macOS)
                 Text("macOS: Sidebar width calculated with DS tokens")
                     .font(DS.Typography.caption)
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, DS.Spacing.l)
-#else
+                #else
                 Text("iOS/iPadOS: Adaptive sidebar layout")
                     .font(DS.Typography.caption)
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, DS.Spacing.l)
-#endif
-                
+                #endif
+
                 SidebarPattern(
                     sections: [
                         .init(
@@ -601,29 +613,30 @@ private enum Layout {
                             items: [
                                 .init(
                                     id: UUID(), title: "Current Platform",
-                                    iconSystemName: "display")
+                                    iconSystemName: "display"
+                                )
                             ]
                         )
                     ],
                     selection: $selection
                 ) { _ in
                     InspectorPattern(title: "Platform Details") {
-#if os(macOS)
+                        #if os(macOS)
                         KeyValueRow(key: "Platform", value: "macOS")
                         KeyValueRow(
                             key: "Min Width", value: "DS.Spacing.l * 10 + DS.Spacing.xl * 2"
                         )
-#else
+                        #else
                         KeyValueRow(key: "Platform", value: "iOS/iPadOS")
                         KeyValueRow(key: "Layout", value: "Adaptive")
-#endif
+                        #endif
                     }
                     .material(.regular)
                 }
             }
         }
     }
-    
+
     return PreviewContainer()
         .frame(minWidth: 700, minHeight: 500)
 }
@@ -660,7 +673,7 @@ private enum Layout {
                         )
                     ],
                     selection: $selection
-                ) { item in
+                ) { _ in
                     VStack(alignment: .leading, spacing: DS.Spacing.m) {
                         Text("Detail Content Area")
                             .font(DS.Typography.title)
@@ -697,6 +710,7 @@ private enum Layout {
         .frame(minWidth: 800, minHeight: 600)
 }
 #endif
+
 // MARK: - AgentDescribable Conformance
 
 @available(iOS 17.0, macOS 14.0, *)

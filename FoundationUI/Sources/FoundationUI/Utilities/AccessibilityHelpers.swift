@@ -1,3 +1,6 @@
+// @todo #235 Fix AccessibilityHelpers closure parameter positions in previews
+// swiftlint:disable closure_parameter_position
+
 import SwiftUI
 
 #if canImport(UIKit)
@@ -85,7 +88,6 @@ import AppKit
 /// - ``AccessibilityContext``
 /// - ``DS``
 public enum AccessibilityHelpers {
-
     // MARK: - Contrast Ratio Validation
 
     /// Calculates the WCAG 2.1 contrast ratio between two colors
@@ -338,10 +340,8 @@ public enum AccessibilityHelpers {
         let sorted = elements.sorted { $0.order < $1.order }
 
         // Check for sequential ordering starting from 1
-        for (index, element) in sorted.enumerated() {
-            if element.order != index + 1 {
-                return false
-            }
+        for (index, element) in sorted.enumerated() where element.order != index + 1 {
+            return false
         }
 
         return true
@@ -419,12 +419,14 @@ public enum AccessibilityHelpers {
         #if canImport(UIKit)
         guard let components = UIColor(color).cgColor.components else { return 0 }
         #elseif canImport(AppKit)
-        guard let components = NSColor(color).usingColorSpace(.deviceRGB)?.cgColor.components else { return 0 }
+        guard let components = NSColor(color).usingColorSpace(.deviceRGB)?.cgColor.components else {
+            return 0
+        }
         #else
         return 0
         #endif
 
-        let r = components.count > 0 ? gammaCorrect(components[0]) : 0
+        let r = !components.isEmpty ? gammaCorrect(components[0]) : 0
         let g = components.count > 1 ? gammaCorrect(components[1]) : 0
         let b = components.count > 2 ? gammaCorrect(components[2]) : 0
 
@@ -434,13 +436,16 @@ public enum AccessibilityHelpers {
     /// Applies gamma correction to a color component
     private static func gammaCorrect(_ component: CGFloat) -> CGFloat {
         if component <= 0.03928 {
-            return component / 12.92
+            component / 12.92
         } else {
-            return pow((component + 0.055) / 1.055, 2.4)
+            pow((component + 0.055) / 1.055, 2.4)
         }
     }
 
     /// Returns scale factor for Dynamic Type size
+    ///
+    /// @todo #230 Refactor to reduce cyclomatic complexity (currently 18, target: ≤15)
+    // swiftlint:disable:next cyclomatic_complexity
     private static func scaleFactor(for size: DynamicTypeSize) -> CGFloat {
         switch size {
         case .xSmall: return 0.8
@@ -477,7 +482,7 @@ public struct StringBuilder {
 
 // MARK: - View Extensions
 
-extension View {
+public extension View {
     /// Applies accessible button modifiers
     ///
     /// - Parameters:
@@ -493,9 +498,8 @@ extension View {
     ///         hint: "Copies the value to clipboard"
     ///     )
     /// ```
-    public func accessibleButton(label: String, hint: String) -> some View {
-        self
-            .accessibilityLabel(label)
+    func accessibleButton(label: String, hint: String) -> some View {
+        accessibilityLabel(label)
             .accessibilityHint(hint)
             .accessibilityAddTraits(.isButton)
     }
@@ -512,9 +516,8 @@ extension View {
     /// Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
     ///     .accessibleToggle(label: "Section", isOn: isExpanded)
     /// ```
-    public func accessibleToggle(label: String, isOn: Bool) -> some View {
-        self
-            .accessibilityLabel(label)
+    func accessibleToggle(label: String, isOn: Bool) -> some View {
+        accessibilityLabel(label)
             .accessibilityValue(isOn ? "On" : "Off")
             .accessibilityAddTraits(.isButton)
     }
@@ -529,8 +532,8 @@ extension View {
     /// Text("Title")
     ///     .accessibleHeading(level: 1)
     /// ```
-    public func accessibleHeading(level: Int) -> some View {
-        self.accessibilityAddTraits(.isHeader)
+    func accessibleHeading(level _: Int) -> some View {
+        accessibilityAddTraits(.isHeader)
     }
 
     /// Applies accessible value modifiers for key-value pairs
@@ -545,9 +548,8 @@ extension View {
     /// Text("12345")
     ///     .accessibleValue(label: "Count", value: "12345")
     /// ```
-    public func accessibleValue(label: String, value: String) -> some View {
-        self
-            .accessibilityLabel(label)
+    func accessibleValue(label: String, value: String) -> some View {
+        accessibilityLabel(label)
             .accessibilityValue(value)
     }
 
@@ -567,11 +569,11 @@ extension View {
     /// ```
     ///
     /// ## Priority Mapping
-    /// - `.high`: Sort priority 1 (focused first)
-    /// - `.medium`: Sort priority 0 (default order)
-    /// - `.low`: Sort priority -1 (focused last)
-    public func accessibleFocus(priority: AccessibilityFocusPriority) -> some View {
-        self.accessibilitySortPriority(priority.rawValue)
+    /// - `.high`
+    /// - `.medium`
+    /// - `.low`
+    func accessibleFocus(priority: AccessibilityFocusPriority) -> some View {
+        accessibilitySortPriority(priority.rawValue)
     }
 
     // MARK: - Platform-Specific Extensions
@@ -580,8 +582,8 @@ extension View {
     /// Enables macOS keyboard navigation
     ///
     /// - Returns: A view with macOS keyboard navigation enabled
-    public func macOSKeyboardNavigable() -> some View {
-        self.focusable()
+    func macOSKeyboardNavigable() -> some View {
+        focusable()
     }
     #endif
 
@@ -600,8 +602,8 @@ extension View {
     ///     .font(.headline)
     ///     .voiceOverRotor(entry: "Heading")
     /// ```
-    public func voiceOverRotor(entry: String) -> some View {
-        self.accessibilityAddTraits(.isHeader)
+    func voiceOverRotor(entry: String) -> some View {
+        accessibilityAddTraits(.isHeader)
             .accessibilityLabel(entry)
     }
     #endif
@@ -615,9 +617,9 @@ extension View {
 /// navigate through UI elements. Higher priority elements are focused first.
 ///
 /// ## Priority Values
-/// - `.high`: Sort priority 1 (focused first)
-/// - `.medium`: Sort priority 0 (default behavior)
-/// - `.low`: Sort priority -1 (focused last)
+/// - `.high`
+/// - `.medium`
+/// - `.low`
 ///
 /// ## Usage
 /// ```swift
@@ -640,9 +642,9 @@ public enum AccessibilityFocusPriority {
     /// Maps priority to SwiftUI's accessibilitySortPriority value
     var rawValue: Double {
         switch self {
-        case .low: return -1.0
-        case .medium: return 0.0
-        case .high: return 1.0
+        case .low: -1.0
+        case .medium: 0.0
+        case .high: 1.0
         }
     }
 }
@@ -664,15 +666,22 @@ import SwiftUI
                 HStack {
                     Text("Black on White")
                     Spacer()
-                    Text("\(AccessibilityHelpers.contrastRatio(foreground: .black, background: .white), specifier: "%.1f"):1")
-                        .foregroundColor(DS.Colors.accent)
+                    Text(
+                        "\(AccessibilityHelpers.contrastRatio(foreground: .black, background: .white), specifier: "%.1f"):1"
+                    )
+                    .foregroundColor(DS.Colors.accent)
                 }
 
                 HStack {
                     Text("DS.Colors.infoBG")
                     Spacer()
-                    Text(AccessibilityHelpers.meetsWCAG_AA(foreground: .black, background: DS.Colors.infoBG) ? "✓ AA" : "✗ Fail")
-                        .foregroundColor(AccessibilityHelpers.meetsWCAG_AA(foreground: .black, background: DS.Colors.infoBG) ? .green : .red)
+                    Text(
+                        AccessibilityHelpers.meetsWCAG_AA(foreground: .black, background: DS.Colors.infoBG)
+                            ? "✓ AA" : "✗ Fail"
+                    )
+                    .foregroundColor(
+                        AccessibilityHelpers.meetsWCAG_AA(foreground: .black, background: DS.Colors.infoBG)
+                            ? .green : .red)
                 }
             }
             .padding(DS.Spacing.m)
@@ -713,15 +722,21 @@ import SwiftUI
                 HStack {
                     Text("44×44 pt")
                     Spacer()
-                    Text(AccessibilityHelpers.isValidTouchTarget(size: CGSize(width: 44, height: 44)) ? "✓ Valid" : "✗ Invalid")
-                        .foregroundColor(.green)
+                    Text(
+                        AccessibilityHelpers.isValidTouchTarget(size: CGSize(width: 44, height: 44))
+                            ? "✓ Valid" : "✗ Invalid"
+                    )
+                    .foregroundColor(.green)
                 }
 
                 HStack {
                     Text("30×30 pt")
                     Spacer()
-                    Text(AccessibilityHelpers.isValidTouchTarget(size: CGSize(width: 30, height: 30)) ? "✓ Valid" : "✗ Invalid")
-                        .foregroundColor(.red)
+                    Text(
+                        AccessibilityHelpers.isValidTouchTarget(size: CGSize(width: 30, height: 30))
+                            ? "✓ Valid" : "✗ Invalid"
+                    )
+                    .foregroundColor(.red)
                 }
             }
             .padding(DS.Spacing.m)
@@ -780,17 +795,22 @@ import SwiftUI
 
 #Preview("Dynamic Type Scaling") {
     VStack(spacing: DS.Spacing.l) {
-        ForEach([DynamicTypeSize.large, .xLarge, .xxLarge, .accessibilityMedium], id: \.self) { size in
+        ForEach([DynamicTypeSize.large, .xLarge, .xxLarge, .accessibilityMedium], id: \.self) {
+            size in
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
                 Text("\(String(describing: size))")
                     .font(DS.Typography.headline)
 
-                Text("Base: 16.0 → Scaled: \(AccessibilityHelpers.scaledValue(16.0, for: size), specifier: "%.1f")")
-                    .font(DS.Typography.body)
+                Text(
+                    "Base: 16.0 → Scaled: \(AccessibilityHelpers.scaledValue(16.0, for: size), specifier: "%.1f")"
+                )
+                .font(DS.Typography.body)
 
-                Text(AccessibilityHelpers.isAccessibilitySize(size) ? "Accessibility Size" : "Normal Size")
-                    .font(DS.Typography.caption)
-                    .foregroundColor(AccessibilityHelpers.isAccessibilitySize(size) ? .orange : .gray)
+                Text(
+                    AccessibilityHelpers.isAccessibilitySize(size) ? "Accessibility Size" : "Normal Size"
+                )
+                .font(DS.Typography.caption)
+                .foregroundColor(AccessibilityHelpers.isAccessibilitySize(size) ? .orange : .gray)
             }
             .padding(DS.Spacing.m)
             .background(Color.gray.opacity(0.1))
@@ -816,8 +836,12 @@ import SwiftUI
             Text("Reduced Motion Context")
                 .font(DS.Typography.headline)
 
-            Text("Should Animate: \(AccessibilityHelpers.shouldAnimate(in: reducedMotionContext) ? "Yes" : "No")")
-            Text("Preferred Spacing: \(AccessibilityHelpers.preferredSpacing(in: reducedMotionContext), specifier: "%.0f") pt")
+            Text(
+                "Should Animate: \(AccessibilityHelpers.shouldAnimate(in: reducedMotionContext) ? "Yes" : "No")"
+            )
+            Text(
+                "Preferred Spacing: \(AccessibilityHelpers.preferredSpacing(in: reducedMotionContext), specifier: "%.0f") pt"
+            )
         }
         .padding(DS.Spacing.m)
         .background(Color.blue.opacity(0.1))
@@ -827,8 +851,12 @@ import SwiftUI
             Text("High Contrast Context")
                 .font(DS.Typography.headline)
 
-            Text("Should Animate: \(AccessibilityHelpers.shouldAnimate(in: highContrastContext) ? "Yes" : "No")")
-            Text("Preferred Spacing: \(AccessibilityHelpers.preferredSpacing(in: highContrastContext), specifier: "%.0f") pt")
+            Text(
+                "Should Animate: \(AccessibilityHelpers.shouldAnimate(in: highContrastContext) ? "Yes" : "No")"
+            )
+            Text(
+                "Preferred Spacing: \(AccessibilityHelpers.preferredSpacing(in: highContrastContext), specifier: "%.0f") pt"
+            )
         }
         .padding(DS.Spacing.m)
         .background(Color.orange.opacity(0.1))

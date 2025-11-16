@@ -37,9 +37,9 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     public var hasShadow: Bool {
         switch self {
         case .none:
-            return false
+            false
         case .low, .medium, .high:
-            return true
+            true
         }
     }
 
@@ -50,13 +50,13 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     public var shadowRadius: CGFloat {
         switch self {
         case .none:
-            return 0
+            0
         case .low:
-            return 2
+            2
         case .medium:
-            return 4
+            4
         case .high:
-            return 8
+            8
         }
     }
 
@@ -67,13 +67,13 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     public var shadowOpacity: Double {
         switch self {
         case .none:
-            return 0
+            0
         case .low:
-            return 0.1
+            0.1
         case .medium:
-            return 0.15
+            0.15
         case .high:
-            return 0.2
+            0.2
         }
     }
 
@@ -84,13 +84,13 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     public var shadowYOffset: CGFloat {
         switch self {
         case .none:
-            return 0
+            0
         case .low:
-            return 1
+            1
         case .medium:
-            return 2
+            2
         case .high:
-            return 4
+            4
         }
     }
 
@@ -101,13 +101,13 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     public var stringValue: String {
         switch self {
         case .none:
-            return "none"
+            "none"
         case .low:
-            return "low"
+            "low"
         case .medium:
-            return "medium"
+            "medium"
         case .high:
-            return "high"
+            "high"
         }
     }
 
@@ -118,13 +118,13 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     public var accessibilityLabel: String {
         switch self {
         case .none:
-            return "Flat card"
+            "Flat card"
         case .low:
-            return "Card with subtle elevation"
+            "Card with subtle elevation"
         case .medium:
-            return "Card with medium elevation"
+            "Card with medium elevation"
         case .high:
-            return "Card with high elevation"
+            "Card with high elevation"
         }
     }
 }
@@ -150,7 +150,7 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
 /// - Maintains semantic structure for assistive technologies
 /// - Shadow effects are supplementary, not required for comprehension
 /// - Supports Dynamic Type for content scaling
-private struct CardStyleModifier: ViewModifier {
+public struct CardStyle: ViewModifier {
     /// The elevation level determining shadow depth
     let elevation: CardElevation
 
@@ -160,7 +160,7 @@ private struct CardStyleModifier: ViewModifier {
     /// Whether to use a material background
     let useMaterial: Bool
 
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .background(
                 Group {
@@ -217,10 +217,10 @@ public extension View {
     /// - useMaterial: Whether to use system material background (default: true on supported platforms)
     ///
     /// ## Design Tokens Used
-    /// - `DS.Radius.card`: Standard card corner radius (10pt)
-    /// - `DS.Radius.small`: Subtle corner radius (6pt)
-    /// - `DS.Radius.medium`: Balanced corner radius (8pt)
-    /// - `DS.Colors.tertiary`: Fallback background color
+    /// - `DS.Radius.card`
+    /// - `DS.Radius.small`
+    /// - `DS.Radius.medium`
+    /// - `DS.Colors.tertiary`
     ///
     /// ## Platform Adaptation
     /// - macOS: Stronger shadows for desktop UI
@@ -239,7 +239,7 @@ public extension View {
         useMaterial: Bool = true
     ) -> some View {
         modifier(
-            CardStyleModifier(
+            CardStyle(
                 elevation: elevation,
                 cornerRadius: cornerRadius,
                 useMaterial: useMaterial

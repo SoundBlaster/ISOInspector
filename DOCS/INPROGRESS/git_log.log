@@ -1,0 +1,34 @@
+Failed to commit:
+[WARNING] hook id `check-yaml` uses deprecated stage names (commit) which will be removed in a future version.  run: `pre-commit migrate-config` to automatically fix this.
+[WARNING] hook id `check-added-large-files` uses deprecated stage names (commit) which will be removed in a future version.  run: `pre-commit migrate-config` to automatically fix this.
+[WARNING] hook id `trailing-whitespace` uses deprecated stage names (commit) which will be removed in a future version.  run: `pre-commit migrate-config` to automatically fix this.
+[WARNING] hook id `end-of-file-fixer` uses deprecated stage names (commit) which will be removed in a future version.  run: `pre-commit migrate-config` to automatically fix this.
+[WARNING] hook id `validate-github-workflows` uses deprecated stage names (commit) which will be removed in a future version.  run: `pre-commit migrate-config` to automatically fix this.
+[WARNING] hook id `swiftlint-foundationui` uses deprecated stage names (commit) which will be removed in a future version.  run: `pre-commit migrate-config` to automatically fix this.
+[WARNING] hook id `swiftlint-componenttestapp` uses deprecated stage names (commit) which will be removed in a future version.  run: `pre-commit migrate-config` to automatically fix this.
+[WARNING] hook id `swift-build-foundationui` uses deprecated stage names (push) which will be removed in a future version.  run: `pre-commit migrate-config` to automatically fix this.
+[WARNING] hook id `swift-format-all` uses deprecated stage names (commit) which will be removed in a future version.  run: `pre-commit migrate-config` to automatically fix this.
+[WARNING] hook id `swift-test-foundationui` uses deprecated stage names (push) which will be removed in a future version.  run: `pre-commit migrate-config` to automatically fix this.
+[WARNING] hook id `commit-message-format` uses deprecated stage names (commit) which will be removed in a future version.  run: `pre-commit migrate-config` to automatically fix this.
+Check YAML syntax....................................(no files to check)Skipped
+Check for large files....................................................Passed
+Trim trailing whitespace.................................................Passed
+Fix end of files.........................................................Passed
+Validate GitHub Actions workflows....................(no files to check)Skipped
+SwiftLint (FoundationUI).................................................Failed
+- hook id: swiftlint-foundationui
+- exit code: 127
+
+FoundationUI/Sources/FoundationUI/Modifiers/InteractiveStyle.swift: swiftlint: command not found
+FoundationUI/Sources/FoundationUI/Components/SectionHeader.swift: swiftlint: command not found
+FoundationUI/Sources/FoundationUI/Components/Badge.swift: swiftlint: command not found
+FoundationUI/Sources/FoundationUI/AgentSupport/YAMLValidator.swift: swiftlint: command not found
+FoundationUI/Sources/FoundationUI/Contexts/SurfaceStyleKey.swift: swiftlint: command not found
+FoundationUI/Sources/FoundationUI/Utilities/CopyableText.swift: swiftlint: command not found
+FoundationUI/Sources/FoundationUI/Components/Card.swift: swiftlint: command not found
+
+SwiftLint (ComponentTestApp).........................(no files to check)Skipped
+Swift Format (Auto-format)...............................................Failed
+- hook id: swift-format-all
+- files were modified by this hook
+Commit Message Format....................................................Passed

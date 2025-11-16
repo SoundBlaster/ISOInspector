@@ -403,11 +403,11 @@ struct ValidationSection: View {
 
 Now that you've built your first FoundationUI app, explore more advanced topics:
 
-- <doc:BuildingComponents> — Create custom components
-- <doc:CreatingPatterns> — Build complex layouts
-- <doc:PlatformAdaptation> — Optimize for each platform
-- <doc:Accessibility> — Accessibility best practices
-- <doc:Performance> — Performance optimization
+- <doc:BuildingComponents>
+- <doc:CreatingPatterns>
+- <doc:PlatformAdaptation>
+- <doc:Accessibility>
+- <doc:Performance>
 
 ## Common Patterns
 
@@ -481,16 +481,13 @@ If SwiftLint warns about magic numbers:
 
 ## Resources
 
-- [API Reference](https://docs.foundationui.dev/api) — Complete API documentation
-- [Component Catalog](https://docs.foundationui.dev/components) — All components
-- [GitHub Repository](https://github.com/YourOrg/FoundationUI) — Source code and examples
-- [ISO Inspector Demo](https://github.com/YourOrg/ISOInspector) — Full app example
+[API Reference](https://docs.foundationui.dev/api) provides the complete API documentation. [Component Catalog](https://docs.foundationui.dev/components) lists every component available in the design system. Explore the [GitHub Repository](https://github.com/YourOrg/FoundationUI) for source code and examples, or review the [ISO Inspector Demo](https://github.com/YourOrg/ISOInspector) to see the system in context.
 
 ## See Also
 
-- <doc:Architecture> — Understanding Composable Clarity
-- <doc:DesignTokens> — Complete token reference
-- ``DS`` — Design Tokens namespace
-- ``Badge`` — Badge component API
-- ``Card`` — Card component API
-- ``InspectorPattern`` — Inspector pattern API
+- <doc:Architecture>
+- <doc:DesignTokens>
+- ``DS``
+- ``Badge``
+- ``Card``
+- ``InspectorPattern``

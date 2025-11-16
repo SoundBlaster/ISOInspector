@@ -43,11 +43,11 @@ Reusable style modifiers that apply Design Tokens to SwiftUI views. These are th
 **Purpose**: Consistent styling patterns using tokens.
 
 **Examples**:
-- `BadgeChipStyle`: Applies semantic badge styling
-- `CardStyle`: Applies elevation and shadows
-- `InteractiveStyle`: Adds hover and touch feedback
-- `SurfaceStyle`: Applies material backgrounds
-- `CopyableModifier`: Adds copy-to-clipboard functionality
+- `BadgeChipStyle`
+- `CardStyle`
+- `InteractiveStyle`
+- `SurfaceStyle`
+- `CopyableModifier`
 
 **Usage**:
 ```swift
@@ -67,12 +67,12 @@ Building blocks that combine modifiers and basic SwiftUI views into reusable com
 **Purpose**: Consistent UI elements with standard APIs.
 
 **Examples**:
-- `Badge`: Status indicator with semantic colors
-- `Card`: Container with elevation
-- `KeyValueRow`: Key-value pair display
-- `SectionHeader`: Section title with divider
-- `CopyableText`: Text with copy button
-- `Copyable`: Generic copyable wrapper
+- `Badge`
+- `Card`
+- `KeyValueRow`
+- `SectionHeader`
+- `CopyableText`
+- `Copyable`
 
 **Usage**:
 ```swift
@@ -94,10 +94,10 @@ Composite layouts that combine multiple components into common UI patterns.
 **Purpose**: Reusable layouts for complex scenarios.
 
 **Examples**:
-- `InspectorPattern`: Scrollable inspector with fixed header
-- `SidebarPattern`: Navigation sidebar with sections
-- `ToolbarPattern`: Platform-adaptive toolbar
-- `BoxTreePattern`: Hierarchical tree view
+- `InspectorPattern`
+- `SidebarPattern`
+- `ToolbarPattern`
+- `BoxTreePattern`
 
 **Usage**:
 ```swift
@@ -120,10 +120,10 @@ Environment values and platform adaptation that enhance all other layers.
 **Purpose**: Platform-specific behavior and adaptive layouts.
 
 **Examples**:
-- `SurfaceStyleKey`: Environment key for surface materials
-- `PlatformAdaptation`: Platform-specific spacing and layout
-- `ColorSchemeAdapter`: Automatic Dark Mode adaptation
-- `AccessibilityContext`: Accessibility preferences (Reduce Motion, Dynamic Type)
+- `SurfaceStyleKey`
+- `PlatformAdaptation`
+- `ColorSchemeAdapter`
+- `AccessibilityContext`
 
 **Usage**:
 ```swift
@@ -455,11 +455,11 @@ InspectorPattern(title: title) {
 
 ## Further Reading
 
-- <doc:DesignTokens> — Complete Design Token reference
-- <doc:Components> — Component catalog
-- <doc:Patterns> — Pattern guide
-- <doc:Accessibility> — Accessibility best practices
-- <doc:Performance> — Performance optimization guide
+- <doc:DesignTokens>
+- <doc:Components>
+- <doc:Patterns>
+- <doc:Accessibility>
+- <doc:Performance>
 
 ## See Also
 

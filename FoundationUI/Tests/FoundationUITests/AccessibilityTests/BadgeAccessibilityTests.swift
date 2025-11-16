@@ -1,6 +1,7 @@
+import SwiftUI
 // swift-tools-version: 6.0
 import XCTest
-import SwiftUI
+
 @testable import FoundationUI
 
 /// Accessibility tests for the Badge component
@@ -16,346 +17,346 @@ import SwiftUI
 /// - Badge level accessibility traits
 @MainActor
 final class BadgeAccessibilityTests: XCTestCase {
+  // MARK: - VoiceOver Label Tests
 
-    // MARK: - VoiceOver Label Tests
+  func testBadgeInfoLevelHasCorrectAccessibilityLabel() {
+    // Given
+    let level = BadgeLevel.info
 
-    func testBadgeInfoLevelHasCorrectAccessibilityLabel() {
-        // Given
-        let level = BadgeLevel.info
+    // Then
+    XCTAssertEqual(
+      level.accessibilityLabel,
+      "Information",
+      "Info badge level should have 'Information' accessibility label"
+    )
+  }
 
-        // Then
-        XCTAssertEqual(
-            level.accessibilityLabel,
-            "Information",
-            "Info badge level should have 'Information' accessibility label"
-        )
+  func testBadgeWarningLevelHasCorrectAccessibilityLabel() {
+    // Given
+    let level = BadgeLevel.warning
+
+    // Then
+    XCTAssertEqual(
+      level.accessibilityLabel,
+      "Warning",
+      "Warning badge level should have 'Warning' accessibility label"
+    )
+  }
+
+  func testBadgeErrorLevelHasCorrectAccessibilityLabel() {
+    // Given
+    let level = BadgeLevel.error
+
+    // Then
+    XCTAssertEqual(
+      level.accessibilityLabel,
+      "Error",
+      "Error badge level should have 'Error' accessibility label"
+    )
+  }
+
+  func testBadgeSuccessLevelHasCorrectAccessibilityLabel() {
+    // Given
+    let level = BadgeLevel.success
+
+    // Then
+    XCTAssertEqual(
+      level.accessibilityLabel,
+      "Success",
+      "Success badge level should have 'Success' accessibility label"
+    )
+  }
+
+  func testAllBadgeLevelsHaveAccessibilityLabels() {
+    // Given
+    let allLevels: [BadgeLevel] = [.info, .warning, .error, .success]
+
+    // When & Then
+    for level in allLevels {
+      AccessibilityTestHelpers.assertValidAccessibilityLabel(
+        level.accessibilityLabel,
+        context: "Badge level '\(level)'"
+      )
+    }
+  }
+
+  // MARK: - Color Definition Tests
+
+  func testBadgeInfoLevelHasColors() {
+    // Given
+    let level = BadgeLevel.info
+
+    // Then
+    XCTAssertNotNil(level.foregroundColor, "Info badge should have foreground color")
+    XCTAssertNotNil(level.backgroundColor, "Info badge should have background color")
+  }
+
+  func testBadgeWarningLevelHasColors() {
+    // Given
+    let level = BadgeLevel.warning
+
+    // Then
+    XCTAssertNotNil(level.foregroundColor, "Warning badge should have foreground color")
+    XCTAssertNotNil(level.backgroundColor, "Warning badge should have background color")
+  }
+
+  func testBadgeErrorLevelHasColors() {
+    // Given
+    let level = BadgeLevel.error
+
+    // Then
+    XCTAssertNotNil(level.foregroundColor, "Error badge should have foreground color")
+    XCTAssertNotNil(level.backgroundColor, "Error badge should have background color")
+  }
+
+  func testBadgeSuccessLevelHasColors() {
+    // Given
+    let level = BadgeLevel.success
+
+    // Then
+    XCTAssertNotNil(level.foregroundColor, "Success badge should have foreground color")
+    XCTAssertNotNil(level.backgroundColor, "Success badge should have background color")
+  }
+
+  func testAllBadgeLevelsHaveColors() {
+    // Given
+    let allLevels: [BadgeLevel] = [.info, .warning, .error, .success]
+
+    // When & Then
+    for level in allLevels {
+      XCTAssertNotNil(
+        level.foregroundColor,
+        "Badge level '\(level)' should have foreground color"
+      )
+      XCTAssertNotNil(
+        level.backgroundColor,
+        "Badge level '\(level)' should have background color"
+      )
     }
 
-    func testBadgeWarningLevelHasCorrectAccessibilityLabel() {
-        // Given
-        let level = BadgeLevel.warning
+    // Note: Badges use opacity-based backgrounds (e.g., Color.green.opacity(0.20))
+    // combined with solid foregrounds (e.g., Color.green). This design creates
+    // low contrast when measured in isolation, but badges are intended to be
+    // placed ON TOP of cards or other backgrounds where the combined contrast
+    // ratio meets WCAG 2.1 AA standards (≥4.5:1).
+    //
+    // Testing contrast in isolation is not meaningful for this design pattern.
+    // Proper accessibility validation requires testing badges in their actual
+    // usage context (e.g., Badge placed on a Card with a white/dark background).
+  }
 
-        // Then
-        XCTAssertEqual(
-            level.accessibilityLabel,
-            "Warning",
-            "Warning badge level should have 'Warning' accessibility label"
-        )
+  // MARK: - Icon Accessibility Tests
+
+  func testBadgeInfoLevelHasAppropriateIcon() {
+    // Given
+    let level = BadgeLevel.info
+
+    // Then
+    XCTAssertEqual(
+      level.iconName,
+      "info.circle.fill",
+      "Info badge should use info.circle.fill SF Symbol"
+    )
+  }
+
+  func testBadgeWarningLevelHasAppropriateIcon() {
+    // Given
+    let level = BadgeLevel.warning
+
+    // Then
+    XCTAssertEqual(
+      level.iconName,
+      "exclamationmark.triangle.fill",
+      "Warning badge should use exclamationmark.triangle.fill SF Symbol"
+    )
+  }
+
+  func testBadgeErrorLevelHasAppropriateIcon() {
+    // Given
+    let level = BadgeLevel.error
+
+    // Then
+    XCTAssertEqual(
+      level.iconName,
+      "xmark.circle.fill",
+      "Error badge should use xmark.circle.fill SF Symbol"
+    )
+  }
+
+  func testBadgeSuccessLevelHasAppropriateIcon() {
+    // Given
+    let level = BadgeLevel.success
+
+    // Then
+    XCTAssertEqual(
+      level.iconName,
+      "checkmark.circle.fill",
+      "Success badge should use checkmark.circle.fill SF Symbol"
+    )
+  }
+
+  func testAllBadgeLevelsHaveIcons() {
+    // Given
+    let allLevels: [BadgeLevel] = [.info, .warning, .error, .success]
+
+    // When & Then
+    for level in allLevels {
+      XCTAssertFalse(
+        level.iconName.isEmpty,
+        "Badge level '\(level)' should have an icon name"
+      )
     }
+  }
 
-    func testBadgeErrorLevelHasCorrectAccessibilityLabel() {
-        // Given
-        let level = BadgeLevel.error
+  // MARK: - Design System Token Usage Tests
 
-        // Then
-        XCTAssertEqual(
-            level.accessibilityLabel,
-            "Error",
-            "Error badge level should have 'Error' accessibility label"
-        )
-    }
+  func testBadgeUsesDesignSystemColors() {
+    // Given
+    let infoLevel = BadgeLevel.info
+    let warningLevel = BadgeLevel.warning
+    let errorLevel = BadgeLevel.error
+    let successLevel = BadgeLevel.success
 
-    func testBadgeSuccessLevelHasCorrectAccessibilityLabel() {
-        // Given
-        let level = BadgeLevel.success
+    // Then - Verify DS token usage
+    XCTAssertEqual(
+      infoLevel.backgroundColor,
+      DS.Colors.infoBG,
+      "Info badge should use DS.Colors.infoBG token"
+    )
+    XCTAssertEqual(
+      warningLevel.backgroundColor,
+      DS.Colors.warnBG,
+      "Warning badge should use DS.Colors.warnBG token"
+    )
+    XCTAssertEqual(
+      errorLevel.backgroundColor,
+      DS.Colors.errorBG,
+      "Error badge should use DS.Colors.errorBG token"
+    )
+    XCTAssertEqual(
+      successLevel.backgroundColor,
+      DS.Colors.successBG,
+      "Success badge should use DS.Colors.successBG token"
+    )
+  }
 
-        // Then
-        XCTAssertEqual(
-            level.accessibilityLabel,
-            "Success",
-            "Success badge level should have 'Success' accessibility label"
-        )
-    }
+  // MARK: - Touch Target Size Tests (iOS/iPadOS)
 
-    func testAllBadgeLevelsHaveAccessibilityLabels() {
-        // Given
-        let allLevels: [BadgeLevel] = [.info, .warning, .error, .success]
+  func testBadgeMinimumTouchTargetSize() {
+    // Given
+    // Badge with typical text content
+    // Assuming standard padding from DS.Spacing.m and DS.Spacing.s
 
-        // When & Then
-        for level in allLevels {
-            AccessibilityTestHelpers.assertValidAccessibilityLabel(
-                level.accessibilityLabel,
-                context: "Badge level '\(level)'"
-            )
-        }
-    }
+    // Note: In a real scenario, we would render the badge and measure its frame.
+    // For unit tests, we verify the spacing tokens are appropriately sized.
+    let horizontalPadding = DS.Spacing.m * 2  // Left + Right
+    let verticalPadding = DS.Spacing.s * 2  // Top + Bottom
 
-    // MARK: - Color Definition Tests
+    // Expected minimum content size (rough estimate)
+    let minimumTextWidth: CGFloat = 20.0  // Minimum for short text like "OK"
+    let minimumTextHeight: CGFloat = 16.0  // Caption font height
 
-    func testBadgeInfoLevelHasColors() {
-        // Given
-        let level = BadgeLevel.info
+    let estimatedWidth = horizontalPadding + minimumTextWidth
+    let estimatedHeight = verticalPadding + minimumTextHeight
 
-        // Then
-        XCTAssertNotNil(level.foregroundColor, "Info badge should have foreground color")
-        XCTAssertNotNil(level.backgroundColor, "Info badge should have background color")
-    }
+    // Then
+    // While badges may naturally be smaller than 44pt, we verify they have adequate padding
+    // Interactive badges (if clickable) should be wrapped in a larger touch target
+    XCTAssertGreaterThan(
+      horizontalPadding,
+      0,
+      "Badge should have horizontal padding for better touch target"
+    )
+    XCTAssertGreaterThan(
+      verticalPadding,
+      0,
+      "Badge should have vertical padding for better touch target"
+    )
 
-    func testBadgeWarningLevelHasColors() {
-        // Given
-        let level = BadgeLevel.warning
+    // Document that badges, being primarily informational, may not always meet 44pt independently
+    // but should be tested in context with interactive containers
+    print("Badge estimated size: \(estimatedWidth)×\(estimatedHeight) pt")
+    print(
+      "Note: Badges are primarily informational. When interactive, wrap in larger touch target.")
+  }
 
-        // Then
-        XCTAssertNotNil(level.foregroundColor, "Warning badge should have foreground color")
-        XCTAssertNotNil(level.backgroundColor, "Warning badge should have background color")
-    }
+  // MARK: - Platform Compatibility Tests
 
-    func testBadgeErrorLevelHasColors() {
-        // Given
-        let level = BadgeLevel.error
+  func testBadgeAccessibilityOnCurrentPlatform() {
+    // Given
+    let platform = AccessibilityTestHelpers.currentPlatform
+    let badge = Badge(text: "Test", level: .info)
 
-        // Then
-        XCTAssertNotNil(level.foregroundColor, "Error badge should have foreground color")
-        XCTAssertNotNil(level.backgroundColor, "Error badge should have background color")
-    }
+    // Then
+    XCTAssertNotNil(badge, "Badge should be creatable on \(platform)")
+    XCTAssertEqual(
+      badge.level.accessibilityLabel,
+      "Information",
+      "Badge accessibility should work on \(platform)"
+    )
+  }
 
-    func testBadgeSuccessLevelHasColors() {
-        // Given
-        let level = BadgeLevel.success
+  // MARK: - Badge Component Integration Tests
 
-        // Then
-        XCTAssertNotNil(level.foregroundColor, "Success badge should have foreground color")
-        XCTAssertNotNil(level.backgroundColor, "Success badge should have background color")
-    }
+  func testBadgeComponentPreservesAccessibilityLabel() {
+    // Given
+    let badge = Badge(text: "NEW", level: .info)
 
-    func testAllBadgeLevelsHaveColors() {
-        // Given
-        let allLevels: [BadgeLevel] = [.info, .warning, .error, .success]
+    // Then
+    // The badge component should preserve the accessibility label from BadgeLevel
+    XCTAssertEqual(
+      badge.level.accessibilityLabel,
+      "Information",
+      "Badge component should preserve accessibility label from level"
+    )
+  }
 
-        // When & Then
-        for level in allLevels {
-            XCTAssertNotNil(
-                level.foregroundColor,
-                "Badge level '\(level)' should have foreground color"
-            )
-            XCTAssertNotNil(
-                level.backgroundColor,
-                "Badge level '\(level)' should have background color"
-            )
-        }
+  func testBadgeComponentWithIconPreservesAccessibility() {
+    // Given
+    let badge = Badge(text: "Alert", level: .warning, showIcon: true)
 
-        // Note: Badges use opacity-based backgrounds (e.g., Color.green.opacity(0.20))
-        // combined with solid foregrounds (e.g., Color.green). This design creates
-        // low contrast when measured in isolation, but badges are intended to be
-        // placed ON TOP of cards or other backgrounds where the combined contrast
-        // ratio meets WCAG 2.1 AA standards (≥4.5:1).
-        //
-        // Testing contrast in isolation is not meaningful for this design pattern.
-        // Proper accessibility validation requires testing badges in their actual
-        // usage context (e.g., Badge placed on a Card with a white/dark background).
-    }
+    // Then
+    XCTAssertTrue(
+      badge.showIcon,
+      "Badge with icon should set showIcon property"
+    )
+    XCTAssertEqual(
+      badge.level.accessibilityLabel,
+      "Warning",
+      "Badge with icon should preserve accessibility label"
+    )
+    XCTAssertEqual(
+      badge.level.iconName,
+      "exclamationmark.triangle.fill",
+      "Badge with icon should have correct icon name"
+    )
+  }
 
-    // MARK: - Icon Accessibility Tests
+  // MARK: - Edge Case Tests
 
-    func testBadgeInfoLevelHasAppropriateIcon() {
-        // Given
-        let level = BadgeLevel.info
+  func testBadgeWithEmptyTextStillHasAccessibilityLabel() {
+    // Given
+    let badge = Badge(text: "", level: .error)
 
-        // Then
-        XCTAssertEqual(
-            level.iconName,
-            "info.circle.fill",
-            "Info badge should use info.circle.fill SF Symbol"
-        )
-    }
+    // Then
+    // Even with empty text, the badge level should provide accessibility context
+    AccessibilityTestHelpers.assertValidAccessibilityLabel(
+      badge.level.accessibilityLabel,
+      context: "Badge with empty text"
+    )
+  }
 
-    func testBadgeWarningLevelHasAppropriateIcon() {
-        // Given
-        let level = BadgeLevel.warning
+  func testBadgeWithLongTextMaintainsAccessibility() {
+    // Given
+    let longText = "This is a very long badge text that might wrap or truncate"
+    let badge = Badge(text: longText, level: .success)
 
-        // Then
-        XCTAssertEqual(
-            level.iconName,
-            "exclamationmark.triangle.fill",
-            "Warning badge should use exclamationmark.triangle.fill SF Symbol"
-        )
-    }
-
-    func testBadgeErrorLevelHasAppropriateIcon() {
-        // Given
-        let level = BadgeLevel.error
-
-        // Then
-        XCTAssertEqual(
-            level.iconName,
-            "xmark.circle.fill",
-            "Error badge should use xmark.circle.fill SF Symbol"
-        )
-    }
-
-    func testBadgeSuccessLevelHasAppropriateIcon() {
-        // Given
-        let level = BadgeLevel.success
-
-        // Then
-        XCTAssertEqual(
-            level.iconName,
-            "checkmark.circle.fill",
-            "Success badge should use checkmark.circle.fill SF Symbol"
-        )
-    }
-
-    func testAllBadgeLevelsHaveIcons() {
-        // Given
-        let allLevels: [BadgeLevel] = [.info, .warning, .error, .success]
-
-        // When & Then
-        for level in allLevels {
-            XCTAssertFalse(
-                level.iconName.isEmpty,
-                "Badge level '\(level)' should have an icon name"
-            )
-        }
-    }
-
-    // MARK: - Design System Token Usage Tests
-
-    func testBadgeUsesDesignSystemColors() {
-        // Given
-        let infoLevel = BadgeLevel.info
-        let warningLevel = BadgeLevel.warning
-        let errorLevel = BadgeLevel.error
-        let successLevel = BadgeLevel.success
-
-        // Then - Verify DS token usage
-        XCTAssertEqual(
-            infoLevel.backgroundColor,
-            DS.Colors.infoBG,
-            "Info badge should use DS.Colors.infoBG token"
-        )
-        XCTAssertEqual(
-            warningLevel.backgroundColor,
-            DS.Colors.warnBG,
-            "Warning badge should use DS.Colors.warnBG token"
-        )
-        XCTAssertEqual(
-            errorLevel.backgroundColor,
-            DS.Colors.errorBG,
-            "Error badge should use DS.Colors.errorBG token"
-        )
-        XCTAssertEqual(
-            successLevel.backgroundColor,
-            DS.Colors.successBG,
-            "Success badge should use DS.Colors.successBG token"
-        )
-    }
-
-    // MARK: - Touch Target Size Tests (iOS/iPadOS)
-
-    func testBadgeMinimumTouchTargetSize() {
-        // Given
-        // Badge with typical text content
-        // Assuming standard padding from DS.Spacing.m and DS.Spacing.s
-
-        // Note: In a real scenario, we would render the badge and measure its frame.
-        // For unit tests, we verify the spacing tokens are appropriately sized.
-        let horizontalPadding = DS.Spacing.m * 2  // Left + Right
-        let verticalPadding = DS.Spacing.s * 2    // Top + Bottom
-
-        // Expected minimum content size (rough estimate)
-        let minimumTextWidth: CGFloat = 20.0  // Minimum for short text like "OK"
-        let minimumTextHeight: CGFloat = 16.0 // Caption font height
-
-        let estimatedWidth = horizontalPadding + minimumTextWidth
-        let estimatedHeight = verticalPadding + minimumTextHeight
-
-        // Then
-        // While badges may naturally be smaller than 44pt, we verify they have adequate padding
-        // Interactive badges (if clickable) should be wrapped in a larger touch target
-        XCTAssertGreaterThan(
-            horizontalPadding,
-            0,
-            "Badge should have horizontal padding for better touch target"
-        )
-        XCTAssertGreaterThan(
-            verticalPadding,
-            0,
-            "Badge should have vertical padding for better touch target"
-        )
-
-        // Document that badges, being primarily informational, may not always meet 44pt independently
-        // but should be tested in context with interactive containers
-        print("Badge estimated size: \(estimatedWidth)×\(estimatedHeight) pt")
-        print("Note: Badges are primarily informational. When interactive, wrap in larger touch target.")
-    }
-
-    // MARK: - Platform Compatibility Tests
-
-    func testBadgeAccessibilityOnCurrentPlatform() {
-        // Given
-        let platform = AccessibilityTestHelpers.currentPlatform
-        let badge = Badge(text: "Test", level: .info)
-
-        // Then
-        XCTAssertNotNil(badge, "Badge should be creatable on \(platform)")
-        XCTAssertEqual(
-            badge.level.accessibilityLabel,
-            "Information",
-            "Badge accessibility should work on \(platform)"
-        )
-    }
-
-    // MARK: - Badge Component Integration Tests
-
-    func testBadgeComponentPreservesAccessibilityLabel() {
-        // Given
-        let badge = Badge(text: "NEW", level: .info)
-
-        // Then
-        // The badge component should preserve the accessibility label from BadgeLevel
-        XCTAssertEqual(
-            badge.level.accessibilityLabel,
-            "Information",
-            "Badge component should preserve accessibility label from level"
-        )
-    }
-
-    func testBadgeComponentWithIconPreservesAccessibility() {
-        // Given
-        let badge = Badge(text: "Alert", level: .warning, showIcon: true)
-
-        // Then
-        XCTAssertTrue(
-            badge.showIcon,
-            "Badge with icon should set showIcon property"
-        )
-        XCTAssertEqual(
-            badge.level.accessibilityLabel,
-            "Warning",
-            "Badge with icon should preserve accessibility label"
-        )
-        XCTAssertEqual(
-            badge.level.iconName,
-            "exclamationmark.triangle.fill",
-            "Badge with icon should have correct icon name"
-        )
-    }
-
-    // MARK: - Edge Case Tests
-
-    func testBadgeWithEmptyTextStillHasAccessibilityLabel() {
-        // Given
-        let badge = Badge(text: "", level: .error)
-
-        // Then
-        // Even with empty text, the badge level should provide accessibility context
-        AccessibilityTestHelpers.assertValidAccessibilityLabel(
-            badge.level.accessibilityLabel,
-            context: "Badge with empty text"
-        )
-    }
-
-    func testBadgeWithLongTextMaintainsAccessibility() {
-        // Given
-        let longText = "This is a very long badge text that might wrap or truncate"
-        let badge = Badge(text: longText, level: .success)
-
-        // Then
-        // Long text should not affect accessibility label from level
-        XCTAssertEqual(
-            badge.level.accessibilityLabel,
-            "Success",
-            "Badge with long text should maintain accessibility label"
-        )
-    }
+    // Then
+    // Long text should not affect accessibility label from level
+    XCTAssertEqual(
+      badge.level.accessibilityLabel,
+      "Success",
+      "Badge with long text should maintain accessibility label"
+    )
+  }
 }

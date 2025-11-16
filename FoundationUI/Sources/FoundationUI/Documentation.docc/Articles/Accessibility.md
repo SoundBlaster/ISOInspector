@@ -251,11 +251,11 @@ var body: some View {
 ```
 
 Features:
-- `reduceMotion`: Disable animations if requested
-- `increaseContrast`: Use high-contrast colors
-- `boldText`: Use bold font weights (iOS)
-- `sizeCategory`: Current Dynamic Type size
-- `isAccessibilitySize`: True for extra-large text sizes
+- `reduceMotion`
+- `increaseContrast`
+- `boldText`
+- `sizeCategory`
+- `isAccessibilitySize`
 
 ## Platform-Specific Accessibility
 
@@ -485,10 +485,10 @@ Circle()
 
 ## Further Reading
 
-- <doc:DesignTokens> — WCAG-compliant color tokens
-- <doc:Components> — Accessible component APIs
-- ``AccessibilityHelpers`` — Accessibility testing utilities
-- ``AccessibilityContext`` — User preference adaptation
+- <doc:DesignTokens>
+- <doc:Components>
+- ``AccessibilityHelpers``
+- ``AccessibilityContext``
 
 ## See Also
 
