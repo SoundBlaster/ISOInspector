@@ -22,6 +22,13 @@ Restore SwiftLint's complexity-related rules (cyclomatic complexity, function/ty
 
 **Gap Identified:** The CI workflow (`.github/workflows/swiftlint.yml`) only checked FoundationUI and ComponentTestApp, but NOT the main project code (Sources/, Tests/)
 
+**Existing Violations Discovered:** Analysis revealed several large files exceeding thresholds:
+- `JSONParseTreeExporter.swift` - 2127 lines (exceeds 1500 error threshold)
+- `BoxValidator.swift` - 1738 lines (exceeds 1500 error threshold)
+- `DocumentSessionController.swift` - 1634 lines (exceeds 1500 error threshold)
+
+**Decision:** Main project check runs in **INFORMATIONAL mode** (not blocking) while these violations are being addressed. FoundationUI and ComponentTestApp remain strictly enforced.
+
 ### 2. CI Workflow Enhancements
 
 **File Modified:** `.github/workflows/swiftlint.yml`
@@ -29,10 +36,10 @@ Restore SwiftLint's complexity-related rules (cyclomatic complexity, function/ty
 **Changes:**
 1. **Expanded Trigger Paths** - Added Sources/ and Tests/ paths to workflow triggers
 2. **New Main Project Check** - Added comprehensive SwiftLint check for Sources/ and Tests/
-   - Runs `swiftlint lint --strict --config .swiftlint.yml`
+   - Runs `swiftlint lint --config .swiftlint.yml` (informational mode)
    - Uses JSON reporter for structured output
    - Displays violations, errors, and warnings
-   - Fails on any errors found
+   - **Does NOT block** merges (existing violations being tracked for cleanup)
 3. **Artifact Publishing** - Added upload of SwiftLint reports for all three components:
    - `swiftlint-main-report` - Main project (Sources/, Tests/)
    - `swiftlint-foundationui-report` - FoundationUI module
@@ -43,7 +50,10 @@ Restore SwiftLint's complexity-related rules (cyclomatic complexity, function/ty
    - Total violations across all components
    - Links to downloadable artifacts
    - Instructions for local fixing
-5. **Updated Quality Gate** - Enhanced final quality gate to check all three components
+5. **Updated Quality Gate** - Enhanced final quality gate:
+   - **Blocking:** FoundationUI and ComponentTestApp (strict enforcement)
+   - **Informational:** Main project (violations tracked but not blocking)
+   - Lists known large files requiring future refactoring
 
 ### 3. Documentation Improvements
 
@@ -81,6 +91,21 @@ Restore SwiftLint's complexity-related rules (cyclomatic complexity, function/ty
 **CI Testing:** The workflow will be validated when pushed to GitHub Actions
 
 **Pre-Push Hook:** Already configured and working (verified in `.githooks/pre-push:30`)
+
+## Known Issues & Mitigation
+
+**Problem:** Several large files exceed type_body_length error threshold (1500 lines):
+- JSONParseTreeExporter.swift: 2127 lines
+- BoxValidator.swift: 1738 lines
+- DocumentSessionController.swift: 1634 lines
+
+**Mitigation Strategy:**
+- Main project check runs in **informational mode** (does not block CI)
+- Violations are tracked via artifacts and PR comments
+- FoundationUI and ComponentTestApp remain strictly enforced (no pre-existing violations)
+- Large files are flagged for future refactoring tasks
+
+**Future Work:** Create follow-up tasks to refactor large files and enable strict mode for main project
 
 ## Implementation Details
 
