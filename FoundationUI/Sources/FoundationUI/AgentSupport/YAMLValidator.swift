@@ -374,7 +374,7 @@ public struct YAMLValidator {
         static func schema(for componentType: String) -> ComponentSchema {
             switch componentType {
             case "Badge":
-                ComponentSchema(
+                return ComponentSchema(
                     componentType: "Badge",
                     requiredProperties: ["text", "level"],
                     optionalProperties: ["showIcon": "Bool"],
@@ -383,7 +383,7 @@ public struct YAMLValidator {
                 )
 
             case "Card":
-                ComponentSchema(
+                return ComponentSchema(
                     componentType: "Card",
                     requiredProperties: [],
                     optionalProperties: [
@@ -399,7 +399,7 @@ public struct YAMLValidator {
                 )
 
             case "KeyValueRow":
-                ComponentSchema(
+                return ComponentSchema(
                     componentType: "KeyValueRow",
                     requiredProperties: ["key", "value"],
                     optionalProperties: [
@@ -411,7 +411,7 @@ public struct YAMLValidator {
                 )
 
             case "SectionHeader":
-                ComponentSchema(
+                return ComponentSchema(
                     componentType: "SectionHeader",
                     requiredProperties: ["title"],
                     optionalProperties: ["showDivider": "Bool"],
@@ -420,7 +420,7 @@ public struct YAMLValidator {
                 )
 
             case "InspectorPattern":
-                ComponentSchema(
+                return ComponentSchema(
                     componentType: "InspectorPattern",
                     requiredProperties: ["title"],
                     optionalProperties: ["material": "String"],
@@ -429,7 +429,7 @@ public struct YAMLValidator {
                 )
 
             case "SidebarPattern":
-                ComponentSchema(
+                return ComponentSchema(
                     componentType: "SidebarPattern",
                     requiredProperties: ["sections"],
                     optionalProperties: ["selection": "String"],
@@ -438,7 +438,7 @@ public struct YAMLValidator {
                 )
 
             case "ToolbarPattern":
-                ComponentSchema(
+                return ComponentSchema(
                     componentType: "ToolbarPattern",
                     requiredProperties: ["items"],
                     optionalProperties: [:],
@@ -447,7 +447,7 @@ public struct YAMLValidator {
                 )
 
             case "BoxTreePattern":
-                ComponentSchema(
+                return ComponentSchema(
                     componentType: "BoxTreePattern",
                     requiredProperties: ["nodeCount"],
                     optionalProperties: ["level": "Int"],
@@ -456,7 +456,7 @@ public struct YAMLValidator {
                 )
 
             default:
-                ComponentSchema(
+                return ComponentSchema(
                     componentType: componentType,
                     requiredProperties: [],
                     optionalProperties: [:],

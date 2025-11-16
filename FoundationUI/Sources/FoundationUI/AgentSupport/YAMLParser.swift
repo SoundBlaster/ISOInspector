@@ -122,17 +122,17 @@ public struct YAMLParser {
         public var errorDescription: String? {
             switch self {
             case let .invalidYAML(details):
-                "Invalid YAML syntax: \(details)"
+                return "Invalid YAML syntax: \(details)"
             case let .missingComponentType(line):
                 if let line {
-                    "Missing required 'componentType' field at line \(line)"
+                    return "Missing required 'componentType' field at line \(line)"
                 } else {
-                    "Missing required 'componentType' field"
+                    return "Missing required 'componentType' field"
                 }
             case let .invalidStructure(details):
-                "Invalid YAML structure: \(details). Expected array of component definitions or single component."
+                return "Invalid YAML structure: \(details). Expected array of component definitions or single component."
             case let .fileReadError(url, error):
-                "Failed to read file at \(url.path): \(error.localizedDescription)"
+                return "Failed to read file at \(url.path): \(error.localizedDescription)"
             }
         }
     }
