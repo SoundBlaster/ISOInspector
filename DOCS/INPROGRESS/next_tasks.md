@@ -69,6 +69,13 @@
 - **Description:** Implement `.github/workflows/swift-duplication.yml` using `jscpd` to block copy/paste regressions.
 - **Reference:** `DOCS/AI/github-workflows/02_swift_duplication_guard/prd.md`
 
+#### **A11 — Fix Shellcheck Style Warnings in GitHub Actions Workflows**
+- **Priority:** Low-Medium
+- **Effort:** 0.5-1 day
+- **Dependencies:** Workflow validation PR merge (claude/fix-workflow-yaml-syntax-01Wh36PMoxo8BMrTubpDMpKT)
+- **Description:** Address shellcheck style warnings (SC2181, SC2129, etc.) discovered by actionlint in existing workflows. Re-enable full shellcheck validation by removing `-shellcheck=""` suppression flag.
+- **Reference:** `DOCS/AI/github-workflows/03_shellcheck_warnings/prd.md`
+
 ---
 
 ### Feature Development Track
