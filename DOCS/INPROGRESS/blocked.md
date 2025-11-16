@@ -2,6 +2,16 @@
 
 The following efforts cannot proceed until their upstream dependencies are resolved. Update this log whenever blockers change to maintain day-to-day visibility.
 
+## Design System Consistency: Manual Color Usage vs FoundationUI
+
+- **Issue:** ISOInspectorApp continues to use hardcoded `.accentColor` and manual opacity values in 6 view files instead of FoundationUI design tokens.
+- **Status:** Documented in `BUG_Manual_Color_Usage_vs_FoundationUI.md`
+- **Blocking FoundationUI completion:** Phase 5.2 cannot be finalized until manual color usage is migrated to FoundationUI's centralized design system.
+- **Next step once unblocked:** Audit FoundationUI design tokens, map current opacity values to semantic tokens, and update all views to use `DS.*` tokens exclusively.
+- **Priority:** Medium (design consistency issue)
+- **Affected files:** ParseTreeOutlineView.swift, ParseTreeDetailView.swift, ValidationSettingsView.swift, IntegritySummaryView.swift, ISOInspectorAppTheme.swift
+- **Related fix:** See `Summary_Color_Theme_Resolution.md` for the recent color resolution bug fix
+
 ## Real-World Assets Acquisition
 
 - **Blocking issue:** Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures are still pending.

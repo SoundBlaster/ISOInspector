@@ -16,11 +16,21 @@
     static let palette = ISOInspectorBrandPalette.production
 
     static func accentColor(for scheme: ColorScheme) -> Color {
-      Color("AccentColor", bundle: .module)
+      let brandColor = scheme == .light ? palette.lightModeAccent : palette.darkModeAccent
+      return Color(
+        red: brandColor.red,
+        green: brandColor.green,
+        blue: brandColor.blue
+      )
     }
 
     static func surfaceBackground(for scheme: ColorScheme) -> Color {
-      Color("SurfaceBackground", bundle: .module)
+      let brandColor = scheme == .light ? palette.lightBackground : palette.darkBackground
+      return Color(
+        red: brandColor.red,
+        green: brandColor.green,
+        blue: brandColor.blue
+      )
     }
 
   }
