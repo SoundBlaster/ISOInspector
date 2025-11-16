@@ -3,7 +3,7 @@
 ## CI/CD & Quality Gates
 
 - [ ] Wire `swift format --in-place` into `.pre-commit-config.yaml` and add a `swift format --mode lint` gate to `.github/workflows/ci.yml` so formatting failures block pushes and pull requests. (Config: `.pre-commit-config.yaml`, `.github/workflows/ci.yml`)
-- [ ] Restore SwiftLint complexity thresholds in `.swiftlint.yml` and surface analyzer artifacts from `.github/workflows/swiftlint.yml` when violations occur. (Config: `.swiftlint.yml`, `.github/workflows/swiftlint.yml`)
+- [x] Restore SwiftLint complexity thresholds in `.swiftlint.yml` and surface analyzer artifacts from `.github/workflows/swiftlint.yml` when violations occur. (Config: `.swiftlint.yml`, `.github/workflows/swiftlint.yml`) _(Completed 2025-11-16 — Task A7, see `DOCS/INPROGRESS/Summary_of_Work.md`)_
 - [ ] Promote `coverage_analysis.py` to a shared quality gate by wiring it into `.githooks/pre-push` and `.github/workflows/ci.yml` after `swift test --enable-code-coverage`. (Scripts: `.githooks/pre-push`, `coverage_analysis.py`, `.github/workflows/ci.yml`)
 - [ ] Add DocC + `missing_docs` enforcement to the lint pipeline so public APIs fail CI without documentation coverage, and capture the suppression playbook in `Documentation/ISOInspector.docc/Guides/DocumentationStyle.md`. (Config: `.swiftlint.yml`, `.github/workflows/documentation.yml`)
 - [x] Extend `.githooks/pre-push` and `.github/workflows/ci.yml` with `swift build --strict-concurrency=complete`/`swift test --strict-concurrency=complete` runs, publishing logs referenced from `DOCS/AI/PRD_SwiftStrictConcurrency_Store.md`. (Scripts: `.githooks/pre-push`, `.github/workflows/ci.yml`) _(Completed 2025-11-15 — Task A9, archived at `DOCS/TASK_ARCHIVE/225_A9_Swift6_Concurrency_Cleanup/`)_
