@@ -5,12 +5,12 @@ The following efforts cannot proceed until their upstream dependencies are resol
 ## Design System Consistency: Manual Color Usage vs FoundationUI
 
 - **Issue:** ISOInspectorApp continues to use hardcoded `.accentColor` and manual opacity values in 6 view files instead of FoundationUI design tokens.
-- **Status:** Archived as BUG #001 in `DOCS/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/`
+- **Status:** Documented in `BUG_Manual_Color_Usage_vs_FoundationUI.md`
 - **Blocking FoundationUI completion:** Phase 5.2 cannot be finalized until manual color usage is migrated to FoundationUI's centralized design system.
 - **Next step once unblocked:** Audit FoundationUI design tokens, map current opacity values to semantic tokens, and update all views to use `DS.*` tokens exclusively.
 - **Priority:** Medium (design consistency issue)
 - **Affected files:** ParseTreeOutlineView.swift, ParseTreeDetailView.swift, ValidationSettingsView.swift, IntegritySummaryView.swift, ISOInspectorAppTheme.swift
-- **Related documentation:** See `DOCS/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/` for full analysis and reproduction steps
+- **Related fix:** See `Summary_Color_Theme_Resolution.md` for the recent color resolution bug fix
 
 ## Real-World Assets Acquisition
 
@@ -58,7 +58,7 @@ The following efforts cannot proceed until their upstream dependencies are resol
 
 ### Cross-Platform Testing (**MANUAL** ⚠️)
 
-- **Blocking issue:** Requires testing on actual devices and simulators across iOS/macOS/iPadAS
+- **Blocking issue:** Requires testing on actual devices and simulators across iOS/macOS/iPadOS
 - **Required manual steps:**
   1. iOS 17+ devices: iPhone SE, iPhone 15, iPhone 15 Pro Max
   2. macOS 14+ devices: Multiple window sizes, trackpad interaction
