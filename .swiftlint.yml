@@ -14,6 +14,8 @@ disabled_rules:
   - unneeded_synthesized_initializer
   - multiple_closures_with_trailing_closure
   - trailing_comma
+  - opening_brace
+  - closure_parameter_position
 
 excluded:
   - .build

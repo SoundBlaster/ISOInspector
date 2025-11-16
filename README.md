@@ -101,9 +101,23 @@ Run all hooks manually:
 pre-commit run --all-files
 ```
 
+### Configuration
+
+Swift formatting is configured via `.swift-format.json` at the repository root. The configuration sets `respectsExistingLineBreaks: false` to ensure consistent brace positioning across the codebase.
+
 ### CI Enforcement
 
 The GitHub Actions workflow includes a `swift-format-check` job that runs `swift format lint` on all Swift files. If unformatted code is detected, the workflow fails with instructions to run the formatter locally.
+
+### SwiftLint Compatibility
+
+The repository uses both **SwiftFormat** (for automatic code formatting) and **SwiftLint** (for linting and style enforcement). To avoid conflicts, the following SwiftLint rules are disabled in `.swiftlint.yml`:
+
+- `opening_brace` — SwiftFormat handles brace positioning
+- `closure_parameter_position` — SwiftFormat controls closure parameter layout
+- `trailing_comma` — SwiftFormat manages trailing commas in multiline collections
+
+This configuration allows both tools to work together harmoniously without creating conflicting formatting requirements.
 
 ## Documentation
 
