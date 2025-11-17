@@ -12,6 +12,12 @@ The `scripts/archive_completed_tasks.py` script provides intelligent, automated 
 # Preview changes before executing (ALWAYS do this first!)
 python3 scripts/archive_completed_tasks.py --dry-run
 
+# Update Status for NEW/UNCLASSIFIED files interactively
+python3 scripts/archive_completed_tasks.py --interactive --dry-run
+
+# Get JSON output for automation/monitoring
+python3 scripts/archive_completed_tasks.py --dry-run --format json
+
 # Execute archival if dry-run output looks correct
 python3 scripts/archive_completed_tasks.py
 
@@ -32,11 +38,66 @@ python3 scripts/archive_completed_tasks.py --dry-run
 
 **Output includes:**
 - Classification of all files (RESOLVED, IN PROGRESS, BLOCKED, NEW)
+- **Validation warnings** for missing Status fields, malformed markdown, etc.
 - Preview of archive folder that would be created
 - Count of files in each category
 - Which files would be archived vs. remaining
 
 **Always run with `--dry-run` first** to verify intended behavior.
+
+### `--interactive` / `-i` (New Feature)
+
+Interactively update Status field for NEW/UNCLASSIFIED files.
+
+```bash
+python3 scripts/archive_completed_tasks.py --interactive --dry-run
+```
+
+**How it works:**
+1. Script identifies all files missing Status field
+2. For each file, displays objective/description and prompts:
+   - `1) IN PROGRESS` - Mark as actively being worked on
+   - `2) BLOCKED` - Mark as blocked/waiting
+   - `3) RESOLVED` - Mark as completed
+   - `s) Skip` - Leave this file unchanged
+   - `q) Quit` - Exit interactive mode
+3. Automatically updates the markdown file with chosen Status
+4. Continues with archival workflow
+
+**Use when:**
+- Multiple new bug reports created without Status fields
+- Validation warnings show many "Missing Status field" issues
+- Want to bulk-update task statuses quickly
+
+### `--format` / `-f` (New Feature)
+
+Output format for reports: `text` (default), `json`, or `csv`.
+
+```bash
+# JSON format for automation/monitoring
+python3 scripts/archive_completed_tasks.py --dry-run --format json
+
+# CSV format for spreadsheet analysis
+python3 scripts/archive_completed_tasks.py --dry-run --format csv > report.csv
+```
+
+**Text format** (default):
+- Human-readable with emoji indicators
+- Validation warnings section
+- Interactive tips and suggestions
+- Git commit command
+
+**JSON format**:
+- Machine-readable structured data
+- Includes: timestamp, archive_folder, summary stats, file lists, warnings
+- Perfect for CI/monitoring/automation pipelines
+- Can be parsed with `jq` or other JSON tools
+
+**CSV format**:
+- Spreadsheet-compatible output
+- Columns: File, Status, Category, Objective
+- Import into Excel, Google Sheets, etc.
+- Good for reporting and analysis
 
 ### `--repo-root PATH` (Optional)
 
@@ -76,7 +137,26 @@ Files are categorized into four groups:
 | **BLOCKED** | `BLOCKED` | Stays in INPROGRESS |
 | **NEW** | No Status field, or unrecognized status | Stays in INPROGRESS |
 
-### 3. Archive Folder Creation
+### 3. Validation Warnings (New Feature)
+
+Script validates each markdown file and reports issues:
+
+**Detected issues:**
+- Missing Status field
+- Empty or very short files (<50 characters)
+- Missing objective/description
+- Missing markdown heading
+
+**Example warning output:**
+```
+⚠️  Validation Warnings (8):
+   ⚠️  234_Remove_Recent_File_From_Sidebar.md: Missing Status field
+   ⚠️  235_System_Notification_For_Export.md: Missing Status field
+```
+
+Use `--interactive` mode to quickly fix "Missing Status field" warnings.
+
+### 4. Archive Folder Creation
 
 Script automatically:
 - Calculates next sequential folder number (e.g., 231, 232, 233)
