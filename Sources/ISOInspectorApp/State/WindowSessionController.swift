@@ -135,9 +135,10 @@
     }
 
     /// Open a recent document in this window
+    /// Routes through the standard document loading path to ensure the parseTreeStore
+    /// and DocumentViewModel are properly populated for this window.
     func openRecent(_ recent: DocumentRecent) {
-      appSessionController.openRecent(recent)
-      currentDocument = recent
+      openDocument(at: recent.url)
     }
 
     // MARK: - Export Operations
