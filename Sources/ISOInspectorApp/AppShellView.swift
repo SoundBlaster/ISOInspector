@@ -8,16 +8,19 @@
     static let corruptionRibbonDismissedDefaultsKey = "corruption-warning-ribbon-dismissed"
 
     @Environment(\.scenePhase) private var scenePhase
-    @ObservedObject var controller: DocumentSessionController
+    @StateObject private var windowController: WindowSessionController
+    @ObservedObject var appController: DocumentSessionController
     @ObservedObject private var documentViewModel: DocumentViewModel
     @State private var isImporterPresented = false
     @State private var importError: ImportError?
     @AppStorage(Self.corruptionRibbonDismissedDefaultsKey) private
       var isCorruptionRibbonDismissed = false
 
-    init(controller: DocumentSessionController) {
-      self._controller = ObservedObject(wrappedValue: controller)
-      self._documentViewModel = ObservedObject(wrappedValue: controller.documentViewModel)
+    init(appController: DocumentSessionController) {
+      self.appController = appController
+      let windowController = WindowSessionController(appSessionController: appController)
+      self._windowController = StateObject(wrappedValue: windowController)
+      self._documentViewModel = ObservedObject(wrappedValue: windowController.documentViewModel)
     }
 
     var body: some View {
@@ -38,19 +41,19 @@
         VStack(spacing: DS.Spacing.m) {
           if shouldShowCorruptionRibbon {
             CorruptionWarningRibbon(
-              metrics: controller.issueMetrics,
-              onTap: controller.focusIntegrityDiagnostics,
+              metrics: windowController.issueMetrics,
+              onTap: windowController.focusIntegrityDiagnostics,
               onDismiss: dismissCorruptionRibbon
             )
             .padding(.horizontal)
             .transition(.move(edge: .top).combined(with: .opacity))
           }
 
-          if let failure = controller.loadFailure {
+          if let failure = windowController.loadFailure {
             DocumentLoadFailureBanner(
               failure: failure,
-              retryAction: controller.retryLastFailure,
-              dismissAction: controller.dismissLoadFailure,
+              retryAction: windowController.retryLastFailure,
+              dismissAction: windowController.dismissLoadFailure,
               openFileAction: { isImporterPresented = true }
             )
             .padding(.horizontal)
@@ -60,14 +63,14 @@
         .padding(.top)
       }
       .animation(
-        .spring(response: 0.4, dampingFraction: 0.85), value: controller.loadFailure?.id
+        .spring(response: 0.4, dampingFraction: 0.85), value: windowController.loadFailure?.id
       )
       .animation(
         .spring(response: 0.4, dampingFraction: 0.85), value: shouldShowCorruptionRibbon
       )
       .fileImporter(
         isPresented: $isImporterPresented,
-        allowedContentTypes: controller.allowedContentTypes,
+        allowedContentTypes: appController.allowedContentTypes,
         allowsMultipleSelection: false,
         onCompletion: handleImportResult
       )
@@ -82,13 +85,13 @@
         Alert(
           title: Text(status.title),
           message: Text(status.message),
-          dismissButton: .default(Text("OK"), action: controller.dismissExportStatus)
+          dismissButton: .default(Text("OK"), action: windowController.dismissExportStatus)
         )
       }
       .onOpenURL { url in
-        controller.openDocument(at: url)
+        windowController.openDocument(at: url)
       }
-      .onChangeCompat(of: controller.issueMetrics.totalCount) { newValue in
+      .onChangeCompat(of: windowController.issueMetrics.totalCount) { newValue in
         if newValue == 0 {
           isCorruptionRibbonDismissed = false
         }
@@ -97,12 +100,12 @@
         ToolbarItemGroup(placement: .primaryAction) {
           Menu {
             Button("Export JSON…") {
-              Task { await controller.exportJSON(scope: .document) }
+              Task { await windowController.exportJSON(scope: .document) }
             }
             .disabled(!documentViewModel.exportAvailability.canExportDocument)
 
             Button("Export Issue Summary…") {
-              Task { await controller.exportIssueSummary(scope: .document) }
+              Task { await windowController.exportIssueSummary(scope: .document) }
             }
             .disabled(!documentViewModel.exportAvailability.canExportDocument)
 
@@ -110,13 +113,13 @@
 
             Button("Export Selected JSON…") {
               guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
-              Task { await controller.exportJSON(scope: .selection(nodeID)) }
+              Task { await windowController.exportJSON(scope: .selection(nodeID)) }
             }
             .disabled(!documentViewModel.exportAvailability.canExportSelection)
 
             Button("Export Selected Issue Summary…") {
               guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
-              Task { await controller.exportIssueSummary(scope: .selection(nodeID)) }
+              Task { await windowController.exportIssueSummary(scope: .selection(nodeID)) }
             }
             .disabled(!documentViewModel.exportAvailability.canExportSelection)
           } label: {
@@ -132,7 +135,7 @@
 
     private func handleScenePhaseChange(_ phase: ScenePhase) {
       if phase == .background || phase == .inactive {
-        controller.parseTreeStore.shutdown()
+        windowController.parseTreeStore.shutdown()
       }
     }
 
@@ -156,19 +159,19 @@
 
         List {
           Section("Recents") {
-            if controller.recents.isEmpty {
+            if appController.recents.isEmpty {
               Text("Choose a file to start building your recents list.")
                 .foregroundColor(.secondary)
             } else {
-              ForEach(controller.recents) { recent in
+              ForEach(appController.recents) { recent in
                 Button {
-                  controller.openRecent(recent)
+                  windowController.openRecent(recent)
                 } label: {
                   RecentRow(recent: recent)
                 }
                 .buttonStyle(.plain)
               }
-              .onDelete(perform: controller.removeRecent)
+              .onDelete(perform: appController.removeRecent)
             }
           }
         }
@@ -182,7 +185,7 @@
 
     private var detail: some View {
       Group {
-        if controller.currentDocument != nil {
+        if windowController.currentDocument != nil {
           ParseTreeExplorerView(
             viewModel: documentViewModel,
             exportSelectionJSONAction: exportSelectionJSONHandler,
@@ -201,7 +204,7 @@
       switch result {
       case .success(let urls):
         guard let url = urls.first else { return }
-        controller.openDocument(at: url)
+        windowController.openDocument(at: url)
       case .failure(let error):
         importError = ImportError(
           title: "Failed to open file", message: error.localizedDescription)
@@ -221,10 +224,10 @@
 
     private var exportStatusBinding: Binding<DocumentSessionController.ExportStatus?> {
       Binding(
-        get: { controller.exportStatus },
+        get: { windowController.exportStatus },
         set: { newValue in
           if newValue == nil {
-            controller.dismissExportStatus()
+            windowController.dismissExportStatus()
           }
         }
       )
@@ -232,30 +235,30 @@
 
     private var exportSelectionJSONHandler: (ParseTreeNode.ID) -> Void {
       { nodeID in
-        Task { await controller.exportJSON(scope: .selection(nodeID)) }
+        Task { await windowController.exportJSON(scope: .selection(nodeID)) }
       }
     }
 
     private var exportSelectionIssueSummaryHandler: (ParseTreeNode.ID) -> Void {
       { nodeID in
-        Task { await controller.exportIssueSummary(scope: .selection(nodeID)) }
+        Task { await windowController.exportIssueSummary(scope: .selection(nodeID)) }
       }
     }
 
     private var exportDocumentJSONHandler: () -> Void {
       {
-        Task { await controller.exportJSON(scope: .document) }
+        Task { await windowController.exportJSON(scope: .document) }
       }
     }
 
     private var exportDocumentIssueSummaryHandler: () -> Void {
       {
-        Task { await controller.exportIssueSummary(scope: .document) }
+        Task { await windowController.exportIssueSummary(scope: .document) }
       }
     }
 
     private var shouldShowCorruptionRibbon: Bool {
-      controller.issueMetrics.totalCount > 0 && !isCorruptionRibbonDismissed
+      windowController.issueMetrics.totalCount > 0 && !isCorruptionRibbonDismissed
     }
 
     private func dismissCorruptionRibbon() {
