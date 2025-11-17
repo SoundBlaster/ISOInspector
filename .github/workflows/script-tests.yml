@@ -35,13 +35,6 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
-          cache: "pip"
-
-      - name: Run script tests
-        run: |
-          cd scripts/tests
-          python -m pytest test_*.py -v --tb=short
-        continue-on-error: true
 
       - name: Run unittest discovery
         run: |
