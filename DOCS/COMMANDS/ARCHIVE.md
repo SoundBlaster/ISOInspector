@@ -74,10 +74,10 @@ git add DOCS/INPROGRESS/ DOCS/TASK_ARCHIVE/ && git commit -m "Archive completed 
 📋 Scanning 10 markdown files...
    Next archive folder number: 231
 
-  ✅ RESOLVED: 233_SwiftUI_Publishing_Changes_Warning_Fix.md
-  ⏳ IN PROGRESS: 231_MacOS_iPadOS_MultiWindow_SharedState_Bug.md
-  ⏳ IN PROGRESS: 232_UI_Content_Not_Displayed_After_File_Selection.md
-  🆕 NEW/UNCLASSIFIED: 234_Remove_Recent_File_From_Sidebar.md
+  ✅ RESOLVED: 123_Example_Bug_Fix.md
+  ⏳ IN PROGRESS: 124_Feature_Implementation.md
+  ⏳ IN PROGRESS: 125_Performance_Optimization.md
+  🆕 NEW/UNCLASSIFIED: 126_New_Bug_Report.md
   ...
 ```
 
@@ -148,34 +148,24 @@ ARCHIVAL REPORT
 📊 Summary:
    Resolved & Archived: 1 files
    Remaining In Progress: 2 files
-   New/Unclassified: 8 files
+   New/Unclassified: 3 files
 
 📂 Archive Folder:
-   /home/user/ISOInspector/DOCS/TASK_ARCHIVE/231_SwiftUI_Publishing_Changes_Warning_Fix
+   /path/to/repo/DOCS/TASK_ARCHIVE/231_Example_Bug_Fix
 
-⚠️  Validation Warnings (8):
-   ⚠️  234_Remove_Recent_File_From_Sidebar.md: Missing Status field
-   ⚠️  235_System_Notification_For_Export.md: Missing Status field
-   ⚠️  236_Box_Details_Default_Card_Selection.md: Missing Status field
-   ⚠️  237_Integrity_Report_Banner_Action.md: Missing Status field
-   ⚠️  238_VIR_Issue_Box_Tree_Scroll.md: Missing Status field
-   ⚠️  239_Missing_Box_Hex_Preview.md: Missing Status field
-   ⚠️  240_TKHD_Flags_Mismatch.md: Missing Status field
-   ⚠️  241_Box_Details_Mono_Font.md: Missing Status field
+⚠️  Validation Warnings (3):
+   ⚠️  124_New_Feature_Request.md: Missing Status field
+   ⚠️  125_Another_Bug_Report.md: Missing Status field
+   ⚠️  126_Documentation_Update.md: Missing Status field
 
 ⏳ Files remaining in DOCS/INPROGRESS (2):
-   • 231_MacOS_iPadOS_MultiWindow_SharedState_Bug.md (IN PROGRESS)
-   • 232_UI_Content_Not_Displayed_After_File_Selection.md (IN PROGRESS)
+   • 122_Active_Task.md (IN PROGRESS)
+   • 123_Blocked_Work.md (BLOCKED)
 
-🆕 New task reports (8):
-   • 234_Remove_Recent_File_From_Sidebar.md
-   • 235_System_Notification_For_Export.md
-   • 236_Box_Details_Default_Card_Selection.md
-   • 237_Integrity_Report_Banner_Action.md
-   • 238_VIR_Issue_Box_Tree_Scroll.md
-   • 239_Missing_Box_Hex_Preview.md
-   • 240_TKHD_Flags_Mismatch.md
-   • 241_Box_Details_Mono_Font.md
+🆕 New task reports (3):
+   • 124_New_Feature_Request.md
+   • 125_Another_Bug_Report.md
+   • 126_Documentation_Update.md
 
 💡 Tip: Some files are missing Status field.
    The --interactive mode can help you update them!
