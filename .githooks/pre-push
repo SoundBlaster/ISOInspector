@@ -73,8 +73,35 @@ else
 fi
 echo ""
 
-# 4. Check for large files in commits being pushed
-echo "4️⃣  Checking for large files in commits being pushed..."
+# 4. Check test coverage threshold (if FoundationUI sources/tests changed)
+echo "4️⃣  Checking test coverage threshold..."
+MERGE_BASE=$(git merge-base origin/main HEAD 2>/dev/null || echo "HEAD")
+if git diff $MERGE_BASE...HEAD --name-only | grep -qE '^FoundationUI/(Sources|Tests)/'; then
+    echo "   FoundationUI code detected in commits, checking coverage..."
+    if command -v python3 &> /dev/null; then
+        COVERAGE_THRESHOLD=${ISOINSPECTOR_MIN_TEST_COVERAGE:-0.67}
+
+        # Run coverage analysis with threshold check
+        if python3 coverage_analysis.py --threshold "$COVERAGE_THRESHOLD" -v >/dev/null 2>&1; then
+            echo -e "${GREEN}✅ Test coverage check passed${NC}"
+            echo "   Threshold: $COVERAGE_THRESHOLD (67%)"
+        else
+            echo -e "${RED}❌ Test coverage below threshold${NC}"
+            echo "   Run: python3 coverage_analysis.py --verbose"
+            echo "   For more details on how to improve test coverage, see:"
+            echo "   Documentation/ISOInspector.docc/Guides/TestingAndCoverage.md"
+            FAILED=$((FAILED + 1))
+        fi
+    else
+        echo -e "${YELLOW}⚠️  Python3 not available, skipping coverage check${NC}"
+    fi
+else
+    echo "   No FoundationUI code changes detected, skipping coverage check"
+fi
+echo ""
+
+# 5. Check for large files in commits being pushed
+echo "5️⃣  Checking for large files in commits being pushed..."
 # Check commits between remote main and current branch
 MERGE_BASE=$(git merge-base origin/main HEAD 2>/dev/null || echo "HEAD")
 LARGE_FILES=$(git diff $MERGE_BASE...HEAD --name-only --diff-filter=ACM | while read file; do
@@ -96,8 +123,8 @@ else
 fi
 echo ""
 
-# 5. Check for secrets in commits being pushed
-echo "5️⃣  Scanning for secrets in commits being pushed..."
+# 6. Check for secrets in commits being pushed
+echo "6️⃣  Scanning for secrets in commits being pushed..."
 SECRETS_FOUND=0
 MERGE_BASE=$(git merge-base origin/main HEAD 2>/dev/null || echo "HEAD")
 for commit in $(git rev-list $MERGE_BASE...HEAD); do

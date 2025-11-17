@@ -2,10 +2,16 @@
 """
 Code Coverage Analysis Tool for FoundationUI
 Analyzes source files and test files to estimate test coverage.
+
+This tool uses repository-relative paths for cross-environment compatibility.
+It can be executed from any directory and will resolve paths from the
+repository root (identified by .git directory).
 """
 
 import os
+import sys
 import re
+import argparse
 from pathlib import Path
 from collections import defaultdict
 
@@ -72,10 +78,73 @@ def analyze_file(file_path):
         print(f"Error analyzing {file_path}: {e}")
         return {}
 
+def find_repo_root():
+    """
+    Find the repository root by searching for .git directory.
+    Starts from the current working directory and traverses upward.
+    Falls back to script directory if .git is not found.
+    """
+    current_path = Path.cwd().resolve()
+
+    # Try to find .git in current and parent directories
+    while current_path != current_path.parent:
+        if (current_path / '.git').exists():
+            return current_path
+        current_path = current_path.parent
+
+    # Fallback to script directory's parent
+    script_path = Path(__file__).resolve().parent
+    if (script_path / '.git').exists():
+        return script_path
+
+    # Ultimate fallback: current working directory
+    return Path.cwd().resolve()
+
+
 def main():
-    base_path = Path('/home/user/ISOInspector/FoundationUI')
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser(
+        description='Analyze test coverage in the FoundationUI package.',
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog='''
+Examples:
+  python3 coverage_analysis.py                    # Analyze and report
+  python3 coverage_analysis.py --threshold 0.67   # Check if coverage meets threshold
+  python3 coverage_analysis.py --report coverage.txt  # Write report to file
+        '''
+    )
+    parser.add_argument(
+        '--threshold',
+        type=float,
+        default=None,
+        help='Exit with non-zero code if coverage is below this threshold (0.0-1.0)'
+    )
+    parser.add_argument(
+        '--report',
+        type=str,
+        default=None,
+        help='Output report to file instead of stdout'
+    )
+    parser.add_argument(
+        '-v', '--verbose',
+        action='store_true',
+        help='Verbose output'
+    )
+
+    args = parser.parse_args()
+
+    # Find repository root
+    repo_root = find_repo_root()
+    base_path = repo_root / 'FoundationUI'
     sources_path = base_path / 'Sources' / 'FoundationUI'
     tests_path = base_path / 'Tests' / 'FoundationUITests'
+
+    if args.verbose:
+        print(f"Repository root: {repo_root}", file=sys.stderr)
+        print(f"FoundationUI path: {base_path}", file=sys.stderr)
+        print(f"Sources path: {sources_path}", file=sys.stderr)
+        print(f"Tests path: {tests_path}", file=sys.stderr)
+        print(file=sys.stderr)
 
     # Layers to analyze
     layers = {
@@ -88,6 +157,7 @@ def main():
     }
 
     results = {}
+    output_lines = []
 
     for layer_dir, layer_name in layers.items():
         layer_path = sources_path / layer_dir
@@ -100,9 +170,9 @@ def main():
         total_actual_lines = 0
         total_constructs = defaultdict(int)
 
-        print(f"\n{'='*80}")
-        print(f"{layer_name}: {layer_dir}")
-        print(f"{'='*80}")
+        output_lines.append(f"\n{'='*80}")
+        output_lines.append(f"{layer_name}: {layer_dir}")
+        output_lines.append(f"{'='*80}")
 
         for source_file in sorted(source_files):
             loc, actual_lines = count_lines_of_code(source_file)
@@ -113,16 +183,16 @@ def main():
             for key, value in constructs.items():
                 total_constructs[key] += value
 
-            print(f"  {source_file.name:40s} {loc:5d} LOC ({actual_lines:5d} total)")
+            output_lines.append(f"  {source_file.name:40s} {loc:5d} LOC ({actual_lines:5d} total)")
 
-        print(f"\n  {'TOTAL':40s} {total_loc:5d} LOC ({total_actual_lines:5d} total)")
-        print(f"\n  Constructs:")
-        print(f"    Functions:   {total_constructs['functions']}")
-        print(f"    Structs:     {total_constructs['structs']}")
-        print(f"    Classes:     {total_constructs['classes']}")
-        print(f"    Enums:       {total_constructs['enums']}")
-        print(f"    Extensions:  {total_constructs['extensions']}")
-        print(f"    Properties:  {total_constructs['properties']}")
+        output_lines.append(f"\n  {'TOTAL':40s} {total_loc:5d} LOC ({total_actual_lines:5d} total)")
+        output_lines.append(f"\n  Constructs:")
+        output_lines.append(f"    Functions:   {total_constructs['functions']}")
+        output_lines.append(f"    Structs:     {total_constructs['structs']}")
+        output_lines.append(f"    Classes:     {total_constructs['classes']}")
+        output_lines.append(f"    Enums:       {total_constructs['enums']}")
+        output_lines.append(f"    Extensions:  {total_constructs['extensions']}")
+        output_lines.append(f"    Properties:  {total_constructs['properties']}")
 
         # Analyze corresponding test files
         test_subdirs = {
@@ -142,20 +212,20 @@ def main():
                 test_loc = 0
                 test_actual_lines = 0
 
-                print(f"\n  Test Files:")
+                output_lines.append(f"\n  Test Files:")
                 for test_file in sorted(test_files):
                     loc, actual_lines = count_lines_of_code(test_file)
                     test_loc += loc
                     test_actual_lines += actual_lines
-                    print(f"    {test_file.name:38s} {loc:5d} LOC ({actual_lines:5d} total)")
+                    output_lines.append(f"    {test_file.name:38s} {loc:5d} LOC ({actual_lines:5d} total)")
 
-                print(f"\n  {'TEST TOTAL':40s} {test_loc:5d} LOC ({test_actual_lines:5d} total)")
+                output_lines.append(f"\n  {'TEST TOTAL':40s} {test_loc:5d} LOC ({test_actual_lines:5d} total)")
 
                 # Calculate test/code ratio
                 if total_loc > 0:
                     ratio = (test_loc / total_loc) * 100
-                    print(f"\n  Test/Code Ratio: {ratio:.1f}%")
-                    print(f"  Coverage Estimate: {'GOOD' if ratio > 50 else 'NEEDS IMPROVEMENT'}")
+                    output_lines.append(f"\n  Test/Code Ratio: {ratio:.1f}%")
+                    output_lines.append(f"  Coverage Estimate: {'GOOD' if ratio > 50 else 'NEEDS IMPROVEMENT'}")
 
         results[layer_name] = {
             'source_loc': total_loc,
@@ -164,22 +234,49 @@ def main():
         }
 
     # Summary
-    print(f"\n{'='*80}")
-    print("SUMMARY")
-    print(f"{'='*80}")
+    output_lines.append(f"\n{'='*80}")
+    output_lines.append("SUMMARY")
+    output_lines.append(f"{'='*80}")
 
     total_source_loc = sum(r['source_loc'] for r in results.values())
     total_test_loc = sum(r['test_loc'] for r in results.values())
 
-    print(f"\nTotal Source LOC: {total_source_loc:,}")
-    print(f"Total Test LOC:   {total_test_loc:,}")
-    print(f"Overall Test/Code Ratio: {(total_test_loc/total_source_loc)*100:.1f}%")
+    output_lines.append(f"\nTotal Source LOC: {total_source_loc:,}")
+    output_lines.append(f"Total Test LOC:   {total_test_loc:,}")
 
-    print(f"\n{'Layer':<20s} {'Source LOC':>12s} {'Test LOC':>12s} {'Ratio':>10s}")
-    print(f"{'-'*60}")
+    # Calculate overall coverage ratio
+    overall_ratio = 0.0
+    if total_source_loc > 0:
+        overall_ratio = (total_test_loc / total_source_loc)
+        output_lines.append(f"Overall Test/Code Ratio: {overall_ratio*100:.1f}%")
+
+    output_lines.append(f"\n{'Layer':<20s} {'Source LOC':>12s} {'Test LOC':>12s} {'Ratio':>10s}")
+    output_lines.append(f"{'-'*60}")
     for layer_name, data in results.items():
         ratio = (data['test_loc'] / data['source_loc'] * 100) if data['source_loc'] > 0 else 0
-        print(f"{layer_name:<20s} {data['source_loc']:>12,d} {data['test_loc']:>12,d} {ratio:>9.1f}%")
+        output_lines.append(f"{layer_name:<20s} {data['source_loc']:>12,d} {data['test_loc']:>12,d} {ratio:>9.1f}%")
+
+    # Output report
+    report_text = '\n'.join(output_lines)
+    if args.report:
+        with open(args.report, 'w') as f:
+            f.write(report_text)
+            f.write('\n')
+        if args.verbose:
+            print(f"Report written to: {args.report}", file=sys.stderr)
+    else:
+        print(report_text)
+
+    # Check threshold if specified
+    if args.threshold is not None:
+        if overall_ratio >= args.threshold:
+            if args.verbose:
+                print(f"\n✅ Coverage {overall_ratio*100:.1f}% meets threshold {args.threshold*100:.1f}%", file=sys.stderr)
+            sys.exit(0)
+        else:
+            print(f"\n❌ Coverage FAILED: {overall_ratio*100:.1f}% below threshold {args.threshold*100:.1f}%", file=sys.stderr)
+            sys.exit(1)
+
 
 if __name__ == '__main__':
     main()
