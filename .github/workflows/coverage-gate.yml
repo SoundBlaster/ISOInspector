@@ -31,7 +31,7 @@ on:
 # Permissions needed for coverage gate to work
 permissions:
   contents: read
-  checks: write
+  pull-requests: write
 
 # Cancel in-progress runs for same branch
 concurrency:
