@@ -1,0 +1,112 @@
+name: Script Tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+      - "claude/**"
+    paths:
+      - "scripts/**"
+      - ".github/workflows/script-tests.yml"
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - "scripts/**"
+      - ".github/workflows/script-tests.yml"
+
+jobs:
+  test-scripts:
+    name: Test Python scripts
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Run script tests
+        run: |
+          cd scripts/tests
+          python -m pytest test_*.py -v --tb=short
+        continue-on-error: true
+
+      - name: Run unittest discovery
+        run: |
+          cd scripts/tests
+          python -m unittest discover -s . -p "test_*.py" -v
+
+      - name: Archive test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: script-test-results-${{ matrix.python-version }}
+          path: |
+            scripts/tests/test-results.xml
+            scripts/tests/*.log
+          retention-days: 30
+          if-no-files-found: ignore
+
+  validate-script-syntax:
+    name: Validate script syntax
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install linting tools
+        run: |
+          pip install pylint pycodestyle
+
+      - name: Validate archive script syntax
+        run: |
+          python -m py_compile scripts/archive_completed_tasks.py
+          python -m py_compile scripts/validate_json.py
+
+      - name: Check style issues (warning only)
+        run: |
+          pycodestyle scripts/archive_completed_tasks.py scripts/validate_json.py || true
+
+  archive-script-integration:
+    name: Test archive script on dry-run
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Run archive script dry-run on actual repo
+        run: |
+          python scripts/archive_completed_tasks.py --dry-run
+
+      - name: Verify script produces output
+        run: |
+          output=$(python scripts/archive_completed_tasks.py --dry-run 2>&1)
+          if echo "$output" | grep -q "ARCHIVAL REPORT"; then
+            echo "✓ Archive script executed successfully"
+          else
+            echo "✗ Archive script did not produce expected output"
+            echo "$output"
+            exit 1
+          fi

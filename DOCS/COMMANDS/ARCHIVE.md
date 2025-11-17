@@ -244,6 +244,8 @@ At the end of working ensure Markdown formatting is consistent. The legacy helpe
 
 **Location:** `scripts/archive_completed_tasks.py`
 
+**Full documentation:** See [`ARCHIVE_SCRIPT_GUIDE.md`](./ARCHIVE_SCRIPT_GUIDE.md)
+
 **Usage:**
 ```bash
 python3 scripts/archive_completed_tasks.py [--dry-run] [--repo-root .]
@@ -258,3 +260,31 @@ python3 scripts/archive_completed_tasks.py [--dry-run] [--repo-root .]
 - Archival report with counts and file paths
 - Automatic ARCHIVE_SUMMARY.md updates
 - Ready-to-use git commit command
+
+## 🧪 TESTING
+
+The script is tested automatically in CI and has comprehensive unit tests:
+
+**Test coverage:**
+- ✅ Status field extraction (all formats and edge cases)
+- ✅ File classification (RESOLVED, IN PROGRESS, BLOCKED, NEW)
+- ✅ Archive folder numbering and naming
+- ✅ Dry-run mode (no side effects)
+- ✅ Integration tests (complete workflow)
+
+**Run tests locally:**
+```bash
+python -m unittest discover -s scripts/tests -p "test_archive*.py" -v
+```
+
+**CI configuration:** `.github/workflows/script-tests.yml`
+- Runs on Python 3.10, 3.11, 3.12
+- Tests on push to main/develop/claude/* branches
+- Validates syntax and style
+- Runs dry-run on actual repository
+
+## 📚 RELATED DOCUMENTATION
+
+- [`ARCHIVE_SCRIPT_GUIDE.md`](./ARCHIVE_SCRIPT_GUIDE.md) - Detailed script guide with examples
+- `.github/workflows/script-tests.yml` - CI testing configuration
+- `scripts/tests/test_archive_completed_tasks.py` - Unit test suite (19 tests)
