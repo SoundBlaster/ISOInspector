@@ -185,6 +185,14 @@
 
     // MARK: - Private Helpers
 
+    /// Encapsulates the resources needed to start parsing a document.
+    /// Avoids SwiftLint large_tuple violation.
+    private struct DocumentLoadingResources {
+      let reader: RandomAccessReader
+      let pipeline: ParsePipeline
+      let context: ParsePipeline.Context
+    }
+
     private func handleOpenDocument(at url: URL) async {
       logger.info("Opening document: \(url.lastPathComponent, privacy: .public)")
       loadFailure = nil
@@ -196,7 +204,7 @@
         activeSecurityScopedURL = scopedURL
 
         // Offload heavy parsing work to background queue to avoid blocking UI
-        let (reader, pipeline, context) = try await Task.detached(priority: .userInitiated) { [weak self] () -> (RandomAccessReader, ParsePipeline, ParsePipeline.Context) in
+        let resources = try await Task.detached(priority: .userInitiated) { [weak self] () -> DocumentLoadingResources in
           guard let self else { throw CancellationError() }
 
           // Heavy I/O and CPU work on background thread
@@ -204,12 +212,12 @@
           let pipeline = self.pipelineFactory()
           let context = ParsePipeline.Context(source: url, issueStore: self.parseTreeStore.issueStore)
 
-          return (reader, pipeline, context)
+          return DocumentLoadingResources(reader: reader, pipeline: pipeline, context: context)
         }.value
 
         // Back to main thread for UI updates
         await MainActor.run {
-          parseTreeStore.start(pipeline: pipeline, reader: reader, context: context)
+          parseTreeStore.start(pipeline: resources.pipeline, reader: resources.reader, context: resources.context)
 
           let recent = DocumentRecent(
             url: url,
