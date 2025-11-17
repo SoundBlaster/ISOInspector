@@ -326,6 +326,7 @@ Use `@SceneStorage` to persist per-window state automatically:
 | 2025-11-17 | Completed | WindowSessionController implemented for per-window state; AppShellView and ISOInspectorApp refactored; unit tests added |
 | 2025-11-17 | Fixed | Restored export functionality: exportJSON/exportIssueSummary now delegate to appSessionController with status forwarding via bindings |
 | 2025-11-17 | Fixed | Fixed recents sidebar buttons: openRecent now routes through proper document loading path |
+| 2025-11-17 | Fixed | Fixed main thread blocking: offloaded heavy parsing work to background Task.detached(priority: .userInitiated) |
 
 ---
 
@@ -356,6 +357,13 @@ Use `@SceneStorage` to persist per-window state automatically:
    - Export methods now properly delegate to `appSessionController.exportJSON/exportIssueSummary`
    - Window's `exportStatus` is synchronized with app controller's via Combine bindings
    - `dismissExportStatus` clears both window and app controller state
+
+6. **Fixed Document Loading Performance**
+   - Offloaded heavy I/O and parsing work from main thread to background task
+   - Security-scoped file access remains on main thread (required by API)
+   - Reader creation, pipeline initialization, and context setup run on `.userInitiated` priority background task
+   - UI updates (parseTreeStore.start) return to main thread
+   - Prevents UI freezing when opening large ISO/MP4 files
 
 ---
 

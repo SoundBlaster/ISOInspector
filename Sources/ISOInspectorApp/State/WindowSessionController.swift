@@ -191,18 +191,23 @@
       exportStatus = nil
 
       do {
-        // Start security-scoped access
+        // Start security-scoped access (on main thread)
         let scopedURL = try filesystemAccess.adoptSecurityScope(for: url)
         activeSecurityScopedURL = scopedURL
 
-        // Create reader
-        let reader = try readerFactory(scopedURL.url)
+        // Offload heavy parsing work to background queue to avoid blocking UI
+        let (reader, pipeline, context) = try await Task.detached(priority: .userInitiated) { [weak self] () -> (RandomAccessReader, ParsePipeline, ParsePipeline.Context) in
+          guard let self else { throw CancellationError() }
 
-        // Parse document using the streaming API
-        let pipeline = pipelineFactory()
-        var context = ParsePipeline.Context(source: url, issueStore: parseTreeStore.issueStore)
+          // Heavy I/O and CPU work on background thread
+          let reader = try self.readerFactory(scopedURL.url)
+          let pipeline = self.pipelineFactory()
+          let context = ParsePipeline.Context(source: url, issueStore: self.parseTreeStore.issueStore)
 
-        // Start parsing via ParseTreeStore
+          return (reader, pipeline, context)
+        }.value
+
+        // Back to main thread for UI updates
         await MainActor.run {
           parseTreeStore.start(pipeline: pipeline, reader: reader, context: context)
 
