@@ -205,10 +205,45 @@ private var documentViewModel: DocumentViewModel {
 
 ---
 
+---
+
+## 🧪 REGRESSION TEST COVERAGE
+
+To prevent this issue from recurring, the following tests were added:
+
+### Unit Tests (WindowSessionControllerTests.swift)
+
+1. **testDocumentViewModelPublishesParseTreeStoreChanges**
+   - Verifies that changes in parseTreeStore propagate through windowController.issueMetrics
+   - Tests the @Published property chain integrity
+   - Prevents broken Combine subscriptions
+
+2. **testDocumentViewModelAccessibilityAndConsistency**
+   - Verifies documentViewModel uses correct parseTreeStore and annotations
+   - Ensures multiple accesses return the same instance (critical for SwiftUI binding)
+   - Prevents initialization issues like bug #232
+
+3. **testDocumentViewModelBindingIntegrity** ⭐ (Primary Regression Test)
+   - Simulates AppShellView initialization pattern
+   - Verifies that documentViewModel binding chain remains intact
+   - Tests that parseTreeStore updates propagate through documentViewModel
+   - **This test would have caught bug #232 before production**
+
+### Code Documentation
+
+Added inline documentation to `AppShellView.swift`:
+- Warning comment on documentViewModel computed property
+- Explains why it MUST be computed, not stored @ObservedObject
+- References bug #232 for future developers
+
+---
+
 ## NEXT STEPS
 
 1. ✅ Root cause analysis complete
 2. ✅ Fix implemented
-3. ⏳ Commit and push changes
-4. ⏳ Manual verification on macOS/iOS
-5. ⏳ Close bug report upon successful verification
+3. ✅ Regression tests added
+4. ✅ Code documentation added
+5. ⏳ Commit and push changes
+6. ⏳ Manual verification on macOS/iOS
+7. ⏳ Close bug report upon successful verification

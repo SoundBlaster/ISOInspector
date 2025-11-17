@@ -21,6 +21,13 @@
       self._windowController = StateObject(wrappedValue: windowController)
     }
 
+    /// Access documentViewModel from windowController.
+    ///
+    /// IMPORTANT: This MUST be a computed property, not a stored @ObservedObject property.
+    /// Initializing @ObservedObject from a local variable in init() breaks the SwiftUI
+    /// binding chain, preventing UI updates when documents are loaded.
+    ///
+    /// See bug #232 for details on the regression that occurred when this was a stored property.
     private var documentViewModel: DocumentViewModel {
       windowController.documentViewModel
     }
