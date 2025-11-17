@@ -10,7 +10,6 @@
     @Environment(\.scenePhase) private var scenePhase
     @StateObject private var windowController: WindowSessionController
     @ObservedObject var appController: DocumentSessionController
-    @ObservedObject private var documentViewModel: DocumentViewModel
     @State private var isImporterPresented = false
     @State private var importError: ImportError?
     @AppStorage(Self.corruptionRibbonDismissedDefaultsKey) private
@@ -20,7 +19,10 @@
       self.appController = appController
       let windowController = WindowSessionController(appSessionController: appController)
       self._windowController = StateObject(wrappedValue: windowController)
-      self._documentViewModel = ObservedObject(wrappedValue: windowController.documentViewModel)
+    }
+
+    private var documentViewModel: DocumentViewModel {
+      windowController.documentViewModel
     }
 
     var body: some View {
