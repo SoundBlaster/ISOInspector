@@ -322,16 +322,47 @@ Use `@SceneStorage` to persist per-window state automatically:
 | Date | Status | Notes |
 |------|--------|-------|
 | 2025-11-17 | Opened | Bug report created, root cause identified as Singleton pattern in DocumentSessionController |
-| TBD | In Progress | Implementing per-window state isolation |
-| TBD | Resolved | Verified fixes with automated and manual testing |
+| 2025-11-17 | In Progress | Implementing per-window state isolation |
+| 2025-11-17 | Completed | WindowSessionController implemented for per-window state; AppShellView and ISOInspectorApp refactored; unit tests added |
+| 2025-11-17 | Fixed | Restored export functionality: exportJSON/exportIssueSummary now delegate to appSessionController with status forwarding via bindings |
+
+---
+
+## IMPLEMENTATION SUMMARY
+
+### ✅ Completed Steps:
+1. **Created WindowSessionController** (`Sources/ISOInspectorApp/State/WindowSessionController.swift`)
+   - Per-window document state management
+   - Independent ParseTreeStore and AnnotationBookmarkSession per window
+   - Window-specific load failures and export status
+
+2. **Refactored AppShellView**
+   - Changed from shared `DocumentSessionController` to per-window `WindowSessionController`
+   - All window-specific operations now delegate to `windowController`
+   - Shared app-level operations still use `appController` (recents, preferences)
+
+3. **Updated ISOInspectorApp**
+   - Simplified WindowGroup to pass only `appController` to AppShellView
+   - Each view creates its own `WindowSessionController` in init
+
+4. **Added Unit Tests** (`Tests/ISOInspectorAppTests/WindowSessionControllerTests.swift`)
+   - Test independent state between windows
+   - Test isolated ParseTreeStore instances
+   - Test isolated DocumentViewModel instances
+   - Test isolated AnnotationSession instances
+
+5. **Restored Export Functionality**
+   - Export methods now properly delegate to `appSessionController.exportJSON/exportIssueSummary`
+   - Window's `exportStatus` is synchronized with app controller's via Combine bindings
+   - `dismissExportStatus` clears both window and app controller state
 
 ---
 
 ## NEXT STEPS
 
 1. ✅ **COMPLETED**: Bug report captured and root cause identified
-2. **IN PROGRESS**: Implement per-window state container (Option A)
-3. **PENDING**: Write TDD tests for window isolation
+2. ✅ **COMPLETED**: Implement per-window state container (Option A)
+3. ✅ **COMPLETED**: Write unit tests for window isolation
 4. **PENDING**: Manual testing on macOS and iPadOS
 5. **PENDING**: Archive to TASK_ARCHIVE upon completion
 
