@@ -42,6 +42,7 @@
 		11CB388AA70C04BDE11893BF /* ParseTreeNodeDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF313831B678EF588340A7E0 /* ParseTreeNodeDetail.swift */; };
 		11F89653DFAFB8D0E5155655 /* MockUserPreferencesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5555CD1CD64F1D3845288E37 /* MockUserPreferencesStore.swift */; };
 		12E18D44B31BDF4381D690A4 /* ISOInspectorKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A330CF0AA8B3DA9994E8C7C4 /* ISOInspectorKit.framework */; };
+		1324228238A66F033984697B /* WindowSessionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AB444B6B4C3084B506E7D3 /* WindowSessionControllerTests.swift */; };
 		133874E23714AF973F7692F4 /* SettingsPanelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCCEA2175AC51627ED033F71 /* SettingsPanelViewModel.swift */; };
 		13B88391DD6C612E36CB1424 /* ParseTreeStatusBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDD13E8A2677C409B50F69C /* ParseTreeStatusBadge.swift */; };
 		13E68EA2E9D89908B714405F /* DocumentSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FD9A51B1B9119CD5622C62 /* DocumentSessionController.swift */; };
@@ -83,6 +84,7 @@
 		242141E28D3E748D22FD7C2B /* DistributionMetadata.json in Resources */ = {isa = PBXBuildFile; fileRef = 489F89A782ACBC9E32880591 /* DistributionMetadata.json */; };
 		243A8EE5296CE0ECA4CD20D3 /* ISOInspectorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8B75C27B8833823C9363E27 /* ISOInspectorApp.swift */; };
 		24AF4CEF2276015954BF13AB /* FocusedValues+InspectorFocusTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5A1B75C6D200E594D2B2CE8 /* FocusedValues+InspectorFocusTarget.swift */; };
+		24D482AC4F807F737E7270FE /* WindowSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8BE8FFD662F32CA0B4B5EA /* WindowSessionController.swift */; };
 		252B8F59B0C2EFD7D85F8D52 /* ParseTreeAccessibilityID.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE8E4A4DC303AFF6BCE115 /* ParseTreeAccessibilityID.swift */; };
 		253B445B1F9B28ED78DAE714 /* CoreDataAnnotationBookmarkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501BDE7D817A15D0AB66845E /* CoreDataAnnotationBookmarkStore.swift */; };
 		25A92046126D0AEA69B070E2 /* BoxToggleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9A3C50CA3E93AB1179703E /* BoxToggleView.swift */; };
@@ -124,6 +126,7 @@
 		367CDDAD299ACB7B70FB3AC7 /* AnnotationBookmarkStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3358CA16BC82674215DE4A /* AnnotationBookmarkStoreTests.swift */; };
 		3684BFE44F7493425759748E /* NodeSelectionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E41A59205A7A6226FEDE26C5 /* NodeSelectionViewModel.swift */; };
 		36E2B11151A2EE31B17A9759 /* PayloadAnnotationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66A31FB0B2DBE4F6BFF12898 /* PayloadAnnotationProvider.swift */; };
+		373CAAEB4A735B0A30542887 /* WindowSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8BE8FFD662F32CA0B4B5EA /* WindowSessionController.swift */; };
 		37C9C6E3B44BA1D2EAECC982 /* BookmarkRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93F4E374673C1E3FA127A415 /* BookmarkRecord.swift */; };
 		37DABA6DF786ABB0EABCEAFA /* FilesystemAccessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F920DFA6FB367BA7985C64D /* FilesystemAccessTests.swift */; };
 		37FBE12FDBCB109D81CA5477 /* generate_fixtures.py in Resources */ = {isa = PBXBuildFile; fileRef = E42A0F886CA23C6C79C5016D /* generate_fixtures.py */; };
@@ -428,6 +431,7 @@
 		D8B8788FA9F21E55CE48B5BC /* HexSlice.swift in Sources */ = {isa = PBXBuildFile; fileRef = F46E4B36BBCA953B1DB84BF5 /* HexSlice.swift */; };
 		D8CE99F4429250DF23323FD6 /* ParseTreeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDCAAD28CCEB601FC8F6F564 /* ParseTreeDetailViewModel.swift */; };
 		D97348DBDD2AA2AE0DFB848B /* ParseIssueStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506561CDE223C81E6B8613F6 /* ParseIssueStoreTests.swift */; };
+		D992C762D675C4EFF54971CC /* WindowSessionControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0AB444B6B4C3084B506E7D3 /* WindowSessionControllerTests.swift */; };
 		DA23E5A9EB4286FF61D8946D /* ParseTreeAccessibilityFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B8B6DC8CD571C781B9E8EBC /* ParseTreeAccessibilityFormatterTests.swift */; };
 		DC45A0F24A87C009E649C77B /* AnnotationBookmarkStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D3358CA16BC82674215DE4A /* AnnotationBookmarkStoreTests.swift */; };
 		DC4E944C1D32F6D06B741179 /* NestedA11yIDs in Frameworks */ = {isa = PBXBuildFile; productRef = E27404CDA298C47A767FC04C /* NestedA11yIDs */; };
@@ -446,6 +450,7 @@
 		E1A78234901FCDE395F6ABE6 /* ISOInspectorAppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91D7DF7C02CEB706BB4FAE65 /* ISOInspectorAppTheme.swift */; };
 		E1B003ED80C6DB277D0EB6D5 /* FixtureCatalogExpandedCoverageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FCC007EB0E2ABFAD1A6D6CE /* FixtureCatalogExpandedCoverageTests.swift */; };
 		E1E3795D0F03FC7685AAA001 /* AccessibilitySupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = D967FE867C4D2044EF4F025C /* AccessibilitySupport.swift */; };
+		E26CD2F4511AAE39FAA6FD7F /* WindowSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD8BE8FFD662F32CA0B4B5EA /* WindowSessionController.swift */; };
 		E3141722BE2DF187BA60B65F /* dash-segment-1.json in Resources */ = {isa = PBXBuildFile; fileRef = 46B7E0FCDECE912581E7511B /* dash-segment-1.json */; };
 		E42F59737018AB55BE0DAF7E /* ParsedBoxPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8BDBE4145A0701C4B86471C /* ParsedBoxPayload.swift */; };
 		E57654EEA989DA89007CE5C4 /* BoxHeaderDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B15415AD5137B028304C68D /* BoxHeaderDecoder.swift */; };
@@ -1015,6 +1020,7 @@
 		DC9500ED85BE17A095ACF570 /* HexByteAccessibilityFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HexByteAccessibilityFormatter.swift; sourceTree = "<group>"; };
 		DCCEA2175AC51627ED033F71 /* SettingsPanelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPanelViewModel.swift; sourceTree = "<group>"; };
 		DCDBB8D45D152D281A1B583A /* LargeFileBenchmarkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeFileBenchmarkTests.swift; sourceTree = "<group>"; };
+		DD8BE8FFD662F32CA0B4B5EA /* WindowSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowSessionController.swift; sourceTree = "<group>"; };
 		DDF039E78BE1057DCF67659B /* bear-1280x720.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "bear-1280x720.txt"; sourceTree = "<group>"; };
 		DE8836689A41779A0EC7FECF /* edit-list-empty.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "edit-list-empty.json"; sourceTree = "<group>"; };
 		DF139A55027917C4339751C2 /* ParseEventCaptureEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEventCaptureEncoder.swift; sourceTree = "<group>"; };
@@ -1042,6 +1048,7 @@
 		EFD508FAC8798423BB8E13BA /* ISOInspectorBrandPaletteTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISOInspectorBrandPaletteTests.swift; sourceTree = "<group>"; };
 		F072A9E4042131829E48244C /* TuistBundle+ISOInspectorKitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TuistBundle+ISOInspectorKitTests.swift"; sourceTree = "<group>"; };
 		F0922D7455734425F053CB7F /* BookmarkPersistenceStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkPersistenceStore.swift; sourceTree = "<group>"; };
+		F0AB444B6B4C3084B506E7D3 /* WindowSessionControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowSessionControllerTests.swift; sourceTree = "<group>"; };
 		F26E61B7FE7AABE78200FFD7 /* TolerantParsingFuzzTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TolerantParsingFuzzTests.swift; sourceTree = "<group>"; };
 		F34D42C568DC3EF7A0222296 /* MP4RACatalogRefresherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MP4RACatalogRefresherTests.swift; sourceTree = "<group>"; };
 		F392F8A837583BB2E56E5414 /* ParseTreePreviewDataTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTreePreviewDataTests.swift; sourceTree = "<group>"; };
@@ -1397,6 +1404,7 @@
 				7D91289088F00F69C94ABCD4 /* ParseTreeStoreState.swift */,
 				CA76F0ABA32EFE146B933E2C /* UserPreferencesStore.swift */,
 				E97A1E580BADE9C292FEB1C2 /* ValidationConfigurationStore.swift */,
+				DD8BE8FFD662F32CA0B4B5EA /* WindowSessionController.swift */,
 				585888F8CD5A8D724580A6AC /* WorkspaceSessionStore.swift */,
 			);
 			path = State;
@@ -1782,6 +1790,7 @@
 				AD130CA5254BC88FAC3F5427 /* SettingsPanelAccessibilityTests.swift */,
 				C505A6C46B25DEF5E6E40FB1 /* UICorruptionIndicatorsSmokeTests.swift */,
 				234F286B7642F3188696D0CE /* UserPreferencesStoreTests.swift */,
+				F0AB444B6B4C3084B506E7D3 /* WindowSessionControllerTests.swift */,
 				776BDBD625B79C860E3E2F88 /* WorkspaceSessionStoreTests.swift */,
 			);
 			path = ISOInspectorAppTests;
@@ -2468,6 +2477,7 @@
 				B867177170C0EF61E2132688 /* ParseTreeStoreState.swift in Sources */,
 				D0632AC89ADEA6B03D3D8D73 /* UserPreferencesStore.swift in Sources */,
 				668542762164B0092F16228C /* ValidationConfigurationStore.swift in Sources */,
+				E26CD2F4511AAE39FAA6FD7F /* WindowSessionController.swift in Sources */,
 				E068C74CD2133EBE8FA92FC2 /* WorkspaceSessionStore.swift in Sources */,
 				7248483580E811C9BC07ED76 /* ISOInspectorAppResources.swift in Sources */,
 				13B88391DD6C612E36CB1424 /* ParseTreeStatusBadge.swift in Sources */,
@@ -2529,6 +2539,7 @@
 				D81C67ECA1445C55132A591A /* SettingsPanelViewModelTests.swift in Sources */,
 				CFF2670B04D4B1CB2AF059CD /* UICorruptionIndicatorsSmokeTests.swift in Sources */,
 				6BD8BFB755BF4C00402248A3 /* UserPreferencesStoreTests.swift in Sources */,
+				D992C762D675C4EFF54971CC /* WindowSessionControllerTests.swift in Sources */,
 				47B0033B2FD137326BB0D350 /* WorkspaceSessionStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2582,6 +2593,7 @@
 				EDA1FD766449F0A767E805AD /* ParseTreeStoreState.swift in Sources */,
 				751A1845557C186BC450DEF2 /* UserPreferencesStore.swift in Sources */,
 				8F9896019CA44BE276B56C2B /* ValidationConfigurationStore.swift in Sources */,
+				373CAAEB4A735B0A30542887 /* WindowSessionController.swift in Sources */,
 				5743846EDA2B0C114C1AA291 /* WorkspaceSessionStore.swift in Sources */,
 				96B02300ACEA3448DF5CE31C /* ISOInspectorAppResources.swift in Sources */,
 				16B45D49DD0B8CF0A9062ADD /* ParseTreeStatusBadge.swift in Sources */,
@@ -2651,6 +2663,7 @@
 				D5EDF5AE44C87E4B037E1C81 /* ParseTreeStoreState.swift in Sources */,
 				C71B9C5333DC9957076FE800 /* UserPreferencesStore.swift in Sources */,
 				BEB8F8B235D415491C163B7A /* ValidationConfigurationStore.swift in Sources */,
+				24D482AC4F807F737E7270FE /* WindowSessionController.swift in Sources */,
 				78CB9A3DE04812C0EFA419C2 /* WorkspaceSessionStore.swift in Sources */,
 				118F7D1AA6CEE40EB710ECD5 /* ISOInspectorAppResources.swift in Sources */,
 				F80F5E1EB1F2042510AB4068 /* ParseTreeStatusBadge.swift in Sources */,
@@ -2850,6 +2863,7 @@
 				FA36AFAEBAD1E372D335912A /* SettingsPanelViewModelTests.swift in Sources */,
 				D176B9CE051FBBAEEDD690F9 /* UICorruptionIndicatorsSmokeTests.swift in Sources */,
 				9B1635ED0595F2AE9FBF0CE8 /* UserPreferencesStoreTests.swift in Sources */,
+				1324228238A66F033984697B /* WindowSessionControllerTests.swift in Sources */,
 				2B9821A1A67ECA611DF0990C /* WorkspaceSessionStoreTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
