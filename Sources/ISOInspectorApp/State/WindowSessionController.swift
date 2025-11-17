@@ -116,6 +116,13 @@
           self?.issueMetrics = metrics
         }
         .store(in: &cancellables)
+
+      // Forward export status from app controller to this window
+      appSessionController.$exportStatus
+        .sink { [weak self] status in
+          self?.exportStatus = status
+        }
+        .store(in: &cancellables)
     }
 
     // MARK: - Document Management
@@ -136,17 +143,17 @@
     // MARK: - Export Operations
 
     /// Export document as JSON
+    /// Delegates to the app controller, which handles the actual export.
+    /// The window's exportStatus is automatically synchronized via bindings.
     func exportJSON(scope: DocumentSessionController.ExportScope) async {
-      // TODO: Implement window-specific export logic
-      // For now, this will be handled through the app controller
-      logger.info("Export JSON requested with scope: \(String(describing: scope), privacy: .public)")
+      await appSessionController.exportJSON(scope: scope)
     }
 
     /// Export issue summary
+    /// Delegates to the app controller, which handles the actual export.
+    /// The window's exportStatus is automatically synchronized via bindings.
     func exportIssueSummary(scope: DocumentSessionController.ExportScope) async {
-      // TODO: Implement window-specific export logic
-      // For now, this will be handled through the app controller
-      logger.info("Export issue summary requested with scope: \(String(describing: scope), privacy: .public)")
+      await appSessionController.exportIssueSummary(scope: scope)
     }
 
     /// Retry last failed document load in this window
@@ -161,9 +168,11 @@
       loadFailure = nil
     }
 
-    /// Dismiss export status for this window
+    /// Dismiss export status
+    /// Clears both the window's and the app controller's export status.
     func dismissExportStatus() {
       exportStatus = nil
+      appSessionController.dismissExportStatus()
     }
 
     // MARK: - Focus Management (delegated to app controller)
