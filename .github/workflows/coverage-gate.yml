@@ -1,0 +1,140 @@
+name: Test Coverage Gate
+
+on:
+  pull_request:
+    branches:
+      - main
+      - "**"
+    paths:
+      - 'FoundationUI/**/*.swift'
+      - 'FoundationUI/Package.swift'
+      - 'FoundationUI/Tests/**/*.swift'
+      - 'Sources/**/*.swift'
+      - 'Tests/**/*.swift'
+      - 'Package.swift'
+      - 'Package.resolved'
+      - 'coverage_analysis.py'
+      - '.github/workflows/coverage-gate.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'FoundationUI/**/*.swift'
+      - 'FoundationUI/Package.swift'
+      - 'FoundationUI/Tests/**/*.swift'
+      - 'Sources/**/*.swift'
+      - 'Tests/**/*.swift'
+      - 'Package.swift'
+      - 'Package.resolved'
+      - 'coverage_analysis.py'
+
+# Permissions needed for coverage gate to work
+permissions:
+  contents: read
+  checks: write
+
+# Cancel in-progress runs for same branch
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  coverage-gate:
+    name: Coverage Threshold Gate
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Swift
+        uses: SwiftyLab/setup-swift@v1
+        with:
+          swift-version: '6.0'
+
+      - name: Create quality directory
+        run: mkdir -p Documentation/Quality
+
+      - name: Run unit tests with coverage (FoundationUI)
+        continue-on-error: true
+        run: |
+          cd FoundationUI
+          echo "Running FoundationUI tests with code coverage..."
+          swift test --enable-code-coverage 2>&1 | tee ../Documentation/Quality/foundationui-test.log
+
+      - name: Run unit tests with coverage (main project)
+        continue-on-error: true
+        run: |
+          echo "Running main project tests with code coverage..."
+          swift test --filter ISOInspectorKitTests --enable-code-coverage 2>&1 | tee -a Documentation/Quality/main-test.log
+
+      - name: Run coverage analysis
+        id: coverage
+        run: |
+          python3 coverage_analysis.py --threshold 0.67 --report Documentation/Quality/coverage-report.txt -v 2>&1 | tee Documentation/Quality/coverage-analysis.log
+          EXIT_CODE=$?
+
+          # Extract coverage percentage from the log for output
+          COVERAGE=$(grep "Overall Test/Code Ratio:" Documentation/Quality/coverage-report.txt | grep -oE '[0-9]+\.[0-9]+' || echo "0.0")
+          echo "coverage=${COVERAGE}%" >> $GITHUB_OUTPUT
+
+          exit $EXIT_CODE
+
+      - name: Generate summary
+        if: always()
+        run: |
+          echo "## 📊 Test Coverage Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Coverage Analysis Results:**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ -f "Documentation/Quality/coverage-report.txt" ]; then
+            echo '```' >> $GITHUB_STEP_SUMMARY
+            tail -30 Documentation/Quality/coverage-report.txt >> $GITHUB_STEP_SUMMARY
+            echo '```' >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Threshold:** 67%" >> $GITHUB_STEP_SUMMARY
+          echo "**Coverage:** ${{ steps.coverage.outputs.coverage }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload coverage reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-reports
+          path: |
+            Documentation/Quality/coverage-*.txt
+            Documentation/Quality/*-test.log
+            Documentation/Quality/coverage-analysis.log
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Comment on PR with coverage
+        if: github.event_name == 'pull_request' && always()
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const fs = require('fs');
+            const coverage = '${{ steps.coverage.outputs.coverage }}';
+            const hasReport = fs.existsSync('Documentation/Quality/coverage-report.txt');
+
+            let comment = '## 📊 Coverage Gate Results\n\n';
+
+            if (hasReport) {
+              const report = fs.readFileSync('Documentation/Quality/coverage-report.txt', 'utf8');
+              const lines = report.split('\n');
+              const summaryStart = lines.findIndex(line => line.includes('SUMMARY'));
+              if (summaryStart !== -1) {
+                comment += '```\n' + lines.slice(summaryStart).join('\n') + '```\n\n';
+              }
+            }
+
+            comment += `**Threshold:** 67%\n`;
+            comment += `**Coverage:** ${coverage}\n`;
+            comment += `**Status:** ${{ job.status === 'success' ? '✅ PASS' : '❌ FAIL' }}\n`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
