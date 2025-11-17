@@ -15,20 +15,21 @@
     @Published var sortOrder: SortOrder = .severity {
       didSet {
         if sortOrder != oldValue {
-          updateDisplayedIssues()
+          scheduleUpdate()
         }
       }
     }
     @Published var severityFilter: Set<ParseIssue.Severity> = [] {
       didSet {
         if severityFilter != oldValue {
-          updateDisplayedIssues()
+          scheduleUpdate()
         }
       }
     }
 
     private let issueStore: ParseIssueStore
     private var cancellables = Set<AnyCancellable>()
+    private var updateTask: Task<Void, Never>?
 
     init(issueStore: ParseIssueStore) {
       self.issueStore = issueStore
@@ -37,12 +38,25 @@
       issueStore.$issues
         .receive(on: DispatchQueue.main)
         .sink { [weak self] _ in
-          self?.updateDisplayedIssues()
+          self?.scheduleUpdate()
         }
         .store(in: &cancellables)
 
       // Initial update
-      updateDisplayedIssues()
+      scheduleUpdate()
+    }
+
+    private func scheduleUpdate() {
+      // Cancel any pending update
+      updateTask?.cancel()
+
+      // Schedule update for next run loop to avoid publishing during view updates
+      updateTask = Task { @MainActor [weak self] in
+        // Yield to allow the current view update cycle to complete
+        await Task.yield()
+        guard !Task.isCancelled else { return }
+        self?.updateDisplayedIssues()
+      }
     }
 
     private func updateDisplayedIssues() {
@@ -132,6 +146,22 @@
 
     func clearFilters() {
       severityFilter.removeAll()
+    }
+
+    // MARK: - Testing Support
+
+    /// Waits for any pending updates to complete. For testing only.
+    func waitForPendingUpdates() async {
+      // Wait for the current task if it exists
+      if let task = updateTask {
+        await task.value
+      }
+      // Give a moment for any scheduled tasks to start
+      await Task.yield()
+      // Check again if a new task was scheduled
+      if let task = updateTask {
+        await task.value
+      }
     }
   }
 #endif

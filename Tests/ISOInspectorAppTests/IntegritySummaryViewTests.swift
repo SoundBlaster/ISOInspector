@@ -9,7 +9,7 @@
   @MainActor
   final class IntegritySummaryViewTests: XCTestCase {
 
-    func testIntegritySummaryViewDisplaysIssues() throws {
+    func testIntegritySummaryViewDisplaysIssues() async throws {
       // Arrange: Create a store with sample issues
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -34,6 +34,8 @@
       )
 
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
+
       XCTAssertEqual(viewModel.displayedIssues.count, 2)
       XCTAssertTrue(viewModel.displayedIssues.contains { $0.code == "ERR-001" })
       XCTAssertTrue(viewModel.displayedIssues.contains { $0.code == "WARN-001" })
@@ -42,7 +44,7 @@
       )
     }
 
-    func testIntegritySummaryViewSortsBySeverity() throws {
+    func testIntegritySummaryViewSortsBySeverity() async throws {
       // Arrange: Create issues with different severities
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -67,6 +69,7 @@
       )
 
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
 
       // Act: Default sort should be by severity (error first)
       let sortedIssues = viewModel.displayedIssues
