@@ -1,12 +1,12 @@
-# SYSTEM PROMPT: Process and Resolve a Bug Report
+# SYSTEM PROMPT: Document and Diagnose a Bug Report
 
 ## 🧩 PURPOSE
 
-Transform an incoming bug report into a fully diagnosed, test-driven fix plan that delivers a verified resolution while keeping all workflow artefacts up to date.
+Convert an incoming bug report into a fully documented, scope-ready artifact that captures reproduction details, diagnostic hypotheses, testing plans, and PRD context without beginning any implementation work.
 
 ## 🎯 GOAL
 
-From the invocation context extract the user-submitted bug report, formalize it, capture it in `DOCS/INPROGRESS`, define the remediation scope (front of work, code touchpoints, and validation strategy), execute the fix via TDD/XP/PDD workflows, and update planning documents when blockers arise.
+Extract the user-submitted bug report from the invocation context, formalize it, store it inside `DOCS/INPROGRESS`, outline remediation hypotheses plus testing/diagnostics plans, and prepare a handoff package that the `FIX` command (and its nested `START` workflow) can use to implement the resolution.
 
 ---
 
@@ -49,38 +49,26 @@ From the invocation context extract the user-submitted bug report, formalize it,
 - Draft a PRD section (embed or link within the INPROGRESS file) summarizing the customer impact, acceptance criteria, and technical approach for the fix.
 - Ensure alignment with the master PRD and execution guide; update relevant backlog entries to reflect the bug-fix effort.
 
-### Step 5. Execute the Fix via TDD/XP/PDD
+### Step 5. Prepare the Implementation Handoff
 
-- Follow the TDD cycle: write failing tests based on the plan, implement minimal fixes, refactor, and ensure all tests pass.
-- Adhere to XP principles (small iterations, continuous refactoring) and treat each sub-problem as a PDD puzzle.
-- Update task notes, TODOs, and work logs as progress is made.
+- Summarize the diagnostics, scope, and testing plan at the end of the INPROGRESS document under **Implementation Handoff**.
+- Explicitly list prerequisites or blockers that the implementation workflow must respect.
+- Provide instructions for invoking the [`FIX`](FIX.md) command so the implementer can follow the bug-specific wrapper around [`START`](START.md).
 
-### Step 6. Validate and Document
+### Step 6. Archive and Sync Planning Artefacts
 
-- Run the full test suite plus targeted diagnostics to confirm the fix.
-- Update the INPROGRESS document with results, remaining risks, and links to commits.
-- If new documentation, changelog, or user-facing notes are required, author them now.
-
-### Step 7. Handle Blockers or Large Scope
-
-- If the bug cannot be resolved due to upstream blockers or exceeds feasible scope:
-  - Update the diagnostics and PRD sections with current findings.
-  - Refresh relevant planning artefacts (`todo.md`, workplan, backlog) to capture the blocker.
-  - Archive or reclassify the INPROGRESS file according to project rules, ensuring all intermediate documents are saved.
-
-### Step 8. Finalize
-
-- Once resolved, transition the INPROGRESS file to the appropriate archive location per workflow rules and mark linked TODO/workplan items as completed.
-- Summarize the resolution, tests executed, and remaining follow-ups.
+- Update `todo.md`, workplan entries, and any backlog files to reflect the new bug record and its status.
+- If the bug is blocked, document the blocker in [`DOCS/INPROGRESS/blocked.md`](../INPROGRESS/blocked.md) and cross-link from the INPROGRESS file.
+- Ensure all related documentation (PRD snippets, diagnostics plans) is saved and cross-referenced.
 
 ---
 
 ## ✅ EXPECTED OUTPUT
 
-- A richly detailed bug report stored in `DOCS/INPROGRESS` with diagnostics, testing, and PRD sections.
-- Updated plans outlining code touchpoints, hypotheses, and TDD steps.
-- Implemented bug fix verified by automated tests and documented outcomes.
-- Updated planning artefacts when blockers prevent completion.
+- A richly detailed bug report stored in `DOCS/INPROGRESS` capturing diagnostics, testing strategy, and PRD context.
+- Updated plans outlining code touchpoints, hypotheses, and TDD steps, all clearly marked as pre-implementation guidance.
+- Planning artefacts (`todo.md`, backlog files) synchronized with the new bug record and its status.
+- A clearly documented **Implementation Handoff** that directs implementers to use the `FIX` command (which wraps `START`).
 
 ---
 
@@ -89,6 +77,7 @@ From the invocation context extract the user-submitted bug report, formalize it,
 - Treat the improved bug report as the anchor document—keep it synchronized with discoveries and decisions.
 - Prefer automation for reproduction where possible; manual steps should be a fallback.
 - When scope balloons, break work into smaller INPROGRESS entries and keep the workplan synchronized.
+- Do **not** begin implementation here; that is delegated to the `FIX` wrapper command.
 
 ---
 
