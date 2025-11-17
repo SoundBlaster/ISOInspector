@@ -46,7 +46,13 @@ DOCS/
 # Dry-run mode (preview without changes)
 python3 scripts/archive_completed_tasks.py --dry-run
 
-# Execute archival
+# Interactive mode: Update Status field for NEW/UNCLASSIFIED files
+python3 scripts/archive_completed_tasks.py --interactive --dry-run
+
+# JSON output for automation/monitoring
+python3 scripts/archive_completed_tasks.py --dry-run --format json
+
+# Execute archival (after reviewing dry-run)
 python3 scripts/archive_completed_tasks.py
 
 # Then commit
@@ -57,9 +63,11 @@ git add DOCS/INPROGRESS/ DOCS/TASK_ARCHIVE/ && git commit -m "Archive completed 
 - ✅ Parses `Status:` field from each .md file in DOCS/INPROGRESS
 - ✅ Archives ONLY files marked `Status: RESOLVED` or `Status: COMPLETED`
 - ✅ Keeps `IN PROGRESS`, `BLOCKED`, and `NEW` tasks in place
+- ✅ **Validates markdown files** and reports warnings (missing Status, malformed files, etc.)
+- ✅ **Interactive mode** to update Status for NEW/UNCLASSIFIED files
 - ✅ Creates next sequential folder number (e.g., 231_Resolved_Tasks_Batch)
 - ✅ Updates ARCHIVE_SUMMARY.md with descriptions
-- ✅ Generates comprehensive archival report
+- ✅ Generates comprehensive archival report (text/JSON/CSV formats)
 
 **Dry-run output example:**
 ```
@@ -145,6 +153,16 @@ ARCHIVAL REPORT
 📂 Archive Folder:
    /home/user/ISOInspector/DOCS/TASK_ARCHIVE/231_SwiftUI_Publishing_Changes_Warning_Fix
 
+⚠️  Validation Warnings (8):
+   ⚠️  234_Remove_Recent_File_From_Sidebar.md: Missing Status field
+   ⚠️  235_System_Notification_For_Export.md: Missing Status field
+   ⚠️  236_Box_Details_Default_Card_Selection.md: Missing Status field
+   ⚠️  237_Integrity_Report_Banner_Action.md: Missing Status field
+   ⚠️  238_VIR_Issue_Box_Tree_Scroll.md: Missing Status field
+   ⚠️  239_Missing_Box_Hex_Preview.md: Missing Status field
+   ⚠️  240_TKHD_Flags_Mismatch.md: Missing Status field
+   ⚠️  241_Box_Details_Mono_Font.md: Missing Status field
+
 ⏳ Files remaining in DOCS/INPROGRESS (2):
    • 231_MacOS_iPadOS_MultiWindow_SharedState_Bug.md (IN PROGRESS)
    • 232_UI_Content_Not_Displayed_After_File_Selection.md (IN PROGRESS)
@@ -158,6 +176,9 @@ ARCHIVAL REPORT
    • 239_Missing_Box_Hex_Preview.md
    • 240_TKHD_Flags_Mismatch.md
    • 241_Box_Details_Mono_Font.md
+
+💡 Tip: Some files are missing Status field.
+   The --interactive mode can help you update them!
 
 ================================================================================
 ✓ Archival complete! Commit changes with:
@@ -176,6 +197,41 @@ ARCHIVAL REPORT
 - The script automatically parses the `Status:` field, preventing accidental archival of active tasks.
 - If a file lacks a `Status:` field, it's treated as NEW/UNCLASSIFIED and kept in INPROGRESS.
 - Dry-run output clearly shows which tasks will be archived vs. kept.
+
+### Interactive Mode for Updating Status
+
+If you have many NEW/UNCLASSIFIED files missing Status fields:
+
+```bash
+python3 scripts/archive_completed_tasks.py --interactive --dry-run
+```
+
+The script will:
+1. Show each NEW file with its objective/description
+2. Prompt you to select a status: `1) IN PROGRESS`, `2) BLOCKED`, `3) RESOLVED`, or skip
+3. Automatically update the markdown file with the chosen Status field
+4. Continue archival workflow after all updates
+
+**Use interactive mode when:**
+- Many new bug reports or tasks were created without Status fields
+- You want to bulk-update task statuses quickly
+- Validation warnings show multiple "Missing Status field" issues
+
+### Output Formats for Automation
+
+**JSON format** - for CI/monitoring/automation:
+```bash
+python3 scripts/archive_completed_tasks.py --dry-run --format json | jq '.summary'
+```
+Returns structured data: timestamp, archive_folder, file lists, warnings, dry_run flag.
+
+**CSV format** - for spreadsheet analysis:
+```bash
+python3 scripts/archive_completed_tasks.py --dry-run --format csv > task_report.csv
+```
+Import into Excel/Google Sheets for tracking and reporting.
+
+**Text format** (default) - human-readable with emoji indicators and tips.
 
 ### Status Field Convention
 
@@ -248,15 +304,21 @@ At the end of working ensure Markdown formatting is consistent. The legacy helpe
 
 **Usage:**
 ```bash
-python3 scripts/archive_completed_tasks.py [--dry-run] [--repo-root .]
+python3 scripts/archive_completed_tasks.py [--dry-run] [--interactive] [--format FORMAT]
 ```
 
 **Options:**
 - `--dry-run`: Preview changes without executing (recommended first step)
-- `--repo-root`: Specify repository root (default: current directory)
+- `--interactive` / `-i`: Interactively update Status field for NEW/UNCLASSIFIED files
+- `--format {text,json,csv}` / `-f`: Output format (default: text)
+  - `text`: Human-readable report with emoji indicators
+  - `json`: Machine-readable JSON for automation/monitoring
+  - `csv`: Spreadsheet-compatible CSV format
+- `--repo-root PATH`: Specify repository root (default: current directory)
 
 **Output:**
 - Classification of all .md files in DOCS/INPROGRESS by status
+- **Validation warnings** for missing Status fields, malformed markdown, etc.
 - Archival report with counts and file paths
 - Automatic ARCHIVE_SUMMARY.md updates
 - Ready-to-use git commit command
