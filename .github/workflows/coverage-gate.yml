@@ -116,6 +116,7 @@ jobs:
             const fs = require('fs');
             const coverage = '${{ steps.coverage.outputs.coverage }}';
             const hasReport = fs.existsSync('Documentation/Quality/coverage-report.txt');
+            const jobStatus = '${{ job.status }}';
 
             let comment = '## 📊 Coverage Gate Results\n\n';
 
@@ -130,7 +131,9 @@ jobs:
 
             comment += `**Threshold:** 67%\n`;
             comment += `**Coverage:** ${coverage}\n`;
-            comment += `**Status:** ${{ job.status === 'success' ? '✅ PASS' : '❌ FAIL' }}\n`;
+            const statusEmoji = jobStatus === 'success' ? '✅' : '❌';
+            const statusText = jobStatus === 'success' ? 'PASS' : 'FAIL';
+            comment += `**Status:** ${statusEmoji} ${statusText}\n`;
 
             github.rest.issues.createComment({
               issue_number: context.issue.number,
@@ -138,3 +141,4 @@ jobs:
               repo: context.repo.repo,
               body: comment
             });
+
