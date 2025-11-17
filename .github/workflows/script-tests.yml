@@ -96,8 +96,13 @@ jobs:
       - name: Verify script produces output
         run: |
           output=$(python scripts/archive_completed_tasks.py --dry-run 2>&1)
-          if echo "$output" | grep -q "ARCHIVAL REPORT"; then
+          if echo "$output" | grep -qE "(ARCHIVAL REPORT|No resolved tasks to archive)"; then
             echo "✓ Archive script executed successfully"
+            if echo "$output" | grep -q "ARCHIVAL REPORT"; then
+              echo "  Script generated archival report (tasks were archived)"
+            else
+              echo "  Script verified no tasks to archive"
+            fi
           else
             echo "✗ Archive script did not produce expected output"
             echo "$output"
