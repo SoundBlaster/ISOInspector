@@ -31,7 +31,7 @@
   //   and parse pipeline coordination into separate services (e.g., BookmarkService,
   //   RecentsService, ParseCoordinationService). This is blocking strict SwiftLint
   //   enforcement on the main project in CI. Target: reduce to <1200 lines (warning threshold).
-  //   Remove the swiftlint:disable directive below once refactored.
+  //   After refactoring, remove the type_body_length suppression on the next line.
   // swiftlint:disable:next type_body_length
   final class DocumentSessionController: ObservableObject {
     @Published private(set) var recents: [DocumentRecent]
