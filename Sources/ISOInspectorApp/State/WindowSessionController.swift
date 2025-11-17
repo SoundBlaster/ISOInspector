@@ -26,16 +26,20 @@
     // MARK: - Published Properties (Window-Specific State)
 
     /// The current document open in this window
-    @Published private(set) var currentDocument: DocumentRecent?
+    /// Internal setter to allow testing while preventing external mutation.
+    @Published var currentDocument: DocumentRecent?
 
     /// Document load failure state for this window
-    @Published private(set) var loadFailure: DocumentSessionController.DocumentLoadFailure?
+    /// Internal setter to allow testing while preventing external mutation.
+    @Published var loadFailure: DocumentSessionController.DocumentLoadFailure?
 
     /// Export status for operations in this window
-    @Published private(set) var exportStatus: DocumentSessionController.ExportStatus?
+    /// Internal setter to allow testing while preventing external mutation.
+    @Published var exportStatus: DocumentSessionController.ExportStatus?
 
     /// Issue metrics for the current document in this window
-    @Published private(set) var issueMetrics: ParseIssueStore.IssueMetrics
+    /// Internal setter to allow testing while preventing external mutation.
+    @Published var issueMetrics: ParseIssueStore.IssueMetrics
 
     /// The document view model for this window
     let documentViewModel: DocumentViewModel
