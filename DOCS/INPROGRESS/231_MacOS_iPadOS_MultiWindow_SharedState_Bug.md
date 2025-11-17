@@ -325,6 +325,7 @@ Use `@SceneStorage` to persist per-window state automatically:
 | 2025-11-17 | In Progress | Implementing per-window state isolation |
 | 2025-11-17 | Completed | WindowSessionController implemented for per-window state; AppShellView and ISOInspectorApp refactored; unit tests added |
 | 2025-11-17 | Fixed | Restored export functionality: exportJSON/exportIssueSummary now delegate to appSessionController with status forwarding via bindings |
+| 2025-11-17 | Fixed | Fixed recents sidebar buttons: openRecent now routes through proper document loading path |
 
 ---
 
