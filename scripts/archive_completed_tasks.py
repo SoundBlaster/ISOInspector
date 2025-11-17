@@ -6,14 +6,17 @@ This script intelligently archives COMPLETED/RESOLVED tasks from DOCS/INPROGRESS
 while keeping IN PROGRESS and BLOCKED tasks in place.
 
 Usage:
-    python3 scripts/archive_completed_tasks.py [--dry-run] [--target-folder NAME]
+    python3 scripts/archive_completed_tasks.py [--dry-run] [--interactive] [--format json]
 
 Features:
     - Parses status from each .md file (Status: RESOLVED, IN PROGRESS, BLOCKED, etc.)
     - Archives only RESOLVED/COMPLETED tasks
     - Keeps IN PROGRESS, BLOCKED, and new task reports in DOCS/INPROGRESS
+    - Interactive mode to update status on NEW/UNCLASSIFIED files
     - Automatically updates ARCHIVE_SUMMARY.md with descriptions
     - Provides dry-run mode to preview changes
+    - JSON/CSV output formats for integration
+    - Validation warnings for malformed markdown
     - Generates comprehensive archival report
 """
 
