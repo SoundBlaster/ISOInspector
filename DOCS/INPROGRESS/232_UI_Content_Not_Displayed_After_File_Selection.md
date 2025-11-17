@@ -170,6 +170,7 @@ private var documentViewModel: DocumentViewModel {
 | 2025-11-17 | Investigating | Starting code review and diagnostics |
 | 2025-11-17 | Root Cause Found | Broken binding due to local variable initialization in init |
 | 2025-11-17 | Fixed | Converted documentViewModel to computed property in AppShellView.swift |
+| 2025-11-17 | Tests Fixed | Fixed WindowSessionControllerTests to use correct API - all 376 tests pass |
 
 ---
 
@@ -244,6 +245,8 @@ Added inline documentation to `AppShellView.swift`:
 2. ✅ Fix implemented
 3. ✅ Regression tests added
 4. ✅ Code documentation added
-5. ⏳ Commit and push changes
-6. ⏳ Manual verification on macOS/iOS
-7. ⏳ Close bug report upon successful verification
+5. ✅ Tests pass locally (all 376 tests pass, including 7 WindowSessionControllerTests)
+6. ⏳ Commit and push changes
+7. ⏳ CI verification
+8. ⏳ Manual verification on macOS/iOS
+9. ⏳ Close bug report upon successful verification
