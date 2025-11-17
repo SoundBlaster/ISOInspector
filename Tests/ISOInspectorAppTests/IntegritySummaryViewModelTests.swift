@@ -9,7 +9,7 @@
 
     // MARK: - Offset-Based Sorting Tests (#T36-001)
 
-    func testOffsetSorting_PrimarySortByByteOffset() {
+    func testOffsetSorting_PrimarySortByByteOffset() async {
       // Arrange: Create issues with different byte offsets
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -44,9 +44,11 @@
       )
 
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
 
       // Act: Sort by offset
       viewModel.sortOrder = .offset
+      await viewModel.waitForPendingUpdates()
 
       // Assert: Issues should be sorted by byte offset (100, 200, 300)
       let sortedIssues = viewModel.displayedIssues
@@ -56,7 +58,7 @@
       XCTAssertEqual(sortedIssues[2].byteRange?.lowerBound, 300)
     }
 
-    func testOffsetSorting_SecondaryTieBreakerBySeverity() {
+    func testOffsetSorting_SecondaryTieBreakerBySeverity() async {
       // Arrange: Create multiple issues at the same byte offset with different severities
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -91,9 +93,11 @@
       )
 
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
 
       // Act: Sort by offset
       viewModel.sortOrder = .offset
+      await viewModel.waitForPendingUpdates()
 
       // Assert: At same offset, should sort by severity (Error > Warning > Info)
       let sortedIssues = viewModel.displayedIssues
@@ -103,7 +107,7 @@
       XCTAssertEqual(sortedIssues[2].severity, .info, "Info should be last")
     }
 
-    func testOffsetSorting_TertiaryTieBreakerByCode() {
+    func testOffsetSorting_TertiaryTieBreakerByCode() async {
       // Arrange: Create multiple issues at same offset with same severity but different codes
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -138,9 +142,11 @@
       )
 
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
 
       // Act: Sort by offset
       viewModel.sortOrder = .offset
+      await viewModel.waitForPendingUpdates()
 
       // Assert: At same offset and severity, should sort by code lexicographically
       let sortedIssues = viewModel.displayedIssues
@@ -150,7 +156,7 @@
       XCTAssertEqual(sortedIssues[2].code, "ERR-003", "ERR-003 should be last")
     }
 
-    func testOffsetSorting_IssuesWithoutByteRangeSortToEnd() {
+    func testOffsetSorting_IssuesWithoutByteRangeSortToEnd() async {
       // Arrange: Create issues with and without byte ranges
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -185,9 +191,11 @@
       )
 
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
 
       // Act: Sort by offset
       viewModel.sortOrder = .offset
+      await viewModel.waitForPendingUpdates()
 
       // Assert: Issues without byte ranges should sort to end
       let sortedIssues = viewModel.displayedIssues
@@ -199,7 +207,7 @@
 
     // MARK: - Affected Node Sorting Tests (#T36-002)
 
-    func testAffectedNodeSorting_PrimarySortByFirstNodeID() {
+    func testAffectedNodeSorting_PrimarySortByFirstNodeID() async {
       // Arrange: Create issues affecting different nodes
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -234,9 +242,11 @@
       )
 
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
 
       // Act: Sort by affected node
       viewModel.sortOrder = .affectedNode
+      await viewModel.waitForPendingUpdates()
 
       // Assert: Issues should be sorted by first affected node ID (10, 20, 30)
       let sortedIssues = viewModel.displayedIssues
@@ -246,7 +256,7 @@
       XCTAssertEqual(sortedIssues[2].affectedNodeIDs.first, 30)
     }
 
-    func testAffectedNodeSorting_SecondaryTieBreakerBySeverity() {
+    func testAffectedNodeSorting_SecondaryTieBreakerBySeverity() async {
       // Arrange: Create multiple issues affecting the same node with different severities
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -281,9 +291,11 @@
       )
 
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
 
       // Act: Sort by affected node
       viewModel.sortOrder = .affectedNode
+      await viewModel.waitForPendingUpdates()
 
       // Assert: For same node, should sort by severity (Error > Warning > Info)
       let sortedIssues = viewModel.displayedIssues
@@ -293,7 +305,7 @@
       XCTAssertEqual(sortedIssues[2].severity, .info, "Info should be last")
     }
 
-    func testAffectedNodeSorting_TertiaryTieBreakerByOffset() {
+    func testAffectedNodeSorting_TertiaryTieBreakerByOffset() async {
       // Arrange: Create multiple issues affecting same node with same severity but different offsets
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -328,9 +340,11 @@
       )
 
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
 
       // Act: Sort by affected node
       viewModel.sortOrder = .affectedNode
+      await viewModel.waitForPendingUpdates()
 
       // Assert: For same node and severity, should sort by offset
       let sortedIssues = viewModel.displayedIssues
@@ -340,7 +354,7 @@
       XCTAssertEqual(sortedIssues[2].byteRange?.lowerBound, 300, "Offset 300 should be last")
     }
 
-    func testAffectedNodeSorting_IssuesWithEmptyNodesSortToEnd() {
+    func testAffectedNodeSorting_IssuesWithEmptyNodesSortToEnd() async {
       // Arrange: Create issues with and without affected nodes
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -375,9 +389,11 @@
       )
 
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
 
       // Act: Sort by affected node
       viewModel.sortOrder = .affectedNode
+      await viewModel.waitForPendingUpdates()
 
       // Assert: Issues without affected nodes should sort to end
       let sortedIssues = viewModel.displayedIssues
@@ -390,7 +406,7 @@
 
     // MARK: - Severity Sorting Tests (Existing Behavior)
 
-    func testSeveritySorting_RemainsDeterministic() {
+    func testSeveritySorting_RemainsDeterministic() async {
       // Arrange: Create issues with same severity but different codes
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -425,9 +441,11 @@
       )
 
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
 
       // Act: Default sort by severity
       viewModel.sortOrder = .severity
+      await viewModel.waitForPendingUpdates()
 
       // Assert: Should sort by severity (errors first, then warnings)
       let sortedIssues = viewModel.displayedIssues

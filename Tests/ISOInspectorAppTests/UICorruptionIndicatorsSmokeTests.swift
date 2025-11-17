@@ -149,7 +149,7 @@
 
     // MARK: - Integrity Summary Tests
 
-    func testIntegritySummaryDisplaysCorruptionIssues() {
+    func testIntegritySummaryDisplaysCorruptionIssues() async {
       // Arrange: Create a store with corruption issues
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -175,6 +175,7 @@
 
       // Act: Create view model
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
 
       // Assert: Issues should be displayed
       XCTAssertEqual(viewModel.displayedIssues.count, 2)
@@ -183,12 +184,13 @@
 
       // Assert: First issue (error) should come first when sorted by severity
       viewModel.sortOrder = .severity
+      await viewModel.waitForPendingUpdates()
       let sortedIssues = viewModel.displayedIssues
       XCTAssertEqual(sortedIssues.first?.severity, .error)
       XCTAssertEqual(sortedIssues.first?.code, "payload.truncated")
     }
 
-    func testIntegritySummaryOffsetSortingForCorruptionIssues() {
+    func testIntegritySummaryOffsetSortingForCorruptionIssues() async {
       // Arrange: Create issues at different offsets
       let store = ParseTreeStore()
       store.issueStore.record(
@@ -224,7 +226,9 @@
 
       // Act: Create view model and sort by offset
       let viewModel = IntegritySummaryViewModel(issueStore: store.issueStore)
+      await viewModel.waitForPendingUpdates()
       viewModel.sortOrder = .offset
+      await viewModel.waitForPendingUpdates()
 
       // Assert: Issues should be sorted by offset
       let sortedIssues = viewModel.displayedIssues
