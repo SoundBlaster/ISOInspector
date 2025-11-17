@@ -1695,3 +1695,18 @@
   - **Phase 3:** Enable strict mode for main project after refactoring complete
   - **Parallel:** Proceed with A8 (Test Coverage Gates) and A10 (Swift Duplication Detection) on automation track
   - **FoundationUI:** Continue Phase 2 interactive components work (I2.1–I2.3)
+
+## 231_SwiftUI_Publishing_Changes_Warning_Fix
+- **Archived files:** `233_SwiftUI_Publishing_Changes_Warning_Fix.md`
+- **Archived location:** `DOCS/TASK_ARCHIVE/231_SwiftUI_Publishing_Changes_Warning_Fix/`
+- **Status:** ✅ RESOLVED
+- **Summary:** Fix for SwiftUI runtime warning in IntegritySummaryViewModel.
+- **Highlights:**
+  - **Bug #233 (SwiftUI Publishing Changes Warning):** RESOLVED. Fixed SwiftUI runtime warning "Publishing changes from within view updates is not allowed" in `IntegritySummaryViewModel` by eliminating property observers that modify `@Published` properties, moving update logic to computed properties and explicit state handlers.
+  - **Root cause:** Property observers (didSet) modifying `@Published` properties from within didSet of other `@Published` properties violates SwiftUI's reactive binding contract.
+  - **Solution:** Replaced property observers with computed properties and explicit state transitions, eliminating the warning while maintaining reactive behavior.
+  - **Commit:** 4720d9f "Fix SwiftUI 'Publishing changes from within view updates' warning in IntegritySummaryViewModel"
+- **Context:**
+  - This bug emerged from ViewModel refactoring during the multi-window state isolation work (Bug #231/#232)
+  - It represents a resolved infrastructure issue in the UI tier that demonstrates SwiftUI best practices
+- **Next steps:** None — task is complete and ready for verification via regression tests.
