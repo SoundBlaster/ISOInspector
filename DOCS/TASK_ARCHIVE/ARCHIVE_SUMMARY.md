@@ -1671,9 +1671,9 @@
   - ✅ DocC warning log (`Build Documentation …`) and bug write-up (`229_BUG_Docc_Warnings.md`) consolidate the remediation plan for remaining documentation build issues.
 - **Next steps carried forward:** Finish implementing Task A8 by integrating `coverage_analysis.py --threshold 0.67` into the pre-push hook and CI workflows, rehydrate `DOCS/INPROGRESS/blocked.md` with any still-active hardware/manual tasks, continue DocC cleanup per the captured diagnostics plan, and begin Automation Track tasks A10–A11 once coverage gating lands.
 
-## 100_A7_SwiftLint_Complexity_Thresholds
+## 229_A7_SwiftLint_Complexity_Thresholds
 - **Archived files:** `A7_SwiftLint_Complexity_Thresholds.md`, `Summary_of_Work.md`
-- **Archived location:** `DOCS/TASK_ARCHIVE/100_A7_SwiftLint_Complexity_Thresholds/`
+- **Archived location:** `DOCS/TASK_ARCHIVE/229_A7_SwiftLint_Complexity_Thresholds/`
 - **Highlights:** Completes Task A7 (Reinstate SwiftLint Complexity Thresholds) with final CI workflow enhancements, documentation improvements, and establishment of complexity guardrails. The main project check runs in informational mode to accommodate existing large-file violations while FoundationUI and ComponentTestApp remain strictly enforced.
 - **Key outcomes:**
   - ✅ `.swiftlint.yml` contains documented complexity thresholds: cyclomatic_complexity (30/55), function_body_length (250/350), type_body_length (1200/1500), nesting (5/7)
