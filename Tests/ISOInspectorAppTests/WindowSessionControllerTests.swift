@@ -25,29 +25,31 @@
       let testURL2 = URL(fileURLWithPath: "/test/document2.mp4")
 
       let recent1 = DocumentRecent(
-        id: UUID(),
-        displayName: "Document 1",
         url: testURL1,
+        bookmarkIdentifier: nil,
+        bookmarkData: nil,
+        displayName: "Document 1",
         lastOpened: Date()
       )
 
       let recent2 = DocumentRecent(
-        id: UUID(),
-        displayName: "Document 2",
         url: testURL2,
+        bookmarkIdentifier: nil,
+        bookmarkData: nil,
+        displayName: "Document 2",
         lastOpened: Date()
       )
 
-      // Set different documents in each window
-      window1.currentDocument = recent1
-      window2.currentDocument = recent2
+      // Open different documents in each window using public API
+      window1.openRecent(recent1)
+      window2.openRecent(recent2)
 
       // Verify that each window maintains its own state
       XCTAssertEqual(window1.currentDocument?.url, testURL1)
       XCTAssertEqual(window2.currentDocument?.url, testURL2)
 
-      // Verify that they are independent
-      XCTAssertNotEqual(window1.currentDocument?.id, window2.currentDocument?.id)
+      // Verify that they are independent (different URLs mean different documents)
+      XCTAssertNotEqual(window1.currentDocument?.url, window2.currentDocument?.url)
     }
 
     /// Test that WindowSessionController has independent ParseTreeStore
@@ -102,11 +104,11 @@
   private class InMemoryDocumentRecentsStore: DocumentRecentsStoring {
     private var recents: [DocumentRecent] = []
 
-    func loadRecents() throws -> [DocumentRecent] {
+    func load() throws -> [DocumentRecent] {
       recents
     }
 
-    func saveRecents(_ recents: [DocumentRecent]) throws {
+    func save(_ recents: [DocumentRecent]) throws {
       self.recents = recents
     }
   }

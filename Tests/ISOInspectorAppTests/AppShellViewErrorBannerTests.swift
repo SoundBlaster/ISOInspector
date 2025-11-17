@@ -94,7 +94,7 @@
         filesystemAccess: FilesystemAccessStub().makeAccess()
       )
 
-      let view = AppShellView(controller: controller)
+      let view = AppShellView(appController: controller)
       let hostingView = NSHostingView(rootView: view.frame(width: 800, height: 600))
 
       controller.parseTreeStore.issueStore.record(

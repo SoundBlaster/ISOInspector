@@ -58,7 +58,7 @@
     private let logger = Logger(subsystem: "ISOInspectorApp", category: "WindowSession")
     private let exportLogger = Logger(subsystem: "ISOInspectorApp", category: "WindowExport")
 
-    private var issueMetricsCancellable: AnyCancellable?
+    private var cancellables: Set<AnyCancellable> = []
     private var activeSecurityScopedURL: SecurityScopedURL?
     private var currentSessionID: UUID?
     private var lastFailedRecent: DocumentRecent?
@@ -111,8 +111,11 @@
     // MARK: - Setup
 
     private func setupBindings() {
-      issueMetricsCancellable = parseTreeStore.$issueMetrics
-        .assign(to: &$issueMetrics)
+      parseTreeStore.$issueMetrics
+        .sink { [weak self] metrics in
+          self?.issueMetrics = metrics
+        }
+        .store(in: &cancellables)
     }
 
     // MARK: - Document Management
@@ -179,34 +182,40 @@
 
       do {
         // Start security-scoped access
-        let scopedURL = try filesystemAccess.makeSecurityScoped(url)
+        let scopedURL = try filesystemAccess.adoptSecurityScope(for: url)
         activeSecurityScopedURL = scopedURL
 
         // Create reader
         let reader = try readerFactory(scopedURL.url)
 
-        // Parse document
+        // Parse document using the streaming API
         let pipeline = pipelineFactory()
-        let tree = try pipeline.parse(reader)
+        var context = ParsePipeline.Context(source: url, issueStore: parseTreeStore.issueStore)
 
-        // Update state
+        // Start parsing via ParseTreeStore
         await MainActor.run {
-          parseTreeStore.set(tree: tree, fileURL: url)
+          parseTreeStore.start(pipeline: pipeline, reader: reader, context: context)
+
           let recent = DocumentRecent(
-            id: UUID(),
-            displayName: url.lastPathComponent,
             url: url,
+            bookmarkIdentifier: nil,
+            bookmarkData: nil,
+            displayName: url.lastPathComponent,
             lastOpened: Date()
           )
           currentDocument = recent
+
+          // Register with app controller's recent documents
+          appSessionController.openRecent(recent)
         }
       } catch {
         await MainActor.run {
           logger.error("Failed to open document: \(error, privacy: .public)")
           let recent = DocumentRecent(
-            id: UUID(),
-            displayName: url.lastPathComponent,
             url: url,
+            bookmarkIdentifier: nil,
+            bookmarkData: nil,
+            displayName: url.lastPathComponent,
             lastOpened: Date()
           )
           lastFailedRecent = recent
