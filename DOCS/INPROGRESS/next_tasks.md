@@ -2,6 +2,32 @@
 
 _Last updated: 2025-11-18 (UTC). Maintainers should update this file whenever task priorities change or blockers are resolved._
 
+## 0. FoundationUI Navigation Architecture (NEW)
+
+1. **Task 240 – NavigationSplitViewKit Integration** _(Ready for Implementation — `DOCS/INPROGRESS/240_NavigationSplitViewKit_Integration.md`)_
+   - Add `NavigationSplitViewKit` SPM dependency to `FoundationUI/Package.swift` with proper version pinning (≥1.0.0)
+   - Mirror dependency in Tuist manifests (`FoundationUI/Project.swift`) and regenerate lockfiles
+   - Update CI workflows to cache the new dependency and monitor build time impact
+   - Verify all targets (Examples, Tests) link `NavigationSplitViewKit` correctly
+   - Effort: ~3 days; unblocked and ready to start immediately
+
+2. **Task 241 – NavigationSplitScaffold Pattern** _(Pending Task 240 — `DOCS/INPROGRESS/241_NavigationSplitScaffold_Pattern.md`)_
+   - Create wrapper pattern that applies Composable Clarity tokens to `NavigationSplitViewKit`
+   - Provide environment key for downstream patterns to access navigation state
+   - Implement DS-driven appearance with zero magic numbers
+   - Author 35+ unit/integration tests covering three/two/single-column behavior across all platforms
+   - Create 6+ SwiftUI Previews with real-world ISO Inspector mockup
+   - Effort: ~4 days; depends on task 240
+
+3. **Task 242 – Update Existing Patterns** _(Pending Tasks 240 + 241)_
+   - Refactor `SidebarPattern`, `InspectorPattern`, `ToolbarPattern` previews/tests to adopt `NavigationSplitScaffold`
+   - Ensure column visibility controls expose accessibility shortcuts and VoiceOver labels
+   - Update agent YAML schemas to surface navigation bindings
+   - Create 6+ integration tests verifying NavigationModel synchronization
+   - Effort: ~2 days; depends on tasks 240 + 241
+
+---
+
 ## 1. Automation & Quality Gates
 
 1. **Task A7 – SwiftLint Complexity Thresholds** _(In Progress — `DOCS/INPROGRESS/A7_SwiftLint_Complexity_Thresholds.md`)_
