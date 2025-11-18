@@ -288,13 +288,17 @@ class TaskArchiver:
         print(f"\n📦 Archiving {len(self.resolved_files)} resolved tasks...")
         print(f"   Target: {archive_folder.name}\n")
 
-        for file_path in self.resolved_files:
+        for idx, file_path in enumerate(self.resolved_files):
             dest_path = archive_folder / file_path.name
 
             if self.dry_run:
                 print(f"  [DRY RUN] mv {file_path.name} → {archive_folder.name}/")
             else:
                 shutil.move(str(file_path), str(dest_path))
+                # Update the stored path so later steps (like summary generation)
+                # read from the new archive location instead of the now-missing
+                # source file path.
+                self.resolved_files[idx] = dest_path
                 print(f"  ✓ {file_path.name}")
 
     def update_archive_summary(self, archive_folder: Path) -> None:
