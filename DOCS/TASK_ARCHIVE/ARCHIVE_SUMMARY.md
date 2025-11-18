@@ -5,7 +5,7 @@
 - **Purpose:** Centralize work items that cannot proceed without unattainable resources (e.g., missing hardware or platform restrictions).
 - **How to use:** When archiving, move any irrecoverably blocked task notes from [`DOCS/INPROGRESS/blocked.md`](../INPROGRESS/blocked.md) into this directory and document the conditions required to resume.
 
-> **Note (2025-10-30):** References to `DOCS/INPROGRESS/next_tasks.md` inside historical entries now point to the archived checklist stored at `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/next_tasks.md`. The live `DOCS/INPROGRESS/` directory currently only contains the recoverable blocker log.
+> **Note (2025-11-18):** Historical references to `DOCS/INPROGRESS/next_tasks.md` still point to the archived checklist stored at `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/next_tasks.md` for context. The live queue at `DOCS/INPROGRESS/next_tasks.md` has been restored and once again tracks active priorities alongside the recoverable blocker log in `DOCS/INPROGRESS/blocked.md`.
 
 ## 01_A2_Configure_CI_Pipeline
 - **Original file:** `DOCS/INPROGRESS/A2_Configure_CI_Pipeline.md`
