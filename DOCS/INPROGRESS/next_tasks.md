@@ -25,11 +25,7 @@ _Last updated: 2025-11-18 (UTC). Maintainers should update this file whenever ta
    - Reconnect `DocumentSessionController`/`WindowSessionController` bindings so the parse tree and report panes refresh when a file loads.
    - Add regression tests (UI snapshot or integration) to ensure the tree/report render after selecting files on macOS and iPadOS.
 
-2. **Bug #231 – Multi-window shared state** _(High — `DOCS/INPROGRESS/231_MacOS_iPadOS_MultiWindow_SharedState_Bug.md`)_
-   - Finish isolating per-window document, selection, and detail state so actions in one window never mutate the others.
-   - Verify restoration flows preserve independent window state before re-shipping the bug fix.
-
-3. **Bug #234 – Remove Recent File from Sidebar** _(Ready for implementation — `DOCS/INPROGRESS/234_Remove_Recent_File_From_Sidebar.md`)_
+2. **Bug #234 – Remove Recent File from Sidebar** _(Ready for implementation — `DOCS/INPROGRESS/234_Remove_Recent_File_From_Sidebar.md`)_
    - Add the MRU removal affordance in the sidebar along with analytics/logging hooks described in the spec.
    - Ensure recents persistence updates and DocumentSessionController wiring reflect removals immediately.
 
