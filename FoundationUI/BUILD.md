@@ -60,6 +60,37 @@ swiftlint version  # Should show latest version
 
 ---
 
+## Dependencies
+
+FoundationUI uses Swift Package Manager (SPM) for dependency management. The following external packages are required:
+
+### External Dependencies
+
+| Package | Version | Purpose |
+|---------|---------|---------|
+| **[Yams](https://github.com/jpsim/Yams)** | ≥5.0.0 | YAML parsing for component schemas and agent configuration |
+| **[NavigationSplitViewKit](https://github.com/SoundBlaster/NavigationSplitView)** | ≥1.0.0 | Production-ready NavigationSplitView with state management and adaptive behaviors |
+
+### Dependency Resolution
+
+Dependencies are automatically resolved by SPM:
+
+```bash
+# Resolve dependencies
+cd FoundationUI
+swift package resolve
+
+# Update dependencies to latest compatible versions
+swift package update
+
+# Show dependency tree
+swift package show-dependencies
+```
+
+All dependencies are cached by SPM in `.build` directory and tracked in `Package.resolved` lockfile.
+
+---
+
 ## Project Structure
 
 ```bash
