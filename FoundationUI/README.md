@@ -15,6 +15,15 @@ A SwiftUI component library following **Composable Clarity Design System** princ
 
 ---
 
+## 📦 Dependencies
+
+FoundationUI relies on the following external packages:
+
+- **[Yams](https://github.com/jpsim/Yams)** (≥5.0.0): YAML parsing for component schemas and agent configuration
+- **[NavigationSplitViewKit](https://github.com/SoundBlaster/NavigationSplitView)** (≥1.0.0): Production-ready NavigationSplitView with state management for cross-platform navigation patterns
+
+---
+
 ## 🎯 Purpose
 
 FoundationUI provides a unified, accessible, and platform-adaptive component library for building ISO file inspector interfaces across Apple platforms.

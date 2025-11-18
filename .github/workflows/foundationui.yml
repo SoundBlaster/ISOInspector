@@ -177,6 +177,16 @@ jobs:
       - name: Show Swift version
         run: swift --version
 
+      - name: Cache SPM dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Developer/Xcode/DerivedData/*/SourcePackages/checkouts
+            .build
+          key: ${{ runner.os }}-spm-${{ hashFiles('FoundationUI/Package.resolved') }}
+          restore-keys: |
+            ${{ runner.os }}-spm-
+
       - name: Validate Package.swift
         run: |
           cd FoundationUI
