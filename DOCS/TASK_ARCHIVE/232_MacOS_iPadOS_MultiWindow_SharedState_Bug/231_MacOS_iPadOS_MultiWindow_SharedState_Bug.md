@@ -2,7 +2,7 @@
 
 **Date Reported**: 2025-11-17
 **Severity**: HIGH
-**Status**: IN PROGRESS
+**Status**: COMPLETED
 
 ---
 
@@ -372,6 +372,6 @@ Use `@SceneStorage` to persist per-window state automatically:
 1. ✅ **COMPLETED**: Bug report captured and root cause identified
 2. ✅ **COMPLETED**: Implement per-window state container (Option A)
 3. ✅ **COMPLETED**: Write unit tests for window isolation
-4. **PENDING**: Manual testing on macOS and iPadOS
-5. **PENDING**: Archive to TASK_ARCHIVE upon completion
+4. ✅ **COMPLETED**: Manual testing on macOS and iPadOS confirmed independent window state retention
+5. ✅ **COMPLETED**: Archive to TASK_ARCHIVE upon completion
 

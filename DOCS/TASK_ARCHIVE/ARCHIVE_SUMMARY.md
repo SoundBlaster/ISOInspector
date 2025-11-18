@@ -1710,3 +1710,15 @@
   - The regression stemmed from Bug #231/#232 view-model refactors while isolating document state per window.
   - The archive demonstrates the concurrency patterns we now follow for SwiftUI state propagation.
 - **Next steps:** None — task is complete; regressions remain covered via the async tests.
+
+## 232_MacOS_iPadOS_MultiWindow_SharedState_Bug
+- **Archived files:** `231_MacOS_iPadOS_MultiWindow_SharedState_Bug.md`
+- **Archived location:** `DOCS/TASK_ARCHIVE/232_MacOS_iPadOS_MultiWindow_SharedState_Bug/`
+- **Status:** ✅ COMPLETED (2025-11-18)
+- **Summary:** Fixed the high-priority macOS/iPadOS regression where every ISOInspector window shared the same document/session state, making file selections, detail panes, and export workflows mirror each other across windows.
+- **Highlights:**
+  - Added a dedicated `WindowSessionController` so each `WindowGroup` instance owns its document model, parse tree store, annotation bookmarks, and export status without touching global state.
+  - Refactored `AppShellView` and `ISOInspectorApp` to initialize per-window controllers while leaving app-scoped concerns (recents, preferences, validation pipelines) under `DocumentSessionController`.
+  - Restored export flows and recents sidebar buttons by delegating through the appropriate controller layers and synchronizing status bindings across the window/app boundary.
+  - Added `WindowSessionControllerTests` to verify state isolation plus performance fixes that offload heavy parsing onto background tasks so the UI stays responsive when opening multi-GB files.
+- **Next steps:** None — manual verification on macOS and iPadOS confirmed independent state persistence across new windows and after restoration.
