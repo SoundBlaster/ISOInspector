@@ -3,7 +3,7 @@
 ## CI/CD & Quality Gates
 
 - [ ] Wire `swift format --in-place` into `.pre-commit-config.yaml` and add a `swift format --mode lint` gate to `.github/workflows/ci.yml` so formatting failures block pushes and pull requests. (Config: `.pre-commit-config.yaml`, `.github/workflows/ci.yml`)
-- [x] Restore SwiftLint complexity thresholds in `.swiftlint.yml` and surface analyzer artifacts from `.github/workflows/swiftlint.yml` when violations occur. (Config: `.swiftlint.yml`, `.github/workflows/swiftlint.yml`) _(Completed 2025-11-16 — Task A7, see `DOCS/INPROGRESS/Summary_of_Work.md`)_
+- [ ] Restore SwiftLint complexity thresholds in `.swiftlint.yml` and surface analyzer artifacts from `.github/workflows/swiftlint.yml` when violations occur. (Config: `.swiftlint.yml`, `.github/workflows/swiftlint.yml`) _(Status: In Progress — see `DOCS/INPROGRESS/A7_SwiftLint_Complexity_Thresholds.md` for scope and outstanding refactors.)_
 
 ### Task A7 Follow-up: Refactor Large Files (Blocking Strict Mode)
 
@@ -45,6 +45,7 @@
 ## Performance & Benchmarking
 
 - [ ] Execute the macOS 1 GiB lenient-vs-strict benchmark for Task T5.4 once hardware is available, exporting `ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824` before running `swift test --filter LargeFileBenchmarkTests/testCLIValidationLenientModePerformanceStaysWithinToleranceBudget`. (Tests/ISOInspectorPerformanceTests/LargeFileBenchmarkTests.swift) _(Step-by-step checklist lives in `DOCS/INPROGRESS/next_tasks.md`; historical notes archived at `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.)_
+  - **Hardware dependency:** Requires access to macOS hardware that can host the 1 GiB benchmark fixture; currently blocked per `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/blocked.md` until that runner is provisioned.
 - [x] #4 Integrate the `ResearchLogMonitor` audit with SwiftUI previews once VR-006 entries surface in the UI. (Sources/ISOInspectorKit/Validation/ResearchLogMonitor.swift) _(Completed — see `DOCS/TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation/194_ResearchLogMonitor_SwiftUIPreviews.md`.)_
 - [x] #T36 Resolve Integrity navigation filters, outline shortcuts, and issue-only toggle so tolerant parsing hand-offs stay focused. (Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift) _(Completed — see `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/200_T3_7_Integrity_Navigation_Filters.md`.)_
 - [x] #T5.2 Land tolerant traversal regression tests that exercise the corrupt fixture corpus and strict-mode guards. (Tests/ISOInspectorKitTests/TolerantTraversalRegressionTests.swift) _(Completed — see `DOCS/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/Summary_of_Work.md`.)_
