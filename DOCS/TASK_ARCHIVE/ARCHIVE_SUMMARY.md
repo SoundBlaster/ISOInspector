@@ -1722,3 +1722,12 @@
   - Restored export flows and recents sidebar buttons by delegating through the appropriate controller layers and synchronizing status bindings across the window/app boundary.
   - Added `WindowSessionControllerTests` to verify state isolation plus performance fixes that offload heavy parsing onto background tasks so the UI stays responsive when opening multi-GB files.
 - **Next steps:** None — manual verification on macOS and iPadOS confirmed independent state persistence across new windows and after restoration.
+
+## 233_Resolved_Tasks_Batch
+- **Archived files:** `Task_241_Selection.md`
+- **Archived location:** `DOCS/TASK_ARCHIVE/233_Resolved_Tasks_Batch/`
+- **Archival date:** 2025-11-19
+- **Status:** ✅ All tasks RESOLVED
+- **Summary:**
+  - **Bug/Task #Task_241_Selection:** **Selection Date**: 2025-11-18 (Retrospective Documentation)
+- **Next steps:** None — all archived items are resolved and ready for verification.
