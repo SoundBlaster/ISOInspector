@@ -77,6 +77,32 @@
         searchField, "Expected to find search field with identifier \(identifier)")
     }
 
+    func testInspectorToggleButtonReceivesNestedIdentifier() {
+      let store = ParseTreeStore()
+      let annotations = AnnotationBookmarkSession(store: nil)
+      let documentViewModel = DocumentViewModel(store: store, annotations: annotations)
+      let view = ParseTreeExplorerView(viewModel: documentViewModel)
+        .frame(width: 1024, height: 768)
+
+      let controller = UIHostingController(rootView: view)
+      let window = UIWindow(frame: CGRect(x: 0, y: 0, width: 1024, height: 768))
+      window.rootViewController = controller
+      window.makeKeyAndVisible()
+      controller.view.setNeedsLayout()
+      controller.view.layoutIfNeeded()
+      RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.1))
+
+      let identifier = ParseTreeAccessibilityID.path(
+        ParseTreeAccessibilityID.root,
+        ParseTreeAccessibilityID.Header.root,
+        ParseTreeAccessibilityID.Header.inspectorToggle
+      )
+      let toggleButton = findView(in: controller.view, withIdentifier: identifier)
+
+      XCTAssertNotNil(
+        toggleButton, "Expected Inspector toggle button with identifier \(identifier)")
+    }
+
     func testAnnotationNoteControlsExposeNestedIdentifiers() throws {
       let recordID = UUID(uuidString: "00000000-0000-0000-0000-000000000001")!
       let now = Date()

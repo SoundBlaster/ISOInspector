@@ -16,7 +16,7 @@ extension Foundation.Bundle {
 }
 // MARK: - Objective-C Bundle Accessor
 @objc
-public class ISOInspectorKitTestsResources: NSObject {
+public final class ISOInspectorKitTestsResources: NSObject {
 @objc public class var bundle: Bundle {
     return .module
 }

@@ -6,17 +6,12 @@
   import FoundationUI
 
   struct ParseTreeExplorerView: View {
-    enum Tab {
-      case explorer
-      case integrity
-    }
-
     @ObservedObject var viewModel: DocumentViewModel
     @ObservedObject private var outlineViewModel: ParseTreeOutlineViewModel
     @ObservedObject private var detailViewModel: ParseTreeDetailViewModel
     @ObservedObject private var annotations: AnnotationBookmarkSession
     @ObservedObject private var parseTreeStore: ParseTreeStore
-    @State private var selectedTab: Tab = .explorer
+    @State private var displayMode = InspectorDisplayMode()
     @State private var integrityViewModel: IntegritySummaryViewModel?
     @FocusState private var focusTarget: InspectorFocusTarget?
     let exportSelectionJSONAction: ((ParseTreeNode.ID) -> Void)?
@@ -24,6 +19,10 @@
     let exportDocumentJSONAction: (@MainActor () -> Void)?
     let exportDocumentIssueSummaryAction: (@MainActor () -> Void)?
     private let focusCatalog = InspectorFocusShortcutCatalog.default
+    // @todo #243 Adopt NavigationSplitView-based inspector column management (or
+    //   NavigationSplitScaffold when platform support allows) so the toggle updates actual column
+    //   visibility and keyboard shortcut ⌘⌥I matches the navigation model described in
+    //   DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md.
 
     init(
       viewModel: DocumentViewModel,
@@ -46,79 +45,64 @@
     var body: some View {
       VStack(alignment: .leading, spacing: DS.Spacing.l) {
         header
-        TabView(selection: $selectedTab) {
-          explorerTab
-            .tabItem {
-              Label("Explorer", systemImage: "square.stack.3d.up")
-            }
-            .tag(Tab.explorer)
+        HStack(alignment: .top, spacing: DS.Spacing.l) {
+          explorerColumn
+            .frame(minWidth: 320)
+            .focused($focusTarget, equals: .outline)
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
 
-          integrityTab
-            .tabItem {
-              Label("Integrity", systemImage: "checkmark.shield")
-            }
-            .tag(Tab.integrity)
+          InspectorDetailView(
+            detailViewModel: detailViewModel,
+            annotationSession: annotations,
+            selectedNodeID: selectionBinding,
+            integrityViewModel: integrityViewModel,
+            showsIntegritySummary: displayMode.isShowingIntegritySummary,
+            exportDocumentJSONAction: exportDocumentJSONAction,
+            exportDocumentIssueSummaryAction: exportDocumentIssueSummaryAction,
+            onIssueSelected: handleIssueSelected,
+            focusTarget: $focusTarget
+          )
+          .frame(minWidth: 360)
+          .focused($focusTarget, equals: .detail)
         }
       }
       .padding()
       .onAppear {
         focusTarget = .outline
-        if integrityViewModel == nil {
-          integrityViewModel = IntegritySummaryViewModel(issueStore: parseTreeStore.issueStore)
+        ensureIntegrityViewModel()
+      }
+      .onChangeCompatibility(of: displayMode.isShowingIntegritySummary) { isShowingIntegrity in
+        if isShowingIntegrity {
+          ensureIntegrityViewModel()
         }
       }
       .background(focusCommands)
       .focusedSceneValue(\.inspectorFocusTarget, focusBinding)
     }
 
-    private var explorerTab: some View {
-      HStack(alignment: .top, spacing: DS.Spacing.l) {
-        ParseTreeOutlineView(
-          viewModel: outlineViewModel,
-          selectedNodeID: selectionBinding,
-          annotationSession: annotations,
-          focusTarget: $focusTarget,
-          exportSelectionJSONAction: exportSelectionJSONAction,
-          exportSelectionIssueSummaryAction: exportSelectionIssueSummaryAction
-        )
-        .frame(minWidth: 320)
-        .focused($focusTarget, equals: .outline)
-        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
-
-        ParseTreeDetailView(
-          viewModel: detailViewModel,
-          annotationSession: annotations,
-          selectedNodeID: selectionBinding,
-          focusTarget: $focusTarget
-        )
-        .frame(minWidth: 360)
-        .focused($focusTarget, equals: .detail)
-        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.root)
-      }
-    }
-
-    private var integrityTab: some View {
-      Group {
-        if let integrityViewModel {
-          IntegritySummaryView(
-            viewModel: integrityViewModel,
-            onIssueSelected: handleIssueSelected,
-            onExportJSON: exportDocumentJSONAction,
-            onExportIssueSummary: exportDocumentIssueSummaryAction
-          )
-        } else {
-          Text("Loading integrity summary...")
-            .foregroundColor(.secondary)
-        }
-      }
+    private var explorerColumn: some View {
+      ParseTreeOutlineView(
+        viewModel: outlineViewModel,
+        selectedNodeID: selectionBinding,
+        annotationSession: annotations,
+        focusTarget: $focusTarget,
+        exportSelectionJSONAction: exportSelectionJSONAction,
+        exportSelectionIssueSummaryAction: exportSelectionIssueSummaryAction
+      )
     }
 
     private func handleIssueSelected(_ issue: ParseIssue) {
       guard let nodeID = issue.affectedNodeIDs.first else { return }
       outlineViewModel.revealNode(withID: nodeID)
       viewModel.nodeViewModel.select(nodeID: nodeID)
-      selectedTab = .explorer
+      displayMode.current = .selectionDetails
       focusTarget = .outline
+    }
+
+    private func ensureIntegrityViewModel() {
+      if integrityViewModel == nil {
+        integrityViewModel = IntegritySummaryViewModel(issueStore: parseTreeStore.issueStore)
+      }
     }
 
     private var header: some View {
@@ -134,6 +118,18 @@
             .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.subtitle)
         }
         Spacer()
+        Button {
+          toggleInspectorMode()
+        } label: {
+          Label(displayMode.toggleButtonLabel, systemImage: inspectorToggleIconName)
+        }
+        .buttonStyle(.borderedProminent)
+        .keyboardShortcut(
+          KeyEquivalent("i"),
+          modifiers: [.command, .option]
+        )
+        .accessibilityLabel(inspectorToggleAccessibilityLabel)
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.inspectorToggle)
         ParseStateBadge(state: viewModel.parseState)
           .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.parseState)
       }
@@ -141,21 +137,13 @@
     }
 
     private var headerTitle: String {
-      switch selectedTab {
-      case .explorer:
-        return "Box Hierarchy"
-      case .integrity:
-        return "Integrity Report"
-      }
+      displayMode.isShowingIntegritySummary ? "Integrity Report" : "Box Hierarchy"
     }
 
     private var headerSubtitle: String {
-      switch selectedTab {
-      case .explorer:
-        return "Search, filter, and expand ISO BMFF boxes"
-      case .integrity:
-        return "Review and triage parsing issues"
-      }
+      displayMode.isShowingIntegritySummary
+        ? "Review and triage parsing issues"
+        : "Search, filter, and expand ISO BMFF boxes"
     }
 
     private var focusCommands: some View {
@@ -183,6 +171,13 @@
         ) {
           navigateToIssue(direction: .up)
         }
+        HiddenKeyboardShortcutButton(
+          title: "Toggle Inspector Content",
+          key: "i",
+          modifiers: [.command, .option]
+        ) {
+          toggleInspectorMode()
+        }
       }
     }
 
@@ -191,6 +186,23 @@
         get: { focusTarget },
         set: { focusTarget = $0 }
       )
+    }
+
+    private var inspectorToggleIconName: String {
+      displayMode.isShowingIntegritySummary ? "checkmark.shield" : "info.circle"
+    }
+
+    private var inspectorToggleAccessibilityLabel: String {
+      displayMode.isShowingIntegritySummary
+        ? "Show Selection Details"
+        : "Show Integrity Summary"
+    }
+
+    private func toggleInspectorMode() {
+      displayMode.toggle()
+      if displayMode.isShowingIntegritySummary {
+        ensureIntegrityViewModel()
+      }
     }
 
     private func keyEquivalent(for descriptor: InspectorFocusShortcutDescriptor) -> KeyEquivalent {
@@ -212,7 +224,7 @@
         )
       else { return }
       outlineViewModel.revealNode(withID: targetID)
-      selectedTab = .explorer
+      displayMode.current = .selectionDetails
       focusTarget = .outline
       viewModel.nodeViewModel.select(nodeID: targetID)
     }
@@ -837,7 +849,7 @@
       ParseTreeExplorerView(
         viewModel: documentViewModel
       )
-      .frame(width: 520, height: 520)
+      .frame(width: 760, height: 520)
     }
   }
 
