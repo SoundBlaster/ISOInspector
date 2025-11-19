@@ -1079,12 +1079,196 @@ final class NavigationAccessibilityTests: XCTestCase {
 
 ---
 
+## ISOInspector Inspector Column Pattern (Task 243)
+
+### Selection Details & Integrity Summary Layout
+
+**Task 243** reorganizes the inspector column to host both Selection Details and Integrity Summary with a toggle control in the Content column header.
+
+#### Inspector Column Structure
+
+```
+┌──────────────────────────────────┐
+│   Inspector Column (360pt min)   │
+├──────────────────────────────────┤
+│ [Toggle Button: Details/Integrity│
+│  Integrity Status Indicator]     │
+├──────────────────────────────────┤
+│                                  │
+│  ScrollView {                    │
+│    if showIntegritySummary {     │
+│      SelectionIntegritySummaryV  │
+│    } else {                      │
+│      SelectionDetailsView        │
+│        • Metadata                │
+│        • Corruption              │
+│        • Encryption              │
+│        • Notes                   │
+│        • Fields                  │
+│        • Validation              │
+│        • Hex                     │
+│    }                             │
+│  }                               │
+│                                  │
+└──────────────────────────────────┘
+```
+
+#### Toggle Control Implementation
+
+**Location**: `ParseTreePanelHeaderView.swift` (Box Tree panel header)
+
+```swift
+@State private var showIntegritySummary = false
+
+HStack {
+    VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
+        Text("Box Hierarchy")
+            .font(.title3)
+            .bold()
+    }
+
+    Spacer()
+
+    // Toggle Button: Shows inspector mode
+    Button(action: { showIntegritySummary.toggle() }) {
+        HStack(spacing: DS.Spacing.xs) {
+            Image(systemName: showIntegritySummary ? "doc.richtext" : "checkmark.shield")
+            Text(showIntegritySummary ? "Integrity" : "Details")
+                .font(.caption)
+        }
+    }
+    .keyboardShortcut("i", modifiers: [.command, .option])
+    .accessibilityLabel(showIntegritySummary ? "Switch to Details View" : "Switch to Integrity View")
+    .accessibilityHint("Toggle between selection details and integrity summary in the inspector")
+
+    // Status Indicator: Shows if integrity issues detected
+    if hasIntegrityIssues {
+        Image(systemName: "exclamationmark.circle.fill")
+            .foregroundStyle(.orange)
+            .accessibilityLabel("Integrity Issues Detected")
+    }
+}
+```
+
+#### SelectionDetailsView Components
+
+**Location**: `Sources/ISOInspectorApp/Inspector/SelectionDetails/*.swift`
+
+Sub-components extracted from `ParseTreeDetailView`:
+
+```
+SelectionDetailsView
+├── SelectionMetadataView
+│   ├── Box type, status
+│   ├── Byte range, payload range
+│   ├── Name, summary, specification
+│   └── Version, flags
+├── SelectionCorruptionView
+│   ├── Parsing corruption issues
+│   ├── Severity badges
+│   └── Hex navigation links
+├── SelectionEncryptionView
+│   ├── Sample encryption details
+│   └── Aux info (saio/saiz)
+├── SelectionNotesView
+│   ├── Add/edit/delete notes
+│   └── Annotation display
+├── SelectionFieldAnnotationsView
+│   ├── Parsed field information
+│   └── Interactive field selection
+├── SelectionValidationView
+│   ├── Validation rule violations
+│   └── Severity indicators
+└── SelectionHexView
+    ├── Hex byte viewer
+    ├── 16 bytes per row
+    └── Offset + ASCII representation
+```
+
+#### Responsive Behavior
+
+| Size Class | Inspector Width | Layout |
+|------------|-----------------|--------|
+| iPhone (compact) | N/A | Inspector hidden, accessible via ⌘⌥I |
+| iPad Portrait | 360-500pt | Toggle button, one view at a time |
+| iPad Landscape | 500-700pt | Toggle button with status indicators |
+| macOS | 360pt+ | All controls visible, smooth transitions |
+
+#### Accessibility Features
+
+- **Toggle Button**: Announced as "Switch to Details View" or "Switch to Integrity View" based on state
+- **Status Indicator**: Announced as "Integrity Issues Detected" when issues present
+- **Keyboard Shortcut**: ⌘⌥I toggles between Details and Integrity (same as inspector visibility toggle)
+- **VoiceOver**: All sections announce headers and summarize content
+- **Dynamic Type**: All text scales with system font size preference
+- **Focus Management**: Toggle button receives focus after file/atom selection
+
+#### State Management
+
+```swift
+@Observable
+final class InspectorDetailState {
+    var showIntegritySummary: Bool = false
+
+    func toggleIntegrityView() {
+        showIntegritySummary.toggle()
+    }
+}
+
+// In DocumentSessionController or ParseTreeExplorerView
+@State private var inspectorState = InspectorDetailState()
+
+// Pass state to inspector column
+InspectorColumn {
+    InspectorDetailView(
+        state: inspectorState,
+        selectedNodeID: $selectedNodeID,
+        showIntegritySummary: $inspectorState.showIntegritySummary
+    )
+}
+```
+
+#### Testing Strategy
+
+See **Testing Strategy** section (above) for general guidance. Task 243-specific tests:
+
+**Unit Tests**:
+- Toggle state transitions
+- Sub-component rendering with sample data
+- Accessibility label verification
+
+**Integration Tests**:
+- Select box in tree → Details appear in inspector
+- Toggle button switches to Integrity Summary
+- Keyboard shortcut ⌘⌥I triggers toggle
+- Back button/navigation clears inspector state appropriately
+
+**UI Snapshot Tests**:
+- All size classes with Details view visible
+- All size classes with Integrity Summary visible
+- Toggle button state in different conditions
+
+#### Predecessor Task
+
+This pattern implements the recommendations from **Task 241** (NavigationSplitScaffold Pattern) and **Task 242** (Update Existing Patterns).
+
+#### Future Enhancement
+
+**Lazy Loading Optimization** (per `DOCS/TASK_ARCHIVE/204_InspectorPattern_Lazy_Loading.md`):
+- Defer rendering of sub-components until viewport is scrolled into view
+- Reduces memory footprint and improves scroll performance with large files
+- Non-blocking follow-up task for Task 243 completion
+
+---
+
 ## References
 
 ### Internal Documentation
 
-- **NavigationSplitViewKit Integration**: `DOCS/INPROGRESS/240_NavigationSplitViewKit_Integration.md`
+- **NavigationSplitViewKit Integration**: `DOCS/INPROGRESS/240_NavigationSplitViewKit_Integration.md` (Task 240)
 - **NavigationSplitScaffold Pattern**: `DOCS/INPROGRESS/241_NavigationSplitScaffold_Pattern.md` (Task 241)
+- **Update Existing Patterns**: `DOCS/INPROGRESS/242_Update_Existing_Patterns_For_NavigationSplitScaffold.md` (Task 242)
+- **Reorganize NavigationSplitView**: `DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md` (Task 243)
 - **Composable Clarity Design System**: `FoundationUI/Sources/FoundationUI/DesignTokens/`
 - **TDD Workflow**: `DOCS/RULES/02_TDD_XP_Workflow.md`
 
@@ -1106,10 +1290,11 @@ final class NavigationAccessibilityTests: XCTestCase {
 
 | Version | Date | Changes |
 |---------|------|---------|
+| 1.1.0 | 2025-11-19 | Added Task 243 Inspector Column pattern for Selection Details & Integrity Summary toggle |
 | 1.0.0 | 2025-11-18 | Initial guidelines created for Task 240 |
 
 ---
 
 **Maintained by**: ISOInspector Team
-**Last Updated**: 2025-11-18
+**Last Updated**: 2025-11-19
 **Status**: Active
