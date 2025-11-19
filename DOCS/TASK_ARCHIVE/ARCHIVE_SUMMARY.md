@@ -1731,3 +1731,16 @@
 - **Summary:**
   - **Bug/Task #Task_241_Selection:** **Selection Date**: 2025-11-18 (Retrospective Documentation)
 - **Next steps:** None — all archived items are resolved and ready for verification.
+
+## 234_Resolved_Tasks_Batch
+- **Archived files:** `240_NavigationSplitViewKit_Integration.md`, `242_Update_Existing_Patterns_For_NavigationSplitScaffold.md`, `Summary_of_Work_Task_240.md`, `Summary_of_Work_Task_241.md`, `Summary_of_Work_Task_242.md`
+- **Archived location:** `DOCS/TASK_ARCHIVE/234_Resolved_Tasks_Batch/`
+- **Archival date:** 2025-11-19
+- **Status:** ✅ All tasks RESOLVED
+- **Summary:**
+  - **Bug/Task #240_NavigationSplitViewKit_Integration:** **Status**: RESOLVED
+  - **Bug/Task #242_Update_Existing_Patterns_For_NavigationSplitScaffold:** **Phase**: 3.1 (Patterns & Platform Adaptation)
+  - **Bug/Task #Summary_of_Work_Task_240:** **Date**: 2025-11-18
+  - **Bug/Task #Summary_of_Work_Task_241:** **Date**: 2025-11-18
+  - **Bug/Task #Summary_of_Work_Task_242:** **Date**: 2025-11-19
+- **Next steps:** None — all archived items are resolved and ready for verification.
