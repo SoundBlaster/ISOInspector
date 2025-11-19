@@ -1,4 +1,5 @@
 import SwiftUI
+import NavigationSplitViewKit
 
 /// A pattern for displaying detailed inspector content with a fixed header and
 /// scrollable body area.
@@ -17,7 +18,33 @@ import SwiftUI
 /// }
 /// .material(.regular)
 /// ```
+///
+/// ## NavigationSplitScaffold Integration
+///
+/// When used inside ``NavigationSplitScaffold`` as the detail column, this pattern
+/// automatically provides enhanced accessibility context. It works identically
+/// whether standalone or within a scaffold.
+///
+/// ```swift
+/// // Standalone usage
+/// InspectorPattern(title: "Properties") {
+///     KeyValueRow(key: "Type", value: "ftyp")
+/// }
+///
+/// // Inside scaffold detail column
+/// NavigationSplitScaffold {
+///     SidebarPattern(...)
+/// } content: {
+///     ContentView()
+/// } detail: {
+///     InspectorPattern(title: "Properties") {
+///         KeyValueRow(key: "Type", value: "ftyp")
+///     }
+/// }
+/// ```
+@available(iOS 17.0, macOS 14.0, *)
 public struct InspectorPattern<Content: View>: View {
+    @Environment(\.navigationModel) private var navigationModel
     /// The title displayed in the fixed header.
     public let title: String
 
@@ -58,7 +85,22 @@ public struct InspectorPattern<Content: View>: View {
         )
         .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card, style: .continuous))
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(Text(title))
+        .accessibilityLabel(Text(accessibilityLabelText))
+        .accessibilityHint(isInScaffold ? Text("Detail inspector within navigation") : nil)
+    }
+
+    /// Returns true if this pattern is being used inside a NavigationSplitScaffold.
+    private var isInScaffold: Bool {
+        navigationModel != nil
+    }
+
+    /// Enhanced accessibility label that provides context when inside scaffold.
+    private var accessibilityLabelText: String {
+        if isInScaffold {
+            return "\(title) Inspector"
+        } else {
+            return title
+        }
     }
 
     @ViewBuilder
@@ -346,4 +388,56 @@ extension InspectorPattern: AgentDescribable {
     }
     .material(.regular)
     .padding(DS.Spacing.l)
+}
+
+#Preview("With NavigationSplitScaffold") {
+    @Previewable @State var selection: String? = "file1"
+    @Previewable @State var navigationModel = NavigationModel()
+
+    NavigationSplitScaffold(model: navigationModel) {
+        List {
+            Section("Files") {
+                ForEach(["file1", "file2", "file3"], id: \.self) { file in
+                    Label(file, systemImage: "doc.fill")
+                        .tag(file)
+                }
+            }
+        }
+        .listStyle(.sidebar)
+    } content: {
+        VStack(alignment: .leading, spacing: DS.Spacing.l) {
+            Text("Content Area")
+                .font(DS.Typography.title)
+                .padding(DS.Spacing.l)
+
+            if let selectedFile = selection {
+                Text("Viewing: \(selectedFile)")
+                    .font(DS.Typography.body)
+                    .foregroundStyle(DS.Colors.textSecondary)
+                    .padding(.horizontal, DS.Spacing.l)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(DS.Colors.tertiary)
+    } detail: {
+        InspectorPattern(title: "Properties Inspector") {
+            SectionHeader(title: "File Information", showDivider: true)
+            KeyValueRow(key: "Name", value: selection ?? "None")
+            KeyValueRow(key: "Type", value: "MP4")
+            KeyValueRow(key: "Size", value: "125 MB")
+
+            SectionHeader(title: "Validation", showDivider: true)
+            HStack(spacing: DS.Spacing.s) {
+                Badge(text: "Valid", level: .success)
+                Badge(text: "ISO 14496-12", level: .info)
+            }
+
+            SectionHeader(title: "Accessibility", showDivider: true)
+            Text("This inspector is labeled '\(selection ?? "None") Inspector' when inside scaffold")
+                .font(DS.Typography.caption)
+                .foregroundStyle(DS.Colors.textSecondary)
+        }
+        .padding(DS.Spacing.l)
+    }
+    .frame(minWidth: 900, minHeight: 600)
 }

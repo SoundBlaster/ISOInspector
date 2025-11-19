@@ -2,6 +2,7 @@
 // swiftlint:disable closure_parameter_position
 
 import SwiftUI
+import NavigationSplitViewKit
 
 #if canImport(UIKit)
 import UIKit
@@ -13,12 +14,38 @@ import UIKit
 /// The toolbar composes FoundationUI layers by consuming design system tokens,
 /// exposing semantic metadata for accessibility, and adapting layout behaviour
 /// across platforms and size classes.
+///
+/// ## NavigationSplitScaffold Integration
+///
+/// When used inside ``NavigationSplitScaffold``, this pattern automatically adds
+/// navigation column toggle buttons with keyboard shortcuts:
+/// - ⌘⌃S: Toggle sidebar column
+/// - ⌘⌥I: Toggle inspector column
+///
+/// ```swift
+/// // Standalone usage
+/// ToolbarPattern(items: .init(primary: [/* ... */]))
+///
+/// // Inside scaffold (automatically adds navigation controls)
+/// NavigationSplitScaffold {
+///     SidebarPattern(...)
+/// } content: {
+///     VStack {
+///         ToolbarPattern(items: .init(primary: [/* ... */]))
+///         ContentView()
+///     }
+/// } detail: {
+///     InspectorPattern(...)
+/// }
+/// ```
+@available(iOS 17.0, macOS 14.0, *)
 public struct ToolbarPattern: View {
     public let items: Items
     public let layoutOverride: Layout?
 
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
+    @Environment(\.navigationModel) private var navigationModel
 
     /// Creates a new toolbar pattern instance.
     /// - Parameters:
@@ -33,6 +60,16 @@ public struct ToolbarPattern: View {
         let resolvedLayout = layout
 
         return HStack(spacing: DS.Spacing.m) {
+            // Navigation controls (when inside scaffold)
+            if isInScaffold {
+                navigationControls(layout: resolvedLayout)
+                if !items.primary.isEmpty || !items.secondary.isEmpty {
+                    Divider()
+                        .frame(height: DS.Spacing.xl)
+                        .padding(.vertical, DS.Spacing.s)
+                }
+            }
+
             primarySection(layout: resolvedLayout)
 
             if !items.secondary.isEmpty {
@@ -54,7 +91,12 @@ public struct ToolbarPattern: View {
                 .fill(DS.Colors.tertiary)
         )
         .accessibilityElement(children: .contain)
-        .accessibilityLabel(Text("Toolbar"))
+        .accessibilityLabel(Text(isInScaffold ? "Navigation Toolbar" : "Toolbar"))
+    }
+
+    /// Returns true if this pattern is being used inside a NavigationSplitScaffold.
+    private var isInScaffold: Bool {
+        navigationModel != nil
     }
 
     private var layout: Layout {
@@ -92,6 +134,88 @@ public struct ToolbarPattern: View {
 
     private var prefersLargeContent: Bool {
         dynamicTypeSize.isAccessibilitySize
+    }
+
+    @ViewBuilder
+    private func navigationControls(layout: Layout) -> some View {
+        HStack(spacing: DS.Spacing.s) {
+            // Toggle Sidebar button
+            Button(action: toggleSidebar) {
+                Group {
+                    switch layout {
+                    case .compact:
+                        Image(systemName: "sidebar.left")
+                            .frame(width: DS.Spacing.xl, height: DS.Spacing.xl)
+                    case .expanded:
+                        Label("Sidebar", systemImage: "sidebar.left")
+                    }
+                }
+                .padding(.horizontal, DS.Spacing.s)
+                .padding(.vertical, DS.Spacing.s)
+                .frame(minHeight: DS.Spacing.xl)
+                .background(
+                    RoundedRectangle(cornerRadius: DS.Radius.small, style: .continuous)
+                        .fill(DS.Colors.tertiary)
+                )
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text("Toggle Sidebar"))
+            .accessibilityHint(Text("Show or hide the sidebar column"))
+            .keyboardShortcut("s", modifiers: [.command, .control])
+
+            // Toggle Inspector button
+            Button(action: toggleInspector) {
+                Group {
+                    switch layout {
+                    case .compact:
+                        Image(systemName: "sidebar.right")
+                            .frame(width: DS.Spacing.xl, height: DS.Spacing.xl)
+                    case .expanded:
+                        Label("Inspector", systemImage: "sidebar.right")
+                    }
+                }
+                .padding(.horizontal, DS.Spacing.s)
+                .padding(.vertical, DS.Spacing.s)
+                .frame(minHeight: DS.Spacing.xl)
+                .background(
+                    RoundedRectangle(cornerRadius: DS.Radius.small, style: .continuous)
+                        .fill(DS.Colors.tertiary)
+                )
+            }
+            .buttonStyle(.plain)
+            .accessibilityLabel(Text("Toggle Inspector"))
+            .accessibilityHint(Text("Show or hide the inspector column"))
+            .keyboardShortcut("i", modifiers: [.command, .option])
+        }
+        .accessibilityElement(children: .contain)
+        .accessibilityLabel(Text("Navigation Controls"))
+    }
+
+    /// Toggles sidebar visibility. Switches between .all and .contentDetail modes.
+    private func toggleSidebar() {
+        guard let model = navigationModel else { return }
+        withAnimation(DS.Animation.medium) {
+            if model.columnVisibility == .all {
+                model.columnVisibility = .contentDetail
+            } else {
+                model.columnVisibility = .all
+            }
+        }
+    }
+
+    /// Toggles inspector visibility. Switches between .all and .automatic modes.
+    private func toggleInspector() {
+        guard let model = navigationModel else { return }
+        withAnimation(DS.Animation.medium) {
+            if model.columnVisibility == .all {
+                model.columnVisibility = .automatic
+            } else if model.columnVisibility == .automatic || model.columnVisibility == .contentDetail {
+                model.columnVisibility = .all
+            } else {
+                // From .contentOnly, go to .all
+                model.columnVisibility = .all
+            }
+        }
     }
 
     @ViewBuilder
@@ -775,6 +899,100 @@ extension View {
         layoutOverride: .expanded
     )
     .padding(DS.Spacing.l)
+}
+
+#Preview("With NavigationSplitScaffold") {
+    @Previewable @State var selection: String? = "file1"
+    @Previewable @State var navigationModel = NavigationModel()
+
+    NavigationSplitScaffold(model: navigationModel) {
+        List {
+            Section("Files") {
+                ForEach(["file1", "file2", "file3"], id: \.self) { file in
+                    Label(file, systemImage: "doc.fill")
+                        .tag(file)
+                }
+            }
+        }
+        .listStyle(.sidebar)
+    } content: {
+        VStack(alignment: .leading, spacing: DS.Spacing.m) {
+            // Toolbar with navigation controls (automatically adds sidebar/inspector toggles)
+            ToolbarPattern(
+                items: .init(
+                    primary: [
+                        .init(
+                            id: "validate",
+                            iconSystemName: "checkmark.seal.fill",
+                            title: "Validate",
+                            accessibilityHint: "Validate file structure",
+                            shortcut: .init(key: "v", modifiers: [.command])
+                        ),
+                        .init(
+                            id: "inspect",
+                            iconSystemName: "magnifyingglass",
+                            title: "Inspect",
+                            accessibilityHint: "Open inspector",
+                            shortcut: .init(key: "i", modifiers: [.command])
+                        )
+                    ],
+                    secondary: [
+                        .init(
+                            id: "export",
+                            iconSystemName: "square.and.arrow.up",
+                            title: "Export",
+                            role: .primaryAction
+                        )
+                    ]
+                ),
+                layoutOverride: .expanded
+            )
+
+            Divider()
+
+            VStack(alignment: .leading, spacing: DS.Spacing.l) {
+                Text("Content Area")
+                    .font(DS.Typography.title)
+                    .padding(.horizontal, DS.Spacing.l)
+
+                if let selectedFile = selection {
+                    Text("Viewing: \(selectedFile)")
+                        .font(DS.Typography.body)
+                        .foregroundStyle(DS.Colors.textSecondary)
+                        .padding(.horizontal, DS.Spacing.l)
+                }
+
+                Text("Notice the Sidebar and Inspector toggle buttons automatically added to the toolbar")
+                    .font(DS.Typography.caption)
+                    .foregroundStyle(DS.Colors.textSecondary)
+                    .padding(.horizontal, DS.Spacing.l)
+
+                VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                    Text("• ⌘⌃S: Toggle Sidebar")
+                    Text("• ⌘⌥I: Toggle Inspector")
+                }
+                .font(DS.Typography.caption)
+                .foregroundStyle(DS.Colors.textSecondary)
+                .padding(.horizontal, DS.Spacing.l)
+            }
+            .frame(maxWidth: .infinity, alignment: .topLeading)
+        }
+        .background(DS.Colors.tertiary)
+    } detail: {
+        InspectorPattern(title: "Properties") {
+            SectionHeader(title: "File Information", showDivider: true)
+            KeyValueRow(key: "Name", value: selection ?? "None")
+            KeyValueRow(key: "Type", value: "MP4")
+            KeyValueRow(key: "Size", value: "125 MB")
+
+            SectionHeader(title: "Navigation", showDivider: true)
+            Text("Use toolbar buttons or keyboard shortcuts to toggle columns")
+                .font(DS.Typography.caption)
+                .foregroundStyle(DS.Colors.textSecondary)
+        }
+        .padding(DS.Spacing.l)
+    }
+    .frame(minWidth: 900, minHeight: 600)
 }
 
 // MARK: - AgentDescribable Conformance
