@@ -1,4 +1,4 @@
-import NavigationSplitViewKit
+@preconcurrency import NavigationSplitViewKit
 import SwiftUI
 
 /// A scaffold pattern that wraps `NavigationSplitView` with Composable Clarity design tokens.
