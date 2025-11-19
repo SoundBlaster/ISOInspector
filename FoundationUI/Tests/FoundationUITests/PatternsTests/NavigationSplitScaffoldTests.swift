@@ -1,7 +1,6 @@
 // swift-tools-version: 6.0
 #if canImport(SwiftUI)
   @testable import FoundationUI
-  import NavigationSplitViewKit
   import SwiftUI
   import XCTest
 
@@ -88,10 +87,10 @@
       let model = NavigationModel()
 
       // When: Setting to show only content and detail
-      model.columnVisibility = .contentDetail
+      model.columnVisibility = .doubleColumn
 
       // Then: Only content and detail should be visible
-      XCTAssertEqual(model.columnVisibility, .contentDetail)
+      XCTAssertEqual(model.columnVisibility, .doubleColumn)
     }
 
     func testNavigationModelSupportsContentOnlyVisibility() {
@@ -99,10 +98,10 @@
       let model = NavigationModel()
 
       // When: Setting to show only content
-      model.columnVisibility = .contentOnly
+      model.columnVisibility = .detailOnly
 
       // Then: Only content should be visible
-      XCTAssertEqual(model.columnVisibility, .contentOnly)
+      XCTAssertEqual(model.columnVisibility, .detailOnly)
     }
 
     func testNavigationModelPreferredCompactColumnDefaultsToContent() {
@@ -176,10 +175,10 @@
       model.columnVisibility = .all
 
       // When: Hiding sidebar and detail
-      model.columnVisibility = .contentOnly
+      model.columnVisibility = .detailOnly
 
       // Then: Only content should be visible
-      XCTAssertEqual(model.columnVisibility, .contentOnly)
+      XCTAssertEqual(model.columnVisibility, .detailOnly)
     }
 
     // MARK: - Integration Tests
@@ -193,7 +192,11 @@
         @Environment(\.navigationModel) var navigationModel
 
         var body: some View {
-          Text(navigationModel?.columnVisibility.description ?? "nil")
+          if let visibility = navigationModel?.columnVisibility {
+            Text(String(describing: visibility))
+          } else {
+            Text("nil")
+          }
         }
       }
 
@@ -213,13 +216,17 @@
     func testScaffoldPropagatesNavigationModelToContent() {
       // Given: A model and a view that reads from environment
       let model = NavigationModel()
-      model.columnVisibility = .contentDetail
+      model.columnVisibility = .doubleColumn
 
       struct ContentView: View {
         @Environment(\.navigationModel) var navigationModel
 
         var body: some View {
-          Text(navigationModel?.columnVisibility.description ?? "nil")
+          if let visibility = navigationModel?.columnVisibility {
+            Text(String(describing: visibility))
+          } else {
+            Text("nil")
+          }
         }
       }
 
@@ -233,7 +240,7 @@
       }
 
       // Then: Environment should be set
-      XCTAssertEqual(scaffold.navigationModel.columnVisibility, .contentDetail)
+      XCTAssertEqual(scaffold.navigationModel.columnVisibility, .doubleColumn)
     }
 
     func testScaffoldPropagatesNavigationModelToDetail() {
@@ -245,7 +252,11 @@
         @Environment(\.navigationModel) var navigationModel
 
         var body: some View {
-          Text(navigationModel?.columnVisibility.description ?? "nil")
+          if let visibility = navigationModel?.columnVisibility {
+            Text(String(describing: visibility))
+          } else {
+            Text("nil")
+          }
         }
       }
 
@@ -296,11 +307,11 @@
       // When: Making multiple state changes
       model.columnVisibility = .all
       model.preferredCompactColumn = .detail
-      model.columnVisibility = .contentDetail
+      model.columnVisibility = .doubleColumn
       model.preferredCompactColumn = .content
 
       // Then: Final state should be correct
-      XCTAssertEqual(model.columnVisibility, .contentDetail)
+      XCTAssertEqual(model.columnVisibility, .doubleColumn)
       XCTAssertEqual(model.preferredCompactColumn, .content)
     }
 
@@ -311,11 +322,11 @@
 
       // When: Changing one model
       model1.columnVisibility = .all
-      model2.columnVisibility = .contentOnly
+      model2.columnVisibility = .detailOnly
 
       // Then: Models should have independent state
       XCTAssertEqual(model1.columnVisibility, .all)
-      XCTAssertEqual(model2.columnVisibility, .contentOnly)
+      XCTAssertEqual(model2.columnVisibility, .detailOnly)
       XCTAssertNotEqual(model1.columnVisibility, model2.columnVisibility)
     }
 
@@ -375,7 +386,7 @@
     func testCompactLayoutPreferringContent() {
       // Given: A compact layout configuration
       let model = NavigationModel()
-      model.columnVisibility = .contentOnly
+      model.columnVisibility = .detailOnly
       model.preferredCompactColumn = .content
 
       // When: Creating scaffold for iPhone
@@ -389,7 +400,7 @@
 
       // Then: Should prefer content column
       XCTAssertEqual(scaffold.navigationModel.preferredCompactColumn, .content)
-      XCTAssertEqual(scaffold.navigationModel.columnVisibility, .contentOnly)
+      XCTAssertEqual(scaffold.navigationModel.columnVisibility, .detailOnly)
     }
 
     // MARK: - Binding Tests
@@ -397,9 +408,9 @@
     func testNavigationModelBindingUpdates() {
       // Given: A bindable navigation model
       let model = NavigationModel()
-      var capturedVisibility: NavigationSplitViewColumn.Visibility = .automatic
+      var capturedVisibility: NavigationSplitViewVisibility = .automatic
 
-      let binding = Binding<NavigationSplitViewColumn.Visibility>(
+      let binding = Binding<NavigationSplitViewVisibility>(
         get: { model.columnVisibility },
         set: { newValue in
           model.columnVisibility = newValue
@@ -420,7 +431,7 @@
     func testScaffoldAdaptsToCompactSizeClass() {
       // Given: A model configured for compact size class
       let model = NavigationModel()
-      model.columnVisibility = .contentOnly
+      model.columnVisibility = .detailOnly
       model.preferredCompactColumn = .content
 
       // When: Creating scaffold for compact layout
@@ -433,7 +444,7 @@
       }
 
       // Then: Should show only content
-      XCTAssertEqual(scaffold.navigationModel.columnVisibility, .contentOnly)
+      XCTAssertEqual(scaffold.navigationModel.columnVisibility, .detailOnly)
       XCTAssertEqual(scaffold.navigationModel.preferredCompactColumn, .content)
     }
 
@@ -524,7 +535,11 @@
         @Environment(\.navigationModel) var navigationModel
 
         var body: some View {
-          Text(navigationModel?.columnVisibility.description ?? "nil")
+          if let visibility = navigationModel?.columnVisibility {
+            Text(String(describing: visibility))
+          } else {
+            Text("nil")
+          }
         }
       }
 
@@ -566,10 +581,10 @@
       XCTAssertEqual(scaffold.navigationModel.preferredCompactColumn, .detail)
 
       // When: Modifying model
-      scaffold.navigationModel.columnVisibility = .contentDetail
+      scaffold.navigationModel.columnVisibility = .doubleColumn
 
       // Then: Changes should persist
-      XCTAssertEqual(scaffold.navigationModel.columnVisibility, .contentDetail)
+      XCTAssertEqual(scaffold.navigationModel.columnVisibility, .doubleColumn)
     }
 
     // MARK: - Type Safety Tests
@@ -623,7 +638,7 @@
       let model2 = NavigationModel()
 
       model1.columnVisibility = .all
-      model2.columnVisibility = .contentOnly
+      model2.columnVisibility = .detailOnly
 
       let scaffold1 = NavigationSplitScaffold(model: model1) {
         Text("S1")
@@ -643,20 +658,8 @@
 
       // Then: Should have independent state
       XCTAssertEqual(scaffold1.navigationModel.columnVisibility, .all)
-      XCTAssertEqual(scaffold2.navigationModel.columnVisibility, .contentOnly)
+      XCTAssertEqual(scaffold2.navigationModel.columnVisibility, .detailOnly)
     }
   }
 
-  // MARK: - Helper Extensions for Testing
-
-  extension NavigationSplitViewColumn.Visibility {
-    var description: String {
-      switch self {
-      case .automatic: return "automatic"
-      case .all: return "all"
-      case .contentDetail: return "contentDetail"
-      case .contentOnly: return "contentOnly"
-      }
-    }
-  }
 #endif

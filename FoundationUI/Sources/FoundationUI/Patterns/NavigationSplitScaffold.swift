@@ -1,4 +1,3 @@
-@preconcurrency import NavigationSplitViewKit
 import SwiftUI
 
 /// A scaffold pattern that wraps `NavigationSplitView` with Composable Clarity design tokens.
@@ -203,10 +202,10 @@ extension EnvironmentValues {
 // MARK: - Preview Support
 
 #if DEBUG
-  @available(iOS 17.0, macOS 14.0, *)
-  struct NavigationSplitScaffold_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
+    @available(iOS 17.0, macOS 14.0, *)
+    struct NavigationSplitScaffold_Previews: PreviewProvider {
+        static var previews: some View {
+            Group {
             // Preview 1: Basic Three-Column Layout
             basicThreeColumn
                 .previewDisplayName("1. Basic Three-Column")
@@ -458,5 +457,5 @@ extension EnvironmentValues {
                 .font(DS.Typography.body)
         }
     }
-  }
+    }
 #endif

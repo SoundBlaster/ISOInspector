@@ -1,5 +1,4 @@
 import SwiftUI
-@preconcurrency import NavigationSplitViewKit
 
 /// A pattern for displaying detailed inspector content with a fixed header and
 /// scrollable body area.
@@ -70,7 +69,7 @@ public struct InspectorPattern<Content: View>: View {
     }
 
     public var body: some View {
-        VStack(spacing: 0) {
+        let inspectorContent = VStack(spacing: 0) {
             header
             ScrollView {
                 contentContainer
@@ -86,18 +85,12 @@ public struct InspectorPattern<Content: View>: View {
         .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card, style: .continuous))
         .accessibilityElement(children: .contain)
         .accessibilityLabel(Text(accessibilityLabelText))
-        .modifier(ConditionalAccessibilityHint(isInScaffold: isInScaffold))
-    }
 
-    private struct ConditionalAccessibilityHint: ViewModifier {
-        let isInScaffold: Bool
-
-        func body(content: Content) -> some View {
-            if isInScaffold {
-                content.accessibilityHint(Text("Detail inspector within navigation"))
-            } else {
-                content
-            }
+        if isInScaffold {
+            inspectorContent
+                .accessibilityHint(Text("Detail inspector within navigation"))
+        } else {
+            inspectorContent
         }
     }
 
