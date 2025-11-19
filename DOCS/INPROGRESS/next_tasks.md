@@ -1,6 +1,6 @@
 # Next Tasks Queue
 
-_Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever task priorities change or blockers are resolved._
+_Last updated: 2025-11-21 (UTC). Maintainers should update this file whenever task priorities change or blockers are resolved._
 
 ## 0. FoundationUI Navigation Architecture (NEW)
 
@@ -35,8 +35,7 @@ _Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever ta
    - Ensure responsive layout across macOS (3 columns), iPad (adaptive), iPhone (compact)
    - Implement keyboard shortcuts (⌘⌥I for inspector toggle) and VoiceOver labels
    - Create 25-30 unit tests, 10-15 integration tests, 4+ UI snapshot tests
-   - **Blocker**: Bug #232 must be fixed first (UI content not displayed after file selection)
-   - Effort: ~4.5 days; unblocked when Bug #232 is resolved
+   - Effort: ~4.5 days
    - Ready: 2025-11-19
 
 ---
@@ -60,11 +59,7 @@ _Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever ta
 
 ## 2. UI Defects & Experience Fixes
 
-1. **Bug #232 – UI blank after selecting a file** _(Critical — `DOCS/INPROGRESS/232_UI_Content_Not_Displayed_After_File_Selection.md`)_
-   - Reconnect `DocumentSessionController`/`WindowSessionController` bindings so the parse tree and report panes refresh when a file loads.
-   - Add regression tests (UI snapshot or integration) to ensure the tree/report render after selecting files on macOS and iPadOS.
-
-2. **Bug #234 – Remove Recent File from Sidebar** _(Ready for implementation — `DOCS/INPROGRESS/234_Remove_Recent_File_From_Sidebar.md`)_
+1. **Bug #234 – Remove Recent File from Sidebar** _(Ready for implementation — `DOCS/INPROGRESS/234_Remove_Recent_File_From_Sidebar.md`)_
    - Add the MRU removal affordance in the sidebar along with analytics/logging hooks described in the spec.
    - Ensure recents persistence updates and DocumentSessionController wiring reflect removals immediately.
 
