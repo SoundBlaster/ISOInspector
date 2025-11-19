@@ -1,5 +1,6 @@
 #if canImport(SwiftUI)
 import SwiftUI
+import NavigationSplitViewKit
 
 /// A pattern that renders a navigable sidebar with support for grouped sections
 /// and selection-driven detail content.
@@ -13,7 +14,34 @@ import SwiftUI
 /// typography from ``DS/Typography`` and exposes semantic accessibility labels
 /// for VoiceOver users. The detail content is provided through a `@ViewBuilder`
 /// closure and adapts its padding based on the target platform.
+///
+/// ## NavigationSplitScaffold Integration
+///
+/// When used inside ``NavigationSplitScaffold``, this pattern automatically adapts
+/// to provide only the sidebar content, allowing the scaffold to manage the
+/// three-column layout. When used standalone, it provides its own two-column
+/// NavigationSplitView.
+///
+/// ```swift
+/// // Standalone usage (provides own NavigationSplitView)
+/// SidebarPattern(sections: sections, selection: $selection) { item in
+///     DetailView(item: item)
+/// }
+///
+/// // Inside scaffold (adapts to scaffold's layout)
+/// NavigationSplitScaffold {
+///     SidebarPattern(sections: sections, selection: $selection) { _ in
+///         EmptyView()
+///     }
+/// } content: {
+///     ContentView()
+/// } detail: {
+///     InspectorPattern(title: "Details") { /* ... */ }
+/// }
+/// ```
+@available(iOS 17.0, macOS 14.0, *)
 public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
+    @Environment(\.navigationModel) private var navigationModel
     /// A semantic item rendered inside a sidebar section.
     public struct Item: Identifiable, Hashable {
         /// The unique identifier representing the selection.
@@ -95,19 +123,32 @@ public struct SidebarPattern<Selection: Hashable, Detail: View>: View {
     }
 
     public var body: some View {
-        NavigationSplitView {
+        if navigationModel != nil {
+            // Inside NavigationSplitScaffold: Only render sidebar content
             sidebarContent
                 .accessibilityIdentifier("FoundationUI.SidebarPattern.sidebar")
-        } detail: {
-            detailContent
-                .accessibilityIdentifier("FoundationUI.SidebarPattern.detail")
+                .accessibilityLabel(Text("File Browser in Navigation"))
+        } else {
+            // Standalone mode: Provide own NavigationSplitView
+            NavigationSplitView {
+                sidebarContent
+                    .accessibilityIdentifier("FoundationUI.SidebarPattern.sidebar")
+            } detail: {
+                detailContent
+                    .accessibilityIdentifier("FoundationUI.SidebarPattern.detail")
+            }
+            .navigationSplitViewStyle(.balanced)
+            #if os(macOS)
+            .navigationSplitViewColumnWidth(
+                min: Layout.sidebarMinimumWidth, ideal: Layout.sidebarIdealWidth
+            )
+            #endif
         }
-        .navigationSplitViewStyle(.balanced)
-        #if os(macOS)
-        .navigationSplitViewColumnWidth(
-            min: Layout.sidebarMinimumWidth, ideal: Layout.sidebarIdealWidth
-        )
-        #endif
+    }
+
+    /// Returns true if this pattern is being used inside a NavigationSplitScaffold.
+    private var isInScaffold: Bool {
+        navigationModel != nil
     }
 
     @ViewBuilder
@@ -708,6 +749,64 @@ private enum Layout {
 
     return PreviewContainer()
         .frame(minWidth: 800, minHeight: 600)
+}
+
+#Preview("With NavigationSplitScaffold") {
+    @Previewable @State var selection: String? = nil
+    @Previewable @State var navigationModel = NavigationModel()
+
+    NavigationSplitScaffold(model: navigationModel) {
+        SidebarPattern(
+            sections: [
+                .init(
+                    title: "Recent Files",
+                    items: [
+                        .init(id: "file1", title: "sample.mp4", iconSystemName: "doc.fill"),
+                        .init(id: "file2", title: "video.mov", iconSystemName: "doc.fill"),
+                        .init(id: "file3", title: "test.iso", iconSystemName: "opticaldisc")
+                    ]
+                ),
+                .init(
+                    title: "Bookmarks",
+                    items: [
+                        .init(id: "bm1", title: "Important Atoms", iconSystemName: "star.fill"),
+                        .init(id: "bm2", title: "Error Locations", iconSystemName: "exclamationmark.triangle")
+                    ]
+                )
+            ],
+            selection: $selection
+        ) { _ in
+            EmptyView()
+        }
+    } content: {
+        VStack(alignment: .leading, spacing: DS.Spacing.l) {
+            Text("Parse Tree")
+                .font(DS.Typography.title)
+                .padding(DS.Spacing.l)
+
+            if let selectedFile = selection {
+                Text("Selected: \(selectedFile)")
+                    .font(DS.Typography.body)
+                    .foregroundStyle(DS.Colors.textSecondary)
+                    .padding(.horizontal, DS.Spacing.l)
+            } else {
+                Text("No file selected")
+                    .font(DS.Typography.body)
+                    .foregroundStyle(DS.Colors.textSecondary)
+                    .padding(.horizontal, DS.Spacing.l)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .background(DS.Colors.tertiary)
+    } detail: {
+        InspectorPattern(title: "File Properties") {
+            SectionHeader(title: "Details", showDivider: true)
+            KeyValueRow(key: "Type", value: "MP4")
+            KeyValueRow(key: "Size", value: "125 MB")
+        }
+        .padding(DS.Spacing.l)
+    }
+    .frame(minWidth: 900, minHeight: 600)
 }
 #endif
 
