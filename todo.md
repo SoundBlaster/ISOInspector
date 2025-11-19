@@ -22,6 +22,11 @@
 - [ ] Integrate lazy loading and state binding into `InspectorPattern` once detail editors are introduced so scroll performance remains predictable. (FoundationUI/Sources/FoundationUI/Patterns/InspectorPattern.swift) _(Planning archived at `DOCS/TASK_ARCHIVE/204_T6_1_CLI_Tolerant_Flag/204_InspectorPattern_Lazy_Loading.md`.)_
 - [ ] Integrate snapshot-based verification for pattern integration once SwiftUI previews are available on CI runners. (FoundationUI/Tests/FoundationUITests/PatternsIntegrationTests/PatternIntegrationTests.swift)
 
+## NavigationSplitView Inspector (Task 243)
+
+- [ ] #243 Wire the inspector toggle to a NavigationSplitView/NavigationSplitScaffold-backed three-column layout so ⌘⌥I updates inspector visibility per DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md. (Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift)
+- [ ] #243 Split Selection Details into dedicated inspector subviews (metadata, corruption, encryption, notes, fields, validation, hex) to keep inspector scrolling predictable in the third column. (Sources/ISOInspectorApp/Inspector/InspectorDetailView.swift)
+
 ## FoundationUI Phase 1: Foundation Components (COMPLETE ✅)
 
 - [x] #216 Task I1.1 — Badge & Status Indicators ✅ — Completed 2025-11-14

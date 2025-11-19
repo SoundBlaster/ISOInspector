@@ -53,8 +53,8 @@
     // MARK: - Private Properties
 
     private let appSessionController: DocumentSessionController
-    private let readerFactory: (URL) throws -> RandomAccessReader
-    private let pipelineFactory: () -> ParsePipeline
+    private let readerFactory: @Sendable (URL) throws -> RandomAccessReader
+    private let pipelineFactory: @Sendable () -> ParsePipeline
     private let workQueue: DocumentSessionWorkQueue
     private let diagnostics: any DiagnosticsLogging
     private let filesystemAccess: FilesystemAccess
@@ -73,10 +73,10 @@
       appSessionController: DocumentSessionController,
       parseTreeStore: ParseTreeStore? = nil,
       annotations: AnnotationBookmarkSession? = nil,
-      readerFactory: @escaping (URL) throws -> RandomAccessReader = {
+      readerFactory: @Sendable @escaping (URL) throws -> RandomAccessReader = {
         try ChunkedFileReader(fileURL: $0)
       },
-      pipelineFactory: @escaping () -> ParsePipeline = { .live(options: .tolerant) },
+      pipelineFactory: @Sendable @escaping () -> ParsePipeline = { .live(options: .tolerant) },
       workQueue: DocumentSessionWorkQueue = DocumentSessionBackgroundQueue(),
       diagnostics: (any DiagnosticsLogging)? = nil,
       filesystemAccess: FilesystemAccess = .live(),
@@ -191,10 +191,9 @@
 
     /// Encapsulates the resources needed to start parsing a document.
     /// Avoids SwiftLint large_tuple violation.
-    private struct DocumentLoadingResources {
+    private struct DocumentLoadingResources: @unchecked Sendable {
       let reader: RandomAccessReader
       let pipeline: ParsePipeline
-      let context: ParsePipeline.Context
     }
 
     private func handleOpenDocument(at url: URL) async {
@@ -207,21 +206,26 @@
         let scopedURL = try filesystemAccess.adoptSecurityScope(for: url)
         activeSecurityScopedURL = scopedURL
 
+        let readerFactory = self.readerFactory
+        let pipelineFactory = self.pipelineFactory
+        let scopedURLValue = scopedURL.url
+
         // Offload heavy parsing work to background queue to avoid blocking UI
-        let resources = try await Task.detached(priority: .userInitiated) { [weak self] () -> DocumentLoadingResources in
-          guard let self else { throw CancellationError() }
+        let resources = try await Task.detached(priority: .userInitiated) {
+          let reader = try readerFactory(scopedURLValue)
+          let pipeline = pipelineFactory()
 
-          // Heavy I/O and CPU work on background thread
-          let reader = try self.readerFactory(scopedURL.url)
-          let pipeline = self.pipelineFactory()
-          let context = ParsePipeline.Context(source: url, issueStore: self.parseTreeStore.issueStore)
-
-          return DocumentLoadingResources(reader: reader, pipeline: pipeline, context: context)
+          return DocumentLoadingResources(reader: reader, pipeline: pipeline)
         }.value
+
+        let context = ParsePipeline.Context(
+          source: url,
+          issueStore: parseTreeStore.issueStore
+        )
 
         // Back to main thread for UI updates
         await MainActor.run {
-          parseTreeStore.start(pipeline: resources.pipeline, reader: resources.reader, context: resources.context)
+          parseTreeStore.start(pipeline: resources.pipeline, reader: resources.reader, context: context)
 
           let recent = DocumentRecent(
             url: url,

@@ -9,6 +9,7 @@
       static let root = "header"
       static let title = "title"
       static let subtitle = "subtitle"
+      static let inspectorToggle = "inspectorToggle"
       static let parseState = "parseState"
     }
 
@@ -69,6 +70,12 @@
           static let delete = "delete"
         }
       }
+    }
+
+    enum Inspector {
+      static let root = "inspector"
+      static let selectionDetails = "selectionDetails"
+      static let integritySummary = "integritySummary"
     }
 
     static func path(_ components: String...) -> String {
