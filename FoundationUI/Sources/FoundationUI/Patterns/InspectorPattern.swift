@@ -86,7 +86,19 @@ public struct InspectorPattern<Content: View>: View {
         .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card, style: .continuous))
         .accessibilityElement(children: .contain)
         .accessibilityLabel(Text(accessibilityLabelText))
-        .accessibilityHint(isInScaffold ? Text("Detail inspector within navigation") : nil)
+        .modifier(ConditionalAccessibilityHint(isInScaffold: isInScaffold))
+    }
+
+    private struct ConditionalAccessibilityHint: ViewModifier {
+        let isInScaffold: Bool
+
+        func body(content: Content) -> some View {
+            if isInScaffold {
+                content.accessibilityHint(Text("Detail inspector within navigation"))
+            } else {
+                content
+            }
+        }
     }
 
     /// Returns true if this pattern is being used inside a NavigationSplitScaffold.
