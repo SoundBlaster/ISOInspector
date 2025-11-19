@@ -1,33 +1,12 @@
 # Next Tasks Queue
 
-_Last updated: 2025-11-21 (UTC). Maintainers should update this file whenever task priorities change or blockers are resolved._
+_Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever task priorities change or blockers are resolved._
 
 ## 0. FoundationUI Navigation Architecture (NEW)
 
-1. **Task 240 – NavigationSplitViewKit Integration** ✅ _(Completed — `DOCS/INPROGRESS/Summary_of_Work_Task_240.md`)_
-   - Added `NavigationSplitViewKit` SPM dependency to `FoundationUI/Package.swift` with version ≥1.0.0
-   - Mirrored dependency in Tuist manifests (`FoundationUI/Project.swift`)
-   - Updated CI workflows with SPM dependency caching
-   - Verified all targets link NavigationSplitViewKit correctly
-   - Completed: 2025-11-18
+> **Note:** Tasks 240, 241, and 242 have been completed and archived to `DOCS/TASK_ARCHIVE/234_Resolved_Tasks_Batch/` (2025-11-19). See ARCHIVE_SUMMARY.md for details.
 
-2. **Task 241 – NavigationSplitScaffold Pattern** ✅ _(Completed — `DOCS/INPROGRESS/Summary_of_Work_Task_241.md`)_
-   - Created NavigationSplitScaffold wrapper pattern with Composable Clarity tokens
-   - Implemented environment key for downstream patterns to access navigation state
-   - All layout uses DS tokens (zero magic numbers)
-   - Authored 35 comprehensive unit/integration tests
-   - Created 6 SwiftUI Previews including ISO Inspector reference implementation
-   - Completed: 2025-11-18
-
-3. **Task 242 – Update Existing Patterns** ✅ _(Completed — `DOCS/INPROGRESS/Summary_of_Work_Task_242.md`)_
-   - Refactor `SidebarPattern`, `InspectorPattern`, `ToolbarPattern` to integrate with `NavigationSplitScaffold`
-   - Add environment-based navigation model access with backward compatibility
-   - Ensure column visibility controls expose accessibility shortcuts and VoiceOver labels
-   - Update agent YAML schemas to surface navigation bindings
-   - Create 9+ unit tests and 6+ integration tests verifying NavigationModel synchronization
-   - Completed: 2025-11-19
-
-4. **Task 243 – Reorganize NavigationSplitView: Selection Details & Integrity Summary in Inspector** _(Ready for implementation — `DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md`)_
+1. **Task 243 – Reorganize NavigationSplitView: Selection Details & Integrity Summary in Inspector** _(Ready for implementation — `DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md`)_
    - Move Selection Details content (metadata, corruption, encryption, notes, fields, validation, hex) to third column (Inspector)
    - Move Integrity Summary to Inspector panel with toggle button in Box Tree panel header
    - Refactor ParseTreeDetailView into sub-components for better composability
