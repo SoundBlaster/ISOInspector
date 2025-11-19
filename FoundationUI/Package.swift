@@ -19,17 +19,13 @@ let package = Package(
         // NOTE: swift-snapshot-testing removed from SPM dependencies
         // Snapshot tests are only run via Tuist + xcodebuild (not SPM)
         // See FoundationUI/Project.swift for Tuist configuration
-        .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.0"),
-        // NavigationSplitViewKit provides NavigationModel for three-column layouts
-        // Using branch reference until first tagged release is available
-        .package(url: "https://github.com/SoundBlaster/NavigationSplitView", branch: "main")
+        .package(url: "https://github.com/jpsim/Yams.git", from: "5.0.0")
     ],
     targets: [
         .target(
             name: "FoundationUI",
             dependencies: [
-                .product(name: "Yams", package: "Yams"),
-                .product(name: "NavigationSplitViewKit", package: "NavigationSplitView")
+                .product(name: "Yams", package: "Yams")
             ],
             exclude: [
                 "README.md",

@@ -1,7 +1,6 @@
 // swift-tools-version: 6.0
 #if canImport(SwiftUI)
   @testable import FoundationUI
-  import NavigationSplitViewKit
   import SwiftUI
   import XCTest
 
@@ -221,7 +220,7 @@
       let model2 = NavigationModel()
 
       model1.columnVisibility = .all
-      model2.columnVisibility = .contentOnly
+      model2.columnVisibility = .detailOnly
 
       let scaffold1 = NavigationSplitScaffold(model: model1) {
         Text("S1")
@@ -241,7 +240,7 @@
 
       // Then: Models should be independent
       XCTAssertEqual(scaffold1.navigationModel.columnVisibility, .all)
-      XCTAssertEqual(scaffold2.navigationModel.columnVisibility, .contentOnly)
+      XCTAssertEqual(scaffold2.navigationModel.columnVisibility, .detailOnly)
       XCTAssertNotEqual(scaffold1.navigationModel.columnVisibility, scaffold2.navigationModel.columnVisibility)
     }
 
@@ -250,7 +249,7 @@
     func testCompactSizeClassBehaviorWithPatterns() {
       // Given: Compact size class configuration
       let model = NavigationModel()
-      model.columnVisibility = .contentOnly
+      model.columnVisibility = .detailOnly
       model.preferredCompactColumn = .content
 
       typealias TestID = UUID
@@ -269,7 +268,7 @@
       }
 
       // Then: Should prefer content column
-      XCTAssertEqual(scaffold.navigationModel.columnVisibility, .contentOnly)
+      XCTAssertEqual(scaffold.navigationModel.columnVisibility, .detailOnly)
       XCTAssertEqual(scaffold.navigationModel.preferredCompactColumn, .content)
     }
 

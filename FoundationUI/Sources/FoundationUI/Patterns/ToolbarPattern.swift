@@ -2,7 +2,6 @@
 // swiftlint:disable closure_parameter_position
 
 import SwiftUI
-@preconcurrency import NavigationSplitViewKit
 
 #if canImport(UIKit)
 import UIKit

@@ -1,6 +1,5 @@
 #if canImport(SwiftUI)
 import SwiftUI
-@preconcurrency import NavigationSplitViewKit
 
 /// A pattern that renders a navigable sidebar with support for grouped sections
 /// and selection-driven detail content.
@@ -752,7 +751,7 @@ private enum Layout {
 }
 
 #Preview("With NavigationSplitScaffold") {
-    @Previewable @State var selection: String? = nil
+    @Previewable @State var selection: String?
     @Previewable @State var navigationModel = NavigationModel()
 
     NavigationSplitScaffold(model: navigationModel) {
