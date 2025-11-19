@@ -1,4 +1,5 @@
 import SwiftUI
+import NavigationSplitViewKit
 
 /// A pattern for displaying detailed inspector content with a fixed header and
 /// scrollable body area.
