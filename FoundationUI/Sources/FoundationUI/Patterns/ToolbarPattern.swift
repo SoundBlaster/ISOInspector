@@ -191,28 +191,28 @@ public struct ToolbarPattern: View {
         .accessibilityLabel(Text("Navigation Controls"))
     }
 
-    /// Toggles sidebar visibility. Switches between .all and .contentDetail modes.
+    /// Toggles sidebar visibility. Switches between .all and .doubleColumn modes.
     private func toggleSidebar() {
         guard let model = navigationModel else { return }
         withAnimation(DS.Animation.medium) {
             if model.columnVisibility == .all {
-                model.columnVisibility = .contentDetail
+                model.columnVisibility = .doubleColumn
             } else {
                 model.columnVisibility = .all
             }
         }
     }
 
-    /// Toggles inspector visibility. Switches between .all and .automatic modes.
+    /// Toggles inspector visibility. Switches between .all and .detailOnly modes.
     private func toggleInspector() {
         guard let model = navigationModel else { return }
         withAnimation(DS.Animation.medium) {
             if model.columnVisibility == .all {
-                model.columnVisibility = .automatic
-            } else if model.columnVisibility == .automatic || model.columnVisibility == .contentDetail {
+                model.columnVisibility = .detailOnly
+            } else if model.columnVisibility == .detailOnly || model.columnVisibility == .doubleColumn {
                 model.columnVisibility = .all
             } else {
-                // From .contentOnly, go to .all
+                // From .automatic, go to .all
                 model.columnVisibility = .all
             }
         }

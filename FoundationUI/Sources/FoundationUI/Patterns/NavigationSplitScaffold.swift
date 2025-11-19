@@ -145,8 +145,7 @@ public struct NavigationSplitScaffold<Sidebar: View, Content: View, Detail: View
 
     public var body: some View {
         NavigationSplitView(
-            columnVisibility: $navigationModel.columnVisibility,
-            preferredCompactColumn: $navigationModel.preferredCompactColumn
+            columnVisibility: $navigationModel.columnVisibility
         ) {
             sidebar
                 .environment(\.navigationModel, navigationModel)
@@ -271,8 +270,7 @@ extension EnvironmentValues {
     @MainActor
     static var compactTwoColumn: some View {
         let model = NavigationModel()
-        model.columnVisibility = .contentDetail
-        model.preferredCompactColumn = .content
+        model.columnVisibility = .doubleColumn
 
         return NavigationSplitScaffold(model: model) {
             List {
@@ -381,7 +379,7 @@ extension EnvironmentValues {
                         Divider()
                         HStack {
                             Image(systemName: "checkmark.circle.fill")
-                                .foregroundStyle(DS.Colors.success)
+                                .foregroundStyle(.green)
                             Text("Valid")
                                 .font(DS.Typography.body)
                         }
@@ -426,8 +424,7 @@ extension EnvironmentValues {
     @MainActor
     static var contentOnly: some View {
         let model = NavigationModel()
-        model.columnVisibility = .contentOnly
-        model.preferredCompactColumn = .content
+        model.columnVisibility = .detailOnly
 
         return NavigationSplitScaffold(model: model) {
             List {
@@ -454,7 +451,7 @@ extension EnvironmentValues {
     static func propertyRow(_ key: String, _ value: String) -> some View {
         HStack {
             Text(key)
-                .font(DS.Typography.bodyMedium)
+                .font(DS.Typography.body)
                 .foregroundStyle(DS.Colors.textSecondary)
             Spacer()
             Text(value)
