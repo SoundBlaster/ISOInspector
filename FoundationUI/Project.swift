@@ -35,7 +35,8 @@ func foundationUIFramework() -> Target {
         infoPlist: .default,
         sources: ["Sources/FoundationUI/**"],
         dependencies: [
-            .package(product: "Yams")
+            .package(product: "Yams"),
+            .package(product: "NavigationSplitViewKit")
         ],
         settings: .settings(base: baseSettings)
     )
@@ -74,6 +75,10 @@ let project = Project(
         .remote(
             url: "https://github.com/jpsim/Yams.git",
             requirement: .upToNextMajor(from: "5.0.0")
+        ),
+        .remote(
+            url: "https://github.com/SoundBlaster/NavigationSplitView",
+            requirement: .branch("main")
         )
     ],
     targets: [

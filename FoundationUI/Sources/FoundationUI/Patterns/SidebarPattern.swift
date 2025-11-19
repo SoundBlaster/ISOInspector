@@ -1,5 +1,6 @@
 #if canImport(SwiftUI)
 import SwiftUI
+import NavigationSplitViewKit
 
 /// A pattern that renders a navigable sidebar with support for grouped sections
 /// and selection-driven detail content.
