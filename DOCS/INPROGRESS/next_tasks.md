@@ -4,27 +4,29 @@ _Last updated: 2025-11-18 (UTC). Maintainers should update this file whenever ta
 
 ## 0. FoundationUI Navigation Architecture (NEW)
 
-1. **Task 240 – NavigationSplitViewKit Integration** _(Ready for Implementation — `DOCS/INPROGRESS/240_NavigationSplitViewKit_Integration.md`)_
-   - Add `NavigationSplitViewKit` SPM dependency to `FoundationUI/Package.swift` with proper version pinning (≥1.0.0)
-   - Mirror dependency in Tuist manifests (`FoundationUI/Project.swift`) and regenerate lockfiles
-   - Update CI workflows to cache the new dependency and monitor build time impact
-   - Verify all targets (Examples, Tests) link `NavigationSplitViewKit` correctly
-   - Effort: ~3 days; unblocked and ready to start immediately
+1. **Task 240 – NavigationSplitViewKit Integration** ✅ _(Completed — `DOCS/INPROGRESS/Summary_of_Work_Task_240.md`)_
+   - Added `NavigationSplitViewKit` SPM dependency to `FoundationUI/Package.swift` with version ≥1.0.0
+   - Mirrored dependency in Tuist manifests (`FoundationUI/Project.swift`)
+   - Updated CI workflows with SPM dependency caching
+   - Verified all targets link NavigationSplitViewKit correctly
+   - Completed: 2025-11-18
 
-2. **Task 241 – NavigationSplitScaffold Pattern** _(Pending Task 240 — `DOCS/INPROGRESS/241_NavigationSplitScaffold_Pattern.md`)_
-   - Create wrapper pattern that applies Composable Clarity tokens to `NavigationSplitViewKit`
-   - Provide environment key for downstream patterns to access navigation state
-   - Implement DS-driven appearance with zero magic numbers
-   - Author 35+ unit/integration tests covering three/two/single-column behavior across all platforms
-   - Create 6+ SwiftUI Previews with real-world ISO Inspector mockup
-   - Effort: ~4 days; depends on task 240
+2. **Task 241 – NavigationSplitScaffold Pattern** ✅ _(Completed — `DOCS/INPROGRESS/Summary_of_Work_Task_241.md`)_
+   - Created NavigationSplitScaffold wrapper pattern with Composable Clarity tokens
+   - Implemented environment key for downstream patterns to access navigation state
+   - All layout uses DS tokens (zero magic numbers)
+   - Authored 35 comprehensive unit/integration tests
+   - Created 6 SwiftUI Previews including ISO Inspector reference implementation
+   - Completed: 2025-11-18
 
-3. **Task 242 – Update Existing Patterns** _(Pending Tasks 240 + 241)_
-   - Refactor `SidebarPattern`, `InspectorPattern`, `ToolbarPattern` previews/tests to adopt `NavigationSplitScaffold`
+3. **Task 242 – Update Existing Patterns** _(In Progress — `DOCS/INPROGRESS/242_Update_Existing_Patterns_For_NavigationSplitScaffold.md`)_
+   - Refactor `SidebarPattern`, `InspectorPattern`, `ToolbarPattern` to integrate with `NavigationSplitScaffold`
+   - Add environment-based navigation model access with backward compatibility
    - Ensure column visibility controls expose accessibility shortcuts and VoiceOver labels
    - Update agent YAML schemas to surface navigation bindings
-   - Create 6+ integration tests verifying NavigationModel synchronization
-   - Effort: ~2 days; depends on tasks 240 + 241
+   - Create 9+ unit tests and 6+ integration tests verifying NavigationModel synchronization
+   - Effort: ~2.5 days; unblocked (tasks 240 + 241 complete)
+   - Started: 2025-11-18
 
 ---
 
