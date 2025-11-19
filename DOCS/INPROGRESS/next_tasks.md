@@ -1,6 +1,6 @@
 # Next Tasks Queue
 
-_Last updated: 2025-11-18 (UTC). Maintainers should update this file whenever task priorities change or blockers are resolved._
+_Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever task priorities change or blockers are resolved._
 
 ## 0. FoundationUI Navigation Architecture (NEW)
 
@@ -19,14 +19,25 @@ _Last updated: 2025-11-18 (UTC). Maintainers should update this file whenever ta
    - Created 6 SwiftUI Previews including ISO Inspector reference implementation
    - Completed: 2025-11-18
 
-3. **Task 242 – Update Existing Patterns** _(In Progress — `DOCS/INPROGRESS/242_Update_Existing_Patterns_For_NavigationSplitScaffold.md`)_
+3. **Task 242 – Update Existing Patterns** ✅ _(Completed — `DOCS/INPROGRESS/Summary_of_Work_Task_242.md`)_
    - Refactor `SidebarPattern`, `InspectorPattern`, `ToolbarPattern` to integrate with `NavigationSplitScaffold`
    - Add environment-based navigation model access with backward compatibility
    - Ensure column visibility controls expose accessibility shortcuts and VoiceOver labels
    - Update agent YAML schemas to surface navigation bindings
    - Create 9+ unit tests and 6+ integration tests verifying NavigationModel synchronization
-   - Effort: ~2.5 days; unblocked (tasks 240 + 241 complete)
-   - Started: 2025-11-18
+   - Completed: 2025-11-19
+
+4. **Task 243 – Reorganize NavigationSplitView: Selection Details & Integrity Summary in Inspector** _(Ready for implementation — `DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md`)_
+   - Move Selection Details content (metadata, corruption, encryption, notes, fields, validation, hex) to third column (Inspector)
+   - Move Integrity Summary to Inspector panel with toggle button in Box Tree panel header
+   - Refactor ParseTreeDetailView into sub-components for better composability
+   - Add toggle UI in Box Tree panel to switch between Selection Details and Integrity Summary views
+   - Ensure responsive layout across macOS (3 columns), iPad (adaptive), iPhone (compact)
+   - Implement keyboard shortcuts (⌘⌥I for inspector toggle) and VoiceOver labels
+   - Create 25-30 unit tests, 10-15 integration tests, 4+ UI snapshot tests
+   - **Blocker**: Bug #232 must be fixed first (UI content not displayed after file selection)
+   - Effort: ~4.5 days; unblocked when Bug #232 is resolved
+   - Ready: 2025-11-19
 
 ---
 
