@@ -21,39 +21,37 @@ disabled_rules:
 # These thresholds block merges when complexity limits are exceeded.
 #
 # Enforcement:
-# - Local: .githooks/pre-push runs `swiftlint lint --strict`
-# - CI: .github/workflows/swiftlint.yml runs on all Swift code
+# - Local: .githooks/pre-commit and .githooks/pre-push both run `swiftlint lint --strict`
+# - CI: .github/workflows/swiftlint.yml runs on all Swift code (Sources, Tests, FoundationUI, CLI, samples)
 # - Artifacts: SwiftLint reports are published to PRs for detailed analysis
 #
-# Thresholds tuned to allow 95%+ of existing code to pass while preventing
-# future complexity regressions. Adjust thresholds when parser generators expand
-# or design system refactoring requires higher limits.
+# Thresholds tuned to the limits defined in DOCS/INPROGRESS/A7_SwiftLint_Complexity_Thresholds.md.
+# Adjust thresholds only after coordinating via the automation workplan and documenting
+# rationale inline so downstream tasks (A8, A10) stay aligned.
 #
-# @todo #A7 Enable strict mode for main project after refactoring large files
-#   CI currently runs main project (Sources/, Tests/) in informational mode because
-#   3 files exceed type_body_length threshold: JSONParseTreeExporter.swift (2127 lines),
-#   BoxValidator.swift (1738 lines), DocumentSessionController.swift (1634 lines).
-#   After refactoring these files below 1500 lines, switch CI to --strict mode.
+# @todo #A7 Refactor the remaining oversized types (JSONParseTreeExporter.swift,
+#   BoxValidator.swift, DocumentSessionController.swift) so the local suppressions can
+#   be removed while keeping type bodies under 200 lines each.
 #
 # Related tasks: A2 (CI pipeline), A8 (test coverage gates), A10 (duplication detection)
 # ========================================
 
 cyclomatic_complexity:
-  warning: 30  # Functions with complexity > 30 trigger warnings
-  error: 55    # Functions with complexity > 55 fail the build
+  warning: 8   # Encourage refactors before complexity hits the hard limit
+  error: 10   # Functions with complexity > 10 fail the build
 
 function_body_length:
-  warning: 250  # Functions > 250 lines trigger warnings
-  error: 350    # Functions > 350 lines fail the build
+  warning: 35  # Surface large bodies before they exceed the 40 line max
+  error: 40   # Functions > 40 lines fail the build
 
 type_body_length:
-  warning: 1200  # Types > 1200 lines trigger warnings
-  error: 1500    # Types > 1500 lines fail the build
+  warning: 180  # Highlight oversized types before hitting the 200 line max
+  error: 200   # Types > 200 lines fail the build
 
 nesting:
   type_level:
-    warning: 5  # Nesting depth > 5 triggers warnings
-    error: 7    # Nesting depth > 7 fails the build
+    warning: 4  # Prevent deeply nested control flow before the hard limit
+    error: 5    # Nesting depth > 5 fails the build
 
 excluded:
   - .build
