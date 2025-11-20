@@ -121,14 +121,14 @@ This configuration allows both tools to work together harmoniously without creat
 
 ## Code Quality Gates
 
-The repository enforces complexity thresholds using **SwiftLint** to prevent code quality regressions:
+The repository enforces strict complexity thresholds using **SwiftLint** to prevent code quality regressions:
 
-- **Cyclomatic Complexity:** Warning at 30, error at 55
-- **Function Body Length:** Warning at 250 lines, error at 350 lines
-- **Type Body Length:** Warning at 1200 lines, error at 1500 lines
-- **Nesting Depth:** Warning at 5 type levels, error at 7 levels
+- **Cyclomatic Complexity:** Warning at 8, error at 10
+- **Function Body Length:** Warning at 35 lines, error at 40 lines
+- **Type Body Length:** Warning at 180 lines, error at 200 lines
+- **Nesting Depth:** Warning at 4 levels, error at 5 levels
 
-These thresholds are tuned to allow 95%+ of existing code to pass while blocking future complexity growth. Pre-push hooks and CI workflows run `swiftlint lint --strict` to enforce these limits.
+Pre-commit and pre-push hooks both run `swiftlint lint --strict` against the staged Swift files. GitHub Actions executes the `SwiftLint Code Quality` workflow on every push/PR, blocking merges when violations exist and uploading JSON artifacts (`swiftlint-main-report`, `swiftlint-foundationui-report`, `swiftlint-componenttestapp-report`) for detailed review in CI.
 
 ### Running SwiftLint Locally
 
@@ -136,6 +136,12 @@ Check for complexity violations:
 
 ```sh
 swiftlint lint --strict
+```
+
+Auto-fix style issues where possible:
+
+```sh
+swiftlint --fix
 ```
 
 Install SwiftLint (macOS):
@@ -161,6 +167,10 @@ func parseComplexBox(...) {
 ```
 
 See existing disable pragmas in the codebase for examples of documented exceptions.
+
+### CI Analyzer Reports
+
+The `SwiftLint Code Quality` workflow uploads JSON reports for each Swift target. Download the artifacts from the CI run summary and open them with `jq`/`python -m json.tool` to inspect per-file violations when tightening guardrails or reviewing PR feedback.
 
 ## Test Coverage Gating
 

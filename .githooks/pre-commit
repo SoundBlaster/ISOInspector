@@ -45,35 +45,78 @@ run_swiftlint() {
     fi
 }
 
-# Check for SwiftLint violations
+lint_staged_files() {
+    local label="$1"
+    local target_dir="$2"
+    local config_path="$3"
+    shift 3
+    local files=("$@")
+
+    if [ ${#files[@]} -eq 0 ]; then
+        return 0
+    fi
+
+    local config_args=()
+    if [ -n "$config_path" ]; then
+        config_args=(--config "$config_path")
+    fi
+
+    echo "   • $label: ${#files[@]} staged file(s)"
+
+    local lint_failed=0
+    for file in "${files[@]}"; do
+        if ! run_swiftlint "$target_dir" lint --strict --quiet "${config_args[@]}" --path "$file"; then
+            echo "     ↳ ❌ $file"
+            lint_failed=1
+        fi
+    done
+
+    if [ $lint_failed -eq 0 ]; then
+        echo "     ↳ ✅ Passed"
+        return 0
+    fi
+
+    return 1
+}
+
+# Check for SwiftLint violations on staged files
 if [ "$SWIFTLINT_MODE" != "none" ]; then
     echo "1️⃣  Checking code style with SwiftLint (${SWIFTLINT_MODE})..."
 
     STAGED_SWIFT_FILES=$(git diff --cached --name-only --diff-filter=ACM 2>/dev/null | grep '\.swift$' || true)
 
     if [ -n "$STAGED_SWIFT_FILES" ]; then
-        # Check FoundationUI files
-        FOUNDATIONUI_FILES=$(echo "$STAGED_SWIFT_FILES" | grep '^FoundationUI/' || true)
-        if [ -n "$FOUNDATIONUI_FILES" ]; then
-            if run_swiftlint "FoundationUI" --config .swiftlint.yml --quiet; then
-                echo "✅ FoundationUI: Code style check passed"
-            else
-                echo "❌ FoundationUI: SwiftLint violations found"
-                echo "   Run: cd FoundationUI && swiftlint --config .swiftlint.yml --fix"
-                FAILED=$((FAILED + 1))
-            fi
-        fi
+        readarray -t STAGED_SWIFT_FILES_ARRAY <<< "$STAGED_SWIFT_FILES"
 
-        # Check ComponentTestApp files
-        COMPONENTTESTAPP_FILES=$(echo "$STAGED_SWIFT_FILES" | grep '^Examples/ComponentTestApp/' || true)
-        if [ -n "$COMPONENTTESTAPP_FILES" ]; then
-            if run_swiftlint "Examples/ComponentTestApp" --quiet; then
-                echo "✅ ComponentTestApp: Code style check passed"
-            else
-                echo "❌ ComponentTestApp: SwiftLint violations found"
-                echo "   Run: cd Examples/ComponentTestApp && swiftlint --fix"
-                FAILED=$((FAILED + 1))
-            fi
+        MAIN_FILES=()
+        FOUNDATIONUI_FILES=()
+        COMPONENT_FILES=()
+
+        for file in "${STAGED_SWIFT_FILES_ARRAY[@]}"; do
+            case "$file" in
+                FoundationUI/*)
+                    FOUNDATIONUI_FILES+=("${file#FoundationUI/}")
+                    ;;
+                Examples/ComponentTestApp/*)
+                    COMPONENT_FILES+=("${file#Examples/ComponentTestApp/}")
+                    ;;
+                *)
+                    MAIN_FILES+=("$file")
+                    ;;
+            esac
+        done
+
+        GROUP_FAILED=0
+        lint_staged_files "Main project" "." ".swiftlint.yml" "${MAIN_FILES[@]}" || GROUP_FAILED=1
+        lint_staged_files "FoundationUI" "FoundationUI" ".swiftlint.yml" "${FOUNDATIONUI_FILES[@]}" || GROUP_FAILED=1
+        lint_staged_files "ComponentTestApp" "Examples/ComponentTestApp" "" "${COMPONENT_FILES[@]}" || GROUP_FAILED=1
+
+        if [ $GROUP_FAILED -ne 0 ]; then
+            echo "❌ SwiftLint violations detected in staged files"
+            echo "   Run 'swiftlint lint --strict' (or cd into the scoped directory) to view details."
+            FAILED=$((FAILED + 1))
+        else
+            echo "✅ All staged Swift files pass SwiftLint"
         fi
     else
         echo "⚠️  No Swift files staged"

@@ -61,12 +61,6 @@ jobs:
           # Verify installation
           swiftlint --version
 
-      # @todo #A7 Switch to strict mode after refactoring large files
-      #   Currently running in informational mode (no --strict flag) because 3 files
-      #   exceed type_body_length threshold. After refactoring JSONParseTreeExporter.swift,
-      #   BoxValidator.swift, and DocumentSessionController.swift to <1500 lines each,
-      #   change this to: swiftlint lint --strict --config .swiftlint.yml
-      #   and remove the continue-on-error or make it fail on ERRORS > 0.
       - name: Run SwiftLint on Main Project (Sources & Tests)
         id: swiftlint-main
         continue-on-error: true
@@ -74,8 +68,7 @@ jobs:
           set -eo pipefail
 
           echo "🔍 Running SwiftLint on main project (Sources/, Tests/)..."
-          echo "⚠️  NOTE: Running in INFORMATIONAL mode while existing violations are being addressed"
-          swiftlint lint --config .swiftlint.yml --reporter json > /tmp/swiftlint-main.json || true
+          swiftlint lint --strict --config .swiftlint.yml --reporter json | tee /tmp/swiftlint-main.json
 
           # Parse and display results
           if command -v jq &> /dev/null; then
@@ -93,12 +86,8 @@ jobs:
             echo "  Warnings: $WARNINGS"
 
             if [ "$ERRORS" -gt 0 ]; then
-              echo "⚠️  SwiftLint errors found in main project (informational only)"
-              echo ""
-              echo "Top violations:"
-              swiftlint lint --config .swiftlint.yml --reporter xcode | head -50
-              echo ""
-              echo "💡 These are being tracked for future cleanup - not blocking merge"
+              echo "❌ SwiftLint errors found in main project"
+              swiftlint lint --strict --config .swiftlint.yml --reporter xcode | head -50
             fi
           fi
 
@@ -118,7 +107,7 @@ jobs:
           cd FoundationUI
 
           echo "🔍 Running SwiftLint on FoundationUI..."
-          swiftlint --config .swiftlint.yml --reporter json > /tmp/swiftlint-foundationui.json || true
+          swiftlint lint --strict --config .swiftlint.yml --reporter json | tee /tmp/swiftlint-foundationui.json
 
           # Parse and display results
           if command -v jq &> /dev/null; then
@@ -136,7 +125,7 @@ jobs:
 
             if [ "$ERRORS" -gt 0 ]; then
               echo "❌ SwiftLint errors found!"
-              swiftlint --config .swiftlint.yml --reporter xcode
+              swiftlint lint --strict --config .swiftlint.yml --reporter xcode
               exit 1
             fi
           fi
@@ -157,7 +146,7 @@ jobs:
           cd Examples/ComponentTestApp
 
           echo "🔍 Running SwiftLint on ComponentTestApp..."
-          swiftlint --reporter json > /tmp/swiftlint-componenttestapp.json || true
+          swiftlint lint --strict --reporter json | tee /tmp/swiftlint-componenttestapp.json
 
           # Parse and display results
           if command -v jq &> /dev/null; then
@@ -175,7 +164,7 @@ jobs:
 
             if [ "$ERRORS" -gt 0 ]; then
               echo "❌ SwiftLint errors found!"
-              swiftlint --reporter xcode
+              swiftlint lint --strict --reporter xcode
               exit 1
             fi
           fi
@@ -258,19 +247,18 @@ jobs:
           COMPONENTTESTAPP_RESULT="${{ steps.swiftlint-componenttestapp.outcome }}"
 
           echo "📊 SwiftLint Quality Gate Results:"
-          echo "  Main Project: $MAIN_RESULT (informational only - not blocking)"
+          echo "  Main Project: $MAIN_RESULT"
           echo "  FoundationUI: $FOUNDATIONUI_RESULT"
           echo "  ComponentTestApp: $COMPONENTTESTAPP_RESULT"
           echo ""
 
-          # Only block on FoundationUI and ComponentTestApp failures
-          # Main project violations are tracked but not blocking while cleanup is in progress
-          if [ "$FOUNDATIONUI_RESULT" = "failure" ] || [ "$COMPONENTTESTAPP_RESULT" = "failure" ]; then
+          if [ "$MAIN_RESULT" = "failure" ] || [ "$FOUNDATIONUI_RESULT" = "failure" ] || [ "$COMPONENTTESTAPP_RESULT" = "failure" ]; then
             echo "❌ SwiftLint quality gate failed!"
             echo ""
             echo "Next steps:"
             echo "1. Review violations reported above"
             echo "2. Fix code style and complexity issues:"
+            echo "   - Main Project: swiftlint lint --strict --config .swiftlint.yml"
             echo "   - FoundationUI: cd FoundationUI && swiftlint --config .swiftlint.yml --fix"
             echo "   - ComponentTestApp: cd Examples/ComponentTestApp && swiftlint --fix"
             echo "3. Commit fixed code"
@@ -280,16 +268,5 @@ jobs:
             exit 1
           else
             echo "✅ SwiftLint quality gate passed!"
-            echo ""
-            if [ "$MAIN_RESULT" = "failure" ]; then
-              echo "⚠️  NOTE: Main project has violations (see artifacts) but these are"
-              echo "    being tracked for future cleanup and are not blocking merges yet."
-              echo ""
-              echo "📋 Known large files requiring refactoring:"
-              echo "   - JSONParseTreeExporter.swift (2127 lines)"
-              echo "   - BoxValidator.swift (1738 lines)"
-              echo "   - DocumentSessionController.swift (1634 lines)"
-            else
-              echo "All enforced code meets complexity and style requirements."
-            fi
+            echo "All enforced code meets complexity and style requirements."
           fi
