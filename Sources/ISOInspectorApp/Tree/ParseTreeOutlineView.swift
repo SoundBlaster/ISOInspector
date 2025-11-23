@@ -51,6 +51,7 @@
           .focused(focusTarget, equals: .outline)
           .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
       }
+      .padding(.horizontal, DS.Spacing.m)
       .onAppear {
         focusTarget.wrappedValue = .outline
         if displayMode.isShowingIntegritySummary {
@@ -104,13 +105,11 @@
     }
 
     private var headerTitle: String {
-      displayMode.isShowingIntegritySummary ? "Integrity Report" : "Box Hierarchy"
+      "Box Hierarchy"
     }
 
     private var headerSubtitle: String {
-      displayMode.isShowingIntegritySummary
-        ? "Review and triage parsing issues"
-        : "Search, filter, and expand ISO BMFF boxes"
+      "Search, filter, and expand ISO BMFF boxes"
     }
 
     private var focusCommands: some View {
@@ -159,10 +158,15 @@
     }
 
     private func toggleInspectorMode() {
-      ensureInspectorVisible()
-      displayMode.toggle()
       if displayMode.isShowingIntegritySummary {
+        displayMode.current = .selectionDetails
+        #if os(macOS)
+          toggleInspectorVisibility()
+        #endif
+      } else {
+        displayMode.current = .integritySummary
         ensureIntegrityViewModel()
+        ensureInspectorVisible()
       }
     }
 

@@ -2,6 +2,7 @@
   import SwiftUI
   import ISOInspectorKit
   import NestedA11yIDs
+  import FoundationUI
 
   struct InspectorDetailView: View {
     @ObservedObject var detailViewModel: ParseTreeDetailViewModel
@@ -22,6 +23,8 @@
           selectionDetailsContent
         }
       }
+      .padding(.horizontal, DS.Spacing.m)
+      .padding(.vertical, DS.Spacing.m)
       .frame(maxWidth: .infinity, alignment: .topLeading)
     }
 
