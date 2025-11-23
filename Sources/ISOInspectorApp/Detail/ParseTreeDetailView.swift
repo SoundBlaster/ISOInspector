@@ -44,6 +44,8 @@ struct ParseTreeDetailView: View {
 
             Spacer()
         }
+        .padding(.horizontal, DS.Spacing.m)
+        .padding(.top, DS.Spacing.m)
     }
 
     @ViewBuilder
@@ -58,7 +60,8 @@ struct ParseTreeDetailView: View {
                 validationSection(detail: detail)
                 hexSection(detail: detail)
             }
-            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(DS.Spacing.m)
+//            .frame(maxWidth: .infinity, alignment: .leading)
             .dynamicTypeSize(.medium ... .accessibility5)
         } else {
             noSelectionView

@@ -37,6 +37,8 @@ struct IntegritySummaryView: View {
 
             Spacer()
         }
+        .padding(.horizontal, DS.Spacing.m)
+        .padding(.top, DS.Spacing.m)
     }
 
     private var sortBar: some View {
