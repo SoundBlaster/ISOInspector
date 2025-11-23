@@ -27,31 +27,34 @@ struct AppShellView: View {
     }
 
 #if os(macOS)
-    @ViewBuilder
-    private var integrityInspector: some View {
+      @ViewBuilder
+      private var integrityInspector: some View {
         if windowController.currentDocument != nil, let integrityViewModel {
+//          ScrollView {
             IntegritySummaryView(
-                viewModel: integrityViewModel,
-                onIssueSelected: handleIssueSelected,
-                onExportJSON: exportDocumentJSONHandler,
-                onExportIssueSummary: exportDocumentIssueSummaryHandler
+              viewModel: integrityViewModel,
+              onIssueSelected: handleIssueSelected,
+              onExportJSON: exportDocumentJSONHandler,
+              onExportIssueSummary: exportDocumentIssueSummaryHandler
             )
-            .padding(.horizontal, DS.Spacing.m)
-            .padding(.vertical, DS.Spacing.m)
-            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.integritySummary)
+//          }
+          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.integritySummary)
+          .frame(maxWidth: .infinity, alignment: .topLeading)
+          .padding(.horizontal, DS.Spacing.m)
+          .padding(.vertical, DS.Spacing.m)
         } else if windowController.currentDocument != nil {
-            VStack(alignment: .leading, spacing: 8) {
-                ProgressView()
-                Text("Loading integrity summary…")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(.horizontal, DS.Spacing.m)
-            .padding(.vertical, DS.Spacing.m)
-            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.integritySummary)
+          VStack(alignment: .leading, spacing: 8) {
+            ProgressView()
+            Text("Loading integrity summary…")
+              .font(.caption)
+              .foregroundColor(.secondary)
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.horizontal, DS.Spacing.m)
+          .padding(.vertical, DS.Spacing.m)
+          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.integritySummary)
         }
-    }
+      }
 #endif
 
     /// Access documentViewModel from windowController.
@@ -112,18 +115,28 @@ struct AppShellView: View {
                     ensureInspectorVisible()
                 }
             }
-            .onChangeCompat(of: windowController.issueMetrics.totalCount) { newValue in
-                if newValue == 0 {
-                    isCorruptionRibbonDismissed = false
-                }
+        .onChangeCompat(of: windowController.issueMetrics.totalCount) { newValue in
+          if newValue == 0 {
+            isCorruptionRibbonDismissed = false
+          }
+        }
+        .toolbar {
+          ToolbarItemGroup(placement: .primaryAction) {
+            if windowController.currentDocument != nil {
+              Button {
+                toggleInspectorVisibility()
+              } label: {
+                Label(
+                  showInspector ? "Hide Integrity" : "Show Integrity",
+                  systemImage: showInspector ? "sidebar.right" : "checkmark.shield")
+              }
+              .help(showInspector ? "Hide Integrity Report" : "Show Integrity Report")
             }
-            .toolbar {
-                ToolbarItemGroup(placement: .primaryAction) {
-                    Menu {
-                        Button("Export JSON…") {
-                            Task { await windowController.exportJSON(scope: .document) }
-                        }
-                        .disabled(!documentViewModel.exportAvailability.canExportDocument)
+            Menu {
+              Button("Export JSON…") {
+                Task { await windowController.exportJSON(scope: .document) }
+              }
+              .disabled(!documentViewModel.exportAvailability.canExportDocument)
 
                         Button("Export Issue Summary…") {
                             Task { await windowController.exportIssueSummary(scope: .document) }
