@@ -12,6 +12,11 @@
     @ObservedObject var appController: DocumentSessionController
     @State private var isImporterPresented = false
     @State private var importError: ImportError?
+    @State private var inspectorVisibility = InspectorColumnVisibility()
+    @State private var displayMode = InspectorDisplayMode()
+    @State private var integrityViewModel: IntegritySummaryViewModel?
+    @FocusState private var focusTarget: InspectorFocusTarget?
+    private let focusCatalog = InspectorFocusShortcutCatalog.default
     @AppStorage(Self.corruptionRibbonDismissedDefaultsKey) private
       var isCorruptionRibbonDismissed = false
 
@@ -37,13 +42,21 @@
         .onChangeCompat(of: scenePhase) { phase in
           handleScenePhaseChange(phase)
         }
+        .focusedSceneValue(\.inspectorFocusTarget, focusBinding)
+        .background(focusCommands)
+        .onAppear { focusTarget = .outline }
     }
 
     private var content: some View {
-      NavigationSplitView {
+      NavigationSplitView(columnVisibility: inspectorColumnVisibilityBinding) {
         sidebar
+      } content: {
+        parseTreeContent
+          .frame(minWidth: 320)
       } detail: {
-        detail
+        inspectorDetail
+          .frame(minWidth: 360)
+          .focused($focusTarget, equals: .detail)
       }
       .navigationSplitViewStyle(.balanced)
       .overlay(alignment: .top) {
@@ -100,6 +113,11 @@
       .onOpenURL { url in
         windowController.openDocument(at: url)
       }
+      .onChangeCompat(of: documentViewModel.nodeViewModel.selectedNodeID) { newValue in
+        if newValue != nil {
+          displayMode.current = .selectionDetails
+        }
+      }
       .onChangeCompat(of: windowController.issueMetrics.totalCount) { newValue in
         if newValue == 0 {
           isCorruptionRibbonDismissed = false
@@ -148,6 +166,86 @@
       }
     }
 
+    private func handleIssueSelected(_ issue: ParseIssue) {
+      guard let nodeID = issue.affectedNodeIDs.first else { return }
+      documentViewModel.outlineViewModel.revealNode(withID: nodeID)
+      documentViewModel.nodeViewModel.select(nodeID: nodeID)
+      inspectorVisibility.ensureInspectorVisible()
+      displayMode.current = .selectionDetails
+      focusTarget = .outline
+    }
+
+    private func ensureIntegrityViewModel() {
+      if integrityViewModel == nil {
+        integrityViewModel = IntegritySummaryViewModel(issueStore: documentViewModel.store.issueStore)
+      }
+    }
+
+    private func toggleInspectorVisibility() {
+      inspectorVisibility.toggleInspectorVisibility()
+    }
+
+    private var focusCommands: some View {
+      Group {
+        ForEach(focusCatalog.shortcuts) { descriptor in
+          Button(action: { focusTarget = descriptor.target }) {
+            EmptyView()
+          }
+          .keyboardShortcut(keyEquivalent(for: descriptor), modifiers: [.command, .option])
+          .opacity(0)
+        }
+        Button(action: { navigateToIssue(direction: .down) }) { EmptyView() }
+          .keyboardShortcut("e", modifiers: [.command, .shift])
+          .opacity(0)
+        Button(action: { navigateToIssue(direction: .up) }) { EmptyView() }
+          .keyboardShortcut("e", modifiers: [.command, .shift, .option])
+          .opacity(0)
+        Button(action: { toggleInspectorVisibility() }) { EmptyView() }
+          .keyboardShortcut("i", modifiers: [.command, .option])
+          .opacity(0)
+      }
+    }
+
+    private func navigateToIssue(direction: ParseTreeOutlineViewModel.NavigationDirection) {
+      let outlineViewModel = documentViewModel.outlineViewModel
+      guard
+        let targetID = outlineViewModel.issueRowID(
+          after: documentViewModel.nodeViewModel.selectedNodeID,
+          direction: direction
+        )
+      else { return }
+      outlineViewModel.revealNode(withID: targetID)
+      inspectorVisibility.ensureInspectorVisible()
+      displayMode.current = .selectionDetails
+      focusTarget = .outline
+      documentViewModel.nodeViewModel.select(nodeID: targetID)
+    }
+
+    private func keyEquivalent(for descriptor: InspectorFocusShortcutDescriptor) -> KeyEquivalent {
+      KeyEquivalent(descriptor.key.first ?? " ")
+    }
+
+    private var focusBinding: Binding<InspectorFocusTarget?> {
+      Binding(
+        get: { focusTarget },
+        set: { focusTarget = $0 }
+      )
+    }
+
+    private var selectionBinding: Binding<ParseTreeNode.ID?> {
+      Binding(
+        get: { documentViewModel.nodeViewModel.selectedNodeID },
+        set: { newValue in documentViewModel.nodeViewModel.select(nodeID: newValue) }
+      )
+    }
+
+    private var inspectorColumnVisibilityBinding: Binding<NavigationSplitViewVisibility> {
+      Binding(
+        get: { inspectorVisibility.columnVisibility },
+        set: { inspectorVisibility.columnVisibility = $0 }
+      )
+    }
+
     private var sidebar: some View {
       VStack(alignment: .leading, spacing: DS.Spacing.l) {
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
@@ -188,23 +286,48 @@
 
         Spacer()
       }
-      .padding()
+      .padding(.vertical, DS.Spacing.l)
       .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.root)
     }
 
-    private var detail: some View {
+    private var parseTreeContent: some View {
       Group {
         if windowController.currentDocument != nil {
           ParseTreeExplorerView(
             viewModel: documentViewModel,
+            selectedNodeID: selectionBinding,
+            displayMode: $displayMode,
+            focusTarget: $focusTarget,
+            ensureInspectorVisible: { inspectorVisibility.ensureInspectorVisible() },
+            ensureIntegrityViewModel: ensureIntegrityViewModel,
+            toggleInspectorVisibility: { toggleInspectorVisibility() },
             exportSelectionJSONAction: exportSelectionJSONHandler,
-            exportSelectionIssueSummaryAction: exportSelectionIssueSummaryHandler,
-            exportDocumentJSONAction: exportDocumentJSONHandler,
-            exportDocumentIssueSummaryAction: exportDocumentIssueSummaryHandler
+            exportSelectionIssueSummaryAction: exportSelectionIssueSummaryHandler
           )
           .frame(minWidth: 640, minHeight: 480)
         } else {
           OnboardingView(openAction: { isImporterPresented = true })
+        }
+      }
+    }
+
+    private var inspectorDetail: some View {
+      Group {
+        if windowController.currentDocument != nil {
+          InspectorDetailView(
+            detailViewModel: documentViewModel.detailViewModel,
+            annotationSession: documentViewModel.annotations,
+            selectedNodeID: selectionBinding,
+            integrityViewModel: integrityViewModel,
+            showsIntegritySummary: displayMode.isShowingIntegritySummary,
+            exportDocumentJSONAction: exportDocumentJSONHandler,
+            exportDocumentIssueSummaryAction: exportDocumentIssueSummaryHandler,
+            onIssueSelected: handleIssueSelected,
+            focusTarget: $focusTarget
+          )
+          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.root)
+        } else {
+          EmptyView()
         }
       }
     }
