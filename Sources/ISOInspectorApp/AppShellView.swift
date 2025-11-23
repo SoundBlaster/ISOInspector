@@ -14,6 +14,9 @@
     @State private var importError: ImportError?
     @State private var inspectorVisibility = InspectorColumnVisibility()
     @State private var displayMode = InspectorDisplayMode()
+    #if os(macOS)
+      @State private var showInspector = false
+    #endif
     @State private var integrityViewModel: IntegritySummaryViewModel?
     @FocusState private var focusTarget: InspectorFocusTarget?
     private let focusCatalog = InspectorFocusShortcutCatalog.default
@@ -25,6 +28,34 @@
       let windowController = WindowSessionController(appSessionController: appController)
       self._windowController = StateObject(wrappedValue: windowController)
     }
+
+    #if os(macOS)
+      @ViewBuilder
+      private var integrityInspector: some View {
+        if windowController.currentDocument != nil, let integrityViewModel {
+          IntegritySummaryView(
+            viewModel: integrityViewModel,
+            onIssueSelected: handleIssueSelected,
+            onExportJSON: exportDocumentJSONHandler,
+            onExportIssueSummary: exportDocumentIssueSummaryHandler
+          )
+          .padding(.horizontal, DS.Spacing.m)
+          .padding(.vertical, DS.Spacing.m)
+          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.integritySummary)
+        } else if windowController.currentDocument != nil {
+          VStack(alignment: .leading, spacing: 8) {
+            ProgressView()
+            Text("Loading integrity summary…")
+              .font(.caption)
+              .foregroundColor(.secondary)
+          }
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .padding(.horizontal, DS.Spacing.m)
+          .padding(.vertical, DS.Spacing.m)
+          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.integritySummary)
+        }
+      }
+    #endif
 
     /// Access documentViewModel from windowController.
     ///
@@ -38,7 +69,7 @@
     }
 
     var body: some View {
-      content
+      navigationContainer
         .onChangeCompat(of: scenePhase) { phase in
           handleScenePhaseChange(phase)
         }
@@ -47,19 +78,112 @@
         .onAppear { focusTarget = .outline }
     }
 
-    private var content: some View {
+    private var navigationContainer: some View {
+      defaultNavigationSplit
+        .animation(
+          .spring(response: 0.4, dampingFraction: 0.85), value: windowController.loadFailure?.id
+        )
+        .animation(
+          .spring(response: 0.4, dampingFraction: 0.85), value: shouldShowCorruptionRibbon
+        )
+        .fileImporter(
+          isPresented: $isImporterPresented,
+          allowedContentTypes: appController.allowedContentTypes,
+          allowsMultipleSelection: false,
+          onCompletion: handleImportResult
+        )
+        .alert(importError?.title ?? "", isPresented: importErrorBinding) {
+          Button("OK", role: .cancel) { importError = nil }
+        } message: {
+          if let message = importError?.message {
+            Text(message)
+          }
+        }
+        .alert(item: exportStatusBinding) { status in
+          Alert(
+            title: Text(status.title),
+            message: Text(status.message),
+            dismissButton: .default(Text("OK"), action: windowController.dismissExportStatus)
+          )
+        }
+        .onOpenURL { url in
+          windowController.openDocument(at: url)
+        }
+        .onChangeCompat(of: documentViewModel.nodeViewModel.selectedNodeID) { newValue in
+          if newValue != nil {
+            displayMode.current = .selectionDetails
+            #if os(macOS)
+              showInspector = false
+            #else
+              ensureInspectorVisible()
+            #endif
+          }
+        }
+        .onChangeCompat(of: windowController.issueMetrics.totalCount) { newValue in
+          if newValue == 0 {
+            isCorruptionRibbonDismissed = false
+          }
+        }
+        .toolbar {
+          ToolbarItemGroup(placement: .primaryAction) {
+            Menu {
+              Button("Export JSON…") {
+                Task { await windowController.exportJSON(scope: .document) }
+              }
+              .disabled(!documentViewModel.exportAvailability.canExportDocument)
+
+              Button("Export Issue Summary…") {
+                Task { await windowController.exportIssueSummary(scope: .document) }
+              }
+              .disabled(!documentViewModel.exportAvailability.canExportDocument)
+
+              Divider()
+
+              Button("Export Selected JSON…") {
+                guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
+                Task { await windowController.exportJSON(scope: .selection(nodeID)) }
+              }
+              .disabled(!documentViewModel.exportAvailability.canExportSelection)
+
+              Button("Export Selected Issue Summary…") {
+                guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
+                Task { await windowController.exportIssueSummary(scope: .selection(nodeID)) }
+              }
+              .disabled(!documentViewModel.exportAvailability.canExportSelection)
+            } label: {
+              Label("Export", systemImage: "square.and.arrow.up")
+            }
+            .disabled(
+              !documentViewModel.exportAvailability.canExportDocument
+                && !documentViewModel.exportAvailability.canExportSelection
+            )
+          }
+        }
+    }
+
+    private var defaultNavigationSplit: some View {
       NavigationSplitView(columnVisibility: inspectorColumnVisibilityBinding) {
         sidebar
       } content: {
         parseTreeContent
-          .frame(minWidth: 320)
       } detail: {
         inspectorDetail
-          .frame(minWidth: 360)
           .focused($focusTarget, equals: .detail)
       }
       .navigationSplitViewStyle(.balanced)
       .overlay(alignment: .top) {
+        overlayContent
+      }
+      #if os(macOS)
+        .inspector(isPresented: $showInspector) {
+          integrityInspector
+        }
+      #endif
+    }
+
+    @ViewBuilder
+    private var overlayContent: some View {
+      if shouldShowCorruptionRibbon || windowController.loadFailure != nil {
         VStack(spacing: DS.Spacing.m) {
           if shouldShowCorruptionRibbon {
             CorruptionWarningRibbon(
@@ -84,80 +208,6 @@
         }
         .padding(.top)
       }
-      .animation(
-        .spring(response: 0.4, dampingFraction: 0.85), value: windowController.loadFailure?.id
-      )
-      .animation(
-        .spring(response: 0.4, dampingFraction: 0.85), value: shouldShowCorruptionRibbon
-      )
-      .fileImporter(
-        isPresented: $isImporterPresented,
-        allowedContentTypes: appController.allowedContentTypes,
-        allowsMultipleSelection: false,
-        onCompletion: handleImportResult
-      )
-      .alert(importError?.title ?? "", isPresented: importErrorBinding) {
-        Button("OK", role: .cancel) { importError = nil }
-      } message: {
-        if let message = importError?.message {
-          Text(message)
-        }
-      }
-      .alert(item: exportStatusBinding) { status in
-        Alert(
-          title: Text(status.title),
-          message: Text(status.message),
-          dismissButton: .default(Text("OK"), action: windowController.dismissExportStatus)
-        )
-      }
-      .onOpenURL { url in
-        windowController.openDocument(at: url)
-      }
-      .onChangeCompat(of: documentViewModel.nodeViewModel.selectedNodeID) { newValue in
-        if newValue != nil {
-          displayMode.current = .selectionDetails
-        }
-      }
-      .onChangeCompat(of: windowController.issueMetrics.totalCount) { newValue in
-        if newValue == 0 {
-          isCorruptionRibbonDismissed = false
-        }
-      }
-      .toolbar {
-        ToolbarItemGroup(placement: .primaryAction) {
-          Menu {
-            Button("Export JSON…") {
-              Task { await windowController.exportJSON(scope: .document) }
-            }
-            .disabled(!documentViewModel.exportAvailability.canExportDocument)
-
-            Button("Export Issue Summary…") {
-              Task { await windowController.exportIssueSummary(scope: .document) }
-            }
-            .disabled(!documentViewModel.exportAvailability.canExportDocument)
-
-            Divider()
-
-            Button("Export Selected JSON…") {
-              guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
-              Task { await windowController.exportJSON(scope: .selection(nodeID)) }
-            }
-            .disabled(!documentViewModel.exportAvailability.canExportSelection)
-
-            Button("Export Selected Issue Summary…") {
-              guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
-              Task { await windowController.exportIssueSummary(scope: .selection(nodeID)) }
-            }
-            .disabled(!documentViewModel.exportAvailability.canExportSelection)
-          } label: {
-            Label("Export", systemImage: "square.and.arrow.up")
-          }
-          .disabled(
-            !documentViewModel.exportAvailability.canExportDocument
-              && !documentViewModel.exportAvailability.canExportSelection
-          )
-        }
-      }
     }
 
     private func handleScenePhaseChange(_ phase: ScenePhase) {
@@ -170,7 +220,7 @@
       guard let nodeID = issue.affectedNodeIDs.first else { return }
       documentViewModel.outlineViewModel.revealNode(withID: nodeID)
       documentViewModel.nodeViewModel.select(nodeID: nodeID)
-      inspectorVisibility.ensureInspectorVisible()
+      ensureInspectorVisible()
       displayMode.current = .selectionDetails
       focusTarget = .outline
     }
@@ -181,8 +231,24 @@
       }
     }
 
+    private func ensureInspectorVisible() {
+      #if os(macOS)
+        ensureIntegrityViewModel()
+        showInspector = true
+      #else
+        inspectorVisibility.ensureInspectorVisible()
+      #endif
+    }
+
     private func toggleInspectorVisibility() {
-      inspectorVisibility.toggleInspectorVisibility()
+      #if os(macOS)
+        showInspector.toggle()
+        if showInspector {
+          ensureIntegrityViewModel()
+        }
+      #else
+        inspectorVisibility.toggleInspectorVisibility()
+      #endif
     }
 
     private var focusCommands: some View {
@@ -215,7 +281,7 @@
         )
       else { return }
       outlineViewModel.revealNode(withID: targetID)
-      inspectorVisibility.ensureInspectorVisible()
+      ensureInspectorVisible()
       displayMode.current = .selectionDetails
       focusTarget = .outline
       documentViewModel.nodeViewModel.select(nodeID: targetID)
@@ -260,7 +326,7 @@
           isImporterPresented = true
         } label: {
           Label("Open File…", systemImage: "folder")
-            .frame(maxWidth: .infinity)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .buttonStyle(.borderedProminent)
 
@@ -282,11 +348,14 @@
             }
           }
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
         .listStyle(.sidebar)
 
         Spacer()
       }
+      .frame(maxWidth: .infinity, alignment: .leading)
       .padding(.vertical, DS.Spacing.l)
+      .padding(.horizontal, DS.Spacing.m)
       .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.root)
     }
 
@@ -298,13 +367,13 @@
             selectedNodeID: selectionBinding,
             displayMode: $displayMode,
             focusTarget: $focusTarget,
-            ensureInspectorVisible: { inspectorVisibility.ensureInspectorVisible() },
+            ensureInspectorVisible: { ensureInspectorVisible() },
             ensureIntegrityViewModel: ensureIntegrityViewModel,
             toggleInspectorVisibility: { toggleInspectorVisibility() },
             exportSelectionJSONAction: exportSelectionJSONHandler,
             exportSelectionIssueSummaryAction: exportSelectionIssueSummaryHandler
           )
-          .frame(minWidth: 640, minHeight: 480)
+          .frame(minHeight: 420)
         } else {
           OnboardingView(openAction: { isImporterPresented = true })
         }
@@ -314,18 +383,29 @@
     private var inspectorDetail: some View {
       Group {
         if windowController.currentDocument != nil {
-          InspectorDetailView(
-            detailViewModel: documentViewModel.detailViewModel,
-            annotationSession: documentViewModel.annotations,
-            selectedNodeID: selectionBinding,
-            integrityViewModel: integrityViewModel,
-            showsIntegritySummary: displayMode.isShowingIntegritySummary,
-            exportDocumentJSONAction: exportDocumentJSONHandler,
-            exportDocumentIssueSummaryAction: exportDocumentIssueSummaryHandler,
-            onIssueSelected: handleIssueSelected,
-            focusTarget: $focusTarget
-          )
-          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.root)
+          #if os(macOS)
+            ParseTreeDetailView(
+              viewModel: documentViewModel.detailViewModel,
+              annotationSession: documentViewModel.annotations,
+              selectedNodeID: selectionBinding,
+              focusTarget: $focusTarget
+            )
+            .padding(.horizontal, DS.Spacing.m)
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.root)
+          #else
+            InspectorDetailView(
+              detailViewModel: documentViewModel.detailViewModel,
+              annotationSession: documentViewModel.annotations,
+              selectedNodeID: selectionBinding,
+              integrityViewModel: integrityViewModel,
+              showsIntegritySummary: displayMode.isShowingIntegritySummary,
+              exportDocumentJSONAction: exportDocumentJSONHandler,
+              exportDocumentIssueSummaryAction: exportDocumentIssueSummaryHandler,
+              onIssueSelected: handleIssueSelected,
+              focusTarget: $focusTarget
+            )
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.root)
+          #endif
         } else {
           EmptyView()
         }
