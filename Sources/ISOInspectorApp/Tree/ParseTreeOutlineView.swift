@@ -10,7 +10,7 @@
     @ObservedObject private var outlineViewModel: ParseTreeOutlineViewModel
     @ObservedObject private var annotations: AnnotationBookmarkSession
     @Binding var selectedNodeID: ParseTreeNode.ID?
-    @Binding var displayMode: InspectorDisplayMode
+    @Binding var showInspector: Bool
     let focusTarget: FocusState<InspectorFocusTarget?>.Binding
     let ensureInspectorVisible: () -> Void
     let ensureIntegrityViewModel: () -> Void
@@ -22,7 +22,7 @@
     init(
       viewModel: DocumentViewModel,
       selectedNodeID: Binding<ParseTreeNode.ID?>,
-      displayMode: Binding<InspectorDisplayMode>,
+      showInspector: Binding<Bool>,
       focusTarget: FocusState<InspectorFocusTarget?>.Binding,
       ensureInspectorVisible: @escaping () -> Void,
       ensureIntegrityViewModel: @escaping () -> Void,
@@ -34,7 +34,7 @@
       self._outlineViewModel = ObservedObject(wrappedValue: viewModel.outlineViewModel)
       self._annotations = ObservedObject(wrappedValue: viewModel.annotations)
       self._selectedNodeID = selectedNodeID
-      self._displayMode = displayMode
+      self._showInspector = showInspector
       self.focusTarget = focusTarget
       self.ensureInspectorVisible = ensureInspectorVisible
       self.ensureIntegrityViewModel = ensureIntegrityViewModel
@@ -54,11 +54,11 @@
       .padding(.horizontal, DS.Spacing.m)
       .onAppear {
         focusTarget.wrappedValue = .outline
-        if displayMode.isShowingIntegritySummary {
+        if showInspector {
           ensureIntegrityViewModel()
         }
       }
-      .onChangeCompatibility(of: displayMode.isShowingIntegritySummary) { isShowingIntegrity in
+      .onChangeCompatibility(of: showInspector) { isShowingIntegrity in
         if isShowingIntegrity {
           ensureIntegrityViewModel()
         }
@@ -93,7 +93,7 @@
         Button {
           toggleInspectorMode()
         } label: {
-          Label(displayMode.toggleButtonLabel, systemImage: inspectorToggleIconName)
+          Label(inspectorToggleLabel, systemImage: inspectorToggleIconName)
         }
         .buttonStyle(.borderedProminent)
         .accessibilityLabel(inspectorToggleAccessibilityLabel)
@@ -148,25 +148,24 @@
     }
 
     private var inspectorToggleIconName: String {
-      displayMode.isShowingIntegritySummary ? "checkmark.shield" : "info.circle"
+      showInspector ? "checkmark.shield" : "info.circle"
     }
 
     private var inspectorToggleAccessibilityLabel: String {
-      displayMode.isShowingIntegritySummary
-        ? "Show Selection Details"
-        : "Show Integrity Summary"
+      showInspector ? "Hide Integrity Report" : "Show Integrity Report"
+    }
+
+    private var inspectorToggleLabel: String {
+      showInspector ? "Hide Integrity" : "Show Integrity"
     }
 
     private func toggleInspectorMode() {
-      if displayMode.isShowingIntegritySummary {
-        displayMode.current = .selectionDetails
-        #if os(macOS)
-          toggleInspectorVisibility()
-        #endif
+      if showInspector {
+        showInspector = false
       } else {
-        displayMode.current = .integritySummary
         ensureIntegrityViewModel()
         ensureInspectorVisible()
+        showInspector = true
       }
     }
 
@@ -183,7 +182,6 @@
       else { return }
       outlineViewModel.revealNode(withID: targetID)
       ensureInspectorVisible()
-      displayMode.current = .selectionDetails
       focusTarget.wrappedValue = .outline
       selectedNodeID = targetID
     }
@@ -796,7 +794,7 @@
   private struct ParseTreeExplorerPreview: View {
     @StateObject private var documentViewModel: DocumentViewModel
     @State private var selectedNodeID: ParseTreeNode.ID?
-    @State private var displayMode = InspectorDisplayMode()
+    @State private var showInspector = false
     @FocusState private var focusTarget: InspectorFocusTarget?
 
     init() {
@@ -812,7 +810,7 @@
       ParseTreeExplorerView(
         viewModel: documentViewModel,
         selectedNodeID: $selectedNodeID,
-        displayMode: $displayMode,
+        showInspector: $showInspector,
         focusTarget: $focusTarget,
         ensureInspectorVisible: {},
         ensureIntegrityViewModel: {},
