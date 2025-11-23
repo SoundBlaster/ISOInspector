@@ -320,7 +320,7 @@ final class BoxMetadataRowComponentTests: XCTestCase {
 
   /// Verifies that BoxMetadataRow renders correctly in a VStack
   func testBoxMetadataRowRenderingInVStack() {
-    let view = VStack(alignment: .leading, spacing: 12) {
+    let view = VStack(alignment: .leading, spacing: DS.Spacing.m) {
       BoxMetadataRow(label: "Type", value: "ftyp")
       BoxMetadataRow(label: "Size", value: "1024 bytes")
       BoxMetadataRow(label: "Offset", value: "0x00001234", copyable: true)
@@ -332,7 +332,7 @@ final class BoxMetadataRowComponentTests: XCTestCase {
   /// Verifies that BoxMetadataRow renders correctly with ScrollView
   func testBoxMetadataRowRenderingInScrollView() {
     let view = ScrollView {
-      VStack(alignment: .leading, spacing: 12) {
+      VStack(alignment: .leading, spacing: DS.Spacing.m) {
         BoxMetadataRow(label: "Type", value: "ftyp")
         BoxMetadataRow(label: "Size", value: "1024 bytes")
       }

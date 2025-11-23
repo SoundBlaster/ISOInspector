@@ -86,7 +86,7 @@
     // MARK: - Body
 
     public var body: some View {
-      VStack(alignment: .leading, spacing: 8) {
+      VStack(alignment: .leading, spacing: DS.Spacing.s) {
         Text(label)
           .font(.subheadline)
           .foregroundColor(.secondary)
@@ -150,7 +150,7 @@
   // MARK: - Previews
 
   #Preview("Picker Variants") {
-    VStack(alignment: .leading, spacing: 32) {
+    VStack(alignment: .leading, spacing: DS.Spacing.xl) {
       // Segmented picker (few options)
       BoxPickerView(
         selection: .constant("JSON"),

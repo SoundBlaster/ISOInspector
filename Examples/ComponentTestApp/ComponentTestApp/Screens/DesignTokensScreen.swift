@@ -144,7 +144,7 @@ struct DesignTokensScreen: View {
                                 Text(dynamicTypeSizeLabel(systemDynamicTypeSize))
                                     .font(DS.Typography.code)
                                     .padding(.horizontal, DS.Spacing.s)
-                                    .padding(.vertical, 4)
+                                    .padding(.vertical, DS.Spacing.xxs)
                                     .background(DS.Colors.tertiary)
                                     .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
                             }
