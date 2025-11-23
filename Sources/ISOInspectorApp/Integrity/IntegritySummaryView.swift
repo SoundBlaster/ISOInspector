@@ -12,6 +12,9 @@ struct IntegritySummaryView: View {
     var body: some View {
         ScrollView {
             header
+
+            sortBar
+
             filterBar
             if viewModel.displayedIssues.isEmpty {
                 emptyState
@@ -19,37 +22,46 @@ struct IntegritySummaryView: View {
                 issueList
             }
         }
-        .toolbar { exportToolbar }
     }
 
     private var header: some View {
-        VStack(alignment: .leading, spacing: 4) {
-            Text("Integrity Summary")
-                .font(.title2)
-                .bold()
-            Text("Tolerant parsing issues detected")
-                .font(.subheadline)
-                .foregroundColor(.secondary)
+        HStack {
+            VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
+                Text("Integrity Summary")
+                    .font(.title3)
+                    .bold()
+                Text("Tolerant parsing issues detected")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
 
+            Spacer()
+        }
+    }
+
+    private var sortBar: some View {
+        HStack {
             sortControls
+
+            Spacer()
         }
     }
 
     private var filterBar: some View {
         HStack(spacing: 8) {
-            Text("Filter:")
-                .font(.caption)
-                .foregroundColor(.secondary)
+            Text("Filters:")
 
             ForEach(ParseIssue.Severity.allCases, id: \.self) { severity in
-                Toggle(isOn: binding(for: severity)) {
+                Button {
+                    binding(for: severity).wrappedValue.toggle()
+                } label: {
                     Badge(
-                        text: severity.label.uppercased(),
-                        level: badgeLevel(for: severity)
+                        level: badgeLevel(for: severity),
+                        showIcon: true
                     )
-                    .opacity(isFilterActive(severity) ? 1 : 0.55)
+                    .opacity(isFilterActive(for: severity) ? 1 : 0.35)
                 }
-                .toggleStyle(.button)
+                .buttonStyle(.plain)
             }
 
             Button {
@@ -57,12 +69,15 @@ struct IntegritySummaryView: View {
             } label: {
                 Image(systemName: "xmark.circle")
             }
+            .buttonStyle(.plain)
             .disabled(viewModel.severityFilter.isEmpty)
+
+            Spacer()
         }
     }
 
     private var sortControls: some View {
-        Picker("Sort", selection: $viewModel.sortOrder) {
+        Picker("Sort:", selection: $viewModel.sortOrder) {
             Text("Severity").tag(IntegritySummaryViewModel.SortOrder.severity)
             Text("Offset").tag(IntegritySummaryViewModel.SortOrder.offset)
             Text("Node").tag(IntegritySummaryViewModel.SortOrder.affectedNode)
@@ -102,7 +117,7 @@ struct IntegritySummaryView: View {
         )
     }
 
-    private func isFilterActive(_ severity: ParseIssue.Severity) -> Bool {
+    private func isFilterActive(for severity: ParseIssue.Severity) -> Bool {
         viewModel.severityFilter.contains(severity)
     }
 

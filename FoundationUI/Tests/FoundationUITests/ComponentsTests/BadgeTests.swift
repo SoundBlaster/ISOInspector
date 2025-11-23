@@ -14,218 +14,240 @@ import XCTest
 /// - Platform compatibility
 @MainActor
 final class BadgeTests: XCTestCase {
-  // MARK: - Initialization Tests
+    // MARK: - Initialization Tests
 
-  func testBadgeInitializationWithInfoLevel() {
-    // Given
-    let text = "INFO"
-    let level = BadgeLevel.info
+    func testBadgeInitializationWithInfoLevel() {
+        // Given
+        let text: String? = "INFO"
+        let level = BadgeLevel.info
 
-    // When
-    let badge = Badge(text: text, level: level)
+        // When
+        let badge = Badge(text: text, level: level)
 
-    // Then
-    XCTAssertEqual(badge.text, text, "Badge text should match initialization value")
-    XCTAssertEqual(badge.level, level, "Badge level should match initialization value")
-  }
-
-  func testBadgeInitializationWithWarningLevel() {
-    // Given
-    let text = "WARNING"
-    let level = BadgeLevel.warning
-
-    // When
-    let badge = Badge(text: text, level: level)
-
-    // Then
-    XCTAssertEqual(badge.text, text, "Badge text should match initialization value")
-    XCTAssertEqual(badge.level, level, "Badge level should match initialization value")
-  }
-
-  func testBadgeInitializationWithErrorLevel() {
-    // Given
-    let text = "ERROR"
-    let level = BadgeLevel.error
-
-    // When
-    let badge = Badge(text: text, level: level)
-
-    // Then
-    XCTAssertEqual(badge.text, text, "Badge text should match initialization value")
-    XCTAssertEqual(badge.level, level, "Badge level should match initialization value")
-  }
-
-  func testBadgeInitializationWithSuccessLevel() {
-    // Given
-    let text = "SUCCESS"
-    let level = BadgeLevel.success
-
-    // When
-    let badge = Badge(text: text, level: level)
-
-    // Then
-    XCTAssertEqual(badge.text, text, "Badge text should match initialization value")
-    XCTAssertEqual(badge.level, level, "Badge level should match initialization value")
-  }
-
-  // MARK: - Badge Level Tests
-
-  func testBadgeSupportsAllBadgeLevels() {
-    // Given
-    let levels: [BadgeLevel] = [.info, .warning, .error, .success]
-
-    // When & Then
-    for level in levels {
-      let badge = Badge(text: "Test", level: level)
-      XCTAssertEqual(badge.level, level, "Badge should support \(level) level")
+        // Then
+        XCTAssertEqual(badge.text, text, "Badge text should match initialization value")
+        XCTAssertEqual(badge.level, level, "Badge level should match initialization value")
     }
-  }
 
-  // MARK: - Text Content Tests
+    func testBadgeInitializationWithWarningLevel() {
+        // Given
+        let text: String? = "WARNING"
+        let level = BadgeLevel.warning
 
-  func testBadgeTextContent() {
-    // Given
-    let testCases = [
-      ("INFO", BadgeLevel.info),
-      ("WARNING", BadgeLevel.warning),
-      ("ERROR", BadgeLevel.error),
-      ("SUCCESS", BadgeLevel.success),
-      ("Custom Text", BadgeLevel.info),
-      ("", BadgeLevel.warning),  // Edge case: empty text
-    ]
+        // When
+        let badge = Badge(text: text, level: level)
 
-    // When & Then
-    for (text, level) in testCases {
-      let badge = Badge(text: text, level: level)
-      XCTAssertEqual(badge.text, text, "Badge should preserve text content: '\(text)'")
+        // Then
+        XCTAssertEqual(badge.text, text, "Badge text should match initialization value")
+        XCTAssertEqual(badge.level, level, "Badge level should match initialization value")
     }
-  }
 
-  // MARK: - Accessibility Tests
+    func testBadgeInitializationWithErrorLevel() {
+        // Given
+        let text: String? = "ERROR"
+        let level = BadgeLevel.error
 
-  func testBadgeAccessibilityLabelForInfo() {
-    // Given
-    let badge = Badge(text: "New", level: .info)
+        // When
+        let badge = Badge(text: text, level: level)
 
-    // Then
-    // The accessibility label should combine the level semantic meaning with the text
-    // Expected format: "Information: New" or similar
-    XCTAssertNotNil(badge.level.accessibilityLabel, "Badge should have accessibility label")
-    XCTAssertEqual(
-      badge.level.accessibilityLabel, "Information",
-      "Info level should have 'Information' accessibility label"
-    )
-  }
+        // Then
+        XCTAssertEqual(badge.text, text, "Badge text should match initialization value")
+        XCTAssertEqual(badge.level, level, "Badge level should match initialization value")
+    }
 
-  func testBadgeAccessibilityLabelForWarning() {
-    // Given
-    let badge = Badge(text: "Caution", level: .warning)
+    func testBadgeInitializationWithSuccessLevel() {
+        // Given
+        let text: String? = "SUCCESS"
+        let level = BadgeLevel.success
 
-    // Then
-    XCTAssertEqual(
-      badge.level.accessibilityLabel, "Warning",
-      "Warning level should have 'Warning' accessibility label"
-    )
-  }
+        // When
+        let badge = Badge(text: text, level: level)
 
-  func testBadgeAccessibilityLabelForError() {
-    // Given
-    let badge = Badge(text: "Failed", level: .error)
+        // Then
+        XCTAssertEqual(badge.text, text, "Badge text should match initialization value")
+        XCTAssertEqual(badge.level, level, "Badge level should match initialization value")
+    }
 
-    // Then
-    XCTAssertEqual(
-      badge.level.accessibilityLabel, "Error", "Error level should have 'Error' accessibility label"
-    )
-  }
+    // MARK: - Badge Level Tests
 
-  func testBadgeAccessibilityLabelForSuccess() {
-    // Given
-    let badge = Badge(text: "Complete", level: .success)
+    func testBadgeSupportsAllBadgeLevels() {
+        // Given
+        let levels: [BadgeLevel] = [.info, .warning, .error, .success]
 
-    // Then
-    XCTAssertEqual(
-      badge.level.accessibilityLabel, "Success",
-      "Success level should have 'Success' accessibility label"
-    )
-  }
+        // When & Then
+        for level in levels {
+            let badge = Badge(text: "Test", level: level)
+            XCTAssertEqual(badge.level, level, "Badge should support \(level) level")
+        }
+    }
 
-  // MARK: - Design System Integration Tests
+    // MARK: - Text Content Tests
 
-  func testBadgeLevelUsesDesignSystemColors() {
-    // Given
-    let infoBadge = Badge(text: "Info", level: .info)
-    let warnBadge = Badge(text: "Warn", level: .warning)
-    let errorBadge = Badge(text: "Error", level: .error)
-    let successBadge = Badge(text: "Success", level: .success)
+    func testBadgeTextContent() {
+        // Given
+        let testCases = [
+            ("INFO" as String?, BadgeLevel.info),
+            ("WARNING" as String?, BadgeLevel.warning),
+            ("ERROR" as String?, BadgeLevel.error),
+            ("SUCCESS" as String?, BadgeLevel.success),
+            ("Custom Text" as String?, BadgeLevel.info),
+            ("" as String?, BadgeLevel.warning),  // Edge case: empty text
+            (nil as String?, BadgeLevel.error),  // Icon-only support
+        ]
 
-    // Then - Verify that BadgeLevel provides DS colors (tested via BadgeLevel enum)
-    XCTAssertEqual(
-      infoBadge.level.backgroundColor, DS.Colors.infoBG, "Info badge should use DS.Colors.infoBG"
-    )
-    XCTAssertEqual(
-      warnBadge.level.backgroundColor, DS.Colors.warnBG, "Warning badge should use DS.Colors.warnBG"
-    )
-    XCTAssertEqual(
-      errorBadge.level.backgroundColor, DS.Colors.errorBG,
-      "Error badge should use DS.Colors.errorBG"
-    )
-    XCTAssertEqual(
-      successBadge.level.backgroundColor, DS.Colors.successBG,
-      "Success badge should use DS.Colors.successBG"
-    )
-  }
+        // When & Then
+        for (text, level) in testCases {
+            let badge = Badge(text: text, level: level)
+            if let text {
+                XCTAssertEqual(badge.text, text, "Badge should preserve text content: '\(text)'")
+            } else {
+                XCTAssertEqual(badge.text, nil, "Badge should preserve text content: nil")
+            }
+        }
+    }
 
-  // MARK: - Component Composition Tests
+    func testBadgeIconOnlySemanticsFallbacksToLevel() {
+        // Given
+        let badge = Badge(level: .warning, showIcon: true)
 
-  func testBadgeIsAView() {
-    // Given
-    let badge = Badge(text: "Test", level: .info)
+        // Then
+        XCTAssertNil(badge.text, "Badge should allow nil text for icon-only mode")
+        XCTAssertTrue(badge.showIcon, "Badge should preserve showIcon flag")
+        XCTAssertTrue(
+            badge.semantics.contains("(icon only)"),
+            "Semantics should document icon-only presentation"
+        )
+        XCTAssertTrue(
+            badge.semantics.contains("warning"),
+            "Semantics should include level string for accessibility context"
+        )
+    }
 
-    // Then
-    // Verify that Badge conforms to View protocol (compile-time check)
-    // This test primarily serves as documentation that Badge is a proper SwiftUI View
-    _ = badge as any View  // Compile-time verification that Badge conforms to View
-    XCTAssertNotNil(badge, "Badge should be a SwiftUI View")
-  }
+    // MARK: - Accessibility Tests
 
-  // MARK: - Edge Cases
+    func testBadgeAccessibilityLabelForInfo() {
+        // Given
+        let badge = Badge(text: "New", level: .info)
 
-  func testBadgeWithEmptyText() {
-    // Given
-    let badge = Badge(text: "", level: .info)
+        // Then
+        // The accessibility label should combine the level semantic meaning with the text
+        // Expected format: "Information: New" or similar
+        XCTAssertNotNil(badge.level.accessibilityLabel, "Badge should have accessibility label")
+        XCTAssertEqual(
+            badge.level.accessibilityLabel, "Information",
+            "Info level should have 'Information' accessibility label"
+        )
+    }
 
-    // Then
-    XCTAssertEqual(badge.text, "", "Badge should support empty text")
-  }
+    func testBadgeAccessibilityLabelForWarning() {
+        // Given
+        let badge = Badge(text: "Caution", level: .warning)
 
-  func testBadgeWithLongText() {
-    // Given
-    let longText = "This is a very long badge text that might wrap or truncate"
-    let badge = Badge(text: longText, level: .warning)
+        // Then
+        XCTAssertEqual(
+            badge.level.accessibilityLabel, "Warning",
+            "Warning level should have 'Warning' accessibility label"
+        )
+    }
 
-    // Then
-    XCTAssertEqual(badge.text, longText, "Badge should support long text")
-  }
+    func testBadgeAccessibilityLabelForError() {
+        // Given
+        let badge = Badge(text: "Failed", level: .error)
 
-  func testBadgeWithSpecialCharacters() {
-    // Given
-    let specialText = "⚠️ Øℓ∂ 日本語"
-    let badge = Badge(text: specialText, level: .error)
+        // Then
+        XCTAssertEqual(
+            badge.level.accessibilityLabel, "Error", "Error level should have 'Error' accessibility label"
+        )
+    }
 
-    // Then
-    XCTAssertEqual(badge.text, specialText, "Badge should support special characters and Unicode")
-  }
+    func testBadgeAccessibilityLabelForSuccess() {
+        // Given
+        let badge = Badge(text: "Complete", level: .success)
 
-  // MARK: - Equatable Tests
+        // Then
+        XCTAssertEqual(
+            badge.level.accessibilityLabel, "Success",
+            "Success level should have 'Success' accessibility label"
+        )
+    }
 
-  func testBadgeLevelEquality() {
-    // Given
-    let level1 = BadgeLevel.info
-    let level2 = BadgeLevel.info
-    let level3 = BadgeLevel.warning
+    // MARK: - Design System Integration Tests
 
-    // Then
-    XCTAssertEqual(level1, level2, "Same badge levels should be equal")
-    XCTAssertNotEqual(level1, level3, "Different badge levels should not be equal")
-  }
+    func testBadgeLevelUsesDesignSystemColors() {
+        // Given
+        let infoBadge = Badge(text: "Info", level: .info)
+        let warnBadge = Badge(text: "Warn", level: .warning)
+        let errorBadge = Badge(text: "Error", level: .error)
+        let successBadge = Badge(text: "Success", level: .success)
+
+        // Then - Verify that BadgeLevel provides DS colors (tested via BadgeLevel enum)
+        XCTAssertEqual(
+            infoBadge.level.backgroundColor, DS.Colors.infoBG, "Info badge should use DS.Colors.infoBG"
+        )
+        XCTAssertEqual(
+            warnBadge.level.backgroundColor, DS.Colors.warnBG, "Warning badge should use DS.Colors.warnBG"
+        )
+        XCTAssertEqual(
+            errorBadge.level.backgroundColor, DS.Colors.errorBG,
+            "Error badge should use DS.Colors.errorBG"
+        )
+        XCTAssertEqual(
+            successBadge.level.backgroundColor, DS.Colors.successBG,
+            "Success badge should use DS.Colors.successBG"
+        )
+    }
+
+    // MARK: - Component Composition Tests
+
+    func testBadgeIsAView() {
+        // Given
+        let badge = Badge(text: "Test", level: .info)
+
+        // Then
+        // Verify that Badge conforms to View protocol (compile-time check)
+        // This test primarily serves as documentation that Badge is a proper SwiftUI View
+        _ = badge as any View  // Compile-time verification that Badge conforms to View
+        XCTAssertNotNil(badge, "Badge should be a SwiftUI View")
+    }
+
+    // MARK: - Edge Cases
+
+    func testBadgeWithEmptyText() {
+        // Given
+        let badge = Badge(text: "", level: .info)
+
+        // Then
+        XCTAssertEqual(badge.text, "", "Badge should support empty text")
+    }
+
+    func testBadgeWithLongText() {
+        // Given
+        let longText = "This is a very long badge text that might wrap or truncate"
+        let badge = Badge(text: longText, level: .warning)
+
+        // Then
+        XCTAssertEqual(badge.text, longText, "Badge should support long text")
+    }
+
+    func testBadgeWithSpecialCharacters() {
+        // Given
+        let specialText = "⚠️ Øℓ∂ 日本語"
+        let badge = Badge(text: specialText, level: .error)
+
+        // Then
+        XCTAssertEqual(badge.text, specialText, "Badge should support special characters and Unicode")
+    }
+
+    // MARK: - Equatable Tests
+
+    func testBadgeLevelEquality() {
+        // Given
+        let level1 = BadgeLevel.info
+        let level2 = BadgeLevel.info
+        let level3 = BadgeLevel.warning
+
+        // Then
+        XCTAssertEqual(level1, level2, "Same badge levels should be equal")
+        XCTAssertNotEqual(level1, level3, "Different badge levels should not be equal")
+    }
 }

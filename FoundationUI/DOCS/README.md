@@ -330,6 +330,7 @@ FoundationUI follows a **5-layer composable architecture**:
 - ✅ WCAG 2.1 Level AA accessibility
 - ✅ Platform adaptation (iOS/macOS/iPadOS)
 - ✅ Strict concurrency (@MainActor, Sendable)
+- ℹ️ Badge supports icon-only usage by passing `text: nil` (or empty) with `showIcon: true`; accessibility labels fall back to the level name.
 
 ---
 
