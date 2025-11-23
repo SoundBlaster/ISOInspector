@@ -101,7 +101,7 @@ func deploymentTargets(for platform: DistributionPlatform) -> DeploymentTargets 
     case .macOS:
         return .macOS("14.0")
     case .iPadOS, .iOS:
-        return .iOS("16.0")
+        return .iOS("17.0")
     }
 }
 
@@ -111,7 +111,7 @@ func kitTarget() -> Target {
         destinations: [.mac, .iPad, .iPhone],
         product: .framework,
         bundleId: "ru.egormerkushev.isoinspector.kit",
-        deploymentTargets: DeploymentTargets.multiplatform(iOS: "16.0", macOS: "14.0"),
+        deploymentTargets: DeploymentTargets.multiplatform(iOS: "17.0", macOS: "14.0"),
         infoPlist: .default,
         sources: ["Sources/ISOInspectorKit/**"],
         resources: ["Sources/ISOInspectorKit/Resources/**"],
