@@ -24,7 +24,7 @@
 
 ## NavigationSplitView Inspector (Task 243)
 
-- [ ] #243 Wire the inspector toggle to a NavigationSplitView/NavigationSplitScaffold-backed three-column layout so ⌘⌥I updates inspector visibility per DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md. (Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift)
+- [x] #243 Wire the inspector toggle to a NavigationSplitView/NavigationSplitScaffold-backed three-column layout so ⌘⌥I updates inspector visibility per DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md. (Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift)
 - [ ] #243 Split Selection Details into dedicated inspector subviews (metadata, corruption, encryption, notes, fields, validation, hex) to keep inspector scrolling predictable in the third column. (Sources/ISOInspectorApp/Inspector/InspectorDetailView.swift)
 
 ## FoundationUI Phase 1: Foundation Components (COMPLETE ✅)
