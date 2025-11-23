@@ -7,7 +7,7 @@ final class InspectorColumnVisibilityTests: XCTestCase {
   func testDefaultsShowInspector() {
     let visibility = InspectorColumnVisibility()
 
-    XCTAssertEqual(visibility.columnVisibility, .doubleColumn)
+    XCTAssertEqual(visibility.columnVisibility, .all)
     XCTAssertTrue(visibility.isInspectorVisible)
   }
 
@@ -16,12 +16,12 @@ final class InspectorColumnVisibilityTests: XCTestCase {
 
     visibility.toggleInspectorVisibility()
 
-    XCTAssertEqual(visibility.columnVisibility, .sidebarOnly)
+    XCTAssertEqual(visibility.columnVisibility, .doubleColumn)
     XCTAssertFalse(visibility.isInspectorVisible)
 
     visibility.toggleInspectorVisibility()
 
-    XCTAssertEqual(visibility.columnVisibility, .doubleColumn)
+    XCTAssertEqual(visibility.columnVisibility, .all)
     XCTAssertTrue(visibility.isInspectorVisible)
   }
 }
