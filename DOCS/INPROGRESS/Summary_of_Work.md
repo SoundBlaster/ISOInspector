@@ -5,6 +5,7 @@
   - Added `InspectorColumnVisibility` state helper with unit coverage to guard NavigationSplitView visibility changes.
   - Ensured keyboard shortcut routing uses the NavigationSplitView column visibility instead of the inspector content toggle.
 - **Task 243:** Fixed the macOS build by aligning `InspectorColumnVisibility` with supported `NavigationSplitViewVisibility` cases (`.all`/`.doubleColumn`) and updating unit tests; regenerated the Xcode project so the helper and tests are included across app targets.
+- **Task 243:** Reworked the app shell to use a single three-column `NavigationSplitView` (sidebar/content/inspector), lifted inspector visibility + display mode state to `AppShellView`, and rewired `ParseTreeExplorerView` to stay in the content column while `InspectorDetailView` always occupies the inspector column (prevents the tree from disappearing and keeps integrity summary in the inspector).
 
 ## Pending / Follow-up
 - **Task 243:** Split Selection Details into dedicated inspector subviews (metadata, corruption, encryption, notes, fields, validation, hex) to stabilize scrolling in the inspector column.

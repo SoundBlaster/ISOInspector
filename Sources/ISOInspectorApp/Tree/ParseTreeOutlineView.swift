@@ -8,56 +8,54 @@
   struct ParseTreeExplorerView: View {
     @ObservedObject var viewModel: DocumentViewModel
     @ObservedObject private var outlineViewModel: ParseTreeOutlineViewModel
-    @ObservedObject private var detailViewModel: ParseTreeDetailViewModel
     @ObservedObject private var annotations: AnnotationBookmarkSession
-    @ObservedObject private var parseTreeStore: ParseTreeStore
-    @State private var displayMode = InspectorDisplayMode()
-    @State private var inspectorVisibility = InspectorColumnVisibility()
-    @State private var integrityViewModel: IntegritySummaryViewModel?
-    @FocusState private var focusTarget: InspectorFocusTarget?
+    @Binding var selectedNodeID: ParseTreeNode.ID?
+    @Binding var displayMode: InspectorDisplayMode
+    let focusTarget: FocusState<InspectorFocusTarget?>.Binding
+    let ensureInspectorVisible: () -> Void
+    let ensureIntegrityViewModel: () -> Void
+    let toggleInspectorVisibility: () -> Void
     let exportSelectionJSONAction: ((ParseTreeNode.ID) -> Void)?
     let exportSelectionIssueSummaryAction: ((ParseTreeNode.ID) -> Void)?
-    let exportDocumentJSONAction: (@MainActor () -> Void)?
-    let exportDocumentIssueSummaryAction: (@MainActor () -> Void)?
     private let focusCatalog = InspectorFocusShortcutCatalog.default
 
     init(
       viewModel: DocumentViewModel,
+      selectedNodeID: Binding<ParseTreeNode.ID?>,
+      displayMode: Binding<InspectorDisplayMode>,
+      focusTarget: FocusState<InspectorFocusTarget?>.Binding,
+      ensureInspectorVisible: @escaping () -> Void,
+      ensureIntegrityViewModel: @escaping () -> Void,
+      toggleInspectorVisibility: @escaping () -> Void,
       exportSelectionJSONAction: ((ParseTreeNode.ID) -> Void)? = nil,
-      exportSelectionIssueSummaryAction: ((ParseTreeNode.ID) -> Void)? = nil,
-      exportDocumentJSONAction: (@MainActor () -> Void)? = nil,
-      exportDocumentIssueSummaryAction: (@MainActor () -> Void)? = nil
+      exportSelectionIssueSummaryAction: ((ParseTreeNode.ID) -> Void)? = nil
     ) {
       self._viewModel = ObservedObject(wrappedValue: viewModel)
       self._outlineViewModel = ObservedObject(wrappedValue: viewModel.outlineViewModel)
-      self._detailViewModel = ObservedObject(wrappedValue: viewModel.detailViewModel)
       self._annotations = ObservedObject(wrappedValue: viewModel.annotations)
-      self._parseTreeStore = ObservedObject(wrappedValue: viewModel.store)
+      self._selectedNodeID = selectedNodeID
+      self._displayMode = displayMode
+      self.focusTarget = focusTarget
+      self.ensureInspectorVisible = ensureInspectorVisible
+      self.ensureIntegrityViewModel = ensureIntegrityViewModel
+      self.toggleInspectorVisibility = toggleInspectorVisibility
       self.exportSelectionJSONAction = exportSelectionJSONAction
       self.exportSelectionIssueSummaryAction = exportSelectionIssueSummaryAction
-      self.exportDocumentJSONAction = exportDocumentJSONAction
-      self.exportDocumentIssueSummaryAction = exportDocumentIssueSummaryAction
     }
 
     var body: some View {
       VStack(alignment: .leading, spacing: DS.Spacing.l) {
         header
-        NavigationSplitView(columnVisibility: inspectorColumnVisibilityBinding) {
-          explorerColumn
-            .frame(minWidth: 320)
-            .focused($focusTarget, equals: .outline)
-            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
-        } detail: {
-          inspectorColumn
-            .frame(minWidth: 360)
-            .focused($focusTarget, equals: .detail)
-        }
-        .navigationSplitViewStyle(.balanced)
+        explorerColumn
+          .frame(minWidth: 320)
+          .focused(focusTarget, equals: .outline)
+          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
       }
-      .padding()
       .onAppear {
-        focusTarget = .outline
-        ensureIntegrityViewModel()
+        focusTarget.wrappedValue = .outline
+        if displayMode.isShowingIntegritySummary {
+          ensureIntegrityViewModel()
+        }
       }
       .onChangeCompatibility(of: displayMode.isShowingIntegritySummary) { isShowingIntegrity in
         if isShowingIntegrity {
@@ -65,48 +63,17 @@
         }
       }
       .background(focusCommands)
-      .focusedSceneValue(\.inspectorFocusTarget, focusBinding)
     }
 
     private var explorerColumn: some View {
       ParseTreeOutlineView(
         viewModel: outlineViewModel,
-        selectedNodeID: selectionBinding,
+        selectedNodeID: $selectedNodeID,
         annotationSession: annotations,
-        focusTarget: $focusTarget,
+        focusTarget: focusTarget,
         exportSelectionJSONAction: exportSelectionJSONAction,
         exportSelectionIssueSummaryAction: exportSelectionIssueSummaryAction
       )
-    }
-
-    private var inspectorColumn: some View {
-      InspectorDetailView(
-        detailViewModel: detailViewModel,
-        annotationSession: annotations,
-        selectedNodeID: selectionBinding,
-        integrityViewModel: integrityViewModel,
-        showsIntegritySummary: displayMode.isShowingIntegritySummary,
-        exportDocumentJSONAction: exportDocumentJSONAction,
-        exportDocumentIssueSummaryAction: exportDocumentIssueSummaryAction,
-        onIssueSelected: handleIssueSelected,
-        focusTarget: $focusTarget
-      )
-      .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.root)
-    }
-
-    private func handleIssueSelected(_ issue: ParseIssue) {
-      guard let nodeID = issue.affectedNodeIDs.first else { return }
-      outlineViewModel.revealNode(withID: nodeID)
-      viewModel.nodeViewModel.select(nodeID: nodeID)
-      inspectorVisibility.ensureInspectorVisible()
-      displayMode.current = .selectionDetails
-      focusTarget = .outline
-    }
-
-    private func ensureIntegrityViewModel() {
-      if integrityViewModel == nil {
-        integrityViewModel = IntegritySummaryViewModel(issueStore: parseTreeStore.issueStore)
-      }
     }
 
     private var header: some View {
@@ -154,7 +121,7 @@
             key: keyEquivalent(for: descriptor),
             modifiers: [.command, .option]
           ) {
-            focusTarget = descriptor.target
+            focusTarget.wrappedValue = descriptor.target
           }
         }
         HiddenKeyboardShortcutButton(
@@ -171,21 +138,14 @@
         ) {
           navigateToIssue(direction: .up)
         }
-          HiddenKeyboardShortcutButton(
-            title: "Toggle Inspector Column",
-            key: "i",
-            modifiers: [.command, .option]
-          ) {
-            toggleInspectorVisibility()
-          }
+        HiddenKeyboardShortcutButton(
+          title: "Toggle Inspector Column",
+          key: "i",
+          modifiers: [.command, .option]
+        ) {
+          toggleInspectorVisibility()
         }
       }
-
-    private var focusBinding: Binding<InspectorFocusTarget?> {
-      Binding(
-        get: { focusTarget },
-        set: { focusTarget = $0 }
-      )
     }
 
     private var inspectorToggleIconName: String {
@@ -199,47 +159,29 @@
     }
 
     private func toggleInspectorMode() {
-      inspectorVisibility.ensureInspectorVisible()
+      ensureInspectorVisible()
       displayMode.toggle()
       if displayMode.isShowingIntegritySummary {
         ensureIntegrityViewModel()
       }
     }
 
-    private func toggleInspectorVisibility() {
-      inspectorVisibility.toggleInspectorVisibility()
-    }
-
     private func keyEquivalent(for descriptor: InspectorFocusShortcutDescriptor) -> KeyEquivalent {
       KeyEquivalent(descriptor.key.first ?? " ")
-    }
-
-    private var selectionBinding: Binding<ParseTreeNode.ID?> {
-      Binding(
-        get: { viewModel.nodeViewModel.selectedNodeID },
-        set: { newValue in viewModel.nodeViewModel.select(nodeID: newValue) }
-      )
     }
 
     private func navigateToIssue(direction: ParseTreeOutlineViewModel.NavigationDirection) {
       guard
         let targetID = outlineViewModel.issueRowID(
-          after: viewModel.nodeViewModel.selectedNodeID,
+          after: selectedNodeID,
           direction: direction
         )
       else { return }
       outlineViewModel.revealNode(withID: targetID)
-      inspectorVisibility.ensureInspectorVisible()
+      ensureInspectorVisible()
       displayMode.current = .selectionDetails
-      focusTarget = .outline
-      viewModel.nodeViewModel.select(nodeID: targetID)
-    }
-
-    private var inspectorColumnVisibilityBinding: Binding<NavigationSplitViewVisibility> {
-      Binding(
-        get: { inspectorVisibility.columnVisibility },
-        set: { inspectorVisibility.columnVisibility = $0 }
-      )
+      focusTarget.wrappedValue = .outline
+      selectedNodeID = targetID
     }
   }
 
@@ -849,6 +791,9 @@
 
   private struct ParseTreeExplorerPreview: View {
     @StateObject private var documentViewModel: DocumentViewModel
+    @State private var selectedNodeID: ParseTreeNode.ID?
+    @State private var displayMode = InspectorDisplayMode()
+    @FocusState private var focusTarget: InspectorFocusTarget?
 
     init() {
       let snapshot = ParseTreePreviewData.sampleSnapshot
@@ -856,11 +801,20 @@
       let annotations = AnnotationBookmarkSession(store: nil)
       _documentViewModel = StateObject(
         wrappedValue: DocumentViewModel(store: store, annotations: annotations))
+      _selectedNodeID = State(initialValue: snapshot.nodes.first?.id)
     }
 
     var body: some View {
       ParseTreeExplorerView(
-        viewModel: documentViewModel
+        viewModel: documentViewModel,
+        selectedNodeID: $selectedNodeID,
+        displayMode: $displayMode,
+        focusTarget: $focusTarget,
+        ensureInspectorVisible: {},
+        ensureIntegrityViewModel: {},
+        toggleInspectorVisibility: {},
+        exportSelectionJSONAction: nil,
+        exportSelectionIssueSummaryAction: nil
       )
       .frame(width: 760, height: 520)
     }
