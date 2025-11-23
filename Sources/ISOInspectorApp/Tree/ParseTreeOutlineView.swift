@@ -79,30 +79,22 @@
 
     private var header: some View {
       HStack {
-        VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
-          Text(headerTitle)
-            .font(.title2)
-            .bold()
-            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.title)
-          Text(headerSubtitle)
-            .font(.subheadline)
-            .foregroundColor(.secondary)
-            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.subtitle)
-        }
-        Spacer()
-        Button {
-          toggleInspectorMode()
-        } label: {
-          Label(inspectorToggleLabel, systemImage: inspectorToggleIconName)
-        }
-        .buttonStyle(.borderedProminent)
-        .accessibilityLabel(inspectorToggleAccessibilityLabel)
-        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.inspectorToggle)
-        ParseStateBadge(state: viewModel.parseState)
-          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.parseState)
+      VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
+        Text(headerTitle)
+          .font(.title2)
+          .bold()
+          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.title)
+        Text(headerSubtitle)
+          .font(.subheadline)
+          .foregroundColor(.secondary)
+          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.subtitle)
       }
-      .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.root)
+      Spacer()
+      ParseStateBadge(state: viewModel.parseState)
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.parseState)
     }
+    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.root)
+  }
 
     private var headerTitle: String {
       "Box Hierarchy"
@@ -144,28 +136,6 @@
         ) {
           toggleInspectorVisibility()
         }
-      }
-    }
-
-    private var inspectorToggleIconName: String {
-      showInspector ? "checkmark.shield" : "info.circle"
-    }
-
-    private var inspectorToggleAccessibilityLabel: String {
-      showInspector ? "Hide Integrity Report" : "Show Integrity Report"
-    }
-
-    private var inspectorToggleLabel: String {
-      showInspector ? "Hide Integrity" : "Show Integrity"
-    }
-
-    private func toggleInspectorMode() {
-      if showInspector {
-        showInspector = false
-      } else {
-        ensureIntegrityViewModel()
-        ensureInspectorVisible()
-        showInspector = true
       }
     }
 

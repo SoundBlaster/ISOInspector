@@ -43,7 +43,9 @@ import SwiftUI
 /// ```
 @available(iOS 17.0, macOS 14.0, *)
 public struct InspectorPattern<Content: View>: View {
+
     @Environment(\.navigationModel) private var navigationModel
+
     /// The title displayed in the fixed header.
     public let title: String
 
@@ -69,22 +71,23 @@ public struct InspectorPattern<Content: View>: View {
     }
 
     public var body: some View {
-        let inspectorContent = VStack(spacing: 0) {
-            header
-            ScrollView {
+        let inspectorContent = ScrollView {
+            VStack(spacing: 0) {
+                header
                 contentContainer
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
+        }
             .scrollIndicators(.hidden)
             // @todo: Integrate lazy loading and state binding once detail editors are introduced.
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(
-            material,
-            in: RoundedRectangle(cornerRadius: DS.Radius.card, style: .continuous)
-        )
-        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card, style: .continuous))
-        .accessibilityElement(children: .contain)
-        .accessibilityLabel(Text(accessibilityLabelText))
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background(
+                material,
+                in: RoundedRectangle(cornerRadius: DS.Radius.card, style: .continuous)
+            )
+            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card, style: .continuous))
+            .accessibilityElement(children: .contain)
+            .accessibilityLabel(Text(accessibilityLabelText))
 
         if isInScaffold {
             inspectorContent
@@ -133,9 +136,9 @@ public struct InspectorPattern<Content: View>: View {
 
     private var platformPadding: CGFloat {
         #if os(macOS)
-        return DS.Spacing.l
+            return DS.Spacing.l
         #else
-        return DS.Spacing.m
+            return DS.Spacing.m
         #endif
     }
 }
@@ -332,11 +335,11 @@ extension InspectorPattern: AgentDescribable {
         InspectorPattern(title: "Platform Adaptive") {
             SectionHeader(title: "Platform Info")
             #if os(macOS)
-            KeyValueRow(key: "Platform", value: "macOS")
-            KeyValueRow(key: "Padding", value: "DS.Spacing.l (16pt)")
+                KeyValueRow(key: "Platform", value: "macOS")
+                KeyValueRow(key: "Padding", value: "DS.Spacing.l (16pt)")
             #else
-            KeyValueRow(key: "Platform", value: "iOS/iPadOS")
-            KeyValueRow(key: "Padding", value: "DS.Spacing.m (12pt)")
+                KeyValueRow(key: "Platform", value: "iOS/iPadOS")
+                KeyValueRow(key: "Padding", value: "DS.Spacing.m (12pt)")
             #endif
         }
         .material(.regular)
