@@ -41,14 +41,17 @@ struct ParseTreeExplorerView: View {
     }
 
     var body: some View {
-        VStack(alignment: .leading, spacing: DS.Spacing.l) {
+//        VStack(alignment: .leading, spacing: DS.Spacing.l) {
+        ScrollView {
+
             header
+
             explorerColumn
-                .frame(minWidth: 320)
                 .focused(focusTarget, equals: .outline)
+                .padding(.horizontal, DS.Spacing.m)
                 .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
         }
-        .padding(.horizontal, DS.Spacing.m)
+
         .onAppear {
             focusTarget.wrappedValue = .outline
             if showInspector {
@@ -81,16 +84,20 @@ struct ParseTreeExplorerView: View {
                     .font(.title2)
                     .bold()
                     .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.title)
+
                 Text(headerSubtitle)
                     .font(.subheadline)
                     .foregroundColor(.secondary)
                     .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.subtitle)
             }
+
             Spacer()
+
             ParseStateBadge(state: viewModel.parseState)
                 .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.parseState)
         }
         .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.root)
+        .padding(DS.Spacing.m)
     }
 
     private var headerTitle: String {
@@ -307,7 +314,7 @@ struct ParseTreeOutlineView: View {
         if viewModel.rows.isEmpty {
             emptyStateView
         } else {
-            ScrollView {
+//            ScrollView {
                 LazyVStack(alignment: .leading, spacing: 0) {
                     ForEach(viewModel.rows) { row in
                         ParseTreeOutlineRowView(
@@ -343,7 +350,7 @@ struct ParseTreeOutlineView: View {
                             focusedRowID = row.id
                         }
                     }
-                }
+//                }
             }
             .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.root)
 #if !os(iOS)

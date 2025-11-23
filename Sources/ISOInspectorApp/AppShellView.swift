@@ -117,7 +117,7 @@ struct AppShellView: View {
             parseTreeContent
                 .navigationSplitViewColumnWidth(min: 320, ideal: 420, max: 600)
         } detail: {
-            inspectorDetail
+            detail
                 .focused($focusTarget, equals: .detail)
                 .toolbar {
                     ToolbarItemGroup(placement: .automatic) {
@@ -363,7 +363,7 @@ struct AppShellView: View {
         }
     }
 
-    private var inspectorDetail: some View {
+    private var detail: some View {
         Group {
             if windowController.currentDocument != nil {
                 ParseTreeDetailView(
@@ -372,7 +372,6 @@ struct AppShellView: View {
                     selectedNodeID: selectionBinding,
                     focusTarget: $focusTarget
                 )
-                .padding(.horizontal, DS.Spacing.m)
                 .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.root)
             } else {
                 EmptyView()
