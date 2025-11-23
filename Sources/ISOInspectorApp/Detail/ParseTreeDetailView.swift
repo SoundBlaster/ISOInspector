@@ -186,7 +186,7 @@ struct ParseTreeDetailView: View {
     private func encryptionSection(detail: ParseTreeNodeDetail) -> some View {
         let summary = EncryptionSummary(detail: detail)
         if summary.hasContent {
-            VStack(alignment: .leading, spacing: 12) {
+            VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 sectionHeader(title: "Encryption Metadata", icon: "lock.shield")
                 if !summary.sampleEncryption.isEmpty {
                     encryptionSubsection(title: "Sample Encryption (senc)", rows: summary.sampleEncryption)
@@ -247,14 +247,14 @@ struct ParseTreeDetailView: View {
         let rangeFormatter: (Range<Int64>) -> String
 
         var body: some View {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack(alignment: .center, spacing: 8) {
+            VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                HStack(alignment: .center, spacing: DS.Spacing.s) {
                     header
                     if let statusDescriptor {
                         ParseTreeStatusBadge(descriptor: statusDescriptor)
                     }
                 }
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: DS.Spacing.s) {
                     ForEach(Array(issues.enumerated()), id: \.offset) { _, issue in
                         CorruptionIssueRow(
                             issue: issue,
@@ -298,8 +298,8 @@ struct ParseTreeDetailView: View {
         }
 
         private var baseRow: some View {
-            VStack(alignment: .leading, spacing: 6) {
-                HStack(alignment: .firstTextBaseline, spacing: 8) {
+            VStack(alignment: .leading, spacing: DS.Spacing.xs) {
+                HStack(alignment: .firstTextBaseline, spacing: DS.Spacing.s) {
                     Image(systemName: issue.severity.iconName)
                         .foregroundColor(issue.severity.color)
                         .font(.title3.weight(.semibold))
@@ -341,7 +341,7 @@ struct ParseTreeDetailView: View {
                         .foregroundColor(.secondary)
                 }
             }
-            .padding(8)
+            .padding(DS.Spacing.s)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(
                 issue.severity.color.opacity(0.08),
@@ -391,7 +391,7 @@ struct ParseTreeDetailView: View {
 
     @ViewBuilder
     private func fieldAnnotationSection() -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.s) {
             sectionHeader(title: "Fields", icon: "list.bullet.rectangle")
             if let error = viewModel.annotationError {
                 Text(error)
@@ -403,7 +403,7 @@ struct ParseTreeDetailView: View {
                     .font(.caption)
                     .foregroundColor(.secondary)
             } else {
-                VStack(alignment: .leading, spacing: 6) {
+                VStack(alignment: .leading, spacing: DS.Spacing.xs) {
                     ForEach(viewModel.annotations) { annotation in
                         annotationRow(annotation)
                     }
@@ -415,7 +415,7 @@ struct ParseTreeDetailView: View {
 
     @ViewBuilder
     private func userNotesSection() -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.s) {
             sectionHeader(title: "Notes", icon: "note.text")
             if !annotationSession.isStoreAvailable {
                 Text("Notes are unavailable on this platform.")
@@ -436,7 +436,7 @@ struct ParseTreeDetailView: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                 } else {
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: DS.Spacing.s) {
                         ForEach(annotationSession.activeAnnotations) { record in
                             AnnotationNoteRow(
                                 record: record,
@@ -457,7 +457,7 @@ struct ParseTreeDetailView: View {
     }
 
     private var noteComposer: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: DS.Spacing.xs) {
             Text("Add note")
                 .font(.caption)
                 .foregroundColor(.secondary)
@@ -491,7 +491,7 @@ struct ParseTreeDetailView: View {
         return Button {
             viewModel.select(annotationID: annotation.id)
         } label: {
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                 HStack(alignment: .firstTextBaseline) {
                     Text(annotation.label)
                         .font(.caption)
@@ -511,7 +511,7 @@ struct ParseTreeDetailView: View {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .padding(8)
+            .padding(DS.Spacing.s)
         }
         .buttonStyle(.plain)
         .background {
@@ -538,14 +538,14 @@ struct ParseTreeDetailView: View {
     }
 
     private func validationSection(detail: ParseTreeNodeDetail) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.s) {
             sectionHeader(title: "Validation", icon: "checkmark.shield")
             if detail.validationIssues.isEmpty {
                 Text("No validation issues detected.")
                     .font(.caption)
                     .foregroundColor(.secondary)
             } else {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: DS.Spacing.s) {
                     ForEach(Array(detail.validationIssues.enumerated()), id: \.offset) { _, issue in
                         validationRow(issue: issue)
                     }
@@ -556,7 +556,7 @@ struct ParseTreeDetailView: View {
     }
 
     private func validationRow(issue: ValidationIssue) -> some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
             HStack(spacing: 8) {
                 SeverityBadge(severity: issue.severity)
                 Text(issue.ruleID)
@@ -575,7 +575,7 @@ struct ParseTreeDetailView: View {
                 .font(.body)
                 .textSelection(.enabled)
         }
-        .padding(8)
+        .padding(DS.Spacing.s)
         .background(
             Color.gray.opacity(0.08), in: RoundedRectangle(cornerRadius: 8, style: .continuous)
         )
@@ -585,7 +585,7 @@ struct ParseTreeDetailView: View {
     }
 
     private func hexSection(detail: ParseTreeNodeDetail) -> some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: DS.Spacing.s) {
             sectionHeader(title: "Hex", icon: "rectangle.grid.1x2")
             if let error = viewModel.hexError {
                 Text(error)
@@ -593,7 +593,7 @@ struct ParseTreeDetailView: View {
                     .foregroundColor(.red)
             }
             if let slice = detail.hexSlice, !slice.isEmpty {
-                VStack(alignment: .leading, spacing: 8) {
+                VStack(alignment: .leading, spacing: DS.Spacing.s) {
                     Text("Offsets \(slice.offset) – \(slice.endOffset)")
                         .font(.caption)
                         .foregroundColor(.secondary)
@@ -655,7 +655,7 @@ private struct HexSliceView: View {
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView([.vertical, .horizontal]) {
-                LazyVStack(alignment: .leading, spacing: 6) {
+                LazyVStack(alignment: .leading, spacing: DS.Spacing.xs) {
                     ForEach(rows) { row in
                         HexSliceRowView(
                             row: row,
@@ -667,7 +667,7 @@ private struct HexSliceView: View {
                         .id(row.index)
                     }
                 }
-                .padding(8)
+                .padding(DS.Spacing.s)
             }
             .frame(minHeight: 200, idealHeight: 240, maxHeight: 320)
             .background(
@@ -873,19 +873,19 @@ private struct HexSliceRowView: View {
     let onSelectOffset: (Int64) -> Void
 
     private var hexColumns: [GridItem] {
-        Array(repeating: GridItem(.fixed(28), spacing: 4), count: bytesPerRow)
+        Array(repeating: GridItem(.fixed(28), spacing: DS.Spacing.xxs), count: bytesPerRow)
     }
 
     private let accessibilityFormatter = HexByteAccessibilityFormatter()
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: DS.Spacing.m) {
             Text(String(format: "%08llX", UInt64(max(0, row.offset))))
                 .font(.system(.footnote, design: .monospaced))
                 .foregroundColor(.secondary)
                 .frame(width: 80, alignment: .leading)
 
-            LazyVGrid(columns: hexColumns, spacing: 4) {
+            LazyVGrid(columns: hexColumns, spacing: DS.Spacing.xxs) {
                 ForEach(0..<bytesPerRow, id: \.self) { index in
                     if index < row.bytes.count {
                         let globalOffset = row.offset + Int64(index)
@@ -1001,7 +1001,7 @@ private struct AnnotationNoteRow: View {
     @State private var draft: String = ""
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: DS.Spacing.xs) {
             HStack(alignment: .firstTextBaseline) {
                 Text("Updated " + record.updatedAt.formatted(.relative(presentation: .named)))
                     .font(.caption2)
@@ -1056,7 +1056,7 @@ private struct AnnotationNoteRow: View {
                     .textSelection(.enabled)
             }
         }
-        .padding(8)
+        .padding(DS.Spacing.s)
         .background {
             RoundedRectangle(cornerRadius: 8, style: .continuous)
                 .fill(Color.gray.opacity(0.08))
@@ -1080,11 +1080,11 @@ private struct SeverityBadge: View {
         Text(severity.label.uppercased())
             .font(.caption2)
             .fontWeight(.semibold)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 3)
+            .padding(.horizontal, DS.Spacing.xs)
+            .padding(.vertical, DS.Spacing.xs / 2)
             .background(severity.color.opacity(0.2))
             .foregroundColor(severity.color)
-            .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
+            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small, style: .continuous))
     }
 }
 

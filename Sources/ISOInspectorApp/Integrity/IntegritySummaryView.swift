@@ -213,13 +213,13 @@ private struct IssueRow: View {
     let onSelect: () -> Void
 
     var body: some View {
-        HStack(alignment: .top, spacing: 12) {
+        HStack(alignment: .top, spacing: DS.Spacing.m) {
             Image(systemName: issue.severity.iconName)
                 .font(.title3)
                 .foregroundColor(issue.severity.color)
                 .frame(width: 24)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                 HStack {
                     Text(issue.code)
                         .font(.body)
@@ -266,10 +266,10 @@ private struct IssueRow: View {
             .buttonStyle(.plain)
             .help("Focus this issue in the tree view")
         }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 12)
+        .padding(.vertical, DS.Spacing.s)
+        .padding(.horizontal, DS.Spacing.m)
         .background(
-            RoundedRectangle(cornerRadius: 6, style: .continuous)
+            RoundedRectangle(cornerRadius: DS.Radius.small, style: .continuous)
                 .fill(Color.clear)
         )
         .contentShape(Rectangle())

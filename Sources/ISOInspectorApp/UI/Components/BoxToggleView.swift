@@ -103,7 +103,7 @@
   // MARK: - Previews
 
   #Preview("Toggle States") {
-    VStack(alignment: .leading, spacing: 16) {
+    VStack(alignment: .leading, spacing: DS.Spacing.l) {
       BoxToggleView(
         isOn: .constant(true),
         label: "Enabled toggle"

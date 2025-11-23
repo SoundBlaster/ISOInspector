@@ -533,7 +533,7 @@ private struct ParseTreeOutlineRowView: View {
     var body: some View {
         HStack(spacing: DS.Spacing.s) {
             icon
-            VStack(alignment: .leading, spacing: 2) {  // @todo #I1.5 Replace spacing: 2 with DS token when xxxs (2pt) is added
+            VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
                 Text(row.displayName)
                     .font(.body)
                     .fontWeight(row.isSearchMatch ? .semibold : .regular)

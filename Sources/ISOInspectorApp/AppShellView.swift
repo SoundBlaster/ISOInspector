@@ -38,7 +38,7 @@ struct AppShellView: View {
             .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.integritySummary)
             .padding(.horizontal, DS.Spacing.m)
         } else if windowController.currentDocument != nil {
-            VStack(alignment: .leading, spacing: 8) {
+            VStack(alignment: .leading, spacing: DS.Spacing.s) {
                 ProgressView()
                 Text("Loading integrity summary…")
                     .font(.caption)
@@ -653,7 +653,7 @@ private struct RecentRow: View {
     }()
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {  // @todo #I1.5 Replace spacing: 2 with DS token when xxxs (2pt) is added
+        VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
             Text(recent.displayName)
                 .font(.headline)
             Text(formattedDate())

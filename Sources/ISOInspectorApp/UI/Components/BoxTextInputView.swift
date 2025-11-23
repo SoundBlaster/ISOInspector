@@ -110,7 +110,7 @@
     // MARK: - Body
 
     public var body: some View {
-      VStack(alignment: .leading, spacing: 4) {
+      VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
         // @todo #220 Replace with DS.TextInput from FoundationUI
         // Current implementation uses native SwiftUI TextField as placeholder
         // Next steps:
@@ -154,7 +154,7 @@
   // MARK: - Previews
 
   #Preview("Text Input States") {
-    VStack(alignment: .leading, spacing: 24) {
+    VStack(alignment: .leading, spacing: DS.Spacing.xl) {
       BoxTextInputView(
         text: .constant(""),
         placeholder: "Enter box name..."
