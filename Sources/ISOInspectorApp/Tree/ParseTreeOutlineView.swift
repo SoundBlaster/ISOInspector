@@ -12,6 +12,7 @@
     @ObservedObject private var annotations: AnnotationBookmarkSession
     @ObservedObject private var parseTreeStore: ParseTreeStore
     @State private var displayMode = InspectorDisplayMode()
+    @State private var inspectorVisibility = InspectorColumnVisibility()
     @State private var integrityViewModel: IntegritySummaryViewModel?
     @FocusState private var focusTarget: InspectorFocusTarget?
     let exportSelectionJSONAction: ((ParseTreeNode.ID) -> Void)?
@@ -19,10 +20,6 @@
     let exportDocumentJSONAction: (@MainActor () -> Void)?
     let exportDocumentIssueSummaryAction: (@MainActor () -> Void)?
     private let focusCatalog = InspectorFocusShortcutCatalog.default
-    // @todo #243 Adopt NavigationSplitView-based inspector column management (or
-    //   NavigationSplitScaffold when platform support allows) so the toggle updates actual column
-    //   visibility and keyboard shortcut ⌘⌥I matches the navigation model described in
-    //   DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md.
 
     init(
       viewModel: DocumentViewModel,
@@ -45,26 +42,17 @@
     var body: some View {
       VStack(alignment: .leading, spacing: DS.Spacing.l) {
         header
-        HStack(alignment: .top, spacing: DS.Spacing.l) {
+        NavigationSplitView(columnVisibility: inspectorColumnVisibilityBinding) {
           explorerColumn
             .frame(minWidth: 320)
             .focused($focusTarget, equals: .outline)
             .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
-
-          InspectorDetailView(
-            detailViewModel: detailViewModel,
-            annotationSession: annotations,
-            selectedNodeID: selectionBinding,
-            integrityViewModel: integrityViewModel,
-            showsIntegritySummary: displayMode.isShowingIntegritySummary,
-            exportDocumentJSONAction: exportDocumentJSONAction,
-            exportDocumentIssueSummaryAction: exportDocumentIssueSummaryAction,
-            onIssueSelected: handleIssueSelected,
-            focusTarget: $focusTarget
-          )
-          .frame(minWidth: 360)
-          .focused($focusTarget, equals: .detail)
+        } detail: {
+          inspectorColumn
+            .frame(minWidth: 360)
+            .focused($focusTarget, equals: .detail)
         }
+        .navigationSplitViewStyle(.balanced)
       }
       .padding()
       .onAppear {
@@ -91,10 +79,26 @@
       )
     }
 
+    private var inspectorColumn: some View {
+      InspectorDetailView(
+        detailViewModel: detailViewModel,
+        annotationSession: annotations,
+        selectedNodeID: selectionBinding,
+        integrityViewModel: integrityViewModel,
+        showsIntegritySummary: displayMode.isShowingIntegritySummary,
+        exportDocumentJSONAction: exportDocumentJSONAction,
+        exportDocumentIssueSummaryAction: exportDocumentIssueSummaryAction,
+        onIssueSelected: handleIssueSelected,
+        focusTarget: $focusTarget
+      )
+      .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.root)
+    }
+
     private func handleIssueSelected(_ issue: ParseIssue) {
       guard let nodeID = issue.affectedNodeIDs.first else { return }
       outlineViewModel.revealNode(withID: nodeID)
       viewModel.nodeViewModel.select(nodeID: nodeID)
+      inspectorVisibility.ensureInspectorVisible()
       displayMode.current = .selectionDetails
       focusTarget = .outline
     }
@@ -124,10 +128,6 @@
           Label(displayMode.toggleButtonLabel, systemImage: inspectorToggleIconName)
         }
         .buttonStyle(.borderedProminent)
-        .keyboardShortcut(
-          KeyEquivalent("i"),
-          modifiers: [.command, .option]
-        )
         .accessibilityLabel(inspectorToggleAccessibilityLabel)
         .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.inspectorToggle)
         ParseStateBadge(state: viewModel.parseState)
@@ -171,15 +171,15 @@
         ) {
           navigateToIssue(direction: .up)
         }
-        HiddenKeyboardShortcutButton(
-          title: "Toggle Inspector Content",
-          key: "i",
-          modifiers: [.command, .option]
-        ) {
-          toggleInspectorMode()
+          HiddenKeyboardShortcutButton(
+            title: "Toggle Inspector Column",
+            key: "i",
+            modifiers: [.command, .option]
+          ) {
+            toggleInspectorVisibility()
+          }
         }
       }
-    }
 
     private var focusBinding: Binding<InspectorFocusTarget?> {
       Binding(
@@ -199,10 +199,15 @@
     }
 
     private func toggleInspectorMode() {
+      inspectorVisibility.ensureInspectorVisible()
       displayMode.toggle()
       if displayMode.isShowingIntegritySummary {
         ensureIntegrityViewModel()
       }
+    }
+
+    private func toggleInspectorVisibility() {
+      inspectorVisibility.toggleInspectorVisibility()
     }
 
     private func keyEquivalent(for descriptor: InspectorFocusShortcutDescriptor) -> KeyEquivalent {
@@ -224,9 +229,17 @@
         )
       else { return }
       outlineViewModel.revealNode(withID: targetID)
+      inspectorVisibility.ensureInspectorVisible()
       displayMode.current = .selectionDetails
       focusTarget = .outline
       viewModel.nodeViewModel.select(nodeID: targetID)
+    }
+
+    private var inspectorColumnVisibilityBinding: Binding<NavigationSplitViewVisibility> {
+      Binding(
+        get: { inspectorVisibility.columnVisibility },
+        set: { inspectorVisibility.columnVisibility = $0 }
+      )
     }
   }
 

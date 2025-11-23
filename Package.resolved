@@ -1,15 +1,6 @@
 {
-  "originHash" : "b9afdca88c1723267e6a02079b48e8147b9138c571b32b4150e856b681a486f5",
+  "originHash" : "2f2b3d8d3396b167fc77170514b7dde1b84ea9ae1b898c8fb6d689bd4adff273",
   "pins" : [
-    {
-      "identity" : "nesteda11yids",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/SoundBlaster/NestedA11yIDs",
-      "state" : {
-        "revision" : "ad123fbc8dda58f20de1e6fbd21120bcfbaabf85",
-        "version" : "1.0.0"
-      }
-    },
     {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",
@@ -35,15 +26,6 @@
       "state" : {
         "revision" : "b45d1f2ed151d057b54504d653e0da5552844e34",
         "version" : "1.0.0"
-      }
-    },
-    {
-      "identity" : "yams",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/jpsim/Yams.git",
-      "state" : {
-        "revision" : "3d6871d5b4a5cd519adf233fbb576e0a2af71c17",
-        "version" : "5.4.0"
       }
     }
   ],
