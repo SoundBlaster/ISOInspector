@@ -2,18 +2,18 @@
   import SwiftUI
 
   struct InspectorColumnVisibility: Equatable {
-    var columnVisibility: NavigationSplitViewVisibility = .doubleColumn
+    var columnVisibility: NavigationSplitViewVisibility = .all
 
     var isInspectorVisible: Bool {
-      columnVisibility != .sidebarOnly
+      columnVisibility == .all || columnVisibility == .detailOnly
     }
 
     mutating func toggleInspectorVisibility() {
-      columnVisibility = isInspectorVisible ? .sidebarOnly : .doubleColumn
+      columnVisibility = isInspectorVisible ? .doubleColumn : .all
     }
 
     mutating func ensureInspectorVisible() {
-      columnVisibility = .doubleColumn
+      columnVisibility = .all
     }
   }
 #endif
