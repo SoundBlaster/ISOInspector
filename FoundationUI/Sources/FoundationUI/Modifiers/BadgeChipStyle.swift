@@ -148,17 +148,22 @@ public struct BadgeChipStyle: ViewModifier {
     /// Indicates whether to show an icon alongside the text
     let showIcon: Bool
 
+    /// Indicates whether the badge has visible text content
+    let hasText: Bool
+
     public func body(content: Content) -> some View {
-        HStack(spacing: DS.Spacing.s) {
+        HStack(spacing: showIcon && hasText ? DS.Spacing.s : 0) {
             if showIcon {
                 Image(systemName: level.iconName)
                     .font(.caption)
                     .foregroundStyle(level.foregroundColor)
             }
 
-            content
-                .font(.caption.weight(.medium))
-                .foregroundStyle(level.foregroundColor)
+            if hasText {
+                content
+                    .font(.caption.weight(.medium))
+                    .foregroundStyle(level.foregroundColor)
+            }
         }
         .padding(.horizontal, DS.Spacing.m)
         .padding(.vertical, DS.Spacing.s)
@@ -189,6 +194,7 @@ public extension View {
     /// ## Parameters
     /// - level: The semantic level of the badge (info, warning, error, success)
     /// - showIcon: Whether to display an SF Symbol icon (default: false)
+    /// - hasText: Whether the badge has visible text content (default: true)
     ///
     /// ## Design Tokens Used
     /// - `DS.Spacing.m`
@@ -202,8 +208,8 @@ public extension View {
     /// - Supports Dynamic Type text scaling
     ///
     /// - Returns: A view styled as a badge chip
-    func badgeChipStyle(level: BadgeLevel, showIcon: Bool = false) -> some View {
-        modifier(BadgeChipStyle(level: level, showIcon: showIcon))
+    func badgeChipStyle(level: BadgeLevel, showIcon: Bool = false, hasText: Bool = true) -> some View {
+        modifier(BadgeChipStyle(level: level, showIcon: showIcon, hasText: hasText))
     }
 }
 

@@ -346,6 +346,21 @@ final class BadgeAccessibilityTests: XCTestCase {
     )
   }
 
+  func testBadgeWithNilTextFallsBackToLevelAccessibility() {
+    // Given
+    let badge = Badge(level: .info, showIcon: true)
+
+    // Then
+    AccessibilityTestHelpers.assertValidAccessibilityLabel(
+      badge.level.accessibilityLabel,
+      context: "Badge with nil text"
+    )
+    XCTAssertTrue(
+      badge.semantics.contains("(icon only)"),
+      "Semantics should document icon-only mode when text is nil"
+    )
+  }
+
   func testBadgeWithLongTextMaintainsAccessibility() {
     // Given
     let longText = "This is a very long badge text that might wrap or truncate"

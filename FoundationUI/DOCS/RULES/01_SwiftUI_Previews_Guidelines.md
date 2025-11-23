@@ -85,6 +85,10 @@ This guideline applies to:
 #Preview("Default State") {
     Badge(text: "Beta", level: .info)
 }
+
+#Preview("Icon Only") {
+    Badge(text: nil, level: .info, showIcon: true)
+}
 ```
 
 #### ❌ INCORRECT: Don't use legacy PreviewProvider

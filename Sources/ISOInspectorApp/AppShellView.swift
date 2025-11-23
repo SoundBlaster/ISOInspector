@@ -26,36 +26,30 @@ struct AppShellView: View {
         self._windowController = StateObject(wrappedValue: windowController)
     }
 
-#if os(macOS)
-      @ViewBuilder
-      private var integrityInspector: some View {
+    @ViewBuilder
+    private var integrityInspector: some View {
         if windowController.currentDocument != nil, let integrityViewModel {
-//          ScrollView {
             IntegritySummaryView(
-              viewModel: integrityViewModel,
-              onIssueSelected: handleIssueSelected,
-              onExportJSON: exportDocumentJSONHandler,
-              onExportIssueSummary: exportDocumentIssueSummaryHandler
+                viewModel: integrityViewModel,
+                onIssueSelected: handleIssueSelected,
+                onExportJSON: exportDocumentJSONHandler,
+                onExportIssueSummary: exportDocumentIssueSummaryHandler
             )
-//          }
-          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.integritySummary)
-          .frame(maxWidth: .infinity, alignment: .topLeading)
-          .padding(.horizontal, DS.Spacing.m)
-          .padding(.vertical, DS.Spacing.m)
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.integritySummary)
+            .padding(.horizontal, DS.Spacing.m)
         } else if windowController.currentDocument != nil {
-          VStack(alignment: .leading, spacing: 8) {
-            ProgressView()
-            Text("Loading integrity summary…")
-              .font(.caption)
-              .foregroundColor(.secondary)
-          }
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .padding(.horizontal, DS.Spacing.m)
-          .padding(.vertical, DS.Spacing.m)
-          .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.integritySummary)
+            VStack(alignment: .leading, spacing: 8) {
+                ProgressView()
+                Text("Loading integrity summary…")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+            }
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.integritySummary)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, DS.Spacing.m)
+            .padding(.vertical, DS.Spacing.m)
         }
-      }
-#endif
+    }
 
     /// Access documentViewModel from windowController.
     ///
@@ -109,60 +103,9 @@ struct AppShellView: View {
             .onOpenURL { url in
                 windowController.openDocument(at: url)
             }
-            .onChangeCompat(of: documentViewModel.nodeViewModel.selectedNodeID) { newValue in
-                if newValue != nil {
-                    showInspector = false
-                    ensureInspectorVisible()
-                }
-            }
-        .onChangeCompat(of: windowController.issueMetrics.totalCount) { newValue in
-          if newValue == 0 {
-            isCorruptionRibbonDismissed = false
-          }
-        }
-        .toolbar {
-          ToolbarItemGroup(placement: .primaryAction) {
-            if windowController.currentDocument != nil {
-              Button {
-                toggleInspectorVisibility()
-              } label: {
-                Label(
-                  showInspector ? "Hide Integrity" : "Show Integrity",
-                  systemImage: showInspector ? "sidebar.right" : "checkmark.shield")
-              }
-              .help(showInspector ? "Hide Integrity Report" : "Show Integrity Report")
-            }
-            Menu {
-              Button("Export JSON…") {
-                Task { await windowController.exportJSON(scope: .document) }
-              }
-              .disabled(!documentViewModel.exportAvailability.canExportDocument)
-
-                        Button("Export Issue Summary…") {
-                            Task { await windowController.exportIssueSummary(scope: .document) }
-                        }
-                        .disabled(!documentViewModel.exportAvailability.canExportDocument)
-
-                        Divider()
-
-                        Button("Export Selected JSON…") {
-                            guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
-                            Task { await windowController.exportJSON(scope: .selection(nodeID)) }
-                        }
-                        .disabled(!documentViewModel.exportAvailability.canExportSelection)
-
-                        Button("Export Selected Issue Summary…") {
-                            guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
-                            Task { await windowController.exportIssueSummary(scope: .selection(nodeID)) }
-                        }
-                        .disabled(!documentViewModel.exportAvailability.canExportSelection)
-                    } label: {
-                        Label("Export", systemImage: "square.and.arrow.up")
-                    }
-                    .disabled(
-                        !documentViewModel.exportAvailability.canExportDocument
-                        && !documentViewModel.exportAvailability.canExportSelection
-                    )
+            .onChangeCompat(of: windowController.issueMetrics.totalCount) { newValue in
+                if newValue == 0 {
+                    isCorruptionRibbonDismissed = false
                 }
             }
     }
@@ -172,13 +115,59 @@ struct AppShellView: View {
             sidebar
         } content: {
             parseTreeContent
+                .navigationSplitViewColumnWidth(min: 320, ideal: 420, max: 600)
         } detail: {
             inspectorDetail
                 .focused($focusTarget, equals: .detail)
+                .toolbar {
+                    ToolbarItemGroup(placement: .automatic) {
+                        if windowController.currentDocument != nil {
+                            Button {
+                                toggleInspectorVisibility()
+                            } label: {
+                                Label(
+                                    showInspector ? "Hide Integrity" : "Show Integrity",
+                                    systemImage: showInspector ? "sidebar.right" : "checkmark.shield")
+                            }
+                            .help(showInspector ? "Hide Integrity Report" : "Show Integrity Report")
+                        }
+                        Menu {
+                            Button("Export JSON…") {
+                                Task { await windowController.exportJSON(scope: .document) }
+                            }
+                            .disabled(!documentViewModel.exportAvailability.canExportDocument)
+
+                            Button("Export Issue Summary…") {
+                                Task { await windowController.exportIssueSummary(scope: .document) }
+                            }
+                            .disabled(!documentViewModel.exportAvailability.canExportDocument)
+
+                            Divider()
+
+                            Button("Export Selected JSON…") {
+                                guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
+                                Task { await windowController.exportJSON(scope: .selection(nodeID)) }
+                            }
+                            .disabled(!documentViewModel.exportAvailability.canExportSelection)
+
+                            Button("Export Selected Issue Summary…") {
+                                guard let nodeID = documentViewModel.nodeViewModel.selectedNodeID else { return }
+                                Task { await windowController.exportIssueSummary(scope: .selection(nodeID)) }
+                            }
+                            .disabled(!documentViewModel.exportAvailability.canExportSelection)
+                        } label: {
+                            Label("Export", systemImage: "square.and.arrow.up")
+                        }
+                        .disabled(
+                            !documentViewModel.exportAvailability.canExportDocument
+                            && !documentViewModel.exportAvailability.canExportSelection
+                        )
+                    }
+                }
         }
-//        .navigationSplitViewStyle(.balanced)
         .inspector(isPresented: inspectorPresentedBinding) {
             integrityInspector
+                .inspectorColumnWidth(min: 300, ideal: 320, max: 400)
         }
         .overlay(alignment: .top) {
             overlayContent
@@ -232,7 +221,7 @@ struct AppShellView: View {
         guard let nodeID = issue.affectedNodeIDs.first else { return }
         documentViewModel.outlineViewModel.revealNode(withID: nodeID)
         documentViewModel.nodeViewModel.select(nodeID: nodeID)
-        ensureInspectorVisible()
+        //        ensureInspectorVisible()
         focusTarget = .outline
     }
 
@@ -240,10 +229,6 @@ struct AppShellView: View {
         if integrityViewModel == nil {
             integrityViewModel = IntegritySummaryViewModel(issueStore: documentViewModel.store.issueStore)
         }
-    }
-
-    private func ensureInspectorVisible() {
-        columnVisibility = .all
     }
 
     private func toggleInspectorVisibility() {
@@ -283,7 +268,6 @@ struct AppShellView: View {
             )
         else { return }
         outlineViewModel.revealNode(withID: targetID)
-        ensureInspectorVisible()
         focusTarget = .outline
         documentViewModel.nodeViewModel.select(nodeID: targetID)
     }
@@ -368,13 +352,11 @@ struct AppShellView: View {
                     selectedNodeID: selectionBinding,
                     showInspector: $showInspector,
                     focusTarget: $focusTarget,
-                    ensureInspectorVisible: { ensureInspectorVisible() },
                     ensureIntegrityViewModel: ensureIntegrityViewModel,
                     toggleInspectorVisibility: { toggleInspectorVisibility() },
                     exportSelectionJSONAction: exportSelectionJSONHandler,
                     exportSelectionIssueSummaryAction: exportSelectionIssueSummaryHandler
                 )
-                .frame(minHeight: 420)
             } else {
                 OnboardingView(openAction: { isImporterPresented = true })
             }
@@ -384,7 +366,6 @@ struct AppShellView: View {
     private var inspectorDetail: some View {
         Group {
             if windowController.currentDocument != nil {
-#if os(macOS)
                 ParseTreeDetailView(
                     viewModel: documentViewModel.detailViewModel,
                     annotationSession: documentViewModel.annotations,
@@ -393,20 +374,6 @@ struct AppShellView: View {
                 )
                 .padding(.horizontal, DS.Spacing.m)
                 .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.root)
-#else
-                InspectorDetailView(
-                    detailViewModel: documentViewModel.detailViewModel,
-                    annotationSession: documentViewModel.annotations,
-                    selectedNodeID: selectionBinding,
-                    integrityViewModel: integrityViewModel,
-                    showsIntegritySummary: false,
-                    exportDocumentJSONAction: exportDocumentJSONHandler,
-                    exportDocumentIssueSummaryAction: exportDocumentIssueSummaryHandler,
-                    onIssueSelected: handleIssueSelected,
-                    focusTarget: $focusTarget
-                )
-                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Inspector.root)
-#endif
             } else {
                 EmptyView()
             }

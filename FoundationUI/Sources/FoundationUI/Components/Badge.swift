@@ -52,7 +52,7 @@ public struct Badge: View {
     // MARK: - Properties
 
     /// The text content displayed in the badge
-    public let text: String
+    public let text: String?
 
     /// The semantic level of the badge (info, warning, error, success)
     public let level: BadgeLevel
@@ -81,17 +81,59 @@ public struct Badge: View {
     /// - `.warning` → "Warning: {text}"
     /// - `.error` → "Error: {text}"
     /// - `.success` → "Success: {text}"
-    public init(text: String, level: BadgeLevel, showIcon: Bool = false) {
+    ///
+    /// Passing `nil` or an empty string for `text` renders an icon-only badge while
+    /// keeping accessibility labels intact.
+    public init(text: String?, level: BadgeLevel, showIcon: Bool = false) {
         self.text = text
         self.level = level
         self.showIcon = showIcon
     }
 
+    /// Creates an icon-only Badge component
+    ///
+    /// ## Example
+    /// ```swift
+    /// Badge(level: .warning, showIcon: true)
+    /// ```
+    ///
+    /// - Parameters
+    ///   - level: The semantic level that determines the badge's color and accessibility label
+    ///   - showIcon: Whether to display an SF Symbol icon (default: false)
+    public init(level: BadgeLevel, showIcon: Bool = false) {
+        self.init(text: nil, level: level, showIcon: showIcon)
+    }
+
     // MARK: - Body
 
     public var body: some View {
-        Text(text)
-            .badgeChipStyle(level: level, showIcon: showIcon)
+        Text(displayText)
+            .badgeChipStyle(level: level, showIcon: showIcon, hasText: hasText)
+            .accessibilityLabel(accessibilityLabel)
+    }
+
+    // MARK: - Helpers
+
+    private var hasText: Bool {
+        !displayText.isEmpty
+    }
+
+    private var semanticsTextDescription: String {
+        if hasText {
+            return "'\(displayText)'"
+        }
+        return "(icon only)"
+    }
+
+    private var displayText: String {
+        text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    }
+
+    private var accessibilityLabel: String {
+        if hasText {
+            return "\(level.accessibilityLabel): \(displayText)"
+        }
+        return level.accessibilityLabel
     }
 }
 
@@ -182,15 +224,16 @@ extension Badge: AgentDescribable {
 
     public var properties: [String: Any] {
         [
-            "text": text,
+            "text": displayText,
             "level": level.stringValue,
-            "showIcon": showIcon
+            "showIcon": showIcon,
+            "hasText": hasText
         ]
     }
 
     public var semantics: String {
         """
-        A colored badge component displaying '\(text)' at level '\(level.stringValue)'. \
+        A colored badge component displaying \(semanticsTextDescription) at level '\(level.stringValue)'. \
         Shows icon: \(showIcon). \
         Accessibility: '\(level.accessibilityLabel)'.
         """
