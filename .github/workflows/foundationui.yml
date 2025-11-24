@@ -306,13 +306,31 @@ jobs:
       - name: Show Swift version
         run: swift --version
 
+      - name: Compute Tuist manifest hash
+        id: tuist-hash
+        run: |
+          set -eo pipefail
+          files=$(find . \
+            -name 'Project.swift' -o \
+            -name 'Workspace.swift' | sort)
+
+          if [ -z "$files" ]; then
+            echo "value=none" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          hash=$(echo "$files" | xargs shasum | shasum | awk '{print $1}')
+          echo "value=$hash" >> "$GITHUB_OUTPUT"
+
       - name: Cache Tuist dependencies
         uses: actions/cache@v4
         with:
           path: |
             ~/Library/Caches/tuist
             .build
-          key: ${{ runner.os }}-tuist-deps-${{ hashFiles('**/Project.swift', 'Workspace.swift') }}
+          # macOS runners currently ship a broken hashFiles implementation. Compute the hash manually
+          # so the cache still invalidates when any manifest changes.
+          key: ${{ runner.os }}-tuist-deps-${{ steps.tuist-hash.outputs.value }}
           restore-keys: |
             ${{ runner.os }}-tuist-deps-
 
