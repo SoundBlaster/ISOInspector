@@ -306,16 +306,31 @@ jobs:
       - name: Show Swift version
         run: swift --version
 
+      - name: Compute Tuist manifest hash
+        id: tuist-hash
+        run: |
+          set -eo pipefail
+          # Находим все нужные манифесты
+          files=$(find . \
+            -name 'Project.swift' -o \
+            -name 'Workspace.swift' | sort)
+
+          if [ -z "$files" ]; then
+            echo "value=none" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Один общий хэш по всем файлам
+          hash=$(echo "$files" | xargs shasum | shasum | awk '{print $1}')
+          echo "value=$hash" >> "$GITHUB_OUTPUT"
+
       - name: Cache Tuist dependencies
         uses: actions/cache@v4
         with:
           path: |
             ~/Library/Caches/tuist
             .build
-          # Explicitly hash the workspace and Tuist project manifests without using recursive globs.
-          # GitHub's hashFiles function can fail if a glob expands outside the checkout path, so keep
-          # the list anchored to known relative locations.
-          key: ${{ runner.os }}-tuist-deps-${{ hashFiles('Project.swift', 'Workspace.swift', 'FoundationUI/Project.swift', 'Examples/ComponentTestApp/Project.swift') }}
+          key: ${{ runner.os }}-tuist-deps-${{ steps.tuist-hash.outputs.value }}
           restore-keys: |
             ${{ runner.os }}-tuist-deps-
 
