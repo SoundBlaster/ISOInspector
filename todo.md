@@ -4,6 +4,7 @@
 
 - [ ] Wire `swift format --in-place` into `.pre-commit-config.yaml` and add a `swift format --mode lint` gate to `.github/workflows/ci.yml` so formatting failures block pushes and pull requests. (Config: `.pre-commit-config.yaml`, `.github/workflows/ci.yml`)
 - [ ] Restore SwiftLint complexity thresholds in `.swiftlint.yml` and surface analyzer artifacts from `.github/workflows/swiftlint.yml` when violations occur. (Config: `.swiftlint.yml`, `.github/workflows/swiftlint.yml`) _(Status: In Progress — see `DOCS/INPROGRESS/A7_SwiftLint_Complexity_Thresholds.md` for scope and outstanding refactors.)_
+- [ ] Revert `.github/workflows/foundationui.yml` Tuist cache key to `hashFiles` once GitHub fixes the macOS runner bug (hashFiles SyntaxError). Remove the temporary `Compute Tuist manifest hash` shasum step and restore the original `hashFiles('**/Project.swift', 'Workspace.swift')` key. (.github/workflows/foundationui.yml)
 
 ### Task A7 Follow-up: Refactor Large Files (Blocking Strict Mode)
 
