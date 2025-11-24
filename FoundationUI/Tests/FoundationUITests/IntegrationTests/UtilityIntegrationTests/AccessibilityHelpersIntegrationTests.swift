@@ -129,14 +129,21 @@ import XCTest
     // MARK: - Accessibility Modifiers Integration
 
     func testAccessibleButtonModifierOnRealButton() {
-      // Test .accessibleButton() modifier on actual button
-      let button = Button("Copy") {}
-        .accessibleButton(
-          label: "Copy Value",
-          hint: "Copies the value to clipboard"
-        )
+      // Add timeout to surface hangs in CI if main actor work never completes
+      let expectation = expectation(description: "Accessible button builds")
 
-      XCTAssertNotNil(button, "Accessibility button modifier should work on real buttons")
+      DispatchQueue.main.async {
+        let button = Button("Copy") {}
+          .accessibleButton(
+            label: "Copy Value",
+            hint: "Copies the value to clipboard"
+          )
+
+        XCTAssertNotNil(button, "Accessibility button modifier should work on real buttons")
+        expectation.fulfill()
+      }
+
+      wait(for: [expectation], timeout: 5.0)
     }
 
     func testAccessibleToggleModifierOnExpandableSection() {
