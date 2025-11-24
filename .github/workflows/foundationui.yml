@@ -312,7 +312,10 @@ jobs:
           path: |
             ~/Library/Caches/tuist
             .build
-          key: ${{ runner.os }}-tuist-deps-${{ hashFiles('**/Project.swift', 'Workspace.swift') }}
+          # Explicitly hash the workspace and Tuist project manifests without using recursive globs.
+          # GitHub's hashFiles function can fail if a glob expands outside the checkout path, so keep
+          # the list anchored to known relative locations.
+          key: ${{ runner.os }}-tuist-deps-${{ hashFiles('Project.swift', 'Workspace.swift', 'FoundationUI/Project.swift', 'Examples/ComponentTestApp/Project.swift') }}
           restore-keys: |
             ${{ runner.os }}-tuist-deps-
 
