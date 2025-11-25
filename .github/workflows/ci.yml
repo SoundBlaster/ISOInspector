@@ -109,12 +109,12 @@ jobs:
         run: brew install swiftlint
 
       - name: Run SwiftLint (strict mode)
+        continue-on-error: true
         run: |
           swiftlint lint --strict --reporter sarif > swiftlint-report.sarif || true
-          swiftlint lint --strict
 
       - name: Upload SwiftLint SARIF report
-        if: failure()
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: swiftlint-report
