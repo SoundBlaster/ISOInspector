@@ -36,9 +36,8 @@ _Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever ta
 1. **Bug #234 – Remove Recent File from Sidebar** _(Ready for implementation — `DOCS/INPROGRESS/234_Remove_Recent_File_From_Sidebar.md`)_
    - Add the MRU removal affordance in the sidebar along with analytics/logging hooks described in the spec.
    - Ensure recents persistence updates and DocumentSessionController wiring reflect removals immediately.
-3. **Bug #235 – Smoke tests blocked by Sendable violations** _(New — `DOCS/INPROGRESS/235_Sendable_SmokeTest_Build_Failure.md`)_
-   - Fix strict-concurrency build errors in `WindowSessionController` (`DocumentLoadingResources`, `readerFactory`, `pipelineFactory` crossing actor boundaries via `Task.detached`).
-   - Decide whether to make resources Sendable or restructure background work to stay within actor boundaries; update regression tests accordingly.
+3. **Bug #235 – Smoke tests blocked by Sendable violations** _(Resolved — `DOCS/INPROGRESS/235_Sendable_SmokeTest_Build_Failure.md`)_
+   - Strict-concurrency build now passes after sendable annotations and document-loading refactor; smoke filters are green.
 
 ## 3. Blocked but High Priority
 

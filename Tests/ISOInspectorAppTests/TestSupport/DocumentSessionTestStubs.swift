@@ -195,7 +195,7 @@
   }
 
   struct ImmediateWorkQueue: DocumentSessionWorkQueue {
-    func execute(_ work: @escaping () -> Void) {
+    func execute(_ work: @Sendable @escaping () -> Void) {
       work()
       if Thread.isMainThread {
         RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.05))

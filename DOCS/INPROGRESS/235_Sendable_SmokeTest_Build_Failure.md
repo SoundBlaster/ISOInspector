@@ -76,3 +76,17 @@ Capture and scope the strict-concurrency build failure that prevents smoke tests
   - Refactored concurrency-safe document loading path with resolved Sendable errors.
   - Updated tests per the TDD plan.
   - Documentation updates (if any) noting concurrency invariants for document loading.
+
+---
+
+## Resolution Notes — 2025-11-25
+
+- **Fix implemented:**
+  - Added `@Sendable` annotations to factories/work queues and marked `DocumentLoadingResources` as `@unchecked Sendable` to permit safe handoff of resources built off the main actor.
+  - Restructured `WindowSessionController.handleOpenDocument` to capture factories/context on the main actor before detaching, eliminating main-actor property access from detached tasks.
+  - Reworked `DocumentSessionController.openDocument` to perform access preparation on the main actor, then execute reader/pipeline creation on the injected work queue with main-actor handoff for session start.
+  - Updated test stubs (`ImmediateWorkQueue`, sendable boxes) to satisfy new `@Sendable` closure requirements.
+- **Diagnostics outcome:** Strict-concurrency build now succeeds; prior Sendable/actor-isolation errors in `WindowSessionController` and `DocumentSessionController` no longer surface.
+- **Tests run:**
+  - `swift test --filter ISOInspectorKitTests.CorruptFixtureCorpusTests/testTolerantPipelineProcessesSmokeFixtures --filter ISOInspectorAppTests.UICorruptionIndicatorsSmokeTests/testTolerantParsingProducesCorruptionIndicatorsForSmokeFixtures` ✅
+- **Follow-ups:** Remaining concurrency warnings in some CoreData and UI tests remain informational; no failing diagnostics. If desired, clean up warnings by marking affected test cases `@MainActor` or adjusting closures to use sendable boxes.
