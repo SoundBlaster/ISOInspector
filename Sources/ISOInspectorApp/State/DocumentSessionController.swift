@@ -710,7 +710,7 @@
             let pipeline = pipelineFactory()
 
             Task { @MainActor in
-              startSession(
+              self.startSession(
                 scopedURL: accessContext.scopedURL,
                 bookmark: accessContext.bookmarkData,
                 bookmarkRecord: accessContext.bookmarkRecord,
@@ -726,17 +726,17 @@
             let targetRecent = failureRecent ?? recent
             Task { @MainActor in
               guard failureRecent != nil else {
-                emitLoadFailure(for: targetRecent, error: accessError)
+                self.emitLoadFailure(for: targetRecent, error: accessError)
                 return
               }
-              handleRecentAccessFailure(targetRecent, error: accessError)
+              self.handleRecentAccessFailure(targetRecent, error: accessError)
             }
           } catch {
             preResolvedScope?.revoke()
             accessContext.scopedURL.revoke()
             let targetRecent = failureRecent ?? recent
             Task { @MainActor in
-              emitLoadFailure(for: targetRecent, error: error)
+              self.emitLoadFailure(for: targetRecent, error: error)
             }
           }
         }
