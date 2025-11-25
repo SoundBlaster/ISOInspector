@@ -16,6 +16,8 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Current focus:** _BUG #001 Design System Color Token Migration_ archived to `DOCS/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/` (2025-11-16). ISOInspectorApp continues to use hardcoded `.accentColor` and manual opacity values in 6 view files instead of FoundationUI design tokens. Blocking FoundationUI Phase 5.2 completion. See archive for full analysis and blockers. Next candidate tasks in automation track: A7 (SwiftLint complexity), A8 (test coverage gate), A10 (duplication detection). Refer to `DOCS/INPROGRESS/next_tasks.md` and `DOCS/INPROGRESS/blocked.md` for day-to-day queue and active blockers.
 >
+> **New bug intake (2025-11-25):** Bug #235 — Smoke tests blocked by Sendable violations in `WindowSessionController` under strict concurrency. See `DOCS/INPROGRESS/235_Sendable_SmokeTest_Build_Failure.md` for scope, hypotheses, and diagnostics plan.
+>
 > **Completed (2025-10-26):** _Snapshot & CLI Fixture Maintenance_ refreshed JSON export baselines and CLI expectations with the new issue metrics fields. Coordination details are archived in `DOCS/TASK_ARCHIVE/178_Snapshot_and_CLI_Fixture_Maintenance/`.
 >
 > **Status:** _Blocked_ — benchmark harness implementation is archived and awaiting macOS hardware to execute random slice metrics, UI automation coverage, and Combine-backed UI benchmarks documented in the archived `DOCS/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/next_tasks.md`.
