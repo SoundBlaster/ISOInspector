@@ -121,3 +121,5 @@ Restore code quality gates by configuring SwiftLint complexity thresholds for cy
 **2025-11-18** — Task selected via `SELECT_NEXT.md` workflow. Document created with full scope, acceptance criteria, and implementation guidance. Ready for development.
 
 **2025-11-18** — Complexity guardrails re-enabled in `.swiftlint.yml`, `.githooks/pre-commit`, `.githooks/pre-push`, and `.github/workflows/swiftlint.yml`. README updated, and status propagated to `todo.md` + workplan. Remaining refactors tracked via TODO entries.
+
+**2025-11-25** — Refactored `StructuredPayload` in `JSONParseTreeExporter.swift` to use a factory initializer, trimming the type below the `type_body_length` limit and removing the suppression. TODO updated; remaining follow-ups focus on `BoxValidator.swift` and `DocumentSessionController.swift`.

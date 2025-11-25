@@ -1,12 +1,4 @@
 import Foundation
-
-// @todo #A7 Refactor JSONParseTreeExporter.swift to comply with type_body_length threshold
-//   This file currently contains 2127 lines, exceeding the SwiftLint type_body_length
-//   error threshold of 200 lines. Refactor by extracting nested types (Node, Issue,
-//   Payload, etc.) into separate files. Consider creating a JSONPayloadTypes directory
-//   with one file per encodable type so each type stays <200 lines. This suppression
-//   is temporary while the exporter is decomposed into focused types.
-// swiftlint:disable type_body_length
 public struct JSONParseTreeExporter {
   private let encoder: JSONEncoder
 
@@ -459,107 +451,111 @@ private struct StructuredPayload: Encodable {
   let metadataKeys: MetadataKeyTableDetail?
   let metadataItems: MetadataItemListDetail?
 
-  // Rationale: Exhaustive dispatcher for all ParsedBoxPayload.Detail cases to JSON export representation.
-  // @todo #A7 Consider code generation or protocol-based approach if detail types continue to grow.
-  // swiftlint:disable:next cyclomatic_complexity
   init(detail: ParsedBoxPayload.Detail) {
-    var fileType: FileTypeDetail?
-    var mediaData: MediaDataDetail?
-    var padding: PaddingDetail?
-    var movieHeader: MovieHeaderDetail?
-    var trackHeader: TrackHeaderDetail?
-    var trackExtends: TrackExtendsDetail?
-    var trackFragmentHeader: TrackFragmentHeaderDetail?
-    var trackFragmentDecodeTime: TrackFragmentDecodeTimeDetail?
-    var trackRun: TrackRunDetail?
-    var trackFragment: TrackFragmentDetail?
-    var movieFragmentHeader: MovieFragmentHeaderDetail?
-    var movieFragmentRandomAccess: MovieFragmentRandomAccessDetail?
-    var trackFragmentRandomAccess: TrackFragmentRandomAccessDetail?
-    var movieFragmentRandomAccessOffset: MovieFragmentRandomAccessOffsetDetail?
-    var sampleEncryption: SampleEncryptionDetail?
-    var sampleAuxInfoOffsets: SampleAuxInfoOffsetsDetail?
-    var sampleAuxInfoSizes: SampleAuxInfoSizesDetail?
-    var soundMediaHeader: SoundMediaHeaderDetail?
-    var videoMediaHeader: VideoMediaHeaderDetail?
-    var editList: EditListDetail?
-    var timeToSample: TimeToSampleDetail?
-    var compositionOffset: CompositionOffsetDetail?
-    var sampleToChunk: SampleToChunkDetail?
-    var chunkOffset: ChunkOffsetDetail?
-    var sampleSize: SampleSizeDetail?
-    var compactSampleSize: CompactSampleSizeDetail?
-    var syncSampleTable: SyncSampleTableDetail?
-    var dataReference: DataReferenceDetail?
-    var metadata: MetadataDetail?
-    var metadataKeys: MetadataKeyTableDetail?
-    var metadataItems: MetadataItemListDetail?
+    self = StructuredPayload.make(detail: detail)
+  }
 
+  // swiftlint:disable:next cyclomatic_complexity
+  private static func make(detail: ParsedBoxPayload.Detail) -> StructuredPayload {
     switch detail {
     case .fileType(let box):
-      fileType = FileTypeDetail(box: box)
+      return StructuredPayload(fileType: FileTypeDetail(box: box))
     case .mediaData(let box):
-      mediaData = MediaDataDetail(box: box)
+      return StructuredPayload(mediaData: MediaDataDetail(box: box))
     case .padding(let box):
-      padding = PaddingDetail(box: box)
+      return StructuredPayload(padding: PaddingDetail(box: box))
     case .movieHeader(let box):
-      movieHeader = MovieHeaderDetail(box: box)
+      return StructuredPayload(movieHeader: MovieHeaderDetail(box: box))
     case .trackHeader(let box):
-      trackHeader = TrackHeaderDetail(box: box)
+      return StructuredPayload(trackHeader: TrackHeaderDetail(box: box))
     case .trackExtends(let box):
-      trackExtends = TrackExtendsDetail(box: box)
+      return StructuredPayload(trackExtends: TrackExtendsDetail(box: box))
     case .trackFragmentHeader(let box):
-      trackFragmentHeader = TrackFragmentHeaderDetail(box: box)
+      return StructuredPayload(trackFragmentHeader: TrackFragmentHeaderDetail(box: box))
     case .trackFragmentDecodeTime(let box):
-      trackFragmentDecodeTime = TrackFragmentDecodeTimeDetail(box: box)
+      return StructuredPayload(trackFragmentDecodeTime: TrackFragmentDecodeTimeDetail(box: box))
     case .trackRun(let box):
-      trackRun = TrackRunDetail(box: box)
+      return StructuredPayload(trackRun: TrackRunDetail(box: box))
     case .sampleEncryption(let box):
-      sampleEncryption = SampleEncryptionDetail(box: box)
+      return StructuredPayload(sampleEncryption: SampleEncryptionDetail(box: box))
     case .sampleAuxInfoOffsets(let box):
-      sampleAuxInfoOffsets = SampleAuxInfoOffsetsDetail(box: box)
+      return StructuredPayload(sampleAuxInfoOffsets: SampleAuxInfoOffsetsDetail(box: box))
     case .sampleAuxInfoSizes(let box):
-      sampleAuxInfoSizes = SampleAuxInfoSizesDetail(box: box)
+      return StructuredPayload(sampleAuxInfoSizes: SampleAuxInfoSizesDetail(box: box))
     case .trackFragment(let box):
-      trackFragment = TrackFragmentDetail(box: box)
+      return StructuredPayload(trackFragment: TrackFragmentDetail(box: box))
     case .movieFragmentHeader(let box):
-      movieFragmentHeader = MovieFragmentHeaderDetail(box: box)
+      return StructuredPayload(movieFragmentHeader: MovieFragmentHeaderDetail(box: box))
     case .movieFragmentRandomAccess(let box):
-      movieFragmentRandomAccess = MovieFragmentRandomAccessDetail(box: box)
+      return StructuredPayload(movieFragmentRandomAccess: MovieFragmentRandomAccessDetail(box: box))
     case .trackFragmentRandomAccess(let box):
-      trackFragmentRandomAccess = TrackFragmentRandomAccessDetail(box: box)
+      return StructuredPayload(trackFragmentRandomAccess: TrackFragmentRandomAccessDetail(box: box))
     case .movieFragmentRandomAccessOffset(let box):
-      movieFragmentRandomAccessOffset = MovieFragmentRandomAccessOffsetDetail(box: box)
+      return StructuredPayload(movieFragmentRandomAccessOffset: MovieFragmentRandomAccessOffsetDetail(box: box))
     case .soundMediaHeader(let box):
-      soundMediaHeader = SoundMediaHeaderDetail(box: box)
+      return StructuredPayload(soundMediaHeader: SoundMediaHeaderDetail(box: box))
     case .videoMediaHeader(let box):
-      videoMediaHeader = VideoMediaHeaderDetail(box: box)
+      return StructuredPayload(videoMediaHeader: VideoMediaHeaderDetail(box: box))
     case .editList(let box):
-      editList = EditListDetail(box: box)
+      return StructuredPayload(editList: EditListDetail(box: box))
     case .decodingTimeToSample(let box):
-      timeToSample = TimeToSampleDetail(box: box)
+      return StructuredPayload(timeToSample: TimeToSampleDetail(box: box))
     case .compositionOffset(let box):
-      compositionOffset = CompositionOffsetDetail(box: box)
+      return StructuredPayload(compositionOffset: CompositionOffsetDetail(box: box))
     case .sampleToChunk(let box):
-      sampleToChunk = SampleToChunkDetail(box: box)
+      return StructuredPayload(sampleToChunk: SampleToChunkDetail(box: box))
     case .chunkOffset(let box):
-      chunkOffset = ChunkOffsetDetail(box: box)
+      return StructuredPayload(chunkOffset: ChunkOffsetDetail(box: box))
     case .sampleSize(let box):
-      sampleSize = SampleSizeDetail(box: box)
+      return StructuredPayload(sampleSize: SampleSizeDetail(box: box))
     case .compactSampleSize(let box):
-      compactSampleSize = CompactSampleSizeDetail(box: box)
+      return StructuredPayload(compactSampleSize: CompactSampleSizeDetail(box: box))
     case .syncSampleTable(let box):
-      syncSampleTable = SyncSampleTableDetail(box: box)
+      return StructuredPayload(syncSampleTable: SyncSampleTableDetail(box: box))
     case .dataReference(let box):
-      dataReference = DataReferenceDetail(box: box)
+      return StructuredPayload(dataReference: DataReferenceDetail(box: box))
     case .metadata(let box):
-      metadata = MetadataDetail(box: box)
+      return StructuredPayload(metadata: MetadataDetail(box: box))
     case .metadataKeyTable(let box):
-      metadataKeys = MetadataKeyTableDetail(box: box)
+      return StructuredPayload(metadataKeys: MetadataKeyTableDetail(box: box))
     case .metadataItemList(let box):
-      metadataItems = MetadataItemListDetail(box: box)
+      return StructuredPayload(metadataItems: MetadataItemListDetail(box: box))
     }
+  }
 
+  private init(
+    fileType: FileTypeDetail? = nil,
+    mediaData: MediaDataDetail? = nil,
+    padding: PaddingDetail? = nil,
+    movieHeader: MovieHeaderDetail? = nil,
+    trackHeader: TrackHeaderDetail? = nil,
+    trackExtends: TrackExtendsDetail? = nil,
+    trackFragmentHeader: TrackFragmentHeaderDetail? = nil,
+    trackFragmentDecodeTime: TrackFragmentDecodeTimeDetail? = nil,
+    trackRun: TrackRunDetail? = nil,
+    trackFragment: TrackFragmentDetail? = nil,
+    movieFragmentHeader: MovieFragmentHeaderDetail? = nil,
+    movieFragmentRandomAccess: MovieFragmentRandomAccessDetail? = nil,
+    trackFragmentRandomAccess: TrackFragmentRandomAccessDetail? = nil,
+    movieFragmentRandomAccessOffset: MovieFragmentRandomAccessOffsetDetail? = nil,
+    sampleEncryption: SampleEncryptionDetail? = nil,
+    sampleAuxInfoOffsets: SampleAuxInfoOffsetsDetail? = nil,
+    sampleAuxInfoSizes: SampleAuxInfoSizesDetail? = nil,
+    soundMediaHeader: SoundMediaHeaderDetail? = nil,
+    videoMediaHeader: VideoMediaHeaderDetail? = nil,
+    editList: EditListDetail? = nil,
+    timeToSample: TimeToSampleDetail? = nil,
+    compositionOffset: CompositionOffsetDetail? = nil,
+    sampleToChunk: SampleToChunkDetail? = nil,
+    chunkOffset: ChunkOffsetDetail? = nil,
+    sampleSize: SampleSizeDetail? = nil,
+    compactSampleSize: CompactSampleSizeDetail? = nil,
+    syncSampleTable: SyncSampleTableDetail? = nil,
+    dataReference: DataReferenceDetail? = nil,
+    metadata: MetadataDetail? = nil,
+    metadataKeys: MetadataKeyTableDetail? = nil,
+    metadataItems: MetadataItemListDetail? = nil
+  ) {
     self.fileType = fileType
     self.mediaData = mediaData
     self.padding = padding
