@@ -17,7 +17,7 @@ The following plan decomposes delivery into dependency-aware phases. Each task i
 
 > **Current focus:** _BUG #001 Design System Color Token Migration_ archived to `DOCS/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/` (2025-11-16). ISOInspectorApp continues to use hardcoded `.accentColor` and manual opacity values in 6 view files instead of FoundationUI design tokens. Blocking FoundationUI Phase 5.2 completion. See archive for full analysis and blockers. Next candidate tasks in automation track: A7 (SwiftLint complexity), A8 (test coverage gate), A10 (duplication detection). Refer to `DOCS/INPROGRESS/next_tasks.md` and `DOCS/INPROGRESS/blocked.md` for day-to-day queue and active blockers.
 >
-> **New bug intake (2025-11-25):** Bug #235 — Smoke tests blocked by Sendable violations in `WindowSessionController` under strict concurrency. See `DOCS/INPROGRESS/235_Sendable_SmokeTest_Build_Failure.md` for scope, hypotheses, and diagnostics plan.
+> **Bug resolved (2025-11-25):** Bug #235 — Smoke tests blocked by Sendable violations in `WindowSessionController` under strict concurrency. Fixed via sendable annotations + document loading refactor; see `DOCS/INPROGRESS/235_Sendable_SmokeTest_Build_Failure.md` for details and test evidence.
 >
 > **Completed (2025-11-27):** Task **A11 — Local CI Execution on macOS** delivered comprehensive scripts for running GitHub Actions workflows locally. Phase 1 (core scripts) covers linting, builds, and tests with native and Docker execution modes. See `DOCS/AI/github-workflows/04_local_ci_macos/Summary.md` for full deliverables, `scripts/local-ci/README.md` for user guide, and `.local-ci-config.example` for configuration template.
 >
