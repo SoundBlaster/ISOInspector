@@ -7,7 +7,7 @@
 
 ### Task A7 Follow-up: Refactor Large Files (Blocking Strict Mode)
 
-- [ ] #A7 Refactor JSONParseTreeExporter.swift to comply with type_body_length threshold — Extract nested types (Node, Issue, Payload, etc.) into separate files in JSONPayloadTypes/ directory. Currently 2127 lines, target <200 lines (strict limit). (Sources/ISOInspectorKit/Export/JSONParseTreeExporter.swift)
+- [x] #A7 Refactor JSONParseTreeExporter.swift to comply with type_body_length threshold — StructuredPayload now builds via a factory initializer, trimming the type to <200 lines and removing the swiftlint suppression. (Sources/ISOInspectorKit/Export/JSONParseTreeExporter.swift) _(Completed 2025-11-25.)_
 - [ ] #A7 Refactor BoxValidator.swift to comply with type_body_length threshold — Extract individual validation rules into separate files (one rule per file) in ValidationRules/ directory. Currently 1738 lines aggregated across the type, target <200 lines (strict limit). (Sources/ISOInspectorKit/Validation/BoxValidator.swift)
 - [ ] #A7 Refactor DocumentSessionController to comply with type_body_length threshold — Extract bookmark management, recent files management, and parse pipeline coordination into separate services (BookmarkService, RecentsService, ParseCoordinationService). Currently 1634 lines, target <200 lines. Remove swiftlint:disable directive. (Sources/ISOInspectorApp/State/DocumentSessionController.swift)
 - [x] #A7 Enable strict mode for main project after refactoring large files — CI and local hooks now run `swiftlint lint --strict` with JSON artifacts published for every run. (`.github/workflows/swiftlint.yml`, `.swiftlint.yml`, `.githooks/pre-commit`)
