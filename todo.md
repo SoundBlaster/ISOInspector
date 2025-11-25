@@ -19,7 +19,7 @@
 
 ## Bugs & Regressions
 
-- [ ] #235 Smoke tests blocked by Sendable violations — `swift test --filter ...Smoke...` fails in `WindowSessionController` because `DocumentLoadingResources`, `readerFactory`, and `pipelineFactory` cross actor boundaries without `Sendable`/`@Sendable` conformance. (See `DOCS/INPROGRESS/235_Sendable_SmokeTest_Build_Failure.md`.)
+- [x] #235 Smoke tests blocked by Sendable violations — Resolved by adding `@Sendable` factory types, `@unchecked Sendable` for the resource handoff struct, and restructuring document loading to avoid actor boundary breaches. Smoke filters now pass under strict concurrency. (See `DOCS/INPROGRESS/235_Sendable_SmokeTest_Build_Failure.md`.)
 
 ## FoundationUI Integration
 

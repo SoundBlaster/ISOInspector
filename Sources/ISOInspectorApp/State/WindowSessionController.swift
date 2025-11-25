@@ -58,7 +58,7 @@
     private let workQueue: DocumentSessionWorkQueue
     private let diagnostics: any DiagnosticsLogging
     private let filesystemAccess: FilesystemAccess
-    private let bookmarkDataProvider: (SecurityScopedURL) -> Data?
+    private let bookmarkDataProvider: @Sendable (SecurityScopedURL) -> Data?
     private let logger = Logger(subsystem: "ISOInspectorApp", category: "WindowSession")
     private let exportLogger = Logger(subsystem: "ISOInspectorApp", category: "WindowExport")
 
@@ -73,14 +73,14 @@
       appSessionController: DocumentSessionController,
       parseTreeStore: ParseTreeStore? = nil,
       annotations: AnnotationBookmarkSession? = nil,
-      readerFactory: @Sendable @escaping (URL) throws -> RandomAccessReader = {
+      readerFactory: @escaping @Sendable (URL) throws -> RandomAccessReader = {
         try ChunkedFileReader(fileURL: $0)
       },
-      pipelineFactory: @Sendable @escaping () -> ParsePipeline = { .live(options: .tolerant) },
+      pipelineFactory: @escaping @Sendable () -> ParsePipeline = { .live(options: .tolerant) },
       workQueue: DocumentSessionWorkQueue = DocumentSessionBackgroundQueue(),
       diagnostics: (any DiagnosticsLogging)? = nil,
       filesystemAccess: FilesystemAccess = .live(),
-      bookmarkDataProvider: ((SecurityScopedURL) -> Data?)? = nil
+      bookmarkDataProvider: (@Sendable (SecurityScopedURL) -> Data?)? = nil
     ) {
       let resolvedParseTreeStore = parseTreeStore ?? ParseTreeStore()
       let resolvedAnnotations = annotations ?? AnnotationBookmarkSession(store: nil)
@@ -194,6 +194,7 @@
     private struct DocumentLoadingResources: @unchecked Sendable {
       let reader: RandomAccessReader
       let pipeline: ParsePipeline
+      let context: ParsePipeline.Context
     }
 
     private func handleOpenDocument(at url: URL) async {
@@ -206,26 +207,25 @@
         let scopedURL = try filesystemAccess.adoptSecurityScope(for: url)
         activeSecurityScopedURL = scopedURL
 
+        // Capture dependencies on the main actor before hopping to a detached task.
         let readerFactory = self.readerFactory
         let pipelineFactory = self.pipelineFactory
-        let scopedURLValue = scopedURL.url
+        let context = ParsePipeline.Context(source: url, issueStore: parseTreeStore.issueStore)
 
-        // Offload heavy parsing work to background queue to avoid blocking UI
-        let resources = try await Task.detached(priority: .userInitiated) {
-          let reader = try readerFactory(scopedURLValue)
+        // Offload heavy parsing work to a detached task to avoid blocking UI while keeping actor boundaries explicit.
+        let resources = try await Task.detached(priority: .userInitiated) { () -> DocumentLoadingResources in
+          let reader = try readerFactory(scopedURL.url)
           let pipeline = pipelineFactory()
-
-          return DocumentLoadingResources(reader: reader, pipeline: pipeline)
+          return DocumentLoadingResources(reader: reader, pipeline: pipeline, context: context)
         }.value
-
-        let context = ParsePipeline.Context(
-          source: url,
-          issueStore: parseTreeStore.issueStore
-        )
 
         // Back to main thread for UI updates
         await MainActor.run {
-          parseTreeStore.start(pipeline: resources.pipeline, reader: resources.reader, context: context)
+          parseTreeStore.start(
+            pipeline: resources.pipeline,
+            reader: resources.reader,
+            context: resources.context
+          )
 
           let recent = DocumentRecent(
             url: url,
