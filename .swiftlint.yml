@@ -58,7 +58,3 @@ excluded:
   - .git
   - DOCS
   - FoundationUI
-
-identifier_name:
-  excluded:
-    - id

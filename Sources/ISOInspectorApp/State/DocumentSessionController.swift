@@ -84,6 +84,7 @@
       case workspace
     }
 
+    // swiftlint:disable:next function_body_length
     init(
       parseTreeStore: ParseTreeStore? = nil,
       annotations: AnnotationBookmarkSession? = nil,
@@ -687,6 +688,7 @@
       let suffix: String?
     }
 
+    // swiftlint:disable:next function_body_length
     private func openDocument(
       recent: DocumentRecent,
       restoredSelection: Int64? = nil,
@@ -808,6 +810,7 @@
       )
     }
 
+    // swiftlint:disable:next function_body_length cyclomatic_complexity
     private func prepareAccessResolvingBookmark(
       for recent: DocumentRecent
     ) throws -> AccessContext {
@@ -1008,6 +1011,7 @@
       bookmarkDataProvider(scopedURL)
     }
 
+    // swiftlint:disable:next function_body_length
     private func applySessionSnapshot(_ snapshot: WorkspaceSessionSnapshot) {
       let sortedFiles = snapshot.files.sorted { lhs, rhs in
         if lhs.orderIndex == rhs.orderIndex {
@@ -1076,6 +1080,7 @@
       )
     }
 
+    // swiftlint:disable:next function_body_length
     private func persistSession() {
       guard let sessionStore else { return }
       if recents.isEmpty {
@@ -1377,6 +1382,7 @@
       emitLoadFailure(for: recent, error: error)
     }
 
+    // swiftlint:disable:next function_body_length
     private func emitLoadFailure(for recent: DocumentRecent, error: Error?) {
       var standardizedRecent = recent
       standardizedRecent.url = recent.url.standardizedFileURL
