@@ -17,6 +17,10 @@
 - [x] Extend `.githooks/pre-push` and `.github/workflows/ci.yml` with `swift build --strict-concurrency=complete`/`swift test --strict-concurrency=complete` runs, publishing logs referenced from `DOCS/AI/PRD_SwiftStrictConcurrency_Store.md`. (Scripts: `.githooks/pre-push`, `.github/workflows/ci.yml`) _(Completed 2025-11-15 — Task A9, archived at `DOCS/TASK_ARCHIVE/225_A9_Swift6_Concurrency_Cleanup/`)_
 - [ ] Add `.github/workflows/swift-duplication.yml` that runs `scripts/run_swift_duplication_check.sh` (wrapper around `npx jscpd@3.5.10`) on all Swift targets, fails when duplicates exceed 1% or blocks >45 lines repeat, and uploads a console artifact. (Docs: `DOCS/AI/github-workflows/02_swift_duplication_guard/prd.md` + `TODO.md`)
 
+## Bugs & Regressions
+
+- [ ] #235 Smoke tests blocked by Sendable violations — `swift test --filter ...Smoke...` fails in `WindowSessionController` because `DocumentLoadingResources`, `readerFactory`, and `pipelineFactory` cross actor boundaries without `Sendable`/`@Sendable` conformance. (See `DOCS/INPROGRESS/235_Sendable_SmokeTest_Build_Failure.md`.)
+
 ## FoundationUI Integration
 
 - [ ] Integrate lazy loading and state binding into `InspectorPattern` once detail editors are introduced so scroll performance remains predictable. (FoundationUI/Sources/FoundationUI/Patterns/InspectorPattern.swift) _(Planning archived at `DOCS/TASK_ARCHIVE/204_T6_1_CLI_Tolerant_Flag/204_InspectorPattern_Lazy_Loading.md`.)_
