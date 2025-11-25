@@ -743,7 +743,7 @@
       } catch let accessError as DocumentAccessError {
         preResolvedScope?.revoke()
         let targetRecent = failureRecent ?? recent
-        emitLoadFailure(for: targetRecent, error: accessError)
+        handleRecentAccessFailure(targetRecent, error: accessError)
       } catch {
         preResolvedScope?.revoke()
         let targetRecent = failureRecent ?? recent
