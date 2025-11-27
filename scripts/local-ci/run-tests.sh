@@ -188,13 +188,18 @@ if [[ "$SPM_ONLY" != "true" ]] && [[ -f "$REPO_ROOT/ISOInspector.xcworkspace/con
 
     # iOS tests
     if [[ "$SKIP_IOS" != "true" ]]; then
+        # Detect best iOS simulator
+        log_info "Detecting iOS simulator..."
+        IOS_DESTINATION=$(detect_ios_simulator "iPhone 16" "ISOInspector.xcworkspace" "FoundationUI")
+        log_success "Using iOS destination: $IOS_DESTINATION"
+
         # FoundationUI tests (iOS)
         if [[ -d "$REPO_ROOT/FoundationUI" ]]; then
             if timed_run "Test FoundationUI (iOS)" \
                 xcodebuild test \
                 "${XCODE_TEST_ARGS[@]}" \
                 -scheme FoundationUI \
-                -destination 'platform=iOS Simulator,name=iPhone 16'; then
+                -destination "$IOS_DESTINATION"; then
                 log_success "FoundationUI (iOS) tests passed"
             else
                 log_error "FoundationUI (iOS) tests failed"

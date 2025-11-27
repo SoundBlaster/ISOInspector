@@ -214,6 +214,62 @@ validate_python() {
     return 0
 }
 
+# Detect best available iOS simulator for testing
+# Returns destination specifier string with ID
+detect_ios_simulator() {
+    local device_name="${1:-iPhone 16}"
+    local workspace="${2:-}"
+    local scheme="${3:-}"
+
+    # Get all iOS Simulator destinations
+    local destinations
+    if [[ -n "$workspace" ]] && [[ -n "$scheme" ]]; then
+        destinations=$(xcodebuild -workspace "$workspace" -scheme "$scheme" -showdestinations 2>/dev/null | grep "platform:iOS Simulator" || echo "")
+    elif [[ -n "$scheme" ]]; then
+        destinations=$(xcodebuild -scheme "$scheme" -showdestinations 2>/dev/null | grep "platform:iOS Simulator" || echo "")
+    else
+        # Fallback to simctl list if no workspace/scheme provided
+        destinations=$(xcrun simctl list devices available 2>/dev/null | grep -E "iPhone|iPad" || echo "")
+    fi
+
+    if [[ -z "$destinations" ]]; then
+        error_exit "No iOS simulators found"
+    fi
+
+    # Find matching device with highest OS version
+    # Sort by OS version (descending) and pick first match
+    local best_match
+    best_match=$(echo "$destinations" | \
+        grep "name:$device_name" | \
+        sed -E 's/.*id:([^,]+).*OS:([^,]+).*/\2 \1/' | \
+        sort -V -r | \
+        head -1)
+
+    if [[ -z "$best_match" ]]; then
+        log_warning "Device '$device_name' not found, trying any iOS Simulator"
+        # Fallback to any available simulator
+        best_match=$(echo "$destinations" | \
+            grep "platform:iOS Simulator" | \
+            grep -v "placeholder" | \
+            sed -E 's/.*id:([^,]+).*OS:([^,]+).*/\2 \1/' | \
+            sort -V -r | \
+            head -1)
+    fi
+
+    if [[ -z "$best_match" ]]; then
+        error_exit "No suitable iOS simulator found"
+    fi
+
+    # Extract OS version and ID
+    local os_version
+    local device_id
+    os_version=$(echo "$best_match" | awk '{print $1}')
+    device_id=$(echo "$best_match" | awk '{print $2}')
+
+    # Return destination specifier
+    echo "platform=iOS Simulator,id=$device_id"
+}
+
 # Validate all CI prerequisites
 validate_ci_environment() {
     log_section "Validating CI Environment"
@@ -248,5 +304,5 @@ setup_ci_environment() {
 # Export functions
 export -f validate_macos_version validate_xcode validate_swift
 export -f check_homebrew ensure_swiftlint ensure_tuist
-export -f fetch_tuist_version validate_python
+export -f fetch_tuist_version validate_python detect_ios_simulator
 export -f validate_ci_environment setup_ci_environment
