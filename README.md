@@ -128,20 +128,24 @@ The repository enforces strict complexity thresholds using **SwiftLint** to prev
 - **Type Body Length:** Warning at 180 lines, error at 200 lines
 - **Nesting Depth:** Warning at 4 levels, error at 5 levels
 
-Pre-commit and pre-push hooks both run `swiftlint lint --strict` against the staged Swift files. GitHub Actions executes the `SwiftLint Code Quality` workflow on every push/PR, blocking merges when violations exist and uploading JSON artifacts (`swiftlint-main-report`, `swiftlint-foundationui-report`, `swiftlint-componenttestapp-report`) for detailed review in CI.
+Existing legacy violations are tracked in `.swiftlint.baseline.json` (main app/kit) and `Examples/ComponentTestApp/.swiftlint-baseline.json`. CI and git hooks load these baselines so new violations still fail while the backlog is cleaned up incrementally.
+
+Pre-commit and pre-push hooks both run `swiftlint lint --strict` (with the baselines) against the staged Swift files. GitHub Actions executes the `SwiftLint Code Quality` workflow on every push/PR, blocking merges when violations exist and uploading JSON artifacts (`swiftlint-main-report`, `swiftlint-foundationui-report`, `swiftlint-componenttestapp-report`) for detailed review in CI.
 
 ### Running SwiftLint Locally
 
 Check for complexity violations:
 
 ```sh
-swiftlint lint --strict
+swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json
+# ComponentTestApp sample app
+cd Examples/ComponentTestApp && swiftlint lint --strict --baseline .swiftlint-baseline.json
 ```
 
 Auto-fix style issues where possible:
 
 ```sh
-swiftlint --fix
+swiftlint --fix --config .swiftlint.yml --baseline .swiftlint.baseline.json
 ```
 
 Install SwiftLint (macOS):

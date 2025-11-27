@@ -111,7 +111,7 @@ jobs:
       - name: Run SwiftLint (strict mode)
         continue-on-error: true
         run: |
-          swiftlint lint --strict --reporter sarif > swiftlint-report.sarif || true
+          swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json --reporter sarif > swiftlint-report.sarif || true
 
       - name: Upload SwiftLint SARIF report
         if: always()

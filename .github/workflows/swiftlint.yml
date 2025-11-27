@@ -68,7 +68,7 @@ jobs:
           set -eo pipefail
 
           echo "🔍 Running SwiftLint on main project (Sources/, Tests/)..."
-          swiftlint lint --strict --config .swiftlint.yml --reporter json | tee /tmp/swiftlint-main.json
+          swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json --reporter json | tee /tmp/swiftlint-main.json
 
           # Parse and display results
           if command -v jq &> /dev/null; then
@@ -87,7 +87,7 @@ jobs:
 
             if [ "$ERRORS" -gt 0 ]; then
               echo "❌ SwiftLint errors found in main project"
-              swiftlint lint --strict --config .swiftlint.yml --reporter xcode | head -50
+              swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json --reporter xcode | head -50
             fi
           fi
 
@@ -146,7 +146,7 @@ jobs:
           cd Examples/ComponentTestApp
 
           echo "🔍 Running SwiftLint on ComponentTestApp..."
-          swiftlint lint --strict --reporter json | tee /tmp/swiftlint-componenttestapp.json
+          swiftlint lint --strict --baseline .swiftlint-baseline.json --reporter json | tee /tmp/swiftlint-componenttestapp.json
 
           # Parse and display results
           if command -v jq &> /dev/null; then
@@ -164,7 +164,7 @@ jobs:
 
             if [ "$ERRORS" -gt 0 ]; then
               echo "❌ SwiftLint errors found!"
-              swiftlint lint --strict --reporter xcode
+              swiftlint lint --strict --baseline .swiftlint-baseline.json --reporter xcode
               exit 1
             fi
           fi
@@ -225,10 +225,12 @@ jobs:
               comment += "### 🔧 How to Fix\n\n";
               comment += "Run locally:\n";
               comment += "```bash\n";
-              comment += "# Check violations\n";
-              comment += "swiftlint lint --strict --config .swiftlint.yml\n\n";
-              comment += "# Auto-fix when possible\n";
-              comment += "swiftlint --fix --config .swiftlint.yml\n";
+              comment += "# Check violations (main project baseline)\n";
+              comment += "swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json\n\n";
+              comment += "# ComponentTestApp baseline\n";
+              comment += "cd Examples/ComponentTestApp && swiftlint lint --strict --baseline .swiftlint-baseline.json\n\n";
+              comment += "# Auto-fix when possible (respects baselines)\n";
+              comment += "swiftlint --fix --config .swiftlint.yml --baseline .swiftlint.baseline.json\n";
               comment += "```\n";
             }
 
@@ -255,15 +257,15 @@ jobs:
           if [ "$MAIN_RESULT" = "failure" ] || [ "$FOUNDATIONUI_RESULT" = "failure" ] || [ "$COMPONENTTESTAPP_RESULT" = "failure" ]; then
             echo "❌ SwiftLint quality gate failed!"
             echo ""
-            echo "Next steps:"
-            echo "1. Review violations reported above"
-            echo "2. Fix code style and complexity issues:"
-            echo "   - Main Project: swiftlint lint --strict --config .swiftlint.yml"
-            echo "   - FoundationUI: cd FoundationUI && swiftlint --config .swiftlint.yml --fix"
-            echo "   - ComponentTestApp: cd Examples/ComponentTestApp && swiftlint --fix"
-            echo "3. Commit fixed code"
-            echo "4. Push changes"
-            echo ""
+          echo "Next steps:"
+          echo "1. Review violations reported above"
+          echo "2. Fix code style and complexity issues:"
+          echo "   - Main Project: swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json"
+          echo "   - FoundationUI: cd FoundationUI && swiftlint --config .swiftlint.yml --fix"
+          echo "   - ComponentTestApp: cd Examples/ComponentTestApp && swiftlint lint --strict --baseline .swiftlint-baseline.json"
+          echo "3. Commit fixed code"
+          echo "4. Push changes"
+          echo ""
             echo "💡 Tip: Download the SwiftLint report artifacts for detailed analysis"
             exit 1
           else

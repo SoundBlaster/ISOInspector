@@ -50,7 +50,6 @@ private struct Payload: Encodable {
   }
 }
 
-
 private struct SchemaDescriptor: Encodable {
   let version: Int
 
@@ -334,58 +333,17 @@ private struct FormatSummary: Encodable {
   let trackCount: Int?
 
   init?(tree: ParseTree) {
-    let flattenedNodes = FormatSummary.flatten(nodes: tree.nodes)
+    let scan = FormatSummary.scan(tree: tree)
+    let majorBrand = scan.fileType?.majorBrand.rawValue
+    let minorVersion = scan.fileType.map { Int($0.minorVersion) }
+    let compatibleBrands = scan.fileType?.compatibleBrands.map(\.rawValue)
+    let durationSeconds = FormatSummary.durationSeconds(from: scan.movieHeader)
+    let byteSize = FormatSummary.byteSize(from: scan.maximumEndOffset)
+    let bitrate = FormatSummary.bitrate(byteSize: byteSize, durationSeconds: durationSeconds)
+    let trackCount = scan.trackCount > 0 ? scan.trackCount : nil
 
-    var fileTypeBox: ParsedBoxPayload.FileTypeBox?
-    var movieHeaderBox: ParsedBoxPayload.MovieHeaderBox?
-    var maximumEndOffset: Int64 = 0
-    var trackCounter = 0
-
-    for node in flattenedNodes {
-      if fileTypeBox == nil, let fileType = node.payload?.fileType {
-        fileTypeBox = fileType
-      }
-      if movieHeaderBox == nil, let movieHeader = node.payload?.movieHeader {
-        movieHeaderBox = movieHeader
-      }
-      if node.header.type.rawValue == "trak" {
-        trackCounter += 1
-      }
-      if node.header.endOffset > maximumEndOffset {
-        maximumEndOffset = node.header.endOffset
-      }
-    }
-
-    let majorBrand = fileTypeBox?.majorBrand.rawValue
-    let minorVersion = fileTypeBox.map { Int($0.minorVersion) }
-    let compatibleBrands = fileTypeBox?.compatibleBrands.map(\.rawValue)
-
-    let durationSeconds: Double?
-    if let header = movieHeaderBox, header.timescale > 0 {
-      durationSeconds = Double(header.duration) / Double(header.timescale)
-    } else {
-      durationSeconds = nil
-    }
-
-    let byteSize: Int?
-    if maximumEndOffset > 0 {
-      byteSize = Int(clamping: maximumEndOffset)
-    } else {
-      byteSize = nil
-    }
-
-    let bitrate: Int?
-    if let bytes = byteSize, let duration = durationSeconds, duration > 0 {
-      bitrate = Int((Double(bytes) * 8.0 / duration).rounded())
-    } else {
-      bitrate = nil
-    }
-
-    let trackCount = trackCounter > 0 ? trackCounter : nil
-
-    if majorBrand == nil && minorVersion == nil && (compatibleBrands?.isEmpty ?? true)
-      && durationSeconds == nil && byteSize == nil && bitrate == nil && trackCount == nil
-    {
+    guard majorBrand != nil || minorVersion != nil || !(compatibleBrands?.isEmpty ?? true)
+      || durationSeconds != nil || byteSize != nil || bitrate != nil || trackCount != nil else {
       return nil
     }
 
@@ -396,6 +354,55 @@ private struct FormatSummary: Encodable {
     self.byteSize = byteSize
     self.bitrate = bitrate
     self.trackCount = trackCount
+  }
+
+  private static func scan(tree: ParseTree) -> ScanResult {
+    var fileTypeBox: ParsedBoxPayload.FileTypeBox?
+    var movieHeaderBox: ParsedBoxPayload.MovieHeaderBox?
+    var maximumEndOffset: Int64 = 0
+    var trackCounter = 0
+
+    for node in flatten(nodes: tree.nodes) {
+      if fileTypeBox == nil, let fileType = node.payload?.fileType {
+        fileTypeBox = fileType
+      }
+      if movieHeaderBox == nil, let movieHeader = node.payload?.movieHeader {
+        movieHeaderBox = movieHeader
+      }
+      if node.header.type.rawValue == "trak" {
+        trackCounter += 1
+      }
+      maximumEndOffset = max(maximumEndOffset, node.header.endOffset)
+    }
+
+    return ScanResult(
+      fileType: fileTypeBox,
+      movieHeader: movieHeaderBox,
+      maximumEndOffset: maximumEndOffset,
+      trackCount: trackCounter
+    )
+  }
+
+  private static func durationSeconds(from movieHeader: ParsedBoxPayload.MovieHeaderBox?) -> Double? {
+    guard let header = movieHeader, header.timescale > 0 else { return nil }
+    return Double(header.duration) / Double(header.timescale)
+  }
+
+  private static func byteSize(from maximumEndOffset: Int64) -> Int? {
+    guard maximumEndOffset > 0 else { return nil }
+    return Int(clamping: maximumEndOffset)
+  }
+
+  private static func bitrate(byteSize: Int?, durationSeconds: Double?) -> Int? {
+    guard let bytes = byteSize, let duration = durationSeconds, duration > 0 else { return nil }
+    return Int((Double(bytes) * 8.0 / duration).rounded())
+  }
+
+  private struct ScanResult {
+    let fileType: ParsedBoxPayload.FileTypeBox?
+    let movieHeader: ParsedBoxPayload.MovieHeaderBox?
+    let maximumEndOffset: Int64
+    let trackCount: Int
   }
 
   private static func flatten(nodes: [ParseTreeNode]) -> [ParseTreeNode] {
@@ -452,11 +459,23 @@ private struct StructuredPayload: Encodable {
   let metadataItems: MetadataItemListDetail?
 
   init(detail: ParsedBoxPayload.Detail) {
-    self = StructuredPayload.make(detail: detail)
+    self = StructuredPayload.build(from: detail)
+  }
+}
+
+private extension StructuredPayload {
+  static func build(from detail: ParsedBoxPayload.Detail) -> StructuredPayload {
+    if let payload = buildFile(detail) { return payload }
+    if let payload = buildTrackHeaders(detail) { return payload }
+    if let payload = buildFragments(detail) { return payload }
+    if let payload = buildSampleProtection(detail) { return payload }
+    if let payload = buildTiming(detail) { return payload }
+    if let payload = buildMetadata(detail) { return payload }
+    if let payload = buildMedia(detail) { return payload }
+    return StructuredPayload()
   }
 
-  // swiftlint:disable:next cyclomatic_complexity
-  private static func make(detail: ParsedBoxPayload.Detail) -> StructuredPayload {
+  static func buildFile(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
     switch detail {
     case .fileType(let box):
       return StructuredPayload(fileType: FileTypeDetail(box: box))
@@ -464,26 +483,47 @@ private struct StructuredPayload: Encodable {
       return StructuredPayload(mediaData: MediaDataDetail(box: box))
     case .padding(let box):
       return StructuredPayload(padding: PaddingDetail(box: box))
+    default:
+      return nil
+    }
+  }
+
+  static func buildTrackHeaders(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
+    switch detail {
     case .movieHeader(let box):
       return StructuredPayload(movieHeader: MovieHeaderDetail(box: box))
     case .trackHeader(let box):
       return StructuredPayload(trackHeader: TrackHeaderDetail(box: box))
     case .trackExtends(let box):
       return StructuredPayload(trackExtends: TrackExtendsDetail(box: box))
+    default:
+      return nil
+    }
+  }
+
+  static func buildFragments(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
+    if let payload = buildTrackFragments(detail) { return payload }
+    if let payload = buildMovieFragments(detail) { return payload }
+    return nil
+  }
+
+  static func buildTrackFragments(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
+    switch detail {
     case .trackFragmentHeader(let box):
       return StructuredPayload(trackFragmentHeader: TrackFragmentHeaderDetail(box: box))
     case .trackFragmentDecodeTime(let box):
       return StructuredPayload(trackFragmentDecodeTime: TrackFragmentDecodeTimeDetail(box: box))
     case .trackRun(let box):
       return StructuredPayload(trackRun: TrackRunDetail(box: box))
-    case .sampleEncryption(let box):
-      return StructuredPayload(sampleEncryption: SampleEncryptionDetail(box: box))
-    case .sampleAuxInfoOffsets(let box):
-      return StructuredPayload(sampleAuxInfoOffsets: SampleAuxInfoOffsetsDetail(box: box))
-    case .sampleAuxInfoSizes(let box):
-      return StructuredPayload(sampleAuxInfoSizes: SampleAuxInfoSizesDetail(box: box))
     case .trackFragment(let box):
       return StructuredPayload(trackFragment: TrackFragmentDetail(box: box))
+    default:
+      return nil
+    }
+  }
+
+  static func buildMovieFragments(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
+    switch detail {
     case .movieFragmentHeader(let box):
       return StructuredPayload(movieFragmentHeader: MovieFragmentHeaderDetail(box: box))
     case .movieFragmentRandomAccess(let box):
@@ -492,16 +532,45 @@ private struct StructuredPayload: Encodable {
       return StructuredPayload(trackFragmentRandomAccess: TrackFragmentRandomAccessDetail(box: box))
     case .movieFragmentRandomAccessOffset(let box):
       return StructuredPayload(movieFragmentRandomAccessOffset: MovieFragmentRandomAccessOffsetDetail(box: box))
-    case .soundMediaHeader(let box):
-      return StructuredPayload(soundMediaHeader: SoundMediaHeaderDetail(box: box))
-    case .videoMediaHeader(let box):
-      return StructuredPayload(videoMediaHeader: VideoMediaHeaderDetail(box: box))
+    default:
+      return nil
+    }
+  }
+
+  static func buildSampleProtection(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
+    switch detail {
+    case .sampleEncryption(let box):
+      return StructuredPayload(sampleEncryption: SampleEncryptionDetail(box: box))
+    case .sampleAuxInfoOffsets(let box):
+      return StructuredPayload(sampleAuxInfoOffsets: SampleAuxInfoOffsetsDetail(box: box))
+    case .sampleAuxInfoSizes(let box):
+      return StructuredPayload(sampleAuxInfoSizes: SampleAuxInfoSizesDetail(box: box))
+    default:
+      return nil
+    }
+  }
+
+  static func buildTiming(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
+    if let payload = buildEditTiming(detail) { return payload }
+    if let payload = buildSampleTables(detail) { return payload }
+    return nil
+  }
+
+  static func buildEditTiming(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
+    switch detail {
     case .editList(let box):
       return StructuredPayload(editList: EditListDetail(box: box))
     case .decodingTimeToSample(let box):
       return StructuredPayload(timeToSample: TimeToSampleDetail(box: box))
     case .compositionOffset(let box):
       return StructuredPayload(compositionOffset: CompositionOffsetDetail(box: box))
+    default:
+      return nil
+    }
+  }
+
+  static func buildSampleTables(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
+    switch detail {
     case .sampleToChunk(let box):
       return StructuredPayload(sampleToChunk: SampleToChunkDetail(box: box))
     case .chunkOffset(let box):
@@ -512,6 +581,13 @@ private struct StructuredPayload: Encodable {
       return StructuredPayload(compactSampleSize: CompactSampleSizeDetail(box: box))
     case .syncSampleTable(let box):
       return StructuredPayload(syncSampleTable: SyncSampleTableDetail(box: box))
+    default:
+      return nil
+    }
+  }
+
+  static func buildMetadata(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
+    switch detail {
     case .dataReference(let box):
       return StructuredPayload(dataReference: DataReferenceDetail(box: box))
     case .metadata(let box):
@@ -520,10 +596,23 @@ private struct StructuredPayload: Encodable {
       return StructuredPayload(metadataKeys: MetadataKeyTableDetail(box: box))
     case .metadataItemList(let box):
       return StructuredPayload(metadataItems: MetadataItemListDetail(box: box))
+    default:
+      return nil
     }
   }
 
-  private init(
+  static func buildMedia(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
+    switch detail {
+    case .soundMediaHeader(let box):
+      return StructuredPayload(soundMediaHeader: SoundMediaHeaderDetail(box: box))
+    case .videoMediaHeader(let box):
+      return StructuredPayload(videoMediaHeader: VideoMediaHeaderDetail(box: box))
+    default:
+      return nil
+    }
+  }
+
+  init(
     fileType: FileTypeDetail? = nil,
     mediaData: MediaDataDetail? = nil,
     padding: PaddingDetail? = nil,
@@ -589,7 +678,7 @@ private struct StructuredPayload: Encodable {
     self.metadataItems = metadataItems
   }
 
-  private enum CodingKeys: String, CodingKey {
+  enum CodingKeys: String, CodingKey {
     case fileType = "file_type"
     case mediaData = "media_data"
     case padding = "padding"
@@ -827,183 +916,14 @@ private struct MetadataKeyTableDetail: Encodable {
 }
 
 private struct MetadataItemListDetail: Encodable {
-  struct Entry: Encodable {
-    struct Identifier: Encodable {
-      let kind: String
-      let display: String
-      let rawValue: UInt32
-      let rawValueHex: String
-      let keyIndex: UInt32?
-
-      init(identifier: ParsedBoxPayload.MetadataItemListBox.Entry.Identifier) {
-        switch identifier {
-        case .fourCC(let raw, let display):
-          self.kind = "fourcc"
-          self.rawValue = raw
-          self.rawValueHex = String(format: "0x%08X", raw)
-          self.keyIndex = nil
-          if display.isEmpty {
-            self.display = self.rawValueHex
-          } else {
-            self.display = display
-          }
-        case .keyIndex(let index):
-          self.kind = "key_index"
-          self.rawValue = index
-          self.rawValueHex = String(format: "0x%08X", index)
-          self.keyIndex = index
-          self.display = "key[\(index)]"
-        case .raw(let value):
-          self.kind = "raw"
-          self.rawValue = value
-          self.rawValueHex = String(format: "0x%08X", value)
-          self.keyIndex = nil
-          self.display = self.rawValueHex
-        }
-      }
-
-      private enum CodingKeys: String, CodingKey {
-        case kind
-        case display
-        case rawValue = "raw_value"
-        case rawValueHex = "raw_value_hex"
-        case keyIndex = "key_index"
-      }
-    }
-
-    struct Value: Encodable {
-      let kind: String
-      let stringValue: String?
-      let integerValue: Int64?
-      let unsignedValue: UInt64?
-      let booleanValue: Bool?
-      let float32Value: Double?
-      let float64Value: Double?
-      let byteLength: Int?
-      let rawType: UInt32
-      let rawTypeHex: String
-      let dataFormat: String?
-      let locale: UInt32?
-      let fixedPointValue: Double?
-      let fixedPointRaw: Int32?
-      let fixedPointFormat: String?
-
-      init(value: ParsedBoxPayload.MetadataItemListBox.Entry.Value) {
-        self.rawType = value.rawType
-        self.rawTypeHex = String(format: "0x%06X", value.rawType)
-        self.locale = value.locale == 0 ? nil : value.locale
-
-        var stringValue: String?
-        var integerValue: Int64?
-        var unsignedValue: UInt64?
-        var booleanValue: Bool?
-        var float32Value: Double?
-        var float64Value: Double?
-        var byteLength: Int?
-        var dataFormat: String?
-        var fixedPointValue: Double?
-        var fixedPointRaw: Int32?
-        var fixedPointFormat: String?
-
-        switch value.kind {
-        case .utf8(let string):
-          self.kind = "utf8"
-          stringValue = string
-        case .utf16(let string):
-          self.kind = "utf16"
-          stringValue = string
-        case .integer(let number):
-          self.kind = "integer"
-          integerValue = number
-        case .unsignedInteger(let number):
-          self.kind = "unsigned_integer"
-          unsignedValue = number
-        case .boolean(let flag):
-          self.kind = "boolean"
-          booleanValue = flag
-        case .float32(let number):
-          self.kind = "float32"
-          float32Value = Double(number)
-        case .float64(let number):
-          self.kind = "float64"
-          float64Value = number
-        case .data(let format, let data):
-          self.kind = "data"
-          dataFormat = format.rawValue
-          byteLength = data.count
-        case .bytes(let data):
-          self.kind = "bytes"
-          byteLength = data.count
-        case .signedFixedPoint(let point):
-          self.kind = "signed_fixed_point"
-          fixedPointValue = point.value
-          fixedPointRaw = point.rawValue
-          fixedPointFormat = point.format.rawValue
-        }
-
-        self.stringValue = stringValue
-        self.integerValue = integerValue
-        self.unsignedValue = unsignedValue
-        self.booleanValue = booleanValue
-        self.float32Value = float32Value
-        self.float64Value = float64Value
-        self.byteLength = byteLength
-        self.dataFormat = dataFormat
-        self.fixedPointValue = fixedPointValue
-        self.fixedPointRaw = fixedPointRaw
-        self.fixedPointFormat = fixedPointFormat
-      }
-
-      private enum CodingKeys: String, CodingKey {
-        case kind
-        case stringValue = "string_value"
-        case integerValue = "integer_value"
-        case unsignedValue = "unsigned_value"
-        case booleanValue = "boolean_value"
-        case float32Value = "float32_value"
-        case float64Value = "float64_value"
-        case byteLength = "byte_length"
-        case rawType = "raw_type"
-        case rawTypeHex = "raw_type_hex"
-        case dataFormat = "data_format"
-        case locale
-        case fixedPointValue = "fixed_point_value"
-        case fixedPointRaw = "fixed_point_raw"
-        case fixedPointFormat = "fixed_point_format"
-      }
-    }
-
-    let index: Int
-    let identifier: Identifier
-    let namespace: String?
-    let name: String?
-    let values: [Value]
-
-    init(entry: ParsedBoxPayload.MetadataItemListBox.Entry, index: Int) {
-      self.index = index
-      self.identifier = Identifier(identifier: entry.identifier)
-      self.namespace = entry.namespace
-      self.name = entry.name
-      self.values = entry.values.map(Value.init)
-    }
-
-    private enum CodingKeys: String, CodingKey {
-      case index
-      case identifier
-      case namespace
-      case name
-      case values
-    }
-  }
-
   let handlerType: String?
   let entryCount: Int
-  let entries: [Entry]
+  let entries: [MetadataItemEntry]
 
   init(box: ParsedBoxPayload.MetadataItemListBox) {
     self.handlerType = box.handlerType?.rawValue
     self.entries = box.entries.enumerated().map {
-      Entry(entry: $0.element, index: $0.offset + 1)
+      MetadataItemEntry(entry: $0.element, index: $0.offset + 1)
     }
     self.entryCount = entries.count
   }
@@ -1012,6 +932,205 @@ private struct MetadataItemListDetail: Encodable {
     case handlerType = "handler_type"
     case entryCount = "entry_count"
     case entries
+  }
+}
+
+private struct MetadataItemEntry: Encodable {
+  let index: Int
+  let identifier: MetadataItemIdentifier
+  let namespace: String?
+  let name: String?
+  let values: [MetadataItemValue]
+
+  init(entry: ParsedBoxPayload.MetadataItemListBox.Entry, index: Int) {
+    self.index = index
+    self.identifier = MetadataItemIdentifier(identifier: entry.identifier)
+    self.namespace = entry.namespace
+    self.name = entry.name
+    self.values = entry.values.map(MetadataItemValue.init)
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case index
+    case identifier
+    case namespace
+    case name
+    case values
+  }
+}
+
+private struct MetadataItemIdentifier: Encodable {
+  let kind: String
+  let display: String
+  let rawValue: UInt32
+  let rawValueHex: String
+  let keyIndex: UInt32?
+
+  init(identifier: ParsedBoxPayload.MetadataItemListBox.Entry.Identifier) {
+    switch identifier {
+    case .fourCC(let raw, let display):
+      self.kind = "fourcc"
+      self.rawValue = raw
+      self.rawValueHex = String(format: "0x%08X", raw)
+      self.keyIndex = nil
+      if display.isEmpty {
+        self.display = self.rawValueHex
+      } else {
+        self.display = display
+      }
+    case .keyIndex(let index):
+      self.kind = "key_index"
+      self.rawValue = index
+      self.rawValueHex = String(format: "0x%08X", index)
+      self.keyIndex = index
+      self.display = "key[\(index)]"
+    case .raw(let value):
+      self.kind = "raw"
+      self.rawValue = value
+      self.rawValueHex = String(format: "0x%08X", value)
+      self.keyIndex = nil
+      self.display = self.rawValueHex
+    }
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case kind
+    case display
+    case rawValue = "raw_value"
+    case rawValueHex = "raw_value_hex"
+    case keyIndex = "key_index"
+  }
+}
+
+private struct MetadataItemValue: Encodable {
+  let kind: String
+  let stringValue: String?
+  let integerValue: Int64?
+  let unsignedValue: UInt64?
+  let booleanValue: Bool?
+  let float32Value: Double?
+  let float64Value: Double?
+  let byteLength: Int?
+  let rawType: UInt32
+  let rawTypeHex: String
+  let dataFormat: String?
+  let locale: UInt32?
+  let fixedPointValue: Double?
+  let fixedPointRaw: Int32?
+  let fixedPointFormat: String?
+
+  init(value: ParsedBoxPayload.MetadataItemListBox.Entry.Value) {
+    self.rawType = value.rawType
+    self.rawTypeHex = String(format: "0x%06X", value.rawType)
+    self.locale = value.locale == 0 ? nil : value.locale
+
+    let mapped = MetadataItemValue.map(kind: value.kind)
+    self.kind = mapped.kind
+    self.stringValue = mapped.stringValue
+    self.integerValue = mapped.integerValue
+    self.unsignedValue = mapped.unsignedValue
+    self.booleanValue = mapped.booleanValue
+    self.float32Value = mapped.float32Value
+    self.float64Value = mapped.float64Value
+    self.byteLength = mapped.byteLength
+    self.dataFormat = mapped.dataFormat
+    self.fixedPointValue = mapped.fixedPointValue
+    self.fixedPointRaw = mapped.fixedPointRaw
+    self.fixedPointFormat = mapped.fixedPointFormat
+  }
+
+  private static func map(kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind) -> MappedValue {
+    if let mapped = mapText(kind) { return mapped }
+    if let mapped = mapInteger(kind) { return mapped }
+    if let mapped = mapFloatingPoint(kind) { return mapped }
+    if let mapped = mapBinary(kind) { return mapped }
+    return MappedValue(kind: "unknown")
+  }
+
+  private static func mapText(_ kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind) -> MappedValue? {
+    switch kind {
+    case .utf8(let string):
+      return MappedValue(kind: "utf8", stringValue: string)
+    case .utf16(let string):
+      return MappedValue(kind: "utf16", stringValue: string)
+    default:
+      return nil
+    }
+  }
+
+  private static func mapInteger(_ kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind) -> MappedValue? {
+    switch kind {
+    case .integer(let number):
+      return MappedValue(kind: "integer", integerValue: number)
+    case .unsignedInteger(let number):
+      return MappedValue(kind: "unsigned_integer", unsignedValue: number)
+    case .boolean(let flag):
+      return MappedValue(kind: "boolean", booleanValue: flag)
+    default:
+      return nil
+    }
+  }
+
+  private static func mapFloatingPoint(_ kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind) -> MappedValue? {
+    switch kind {
+    case .float32(let number):
+      return MappedValue(kind: "float32", float32Value: Double(number))
+    case .float64(let number):
+      return MappedValue(kind: "float64", float64Value: number)
+    default:
+      return nil
+    }
+  }
+
+  private static func mapBinary(_ kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind) -> MappedValue? {
+    switch kind {
+    case .data(let format, let data):
+      return MappedValue(kind: "data", byteLength: data.count, dataFormat: format.rawValue)
+    case .bytes(let data):
+      return MappedValue(kind: "bytes", byteLength: data.count)
+    case .signedFixedPoint(let point):
+      return MappedValue(
+        kind: "signed_fixed_point",
+        fixedPointValue: point.value,
+        fixedPointRaw: point.rawValue,
+        fixedPointFormat: point.format.rawValue
+      )
+    default:
+      return nil
+    }
+  }
+
+  private struct MappedValue {
+    let kind: String
+    let stringValue: String?
+    let integerValue: Int64?
+    let unsignedValue: UInt64?
+    let booleanValue: Bool?
+    let float32Value: Double?
+    let float64Value: Double?
+    let byteLength: Int?
+    let dataFormat: String?
+    let fixedPointValue: Double?
+    let fixedPointRaw: Int32?
+    let fixedPointFormat: String?
+  }
+
+  private enum CodingKeys: String, CodingKey {
+    case kind
+    case stringValue = "string_value"
+    case integerValue = "integer_value"
+    case unsignedValue = "unsigned_value"
+    case booleanValue = "boolean_value"
+    case float32Value = "float32_value"
+    case float64Value = "float64_value"
+    case byteLength = "byte_length"
+    case rawType = "raw_type"
+    case rawTypeHex = "raw_type_hex"
+    case dataFormat = "data_format"
+    case locale
+    case fixedPointValue = "fixed_point_value"
+    case fixedPointRaw = "fixed_point_raw"
+    case fixedPointFormat = "fixed_point_format"
   }
 }
 
@@ -2129,5 +2248,3 @@ private struct MovieFragmentHeaderDetail: Encodable {
     case sequenceNumber = "sequence_number"
   }
 }
-
-// swiftlint:enable type_body_length

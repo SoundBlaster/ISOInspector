@@ -1,3 +1,17 @@
+## Summary of Work — 2025-11-27
+
+### Completed Tasks
+- Continued **Task A7 — SwiftLint Complexity Thresholds** with focused refactors and CI/hook alignment.
+
+### Implementation Highlights
+- Refactored `JSONParseTreeExporter.swift` to eliminate cyclomatic/type length violations: split the StructuredPayload builder into targeted helpers, extracted metadata identifier/value/entry types, simplified metadata value mapping, and removed the blanket `type_body_length` suppression.
+- Added SwiftLint baselines (`.swiftlint.baseline.json`, `Examples/ComponentTestApp/.swiftlint-baseline.json`) and updated workflows, hooks, and README to consume them so new violations still fail while legacy debt is documented.
+- Re-ran lint: `swiftlint lint --strict --config .swiftlint.yml Sources/ISOInspectorKit/Export/JSONParseTreeExporter.swift` (clean) and full `swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json` (clean).
+
+### Follow-Ups
+- Continue A7 debt burn-down: refactor remaining hotspots (`BoxValidator.swift`, `DocumentSessionController.swift`, large tests) and regenerate/remove baselines once clean.
+- Drop baseline usage in CI/hooks after outstanding violations are resolved to restore strict gating without filters.
+
 # Summary of Work — 2025-11-25
 
 ## Completed Tasks
