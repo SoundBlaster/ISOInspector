@@ -17,7 +17,11 @@
     // Recommendation: Move to UI test suite or simplify to pure state testing.
     func skip_testBannerAppearsForLoadFailureAndClearsAfterRetry() throws {
       let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
-      var shouldFail = true
+      final class MutableFlag: @unchecked Sendable {
+        var value: Bool
+        init(_ value: Bool) { self.value = value }
+      }
+      let shouldFail = MutableFlag(true)
       let filesystemAccessStub = FilesystemAccessStub()
       let controller = DocumentSessionController(
         parseTreeStore: ParseTreeStore(),
@@ -26,8 +30,8 @@
         sessionStore: nil,
         pipelineFactory: { ParsePipeline(buildStream: { _, _ in .finishedStream }) },
         readerFactory: { _ in
-          if shouldFail {
-            shouldFail = false
+          if shouldFail.value {
+            shouldFail.value = false
             struct SampleError: LocalizedError {
               var errorDescription: String? { "Simulated failure" }
             }

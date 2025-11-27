@@ -5,6 +5,11 @@
   @testable import ISOInspectorKit
   import UniformTypeIdentifiers
 
+  final class SendableBox<T>: @unchecked Sendable {
+    var value: T
+    init(_ value: T) { self.value = value }
+  }
+
   @MainActor
   final class DocumentSessionControllerTests: XCTestCase {
     func testInitializerLoadsRecentsFromStore() throws {
@@ -266,13 +271,13 @@
 
         var errorDescription: String? { "Simulated failure" }
       }
-      var shouldFail = true
+      let shouldFail = SendableBox(true)
       let filesystemStub = FilesystemAccessStub()
       let controller = makeController(
         store: store,
         readerFactory: { _ in
-          if shouldFail {
-            shouldFail = false
+          if shouldFail.value {
+            shouldFail.value = false
             throw SampleError.failed
           }
           return StubRandomAccessReader()
@@ -307,11 +312,11 @@
       )
       let recentsStore = DocumentRecentsStoreStub(initialRecents: [recent])
       let filesystemStub = FilesystemAccessStub()
-      var resolvedReaderURL: URL?
+      let resolvedReaderURL = SendableBox<URL?>(nil)
       let controller = makeController(
         store: recentsStore,
         readerFactory: { url in
-          resolvedReaderURL = url
+          resolvedReaderURL.value = url
           return StubRandomAccessReader()
         },
         workQueue: ImmediateWorkQueue(),
@@ -320,7 +325,7 @@
 
       controller.openRecent(recent)
 
-      XCTAssertEqual(resolvedReaderURL?.standardizedFileURL, recentURL.standardizedFileURL)
+      XCTAssertEqual(resolvedReaderURL.value?.standardizedFileURL, recentURL.standardizedFileURL)
       XCTAssertEqual(filesystemStub.manager.startedURLs, [recentURL.standardizedFileURL])
       XCTAssertTrue(filesystemStub.manager.stoppedURLs.isEmpty)
     }
@@ -410,12 +415,12 @@
 
     func testRetryingFailureClearsBannerAfterSuccessfulOpen() throws {
       let store = DocumentRecentsStoreStub(initialRecents: [])
-      var shouldFail = true
+      let shouldFail = SendableBox(true)
       let controller = makeController(
         store: store,
         readerFactory: { _ in
-          if shouldFail {
-            shouldFail = false
+          if shouldFail.value {
+            shouldFail.value = false
             struct SampleError: LocalizedError {
               var errorDescription: String? { "Simulated failure" }
             }
@@ -919,7 +924,7 @@
       sessionStore: WorkspaceSessionStoring? = nil,
       annotationsStore: AnnotationBookmarkStoring? = nil,
       pipeline: ParsePipeline? = nil,
-      readerFactory: ((URL) throws -> RandomAccessReader)? = nil,
+      readerFactory: (@Sendable (URL) throws -> RandomAccessReader)? = nil,
       workQueue: DocumentSessionWorkQueue = ImmediateWorkQueue(),
       diagnostics: DiagnosticsLogging? = nil,
       bookmarkStore: BookmarkPersistenceManaging? = nil,
@@ -940,7 +945,7 @@
         recentsStore: store,
         sessionStore: sessionStore,
         pipelineFactory: { resolvedPipeline },
-        readerFactory: readerFactory ?? { _ in StubRandomAccessReader() },
+        readerFactory: readerFactory ?? { @Sendable _ in StubRandomAccessReader() },
         workQueue: workQueue,
         diagnostics: resolvedDiagnostics,
         bookmarkStore: bookmarkStore,

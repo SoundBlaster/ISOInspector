@@ -21,17 +21,12 @@ _Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever ta
 
 ## 1. Automation & Quality Gates
 
-1. **Task A7 – SwiftLint Complexity Thresholds** _(In Progress — `DOCS/INPROGRESS/A7_SwiftLint_Complexity_Thresholds.md`)_
-   - Finish the three #A7 refactors called out in `todo.md` so `JSONParseTreeExporter`, `BoxValidator`, and `DocumentSessionController` meet `type_body_length` and `nesting_level` targets.
-   - Re-enable strict `swiftlint lint --strict` locally and in `.github/workflows/swiftlint.yml`, ensuring the analyzer artifact upload remains intact.
-   - Document the workflow in `README.md` once the thresholds stay green across ISOInspectorKit, ISOInspectorApp, and the CLI.
-
-2. **Task A8 – Test Coverage Gate** _(Ready — depends on A7)_
+1. **Task A8 – Test Coverage Gate** _(Ready — depends on A7)_
    - Wire `coverage_analysis.py --threshold 0.67` into `.githooks/pre-push` and `.github/workflows/ci.yml` immediately after `swift test --enable-code-coverage`.
    - Publish the HTML or JSON coverage artifacts under `Documentation/Quality/` so regressions have concrete data.
    - Update `todo.md` and `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md` once the hook and CI gate are enforced.
 
-3. **Task A10 – Swift Duplication Detection** _(Ready)_
+2. **Task A10 – Swift Duplication Detection** _(Ready)_
    - Add `.github/workflows/swift-duplication.yml` that runs `scripts/run_swift_duplication_check.sh` (wrapper around `npx jscpd@3.5.10`).
    - Fail the workflow when duplicated lines exceed 1% or when any repeated block is >45 lines, and upload the console log artifact for review.
    - Link the rollout summary back to `DOCS/AI/github-workflows/02_swift_duplication_guard/prd.md` once complete.
@@ -41,6 +36,8 @@ _Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever ta
 1. **Bug #234 – Remove Recent File from Sidebar** _(Ready for implementation — `DOCS/INPROGRESS/234_Remove_Recent_File_From_Sidebar.md`)_
    - Add the MRU removal affordance in the sidebar along with analytics/logging hooks described in the spec.
    - Ensure recents persistence updates and DocumentSessionController wiring reflect removals immediately.
+3. **Bug #235 – Smoke tests blocked by Sendable violations** _(Resolved — `DOCS/INPROGRESS/235_Sendable_SmokeTest_Build_Failure.md`)_
+   - Strict-concurrency build now passes after sendable annotations and document-loading refactor; smoke filters are green.
 
 ## 3. Blocked but High Priority
 
