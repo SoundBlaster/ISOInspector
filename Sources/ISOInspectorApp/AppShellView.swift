@@ -4,6 +4,7 @@ import NestedA11yIDs
 import ISOInspectorKit
 import FoundationUI
 
+
 struct AppShellView: View {
     static let corruptionRibbonDismissedDefaultsKey = "corruption-warning-ribbon-dismissed"
 
