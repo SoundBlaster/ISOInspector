@@ -6,7 +6,47 @@
 
 ## Summary
 
-Validated all four local CI execution scripts by running them end-to-end. Found and fixed **3 critical bugs** that prevented the scripts from running. All scripts now execute successfully.
+Validated all four local CI execution scripts by running them end-to-end. Found and fixed **5 bugs** (4 critical, 1 medium) that prevented the scripts from running. All scripts now execute successfully.
+
+---
+
+## Update: Additional Bug Found During Full Run
+
+### Bug #5: Incompatible Tuist Version Auto-Detection (CRITICAL)
+
+**Date**: 2025-11-28 (discovered during full `run-all.sh` test)
+**Location**: `scripts/local-ci/lib/ci-env.sh:ensure_tuist()`
+**Symptom**: Tuist commands fail with "Couldn't find resource named ProjectDescription"
+**Root Cause**: The `fetch_tuist_version()` function fetches the latest Tuist release (4.109.1), which has breaking changes incompatible with the project. The project works with Tuist 4.104.7 (installed via Homebrew).
+
+**Error Output**:
+```
+✖ Error
+  Couldn't find resource named ProjectDescription
+```
+
+**Fix Applied**: Modified `ensure_tuist()` to prefer system-installed Tuist (via Homebrew/mise) over downloading the latest version. Added check for `command_exists tuist` and uses system version if available:
+
+```bash
+# Check if system Tuist is available (prefer system version for compatibility)
+if command_exists tuist && [[ -z "$tuist_version" ]]; then
+    local system_version
+    system_version=$(tuist version 2>/dev/null || echo "")
+    if [[ -n "$system_version" ]]; then
+        log_success "Using system Tuist $system_version (installed via Homebrew/mise)"
+        return 0
+    fi
+fi
+```
+
+**Result**:
+- System Tuist 4.104.7 now used automatically ✅
+- Tuist validation passes ✅
+- Workspace generation succeeds ✅
+- All Xcode builds pass ✅
+
+**Files Modified**:
+- `scripts/local-ci/lib/ci-env.sh:115-128`
 
 ---
 

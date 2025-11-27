@@ -112,6 +112,21 @@ ensure_tuist() {
     local tuist_version="${TUIST_VERSION:-}"
     local install_dir="$HOME/.local-ci/tuist"
 
+    # Check if system Tuist is available and working
+    if command_exists tuist && [[ -z "$tuist_version" ]]; then
+        local system_version
+        system_version=$(tuist version 2>/dev/null || echo "")
+        if [[ -n "$system_version" ]]; then
+            # Verify system Tuist works by testing a simple command
+            if tuist dump project >/dev/null 2>&1; then
+                log_success "Using system Tuist $system_version"
+                return 0
+            else
+                log_warning "System Tuist $system_version found but not working, will download compatible version"
+            fi
+        fi
+    fi
+
     # Auto-detect version if not specified
     if [[ -z "$tuist_version" ]]; then
         log_info "Auto-detecting Tuist version from GitHub..."
