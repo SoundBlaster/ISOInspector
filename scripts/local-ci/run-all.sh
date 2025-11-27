@@ -117,7 +117,7 @@ run_job() {
 
     log_section "Running: $name"
 
-    if "$script" "${args[@]}"; then
+    if "$script" ${args[@]+"${args[@]}"}; then
         log_success "$name completed"
         return 0
     else

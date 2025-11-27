@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 # Common utility functions for local CI scripts
 
+# Guard against multiple sourcing
+if [[ -n "${LOCAL_CI_COMMON_SOURCED:-}" ]]; then
+    return 0
+fi
+readonly LOCAL_CI_COMMON_SOURCED=1
+
 set -euo pipefail
 
 # Colors for output

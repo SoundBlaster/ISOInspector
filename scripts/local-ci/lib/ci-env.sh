@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 # CI environment validation and setup
 
+# Guard against multiple sourcing
+if [[ -n "${LOCAL_CI_ENV_SOURCED:-}" ]]; then
+    return 0
+fi
+readonly LOCAL_CI_ENV_SOURCED=1
+
 set -euo pipefail
 
 # Source common functions
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=common.sh
-source "$SCRIPT_DIR/common.sh"
+source "$_LIB_DIR/common.sh"
 
 # Validate macOS version
 validate_macos_version() {
@@ -31,8 +37,15 @@ validate_xcode() {
         error_exit "Xcode not found at $XCODE_PATH"
     fi
 
-    # Select Xcode
-    sudo xcode-select -s "$XCODE_PATH" || error_exit "Failed to select Xcode"
+    # Check if correct Xcode is already selected
+    local current_xcode_path
+    current_xcode_path=$(xcode-select -p 2>/dev/null || echo "")
+    local expected_path="$XCODE_PATH/Contents/Developer"
+
+    if [[ "$current_xcode_path" != "$expected_path" ]]; then
+        log_info "Selecting Xcode at $XCODE_PATH"
+        sudo xcode-select -s "$XCODE_PATH" || error_exit "Failed to select Xcode"
+    fi
 
     # Accept license if needed
     if ! /usr/bin/xcrun --find xcodebuild >/dev/null 2>&1; then
