@@ -1,0 +1,87 @@
+# Local CI Configuration Example
+# Copy this file to .local-ci-config and customize as needed
+
+# ============================================================================
+# Tool Paths
+# ============================================================================
+
+# Path to Xcode.app
+# Default: /Applications/Xcode.app
+#XCODE_PATH="/Applications/Xcode.app"
+
+# Tuist version to use (auto-detected from CI if empty)
+# Default: (auto-detect)
+#TUIST_VERSION="4.8.0"
+
+# ============================================================================
+# SwiftLint Configuration
+# ============================================================================
+
+# SwiftLint execution mode: native or docker
+# - native: Use locally installed SwiftLint (via Homebrew)
+# - docker: Use Docker container (exact CI parity)
+# Default: native
+#SWIFTLINT_MODE="native"
+
+# ============================================================================
+# Test Configuration
+# ============================================================================
+
+# Skip snapshot tests
+# Default: false
+#SKIP_SNAPSHOT_TESTS=false
+
+# Skip iOS simulator tests
+# Default: false
+#SKIP_IOS_TESTS=false
+
+# Code coverage threshold (0.0 to 1.0)
+# Default: 0.67 (67%)
+#COVERAGE_THRESHOLD=0.67
+
+# ============================================================================
+# Build Configuration
+# ============================================================================
+
+# Enable parallel builds
+# Default: true
+#PARALLEL_BUILDS=true
+
+# Maximum parallel jobs
+# Default: 4
+#MAX_JOBS=4
+
+# Derived data path for Xcode builds
+# Default: $HOME/Library/Developer/Xcode/DerivedData
+#DERIVED_DATA_PATH="$HOME/Library/Developer/Xcode/DerivedData"
+
+# Build cache directory
+# Default: $HOME/.local-ci/build-cache
+#BUILD_CACHE_DIR="$HOME/.local-ci/build-cache"
+
+# ============================================================================
+# Logging
+# ============================================================================
+
+# Enable verbose output by default
+# Default: false
+#VERBOSE=false
+
+# ============================================================================
+# Example Configurations
+# ============================================================================
+
+# Fast iteration (skip iOS, use native tools)
+#SWIFTLINT_MODE="native"
+#SKIP_IOS_TESTS=true
+#PARALLEL_BUILDS=true
+
+# CI parity (use Docker, all tests)
+#SWIFTLINT_MODE="docker"
+#SKIP_IOS_TESTS=false
+#SKIP_SNAPSHOT_TESTS=false
+
+# Development (skip slow tests)
+#SKIP_IOS_TESTS=true
+#SKIP_SNAPSHOT_TESTS=true
+#COVERAGE_THRESHOLD=0.50
