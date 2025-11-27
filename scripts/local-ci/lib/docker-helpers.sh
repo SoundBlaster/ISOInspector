@@ -1,12 +1,18 @@
 #!/usr/bin/env bash
 # Docker utility functions for local CI
 
+# Guard against multiple sourcing
+if [[ -n "${LOCAL_CI_DOCKER_SOURCED:-}" ]]; then
+    return 0
+fi
+readonly LOCAL_CI_DOCKER_SOURCED=1
+
 set -euo pipefail
 
 # Source common functions
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+_LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=common.sh
-source "$SCRIPT_DIR/common.sh"
+source "$_LIB_DIR/common.sh"
 
 # SwiftLint Docker image
 readonly SWIFTLINT_IMAGE="ghcr.io/realm/swiftlint:0.53.0"
