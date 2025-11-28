@@ -71,9 +71,15 @@ validate_swift() {
 
     if ! command_exists swift; then
         if is_linux; then
-            log_warning "Swift not found on Linux. SPM builds will be skipped."
-            log_info "Install Swift from https://swift.org/download/ or https://swiftlang.github.io/swiftly/"
-            return 1
+            log_error "Swift is required but not found on Linux"
+            log_error ""
+            log_error "Please install Swift following the instructions in:"
+            log_error "  DOCS/RULES/12_Swift_Installation_Linux.md"
+            log_error ""
+            log_error "Quick install:"
+            log_error "  curl -L https://swiftlang.github.io/swiftly/swiftly-install.sh | bash"
+            log_error "  swiftly install latest"
+            error_exit "Swift installation required"
         else
             error_exit "Swift not found. Install Xcode or Swift toolchain."
         fi
@@ -366,7 +372,7 @@ validate_ci_environment() {
 
     validate_macos_version
     validate_xcode 16 0
-    validate_swift 6.0 || true
+    validate_swift 6.0
     check_homebrew || true
     ensure_swiftlint || true
     validate_python || true

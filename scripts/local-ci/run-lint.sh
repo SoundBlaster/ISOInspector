@@ -128,27 +128,22 @@ fi
 if [[ "$SKIP_FORMAT" != "true" ]]; then
     log_section "Swift Format Check"
 
-    if ! command_exists swift; then
-        log_warning "Swift not found - skipping swift-format check"
-        log_info "Install Swift to enable format checks"
-    else
-        if [[ "$AUTO_FIX" == "true" ]]; then
-            log_info "Auto-fixing Swift formatting..."
-            if timed_run "Swift format (fix)" swift format --in-place --recursive Sources Tests; then
-                log_success "Swift formatting applied"
-            else
-                log_error "Swift format failed"
-                ((FAILURES++))
-            fi
+    if [[ "$AUTO_FIX" == "true" ]]; then
+        log_info "Auto-fixing Swift formatting..."
+        if timed_run "Swift format (fix)" swift format --in-place --recursive Sources Tests; then
+            log_success "Swift formatting applied"
         else
-            log_info "Checking Swift code formatting (lint mode)..."
-            if timed_run "Swift format (lint)" swift format lint --recursive Sources Tests; then
-                log_success "All Swift files are correctly formatted"
-            else
-                log_error "Swift code is not formatted correctly"
-                log_info "Run locally to fix: swift format --in-place --recursive Sources Tests"
-                ((FAILURES++))
-            fi
+            log_error "Swift format failed"
+            ((FAILURES++))
+        fi
+    else
+        log_info "Checking Swift code formatting (lint mode)..."
+        if timed_run "Swift format (lint)" swift format lint --recursive Sources Tests; then
+            log_success "All Swift files are correctly formatted"
+        else
+            log_error "Swift code is not formatted correctly"
+            log_info "Run locally to fix: swift format --in-place --recursive Sources Tests"
+            ((FAILURES++))
         fi
     fi
 fi
