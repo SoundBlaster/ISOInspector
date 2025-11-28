@@ -16,6 +16,11 @@ source "$_LIB_DIR/common.sh"
 
 # Validate macOS version
 validate_macos_version() {
+    if is_linux; then
+        log_info "Running on Linux - skipping macOS version check"
+        return 0
+    fi
+
     local os_version
     os_version=$(sw_vers -productVersion)
     local major_version
@@ -32,6 +37,11 @@ validate_macos_version() {
 validate_xcode() {
     local required_major="${1:-16}"
     local required_minor="${2:-0}"
+
+    if is_linux; then
+        log_info "Running on Linux - skipping Xcode validation"
+        return 0
+    fi
 
     if [[ ! -d "$XCODE_PATH" ]]; then
         error_exit "Xcode not found at $XCODE_PATH"
@@ -60,7 +70,13 @@ validate_swift() {
     local required_version="${1:-6.0}"
 
     if ! command_exists swift; then
-        error_exit "Swift not found. Install Xcode or Swift toolchain."
+        if is_linux; then
+            log_warning "Swift not found on Linux. SPM builds will be skipped."
+            log_info "Install Swift from https://swift.org/download/ or https://swiftlang.github.io/swiftly/"
+            return 1
+        else
+            error_exit "Swift not found. Install Xcode or Swift toolchain."
+        fi
     fi
 
     local swift_version
@@ -69,6 +85,7 @@ validate_swift() {
 
     # Note: Version comparison would need more sophisticated parsing
     # For now, just report the version
+    return 0
 }
 
 # Check Homebrew
@@ -89,9 +106,68 @@ ensure_swiftlint() {
 
     if [[ "$mode" == "docker" ]]; then
         log_info "SwiftLint mode: Docker (no local installation needed)"
+        if check_docker; then
+            log_success "Docker is available and running"
+        else
+            log_warning "Docker not running. Ensure Docker Desktop is started."
+        fi
         return 0
     fi
 
+    # On Linux, prefer Docker or build from source
+    if is_linux; then
+        if ! command_exists swiftlint; then
+            log_warning "SwiftLint not found on Linux"
+
+            # Try Docker first
+            if check_docker; then
+                log_info "Docker is available. Switching to Docker mode for SwiftLint"
+                export SWIFTLINT_MODE="docker"
+                return 0
+            fi
+
+            # Try building from source if Swift is available
+            if command_exists swift; then
+                log_info "Attempting to build SwiftLint from source..."
+                local install_dir="$HOME/.local-ci/swiftlint"
+
+                if [[ -x "$install_dir/swiftlint" ]]; then
+                    log_success "Using cached SwiftLint from $install_dir"
+                    export PATH="$install_dir:$PATH"
+                    return 0
+                fi
+
+                log_info "This may take several minutes..."
+                local temp_dir
+                temp_dir=$(create_temp_dir)
+
+                if git clone --depth 1 --branch 0.53.0 https://github.com/realm/SwiftLint.git "$temp_dir/SwiftLint" 2>/dev/null &&
+                   cd "$temp_dir/SwiftLint" &&
+                   swift build -c release 2>/dev/null; then
+                    mkdir -p "$install_dir"
+                    cp "$temp_dir/SwiftLint/.build/release/swiftlint" "$install_dir/"
+                    export PATH="$install_dir:$PATH"
+                    rm -rf "$temp_dir"
+                    log_success "SwiftLint built and installed to $install_dir"
+                    return 0
+                else
+                    rm -rf "$temp_dir"
+                    log_warning "Failed to build SwiftLint from source"
+                fi
+            fi
+
+            log_warning "SwiftLint not available. Use Docker mode: SWIFTLINT_MODE=docker"
+            log_info "Or install Swift and try building from source"
+            return 1
+        fi
+
+        local swiftlint_version
+        swiftlint_version=$(swiftlint version)
+        log_success "SwiftLint version: $swiftlint_version"
+        return 0
+    fi
+
+    # macOS path
     if ! command_exists swiftlint; then
         log_warning "SwiftLint not found"
         if check_homebrew; then
@@ -109,6 +185,11 @@ ensure_swiftlint() {
 
 # Ensure Tuist is installed
 ensure_tuist() {
+    if is_linux; then
+        log_info "Running on Linux - Tuist is macOS-only, skipping"
+        return 0
+    fi
+
     local tuist_version="${TUIST_VERSION:-}"
     local install_dir="$HOME/.local-ci/tuist"
 
@@ -217,6 +298,11 @@ validate_python() {
 # Detect best available iOS simulator for testing
 # Returns destination specifier string with ID
 detect_ios_simulator() {
+    if is_linux; then
+        log_warning "iOS Simulator not available on Linux"
+        return 1
+    fi
+
     local device_name="${1:-iPhone 16}"
     local workspace="${2:-}"
     local scheme="${3:-}"
@@ -274,11 +360,15 @@ detect_ios_simulator() {
 validate_ci_environment() {
     log_section "Validating CI Environment"
 
+    local current_os
+    current_os=$(detect_os)
+    log_info "Detected OS: $current_os"
+
     validate_macos_version
     validate_xcode 16 0
-    validate_swift 6.0
+    validate_swift 6.0 || true
     check_homebrew || true
-    ensure_swiftlint
+    ensure_swiftlint || true
     validate_python || true
 
     log_success "CI environment validation complete"
@@ -291,8 +381,10 @@ setup_ci_environment() {
     load_config
     validate_ci_environment
 
-    # Set up derived data path for consistent builds
-    export DERIVED_DATA_PATH="${DERIVED_DATA_PATH:-$HOME/Library/Developer/Xcode/DerivedData}"
+    # Set up derived data path for consistent builds (macOS only)
+    if is_macos; then
+        export DERIVED_DATA_PATH="${DERIVED_DATA_PATH:-$HOME/Library/Developer/Xcode/DerivedData}"
+    fi
 
     # Set up build cache
     export BUILD_CACHE_DIR="${BUILD_CACHE_DIR:-$HOME/.local-ci/build-cache}"

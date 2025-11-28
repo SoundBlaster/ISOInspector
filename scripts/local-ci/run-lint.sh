@@ -128,22 +128,27 @@ fi
 if [[ "$SKIP_FORMAT" != "true" ]]; then
     log_section "Swift Format Check"
 
-    if [[ "$AUTO_FIX" == "true" ]]; then
-        log_info "Auto-fixing Swift formatting..."
-        if timed_run "Swift format (fix)" swift format --in-place --recursive Sources Tests; then
-            log_success "Swift formatting applied"
-        else
-            log_error "Swift format failed"
-            ((FAILURES++))
-        fi
+    if ! command_exists swift; then
+        log_warning "Swift not found - skipping swift-format check"
+        log_info "Install Swift to enable format checks"
     else
-        log_info "Checking Swift code formatting (lint mode)..."
-        if timed_run "Swift format (lint)" swift format lint --recursive Sources Tests; then
-            log_success "All Swift files are correctly formatted"
+        if [[ "$AUTO_FIX" == "true" ]]; then
+            log_info "Auto-fixing Swift formatting..."
+            if timed_run "Swift format (fix)" swift format --in-place --recursive Sources Tests; then
+                log_success "Swift formatting applied"
+            else
+                log_error "Swift format failed"
+                ((FAILURES++))
+            fi
         else
-            log_error "Swift code is not formatted correctly"
-            log_info "Run locally to fix: swift format --in-place --recursive Sources Tests"
-            ((FAILURES++))
+            log_info "Checking Swift code formatting (lint mode)..."
+            if timed_run "Swift format (lint)" swift format lint --recursive Sources Tests; then
+                log_success "All Swift files are correctly formatted"
+            else
+                log_error "Swift code is not formatted correctly"
+                log_info "Run locally to fix: swift format --in-place --recursive Sources Tests"
+                ((FAILURES++))
+            fi
         fi
     fi
 fi
@@ -154,34 +159,50 @@ fi
 if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
     log_section "SwiftLint ($SWIFTLINT_MODE mode)"
 
-    # Function to run SwiftLint on a specific config
-    run_swiftlint_check() {
-        local name="$1"
-        local work_dir="$2"
-        local config="$3"
-
-        log_info "Running SwiftLint on $name..."
-
-        if [[ "$SWIFTLINT_MODE" == "docker" ]]; then
-            if [[ "$AUTO_FIX" == "true" ]]; then
-                run_swiftlint_autocorrect_docker "$work_dir" "$config"
-            fi
-            run_swiftlint_docker "$work_dir" "$config" --strict
+    # Check if SwiftLint is available
+    SWIFTLINT_AVAILABLE=false
+    if [[ "$SWIFTLINT_MODE" == "docker" ]]; then
+        if check_docker; then
+            SWIFTLINT_AVAILABLE=true
         else
-            # Native mode
-            pushd "$work_dir" >/dev/null
-
-            if [[ "$AUTO_FIX" == "true" ]]; then
-                swiftlint --fix --config "$config" || true
-            fi
-
-            swiftlint lint --strict --config "$config"
-            local result=$?
-
-            popd >/dev/null
-            return $result
+            log_warning "Docker not available - skipping SwiftLint"
         fi
-    }
+    elif command_exists swiftlint; then
+        SWIFTLINT_AVAILABLE=true
+    else
+        log_warning "SwiftLint not available - skipping SwiftLint checks"
+        log_info "Install SwiftLint or use Docker mode: SWIFTLINT_MODE=docker"
+    fi
+
+    if [[ "$SWIFTLINT_AVAILABLE" == "true" ]]; then
+        # Function to run SwiftLint on a specific config
+        run_swiftlint_check() {
+            local name="$1"
+            local work_dir="$2"
+            local config="$3"
+
+            log_info "Running SwiftLint on $name..."
+
+            if [[ "$SWIFTLINT_MODE" == "docker" ]]; then
+                if [[ "$AUTO_FIX" == "true" ]]; then
+                    run_swiftlint_autocorrect_docker "$work_dir" "$config"
+                fi
+                run_swiftlint_docker "$work_dir" "$config" --strict
+            else
+                # Native mode
+                pushd "$work_dir" >/dev/null
+
+                if [[ "$AUTO_FIX" == "true" ]]; then
+                    swiftlint --fix --config "$config" || true
+                fi
+
+                swiftlint lint --strict --config "$config"
+                local result=$?
+
+                popd >/dev/null
+                return $result
+            fi
+        }
 
     # Main Project
     if timed_run "SwiftLint (Main Project)" run_swiftlint_check "Main Project" "$REPO_ROOT" ".swiftlint.yml"; then
@@ -209,6 +230,7 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
             log_error "ComponentTestApp SwiftLint failed"
             ((FAILURES++))
         fi
+    fi
     fi
 fi
 
