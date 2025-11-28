@@ -158,7 +158,7 @@
       )
       return ExportStatus(
         title: "Export Complete",
-        message: operation.successMessagePrefix + "\(destination.lastPathComponent)".",
+        message: operation.successMessagePrefix + "\(destination.lastPathComponent).",
         destinationURL: destination,
         isSuccess: true
       )
@@ -475,9 +475,9 @@
     var successMessagePrefix: String {
       switch self {
       case .json:
-        return "Saved JSON to ""
+        return "Saved JSON to "
       case .issueSummary:
-        return "Saved issue summary to ""
+        return "Saved issue summary to "
       }
     }
 
@@ -548,7 +548,7 @@
           "ISO Inspector couldn't access the chosen destination. \(underlying.localizedDescription)"
       case .writeFailed(let url, let underlying):
         return
-          "ISO Inspector couldn't write to "\(url.lastPathComponent)". \(underlying.localizedDescription)"
+          "ISO Inspector couldn't write to \"\(url.lastPathComponent)\". \(underlying.localizedDescription)"
       }
     }
 

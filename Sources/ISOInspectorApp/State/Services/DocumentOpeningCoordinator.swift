@@ -226,7 +226,7 @@
       let defaultSuggestion =
         "Verify that the file exists and you have permission to read it, then try again."
 
-      var message = "ISO Inspector couldn't open "\(displayName)"."
+      var message = "ISO Inspector couldn't open \"\(displayName)\"."
       var suggestion = defaultSuggestion
       var details: String?
 
@@ -304,7 +304,7 @@
     }
 
     var title: String {
-      "Unable to open "\(fileDisplayName)""
+      "Unable to open \"\(fileDisplayName)\""
     }
   }
 
