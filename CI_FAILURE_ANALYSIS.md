@@ -7,7 +7,7 @@
 - ✅ **Build and Test (Ubuntu): FIXED** ✅
 - ✅ Strict Concurrency Compliance: success
 - ✅ **Compilation Errors: FIXED** ✅ (all syntax errors resolved)
-- ❌ **Swift Format Check: PENDING** (may pass after fixes)
+- ✅ **SwiftLint Baseline Support: FIXED** ✅ (Docker image updated to 0.57.0)
 
 ## Issues and Fixes
 
@@ -78,19 +78,23 @@ swift build
 # Build complete! (35.86s) ✅
 ```
 
-### 4. ❌ REMAINING: Swift Format Check Failure
+### 4. ✅ FIXED: SwiftLint Baseline Support Error
 
-The newly created ValidationRules and Services files may not match the project's swift-format configuration.
+**Root Cause:**
+The Linux CI workflow (`swift-linux.yml`) was using SwiftLint Docker image version 0.53.0, which doesn't support the `--baseline` flag. The baseline feature was added in SwiftLint 0.54.0.
 
-**Files to check:**
-- `Sources/ISOInspectorKit/Validation/ValidationRules/*.swift` (13 files)
-- `Sources/ISOInspectorApp/State/Services/*.swift` (7 files)
-
-**Fix:**
-```bash
-swift format --in-place --recursive Sources/ISOInspectorKit/Validation/ValidationRules
-swift format --in-place --recursive Sources/ISOInspectorApp/State/Services
+Errors:
 ```
+Error: Unknown option '--baseline'
+Usage: swiftlint lint [<options>] [<paths> ...]
+```
+
+**Fix Applied:**
+Updated SwiftLint Docker image from `ghcr.io/realm/swiftlint:0.53.0` to `ghcr.io/realm/swiftlint:0.57.0` in both SwiftLint steps (autocorrect check and verify).
+
+**Commit:** b7561a5 - "Update SwiftLint Docker image to 0.57.0 for baseline support"
+
+**Note:** SwiftLint 0.57.0 is compatible with the baseline files added in recent commits (.swiftlint.baseline.json).
 
 ## Next Steps
 
