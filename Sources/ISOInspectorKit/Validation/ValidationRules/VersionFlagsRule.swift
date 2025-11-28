@@ -85,15 +85,3 @@ struct VersionFlagsRule: BoxValidationRule {
     }
   }
 }
-
-extension Range where Bound == Int64 {
-  fileprivate var count: Int { Int(upperBound - lowerBound) }
-}
-
-extension UInt32 {
-  fileprivate func paddedHex(length: Int) -> String {
-    let value = String(self, radix: 16, uppercase: true)
-    guard value.count < length else { return value }
-    return String(repeating: "0", count: length - value.count) + value
-  }
-}
