@@ -1,3 +1,47 @@
+## Summary of Work — 2025-11-28
+
+### Completed Tasks
+- ✅ **Task A7 — SwiftLint Complexity Thresholds** — FINAL refactorings complete
+
+### Implementation Highlights
+- **BoxValidator.swift refactored** (1748 → 66 lines):
+  - Extracted 12 validation rules into separate files in `Sources/ISOInspectorKit/Validation/ValidationRules/`:
+    - BoxValidationRule.swift (protocol + shared utilities)
+    - StructuralSizeRule.swift
+    - ContainerBoundaryRule.swift
+    - VersionFlagsRule.swift
+    - EditListValidationRule.swift
+    - SampleTableCorrelationRule.swift
+    - CodecConfigurationValidationRule.swift
+    - FragmentSequenceRule.swift
+    - FragmentRunValidationRule.swift
+    - UnknownBoxRule.swift
+    - TopLevelOrderingAdvisoryRule.swift
+    - FileTypeOrderingRule.swift
+    - MovieDataOrderingRule.swift
+  - Main BoxValidator.swift now contains only the coordinator struct and default rules list
+  - Removed `swiftlint:disable type_body_length` suppression
+
+- **DocumentSessionController.swift refactored** (1652 → 347 lines, 82% reduction):
+  - Extracted 7 specialized services into `Sources/ISOInspectorApp/State/Services/`:
+    - BookmarkService.swift (315 lines) — Security-scoped bookmark management
+    - RecentsService.swift (131 lines) — Recent documents list management
+    - ParseCoordinationService.swift (133 lines) — Parse pipeline coordination
+    - SessionPersistenceService.swift (198 lines) — Session snapshot creation/restoration
+    - ValidationConfigurationService.swift (269 lines) — Global and workspace validation configuration
+    - ExportService.swift (568 lines) — JSON and issue summary export
+    - DocumentOpeningCoordinator.swift (338 lines) — Document opening workflow orchestration
+  - Main DocumentSessionController.swift now acts as thin coordinator
+  - Removed `swiftlint:disable type_body_length` suppression
+
+- Updated `todo.md` to mark all A7 refactoring tasks complete
+- Updated `DOCS/INPROGRESS/A7_SwiftLint_Complexity_Thresholds.md` with completion status
+
+### Follow-Ups
+- Task A7 is now complete; ready to proceed to Task A8 (test coverage gate)
+
+---
+
 ## Summary of Work — 2025-11-27
 
 ### Completed Tasks
