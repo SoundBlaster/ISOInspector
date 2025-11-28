@@ -113,44 +113,39 @@ FAILURES=0
 if [[ "$XCODE_ONLY" != "true" ]]; then
     log_section "Swift Package Manager Builds"
 
-    if ! command_exists swift; then
-        log_warning "Swift not found - skipping SPM builds"
-        log_info "Install Swift to enable SPM builds"
+    # Build ISOInspectorKit
+    if timed_run "Build ISOInspectorKit" swift build --target ISOInspectorKit; then
+        log_success "ISOInspectorKit build passed"
     else
-        # Build ISOInspectorKit
-        if timed_run "Build ISOInspectorKit" swift build --target ISOInspectorKit; then
-            log_success "ISOInspectorKit build passed"
-        else
-            log_error "ISOInspectorKit build failed"
-            ((FAILURES++))
-        fi
+        log_error "ISOInspectorKit build failed"
+        ((FAILURES++))
+    fi
 
-        # Build ISOInspectorCLI
-        if timed_run "Build ISOInspectorCLI" swift build --target ISOInspectorCLI; then
-            log_success "ISOInspectorCLI build passed"
-        else
-            log_error "ISOInspectorCLI build failed"
-            ((FAILURES++))
-        fi
+    # Build ISOInspectorCLI
+    if timed_run "Build ISOInspectorCLI" swift build --target ISOInspectorCLI; then
+        log_success "ISOInspectorCLI build passed"
+    else
+        log_error "ISOInspectorCLI build failed"
+        ((FAILURES++))
+    fi
 
-        # Build ISOInspectorCLIRunner
-        if timed_run "Build ISOInspectorCLIRunner" swift build --target ISOInspectorCLIRunner; then
-            log_success "ISOInspectorCLIRunner build passed"
-        else
-            log_error "ISOInspectorCLIRunner build failed"
-            ((FAILURES++))
-        fi
+    # Build ISOInspectorCLIRunner
+    if timed_run "Build ISOInspectorCLIRunner" swift build --target ISOInspectorCLIRunner; then
+        log_success "ISOInspectorCLIRunner build passed"
+    else
+        log_error "ISOInspectorCLIRunner build failed"
+        ((FAILURES++))
+    fi
 
-        # Build CLI release binary
-        if [[ "$CONFIGURATION" == "Release" ]]; then
-            if timed_run "Build CLI (release)" swift build --product isoinspect --configuration release; then
-                log_success "CLI release binary built"
-                BIN_PATH=$(swift build --product isoinspect --configuration release --show-bin-path)
-                log_info "Binary location: $BIN_PATH/isoinspect"
-            else
-                log_error "CLI release build failed"
-                ((FAILURES++))
-            fi
+    # Build CLI release binary
+    if [[ "$CONFIGURATION" == "Release" ]]; then
+        if timed_run "Build CLI (release)" swift build --product isoinspect --configuration release; then
+            log_success "CLI release binary built"
+            BIN_PATH=$(swift build --product isoinspect --configuration release --show-bin-path)
+            log_info "Binary location: $BIN_PATH/isoinspect"
+        else
+            log_error "CLI release build failed"
+            ((FAILURES++))
         fi
     fi
 fi

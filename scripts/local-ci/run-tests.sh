@@ -125,25 +125,20 @@ FAILURES=0
 if [[ "$XCODE_ONLY" != "true" ]]; then
     log_section "Swift Package Manager Tests"
 
-    if ! command_exists swift; then
-        log_warning "Swift not found - skipping SPM tests"
-        log_info "Install Swift to enable SPM tests"
+    # ISOInspectorKitTests
+    if timed_run "Test ISOInspectorKitTests" swift test --filter ISOInspectorKitTests; then
+        log_success "ISOInspectorKitTests passed"
     else
-        # ISOInspectorKitTests
-        if timed_run "Test ISOInspectorKitTests" swift test --filter ISOInspectorKitTests; then
-            log_success "ISOInspectorKitTests passed"
-        else
-            log_error "ISOInspectorKitTests failed"
-            ((FAILURES++))
-        fi
+        log_error "ISOInspectorKitTests failed"
+        ((FAILURES++))
+    fi
 
-        # ISOInspectorCLITests
-        if timed_run "Test ISOInspectorCLITests" swift test --filter ISOInspectorCLITests; then
-            log_success "ISOInspectorCLITests passed"
-        else
-            log_error "ISOInspectorCLITests failed"
-            ((FAILURES++))
-        fi
+    # ISOInspectorCLITests
+    if timed_run "Test ISOInspectorCLITests" swift test --filter ISOInspectorCLITests; then
+        log_success "ISOInspectorCLITests passed"
+    else
+        log_error "ISOInspectorCLITests failed"
+        ((FAILURES++))
     fi
 fi
 
