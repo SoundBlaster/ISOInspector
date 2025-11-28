@@ -1113,6 +1113,34 @@ private struct MetadataItemValue: Encodable {
     let fixedPointValue: Double?
     let fixedPointRaw: Int32?
     let fixedPointFormat: String?
+
+    init(
+      kind: String,
+      stringValue: String? = nil,
+      integerValue: Int64? = nil,
+      unsignedValue: UInt64? = nil,
+      booleanValue: Bool? = nil,
+      float32Value: Double? = nil,
+      float64Value: Double? = nil,
+      byteLength: Int? = nil,
+      dataFormat: String? = nil,
+      fixedPointValue: Double? = nil,
+      fixedPointRaw: Int32? = nil,
+      fixedPointFormat: String? = nil
+    ) {
+      self.kind = kind
+      self.stringValue = stringValue
+      self.integerValue = integerValue
+      self.unsignedValue = unsignedValue
+      self.booleanValue = booleanValue
+      self.float32Value = float32Value
+      self.float64Value = float64Value
+      self.byteLength = byteLength
+      self.dataFormat = dataFormat
+      self.fixedPointValue = fixedPointValue
+      self.fixedPointRaw = fixedPointRaw
+      self.fixedPointFormat = fixedPointFormat
+    }
   }
 
   private enum CodingKeys: String, CodingKey {
