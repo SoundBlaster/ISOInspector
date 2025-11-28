@@ -46,7 +46,7 @@ jobs:
       - name: SwiftLint autocorrect check
         run: |
           set -euo pipefail
-          docker run --rm -u "$(id -u):$(id -g)" -v "$PWD:/work" -w /work ghcr.io/realm/swiftlint:0.53.0 \
+          docker run --rm -u "$(id -u):$(id -g)" -v "$PWD:/work" -w /work ghcr.io/realm/swiftlint:0.57.0 \
             /bin/sh -lc 'rm -f .swiftlint.cache; swiftlint --fix --no-cache --config .swiftlint.yml --baseline .swiftlint.baseline.json'
           if ! git diff --quiet; then
             echo "::error::SwiftLint --fix produced changes. Run scripts/swiftlint-format.sh locally and commit."
@@ -56,7 +56,7 @@ jobs:
 
       - name: SwiftLint (verify)
         run: |
-          docker run --rm -u "$(id -u):$(id -g)" -v "$PWD:/work" -w /work ghcr.io/realm/swiftlint:0.53.0 \
+          docker run --rm -u "$(id -u):$(id -g)" -v "$PWD:/work" -w /work ghcr.io/realm/swiftlint:0.57.0 \
             swiftlint lint --strict --no-cache --config .swiftlint.yml --baseline .swiftlint.baseline.json
 
       - name: Cache SwiftPM build artifacts
