@@ -51,6 +51,31 @@ command_exists() {
     command -v "$1" >/dev/null 2>&1
 }
 
+# Detect operating system
+detect_os() {
+    case "$(uname -s)" in
+        Darwin*)
+            echo "macos"
+            ;;
+        Linux*)
+            echo "linux"
+            ;;
+        *)
+            echo "unknown"
+            ;;
+    esac
+}
+
+# Check if running on macOS
+is_macos() {
+    [[ "$(detect_os)" == "macos" ]]
+}
+
+# Check if running on Linux
+is_linux() {
+    [[ "$(detect_os)" == "linux" ]]
+}
+
 # Detect repository root
 detect_repo_root() {
     local current_dir="$PWD"
@@ -218,7 +243,8 @@ parse_common_args() {
 
 # Export functions
 export -f log_info log_success log_warning log_error log_section
-export -f error_exit command_exists detect_repo_root load_config
+export -f error_exit command_exists detect_os is_macos is_linux
+export -f detect_repo_root load_config
 export -f detect_xcode_version detect_swift_version check_xcode_version
 export -f check_docker timed_run create_temp_dir cleanup_temp_files
 export -f parse_common_args

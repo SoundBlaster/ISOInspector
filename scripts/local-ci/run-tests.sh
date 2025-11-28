@@ -125,20 +125,25 @@ FAILURES=0
 if [[ "$XCODE_ONLY" != "true" ]]; then
     log_section "Swift Package Manager Tests"
 
-    # ISOInspectorKitTests
-    if timed_run "Test ISOInspectorKitTests" swift test --filter ISOInspectorKitTests; then
-        log_success "ISOInspectorKitTests passed"
+    if ! command_exists swift; then
+        log_warning "Swift not found - skipping SPM tests"
+        log_info "Install Swift to enable SPM tests"
     else
-        log_error "ISOInspectorKitTests failed"
-        ((FAILURES++))
-    fi
+        # ISOInspectorKitTests
+        if timed_run "Test ISOInspectorKitTests" swift test --filter ISOInspectorKitTests; then
+            log_success "ISOInspectorKitTests passed"
+        else
+            log_error "ISOInspectorKitTests failed"
+            ((FAILURES++))
+        fi
 
-    # ISOInspectorCLITests
-    if timed_run "Test ISOInspectorCLITests" swift test --filter ISOInspectorCLITests; then
-        log_success "ISOInspectorCLITests passed"
-    else
-        log_error "ISOInspectorCLITests failed"
-        ((FAILURES++))
+        # ISOInspectorCLITests
+        if timed_run "Test ISOInspectorCLITests" swift test --filter ISOInspectorCLITests; then
+            log_success "ISOInspectorCLITests passed"
+        else
+            log_error "ISOInspectorCLITests failed"
+            ((FAILURES++))
+        fi
     fi
 fi
 
@@ -146,7 +151,10 @@ fi
 # Xcode Tests
 # ============================================================================
 if [[ "$SPM_ONLY" != "true" ]] && [[ -f "$REPO_ROOT/ISOInspector.xcworkspace/contents.xcworkspacedata" ]]; then
-    log_section "Xcode Tests"
+    if is_linux; then
+        log_info "Running on Linux - skipping Xcode tests (macOS only)"
+    else
+        log_section "Xcode Tests"
 
     XCODE_TEST_ARGS=(
         -workspace ISOInspector.xcworkspace
@@ -207,9 +215,12 @@ if [[ "$SPM_ONLY" != "true" ]] && [[ -f "$REPO_ROOT/ISOInspector.xcworkspace/con
             fi
         fi
     fi
+    fi
 else
     if [[ "$SPM_ONLY" != "true" ]]; then
-        log_warning "Xcode workspace not found. Run ./scripts/local-ci/run-build.sh first or use --spm-only"
+        if ! is_linux; then
+            log_warning "Xcode workspace not found. Run ./scripts/local-ci/run-build.sh first or use --spm-only"
+        fi
     fi
 fi
 

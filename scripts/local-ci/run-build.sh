@@ -113,39 +113,44 @@ FAILURES=0
 if [[ "$XCODE_ONLY" != "true" ]]; then
     log_section "Swift Package Manager Builds"
 
-    # Build ISOInspectorKit
-    if timed_run "Build ISOInspectorKit" swift build --target ISOInspectorKit; then
-        log_success "ISOInspectorKit build passed"
+    if ! command_exists swift; then
+        log_warning "Swift not found - skipping SPM builds"
+        log_info "Install Swift to enable SPM builds"
     else
-        log_error "ISOInspectorKit build failed"
-        ((FAILURES++))
-    fi
-
-    # Build ISOInspectorCLI
-    if timed_run "Build ISOInspectorCLI" swift build --target ISOInspectorCLI; then
-        log_success "ISOInspectorCLI build passed"
-    else
-        log_error "ISOInspectorCLI build failed"
-        ((FAILURES++))
-    fi
-
-    # Build ISOInspectorCLIRunner
-    if timed_run "Build ISOInspectorCLIRunner" swift build --target ISOInspectorCLIRunner; then
-        log_success "ISOInspectorCLIRunner build passed"
-    else
-        log_error "ISOInspectorCLIRunner build failed"
-        ((FAILURES++))
-    fi
-
-    # Build CLI release binary
-    if [[ "$CONFIGURATION" == "Release" ]]; then
-        if timed_run "Build CLI (release)" swift build --product isoinspect --configuration release; then
-            log_success "CLI release binary built"
-            BIN_PATH=$(swift build --product isoinspect --configuration release --show-bin-path)
-            log_info "Binary location: $BIN_PATH/isoinspect"
+        # Build ISOInspectorKit
+        if timed_run "Build ISOInspectorKit" swift build --target ISOInspectorKit; then
+            log_success "ISOInspectorKit build passed"
         else
-            log_error "CLI release build failed"
+            log_error "ISOInspectorKit build failed"
             ((FAILURES++))
+        fi
+
+        # Build ISOInspectorCLI
+        if timed_run "Build ISOInspectorCLI" swift build --target ISOInspectorCLI; then
+            log_success "ISOInspectorCLI build passed"
+        else
+            log_error "ISOInspectorCLI build failed"
+            ((FAILURES++))
+        fi
+
+        # Build ISOInspectorCLIRunner
+        if timed_run "Build ISOInspectorCLIRunner" swift build --target ISOInspectorCLIRunner; then
+            log_success "ISOInspectorCLIRunner build passed"
+        else
+            log_error "ISOInspectorCLIRunner build failed"
+            ((FAILURES++))
+        fi
+
+        # Build CLI release binary
+        if [[ "$CONFIGURATION" == "Release" ]]; then
+            if timed_run "Build CLI (release)" swift build --product isoinspect --configuration release; then
+                log_success "CLI release binary built"
+                BIN_PATH=$(swift build --product isoinspect --configuration release --show-bin-path)
+                log_info "Binary location: $BIN_PATH/isoinspect"
+            else
+                log_error "CLI release build failed"
+                ((FAILURES++))
+            fi
         fi
     fi
 fi
@@ -154,32 +159,36 @@ fi
 # Tuist Workspace Generation
 # ============================================================================
 if [[ "$SPM_ONLY" != "true" ]] && [[ "$SKIP_TUIST" != "true" ]]; then
-    log_section "Tuist Workspace Generation"
-
-    ensure_tuist
-
-    # Validate Tuist project
-    if timed_run "Validate Tuist project" tuist dump project; then
-        log_success "Tuist project validation passed"
+    if is_linux; then
+        log_info "Running on Linux - skipping Tuist workspace generation (macOS only)"
     else
-        log_error "Tuist project validation failed"
-        ((FAILURES++))
-    fi
+        log_section "Tuist Workspace Generation"
 
-    # Install dependencies
-    if timed_run "Install Tuist dependencies" tuist install; then
-        log_success "Tuist dependencies installed"
-    else
-        log_error "Tuist install failed"
-        ((FAILURES++))
-    fi
+        ensure_tuist
 
-    # Generate workspace
-    if timed_run "Generate Xcode workspace" tuist generate --no-open; then
-        log_success "Xcode workspace generated"
-    else
-        log_error "Tuist generate failed"
-        ((FAILURES++))
+        # Validate Tuist project
+        if timed_run "Validate Tuist project" tuist dump project; then
+            log_success "Tuist project validation passed"
+        else
+            log_error "Tuist project validation failed"
+            ((FAILURES++))
+        fi
+
+        # Install dependencies
+        if timed_run "Install Tuist dependencies" tuist install; then
+            log_success "Tuist dependencies installed"
+        else
+            log_error "Tuist install failed"
+            ((FAILURES++))
+        fi
+
+        # Generate workspace
+        if timed_run "Generate Xcode workspace" tuist generate --no-open; then
+            log_success "Xcode workspace generated"
+        else
+            log_error "Tuist generate failed"
+            ((FAILURES++))
+        fi
     fi
 fi
 
@@ -187,7 +196,10 @@ fi
 # Xcode Builds
 # ============================================================================
 if [[ "$SPM_ONLY" != "true" ]] && [[ -f "$REPO_ROOT/ISOInspector.xcworkspace/contents.xcworkspacedata" ]]; then
-    log_section "Xcode Builds"
+    if is_linux; then
+        log_info "Running on Linux - skipping Xcode builds (macOS only)"
+    else
+        log_section "Xcode Builds"
 
     XCODE_BUILD_ARGS=(
         -workspace ISOInspector.xcworkspace
@@ -275,9 +287,12 @@ if [[ "$SPM_ONLY" != "true" ]] && [[ -f "$REPO_ROOT/ISOInspector.xcworkspace/con
             fi
         fi
     fi
+    fi
 else
     if [[ "$SPM_ONLY" != "true" ]]; then
-        log_warning "Xcode workspace not found. Run with Tuist generation or use --spm-only"
+        if ! is_linux; then
+            log_warning "Xcode workspace not found. Run with Tuist generation or use --spm-only"
+        fi
     fi
 fi
 
