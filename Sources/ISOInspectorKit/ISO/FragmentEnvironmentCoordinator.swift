@@ -1,6 +1,6 @@
 import Foundation
 
-private final class FragmentEnvironmentCoordinator: @unchecked Sendable {
+final class FragmentEnvironmentCoordinator: @unchecked Sendable {
     private struct FragmentContext {
         var header: ParsedBoxPayload.TrackFragmentHeaderBox?
         var decodeTime: ParsedBoxPayload.TrackFragmentDecodeTimeBox?
