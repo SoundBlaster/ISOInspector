@@ -72,6 +72,9 @@ struct AppShellView: View {
             .background(focusCommands)
             .onAppear { focusTarget = .outline }
     }
+}
+
+extension AppShellView {
 
     private var navigationContainer: some View {
         defaultNavigationSplit
@@ -212,6 +215,93 @@ struct AppShellView: View {
         }
     }
 
+    private var sidebar: some View {
+        VStack(alignment: .leading, spacing: DS.Spacing.l) {
+            VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                Text("ISO Inspector")
+                    .font(.title2)
+                    .bold()
+                Text("Inspect MP4 and QuickTime files")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            Button {
+                isImporterPresented = true
+            } label: {
+                Label("Open File…", systemImage: "folder")
+                    .frame(maxWidth: .infinity, alignment: .leading)
+            }
+            .buttonStyle(.borderedProminent)
+
+            List {
+                Section("Recents") {
+                    if appController.recents.isEmpty {
+                        Text("Choose a file to start building your recents list.")
+                            .foregroundColor(.secondary)
+                    } else {
+                        ForEach(appController.recents) { recent in
+                            Button {
+                                windowController.openRecent(recent)
+                            } label: {
+                                RecentRow(recent: recent)
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .onDelete(perform: appController.removeRecent)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .listStyle(.sidebar)
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.vertical, DS.Spacing.l)
+        .padding(.horizontal, DS.Spacing.m)
+        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.root)
+    }
+
+    private var parseTreeContent: some View {
+        Group {
+            if windowController.currentDocument != nil {
+                ParseTreeExplorerView(
+                    viewModel: documentViewModel,
+                    selectedNodeID: selectionBinding,
+                    showInspector: $showInspector,
+                    focusTarget: $focusTarget,
+                    ensureIntegrityViewModel: ensureIntegrityViewModel,
+                    toggleInspectorVisibility: { toggleInspectorVisibility() },
+                    exportSelectionJSONAction: exportSelectionJSONHandler,
+                    exportSelectionIssueSummaryAction: exportSelectionIssueSummaryHandler
+                )
+            } else {
+                OnboardingView(openAction: { isImporterPresented = true })
+            }
+        }
+    }
+
+    private var detail: some View {
+        Group {
+            if windowController.currentDocument != nil {
+                ParseTreeDetailView(
+                    viewModel: documentViewModel.detailViewModel,
+                    annotationSession: documentViewModel.annotations,
+                    selectedNodeID: selectionBinding,
+                    focusTarget: $focusTarget
+                )
+                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.root)
+            } else {
+                EmptyView()
+            }
+        }
+    }
+}
+
+extension AppShellView {
+
+    // MARK: Events Handling and Actions
+
     private func handleScenePhaseChange(_ phase: ScenePhase) {
         if phase == .background || phase == .inactive {
             windowController.parseTreeStore.shutdown()
@@ -296,88 +386,6 @@ struct AppShellView: View {
             get: { columnVisibility },
             set: { columnVisibility = $0 }
         )
-    }
-
-    private var sidebar: some View {
-        VStack(alignment: .leading, spacing: DS.Spacing.l) {
-            VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("ISO Inspector")
-                    .font(.title2)
-                    .bold()
-                Text("Inspect MP4 and QuickTime files")
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-            }
-            Button {
-                isImporterPresented = true
-            } label: {
-                Label("Open File…", systemImage: "folder")
-                    .frame(maxWidth: .infinity, alignment: .leading)
-            }
-            .buttonStyle(.borderedProminent)
-
-            List {
-                Section("Recents") {
-                    if appController.recents.isEmpty {
-                        Text("Choose a file to start building your recents list.")
-                            .foregroundColor(.secondary)
-                    } else {
-                        ForEach(appController.recents) { recent in
-                            Button {
-                                windowController.openRecent(recent)
-                            } label: {
-                                RecentRow(recent: recent)
-                            }
-                            .buttonStyle(.plain)
-                        }
-                        .onDelete(perform: appController.removeRecent)
-                    }
-                }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .listStyle(.sidebar)
-
-            Spacer()
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.vertical, DS.Spacing.l)
-        .padding(.horizontal, DS.Spacing.m)
-        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.root)
-    }
-
-    private var parseTreeContent: some View {
-        Group {
-            if windowController.currentDocument != nil {
-                ParseTreeExplorerView(
-                    viewModel: documentViewModel,
-                    selectedNodeID: selectionBinding,
-                    showInspector: $showInspector,
-                    focusTarget: $focusTarget,
-                    ensureIntegrityViewModel: ensureIntegrityViewModel,
-                    toggleInspectorVisibility: { toggleInspectorVisibility() },
-                    exportSelectionJSONAction: exportSelectionJSONHandler,
-                    exportSelectionIssueSummaryAction: exportSelectionIssueSummaryHandler
-                )
-            } else {
-                OnboardingView(openAction: { isImporterPresented = true })
-            }
-        }
-    }
-
-    private var detail: some View {
-        Group {
-            if windowController.currentDocument != nil {
-                ParseTreeDetailView(
-                    viewModel: documentViewModel.detailViewModel,
-                    annotationSession: documentViewModel.annotations,
-                    selectedNodeID: selectionBinding,
-                    focusTarget: $focusTarget
-                )
-                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.root)
-            } else {
-                EmptyView()
-            }
-        }
     }
 
     private func handleImportResult(_ result: Result<[URL], Error>) {
