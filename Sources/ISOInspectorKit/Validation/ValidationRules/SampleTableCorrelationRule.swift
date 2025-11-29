@@ -62,6 +62,8 @@ final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Sendable {
 
   private var trackStack: [TrackContext] = []
 
+  // Stateful stream handler for sample table correlation across nested tracks.
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
   func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
     switch event.kind {
     case .willStartBox(let header, let depth):
@@ -161,7 +163,7 @@ final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Sendable {
     return issues
   }
 
-  // swiftlint:disable:next function_body_length
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
   private func chunkCorrelationIssues(for trackIndex: Int) -> [ValidationIssue] {
     let context = trackStack[trackIndex]
     guard let sampleToChunk = context.sampleToChunk,

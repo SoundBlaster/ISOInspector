@@ -147,7 +147,7 @@ ensure_swiftlint() {
                 local temp_dir
                 temp_dir=$(create_temp_dir)
 
-                if git clone --depth 1 --branch 0.53.0 https://github.com/realm/SwiftLint.git "$temp_dir/SwiftLint" 2>/dev/null &&
+                if git clone --depth 1 --branch 0.57.0 https://github.com/realm/SwiftLint.git "$temp_dir/SwiftLint" 2>/dev/null &&
                    (cd "$temp_dir/SwiftLint" && swift build -c release) 2>/dev/null; then
                     mkdir -p "$install_dir"
                     cp "$temp_dir/SwiftLint/.build/release/swiftlint" "$install_dir/"

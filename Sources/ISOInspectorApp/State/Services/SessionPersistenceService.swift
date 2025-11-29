@@ -102,12 +102,36 @@
       }
 
       let now = Date()
-      if currentSessionCreatedAt == nil {
-        currentSessionCreatedAt = now
-      }
-      let sessionID = currentSessionID ?? UUID()
-      currentSessionID = sessionID
+      let sessionID = ensureSessionIdentifiers(now: now)
 
+      let (snapshots, nextDiffs) = buildSessionSnapshots(
+        recents: recents,
+        annotationsFileURL: annotationsFileURL,
+        latestSelectionNodeID: latestSelectionNodeID,
+        sessionValidationConfigurations: sessionValidationConfigurations
+      )
+      sessionBookmarkDiffs = nextDiffs
+
+      let snapshot = WorkspaceSessionSnapshot(
+        id: sessionID,
+        createdAt: currentSessionCreatedAt ?? now,
+        updatedAt: now,
+        appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
+        files: snapshots,
+        focusedFileURL: currentDocument?.url,
+        lastSceneIdentifier: nil,
+        windowLayouts: []
+      )
+
+      save(snapshot: snapshot, using: sessionStore)
+    }
+
+    private func buildSessionSnapshots(
+      recents: [DocumentRecent],
+      annotationsFileURL: URL?,
+      latestSelectionNodeID: Int64?,
+      sessionValidationConfigurations: [String: ValidationConfiguration]
+    ) -> ([WorkspaceSessionFileSnapshot], [String: [WorkspaceSessionBookmarkDiff]]) {
       var snapshots: [WorkspaceSessionFileSnapshot] = []
       snapshots.reserveCapacity(recents.count)
       var nextDiffs: [String: [WorkspaceSessionBookmarkDiff]] = [:]
@@ -117,14 +141,11 @@
         let fileID = sessionFileIDs[canonical] ?? UUID()
         sessionFileIDs[canonical] = fileID
 
-        let selection: Int64?
-        if let currentURL = annotationsFileURL,
-          currentURL.standardizedFileURL == recent.url.standardizedFileURL
-        {
-          selection = latestSelectionNodeID
-        } else {
-          selection = nil
-        }
+        let selection = selectionNodeID(
+          for: recent.url,
+          annotationsFileURL: annotationsFileURL,
+          latestSelectionNodeID: latestSelectionNodeID
+        )
 
         let persistedRecent = bookmarkService.sanitizeRecentsForPersistence([recent]).first ?? recent
         let diffs = sessionBookmarkDiffs[canonical] ?? []
@@ -147,19 +168,19 @@
         )
       }
 
-      sessionBookmarkDiffs = nextDiffs
+      return (snapshots, nextDiffs)
+    }
 
-      let snapshot = WorkspaceSessionSnapshot(
-        id: sessionID,
-        createdAt: currentSessionCreatedAt ?? now,
-        updatedAt: now,
-        appVersion: Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String,
-        files: snapshots,
-        focusedFileURL: currentDocument?.url,
-        lastSceneIdentifier: nil,
-        windowLayouts: []
-      )
+    private func ensureSessionIdentifiers(now: Date) -> UUID {
+      if currentSessionCreatedAt == nil {
+        currentSessionCreatedAt = now
+      }
+      let sessionID = currentSessionID ?? UUID()
+      currentSessionID = sessionID
+      return sessionID
+    }
 
+    private func save(snapshot: WorkspaceSessionSnapshot, using sessionStore: WorkspaceSessionStoring) {
       do {
         try sessionStore.saveCurrentSession(snapshot)
       } catch {
@@ -169,6 +190,21 @@
             + "sessionID=\(snapshot.id.uuidString); focusedPath=\(snapshot.focusedFileURL?.standardizedFileURL.path ?? "none")"
         )
       }
+    }
+
+    private func selectionNodeID(
+      for recentURL: URL,
+      annotationsFileURL: URL?,
+      latestSelectionNodeID: Int64?
+    ) -> Int64? {
+      guard
+        let currentURL = annotationsFileURL,
+        currentURL.standardizedFileURL == recentURL.standardizedFileURL
+      else {
+        return nil
+      }
+
+      return latestSelectionNodeID
     }
 
     /// Clears the current session.

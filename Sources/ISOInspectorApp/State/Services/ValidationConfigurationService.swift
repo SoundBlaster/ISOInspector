@@ -38,39 +38,24 @@
       self.validationConfigurationStore = validationConfigurationStore
       self.diagnostics = diagnostics
 
-      // Load presets
-      let loader = validationPresetLoader ?? { try ValidationPreset.loadBundledPresets() }
-      var loadedPresets: [ValidationPreset] = []
-      do {
-        loadedPresets = try loader()
-      } catch {
-        diagnostics.error("Failed to load validation presets: \(error)")
-      }
-      self.validationPresets = loadedPresets
-      let presetByID = Dictionary(uniqueKeysWithValues: loadedPresets.map { ($0.id, $0) })
-      self.presetByID = presetByID
-      let defaultPresetID = Self.defaultPresetID(from: loadedPresets)
-      self.defaultValidationPresetID = defaultPresetID
+      let presets = Self.loadPresets(
+        using: validationPresetLoader,
+        diagnostics: diagnostics
+      )
+      self.validationPresets = presets.presets
+      self.presetByID = presets.presetByID
+      self.defaultValidationPresetID = presets.defaultPresetID
 
-      // Load global configuration
-      let loadedGlobal: ValidationConfiguration
-      if let validationConfigurationStore {
-        do {
-          loadedGlobal =
-            try validationConfigurationStore.loadConfiguration()
-            ?? ValidationConfiguration(activePresetID: defaultValidationPresetID)
-        } catch {
-          diagnostics.error("Failed to load validation configuration: \(error)")
-          loadedGlobal = ValidationConfiguration(activePresetID: defaultValidationPresetID)
-        }
-      } else {
-        loadedGlobal = ValidationConfiguration(activePresetID: defaultValidationPresetID)
-      }
+      let loadedGlobal = Self.loadGlobalConfiguration(
+        from: validationConfigurationStore,
+        defaultPresetID: presets.defaultPresetID,
+        diagnostics: diagnostics
+      )
 
       let normalizedGlobal = Self.normalizedConfiguration(
         loadedGlobal,
-        presetByID: presetByID,
-        defaultPresetID: defaultPresetID
+        presetByID: presets.presetByID,
+        defaultPresetID: presets.defaultPresetID
       )
       self.globalValidationConfiguration = normalizedGlobal
       self.validationConfiguration = normalizedGlobal
@@ -169,6 +154,53 @@
     }
 
     // MARK: - Private Methods
+
+    private struct PresetLoadResult {
+      let presets: [ValidationPreset]
+      let presetByID: [String: ValidationPreset]
+      let defaultPresetID: String
+    }
+
+    private static func loadPresets(
+      using loader: (() throws -> [ValidationPreset])?,
+      diagnostics: any DiagnosticsLogging
+    ) -> PresetLoadResult {
+      let resolvedLoader = loader ?? { try ValidationPreset.loadBundledPresets() }
+      do {
+        let presets = try resolvedLoader()
+        let presetByID = Dictionary(uniqueKeysWithValues: presets.map { ($0.id, $0) })
+        return PresetLoadResult(
+          presets: presets,
+          presetByID: presetByID,
+          defaultPresetID: defaultPresetID(from: presets)
+        )
+      } catch {
+        diagnostics.error("Failed to load validation presets: \(error)")
+        return PresetLoadResult(
+          presets: [],
+          presetByID: [:],
+          defaultPresetID: defaultPresetID(from: [])
+        )
+      }
+    }
+
+    private static func loadGlobalConfiguration(
+      from store: ValidationConfigurationPersisting?,
+      defaultPresetID: String,
+      diagnostics: any DiagnosticsLogging
+    ) -> ValidationConfiguration {
+      guard let store else {
+        return ValidationConfiguration(activePresetID: defaultPresetID)
+      }
+
+      do {
+        return try store.loadConfiguration()
+          ?? ValidationConfiguration(activePresetID: defaultPresetID)
+      } catch {
+        diagnostics.error("Failed to load validation configuration: \(error)")
+        return ValidationConfiguration(activePresetID: defaultPresetID)
+      }
+    }
 
     private func updateGlobalConfiguration(_ configuration: ValidationConfiguration) {
       let normalized = normalizedConfiguration(configuration)

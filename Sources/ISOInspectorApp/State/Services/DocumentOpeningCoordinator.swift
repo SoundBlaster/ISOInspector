@@ -67,31 +67,12 @@
           preResolvedScope: preResolvedScope
         )
 
-        parseCoordinationService.openDocument(
+        openDocument(
           accessContext: accessContext,
-          failureRecent: failureRecent,
-          onSuccess: {
-            [weak self] scopedURL, bookmark, bookmarkRecord, reader, pipeline, recent,
-            restoredSelection in
-            self?.startSession(
-              scopedURL: scopedURL,
-              bookmark: bookmark,
-              bookmarkRecord: bookmarkRecord,
-              reader: reader,
-              pipeline: pipeline,
-              recent: recent,
-              restoredSelection: restoredSelection
-            )
-          },
-          onFailure: { [weak self] recent, error in
-            if let accessError = error as? DocumentAccessError {
-              self?.handleRecentAccessFailure(recent, error: accessError)
-            } else {
-              self?.emitLoadFailure(for: recent, error: error, failedRecent: nil)
-            }
-          },
+          recent: recent,
           restoredSelection: restoredSelection,
-          preResolvedScope: preResolvedScope
+          preResolvedScope: preResolvedScope,
+          failureRecent: failureRecent
         )
       } catch let accessError as DocumentAccessError {
         preResolvedScope?.revoke()
@@ -101,6 +82,44 @@
         preResolvedScope?.revoke()
         let targetRecent = failureRecent ?? recent
         emitLoadFailure(for: targetRecent, error: error, failedRecent: nil)
+      }
+    }
+
+    private func openDocument(
+      accessContext: BookmarkAccessContext,
+      recent: DocumentRecent,
+      restoredSelection: Int64?,
+      preResolvedScope: SecurityScopedURL?,
+      failureRecent: DocumentRecent?
+    ) {
+      parseCoordinationService.openDocument(
+        accessContext: accessContext,
+        failureRecent: failureRecent,
+        onSuccess: { [weak self] scopedURL, bookmark, bookmarkRecord, reader, pipeline, recent,
+          restoredSelection in
+          self?.startSession(
+            scopedURL: scopedURL,
+            bookmark: bookmark,
+            bookmarkRecord: bookmarkRecord,
+            reader: reader,
+            pipeline: pipeline,
+            recent: recent,
+            restoredSelection: restoredSelection
+          )
+        },
+        onFailure: { [weak self] recent, error in
+          self?.handleOpenFailure(recent: recent, error: error)
+        },
+        restoredSelection: restoredSelection,
+        preResolvedScope: preResolvedScope
+      )
+    }
+
+    private func handleOpenFailure(recent: DocumentRecent, error: Error?) {
+      if let accessError = error as? DocumentAccessError {
+        handleRecentAccessFailure(recent, error: accessError)
+      } else {
+        emitLoadFailure(for: recent, error: error, failedRecent: nil)
       }
     }
 
@@ -225,6 +244,45 @@
       let defaultSuggestion =
         "Verify that the file exists and you have permission to read it, then try again."
 
+      let content = loadFailureContent(
+        displayName: displayName,
+        defaultSuggestion: defaultSuggestion,
+        error: error
+      )
+
+      if let error {
+        logger.error(
+          "Document open failed for \(standardizedRecent.url.path, privacy: .public): \(String(describing: error), privacy: .public)"
+        )
+      } else {
+        logger.error(
+          "Document open failed for \(standardizedRecent.url.path, privacy: .public): no additional error details available"
+        )
+      }
+
+      let loadFailure = DocumentLoadFailure(
+        fileURL: standardizedRecent.url,
+        fileDisplayName: displayName,
+        message: content.message,
+        recoverySuggestion: content.suggestion,
+        details: content.details
+      )
+
+      recentsService.setLastFailedRecent(standardizedRecent)
+      onLoadFailure?(loadFailure, failedRecent)
+    }
+
+    private struct LoadFailureContent {
+      let message: String
+      let suggestion: String
+      let details: String?
+    }
+
+    private func loadFailureContent(
+      displayName: String,
+      defaultSuggestion: String,
+      error: Error?
+    ) -> LoadFailureContent {
       var message = "ISO Inspector couldn't open \"\(displayName)\"."
       var suggestion = defaultSuggestion
       var details: String?
@@ -253,26 +311,7 @@
         }
       }
 
-      if let error {
-        logger.error(
-          "Document open failed for \(standardizedRecent.url.path, privacy: .public): \(String(describing: error), privacy: .public)"
-        )
-      } else {
-        logger.error(
-          "Document open failed for \(standardizedRecent.url.path, privacy: .public): no additional error details available"
-        )
-      }
-
-      let loadFailure = DocumentLoadFailure(
-        fileURL: standardizedRecent.url,
-        fileDisplayName: displayName,
-        message: message,
-        recoverySuggestion: suggestion,
-        details: details
-      )
-
-      recentsService.setLastFailedRecent(standardizedRecent)
-      onLoadFailure?(loadFailure, failedRecent)
+      return LoadFailureContent(message: message, suggestion: suggestion, details: details)
     }
 
     // MARK: - Nested Types

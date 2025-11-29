@@ -45,6 +45,8 @@ final class TopLevelOrderingAdvisoryRule: BoxValidationRule, @unchecked Sendable
   private var emittedFileTypeAdvisory = false
   private var emittedMovieAdvisory = false
 
+  // Single-state-machine handler for top-level ordering scenarios.
+  // swiftlint:disable:next cyclomatic_complexity
   func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
     guard case .willStartBox(let header, let depth) = event.kind, depth == 0 else { return [] }
     let type = header.type.rawValue
