@@ -10,6 +10,7 @@
   /// - Managing document opening state transitions
   /// - Session restoration workflow
   /// - Error handling and recovery
+  // swiftlint:disable:next type_body_length
   @MainActor
   final class DocumentOpeningCoordinator {
     // MARK: - Properties
