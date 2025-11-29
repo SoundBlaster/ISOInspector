@@ -19,6 +19,7 @@ import Foundation
 /// - Flags mismatch between declared and actual values
 /// - Payload is smaller than 4 bytes when version/flags are expected
 struct VersionFlagsRule: BoxValidationRule {
+  // swiftlint:disable:next function_body_length
   func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
     guard case .willStartBox(let header, _) = event.kind else { return [] }
     guard let descriptor = event.metadata else { return [] }

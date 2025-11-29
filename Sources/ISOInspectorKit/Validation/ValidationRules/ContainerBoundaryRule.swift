@@ -18,6 +18,7 @@ final class ContainerBoundaryRule: BoxValidationRule, @unchecked Sendable {
 
   private var stack: [State] = []
 
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
   func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
     var issues: [ValidationIssue] = []
 
