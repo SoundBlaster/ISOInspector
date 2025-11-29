@@ -43,7 +43,6 @@ import SwiftUI
 /// ```
 @available(iOS 17.0, macOS 14.0, *)
 public struct InspectorPattern<Content: View>: View {
-
     @Environment(\.navigationModel) private var navigationModel
 
     /// The title displayed in the fixed header.
