@@ -21,7 +21,7 @@ extension StructuredPayload {
         let keyIdentifierRange: ByteRange?
         let sampleInfo: RangeSummary?
         let constantIV: RangeSummary?
-        
+
         init(box: ParsedBoxPayload.SampleEncryptionBox) {
             self.version = box.version
             self.flags = box.flags
@@ -50,7 +50,7 @@ extension StructuredPayload {
                 self.constantIV = nil
             }
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case flags

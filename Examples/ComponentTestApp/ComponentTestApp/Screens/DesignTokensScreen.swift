@@ -15,37 +15,37 @@ import SwiftUI
 
 struct DesignTokensScreen: View {
     @State private var isAnimating = false
-    
+
     /// Whether to override system Dynamic Type with custom setting
     @AppStorage("overrideSystemDynamicType") private var overrideSystemDynamicType: Bool = false
-    
+
     /// Current Dynamic Type size preference (used when override is enabled)
     @AppStorage("dynamicTypeSizePreference") private var dynamicTypeSizePreference:
     DynamicTypeSizePreference = .medium
-    
+
     /// Current system Dynamic Type size (for display purposes)
     @Environment(\.dynamicTypeSize) private var systemDynamicTypeSize
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: DS.Spacing.xl) {
-                
+
                 spacingTokens
-                
+
                 Divider()
-                
+
                 colorTokens
-                
+
                 Divider()
-                
+
                 typographyTokens
-                
+
                 Divider()
-                
+
                 radiusTokens
-                
+
                 Divider()
-                
+
                 animationTokens
             }
             .padding(DS.Spacing.l)
@@ -64,7 +64,7 @@ extension DesignTokensScreen {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             Text("Spacing")
                 .font(DS.Typography.title)
-            
+
             SpacingTokenRow(name: "DS.Spacing.s", value: DS.Spacing.s)
             SpacingTokenRow(name: "DS.Spacing.m", value: DS.Spacing.m)
             SpacingTokenRow(name: "DS.Spacing.l", value: DS.Spacing.l)
@@ -79,13 +79,13 @@ extension DesignTokensScreen {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             Text("Typography")
                 .font(DS.Typography.title)
-            
+
             // Dynamic Type Controls
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 Text("Dynamic Type Controls")
                     .font(DS.Typography.subheadline)
                     .foregroundStyle(.secondary)
-                
+
                 // Override Toggle
                 Toggle(isOn: $overrideSystemDynamicType) {
                     HStack {
@@ -96,14 +96,14 @@ extension DesignTokensScreen {
                 .padding(DS.Spacing.m)
                 .background(DS.Colors.infoBG)
                 .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-                
+
                 // Conditional: Show picker or system size
                 if overrideSystemDynamicType {
                     VStack(alignment: .leading, spacing: DS.Spacing.s) {
                         Text("Custom Text Size")
                             .font(DS.Typography.caption)
                             .foregroundStyle(.secondary)
-                        
+
                         Picker("Custom Text Size", selection: $dynamicTypeSizePreference) {
                             Text("XS - Extra Small").tag(DynamicTypeSizePreference.xSmall)
                             Text("S - Small").tag(DynamicTypeSizePreference.small)
@@ -146,24 +146,24 @@ extension DesignTokensScreen {
                     .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
                 }
             }
-            
+
             Divider()
                 .padding(.vertical, DS.Spacing.s)
-            
+
             Text("Typography Samples (affected by controls above)")
                 .font(DS.Typography.subheadline)
                 .foregroundStyle(.secondary)
-            
+
             // Test: Custom Scalable Text (works on macOS!)
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
                 Text("✅ Custom Scaled Text (works on macOS!)")
                     .font(scaledFont(size: 20))
                     .foregroundStyle(.green)
                     .fontWeight(.bold)
-                
+
                 Text("This text WILL change size when you change the picker above!")
                     .font(scaledFont(size: 16))
-                
+
                 Text(
                     "Current scale: \(String(format: "%.0f%%", fontScaleMultiplier * 100))"
                 )
@@ -173,7 +173,7 @@ extension DesignTokensScreen {
             .padding(DS.Spacing.m)
             .background(DS.Colors.successBG)
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-            
+
             TypographyTokenRow(
                 name: "DS.Typography.headline", font: DS.Typography.headline,
                 sample: "Headline Text")
@@ -203,7 +203,7 @@ extension DesignTokensScreen {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             Text("Animation")
                 .font(DS.Typography.title)
-            
+
             HStack {
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
                     Text("DS.Animation.quick")
@@ -212,9 +212,9 @@ extension DesignTokensScreen {
                         .font(DS.Typography.caption)
                         .foregroundStyle(.secondary)
                 }
-                
+
                 Spacer()
-                
+
                 Button("Animate") {
                     withAnimation(DS.Animation.quick) {
                         isAnimating.toggle()
@@ -224,7 +224,7 @@ extension DesignTokensScreen {
             .padding(DS.Spacing.m)
             .background(DS.Colors.tertiary)
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
-            
+
             AnimationTokenRow(
                 name: "DS.Animation.medium", duration: "0.25s",
                 animation: DS.Animation.medium, isAnimating: $isAnimating)
@@ -233,30 +233,30 @@ extension DesignTokensScreen {
                 isAnimating: $isAnimating)
         }
     }
-    
+
     @ViewBuilder
     private var radiusTokens: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             Text("Corner Radius")
                 .font(DS.Typography.title)
-            
+
             RadiusTokenRow(name: "DS.Radius.small", value: DS.Radius.small)
             RadiusTokenRow(name: "DS.Radius.medium", value: DS.Radius.medium)
             RadiusTokenRow(name: "DS.Radius.card", value: DS.Radius.card)
             RadiusTokenRow(name: "DS.Radius.chip", value: DS.Radius.chip)
         }
     }
-     
+
     @ViewBuilder
     private var colorTokens: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             Text("Colors")
                 .font(DS.Typography.title)
-            
+
             Text("Semantic Backgrounds")
                 .font(DS.Typography.subheadline)
                 .foregroundStyle(.secondary)
-            
+
             ColorTokenRow(
                 name: "DS.Colors.infoBG", color: DS.Colors.infoBG,
                 usage: "Neutral information")
@@ -269,12 +269,12 @@ extension DesignTokensScreen {
             ColorTokenRow(
                 name: "DS.Colors.successBG", color: DS.Colors.successBG,
                 usage: "Success, completion")
-            
+
             Text("UI Colors")
                 .font(DS.Typography.subheadline)
                 .foregroundStyle(.secondary)
                 .padding(.top, DS.Spacing.m)
-            
+
             ColorTokenRow(
                 name: "DS.Colors.accent", color: DS.Colors.accent,
                 usage: "Interactive elements")

@@ -19,30 +19,30 @@ import SwiftUI
 /// Performance monitoring and testing screen
 struct PerformanceMonitoringScreen: View {
     // MARK: - State
-    
+
     /// Selected test scenario
     @State private var selectedTest: PerformanceTest = .smallDataset
-    
+
     /// Test execution state
     @State private var isRunningTest: Bool = false
-    
+
     /// Test results
     @State private var testResults: TestResults = TestResults()
-    
+
     /// Large dataset for stress testing
     @State private var largeDataset: [MockISOBox] = []
-    
+
     /// Expanded nodes in tree
     @State private var expandedNodes: Set<UUID> = []
-    
+
     /// Selected box ID
     @State private var selectedBoxID: UUID?
-    
+
     /// Animation trigger
     @State private var animationTrigger: Bool = false
-    
+
     // MARK: - Types
-    
+
     enum PerformanceTest: String, CaseIterable, Identifiable {
         case smallDataset = "Small Dataset (50 boxes)"
         case mediumDataset = "Medium Dataset (500 boxes)"
@@ -50,10 +50,10 @@ struct PerformanceMonitoringScreen: View {
         case deepNesting = "Deep Nesting (50 levels)"
         case manyAnimations = "Many Animations (100 views)"
         case memoryStress = "Memory Stress Test"
-        
+
         var id: String { rawValue }
     }
-    
+
     struct TestResults {
         var renderTime: TimeInterval = 0
         var memoryUsage: Double = 0 // MB
@@ -61,33 +61,33 @@ struct PerformanceMonitoringScreen: View {
         var expandedCount: Int = 0
         var passed: Bool = false
     }
-    
+
     // MARK: - Body
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: DS.Spacing.xl) {
                 // Header
                 headerView
-                
+
                 Divider()
-                
+
                 // Test Controls
                 testControlsSection
-                
+
                 Divider()
-                
+
                 // Test Results
                 if isRunningTest || testResults.nodeCount > 0 {
                     testResultsSection
                     Divider()
                 }
-                
+
                 // Performance Baselines
                 performanceBaselinesSection
-                
+
                 Divider()
-                
+
                 // Test Preview
                 if !largeDataset.isEmpty {
                     testPreviewSection
@@ -100,15 +100,15 @@ struct PerformanceMonitoringScreen: View {
 }
 
 extension PerformanceMonitoringScreen {
-    
+
     // MARK: - Header
-    
+
     private var headerView: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             Text("Performance Monitoring")
                 .font(DS.Typography.title)
                 .foregroundColor(DS.Colors.textPrimary)
-            
+
             Text("Stress test FoundationUI components with large datasets and measure performance metrics.")
                 .font(DS.Typography.body)
                 .foregroundColor(DS.Colors.textSecondary)
@@ -117,7 +117,7 @@ extension PerformanceMonitoringScreen {
 }
 
 extension PerformanceMonitoringScreen {
-    
+
     // MARK: - Test Controls Section
 
     private var testControlsSection: some View {
@@ -164,7 +164,7 @@ extension PerformanceMonitoringScreen {
 }
 
 extension PerformanceMonitoringScreen {
-    
+
     // MARK: - Test Results Section
 
     private var testResultsSection: some View {
@@ -226,7 +226,7 @@ extension PerformanceMonitoringScreen {
 }
 
 extension PerformanceMonitoringScreen {
-    
+
     // MARK: - Performance Baselines Section
 
     private var performanceBaselinesSection: some View {
@@ -272,7 +272,7 @@ extension PerformanceMonitoringScreen {
 }
 
 extension PerformanceMonitoringScreen {
-    
+
     // MARK: - Test Preview Section
 
     @ViewBuilder
@@ -342,7 +342,7 @@ extension PerformanceMonitoringScreen {
 }
 
 extension PerformanceMonitoringScreen {
-    
+
     // MARK: - Helper Views
 
     private func metricRow(
@@ -407,7 +407,7 @@ extension PerformanceMonitoringScreen {
 }
 
 extension PerformanceMonitoringScreen {
-    
+
     // MARK: - Test Actions
 
     private func runTest() {

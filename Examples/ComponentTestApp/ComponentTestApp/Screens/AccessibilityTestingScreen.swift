@@ -16,49 +16,49 @@ import SwiftUI
 /// Accessibility testing and validation screen
 struct AccessibilityTestingScreen: View {
     // MARK: - State
-    
+
     /// Selected Dynamic Type size for testing
     @State private var selectedDynamicTypeSize: DynamicTypeSize = .medium
-    
+
     /// Reduce Motion preference
     @State private var reduceMotionEnabled: Bool = false
-    
+
     /// Touch target size for validation
     @State private var touchTargetSize: CGFloat = 44.0
-    
+
     /// Show animation example
     @State private var showAnimationExample: Bool = false
-    
+
     // MARK: - Body
-    
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: DS.Spacing.xl) {
                 // Header
                 headerView
-                
+
                 Divider()
-                
+
                 // Contrast Ratio Checker
                 contrastRatioSection
-                
+
                 Divider()
-                
+
                 // Touch Target Validator
                 touchTargetSection
-                
+
                 Divider()
-                
+
                 // Dynamic Type Tester
                 dynamicTypeSection
-                
+
                 Divider()
-                
+
                 // Reduce Motion Demo
                 reduceMotionSection
-                
+
                 Divider()
-                
+
                 // Accessibility Score
                 accessibilityScoreSection
             }
@@ -70,7 +70,7 @@ struct AccessibilityTestingScreen: View {
 }
 
 extension AccessibilityTestingScreen {
-    
+
     // MARK: - Header
 
     private var headerView: some View {
@@ -87,7 +87,7 @@ extension AccessibilityTestingScreen {
 }
 
 extension AccessibilityTestingScreen {
-    
+
     // MARK: - Contrast Ratio Section
 
     private var contrastRatioSection: some View {
@@ -140,7 +140,7 @@ extension AccessibilityTestingScreen {
 }
 
 extension AccessibilityTestingScreen {
-    
+
     // MARK: - Touch Target Section
 
     private var touchTargetSection: some View {
@@ -207,7 +207,7 @@ extension AccessibilityTestingScreen {
 }
 
 extension AccessibilityTestingScreen {
-    
+
     // MARK: - Dynamic Type Section
 
     private var dynamicTypeSection: some View {
@@ -266,7 +266,7 @@ extension AccessibilityTestingScreen {
 }
 
 extension AccessibilityTestingScreen {
-    
+
     // MARK: - Reduce Motion Section
 
     private var reduceMotionSection: some View {
@@ -314,7 +314,7 @@ extension AccessibilityTestingScreen {
 }
 
 extension AccessibilityTestingScreen {
-    
+
     // MARK: - Accessibility Score Section
 
     private var accessibilityScoreSection: some View {
@@ -384,7 +384,7 @@ extension AccessibilityTestingScreen {
 }
 
 extension AccessibilityTestingScreen {
-    
+
     // MARK: - Helper Views
 
     private func contrastPreview(

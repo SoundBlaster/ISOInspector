@@ -20,17 +20,17 @@ extension StructuredPayload {
             let url: String?
             let urn: URN?
             let payloadLength: Int?
-            
+
             init(entry: ParsedBoxPayload.DataReferenceBox.Entry) {
                 self.index = Int(entry.index)
                 self.type = entry.type.rawValue
                 self.version = Int(entry.version)
                 self.flags = entry.flags
                 self.selfContained = (entry.flags & 0x000001) != 0
-                
+
                 let payloadLengthValue =
                 entry.payloadRange.map { Int($0.upperBound - $0.lowerBound) } ?? 0
-                
+
                 switch entry.location {
                 case .selfContained:
                     self.url = nil
@@ -60,7 +60,7 @@ extension StructuredPayload {
                     self.payloadLength = nil
                 }
             }
-            
+
             private enum CodingKeys: String, CodingKey {
                 case index
                 case type
@@ -72,17 +72,17 @@ extension StructuredPayload {
                 case payloadLength = "payload_length"
             }
         }
-        
+
         struct URN: Encodable {
             let name: String?
             let location: String?
         }
-        
+
         let version: Int
         let flags: UInt32
         let entryCount: Int
         let entries: [Entry]
-        
+
         init(box: ParsedBoxPayload.DataReferenceBox) {
             self.version = Int(box.version)
             self.flags = box.flags

@@ -18,7 +18,7 @@ extension StructuredPayload {
         let payloadEndOffset: Int64
         let payloadLength: Int64
         let totalSize: Int64
-        
+
         init(box: ParsedBoxPayload.PaddingBox) {
             self.type = box.type.rawValue
             self.headerStartOffset = box.headerStartOffset

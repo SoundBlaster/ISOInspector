@@ -8,7 +8,7 @@ extension StructuredPayload {
         let payloadEndOffset: Int64
         let payloadLength: Int64
         let totalSize: Int64
-        
+
         init(box: ParsedBoxPayload.MediaDataBox) {
             self.headerStartOffset = box.headerStartOffset
             self.headerEndOffset = box.headerEndOffset

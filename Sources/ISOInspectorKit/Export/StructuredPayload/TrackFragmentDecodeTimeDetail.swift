@@ -6,14 +6,14 @@ extension StructuredPayload {
         let flags: UInt32
         let baseMediaDecodeTime: UInt64
         let baseMediaDecodeTimeIs64Bit: Bool
-        
+
         init(box: ParsedBoxPayload.TrackFragmentDecodeTimeBox) {
             self.version = box.version
             self.flags = box.flags
             self.baseMediaDecodeTime = box.baseMediaDecodeTime
             self.baseMediaDecodeTimeIs64Bit = box.baseMediaDecodeTimeIs64Bit
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case flags

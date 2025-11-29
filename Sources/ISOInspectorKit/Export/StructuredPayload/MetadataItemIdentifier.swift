@@ -16,7 +16,7 @@ extension StructuredPayload {
         let rawValue: UInt32
         let rawValueHex: String
         let keyIndex: UInt32?
-        
+
         init(identifier: ParsedBoxPayload.MetadataItemListBox.Entry.Identifier) {
             switch identifier {
             case .fourCC(let raw, let display):
@@ -43,7 +43,7 @@ extension StructuredPayload {
                 self.display = self.rawValueHex
             }
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case kind
             case display

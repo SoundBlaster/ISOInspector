@@ -14,7 +14,7 @@ extension StructuredPayload {
         let handlerType: String?
         let entryCount: Int
         let entries: [MetadataItemEntry]
-        
+
         init(box: ParsedBoxPayload.MetadataItemListBox) {
             self.handlerType = box.handlerType?.rawValue
             self.entries = box.entries.enumerated().map {
@@ -22,7 +22,7 @@ extension StructuredPayload {
             }
             self.entryCount = entries.count
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case handlerType = "handler_type"
             case entryCount = "entry_count"

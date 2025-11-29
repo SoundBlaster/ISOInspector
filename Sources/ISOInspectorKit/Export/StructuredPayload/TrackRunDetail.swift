@@ -20,7 +20,7 @@ extension StructuredPayload {
         let runIndex: UInt32?
         let firstSampleGlobalIndex: UInt64?
         let entries: [TrackRunEntryDetail]
-        
+
         init(box: ParsedBoxPayload.TrackRunBox) {
             self.version = box.version
             self.flags = box.flags
@@ -41,7 +41,7 @@ extension StructuredPayload {
             self.firstSampleGlobalIndex = box.firstSampleGlobalIndex
             self.entries = box.entries.map(TrackRunEntryDetail.init)
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case flags

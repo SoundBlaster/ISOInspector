@@ -20,7 +20,7 @@ extension StructuredPayload {
         let isInPreview: Bool
         let isZeroSized: Bool
         let isZeroDuration: Bool
-        
+
         init(box: ParsedBoxPayload.TrackHeaderBox) {
             self.version = box.version
             self.flags = box.flags
@@ -41,7 +41,7 @@ extension StructuredPayload {
             self.isZeroSized = box.isZeroSized
             self.isZeroDuration = box.isZeroDuration
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case flags

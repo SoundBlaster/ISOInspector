@@ -66,7 +66,7 @@ extension StructuredPayload {
         self.metadataKeys = metadataKeys
         self.metadataItems = metadataItems
     }
-    
+
     enum CodingKeys: String, CodingKey {
         case fileType = "file_type"
         case mediaData = "media_data"

@@ -7,7 +7,7 @@ extension StructuredPayload {
         let message: String
         let byteRange: ByteRange?
         let affectedNodeIDs: [Int64]
-        
+
         init(issue: ParseIssue) {
             self.severity = issue.severity.rawValue
             self.code = issue.code

@@ -16,7 +16,7 @@ extension StructuredPayload {
         let compatibilityName: String
         let compatibilityHeaderSize: Int
         let compatibilityTotalSize: Int
-        
+
         init(node: ParseTreeNode) {
             self.fourcc = node.header.type.rawValue
             self.uuid = node.header.uuid
@@ -39,7 +39,7 @@ extension StructuredPayload {
             self.compatibilityHeaderSize = Int(clamping: node.header.headerSize)
             self.compatibilityTotalSize = Int(clamping: node.header.totalSize)
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case fourcc
             case uuid

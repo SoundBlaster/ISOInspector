@@ -20,7 +20,7 @@ extension StructuredPayload {
         let latestPresentationTime: Int64?
         let firstDecodeTime: UInt64?
         let lastDecodeTime: UInt64?
-        
+
         init(box: ParsedBoxPayload.TrackFragmentBox) {
             self.trackID = box.trackID
             self.sampleDescriptionIndex = box.sampleDescriptionIndex
@@ -41,7 +41,7 @@ extension StructuredPayload {
             self.firstDecodeTime = box.firstDecodeTime
             self.lastDecodeTime = box.lastDecodeTime
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case trackID = "track_ID"
             case sampleDescriptionIndex = "sample_description_index"

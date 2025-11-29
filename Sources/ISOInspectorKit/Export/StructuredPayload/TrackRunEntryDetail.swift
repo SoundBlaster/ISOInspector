@@ -11,7 +11,7 @@ extension StructuredPayload {
         let sampleCompositionTimeOffset: Int32?
         let dataOffset: UInt64?
         let byteRange: ByteRange?
-        
+
         init(entry: ParsedBoxPayload.TrackRunBox.Entry) {
             self.index = entry.index
             self.decodeTime = entry.decodeTime
@@ -27,7 +27,7 @@ extension StructuredPayload {
                 self.byteRange = nil
             }
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case index
             case decodeTime = "decode_time"

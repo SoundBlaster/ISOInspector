@@ -5,7 +5,7 @@ extension StructuredPayload {
         let total: Int
         let header: Int
         let payload: Int
-        
+
         init(header: BoxHeader) {
             self.total = Int(header.totalSize)
             self.header = Int(header.headerSize)

@@ -26,12 +26,12 @@ extension StructuredPayload {
         let fixedPointValue: Double?
         let fixedPointRaw: Int32?
         let fixedPointFormat: String?
-        
+
         init(value: ParsedBoxPayload.MetadataItemListBox.Entry.Value) {
             self.rawType = value.rawType
             self.rawTypeHex = String(format: "0x%06X", value.rawType)
             self.locale = value.locale == 0 ? nil : value.locale
-            
+
             let mapped = MetadataItemValue.map(kind: value.kind)
             self.kind = mapped.kind
             self.stringValue = mapped.stringValue
@@ -46,7 +46,7 @@ extension StructuredPayload {
             self.fixedPointRaw = mapped.fixedPointRaw
             self.fixedPointFormat = mapped.fixedPointFormat
         }
-        
+
         private static func map(kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind) -> MappedValue {
             if let mapped = mapText(kind) { return mapped }
             if let mapped = mapInteger(kind) { return mapped }
@@ -54,7 +54,7 @@ extension StructuredPayload {
             if let mapped = mapBinary(kind) { return mapped }
             return MappedValue(kind: "unknown")
         }
-        
+
         private static func mapText(_ kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind) -> MappedValue? {
             switch kind {
             case .utf8(let string):
@@ -65,7 +65,7 @@ extension StructuredPayload {
                 return nil
             }
         }
-        
+
         private static func mapInteger(_ kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind) -> MappedValue? {
             switch kind {
             case .integer(let number):
@@ -78,7 +78,7 @@ extension StructuredPayload {
                 return nil
             }
         }
-        
+
         private static func mapFloatingPoint(_ kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind) -> MappedValue? {
             switch kind {
             case .float32(let number):
@@ -89,7 +89,7 @@ extension StructuredPayload {
                 return nil
             }
         }
-        
+
         private static func mapBinary(_ kind: ParsedBoxPayload.MetadataItemListBox.Entry.Value.Kind) -> MappedValue? {
             switch kind {
             case .data(let format, let data):
@@ -107,7 +107,7 @@ extension StructuredPayload {
                 return nil
             }
         }
-        
+
         private struct MappedValue {
             let kind: String
             let stringValue: String?
@@ -121,7 +121,7 @@ extension StructuredPayload {
             let fixedPointValue: Double?
             let fixedPointRaw: Int32?
             let fixedPointFormat: String?
-            
+
             init(
                 kind: String,
                 stringValue: String? = nil,
@@ -150,7 +150,7 @@ extension StructuredPayload {
                 self.fixedPointFormat = fixedPointFormat
             }
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case kind
             case stringValue = "string_value"

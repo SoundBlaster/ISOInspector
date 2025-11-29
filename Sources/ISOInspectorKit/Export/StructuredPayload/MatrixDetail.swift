@@ -11,7 +11,7 @@ extension StructuredPayload {
         let x: Double
         let y: Double
         let w: Double
-        
+
         init(matrix: ParsedBoxPayload.TransformationMatrix) {
             self.a = matrix.a
             self.b = matrix.b

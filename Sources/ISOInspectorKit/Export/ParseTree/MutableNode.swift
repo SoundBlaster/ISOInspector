@@ -10,7 +10,7 @@ extension ParseTreeBuilder {
         var status: BoxNode.Status
         var children: [MutableNode]
         let depth: Int
-        
+
         init(
             header: BoxHeader,
             metadata: BoxDescriptor?,
@@ -27,7 +27,7 @@ extension ParseTreeBuilder {
             self.children = []
             self.depth = depth
         }
-        
+
         func snapshot() -> ParseTreeNode {
             ParseTreeNode(
                 header: header,

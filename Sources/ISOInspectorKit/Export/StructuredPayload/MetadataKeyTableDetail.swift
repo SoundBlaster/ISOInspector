@@ -16,12 +16,12 @@ extension StructuredPayload {
             let namespace: String
             let name: String
         }
-        
+
         let version: UInt8
         let flags: UInt32
         let entryCount: Int
         let entries: [Entry]
-        
+
         init(box: ParsedBoxPayload.MetadataKeyTableBox) {
             self.version = box.version
             self.flags = box.flags
@@ -30,7 +30,7 @@ extension StructuredPayload {
             }
             self.entryCount = entries.count
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case flags

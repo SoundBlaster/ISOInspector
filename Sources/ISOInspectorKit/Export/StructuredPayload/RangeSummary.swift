@@ -4,7 +4,7 @@ extension StructuredPayload {
     struct RangeSummary: Encodable {
         let range: ByteRange
         let length: Int
-        
+
         init(range: Range<Int64>, length: Int64?) {
             self.range = ByteRange(range: range)
             let resolved = length ?? (range.upperBound - range.lowerBound)
