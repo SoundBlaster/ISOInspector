@@ -86,7 +86,7 @@
     }
 
     private func openDocument(
-      accessContext: BookmarkAccessContext,
+      accessContext: AccessContext,
       recent: DocumentRecent,
       restoredSelection: Int64?,
       preResolvedScope: SecurityScopedURL?,
