@@ -27,6 +27,7 @@ import Foundation
 /// - avcC declares 2 SPS but payload only contains 1
 /// - hvcC declares 5-byte NAL lengths (invalid, must be 1-4)
 /// - avcC SPS #0 has zero length
+// swiftlint:disable type_body_length
 final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Sendable {
   private struct TrackContext {
     var trackHeader: ParsedBoxPayload.TrackHeaderBox?
@@ -132,6 +133,7 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
     "\(trackLabel) sample description entry \(entryIndex) (format \(format.rawValue))"
   }
 
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
   private func sampleEntries(for header: BoxHeader, reader: RandomAccessReader) -> [SampleEntry] {
     let payloadStart = header.payloadRange.lowerBound
     let payloadEnd = header.payloadRange.upperBound
@@ -236,6 +238,7 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
     return entries
   }
 
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
   private func avcIssues(
     prefix: String,
     box: BoxParserRegistry.DefaultParsers.NestedBox,
@@ -379,6 +382,7 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
     return issues
   }
 
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
   private func hevcIssues(
     prefix: String,
     box: BoxParserRegistry.DefaultParsers.NestedBox,

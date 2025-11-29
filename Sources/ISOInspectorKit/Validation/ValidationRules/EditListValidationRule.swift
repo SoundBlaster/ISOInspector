@@ -20,6 +20,7 @@ import Foundation
 /// - Edit list consumes 3000 media ticks but media header declares 2900 ticks
 /// - Edit list entry uses negative media_rate (reverse playback)
 /// - Edit list entry uses fractional playback rates
+// swiftlint:disable type_body_length
 final class EditListValidationRule: BoxValidationRule, @unchecked Sendable {
   private struct MediaHeader {
     let timescale: UInt32
@@ -40,6 +41,7 @@ final class EditListValidationRule: BoxValidationRule, @unchecked Sendable {
   private var movieDuration: UInt64?
   private var trackStack: [TrackContext] = []
 
+  // swiftlint:disable:next cyclomatic_complexity
   func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
     switch event.kind {
     case .willStartBox(let header, let depth):
@@ -206,6 +208,7 @@ final class EditListValidationRule: BoxValidationRule, @unchecked Sendable {
     return nil
   }
 
+  // swiftlint:disable:next function_body_length
   private func mediaDurationIssue(
     for editList: ParsedBoxPayload.EditListBox,
     mediaHeader: MediaHeader,

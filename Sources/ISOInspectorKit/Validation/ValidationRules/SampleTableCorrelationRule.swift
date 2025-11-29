@@ -25,6 +25,7 @@ import Foundation
 /// - Sample size table declares 100 samples but time-to-sample sums to 95 samples
 /// - Sample-to-chunk references chunk 50 but chunk offset table only defines 40 chunks
 /// - Chunk offset table has non-monotonic offsets (chunk 5 at offset 1000, chunk 6 at offset 900)
+// swiftlint:disable type_body_length
 final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Sendable {
   private struct SampleToChunkState {
     let identifier: String
@@ -161,6 +162,7 @@ final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Sendable {
     return issues
   }
 
+  // swiftlint:disable:next function_body_length
   private func chunkCorrelationIssues(for trackIndex: Int) -> [ValidationIssue] {
     let context = trackStack[trackIndex]
     guard let sampleToChunk = context.sampleToChunk,
@@ -283,6 +285,7 @@ final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Sendable {
     return issues
   }
 
+  // swiftlint:disable:next function_body_length
   private func sampleCountConsistencyIssues(for trackIndex: Int, triggeredKind: SampleTableKind)
     -> [ValidationIssue]
   {
