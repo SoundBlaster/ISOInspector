@@ -279,32 +279,6 @@ private struct IssueRow: View {
     }
 }
 
-extension ParseIssue.Severity {
-    fileprivate var label: String {
-        switch self {
-        case .info: return "Info"
-        case .warning: return "Warning"
-        case .error: return "Error"
-        }
-    }
-
-    fileprivate var color: Color {
-        switch self {
-        case .info: return .blue
-        case .warning: return .orange
-        case .error: return .red
-        }
-    }
-
-    fileprivate var iconName: String {
-        switch self {
-        case .info: return "info.circle.fill"
-        case .warning: return "exclamationmark.triangle.fill"
-        case .error: return "xmark.octagon.fill"
-        }
-    }
-}
-
 #Preview("Integrity Summary") {
     IntegritySummaryPreview()
 }
