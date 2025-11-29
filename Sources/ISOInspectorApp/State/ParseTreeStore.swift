@@ -247,50 +247,58 @@ extension ParseTreeStore {
             self.issueRecorder = issueRecorder
         }
 
+        mutating func boxWillStart(_ header: BoxHeader, _ event: ParseEvent, _ depth: Int) {
+            let node = MutableNode(
+                header: header,
+                metadata: event.metadata,
+                payload: event.payload,
+                validationIssues: event.validationIssues,
+                issues: event.issues,
+                depth: depth
+            )
+            if let parent = stack.last {
+                parent.children.append(node)
+            } else {
+                rootNodes.append(node)
+            }
+            stack.append(node)
+        }
+
+        mutating func boxDidFinish(_ header: BoxHeader, _ event: ParseEvent) {
+            guard let current = stack.last else {
+                return
+            }
+            if current.header != header {
+                while let candidate = stack.last, candidate.header != header {
+                    _ = stack.popLast()
+                }
+            }
+            guard let node = stack.popLast() else {
+                return
+            }
+            if node.header == header {
+                node.metadata = node.metadata ?? event.metadata
+                if node.payload == nil || event.payload != nil {
+                    node.payload = event.payload ?? node.payload
+                }
+                if !event.validationIssues.isEmpty {
+                    node.validationIssues.append(contentsOf: event.validationIssues)
+                }
+                node.issues = event.issues
+                synthesizePlaceholdersIfNeeded(for: node)
+            } else {
+                stack.append(node)
+            }
+        }
+
         mutating func consume(_ event: ParseEvent) {
             aggregatedIssues.append(contentsOf: event.validationIssues)
             lastUpdatedAt = Date()
             switch event.kind {
             case .willStartBox(let header, let depth):
-                let node = MutableNode(
-                    header: header,
-                    metadata: event.metadata,
-                    payload: event.payload,
-                    validationIssues: event.validationIssues,
-                    issues: event.issues,
-                    depth: depth
-                )
-                if let parent = stack.last {
-                    parent.children.append(node)
-                } else {
-                    rootNodes.append(node)
-                }
-                stack.append(node)
+                boxWillStart(header, event, depth)
             case .didFinishBox(let header, _):
-                guard let current = stack.last else {
-                    return
-                }
-                if current.header != header {
-                    while let candidate = stack.last, candidate.header != header {
-                        _ = stack.popLast()
-                    }
-                }
-                guard let node = stack.popLast() else {
-                    return
-                }
-                if node.header == header {
-                    node.metadata = node.metadata ?? event.metadata
-                    if node.payload == nil || event.payload != nil {
-                        node.payload = event.payload ?? node.payload
-                    }
-                    if !event.validationIssues.isEmpty {
-                        node.validationIssues.append(contentsOf: event.validationIssues)
-                    }
-                    node.issues = event.issues
-                    synthesizePlaceholdersIfNeeded(for: node)
-                } else {
-                    stack.append(node)
-                }
+                boxDidFinish(header, event)
             }
         }
 
@@ -301,6 +309,36 @@ extension ParseTreeStore {
                 nodes: filteredNodes,
                 validationIssues: filteredIssues,
                 lastUpdatedAt: lastUpdatedAt
+            )
+        }
+
+        fileprivate func mutableNodeFrom(_ placeholderHeader: BoxHeader, _ node: ParseTreeStore.MutableNode) -> ParseTreeStore.MutableNode {
+            return MutableNode(
+                header: placeholderHeader,
+                metadata: ParseTree.PlaceholderPlanner.metadata(for: placeholderHeader),
+                payload: nil,
+                validationIssues: [],
+                issues: [],
+                depth: node.depth + 1
+            )
+        }
+
+        fileprivate func boxHeaderFrom(_ requirement: ParseTree.PlaceholderPlanner.Requirement, _ placeholderRange: Range<Int64>) -> BoxHeader {
+            return BoxHeader(
+                type: requirement.childType,
+                totalSize: 0,
+                headerSize: 0,
+                payloadRange: placeholderRange,
+                range: placeholderRange,
+                uuid: nil
+            )
+        }
+
+        fileprivate func issueFrom(_ requirement: ParseTree.PlaceholderPlanner.Requirement, _ node: ParseTreeStore.MutableNode, _ placeholderHeader: BoxHeader) -> ParseIssue {
+            return ParseTree.PlaceholderPlanner.makeIssue(
+                for: requirement,
+                parent: node.header,
+                placeholder: placeholderHeader
             )
         }
 
@@ -320,28 +358,10 @@ extension ParseTreeStore {
                 existingTypes.insert(requirement.childType)
                 let startOffset = placeholderIDGenerator.next()
                 let placeholderRange = startOffset..<startOffset
-                let placeholderHeader = BoxHeader(
-                    type: requirement.childType,
-                    totalSize: 0,
-                    headerSize: 0,
-                    payloadRange: placeholderRange,
-                    range: placeholderRange,
-                    uuid: nil
-                )
-                let placeholderNode = MutableNode(
-                    header: placeholderHeader,
-                    metadata: ParseTree.PlaceholderPlanner.metadata(for: placeholderHeader),
-                    payload: nil,
-                    validationIssues: [],
-                    issues: [],
-                    depth: node.depth + 1
-                )
+                let placeholderHeader = boxHeaderFrom(requirement, placeholderRange)
+                let placeholderNode = mutableNodeFrom(placeholderHeader, node)
                 placeholderNode.status = .corrupt
-                let issue = ParseTree.PlaceholderPlanner.makeIssue(
-                    for: requirement,
-                    parent: node.header,
-                    placeholder: placeholderHeader
-                )
+                let issue = issueFrom(requirement, node, placeholderHeader)
                 placeholderNode.issues = [issue]
                 node.issues.append(issue)
                 node.children.append(placeholderNode)
