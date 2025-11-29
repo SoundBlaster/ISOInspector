@@ -10,9 +10,7 @@
   /// - Workspace-specific validation overrides
   /// - Validation preset management
   /// - Rule enable/disable configuration
-  // swiftlint:disable:next type_body_length
-  @MainActor
-  final class ValidationConfigurationService: ObservableObject {
+  @MainActor final class ValidationConfigurationService: ObservableObject {  // swiftlint:disable:this type_body_length
     // MARK: - Published Properties
 
     @Published private(set) var validationConfiguration: ValidationConfiguration

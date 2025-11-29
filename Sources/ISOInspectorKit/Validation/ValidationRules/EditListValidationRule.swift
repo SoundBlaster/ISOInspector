@@ -20,8 +20,7 @@ import Foundation
 /// - Edit list consumes 3000 media ticks but media header declares 2900 ticks
 /// - Edit list entry uses negative media_rate (reverse playback)
 /// - Edit list entry uses fractional playback rates
-// swiftlint:disable type_body_length
-final class EditListValidationRule: BoxValidationRule, @unchecked Sendable {
+final class EditListValidationRule: BoxValidationRule, @unchecked Sendable {  // swiftlint:disable:this type_body_length
   private struct MediaHeader {
     let timescale: UInt32
     let duration: UInt64

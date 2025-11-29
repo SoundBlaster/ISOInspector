@@ -9,9 +9,7 @@
   /// - Bookmark creation and resolution
   /// - Bookmark persistence and migration
   /// - File access preparation for document opening
-  // swiftlint:disable:next type_body_length
-  @MainActor
-  final class BookmarkService {
+  @MainActor final class BookmarkService {  // swiftlint:disable:this type_body_length
     // MARK: - Properties
 
     private let bookmarkStore: BookmarkPersistenceManaging?
