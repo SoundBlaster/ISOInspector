@@ -11,7 +11,7 @@ extension StructuredPayload {
         if let payload = buildMedia(detail) { return payload }
         return StructuredPayload()
     }
-    
+
     static func buildFile(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
         switch detail {
         case .fileType(let box):
@@ -24,7 +24,7 @@ extension StructuredPayload {
             return nil
         }
     }
-    
+
     static func buildTrackHeaders(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
         switch detail {
         case .movieHeader(let box):
@@ -37,13 +37,13 @@ extension StructuredPayload {
             return nil
         }
     }
-    
+
     static func buildFragments(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
         if let payload = buildTrackFragments(detail) { return payload }
         if let payload = buildMovieFragments(detail) { return payload }
         return nil
     }
-    
+
     static func buildTrackFragments(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
         switch detail {
         case .trackFragmentHeader(let box):
@@ -58,7 +58,7 @@ extension StructuredPayload {
             return nil
         }
     }
-    
+
     static func buildMovieFragments(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
         switch detail {
         case .movieFragmentHeader(let box):
@@ -73,7 +73,7 @@ extension StructuredPayload {
             return nil
         }
     }
-    
+
     static func buildSampleProtection(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
         switch detail {
         case .sampleEncryption(let box):
@@ -86,13 +86,13 @@ extension StructuredPayload {
             return nil
         }
     }
-    
+
     static func buildTiming(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
         if let payload = buildEditTiming(detail) { return payload }
         if let payload = buildSampleTables(detail) { return payload }
         return nil
     }
-    
+
     static func buildEditTiming(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
         switch detail {
         case .editList(let box):
@@ -105,7 +105,7 @@ extension StructuredPayload {
             return nil
         }
     }
-    
+
     static func buildSampleTables(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
         switch detail {
         case .sampleToChunk(let box):
@@ -122,7 +122,7 @@ extension StructuredPayload {
             return nil
         }
     }
-    
+
     static func buildMetadata(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
         switch detail {
         case .dataReference(let box):
@@ -137,7 +137,7 @@ extension StructuredPayload {
             return nil
         }
     }
-    
+
     static func buildMedia(_ detail: ParsedBoxPayload.Detail) -> StructuredPayload? {
         switch detail {
         case .soundMediaHeader(let box):

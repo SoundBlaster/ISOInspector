@@ -6,7 +6,7 @@ extension StructuredPayload {
         let value: String
         let summary: String?
         let byteRange: ByteRange?
-        
+
         init(field: ParsedBoxPayload.Field) {
             self.name = field.name
             self.value = field.value

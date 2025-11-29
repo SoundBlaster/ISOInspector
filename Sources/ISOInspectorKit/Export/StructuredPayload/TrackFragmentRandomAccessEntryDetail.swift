@@ -18,7 +18,7 @@ extension StructuredPayload {
         let resolvedDataOffset: UInt64?
         let resolvedSampleSize: UInt32?
         let resolvedSampleFlags: UInt32?
-        
+
         init(entry: ParsedBoxPayload.TrackFragmentRandomAccessBox.Entry) {
             self.index = entry.index
             self.time = entry.time
@@ -37,7 +37,7 @@ extension StructuredPayload {
             self.resolvedSampleSize = entry.resolvedSampleSize
             self.resolvedSampleFlags = entry.resolvedSampleFlags
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case index
             case time

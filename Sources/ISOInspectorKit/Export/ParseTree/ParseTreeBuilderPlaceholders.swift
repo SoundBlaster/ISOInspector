@@ -8,11 +8,11 @@ extension ParseTreeBuilder {
             existingChildTypes: existingTypes
         )
         guard !requirements.isEmpty else { return }
-        
+
         if node.status != .corrupt {
             node.status = .partial
         }
-        
+
         for requirement in requirements {
             existingTypes.insert(requirement.childType)
             let startOffset = placeholderIDGenerator.next()

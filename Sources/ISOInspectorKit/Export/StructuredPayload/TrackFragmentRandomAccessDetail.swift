@@ -10,7 +10,7 @@ extension StructuredPayload {
         let sampleNumberLength: UInt8
         let entryCount: UInt32
         let entries: [TrackFragmentRandomAccessEntryDetail]
-        
+
         init(box: ParsedBoxPayload.TrackFragmentRandomAccessBox) {
             self.version = box.version
             self.flags = box.flags
@@ -21,7 +21,7 @@ extension StructuredPayload {
             self.entryCount = box.entryCount
             self.entries = box.entries.map(TrackFragmentRandomAccessEntryDetail.init)
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case flags

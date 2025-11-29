@@ -8,7 +8,7 @@ extension StructuredPayload {
         let specification: String?
         let version: Int?
         let flags: UInt32?
-        
+
         init(descriptor: BoxDescriptor) {
             self.name = descriptor.name
             self.summary = descriptor.summary

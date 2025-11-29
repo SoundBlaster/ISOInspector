@@ -9,7 +9,7 @@ extension StructuredPayload {
         let defaultSampleDuration: UInt32
         let defaultSampleSize: UInt32
         let defaultSampleFlags: UInt32
-        
+
         init(box: ParsedBoxPayload.TrackExtendsDefaultsBox) {
             self.version = box.version
             self.flags = box.flags
@@ -19,7 +19,7 @@ extension StructuredPayload {
             self.defaultSampleSize = box.defaultSampleSize
             self.defaultSampleFlags = box.defaultSampleFlags
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case flags

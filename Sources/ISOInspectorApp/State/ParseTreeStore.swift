@@ -11,12 +11,12 @@ public final class ParseTreeStore: ObservableObject {
     @Published public private(set) var fileURL: URL?
     @Published public private(set) var issueMetrics: ParseIssueStore.IssueMetrics
     public let issueStore: ParseIssueStore
-    
+
     private let resources = ResourceBag()
     private var builder: Builder
     private var issueFilter: ((ValidationIssue) -> Bool)?
     private var cancellables: Set<AnyCancellable> = []
-    
+
     public init(
         issueStore: ParseIssueStore = ParseIssueStore(),
         initialSnapshot: ParseTreeSnapshot = .empty,
@@ -30,7 +30,7 @@ public final class ParseTreeStore: ObservableObject {
         self.builder = Self.makeBuilder(issueStore: issueStore)
         bindIssueStore()
     }
-    
+
     public func start(
         pipeline: ParsePipeline,
         reader: RandomAccessReader,
@@ -47,7 +47,7 @@ public final class ParseTreeStore: ObservableObject {
         let stream = pipeline.events(for: reader, context: enrichedContext)
         startConsuming(stream)
     }
-    
+
     public func setValidationIssueFilter(_ filter: ((ValidationIssue) -> Bool)?) {
         issueFilter = filter
         if builder.isEmpty {
@@ -56,12 +56,12 @@ public final class ParseTreeStore: ObservableObject {
             snapshot = builder.snapshot(filter: filter)
         }
     }
-    
+
     public func cancel() {
         disconnect()
         state = .finished
     }
-    
+
     public func shutdown() {
         disconnect()
         builder = Self.makeBuilder(issueStore: issueStore)
@@ -71,17 +71,17 @@ public final class ParseTreeStore: ObservableObject {
         issueStore.reset()
         issueMetrics = issueStore.metricsSnapshot()
     }
-    
+
     private func disconnect() {
         resources.stop()
     }
-    
+
     private static func makeBuilder(issueStore: ParseIssueStore) -> Builder {
         Builder(issueRecorder: { issue, depth in
             issueStore.record(issue, depth: depth)
         })
     }
-    
+
     private static func makeFilteredSnapshot(
         from snapshot: ParseTreeSnapshot,
         filter: ((ValidationIssue) -> Bool)?
@@ -104,7 +104,7 @@ public final class ParseTreeStore: ObservableObject {
             lastUpdatedAt: snapshot.lastUpdatedAt
         )
     }
-    
+
     private func bindIssueStore() {
         issueStore.$metrics
             .receive(on: DispatchQueue.main)
@@ -113,7 +113,7 @@ public final class ParseTreeStore: ObservableObject {
             }
             .store(in: &cancellables)
     }
-    
+
     private func startConsuming(_ stream: ParsePipeline.EventStream) {
         disconnect()
         builder = Self.makeBuilder(issueStore: issueStore)
@@ -138,13 +138,13 @@ public final class ParseTreeStore: ObservableObject {
         }
         resources.setStreamingTask(task, identifier: taskIdentifier)
     }
-    
+
     @MainActor
     private func consume(_ event: ParseEvent) {
         builder.consume(event)
         snapshot = builder.snapshot(filter: issueFilter)
     }
-    
+
     @MainActor
     private func finishStreaming(taskIdentifier: UUID) {
         guard resources.clearStreamingTask(matching: taskIdentifier) else { return }
@@ -152,34 +152,34 @@ public final class ParseTreeStore: ObservableObject {
             state = .finished
         }
     }
-    
+
     @MainActor
     private func failStreaming(_ error: Error, taskIdentifier: UUID) {
         guard resources.clearStreamingTask(matching: taskIdentifier) else { return }
         state = .failed(makeErrorMessage(from: error))
     }
-    
+
     private func makeErrorMessage(from error: Error) -> String {
         let localizedDescription = (error as NSError).localizedDescription
         let description = String(describing: error)
-        
+
         var components: [String] = []
-        
+
         if !localizedDescription.isEmpty {
             components.append(localizedDescription)
         }
-        
+
         if !description.isEmpty,
            description != localizedDescription,
            !localizedDescription.contains(description)
         {
             components.append(description)
         }
-        
+
         if components.isEmpty {
             return String(reflecting: error)
         }
-        
+
         return components.joined(separator: " - ")
     }
 }
@@ -189,7 +189,7 @@ extension ParseTreeStore {
         guard let reader = resources.reader else { return nil }
         return RandomAccessHexSliceProvider(reader: reader)
     }
-    
+
     func makePayloadAnnotationProvider() -> PayloadAnnotationProvider? {
         guard let reader = resources.reader else { return nil }
         return RandomAccessPayloadAnnotationProvider(reader: reader)
@@ -202,18 +202,18 @@ private final class ResourceBag {
         didSet { oldValue?.cancel() }
     }
     private var streamingTaskIdentifier: UUID?
-    
+
     var reader: RandomAccessReader?
-    
+
     func setStreamingTask(_ task: Task<Void, Never>?, identifier: UUID) {
         streamingTaskIdentifier = identifier
         streamingTask = task
     }
-    
+
     func reserveStreamingTaskIdentifier(_ identifier: UUID) {
         streamingTaskIdentifier = identifier
     }
-    
+
     @discardableResult
     func clearStreamingTask(matching identifier: UUID) -> Bool {
         guard streamingTaskIdentifier == identifier else { return false }
@@ -221,13 +221,13 @@ private final class ResourceBag {
         streamingTaskIdentifier = nil
         return true
     }
-    
+
     func clearStreamingTask() {
         streamingTask?.cancel()
         streamingTask = nil
         streamingTaskIdentifier = nil
     }
-    
+
     func stop() {
         clearStreamingTask()
         reader = nil
@@ -242,11 +242,11 @@ extension ParseTreeStore {
         private var lastUpdatedAt: Date = .distantPast
         private var placeholderIDGenerator = ParseTree.PlaceholderIDGenerator()
         private let issueRecorder: ((ParseIssue, Int) -> Void)?
-        
+
         init(issueRecorder: ((ParseIssue, Int) -> Void)? = nil) {
             self.issueRecorder = issueRecorder
         }
-        
+
         mutating func consume(_ event: ParseEvent) {
             aggregatedIssues.append(contentsOf: event.validationIssues)
             lastUpdatedAt = Date()
@@ -293,7 +293,7 @@ extension ParseTreeStore {
                 }
             }
         }
-        
+
         func snapshot(filter: ((ValidationIssue) -> Bool)?) -> ParseTreeSnapshot {
             let filteredNodes = rootNodes.map { $0.snapshot(filter: filter) }
             let filteredIssues = filter.map { aggregatedIssues.filter($0) } ?? aggregatedIssues
@@ -303,7 +303,7 @@ extension ParseTreeStore {
                 lastUpdatedAt: lastUpdatedAt
             )
         }
-        
+
         private mutating func synthesizePlaceholdersIfNeeded(for node: MutableNode) {
             var existingTypes = Set(node.children.map { $0.header.type })
             let requirements = ParseTree.PlaceholderPlanner.missingRequirements(
@@ -311,11 +311,11 @@ extension ParseTreeStore {
                 existingChildTypes: existingTypes
             )
             guard !requirements.isEmpty else { return }
-            
+
             if node.status != .corrupt {
                 node.status = .partial
             }
-            
+
             for requirement in requirements {
                 existingTypes.insert(requirement.childType)
                 let startOffset = placeholderIDGenerator.next()
@@ -352,7 +352,7 @@ extension ParseTreeStore {
             rootNodes.isEmpty && aggregatedIssues.isEmpty
         }
     }
-    
+
     fileprivate final class MutableNode {
         let header: BoxHeader
         var metadata: BoxDescriptor?
@@ -362,7 +362,7 @@ extension ParseTreeStore {
         var status: ParseTreeNode.Status
         var children: [MutableNode]
         let depth: Int
-        
+
         init(
             header: BoxHeader,
             metadata: BoxDescriptor?,
@@ -380,7 +380,7 @@ extension ParseTreeStore {
             self.children = []
             self.depth = depth
         }
-        
+
         func snapshot(filter: ((ValidationIssue) -> Bool)?) -> ParseTreeNode {
             let filteredIssues: [ValidationIssue]
             if let filter {
@@ -398,7 +398,7 @@ extension ParseTreeStore {
                 children: children.map { $0.snapshot(filter: filter) }
             )
         }
-        
+
         private static func uniqueIssues(
             from issues: [ValidationIssue],
             applying filter: (ValidationIssue) -> Bool

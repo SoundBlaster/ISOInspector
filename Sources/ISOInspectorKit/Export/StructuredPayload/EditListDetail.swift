@@ -16,7 +16,7 @@ extension StructuredPayload {
             let presentationStartSeconds: Double?
             let presentationEndSeconds: Double?
             let isEmptyEdit: Bool
-            
+
             init(entry: ParsedBoxPayload.EditListBox.Entry) {
                 self.index = entry.index
                 self.segmentDuration = entry.segmentDuration
@@ -32,7 +32,7 @@ extension StructuredPayload {
                 self.presentationEndSeconds = entry.presentationEndSeconds
                 self.isEmptyEdit = entry.isEmptyEdit
             }
-            
+
             private enum CodingKeys: String, CodingKey {
                 case index
                 case segmentDuration = "segment_duration"
@@ -48,7 +48,7 @@ extension StructuredPayload {
                 case presentationEndSeconds = "presentation_end_seconds"
                 case isEmptyEdit = "is_empty_edit"
             }
-            
+
             func encode(to encoder: Encoder) throws {
                 var container = encoder.container(keyedBy: CodingKeys.self)
                 try container.encode(index, forKey: .index)
@@ -57,22 +57,22 @@ extension StructuredPayload {
                 try container.encode(mediaRateInteger, forKey: .mediaRateInteger)
                 try container.encode(mediaRateFraction, forKey: .mediaRateFraction)
                 try container.encode(mediaRate, forKey: .mediaRate)
-                
+
                 try encodeSecondsValue(
                     segmentDurationSeconds, forKey: .segmentDurationSeconds, in: &container)
                 try encodeSecondsValue(mediaTimeSeconds, forKey: .mediaTimeSeconds, in: &container)
-                
+
                 try container.encode(presentationStart, forKey: .presentationStart)
                 try container.encode(presentationEnd, forKey: .presentationEnd)
-                
+
                 try encodeSecondsValue(
                     presentationStartSeconds, forKey: .presentationStartSeconds, in: &container)
                 try encodeSecondsValue(
                     presentationEndSeconds, forKey: .presentationEndSeconds, in: &container)
-                
+
                 try container.encode(isEmptyEdit, forKey: .isEmptyEdit)
             }
-            
+
             private func encodeSecondsValue(
                 _ value: Double?,
                 forKey key: CodingKeys,
@@ -81,20 +81,20 @@ extension StructuredPayload {
                 guard let value, let decimal = Self.decimal(from: value) else { return }
                 try container.encode(decimal, forKey: key)
             }
-            
+
             private static func decimal(from seconds: Double) -> Decimal? {
                 let formatted = BoxParserRegistry.DefaultParsers.formatSeconds(seconds)
                 return Decimal(string: formatted, locale: Locale(identifier: "en_US_POSIX"))
             }
         }
-        
+
         let version: UInt8
         let flags: UInt32
         let entryCount: UInt32
         let movieTimescale: UInt32?
         let mediaTimescale: UInt32?
         let entries: [Entry]
-        
+
         init(box: ParsedBoxPayload.EditListBox) {
             self.version = box.version
             self.flags = box.flags
@@ -103,7 +103,7 @@ extension StructuredPayload {
             self.mediaTimescale = box.mediaTimescale
             self.entries = box.entries.map(Entry.init)
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case flags

@@ -4,12 +4,12 @@ extension ParseTree {
     public enum PlaceholderPlanner {
         public struct Requirement: Equatable, Sendable {
             public let childType: FourCharCode
-            
+
             public init(childType: FourCharCode) {
                 self.childType = childType
             }
         }
-        
+
         private static let requirements: [FourCharCode: [Requirement]] = {
             var mapping: [FourCharCode: [Requirement]] = [:]
             if let minf = try? FourCharCode("minf"),
@@ -24,7 +24,7 @@ extension ParseTree {
             }
             return mapping
         }()
-        
+
         public static func missingRequirements(
             for parent: BoxHeader,
             existingChildTypes: Set<FourCharCode>
@@ -32,7 +32,7 @@ extension ParseTree {
             guard let expected = requirements[parent.type] else { return [] }
             return expected.filter { !existingChildTypes.contains($0.childType) }
         }
-        
+
         public static func makeIssue(
             for requirement: Requirement,
             parent: BoxHeader,
@@ -50,11 +50,11 @@ extension ParseTree {
                 affectedNodeIDs: affected
             )
         }
-        
+
         public static func metadata(for header: BoxHeader) -> BoxDescriptor? {
             BoxCatalog.shared.descriptor(for: header)
         }
-        
+
         public static func anchorRange(for parent: BoxHeader) -> Range<Int64>? {
             if parent.payloadRange.isEmpty {
                 return parent.range.isEmpty ? nil : parent.range

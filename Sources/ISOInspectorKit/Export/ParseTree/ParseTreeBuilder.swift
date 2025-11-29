@@ -5,12 +5,12 @@ public struct ParseTreeBuilder {
     private var stack: [MutableNode] = []
     private var aggregatedIssues: [ValidationIssue] = []
     var placeholderIDGenerator = ParseTree.PlaceholderIDGenerator()
-    
+
     public init() {}
-    
+
     public mutating func consume(_ event: ParseEvent) {
         aggregatedIssues.append(contentsOf: event.validationIssues)
-        
+
         switch event.kind {
         case .willStartBox(let header, let depth):
             let node = MutableNode(
@@ -32,22 +32,22 @@ public struct ParseTreeBuilder {
                 rootNodes.append(node)
             }
             stack.append(node)
-            
+
         case .didFinishBox(let header, _):
             guard let current = stack.last else {
                 return
             }
-            
+
             if current.header != header {
                 while let candidate = stack.last, candidate.header != header {
                     _ = stack.popLast()
                 }
             }
-            
+
             guard let node = stack.popLast() else {
                 return
             }
-            
+
             if node.header == header {
                 if node.metadata == nil || event.metadata != nil {
                     node.metadata = event.metadata ?? node.metadata
@@ -70,7 +70,7 @@ public struct ParseTreeBuilder {
             }
         }
     }
-    
+
     public func makeTree() -> ParseTree {
         ParseTree(nodes: rootNodes.map { $0.snapshot() }, validationIssues: aggregatedIssues)
     }

@@ -21,40 +21,40 @@ import UIKit
 /// ISO Inspector Demo Screen showcasing full pattern integration
 struct ISOInspectorDemoScreen: View {
     // MARK: - State
-    
+
     /// Currently selected ISO box ID
     @State private var selectedBoxID: UUID?
-    
+
     /// Expanded box IDs in the tree
     @State private var expandedBoxIDs: Set<UUID> = []
-    
+
     /// Current filter text
     @State private var filterText: String = ""
-    
+
     /// Show action result alert
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
-    
+
     /// Sample ISO data
     @State private var isoBoxes: [MockISOBox] = MockISOBox.sampleISOHierarchy()
-    
+
     // MARK: - Computed Properties
-    
+
     /// Currently selected box (derived from selectedBoxID)
     private var selectedBox: MockISOBox? {
         guard let id = selectedBoxID else { return nil }
         return findBox(withID: id, in: isoBoxes)
     }
-    
+
     /// Filtered boxes based on search text
     private var filteredBoxes: [MockISOBox] {
         guard !filterText.isEmpty else { return isoBoxes }
-        
+
         func matchesFilter(_ box: MockISOBox) -> Bool {
             box.boxType.lowercased().contains(filterText.lowercased()) ||
             box.typeDescription.lowercased().contains(filterText.lowercased())
         }
-        
+
         func filterRecursive(_ boxes: [MockISOBox]) -> [MockISOBox] {
             boxes.compactMap { box in
                 let childrenMatch = filterRecursive(box.children)
@@ -72,12 +72,12 @@ struct ISOInspectorDemoScreen: View {
                 return nil
             }
         }
-        
+
         return filterRecursive(isoBoxes)
     }
-    
+
     // MARK: - Body
-    
+
     var body: some View {
         VStack(spacing: 0) {
             // Toolbar
@@ -85,9 +85,9 @@ struct ISOInspectorDemoScreen: View {
                 .padding(.horizontal, DS.Spacing.m)
                 .padding(.vertical, DS.Spacing.s)
                 .background(DS.Colors.tertiary)
-            
+
             Divider()
-            
+
             // Main content area
 #if os(macOS)
             macOSLayout
@@ -162,7 +162,7 @@ extension ISOInspectorDemoScreen {
 }
 
 extension ISOInspectorDemoScreen {
-    
+
     // MARK: - macOS Layout (Three-column)
 
     #if os(macOS)
@@ -238,7 +238,7 @@ extension ISOInspectorDemoScreen {
 }
 
 extension ISOInspectorDemoScreen {
-    
+
     // MARK: - iOS/iPadOS Layout (Adaptive)
 
     #if !os(macOS)

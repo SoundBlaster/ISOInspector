@@ -8,7 +8,7 @@ extension StructuredPayload {
         let validation: ValidationMetadataPayload?
         let format: FormatSummary?
         let issueMetrics: IssueMetricsSummary
-        
+
         init(tree: ParseTree) {
             self.nodes = tree.nodes.map(Node.init)
             self.validationIssues = tree.validationIssues.map(Issue.init)
@@ -26,7 +26,7 @@ extension StructuredPayload {
                 self.schema = nil
             }
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case schema
             case nodes

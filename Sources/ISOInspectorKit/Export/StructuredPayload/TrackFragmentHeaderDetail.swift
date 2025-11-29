@@ -12,7 +12,7 @@ extension StructuredPayload {
         let defaultSampleFlags: UInt32?
         let durationIsEmpty: Bool
         let defaultBaseIsMoof: Bool
-        
+
         init(box: ParsedBoxPayload.TrackFragmentHeaderBox) {
             self.version = box.version
             self.flags = box.flags
@@ -25,7 +25,7 @@ extension StructuredPayload {
             self.durationIsEmpty = box.durationIsEmpty
             self.defaultBaseIsMoof = box.defaultBaseIsMoof
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case flags

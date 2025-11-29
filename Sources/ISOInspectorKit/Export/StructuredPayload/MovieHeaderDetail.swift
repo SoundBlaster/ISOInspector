@@ -12,7 +12,7 @@ extension StructuredPayload {
         let volume: Double
         let matrix: MatrixDetail
         let nextTrackID: UInt32
-        
+
         init(box: ParsedBoxPayload.MovieHeaderBox) {
             self.version = box.version
             self.creationTime = box.creationTime
@@ -25,7 +25,7 @@ extension StructuredPayload {
             self.matrix = MatrixDetail(matrix: box.matrix)
             self.nextTrackID = box.nextTrackID
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case creationTime = "creation_time"

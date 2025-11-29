@@ -6,25 +6,25 @@ extension StructuredPayload {
             case bits32 = "32"
             case bits64 = "64"
         }
-        
+
         struct Entry: Encodable {
             let index: UInt32
             let offset: UInt64
             let byteRange: ByteRange
-            
+
             init(entry: ParsedBoxPayload.ChunkOffsetBox.Entry) {
                 self.index = entry.index
                 self.offset = entry.offset
                 self.byteRange = ByteRange(range: entry.byteRange)
             }
         }
-        
+
         let version: UInt8
         let flags: UInt32
         let entryCount: UInt32
         let width: Width
         let entries: [Entry]
-        
+
         init(box: ParsedBoxPayload.ChunkOffsetBox) {
             self.version = box.version
             self.flags = box.flags
@@ -37,7 +37,7 @@ extension StructuredPayload {
             }
             self.entries = box.entries.map(Entry.init)
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case flags

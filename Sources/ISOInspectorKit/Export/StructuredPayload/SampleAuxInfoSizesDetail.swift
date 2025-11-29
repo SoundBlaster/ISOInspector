@@ -9,7 +9,7 @@ extension StructuredPayload {
         let auxInfoType: String?
         let auxInfoTypeParameter: UInt32?
         let variableSizes: RangeSummary?
-        
+
         init(box: ParsedBoxPayload.SampleAuxInfoSizesBox) {
             self.version = box.version
             self.flags = box.flags
@@ -23,7 +23,7 @@ extension StructuredPayload {
                 self.variableSizes = nil
             }
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case version
             case flags

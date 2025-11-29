@@ -6,7 +6,7 @@ extension StructuredPayload {
         let end: Int
         let payloadStart: Int
         let payloadEnd: Int
-        
+
         init(header: BoxHeader) {
             self.start = Int(header.range.lowerBound)
             self.end = Int(header.range.upperBound)

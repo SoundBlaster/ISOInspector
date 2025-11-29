@@ -16,7 +16,7 @@ extension StructuredPayload {
         let namespace: String?
         let name: String?
         let values: [MetadataItemValue]
-        
+
         init(entry: ParsedBoxPayload.MetadataItemListBox.Entry, index: Int) {
             self.index = index
             self.identifier = MetadataItemIdentifier(identifier: entry.identifier)
@@ -24,7 +24,7 @@ extension StructuredPayload {
             self.name = entry.name
             self.values = entry.values.map(MetadataItemValue.init)
         }
-        
+
         private enum CodingKeys: String, CodingKey {
             case index
             case identifier

@@ -5,7 +5,7 @@ extension StructuredPayload {
         let ruleID: String
         let message: String
         let severity: String
-        
+
         init(issue: ValidationIssue) {
             self.ruleID = issue.ruleID
             self.message = issue.message

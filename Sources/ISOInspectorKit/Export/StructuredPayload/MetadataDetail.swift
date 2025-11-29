@@ -14,7 +14,7 @@ extension StructuredPayload {
         let version: UInt8
         let flags: UInt32
         let reserved: UInt32
-        
+
         init(box: ParsedBoxPayload.MetadataBox) {
             self.version = box.version
             self.flags = box.flags
