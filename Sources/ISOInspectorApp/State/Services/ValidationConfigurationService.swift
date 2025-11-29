@@ -259,12 +259,12 @@
     private func canonicalIdentifier(for url: URL) -> String {
       url.standardizedFileURL.resolvingSymlinksInPath().absoluteString
     }
-  }
 
-  // MARK: - Supporting Types
+    // MARK: - Nested Types
 
-  enum ValidationConfigurationScope {
-    case global
-    case workspace
+    enum ValidationConfigurationScope {
+      case global
+      case workspace
+    }
   }
 #endif

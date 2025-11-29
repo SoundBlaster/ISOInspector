@@ -276,38 +276,40 @@
       recentsService.setLastFailedRecent(standardizedRecent)
       onLoadFailure?(loadFailure, failedRecent)
     }
+
+    // MARK: - Nested Types
+
+    struct DocumentLoadFailure: Identifiable, Equatable {
+      let id: UUID
+      let fileURL: URL
+      let fileDisplayName: String
+      let message: String
+      let recoverySuggestion: String
+      let details: String?
+
+      init(
+        id: UUID = UUID(),
+        fileURL: URL,
+        fileDisplayName: String,
+        message: String,
+        recoverySuggestion: String,
+        details: String?
+      ) {
+        self.id = id
+        self.fileURL = fileURL
+        self.fileDisplayName = fileDisplayName
+        self.message = message
+        self.recoverySuggestion = recoverySuggestion
+        self.details = details
+      }
+
+      var title: String {
+        "Unable to open \"\(fileDisplayName)\""
+      }
+    }
   }
 
   // MARK: - Supporting Types
-
-  struct DocumentLoadFailure: Identifiable, Equatable {
-    let id: UUID
-    let fileURL: URL
-    let fileDisplayName: String
-    let message: String
-    let recoverySuggestion: String
-    let details: String?
-
-    init(
-      id: UUID = UUID(),
-      fileURL: URL,
-      fileDisplayName: String,
-      message: String,
-      recoverySuggestion: String,
-      details: String?
-    ) {
-      self.id = id
-      self.fileURL = fileURL
-      self.fileDisplayName = fileDisplayName
-      self.message = message
-      self.recoverySuggestion = recoverySuggestion
-      self.details = details
-    }
-
-    var title: String {
-      "Unable to open \"\(fileDisplayName)\""
-    }
-  }
 
   enum DocumentAccessError: LocalizedError {
     case unreadable(URL)
