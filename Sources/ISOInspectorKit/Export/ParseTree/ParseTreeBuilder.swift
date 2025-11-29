@@ -8,66 +8,75 @@ public struct ParseTreeBuilder {
 
     public init() {}
 
+    fileprivate mutating func boxDidFinish(_ header: BoxHeader, _ event: ParseEvent) {
+        guard let current = stack.last else {
+            return
+        }
+
+        if current.header != header {
+            while let candidate = stack.last, candidate.header != header {
+                _ = stack.popLast()
+            }
+        }
+
+        guard let node = stack.popLast() else {
+            return
+        }
+
+        guard node.header == header else {
+            stack.append(node)
+            return
+        }
+
+        if node.metadata == nil || event.metadata != nil {
+            node.metadata = event.metadata ?? node.metadata
+        }
+        if node.payload == nil || event.payload != nil {
+            node.payload = event.payload ?? node.payload
+        }
+        if !event.validationIssues.isEmpty {
+            node.validationIssues.append(contentsOf: event.validationIssues)
+        }
+        if !event.issues.isEmpty {
+            node.issues = event.issues
+            if event.issues.containsGuardIssues() {
+                node.status = .partial
+            }
+        }
+        synthesizePlaceholdersIfNeeded(for: node)
+    }
+
+    fileprivate mutating func boxWillStart(_ header: BoxHeader, _ event: ParseEvent, _ depth: Int) {
+        let node = MutableNode(
+            header: header,
+            metadata: event.metadata,
+            payload: event.payload,
+            validationIssues: event.validationIssues,
+            depth: depth
+        )
+        if !event.issues.isEmpty {
+            node.issues = event.issues
+            if event.issues.containsGuardIssues() {
+                node.status = .partial
+            }
+        }
+        if let parent = stack.last {
+            parent.children.append(node)
+        } else {
+            rootNodes.append(node)
+        }
+        stack.append(node)
+    }
+
     public mutating func consume(_ event: ParseEvent) {
         aggregatedIssues.append(contentsOf: event.validationIssues)
 
         switch event.kind {
         case .willStartBox(let header, let depth):
-            let node = MutableNode(
-                header: header,
-                metadata: event.metadata,
-                payload: event.payload,
-                validationIssues: event.validationIssues,
-                depth: depth
-            )
-            if !event.issues.isEmpty {
-                node.issues = event.issues
-                if event.issues.containsGuardIssues() {
-                    node.status = .partial
-                }
-            }
-            if let parent = stack.last {
-                parent.children.append(node)
-            } else {
-                rootNodes.append(node)
-            }
-            stack.append(node)
+            boxWillStart(header, event, depth)
 
         case .didFinishBox(let header, _):
-            guard let current = stack.last else {
-                return
-            }
-
-            if current.header != header {
-                while let candidate = stack.last, candidate.header != header {
-                    _ = stack.popLast()
-                }
-            }
-
-            guard let node = stack.popLast() else {
-                return
-            }
-
-            if node.header == header {
-                if node.metadata == nil || event.metadata != nil {
-                    node.metadata = event.metadata ?? node.metadata
-                }
-                if node.payload == nil || event.payload != nil {
-                    node.payload = event.payload ?? node.payload
-                }
-                if !event.validationIssues.isEmpty {
-                    node.validationIssues.append(contentsOf: event.validationIssues)
-                }
-                if !event.issues.isEmpty {
-                    node.issues = event.issues
-                    if event.issues.containsGuardIssues() {
-                        node.status = .partial
-                    }
-                }
-                synthesizePlaceholdersIfNeeded(for: node)
-            } else {
-                stack.append(node)
-            }
+            boxDidFinish(header, event)
         }
     }
 
