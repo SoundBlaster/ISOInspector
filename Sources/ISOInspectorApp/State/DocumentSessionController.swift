@@ -6,8 +6,6 @@
   import OSLog
   import UniformTypeIdentifiers
 
-  typealias BookmarkResolutionState = BookmarkPersistenceStore.Record.ResolutionState
-
   protocol BookmarkPersistenceManaging: Sendable {
     func record(for file: URL) throws -> BookmarkPersistenceStore.Record?
     func record(withID id: UUID) throws -> BookmarkPersistenceStore.Record?
@@ -15,7 +13,7 @@
     func upsertBookmark(for file: URL, bookmarkData: Data) throws
       -> BookmarkPersistenceStore.Record
     @discardableResult
-    func markResolution(for file: URL, state: BookmarkResolutionState) throws
+    func markResolution(for file: URL, state: BookmarkPersistenceStore.Record.ResolutionState) throws
       -> BookmarkPersistenceStore.Record?
     func removeBookmark(for file: URL) throws
   }
@@ -322,15 +320,17 @@
         return configuration.isRuleEnabled(identifier, presets: presets)
       }
     }
+
+    // MARK: - Type Aliases
+
+    // Typealiases for backward compatibility with types moved to services
+    typealias ExportStatus = ExportService.ExportStatus
+    typealias ExportScope = ExportService.ExportScope
+    typealias DocumentLoadFailure = DocumentOpeningCoordinator.DocumentLoadFailure
+    typealias ValidationConfigurationScope = ValidationConfigurationService.ValidationConfigurationScope
   }
 
   // MARK: - Supporting Types
-
-  // Typealiases for backward compatibility with types moved to services
-  typealias ExportStatus = ExportService.ExportStatus
-  typealias ExportScope = ExportService.ExportScope
-  typealias DocumentLoadFailure = DocumentOpeningCoordinator.DocumentLoadFailure
-  typealias ValidationConfigurationScope = ValidationConfigurationService.ValidationConfigurationScope
 
   protocol DocumentSessionWorkQueue {
     func execute(_ work: @Sendable @escaping () -> Void)

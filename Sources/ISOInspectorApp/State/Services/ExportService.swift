@@ -442,23 +442,47 @@
       let baseFilename: String
       let suffix: String?
     }
-  }
 
-  // MARK: - Supporting Types
+    // MARK: - Nested Types
 
-  enum ExportScope: Equatable, Sendable {
-    case document
-    case selection(ParseTreeNode.ID)
+    enum ExportScope: Equatable, Sendable {
+      case document
+      case selection(ParseTreeNode.ID)
 
-    var logDescription: String {
-      switch self {
-      case .document:
-        return "document"
-      case .selection(let identifier):
-        return "selection-\(identifier)"
+      var logDescription: String {
+        switch self {
+        case .document:
+          return "document"
+        case .selection(let identifier):
+          return "selection-\(identifier)"
+        }
+      }
+    }
+
+    struct ExportStatus: Identifiable, Equatable {
+      let id: UUID
+      let title: String
+      let message: String
+      let destinationURL: URL?
+      let isSuccess: Bool
+
+      init(
+        id: UUID = UUID(),
+        title: String,
+        message: String,
+        destinationURL: URL?,
+        isSuccess: Bool
+      ) {
+        self.id = id
+        self.title = title
+        self.message = message
+        self.destinationURL = destinationURL
+        self.isSuccess = isSuccess
       }
     }
   }
+
+  // MARK: - Supporting Types
 
   private enum ExportOperation {
     case json
@@ -507,28 +531,6 @@
       case .issueSummary:
         return "Issue summary export failed"
       }
-    }
-  }
-
-  struct ExportStatus: Identifiable, Equatable {
-    let id: UUID
-    let title: String
-    let message: String
-    let destinationURL: URL?
-    let isSuccess: Bool
-
-    init(
-      id: UUID = UUID(),
-      title: String,
-      message: String,
-      destinationURL: URL?,
-      isSuccess: Bool
-    ) {
-      self.id = id
-      self.title = title
-      self.message = message
-      self.destinationURL = destinationURL
-      self.isSuccess = isSuccess
     }
   }
 
