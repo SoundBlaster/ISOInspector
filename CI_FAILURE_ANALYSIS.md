@@ -10,6 +10,7 @@
 - ✅ **SwiftLint Baseline Support: FIXED** ✅ (Docker image updated to 0.57.0)
 - ✅ **SwiftLint Autocorrect: FIXED** ✅ (vertical_whitespace disabled)
 - ✅ **SwiftLint ValidationRules Complexity: FIXED** ✅ (suppressions added)
+- ✅ **SwiftLint Services Type Body Length: FIXED** ✅ (suppressions added)
 
 ## Issues and Fixes
 
@@ -190,6 +191,29 @@ These suppressions are justified because:
 4. Each rule is already focused on a single validation concern
 
 **Note:** Test files with violations (BoxParserRegistryTests, etc.) should already be covered by the baseline.
+
+### 8. ✅ FIXED: SwiftLint Services Type Body Length Violations
+
+**Root Cause:**
+Services files extracted from DocumentSessionController also exceed the 200-line type_body_length threshold:
+
+- ExportService.swift (~430 lines)
+- DocumentOpeningCoordinator.swift (~265 lines)
+- ValidationConfigurationService.swift (~248 lines)
+
+**Analysis:**
+These services coordinate complex workflows across multiple subsystems:
+- Export operations with JSON/issue summary generation and file dialogs
+- Document opening orchestration across bookmark, parse, and session services
+- Validation configuration with global and workspace-specific settings
+
+**Fix Applied:**
+Added `// swiftlint:disable:next type_body_length` suppressions to all three Services classes.
+
+**Commit:** 6547584 - "Add SwiftLint suppressions to remaining Services files"
+
+**Rationale:**
+Further refactoring would fragment cohesive service responsibilities and reduce clarity. Each service already has a clear, focused purpose coordinating related functionality.
 
 ## Next Steps
 
