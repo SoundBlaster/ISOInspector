@@ -6,8 +6,9 @@
 - ✅ SwiftLint Complexity Check: success
 - ✅ **Build and Test (Ubuntu): FIXED** ✅
 - ✅ Strict Concurrency Compliance: success
-- ✅ **Compilation Errors: FIXED** ✅ (all syntax errors resolved)
+- ✅ **Compilation Errors: FIXED** ✅ (all errors resolved)
 - ✅ **SwiftLint Baseline Support: FIXED** ✅ (Docker image updated to 0.57.0)
+- ❌ **SwiftLint Type Body Length**: Services and ValidationRules still need refactoring
 
 ## Issues and Fixes
 
@@ -95,6 +96,64 @@ Updated SwiftLint Docker image from `ghcr.io/realm/swiftlint:0.53.0` to `ghcr.io
 **Commit:** b7561a5 - "Update SwiftLint Docker image to 0.57.0 for baseline support"
 
 **Note:** SwiftLint 0.57.0 is compatible with the baseline files added in recent commits (.swiftlint.baseline.json).
+
+### 5. ✅ FIXED: Service Extraction Compilation Errors
+
+**Root Cause:**
+When extracting services from DocumentSessionController, several issues were introduced:
+1. Duplicate type declarations (DocumentSessionWorkQueue, DocumentAccessError)
+2. Missing type references (types moved to services but references not updated)
+3. Incorrect use of `weak` keyword with struct type
+
+Errors:
+```
+error: Invalid redeclaration of 'DocumentSessionWorkQueue'
+error: 'ExportStatus' is not a member type of class 'ISOInspectorApp.DocumentSessionController'
+error: 'weak' may only be applied to class and class-bound protocol types, not 'DocumentRecent'
+```
+
+**Fix Applied:**
+1. Removed duplicate DocumentSessionWorkQueue and DocumentAccessError from ParseCoordinationService
+2. Removed duplicate DocumentAccessError from BookmarkService (kept in DocumentOpeningCoordinator)
+3. Added typealiases in DocumentSessionController for backward compatibility:
+   - `typealias ExportStatus = ExportService.ExportStatus`
+   - `typealias ExportScope = ExportService.ExportScope`
+   - `typealias DocumentLoadFailure = DocumentOpeningCoordinator.DocumentLoadFailure`
+   - `typealias ValidationConfigurationScope = ValidationConfigurationService.ValidationConfigurationScope`
+4. Changed `weak var currentDocument` to regular `var` in ExportService
+
+**Commit:** 5b0fdbe - "Fix compilation errors from service extraction"
+
+**Verification:**
+```bash
+swift build
+# Build complete! (38.30s) ✅
+```
+
+### 6. ❌ REMAINING: SwiftLint Type Body Length Violations
+
+**Root Cause:**
+While BoxValidator (1748→66 lines) and DocumentSessionController (1652→347 lines) were successfully refactored, some extracted service and validation rule files still exceed the 200-line type_body_length threshold:
+
+**Services exceeding 200 lines:**
+- ExportService: ~430 lines
+- BookmarkService: ~263 lines
+- DocumentOpeningCoordinator: ~265 lines
+- ValidationConfigurationService: ~248 lines
+
+**Validation Rules exceeding 200 lines:**
+- CodecConfigurationValidationRule: ~489 lines
+- SampleTableCorrelationRule: ~369 lines
+- EditListValidationRule: ~316 lines
+
+**Impact:**
+SwiftLint quality gate fails on macOS CI. These files need further refactoring to break down into smaller components.
+
+**Next Steps:**
+1. Further extract logic from oversized services into helper types
+2. Break down large validation rules into smaller, focused validators
+3. Consider adding temporary `swiftlint:disable:next type_body_length` suppressions if immediate refactoring is not feasible
+4. Document refactoring plan in task continuation
 
 ## Next Steps
 
