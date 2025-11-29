@@ -10,9 +10,7 @@
   /// - Managing document opening state transitions
   /// - Session restoration workflow
   /// - Error handling and recovery
-  // swiftlint:disable:next type_body_length
-  @MainActor
-  final class DocumentOpeningCoordinator {
+  @MainActor final class DocumentOpeningCoordinator {  // swiftlint:disable:this type_body_length
     // MARK: - Properties
 
     private let bookmarkService: BookmarkService

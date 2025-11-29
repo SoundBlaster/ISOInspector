@@ -27,8 +27,7 @@ import Foundation
 /// - avcC declares 2 SPS but payload only contains 1
 /// - hvcC declares 5-byte NAL lengths (invalid, must be 1-4)
 /// - avcC SPS #0 has zero length
-// swiftlint:disable type_body_length
-final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Sendable {
+final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Sendable {  // swiftlint:disable:this type_body_length
   private struct TrackContext {
     var trackHeader: ParsedBoxPayload.TrackHeaderBox?
   }

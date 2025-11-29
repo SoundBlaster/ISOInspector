@@ -25,8 +25,7 @@ import Foundation
 /// - Sample size table declares 100 samples but time-to-sample sums to 95 samples
 /// - Sample-to-chunk references chunk 50 but chunk offset table only defines 40 chunks
 /// - Chunk offset table has non-monotonic offsets (chunk 5 at offset 1000, chunk 6 at offset 900)
-// swiftlint:disable type_body_length
-final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Sendable {
+final class SampleTableCorrelationRule: BoxValidationRule, @unchecked Sendable {  // swiftlint:disable:this type_body_length
   private struct SampleToChunkState {
     let identifier: String
     let box: ParsedBoxPayload.SampleToChunkBox
