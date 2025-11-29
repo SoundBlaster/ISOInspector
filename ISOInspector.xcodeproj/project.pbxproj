@@ -185,6 +185,7 @@
 		4525DF5C97697E6CEAA3BFC9 /* CoreDataAnnotationBookmarkStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501BDE7D817A15D0AB66845E /* CoreDataAnnotationBookmarkStore.swift */; };
 		4573C4C1C1BE735975EC4E6E /* InMemoryRandomAccessReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D50A71DD073DC812BE7C65 /* InMemoryRandomAccessReader.swift */; };
 		460661C3B496E1D5DBF9F65F /* FilesystemOpenConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8C2FE675AB7404E2AE1639 /* FilesystemOpenConfiguration.swift */; };
+		460F68B4E50B8281FDCDB5FB /* FragmentEnvironmentCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8719F9C50158E016430FEE6 /* FragmentEnvironmentCoordinator.swift */; };
 		46589D233E6C9AB13091C45B /* ISOInspectorApp.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7954003B76877ED9E9074C66 /* ISOInspectorApp.docc */; };
 		467BEBF09B1F3D4BCDA7BB5E /* InspectorFocusShortcutCatalogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03F9185B6915F6D868323007 /* InspectorFocusShortcutCatalogTests.swift */; };
 		46F888D33DB855689DD79036 /* ISOInspectorBrandPalette.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3102926110408EF51524646 /* ISOInspectorBrandPalette.swift */; };
@@ -1237,6 +1238,7 @@
 		F5E6063259C078828E88D81B /* large_mdat_placeholder.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = large_mdat_placeholder.txt; sourceTree = "<group>"; };
 		F7DA9656ED454876DD273029 /* SampleToChunkDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleToChunkDetail.swift; sourceTree = "<group>"; };
 		F812B7693C3F9CCE18CF37DB /* SaioSampleAuxInfoOffsetsParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaioSampleAuxInfoOffsetsParserTests.swift; sourceTree = "<group>"; };
+		F8719F9C50158E016430FEE6 /* FragmentEnvironmentCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FragmentEnvironmentCoordinator.swift; sourceTree = "<group>"; };
 		F8AA489AF11B9824A5F1D67A /* AnnotationBookmarkSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnotationBookmarkSession.swift; sourceTree = "<group>"; };
 		F9A1238EA7514747C4429703 /* ISOInspectorKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISOInspectorKit.swift; sourceTree = "<group>"; };
 		F9FD9A51B1B9119CD5622C62 /* DocumentSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentSessionController.swift; sourceTree = "<group>"; };
@@ -1433,6 +1435,7 @@
 				3ECF4629E5C8CA1BEA239EE4 /* BoxParserRegistry+Utilities.swift */,
 				687C5A869B47EBC67B833667 /* FourCharCode.swift */,
 				6061B9FB8B5EE40A460F9678 /* FourCharContainerCode.swift */,
+				F8719F9C50158E016430FEE6 /* FragmentEnvironmentCoordinator.swift */,
 				388214C71D463780D22CDA9A /* FullBoxReader.swift */,
 				8118E3C981035084592FA121 /* HandlerType.swift */,
 				ABEC08BB2BB8BBF2A78B0D02 /* MediaAndIndexBoxCode.swift */,
@@ -3149,6 +3152,7 @@
 				893503E5BF2C4BED0360A0E7 /* BoxParserRegistry.swift in Sources */,
 				233E1CF3E65C34FAD60043FB /* FourCharCode.swift in Sources */,
 				1E173B75A8A91F5B28B24BFC /* FourCharContainerCode.swift in Sources */,
+				460F68B4E50B8281FDCDB5FB /* FragmentEnvironmentCoordinator.swift in Sources */,
 				67D473B7D26EB6FB8E9F99F3 /* FullBoxReader.swift in Sources */,
 				1CD45EB652D9413CBBF57406 /* HandlerType.swift in Sources */,
 				CB37B40517E672C9B046B425 /* MediaAndIndexBoxCode.swift in Sources */,
