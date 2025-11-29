@@ -48,9 +48,13 @@ pull_image_if_needed() {
 # Run SwiftLint in Docker
 run_swiftlint_docker() {
     local work_dir="$1"
-    local config_file="${2:-.swiftlint.yml}"
+    local config_file="${2:-}"
     shift 2
     local extra_args=("$@")
+    local config_args=()
+    if [[ -n "$config_file" ]]; then
+        config_args=(--config "$config_file")
+    fi
 
     ensure_docker
     pull_image_if_needed "$SWIFTLINT_IMAGE"
@@ -62,13 +66,17 @@ run_swiftlint_docker() {
         -v "$work_dir:/work" \
         -w /work \
         "$SWIFTLINT_IMAGE" \
-        swiftlint lint --config "$config_file" "${extra_args[@]}"
+        swiftlint lint "${config_args[@]}" "${extra_args[@]}"
 }
 
 # Run SwiftLint autocorrect in Docker
 run_swiftlint_autocorrect_docker() {
     local work_dir="$1"
-    local config_file="${2:-.swiftlint.yml}"
+    local config_file="${2:-}"
+    local config_args=()
+    if [[ -n "$config_file" ]]; then
+        config_args=(--config "$config_file")
+    fi
 
     ensure_docker
     pull_image_if_needed "$SWIFTLINT_IMAGE"
@@ -80,7 +88,7 @@ run_swiftlint_autocorrect_docker() {
         -v "$work_dir:/work" \
         -w /work \
         "$SWIFTLINT_IMAGE" \
-        /bin/sh -lc 'rm -f .swiftlint.cache; swiftlint --fix --no-cache --config '"$config_file"
+        /bin/sh -lc 'rm -f .swiftlint.cache; swiftlint --fix --no-cache '"${config_args[*]}"
 }
 
 # Run Python tests in Docker

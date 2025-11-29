@@ -24,6 +24,7 @@ opt_in_rules:
 disabled_rules:
   - todo
   - trailing_whitespace
+  - zero_magic_numbers  # Design system code defines tokens and platform scale factors directly
 
 # Rule Configurations
 line_length:
@@ -58,11 +59,16 @@ identifier_name:
     error: 60
   excluded:
     - id
+    - i
+    - j
     - s
     - m
     - l
     - xl
     - DS
+    - r
+    - g
+    - b
 
 # Custom Rules for Zero Magic Numbers
 custom_rules:

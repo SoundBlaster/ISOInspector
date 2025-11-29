@@ -183,6 +183,10 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
             if [[ -n "$baseline" && -f "$work_dir/$baseline" ]]; then
                 baseline_args=(--baseline "$baseline")
             fi
+            local config_args=()
+            if [[ -n "$config" ]]; then
+                config_args=(--config "$config")
+            fi
 
             if [[ "$SWIFTLINT_MODE" == "docker" ]]; then
                 if [[ "$AUTO_FIX" == "true" ]]; then
@@ -194,10 +198,10 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
                 pushd "$work_dir" >/dev/null
 
                 if [[ "$AUTO_FIX" == "true" ]]; then
-                    swiftlint --fix --config "$config" || true
+                    swiftlint --fix "${config_args[@]:-}" || true
                 fi
 
-                swiftlint lint --strict --config "$config" "${baseline_args[@]:-}"
+                swiftlint lint --strict "${config_args[@]:-}" "${baseline_args[@]:-}"
                 local result=$?
 
                 popd >/dev/null
@@ -206,7 +210,7 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
         }
 
     # Main Project
-    if timed_run "SwiftLint (Main Project)" run_swiftlint_check "Main Project" "$REPO_ROOT" ".swiftlint.yml" ".swiftlint.baseline.json"; then
+    if timed_run "SwiftLint (Main Project)" run_swiftlint_check "Main Project" "$REPO_ROOT" "" ".swiftlint.baseline.json"; then
         log_success "Main Project SwiftLint passed"
     else
         log_error "Main Project SwiftLint failed"
@@ -215,7 +219,7 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
 
     # FoundationUI
     if [[ -d "$REPO_ROOT/FoundationUI" ]]; then
-        if timed_run "SwiftLint (FoundationUI)" run_swiftlint_check "FoundationUI" "$REPO_ROOT/FoundationUI" ".swiftlint.yml"; then
+        if timed_run "SwiftLint (FoundationUI)" run_swiftlint_check "FoundationUI" "$REPO_ROOT/FoundationUI" ""; then
             log_success "FoundationUI SwiftLint passed"
         else
             log_error "FoundationUI SwiftLint failed"
