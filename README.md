@@ -134,10 +134,10 @@ Pre-commit and pre-push hooks both run `swiftlint lint --strict` (with the basel
 
 ### Running SwiftLint Locally
 
-Check for complexity violations:
+Check for complexity violations (leave off `--config` so nested configs like `Tests/.swiftlint.yml` are respected):
 
 ```sh
-swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json
+swiftlint lint --strict --baseline .swiftlint.baseline.json
 # ComponentTestApp sample app
 cd Examples/ComponentTestApp && swiftlint lint --strict --baseline .swiftlint-baseline.json
 ```
@@ -145,7 +145,7 @@ cd Examples/ComponentTestApp && swiftlint lint --strict --baseline .swiftlint-ba
 Auto-fix style issues where possible:
 
 ```sh
-swiftlint --fix --config .swiftlint.yml --baseline .swiftlint.baseline.json
+swiftlint --fix --baseline .swiftlint.baseline.json
 ```
 
 Install SwiftLint (macOS):

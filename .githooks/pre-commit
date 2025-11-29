@@ -113,7 +113,7 @@ if [ "$SWIFTLINT_MODE" != "none" ]; then
         done
 
         GROUP_FAILED=0
-        lint_staged_files "Main project" "." ".swiftlint.yml" ".swiftlint.baseline.json" "${MAIN_FILES[@]}" || GROUP_FAILED=1
+        lint_staged_files "Main project" "." "" ".swiftlint.baseline.json" "${MAIN_FILES[@]}" || GROUP_FAILED=1
         lint_staged_files "FoundationUI" "FoundationUI" ".swiftlint.yml" "" "${FOUNDATIONUI_FILES[@]}" || GROUP_FAILED=1
         lint_staged_files "ComponentTestApp" "Examples/ComponentTestApp" "" ".swiftlint-baseline.json" "${COMPONENT_FILES[@]}" || GROUP_FAILED=1
 

@@ -68,7 +68,7 @@ jobs:
           set -eo pipefail
 
           echo "🔍 Running SwiftLint on main project (Sources/, Tests/)..."
-          swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json --reporter json | tee /tmp/swiftlint-main.json
+          swiftlint lint --strict --baseline .swiftlint.baseline.json --reporter json | tee /tmp/swiftlint-main.json
 
           # Parse and display results
           if command -v jq &> /dev/null; then
@@ -87,7 +87,7 @@ jobs:
 
             if [ "$ERRORS" -gt 0 ]; then
               echo "❌ SwiftLint errors found in main project"
-              swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json --reporter xcode | head -50
+              swiftlint lint --strict --baseline .swiftlint.baseline.json --reporter xcode | head -50
             fi
           fi
 
@@ -107,7 +107,7 @@ jobs:
           cd FoundationUI
 
           echo "🔍 Running SwiftLint on FoundationUI..."
-          swiftlint lint --strict --config .swiftlint.yml --reporter json | tee /tmp/swiftlint-foundationui.json
+          swiftlint lint --strict --reporter json | tee /tmp/swiftlint-foundationui.json
 
           # Parse and display results
           if command -v jq &> /dev/null; then
@@ -125,7 +125,7 @@ jobs:
 
             if [ "$ERRORS" -gt 0 ]; then
               echo "❌ SwiftLint errors found!"
-              swiftlint lint --strict --config .swiftlint.yml --reporter xcode
+              swiftlint lint --strict --reporter xcode
               exit 1
             fi
           fi
