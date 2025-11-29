@@ -38,7 +38,7 @@ run_swiftlint() {
             -u "$(id -u):$(id -g)" \
             -v "$REPO_ROOT:/work" \
             -w "/work/$target_dir" \
-            ghcr.io/realm/swiftlint:0.53.0 \
+            ghcr.io/realm/swiftlint:0.57.0 \
             swiftlint "$@"
     else
         return 1

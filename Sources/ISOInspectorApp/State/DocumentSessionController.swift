@@ -87,70 +87,38 @@
       validationConfigurationStore: ValidationConfigurationPersisting? = nil,
       validationPresetLoader: (() throws -> [ValidationPreset])? = nil
     ) {
-      let resolvedParseTreeStore = parseTreeStore ?? ParseTreeStore()
-      let resolvedAnnotations = annotations ?? AnnotationBookmarkSession(store: nil)
-      let resolvedDiagnostics =
-        diagnostics
-        ?? DiagnosticsLogger(subsystem: "ISOInspectorApp", category: "DocumentSessionPersistence")
-
-      self.parseTreeStore = resolvedParseTreeStore
-      self.annotations = resolvedAnnotations
-      self.documentViewModel = DocumentViewModel(
-        store: resolvedParseTreeStore, annotations: resolvedAnnotations)
-      self.issueMetrics = resolvedParseTreeStore.issueMetrics
-
-      // Initialize services
-      let bookmarkService = BookmarkService(
-        bookmarkStore: bookmarkStore,
-        filesystemAccess: filesystemAccess,
-        bookmarkDataProvider: bookmarkDataProvider
-      )
-
-      self.recentsService = RecentsService(
+      let dependencies = Self.makeDependencies(
+        parseTreeStore: parseTreeStore,
+        annotations: annotations,
         recentsStore: recentsStore,
-        recentLimit: recentLimit,
-        diagnostics: resolvedDiagnostics,
-        bookmarkService: bookmarkService
-      )
-
-      let parseCoordinationService = ParseCoordinationService(
+        sessionStore: sessionStore,
         pipelineFactory: pipelineFactory,
         readerFactory: readerFactory,
-        workQueue: workQueue
-      )
-
-      self.sessionPersistenceService = SessionPersistenceService(
-        sessionStore: sessionStore,
-        diagnostics: resolvedDiagnostics,
-        bookmarkService: bookmarkService
-      )
-
-      self.validationConfigurationService = ValidationConfigurationService(
+        workQueue: workQueue,
+        diagnostics: diagnostics,
+        recentLimit: recentLimit,
+        bookmarkStore: bookmarkStore,
+        filesystemAccess: filesystemAccess,
+        bookmarkDataProvider: bookmarkDataProvider,
         validationConfigurationStore: validationConfigurationStore,
-        validationPresetLoader: validationPresetLoader,
-        diagnostics: resolvedDiagnostics
+        validationPresetLoader: validationPresetLoader
       )
 
-      self.exportService = ExportService(
-        parseTreeStore: resolvedParseTreeStore,
-        bookmarkService: bookmarkService,
-        validationConfigurationService: self.validationConfigurationService,
-        diagnostics: resolvedDiagnostics
-      )
+      self.parseTreeStore = dependencies.parseTreeStore
+      self.annotations = dependencies.annotations
+      self.documentViewModel = dependencies.documentViewModel
+      self.issueMetrics = dependencies.parseTreeStore.issueMetrics
 
-      self.documentOpeningCoordinator = DocumentOpeningCoordinator(
-        bookmarkService: bookmarkService,
-        parseCoordinationService: parseCoordinationService,
-        sessionPersistenceService: self.sessionPersistenceService,
-        validationConfigurationService: self.validationConfigurationService,
-        recentsService: self.recentsService,
-        parseTreeStore: resolvedParseTreeStore,
-        annotations: resolvedAnnotations
-      )
+      self.recentsService = dependencies.recentsService
+      self.sessionPersistenceService = dependencies.sessionPersistenceService
+      self.validationConfigurationService = dependencies.validationConfigurationService
+      self.exportService = dependencies.exportService
+      self.documentOpeningCoordinator = dependencies.documentOpeningCoordinator
 
       setupCoordinatorCallbacks()
       setupObservers(
-        resolvedAnnotations: resolvedAnnotations, resolvedParseTreeStore: resolvedParseTreeStore)
+        resolvedAnnotations: dependencies.annotations,
+        resolvedParseTreeStore: dependencies.parseTreeStore)
       applyValidationConfigurationFilter()
       restoreSessionIfNeeded()
     }
@@ -206,6 +174,10 @@
         documentOpeningCoordinator.restoreSession(pendingSnapshot)
       }
     }
+
+  }
+
+  extension DocumentSessionController {
 
     // MARK: - Public Methods
 
@@ -319,6 +291,228 @@
         }
         return configuration.isRuleEnabled(identifier, presets: presets)
       }
+    }
+
+    // MARK: - Dependency Builders
+
+    private struct SessionDependencies {
+      let parseTreeStore: ParseTreeStore
+      let annotations: AnnotationBookmarkSession
+      let documentViewModel: DocumentViewModel
+      let recentsService: RecentsService
+      let sessionPersistenceService: SessionPersistenceService
+      let validationConfigurationService: ValidationConfigurationService
+      let exportService: ExportService
+      let documentOpeningCoordinator: DocumentOpeningCoordinator
+      let diagnostics: any DiagnosticsLogging
+    }
+
+    private struct ResolvedContext {
+      let parseTreeStore: ParseTreeStore
+      let annotations: AnnotationBookmarkSession
+      let diagnostics: any DiagnosticsLogging
+    }
+
+    // Dependency wiring is centralized here to keep the initializer lean.
+    // swiftlint:disable:next function_body_length
+    private static func makeDependencies(
+      parseTreeStore: ParseTreeStore?,
+      annotations: AnnotationBookmarkSession?,
+      recentsStore: DocumentRecentsStoring,
+      sessionStore: WorkspaceSessionStoring?,
+      pipelineFactory: @escaping @Sendable () -> ParsePipeline,
+      readerFactory: @escaping @Sendable (URL) throws -> RandomAccessReader,
+      workQueue: DocumentSessionWorkQueue,
+      diagnostics: (any DiagnosticsLogging)?,
+      recentLimit: Int,
+      bookmarkStore: BookmarkPersistenceManaging?,
+      filesystemAccess: FilesystemAccess,
+      bookmarkDataProvider: ((SecurityScopedURL) -> Data?)?,
+      validationConfigurationStore: ValidationConfigurationPersisting?,
+      validationPresetLoader: (() throws -> [ValidationPreset])?
+    ) -> SessionDependencies {
+      let context = resolveContext(
+        parseTreeStore: parseTreeStore,
+        annotations: annotations,
+        diagnostics: diagnostics
+      )
+
+      let bookmarkService = makeBookmarkService(
+        context: context,
+        bookmarkStore: bookmarkStore,
+        filesystemAccess: filesystemAccess,
+        bookmarkDataProvider: bookmarkDataProvider
+      )
+
+      let recentsService = makeRecentsService(
+        context: context,
+        bookmarkService: bookmarkService,
+        recentsStore: recentsStore,
+        recentLimit: recentLimit
+      )
+
+      let parseCoordinationService = makeParseCoordinationService(
+        pipelineFactory: pipelineFactory,
+        readerFactory: readerFactory,
+        workQueue: workQueue
+      )
+
+      let sessionPersistenceService = makeSessionPersistenceService(
+        context: context,
+        bookmarkService: bookmarkService,
+        sessionStore: sessionStore
+      )
+
+      let validationConfigurationService = makeValidationConfigurationService(
+        context: context,
+        validationConfigurationStore: validationConfigurationStore,
+        validationPresetLoader: validationPresetLoader
+      )
+
+      let exportService = makeExportService(
+        context: context,
+        bookmarkService: bookmarkService,
+        validationConfigurationService: validationConfigurationService
+      )
+
+      let documentOpeningCoordinator = makeDocumentOpeningCoordinator(
+        bookmarkService: bookmarkService,
+        parseCoordinationService: parseCoordinationService,
+        sessionPersistenceService: sessionPersistenceService,
+        validationConfigurationService: validationConfigurationService,
+        recentsService: recentsService,
+        parseTreeStore: context.parseTreeStore,
+        annotations: context.annotations
+      )
+
+      let documentViewModel = DocumentViewModel(
+        store: context.parseTreeStore, annotations: context.annotations)
+
+      return SessionDependencies(
+        parseTreeStore: context.parseTreeStore,
+        annotations: context.annotations,
+        documentViewModel: documentViewModel,
+        recentsService: recentsService,
+        sessionPersistenceService: sessionPersistenceService,
+        validationConfigurationService: validationConfigurationService,
+        exportService: exportService,
+        documentOpeningCoordinator: documentOpeningCoordinator,
+        diagnostics: context.diagnostics
+      )
+    }
+
+    private static func resolveContext(
+      parseTreeStore: ParseTreeStore?,
+      annotations: AnnotationBookmarkSession?,
+      diagnostics: (any DiagnosticsLogging)?
+    ) -> ResolvedContext {
+      let resolvedParseTreeStore = parseTreeStore ?? ParseTreeStore()
+      let resolvedAnnotations = annotations ?? AnnotationBookmarkSession(store: nil)
+      let resolvedDiagnostics =
+        diagnostics
+        ?? DiagnosticsLogger(subsystem: "ISOInspectorApp", category: "DocumentSessionPersistence")
+
+      return ResolvedContext(
+        parseTreeStore: resolvedParseTreeStore,
+        annotations: resolvedAnnotations,
+        diagnostics: resolvedDiagnostics
+      )
+    }
+
+    private static func makeBookmarkService(
+      context: ResolvedContext,
+      bookmarkStore: BookmarkPersistenceManaging?,
+      filesystemAccess: FilesystemAccess,
+      bookmarkDataProvider: ((SecurityScopedURL) -> Data?)?
+    ) -> BookmarkService {
+      BookmarkService(
+        bookmarkStore: bookmarkStore,
+        filesystemAccess: filesystemAccess,
+        bookmarkDataProvider: bookmarkDataProvider
+      )
+    }
+
+    private static func makeRecentsService(
+      context: ResolvedContext,
+      bookmarkService: BookmarkService,
+      recentsStore: DocumentRecentsStoring,
+      recentLimit: Int
+    ) -> RecentsService {
+      RecentsService(
+        recentsStore: recentsStore,
+        recentLimit: recentLimit,
+        diagnostics: context.diagnostics,
+        bookmarkService: bookmarkService
+      )
+    }
+
+    private static func makeParseCoordinationService(
+      pipelineFactory: @escaping @Sendable () -> ParsePipeline,
+      readerFactory: @escaping @Sendable (URL) throws -> RandomAccessReader,
+      workQueue: DocumentSessionWorkQueue
+    ) -> ParseCoordinationService {
+      ParseCoordinationService(
+        pipelineFactory: pipelineFactory,
+        readerFactory: readerFactory,
+        workQueue: workQueue
+      )
+    }
+
+    private static func makeSessionPersistenceService(
+      context: ResolvedContext,
+      bookmarkService: BookmarkService,
+      sessionStore: WorkspaceSessionStoring?
+    ) -> SessionPersistenceService {
+      SessionPersistenceService(
+        sessionStore: sessionStore,
+        diagnostics: context.diagnostics,
+        bookmarkService: bookmarkService
+      )
+    }
+
+    private static func makeValidationConfigurationService(
+      context: ResolvedContext,
+      validationConfigurationStore: ValidationConfigurationPersisting?,
+      validationPresetLoader: (() throws -> [ValidationPreset])?
+    ) -> ValidationConfigurationService {
+      ValidationConfigurationService(
+        validationConfigurationStore: validationConfigurationStore,
+        validationPresetLoader: validationPresetLoader,
+        diagnostics: context.diagnostics
+      )
+    }
+
+    private static func makeExportService(
+      context: ResolvedContext,
+      bookmarkService: BookmarkService,
+      validationConfigurationService: ValidationConfigurationService
+    ) -> ExportService {
+      ExportService(
+        parseTreeStore: context.parseTreeStore,
+        bookmarkService: bookmarkService,
+        validationConfigurationService: validationConfigurationService,
+        diagnostics: context.diagnostics
+      )
+    }
+
+    private static func makeDocumentOpeningCoordinator(
+      bookmarkService: BookmarkService,
+      parseCoordinationService: ParseCoordinationService,
+      sessionPersistenceService: SessionPersistenceService,
+      validationConfigurationService: ValidationConfigurationService,
+      recentsService: RecentsService,
+      parseTreeStore: ParseTreeStore,
+      annotations: AnnotationBookmarkSession
+    ) -> DocumentOpeningCoordinator {
+      DocumentOpeningCoordinator(
+        bookmarkService: bookmarkService,
+        parseCoordinationService: parseCoordinationService,
+        sessionPersistenceService: sessionPersistenceService,
+        validationConfigurationService: validationConfigurationService,
+        recentsService: recentsService,
+        parseTreeStore: parseTreeStore,
+        annotations: annotations
+      )
     }
 
     // MARK: - Type Aliases
