@@ -16,7 +16,7 @@ import FoundationUI
 struct SidebarPatternScreen: View {
     /// Currently selected item ID
     @State private var selectedItemID: String?
-
+    
     /// Sample component library data using SidebarPattern types
     private let libraryItems: [SidebarPattern<String, AnyView>.Section] = [
         SidebarPattern.Section(
@@ -130,7 +130,7 @@ struct SidebarPatternScreen: View {
             ]
         )
     ]
-
+    
     var body: some View {
         SidebarPattern(
             sections: libraryItems,
@@ -141,7 +141,10 @@ struct SidebarPatternScreen: View {
         }
         .navigationTitle("SidebarPattern")
     }
+}
 
+extension SidebarPatternScreen {
+    
     /// Returns the detail view for the given item ID
     @ViewBuilder
     private func detailView(for itemID: String?) -> some View {
@@ -159,23 +162,25 @@ struct SidebarPatternScreen: View {
                     .font(.system(size: 64))
                     .foregroundStyle(.secondary)
                     .padding(.top, DS.Spacing.xl)
-
+                
                 Text("Select an item from the sidebar")
                     .font(DS.Typography.title)
                     .foregroundStyle(.secondary)
-
+                
                 Text("Browse Design Tokens, Modifiers, Components, and Patterns")
                     .font(DS.Typography.body)
                     .foregroundStyle(.tertiary)
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, DS.Spacing.xl)
-
+                
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
+}
 
+extension SidebarPatternScreen {
     // Helper functions to get item metadata
     private func itemTitle(for id: String) -> String {
         for section in libraryItems {
@@ -227,7 +232,7 @@ struct ComponentDetailView: View {
     let title: String
     let description: String
     let icon: String
-
+    
     var body: some View {
         VStack(spacing: DS.Spacing.xl) {
             // Icon
@@ -235,48 +240,23 @@ struct ComponentDetailView: View {
                 .font(.system(size: 64))
                 .foregroundStyle(DS.Colors.accent)
                 .padding(.top, DS.Spacing.xl)
-
+            
             // Title
             Text(title)
                 .font(DS.Typography.title)
                 .fontWeight(.semibold)
-
+            
             // Description
             Text(description)
                 .font(DS.Typography.body)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, DS.Spacing.xl)
-
-            // Metadata Card
-            Card(elevation: .low, cornerRadius: DS.Radius.card) {
-                VStack(spacing: DS.Spacing.m) {
-                    SectionHeader(title: "Details", showDivider: false)
-
-                    KeyValueRow(
-                        key: "Component ID",
-                        value: itemID,
-                        copyable: true
-                    )
-
-                    KeyValueRow(
-                        key: "Type",
-                        value: componentType(for: itemID),
-                        copyable: false
-                    )
-
-                    KeyValueRow(
-                        key: "Layer",
-                        value: componentLayer(for: itemID),
-                        copyable: false
-                    )
-                }
-                .padding(DS.Spacing.l)
-            }
-            .padding(.horizontal, DS.Spacing.l)
-
+            
+            metadataCard
+            
             Spacer()
-
+            
             // Usage Hint
             Text("This is a demonstration of SidebarPattern")
                 .font(DS.Typography.caption)
@@ -285,6 +265,40 @@ struct ComponentDetailView: View {
         }
         .frame(maxWidth: .infinity)
     }
+}
+
+extension ComponentDetailView {
+    @ViewBuilder
+    private var metadataCard: some View {
+        Card(elevation: .low, cornerRadius: DS.Radius.card) {
+            VStack(spacing: DS.Spacing.m) {
+                SectionHeader(title: "Details", showDivider: false)
+                
+                KeyValueRow(
+                    key: "Component ID",
+                    value: itemID,
+                    copyable: true
+                )
+                
+                KeyValueRow(
+                    key: "Type",
+                    value: componentType(for: itemID),
+                    copyable: false
+                )
+                
+                KeyValueRow(
+                    key: "Layer",
+                    value: componentLayer(for: itemID),
+                    copyable: false
+                )
+            }
+            .padding(DS.Spacing.l)
+        }
+        .padding(.horizontal, DS.Spacing.l)
+    }
+}
+
+extension ComponentDetailView {
 
     private func componentType(for id: String) -> String {
         if ["spacing", "colors", "typography", "radius", "animation"].contains(id) {
