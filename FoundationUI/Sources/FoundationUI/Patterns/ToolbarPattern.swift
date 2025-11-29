@@ -347,7 +347,7 @@ extension ToolbarPattern {
             return components.joined(separator: ", ")
         }
 
-        fileprivate var menuTitle: String {
+        var menuTitle: String {
             title ?? iconSystemName.replacingOccurrences(of: ".", with: " ")
         }
     }
@@ -371,7 +371,7 @@ extension ToolbarPattern {
             self.description = description
         }
 
-        fileprivate var glyphRepresentation: String {
+        var glyphRepresentation: String {
             let glyphs = modifiers.map(\.glyph).joined()
             return glyphs + key.uppercased()
         }
@@ -383,7 +383,7 @@ extension ToolbarPattern {
         case destructive
         case neutral
 
-        fileprivate var backgroundColor: Color {
+        var backgroundColor: Color {
             switch self {
             case .primaryAction:
                 DS.Colors.tertiary
@@ -448,7 +448,7 @@ extension ToolbarPattern {
 }
 
 extension ToolbarPattern.Shortcut.Modifier {
-    fileprivate var glyph: String {
+    var glyph: String {
         switch self {
         case .command:
             "⌘"
@@ -465,7 +465,7 @@ extension ToolbarPattern.Shortcut.Modifier {
 #if canImport(SwiftUI)
 extension View {
     @ViewBuilder
-    fileprivate func keyboardShortcut(_ shortcut: ToolbarPattern.Shortcut?) -> some View {
+    func keyboardShortcut(_ shortcut: ToolbarPattern.Shortcut?) -> some View {
         if let shortcut {
             #if os(macOS) || os(iOS)
             let modifiers = shortcut.modifiers.reduce(into: SwiftUI.EventModifiers()) {

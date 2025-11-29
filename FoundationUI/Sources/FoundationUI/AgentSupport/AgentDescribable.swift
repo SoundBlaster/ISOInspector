@@ -1,11 +1,3 @@
-//
-//  AgentDescribable.swift
-//  FoundationUI
-//
-//  Created by AI Assistant on 2025-11-08.
-//  Copyright © 2025 ISO Inspector. All rights reserved.
-//
-
 import Foundation
 
 /// A protocol that enables AI agents to programmatically generate and manipulate FoundationUI components.
