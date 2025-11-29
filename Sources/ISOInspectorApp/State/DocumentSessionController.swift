@@ -326,6 +326,12 @@
 
   // MARK: - Supporting Types
 
+  // Typealiases for backward compatibility with types moved to services
+  typealias ExportStatus = ExportService.ExportStatus
+  typealias ExportScope = ExportService.ExportScope
+  typealias DocumentLoadFailure = DocumentOpeningCoordinator.DocumentLoadFailure
+  typealias ValidationConfigurationScope = ValidationConfigurationService.ValidationConfigurationScope
+
   protocol DocumentSessionWorkQueue {
     func execute(_ work: @Sendable @escaping () -> Void)
   }

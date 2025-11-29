@@ -9,6 +9,7 @@
   /// - Bookmark creation and resolution
   /// - Bookmark persistence and migration
   /// - File access preparation for document opening
+  // swiftlint:disable:next type_body_length
   @MainActor
   final class BookmarkService {
     // MARK: - Properties
@@ -281,34 +282,6 @@
     var recent: DocumentRecent
     var bookmarkRecord: BookmarkPersistenceStore.Record?
     var bookmarkData: Data?
-  }
-
-  private enum DocumentAccessError: LocalizedError {
-    case unreadable(URL)
-    case unresolvedBookmark
-
-    var errorDescription: String? {
-      switch self {
-      case .unreadable(let url):
-        return "ISO Inspector couldn't access the file at \(url.path)."
-      case .unresolvedBookmark:
-        return "ISO Inspector couldn't resolve the saved bookmark for this file."
-      }
-    }
-
-    var failureReason: String? {
-      switch self {
-      case .unreadable(let url):
-        return
-          "The file may have been moved, deleted, or you may not have permission to read it. (\(url.path))"
-      case .unresolvedBookmark:
-        return "The security-scoped bookmark is no longer valid."
-      }
-    }
-
-    var recoverySuggestion: String? {
-      "Verify that the file exists and you have permission to read it, then try opening it again."
-    }
   }
 
   typealias BookmarkResolutionState = BookmarkPersistenceStore.Record.ResolutionState

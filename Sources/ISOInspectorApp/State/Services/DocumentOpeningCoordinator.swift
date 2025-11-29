@@ -308,7 +308,7 @@
     }
   }
 
-  private enum DocumentAccessError: LocalizedError {
+  enum DocumentAccessError: LocalizedError {
     case unreadable(URL)
     case unresolvedBookmark
 

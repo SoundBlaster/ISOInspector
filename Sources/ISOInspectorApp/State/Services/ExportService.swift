@@ -21,7 +21,7 @@
     private let diagnostics: any DiagnosticsLogging
     private let exportLogger = Logger(subsystem: "ISOInspectorApp", category: "Export")
 
-    private weak var currentDocument: DocumentRecent?
+    private var currentDocument: DocumentRecent?
 
     // MARK: - Initialization
 
