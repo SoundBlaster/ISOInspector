@@ -30,7 +30,9 @@ struct ParseTreeDetailView: View {
             draftNote = ""
         }
     }
+}
 
+extension ParseTreeDetailView {
     private var header: some View {
         HStack {
             VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
@@ -61,7 +63,7 @@ struct ParseTreeDetailView: View {
                 hexSection(detail: detail)
             }
             .padding(DS.Spacing.m)
-//            .frame(maxWidth: .infinity, alignment: .leading)
+            //            .frame(maxWidth: .infinity, alignment: .leading)
             .dynamicTypeSize(.medium ... .accessibility5)
         } else {
             noSelectionView
@@ -239,7 +241,9 @@ struct ParseTreeDetailView: View {
             }
         }
     }
+}
 
+extension ParseTreeDetailView {
     private struct CorruptionIssueSection: View {
         let header: AnyView
         let statusDescriptor: ParseTreeStatusDescriptor?
@@ -271,7 +275,9 @@ struct ParseTreeDetailView: View {
             }
         }
     }
+}
 
+extension ParseTreeDetailView {
     private struct CorruptionIssueRow: View {
         let issue: ParseIssue
         let focusTarget: FocusState<InspectorFocusTarget?>.Binding
@@ -646,62 +652,66 @@ struct ParseTreeDetailView: View {
     }
 }
 
-private struct HexSliceView: View {
-    let slice: HexSlice
-    let highlightedRange: Range<Int64>?
-    let bytesPerRow: Int
-    let focusTarget: FocusState<InspectorFocusTarget?>.Binding
-    let onSelectOffset: (Int64) -> Void
+extension ParseTreeDetailView {
+    struct HexSliceView: View {
+        let slice: HexSlice
+        let highlightedRange: Range<Int64>?
+        let bytesPerRow: Int
+        let focusTarget: FocusState<InspectorFocusTarget?>.Binding
+        let onSelectOffset: (Int64) -> Void
 
-    @State private var focusedOffset: Int64?
+        @State private var focusedOffset: Int64?
 
-    var body: some View {
-        ScrollViewReader { proxy in
-            ScrollView([.vertical, .horizontal]) {
-                LazyVStack(alignment: .leading, spacing: DS.Spacing.xs) {
-                    ForEach(rows) { row in
-                        HexSliceRowView(
-                            row: row,
-                            bytesPerRow: bytesPerRow,
-                            highlightedRange: highlightedRange,
-                            focusTarget: focusTarget,
-                            onSelectOffset: { select(offset: $0) }
-                        )
-                        .id(row.index)
+        var body: some View {
+            ScrollViewReader { proxy in
+                ScrollView([.vertical, .horizontal]) {
+                    LazyVStack(alignment: .leading, spacing: DS.Spacing.xs) {
+                        ForEach(rows) { row in
+                            HexSliceRowView(
+                                row: row,
+                                bytesPerRow: bytesPerRow,
+                                highlightedRange: highlightedRange,
+                                focusTarget: focusTarget,
+                                onSelectOffset: { select(offset: $0) }
+                            )
+                            .id(row.index)
+                        }
+                    }
+                    .padding(DS.Spacing.s)
+                }
+                .frame(minHeight: 200, idealHeight: 240, maxHeight: 320)
+                .background(
+                    Color.gray.opacity(0.05), in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+                )
+                .onChangeCompatibility(of: highlightedRange) { newValue in
+                    guard let range = newValue, let id = rowID(for: range) else { return }
+                    DispatchQueue.main.async {
+                        proxy.scrollTo(id, anchor: .center)
                     }
                 }
-                .padding(DS.Spacing.s)
-            }
-            .frame(minHeight: 200, idealHeight: 240, maxHeight: 320)
-            .background(
-                Color.gray.opacity(0.05), in: RoundedRectangle(cornerRadius: 8, style: .continuous)
-            )
-            .onChangeCompatibility(of: highlightedRange) { newValue in
-                guard let range = newValue, let id = rowID(for: range) else { return }
-                DispatchQueue.main.async {
-                    proxy.scrollTo(id, anchor: .center)
+                .focused(focusTarget, equals: .hex)
+                .compatibilityFocusable()
+                .onAppear {
+                    focusedOffset = highlightedRange?.lowerBound
                 }
-            }
-            .focused(focusTarget, equals: .hex)
-            .compatibilityFocusable()
-            .onAppear {
-                focusedOffset = highlightedRange?.lowerBound
-            }
-            .onChangeCompatibility(of: highlightedRange) { newValue in
-                focusedOffset = newValue?.lowerBound
-            }
+                .onChangeCompatibility(of: highlightedRange) { newValue in
+                    focusedOffset = newValue?.lowerBound
+                }
 #if canImport(AppKit)
-            .onMoveCommand { direction in
-                guard focusTarget.wrappedValue == .hex else { return }
-                guard let offset = focusedOffset ?? highlightedRange?.lowerBound else { return }
-                guard let nextOffset = nextOffset(from: offset, direction: direction) else { return }
-                select(offset: nextOffset)
-                scrollToOffset(nextOffset, proxy: proxy)
-            }
+                .onMoveCommand { direction in
+                    guard focusTarget.wrappedValue == .hex else { return }
+                    guard let offset = focusedOffset ?? highlightedRange?.lowerBound else { return }
+                    guard let nextOffset = nextOffset(from: offset, direction: direction) else { return }
+                    select(offset: nextOffset)
+                    scrollToOffset(nextOffset, proxy: proxy)
+                }
 #endif
+            }
         }
     }
+}
 
+extension ParseTreeDetailView.HexSliceView {
     private var rows: [HexSliceRow] {
         guard bytesPerRow > 0 else { return [] }
         let bytes = Array(slice.bytes)
@@ -758,34 +768,36 @@ private struct HexSliceView: View {
     }
 }
 
-private struct EncryptionSummary {
-    let sampleEncryption: [(String, String)]
-    let auxInfoOffsets: [(String, String)]
-    let auxInfoSizes: [(String, String)]
+extension ParseTreeDetailView {
+    private struct EncryptionSummary {
+        let sampleEncryption: [(String, String)]
+        let auxInfoOffsets: [(String, String)]
+        let auxInfoSizes: [(String, String)]
 
-    var hasContent: Bool {
-        !sampleEncryption.isEmpty || !auxInfoOffsets.isEmpty || !auxInfoSizes.isEmpty
-    }
-
-    var accessibilityLabel: String {
-        var segments: [String] = []
-        func append(_ title: String, rows: [(String, String)]) {
-            guard !rows.isEmpty else { return }
-            segments.append(title)
-            for (label, value) in rows {
-                segments.append("\(label) \(value)")
-            }
+        var hasContent: Bool {
+            !sampleEncryption.isEmpty || !auxInfoOffsets.isEmpty || !auxInfoSizes.isEmpty
         }
-        append("Sample encryption", rows: sampleEncryption)
-        append("Aux info offsets", rows: auxInfoOffsets)
-        append("Aux info sizes", rows: auxInfoSizes)
-        return segments.joined(separator: ". ")
-    }
 
-    init(detail: ParseTreeNodeDetail) {
-        self.sampleEncryption = detail.sampleRows
-        self.auxInfoOffsets = detail.offsetRows
-        self.auxInfoSizes = detail.sizeRows
+        var accessibilityLabel: String {
+            var segments: [String] = []
+            func append(_ title: String, rows: [(String, String)]) {
+                guard !rows.isEmpty else { return }
+                segments.append(title)
+                for (label, value) in rows {
+                    segments.append("\(label) \(value)")
+                }
+            }
+            append("Sample encryption", rows: sampleEncryption)
+            append("Aux info offsets", rows: auxInfoOffsets)
+            append("Aux info sizes", rows: auxInfoSizes)
+            return segments.joined(separator: ". ")
+        }
+
+        init(detail: ParseTreeNodeDetail) {
+            self.sampleEncryption = detail.sampleRows
+            self.auxInfoOffsets = detail.offsetRows
+            self.auxInfoSizes = detail.sizeRows
+        }
     }
 }
 
@@ -877,97 +889,102 @@ extension Bool {
     }
 }
 
-private struct HexSliceRow: Identifiable {
-    let index: Int
-    let offset: Int64
-    let bytes: [UInt8]
+extension ParseTreeDetailView.HexSliceView {
+    struct HexSliceRow: Identifiable {
+        let index: Int
+        let offset: Int64
+        let bytes: [UInt8]
 
-    var id: Int { index }
+        var id: Int { index }
+    }
 }
 
-private struct HexSliceRowView: View {
-    let row: HexSliceRow
-    let bytesPerRow: Int
-    let highlightedRange: Range<Int64>?
-    let focusTarget: FocusState<InspectorFocusTarget?>.Binding
-    let onSelectOffset: (Int64) -> Void
+extension ParseTreeDetailView.HexSliceView {
 
-    private var hexColumns: [GridItem] {
-        Array(repeating: GridItem(.fixed(28), spacing: DS.Spacing.xxs), count: bytesPerRow)
-    }
+    struct HexSliceRowView: View {
+        let row: HexSliceRow
+        let bytesPerRow: Int
+        let highlightedRange: Range<Int64>?
+        let focusTarget: FocusState<InspectorFocusTarget?>.Binding
+        let onSelectOffset: (Int64) -> Void
 
-    private let accessibilityFormatter = HexByteAccessibilityFormatter()
+        private var hexColumns: [GridItem] {
+            Array(repeating: GridItem(.fixed(28), spacing: DS.Spacing.xxs), count: bytesPerRow)
+        }
 
-    var body: some View {
-        HStack(alignment: .top, spacing: DS.Spacing.m) {
-            Text(String(format: "%08llX", UInt64(max(0, row.offset))))
-                .font(.system(.footnote, design: .monospaced))
-                .foregroundColor(.secondary)
-                .frame(width: 80, alignment: .leading)
+        private let accessibilityFormatter = HexByteAccessibilityFormatter()
 
-            LazyVGrid(columns: hexColumns, spacing: DS.Spacing.xxs) {
-                ForEach(0..<bytesPerRow, id: \.self) { index in
-                    if index < row.bytes.count {
-                        let globalOffset = row.offset + Int64(index)
-                        let label = accessibilityFormatter.label(
-                            for: row.bytes[index],
-                            at: globalOffset,
-                            highlighted: isHighlighted(globalOffset)
-                        )
-                        HexByteCell(
-                            text: String(format: "%02X", row.bytes[index]),
-                            isHighlighted: isHighlighted(globalOffset),
-                            width: 28,
-                            accessibilityLabel: label
-                        ) {
-                            focusTarget.wrappedValue = .hex
-                            onSelectOffset(globalOffset)
-                        }
-                    } else {
-                        Spacer().frame(width: 28, height: 24)
-                    }
-                }
-            }
+        var body: some View {
+            HStack(alignment: .top, spacing: DS.Spacing.m) {
+                Text(String(format: "%08llX", UInt64(max(0, row.offset))))
+                    .font(.system(.footnote, design: .monospaced))
+                    .foregroundColor(.secondary)
+                    .frame(width: 80, alignment: .leading)
 
-            Divider()
-                .frame(height: 24)
-
-            HStack(spacing: 2) {
-                ForEach(0..<bytesPerRow, id: \.self) { index in
-                    if index < row.bytes.count {
-                        let globalOffset = row.offset + Int64(index)
-                        HexByteCell(
-                            text: asciiCharacter(for: row.bytes[index]),
-                            isHighlighted: isHighlighted(globalOffset),
-                            width: 16,
-                            accessibilityLabel: accessibilityFormatter.label(
+                LazyVGrid(columns: hexColumns, spacing: DS.Spacing.xxs) {
+                    ForEach(0..<bytesPerRow, id: \.self) { index in
+                        if index < row.bytes.count {
+                            let globalOffset = row.offset + Int64(index)
+                            let label = accessibilityFormatter.label(
                                 for: row.bytes[index],
                                 at: globalOffset,
                                 highlighted: isHighlighted(globalOffset)
                             )
-                        ) {
-                            onSelectOffset(globalOffset)
+                            HexByteCell(
+                                text: String(format: "%02X", row.bytes[index]),
+                                isHighlighted: isHighlighted(globalOffset),
+                                width: 28,
+                                accessibilityLabel: label
+                            ) {
+                                focusTarget.wrappedValue = .hex
+                                onSelectOffset(globalOffset)
+                            }
+                        } else {
+                            Spacer().frame(width: 28, height: 24)
                         }
-                        .accessibilityHidden(true)
-                    } else {
-                        Spacer().frame(width: 16, height: 24)
                     }
                 }
+
+                Divider()
+                    .frame(height: 24)
+
+                HStack(spacing: 2) {
+                    ForEach(0..<bytesPerRow, id: \.self) { index in
+                        if index < row.bytes.count {
+                            let globalOffset = row.offset + Int64(index)
+                            HexByteCell(
+                                text: asciiCharacter(for: row.bytes[index]),
+                                isHighlighted: isHighlighted(globalOffset),
+                                width: 16,
+                                accessibilityLabel: accessibilityFormatter.label(
+                                    for: row.bytes[index],
+                                    at: globalOffset,
+                                    highlighted: isHighlighted(globalOffset)
+                                )
+                            ) {
+                                onSelectOffset(globalOffset)
+                            }
+                            .accessibilityHidden(true)
+                        } else {
+                            Spacer().frame(width: 16, height: 24)
+                        }
+                    }
+                }
+                .font(.system(.body, design: .monospaced))
             }
-            .font(.system(.body, design: .monospaced))
         }
-    }
 
-    private func isHighlighted(_ offset: Int64) -> Bool {
-        highlightedRange?.contains(offset) ?? false
-    }
-
-    private func asciiCharacter(for byte: UInt8) -> String {
-        let value = Int(byte)
-        if (32...126).contains(value), let scalar = UnicodeScalar(value) {
-            return String(Character(scalar))
+        private func isHighlighted(_ offset: Int64) -> Bool {
+            highlightedRange?.contains(offset) ?? false
         }
-        return "."
+
+        private func asciiCharacter(for byte: UInt8) -> String {
+            let value = Int(byte)
+            if (32...126).contains(value), let scalar = UnicodeScalar(value) {
+                return String(Character(scalar))
+            }
+            return "."
+        }
     }
 }
 
@@ -1012,104 +1029,108 @@ private struct HexByteCell: View {
     }
 }
 
-private struct AnnotationNoteRow: View {
-    let record: AnnotationRecord
-    let onUpdate: (String) -> Void
-    let onDelete: () -> Void
+extension ParseTreeDetailView {
+    struct AnnotationNoteRow: View {
+        let record: AnnotationRecord
+        let onUpdate: (String) -> Void
+        let onDelete: () -> Void
 
-    @State private var isEditing = false
-    @State private var draft: String = ""
+        @State private var isEditing = false
+        @State private var draft: String = ""
 
-    var body: some View {
-        VStack(alignment: .leading, spacing: DS.Spacing.xs) {
-            HStack(alignment: .firstTextBaseline) {
-                Text("Updated " + record.updatedAt.formatted(.relative(presentation: .named)))
-                    .font(.caption2)
-                    .foregroundColor(.secondary)
-                Spacer()
+        var body: some View {
+            VStack(alignment: .leading, spacing: DS.Spacing.xs) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text("Updated " + record.updatedAt.formatted(.relative(presentation: .named)))
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                    if isEditing {
+                        Button("Cancel") {
+                            isEditing = false
+                            draft = record.note
+                        }
+                        .font(.caption)
+                        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.cancel)
+                        Button("Save") {
+                            let trimmed = draft.trimmingCharacters(in: .whitespacesAndNewlines)
+                            guard !trimmed.isEmpty else { return }
+                            onUpdate(trimmed)
+                            isEditing = false
+                        }
+                        .font(.caption)
+                        .buttonStyle(.borderedProminent)
+                        .disabled(draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.save)
+                    } else {
+                        Button("Edit") {
+                            draft = record.note
+                            isEditing = true
+                        }
+                        .font(.caption)
+                        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.edit)
+                        Button(role: .destructive) {
+                            onDelete()
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                        .buttonStyle(.borderless)
+                        .font(.caption)
+                        .accessibilityLabel("Delete note")
+                        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.delete)
+                    }
+                }
+                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.root)
                 if isEditing {
-                    Button("Cancel") {
-                        isEditing = false
-                        draft = record.note
-                    }
-                    .font(.caption)
-                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.cancel)
-                    Button("Save") {
-                        let trimmed = draft.trimmingCharacters(in: .whitespacesAndNewlines)
-                        guard !trimmed.isEmpty else { return }
-                        onUpdate(trimmed)
-                        isEditing = false
-                    }
-                    .font(.caption)
-                    .buttonStyle(.borderedProminent)
-                    .disabled(draft.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.save)
+                    TextEditor(text: $draft)
+                        .frame(minHeight: 60)
+                        .overlay {
+                            RoundedRectangle(cornerRadius: 6, style: .continuous)
+                                .stroke(Color.gray.opacity(0.2))
+                        }
                 } else {
-                    Button("Edit") {
-                        draft = record.note
-                        isEditing = true
-                    }
-                    .font(.caption)
-                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.edit)
-                    Button(role: .destructive) {
-                        onDelete()
-                    } label: {
-                        Image(systemName: "trash")
-                    }
-                    .buttonStyle(.borderless)
-                    .font(.caption)
-                    .accessibilityLabel("Delete note")
-                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.delete)
+                    Text(record.note)
+                        .font(.body)
+                        .textSelection(.enabled)
                 }
             }
-            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.Controls.root)
-            if isEditing {
-                TextEditor(text: $draft)
-                    .frame(minHeight: 60)
-                    .overlay {
-                        RoundedRectangle(cornerRadius: 6, style: .continuous)
-                            .stroke(Color.gray.opacity(0.2))
-                    }
-            } else {
-                Text(record.note)
-                    .font(.body)
-                    .textSelection(.enabled)
+            .padding(DS.Spacing.s)
+            .background {
+                RoundedRectangle(cornerRadius: 8, style: .continuous)
+                    .fill(Color.gray.opacity(0.08))
             }
-        }
-        .padding(DS.Spacing.s)
-        .background {
-            RoundedRectangle(cornerRadius: 8, style: .continuous)
-                .fill(Color.gray.opacity(0.08))
-        }
-        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.row(record.id))
-        .onAppear {
-            draft = record.note
-        }
-        .onChangeCompatibility(of: record.note) { newValue in
-            if !isEditing {
-                draft = newValue
+            .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Detail.Notes.row(record.id))
+            .onAppear {
+                draft = record.note
+            }
+            .onChangeCompatibility(of: record.note) { newValue in
+                if !isEditing {
+                    draft = newValue
+                }
             }
         }
     }
 }
 
-private struct SeverityBadge: View {
-    let severity: ValidationIssue.Severity
+extension ParseTreeDetailView {
+    struct SeverityBadge: View {
+        let severity: ValidationIssue.Severity
 
-    var body: some View {
-        Text(severity.label.uppercased())
-            .font(.caption2)
-            .fontWeight(.semibold)
-            .padding(.horizontal, DS.Spacing.xs)
-            .padding(.vertical, DS.Spacing.xs / 2)
-            .background(severity.color.opacity(0.2))
-            .foregroundColor(severity.color)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small, style: .continuous))
+        var body: some View {
+            Text(severity.label.uppercased())
+                .font(.caption2)
+                .fontWeight(.semibold)
+                .padding(.horizontal, DS.Spacing.xs)
+                .padding(.vertical, DS.Spacing.xs / 2)
+                .background(severity.color.opacity(0.2))
+                .foregroundColor(severity.color)
+                .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small, style: .continuous))
+        }
     }
 }
 
 extension ParseIssue.Severity {
-    fileprivate var color: Color {
+    var color: Color {
         switch self {
         case .info:
             return .blue
@@ -1117,28 +1138,6 @@ extension ParseIssue.Severity {
             return .orange
         case .error:
             return .red
-        }
-    }
-
-    fileprivate var iconName: String {
-        switch self {
-        case .info:
-            return "info.circle.fill"
-        case .warning:
-            return "exclamationmark.triangle.fill"
-        case .error:
-            return "xmark.octagon.fill"
-        }
-    }
-
-    fileprivate var accessibilityDescription: String {
-        switch self {
-        case .info:
-            return "Informational"
-        case .warning:
-            return "Warning"
-        case .error:
-            return "Error"
         }
     }
 }
