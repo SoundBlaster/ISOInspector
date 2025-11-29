@@ -8,15 +8,30 @@ public struct ParseTreeBuilder {
 
     public init() {}
 
+    fileprivate mutating func popStackUntil(header: BoxHeader) {
+        while let candidate = stack.last, candidate.header != header {
+            _ = stack.popLast()
+        }
+    }
+
+    fileprivate func copyIssuesTo(node: ParseTreeBuilder.MutableNode, from event: ParseEvent) {
+        node.issues = event.issues
+        if event.issues.containsGuardIssues() {
+            node.status = .partial
+        }
+    }
+
+    fileprivate func appendIssuesTo(node: ParseTreeBuilder.MutableNode, from event: ParseEvent) {
+        node.validationIssues.append(contentsOf: event.validationIssues)
+    }
+
     fileprivate mutating func boxDidFinish(_ header: BoxHeader, _ event: ParseEvent) {
         guard let current = stack.last else {
             return
         }
 
         if current.header != header {
-            while let candidate = stack.last, candidate.header != header {
-                _ = stack.popLast()
-            }
+            popStackUntil(header: header)
         }
 
         guard let node = stack.popLast() else {
@@ -35,13 +50,10 @@ public struct ParseTreeBuilder {
             node.payload = event.payload ?? node.payload
         }
         if !event.validationIssues.isEmpty {
-            node.validationIssues.append(contentsOf: event.validationIssues)
+            appendIssuesTo(node: node, from: event)
         }
         if !event.issues.isEmpty {
-            node.issues = event.issues
-            if event.issues.containsGuardIssues() {
-                node.status = .partial
-            }
+            copyIssuesTo(node: node, from: event)
         }
         synthesizePlaceholdersIfNeeded(for: node)
     }
