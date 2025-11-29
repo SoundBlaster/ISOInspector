@@ -5,161 +5,6 @@ import NestedA11yIDs
 import ISOInspectorKit
 import FoundationUI
 
-struct ParseTreeExplorerView: View {
-    @ObservedObject var viewModel: DocumentViewModel
-    @ObservedObject private var outlineViewModel: ParseTreeOutlineViewModel
-    @ObservedObject private var annotations: AnnotationBookmarkSession
-    @Binding var selectedNodeID: ParseTreeNode.ID?
-    @Binding var showInspector: Bool
-    let focusTarget: FocusState<InspectorFocusTarget?>.Binding
-    let ensureIntegrityViewModel: () -> Void
-    let toggleInspectorVisibility: () -> Void
-    let exportSelectionJSONAction: ((ParseTreeNode.ID) -> Void)?
-    let exportSelectionIssueSummaryAction: ((ParseTreeNode.ID) -> Void)?
-    private let focusCatalog = InspectorFocusShortcutCatalog.default
-
-    init(
-        viewModel: DocumentViewModel,
-        selectedNodeID: Binding<ParseTreeNode.ID?>,
-        showInspector: Binding<Bool>,
-        focusTarget: FocusState<InspectorFocusTarget?>.Binding,
-        ensureIntegrityViewModel: @escaping () -> Void,
-        toggleInspectorVisibility: @escaping () -> Void,
-        exportSelectionJSONAction: ((ParseTreeNode.ID) -> Void)? = nil,
-        exportSelectionIssueSummaryAction: ((ParseTreeNode.ID) -> Void)? = nil
-    ) {
-        self._viewModel = ObservedObject(wrappedValue: viewModel)
-        self._outlineViewModel = ObservedObject(wrappedValue: viewModel.outlineViewModel)
-        self._annotations = ObservedObject(wrappedValue: viewModel.annotations)
-        self._selectedNodeID = selectedNodeID
-        self._showInspector = showInspector
-        self.focusTarget = focusTarget
-        self.ensureIntegrityViewModel = ensureIntegrityViewModel
-        self.toggleInspectorVisibility = toggleInspectorVisibility
-        self.exportSelectionJSONAction = exportSelectionJSONAction
-        self.exportSelectionIssueSummaryAction = exportSelectionIssueSummaryAction
-    }
-
-    var body: some View {
-//        VStack(alignment: .leading, spacing: DS.Spacing.l) {
-        ScrollView {
-
-            header
-
-            explorerColumn
-                .focused(focusTarget, equals: .outline)
-                .padding(.horizontal, DS.Spacing.m)
-                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
-        }
-
-        .onAppear {
-            focusTarget.wrappedValue = .outline
-            if showInspector {
-                ensureIntegrityViewModel()
-            }
-        }
-        .onChangeCompatibility(of: showInspector) { isShowingIntegrity in
-            if isShowingIntegrity {
-                ensureIntegrityViewModel()
-            }
-        }
-        .background(focusCommands)
-    }
-
-    private var explorerColumn: some View {
-        ParseTreeOutlineView(
-            viewModel: outlineViewModel,
-            selectedNodeID: $selectedNodeID,
-            annotationSession: annotations,
-            focusTarget: focusTarget,
-            exportSelectionJSONAction: exportSelectionJSONAction,
-            exportSelectionIssueSummaryAction: exportSelectionIssueSummaryAction
-        )
-    }
-
-    private var header: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
-                Text(headerTitle)
-                    .font(.title2)
-                    .bold()
-                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.title)
-
-                Text(headerSubtitle)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.subtitle)
-            }
-
-            Spacer()
-
-            ParseStateBadge(state: viewModel.parseState)
-                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.parseState)
-        }
-        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.root)
-        .padding(DS.Spacing.m)
-    }
-
-    private var headerTitle: String {
-        "Box Hierarchy"
-    }
-
-    private var headerSubtitle: String {
-        "Search, filter, and expand ISO BMFF boxes"
-    }
-
-    private var focusCommands: some View {
-        Group {
-            ForEach(focusCatalog.shortcuts) { descriptor in
-                HiddenKeyboardShortcutButton(
-                    title: LocalizedStringKey(descriptor.title),
-                    key: keyEquivalent(for: descriptor),
-                    modifiers: [.command, .option]
-                ) {
-                    focusTarget.wrappedValue = descriptor.target
-                }
-            }
-            HiddenKeyboardShortcutButton(
-                title: "Next Issue",
-                key: "e",
-                modifiers: [.command, .shift]
-            ) {
-                navigateToIssue(direction: .down)
-            }
-            HiddenKeyboardShortcutButton(
-                title: "Previous Issue",
-                key: "e",
-                modifiers: [.command, .shift, .option]
-            ) {
-                navigateToIssue(direction: .up)
-            }
-            HiddenKeyboardShortcutButton(
-                title: "Toggle Inspector Column",
-                key: "i",
-                modifiers: [.command, .option]
-            ) {
-                toggleInspectorVisibility()
-            }
-        }
-    }
-
-    private func keyEquivalent(for descriptor: InspectorFocusShortcutDescriptor) -> KeyEquivalent {
-        KeyEquivalent(descriptor.key.first ?? " ")
-    }
-
-    private func navigateToIssue(direction: ParseTreeOutlineViewModel.NavigationDirection) {
-        guard
-            let targetID = outlineViewModel.issueRowID(
-                after: selectedNodeID,
-                direction: direction
-            )
-        else { return }
-        outlineViewModel.revealNode(withID: targetID)
-        focusTarget.wrappedValue = .outline
-        selectedNodeID = targetID
-    }
-}
-
 struct ParseTreeOutlineView: View {
     @ObservedObject var viewModel: ParseTreeOutlineViewModel
     @Binding var selectedNodeID: ParseTreeNode.ID?
@@ -207,6 +52,9 @@ struct ParseTreeOutlineView: View {
             focusedRowID = newValue
         }
     }
+}
+
+extension ParseTreeOutlineView {
 
     private var searchBar: some View {
         TextField("Search boxes, names, or summaries", text: $viewModel.searchText)
@@ -314,43 +162,41 @@ struct ParseTreeOutlineView: View {
         if viewModel.rows.isEmpty {
             emptyStateView
         } else {
-//            ScrollView {
-                LazyVStack(alignment: .leading, spacing: 0) {
-                    ForEach(viewModel.rows) { row in
-                        ParseTreeOutlineRowView(
-                            row: row,
-                            isSelected: selectedNodeID == row.id,
-                            isBookmarked: annotationSession.isBookmarked(nodeID: row.id),
-                            isBookmarkingEnabled: annotationSession.isEnabled,
-                            onSelect: {
-                                selectedNodeID = row.id
-                                if !row.node.children.isEmpty {
-                                    viewModel.toggleExpansion(for: row.id)
-                                }
-                                keyboardSelectionID = row.id
-                            },
-                            onToggleBookmark: {
-                                selectedNodeID = row.id
-                                annotationSession.setSelectedNode(row.id)
-                                annotationSession.toggleBookmark()
-                            },
-                            onExportJSON: exportSelectionJSONAction.map { action in
-                                { @MainActor in action(row.id) }
-                            },
-                            onExportIssueSummary: exportSelectionIssueSummaryAction.map { action in
-                                { @MainActor in action(row.id) }
+            LazyVStack(alignment: .leading, spacing: 0) {
+                ForEach(viewModel.rows) { row in
+                    ParseTreeOutlineRowView(
+                        row: row,
+                        isSelected: selectedNodeID == row.id,
+                        isBookmarked: annotationSession.isBookmarked(nodeID: row.id),
+                        isBookmarkingEnabled: annotationSession.isEnabled,
+                        onSelect: {
+                            selectedNodeID = row.id
+                            if !row.node.children.isEmpty {
+                                viewModel.toggleExpansion(for: row.id)
                             }
-                        )
-                        .id(row.id)
-                        .focused($focusedRowID, equals: row.id)
-                        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.row(row.id))
-                        .compatibilityFocusable()
-                        .onTapGesture {
-                            focusTarget.wrappedValue = .outline
-                            focusedRowID = row.id
+                            keyboardSelectionID = row.id
+                        },
+                        onToggleBookmark: {
+                            selectedNodeID = row.id
+                            annotationSession.setSelectedNode(row.id)
+                            annotationSession.toggleBookmark()
+                        },
+                        onExportJSON: exportSelectionJSONAction.map { action in
+                            { @MainActor in action(row.id) }
+                        },
+                        onExportIssueSummary: exportSelectionIssueSummaryAction.map { action in
+                            { @MainActor in action(row.id) }
                         }
+                    )
+                    .id(row.id)
+                    .focused($focusedRowID, equals: row.id)
+                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.row(row.id))
+                    .compatibilityFocusable()
+                    .onTapGesture {
+                        focusTarget.wrappedValue = .outline
+                        focusedRowID = row.id
                     }
-//                }
+                }
             }
             .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.root)
 #if !os(iOS)
@@ -393,7 +239,9 @@ struct ParseTreeOutlineView: View {
             .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.emptyState)
         }
     }
+}
 
+extension ParseTreeOutlineView {
     private func binding(for severity: ValidationIssue.Severity) -> Binding<Bool> {
         Binding(
             get: { viewModel.filter.focusedSeverities.contains(severity) },
@@ -425,7 +273,9 @@ struct ParseTreeOutlineView: View {
             }
         )
     }
+}
 
+extension ParseTreeOutlineView {
     private func badgeLevel(for severity: ValidationIssue.Severity) -> BadgeLevel {
         switch severity {
         case .info:
@@ -451,7 +301,9 @@ struct ParseTreeOutlineView: View {
             return .info
         }
     }
+}
 
+extension ParseTreeOutlineView {
     private func isFilterActive(for severity: ValidationIssue.Severity) -> Bool {
         viewModel.filter.focusedSeverities.contains(severity)
     }
@@ -467,7 +319,9 @@ struct ParseTreeOutlineView: View {
     private func filterForeground(for severity: ValidationIssue.Severity) -> Color {
         isFilterActive(for: severity) ? severity.color : .secondary
     }
+}
 
+extension ParseTreeOutlineView {
     private func categoryBackground(for category: BoxCategory) -> Color {
         category.color.opacity(isFilterActive(for: category) ? 0.25 : 0.08)
     }
@@ -475,7 +329,9 @@ struct ParseTreeOutlineView: View {
     private func categoryForeground(for category: BoxCategory) -> Color {
         isFilterActive(for: category) ? category.color : .secondary
     }
+}
 
+extension ParseTreeOutlineView {
     private var isIssuesOnlyActive: Bool {
         viewModel.filter.showsOnlyIssues
     }
@@ -492,8 +348,10 @@ struct ParseTreeOutlineView: View {
         viewModel.filter.showsOnlyIssues
         ? "exclamationmark.triangle.fill" : "exclamationmark.triangle"
     }
+}
 
 #if !os(iOS)
+extension ParseTreeOutlineView {
     private func nextRowID(for direction: MoveCommandDirection) -> ParseTreeNode.ID? {
         let activeID = keyboardSelectionID ?? selectedNodeID
         switch direction {
@@ -524,273 +382,8 @@ struct ParseTreeOutlineView: View {
             return activeID
         }
     }
+}
 #endif
-}
-
-private struct ParseTreeOutlineRowView: View {
-    let row: ParseTreeOutlineRow
-    let isSelected: Bool
-    let isBookmarked: Bool
-    let isBookmarkingEnabled: Bool
-    let onSelect: () -> Void
-    let onToggleBookmark: () -> Void
-    let onExportJSON: (@MainActor () -> Void)?
-    let onExportIssueSummary: (@MainActor () -> Void)?
-
-    var body: some View {
-        HStack(spacing: DS.Spacing.s) {
-            icon
-            VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
-                Text(row.displayName)
-                    .font(.body)
-                    .fontWeight(row.isSearchMatch ? .semibold : .regular)
-                    .foregroundColor(row.isSearchMatch ? Color.accentColor : Color.primary)
-                Text(row.typeDescription)
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                if let summary = row.summary, !summary.isEmpty {
-                    Text(summary)
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
-                        .lineLimit(2)
-                }
-            }
-            Spacer()
-            if let statusDescriptor = row.statusDescriptor {
-                HStack(spacing: DS.Spacing.s) {
-                    Indicator(
-                        level: descriptorBadgeLevel(statusDescriptor.level),
-                        size: .mini,
-                        reason: statusDescriptor.accessibilityLabel,
-                        tooltip: .text(statusDescriptor.text)
-                    )
-                    ParseTreeStatusBadge(descriptor: statusDescriptor)
-                }
-            }
-            if let corruption = row.corruptionSummary {
-                CorruptionBadge(summary: corruption)
-            } else if let severity = row.dominantSeverity {
-                SeverityBadge(severity: severity)
-            } else if row.hasValidationIssues {
-                SeverityBadge(severity: .info)
-            }
-            bookmarkButton
-        }
-        .padding(.vertical, DS.Spacing.xs)
-        .padding(.leading, CGFloat(row.depth) * DS.Spacing.l + DS.Spacing.xxs)
-        .padding(.trailing, DS.Spacing.s)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(background)
-        .contentShape(Rectangle())
-        .onTapGesture(perform: onSelect)
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(accessibilityDescriptor.label)
-        .accessibilityValue(optional: accessibilityDescriptor.value)
-        .accessibilityHint(optional: accessibilityDescriptor.hint)
-        .contextMenu {
-            if let onExportJSON {
-                Button {
-                    onExportJSON()
-                } label: {
-                    Label("Export JSON…", systemImage: "square.and.arrow.down")
-                }
-            }
-            if let onExportIssueSummary {
-                Button {
-                    onExportIssueSummary()
-                } label: {
-                    Label("Export Issue Summary…", systemImage: "doc.text")
-                }
-            }
-        }
-    }
-
-    private var icon: some View {
-        Group {
-            if row.node.children.isEmpty {
-                Image(systemName: "square")
-                    .foregroundColor(.secondary)
-            } else {
-                Image(systemName: row.isExpanded ? "chevron.down" : "chevron.right")
-                    .foregroundColor(.secondary)
-            }
-        }
-        .frame(width: 12)
-    }
-
-    private var bookmarkButton: some View {
-        Button(action: onToggleBookmark) {
-            Image(systemName: isBookmarked ? "bookmark.fill" : "bookmark")
-                .foregroundColor(isBookmarked ? Color.accentColor : Color.secondary)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel(isBookmarked ? "Remove bookmark" : "Add bookmark")
-        .disabled(!isBookmarkingEnabled)
-        .opacity(isBookmarkingEnabled ? 1 : 0.35)
-        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.rowBookmark(row.id))
-    }
-
-    private var background: some View {
-        RoundedRectangle(cornerRadius: DS.Radius.small, style: .continuous)
-            .fill(backgroundColor)
-    }
-
-    private var backgroundColor: Color {
-        if isSelected {
-            return Color.accentColor.opacity(0.18)
-        }
-        if row.isSearchMatch {
-            return Color.accentColor.opacity(0.12)
-        }
-        return Color.clear
-    }
-
-    private var accessibilityDescriptor: AccessibilityDescriptor {
-        row.accessibilityDescriptor(isBookmarked: isBookmarked)
-    }
-
-    private func descriptorBadgeLevel(_ level: ParseTreeStatusDescriptor.Level) -> BadgeLevel {
-        switch level {
-        case .info:
-            return .info
-        case .warning:
-            return .warning
-        case .error:
-            return .error
-        case .success:
-            return .success
-        }
-    }
-}
-
-private struct CorruptionBadge: View {
-    let summary: ParseTreeOutlineRow.CorruptionSummary
-
-    var body: some View {
-        Badge(text: summary.badgeText, level: badgeLevel, showIcon: true)
-            .help(summary.tooltipText ?? summary.badgeText)
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel(summary.accessibilityLabel)
-            .accessibilityHint(optional: summary.accessibilityHint)
-#if os(macOS)
-            .focusable(true)
-#endif
-    }
-
-    private var badgeLevel: BadgeLevel {
-        switch summary.dominantSeverity {
-        case .info:
-            return .info
-        case .warning:
-            return .warning
-        case .error:
-            return .error
-        }
-    }
-}
-
-private struct SeverityBadge: View {
-    let severity: ValidationIssue.Severity
-
-    var body: some View {
-        Badge(text: severity.label.uppercased(), level: badgeLevel)
-    }
-
-    private var badgeLevel: BadgeLevel {
-        switch severity {
-        case .info:
-            return .info
-        case .warning:
-            return .warning
-        case .error:
-            return .error
-        }
-    }
-}
-
-private struct ParseStateBadge: View {
-    let state: ParseTreeStoreState
-
-    var body: some View {
-        Badge(text: stateDescription, level: badgeLevel)
-    }
-
-    private var stateDescription: String {
-        switch state {
-        case .idle: return "Idle"
-        case .parsing: return "Parsing"
-        case .finished: return "Finished"
-        case .failed(let message): return "Failed: \(message)"
-        }
-    }
-
-    private var badgeLevel: BadgeLevel {
-        switch state {
-        case .idle: return .info
-        case .parsing: return .info
-        case .finished: return .success
-        case .failed: return .error
-        }
-    }
-}
-
-extension ParseIssue.Severity {
-    fileprivate var label: String {
-        switch self {
-        case .info: return "Info"
-        case .warning: return "Warning"
-        case .error: return "Error"
-        }
-    }
-
-    fileprivate var color: Color {
-        switch self {
-        case .info: return .blue
-        case .warning: return .orange
-        case .error: return .red
-        }
-    }
-}
-
-extension ValidationIssue.Severity {
-    fileprivate var label: String {
-        switch self {
-        case .info: return "Info"
-        case .warning: return "Warning"
-        case .error: return "Error"
-        }
-    }
-
-    fileprivate var color: Color {
-        switch self {
-        case .info: return .blue
-        case .warning: return .orange
-        case .error: return .red
-        }
-    }
-}
-
-extension BoxCategory {
-    fileprivate var label: String {
-        switch self {
-        case .metadata: return "Metadata"
-        case .media: return "Media"
-        case .index: return "Index"
-        case .container: return "Container"
-        case .other: return "Other"
-        }
-    }
-
-    fileprivate var color: Color {
-        switch self {
-        case .metadata: return .purple
-        case .media: return .green
-        case .index: return .blue
-        case .container: return .teal
-        case .other: return .gray
-        }
-    }
-}
 
 #Preview("Outline View") {
     ParseTreeOutlinePreview()
@@ -854,68 +447,4 @@ private struct ParseTreeExplorerPreview: View {
     }
 }
 
-extension View {
-    @ViewBuilder
-    fileprivate func accessibilityValue(optional value: String?) -> some View {
-        if let value {
-            accessibilityValue(value)
-        } else {
-            self
-        }
-    }
-
-    @ViewBuilder
-    fileprivate func accessibilityHint(optional hint: String?) -> some View {
-        if let hint {
-            accessibilityHint(hint)
-        } else {
-            self
-        }
-    }
-
-    @ViewBuilder
-    fileprivate func compatibilityFocusable() -> some View {
-#if os(iOS)
-        if #available(iOS 17, *) {
-            focusable(true)
-        } else {
-            self
-        }
-#else
-        focusable(true)
-#endif
-    }
-
-    @ViewBuilder
-    fileprivate func onChangeCompatibility<Value: Equatable>(
-        of value: Value,
-        initial: Bool = false,
-        perform: @escaping (Value) -> Void
-    ) -> some View {
-        if #available(iOS 17, macOS 14, *) {
-            onChange(of: value, initial: initial) { _, newValue in
-                perform(newValue)
-            }
-        } else {
-            onChange(of: value, perform: perform)
-        }
-    }
-}
-
-private struct HiddenKeyboardShortcutButton: View {
-    let title: LocalizedStringKey
-    let key: KeyEquivalent
-    let modifiers: EventModifiers
-    let action: () -> Void
-
-    var body: some View {
-        Button(title) { action() }
-            .keyboardShortcut(key, modifiers: modifiers)
-            .buttonStyle(.plain)
-            .frame(width: 0, height: 0)
-            .opacity(0.001)
-            .allowsHitTesting(false)
-            .accessibilityHidden(true)
-    }
-}
 #endif
