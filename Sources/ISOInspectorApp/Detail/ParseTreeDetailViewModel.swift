@@ -4,7 +4,7 @@
   import ISOInspectorKit
 
   @MainActor
-  final class ParseTreeDetailViewModel: ObservableObject {
+final class ParseTreeDetailViewModel: ObservableObject {
     @Published private(set) var detail: ParseTreeNodeDetail?
     @Published private(set) var hexError: String?
     @Published private(set) var annotations: [PayloadAnnotation] = []
@@ -23,14 +23,21 @@
     private let windowSize: Int
 
     init(
-      hexSliceProvider: HexSliceProvider?, annotationProvider: PayloadAnnotationProvider?,
-      windowSize: Int = 256
+        hexSliceProvider: HexSliceProvider?, annotationProvider: PayloadAnnotationProvider?,
+        windowSize: Int = 256
     ) {
-      self.hexSliceProvider = hexSliceProvider
-      self.annotationProvider = annotationProvider
-      self.windowSize = windowSize
+        self.hexSliceProvider = hexSliceProvider
+        self.annotationProvider = annotationProvider
+        self.windowSize = windowSize
     }
 
+    deinit {
+      hexTask?.cancel()
+      annotationTask?.cancel()
+    }
+}
+
+extension ParseTreeDetailViewModel {
     func update(hexSliceProvider: HexSliceProvider?, annotationProvider: PayloadAnnotationProvider?)
     {
       self.hexSliceProvider = hexSliceProvider
@@ -75,7 +82,9 @@
       self.snapshot = snapshot
       rebuildDetail()
     }
+}
 
+extension ParseTreeDetailViewModel {
     private func rebuildDetail() {
       hexTask?.cancel()
       hexTask = nil
@@ -127,7 +136,9 @@
       }
       loadHexSlice(for: node, detail: detail)
     }
+}
 
+extension ParseTreeDetailViewModel {
     func focusIssue(on range: Range<Int64>) {
       highlightedRange = range
       selectedAnnotationID = nil
@@ -235,7 +246,9 @@
       }
       return mapped.isEmpty ? nil : mapped
     }
+}
 
+extension ParseTreeDetailViewModel {
     private func makeWindow(
       for header: BoxHeader,
       focusRange: Range<Int64>? = nil
@@ -290,11 +303,6 @@
       if value <= 0 { return 0 }
       if value >= Int64(Int.max) { return Int.max }
       return Int(value)
-    }
-
-    deinit {
-      hexTask?.cancel()
-      annotationTask?.cancel()
     }
   }
 #endif

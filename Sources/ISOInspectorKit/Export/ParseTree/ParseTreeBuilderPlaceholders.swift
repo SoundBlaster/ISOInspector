@@ -13,7 +13,7 @@ extension ParseTreeBuilder {
     }
 
     fileprivate func mutableCorrupedNodeFrom(_ placeholderHeader: BoxHeader, _ node: ParseTreeBuilder.MutableNode) -> ParseTreeBuilder.MutableNode {
-        var placeholderNode = MutableNode(
+        let placeholderNode = MutableNode(
             header: placeholderHeader,
             metadata: ParseTree.PlaceholderPlanner.metadata(for: placeholderHeader),
             payload: nil,
