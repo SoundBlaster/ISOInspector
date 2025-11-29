@@ -11,6 +11,7 @@
   /// - Issue summary export
   /// - File save dialog coordination
   /// - Export metadata generation
+  // swiftlint:disable:next type_body_length
   @MainActor
   final class ExportService {
     // MARK: - Properties
