@@ -141,6 +141,9 @@ struct SidebarPatternScreen: View {
         }
         .navigationTitle("SidebarPattern")
     }
+}
+
+extension SidebarPatternScreen {
 
     /// Returns the detail view for the given item ID
     @ViewBuilder
@@ -175,7 +178,9 @@ struct SidebarPatternScreen: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
+}
 
+extension SidebarPatternScreen {
     // Helper functions to get item metadata
     private func itemTitle(for id: String) -> String {
         for section in libraryItems {
@@ -248,32 +253,7 @@ struct ComponentDetailView: View {
                 .multilineTextAlignment(.center)
                 .padding(.horizontal, DS.Spacing.xl)
 
-            // Metadata Card
-            Card(elevation: .low, cornerRadius: DS.Radius.card) {
-                VStack(spacing: DS.Spacing.m) {
-                    SectionHeader(title: "Details", showDivider: false)
-
-                    KeyValueRow(
-                        key: "Component ID",
-                        value: itemID,
-                        copyable: true
-                    )
-
-                    KeyValueRow(
-                        key: "Type",
-                        value: componentType(for: itemID),
-                        copyable: false
-                    )
-
-                    KeyValueRow(
-                        key: "Layer",
-                        value: componentLayer(for: itemID),
-                        copyable: false
-                    )
-                }
-                .padding(DS.Spacing.l)
-            }
-            .padding(.horizontal, DS.Spacing.l)
+            metadataCard
 
             Spacer()
 
@@ -285,6 +265,40 @@ struct ComponentDetailView: View {
         }
         .frame(maxWidth: .infinity)
     }
+}
+
+extension ComponentDetailView {
+    @ViewBuilder
+    private var metadataCard: some View {
+        Card(elevation: .low, cornerRadius: DS.Radius.card) {
+            VStack(spacing: DS.Spacing.m) {
+                SectionHeader(title: "Details", showDivider: false)
+
+                KeyValueRow(
+                    key: "Component ID",
+                    value: itemID,
+                    copyable: true
+                )
+
+                KeyValueRow(
+                    key: "Type",
+                    value: componentType(for: itemID),
+                    copyable: false
+                )
+
+                KeyValueRow(
+                    key: "Layer",
+                    value: componentLayer(for: itemID),
+                    copyable: false
+                )
+            }
+            .padding(DS.Spacing.l)
+        }
+        .padding(.horizontal, DS.Spacing.l)
+    }
+}
+
+extension ComponentDetailView {
 
     private func componentType(for id: String) -> String {
         if ["spacing", "colors", "typography", "radius", "animation"].contains(id) {

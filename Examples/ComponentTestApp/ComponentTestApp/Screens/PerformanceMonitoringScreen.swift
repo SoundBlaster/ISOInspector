@@ -97,6 +97,9 @@ struct PerformanceMonitoringScreen: View {
         }
         .navigationTitle("Performance Monitoring")
     }
+}
+
+extension PerformanceMonitoringScreen {
 
     // MARK: - Header
 
@@ -111,6 +114,9 @@ struct PerformanceMonitoringScreen: View {
                 .foregroundColor(DS.Colors.textSecondary)
         }
     }
+}
+
+extension PerformanceMonitoringScreen {
 
     // MARK: - Test Controls Section
 
@@ -155,6 +161,9 @@ struct PerformanceMonitoringScreen: View {
             }
         }
     }
+}
+
+extension PerformanceMonitoringScreen {
 
     // MARK: - Test Results Section
 
@@ -214,6 +223,9 @@ struct PerformanceMonitoringScreen: View {
             }
         }
     }
+}
+
+extension PerformanceMonitoringScreen {
 
     // MARK: - Performance Baselines Section
 
@@ -257,6 +269,9 @@ struct PerformanceMonitoringScreen: View {
             .cornerRadius(DS.Radius.medium)
         }
     }
+}
+
+extension PerformanceMonitoringScreen {
 
     // MARK: - Test Preview Section
 
@@ -324,6 +339,9 @@ struct PerformanceMonitoringScreen: View {
             }
         }
     }
+}
+
+extension PerformanceMonitoringScreen {
 
     // MARK: - Helper Views
 
@@ -386,6 +404,9 @@ struct PerformanceMonitoringScreen: View {
             }
         }
     }
+}
+
+extension PerformanceMonitoringScreen {
 
     // MARK: - Test Actions
 

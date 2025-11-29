@@ -59,6 +59,9 @@ struct UtilitiesScreen: View {
             Text("Copied '\(copiedText)' to clipboard")
         }
     }
+}
+
+extension UtilitiesScreen {
 
     // MARK: - Header
 
@@ -73,6 +76,9 @@ struct UtilitiesScreen: View {
                 .foregroundColor(DS.Colors.textSecondary)
         }
     }
+}
+
+extension UtilitiesScreen {
 
     // MARK: - CopyableText Section
 
@@ -153,6 +159,9 @@ struct UtilitiesScreen: View {
             .padding(.horizontal, DS.Spacing.m)
         }
     }
+}
+
+extension UtilitiesScreen {
 
     // MARK: - Copyable Wrapper Section
 
@@ -211,6 +220,9 @@ struct UtilitiesScreen: View {
             .padding(.horizontal, DS.Spacing.m)
         }
     }
+}
+
+extension UtilitiesScreen {
 
     // MARK: - KeyboardShortcuts Section
 
@@ -253,6 +265,9 @@ struct UtilitiesScreen: View {
             .padding(.horizontal, DS.Spacing.m)
         }
     }
+}
+
+extension UtilitiesScreen {
 
     // MARK: - AccessibilityHelpers Section
 
@@ -346,6 +361,9 @@ struct UtilitiesScreen: View {
             .padding(.horizontal, DS.Spacing.m)
         }
     }
+}
+
+extension UtilitiesScreen {
 
     // MARK: - Contrast Validator View
 
@@ -381,6 +399,9 @@ struct UtilitiesScreen: View {
             )
         }
     }
+}
+
+extension UtilitiesScreen {
 
     // MARK: - Helper Views
 

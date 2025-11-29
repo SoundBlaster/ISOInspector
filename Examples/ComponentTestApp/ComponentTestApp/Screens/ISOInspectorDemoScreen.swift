@@ -89,11 +89,11 @@ struct ISOInspectorDemoScreen: View {
             Divider()
 
             // Main content area
-            #if os(macOS)
+#if os(macOS)
             macOSLayout
-            #else
+#else
             iOSLayout
-            #endif
+#endif
         }
         .navigationTitle("ISO Inspector Demo")
         .alert("Action Performed", isPresented: $showAlert) {
@@ -102,6 +102,9 @@ struct ISOInspectorDemoScreen: View {
             Text(alertMessage)
         }
     }
+}
+
+extension ISOInspectorDemoScreen {
 
     // MARK: - Toolbar
 
@@ -156,6 +159,9 @@ struct ISOInspectorDemoScreen: View {
         }
         .font(DS.Typography.body)
     }
+}
+
+extension ISOInspectorDemoScreen {
 
     // MARK: - macOS Layout (Three-column)
 
@@ -229,6 +235,9 @@ struct ISOInspectorDemoScreen: View {
         }
     }
     #endif
+}
+
+extension ISOInspectorDemoScreen {
 
     // MARK: - iOS/iPadOS Layout (Adaptive)
 
@@ -287,7 +296,9 @@ struct ISOInspectorDemoScreen: View {
         }
     }
     #endif
+}
 
+extension ISOInspectorDemoScreen {
     // MARK: - Inspector View
 
     @ViewBuilder
@@ -367,7 +378,9 @@ struct ISOInspectorDemoScreen: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
+}
 
+extension ISOInspectorDemoScreen {
     // MARK: - Empty State
 
     private var emptyStateView: some View {
@@ -392,7 +405,9 @@ struct ISOInspectorDemoScreen: View {
         .padding(DS.Spacing.xl)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
+}
 
+extension ISOInspectorDemoScreen {
     // MARK: - Actions
 
     private func openFileAction() {
@@ -431,7 +446,9 @@ struct ISOInspectorDemoScreen: View {
         alertMessage = "Data refreshed\nKeyboard shortcut: ⌘R"
         showAlert = true
     }
+}
 
+extension ISOInspectorDemoScreen {
     // MARK: - Helpers
 
     /// Recursively find a box by ID in the hierarchy

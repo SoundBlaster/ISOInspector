@@ -175,14 +175,20 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
             local name="$1"
             local work_dir="$2"
             local config="$3"
+            local baseline="${4:-}"
 
             log_info "Running SwiftLint on $name..."
+
+            local baseline_args=()
+            if [[ -n "$baseline" && -f "$work_dir/$baseline" ]]; then
+                baseline_args=(--baseline "$baseline")
+            fi
 
             if [[ "$SWIFTLINT_MODE" == "docker" ]]; then
                 if [[ "$AUTO_FIX" == "true" ]]; then
                     run_swiftlint_autocorrect_docker "$work_dir" "$config"
                 fi
-                run_swiftlint_docker "$work_dir" "$config" --strict
+                run_swiftlint_docker "$work_dir" "$config" --strict "${baseline_args[@]:-}"
             else
                 # Native mode
                 pushd "$work_dir" >/dev/null
@@ -191,7 +197,7 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
                     swiftlint --fix --config "$config" || true
                 fi
 
-                swiftlint lint --strict --config "$config"
+                swiftlint lint --strict --config "$config" "${baseline_args[@]:-}"
                 local result=$?
 
                 popd >/dev/null
@@ -200,7 +206,7 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
         }
 
     # Main Project
-    if timed_run "SwiftLint (Main Project)" run_swiftlint_check "Main Project" "$REPO_ROOT" ".swiftlint.yml"; then
+    if timed_run "SwiftLint (Main Project)" run_swiftlint_check "Main Project" "$REPO_ROOT" ".swiftlint.yml" ".swiftlint.baseline.json"; then
         log_success "Main Project SwiftLint passed"
     else
         log_error "Main Project SwiftLint failed"
@@ -219,7 +225,7 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
 
     # ComponentTestApp
     if [[ -d "$REPO_ROOT/Examples/ComponentTestApp" ]]; then
-        if timed_run "SwiftLint (ComponentTestApp)" run_swiftlint_check "ComponentTestApp" "$REPO_ROOT/Examples/ComponentTestApp" "../../.swiftlint.yml"; then
+        if timed_run "SwiftLint (ComponentTestApp)" run_swiftlint_check "ComponentTestApp" "$REPO_ROOT/Examples/ComponentTestApp" "../../.swiftlint.yml" ".swiftlint-baseline.json"; then
             log_success "ComponentTestApp SwiftLint passed"
         else
             log_error "ComponentTestApp SwiftLint failed"

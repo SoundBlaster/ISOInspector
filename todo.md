@@ -3,19 +3,23 @@
 ## CI/CD & Quality Gates
 
 - [ ] Wire `swift format --in-place` into `.pre-commit-config.yaml` and add a `swift format --mode lint` gate to `.github/workflows/ci.yml` so formatting failures block pushes and pull requests. (Config: `.pre-commit-config.yaml`, `.github/workflows/ci.yml`)
-- [ ] Restore SwiftLint complexity thresholds in `.swiftlint.yml` and surface analyzer artifacts from `.github/workflows/swiftlint.yml` when violations occur. (Config: `.swiftlint.yml`, `.github/workflows/swiftlint.yml`) _(Status: In Progress — see `DOCS/INPROGRESS/A7_SwiftLint_Complexity_Thresholds.md` for scope and outstanding refactors.)_
+- [x] Restore SwiftLint complexity thresholds in `.swiftlint.yml` and surface analyzer artifacts from `.github/workflows/swiftlint.yml` when violations occur. (Config: `.swiftlint.yml`, `.github/workflows/swiftlint.yml`) _(Completed 2025-11-18 — strict mode enabled locally/CI; see `DOCS/INPROGRESS/Summary_of_Work.md`.)_
 
-### Task A7 Follow-up: Refactor Large Files (Blocking Strict Mode)
+### Task A7 Follow-up: Refactor Large Files (Blocking Strict Mode) ✅ COMPLETED
 
-- [ ] #A7 Refactor JSONParseTreeExporter.swift to comply with type_body_length threshold — Extract nested types (Node, Issue, Payload, etc.) into separate files in JSONPayloadTypes/ directory. Currently 2127 lines, target <1200 lines. (Sources/ISOInspectorKit/Export/JSONParseTreeExporter.swift)
-- [ ] #A7 Refactor BoxValidator.swift to comply with type_body_length threshold — Extract individual validation rules into separate files (one rule per file) in ValidationRules/ directory. Currently 1738 lines, target <1200 lines. (Sources/ISOInspectorKit/Validation/BoxValidator.swift)
-- [ ] #A7 Refactor DocumentSessionController to comply with type_body_length threshold — Extract bookmark management, recent files management, and parse pipeline coordination into separate services (BookmarkService, RecentsService, ParseCoordinationService). Currently 1634 lines, target <1200 lines. Remove swiftlint:disable directive. (Sources/ISOInspectorApp/State/DocumentSessionController.swift)
-- [ ] #A7 Enable strict mode for main project after refactoring large files — After completing the 3 refactoring tasks above, switch CI to `swiftlint lint --strict` and remove informational mode. Update `.github/workflows/swiftlint.yml` and `.swiftlint.yml`. (`.github/workflows/swiftlint.yml`, `.swiftlint.yml`)
+- [x] #A7 Refactor JSONParseTreeExporter.swift to comply with type_body_length threshold — StructuredPayload now builds via a factory initializer, trimming the type to <200 lines and removing the swiftlint suppression. (Sources/ISOInspectorKit/Export/JSONParseTreeExporter.swift) _(Completed 2025-11-25.)_
+- [x] #A7 Refactor BoxValidator.swift to comply with type_body_length threshold — Extracted 12 individual validation rules into separate files in ValidationRules/ directory. Reduced from 1748 lines to 66 lines. (Sources/ISOInspectorKit/Validation/BoxValidator.swift, Sources/ISOInspectorKit/Validation/ValidationRules/) _(Completed 2025-11-28.)_
+- [x] #A7 Refactor DocumentSessionController to comply with type_body_length threshold — Extracted 7 services: BookmarkService, RecentsService, ParseCoordinationService, SessionPersistenceService, ValidationConfigurationService, ExportService, DocumentOpeningCoordinator. Reduced from 1652 lines to 347 lines (82% reduction). Removed swiftlint:disable directive. (Sources/ISOInspectorApp/State/DocumentSessionController.swift, Sources/ISOInspectorApp/State/Services/) _(Completed 2025-11-28.)_
+- [x] #A7 Enable strict mode for main project after refactoring large files — CI and local hooks now run `swiftlint lint --strict` with JSON artifacts published for every run. (`.github/workflows/swiftlint.yml`, `.swiftlint.yml`, `.githooks/pre-commit`)
 
 - [ ] Promote `coverage_analysis.py` to a shared quality gate by wiring it into `.githooks/pre-push` and `.github/workflows/ci.yml` after `swift test --enable-code-coverage`. (Scripts: `.githooks/pre-push`, `coverage_analysis.py`, `.github/workflows/ci.yml`)
 - [ ] Add DocC + `missing_docs` enforcement to the lint pipeline so public APIs fail CI without documentation coverage, and capture the suppression playbook in `Documentation/ISOInspector.docc/Guides/DocumentationStyle.md`. (Config: `.swiftlint.yml`, `.github/workflows/documentation.yml`)
 - [x] Extend `.githooks/pre-push` and `.github/workflows/ci.yml` with `swift build --strict-concurrency=complete`/`swift test --strict-concurrency=complete` runs, publishing logs referenced from `DOCS/AI/PRD_SwiftStrictConcurrency_Store.md`. (Scripts: `.githooks/pre-push`, `.github/workflows/ci.yml`) _(Completed 2025-11-15 — Task A9, archived at `DOCS/TASK_ARCHIVE/225_A9_Swift6_Concurrency_Cleanup/`)_
 - [ ] Add `.github/workflows/swift-duplication.yml` that runs `scripts/run_swift_duplication_check.sh` (wrapper around `npx jscpd@3.5.10`) on all Swift targets, fails when duplicates exceed 1% or blocks >45 lines repeat, and uploads a console artifact. (Docs: `DOCS/AI/github-workflows/02_swift_duplication_guard/prd.md` + `TODO.md`)
+
+## Bugs & Regressions
+
+- [x] #235 Smoke tests blocked by Sendable violations — Resolved by adding `@Sendable` factory types, `@unchecked Sendable` for the resource handoff struct, and restructuring document loading to avoid actor boundary breaches. Smoke filters now pass under strict concurrency. (See `DOCS/INPROGRESS/235_Sendable_SmokeTest_Build_Failure.md`.)
 
 ## FoundationUI Integration
 

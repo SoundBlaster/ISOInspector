@@ -67,6 +67,9 @@ struct AccessibilityTestingScreen: View {
         .navigationTitle("Accessibility Testing")
         .dynamicTypeSize(selectedDynamicTypeSize)
     }
+}
+
+extension AccessibilityTestingScreen {
 
     // MARK: - Header
 
@@ -81,6 +84,9 @@ struct AccessibilityTestingScreen: View {
                 .foregroundColor(DS.Colors.textSecondary)
         }
     }
+}
+
+extension AccessibilityTestingScreen {
 
     // MARK: - Contrast Ratio Section
 
@@ -131,6 +137,9 @@ struct AccessibilityTestingScreen: View {
             }
         }
     }
+}
+
+extension AccessibilityTestingScreen {
 
     // MARK: - Touch Target Section
 
@@ -195,6 +204,9 @@ struct AccessibilityTestingScreen: View {
             }
         }
     }
+}
+
+extension AccessibilityTestingScreen {
 
     // MARK: - Dynamic Type Section
 
@@ -251,6 +263,9 @@ struct AccessibilityTestingScreen: View {
             }
         }
     }
+}
+
+extension AccessibilityTestingScreen {
 
     // MARK: - Reduce Motion Section
 
@@ -296,6 +311,9 @@ struct AccessibilityTestingScreen: View {
             }
         }
     }
+}
+
+extension AccessibilityTestingScreen {
 
     // MARK: - Accessibility Score Section
 
@@ -363,6 +381,9 @@ struct AccessibilityTestingScreen: View {
             .cornerRadius(DS.Radius.medium)
         }
     }
+}
+
+extension AccessibilityTestingScreen {
 
     // MARK: - Helper Views
 

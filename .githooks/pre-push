@@ -27,12 +27,12 @@ echo ""
 # 1. Check for SwiftLint violations (if installed)
 echo "1️⃣  Checking code quality with SwiftLint (strict mode)..."
 if command -v swiftlint &> /dev/null; then
-    if swiftlint lint --strict --quiet; then
+    if swiftlint lint --strict --quiet --config .swiftlint.yml --baseline .swiftlint.baseline.json; then
         echo -e "${GREEN}✅ SwiftLint check passed${NC}"
     else
         echo -e "${RED}❌ SwiftLint violations found${NC}"
-        echo "   Run: swiftlint lint"
-        echo "   Fix auto-fixable issues: swiftlint --fix"
+        echo "   Run: swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json"
+        echo "   Fix auto-fixable issues: swiftlint --fix --config .swiftlint.yml"
         FAILED=$((FAILED + 1))
     fi
 else

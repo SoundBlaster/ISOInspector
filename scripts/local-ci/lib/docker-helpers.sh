@@ -15,7 +15,7 @@ _LIB_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$_LIB_DIR/common.sh"
 
 # SwiftLint Docker image
-readonly SWIFTLINT_IMAGE="ghcr.io/realm/swiftlint:0.53.0"
+readonly SWIFTLINT_IMAGE="ghcr.io/realm/swiftlint:0.57.0"
 
 # Python Docker images
 readonly PYTHON_310_IMAGE="python:3.10-slim"
