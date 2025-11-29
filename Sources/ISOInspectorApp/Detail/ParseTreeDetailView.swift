@@ -783,19 +783,20 @@ private struct EncryptionSummary {
     }
 
     init(detail: ParseTreeNodeDetail) {
-        func rangeString(_ range: Range<Int64>) -> String {
-            "\(range.lowerBound) – \(range.upperBound)"
-        }
+        self.sampleEncryption = detail.sampleRows
+        self.auxInfoOffsets = detail.offsetRows
+        self.auxInfoSizes = detail.sizeRows
+    }
+}
 
-        func yesNo(_ value: Bool) -> String {
-            value ? "Yes" : "No"
-        }
+extension ParseTreeNodeDetail {
 
+    var sampleRows: [(String, String)] {
         var sampleRows: [(String, String)] = []
-        if let encryption = detail.payload?.sampleEncryption {
+        if let encryption = payload?.sampleEncryption {
             sampleRows.append(("Entries", "\(encryption.sampleCount)"))
-            sampleRows.append(("Overrides Defaults", yesNo(encryption.overrideTrackEncryptionDefaults)))
-            sampleRows.append(("Subsample Encryption", yesNo(encryption.usesSubsampleEncryption)))
+            sampleRows.append(("Overrides Defaults", encryption.overrideTrackEncryptionDefaults.yesOrNo))
+            sampleRows.append(("Subsample Encryption", encryption.usesSubsampleEncryption.yesOrNo))
             if let ivSize = encryption.perSampleIVSize {
                 sampleRows.append(("Per-Sample IV Size", "\(ivSize)"))
             }
@@ -803,25 +804,27 @@ private struct EncryptionSummary {
                 sampleRows.append(("Algorithm ID", String(format: "0x%06X", algorithm)))
             }
             if let keyRange = encryption.keyIdentifierRange {
-                sampleRows.append(("Key Identifier Range", rangeString(keyRange)))
+                sampleRows.append(("Key Identifier Range", keyRange.prettyString))
             }
             if let sampleBytes = encryption.sampleInfoByteLength {
                 sampleRows.append(("Sample Info Bytes", "\(sampleBytes)"))
             }
             if let sampleRange = encryption.sampleInfoRange {
-                sampleRows.append(("Sample Info Range", rangeString(sampleRange)))
+                sampleRows.append(("Sample Info Range", sampleRange.prettyString))
             }
             if let constantBytes = encryption.constantIVByteLength {
                 sampleRows.append(("Constant IV Bytes", "\(constantBytes)"))
             }
             if let constantRange = encryption.constantIVRange {
-                sampleRows.append(("Constant IV Range", rangeString(constantRange)))
+                sampleRows.append(("Constant IV Range", constantRange.prettyString))
             }
         }
-        self.sampleEncryption = sampleRows
+        return sampleRows
+    }
 
+    var offsetRows: [(String, String)] {
         var offsetRows: [(String, String)] = []
-        if let offsets = detail.payload?.sampleAuxInfoOffsets {
+        if let offsets = payload?.sampleAuxInfoOffsets {
             offsetRows.append(("Entries", "\(offsets.entryCount)"))
             offsetRows.append(("Bytes Per Entry", "\(offsets.entrySizeBytes)"))
             if let type = offsets.auxInfoType?.rawValue, !type.isEmpty {
@@ -834,13 +837,15 @@ private struct EncryptionSummary {
                 offsetRows.append(("Entries Bytes", "\(entriesBytes)"))
             }
             if let entriesRange = offsets.entriesRange {
-                offsetRows.append(("Entries Range", rangeString(entriesRange)))
+                offsetRows.append(("Entries Range", entriesRange.prettyString))
             }
         }
-        self.auxInfoOffsets = offsetRows
+        return offsetRows
+    }
 
+    var sizeRows: [(String, String)] {
         var sizeRows: [(String, String)] = []
-        if let sizes = detail.payload?.sampleAuxInfoSizes {
+        if let sizes = payload?.sampleAuxInfoSizes {
             sizeRows.append(("Default Size", "\(sizes.defaultSampleInfoSize)"))
             sizeRows.append(("Entry Count", "\(sizes.entryCount)"))
             if let type = sizes.auxInfoType?.rawValue, !type.isEmpty {
@@ -853,10 +858,22 @@ private struct EncryptionSummary {
                 sizeRows.append(("Variable Bytes", "\(variableBytes)"))
             }
             if let variableRange = sizes.variableEntriesRange {
-                sizeRows.append(("Variable Range", rangeString(variableRange)))
+                sizeRows.append(("Variable Range", variableRange.prettyString))
             }
         }
-        self.auxInfoSizes = sizeRows
+        return sizeRows
+    }
+}
+
+extension Range where Bound == Int64 {
+    fileprivate var prettyString: String {
+        "\(lowerBound) – \(upperBound)"
+    }
+}
+
+extension Bool {
+    fileprivate var yesOrNo: String {
+        self ? "Yes" : "No"
     }
 }
 
