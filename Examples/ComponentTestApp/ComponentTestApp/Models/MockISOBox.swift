@@ -142,6 +142,7 @@ struct MockISOBox: Identifiable, Hashable {
 
 extension MockISOBox {
     /// Generate a realistic ISO/MP4 file structure
+    // @todo #306 Split sampleISOHierarchy into smaller helpers to satisfy SwiftLint function_body_length
     // swiftlint:disable function_body_length
     static func sampleISOHierarchy() -> [MockISOBox] {
         [

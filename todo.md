@@ -52,6 +52,11 @@
 - [ ] #I1.5 Consider adding DS.Spacing.xxxs token — Evaluate whether adding `DS.Spacing.xxxs` (2pt) token is justified based on usage frequency in the codebase. (FoundationUI/Sources/FoundationUI/DesignTokens/Spacing.swift)
 - [ ] #I1.5 Set up snapshot testing infrastructure — Integrate `swift-snapshot-testing` library and create baseline snapshots for all device sizes and color schemes. (Tests/ISOInspectorAppTests/FoundationUI/LayoutSnapshotTests.swift)
 
+## ComponentTestApp Lint Follow-ups
+
+- [ ] #306 Split `MockISOBox.sampleISOHierarchy()` into smaller helpers to satisfy SwiftLint `function_body_length`. (Examples/ComponentTestApp/ComponentTestApp/Models/MockISOBox.swift:145)
+- [ ] #307 Break `ContentView.destinationView` into smaller subviews to reduce SwiftLint `cyclomatic_complexity`. (Examples/ComponentTestApp/ComponentTestApp/ContentView.swift:203)
+
 ## Performance & Benchmarking
 
 - [ ] Execute the macOS 1 GiB lenient-vs-strict benchmark for Task T5.4 once hardware is available, exporting `ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824` before running `swift test --filter LargeFileBenchmarkTests/testCLIValidationLenientModePerformanceStaysWithinToleranceBudget`. (Tests/ISOInspectorPerformanceTests/LargeFileBenchmarkTests.swift) _(Step-by-step checklist lives in `DOCS/INPROGRESS/next_tasks.md`; historical notes archived at `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.)_
