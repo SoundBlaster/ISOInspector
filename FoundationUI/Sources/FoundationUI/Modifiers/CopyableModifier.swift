@@ -1,9 +1,9 @@
 import SwiftUI
 
 #if canImport(AppKit)
-import AppKit
+    import AppKit
 #elseif canImport(UIKit)
-import UIKit
+    import UIKit
 #endif
 
 /// A view modifier that adds copy-to-clipboard functionality to any view
@@ -103,26 +103,20 @@ public struct CopyableModifier: ViewModifier {
                 // Visual feedback indicator (only if showFeedback is true)
                 if showFeedback {
                     if wasCopied {
-                        Text("Copied!")
-                            .font(DS.Typography.caption)
-                            .foregroundColor(DS.Colors.accent)
-                            .transition(.opacity)
+                        Text("Copied!").font(DS.Typography.caption).foregroundColor(
+                            DS.Colors.accent
+                        ).transition(.opacity)
                     } else {
-                        Image(systemName: "doc.on.doc")
-                            .font(.caption)
-                            .foregroundColor(DS.Colors.secondary)
+                        Image(systemName: "doc.on.doc").font(.caption).foregroundColor(
+                            DS.Colors.secondary)
                     }
                 }
-            }
-            .padding(.horizontal, DS.Spacing.m)
-            .padding(.vertical, DS.Spacing.s)
-        }
-        .buttonStyle(.plain)
-        .accessibilityLabel("Copy \(textToCopy)")
-        .accessibilityHint("Double tap to copy to clipboard")
-        #if os(macOS)
-        .keyboardShortcut("c", modifiers: .command)
-        #endif
+            }.padding(.horizontal, DS.Spacing.m).padding(.vertical, DS.Spacing.s)
+        }.buttonStyle(.plain).accessibilityLabel("Copy \(textToCopy)").accessibilityHint(
+            "Double tap to copy to clipboard"
+        )#if os(macOS)
+            .keyboardShortcut("c", modifiers: .command)
+            #endif
     }
 
     // MARK: - Private Methods
@@ -136,22 +130,18 @@ public struct CopyableModifier: ViewModifier {
     /// Shows visual feedback on successful copy using `DS.Animation.quick`.
     private func copyToClipboard() {
         #if os(macOS)
-        copyToMacOSClipboard()
+            copyToMacOSClipboard()
         #else
-        copyToIOSClipboard()
+            copyToIOSClipboard()
         #endif
 
         // Show visual feedback (only if enabled)
         if showFeedback {
-            withAnimation(DS.Animation.quick) {
-                wasCopied = true
-            }
+            withAnimation(DS.Animation.quick) { wasCopied = true }
 
             // Reset feedback after delay
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-                withAnimation(DS.Animation.quick) {
-                    wasCopied = false
-                }
+                withAnimation(DS.Animation.quick) { wasCopied = false }
             }
         }
 
@@ -160,17 +150,15 @@ public struct CopyableModifier: ViewModifier {
     }
 
     #if os(macOS)
-    /// Copies text to macOS clipboard using NSPasteboard
-    private func copyToMacOSClipboard() {
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        pasteboard.setString(textToCopy, forType: .string)
-    }
+        /// Copies text to macOS clipboard using NSPasteboard
+        private func copyToMacOSClipboard() {
+            let pasteboard = NSPasteboard.general
+            pasteboard.clearContents()
+            pasteboard.setString(textToCopy, forType: .string)
+        }
     #else
-    /// Copies text to iOS/iPadOS clipboard using UIPasteboard
-    private func copyToIOSClipboard() {
-        UIPasteboard.general.string = textToCopy
-    }
+        /// Copies text to iOS/iPadOS clipboard using UIPasteboard
+        private func copyToIOSClipboard() { UIPasteboard.general.string = textToCopy }
     #endif
 
     /// Announces successful copy to VoiceOver users
@@ -178,25 +166,20 @@ public struct CopyableModifier: ViewModifier {
         let announcement = "\(textToCopy) copied to clipboard"
 
         #if os(macOS)
-        // macOS accessibility announcement
-        NSAccessibility.post(
-            element: NSApp as Any,
-            notification: .announcementRequested,
-            userInfo: [.announcement: announcement]
-        )
+            // macOS accessibility announcement
+            NSAccessibility.post(
+                element: NSApp as Any, notification: .announcementRequested,
+                userInfo: [.announcement: announcement])
         #else
-        // iOS/iPadOS accessibility announcement
-        UIAccessibility.post(
-            notification: .announcement,
-            argument: announcement
-        )
+            // iOS/iPadOS accessibility announcement
+            UIAccessibility.post(notification: .announcement, argument: announcement)
         #endif
     }
 }
 
 // MARK: - View Extension
 
-public extension View {
+extension View {
     /// Adds copy-to-clipboard functionality to any view
     ///
     /// This modifier makes the view copyable by wrapping it in a button
@@ -247,7 +230,7 @@ public extension View {
     /// - ``CopyableModifier``
     /// - ``CopyableText``
     /// - ``Copyable``
-    func copyable(text: String, showFeedback: Bool = true) -> some View {
+    public func copyable(text: String, showFeedback: Bool = true) -> some View {
         modifier(CopyableModifier(textToCopy: text, showFeedback: showFeedback))
     }
 }
@@ -256,50 +239,34 @@ public extension View {
 
 #Preview("Basic Copyable Modifier") {
     VStack(spacing: DS.Spacing.l) {
-        Text("Simple Value")
-            .font(DS.Typography.code)
-            .copyable(text: "Simple Value")
+        Text("Simple Value").font(DS.Typography.code).copyable(text: "Simple Value")
 
-        Text("With Custom Styling")
-            .font(DS.Typography.body)
-            .foregroundColor(DS.Colors.accent)
+        Text("With Custom Styling").font(DS.Typography.body).foregroundColor(DS.Colors.accent)
             .copyable(text: "Styled Value")
 
-        Text("No Feedback")
-            .font(DS.Typography.code)
-            .copyable(text: "Silent copy", showFeedback: false)
-    }
-    .padding(DS.Spacing.xl)
+        Text("No Feedback").font(DS.Typography.code).copyable(
+            text: "Silent copy", showFeedback: false)
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Complex Views with Copyable") {
     VStack(spacing: DS.Spacing.l) {
         HStack(spacing: DS.Spacing.s) {
-            Image(systemName: "doc.text")
-                .foregroundColor(DS.Colors.accent)
-            Text("Document.pdf")
-                .font(DS.Typography.code)
-        }
-        .copyable(text: "Document.pdf")
+            Image(systemName: "doc.text").foregroundColor(DS.Colors.accent)
+            Text("Document.pdf").font(DS.Typography.code)
+        }.copyable(text: "Document.pdf")
 
         HStack(spacing: DS.Spacing.s) {
-            Image(systemName: "number")
-                .foregroundColor(DS.Colors.secondary)
-            Text("0x1A2B3C4D")
-                .font(DS.Typography.code)
-        }
-        .copyable(text: "0x1A2B3C4D")
+            Image(systemName: "number").foregroundColor(DS.Colors.secondary)
+            Text("0x1A2B3C4D").font(DS.Typography.code)
+        }.copyable(text: "0x1A2B3C4D")
 
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            Text("Complex Layout")
-                .font(DS.Typography.caption)
-                .foregroundColor(DS.Colors.textSecondary)
-            Text("192.168.1.1")
-                .font(DS.Typography.code)
-        }
-        .copyable(text: "192.168.1.1")
-    }
-    .padding(DS.Spacing.xl)
+            Text("Complex Layout").font(DS.Typography.caption).foregroundColor(
+                DS.Colors.textSecondary)
+            Text("192.168.1.1").font(DS.Typography.code)
+        }.copyable(text: "192.168.1.1")
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Copyable in Card") {
@@ -308,58 +275,37 @@ public extension View {
             SectionHeader(title: "File Metadata")
 
             HStack {
-                Text("File ID:")
-                    .font(DS.Typography.body)
+                Text("File ID:").font(DS.Typography.body)
                 Spacer()
-                Text("ABC123")
-                    .font(DS.Typography.code)
-            }
-            .copyable(text: "ABC123")
+                Text("ABC123").font(DS.Typography.code)
+            }.copyable(text: "ABC123")
 
             HStack {
-                Text("Checksum:")
-                    .font(DS.Typography.body)
+                Text("Checksum:").font(DS.Typography.body)
                 Spacer()
-                Text("0xDEADBEEF")
-                    .font(DS.Typography.code)
-            }
-            .copyable(text: "0xDEADBEEF")
-        }
-        .padding(DS.Spacing.l)
-    }
-    .padding(DS.Spacing.xl)
+                Text("0xDEADBEEF").font(DS.Typography.code)
+            }.copyable(text: "0xDEADBEEF")
+        }.padding(DS.Spacing.l)
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Dark Mode") {
     VStack(spacing: DS.Spacing.l) {
-        Text("Dark Mode Value")
-            .font(DS.Typography.code)
-            .copyable(text: "Dark Mode Value")
+        Text("Dark Mode Value").font(DS.Typography.code).copyable(text: "Dark Mode Value")
 
         HStack(spacing: DS.Spacing.s) {
             Image(systemName: "moon.fill")
-            Text("0xABCDEF")
-                .font(DS.Typography.code)
-        }
-        .copyable(text: "0xABCDEF")
-    }
-    .padding(DS.Spacing.xl)
-    .preferredColorScheme(.dark)
+            Text("0xABCDEF").font(DS.Typography.code)
+        }.copyable(text: "0xABCDEF")
+    }.padding(DS.Spacing.xl).preferredColorScheme(.dark)
 }
 
 #Preview("Integration with Components") {
     VStack(spacing: DS.Spacing.l) {
-        Badge(text: "Info", level: .info)
-            .copyable(text: "Info badge")
+        Badge(text: "Info", level: .info).copyable(text: "Info badge")
 
-        Badge(text: "Warning", level: .warning)
-            .copyable(text: "Warning badge")
+        Badge(text: "Warning", level: .warning).copyable(text: "Warning badge")
 
-        Card {
-            Text("Card content")
-                .padding(DS.Spacing.m)
-        }
-        .copyable(text: "Card content")
-    }
-    .padding(DS.Spacing.xl)
+        Card { Text("Card content").padding(DS.Spacing.m) }.copyable(text: "Card content")
+    }.padding(DS.Spacing.xl)
 }

@@ -17,13 +17,15 @@ extension StructuredPayload {
             let compatibleBrands = scan.fileType?.compatibleBrands.map(\.rawValue)
             let durationSeconds = FormatSummary.durationSeconds(from: scan.movieHeader)
             let byteSize = FormatSummary.byteSize(from: scan.maximumEndOffset)
-            let bitrate = FormatSummary.bitrate(byteSize: byteSize, durationSeconds: durationSeconds)
+            let bitrate = FormatSummary.bitrate(
+                byteSize: byteSize, durationSeconds: durationSeconds)
             let trackCount = scan.trackCount > 0 ? scan.trackCount : nil
 
-            guard majorBrand != nil || minorVersion != nil || !(compatibleBrands?.isEmpty ?? true)
-                    || durationSeconds != nil || byteSize != nil || bitrate != nil || trackCount != nil else {
-                return nil
-            }
+            guard
+                majorBrand != nil || minorVersion != nil || !(compatibleBrands?.isEmpty ?? true)
+                    || durationSeconds != nil || byteSize != nil || bitrate != nil
+                    || trackCount != nil
+            else { return nil }
 
             self.majorBrand = majorBrand
             self.minorVersion = minorVersion
@@ -47,21 +49,18 @@ extension StructuredPayload {
                 if movieHeaderBox == nil, let movieHeader = node.payload?.movieHeader {
                     movieHeaderBox = movieHeader
                 }
-                if node.header.type.rawValue == "trak" {
-                    trackCounter += 1
-                }
+                if node.header.type.rawValue == "trak" { trackCounter += 1 }
                 maximumEndOffset = max(maximumEndOffset, node.header.endOffset)
             }
 
             return ScanResult(
-                fileType: fileTypeBox,
-                movieHeader: movieHeaderBox,
-                maximumEndOffset: maximumEndOffset,
-                trackCount: trackCounter
-            )
+                fileType: fileTypeBox, movieHeader: movieHeaderBox,
+                maximumEndOffset: maximumEndOffset, trackCount: trackCounter)
         }
 
-        private static func durationSeconds(from movieHeader: ParsedBoxPayload.MovieHeaderBox?) -> Double? {
+        private static func durationSeconds(from movieHeader: ParsedBoxPayload.MovieHeaderBox?)
+            -> Double?
+        {
             guard let header = movieHeader, header.timescale > 0 else { return nil }
             return Double(header.duration) / Double(header.timescale)
         }
@@ -72,7 +71,9 @@ extension StructuredPayload {
         }
 
         private static func bitrate(byteSize: Int?, durationSeconds: Double?) -> Int? {
-            guard let bytes = byteSize, let duration = durationSeconds, duration > 0 else { return nil }
+            guard let bytes = byteSize, let duration = durationSeconds, duration > 0 else {
+                return nil
+            }
             return Int((Double(bytes) * 8.0 / duration).rounded())
         }
 

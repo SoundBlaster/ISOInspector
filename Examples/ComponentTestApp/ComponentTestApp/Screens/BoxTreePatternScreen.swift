@@ -10,8 +10,8 @@
 /// - Performance metrics display
 /// - Keyboard navigation
 
-import SwiftUI
 import FoundationUI
+import SwiftUI
 
 struct BoxTreePatternScreen: View {
     /// Tree data source
@@ -32,9 +32,7 @@ struct BoxTreePatternScreen: View {
     }
 
     /// Total node count
-    private var totalNodes: Int {
-        treeItems.reduce(0) { $0 + 1 + $1.descendantCount }
-    }
+    private var totalNodes: Int { treeItems.reduce(0) { $0 + 1 + $1.descendantCount } }
 
     /// Sample data node count
     private var sampleDataNodeCount: Int {
@@ -55,119 +53,81 @@ struct BoxTreePatternScreen: View {
 
                     // Data source toggle
                     VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                        Text("Data Source")
-                            .font(DS.Typography.label)
-                            .foregroundStyle(.secondary)
+                        Text("Data Source").font(DS.Typography.label).foregroundStyle(.secondary)
 
                         Picker("Data Source", selection: $useRealData) {
-                            Text("ISO Sample (\(sampleDataNodeCount) nodes)")
-                                .tag(true)
-                            Text("Large Dataset (\(largeDataNodeCount) nodes)")
-                                .tag(false)
-                        }
-                        .pickerStyle(.segmented)
+                            Text("ISO Sample (\(sampleDataNodeCount) nodes)").tag(true)
+                            Text("Large Dataset (\(largeDataNodeCount) nodes)").tag(false)
+                        }.pickerStyle(.segmented)
                     }
 
                     // Selection mode toggle
                     VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                        Text("Selection Mode")
-                            .font(DS.Typography.label)
-                            .foregroundStyle(.secondary)
+                        Text("Selection Mode").font(DS.Typography.label).foregroundStyle(.secondary)
 
                         Picker("Selection Mode", selection: $selectionMode) {
                             Text("Single").tag(TreeSelectionMode.single)
                             Text("Multiple").tag(TreeSelectionMode.multiple)
-                        }
-                        .pickerStyle(.segmented)
+                        }.pickerStyle(.segmented)
                     }
 
                     // Statistics
                     VStack(spacing: DS.Spacing.m) {
-                        KeyValueRow(
-                            key: "Total Nodes",
-                            value: "\(totalNodes)",
-                            copyable: false
-                        )
+                        KeyValueRow(key: "Total Nodes", value: "\(totalNodes)", copyable: false)
 
                         if selectionMode == .single {
                             KeyValueRow(
-                                key: "Selected",
-                                value: selectedNode?.boxType ?? "None",
-                                copyable: false
-                            )
+                                key: "Selected", value: selectedNode?.boxType ?? "None",
+                                copyable: false)
                         } else {
                             KeyValueRow(
-                                key: "Selected",
-                                value: "\(selectedNodes.count) nodes",
-                                copyable: false
-                            )
+                                key: "Selected", value: "\(selectedNodes.count) nodes",
+                                copyable: false)
                         }
                     }
-                }
-                .padding(DS.Spacing.l)
-            }
-            .padding(DS.Spacing.l)
+                }.padding(DS.Spacing.l)
+            }.padding(DS.Spacing.l)
 
             ScrollView {
                 // Tree View
                 if selectionMode == .single {
-                    BoxTreePattern(
-                        data: treeItems,
-                        children: { _ in selectedNode?.children ?? [] }
-                    ) { box in
-                        BoxTreeNodeView(box: box)
-                    }
+                    BoxTreePattern(data: treeItems, children: { _ in selectedNode?.children ?? [] })
+                    { box in BoxTreeNodeView(box: box) }
                 } else {
-                    BoxTreePattern(
-                        data: treeItems,
-                        children: { _ in selectedNode?.children ?? [] }
-                    ) { box in
-                        BoxTreeNodeView(box: box)
-                    }
+                    BoxTreePattern(data: treeItems, children: { _ in selectedNode?.children ?? [] })
+                    { box in BoxTreeNodeView(box: box) }
                 }
-            }
-            .padding(.horizontal, DS.Spacing.platformDefault)
+            }.padding(.horizontal, DS.Spacing.platformDefault)
 
             // Usage Tips
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 SectionHeader(title: "Usage Tips", showDivider: true)
 
                 Label {
-                    Text("Click triangles to expand/collapse nodes")
-                        .font(DS.Typography.caption)
+                    Text("Click triangles to expand/collapse nodes").font(DS.Typography.caption)
                 } icon: {
-                    Image(systemName: "chevron.right")
-                        .foregroundStyle(DS.Colors.accent)
+                    Image(systemName: "chevron.right").foregroundStyle(DS.Colors.accent)
                 }
 
                 Label {
-                    Text("Click box name to select (single mode)")
-                        .font(DS.Typography.caption)
+                    Text("Click box name to select (single mode)").font(DS.Typography.caption)
                 } icon: {
-                    Image(systemName: "hand.tap")
-                        .foregroundStyle(DS.Colors.accent)
+                    Image(systemName: "hand.tap").foregroundStyle(DS.Colors.accent)
                 }
 
                 Label {
-                    Text("Use keyboard arrows to navigate")
-                        .font(DS.Typography.caption)
+                    Text("Use keyboard arrows to navigate").font(DS.Typography.caption)
                 } icon: {
-                    Image(systemName: "arrow.up.arrow.down")
-                        .foregroundStyle(DS.Colors.accent)
+                    Image(systemName: "arrow.up.arrow.down").foregroundStyle(DS.Colors.accent)
                 }
 
                 Label {
-                    Text("Large dataset tests lazy loading performance")
-                        .font(DS.Typography.caption)
+                    Text("Large dataset tests lazy loading performance").font(DS.Typography.caption)
                 } icon: {
-                    Image(systemName: "speedometer")
-                        .foregroundStyle(DS.Colors.accent)
+                    Image(systemName: "speedometer").foregroundStyle(DS.Colors.accent)
                 }
-            }
-            .padding(.horizontal, DS.Spacing.l)
-            .padding(.vertical, DS.Spacing.l)
-        }
-        .navigationTitle("BoxTreePattern")
+            }.padding(.horizontal, DS.Spacing.l).padding(.vertical, DS.Spacing.l)
+        }.navigationTitle("BoxTreePattern")
     }
 }
 
@@ -186,33 +146,22 @@ struct BoxTreeNodeView: View {
     var body: some View {
         HStack(spacing: DS.Spacing.m) {
             // Box type badge
-            Badge(
-                text: box.boxType.uppercased(),
-                level: box.status.badgeLevel,
-                showIcon: false
-            )
+            Badge(text: box.boxType.uppercased(), level: box.status.badgeLevel, showIcon: false)
 
             // Box description
             VStack(alignment: .leading, spacing: DS.Spacing.s / 2) {
-                Text(box.typeDescription)
-                    .font(DS.Typography.label)
+                Text(box.typeDescription).font(DS.Typography.label)
 
-                Text(box.formattedSize)
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(.secondary)
+                Text(box.formattedSize).font(DS.Typography.caption).foregroundStyle(.secondary)
             }
 
             Spacer()
 
             // Child count indicator
             if box.childCount > 0 {
-                Text("\(box.childCount)")
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal, DS.Spacing.s)
-                    .padding(.vertical, DS.Spacing.s / 2)
-                    .background(Color.secondary.opacity(0.2))
-                    .cornerRadius(DS.Radius.small)
+                Text("\(box.childCount)").font(DS.Typography.caption).foregroundStyle(.secondary)
+                    .padding(.horizontal, DS.Spacing.s).padding(.vertical, DS.Spacing.s / 2)
+                    .background(Color.secondary.opacity(0.2)).cornerRadius(DS.Radius.small)
             }
         }
     }
@@ -221,28 +170,18 @@ struct BoxTreeNodeView: View {
 // MARK: - Previews
 
 #Preview("Light Mode - ISO Sample") {
-    NavigationStack {
-        BoxTreePatternScreen()
-            .preferredColorScheme(.light)
-    }
+    NavigationStack { BoxTreePatternScreen().preferredColorScheme(.light) }
 }
 
 #Preview("Dark Mode - ISO Sample") {
-    NavigationStack {
-        BoxTreePatternScreen()
-            .preferredColorScheme(.dark)
-    }
+    NavigationStack { BoxTreePatternScreen().preferredColorScheme(.dark) }
 }
 
 #Preview("Large Dataset") {
     struct PreviewWrapper: View {
         @State private var useRealData = false
 
-        var body: some View {
-            NavigationStack {
-                BoxTreePatternScreen()
-            }
-        }
+        var body: some View { NavigationStack { BoxTreePatternScreen() } }
     }
 
     return PreviewWrapper()
@@ -252,11 +191,7 @@ struct BoxTreeNodeView: View {
     struct PreviewWrapper: View {
         @State private var selectionMode: TreeSelectionMode = .multiple
 
-        var body: some View {
-            NavigationStack {
-                BoxTreePatternScreen()
-            }
-        }
+        var body: some View { NavigationStack { BoxTreePatternScreen() } }
     }
 
     return PreviewWrapper()

@@ -128,9 +128,12 @@ fi
 if [[ "$SKIP_FORMAT" != "true" ]]; then
     log_section "Swift Format Check"
 
+    SWIFT_FORMAT_PATHS=(Sources Tests FoundationUI Examples)
+    SWIFT_FORMAT_ARGS=(--recursive "${SWIFT_FORMAT_PATHS[@]}")
+
     if [[ "$AUTO_FIX" == "true" ]]; then
         log_info "Auto-fixing Swift formatting..."
-        if timed_run "Swift format (fix)" swift format --in-place --recursive Sources Tests; then
+        if timed_run "Swift format (fix)" swift format --in-place "${SWIFT_FORMAT_ARGS[@]}" > /tmp/local-ci-swift-format.log 2>&1; then
             log_success "Swift formatting applied"
         else
             log_error "Swift format failed"
@@ -138,11 +141,11 @@ if [[ "$SKIP_FORMAT" != "true" ]]; then
         fi
     else
         log_info "Checking Swift code formatting (lint mode)..."
-        if timed_run "Swift format (lint)" swift format lint --recursive Sources Tests; then
+        if timed_run "Swift format (lint)" swift format lint "${SWIFT_FORMAT_ARGS[@]}"; then
             log_success "All Swift files are correctly formatted"
         else
             log_error "Swift code is not formatted correctly"
-            log_info "Run locally to fix: swift format --in-place --recursive Sources Tests"
+            log_info "Run locally to fix: swift format --in-place --recursive ${SWIFT_FORMAT_PATHS[*]}"
             ((FAILURES++))
         fi
     fi

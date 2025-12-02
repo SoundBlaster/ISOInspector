@@ -178,7 +178,7 @@ public struct SurfaceStyleKey: EnvironmentKey {
 
 // MARK: - EnvironmentValues Extension
 
-public extension EnvironmentValues {
+extension EnvironmentValues {
     /// The current surface material style from the environment
     ///
     /// Use this property to read or set the surface material for a view hierarchy.
@@ -239,7 +239,7 @@ public extension EnvironmentValues {
     /// - ``SurfaceStyleKey``
     /// - ``SurfaceMaterial``
     /// - The `surfaceStyle(material:allowFallback:)` modifier for applying materials
-    var surfaceStyle: SurfaceMaterial {
+    public var surfaceStyle: SurfaceMaterial {
         get { self[SurfaceStyleKey.self] }
         set { self[SurfaceStyleKey.self] = newValue }
     }
@@ -254,25 +254,18 @@ public extension EnvironmentValues {
 
         var body: some View {
             VStack(spacing: DS.Spacing.l) {
-                Text("Default Surface Style")
-                    .font(DS.Typography.headline)
+                Text("Default Surface Style").font(DS.Typography.headline)
 
-                Text(surfaceStyle.description)
-                    .font(DS.Typography.body)
-                    .foregroundStyle(.secondary)
+                Text(surfaceStyle.description).font(DS.Typography.body).foregroundStyle(.secondary)
 
-                Text("No explicit environment set")
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(.tertiary)
-            }
-            .padding(DS.Spacing.xl)
-            .surfaceStyle(material: surfaceStyle)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
+                Text("No explicit environment set").font(DS.Typography.caption).foregroundStyle(
+                    .tertiary)
+            }.padding(DS.Spacing.xl).surfaceStyle(material: surfaceStyle).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.card))
         }
     }
 
-    return DefaultView()
-        .padding()
+    return DefaultView().padding()
 }
 
 #Preview("SurfaceStyleKey - Custom Values") {
@@ -281,8 +274,7 @@ public extension EnvironmentValues {
         ForEach([SurfaceMaterial.thin, .regular, .thick, .ultra], id: \.self) { material in
             MaterialCard(material: material)
         }
-    }
-    .padding()
+    }.padding()
 }
 
 #Preview("SurfaceStyleKey - Environment Propagation") {
@@ -290,20 +282,16 @@ public extension EnvironmentValues {
     struct ParentView: View {
         var body: some View {
             VStack(spacing: DS.Spacing.l) {
-                Text("Parent (.thick)")
-                    .font(DS.Typography.headline)
+                Text("Parent (.thick)").font(DS.Typography.headline)
 
                 // Child inherits .thick from parent
                 ChildView(label: "Child (inherited)")
 
                 // Child overrides to .thin
-                ChildView(label: "Child (override to .thin)")
-                    .environment(\.surfaceStyle, .thin)
-            }
-            .padding(DS.Spacing.xl)
-            .surfaceStyle(material: .thick)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-            .environment(\.surfaceStyle, .thick)
+                ChildView(label: "Child (override to .thin)").environment(\.surfaceStyle, .thin)
+            }.padding(DS.Spacing.xl).surfaceStyle(material: .thick).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.card)
+            ).environment(\.surfaceStyle, .thick)
         }
     }
 
@@ -313,20 +301,15 @@ public extension EnvironmentValues {
 
         var body: some View {
             VStack(spacing: DS.Spacing.s) {
-                Text(label)
-                    .font(DS.Typography.body)
-                Text(surfaceStyle.description)
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(.secondary)
-            }
-            .padding(DS.Spacing.m)
-            .surfaceStyle(material: surfaceStyle)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.medium))
+                Text(label).font(DS.Typography.body)
+                Text(surfaceStyle.description).font(DS.Typography.caption).foregroundStyle(
+                    .secondary)
+            }.padding(DS.Spacing.m).surfaceStyle(material: surfaceStyle).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.medium))
         }
     }
 
-    return ParentView()
-        .padding()
+    return ParentView().padding()
 }
 
 #Preview("SurfaceStyleKey - Inspector Pattern") {
@@ -334,52 +317,35 @@ public extension EnvironmentValues {
     HStack(spacing: 0) {
         // Main content area - regular surface
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Main Content")
-                .font(DS.Typography.title)
+            Text("Main Content").font(DS.Typography.title)
 
-            Text("Uses .regular surface")
-                .font(DS.Typography.body)
-                .foregroundStyle(.secondary)
+            Text("Uses .regular surface").font(DS.Typography.body).foregroundStyle(.secondary)
 
             Spacer()
-        }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .surfaceStyle(material: .regular)
-        .environment(\.surfaceStyle, .regular)
+        }.padding().frame(maxWidth: .infinity, maxHeight: .infinity).surfaceStyle(
+            material: .regular
+        ).environment(\.surfaceStyle, .regular)
 
         // Inspector panel - thick surface for visual separation
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Inspector")
-                .font(DS.Typography.headline)
+            Text("Inspector").font(DS.Typography.headline)
 
             Divider()
 
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("Surface Style")
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(.secondary)
-                Text(".thick material")
-                    .font(DS.Typography.body)
+                Text("Surface Style").font(DS.Typography.caption).foregroundStyle(.secondary)
+                Text(".thick material").font(DS.Typography.body)
             }
 
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("Purpose")
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(.secondary)
-                Text("Visual separation")
-                    .font(DS.Typography.body)
+                Text("Purpose").font(DS.Typography.caption).foregroundStyle(.secondary)
+                Text("Visual separation").font(DS.Typography.body)
             }
 
             Spacer()
-        }
-        .padding()
-        .frame(width: 250)
-        .frame(maxHeight: .infinity)
-        .surfaceStyle(material: .thick)
-        .environment(\.surfaceStyle, .thick)
-    }
-    .frame(height: 400)
+        }.padding().frame(width: 250).frame(maxHeight: .infinity).surfaceStyle(material: .thick)
+            .environment(\.surfaceStyle, .thick)
+    }.frame(height: 400)
 }
 
 #Preview("SurfaceStyleKey - Layered Modals") {
@@ -391,41 +357,29 @@ public extension EnvironmentValues {
             ZStack {
                 // Background content - regular
                 VStack {
-                    Text("Background Content")
-                        .font(DS.Typography.title)
-                    Text("Regular surface")
-                        .font(DS.Typography.caption)
-                        .foregroundStyle(.secondary)
+                    Text("Background Content").font(DS.Typography.title)
+                    Text("Regular surface").font(DS.Typography.caption).foregroundStyle(.secondary)
                     Spacer()
-                }
-                .padding()
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .surfaceStyle(material: .regular)
-                .environment(\.surfaceStyle, .regular)
+                }.padding().frame(maxWidth: .infinity, maxHeight: .infinity).surfaceStyle(
+                    material: .regular
+                ).environment(\.surfaceStyle, .regular)
 
                 // Modal overlay - ultra thick for prominence
                 if showModal {
                     VStack(spacing: DS.Spacing.m) {
-                        Text("Modal Dialog")
-                            .font(DS.Typography.headline)
+                        Text("Modal Dialog").font(DS.Typography.headline)
 
-                        Text("Ultra thick surface")
-                            .font(DS.Typography.caption)
-                            .foregroundStyle(.secondary)
+                        Text("Ultra thick surface").font(DS.Typography.caption).foregroundStyle(
+                            .secondary)
 
-                        Text("Maximum visual separation")
-                            .font(DS.Typography.caption)
+                        Text("Maximum visual separation").font(DS.Typography.caption)
                             .foregroundStyle(.tertiary)
-                    }
-                    .padding(DS.Spacing.xl)
-                    .frame(width: 300)
-                    .surfaceStyle(material: .ultra)
-                    .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-                    .cardStyle(elevation: .high, useMaterial: false)
-                    .environment(\.surfaceStyle, .ultra)
+                    }.padding(DS.Spacing.xl).frame(width: 300).surfaceStyle(material: .ultra)
+                        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card)).cardStyle(
+                            elevation: .high, useMaterial: false
+                        ).environment(\.surfaceStyle, .ultra)
                 }
-            }
-            .frame(height: 400)
+            }.frame(height: 400)
         }
     }
 
@@ -435,15 +389,12 @@ public extension EnvironmentValues {
 #Preview("SurfaceStyleKey - Dark Mode") {
     /// Demonstrates surface styles in dark mode
     VStack(spacing: DS.Spacing.l) {
-        Text("Dark Mode Surface Styles")
-            .font(DS.Typography.headline)
+        Text("Dark Mode Surface Styles").font(DS.Typography.headline)
 
         ForEach([SurfaceMaterial.thin, .regular, .thick, .ultra], id: \.self) { material in
             MaterialCard(material: material)
         }
-    }
-    .padding()
-    .preferredColorScheme(.dark)
+    }.padding().preferredColorScheme(.dark)
 }
 
 // MARK: - Preview Helpers
@@ -455,17 +406,12 @@ private struct MaterialCard: View {
 
     var body: some View {
         VStack(spacing: DS.Spacing.s) {
-            Text(material.description)
-                .font(DS.Typography.body)
+            Text(material.description).font(DS.Typography.body)
 
-            Text(material.accessibilityLabel)
-                .font(DS.Typography.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding(DS.Spacing.m)
-        .frame(maxWidth: .infinity)
-        .surfaceStyle(material: material)
-        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-        .environment(\.surfaceStyle, material)
+            Text(material.accessibilityLabel).font(DS.Typography.caption).foregroundStyle(
+                .secondary)
+        }.padding(DS.Spacing.m).frame(maxWidth: .infinity).surfaceStyle(material: material)
+            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card)).environment(
+                \.surfaceStyle, material)
     }
 }

@@ -1,14 +1,10 @@
 import Foundation
 
 struct HexSlice: Equatable {
-  let offset: Int64
-  let bytes: Data
+    let offset: Int64
+    let bytes: Data
 
-  var endOffset: Int64 {
-    offset + Int64(bytes.count)
-  }
+    var endOffset: Int64 { offset + Int64(bytes.count) }
 
-  var isEmpty: Bool {
-    bytes.isEmpty
-  }
+    var isEmpty: Bool { bytes.isEmpty }
 }

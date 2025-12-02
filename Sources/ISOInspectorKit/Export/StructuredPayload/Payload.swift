@@ -20,11 +20,7 @@ extension StructuredPayload {
             self.format = FormatSummary(tree: tree)
             let metrics = IssueMetricsSummary(tree: tree)
             self.issueMetrics = metrics
-            if metrics.totalCount > 0 {
-                self.schema = .tolerantIssuesV2
-            } else {
-                self.schema = nil
-            }
+            if metrics.totalCount > 0 { self.schema = .tolerantIssuesV2 } else { self.schema = nil }
         }
 
         private enum CodingKeys: String, CodingKey {

@@ -43,6 +43,15 @@ repos:
   # Swift linting with SwiftLint
   - repo: local
     hooks:
+      - id: swiftlint-autocorrect-multiple-closures
+        name: SwiftLint Autocorrect (Multiple Closures)
+        entry: scripts/swiftlint_autocorrect_multiple_closures.sh
+        language: system
+        pass_filenames: false
+        types: [swift]
+        stages: [pre-commit]
+        description: Auto-fix multi-closure trailing closure violations before linting
+
       - id: swiftlint-foundationui
         name: SwiftLint (FoundationUI)
         entry: sh -c 'cd FoundationUI && swiftlint --config .swiftlint.yml --strict'

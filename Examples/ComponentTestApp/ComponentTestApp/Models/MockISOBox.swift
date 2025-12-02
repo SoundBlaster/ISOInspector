@@ -77,13 +77,8 @@ struct MockISOBox: Identifiable, Hashable {
 
     /// Create a mock ISO box with default values
     init(
-        id: UUID = UUID(),
-        boxType: String,
-        size: Int,
-        offset: Int,
-        children: [MockISOBox] = [],
-        metadata: [String: String] = [:],
-        status: BoxStatus = .normal
+        id: UUID = UUID(), boxType: String, size: Int, offset: Int, children: [MockISOBox] = [],
+        metadata: [String: String] = [:], status: BoxStatus = .normal
     ) {
         self.id = id
         self.boxType = boxType
@@ -123,29 +118,19 @@ struct MockISOBox: Identifiable, Hashable {
     }
 
     /// Total size including all children (recursive)
-    var totalSize: Int {
-        size + children.reduce(0) { $0 + $1.totalSize }
-    }
+    var totalSize: Int { size + children.reduce(0) { $0 + $1.totalSize } }
 
     /// Number of direct children
-    var childCount: Int {
-        children.count
-    }
+    var childCount: Int { children.count }
 
     /// Total number of descendants (recursive)
-    var descendantCount: Int {
-        children.count + children.reduce(0) { $0 + $1.descendantCount }
-    }
+    var descendantCount: Int { children.count + children.reduce(0) { $0 + $1.descendantCount } }
 
     /// Formatted hex offset
-    var hexOffset: String {
-        String(format: "0x%08X", offset)
-    }
+    var hexOffset: String { String(format: "0x%08X", offset) }
 
     /// Formatted hex size
-    var hexSize: String {
-        String(format: "0x%08X", size)
-    }
+    var hexSize: String { String(format: "0x%08X", size) }
 
     /// Formatted byte size with units
     var formattedSize: String {
@@ -157,257 +142,152 @@ struct MockISOBox: Identifiable, Hashable {
 
 extension MockISOBox {
     /// Generate a realistic ISO/MP4 file structure
+    // swiftlint:disable function_body_length
     static func sampleISOHierarchy() -> [MockISOBox] {
         [
             // File Type Box
             MockISOBox(
-                boxType: "ftyp",
-                size: 32,
-                offset: 0,
+                boxType: "ftyp", size: 32, offset: 0,
                 metadata: [
-                    "Major Brand": "isom",
-                    "Minor Version": "512",
-                    "Compatible Brands": "isomiso2mp41"
-                ],
-                status: .highlighted
-            ),
+                    "Major Brand": "isom", "Minor Version": "512",
+                    "Compatible Brands": "isomiso2mp41",
+                ], status: .highlighted),
 
             // Movie Box (container)
             MockISOBox(
-                boxType: "moov",
-                size: 4096,
-                offset: 32,
+                boxType: "moov", size: 4096, offset: 32,
                 children: [
                     // Movie Header
                     MockISOBox(
-                        boxType: "mvhd",
-                        size: 108,
-                        offset: 40,
+                        boxType: "mvhd", size: 108, offset: 40,
                         metadata: [
-                            "Version": "0",
-                            "Creation Time": "2024-01-15 10:30:00",
-                            "Modification Time": "2024-01-15 10:30:00",
-                            "Time Scale": "1000",
-                            "Duration": "60000"
-                        ]
-                    ),
+                            "Version": "0", "Creation Time": "2024-01-15 10:30:00",
+                            "Modification Time": "2024-01-15 10:30:00", "Time Scale": "1000",
+                            "Duration": "60000",
+                        ]),
 
                     // Video Track
                     MockISOBox(
-                        boxType: "trak",
-                        size: 1824,
-                        offset: 148,
+                        boxType: "trak", size: 1824, offset: 148,
                         children: [
                             // Track Header
                             MockISOBox(
-                                boxType: "tkhd",
-                                size: 92,
-                                offset: 156,
+                                boxType: "tkhd", size: 92, offset: 156,
                                 metadata: [
-                                    "Version": "0",
-                                    "Flags": "0x00000f",
-                                    "Track ID": "1",
-                                    "Duration": "60000",
-                                    "Width": "1920.0",
-                                    "Height": "1080.0"
-                                ]
-                            ),
+                                    "Version": "0", "Flags": "0x00000f", "Track ID": "1",
+                                    "Duration": "60000", "Width": "1920.0", "Height": "1080.0",
+                                ]),
 
                             // Media Box
                             MockISOBox(
-                                boxType: "mdia",
-                                size: 1724,
-                                offset: 248,
+                                boxType: "mdia", size: 1724, offset: 248,
                                 children: [
                                     // Media Header
                                     MockISOBox(
-                                        boxType: "mdhd",
-                                        size: 32,
-                                        offset: 256,
+                                        boxType: "mdhd", size: 32, offset: 256,
                                         metadata: [
-                                            "Version": "0",
-                                            "Creation Time": "2024-01-15 10:30:00",
-                                            "Time Scale": "30000",
-                                            "Duration": "1800000"
-                                        ]
-                                    ),
+                                            "Version": "0", "Creation Time": "2024-01-15 10:30:00",
+                                            "Time Scale": "30000", "Duration": "1800000",
+                                        ]),
 
                                     // Handler Reference
                                     MockISOBox(
-                                        boxType: "hdlr",
-                                        size: 45,
-                                        offset: 288,
+                                        boxType: "hdlr", size: 45, offset: 288,
                                         metadata: [
-                                            "Handler Type": "vide",
-                                            "Handler Name": "VideoHandler"
-                                        ]
-                                    ),
+                                            "Handler Type": "vide", "Handler Name": "VideoHandler",
+                                        ]),
 
                                     // Media Information
                                     MockISOBox(
-                                        boxType: "minf",
-                                        size: 1639,
-                                        offset: 333,
+                                        boxType: "minf", size: 1639, offset: 333,
                                         children: [
                                             // Video Media Header
                                             MockISOBox(
-                                                boxType: "vmhd",
-                                                size: 20,
-                                                offset: 341,
+                                                boxType: "vmhd", size: 20, offset: 341,
                                                 metadata: [
-                                                    "Version": "0",
-                                                    "Flags": "0x000001",
-                                                    "Graphics Mode": "0",
-                                                    "OpColor": "0, 0, 0"
-                                                ]
-                                            ),
+                                                    "Version": "0", "Flags": "0x000001",
+                                                    "Graphics Mode": "0", "OpColor": "0, 0, 0",
+                                                ]),
 
                                             // Data Information
                                             MockISOBox(
-                                                boxType: "dinf",
-                                                size: 36,
-                                                offset: 361,
-                                                metadata: [
-                                                    "Data Reference": "url "
-                                                ]
-                                            ),
+                                                boxType: "dinf", size: 36, offset: 361,
+                                                metadata: ["Data Reference": "url "]),
 
                                             // Sample Table
                                             MockISOBox(
-                                                boxType: "stbl",
-                                                size: 1575,
-                                                offset: 397,
+                                                boxType: "stbl", size: 1575, offset: 397,
                                                 children: [
                                                     MockISOBox(
-                                                        boxType: "stsd",
-                                                        size: 150,
-                                                        offset: 405,
+                                                        boxType: "stsd", size: 150, offset: 405,
                                                         metadata: [
-                                                            "Entry Count": "1",
-                                                            "Format": "avc1"
-                                                        ]
-                                                    ),
+                                                            "Entry Count": "1", "Format": "avc1",
+                                                        ]),
                                                     MockISOBox(
-                                                        boxType: "stts",
-                                                        size: 24,
-                                                        offset: 555,
+                                                        boxType: "stts", size: 24, offset: 555,
                                                         metadata: [
                                                             "Entry Count": "1",
                                                             "Sample Count": "1800",
-                                                            "Sample Delta": "1000"
-                                                        ]
-                                                    ),
+                                                            "Sample Delta": "1000",
+                                                        ]),
                                                     MockISOBox(
-                                                        boxType: "stsc",
-                                                        size: 28,
-                                                        offset: 579,
+                                                        boxType: "stsc", size: 28, offset: 579,
                                                         metadata: [
-                                                            "Entry Count": "1",
-                                                            "First Chunk": "1",
-                                                            "Samples Per Chunk": "1"
-                                                        ]
-                                                    ),
+                                                            "Entry Count": "1", "First Chunk": "1",
+                                                            "Samples Per Chunk": "1",
+                                                        ]),
                                                     MockISOBox(
-                                                        boxType: "stsz",
-                                                        size: 7220,
-                                                        offset: 607,
+                                                        boxType: "stsz", size: 7220, offset: 607,
                                                         metadata: [
                                                             "Sample Count": "1800",
-                                                            "Default Size": "0"
-                                                        ]
-                                                    ),
+                                                            "Default Size": "0",
+                                                        ]),
                                                     MockISOBox(
-                                                        boxType: "stco",
-                                                        size: 7216,
-                                                        offset: 7827,
-                                                        metadata: [
-                                                            "Entry Count": "1800"
-                                                        ]
-                                                    )
-                                                ]
-                                            )
-                                        ]
-                                    )
-                                ]
-                            )
-                        ]
-                    ),
+                                                        boxType: "stco", size: 7216, offset: 7827,
+                                                        metadata: ["Entry Count": "1800"]),
+                                                ]),
+                                        ]),
+                                ]),
+                        ]),
 
                     // Audio Track
                     MockISOBox(
-                        boxType: "trak",
-                        size: 1624,
-                        offset: 1972,
+                        boxType: "trak", size: 1624, offset: 1972,
                         children: [
                             MockISOBox(
-                                boxType: "tkhd",
-                                size: 92,
-                                offset: 1980,
-                                metadata: [
-                                    "Track ID": "2",
-                                    "Duration": "60000",
-                                    "Volume": "1.0"
-                                ]
-                            ),
+                                boxType: "tkhd", size: 92, offset: 1980,
+                                metadata: ["Track ID": "2", "Duration": "60000", "Volume": "1.0"]),
                             MockISOBox(
-                                boxType: "mdia",
-                                size: 1524,
-                                offset: 2072,
+                                boxType: "mdia", size: 1524, offset: 2072,
                                 children: [
                                     MockISOBox(
-                                        boxType: "mdhd",
-                                        size: 32,
-                                        offset: 2080,
-                                        metadata: [
-                                            "Time Scale": "48000",
-                                            "Duration": "2880000"
-                                        ]
-                                    ),
+                                        boxType: "mdhd", size: 32, offset: 2080,
+                                        metadata: ["Time Scale": "48000", "Duration": "2880000"]),
                                     MockISOBox(
-                                        boxType: "hdlr",
-                                        size: 45,
-                                        offset: 2112,
+                                        boxType: "hdlr", size: 45, offset: 2112,
                                         metadata: [
-                                            "Handler Type": "soun",
-                                            "Handler Name": "SoundHandler"
-                                        ]
-                                    ),
+                                            "Handler Type": "soun", "Handler Name": "SoundHandler",
+                                        ]),
                                     MockISOBox(
-                                        boxType: "minf",
-                                        size: 1439,
-                                        offset: 2157,
+                                        boxType: "minf", size: 1439, offset: 2157,
                                         children: [
                                             MockISOBox(
-                                                boxType: "smhd",
-                                                size: 16,
-                                                offset: 2165,
-                                                metadata: [
-                                                    "Balance": "0"
-                                                ]
-                                            )
-                                        ]
-                                    )
-                                ]
-                            )
-                        ]
-                    )
-                ],
-                status: .normal
-            ),
+                                                boxType: "smhd", size: 16, offset: 2165,
+                                                metadata: ["Balance": "0"])
+                                        ]),
+                                ]),
+                        ]),
+                ], status: .normal),
 
             // Media Data Box
             MockISOBox(
-                boxType: "mdat",
-                size: 10485760,
-                offset: 4128,
+                boxType: "mdat", size: 10_485_760, offset: 4128,
                 metadata: [
-                    "Data Type": "Compressed video and audio samples",
-                    "Sample Count": "1800"
-                ],
-                status: .normal
-            )
+                    "Data Type": "Compressed video and audio samples", "Sample Count": "1800",
+                ], status: .normal),
         ]
     }
+    // swiftlint:enable function_body_length
 
     /// Generate a large dataset for performance testing (1000+ boxes)
     static func largeDataset() -> [MockISOBox] {
@@ -420,26 +300,14 @@ extension MockISOBox {
                 let size = 100
                 let offset = currentOffset + 8 + (childIndex * size)
                 return MockISOBox(
-                    boxType: "stbl",
-                    size: size,
-                    offset: offset,
-                    metadata: [
-                        "Track": "\(trackIndex)",
-                        "Index": "\(childIndex)"
-                    ]
-                )
+                    boxType: "stbl", size: size, offset: offset,
+                    metadata: ["Track": "\(trackIndex)", "Index": "\(childIndex)"])
             }
 
             let trackSize = 8 + (trackChildren.count * 100)
             let track = MockISOBox(
-                boxType: "trak",
-                size: trackSize,
-                offset: currentOffset,
-                children: trackChildren,
-                metadata: [
-                    "Track ID": "\(trackIndex + 1)"
-                ]
-            )
+                boxType: "trak", size: trackSize, offset: currentOffset, children: trackChildren,
+                metadata: ["Track ID": "\(trackIndex + 1)"])
 
             boxes.append(track)
             currentOffset += trackSize

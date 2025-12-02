@@ -18,16 +18,15 @@ import Foundation
 /// - Box with FourCC "abcd" has no registered descriptor
 /// - Custom UUID box without metadata entry
 struct UnknownBoxRule: BoxValidationRule {
-  func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
-    guard case .willStartBox(let header, _) = event.kind else { return [] }
-    guard event.metadata == nil else { return [] }
-    return [
-      ValidationIssue(
-        ruleID: "VR-006",
-        message:
-          "Unknown box type \(header.identifierString) encountered; schedule catalog research.",
-        severity: .info
-      )
-    ]
-  }
+    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
+        guard case .willStartBox(let header, _) = event.kind else { return [] }
+        guard event.metadata == nil else { return [] }
+        return [
+            ValidationIssue(
+                ruleID: "VR-006",
+                message:
+                    "Unknown box type \(header.identifierString) encountered; schedule catalog research.",
+                severity: .info)
+        ]
+    }
 }

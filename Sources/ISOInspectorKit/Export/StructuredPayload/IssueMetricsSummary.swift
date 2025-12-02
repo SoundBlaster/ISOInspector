@@ -7,9 +7,7 @@ extension StructuredPayload {
         let infoCount: Int
         let deepestAffectedDepth: Int
 
-        var totalCount: Int {
-            errorCount + warningCount + infoCount
-        }
+        var totalCount: Int { errorCount + warningCount + infoCount }
 
         init(tree: ParseTree) {
             var counter = IssueMetricsCounter()
@@ -43,12 +41,9 @@ extension StructuredPayload {
                             let previousDepth = trackedIssues[identifier]
                             if previousDepth == nil {
                                 switch issue.severity {
-                                case .error:
-                                    errorCount += 1
-                                case .warning:
-                                    warningCount += 1
-                                case .info:
-                                    infoCount += 1
+                                case .error: errorCount += 1
+                                case .warning: warningCount += 1
+                                case .info: infoCount += 1
                                 }
                             }
                             let resolvedDepth = max(previousDepth ?? depth, depth)

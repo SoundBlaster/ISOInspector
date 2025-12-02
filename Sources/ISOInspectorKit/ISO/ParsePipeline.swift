@@ -14,12 +14,8 @@ public struct ParseEvent: Equatable, Sendable {
     public let issues: [ParseIssue]
 
     public init(
-        kind: Kind,
-        offset: Int64,
-        metadata: BoxDescriptor? = nil,
-        payload: ParsedBoxPayload? = nil,
-        validationIssues: [ValidationIssue] = [],
-        issues: [ParseIssue] = []
+        kind: Kind, offset: Int64, metadata: BoxDescriptor? = nil, payload: ParsedBoxPayload? = nil,
+        validationIssues: [ValidationIssue] = [], issues: [ParseIssue] = []
     ) {
         self.kind = kind
         self.offset = offset
@@ -32,14 +28,10 @@ public struct ParseEvent: Equatable, Sendable {
 
 extension ParsePipeline {
     fileprivate static func parsePayload(
-        header: BoxHeader,
-        reader: RandomAccessReader,
-        registry: BoxParserRegistry,
+        header: BoxHeader, reader: RandomAccessReader, registry: BoxParserRegistry,
         logger: DiagnosticsLogger
     ) -> ParsedBoxPayload? {
-        do {
-            return try registry.parse(header: header, reader: reader)
-        } catch {
+        do { return try registry.parse(header: header, reader: reader) } catch {
             logger.error(
                 "Failed to parse payload for \(header.identifierString): \(String(describing: error))"
             )
@@ -48,10 +40,7 @@ extension ParsePipeline {
     }
 }
 
-@usableFromInline
-struct UnsafeSendable<Value>: @unchecked Sendable {
-    let value: Value
-}
+@usableFromInline struct UnsafeSendable<Value>: @unchecked Sendable { let value: Value }
 
 public struct ParsePipeline: Sendable {
     /// Configuration options for the parse pipeline.
@@ -158,12 +147,9 @@ public struct ParsePipeline: Sendable {
         ///   - maxZeroLengthBoxesPerParent: Maximum zero-length boxes per parent
         ///   - maxIssuesPerFrame: Maximum issues per iteration
         public init(
-            abortOnStructuralError: Bool = true,
-            maxCorruptionEvents: Int = 0,
-            payloadValidationLevel: PayloadValidationLevel = .full,
-            maxTraversalDepth: Int = 64,
-            maxStalledIterationsPerFrame: Int = 3,
-            maxZeroLengthBoxesPerParent: Int = 2,
+            abortOnStructuralError: Bool = true, maxCorruptionEvents: Int = 0,
+            payloadValidationLevel: PayloadValidationLevel = .full, maxTraversalDepth: Int = 64,
+            maxStalledIterationsPerFrame: Int = 3, maxZeroLengthBoxesPerParent: Int = 2,
             maxIssuesPerFrame: Int = 256
         ) {
             self.abortOnStructuralError = abortOnStructuralError
@@ -190,14 +176,9 @@ public struct ParsePipeline: Sendable {
         /// ## See Also
         /// - <doc:TolerantParsingGuide>
         public static let strict = Options(
-            abortOnStructuralError: true,
-            maxCorruptionEvents: 0,
-            payloadValidationLevel: .full,
-            maxTraversalDepth: 64,
-            maxStalledIterationsPerFrame: 3,
-            maxZeroLengthBoxesPerParent: 2,
-            maxIssuesPerFrame: 256
-        )
+            abortOnStructuralError: true, maxCorruptionEvents: 0, payloadValidationLevel: .full,
+            maxTraversalDepth: 64, maxStalledIterationsPerFrame: 3, maxZeroLengthBoxesPerParent: 2,
+            maxIssuesPerFrame: 256)
 
         /// Tolerant parsing mode that continues through structural errors.
         ///
@@ -233,38 +214,26 @@ public struct ParsePipeline: Sendable {
         /// ## See Also
         /// - <doc:TolerantParsingGuide>
         public static let tolerant = Options(
-            abortOnStructuralError: false,
-            maxCorruptionEvents: 500,
-            payloadValidationLevel: .structureOnly,
-            maxTraversalDepth: 64,
-            maxStalledIterationsPerFrame: 3,
-            maxZeroLengthBoxesPerParent: 2,
-            maxIssuesPerFrame: 256
-        )
+            abortOnStructuralError: false, maxCorruptionEvents: 500,
+            payloadValidationLevel: .structureOnly, maxTraversalDepth: 64,
+            maxStalledIterationsPerFrame: 3, maxZeroLengthBoxesPerParent: 2, maxIssuesPerFrame: 256)
     }
 
     public struct Context: Sendable {
         public var source: URL?
         public var researchLog: (any ResearchLogRecording)?
-        public var options: Options {
-            didSet {
-                usesAutomaticOptions = false
-            }
-        }
+        public var options: Options { didSet { usesAutomaticOptions = false } }
         public var issueStore: ParseIssueStore? {
             get { issueStoreBox?.value }
             set { issueStoreBox = newValue.map(UnsafeSendable.init) }
         }
 
-        @usableFromInline
-        internal private(set) var usesAutomaticOptions: Bool
+        @usableFromInline internal private(set) var usesAutomaticOptions: Bool
         internal var issueStoreBox: UnsafeSendable<ParseIssueStore>?
 
         public init(
-            source: URL? = nil,
-            researchLog: (any ResearchLogRecording)? = nil,
-            options: Options? = nil,
-            issueStore: ParseIssueStore? = nil
+            source: URL? = nil, researchLog: (any ResearchLogRecording)? = nil,
+            options: Options? = nil, issueStore: ParseIssueStore? = nil
         ) {
             self.source = source
             self.researchLog = researchLog
@@ -273,8 +242,7 @@ public struct ParsePipeline: Sendable {
             self.issueStoreBox = issueStore.map(UnsafeSendable.init)
         }
 
-        @usableFromInline
-        internal mutating func applyDefaultOptions(_ defaultOptions: Options) {
+        @usableFromInline internal mutating func applyDefaultOptions(_ defaultOptions: Options) {
             if usesAutomaticOptions {
                 options = defaultOptions
                 usesAutomaticOptions = false
@@ -284,7 +252,7 @@ public struct ParsePipeline: Sendable {
 
     public typealias EventStream = AsyncThrowingStream<ParseEvent, Error>
     public typealias Builder =
-    @Sendable (_ reader: RandomAccessReader, _ context: Context) -> EventStream
+        @Sendable (_ reader: RandomAccessReader, _ context: Context) -> EventStream
 
     private let buildStream: Builder
     private let defaultOptions: Options
@@ -315,10 +283,8 @@ public struct ParsePipeline: Sendable {
 
 extension ParsePipeline {
     public static func live(
-        catalog: BoxCatalog = .shared,
-        researchLog: (any ResearchLogRecording)? = nil,
-        registry: BoxParserRegistry = .shared,
-        options: Options = .strict
+        catalog: BoxCatalog = .shared, researchLog: (any ResearchLogRecording)? = nil,
+        registry: BoxParserRegistry = .shared, options: Options = .strict
     ) -> ParsePipeline {
         ParsePipeline(
             options: options,
@@ -347,8 +313,7 @@ extension ParsePipeline {
                         issueStore?.reset()
                         do {
                             try walker.walk(
-                                reader: reader,
-                                cancellationCheck: { try Task.checkCancellation() },
+                                reader: reader, cancellationCheck: { try Task.checkCancellation() },
                                 options: context.options,
                                 onEvent: { event in
                                     let enriched: ParseEvent
@@ -361,32 +326,45 @@ extension ParsePipeline {
                                         randomAccessCoordinator.willStartBox(header: header)
                                         let descriptor = catalog.descriptor(for: header)
                                         metadataStack.append(descriptor)
-                                        let payload = BoxParserRegistry.withEditListEnvironmentProvider({ request, _ in
-                                            editListCoordinator.environment(for: request)
-                                        }) {
-                                            BoxParserRegistry.withMetadataEnvironmentProvider({ request, _ in
-                                                metadataCoordinator.environment(for: request)
+                                        let payload =
+                                            BoxParserRegistry.withEditListEnvironmentProvider({
+                                                request, _ in
+                                                editListCoordinator.environment(for: request)
                                             }) {
-                                                BoxParserRegistry.withFragmentEnvironmentProvider({ request, _ in
-                                                    fragmentCoordinator.environment(for: request)
+                                                BoxParserRegistry.withMetadataEnvironmentProvider({
+                                                    request, _ in
+                                                    metadataCoordinator.environment(for: request)
                                                 }) {
-                                                    BoxParserRegistry.withRandomAccessEnvironmentProvider({ request, _ in
-                                                        randomAccessCoordinator.environment(for: request)
-                                                    }) {
-                                                        ParsePipeline.parsePayload(
-                                                            header: header,
-                                                            reader: reader,
-                                                            registry: registry,
-                                                            logger: logger
-                                                        )
-                                                    }
+                                                    BoxParserRegistry
+                                                        .withFragmentEnvironmentProvider({
+                                                            request, _ in
+                                                            fragmentCoordinator.environment(
+                                                                for: request)
+                                                        }) {
+                                                            BoxParserRegistry
+                                                                .withRandomAccessEnvironmentProvider(
+                                                                    { request, _ in
+                                                                        randomAccessCoordinator
+                                                                            .environment(
+                                                                                for: request)
+                                                                    }) {
+                                                                    ParsePipeline.parsePayload(
+                                                                        header: header,
+                                                                        reader: reader,
+                                                                        registry: registry,
+                                                                        logger: logger)
+                                                                }
+                                                        }
                                                 }
                                             }
-                                        }
-                                        editListCoordinator.didParsePayload(header: header, payload: payload)
-                                        metadataCoordinator.didParsePayload(header: header, payload: payload)
-                                        fragmentCoordinator.didParsePayload(header: header, payload: payload)
-                                        randomAccessCoordinator.didParsePayload(header: header, payload: payload)
+                                        editListCoordinator.didParsePayload(
+                                            header: header, payload: payload)
+                                        metadataCoordinator.didParsePayload(
+                                            header: header, payload: payload)
+                                        fragmentCoordinator.didParsePayload(
+                                            header: header, payload: payload)
+                                        randomAccessCoordinator.didParsePayload(
+                                            header: header, payload: payload)
                                         if descriptor == nil {
                                             let key = header.identifierString
                                             if loggedUnknownTypes.insert(key).inserted {
@@ -395,49 +373,41 @@ extension ParsePipeline {
                                             if let researchLog = activeResearchLog {
                                                 let filePath = context.source?.path ?? ""
                                                 let entry = ResearchLogEntry(
-                                                    boxType: key,
-                                                    filePath: filePath,
+                                                    boxType: key, filePath: filePath,
                                                     startOffset: header.startOffset,
-                                                    endOffset: header.endOffset
-                                                )
+                                                    endOffset: header.endOffset)
                                                 if recordedResearchEntries.insert(entry).inserted {
                                                     researchLog.record(entry)
                                                 }
                                             }
                                         }
                                         enriched = ParseEvent(
-                                            kind: event.kind,
-                                            offset: event.offset,
-                                            metadata: descriptor,
-                                            payload: payload,
-                                            issues: issuesByNodeID[header.startOffset] ?? []
-                                        )
+                                            kind: event.kind, offset: event.offset,
+                                            metadata: descriptor, payload: payload,
+                                            issues: issuesByNodeID[header.startOffset] ?? [])
                                     case .didFinishBox(let header, _):
                                         let descriptor =
-                                        metadataStack.popLast() ?? catalog.descriptor(for: header)
-                                        let fragmentPayload = fragmentCoordinator.didFinishBox(header: header)
-                                        let randomAccessPayload = randomAccessCoordinator.didFinishBox(
-                                            header: header,
-                                            payload: fragmentPayload
-                                        )
+                                            metadataStack.popLast()
+                                            ?? catalog.descriptor(for: header)
+                                        let fragmentPayload = fragmentCoordinator.didFinishBox(
+                                            header: header)
+                                        let randomAccessPayload =
+                                            randomAccessCoordinator.didFinishBox(
+                                                header: header, payload: fragmentPayload)
                                         editListCoordinator.didFinishBox(header: header)
                                         metadataCoordinator.didFinishBox(header: header)
                                         enriched = ParseEvent(
-                                            kind: event.kind,
-                                            offset: event.offset,
+                                            kind: event.kind, offset: event.offset,
                                             metadata: descriptor,
                                             payload: randomAccessPayload ?? fragmentPayload,
-                                            issues: issuesByNodeID[header.startOffset] ?? []
-                                        )
+                                            issues: issuesByNodeID[header.startOffset] ?? [])
                                         nodeIDToRemove = header.startOffset
                                     }
-                                    let validated = validator.annotate(event: enriched, reader: reader)
+                                    let validated = validator.annotate(
+                                        event: enriched, reader: reader)
                                     let finalEvent = ParsePipeline.attachParseIssuesIfNeeded(
-                                        to: validated,
-                                        options: context.options,
-                                        issueStore: issueStore,
-                                        issuesByNodeID: &issuesByNodeID
-                                    )
+                                        to: validated, options: context.options,
+                                        issueStore: issueStore, issuesByNodeID: &issuesByNodeID)
                                     if let nodeID = nodeIDToRemove {
                                         issuesByNodeID.removeValue(forKey: nodeID)
                                     }
@@ -448,35 +418,21 @@ extension ParsePipeline {
                                     for nodeID in issue.affectedNodeIDs {
                                         issuesByNodeID[nodeID, default: []].append(issue)
                                     }
-                                },
-                                onFinish: {
-                                    continuation.finish()
-                                }
-                            )
-                        } catch {
-                            continuation.finish(throwing: error)
-                        }
+                                }, onFinish: { continuation.finish() })
+                        } catch { continuation.finish(throwing: error) }
                     }
 
-                    continuation.onTermination = { @Sendable _ in
-                        task.cancel()
-                    }
+                    continuation.onTermination = { @Sendable _ in task.cancel() }
                 }
             })
     }
 
     private static func attachParseIssuesIfNeeded(
-        to event: ParseEvent,
-        options: Options,
-        issueStore: ParseIssueStore?,
+        to event: ParseEvent, options: Options, issueStore: ParseIssueStore?,
         issuesByNodeID: inout [Int64: [ParseIssue]]
     ) -> ParseEvent {
-        guard !event.validationIssues.isEmpty else {
-            return event
-        }
-        guard !options.abortOnStructuralError else {
-            return event
-        }
+        guard !event.validationIssues.isEmpty else { return event }
+        guard !options.abortOnStructuralError else { return event }
 
         let header: BoxHeader
         let depth: Int
@@ -490,44 +446,29 @@ extension ParsePipeline {
         }
 
         let promotableIssues = event.validationIssues.filter(shouldPromoteToParseIssue)
-        guard !promotableIssues.isEmpty else {
-            return event
-        }
+        guard !promotableIssues.isEmpty else { return event }
 
         let parseIssues = promotableIssues.map { issue in
             ParseIssue(
                 severity: ParseIssue.Severity(validationSeverity: issue.severity),
-                code: issue.ruleID,
-                message: issue.message,
-                byteRange: header.range,
-                affectedNodeIDs: [header.startOffset]
-            )
+                code: issue.ruleID, message: issue.message, byteRange: header.range,
+                affectedNodeIDs: [header.startOffset])
         }
 
-        for issue in parseIssues {
-            issuesByNodeID[header.startOffset, default: []].append(issue)
-        }
-        if let issueStore {
-            issueStore.record(parseIssues) { _ in depth }
-        }
+        for issue in parseIssues { issuesByNodeID[header.startOffset, default: []].append(issue) }
+        if let issueStore { issueStore.record(parseIssues) { _ in depth } }
 
         let combinedIssues = issuesByNodeID[header.startOffset] ?? []
         return ParseEvent(
-            kind: event.kind,
-            offset: event.offset,
-            metadata: event.metadata,
-            payload: event.payload,
-            validationIssues: event.validationIssues,
-            issues: combinedIssues
+            kind: event.kind, offset: event.offset, metadata: event.metadata,
+            payload: event.payload, validationIssues: event.validationIssues, issues: combinedIssues
         )
     }
 
     private static func shouldPromoteToParseIssue(_ issue: ValidationIssue) -> Bool {
         guard issue.ruleID.hasPrefix("VR-") else { return false }
         let suffix = issue.ruleID.dropFirst(3)
-        guard let number = Int(suffix), (1...15).contains(number) else {
-            return false
-        }
+        guard let number = Int(suffix), (1...15).contains(number) else { return false }
         return true
     }
 }

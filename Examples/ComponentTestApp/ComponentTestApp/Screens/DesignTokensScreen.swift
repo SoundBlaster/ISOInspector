@@ -21,7 +21,7 @@ struct DesignTokensScreen: View {
 
     /// Current Dynamic Type size preference (used when override is enabled)
     @AppStorage("dynamicTypeSizePreference") private var dynamicTypeSizePreference:
-    DynamicTypeSizePreference = .medium
+        DynamicTypeSizePreference = .medium
 
     /// Current system Dynamic Type size (for display purposes)
     @Environment(\.dynamicTypeSize) private var systemDynamicTypeSize
@@ -47,23 +47,18 @@ struct DesignTokensScreen: View {
                 Divider()
 
                 animationTokens
-            }
-            .padding(DS.Spacing.l)
-        }
-        .navigationTitle("Design Tokens")
-#if os(macOS)
-        .frame(minWidth: 600, minHeight: 400)
-#endif
+            }.padding(DS.Spacing.l)
+        }.navigationTitle("Design Tokens")#if os(macOS)
+            .frame(minWidth: 600, minHeight: 400)
+            #endif
     }
 }
 
 extension DesignTokensScreen {
-    @ViewBuilder
-    private var spacingTokens: some View {
+    @ViewBuilder private var spacingTokens: some View {
         // Spacing Tokens
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Spacing")
-                .font(DS.Typography.title)
+            Text("Spacing").font(DS.Typography.title)
 
             SpacingTokenRow(name: "DS.Spacing.s", value: DS.Spacing.s)
             SpacingTokenRow(name: "DS.Spacing.m", value: DS.Spacing.m)
@@ -74,17 +69,14 @@ extension DesignTokensScreen {
 }
 
 extension DesignTokensScreen {
-    @ViewBuilder
-    private var typographyTokens: some View {
+    @ViewBuilder private var typographyTokens: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Typography")
-                .font(DS.Typography.title)
+            Text("Typography").font(DS.Typography.title)
 
             // Dynamic Type Controls
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                Text("Dynamic Type Controls")
-                    .font(DS.Typography.subheadline)
-                    .foregroundStyle(.secondary)
+                Text("Dynamic Type Controls").font(DS.Typography.subheadline).foregroundStyle(
+                    .secondary)
 
                 // Override Toggle
                 Toggle(isOn: $overrideSystemDynamicType) {
@@ -92,17 +84,14 @@ extension DesignTokensScreen {
                         Image(systemName: "textformat.size")
                         Text("Override System Text Size")
                     }
-                }
-                .padding(DS.Spacing.m)
-                .background(DS.Colors.infoBG)
-                .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
+                }.padding(DS.Spacing.m).background(DS.Colors.infoBG).clipShape(
+                    RoundedRectangle(cornerRadius: DS.Radius.card))
 
                 // Conditional: Show picker or system size
                 if overrideSystemDynamicType {
                     VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                        Text("Custom Text Size")
-                            .font(DS.Typography.caption)
-                            .foregroundStyle(.secondary)
+                        Text("Custom Text Size").font(DS.Typography.caption).foregroundStyle(
+                            .secondary)
 
                         Picker("Custom Text Size", selection: $dynamicTypeSizePreference) {
                             Text("XS - Extra Small").tag(DynamicTypeSizePreference.xSmall)
@@ -110,8 +99,7 @@ extension DesignTokensScreen {
                             Text("M - Medium").tag(DynamicTypeSizePreference.medium)
                             Text("L - Large").tag(DynamicTypeSizePreference.large)
                             Text("XL - Extra Large").tag(DynamicTypeSizePreference.xLarge)
-                            Text("XXL - Extra Extra Large").tag(
-                                DynamicTypeSizePreference.xxLarge)
+                            Text("XXL - Extra Extra Large").tag(DynamicTypeSizePreference.xxLarge)
                             Text("XXXL - Maximum").tag(DynamicTypeSizePreference.xxxLarge)
                             Text("A1 - Accessibility 1").tag(
                                 DynamicTypeSizePreference.accessibility1)
@@ -123,74 +111,56 @@ extension DesignTokensScreen {
                                 DynamicTypeSizePreference.accessibility4)
                             Text("A5 - Accessibility 5").tag(
                                 DynamicTypeSizePreference.accessibility5)
-                        }
-                        .pickerStyle(.menu)
-                    }
-                    .padding(DS.Spacing.m)
-                    .background(DS.Colors.successBG)
-                    .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
+                        }.pickerStyle(.menu)
+                    }.padding(DS.Spacing.m).background(DS.Colors.successBG).clipShape(
+                        RoundedRectangle(cornerRadius: DS.Radius.card))
                 } else {
                     HStack {
                         Image(systemName: "gear")
                         Text("Using System Text Size:")
                         Spacer()
-                        Text(dynamicTypeSizeLabel(systemDynamicTypeSize))
-                            .font(DS.Typography.code)
-                            .padding(.horizontal, DS.Spacing.s)
-                            .padding(.vertical, DS.Spacing.xxs)
-                            .background(DS.Colors.tertiary)
-                            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
-                    }
-                    .padding(DS.Spacing.m)
-                    .background(DS.Colors.tertiary)
-                    .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
+                        Text(dynamicTypeSizeLabel(systemDynamicTypeSize)).font(DS.Typography.code)
+                            .padding(.horizontal, DS.Spacing.s).padding(.vertical, DS.Spacing.xxs)
+                            .background(DS.Colors.tertiary).clipShape(
+                                RoundedRectangle(cornerRadius: DS.Radius.small))
+                    }.padding(DS.Spacing.m).background(DS.Colors.tertiary).clipShape(
+                        RoundedRectangle(cornerRadius: DS.Radius.card))
                 }
             }
 
-            Divider()
-                .padding(.vertical, DS.Spacing.s)
+            Divider().padding(.vertical, DS.Spacing.s)
 
-            Text("Typography Samples (affected by controls above)")
-                .font(DS.Typography.subheadline)
+            Text("Typography Samples (affected by controls above)").font(DS.Typography.subheadline)
                 .foregroundStyle(.secondary)
 
             // Test: Custom Scalable Text (works on macOS!)
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("✅ Custom Scaled Text (works on macOS!)")
-                    .font(scaledFont(size: 20))
-                    .foregroundStyle(.green)
-                    .fontWeight(.bold)
+                Text("✅ Custom Scaled Text (works on macOS!)").font(scaledFont(size: 20))
+                    .foregroundStyle(.green).fontWeight(.bold)
 
-                Text("This text WILL change size when you change the picker above!")
-                    .font(scaledFont(size: 16))
+                Text("This text WILL change size when you change the picker above!").font(
+                    scaledFont(size: 16))
 
-                Text(
-                    "Current scale: \(String(format: "%.0f%%", fontScaleMultiplier * 100))"
-                )
-                .font(scaledFont(size: 12))
-                .foregroundStyle(.secondary)
-            }
-            .padding(DS.Spacing.m)
-            .background(DS.Colors.successBG)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
+                Text("Current scale: \(String(format: "%.0f%%", fontScaleMultiplier * 100))").font(
+                    scaledFont(size: 12)
+                ).foregroundStyle(.secondary)
+            }.padding(DS.Spacing.m).background(DS.Colors.successBG).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.card))
 
             TypographyTokenRow(
                 name: "DS.Typography.headline", font: DS.Typography.headline,
                 sample: "Headline Text")
             TypographyTokenRow(
-                name: "DS.Typography.title", font: DS.Typography.title, sample: "Title Text"
-            )
+                name: "DS.Typography.title", font: DS.Typography.title, sample: "Title Text")
             TypographyTokenRow(
                 name: "DS.Typography.subheadline", font: DS.Typography.subheadline,
                 sample: "Subheadline Text")
             TypographyTokenRow(
                 name: "DS.Typography.body", font: DS.Typography.body, sample: "Body Text")
             TypographyTokenRow(
-                name: "DS.Typography.caption", font: DS.Typography.caption,
-                sample: "Caption Text")
+                name: "DS.Typography.caption", font: DS.Typography.caption, sample: "Caption Text")
             TypographyTokenRow(
-                name: "DS.Typography.label", font: DS.Typography.label, sample: "LABEL TEXT"
-            )
+                name: "DS.Typography.label", font: DS.Typography.label, sample: "LABEL TEXT")
             TypographyTokenRow(
                 name: "DS.Typography.code", font: DS.Typography.code, sample: "0xDEADBEEF")
         }
@@ -198,47 +168,34 @@ extension DesignTokensScreen {
 }
 
 extension DesignTokensScreen {
-    @ViewBuilder
-    private var animationTokens: some View {
+    @ViewBuilder private var animationTokens: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Animation")
-                .font(DS.Typography.title)
+            Text("Animation").font(DS.Typography.title)
 
             HStack {
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    Text("DS.Animation.quick")
-                        .font(DS.Typography.code)
-                    Text("0.15s snappy")
-                        .font(DS.Typography.caption)
-                        .foregroundStyle(.secondary)
+                    Text("DS.Animation.quick").font(DS.Typography.code)
+                    Text("0.15s snappy").font(DS.Typography.caption).foregroundStyle(.secondary)
                 }
 
                 Spacer()
 
-                Button("Animate") {
-                    withAnimation(DS.Animation.quick) {
-                        isAnimating.toggle()
-                    }
-                }
-            }
-            .padding(DS.Spacing.m)
-            .background(DS.Colors.tertiary)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
+                Button("Animate") { withAnimation(DS.Animation.quick) { isAnimating.toggle() } }
+            }.padding(DS.Spacing.m).background(DS.Colors.tertiary).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.small))
 
             AnimationTokenRow(
-                name: "DS.Animation.medium", duration: "0.25s",
-                animation: DS.Animation.medium, isAnimating: $isAnimating)
+                name: "DS.Animation.medium", duration: "0.25s", animation: DS.Animation.medium,
+                isAnimating: $isAnimating)
             AnimationTokenRow(
                 name: "DS.Animation.slow", duration: "0.35s", animation: DS.Animation.slow,
                 isAnimating: $isAnimating)
         }
     }
 
-    @ViewBuilder
-    private var radiusTokens: some View {
+    @ViewBuilder private var radiusTokens: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Corner Radius")
-                .font(DS.Typography.title)
+            Text("Corner Radius").font(DS.Typography.title)
 
             RadiusTokenRow(name: "DS.Radius.small", value: DS.Radius.small)
             RadiusTokenRow(name: "DS.Radius.medium", value: DS.Radius.medium)
@@ -247,43 +204,32 @@ extension DesignTokensScreen {
         }
     }
 
-    @ViewBuilder
-    private var colorTokens: some View {
+    @ViewBuilder private var colorTokens: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Colors")
-                .font(DS.Typography.title)
+            Text("Colors").font(DS.Typography.title)
 
-            Text("Semantic Backgrounds")
-                .font(DS.Typography.subheadline)
-                .foregroundStyle(.secondary)
+            Text("Semantic Backgrounds").font(DS.Typography.subheadline).foregroundStyle(.secondary)
 
             ColorTokenRow(
-                name: "DS.Colors.infoBG", color: DS.Colors.infoBG,
-                usage: "Neutral information")
+                name: "DS.Colors.infoBG", color: DS.Colors.infoBG, usage: "Neutral information")
             ColorTokenRow(
-                name: "DS.Colors.warnBG", color: DS.Colors.warnBG,
-                usage: "Warnings, cautions")
+                name: "DS.Colors.warnBG", color: DS.Colors.warnBG, usage: "Warnings, cautions")
             ColorTokenRow(
-                name: "DS.Colors.errorBG", color: DS.Colors.errorBG,
-                usage: "Errors, failures")
+                name: "DS.Colors.errorBG", color: DS.Colors.errorBG, usage: "Errors, failures")
             ColorTokenRow(
                 name: "DS.Colors.successBG", color: DS.Colors.successBG,
                 usage: "Success, completion")
 
-            Text("UI Colors")
-                .font(DS.Typography.subheadline)
-                .foregroundStyle(.secondary)
-                .padding(.top, DS.Spacing.m)
+            Text("UI Colors").font(DS.Typography.subheadline).foregroundStyle(.secondary).padding(
+                .top, DS.Spacing.m)
 
             ColorTokenRow(
-                name: "DS.Colors.accent", color: DS.Colors.accent,
-                usage: "Interactive elements")
+                name: "DS.Colors.accent", color: DS.Colors.accent, usage: "Interactive elements")
             ColorTokenRow(
                 name: "DS.Colors.secondary", color: DS.Colors.secondary,
                 usage: "Supporting elements")
             ColorTokenRow(
-                name: "DS.Colors.tertiary", color: DS.Colors.tertiary,
-                usage: "Background fills")
+                name: "DS.Colors.tertiary", color: DS.Colors.tertiary, usage: "Background fills")
         }
     }
 }
@@ -330,9 +276,7 @@ extension DesignTokensScreen {
     }
 
     /// Scales a font size based on current Dynamic Type preference
-    private func scaledFont(size: CGFloat) -> Font {
-        .system(size: size * fontScaleMultiplier)
-    }
+    private func scaledFont(size: CGFloat) -> Font { .system(size: size * fontScaleMultiplier) }
 }
 
 // MARK: - Helper Views
@@ -344,23 +288,15 @@ struct SpacingTokenRow: View {
 
     var body: some View {
         HStack(alignment: .center, spacing: DS.Spacing.m) {
-            Text(name)
-                .font(DS.Typography.code)
-                .frame(width: 140, alignment: .leading)
+            Text(name).font(DS.Typography.code).frame(width: 140, alignment: .leading)
 
-            Rectangle()
-                .fill(DS.Colors.accent)
-                .frame(width: value, height: 20)
+            Rectangle().fill(DS.Colors.accent).frame(width: value, height: 20)
 
-            Text("\(Int(value))pt")
-                .font(DS.Typography.caption)
-                .foregroundStyle(.secondary)
+            Text("\(Int(value))pt").font(DS.Typography.caption).foregroundStyle(.secondary)
 
             Spacer()
-        }
-        .padding(DS.Spacing.s)
-        .background(DS.Colors.tertiary)
-        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
+        }.padding(DS.Spacing.s).background(DS.Colors.tertiary).clipShape(
+            RoundedRectangle(cornerRadius: DS.Radius.small))
     }
 }
 
@@ -372,27 +308,19 @@ struct ColorTokenRow: View {
 
     var body: some View {
         HStack(spacing: DS.Spacing.m) {
-            RoundedRectangle(cornerRadius: DS.Radius.small)
-                .fill(color)
-                .frame(width: 40, height: 40)
+            RoundedRectangle(cornerRadius: DS.Radius.small).fill(color).frame(width: 40, height: 40)
                 .overlay(
-                    RoundedRectangle(cornerRadius: DS.Radius.small)
-                        .stroke(Color.primary.opacity(0.1), lineWidth: 1)
-                )
+                    RoundedRectangle(cornerRadius: DS.Radius.small).stroke(
+                        Color.primary.opacity(0.1), lineWidth: 1))
 
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text(name)
-                    .font(DS.Typography.code)
-                Text(usage)
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(.secondary)
+                Text(name).font(DS.Typography.code)
+                Text(usage).font(DS.Typography.caption).foregroundStyle(.secondary)
             }
 
             Spacer()
-        }
-        .padding(DS.Spacing.s)
-        .background(DS.Colors.tertiary)
-        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
+        }.padding(DS.Spacing.s).background(DS.Colors.tertiary).clipShape(
+            RoundedRectangle(cornerRadius: DS.Radius.small))
     }
 }
 
@@ -404,18 +332,13 @@ struct TypographyTokenRow: View {
 
     var body: some View {
         HStack(spacing: DS.Spacing.m) {
-            Text(name)
-                .font(DS.Typography.code)
-                .frame(width: 180, alignment: .leading)
+            Text(name).font(DS.Typography.code).frame(width: 180, alignment: .leading)
 
-            Text(sample)
-                .font(font)
+            Text(sample).font(font)
 
             Spacer()
-        }
-        .padding(DS.Spacing.s)
-        .background(DS.Colors.tertiary)
-        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
+        }.padding(DS.Spacing.s).background(DS.Colors.tertiary).clipShape(
+            RoundedRectangle(cornerRadius: DS.Radius.small))
     }
 }
 
@@ -426,23 +349,17 @@ struct RadiusTokenRow: View {
 
     var body: some View {
         HStack(spacing: DS.Spacing.m) {
-            Text(name)
-                .font(DS.Typography.code)
-                .frame(width: 140, alignment: .leading)
+            Text(name).font(DS.Typography.code).frame(width: 140, alignment: .leading)
 
-            RoundedRectangle(cornerRadius: value)
-                .fill(DS.Colors.accent)
-                .frame(width: 60, height: 40)
+            RoundedRectangle(cornerRadius: value).fill(DS.Colors.accent).frame(
+                width: 60, height: 40)
 
-            Text(value == 999 ? "Capsule" : "\(Int(value))pt")
-                .font(DS.Typography.caption)
+            Text(value == 999 ? "Capsule" : "\(Int(value))pt").font(DS.Typography.caption)
                 .foregroundStyle(.secondary)
 
             Spacer()
-        }
-        .padding(DS.Spacing.s)
-        .background(DS.Colors.tertiary)
-        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
+        }.padding(DS.Spacing.s).background(DS.Colors.tertiary).clipShape(
+            RoundedRectangle(cornerRadius: DS.Radius.small))
     }
 }
 
@@ -456,38 +373,20 @@ struct AnimationTokenRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text(name)
-                    .font(DS.Typography.code)
-                Text(duration)
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(.secondary)
+                Text(name).font(DS.Typography.code)
+                Text(duration).font(DS.Typography.caption).foregroundStyle(.secondary)
             }
 
             Spacer()
 
-            Button("Animate") {
-                withAnimation(animation) {
-                    isAnimating.toggle()
-                }
-            }
-        }
-        .padding(DS.Spacing.m)
-        .background(DS.Colors.tertiary)
-        .clipShape(RoundedRectangle(cornerRadius: DS.Radius.small))
+            Button("Animate") { withAnimation(animation) { isAnimating.toggle() } }
+        }.padding(DS.Spacing.m).background(DS.Colors.tertiary).clipShape(
+            RoundedRectangle(cornerRadius: DS.Radius.small))
     }
 }
 
 // MARK: - Previews
 
-#Preview("Design Tokens Screen") {
-    NavigationStack {
-        DesignTokensScreen()
-    }
-}
+#Preview("Design Tokens Screen") { NavigationStack { DesignTokensScreen() } }
 
-#Preview("Dark Mode") {
-    NavigationStack {
-        DesignTokensScreen()
-    }
-    .preferredColorScheme(.dark)
-}
+#Preview("Dark Mode") { NavigationStack { DesignTokensScreen() }.preferredColorScheme(.dark) }

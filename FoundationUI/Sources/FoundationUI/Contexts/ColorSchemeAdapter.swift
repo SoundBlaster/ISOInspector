@@ -155,9 +155,7 @@ public struct ColorSchemeAdapter {
     ///     // Use adapter properties...
     /// }
     /// ```
-    public init(colorScheme: ColorScheme) {
-        self.colorScheme = colorScheme
-    }
+    public init(colorScheme: ColorScheme) { self.colorScheme = colorScheme }
 
     // MARK: - Color Scheme Detection
 
@@ -174,9 +172,7 @@ public struct ColorSchemeAdapter {
     /// ```
     ///
     /// - Returns: `true` if dark mode, `false` if light mode
-    public var isDarkMode: Bool {
-        colorScheme == .dark
-    }
+    public var isDarkMode: Bool { colorScheme == .dark }
 
     // MARK: - Adaptive Background Colors
 
@@ -204,11 +200,11 @@ public struct ColorSchemeAdapter {
     /// - ``adaptiveElevatedSurface``
     public var adaptiveBackground: Color {
         #if os(iOS)
-        return Color(uiColor: .systemBackground)
+            return Color(uiColor: .systemBackground)
         #elseif os(macOS)
-        return Color(nsColor: .windowBackgroundColor)
+            return Color(nsColor: .windowBackgroundColor)
         #else
-        return Color(uiColor: .systemBackground)
+            return Color(uiColor: .systemBackground)
         #endif
     }
 
@@ -241,11 +237,11 @@ public struct ColorSchemeAdapter {
     /// - ``adaptiveElevatedSurface``
     public var adaptiveSecondaryBackground: Color {
         #if os(iOS)
-        return Color(uiColor: .secondarySystemBackground)
+            return Color(uiColor: .secondarySystemBackground)
         #elseif os(macOS)
-        return Color(nsColor: .controlBackgroundColor)
+            return Color(nsColor: .controlBackgroundColor)
         #else
-        return Color(uiColor: .secondarySystemBackground)
+            return Color(uiColor: .secondarySystemBackground)
         #endif
     }
 
@@ -281,11 +277,11 @@ public struct ColorSchemeAdapter {
     /// - ``adaptiveSecondaryBackground``
     public var adaptiveElevatedSurface: Color {
         #if os(iOS)
-        return Color(uiColor: .secondarySystemGroupedBackground)
+            return Color(uiColor: .secondarySystemGroupedBackground)
         #elseif os(macOS)
-        return Color(nsColor: .controlBackgroundColor)
+            return Color(nsColor: .controlBackgroundColor)
         #else
-        return Color(uiColor: .secondarySystemGroupedBackground)
+            return Color(uiColor: .secondarySystemGroupedBackground)
         #endif
     }
 
@@ -314,11 +310,11 @@ public struct ColorSchemeAdapter {
     /// - ``DS/Typography``
     public var adaptiveTextColor: Color {
         #if os(iOS)
-        return Color(uiColor: .label)
+            return Color(uiColor: .label)
         #elseif os(macOS)
-        return Color(nsColor: .labelColor)
+            return Color(nsColor: .labelColor)
         #else
-        return Color(uiColor: .label)
+            return Color(uiColor: .label)
         #endif
     }
 
@@ -353,11 +349,11 @@ public struct ColorSchemeAdapter {
     /// - ``adaptiveTextColor``
     public var adaptiveSecondaryTextColor: Color {
         #if os(iOS)
-        return Color(uiColor: .secondaryLabel)
+            return Color(uiColor: .secondaryLabel)
         #elseif os(macOS)
-        return Color(nsColor: .secondaryLabelColor)
+            return Color(nsColor: .secondaryLabelColor)
         #else
-        return Color(uiColor: .secondaryLabel)
+            return Color(uiColor: .secondaryLabel)
         #endif
     }
 
@@ -390,11 +386,11 @@ public struct ColorSchemeAdapter {
     /// - ``adaptiveDividerColor``
     public var adaptiveBorderColor: Color {
         #if os(iOS)
-        return Color(uiColor: .separator)
+            return Color(uiColor: .separator)
         #elseif os(macOS)
-        return Color(nsColor: .separatorColor)
+            return Color(nsColor: .separatorColor)
         #else
-        return Color(uiColor: .separator)
+            return Color(uiColor: .separator)
         #endif
     }
 
@@ -429,18 +425,18 @@ public struct ColorSchemeAdapter {
     /// - ``adaptiveBorderColor``
     public var adaptiveDividerColor: Color {
         #if os(iOS)
-        return Color(uiColor: .quaternaryLabel)
+            return Color(uiColor: .quaternaryLabel)
         #elseif os(macOS)
-        return Color(nsColor: .quaternaryLabelColor)
+            return Color(nsColor: .quaternaryLabelColor)
         #else
-        return Color(uiColor: .quaternaryLabel)
+            return Color(uiColor: .quaternaryLabel)
         #endif
     }
 }
 
 // MARK: - View Extensions
 
-public extension View {
+extension View {
     /// Applies adaptive color scheme to the view
     ///
     /// Automatically adapts view colors based on the system color scheme.
@@ -482,9 +478,7 @@ public extension View {
     /// - ``ColorSchemeAdapter/adaptiveTextColor``
     ///
     /// - Returns: A view that adapts to the color scheme
-    func adaptiveColorScheme() -> some View {
-        modifier(AdaptiveColorSchemeModifier())
-    }
+    public func adaptiveColorScheme() -> some View { modifier(AdaptiveColorSchemeModifier()) }
 }
 
 // MARK: - Adaptive Color Scheme Modifier
@@ -502,9 +496,7 @@ private struct AdaptiveColorSchemeModifier: ViewModifier {
 
     func body(content: Content) -> some View {
         let adapter = ColorSchemeAdapter(colorScheme: colorScheme)
-        content
-            .foregroundColor(adapter.adaptiveTextColor)
-            .background(adapter.adaptiveBackground)
+        content.foregroundColor(adapter.adaptiveTextColor).background(adapter.adaptiveBackground)
     }
 }
 
@@ -516,25 +508,21 @@ private struct AdaptiveColorSchemeModifier: ViewModifier {
             let adapter = ColorSchemeAdapter(colorScheme: .light)
 
             return VStack(spacing: DS.Spacing.l) {
-                Text("Light Mode Colors")
-                    .font(DS.Typography.title)
-                    .foregroundColor(adapter.adaptiveTextColor)
+                Text("Light Mode Colors").font(DS.Typography.title).foregroundColor(
+                    adapter.adaptiveTextColor)
 
                 VStack(spacing: DS.Spacing.m) {
                     ColorSwatch(label: "Primary Background", color: adapter.adaptiveBackground)
                     ColorSwatch(
-                        label: "Secondary Background", color: adapter.adaptiveSecondaryBackground
-                    )
+                        label: "Secondary Background", color: adapter.adaptiveSecondaryBackground)
                     ColorSwatch(label: "Elevated Surface", color: adapter.adaptiveElevatedSurface)
                     ColorSwatch(label: "Primary Text", color: adapter.adaptiveTextColor)
                     ColorSwatch(label: "Secondary Text", color: adapter.adaptiveSecondaryTextColor)
                     ColorSwatch(label: "Border", color: adapter.adaptiveBorderColor)
                     ColorSwatch(label: "Divider", color: adapter.adaptiveDividerColor)
                 }
-            }
-            .padding(DS.Spacing.xl)
-            .background(adapter.adaptiveBackground)
-            .preferredColorScheme(.light)
+            }.padding(DS.Spacing.xl).background(adapter.adaptiveBackground).preferredColorScheme(
+                .light)
         }
     }
 
@@ -547,25 +535,21 @@ private struct AdaptiveColorSchemeModifier: ViewModifier {
             let adapter = ColorSchemeAdapter(colorScheme: .dark)
 
             return VStack(spacing: DS.Spacing.l) {
-                Text("Dark Mode Colors")
-                    .font(DS.Typography.title)
-                    .foregroundColor(adapter.adaptiveTextColor)
+                Text("Dark Mode Colors").font(DS.Typography.title).foregroundColor(
+                    adapter.adaptiveTextColor)
 
                 VStack(spacing: DS.Spacing.m) {
                     ColorSwatch(label: "Primary Background", color: adapter.adaptiveBackground)
                     ColorSwatch(
-                        label: "Secondary Background", color: adapter.adaptiveSecondaryBackground
-                    )
+                        label: "Secondary Background", color: adapter.adaptiveSecondaryBackground)
                     ColorSwatch(label: "Elevated Surface", color: adapter.adaptiveElevatedSurface)
                     ColorSwatch(label: "Primary Text", color: adapter.adaptiveTextColor)
                     ColorSwatch(label: "Secondary Text", color: adapter.adaptiveSecondaryTextColor)
                     ColorSwatch(label: "Border", color: adapter.adaptiveBorderColor)
                     ColorSwatch(label: "Divider", color: adapter.adaptiveDividerColor)
                 }
-            }
-            .padding(DS.Spacing.xl)
-            .background(adapter.adaptiveBackground)
-            .preferredColorScheme(.dark)
+            }.padding(DS.Spacing.xl).background(adapter.adaptiveBackground).preferredColorScheme(
+                .dark)
         }
     }
 
@@ -580,37 +564,28 @@ private struct AdaptiveColorSchemeModifier: ViewModifier {
             let adapter = ColorSchemeAdapter(colorScheme: colorScheme)
 
             return VStack(spacing: DS.Spacing.l) {
-                Text("Adaptive Card")
-                    .font(DS.Typography.title)
-                    .foregroundColor(adapter.adaptiveTextColor)
+                Text("Adaptive Card").font(DS.Typography.title).foregroundColor(
+                    adapter.adaptiveTextColor)
 
                 // Card with adaptive colors
                 VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                    Text("Card Title")
-                        .font(DS.Typography.headline)
-                        .foregroundColor(adapter.adaptiveTextColor)
+                    Text("Card Title").font(DS.Typography.headline).foregroundColor(
+                        adapter.adaptiveTextColor)
 
-                    Text("This card adapts to light and dark mode automatically.")
-                        .font(DS.Typography.body)
-                        .foregroundColor(adapter.adaptiveSecondaryTextColor)
+                    Text("This card adapts to light and dark mode automatically.").font(
+                        DS.Typography.body
+                    ).foregroundColor(adapter.adaptiveSecondaryTextColor)
 
-                    Divider()
-                        .background(adapter.adaptiveDividerColor)
+                    Divider().background(adapter.adaptiveDividerColor)
 
-                    Text("Footer content")
-                        .font(DS.Typography.caption)
-                        .foregroundColor(adapter.adaptiveSecondaryTextColor)
-                }
-                .padding(DS.Spacing.l)
-                .background(adapter.adaptiveElevatedSurface)
-                .cornerRadius(DS.Radius.card)
-                .overlay(
-                    RoundedRectangle(cornerRadius: DS.Radius.card)
-                        .stroke(adapter.adaptiveBorderColor, lineWidth: 1)
-                )
-            }
-            .padding(DS.Spacing.xl)
-            .background(adapter.adaptiveBackground)
+                    Text("Footer content").font(DS.Typography.caption).foregroundColor(
+                        adapter.adaptiveSecondaryTextColor)
+                }.padding(DS.Spacing.l).background(adapter.adaptiveElevatedSurface).cornerRadius(
+                    DS.Radius.card
+                ).overlay(
+                    RoundedRectangle(cornerRadius: DS.Radius.card).stroke(
+                        adapter.adaptiveBorderColor, lineWidth: 1))
+            }.padding(DS.Spacing.xl).background(adapter.adaptiveBackground)
         }
     }
 
@@ -627,52 +602,37 @@ private struct AdaptiveColorSchemeModifier: ViewModifier {
             return HStack(spacing: 0) {
                 // Main content area
                 VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                    Text("Main Content")
-                        .font(DS.Typography.title)
-                        .foregroundColor(adapter.adaptiveTextColor)
+                    Text("Main Content").font(DS.Typography.title).foregroundColor(
+                        adapter.adaptiveTextColor)
 
-                    Text("Uses adaptive background color")
-                        .font(DS.Typography.body)
-                        .foregroundColor(adapter.adaptiveSecondaryTextColor)
+                    Text("Uses adaptive background color").font(DS.Typography.body).foregroundColor(
+                        adapter.adaptiveSecondaryTextColor)
 
                     Spacer()
-                }
-                .padding(DS.Spacing.l)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(adapter.adaptiveBackground)
+                }.padding(DS.Spacing.l).frame(maxWidth: .infinity, maxHeight: .infinity).background(
+                    adapter.adaptiveBackground)
 
                 // Inspector sidebar
                 VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                    Text("Inspector")
-                        .font(DS.Typography.headline)
-                        .foregroundColor(adapter.adaptiveTextColor)
+                    Text("Inspector").font(DS.Typography.headline).foregroundColor(
+                        adapter.adaptiveTextColor)
 
-                    Divider()
-                        .background(adapter.adaptiveDividerColor)
+                    Divider().background(adapter.adaptiveDividerColor)
 
                     VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                        Text("Background Style")
-                            .font(DS.Typography.caption)
-                            .foregroundColor(adapter.adaptiveSecondaryTextColor)
-                        Text("Secondary adaptive")
-                            .font(DS.Typography.body)
-                            .foregroundColor(adapter.adaptiveTextColor)
+                        Text("Background Style").font(DS.Typography.caption).foregroundColor(
+                            adapter.adaptiveSecondaryTextColor)
+                        Text("Secondary adaptive").font(DS.Typography.body).foregroundColor(
+                            adapter.adaptiveTextColor)
                     }
 
                     Spacer()
-                }
-                .padding(DS.Spacing.l)
-                .frame(width: 250)
-                .frame(maxHeight: .infinity)
-                .background(adapter.adaptiveSecondaryBackground)
-                .overlay(
-                    Rectangle()
-                        .frame(width: 1)
-                        .foregroundColor(adapter.adaptiveDividerColor),
-                    alignment: .leading
-                )
-            }
-            .frame(height: 400)
+                }.padding(DS.Spacing.l).frame(width: 250).frame(maxHeight: .infinity).background(
+                    adapter.adaptiveSecondaryBackground
+                ).overlay(
+                    Rectangle().frame(width: 1).foregroundColor(adapter.adaptiveDividerColor),
+                    alignment: .leading)
+            }.frame(height: 400)
         }
     }
 
@@ -683,22 +643,16 @@ private struct AdaptiveColorSchemeModifier: ViewModifier {
     struct ModifierDemo: View {
         var body: some View {
             VStack(spacing: DS.Spacing.m) {
-                Text("Using .adaptiveColorScheme() Modifier")
-                    .font(DS.Typography.title)
+                Text("Using .adaptiveColorScheme() Modifier").font(DS.Typography.title)
 
-                Text("Colors adapt automatically to light/dark mode")
-                    .font(DS.Typography.body)
+                Text("Colors adapt automatically to light/dark mode").font(DS.Typography.body)
 
-                Text("Try switching appearance in Xcode preview")
-                    .font(DS.Typography.caption)
-            }
-            .padding(DS.Spacing.l)
-            .adaptiveColorScheme()
+                Text("Try switching appearance in Xcode preview").font(DS.Typography.caption)
+            }.padding(DS.Spacing.l).adaptiveColorScheme()
         }
     }
 
-    return ModifierDemo()
-        .frame(height: 200)
+    return ModifierDemo().frame(height: 200)
 }
 
 #Preview("Side-by-Side Comparison") {
@@ -708,48 +662,35 @@ private struct AdaptiveColorSchemeModifier: ViewModifier {
             let adapter = ColorSchemeAdapter(colorScheme: .light)
 
             VStack(spacing: DS.Spacing.m) {
-                Text("Light Mode")
-                    .font(DS.Typography.headline)
-                    .foregroundColor(adapter.adaptiveTextColor)
+                Text("Light Mode").font(DS.Typography.headline).foregroundColor(
+                    adapter.adaptiveTextColor)
 
-                Text("Adaptive colors")
-                    .font(DS.Typography.body)
-                    .foregroundColor(adapter.adaptiveSecondaryTextColor)
-            }
-            .padding(DS.Spacing.l)
-            .background(adapter.adaptiveElevatedSurface)
-            .cornerRadius(DS.Radius.card)
-            .overlay(
-                RoundedRectangle(cornerRadius: DS.Radius.card)
-                    .stroke(adapter.adaptiveBorderColor, lineWidth: 1)
-            )
-        }
-        .preferredColorScheme(.light)
+                Text("Adaptive colors").font(DS.Typography.body).foregroundColor(
+                    adapter.adaptiveSecondaryTextColor)
+            }.padding(DS.Spacing.l).background(adapter.adaptiveElevatedSurface).cornerRadius(
+                DS.Radius.card
+            ).overlay(
+                RoundedRectangle(cornerRadius: DS.Radius.card).stroke(
+                    adapter.adaptiveBorderColor, lineWidth: 1))
+        }.preferredColorScheme(.light)
 
         // Dark mode
         VStack {
             let adapter = ColorSchemeAdapter(colorScheme: .dark)
 
             VStack(spacing: DS.Spacing.m) {
-                Text("Dark Mode")
-                    .font(DS.Typography.headline)
-                    .foregroundColor(adapter.adaptiveTextColor)
+                Text("Dark Mode").font(DS.Typography.headline).foregroundColor(
+                    adapter.adaptiveTextColor)
 
-                Text("Adaptive colors")
-                    .font(DS.Typography.body)
-                    .foregroundColor(adapter.adaptiveSecondaryTextColor)
-            }
-            .padding(DS.Spacing.l)
-            .background(adapter.adaptiveElevatedSurface)
-            .cornerRadius(DS.Radius.card)
-            .overlay(
-                RoundedRectangle(cornerRadius: DS.Radius.card)
-                    .stroke(adapter.adaptiveBorderColor, lineWidth: 1)
-            )
-        }
-        .preferredColorScheme(.dark)
-    }
-    .padding(DS.Spacing.xl)
+                Text("Adaptive colors").font(DS.Typography.body).foregroundColor(
+                    adapter.adaptiveSecondaryTextColor)
+            }.padding(DS.Spacing.l).background(adapter.adaptiveElevatedSurface).cornerRadius(
+                DS.Radius.card
+            ).overlay(
+                RoundedRectangle(cornerRadius: DS.Radius.card).stroke(
+                    adapter.adaptiveBorderColor, lineWidth: 1))
+        }.preferredColorScheme(.dark)
+    }.padding(DS.Spacing.xl)
 }
 
 // MARK: - Preview Helpers
@@ -764,17 +705,11 @@ private struct ColorSwatch: View {
         let adapter = ColorSchemeAdapter(colorScheme: colorScheme)
 
         HStack {
-            Text(label)
-                .font(DS.Typography.body)
-                .frame(width: 150, alignment: .leading)
+            Text(label).font(DS.Typography.body).frame(width: 150, alignment: .leading)
 
-            RoundedRectangle(cornerRadius: DS.Radius.small)
-                .fill(color)
-                .frame(height: 30)
-                .overlay(
-                    RoundedRectangle(cornerRadius: DS.Radius.small)
-                        .stroke(adapter.adaptiveDividerColor, lineWidth: 1)
-                )
+            RoundedRectangle(cornerRadius: DS.Radius.small).fill(color).frame(height: 30).overlay(
+                RoundedRectangle(cornerRadius: DS.Radius.small).stroke(
+                    adapter.adaptiveDividerColor, lineWidth: 1))
         }
     }
 }

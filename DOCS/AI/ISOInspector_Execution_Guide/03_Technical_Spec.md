@@ -14,14 +14,14 @@ Components communicate through typed event streams and shared domain models to k
 | Module | Responsibilities | Key Types | External References |
 |--------|------------------|-----------|---------------------|
 | Core.IO | Chunked file reader using `FileHandle.AsyncBytes` with configurable buffer size. | `ChunkReader`, `FileSlice`, `ReadContext` | Foundation |
-| Core.Parser | Decode MP4 atom headers, dispatch to box-specific decoders, and emit events. | `BoxHeader`, `BoxDecoder`, `ParseEvent`, `ParsePipeline` | ISO/IEC 14496-12 | 
-| Core.Validation | Validate structural rules, track context stack, report warnings/errors. | `ValidationRule`, `ValidationIssue`, `ContextStack` | ISO/IEC 14496-12 | 
-| Core.Metadata | Maintain registry of known boxes referencing MP4RA data; provide descriptive metadata. | `BoxCatalog`, `BoxDescriptor` | MP4RA registry | 
-| Core.Export | Serialize parse tree and validation results to JSON and binary capture. | `JSONExporter`, `CaptureWriter` | Codable | 
-| UI.Tree | Render hierarchical tree with virtualization. | `BoxNode`, `BoxTreeView`, `BoxTreeStore` | SwiftUI | 
-| UI.Detail | Present metadata, hex viewer, annotations. | `BoxDetailView`, `HexView`, `AnnotationStore` | SwiftUI | 
-| UI.Session | Manage multi-file sessions, bookmarks, persistence via CoreData or JSON. | `SessionStore`, `Bookmark` | FileManager, CoreData | 
-| CLI.Commands | Command definitions for `inspect`, `validate`, `export`. | `InspectCommand`, `ValidateCommand` | ArgumentParser | 
+| Core.Parser | Decode MP4 atom headers, dispatch to box-specific decoders, and emit events. | `BoxHeader`, `BoxDecoder`, `ParseEvent`, `ParsePipeline` | ISO/IEC 14496-12 |
+| Core.Validation | Validate structural rules, track context stack, report warnings/errors. | `ValidationRule`, `ValidationIssue`, `ContextStack` | ISO/IEC 14496-12 |
+| Core.Metadata | Maintain registry of known boxes referencing MP4RA data; provide descriptive metadata. | `BoxCatalog`, `BoxDescriptor` | MP4RA registry |
+| Core.Export | Serialize parse tree and validation results to JSON and binary capture. | `JSONExporter`, `CaptureWriter` | Codable |
+| UI.Tree | Render hierarchical tree with virtualization. | `BoxNode`, `BoxTreeView`, `BoxTreeStore` | SwiftUI |
+| UI.Detail | Present metadata, hex viewer, annotations. | `BoxDetailView`, `HexView`, `AnnotationStore` | SwiftUI |
+| UI.Session | Manage multi-file sessions, bookmarks, persistence via CoreData or JSON. | `SessionStore`, `Bookmark` | FileManager, CoreData |
+| CLI.Commands | Command definitions for `inspect`, `validate`, `export`. | `InspectCommand`, `ValidateCommand` | ArgumentParser |
 | CLI.Reporting | Format console output, CSV summary, exit codes. | `ReportFormatter`, `CSVWriter` | Foundation |
 | App.Shell | SwiftUI App entry, window scenes, document importers. | `ISOInspectorApp`, `DocumentController` | SwiftUI, UniformTypeIdentifiers |
 | Sandbox.FilesystemAccess | Request, persist, and resolve security-scoped bookmarks for user-selected files. | `FilesystemAccess`, `SecurityScopedBookmark`, `FilesystemAccessError` | App Sandbox design guide, UIDocumentPicker docs |
@@ -109,7 +109,7 @@ struct ParseEvent: Sendable, Codable {
 | Accessibility Tests | VoiceOver labels, Dynamic Type scaling. | XCTest + Accessibility Inspector automation. |
 
 ## CI & Quality Automation
-- **Formatting:** `.pre-commit-config.yaml` runs `swift format --configuration .swift-format.json --in-place` for staged Swift files while `.github/workflows/ci.yml` executes `swift format --mode lint` to guarantee identical style across contributors and CI agents.【F:todo.md†L3-L7】【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L11】
+- **Formatting:** `.pre-commit-config.yaml` runs `swift format --in-place` for staged Swift files while `.github/workflows/ci.yml` executes `swift format --mode lint` to guarantee identical style across contributors and CI agents.【F:todo.md†L3-L7】【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L11】
 - **Static Analysis:** `.swiftlint.yml` re-enables complexity-oriented rules (`cyclomatic_complexity`, `function_body_length`, `type_body_length`, `nesting`) and CI publishes analyzer diagnostics via `.github/workflows/swiftlint.yml`, mirroring the expectations captured in the execution workplan.【F:todo.md†L7-L11】【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L12】
 - **Coverage Gate:** `coverage_analysis.py --threshold 0.67` runs after `swift test --enable-code-coverage` in pre-push hooks and GitHub Actions to block regressions in the code-to-test ratio, storing reports under `Documentation/Quality/` for historical review.【F:todo.md†L5】【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L8-L24】
 - **DocC Health:** SwiftLint's `missing_docs` rule and the documentation workflow combine to fail builds lacking DocC-ready comments, and the suppression guide in `Documentation/ISOInspector.docc/Guides/DocumentationStyle.md` explains how to annotate intentional gaps.【F:todo.md†L6】【F:DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md†L26-L28】

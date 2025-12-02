@@ -12,8 +12,7 @@ import XCTest
 /// - Accessibility support (VoiceOver labels)
 /// - Design system token usage
 /// - Platform compatibility
-@MainActor
-final class BadgeTests: XCTestCase {
+@MainActor final class BadgeTests: XCTestCase {
     // MARK: - Initialization Tests
 
     func testBadgeInitializationWithInfoLevel() {
@@ -86,12 +85,9 @@ final class BadgeTests: XCTestCase {
     func testBadgeTextContent() {
         // Given
         let testCases = [
-            ("INFO" as String?, BadgeLevel.info),
-            ("WARNING" as String?, BadgeLevel.warning),
-            ("ERROR" as String?, BadgeLevel.error),
-            ("SUCCESS" as String?, BadgeLevel.success),
-            ("Custom Text" as String?, BadgeLevel.info),
-            ("" as String?, BadgeLevel.warning),  // Edge case: empty text
+            ("INFO" as String?, BadgeLevel.info), ("WARNING" as String?, BadgeLevel.warning),
+            ("ERROR" as String?, BadgeLevel.error), ("SUCCESS" as String?, BadgeLevel.success),
+            ("Custom Text" as String?, BadgeLevel.info), ("" as String?, BadgeLevel.warning),  // Edge case: empty text
             (nil as String?, BadgeLevel.error),  // Icon-only support
         ]
 
@@ -115,12 +111,10 @@ final class BadgeTests: XCTestCase {
         XCTAssertTrue(badge.showIcon, "Badge should preserve showIcon flag")
         XCTAssertTrue(
             badge.semantics.contains("(icon only)"),
-            "Semantics should document icon-only presentation"
-        )
+            "Semantics should document icon-only presentation")
         XCTAssertTrue(
             badge.semantics.contains("warning"),
-            "Semantics should include level string for accessibility context"
-        )
+            "Semantics should include level string for accessibility context")
     }
 
     // MARK: - Accessibility Tests
@@ -135,8 +129,7 @@ final class BadgeTests: XCTestCase {
         XCTAssertNotNil(badge.level.accessibilityLabel, "Badge should have accessibility label")
         XCTAssertEqual(
             badge.level.accessibilityLabel, "Information",
-            "Info level should have 'Information' accessibility label"
-        )
+            "Info level should have 'Information' accessibility label")
     }
 
     func testBadgeAccessibilityLabelForWarning() {
@@ -146,8 +139,7 @@ final class BadgeTests: XCTestCase {
         // Then
         XCTAssertEqual(
             badge.level.accessibilityLabel, "Warning",
-            "Warning level should have 'Warning' accessibility label"
-        )
+            "Warning level should have 'Warning' accessibility label")
     }
 
     func testBadgeAccessibilityLabelForError() {
@@ -156,8 +148,8 @@ final class BadgeTests: XCTestCase {
 
         // Then
         XCTAssertEqual(
-            badge.level.accessibilityLabel, "Error", "Error level should have 'Error' accessibility label"
-        )
+            badge.level.accessibilityLabel, "Error",
+            "Error level should have 'Error' accessibility label")
     }
 
     func testBadgeAccessibilityLabelForSuccess() {
@@ -167,8 +159,7 @@ final class BadgeTests: XCTestCase {
         // Then
         XCTAssertEqual(
             badge.level.accessibilityLabel, "Success",
-            "Success level should have 'Success' accessibility label"
-        )
+            "Success level should have 'Success' accessibility label")
     }
 
     // MARK: - Design System Integration Tests
@@ -182,19 +173,17 @@ final class BadgeTests: XCTestCase {
 
         // Then - Verify that BadgeLevel provides DS colors (tested via BadgeLevel enum)
         XCTAssertEqual(
-            infoBadge.level.backgroundColor, DS.Colors.infoBG, "Info badge should use DS.Colors.infoBG"
-        )
+            infoBadge.level.backgroundColor, DS.Colors.infoBG,
+            "Info badge should use DS.Colors.infoBG")
         XCTAssertEqual(
-            warnBadge.level.backgroundColor, DS.Colors.warnBG, "Warning badge should use DS.Colors.warnBG"
-        )
+            warnBadge.level.backgroundColor, DS.Colors.warnBG,
+            "Warning badge should use DS.Colors.warnBG")
         XCTAssertEqual(
             errorBadge.level.backgroundColor, DS.Colors.errorBG,
-            "Error badge should use DS.Colors.errorBG"
-        )
+            "Error badge should use DS.Colors.errorBG")
         XCTAssertEqual(
             successBadge.level.backgroundColor, DS.Colors.successBG,
-            "Success badge should use DS.Colors.successBG"
-        )
+            "Success badge should use DS.Colors.successBG")
     }
 
     // MARK: - Component Composition Tests
@@ -235,7 +224,8 @@ final class BadgeTests: XCTestCase {
         let badge = Badge(text: specialText, level: .error)
 
         // Then
-        XCTAssertEqual(badge.text, specialText, "Badge should support special characters and Unicode")
+        XCTAssertEqual(
+            badge.text, specialText, "Badge should support special characters and Unicode")
     }
 
     // MARK: - Equatable Tests

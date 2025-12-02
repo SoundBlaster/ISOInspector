@@ -1,5 +1,5 @@
-import SwiftUI
 import ISOInspectorKit
+import SwiftUI
 
 extension ValidationIssue.Severity {
     var label: String {

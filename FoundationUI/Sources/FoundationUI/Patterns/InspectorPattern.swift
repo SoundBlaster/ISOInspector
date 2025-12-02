@@ -41,8 +41,7 @@ import SwiftUI
 ///     }
 /// }
 /// ```
-@available(iOS 17.0, macOS 14.0, *)
-public struct InspectorPattern<Content: View>: View {
+@available(iOS 17.0, macOS 14.0, *) public struct InspectorPattern<Content: View>: View {
     @Environment(\.navigationModel) private var navigationModel
 
     /// The title displayed in the fixed header.
@@ -60,9 +59,7 @@ public struct InspectorPattern<Content: View>: View {
     ///   - material: The SwiftUI material background. Defaults to `.thinMaterial`.
     ///   - content: A view builder that produces the inspector body content.
     public init(
-        title: String,
-        material: Material = .thinMaterial,
-        @ViewBuilder content: () -> Content
+        title: String, material: Material = .thinMaterial, @ViewBuilder content: () -> Content
     ) {
         self.title = title
         self.material = material
@@ -74,63 +71,41 @@ public struct InspectorPattern<Content: View>: View {
             VStack(spacing: 0) {
                 header
                 contentContainer
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-            .scrollIndicators(.hidden)
+            }.frame(maxWidth: .infinity, alignment: .leading)
+        }.scrollIndicators(.hidden)
             // @todo: Integrate lazy loading and state binding once detail editors are introduced.
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(
-                material,
-                in: RoundedRectangle(cornerRadius: DS.Radius.card, style: .continuous)
-            )
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card, style: .continuous))
-            .accessibilityElement(children: .contain)
-            .accessibilityLabel(Text(accessibilityLabelText))
+            .frame(maxWidth: .infinity, alignment: .leading).background(
+                material, in: RoundedRectangle(cornerRadius: DS.Radius.card, style: .continuous)
+            ).clipShape(RoundedRectangle(cornerRadius: DS.Radius.card, style: .continuous))
+            .accessibilityElement(children: .contain).accessibilityLabel(
+                Text(accessibilityLabelText))
 
         if isInScaffold {
-            inspectorContent
-                .accessibilityHint(Text("Detail inspector within navigation"))
+            inspectorContent.accessibilityHint(Text("Detail inspector within navigation"))
         } else {
             inspectorContent
         }
     }
 
     /// Returns true if this pattern is being used inside a NavigationSplitScaffold.
-    private var isInScaffold: Bool {
-        navigationModel != nil
-    }
+    private var isInScaffold: Bool { navigationModel != nil }
 
     /// Enhanced accessibility label that provides context when inside scaffold.
     private var accessibilityLabelText: String {
-        if isInScaffold {
-            return "\(title) Inspector"
-        } else {
-            return title
-        }
+        if isInScaffold { return "\(title) Inspector" } else { return title }
     }
 
-    @ViewBuilder
-    private var header: some View {
+    @ViewBuilder private var header: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            Text(title)
-                .font(DS.Typography.title)
-                .foregroundStyle(.primary)
-                .accessibilityAddTraits(.isHeader)
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(DS.Spacing.l)
-        .background(material)
+            Text(title).font(DS.Typography.title).foregroundStyle(.primary).accessibilityAddTraits(
+                .isHeader)
+        }.frame(maxWidth: .infinity, alignment: .leading).padding(DS.Spacing.l).background(material)
     }
 
-    @ViewBuilder
-    private var contentContainer: some View {
-        VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            content
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, platformPadding)
-        .padding(.vertical, DS.Spacing.l)
+    @ViewBuilder private var contentContainer: some View {
+        VStack(alignment: .leading, spacing: DS.Spacing.m) { content }.frame(
+            maxWidth: .infinity, alignment: .leading
+        ).padding(.horizontal, platformPadding).padding(.vertical, DS.Spacing.l)
     }
 
     private var platformPadding: CGFloat {
@@ -142,31 +117,22 @@ public struct InspectorPattern<Content: View>: View {
     }
 }
 
-public extension InspectorPattern {
+extension InspectorPattern {
     /// Returns a new inspector pattern instance with the provided material.
     /// - Parameter material: The material to apply to the pattern background.
     /// - Returns: A new ``InspectorPattern`` retaining the existing title and content.
-    func material(_ material: Material) -> InspectorPattern<Content> {
-        InspectorPattern(title: title, material: material) {
-            content
-        }
+    public func material(_ material: Material) -> InspectorPattern<Content> {
+        InspectorPattern(title: title, material: material) { content }
     }
 }
 
 // MARK: - AgentDescribable Conformance
 
-@available(iOS 17.0, macOS 14.0, *)
-@MainActor
-extension InspectorPattern: AgentDescribable {
-    public var componentType: String {
-        "InspectorPattern"
-    }
+@available(iOS 17.0, macOS 14.0, *) @MainActor extension InspectorPattern: AgentDescribable {
+    public var componentType: String { "InspectorPattern" }
 
     public var properties: [String: Any] {
-        [
-            "title": title,
-            "material": String(describing: material)
-        ]
+        ["title": title, "material": String(describing: material)]
     }
 
     public var semantics: String {
@@ -184,8 +150,7 @@ extension InspectorPattern: AgentDescribable {
         SectionHeader(title: "General")
         KeyValueRow(key: "File Name", value: "example.mp4")
         KeyValueRow(key: "Size", value: "1.2 GB")
-    }
-    .padding(DS.Spacing.l)
+    }.padding(DS.Spacing.l)
 }
 
 #Preview("Status Badges") {
@@ -196,9 +161,7 @@ extension InspectorPattern: AgentDescribable {
             Badge(text: "Warnings", level: .warning)
             Badge(text: "Errors", level: .error)
         }
-    }
-    .material(.regular)
-    .padding(DS.Spacing.l)
+    }.material(.regular).padding(DS.Spacing.l)
 }
 
 #Preview("Dark Mode") {
@@ -213,10 +176,7 @@ extension InspectorPattern: AgentDescribable {
             Badge(text: "HD", level: .success)
             Badge(text: "1080p", level: .info)
         }
-    }
-    .material(.regular)
-    .padding(DS.Spacing.l)
-    .preferredColorScheme(.dark)
+    }.material(.regular).padding(DS.Spacing.l).preferredColorScheme(.dark)
 }
 
 #Preview("Material Variants") {
@@ -224,33 +184,28 @@ extension InspectorPattern: AgentDescribable {
         VStack(spacing: DS.Spacing.l) {
             InspectorPattern(title: "Thin Material", material: .thinMaterial) {
                 KeyValueRow(key: "Material", value: "thinMaterial")
-                Text("Provides subtle background separation")
-                    .font(DS.Typography.caption)
+                Text("Provides subtle background separation").font(DS.Typography.caption)
                     .foregroundStyle(.secondary)
             }
 
             InspectorPattern(title: "Regular Material", material: .regularMaterial) {
                 KeyValueRow(key: "Material", value: "regularMaterial")
-                Text("Standard background material")
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(.secondary)
+                Text("Standard background material").font(DS.Typography.caption).foregroundStyle(
+                    .secondary)
             }
 
             InspectorPattern(title: "Thick Material", material: .thickMaterial) {
                 KeyValueRow(key: "Material", value: "thickMaterial")
-                Text("Strong background separation")
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(.secondary)
+                Text("Strong background separation").font(DS.Typography.caption).foregroundStyle(
+                    .secondary)
             }
 
             InspectorPattern(title: "Ultra Thin Material", material: .ultraThinMaterial) {
                 KeyValueRow(key: "Material", value: "ultraThinMaterial")
-                Text("Minimal background separation")
-                    .font(DS.Typography.caption)
-                    .foregroundStyle(.secondary)
+                Text("Minimal background separation").font(DS.Typography.caption).foregroundStyle(
+                    .secondary)
             }
-        }
-        .padding(DS.Spacing.l)
+        }.padding(DS.Spacing.l)
     }
 }
 
@@ -267,68 +222,53 @@ extension InspectorPattern: AgentDescribable {
                 Badge(text: "Valid", level: .success)
                 Badge(text: "Critical", level: .error)
             }
-            Text("Box structure validated successfully")
-                .font(DS.Typography.caption)
+            Text("Box structure validated successfully").font(DS.Typography.caption)
                 .foregroundStyle(.secondary)
         }
 
         SectionHeader(title: "Children", showDivider: true)
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
             HStack {
-                Text("mvhd")
-                    .font(DS.Typography.code)
+                Text("mvhd").font(DS.Typography.code)
                 Spacer()
                 Badge(text: "Header", level: .info)
             }
             HStack {
-                Text("trak")
-                    .font(DS.Typography.code)
+                Text("trak").font(DS.Typography.code)
                 Spacer()
                 Badge(text: "Track", level: .info)
             }
         }
-    }
-    .material(.regular)
-    .padding(DS.Spacing.l)
+    }.material(.regular).padding(DS.Spacing.l)
 }
 
 #Preview("Long Scrollable Content") {
     InspectorPattern(title: "Extended Metadata") {
-        ForEach(0 ..< 20, id: \.self) { index in
+        ForEach(0..<20, id: \.self) { index in
             if index % 5 == 0 {
                 SectionHeader(title: "Section \(index / 5 + 1)", showDivider: true)
             }
             KeyValueRow(key: "Property \(index + 1)", value: "Value \(index + 1)")
         }
-    }
-    .material(.regular)
-    .frame(height: 400)
-    .padding(DS.Spacing.l)
+    }.material(.regular).frame(height: 400).padding(DS.Spacing.l)
 }
 
 #Preview("Empty State") {
     InspectorPattern(title: "No Selection") {
         VStack(alignment: .center, spacing: DS.Spacing.l) {
             Spacer()
-            Image(systemName: "doc.questionmark")
-                .font(.system(size: DS.Spacing.xl * 2))
+            Image(systemName: "doc.questionmark").font(.system(size: DS.Spacing.xl * 2))
                 .foregroundStyle(.secondary)
-            Text("Select an item to view details")
-                .font(DS.Typography.body)
-                .foregroundStyle(.secondary)
+            Text("Select an item to view details").font(DS.Typography.body).foregroundStyle(
+                .secondary)
             Spacer()
-        }
-        .frame(maxWidth: .infinity)
-    }
-    .material(.thin)
-    .frame(height: 300)
-    .padding(DS.Spacing.l)
+        }.frame(maxWidth: .infinity)
+    }.material(.thin).frame(height: 300).padding(DS.Spacing.l)
 }
 
 #Preview("Platform-Specific Padding") {
     VStack(spacing: DS.Spacing.m) {
-        Text("Notice different padding on macOS vs iOS")
-            .font(DS.Typography.caption)
+        Text("Notice different padding on macOS vs iOS").font(DS.Typography.caption)
             .foregroundStyle(.secondary)
 
         InspectorPattern(title: "Platform Adaptive") {
@@ -340,10 +280,8 @@ extension InspectorPattern: AgentDescribable {
                 KeyValueRow(key: "Platform", value: "iOS/iPadOS")
                 KeyValueRow(key: "Padding", value: "DS.Spacing.m (12pt)")
             #endif
-        }
-        .material(.regular)
-    }
-    .padding(DS.Spacing.l)
+        }.material(.regular)
+    }.padding(DS.Spacing.l)
 }
 
 #Preview("Dynamic Type - Small") {
@@ -352,10 +290,7 @@ extension InspectorPattern: AgentDescribable {
         KeyValueRow(key: "File Name", value: "video.mp4")
         KeyValueRow(key: "Duration", value: "01:23:45")
         KeyValueRow(key: "Size", value: "2.4 GB")
-    }
-    .material(.regular)
-    .padding(DS.Spacing.l)
-    .environment(\.dynamicTypeSize, .xSmall)
+    }.material(.regular).padding(DS.Spacing.l).environment(\.dynamicTypeSize, .xSmall)
 }
 
 #Preview("Dynamic Type - Large") {
@@ -364,10 +299,7 @@ extension InspectorPattern: AgentDescribable {
         KeyValueRow(key: "File Name", value: "video.mp4")
         KeyValueRow(key: "Duration", value: "01:23:45")
         KeyValueRow(key: "Size", value: "2.4 GB")
-    }
-    .material(.regular)
-    .padding(DS.Spacing.l)
-    .environment(\.dynamicTypeSize, .xxxLarge)
+    }.material(.regular).padding(DS.Spacing.l).environment(\.dynamicTypeSize, .xxxLarge)
 }
 
 #Preview("Real-World ISO Inspector") {
@@ -388,13 +320,11 @@ extension InspectorPattern: AgentDescribable {
                 Badge(text: "Valid", level: .success)
                 Badge(text: "ISO 14496-12", level: .info)
             }
-            Text("Box conforms to ISO base media file format specification")
-                .font(DS.Typography.caption)
-                .foregroundStyle(.secondary)
+            Text("Box conforms to ISO base media file format specification").font(
+                DS.Typography.caption
+            ).foregroundStyle(.secondary)
         }
-    }
-    .material(.regular)
-    .padding(DS.Spacing.l)
+    }.material(.regular).padding(DS.Spacing.l)
 }
 
 #Preview("With NavigationSplitScaffold") {
@@ -405,27 +335,21 @@ extension InspectorPattern: AgentDescribable {
         List {
             Section("Files") {
                 ForEach(["file1", "file2", "file3"], id: \.self) { file in
-                    Label(file, systemImage: "doc.fill")
-                        .tag(file)
+                    Label(file, systemImage: "doc.fill").tag(file)
                 }
             }
-        }
-        .listStyle(.sidebar)
+        }.listStyle(.sidebar)
     } content: {
         VStack(alignment: .leading, spacing: DS.Spacing.l) {
-            Text("Content Area")
-                .font(DS.Typography.title)
-                .padding(DS.Spacing.l)
+            Text("Content Area").font(DS.Typography.title).padding(DS.Spacing.l)
 
             if let selectedFile = selection {
-                Text("Viewing: \(selectedFile)")
-                    .font(DS.Typography.body)
-                    .foregroundStyle(DS.Colors.textSecondary)
-                    .padding(.horizontal, DS.Spacing.l)
+                Text("Viewing: \(selectedFile)").font(DS.Typography.body).foregroundStyle(
+                    DS.Colors.textSecondary
+                ).padding(.horizontal, DS.Spacing.l)
             }
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-        .background(DS.Colors.tertiary)
+        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading).background(
+            DS.Colors.tertiary)
     } detail: {
         InspectorPattern(title: "Properties Inspector") {
             SectionHeader(title: "File Information", showDivider: true)
@@ -440,11 +364,9 @@ extension InspectorPattern: AgentDescribable {
             }
 
             SectionHeader(title: "Accessibility", showDivider: true)
-            Text("This inspector is labeled '\(selection ?? "None") Inspector' when inside scaffold")
-                .font(DS.Typography.caption)
-                .foregroundStyle(DS.Colors.textSecondary)
-        }
-        .padding(DS.Spacing.l)
-    }
-    .frame(minWidth: 900, minHeight: 600)
+            Text(
+                "This inspector is labeled '\(selection ?? "None") Inspector' when inside scaffold"
+            ).font(DS.Typography.caption).foregroundStyle(DS.Colors.textSecondary)
+        }.padding(DS.Spacing.l)
+    }.frame(minWidth: 900, minHeight: 600)
 }

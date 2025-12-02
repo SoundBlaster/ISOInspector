@@ -5,6 +5,14 @@
 
 # Rules to disable (keep minimal, only disable when absolutely necessary)
 disabled_rules:
+  # Formatting is handled by swift-format
+  - opening_brace
+  - closure_parameter_position
+  - trailing_comma
+  - indentation_width
+  - vertical_whitespace
+
+  # Non-formatting relaxations
   - line_length  # Allow longer lines for SwiftUI view builders and complex expressions
   - todo  # Allow @todo markers for puzzle-driven development
   - force_try  # Occasionally necessary for test fixtures
@@ -24,9 +32,7 @@ excluded:
 opt_in_rules:
   - trailing_whitespace
   - trailing_newline
-  - vertical_whitespace
   - statement_position
-  - indentation_width
   - cyclomatic_complexity
   - control_statement
   - empty_enum_arguments

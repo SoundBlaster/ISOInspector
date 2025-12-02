@@ -22,10 +22,7 @@ public struct ParseIssue: Equatable, Sendable, Codable {
     public let affectedNodeIDs: [Int64]
 
     public init(
-        severity: Severity,
-        code: String,
-        message: String,
-        byteRange: Range<Int64>? = nil,
+        severity: Severity, code: String, message: String, byteRange: Range<Int64>? = nil,
         affectedNodeIDs: [Int64] = []
     ) {
         self.severity = severity
@@ -42,12 +39,9 @@ extension ParseIssue.Severity {
 
     public init(validationSeverity: ValidationIssue.Severity) {
         switch validationSeverity {
-        case .info:
-            self = .info
-        case .warning:
-            self = .warning
-        case .error:
-            self = .error
+        case .info: self = .info
+        case .warning: self = .warning
+        case .error: self = .error
         }
     }
 
@@ -59,26 +53,19 @@ extension ParseIssue.Severity {
         }
     }
 
-
     public var iconName: String {
         switch self {
-        case .info:
-            return "info.circle.fill"
-        case .warning:
-            return "exclamationmark.triangle.fill"
-        case .error:
-            return "xmark.octagon.fill"
+        case .info: return "info.circle.fill"
+        case .warning: return "exclamationmark.triangle.fill"
+        case .error: return "xmark.octagon.fill"
         }
     }
 
     public var accessibilityDescription: String {
         switch self {
-        case .info:
-            return "Informational"
-        case .warning:
-            return "Warning"
-        case .error:
-            return "Error"
+        case .info: return "Informational"
+        case .warning: return "Warning"
+        case .error: return "Error"
         }
     }
 }

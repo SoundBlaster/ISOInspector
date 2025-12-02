@@ -1,23 +1,20 @@
 import Foundation
 
 public struct ValidationConfiguration: Codable, Equatable, Sendable {
-  public var activePresetID: String
-  public var ruleOverrides: [ValidationRuleIdentifier: Bool]
+    public var activePresetID: String
+    public var ruleOverrides: [ValidationRuleIdentifier: Bool]
 
-  public init(activePresetID: String, ruleOverrides: [ValidationRuleIdentifier: Bool] = [:]) {
-    self.activePresetID = activePresetID
-    self.ruleOverrides = ruleOverrides
-  }
-
-  public func isRuleEnabled(_ rule: ValidationRuleIdentifier, presets: [ValidationPreset]) -> Bool {
-    if let override = ruleOverrides[rule] {
-      return override
+    public init(activePresetID: String, ruleOverrides: [ValidationRuleIdentifier: Bool] = [:]) {
+        self.activePresetID = activePresetID
+        self.ruleOverrides = ruleOverrides
     }
 
-    guard let preset = presets.first(where: { $0.id == activePresetID }) else {
-      return true
-    }
+    public func isRuleEnabled(_ rule: ValidationRuleIdentifier, presets: [ValidationPreset]) -> Bool
+    {
+        if let override = ruleOverrides[rule] { return override }
 
-    return preset.isRuleEnabled(rule)
-  }
+        guard let preset = presets.first(where: { $0.id == activePresetID }) else { return true }
+
+        return preset.isRuleEnabled(rule)
+    }
 }

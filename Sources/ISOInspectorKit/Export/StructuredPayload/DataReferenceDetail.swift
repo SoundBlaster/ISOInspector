@@ -6,7 +6,6 @@
 //  Copyright © 2025 ISOInspector. All rights reserved.
 //
 
-
 import Foundation
 
 extension StructuredPayload {
@@ -29,7 +28,7 @@ extension StructuredPayload {
                 self.selfContained = (entry.flags & 0x000001) != 0
 
                 let payloadLengthValue =
-                entry.payloadRange.map { Int($0.upperBound - $0.lowerBound) } ?? 0
+                    entry.payloadRange.map { Int($0.upperBound - $0.lowerBound) } ?? 0
 
                 switch entry.location {
                 case .selfContained:

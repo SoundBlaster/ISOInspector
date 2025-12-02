@@ -2,3 +2,4 @@ parent_config: ../.swiftlint.yml
 
 disabled_rules:
   - type_body_length
+  - function_body_length

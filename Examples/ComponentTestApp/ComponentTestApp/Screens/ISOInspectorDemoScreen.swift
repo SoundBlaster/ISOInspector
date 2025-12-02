@@ -13,9 +13,9 @@ import FoundationUI
 import SwiftUI
 
 #if os(macOS)
-import AppKit
+    import AppKit
 #else
-import UIKit
+    import UIKit
 #endif
 
 /// ISO Inspector Demo Screen showcasing full pattern integration
@@ -51,8 +51,8 @@ struct ISOInspectorDemoScreen: View {
         guard !filterText.isEmpty else { return isoBoxes }
 
         func matchesFilter(_ box: MockISOBox) -> Bool {
-            box.boxType.lowercased().contains(filterText.lowercased()) ||
-            box.typeDescription.lowercased().contains(filterText.lowercased())
+            box.boxType.lowercased().contains(filterText.lowercased())
+                || box.typeDescription.lowercased().contains(filterText.lowercased())
         }
 
         func filterRecursive(_ boxes: [MockISOBox]) -> [MockISOBox] {
@@ -60,14 +60,8 @@ struct ISOInspectorDemoScreen: View {
                 let childrenMatch = filterRecursive(box.children)
                 if matchesFilter(box) || !childrenMatch.isEmpty {
                     return MockISOBox(
-                        id: box.id,
-                        boxType: box.boxType,
-                        size: box.size,
-                        offset: box.offset,
-                        children: childrenMatch,
-                        metadata: box.metadata,
-                        status: box.status
-                    )
+                        id: box.id, boxType: box.boxType, size: box.size, offset: box.offset,
+                        children: childrenMatch, metadata: box.metadata, status: box.status)
                 }
                 return nil
             }
@@ -81,22 +75,18 @@ struct ISOInspectorDemoScreen: View {
     var body: some View {
         VStack(spacing: 0) {
             // Toolbar
-            toolbarView
-                .padding(.horizontal, DS.Spacing.m)
-                .padding(.vertical, DS.Spacing.s)
+            toolbarView.padding(.horizontal, DS.Spacing.m).padding(.vertical, DS.Spacing.s)
                 .background(DS.Colors.tertiary)
 
             Divider()
 
             // Main content area
-#if os(macOS)
-            macOSLayout
-#else
-            iOSLayout
-#endif
-        }
-        .navigationTitle("ISO Inspector Demo")
-        .alert("Action Performed", isPresented: $showAlert) {
+            #if os(macOS)
+                macOSLayout
+            #else
+                iOSLayout
+            #endif
+        }.navigationTitle("ISO Inspector Demo").alert("Action Performed", isPresented: $showAlert) {
             Button("OK", role: .cancel) {}
         } message: {
             Text(alertMessage)
@@ -112,52 +102,37 @@ extension ISOInspectorDemoScreen {
         HStack(spacing: DS.Spacing.m) {
             // Search field
             HStack(spacing: DS.Spacing.s) {
-                Image(systemName: "magnifyingglass")
-                    .foregroundColor(DS.Colors.textSecondary)
+                Image(systemName: "magnifyingglass").foregroundColor(DS.Colors.textSecondary)
 
-                TextField("Filter boxes...", text: $filterText)
-                    .textFieldStyle(.plain)
-                    .font(DS.Typography.body)
+                TextField("Filter boxes...", text: $filterText).textFieldStyle(.plain).font(
+                    DS.Typography.body)
 
                 if !filterText.isEmpty {
                     Button(action: { filterText = "" }) {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(DS.Colors.textSecondary)
-                    }
-                    .buttonStyle(.plain)
+                        Image(systemName: "xmark.circle.fill").foregroundColor(
+                            DS.Colors.textSecondary)
+                    }.buttonStyle(.plain)
                 }
-            }
-            .padding(.horizontal, DS.Spacing.m)
-            .padding(.vertical, DS.Spacing.s)
-            .background(DS.Colors.secondary)
-            .cornerRadius(DS.Radius.small)
+            }.padding(.horizontal, DS.Spacing.m).padding(.vertical, DS.Spacing.s).background(
+                DS.Colors.secondary
+            ).cornerRadius(DS.Radius.small)
 
             Spacer()
 
             // Action buttons
-            Button(action: openFileAction) {
-                Label("Open", systemImage: "folder.fill")
-            }
-            .keyboardShortcut("o", modifiers: .command)
+            Button(action: openFileAction) { Label("Open", systemImage: "folder.fill") }
+                .keyboardShortcut("o", modifiers: .command)
 
-            Button(action: copyAction) {
-                Label("Copy", systemImage: "doc.on.doc.fill")
-            }
-            .keyboardShortcut("c", modifiers: .command)
-            .disabled(selectedBox == nil)
+            Button(action: copyAction) { Label("Copy", systemImage: "doc.on.doc.fill") }
+                .keyboardShortcut("c", modifiers: .command).disabled(selectedBox == nil)
 
             Button(action: exportAction) {
                 Label("Export", systemImage: "square.and.arrow.up.fill")
-            }
-            .keyboardShortcut("e", modifiers: .command)
-            .disabled(selectedBox == nil)
+            }.keyboardShortcut("e", modifiers: .command).disabled(selectedBox == nil)
 
-            Button(action: refreshAction) {
-                Label("Refresh", systemImage: "arrow.clockwise")
-            }
-            .keyboardShortcut("r", modifiers: .command)
-        }
-        .font(DS.Typography.body)
+            Button(action: refreshAction) { Label("Refresh", systemImage: "arrow.clockwise") }
+                .keyboardShortcut("r", modifiers: .command)
+        }.font(DS.Typography.body)
     }
 }
 
@@ -166,74 +141,62 @@ extension ISOInspectorDemoScreen {
     // MARK: - macOS Layout (Three-column)
 
     #if os(macOS)
-    private var macOSLayout: some View {
-        GeometryReader { geometry in
-            HStack(spacing: 0) {
-                // Left sidebar (file list)
-                VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    Text("Files")
-                        .font(DS.Typography.headline)
-                        .padding(.horizontal, DS.Spacing.m)
-                        .padding(.top, DS.Spacing.m)
+        private var macOSLayout: some View {
+            GeometryReader { geometry in
+                HStack(spacing: 0) {
+                    // Left sidebar (file list)
+                    VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                        Text("Files").font(DS.Typography.headline).padding(
+                            .horizontal, DS.Spacing.m
+                        ).padding(.top, DS.Spacing.m)
 
-                    List {
-                        Label("sample_video.mp4", systemImage: "film.fill")
-                            .foregroundColor(DS.Colors.accent)
-                        Label("test_audio.m4a", systemImage: "music.note")
-                        Label("demo.mov", systemImage: "video.fill")
-                    }
-                    .listStyle(.sidebar)
-                }
-                .frame(width: geometry.size.width * 0.2)
-                .background(DS.Colors.tertiary)
+                        List {
+                            Label("sample_video.mp4", systemImage: "film.fill").foregroundColor(
+                                DS.Colors.accent)
+                            Label("test_audio.m4a", systemImage: "music.note")
+                            Label("demo.mov", systemImage: "video.fill")
+                        }.listStyle(.sidebar)
+                    }.frame(width: geometry.size.width * 0.2).background(DS.Colors.tertiary)
 
-                Divider()
+                    Divider()
 
-                // Center: Box tree
-                VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    Text("ISO Box Structure")
-                        .font(DS.Typography.headline)
-                        .padding(.horizontal, DS.Spacing.m)
-                        .padding(.top, DS.Spacing.m)
+                    // Center: Box tree
+                    VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                        Text("ISO Box Structure").font(DS.Typography.headline).padding(
+                            .horizontal, DS.Spacing.m
+                        ).padding(.top, DS.Spacing.m)
 
-                    if filteredBoxes.isEmpty {
-                        emptyStateView
-                    } else {
-                        BoxTreePattern(
-                            data: filteredBoxes,
-                            children: { $0.children.isEmpty ? nil : $0.children },
-                            expandedNodes: $expandedBoxIDs,
-                            selection: $selectedBoxID
-                        ) { box in
-                            HStack(spacing: DS.Spacing.s) {
-                                Badge(
-                                    text: box.boxType,
-                                    level: box.status.badgeLevel,
-                                    showIcon: false
-                                )
+                        if filteredBoxes.isEmpty {
+                            emptyStateView
+                        } else {
+                            BoxTreePattern(
+                                data: filteredBoxes,
+                                children: { $0.children.isEmpty ? nil : $0.children },
+                                expandedNodes: $expandedBoxIDs, selection: $selectedBoxID
+                            ) { box in
+                                HStack(spacing: DS.Spacing.s) {
+                                    Badge(
+                                        text: box.boxType, level: box.status.badgeLevel,
+                                        showIcon: false)
 
-                                Text(box.typeDescription)
-                                    .font(DS.Typography.body)
+                                    Text(box.typeDescription).font(DS.Typography.body)
 
-                                Spacer()
+                                    Spacer()
 
-                                Text(box.formattedSize)
-                                    .font(DS.Typography.caption)
-                                    .foregroundColor(DS.Colors.textSecondary)
+                                    Text(box.formattedSize).font(DS.Typography.caption)
+                                        .foregroundColor(DS.Colors.textSecondary)
+                                }
                             }
                         }
-                    }
+                    }.frame(width: geometry.size.width * 0.4)
+
+                    Divider()
+
+                    // Right: Inspector
+                    inspectorView.frame(width: geometry.size.width * 0.4)
                 }
-                .frame(width: geometry.size.width * 0.4)
-
-                Divider()
-
-                // Right: Inspector
-                inspectorView
-                    .frame(width: geometry.size.width * 0.4)
             }
         }
-    }
     #endif
 }
 
@@ -242,74 +205,63 @@ extension ISOInspectorDemoScreen {
     // MARK: - iOS/iPadOS Layout (Adaptive)
 
     #if !os(macOS)
-    private var iOSLayout: some View {
-        NavigationStack {
-            VStack(spacing: 0) {
-                // Box tree
-                if filteredBoxes.isEmpty {
-                    emptyStateView
-                } else {
-                    BoxTreePattern(
-                        data: filteredBoxes,
-                        children: { $0.children.isEmpty ? nil : $0.children },
-                        expandedNodes: $expandedBoxIDs,
-                        selection: $selectedBoxID
-                    ) { box in
-                        HStack(spacing: DS.Spacing.s) {
-                            Badge(
-                                text: box.boxType,
-                                level: box.status.badgeLevel,
-                                showIcon: false
-                            )
+        private var iOSLayout: some View {
+            NavigationStack {
+                VStack(spacing: 0) {
+                    // Box tree
+                    if filteredBoxes.isEmpty {
+                        emptyStateView
+                    } else {
+                        BoxTreePattern(
+                            data: filteredBoxes,
+                            children: { $0.children.isEmpty ? nil : $0.children },
+                            expandedNodes: $expandedBoxIDs, selection: $selectedBoxID
+                        ) { box in
+                            HStack(spacing: DS.Spacing.s) {
+                                Badge(
+                                    text: box.boxType, level: box.status.badgeLevel, showIcon: false
+                                )
 
-                            VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                                Text(box.typeDescription)
-                                    .font(DS.Typography.body)
+                                VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                                    Text(box.typeDescription).font(DS.Typography.body)
 
-                                Text(box.formattedSize)
-                                    .font(DS.Typography.caption)
-                                    .foregroundColor(DS.Colors.textSecondary)
+                                    Text(box.formattedSize).font(DS.Typography.caption)
+                                        .foregroundColor(DS.Colors.textSecondary)
+                                }
+
+                                Spacer()
                             }
-
-                            Spacer()
+                        }
+                    }
+                }.sheet(
+                    isPresented: Binding(
+                        get: { selectedBoxID != nil }, set: { if !$0 { selectedBoxID = nil } })
+                ) {
+                    NavigationStack {
+                        inspectorView.navigationTitle("Box Details").navigationBarTitleDisplayMode(
+                            .inline
+                        ).toolbar {
+                            ToolbarItem(placement: .cancellationAction) {
+                                Button("Close") { selectedBoxID = nil }
+                            }
                         }
                     }
                 }
             }
-            .sheet(isPresented: Binding(
-                get: { selectedBoxID != nil },
-                set: { if !$0 { selectedBoxID = nil } }
-            )) {
-                NavigationStack {
-                    inspectorView
-                        .navigationTitle("Box Details")
-                        .navigationBarTitleDisplayMode(.inline)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Close") {
-                                    selectedBoxID = nil
-                                }
-                            }
-                        }
-                }
-            }
         }
-    }
     #endif
 }
 
 extension ISOInspectorDemoScreen {
     // MARK: - Inspector View
 
-    @ViewBuilder
-    private var inspectorView: some View {
+    @ViewBuilder private var inspectorView: some View {
         if let box = selectedBox {
             InspectorPattern(title: "Box Details") {
                 // Basic Information
                 SectionHeader(title: "Basic Information", showDivider: true)
 
-                KeyValueRow(key: "Type", value: box.boxType)
-                    .copyable(text: box.boxType)
+                KeyValueRow(key: "Type", value: box.boxType).copyable(text: box.boxType)
 
                 KeyValueRow(key: "Description", value: box.typeDescription)
 
@@ -317,26 +269,21 @@ extension ISOInspectorDemoScreen {
 
                 KeyValueRow(key: "Formatted Size", value: box.formattedSize)
 
-                KeyValueRow(key: "Offset", value: box.hexOffset)
-                    .copyable(text: box.hexOffset)
+                KeyValueRow(key: "Offset", value: box.hexOffset).copyable(text: box.hexOffset)
 
                 // Status
                 SectionHeader(title: "Status", showDivider: true)
 
                 HStack {
-                    Text("Status")
-                        .font(DS.Typography.label)
-                        .foregroundColor(DS.Colors.textSecondary)
+                    Text("Status").font(DS.Typography.label).foregroundColor(
+                        DS.Colors.textSecondary)
 
                     Spacer()
 
                     Badge(
-                        text: statusText(for: box.status),
-                        level: box.status.badgeLevel,
-                        showIcon: true
-                    )
-                }
-                .padding(.vertical, DS.Spacing.s)
+                        text: statusText(for: box.status), level: box.status.badgeLevel,
+                        showIcon: true)
+                }.padding(.vertical, DS.Spacing.s)
 
                 // Hierarchy
                 if !box.children.isEmpty {
@@ -351,31 +298,23 @@ extension ISOInspectorDemoScreen {
                 if !box.metadata.isEmpty {
                     SectionHeader(title: "Metadata", showDivider: true)
 
-                    ForEach(Array(box.metadata.sorted(by: { $0.key < $1.key })), id: \.key) { key, value in
-                        KeyValueRow(key: key, value: value)
-                            .copyable(text: value)
+                    ForEach(Array(box.metadata.sorted(by: { $0.key < $1.key })), id: \.key) {
+                        key, value in KeyValueRow(key: key, value: value).copyable(text: value)
                     }
                 }
-            }
-            .material(.regular)
+            }.material(.regular)
         } else {
             // Empty state
             VStack(spacing: DS.Spacing.l) {
-                Image(systemName: "square.dashed")
-                    .font(.system(size: 64))
-                    .foregroundColor(DS.Colors.textSecondary)
+                Image(systemName: "square.dashed").font(.system(size: 64)).foregroundColor(
+                    DS.Colors.textSecondary)
 
-                Text("No Box Selected")
-                    .font(DS.Typography.title)
-                    .foregroundColor(DS.Colors.textPrimary)
+                Text("No Box Selected").font(DS.Typography.title).foregroundColor(
+                    DS.Colors.textPrimary)
 
-                Text("Select a box from the tree to view its details")
-                    .font(DS.Typography.body)
-                    .foregroundColor(DS.Colors.textSecondary)
-                    .multilineTextAlignment(.center)
-            }
-            .padding(DS.Spacing.xl)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                Text("Select a box from the tree to view its details").font(DS.Typography.body)
+                    .foregroundColor(DS.Colors.textSecondary).multilineTextAlignment(.center)
+            }.padding(DS.Spacing.xl).frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
@@ -385,25 +324,16 @@ extension ISOInspectorDemoScreen {
 
     private var emptyStateView: some View {
         VStack(spacing: DS.Spacing.l) {
-            Image(systemName: "magnifyingglass")
-                .font(.system(size: 48))
-                .foregroundColor(DS.Colors.textSecondary)
+            Image(systemName: "magnifyingglass").font(.system(size: 48)).foregroundColor(
+                DS.Colors.textSecondary)
 
-            Text("No Results")
-                .font(DS.Typography.title)
-                .foregroundColor(DS.Colors.textPrimary)
+            Text("No Results").font(DS.Typography.title).foregroundColor(DS.Colors.textPrimary)
 
-            Text("Try a different search term")
-                .font(DS.Typography.body)
-                .foregroundColor(DS.Colors.textSecondary)
+            Text("Try a different search term").font(DS.Typography.body).foregroundColor(
+                DS.Colors.textSecondary)
 
-            Button("Clear Filter") {
-                filterText = ""
-            }
-            .padding(.top, DS.Spacing.m)
-        }
-        .padding(DS.Spacing.xl)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+            Button("Clear Filter") { filterText = "" }.padding(.top, DS.Spacing.m)
+        }.padding(DS.Spacing.xl).frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -419,11 +349,11 @@ extension ISOInspectorDemoScreen {
         guard let box = selectedBox else { return }
 
         #if os(macOS)
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        pasteboard.setString(box.boxType, forType: .string)
+            let pasteboard = NSPasteboard.general
+            pasteboard.clearContents()
+            pasteboard.setString(box.boxType, forType: .string)
         #else
-        UIPasteboard.general.string = box.boxType
+            UIPasteboard.general.string = box.boxType
         #endif
 
         alertMessage = "Copied '\(box.boxType)' to clipboard\nKeyboard shortcut: ⌘C"
@@ -454,12 +384,8 @@ extension ISOInspectorDemoScreen {
     /// Recursively find a box by ID in the hierarchy
     private func findBox(withID id: UUID, in boxes: [MockISOBox]) -> MockISOBox? {
         for box in boxes {
-            if box.id == id {
-                return box
-            }
-            if let found = findBox(withID: id, in: box.children) {
-                return found
-            }
+            if box.id == id { return box }
+            if let found = findBox(withID: id, in: box.children) { return found }
         }
         return nil
     }
@@ -477,15 +403,9 @@ extension ISOInspectorDemoScreen {
 // MARK: - Previews
 
 #Preview("ISO Inspector Demo - Light") {
-    NavigationStack {
-        ISOInspectorDemoScreen()
-    }
-    .preferredColorScheme(.light)
+    NavigationStack { ISOInspectorDemoScreen() }.preferredColorScheme(.light)
 }
 
 #Preview("ISO Inspector Demo - Dark") {
-    NavigationStack {
-        ISOInspectorDemoScreen()
-    }
-    .preferredColorScheme(.dark)
+    NavigationStack { ISOInspectorDemoScreen() }.preferredColorScheme(.dark)
 }

@@ -30,10 +30,8 @@ extension StructuredPayload {
             self.flags = box.flags
             self.entryCount = box.entryCount
             switch box.width {
-            case .bits32:
-                self.width = .bits32
-            case .bits64:
-                self.width = .bits64
+            case .bits32: self.width = .bits32
+            case .bits64: self.width = .bits64
             }
             self.entries = box.entries.map(Entry.init)
         }

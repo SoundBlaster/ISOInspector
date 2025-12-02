@@ -56,8 +56,7 @@ import SwiftUI
 /// - ``columnVisibility``
 /// - ``preferredCompactColumn``
 ///
-@available(iOS 17.0, macOS 14.0, *)
-@Observable
+@available(iOS 17.0, macOS 14.0, *) @Observable
 public final class NavigationModel: @unchecked Sendable {
     // MARK: - Properties
 
@@ -108,10 +107,9 @@ public final class NavigationModel: @unchecked Sendable {
 
 // MARK: - Equatable
 
-@available(iOS 17.0, macOS 14.0, *)
-extension NavigationModel: Equatable {
+@available(iOS 17.0, macOS 14.0, *) extension NavigationModel: Equatable {
     public static func == (lhs: NavigationModel, rhs: NavigationModel) -> Bool {
-        lhs.columnVisibility == rhs.columnVisibility &&
-        lhs.preferredCompactColumn == rhs.preferredCompactColumn
+        lhs.columnVisibility == rhs.columnVisibility
+            && lhs.preferredCompactColumn == rhs.preferredCompactColumn
     }
 }

@@ -12,11 +12,8 @@ extension ParseTreeBuilder {
         let depth: Int
 
         init(
-            header: BoxHeader,
-            metadata: BoxDescriptor?,
-            payload: ParsedBoxPayload?,
-            validationIssues: [ValidationIssue],
-            depth: Int
+            header: BoxHeader, metadata: BoxDescriptor?, payload: ParsedBoxPayload?,
+            validationIssues: [ValidationIssue], depth: Int
         ) {
             self.header = header
             self.metadata = metadata
@@ -30,14 +27,9 @@ extension ParseTreeBuilder {
 
         func snapshot() -> ParseTreeNode {
             ParseTreeNode(
-                header: header,
-                metadata: metadata,
-                payload: payload,
-                validationIssues: validationIssues,
-                issues: issues,
-                status: status,
-                children: children.map { $0.snapshot() }
-            )
+                header: header, metadata: metadata, payload: payload,
+                validationIssues: validationIssues, issues: issues, status: status,
+                children: children.map { $0.snapshot() })
         }
     }
 }

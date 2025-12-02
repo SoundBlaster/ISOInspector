@@ -6,29 +6,23 @@
 //  Copyright © 2025 ISOInspector. All rights reserved.
 //
 
-
 import Combine
-import SwiftUI
-import NestedA11yIDs
-import ISOInspectorKit
 import FoundationUI
+import ISOInspectorKit
+import NestedA11yIDs
+import SwiftUI
 
 extension ParseTreeOutlineView {
     struct SeverityBadge: View {
         let severity: ValidationIssue.Severity
 
-        var body: some View {
-            Badge(text: severity.label.uppercased(), level: badgeLevel)
-        }
+        var body: some View { Badge(text: severity.label.uppercased(), level: badgeLevel) }
 
         private var badgeLevel: BadgeLevel {
             switch severity {
-            case .info:
-                return .info
-            case .warning:
-                return .warning
-            case .error:
-                return .error
+            case .info: return .info
+            case .warning: return .warning
+            case .error: return .error
             }
         }
     }

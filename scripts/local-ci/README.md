@@ -92,7 +92,7 @@ MAX_JOBS=4
 
 **What it runs:**
 - SwiftLint (main project, FoundationUI, ComponentTestApp)
-- swift-format (Sources/, Tests/)
+- swift-format (Sources/, Tests/, FoundationUI/, Examples/)
 - JSON validation (MP4RABoxes.json)
 
 ### Build Matrix

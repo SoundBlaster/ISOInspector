@@ -9,16 +9,12 @@ public struct ParseTreeBuilder {
     public init() {}
 
     fileprivate mutating func popStackUntil(header: BoxHeader) {
-        while let candidate = stack.last, candidate.header != header {
-            _ = stack.popLast()
-        }
+        while let candidate = stack.last, candidate.header != header { _ = stack.popLast() }
     }
 
     fileprivate func copyIssuesTo(node: ParseTreeBuilder.MutableNode, from event: ParseEvent) {
         node.issues = event.issues
-        if event.issues.containsGuardIssues() {
-            node.status = .partial
-        }
+        if event.issues.containsGuardIssues() { node.status = .partial }
     }
 
     fileprivate func appendIssuesTo(node: ParseTreeBuilder.MutableNode, from event: ParseEvent) {
@@ -26,17 +22,11 @@ public struct ParseTreeBuilder {
     }
 
     fileprivate mutating func boxDidFinish(_ header: BoxHeader, _ event: ParseEvent) {
-        guard let current = stack.last else {
-            return
-        }
+        guard let current = stack.last else { return }
 
-        if current.header != header {
-            popStackUntil(header: header)
-        }
+        if current.header != header { popStackUntil(header: header) }
 
-        guard let node = stack.popLast() else {
-            return
-        }
+        guard let node = stack.popLast() else { return }
 
         guard node.header == header else {
             stack.append(node)
@@ -49,34 +39,20 @@ public struct ParseTreeBuilder {
         if node.payload == nil || event.payload != nil {
             node.payload = event.payload ?? node.payload
         }
-        if !event.validationIssues.isEmpty {
-            appendIssuesTo(node: node, from: event)
-        }
-        if !event.issues.isEmpty {
-            copyIssuesTo(node: node, from: event)
-        }
+        if !event.validationIssues.isEmpty { appendIssuesTo(node: node, from: event) }
+        if !event.issues.isEmpty { copyIssuesTo(node: node, from: event) }
         synthesizePlaceholdersIfNeeded(for: node)
     }
 
     fileprivate mutating func boxWillStart(_ header: BoxHeader, _ event: ParseEvent, _ depth: Int) {
         let node = MutableNode(
-            header: header,
-            metadata: event.metadata,
-            payload: event.payload,
-            validationIssues: event.validationIssues,
-            depth: depth
-        )
+            header: header, metadata: event.metadata, payload: event.payload,
+            validationIssues: event.validationIssues, depth: depth)
         if !event.issues.isEmpty {
             node.issues = event.issues
-            if event.issues.containsGuardIssues() {
-                node.status = .partial
-            }
+            if event.issues.containsGuardIssues() { node.status = .partial }
         }
-        if let parent = stack.last {
-            parent.children.append(node)
-        } else {
-            rootNodes.append(node)
-        }
+        if let parent = stack.last { parent.children.append(node) } else { rootNodes.append(node) }
         stack.append(node)
     }
 
@@ -84,11 +60,9 @@ public struct ParseTreeBuilder {
         aggregatedIssues.append(contentsOf: event.validationIssues)
 
         switch event.kind {
-        case .willStartBox(let header, let depth):
-            boxWillStart(header, event, depth)
+        case .willStartBox(let header, let depth): boxWillStart(header, event, depth)
 
-        case .didFinishBox(let header, _):
-            boxDidFinish(header, event)
+        case .didFinishBox(let header, _): boxDidFinish(header, event)
         }
     }
 

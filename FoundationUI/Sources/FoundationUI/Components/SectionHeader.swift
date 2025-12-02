@@ -77,15 +77,10 @@ public struct SectionHeader: View {
 
     public var body: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            Text(title)
-                .font(DS.Typography.caption)
-                .textCase(.uppercase)
-                .foregroundStyle(.secondary)
+            Text(title).font(DS.Typography.caption).textCase(.uppercase).foregroundStyle(.secondary)
                 .accessibilityAddTraits(.isHeader)
 
-            if showDivider {
-                Divider()
-            }
+            if showDivider { Divider() }
         }
     }
 }
@@ -95,19 +90,15 @@ public struct SectionHeader: View {
 #Preview("Basic Header") {
     VStack(alignment: .leading, spacing: DS.Spacing.m) {
         SectionHeader(title: "File Properties")
-        Text("Example content")
-            .font(DS.Typography.body)
-    }
-    .padding()
+        Text("Example content").font(DS.Typography.body)
+    }.padding()
 }
 
 #Preview("Header with Divider") {
     VStack(alignment: .leading, spacing: DS.Spacing.m) {
         SectionHeader(title: "Metadata", showDivider: true)
-        Text("Example content")
-            .font(DS.Typography.body)
-    }
-    .padding()
+        Text("Example content").font(DS.Typography.body)
+    }.padding()
 }
 
 #Preview("Multiple Sections") {
@@ -115,34 +106,27 @@ public struct SectionHeader: View {
         VStack(alignment: .leading, spacing: DS.Spacing.xl) {
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 SectionHeader(title: "Basic Information", showDivider: true)
-                Text("Content for basic information")
-                    .font(DS.Typography.body)
+                Text("Content for basic information").font(DS.Typography.body)
             }
 
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 SectionHeader(title: "Technical Details", showDivider: true)
-                Text("Content for technical details")
-                    .font(DS.Typography.body)
+                Text("Content for technical details").font(DS.Typography.body)
             }
 
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 SectionHeader(title: "Box Structure", showDivider: true)
-                Text("Content for box structure")
-                    .font(DS.Typography.body)
+                Text("Content for box structure").font(DS.Typography.body)
             }
-        }
-        .padding()
+        }.padding()
     }
 }
 
 #Preview("Dark Mode") {
     VStack(alignment: .leading, spacing: DS.Spacing.m) {
         SectionHeader(title: "Box Structure", showDivider: true)
-        Text("Example content in dark mode")
-            .font(DS.Typography.body)
-    }
-    .padding()
-    .preferredColorScheme(.dark)
+        Text("Example content in dark mode").font(DS.Typography.body)
+    }.padding().preferredColorScheme(.dark)
 }
 
 #Preview("Various Titles") {
@@ -151,8 +135,7 @@ public struct SectionHeader: View {
         SectionHeader(title: "Medium Length Title", showDivider: true)
         SectionHeader(title: "This is a much longer section header title", showDivider: true)
         SectionHeader(title: "with special ⚠️ chars", showDivider: false)
-    }
-    .padding()
+    }.padding()
 }
 
 #Preview("Real World Usage") {
@@ -164,16 +147,12 @@ public struct SectionHeader: View {
 
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
                     HStack {
-                        Text("Name:")
-                            .font(DS.Typography.body)
-                        Text("example.mp4")
-                            .font(DS.Typography.code)
+                        Text("Name:").font(DS.Typography.body)
+                        Text("example.mp4").font(DS.Typography.code)
                     }
                     HStack {
-                        Text("Size:")
-                            .font(DS.Typography.body)
-                        Text("42.3 MB")
-                            .font(DS.Typography.body)
+                        Text("Size:").font(DS.Typography.body)
+                        Text("42.3 MB").font(DS.Typography.body)
                     }
                 }
             }
@@ -184,13 +163,11 @@ public struct SectionHeader: View {
 
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
                     HStack {
-                        Text("Type:")
-                            .font(DS.Typography.body)
+                        Text("Type:").font(DS.Typography.body)
                         Badge(text: "VIDEO", level: .info)
                     }
                     HStack {
-                        Text("Status:")
-                            .font(DS.Typography.body)
+                        Text("Status:").font(DS.Typography.body)
                         Badge(text: "VALID", level: .success)
                     }
                 }
@@ -201,40 +178,27 @@ public struct SectionHeader: View {
                 SectionHeader(title: "Box Structure", showDivider: true)
 
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    Text("ftyp - File Type Box")
-                        .font(DS.Typography.body)
-                    Text("moov - Movie Box")
-                        .font(DS.Typography.body)
-                    Text("mdat - Media Data Box")
-                        .font(DS.Typography.body)
+                    Text("ftyp - File Type Box").font(DS.Typography.body)
+                    Text("moov - Movie Box").font(DS.Typography.body)
+                    Text("mdat - Media Data Box").font(DS.Typography.body)
                 }
             }
-        }
-        .padding()
+        }.padding()
     }
 }
 
 // MARK: - AgentDescribable Conformance
 
-@available(iOS 17.0, macOS 14.0, *)
-@MainActor
-extension SectionHeader: AgentDescribable {
-    public var componentType: String {
-        "SectionHeader"
-    }
+@available(iOS 17.0, macOS 14.0, *) @MainActor extension SectionHeader: AgentDescribable {
+    public var componentType: String { "SectionHeader" }
 
-    public var properties: [String: Any] {
-        [
-            "title": title,
-            "showDivider": showDivider
-        ]
-    }
+    public var properties: [String: Any] { ["title": title, "showDivider": showDivider] }
 
     public var semantics: String {
         let dividerDesc = showDivider ? "with divider" : "without divider"
         return """
-        A section header displaying '\(title)' \(dividerDesc). \
-        Provides visual hierarchy and content organization.
-        """
+            A section header displaying '\(title)' \(dividerDesc). \
+            Provides visual hierarchy and content organization.
+            """
     }
 }

@@ -1,9 +1,9 @@
 import SwiftUI
 
 #if canImport(AppKit)
-import AppKit
+    import AppKit
 #elseif canImport(UIKit)
-import UIKit
+    import UIKit
 #endif
 
 /// A convenience component for displaying copyable text with visual feedback
@@ -103,22 +103,16 @@ public struct CopyableText: View {
     public var body: some View {
         // Using .copyable() extension method for consistency
         // The View extension is defined in Modifiers/CopyableModifier.swift
-        Text(text)
-            .font(DS.Typography.code)
-            .foregroundColor(DS.Colors.textPrimary)
-            .copyable(text: text)
-            .accessibilityLabel(accessibilityLabelText)
+        Text(text).font(DS.Typography.code).foregroundColor(DS.Colors.textPrimary).copyable(
+            text: text
+        ).accessibilityLabel(accessibilityLabelText)
     }
 
     // MARK: - Private Computed Properties
 
     /// Accessibility label for the copy button
     private var accessibilityLabelText: String {
-        if let label {
-            "Copy \(label): \(text)"
-        } else {
-            "Copy \(text)"
-        }
+        if let label { "Copy \(label): \(text)" } else { "Copy \(text)" }
     }
 }
 
@@ -129,8 +123,7 @@ public struct CopyableText: View {
         CopyableText(text: "0x1234ABCD")
         CopyableText(text: "DEADBEEF", label: "Hex Value")
         CopyableText(text: "192.168.1.1", label: "IP Address")
-    }
-    .padding(DS.Spacing.xl)
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Copyable Text in Card") {
@@ -140,17 +133,13 @@ public struct CopyableText: View {
 
             CopyableText(text: "0xFFFFFFFF", label: "Memory Address")
             CopyableText(text: "com.example.app", label: "Bundle ID")
-        }
-        .padding(DS.Spacing.l)
-    }
-    .padding(DS.Spacing.xl)
+        }.padding(DS.Spacing.l)
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Dark Mode") {
     VStack(spacing: DS.Spacing.l) {
         CopyableText(text: "Dark Mode Test")
         CopyableText(text: "0xABCDEF", label: "Hex Value")
-    }
-    .padding(DS.Spacing.xl)
-    .preferredColorScheme(.dark)
+    }.padding(DS.Spacing.xl).preferredColorScheme(.dark)
 }

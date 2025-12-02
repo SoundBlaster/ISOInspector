@@ -1,6 +1,5 @@
 // @todo #231 Refactor YAMLValidator to reduce type/function body length and complexity
 // @todo #238 Fix SwiftFormat/SwiftLint indentation conflict for multi-line enum cases
-// swiftlint:disable type_body_length cyclomatic_complexity function_body_length indentation_width
 
 import Foundation
 
@@ -45,8 +44,7 @@ import Foundation
 /// ### Error Types
 /// - ``ValidationError``
 ///
-@available(iOS 17.0, macOS 14.0, *)
-public struct YAMLValidator {
+@available(iOS 17.0, macOS 14.0, *) public struct YAMLValidator {
     // MARK: - Error Types
 
     /// Errors that can occur during component validation.
@@ -59,42 +57,39 @@ public struct YAMLValidator {
 
         /// A property has an invalid type
         case invalidPropertyType(
-                component: String, property: String, expected: String, actual: String
-             )
+            component: String, property: String, expected: String, actual: String)
 
         /// An enum property has an invalid value
         case invalidEnumValue(
-                component: String, property: String, value: String, validValues: [String]
-             )
+            component: String, property: String, value: String, validValues: [String])
 
         /// A numeric property is out of bounds
         case valueOutOfBounds(
-                component: String, property: String, value: String, min: String?, max: String?
-             )
+            component: String, property: String, value: String, min: String?, max: String?)
 
         /// Invalid component composition (e.g., circular reference)
         case invalidComposition(String)
 
         public var errorDescription: String? {
             switch self {
-            case let .unknownComponentType(type):
+            case .unknownComponentType(let type):
                 return
                     "Unknown component type '\(type)'. Valid types: \(Schema.allComponentTypes.joined(separator: ", "))"
 
-            case let .missingRequiredProperty(component, property):
+            case .missingRequiredProperty(let component, let property):
                 return "Missing required property '\(property)' in \(component) component"
 
-            case let .invalidPropertyType(component, property, expected, actual):
+            case .invalidPropertyType(let component, let property, let expected, let actual):
                 return
                     "Invalid type for property '\(property)' in \(component): expected \(expected), got \(actual)"
 
-            case let .invalidEnumValue(component, property, value, validValues):
+            case .invalidEnumValue(let component, let property, let value, let validValues):
                 let suggestion = Schema.suggestCorrection(for: value, in: validValues)
                 let suggestionText = suggestion.map { ". Did you mean '\($0)'?" } ?? ""
                 return
                     "Invalid value '\(value)' for property '\(property)' in \(component). Valid values: [\(validValues.joined(separator: ", "))]\(suggestionText)"
 
-            case let .valueOutOfBounds(component, property, value, min, max):
+            case .valueOutOfBounds(let component, let property, let value, let min, let max):
                 var boundsText = ""
                 if let min, let max {
                     boundsText = " (must be between \(min) and \(max))"
@@ -106,7 +101,7 @@ public struct YAMLValidator {
                 return
                     "Value '\(value)' for property '\(property)' in \(component) is out of bounds\(boundsText)"
 
-            case let .invalidComposition(details):
+            case .invalidComposition(let details):
                 return "Invalid component composition: \(details)"
             }
         }
@@ -121,9 +116,7 @@ public struct YAMLValidator {
     ///
     /// - Parameter description: The component description to validate
     /// - Throws: ``ValidationError`` if validation fails
-    public static func validateComponent(
-        _ description: YAMLParser.ComponentDescription
-    ) throws {
+    public static func validateComponent(_ description: YAMLParser.ComponentDescription) throws {
         // Validate component type
         guard Schema.allComponentTypes.contains(description.componentType) else {
             throw ValidationError.unknownComponentType(description.componentType)
@@ -136,27 +129,20 @@ public struct YAMLValidator {
         for requiredProperty in schema.requiredProperties {
             guard description.properties[requiredProperty] != nil else {
                 throw ValidationError.missingRequiredProperty(
-                    component: description.componentType,
-                    property: requiredProperty
-                )
+                    component: description.componentType, property: requiredProperty)
             }
         }
 
         // Validate each property
         for (propertyName, propertyValue) in description.properties {
             try validateProperty(
-                name: propertyName,
-                value: propertyValue,
-                componentType: description.componentType,
-                schema: schema
-            )
+                name: propertyName, value: propertyValue, componentType: description.componentType,
+                schema: schema)
         }
 
         // Validate nested content recursively
         if let content = description.content {
-            for nestedComponent in content {
-                try validateComponent(nestedComponent)
-            }
+            for nestedComponent in content { try validateComponent(nestedComponent) }
         }
 
         // Validate composition (nesting depth)
@@ -169,12 +155,9 @@ public struct YAMLValidator {
     ///
     /// - Parameter descriptions: Array of component descriptions to validate
     /// - Throws: ``ValidationError`` if any validation fails
-    public static func validateComponents(
-        _ descriptions: [YAMLParser.ComponentDescription]
-    ) throws {
-        for description in descriptions {
-            try validateComponent(description)
-        }
+    public static func validateComponents(_ descriptions: [YAMLParser.ComponentDescription]) throws
+    {
+        for description in descriptions { try validateComponent(description) }
 
         // Check for composition issues (circular references)
         try validateComposition(descriptions)
@@ -184,10 +167,7 @@ public struct YAMLValidator {
 
     /// Validates a single property value.
     private static func validateProperty(
-        name: String,
-        value: Any,
-        componentType: String,
-        schema: ComponentSchema
+        name: String, value: Any, componentType: String, schema: ComponentSchema
     ) throws {
         // Check if property is known (either required or optional)
         let allProperties = schema.requiredProperties + Array(schema.optionalProperties.keys)
@@ -200,19 +180,13 @@ public struct YAMLValidator {
         if let validValues = schema.enumValues(for: name) {
             guard let stringValue = value as? String else {
                 throw ValidationError.invalidPropertyType(
-                    component: componentType,
-                    property: name,
-                    expected: "String (enum)",
-                    actual: "\(type(of: value))"
-                )
+                    component: componentType, property: name, expected: "String (enum)",
+                    actual: "\(type(of: value))")
             }
             guard validValues.contains(stringValue) else {
                 throw ValidationError.invalidEnumValue(
-                    component: componentType,
-                    property: name,
-                    value: stringValue,
-                    validValues: validValues
-                )
+                    component: componentType, property: name, value: stringValue,
+                    validValues: validValues)
             }
             return
         }
@@ -225,45 +199,32 @@ public struct YAMLValidator {
         case "String":
             guard value is String else {
                 throw ValidationError.invalidPropertyType(
-                    component: componentType,
-                    property: name,
-                    expected: "String",
-                    actual: "\(type(of: value))"
-                )
+                    component: componentType, property: name, expected: "String",
+                    actual: "\(type(of: value))")
             }
 
         case "Bool":
             guard value is Bool else {
                 throw ValidationError.invalidPropertyType(
-                    component: componentType,
-                    property: name,
-                    expected: "Bool",
-                    actual: "\(type(of: value))"
-                )
+                    component: componentType, property: name, expected: "Bool",
+                    actual: "\(type(of: value))")
             }
 
         case "Int":
             guard value is Int else {
                 throw ValidationError.invalidPropertyType(
-                    component: componentType,
-                    property: name,
-                    expected: "Int",
-                    actual: "\(type(of: value))"
-                )
+                    component: componentType, property: name, expected: "Int",
+                    actual: "\(type(of: value))")
             }
 
         case "Double":
             guard value is Double || value is Int else {
                 throw ValidationError.invalidPropertyType(
-                    component: componentType,
-                    property: name,
-                    expected: "Double",
-                    actual: "\(type(of: value))"
-                )
+                    component: componentType, property: name, expected: "Double",
+                    actual: "\(type(of: value))")
             }
 
-        default:
-            break
+        default: break
         }
 
         // Validate numeric bounds if applicable
@@ -271,40 +232,24 @@ public struct YAMLValidator {
             if let intValue = value as? Int {
                 if let min = bounds.min, intValue < min {
                     throw ValidationError.valueOutOfBounds(
-                        component: componentType,
-                        property: name,
-                        value: String(intValue),
-                        min: String(min),
-                        max: bounds.max.map { String($0) }
-                    )
+                        component: componentType, property: name, value: String(intValue),
+                        min: String(min), max: bounds.max.map { String($0) })
                 }
                 if let max = bounds.max, intValue > max {
                     throw ValidationError.valueOutOfBounds(
-                        component: componentType,
-                        property: name,
-                        value: String(intValue),
-                        min: bounds.min.map { String($0) },
-                        max: String(max)
-                    )
+                        component: componentType, property: name, value: String(intValue),
+                        min: bounds.min.map { String($0) }, max: String(max))
                 }
             } else if let doubleValue = value as? Double {
                 if let min = bounds.min, doubleValue < Double(min) {
                     throw ValidationError.valueOutOfBounds(
-                        component: componentType,
-                        property: name,
-                        value: String(doubleValue),
-                        min: String(min),
-                        max: bounds.max.map { String($0) }
-                    )
+                        component: componentType, property: name, value: String(doubleValue),
+                        min: String(min), max: bounds.max.map { String($0) })
                 }
                 if let max = bounds.max, doubleValue > Double(max) {
                     throw ValidationError.valueOutOfBounds(
-                        component: componentType,
-                        property: name,
-                        value: String(doubleValue),
-                        min: bounds.min.map { String($0) },
-                        max: String(max)
-                    )
+                        component: componentType, property: name, value: String(doubleValue),
+                        min: bounds.min.map { String($0) }, max: String(max))
                 }
             }
         }
@@ -312,7 +257,8 @@ public struct YAMLValidator {
 
     /// Validates component composition (no circular references, valid nesting).
     private static func validateComposition(_ descriptions: [YAMLParser.ComponentDescription])
-    throws {
+        throws
+    {
         // Check for circular references by tracking visited component IDs
         // For now, we'll just check nesting depth
         for description in descriptions {
@@ -322,9 +268,7 @@ public struct YAMLValidator {
 
     /// Validates that nesting depth doesn't exceed maximum (prevents circular references).
     private static func validateNestingDepth(
-        _ description: YAMLParser.ComponentDescription,
-        currentDepth: Int,
-        maxDepth: Int
+        _ description: YAMLParser.ComponentDescription, currentDepth: Int, maxDepth: Int
     ) throws {
         guard currentDepth < maxDepth else {
             throw ValidationError.invalidComposition(
@@ -335,8 +279,7 @@ public struct YAMLValidator {
         if let content = description.content {
             for nestedComponent in content {
                 try validateNestingDepth(
-                    nestedComponent, currentDepth: currentDepth + 1, maxDepth: maxDepth
-                )
+                    nestedComponent, currentDepth: currentDepth + 1, maxDepth: maxDepth)
             }
         }
     }
@@ -355,114 +298,75 @@ public struct YAMLValidator {
             optionalProperties[property] ?? "String"
         }
 
-        func enumValues(for property: String) -> [String]? {
-            enums[property]
-        }
+        func enumValues(for property: String) -> [String]? { enums[property] }
 
-        func numericBounds(for property: String) -> (min: Int?, max: Int?)? {
-            bounds[property]
-        }
+        func numericBounds(for property: String) -> (min: Int?, max: Int?)? { bounds[property] }
     }
 
     /// Schema definitions for all component types.
     private enum Schema {
         static let allComponentTypes: [String] = [
-            "Badge", "Card", "KeyValueRow", "SectionHeader",
-            "InspectorPattern", "SidebarPattern", "ToolbarPattern", "BoxTreePattern"
+            "Badge", "Card", "KeyValueRow", "SectionHeader", "InspectorPattern", "SidebarPattern",
+            "ToolbarPattern", "BoxTreePattern",
         ]
 
         static func schema(for componentType: String) -> ComponentSchema {
             switch componentType {
             case "Badge":
                 return ComponentSchema(
-                    componentType: "Badge",
-                    requiredProperties: ["text", "level"],
+                    componentType: "Badge", requiredProperties: ["text", "level"],
                     optionalProperties: ["showIcon": "Bool"],
-                    enums: ["level": ["info", "warning", "error", "success"]],
-                    bounds: [:]
-                )
+                    enums: ["level": ["info", "warning", "error", "success"]], bounds: [:])
 
             case "Card":
                 return ComponentSchema(
-                    componentType: "Card",
-                    requiredProperties: [],
+                    componentType: "Card", requiredProperties: [],
                     optionalProperties: [
-                        "elevation": "String",
-                        "cornerRadius": "Double",
-                        "material": "String"
+                        "elevation": "String", "cornerRadius": "Double", "material": "String",
                     ],
                     enums: [
                         "elevation": ["none", "low", "medium", "high"],
-                        "material": ["thin", "regular", "thick", "ultraThin", "ultraThick"]
-                    ],
-                    bounds: ["cornerRadius": (min: 0, max: 50)]
-                )
+                        "material": ["thin", "regular", "thick", "ultraThin", "ultraThick"],
+                    ], bounds: ["cornerRadius": (min: 0, max: 50)])
 
             case "KeyValueRow":
                 return ComponentSchema(
-                    componentType: "KeyValueRow",
-                    requiredProperties: ["key", "value"],
-                    optionalProperties: [
-                        "layout": "String",
-                        "isCopyable": "Bool"
-                    ],
-                    enums: ["layout": ["horizontal", "vertical"]],
-                    bounds: [:]
-                )
+                    componentType: "KeyValueRow", requiredProperties: ["key", "value"],
+                    optionalProperties: ["layout": "String", "isCopyable": "Bool"],
+                    enums: ["layout": ["horizontal", "vertical"]], bounds: [:])
 
             case "SectionHeader":
                 return ComponentSchema(
-                    componentType: "SectionHeader",
-                    requiredProperties: ["title"],
-                    optionalProperties: ["showDivider": "Bool"],
-                    enums: [:],
-                    bounds: [:]
-                )
+                    componentType: "SectionHeader", requiredProperties: ["title"],
+                    optionalProperties: ["showDivider": "Bool"], enums: [:], bounds: [:])
 
             case "InspectorPattern":
                 return ComponentSchema(
-                    componentType: "InspectorPattern",
-                    requiredProperties: ["title"],
+                    componentType: "InspectorPattern", requiredProperties: ["title"],
                     optionalProperties: ["material": "String"],
                     enums: ["material": ["thin", "regular", "thick", "ultraThin", "ultraThick"]],
-                    bounds: [:]
-                )
+                    bounds: [:])
 
             case "SidebarPattern":
                 return ComponentSchema(
-                    componentType: "SidebarPattern",
-                    requiredProperties: ["sections"],
-                    optionalProperties: ["selection": "String"],
-                    enums: [:],
-                    bounds: [:]
-                )
+                    componentType: "SidebarPattern", requiredProperties: ["sections"],
+                    optionalProperties: ["selection": "String"], enums: [:], bounds: [:])
 
             case "ToolbarPattern":
                 return ComponentSchema(
-                    componentType: "ToolbarPattern",
-                    requiredProperties: ["items"],
-                    optionalProperties: [:],
-                    enums: [:],
-                    bounds: [:]
-                )
+                    componentType: "ToolbarPattern", requiredProperties: ["items"],
+                    optionalProperties: [:], enums: [:], bounds: [:])
 
             case "BoxTreePattern":
                 return ComponentSchema(
-                    componentType: "BoxTreePattern",
-                    requiredProperties: ["nodeCount"],
-                    optionalProperties: ["level": "Int"],
-                    enums: [:],
-                    bounds: ["level": (min: 0, max: nil), "nodeCount": (min: 0, max: nil)]
-                )
+                    componentType: "BoxTreePattern", requiredProperties: ["nodeCount"],
+                    optionalProperties: ["level": "Int"], enums: [:],
+                    bounds: ["level": (min: 0, max: nil), "nodeCount": (min: 0, max: nil)])
 
             default:
                 return ComponentSchema(
-                    componentType: componentType,
-                    requiredProperties: [],
-                    optionalProperties: [:],
-                    enums: [:],
-                    bounds: [:]
-                )
+                    componentType: componentType, requiredProperties: [], optionalProperties: [:],
+                    enums: [:], bounds: [:])
             }
         }
 
@@ -473,9 +377,7 @@ public struct YAMLValidator {
             }
             let closest = suggestions.min { $0.distance < $1.distance }
             // Only suggest if distance is reasonable (< 3 edits)
-            if let closest, closest.distance < 3 {
-                return closest.candidate
-            }
+            if let closest, closest.distance < 3 { return closest.candidate }
             return nil
         }
 
@@ -484,25 +386,20 @@ public struct YAMLValidator {
             let s1 = Array(s1.lowercased())
             let s2 = Array(s2.lowercased())
             var dist = [[Int]](
-                repeating: [Int](repeating: 0, count: s2.count + 1), count: s1.count + 1
-            )
+                repeating: [Int](repeating: 0, count: s2.count + 1), count: s1.count + 1)
 
-            for i in 0 ... s1.count {
-                dist[i][0] = i
-            }
-            for j in 0 ... s2.count {
-                dist[0][j] = j
-            }
+            for i in 0...s1.count { dist[i][0] = i }
+            for j in 0...s2.count { dist[0][j] = j }
 
-            for i in 1 ... s1.count {
-                for j in 1 ... s2.count {
+            for i in 1...s1.count {
+                for j in 1...s2.count {
                     if s1[i - 1] == s2[j - 1] {
                         dist[i][j] = dist[i - 1][j - 1]
                     } else {
                         dist[i][j] = min(
-                            dist[i - 1][j] + 1, // deletion
-                            dist[i][j - 1] + 1, // insertion
-                            dist[i - 1][j - 1] + 1 // substitution
+                            dist[i - 1][j] + 1,  // deletion
+                            dist[i][j - 1] + 1,  // insertion
+                            dist[i - 1][j - 1] + 1  // substitution
                         )
                     }
                 }
