@@ -11,6 +11,7 @@ disabled_rules:
   - trailing_comma
   - indentation_width
   - vertical_whitespace
+  - vertical_parameter_alignment
 
   # Non-formatting relaxations
   - line_length  # Allow longer lines for SwiftUI view builders and complex expressions
