@@ -28,6 +28,7 @@ disabled_rules:
   - vertical_whitespace
   - vertical_whitespace_closing_braces
   - vertical_whitespace_opening_braces
+  - vertical_parameter_alignment
 
   # Non-formatting relaxations
   - todo

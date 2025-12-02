@@ -4,6 +4,7 @@ disabled_rules:
   - closure_parameter_position
   - opening_brace
   - indentation_width
+  - vertical_parameter_alignment
 
   # Relaxed rules for sample app ergonomics
   - line_length
