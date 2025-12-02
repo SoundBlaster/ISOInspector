@@ -57,6 +57,7 @@
 - [ ] #306 Split `MockISOBox.sampleISOHierarchy()` into smaller helpers to satisfy SwiftLint `function_body_length`. (Examples/ComponentTestApp/ComponentTestApp/Models/MockISOBox.swift:145)
 - [ ] #307 Break `ContentView.destinationView` into smaller subviews to reduce SwiftLint `cyclomatic_complexity`. (Examples/ComponentTestApp/ComponentTestApp/ContentView.swift:203)
 - [ ] #308 Re-enable SwiftLint `function_body_length` after fixing the current 67 violations and removing the global disable. (.swiftlint.yml)
+- [ ] #309 Re-enable SwiftLint `cyclomatic_complexity` after cleaning up the current backlog and removing the global disable. (.swiftlint.yml)
 
 ## Performance & Benchmarking
 

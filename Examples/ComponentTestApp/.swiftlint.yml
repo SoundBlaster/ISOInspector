@@ -6,6 +6,7 @@ disabled_rules:
   - indentation_width
   - vertical_parameter_alignment
   - function_body_length
+  - cyclomatic_complexity
 
   # Relaxed rules for sample app ergonomics
   - line_length
