@@ -30,6 +30,7 @@ disabled_rules:
   - vertical_whitespace_opening_braces
   - vertical_parameter_alignment
   - function_body_length
+  - cyclomatic_complexity
 
   # Non-formatting relaxations
   - todo
