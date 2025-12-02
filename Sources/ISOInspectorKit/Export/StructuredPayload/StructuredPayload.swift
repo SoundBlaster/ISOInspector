@@ -33,7 +33,5 @@ struct StructuredPayload: Encodable {
     let metadataKeys: MetadataKeyTableDetail?
     let metadataItems: MetadataItemListDetail?
 
-    init(detail: ParsedBoxPayload.Detail) {
-        self = StructuredPayload.build(from: detail)
-    }
+    init(detail: ParsedBoxPayload.Detail) { self = StructuredPayload.build(from: detail) }
 }

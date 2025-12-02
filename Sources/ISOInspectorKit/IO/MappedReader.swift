@@ -7,71 +7,59 @@ import Foundation
 /// or for the given file system volume. The file contents are treated as immutable,
 /// making the instance safe to share across threads for read-only access.
 public final class MappedReader: RandomAccessReader {
-  public enum Error: Swift.Error {
-    case fileNotFound
-    case mappingFailed(underlying: Swift.Error)
-  }
-
-  public let length: Int64
-  private let storage: Data
-
-  /// Creates a reader for the file at `fileURL`.
-  /// - Parameter fileURL: Location of the file to map.
-  public convenience init(fileURL: URL) throws {
-    guard FileManager.default.fileExists(atPath: fileURL.path) else {
-      throw Error.fileNotFound
+    public enum Error: Swift.Error {
+        case fileNotFound
+        case mappingFailed(underlying: Swift.Error)
     }
 
-    do {
-      let data = try Data(contentsOf: fileURL, options: [.mappedIfSafe])
-      self.init(data: data)
-    } catch {
-      do {
-        let data = try Data(contentsOf: fileURL)
-        self.init(data: data)
-      } catch {
-        throw Error.mappingFailed(underlying: error)
-      }
-    }
-  }
+    public let length: Int64
+    private let storage: Data
 
-  init(data: Data) {
-    self.storage = data
-    self.length = Int64(data.count)
-  }
+    /// Creates a reader for the file at `fileURL`.
+    /// - Parameter fileURL: Location of the file to map.
+    public convenience init(fileURL: URL) throws {
+        guard FileManager.default.fileExists(atPath: fileURL.path) else { throw Error.fileNotFound }
 
-  public func read(at offset: Int64, count: Int) throws -> Data {
-    guard offset >= 0 else {
-      throw RandomAccessReaderError.boundsError(.invalidOffset(offset))
-    }
-    guard count >= 0 else {
-      throw RandomAccessReaderError.boundsError(.invalidCount(count))
-    }
-    guard count > 0 else { return Data() }
-
-    guard let count64 = Int64(exactly: count) else {
-      throw RandomAccessReaderError.overflowError
+        do {
+            let data = try Data(contentsOf: fileURL, options: [.mappedIfSafe])
+            self.init(data: data)
+        } catch {
+            do {
+                let data = try Data(contentsOf: fileURL)
+                self.init(data: data)
+            } catch { throw Error.mappingFailed(underlying: error) }
+        }
     }
 
-    let endResult = offset.addingReportingOverflow(count64)
-    guard endResult.overflow == false else {
-      throw RandomAccessReaderError.overflowError
+    init(data: Data) {
+        self.storage = data
+        self.length = Int64(data.count)
     }
 
-    let endOffset = endResult.partialValue
-    guard offset < length else {
-      throw RandomAccessReaderError.boundsError(
-        .requestedRangeOutOfBounds(offset: offset, count: count)
-      )
-    }
-    guard endOffset <= length else {
-      throw RandomAccessReaderError.boundsError(
-        .requestedRangeOutOfBounds(offset: offset, count: count)
-      )
-    }
+    public func read(at offset: Int64, count: Int) throws -> Data {
+        guard offset >= 0 else { throw RandomAccessReaderError.boundsError(.invalidOffset(offset)) }
+        guard count >= 0 else { throw RandomAccessReaderError.boundsError(.invalidCount(count)) }
+        guard count > 0 else { return Data() }
 
-    let start = Int(offset)
-    let end = start + count
-    return storage.subdata(in: start..<end)
-  }
+        guard let count64 = Int64(exactly: count) else {
+            throw RandomAccessReaderError.overflowError
+        }
+
+        let endResult = offset.addingReportingOverflow(count64)
+        guard endResult.overflow == false else { throw RandomAccessReaderError.overflowError }
+
+        let endOffset = endResult.partialValue
+        guard offset < length else {
+            throw RandomAccessReaderError.boundsError(
+                .requestedRangeOutOfBounds(offset: offset, count: count))
+        }
+        guard endOffset <= length else {
+            throw RandomAccessReaderError.boundsError(
+                .requestedRangeOutOfBounds(offset: offset, count: count))
+        }
+
+        let start = Int(offset)
+        let end = start + count
+        return storage.subdata(in: start..<end)
+    }
 }

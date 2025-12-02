@@ -1,7 +1,7 @@
 import Foundation
 
 #if canImport(CoreGraphics)
-import CoreGraphics
+    import CoreGraphics
 #endif
 
 /// Design System Corner Radius Tokens
@@ -33,8 +33,8 @@ import CoreGraphics
 /// ## Platform Consistency
 /// These radius values are intentionally platform-agnostic and work
 /// identically on iOS, iPadOS, and macOS.
-public extension DS {
-    enum Radius {
+extension DS {
+    public enum Radius {
         /// Small corner radius (6pt)
         ///
         /// Used for compact UI elements where subtle rounding is preferred.

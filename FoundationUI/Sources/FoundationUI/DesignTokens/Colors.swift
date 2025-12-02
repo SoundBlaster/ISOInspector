@@ -1,9 +1,9 @@
 import SwiftUI
 
 #if canImport(UIKit)
-import UIKit
+    import UIKit
 #elseif canImport(AppKit)
-import AppKit
+    import AppKit
 #endif
 
 /// Design System Color Tokens
@@ -43,8 +43,8 @@ import AppKit
 /// Colors automatically adapt to the system color scheme:
 /// - Light mode: Lighter tints for backgrounds
 /// - Dark mode: System automatically adjusts opacity and vibrancy
-public extension DS {
-    enum Colors {
+extension DS {
+    public enum Colors {
         // MARK: - Semantic Background Colors
 
         /// Information background color (neutral gray)
@@ -106,11 +106,11 @@ public extension DS {
         /// **Usage**: Card backgrounds, hover states, disabled states
         public static let tertiary: SwiftUI.Color = {
             #if canImport(UIKit)
-            return SwiftUI.Color(uiColor: .tertiarySystemBackground)
+                return SwiftUI.Color(uiColor: .tertiarySystemBackground)
             #elseif canImport(AppKit)
-            return SwiftUI.Color(nsColor: .controlBackgroundColor)
+                return SwiftUI.Color(nsColor: .controlBackgroundColor)
             #else
-            return SwiftUI.Color.gray.opacity(0.1)
+                return SwiftUI.Color.gray.opacity(0.1)
             #endif
         }()
 
@@ -133,11 +133,11 @@ public extension DS {
         /// **Usage**: Placeholder text, disabled labels
         public static let textPlaceholder: SwiftUI.Color = {
             #if canImport(UIKit)
-            return SwiftUI.Color(uiColor: .placeholderText)
+                return SwiftUI.Color(uiColor: .placeholderText)
             #elseif canImport(AppKit)
-            return SwiftUI.Color(nsColor: .placeholderTextColor)
+                return SwiftUI.Color(nsColor: .placeholderTextColor)
             #else
-            return SwiftUI.Color.gray.opacity(0.6)
+                return SwiftUI.Color.gray.opacity(0.6)
             #endif
         }()
     }

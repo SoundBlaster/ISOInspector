@@ -1,13 +1,11 @@
-import SwiftUI
 import FoundationUI
+import SwiftUI
 
 extension ParseTreeExplorerView {
     struct ParseStateBadge: View {
         let state: ParseTreeStoreState
 
-        var body: some View {
-            Badge(text: stateDescription, level: badgeLevel)
-        }
+        var body: some View { Badge(text: stateDescription, level: badgeLevel) }
 
         private var stateDescription: String {
             switch state {

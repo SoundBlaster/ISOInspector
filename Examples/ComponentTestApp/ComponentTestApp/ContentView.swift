@@ -33,36 +33,21 @@ enum ScreenDestination: Hashable, Identifiable {
 
     var title: String {
         switch self {
-        case .designTokens:
-            return "Design Tokens"
-        case .modifiers:
-            return "View Modifiers"
-        case .badge:
-            return "Badge Component"
-        case .card:
-            return "Card Component"
-        case .indicator:
-            return "Indicator Component"
-        case .keyValueRow:
-            return "KeyValueRow Component"
-        case .sectionHeader:
-            return "SectionHeader Component"
-        case .inspectorPattern:
-            return "InspectorPattern"
-        case .sidebarPattern:
-            return "SidebarPattern"
-        case .toolbarPattern:
-            return "ToolbarPattern"
-        case .boxTreePattern:
-            return "BoxTreePattern"
-        case .isoInspectorDemo:
-            return "ISO Inspector Demo"
-        case .utilities:
-            return "Utilities"
-        case .accessibilityTesting:
-            return "Accessibility Testing"
-        case .performanceMonitoring:
-            return "Performance Monitoring"
+        case .designTokens: return "Design Tokens"
+        case .modifiers: return "View Modifiers"
+        case .badge: return "Badge Component"
+        case .card: return "Card Component"
+        case .indicator: return "Indicator Component"
+        case .keyValueRow: return "KeyValueRow Component"
+        case .sectionHeader: return "SectionHeader Component"
+        case .inspectorPattern: return "InspectorPattern"
+        case .sidebarPattern: return "SidebarPattern"
+        case .toolbarPattern: return "ToolbarPattern"
+        case .boxTreePattern: return "BoxTreePattern"
+        case .isoInspectorDemo: return "ISO Inspector Demo"
+        case .utilities: return "Utilities"
+        case .accessibilityTesting: return "Accessibility Testing"
+        case .performanceMonitoring: return "Performance Monitoring"
         }
     }
 }
@@ -96,12 +81,9 @@ struct ContentView: View {
     /// ID for forcing view refresh - includes system theme when in system mode
     private var viewID: String {
         switch themePreference {
-        case .system:
-            return "system-\(systemColorScheme == .dark ? "dark" : "light")"
-        case .light:
-            return "light"
-        case .dark:
-            return "dark"
+        case .system: return "system-\(systemColorScheme == .dark ? "dark" : "light")"
+        case .light: return "light"
+        case .dark: return "dark"
         }
     }
 
@@ -181,27 +163,21 @@ struct ContentView: View {
                 Section("Controls") {
                     // Theme Picker
                     Picker(selection: $themePreference) {
-                        Label("System", systemImage: "circle.lefthalf.filled")
-                            .tag(ThemePreference.system)
-                        Label("Light", systemImage: "sun.max.fill")
-                            .tag(ThemePreference.light)
-                        Label("Dark", systemImage: "moon.fill")
-                            .tag(ThemePreference.dark)
+                        Label("System", systemImage: "circle.lefthalf.filled").tag(
+                            ThemePreference.system)
+                        Label("Light", systemImage: "sun.max.fill").tag(ThemePreference.light)
+                        Label("Dark", systemImage: "moon.fill").tag(ThemePreference.dark)
                     } label: {
                         Label("Theme", systemImage: "paintbrush.fill")
                     }
                 }
-            }
-            .navigationTitle("FoundationUI Components")
-            .navigationDestination(for: ScreenDestination.self) { destination in
-                destinationView(for: destination)
-            }
-            .preferredColorScheme(effectiveColorScheme)
-        }
-        .if(overrideSystemDynamicType) { view in
+            }.navigationTitle("FoundationUI Components").navigationDestination(
+                for: ScreenDestination.self
+            ) { destination in destinationView(for: destination) }.preferredColorScheme(
+                effectiveColorScheme)
+        }.if(overrideSystemDynamicType) { view in
             view.dynamicTypeSize(dynamicTypeSizePreference.dynamicTypeSize)
-        }
-        .id(viewID)
+        }.id(viewID)
     }
 
     /// Returns human-readable label for Dynamic Type size
@@ -224,63 +200,37 @@ struct ContentView: View {
     }
 
     /// Returns the appropriate view for the given destination
-    @ViewBuilder
-    private func destinationView(for destination: ScreenDestination) -> some View {
+    // swiftlint:disable cyclomatic_complexity
+    @ViewBuilder private func destinationView(for destination: ScreenDestination) -> some View {
         switch destination {
-        case .designTokens:
-            DesignTokensScreen()
-        case .modifiers:
-            ModifiersScreen()
-        case .badge:
-            BadgeScreen()
-        case .indicator:
-            IndicatorScreen()
-        case .card:
-            CardScreen()
-        case .keyValueRow:
-            KeyValueRowScreen()
-        case .sectionHeader:
-            SectionHeaderScreen()
-        case .inspectorPattern:
-            InspectorPatternScreen()
-        case .sidebarPattern:
-            SidebarPatternScreen()
-        case .toolbarPattern:
-            ToolbarPatternScreen()
-        case .boxTreePattern:
-            BoxTreePatternScreen()
-        case .isoInspectorDemo:
-            ISOInspectorDemoScreen()
-        case .utilities:
-            UtilitiesScreen()
-        case .accessibilityTesting:
-            AccessibilityTestingScreen()
-        case .performanceMonitoring:
-            PerformanceMonitoringScreen()
+        case .designTokens: DesignTokensScreen()
+        case .modifiers: ModifiersScreen()
+        case .badge: BadgeScreen()
+        case .indicator: IndicatorScreen()
+        case .card: CardScreen()
+        case .keyValueRow: KeyValueRowScreen()
+        case .sectionHeader: SectionHeaderScreen()
+        case .inspectorPattern: InspectorPatternScreen()
+        case .sidebarPattern: SidebarPatternScreen()
+        case .toolbarPattern: ToolbarPatternScreen()
+        case .boxTreePattern: BoxTreePatternScreen()
+        case .isoInspectorDemo: ISOInspectorDemoScreen()
+        case .utilities: UtilitiesScreen()
+        case .accessibilityTesting: AccessibilityTestingScreen()
+        case .performanceMonitoring: PerformanceMonitoringScreen()
         }
-    }
+    }// swiftlint:enable cyclomatic_complexity
 }
 
-#Preview("Light Mode") {
-    ContentView()
-        .preferredColorScheme(.light)
-}
+#Preview("Light Mode") { ContentView().preferredColorScheme(.light) }
 
-#Preview("Dark Mode") {
-    ContentView()
-        .preferredColorScheme(.dark)
-}
+#Preview("Dark Mode") { ContentView().preferredColorScheme(.dark) }
 
 // MARK: - View Extensions
 
 extension View {
     /// Conditionally applies a view modifier
-    @ViewBuilder
-    func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
-        if condition {
-            transform(self)
-        } else {
-            self
-        }
-    }
+    @ViewBuilder func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content)
+        -> some View
+    { if condition { transform(self) } else { self } }
 }

@@ -36,26 +36,21 @@ final class FragmentEnvironmentCoordinator: @unchecked Sendable {
 extension FragmentEnvironmentCoordinator {
     func willStartBox(header: BoxHeader) {
         switch header.type {
-        case BoxType.movieFragment:
-            moofStack.append(UInt64(clamping: header.startOffset))
+        case BoxType.movieFragment: moofStack.append(UInt64(clamping: header.startOffset))
         case BoxType.trackFragment:
             var context = FragmentContext()
             context.moofStart = moofStack.last
             fragmentStack.append(context)
-        default:
-            break
+        default: break
         }
     }
 
     func didParsePayload(header: BoxHeader, payload: ParsedBoxPayload?) {
         switch header.type {
         case BoxType.trackExtends:
-            if let defaults = payload?.trackExtends {
-                trackDefaults[defaults.trackID] = defaults
-            }
+            if let defaults = payload?.trackExtends { trackDefaults[defaults.trackID] = defaults }
         case BoxType.trackFragmentHeader:
-            guard let index = fragmentStack.indices.last,
-                  let detail = payload?.trackFragmentHeader
+            guard let index = fragmentStack.indices.last, let detail = payload?.trackFragmentHeader
             else { return }
             var context = fragmentStack[index]
             context.header = detail
@@ -63,25 +58,21 @@ extension FragmentEnvironmentCoordinator {
             let defaults = trackDefaults[detail.trackID]
             context.trackExtendsDefaults = defaults
             let descriptionIndex =
-            detail.sampleDescriptionIndex
-            ?? defaults?.defaultSampleDescriptionIndex
-            ?? context.sampleDescriptionIndex
-            ?? 1
+                detail.sampleDescriptionIndex ?? defaults?.defaultSampleDescriptionIndex ?? context
+                .sampleDescriptionIndex ?? 1
             context.sampleDescriptionIndex = descriptionIndex
             context.defaultSampleDuration =
-            detail.defaultSampleDuration ?? defaults?.defaultSampleDuration
+                detail.defaultSampleDuration ?? defaults?.defaultSampleDuration
             context.defaultSampleSize = detail.defaultSampleSize ?? defaults?.defaultSampleSize
             context.defaultSampleFlags = detail.defaultSampleFlags ?? defaults?.defaultSampleFlags
             if let base = detail.baseDataOffset {
                 context.baseDataOffset = base
                 context.dataCursor = base
             } else if context.baseDataOffset == nil, detail.defaultBaseIsMoof,
-                      let moofStart = context.moofStart
+                let moofStart = context.moofStart
             {
                 context.baseDataOffset = moofStart
-                if context.dataCursor == nil {
-                    context.dataCursor = moofStart
-                }
+                if context.dataCursor == nil { context.dataCursor = moofStart }
             }
             context.totalSampleCount = 0
             context.totalSampleSize = 0
@@ -92,7 +83,7 @@ extension FragmentEnvironmentCoordinator {
             fragmentStack[index] = context
         case BoxType.trackFragmentDecodeTime:
             guard let index = fragmentStack.indices.last,
-                  let detail = payload?.trackFragmentDecodeTime
+                let detail = payload?.trackFragmentDecodeTime
             else { return }
             var context = fragmentStack[index]
             context.decodeTime = detail
@@ -104,9 +95,9 @@ extension FragmentEnvironmentCoordinator {
             }
             fragmentStack[index] = context
         case BoxType.trackRun:
-            guard let index = fragmentStack.indices.last,
-                  let run = payload?.trackRun
-            else { return }
+            guard let index = fragmentStack.indices.last, let run = payload?.trackRun else {
+                return
+            }
             var context = fragmentStack[index]
             context.runs.append(run)
             let (newCount, overflowCount) = context.totalSampleCount.addingReportingOverflow(
@@ -114,7 +105,8 @@ extension FragmentEnvironmentCoordinator {
             context.totalSampleCount = overflowCount ? UInt64.max : newCount
             if context.totalSampleSize != nil {
                 if let runTotalSize = run.totalSampleSize {
-                    let (combined, overflow) = context.totalSampleSize!.addingReportingOverflow(runTotalSize)
+                    let (combined, overflow) = context.totalSampleSize!.addingReportingOverflow(
+                        runTotalSize)
                     context.totalSampleSize = overflow ? nil : combined
                 } else {
                     context.totalSampleSize = nil
@@ -129,7 +121,8 @@ extension FragmentEnvironmentCoordinator {
                     context.totalSampleDuration = nil
                 }
             }
-            if let startPresentation = run.startPresentationTime ?? int64(from: run.startDecodeTime) {
+            if let startPresentation = run.startPresentationTime ?? int64(from: run.startDecodeTime)
+            {
                 if let current = context.earliestPresentationTime {
                     context.earliestPresentationTime = min(current, startPresentation)
                 } else {
@@ -168,8 +161,7 @@ extension FragmentEnvironmentCoordinator {
             context.nextSampleNumber = overflow ? startIndex : nextIndex
             context.runIndex &+= 1
             fragmentStack[index] = context
-        default:
-            break
+        default: break
         }
     }
 
@@ -178,36 +170,31 @@ extension FragmentEnvironmentCoordinator {
         case BoxType.trackFragment:
             guard let context = fragmentStack.popLast() else { return nil }
             let defaults =
-            context.trackExtendsDefaults
-            ?? context.trackID.flatMap { trackDefaults[$0] }
+                context.trackExtendsDefaults ?? context.trackID.flatMap { trackDefaults[$0] }
             let summary = ParsedBoxPayload.TrackFragmentBox(
                 trackID: context.trackID ?? context.header?.trackID,
-                sampleDescriptionIndex: context.sampleDescriptionIndex
-                ?? defaults?.defaultSampleDescriptionIndex
-                ?? 1,
-                baseDataOffset: context.baseDataOffset,
-                defaultSampleDuration: context.defaultSampleDuration ?? defaults?.defaultSampleDuration,
+                sampleDescriptionIndex: context.sampleDescriptionIndex ?? defaults?
+                    .defaultSampleDescriptionIndex ?? 1, baseDataOffset: context.baseDataOffset,
+                defaultSampleDuration: context.defaultSampleDuration
+                    ?? defaults?.defaultSampleDuration,
                 defaultSampleSize: context.defaultSampleSize ?? defaults?.defaultSampleSize,
                 defaultSampleFlags: context.defaultSampleFlags ?? defaults?.defaultSampleFlags,
                 durationIsEmpty: context.header?.durationIsEmpty ?? false,
                 defaultBaseIsMoof: context.header?.defaultBaseIsMoof ?? false,
                 baseDecodeTime: context.decodeTime?.baseMediaDecodeTime ?? context.baseDecodeTime,
                 baseDecodeTimeIs64Bit: context.decodeTime?.baseMediaDecodeTimeIs64Bit
-                ?? context.baseDecodeTimeIs64Bit,
-                runs: context.runs,
+                    ?? context.baseDecodeTimeIs64Bit, runs: context.runs,
                 totalSampleCount: context.totalSampleCount,
                 totalSampleSize: context.totalSampleSize,
                 totalSampleDuration: context.totalSampleDuration,
                 earliestPresentationTime: context.earliestPresentationTime,
                 latestPresentationTime: context.latestPresentationTime,
                 firstDecodeTime: context.firstDecodeTime ?? context.baseDecodeTime,
-                lastDecodeTime: context.lastDecodeTime ?? context.nextDecodeTime ?? context.baseDecodeTime
-            )
+                lastDecodeTime: context.lastDecodeTime ?? context.nextDecodeTime
+                    ?? context.baseDecodeTime)
             return ParsedBoxPayload(detail: .trackFragment(summary))
-        case BoxType.movieFragment:
-            _ = moofStack.popLast()
-        default:
-            break
+        case BoxType.movieFragment: _ = moofStack.popLast()
+        default: break
         }
         return nil
     }
@@ -215,9 +202,7 @@ extension FragmentEnvironmentCoordinator {
 
 extension FragmentEnvironmentCoordinator {
     func environment(for header: BoxHeader) -> BoxParserRegistry.FragmentEnvironment {
-        guard header.type == BoxType.trackRun,
-              let index = fragmentStack.indices.last
-        else {
+        guard header.type == BoxType.trackRun, let index = fragmentStack.indices.last else {
             return BoxParserRegistry.FragmentEnvironment()
         }
 
@@ -244,40 +229,32 @@ extension FragmentEnvironmentCoordinator {
         if context.defaultSampleFlags == nil {
             context.defaultSampleFlags = defaults?.defaultSampleFlags
         }
-        if context.baseDataOffset == nil,
-           context.header?.defaultBaseIsMoof == true,
-           let moofStart = context.moofStart
+        if context.baseDataOffset == nil, context.header?.defaultBaseIsMoof == true,
+            let moofStart = context.moofStart
         {
             context.baseDataOffset = moofStart
-            if context.dataCursor == nil {
-                context.dataCursor = moofStart
-            }
+            if context.dataCursor == nil { context.dataCursor = moofStart }
         }
         if context.baseDecodeTime == nil {
             context.baseDecodeTime = context.decodeTime?.baseMediaDecodeTime
         }
         if context.nextDecodeTime == nil {
-            context.nextDecodeTime = context.decodeTime?.baseMediaDecodeTime ?? context.baseDecodeTime
+            context.nextDecodeTime =
+                context.decodeTime?.baseMediaDecodeTime ?? context.baseDecodeTime
         }
 
         let environment = BoxParserRegistry.FragmentEnvironment(
-            trackID: context.trackID,
-            sampleDescriptionIndex: context.sampleDescriptionIndex,
+            trackID: context.trackID, sampleDescriptionIndex: context.sampleDescriptionIndex,
             defaultSampleDuration: context.defaultSampleDuration,
             defaultSampleSize: context.defaultSampleSize,
-            defaultSampleFlags: context.defaultSampleFlags,
-            baseDataOffset: context.baseDataOffset,
-            dataCursor: context.dataCursor,
-            nextDecodeTime: context.nextDecodeTime,
+            defaultSampleFlags: context.defaultSampleFlags, baseDataOffset: context.baseDataOffset,
+            dataCursor: context.dataCursor, nextDecodeTime: context.nextDecodeTime,
             baseDecodeTime: context.baseDecodeTime,
             baseDecodeTimeIs64Bit: context.decodeTime?.baseMediaDecodeTimeIs64Bit
-            ?? context.baseDecodeTimeIs64Bit,
+                ?? context.baseDecodeTimeIs64Bit,
             trackExtendsDefaults: context.trackExtendsDefaults ?? defaults,
-            trackFragmentHeader: context.header,
-            trackFragmentDecodeTime: context.decodeTime,
-            runIndex: context.runIndex,
-            nextSampleNumber: context.nextSampleNumber
-        )
+            trackFragmentHeader: context.header, trackFragmentDecodeTime: context.decodeTime,
+            runIndex: context.runIndex, nextSampleNumber: context.nextSampleNumber)
 
         fragmentStack[index] = context
         return environment

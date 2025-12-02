@@ -1,7 +1,7 @@
 import Foundation
 
 #if canImport(CoreGraphics)
-import CoreGraphics
+    import CoreGraphics
 #endif
 
 /// Design System Spacing Tokens
@@ -35,8 +35,8 @@ import CoreGraphics
 /// ## Accessibility
 /// All spacing tokens work correctly with Dynamic Type and maintain
 /// minimum touch target sizes of 44×44pt on iOS.
-public extension DS {
-    enum Spacing {
+extension DS {
+    public enum Spacing {
         /// Extra extra small spacing (4pt) - for inline elements and very tight grouping
         public static let xxs: CGFloat = 4
 
@@ -62,9 +62,9 @@ public extension DS {
         /// - iOS/iPadOS: `l` (16pt) for touch-optimized spacing
         public static var platformDefault: CGFloat {
             #if os(macOS)
-            return m
+                return m
             #else
-            return l
+                return l
             #endif
         }
     }

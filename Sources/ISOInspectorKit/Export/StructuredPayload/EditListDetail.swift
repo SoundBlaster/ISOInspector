@@ -74,8 +74,7 @@ extension StructuredPayload {
             }
 
             private func encodeSecondsValue(
-                _ value: Double?,
-                forKey key: CodingKeys,
+                _ value: Double?, forKey key: CodingKeys,
                 in container: inout KeyedEncodingContainer<CodingKeys>
             ) throws {
                 guard let value, let decimal = Self.decimal(from: value) else { return }

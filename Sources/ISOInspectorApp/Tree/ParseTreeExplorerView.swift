@@ -1,8 +1,8 @@
 import Combine
-import SwiftUI
-import NestedA11yIDs
-import ISOInspectorKit
 import FoundationUI
+import ISOInspectorKit
+import NestedA11yIDs
+import SwiftUI
 
 struct ParseTreeExplorerView: View {
     @ObservedObject var viewModel: DocumentViewModel
@@ -18,10 +18,8 @@ struct ParseTreeExplorerView: View {
     private let focusCatalog = InspectorFocusShortcutCatalog.default
 
     init(
-        viewModel: DocumentViewModel,
-        selectedNodeID: Binding<ParseTreeNode.ID?>,
-        showInspector: Binding<Bool>,
-        focusTarget: FocusState<InspectorFocusTarget?>.Binding,
+        viewModel: DocumentViewModel, selectedNodeID: Binding<ParseTreeNode.ID?>,
+        showInspector: Binding<Bool>, focusTarget: FocusState<InspectorFocusTarget?>.Binding,
         ensureIntegrityViewModel: @escaping () -> Void,
         toggleInspectorVisibility: @escaping () -> Void,
         exportSelectionJSONAction: ((ParseTreeNode.ID) -> Void)? = nil,
@@ -40,105 +38,69 @@ struct ParseTreeExplorerView: View {
     }
 
     var body: some View {
-//        VStack(alignment: .leading, spacing: DS.Spacing.l) {
+        //        VStack(alignment: .leading, spacing: DS.Spacing.l) {
         ScrollView {
 
             header
 
-            explorerColumn
-                .focused(focusTarget, equals: .outline)
-                .padding(.horizontal, DS.Spacing.m)
+            explorerColumn.focused(focusTarget, equals: .outline).padding(.horizontal, DS.Spacing.m)
                 .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.root)
         }
 
         .onAppear {
             focusTarget.wrappedValue = .outline
-            if showInspector {
-                ensureIntegrityViewModel()
-            }
-        }
-        .onChangeCompatibility(of: showInspector) { isShowingIntegrity in
-            if isShowingIntegrity {
-                ensureIntegrityViewModel()
-            }
-        }
-        .background(focusCommands)
+            if showInspector { ensureIntegrityViewModel() }
+        }.onChangeCompatibility(of: showInspector) { isShowingIntegrity in
+            if isShowingIntegrity { ensureIntegrityViewModel() }
+        }.background(focusCommands)
     }
 
     private var explorerColumn: some View {
         ParseTreeOutlineView(
-            viewModel: outlineViewModel,
-            selectedNodeID: $selectedNodeID,
-            annotationSession: annotations,
-            focusTarget: focusTarget,
+            viewModel: outlineViewModel, selectedNodeID: $selectedNodeID,
+            annotationSession: annotations, focusTarget: focusTarget,
             exportSelectionJSONAction: exportSelectionJSONAction,
-            exportSelectionIssueSummaryAction: exportSelectionIssueSummaryAction
-        )
+            exportSelectionIssueSummaryAction: exportSelectionIssueSummaryAction)
     }
 
     private var header: some View {
         HStack {
             VStack(alignment: .leading, spacing: DS.Spacing.xxs) {
-                Text(headerTitle)
-                    .font(.title2)
-                    .bold()
-                    .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.title)
+                Text(headerTitle).font(.title2).bold().nestedAccessibilityIdentifier(
+                    ParseTreeAccessibilityID.Header.title)
 
-                Text(headerSubtitle)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
+                Text(headerSubtitle).font(.subheadline).foregroundColor(.secondary)
                     .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.subtitle)
             }
 
             Spacer()
 
-            ParseStateBadge(state: viewModel.parseState)
-                .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.parseState)
-        }
-        .nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.root)
-        .padding(DS.Spacing.m)
+            ParseStateBadge(state: viewModel.parseState).nestedAccessibilityIdentifier(
+                ParseTreeAccessibilityID.Header.parseState)
+        }.nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Header.root).padding(DS.Spacing.m)
     }
 
-    private var headerTitle: String {
-        "Box Hierarchy"
-    }
+    private var headerTitle: String { "Box Hierarchy" }
 
-    private var headerSubtitle: String {
-        "Search, filter, and expand ISO BMFF boxes"
-    }
+    private var headerSubtitle: String { "Search, filter, and expand ISO BMFF boxes" }
 
     private var focusCommands: some View {
         Group {
             ForEach(focusCatalog.shortcuts) { descriptor in
                 HiddenKeyboardShortcutButton(
                     title: LocalizedStringKey(descriptor.title),
-                    key: keyEquivalent(for: descriptor),
-                    modifiers: [.command, .option]
-                ) {
-                    focusTarget.wrappedValue = descriptor.target
-                }
+                    key: keyEquivalent(for: descriptor), modifiers: [.command, .option]
+                ) { focusTarget.wrappedValue = descriptor.target }
             }
             HiddenKeyboardShortcutButton(
-                title: "Next Issue",
-                key: "e",
-                modifiers: [.command, .shift]
-            ) {
-                navigateToIssue(direction: .down)
-            }
+                title: "Next Issue", key: "e", modifiers: [.command, .shift]
+            ) { navigateToIssue(direction: .down) }
             HiddenKeyboardShortcutButton(
-                title: "Previous Issue",
-                key: "e",
-                modifiers: [.command, .shift, .option]
-            ) {
-                navigateToIssue(direction: .up)
-            }
+                title: "Previous Issue", key: "e", modifiers: [.command, .shift, .option]
+            ) { navigateToIssue(direction: .up) }
             HiddenKeyboardShortcutButton(
-                title: "Toggle Inspector Column",
-                key: "i",
-                modifiers: [.command, .option]
-            ) {
-                toggleInspectorVisibility()
-            }
+                title: "Toggle Inspector Column", key: "i", modifiers: [.command, .option]
+            ) { toggleInspectorVisibility() }
         }
     }
 
@@ -148,10 +110,7 @@ struct ParseTreeExplorerView: View {
 
     private func navigateToIssue(direction: ParseTreeOutlineViewModel.NavigationDirection) {
         guard
-            let targetID = outlineViewModel.issueRowID(
-                after: selectedNodeID,
-                direction: direction
-            )
+            let targetID = outlineViewModel.issueRowID(after: selectedNodeID, direction: direction)
         else { return }
         outlineViewModel.revealNode(withID: targetID)
         focusTarget.wrappedValue = .outline

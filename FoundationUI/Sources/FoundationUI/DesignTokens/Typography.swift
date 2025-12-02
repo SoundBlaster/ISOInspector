@@ -36,8 +36,8 @@ import SwiftUI
 /// - iOS: Larger default sizes for touch readability
 /// - macOS: Smaller default sizes for dense information display
 /// - Both platforms support the full Dynamic Type range
-public extension DS {
-    enum Typography {
+extension DS {
+    public enum Typography {
         /// Label font for badges, chips, and small indicators
         ///
         /// Uses caption2 with semibold weight for emphasis.

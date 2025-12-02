@@ -21,39 +21,35 @@ import Foundation
 /// - File structure: ftyp, mdat, moov (should be ftyp, moov, mdat)
 /// - Progressive download file with metadata at end
 final class MovieDataOrderingRule: BoxValidationRule, @unchecked Sendable {
-  private var hasSeenMovieBox = false
-  private var hasStreamingIndicator = false
+    private var hasSeenMovieBox = false
+    private var hasStreamingIndicator = false
 
-  func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
-    guard case .willStartBox(let header, _) = event.kind else { return [] }
+    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
+        guard case .willStartBox(let header, _) = event.kind else { return [] }
 
-    let type = header.type.rawValue
+        let type = header.type.rawValue
 
-    if Self.streamingIndicatorTypes.contains(type) {
-      hasStreamingIndicator = true
+        if Self.streamingIndicatorTypes.contains(type) { hasStreamingIndicator = true }
+
+        if type == FourCharContainerCode.moov.rawValue {
+            hasSeenMovieBox = true
+            return []
+        }
+
+        guard MediaAndIndexBoxCode.isMediaPayload(type) else { return [] }
+        guard !hasSeenMovieBox, !hasStreamingIndicator else { return [] }
+
+        let message =
+            "Movie data box (mdat) encountered before movie box (moov); ensure initialization metadata precedes media."
+        return [ValidationIssue(ruleID: "VR-005", message: message, severity: .warning)]
     }
 
-    if type == FourCharContainerCode.moov.rawValue {
-      hasSeenMovieBox = true
-      return []
-    }
-
-    guard MediaAndIndexBoxCode.isMediaPayload(type) else { return [] }
-    guard !hasSeenMovieBox, !hasStreamingIndicator else { return [] }
-
-    let message =
-      "Movie data box (mdat) encountered before movie box (moov); ensure initialization metadata precedes media."
-    return [ValidationIssue(ruleID: "VR-005", message: message, severity: .warning)]
-  }
-
-  private static let streamingIndicatorTypes: Set<String> = {
-    var values: Set<String> = [
-      FourCharContainerCode.moof.rawValue,
-      FourCharContainerCode.mvex.rawValue,
-      "ssix",
-      "prft",
-    ]
-    values.formUnion(MediaAndIndexBoxCode.streamingIndicators.map(\.rawValue))
-    return values
-  }()
+    private static let streamingIndicatorTypes: Set<String> = {
+        var values: Set<String> = [
+            FourCharContainerCode.moof.rawValue, FourCharContainerCode.mvex.rawValue, "ssix",
+            "prft",
+        ]
+        values.formUnion(MediaAndIndexBoxCode.streamingIndicators.map(\.rawValue))
+        return values
+    }()
 }

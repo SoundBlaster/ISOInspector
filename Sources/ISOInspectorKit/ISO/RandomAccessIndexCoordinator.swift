@@ -19,7 +19,8 @@ final class RandomAccessIndexCoordinator: @unchecked Sendable {
     }
 
     private var moofStack: [MoofContext] = []
-    private var fragmentsByOffset: [UInt64: BoxParserRegistry.RandomAccessEnvironment.Fragment] = [:]
+    private var fragmentsByOffset: [UInt64: BoxParserRegistry.RandomAccessEnvironment.Fragment] =
+        [:]
     private var mfraStack: [MfraContext] = []
 
     func willStartBox(header: BoxHeader) {
@@ -27,10 +28,8 @@ final class RandomAccessIndexCoordinator: @unchecked Sendable {
         case BoxType.movieFragment:
             let start = header.startOffset >= 0 ? UInt64(header.startOffset) : 0
             moofStack.append(MoofContext(startOffset: start))
-        case BoxType.movieFragmentRandomAccess:
-            mfraStack.append(MfraContext())
-        default:
-            break
+        case BoxType.movieFragmentRandomAccess: mfraStack.append(MfraContext())
+        default: break
         }
     }
 
@@ -38,35 +37,33 @@ final class RandomAccessIndexCoordinator: @unchecked Sendable {
         switch header.type {
         case BoxType.movieFragmentHeader:
             if let index = moofStack.indices.last,
-               let sequence = payload?.movieFragmentHeader?.sequenceNumber
+                let sequence = payload?.movieFragmentHeader?.sequenceNumber
             {
                 moofStack[index].sequenceNumber = sequence
             }
         case BoxType.trackFragmentRandomAccess:
-            if let index = mfraStack.indices.last,
-               let table = payload?.trackFragmentRandomAccess
-            {
+            if let index = mfraStack.indices.last, let table = payload?.trackFragmentRandomAccess {
                 mfraStack[index].trackTables.append(table)
             }
         case BoxType.movieFragmentRandomAccessOffset:
             if let index = mfraStack.indices.last,
-               let offset = payload?.movieFragmentRandomAccessOffset
+                let offset = payload?.movieFragmentRandomAccessOffset
             {
                 mfraStack[index].offset = offset
             }
-        default:
-            break
+        default: break
         }
     }
 
     func didFinishBox(header: BoxHeader, payload: ParsedBoxPayload?) -> ParsedBoxPayload? {
         switch header.type {
         case BoxType.trackFragment:
-            guard let index = moofStack.indices.last,
-                  let summary = payload?.trackFragment
-            else { return nil }
+            guard let index = moofStack.indices.last, let summary = payload?.trackFragment else {
+                return nil
+            }
             var context = moofStack[index]
-            context.trackFragments.append(TrackFragmentRecord(order: context.nextOrder, detail: summary))
+            context.trackFragments.append(
+                TrackFragmentRecord(order: context.nextOrder, detail: summary))
             context.nextOrder &+= 1
             moofStack[index] = context
             return nil
@@ -77,9 +74,7 @@ final class RandomAccessIndexCoordinator: @unchecked Sendable {
                     order: record.order, detail: record.detail)
             }
             let fragment = BoxParserRegistry.RandomAccessEnvironment.Fragment(
-                sequenceNumber: context.sequenceNumber,
-                trackFragments: trackFragments
-            )
+                sequenceNumber: context.sequenceNumber, trackFragments: trackFragments)
             fragmentsByOffset[context.startOffset] = fragment
             return nil
         case BoxType.movieFragmentRandomAccess:
@@ -89,25 +84,19 @@ final class RandomAccessIndexCoordinator: @unchecked Sendable {
                     let times = table.entries.map { $0.time }
                     let earliest = times.min()
                     let latest = times.max()
-                    let fragments = Array(Set(table.entries.compactMap { $0.fragmentSequenceNumber }))
-                        .sorted()
+                    let fragments = Array(
+                        Set(table.entries.compactMap { $0.fragmentSequenceNumber })
+                    ).sorted()
                     return ParsedBoxPayload.MovieFragmentRandomAccessBox.TrackSummary(
-                        trackID: table.trackID,
-                        entryCount: table.entries.count,
-                        earliestTime: earliest,
-                        latestTime: latest,
-                        referencedFragmentSequenceNumbers: fragments
-                    )
+                        trackID: table.trackID, entryCount: table.entries.count,
+                        earliestTime: earliest, latestTime: latest,
+                        referencedFragmentSequenceNumbers: fragments)
                 }
             let total = context.trackTables.reduce(0) { $0 + $1.entries.count }
             let detail = ParsedBoxPayload.MovieFragmentRandomAccessBox(
-                tracks: summaries,
-                totalEntryCount: total,
-                offset: context.offset
-            )
+                tracks: summaries, totalEntryCount: total, offset: context.offset)
             return ParsedBoxPayload(detail: .movieFragmentRandomAccess(detail))
-        default:
-            return nil
+        default: return nil
         }
     }
 
@@ -120,9 +109,7 @@ final class RandomAccessIndexCoordinator: @unchecked Sendable {
                     order: record.order, detail: record.detail)
             }
             mapping[context.startOffset] = BoxParserRegistry.RandomAccessEnvironment.Fragment(
-                sequenceNumber: context.sequenceNumber,
-                trackFragments: fragments
-            )
+                sequenceNumber: context.sequenceNumber, trackFragments: fragments)
         }
         return BoxParserRegistry.RandomAccessEnvironment(fragmentsByMoofOffset: mapping)
     }

@@ -1,9 +1,9 @@
 import SwiftUI
 
 #if canImport(AppKit)
-import AppKit
+    import AppKit
 #elseif canImport(UIKit)
-import UIKit
+    import UIKit
 #endif
 
 /// A component for displaying key-value pairs with semantic styling
@@ -98,10 +98,7 @@ public struct KeyValueRow: View {
     /// VoiceOver will read the content as "key, value".
     /// If copyable is enabled, an additional hint "Double-tap to copy" is provided.
     public init(
-        key: String,
-        value: String,
-        layout: KeyValueLayout = .horizontal,
-        copyable: Bool = false
+        key: String, value: String, layout: KeyValueLayout = .horizontal, copyable: Bool = false
     ) {
         self.key = key
         self.value = value
@@ -114,28 +111,20 @@ public struct KeyValueRow: View {
     public var body: some View {
         Group {
             switch layout {
-            case .horizontal:
-                horizontalLayout
-            case .vertical:
-                verticalLayout
+            case .horizontal: horizontalLayout
+            case .vertical: verticalLayout
             }
-        }
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel("\(key), \(value)")
-        .if(copyable) { view in
-            view.accessibilityHint("Double-tap to copy")
-        }
+        }.accessibilityElement(children: .combine).accessibilityLabel("\(key), \(value)").if(
+            copyable
+        ) { view in view.accessibilityHint("Double-tap to copy") }
     }
 
     // MARK: - Layout Views
 
     /// Horizontal layout: key and value side-by-side
-    @ViewBuilder
-    private var horizontalLayout: some View {
+    @ViewBuilder private var horizontalLayout: some View {
         HStack(spacing: DS.Spacing.m) {
-            Text(key)
-                .font(DS.Typography.body)
-                .foregroundStyle(.secondary)
+            Text(key).font(DS.Typography.body).foregroundStyle(.secondary)
 
             Spacer()
 
@@ -144,40 +133,29 @@ public struct KeyValueRow: View {
     }
 
     /// Vertical layout: key above value
-    @ViewBuilder
-    private var verticalLayout: some View {
+    @ViewBuilder private var verticalLayout: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            Text(key)
-                .font(DS.Typography.caption)
-                .foregroundStyle(.secondary)
+            Text(key).font(DS.Typography.caption).foregroundStyle(.secondary)
 
             valueText
         }
     }
 
     /// The value text with monospaced font and optional copy functionality
-    @ViewBuilder
-    private var valueText: some View {
+    @ViewBuilder private var valueText: some View {
         if copyable {
             Button {
                 copyToClipboard()
             } label: {
                 HStack(spacing: DS.Spacing.s) {
-                    Text(value)
-                        .font(DS.Typography.code)
-                        .foregroundStyle(.primary)
+                    Text(value).font(DS.Typography.code).foregroundStyle(.primary)
 
-                    Image(systemName: isCopying ? "checkmark" : "doc.on.doc")
-                        .font(.caption)
+                    Image(systemName: isCopying ? "checkmark" : "doc.on.doc").font(.caption)
                         .foregroundStyle(.secondary)
                 }
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel("\(value), copyable")
+            }.buttonStyle(.plain).accessibilityLabel("\(value), copyable")
         } else {
-            Text(value)
-                .font(DS.Typography.code)
-                .foregroundStyle(.primary)
+            Text(value).font(DS.Typography.code).foregroundStyle(.primary)
         }
     }
 
@@ -186,17 +164,15 @@ public struct KeyValueRow: View {
     /// Copies the value to the system clipboard
     private func copyToClipboard() {
         #if os(macOS)
-        NSPasteboard.general.clearContents()
-        NSPasteboard.general.setString(value, forType: .string)
+            NSPasteboard.general.clearContents()
+            NSPasteboard.general.setString(value, forType: .string)
         #else
-        UIPasteboard.general.string = value
+            UIPasteboard.general.string = value
         #endif
 
         // Show visual feedback
         isCopying = true
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-            isCopying = false
-        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { isCopying = false }
     }
 }
 
@@ -226,16 +202,10 @@ public enum KeyValueLayout: Equatable {
 
 // MARK: - Conditional View Modifier Helper
 
-private extension View {
+extension View {
     /// Conditionally applies a view modifier
-    @ViewBuilder
-    func `if`(_ condition: Bool, transform: (Self) -> some View)
-    -> some View {
-        if condition {
-            transform(self)
-        } else {
-            self
-        }
+    @ViewBuilder private func `if`(_ condition: Bool, transform: (Self) -> some View) -> some View {
+        if condition { transform(self) } else { self }
     }
 }
 
@@ -247,8 +217,7 @@ private extension View {
         KeyValueRow(key: "Size", value: "1024 bytes")
         KeyValueRow(key: "Offset", value: "0x00001234")
         KeyValueRow(key: "Duration", value: "5:32")
-    }
-    .padding()
+    }.padding()
 }
 
 #Preview("KeyValueRow - Vertical Layout") {
@@ -256,20 +225,15 @@ private extension View {
         KeyValueRow(
             key: "Description",
             value: "This is a very long description that works better in vertical layout",
-            layout: .vertical
-        )
+            layout: .vertical)
         KeyValueRow(
-            key: "Full Path",
-            value: "/Users/username/Documents/Projects/ISOInspector/test.iso",
-            layout: .vertical
-        )
+            key: "Full Path", value: "/Users/username/Documents/Projects/ISOInspector/test.iso",
+            layout: .vertical)
         KeyValueRow(
             key: "Hash",
             value: "sha256:a3b5c7d9e1f2a4b6c8d0e2f4a6b8c0d2e4f6a8b0c2d4e6f8a0b2c4d6e8f0a2b4",
-            layout: .vertical
-        )
-    }
-    .padding()
+            layout: .vertical)
+    }.padding()
 }
 
 #Preview("KeyValueRow - Copyable") {
@@ -278,22 +242,15 @@ private extension View {
         KeyValueRow(key: "Size", value: "1024 bytes", copyable: true)
         KeyValueRow(key: "Offset", value: "0x00001234", copyable: true)
         KeyValueRow(key: "Hash", value: "0xDEADBEEF", copyable: true)
-    }
-    .padding()
+    }.padding()
 }
 
 #Preview("KeyValueRow - Dark Mode") {
     VStack(alignment: .leading, spacing: DS.Spacing.m) {
         KeyValueRow(key: "Type", value: "ftyp")
         KeyValueRow(key: "Size", value: "1024 bytes", copyable: true)
-        KeyValueRow(
-            key: "Description",
-            value: "Long description in dark mode",
-            layout: .vertical
-        )
-    }
-    .padding()
-    .preferredColorScheme(.dark)
+        KeyValueRow(key: "Description", value: "Long description in dark mode", layout: .vertical)
+    }.padding().preferredColorScheme(.dark)
 }
 
 #Preview("KeyValueRow - Real World Usage") {
@@ -317,8 +274,7 @@ private extension View {
                 KeyValueRow(
                     key: "Description",
                     value: "File Type Box - defines brand and version compatibility",
-                    layout: .vertical
-                )
+                    layout: .vertical)
             }
 
             SectionHeader(title: "Technical Data")
@@ -327,23 +283,17 @@ private extension View {
                 KeyValueRow(key: "Major Brand", value: "isom", copyable: true)
                 KeyValueRow(key: "Minor Version", value: "512", copyable: true)
                 KeyValueRow(
-                    key: "Compatible Brands",
-                    value: "isom, iso2, avc1, mp41",
-                    layout: .vertical,
-                    copyable: true
-                )
+                    key: "Compatible Brands", value: "isom, iso2, avc1, mp41", layout: .vertical,
+                    copyable: true)
             }
-        }
-        .padding()
+        }.padding()
     }
 }
 
 #Preview("KeyValueRow - Platform Comparison") {
     VStack(spacing: DS.Spacing.xl) {
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            Text("iOS/iPadOS Style")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Text("iOS/iPadOS Style").font(.caption).foregroundStyle(.secondary)
 
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 KeyValueRow(key: "Type", value: "ftyp")
@@ -352,34 +302,25 @@ private extension View {
         }
 
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            Text("macOS Style")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Text("macOS Style").font(.caption).foregroundStyle(.secondary)
 
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 KeyValueRow(key: "Type", value: "ftyp")
                 KeyValueRow(key: "Size", value: "1024 bytes", copyable: true)
             }
         }
-    }
-    .padding()
+    }.padding()
 }
 
 // MARK: - AgentDescribable Conformance
 
-@available(iOS 17.0, macOS 14.0, *)
-@MainActor
-extension KeyValueRow: AgentDescribable {
-    public var componentType: String {
-        "KeyValueRow"
-    }
+@available(iOS 17.0, macOS 14.0, *) @MainActor extension KeyValueRow: AgentDescribable {
+    public var componentType: String { "KeyValueRow" }
 
     public var properties: [String: Any] {
         [
-            "key": key,
-            "value": value,
-            "layout": layout == .horizontal ? "horizontal" : "vertical",
-            "isCopyable": copyable
+            "key": key, "value": value, "layout": layout == .horizontal ? "horizontal" : "vertical",
+            "isCopyable": copyable,
         ]
     }
 

@@ -1,9 +1,9 @@
 import SwiftUI
 
 #if canImport(UIKit)
-import UIKit
+    import UIKit
 #elseif canImport(AppKit)
-import AppKit
+    import AppKit
 #endif
 
 // MARK: - AccessibilityContext
@@ -68,10 +68,8 @@ public struct AccessibilityContext: Equatable, Sendable {
     ///   - prefersBoldText: Whether bold text should be used.
     ///   - dynamicTypeSize: The dynamic type size to apply.
     public init(
-        prefersReducedMotion: Bool = false,
-        prefersIncreasedContrast: Bool = false,
-        prefersBoldText: Bool = false,
-        dynamicTypeSize: DynamicTypeSize = .large
+        prefersReducedMotion: Bool = false, prefersIncreasedContrast: Bool = false,
+        prefersBoldText: Bool = false, dynamicTypeSize: DynamicTypeSize = .large
     ) {
         self.prefersReducedMotion = prefersReducedMotion
         self.prefersIncreasedContrast = prefersIncreasedContrast
@@ -86,25 +84,19 @@ public struct AccessibilityContext: Equatable, Sendable {
     /// - Parameter animation: The base animation to evaluate.
     /// - Returns: The provided animation or `nil` when motion should be avoided.
     public func animation(for animation: Animation) -> Animation? {
-        guard !prefersReducedMotion else {
-            return nil
-        }
+        guard !prefersReducedMotion else { return nil }
         return animation
     }
 
     // MARK: - Typography Support
 
     /// Preferred font weight derived from the bold text preference.
-    public var preferredFontWeight: Font.Weight {
-        prefersBoldText ? .bold : .regular
-    }
+    public var preferredFontWeight: Font.Weight { prefersBoldText ? .bold : .regular }
 
     // MARK: - Spacing Support
 
     /// Baseline spacing that respects contrast and dynamic type preferences.
-    public var preferredSpacing: CGFloat {
-        spacing(for: DS.Spacing.m)
-    }
+    public var preferredSpacing: CGFloat { spacing(for: DS.Spacing.m) }
 
     /// Returns spacing derived from DS tokens, adjusted for accessibility preferences.
     ///
@@ -113,23 +105,17 @@ public struct AccessibilityContext: Equatable, Sendable {
     public func spacing(for baseSpacing: CGFloat) -> CGFloat {
         var spacing = baseSpacing
 
-        if prefersIncreasedContrast {
-            spacing = max(spacing, DS.Spacing.l)
-        }
+        if prefersIncreasedContrast { spacing = max(spacing, DS.Spacing.l) }
 
-        if dynamicTypeSize.isAccessibilityCategory {
-            spacing = max(spacing, DS.Spacing.xl)
-        }
+        if dynamicTypeSize.isAccessibilityCategory { spacing = max(spacing, DS.Spacing.xl) }
 
         return spacing
     }
 }
 
-private extension DynamicTypeSize {
+extension DynamicTypeSize {
     /// Indicates whether the dynamic type size is an accessibility category.
-    var isAccessibilityCategory: Bool {
-        self >= .accessibility1
-    }
+    private var isAccessibilityCategory: Bool { self >= .accessibility1 }
 }
 
 /// Overrides that can be applied to the derived accessibility context.
@@ -143,10 +129,8 @@ struct AccessibilityContextOverrides: Equatable, Sendable {
     var dynamicTypeSize: DynamicTypeSize?
 
     init(
-        prefersReducedMotion: Bool? = nil,
-        prefersIncreasedContrast: Bool? = nil,
-        prefersBoldText: Bool? = nil,
-        dynamicTypeSize: DynamicTypeSize? = nil
+        prefersReducedMotion: Bool? = nil, prefersIncreasedContrast: Bool? = nil,
+        prefersBoldText: Bool? = nil, dynamicTypeSize: DynamicTypeSize? = nil
     ) {
         self.prefersReducedMotion = prefersReducedMotion
         self.prefersIncreasedContrast = prefersIncreasedContrast
@@ -172,18 +156,15 @@ extension EnvironmentValues {
     }
 }
 
-@MainActor
-public extension EnvironmentValues {
+@MainActor extension EnvironmentValues {
     /// Accessibility preferences used by FoundationUI components.
     ///
     /// This property is isolated to the MainActor because it accesses
     /// `baselinePrefersIncreasedContrast`, which requires main thread access
     /// to UIKit/AppKit accessibility APIs.
-    var accessibilityContext: AccessibilityContext {
+    public var accessibilityContext: AccessibilityContext {
         get {
-            if let storedContext = self[AccessibilityContextKey.self] {
-                return storedContext
-            }
+            if let storedContext = self[AccessibilityContextKey.self] { return storedContext }
 
             let overrides = accessibilityContextOverrides
             let resolvedPrefersReducedMotion =
@@ -196,33 +177,28 @@ public extension EnvironmentValues {
             return AccessibilityContext(
                 prefersReducedMotion: resolvedPrefersReducedMotion,
                 prefersIncreasedContrast: resolvedPrefersIncreasedContrast,
-                prefersBoldText: resolvedPrefersBoldText,
-                dynamicTypeSize: resolvedDynamicTypeSize
-            )
+                prefersBoldText: resolvedPrefersBoldText, dynamicTypeSize: resolvedDynamicTypeSize)
         }
-        set {
-            self[AccessibilityContextKey.self] = newValue
-        }
+        set { self[AccessibilityContextKey.self] = newValue }
     }
 }
 
-@MainActor
-private extension EnvironmentValues {
+@MainActor extension EnvironmentValues {
     /// Determines whether the environment requests increased contrast.
     ///
     /// This property is isolated to the MainActor because it accesses
     /// MainActor-isolated APIs from UIKit and AppKit:
     /// - `UIAccessibility.isDarkerSystemColorsEnabled` (iOS/tvOS)
     /// - `NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast` (macOS)
-    var baselinePrefersIncreasedContrast: Bool {
+    private var baselinePrefersIncreasedContrast: Bool {
         #if canImport(UIKit)
-        if #available(iOS 13.0, tvOS 13.0, *) {
-            return UIAccessibility.isDarkerSystemColorsEnabled
-        }
+            if #available(iOS 13.0, tvOS 13.0, *) {
+                return UIAccessibility.isDarkerSystemColorsEnabled
+            }
         #elseif canImport(AppKit)
-        if #available(macOS 10.10, *) {
-            return NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast
-        }
+            if #available(macOS 10.10, *) {
+                return NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast
+            }
         #endif
 
         return accessibilityDifferentiateWithoutColor
@@ -233,13 +209,12 @@ private struct AccessibilityContextModifier: ViewModifier {
     let context: AccessibilityContext
 
     func body(content: Content) -> some View {
-        content
-            .environment(\.accessibilityContext, context)
-            .dynamicTypeSize(context.dynamicTypeSize)
+        content.environment(\.accessibilityContext, context).dynamicTypeSize(
+            context.dynamicTypeSize)
     }
 }
 
-public extension View {
+extension View {
     /// Applies the provided accessibility context to the view hierarchy.
     ///
     /// The modifier stores the context in the environment and sets the
@@ -248,7 +223,7 @@ public extension View {
     ///
     /// - Parameter context: The accessibility context to apply.
     /// - Returns: A view configured with the provided accessibility context.
-    func accessibilityContext(_ context: AccessibilityContext) -> some View {
+    public func accessibilityContext(_ context: AccessibilityContext) -> some View {
         modifier(AccessibilityContextModifier(context: context))
     }
 }

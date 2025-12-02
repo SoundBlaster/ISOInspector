@@ -14,53 +14,37 @@ import Foundation
 /// - Fragment validation for segmented/streaming files
 /// - Ordering and layout best practices
 struct BoxValidator: Sendable {
-  private let rules: [any BoxValidationRule]
+    private let rules: [any BoxValidationRule]
 
-  /// Creates a validator with the specified rules.
-  ///
-  /// - Parameter rules: Array of validation rules to apply. Defaults to all standard rules.
-  init(rules: [any BoxValidationRule] = BoxValidator.defaultRules) {
-    self.rules = rules
-  }
+    /// Creates a validator with the specified rules.
+    ///
+    /// - Parameter rules: Array of validation rules to apply. Defaults to all standard rules.
+    init(rules: [any BoxValidationRule] = BoxValidator.defaultRules) { self.rules = rules }
 
-  /// Applies all validation rules to a parse event and returns an annotated event.
-  ///
-  /// - Parameters:
-  ///   - event: The parse event to validate
-  ///   - reader: Random access reader for inspecting box payload data
-  /// - Returns: Parse event with validation issues attached (if any were found)
-  func annotate(event: ParseEvent, reader: RandomAccessReader) -> ParseEvent {
-    let issues = rules.flatMap { $0.issues(for: event, reader: reader) }
-    guard !issues.isEmpty else {
-      return event
+    /// Applies all validation rules to a parse event and returns an annotated event.
+    ///
+    /// - Parameters:
+    ///   - event: The parse event to validate
+    ///   - reader: Random access reader for inspecting box payload data
+    /// - Returns: Parse event with validation issues attached (if any were found)
+    func annotate(event: ParseEvent, reader: RandomAccessReader) -> ParseEvent {
+        let issues = rules.flatMap { $0.issues(for: event, reader: reader) }
+        guard !issues.isEmpty else { return event }
+        return ParseEvent(
+            kind: event.kind, offset: event.offset, metadata: event.metadata,
+            payload: event.payload, validationIssues: issues, issues: event.issues)
     }
-    return ParseEvent(
-      kind: event.kind,
-      offset: event.offset,
-      metadata: event.metadata,
-      payload: event.payload,
-      validationIssues: issues,
-      issues: event.issues
-    )
-  }
 }
 
 extension BoxValidator {
-  /// Default set of validation rules covering ISO base media file format compliance.
-  fileprivate static var defaultRules: [any BoxValidationRule] {
-    [
-      StructuralSizeRule(),
-      ContainerBoundaryRule(),
-      FileTypeOrderingRule(),
-      MovieDataOrderingRule(),
-      TopLevelOrderingAdvisoryRule(),
-      VersionFlagsRule(),
-      EditListValidationRule(),
-      SampleTableCorrelationRule(),
-      CodecConfigurationValidationRule(),
-      FragmentSequenceRule(),
-      FragmentRunValidationRule(),
-      UnknownBoxRule(),
-    ]
-  }
+    /// Default set of validation rules covering ISO base media file format compliance.
+    fileprivate static var defaultRules: [any BoxValidationRule] {
+        [
+            StructuralSizeRule(), ContainerBoundaryRule(), FileTypeOrderingRule(),
+            MovieDataOrderingRule(), TopLevelOrderingAdvisoryRule(), VersionFlagsRule(),
+            EditListValidationRule(), SampleTableCorrelationRule(),
+            CodecConfigurationValidationRule(), FragmentSequenceRule(), FragmentRunValidationRule(),
+            UnknownBoxRule(),
+        ]
+    }
 }

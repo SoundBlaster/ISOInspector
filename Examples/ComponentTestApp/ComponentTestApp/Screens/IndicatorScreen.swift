@@ -21,11 +21,10 @@ struct IndicatorScreen: View {
         ScrollView {
             VStack(alignment: .leading, spacing: DS.Spacing.xl) {
                 VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                    Text("Indicator Component")
-                        .font(DS.Typography.title)
-                    Text("Semantic, tooltip-enabled status dots that mirror Badge levels for compact surfaces such as inspectors and tables.")
-                        .font(DS.Typography.body)
-                        .foregroundStyle(.secondary)
+                    Text("Indicator Component").font(DS.Typography.title)
+                    Text(
+                        "Semantic, tooltip-enabled status dots that mirror Badge levels for compact surfaces such as inspectors and tables."
+                    ).font(DS.Typography.body).foregroundStyle(.secondary)
                 }
 
                 Divider()
@@ -43,35 +42,28 @@ struct IndicatorScreen: View {
                 Divider()
 
                 apiSection
-            }
-            .padding(DS.Spacing.l)
-            .indicatorTooltipStyle(tooltipStyle)
-        }
-        .navigationTitle("Indicator Component")
-        #if os(macOS)
+            }.padding(DS.Spacing.l).indicatorTooltipStyle(tooltipStyle)
+        }.navigationTitle("Indicator Component")#if os(macOS)
             .frame(minWidth: 600, minHeight: 500)
-        #endif
+            #endif
     }
 
     private var controlsSection: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Controls")
-                .font(DS.Typography.subheadline)
+            Text("Controls").font(DS.Typography.subheadline)
 
             Picker("Level", selection: $selectedLevel) {
                 Text("Info").tag(BadgeLevel.info)
                 Text("Warning").tag(BadgeLevel.warning)
                 Text("Error").tag(BadgeLevel.error)
                 Text("Success").tag(BadgeLevel.success)
-            }
-            .pickerStyle(.segmented)
+            }.pickerStyle(.segmented)
 
             Picker("Size", selection: $selectedSize) {
                 Text("Mini").tag(Indicator.Size.mini)
                 Text("Small").tag(Indicator.Size.small)
                 Text("Medium").tag(Indicator.Size.medium)
-            }
-            .pickerStyle(.segmented)
+            }.pickerStyle(.segmented)
 
             Toggle("Include Reason (VoiceOver hint)", isOn: $includeReason)
             Toggle("Include Tooltip", isOn: $includeTooltip)
@@ -81,87 +73,89 @@ struct IndicatorScreen: View {
                 Text("Text").tag(Indicator.TooltipStyle.text)
                 Text("Badge").tag(Indicator.TooltipStyle.badge)
                 Text("Disabled").tag(Indicator.TooltipStyle.none)
-            }
-            .pickerStyle(.segmented)
-            .disabled(!includeTooltip)
+            }.pickerStyle(.segmented).disabled(!includeTooltip)
         }
     }
 
     private var showcaseSection: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.l) {
-            Text("Live Preview")
-                .font(DS.Typography.subheadline)
+            Text("Live Preview").font(DS.Typography.subheadline)
 
             HStack(spacing: DS.Spacing.l) {
-                Indicator(level: selectedLevel, size: selectedSize, reason: sampleReason, tooltip: sampleTooltip)
+                Indicator(
+                    level: selectedLevel, size: selectedSize, reason: sampleReason,
+                    tooltip: sampleTooltip)
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
                     Text("Level: \(levelLabel(selectedLevel))")
                     Text("Size: \(sizeLabel(selectedSize))")
                     Text("Reason: \(sampleReason ?? "None")")
                     Text("Tooltip: \(includeTooltip ? "Enabled" : "None")")
-                }
-                .font(DS.Typography.caption)
+                }.font(DS.Typography.caption)
             }
 
-            Text("All Variants")
-                .font(DS.Typography.subheadline)
+            Text("All Variants").font(DS.Typography.subheadline)
 
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 ForEach(Indicator.Size.allCases, id: \.self) { size in
                     HStack(spacing: DS.Spacing.l) {
-                        Text(sizeLabel(size))
-                            .font(DS.Typography.body)
-                            .frame(width: 80, alignment: .leading)
+                        Text(sizeLabel(size)).font(DS.Typography.body).frame(
+                            width: 80, alignment: .leading)
                         HStack(spacing: DS.Spacing.m) {
-                            Indicator(level: .info, size: size, reason: "Healthy", tooltip: .text("All checks passed"))
-                            Indicator(level: .warning, size: size, reason: "Warning found", tooltip: .text("Needs review"))
-                            Indicator(level: .error, size: size, reason: "Blocking issue", tooltip: .badge(text: "Failed validation", level: .error))
-                            Indicator(level: .success, size: size, reason: "Complete", tooltip: .badge(text: "Tests passed", level: .success))
+                            Indicator(
+                                level: .info, size: size, reason: "Healthy",
+                                tooltip: .text("All checks passed"))
+                            Indicator(
+                                level: .warning, size: size, reason: "Warning found",
+                                tooltip: .text("Needs review"))
+                            Indicator(
+                                level: .error, size: size, reason: "Blocking issue",
+                                tooltip: .badge(text: "Failed validation", level: .error))
+                            Indicator(
+                                level: .success, size: size, reason: "Complete",
+                                tooltip: .badge(text: "Tests passed", level: .success))
                         }
                     }
                 }
             }
 
-            CodeSnippetView(code: """
-            Indicator(
-                level: .\(levelLabel(selectedLevel, lowercase: true)),
-                size: .\(sizeLabel(selectedSize, lowercase: true)),
-                reason: \(reasonSnippet),
-                tooltip: \(tooltipSnippet)
-            )
-            """)
+            CodeSnippetView(
+                code: """
+                    Indicator(
+                        level: .\(levelLabel(selectedLevel, lowercase: true)),
+                        size: .\(sizeLabel(selectedSize, lowercase: true)),
+                        reason: \(reasonSnippet),
+                        tooltip: \(tooltipSnippet)
+                    )
+                    """)
         }
     }
 
     private var accessibilitySection: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Accessibility & Guidance")
-                .font(DS.Typography.subheadline)
+            Text("Accessibility & Guidance").font(DS.Typography.subheadline)
 
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
                 Text("• Touch targets expand to meet HIG guidance (44×44pt on touch platforms).")
                 Text("• VoiceOver label combines level with optional reason text.")
                 Text("• Tooltip content becomes the accessibility hint when no reason is supplied.")
                 Text("• Animations respect Reduce Motion preferences.")
-            }
-            .font(DS.Typography.caption)
-            .foregroundStyle(.secondary)
+            }.font(DS.Typography.caption).foregroundStyle(.secondary)
         }
     }
 
     private var apiSection: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Component API")
-                .font(DS.Typography.subheadline)
+            Text("Component API").font(DS.Typography.subheadline)
 
-            CodeSnippetView(code: """
-            Indicator(
-                level: BadgeLevel,
-                size: Indicator.Size = .small,
-                reason: String? = nil,
-                tooltip: Indicator.Tooltip? = nil
-            )
-            """)
+            CodeSnippetView(
+                code: """
+                    Indicator(
+                        level: BadgeLevel,
+                        size: Indicator.Size = .small,
+                        reason: String? = nil,
+                        tooltip: Indicator.Tooltip? = nil
+                    )
+                    """)
         }
     }
 
@@ -186,24 +180,18 @@ struct IndicatorScreen: View {
         return lowercase ? label.lowercased() : label
     }
 
-    private var reasonSnippet: String {
-        sampleReason.map { "\"\($0)\"" } ?? "nil"
-    }
+    private var reasonSnippet: String { sampleReason.map { "\"\($0)\"" } ?? "nil" }
 
     private var tooltipSnippet: String {
         guard includeTooltip else { return "nil" }
         let level = levelLabel(selectedLevel, lowercase: true)
         return """
-Indicator.Tooltip.badge(
-    text: "\(selectedLevel.accessibilityLabel) detected",
-    level: .\(level)
-)
-"""
+            Indicator.Tooltip.badge(
+                text: "\(selectedLevel.accessibilityLabel) detected",
+                level: .\(level)
+            )
+            """
     }
 }
 
-#Preview {
-    NavigationStack {
-        IndicatorScreen()
-    }
-}
+#Preview { NavigationStack { IndicatorScreen() } }

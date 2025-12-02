@@ -10,8 +10,8 @@
 /// - Keyboard navigation
 /// - Collapse/expand sidebar (macOS)
 
-import SwiftUI
 import FoundationUI
+import SwiftUI
 
 struct SidebarPatternScreen: View {
     /// Currently selected item ID
@@ -23,159 +23,90 @@ struct SidebarPatternScreen: View {
             title: "Design Tokens",
             items: [
                 SidebarPattern.Item(
-                    id: "spacing",
-                    title: "Spacing",
-                    iconSystemName: "arrow.left.and.right"
-                ),
+                    id: "spacing", title: "Spacing", iconSystemName: "arrow.left.and.right"),
                 SidebarPattern.Item(
-                    id: "colors",
-                    title: "Colors",
-                    iconSystemName: "paintpalette.fill"
-                ),
+                    id: "colors", title: "Colors", iconSystemName: "paintpalette.fill"),
                 SidebarPattern.Item(
-                    id: "typography",
-                    title: "Typography",
-                    iconSystemName: "textformat"
-                ),
+                    id: "typography", title: "Typography", iconSystemName: "textformat"),
                 SidebarPattern.Item(
-                    id: "radius",
-                    title: "Radius",
-                    iconSystemName: "circle.grid.cross"
-                ),
+                    id: "radius", title: "Radius", iconSystemName: "circle.grid.cross"),
                 SidebarPattern.Item(
-                    id: "animation",
-                    title: "Animation",
-                    iconSystemName: "waveform.path"
-                )
-            ]
-        ),
+                    id: "animation", title: "Animation", iconSystemName: "waveform.path"),
+            ]),
         SidebarPattern.Section(
             title: "View Modifiers",
             items: [
                 SidebarPattern.Item(
-                    id: "badgeChipStyle",
-                    title: "BadgeChipStyle",
-                    iconSystemName: "tag.fill"
-                ),
+                    id: "badgeChipStyle", title: "BadgeChipStyle", iconSystemName: "tag.fill"),
                 SidebarPattern.Item(
-                    id: "cardStyle",
-                    title: "CardStyle",
-                    iconSystemName: "rectangle.fill"
-                ),
+                    id: "cardStyle", title: "CardStyle", iconSystemName: "rectangle.fill"),
                 SidebarPattern.Item(
-                    id: "interactiveStyle",
-                    title: "InteractiveStyle",
-                    iconSystemName: "hand.tap.fill"
-                ),
+                    id: "interactiveStyle", title: "InteractiveStyle",
+                    iconSystemName: "hand.tap.fill"),
                 SidebarPattern.Item(
-                    id: "surfaceStyle",
-                    title: "SurfaceStyle",
-                    iconSystemName: "square.3.layers.3d"
-                )
-            ]
-        ),
+                    id: "surfaceStyle", title: "SurfaceStyle", iconSystemName: "square.3.layers.3d"),
+            ]),
         SidebarPattern.Section(
             title: "Components",
             items: [
+                SidebarPattern.Item(id: "badge", title: "Badge", iconSystemName: "tag.fill"),
+                SidebarPattern.Item(id: "card", title: "Card", iconSystemName: "rectangle.fill"),
                 SidebarPattern.Item(
-                    id: "badge",
-                    title: "Badge",
-                    iconSystemName: "tag.fill"
+                    id: "keyValueRow", title: "KeyValueRow", iconSystemName: "list.bullet.rectangle"
                 ),
                 SidebarPattern.Item(
-                    id: "card",
-                    title: "Card",
-                    iconSystemName: "rectangle.fill"
-                ),
+                    id: "sectionHeader", title: "SectionHeader",
+                    iconSystemName: "text.justify.leading"),
                 SidebarPattern.Item(
-                    id: "keyValueRow",
-                    title: "KeyValueRow",
-                    iconSystemName: "list.bullet.rectangle"
-                ),
-                SidebarPattern.Item(
-                    id: "sectionHeader",
-                    title: "SectionHeader",
-                    iconSystemName: "text.justify.leading"
-                ),
-                SidebarPattern.Item(
-                    id: "copyableText",
-                    title: "CopyableText",
-                    iconSystemName: "doc.on.doc"
-                )
-            ]
-        ),
+                    id: "copyableText", title: "CopyableText", iconSystemName: "doc.on.doc"),
+            ]),
         SidebarPattern.Section(
             title: "Patterns",
             items: [
                 SidebarPattern.Item(
-                    id: "inspector",
-                    title: "InspectorPattern",
-                    iconSystemName: "sidebar.right"
-                ),
+                    id: "inspector", title: "InspectorPattern", iconSystemName: "sidebar.right"),
                 SidebarPattern.Item(
-                    id: "sidebar",
-                    title: "SidebarPattern",
-                    iconSystemName: "sidebar.left"
-                ),
+                    id: "sidebar", title: "SidebarPattern", iconSystemName: "sidebar.left"),
                 SidebarPattern.Item(
-                    id: "toolbar",
-                    title: "ToolbarPattern",
-                    iconSystemName: "menubar.rectangle"
-                ),
+                    id: "toolbar", title: "ToolbarPattern", iconSystemName: "menubar.rectangle"),
                 SidebarPattern.Item(
-                    id: "boxTree",
-                    title: "BoxTreePattern",
-                    iconSystemName: "list.bullet.indent"
-                )
-            ]
-        )
+                    id: "boxTree", title: "BoxTreePattern", iconSystemName: "list.bullet.indent"),
+            ]),
     ]
 
     var body: some View {
-        SidebarPattern(
-            sections: libraryItems,
-            selection: $selectedItemID
-        ) { itemID in
+        SidebarPattern(sections: libraryItems, selection: $selectedItemID) { itemID in
             // Detail view builder - handles optional selection
             AnyView(detailView(for: itemID))
-        }
-        .navigationTitle("SidebarPattern")
+        }.navigationTitle("SidebarPattern")
     }
 }
 
 extension SidebarPatternScreen {
 
     /// Returns the detail view for the given item ID
-    @ViewBuilder
-    private func detailView(for itemID: String?) -> some View {
+    @ViewBuilder private func detailView(for itemID: String?) -> some View {
         if let itemID = itemID {
             ComponentDetailView(
-                itemID: itemID,
-                title: itemTitle(for: itemID),
-                description: itemDescription(for: itemID),
-                icon: itemIcon(for: itemID)
-            )
+                itemID: itemID, title: itemTitle(for: itemID),
+                description: itemDescription(for: itemID), icon: itemIcon(for: itemID))
         } else {
             // No selection - show placeholder
             VStack(spacing: DS.Spacing.xl) {
-                Image(systemName: "sidebar.left")
-                    .font(.system(size: 64))
-                    .foregroundStyle(.secondary)
-                    .padding(.top, DS.Spacing.xl)
+                Image(systemName: "sidebar.left").font(.system(size: 64)).foregroundStyle(
+                    .secondary
+                ).padding(.top, DS.Spacing.xl)
 
-                Text("Select an item from the sidebar")
-                    .font(DS.Typography.title)
-                    .foregroundStyle(.secondary)
+                Text("Select an item from the sidebar").font(DS.Typography.title).foregroundStyle(
+                    .secondary)
 
-                Text("Browse Design Tokens, Modifiers, Components, and Patterns")
-                    .font(DS.Typography.body)
-                    .foregroundStyle(.tertiary)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, DS.Spacing.xl)
+                Text("Browse Design Tokens, Modifiers, Components, and Patterns").font(
+                    DS.Typography.body
+                ).foregroundStyle(.tertiary).multilineTextAlignment(.center).padding(
+                    .horizontal, DS.Spacing.xl)
 
                 Spacer()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            }.frame(maxWidth: .infinity, maxHeight: .infinity)
         }
     }
 }
@@ -184,9 +115,7 @@ extension SidebarPatternScreen {
     // Helper functions to get item metadata
     private func itemTitle(for id: String) -> String {
         for section in libraryItems {
-            if let item = section.items.first(where: { $0.id == id }) {
-                return item.title
-            }
+            if let item = section.items.first(where: { $0.id == id }) { return item.title }
         }
         return "Unknown"
     }
@@ -236,65 +165,40 @@ struct ComponentDetailView: View {
     var body: some View {
         VStack(spacing: DS.Spacing.xl) {
             // Icon
-            Image(systemName: icon)
-                .font(.system(size: 64))
-                .foregroundStyle(DS.Colors.accent)
+            Image(systemName: icon).font(.system(size: 64)).foregroundStyle(DS.Colors.accent)
                 .padding(.top, DS.Spacing.xl)
 
             // Title
-            Text(title)
-                .font(DS.Typography.title)
-                .fontWeight(.semibold)
+            Text(title).font(DS.Typography.title).fontWeight(.semibold)
 
             // Description
-            Text(description)
-                .font(DS.Typography.body)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, DS.Spacing.xl)
+            Text(description).font(DS.Typography.body).foregroundStyle(.secondary)
+                .multilineTextAlignment(.center).padding(.horizontal, DS.Spacing.xl)
 
             metadataCard
 
             Spacer()
 
             // Usage Hint
-            Text("This is a demonstration of SidebarPattern")
-                .font(DS.Typography.caption)
-                .foregroundStyle(.tertiary)
-                .padding(.bottom, DS.Spacing.l)
-        }
-        .frame(maxWidth: .infinity)
+            Text("This is a demonstration of SidebarPattern").font(DS.Typography.caption)
+                .foregroundStyle(.tertiary).padding(.bottom, DS.Spacing.l)
+        }.frame(maxWidth: .infinity)
     }
 }
 
 extension ComponentDetailView {
-    @ViewBuilder
-    private var metadataCard: some View {
+    @ViewBuilder private var metadataCard: some View {
         Card(elevation: .low, cornerRadius: DS.Radius.card) {
             VStack(spacing: DS.Spacing.m) {
                 SectionHeader(title: "Details", showDivider: false)
 
-                KeyValueRow(
-                    key: "Component ID",
-                    value: itemID,
-                    copyable: true
-                )
+                KeyValueRow(key: "Component ID", value: itemID, copyable: true)
 
-                KeyValueRow(
-                    key: "Type",
-                    value: componentType(for: itemID),
-                    copyable: false
-                )
+                KeyValueRow(key: "Type", value: componentType(for: itemID), copyable: false)
 
-                KeyValueRow(
-                    key: "Layer",
-                    value: componentLayer(for: itemID),
-                    copyable: false
-                )
-            }
-            .padding(DS.Spacing.l)
-        }
-        .padding(.horizontal, DS.Spacing.l)
+                KeyValueRow(key: "Layer", value: componentLayer(for: itemID), copyable: false)
+            }.padding(DS.Spacing.l)
+        }.padding(.horizontal, DS.Spacing.l)
     }
 }
 
@@ -329,29 +233,15 @@ extension ComponentDetailView {
 
 // MARK: - Previews
 
-#Preview("Light Mode") {
-    NavigationStack {
-        SidebarPatternScreen()
-            .preferredColorScheme(.light)
-    }
-}
+#Preview("Light Mode") { NavigationStack { SidebarPatternScreen().preferredColorScheme(.light) } }
 
-#Preview("Dark Mode") {
-    NavigationStack {
-        SidebarPatternScreen()
-            .preferredColorScheme(.dark)
-    }
-}
+#Preview("Dark Mode") { NavigationStack { SidebarPatternScreen().preferredColorScheme(.dark) } }
 
 #Preview("With Selection") {
     struct PreviewWrapper: View {
         @State private var selection: String? = "badge"
 
-        var body: some View {
-            NavigationStack {
-                SidebarPatternScreen()
-            }
-        }
+        var body: some View { NavigationStack { SidebarPatternScreen() } }
     }
 
     return PreviewWrapper()

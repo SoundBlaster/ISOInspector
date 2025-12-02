@@ -42,14 +42,10 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     /// All colors are WCAG 2.1 AA compliant with ≥4.5:1 contrast ratio.
     public var backgroundColor: Color {
         switch self {
-        case .info:
-            DS.Colors.infoBG
-        case .warning:
-            DS.Colors.warnBG
-        case .error:
-            DS.Colors.errorBG
-        case .success:
-            DS.Colors.successBG
+        case .info: DS.Colors.infoBG
+        case .warning: DS.Colors.warnBG
+        case .error: DS.Colors.errorBG
+        case .success: DS.Colors.successBG
         }
     }
 
@@ -59,14 +55,10 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     /// Uses darker colors for better readability on light backgrounds.
     public var foregroundColor: Color {
         switch self {
-        case .info:
-            Color.gray
-        case .warning:
-            Color.orange
-        case .error:
-            Color.red
-        case .success:
-            Color.green
+        case .info: Color.gray
+        case .warning: Color.orange
+        case .error: Color.red
+        case .success: Color.green
         }
     }
 
@@ -76,14 +68,10 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     /// suitable for JSON serialization and agent-driven UI generation.
     public var stringValue: String {
         switch self {
-        case .info:
-            "info"
-        case .warning:
-            "warning"
-        case .error:
-            "error"
-        case .success:
-            "success"
+        case .info: "info"
+        case .warning: "warning"
+        case .error: "error"
+        case .success: "success"
         }
     }
 
@@ -93,14 +81,10 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     /// relying on VoiceOver or other assistive technologies.
     public var accessibilityLabel: String {
         switch self {
-        case .info:
-            "Information"
-        case .warning:
-            "Warning"
-        case .error:
-            "Error"
-        case .success:
-            "Success"
+        case .info: "Information"
+        case .warning: "Warning"
+        case .error: "Error"
+        case .success: "Success"
         }
     }
 
@@ -110,14 +94,10 @@ public enum BadgeLevel: Equatable, Sendable, CaseIterable {
     /// to provide additional visual cues.
     public var iconName: String {
         switch self {
-        case .info:
-            "info.circle.fill"
-        case .warning:
-            "exclamationmark.triangle.fill"
-        case .error:
-            "xmark.circle.fill"
-        case .success:
-            "checkmark.circle.fill"
+        case .info: "info.circle.fill"
+        case .warning: "exclamationmark.triangle.fill"
+        case .error: "xmark.circle.fill"
+        case .success: "checkmark.circle.fill"
         }
     }
 }
@@ -154,29 +134,23 @@ public struct BadgeChipStyle: ViewModifier {
     public func body(content: Content) -> some View {
         HStack(spacing: showIcon && hasText ? DS.Spacing.s : 0) {
             if showIcon {
-                Image(systemName: level.iconName)
-                    .font(.caption)
-                    .foregroundStyle(level.foregroundColor)
+                Image(systemName: level.iconName).font(.caption).foregroundStyle(
+                    level.foregroundColor)
             }
 
             if hasText {
-                content
-                    .font(.caption.weight(.medium))
-                    .foregroundStyle(level.foregroundColor)
+                content.font(.caption.weight(.medium)).foregroundStyle(level.foregroundColor)
             }
-        }
-        .padding(.horizontal, DS.Spacing.m)
-        .padding(.vertical, DS.Spacing.s)
-        .background(level.backgroundColor)
-        .clipShape(Capsule())
-        .accessibilityElement(children: .combine)
-        .accessibilityLabel(level.accessibilityLabel)
+        }.padding(.horizontal, DS.Spacing.m).padding(.vertical, DS.Spacing.s).background(
+            level.backgroundColor
+        ).clipShape(Capsule()).accessibilityElement(children: .combine).accessibilityLabel(
+            level.accessibilityLabel)
     }
 }
 
 // MARK: - View Extension
 
-public extension View {
+extension View {
     /// Applies badge chip styling to the view
     ///
     /// Transforms the view into a chip-styled badge with semantic colors,
@@ -208,78 +182,56 @@ public extension View {
     /// - Supports Dynamic Type text scaling
     ///
     /// - Returns: A view styled as a badge chip
-    func badgeChipStyle(level: BadgeLevel, showIcon: Bool = false, hasText: Bool = true) -> some View {
-        modifier(BadgeChipStyle(level: level, showIcon: showIcon, hasText: hasText))
-    }
+    public func badgeChipStyle(level: BadgeLevel, showIcon: Bool = false, hasText: Bool = true)
+        -> some View { modifier(BadgeChipStyle(level: level, showIcon: showIcon, hasText: hasText)) }
 }
 
 // MARK: - SwiftUI Previews
 
 #Preview("Badge Chip Styles - All Levels") {
     VStack(spacing: DS.Spacing.l) {
-        Text("INFO")
-            .badgeChipStyle(level: .info)
+        Text("INFO").badgeChipStyle(level: .info)
 
-        Text("WARNING")
-            .badgeChipStyle(level: .warning)
+        Text("WARNING").badgeChipStyle(level: .warning)
 
-        Text("ERROR")
-            .badgeChipStyle(level: .error)
+        Text("ERROR").badgeChipStyle(level: .error)
 
-        Text("SUCCESS")
-            .badgeChipStyle(level: .success)
-    }
-    .padding()
+        Text("SUCCESS").badgeChipStyle(level: .success)
+    }.padding()
 }
 
 #Preview("Badge Chip Styles - With Icons") {
     VStack(spacing: DS.Spacing.l) {
-        Text("Info")
-            .badgeChipStyle(level: .info, showIcon: true)
+        Text("Info").badgeChipStyle(level: .info, showIcon: true)
 
-        Text("Warning")
-            .badgeChipStyle(level: .warning, showIcon: true)
+        Text("Warning").badgeChipStyle(level: .warning, showIcon: true)
 
-        Text("Error")
-            .badgeChipStyle(level: .error, showIcon: true)
+        Text("Error").badgeChipStyle(level: .error, showIcon: true)
 
-        Text("Success")
-            .badgeChipStyle(level: .success, showIcon: true)
-    }
-    .padding()
+        Text("Success").badgeChipStyle(level: .success, showIcon: true)
+    }.padding()
 }
 
 #Preview("Badge Chip Styles - Dark Mode") {
     VStack(spacing: DS.Spacing.l) {
-        Text("INFO")
-            .badgeChipStyle(level: .info)
+        Text("INFO").badgeChipStyle(level: .info)
 
-        Text("WARNING")
-            .badgeChipStyle(level: .warning)
+        Text("WARNING").badgeChipStyle(level: .warning)
 
-        Text("ERROR")
-            .badgeChipStyle(level: .error)
+        Text("ERROR").badgeChipStyle(level: .error)
 
-        Text("SUCCESS")
-            .badgeChipStyle(level: .success)
-    }
-    .padding()
-    .preferredColorScheme(.dark)
+        Text("SUCCESS").badgeChipStyle(level: .success)
+    }.padding().preferredColorScheme(.dark)
 }
 
 #Preview("Badge Chip Styles - Sizes") {
     VStack(alignment: .leading, spacing: DS.Spacing.m) {
-        Text("Short")
-            .badgeChipStyle(level: .info)
+        Text("Short").badgeChipStyle(level: .info)
 
-        Text("Medium Length Badge")
-            .badgeChipStyle(level: .warning)
+        Text("Medium Length Badge").badgeChipStyle(level: .warning)
 
-        Text("Very Long Badge Text Here")
-            .badgeChipStyle(level: .error)
+        Text("Very Long Badge Text Here").badgeChipStyle(level: .error)
 
-        Text("✓")
-            .badgeChipStyle(level: .success)
-    }
-    .padding()
+        Text("✓").badgeChipStyle(level: .success)
+    }.padding()
 }

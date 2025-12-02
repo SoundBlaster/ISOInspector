@@ -6,7 +6,6 @@
 //  Copyright © 2025 ISOInspector. All rights reserved.
 //
 
-
 import Foundation
 
 extension StructuredPayload {

@@ -51,9 +51,9 @@ public enum PlatformAdapter {
     /// - Returns: `true` if running on macOS, `false` otherwise
     public static let isMacOS: Bool = {
         #if os(macOS)
-        return true
+            return true
         #else
-        return false
+            return false
         #endif
     }()
 
@@ -65,9 +65,9 @@ public enum PlatformAdapter {
     /// - Returns: `true` if running on iOS/iPadOS, `false` otherwise
     public static let isIOS: Bool = {
         #if os(iOS)
-        return true
+            return true
         #else
-        return false
+            return false
         #endif
     }()
 
@@ -91,9 +91,9 @@ public enum PlatformAdapter {
     /// - Returns: Platform-appropriate spacing value from DS tokens
     public static var defaultSpacing: CGFloat {
         #if os(macOS)
-        return DS.Spacing.m
+            return DS.Spacing.m
         #else
-        return DS.Spacing.l
+            return DS.Spacing.l
         #endif
     }
 
@@ -118,40 +118,35 @@ public enum PlatformAdapter {
     /// - Parameter sizeClass: The current size class (horizontal or vertical)
     /// - Returns: Spacing value from DS tokens appropriate for the size class
     public static func spacing(for sizeClass: UserInterfaceSizeClass?) -> CGFloat {
-        guard let sizeClass else {
-            return defaultSpacing
-        }
+        guard let sizeClass else { return defaultSpacing }
 
         switch sizeClass {
-        case .compact:
-            return DS.Spacing.m
-        case .regular:
-            return DS.Spacing.l
-        @unknown default:
-            return defaultSpacing
+        case .compact: return DS.Spacing.m
+        case .regular: return DS.Spacing.l
+        @unknown default: return defaultSpacing
         }
     }
 
     // MARK: - Touch Target Sizes
 
     #if os(iOS)
-    /// Minimum touch target size for iOS (44×44 pt per Apple HIG)
-    ///
-    /// Per Apple Human Interface Guidelines, interactive elements on iOS
-    /// should have a minimum touch target size of 44×44 points for accessibility.
-    ///
-    /// ## Usage
-    /// ```swift
-    /// Button("Tap Me") { }
-    ///     .frame(minWidth: PlatformAdapter.minimumTouchTarget,
-    ///            minHeight: PlatformAdapter.minimumTouchTarget)
-    /// ```
-    ///
-    /// - Returns: 44.0 points (Apple HIG requirement)
-    ///
-    /// ## See Also
-    /// - [Apple HIG - iOS Touch Targets](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/)
-    public static let minimumTouchTarget: CGFloat = 44.0
+        /// Minimum touch target size for iOS (44×44 pt per Apple HIG)
+        ///
+        /// Per Apple Human Interface Guidelines, interactive elements on iOS
+        /// should have a minimum touch target size of 44×44 points for accessibility.
+        ///
+        /// ## Usage
+        /// ```swift
+        /// Button("Tap Me") { }
+        ///     .frame(minWidth: PlatformAdapter.minimumTouchTarget,
+        ///            minHeight: PlatformAdapter.minimumTouchTarget)
+        /// ```
+        ///
+        /// - Returns: 44.0 points (Apple HIG requirement)
+        ///
+        /// ## See Also
+        /// - [Apple HIG - iOS Touch Targets](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/)
+        public static let minimumTouchTarget: CGFloat = 44.0
     #endif
 }
 
@@ -227,8 +222,7 @@ public struct PlatformAdaptiveModifier: ViewModifier {
     public func body(content: Content) -> some View {
         let spacing = resolveSpacing()
 
-        content
-            .padding(spacing)
+        content.padding(spacing)
     }
 
     /// Resolves the appropriate spacing value
@@ -240,13 +234,9 @@ public struct PlatformAdaptiveModifier: ViewModifier {
     ///
     /// - Returns: Resolved spacing value from DS tokens
     private func resolveSpacing() -> CGFloat {
-        if let customSpacing {
-            return customSpacing
-        }
+        if let customSpacing { return customSpacing }
 
-        if let sizeClass {
-            return PlatformAdapter.spacing(for: sizeClass)
-        }
+        if let sizeClass { return PlatformAdapter.spacing(for: sizeClass) }
 
         return PlatformAdapter.defaultSpacing
     }
@@ -254,7 +244,7 @@ public struct PlatformAdaptiveModifier: ViewModifier {
 
 // MARK: - View Extensions
 
-public extension View {
+extension View {
     /// Applies platform-adaptive spacing and layout
     ///
     /// Automatically adjusts spacing based on the current platform:
@@ -275,9 +265,7 @@ public extension View {
     /// ## See Also
     /// - ``platformAdaptive(spacing:)``
     /// - ``platformAdaptive(sizeClass:)``
-    func platformAdaptive() -> some View {
-        modifier(PlatformAdaptiveModifier())
-    }
+    public func platformAdaptive() -> some View { modifier(PlatformAdaptiveModifier()) }
 
     /// Applies platform-adaptive spacing with a custom value
     ///
@@ -294,7 +282,7 @@ public extension View {
     ///
     /// - Parameter spacing: Custom spacing value (should be a DS token)
     /// - Returns: A view with custom platform-adaptive spacing applied
-    func platformAdaptive(spacing: CGFloat) -> some View {
+    public func platformAdaptive(spacing: CGFloat) -> some View {
         modifier(PlatformAdaptiveModifier(spacing: spacing))
     }
 
@@ -318,7 +306,7 @@ public extension View {
     ///
     /// - Parameter sizeClass: The size class to adapt to
     /// - Returns: A view with size class-adaptive spacing applied
-    func platformAdaptive(sizeClass: UserInterfaceSizeClass?) -> some View {
+    public func platformAdaptive(sizeClass: UserInterfaceSizeClass?) -> some View {
         modifier(PlatformAdaptiveModifier(sizeClass: sizeClass))
     }
 
@@ -336,7 +324,7 @@ public extension View {
     ///
     /// - Parameter value: Custom spacing value (defaults to platform default)
     /// - Returns: A view with platform spacing applied via padding
-    func platformSpacing(_ value: CGFloat = PlatformAdapter.defaultSpacing) -> some View {
+    public func platformSpacing(_ value: CGFloat = PlatformAdapter.defaultSpacing) -> some View {
         padding(value)
     }
 
@@ -354,7 +342,7 @@ public extension View {
     ///
     /// - Parameter edges: The edges to apply padding to (defaults to all edges)
     /// - Returns: A view with platform-specific padding applied
-    func platformPadding(_ edges: Edge.Set = .all) -> some View {
+    public func platformPadding(_ edges: Edge.Set = .all) -> some View {
         padding(edges, PlatformAdapter.defaultSpacing)
     }
 }
@@ -363,183 +351,126 @@ public extension View {
 
 #Preview("Platform Adaptive - Default") {
     VStack(spacing: DS.Spacing.m) {
-        Text("Platform Adaptive Modifier")
-            .font(DS.Typography.title)
+        Text("Platform Adaptive Modifier").font(DS.Typography.title)
 
-        VStack {
-            Text("This content uses platform-adaptive spacing")
-                .font(DS.Typography.body)
-        }
-        .platformAdaptive()
-        .cardStyle(elevation: .low)
+        VStack { Text("This content uses platform-adaptive spacing").font(DS.Typography.body) }
+            .platformAdaptive().cardStyle(elevation: .low)
 
         HStack {
             Text("Platform:")
-            Text(PlatformAdapter.isMacOS ? "macOS" : "iOS")
-                .font(DS.Typography.code)
+            Text(PlatformAdapter.isMacOS ? "macOS" : "iOS").font(DS.Typography.code)
         }
 
         HStack {
             Text("Default Spacing:")
-            Text("\(Int(PlatformAdapter.defaultSpacing))pt")
-                .font(DS.Typography.code)
+            Text("\(Int(PlatformAdapter.defaultSpacing))pt").font(DS.Typography.code)
         }
-    }
-    .padding(DS.Spacing.xl)
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Platform Adaptive - Custom Spacing") {
     VStack(spacing: DS.Spacing.m) {
-        Text("Custom Spacing Examples")
-            .font(DS.Typography.title)
+        Text("Custom Spacing Examples").font(DS.Typography.title)
 
-        VStack {
-            Text("Small spacing (DS.Spacing.s)")
-                .font(DS.Typography.caption)
-        }
-        .platformAdaptive(spacing: DS.Spacing.s)
-        .cardStyle(elevation: .low)
+        VStack { Text("Small spacing (DS.Spacing.s)").font(DS.Typography.caption) }
+            .platformAdaptive(spacing: DS.Spacing.s).cardStyle(elevation: .low)
 
-        VStack {
-            Text("Medium spacing (DS.Spacing.m)")
-                .font(DS.Typography.caption)
-        }
-        .platformAdaptive(spacing: DS.Spacing.m)
-        .cardStyle(elevation: .low)
+        VStack { Text("Medium spacing (DS.Spacing.m)").font(DS.Typography.caption) }
+            .platformAdaptive(spacing: DS.Spacing.m).cardStyle(elevation: .low)
 
-        VStack {
-            Text("Large spacing (DS.Spacing.l)")
-                .font(DS.Typography.caption)
-        }
-        .platformAdaptive(spacing: DS.Spacing.l)
-        .cardStyle(elevation: .low)
+        VStack { Text("Large spacing (DS.Spacing.l)").font(DS.Typography.caption) }
+            .platformAdaptive(spacing: DS.Spacing.l).cardStyle(elevation: .low)
 
-        VStack {
-            Text("Extra large spacing (DS.Spacing.xl)")
-                .font(DS.Typography.caption)
-        }
-        .platformAdaptive(spacing: DS.Spacing.xl)
-        .cardStyle(elevation: .low)
-    }
-    .padding(DS.Spacing.xl)
+        VStack { Text("Extra large spacing (DS.Spacing.xl)").font(DS.Typography.caption) }
+            .platformAdaptive(spacing: DS.Spacing.xl).cardStyle(elevation: .low)
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Platform Adaptive - Size Classes") {
     VStack(spacing: DS.Spacing.m) {
-        Text("Size Class Adaptation")
-            .font(DS.Typography.title)
+        Text("Size Class Adaptation").font(DS.Typography.title)
 
         VStack {
-            Text("Compact Size Class")
-                .font(DS.Typography.body)
-            Text("Spacing: \(Int(PlatformAdapter.spacing(for: .compact)))pt")
-                .font(DS.Typography.code)
-        }
-        .platformAdaptive(sizeClass: .compact)
-        .cardStyle(elevation: .low)
+            Text("Compact Size Class").font(DS.Typography.body)
+            Text("Spacing: \(Int(PlatformAdapter.spacing(for: .compact)))pt").font(
+                DS.Typography.code)
+        }.platformAdaptive(sizeClass: .compact).cardStyle(elevation: .low)
 
         VStack {
-            Text("Regular Size Class")
-                .font(DS.Typography.body)
-            Text("Spacing: \(Int(PlatformAdapter.spacing(for: .regular)))pt")
-                .font(DS.Typography.code)
-        }
-        .platformAdaptive(sizeClass: .regular)
-        .cardStyle(elevation: .low)
-    }
-    .padding(DS.Spacing.xl)
+            Text("Regular Size Class").font(DS.Typography.body)
+            Text("Spacing: \(Int(PlatformAdapter.spacing(for: .regular)))pt").font(
+                DS.Typography.code)
+        }.platformAdaptive(sizeClass: .regular).cardStyle(elevation: .low)
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Platform Spacing Extension") {
     VStack(spacing: DS.Spacing.m) {
-        Text("Platform Spacing Extensions")
-            .font(DS.Typography.title)
+        Text("Platform Spacing Extensions").font(DS.Typography.title)
 
-        Text("Default platform spacing")
-            .platformSpacing()
-            .background(Color.blue.opacity(0.1))
+        Text("Default platform spacing").platformSpacing().background(Color.blue.opacity(0.1))
 
-        Text("Custom spacing (DS.Spacing.xl)")
-            .platformSpacing(DS.Spacing.xl)
-            .background(Color.green.opacity(0.1))
+        Text("Custom spacing (DS.Spacing.xl)").platformSpacing(DS.Spacing.xl).background(
+            Color.green.opacity(0.1))
 
-        Text("Horizontal padding only")
-            .platformPadding(.horizontal)
-            .background(Color.purple.opacity(0.1))
+        Text("Horizontal padding only").platformPadding(.horizontal).background(
+            Color.purple.opacity(0.1))
 
-        Text("Vertical padding only")
-            .platformPadding(.vertical)
-            .background(Color.orange.opacity(0.1))
-    }
-    .padding(DS.Spacing.xl)
+        Text("Vertical padding only").platformPadding(.vertical).background(
+            Color.orange.opacity(0.1))
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Platform Comparison") {
     VStack(spacing: DS.Spacing.l) {
-        Text("Platform Information")
-            .font(DS.Typography.title)
+        Text("Platform Information").font(DS.Typography.title)
 
         Card {
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 HStack {
-                    Text("Current Platform:")
-                        .font(DS.Typography.label)
+                    Text("Current Platform:").font(DS.Typography.label)
                     Spacer()
-                    Text(PlatformAdapter.isMacOS ? "macOS" : "iOS/iPadOS")
-                        .font(DS.Typography.code)
+                    Text(PlatformAdapter.isMacOS ? "macOS" : "iOS/iPadOS").font(DS.Typography.code)
                 }
 
                 HStack {
-                    Text("Default Spacing:")
-                        .font(DS.Typography.label)
+                    Text("Default Spacing:").font(DS.Typography.label)
                     Spacer()
-                    Text("\(Int(PlatformAdapter.defaultSpacing))pt")
-                        .font(DS.Typography.code)
+                    Text("\(Int(PlatformAdapter.defaultSpacing))pt").font(DS.Typography.code)
                 }
 
                 HStack {
-                    Text("Compact Spacing:")
-                        .font(DS.Typography.label)
+                    Text("Compact Spacing:").font(DS.Typography.label)
                     Spacer()
-                    Text("\(Int(PlatformAdapter.spacing(for: .compact)))pt")
-                        .font(DS.Typography.code)
+                    Text("\(Int(PlatformAdapter.spacing(for: .compact)))pt").font(
+                        DS.Typography.code)
                 }
 
                 HStack {
-                    Text("Regular Spacing:")
-                        .font(DS.Typography.label)
+                    Text("Regular Spacing:").font(DS.Typography.label)
                     Spacer()
-                    Text("\(Int(PlatformAdapter.spacing(for: .regular)))pt")
-                        .font(DS.Typography.code)
+                    Text("\(Int(PlatformAdapter.spacing(for: .regular)))pt").font(
+                        DS.Typography.code)
                 }
 
                 #if os(iOS)
-                HStack {
-                    Text("Min Touch Target:")
-                        .font(DS.Typography.label)
-                    Spacer()
-                    Text("\(Int(PlatformAdapter.minimumTouchTarget))pt")
-                        .font(DS.Typography.code)
-                }
+                    HStack {
+                        Text("Min Touch Target:").font(DS.Typography.label)
+                        Spacer()
+                        Text("\(Int(PlatformAdapter.minimumTouchTarget))pt").font(
+                            DS.Typography.code)
+                    }
                 #endif
             }
         }
-    }
-    .padding(DS.Spacing.xl)
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Dark Mode") {
     VStack(spacing: DS.Spacing.m) {
-        Text("Platform Adaptive (Dark Mode)")
-            .font(DS.Typography.title)
+        Text("Platform Adaptive (Dark Mode)").font(DS.Typography.title)
 
-        VStack {
-            Text("Adapts to platform and color scheme")
-                .font(DS.Typography.body)
-        }
-        .platformAdaptive()
-        .cardStyle(elevation: .medium)
-    }
-    .padding(DS.Spacing.xl)
-    .preferredColorScheme(.dark)
+        VStack { Text("Adapts to platform and color scheme").font(DS.Typography.body) }
+            .platformAdaptive().cardStyle(elevation: .medium)
+    }.padding(DS.Spacing.xl).preferredColorScheme(.dark)
 }

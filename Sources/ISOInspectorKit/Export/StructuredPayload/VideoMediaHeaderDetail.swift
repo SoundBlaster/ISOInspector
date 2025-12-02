@@ -27,8 +27,7 @@ extension StructuredPayload {
             self.opcolor = Opcolor(
                 red: .init(raw: box.opcolor.red.raw, normalized: box.opcolor.red.normalized),
                 green: .init(raw: box.opcolor.green.raw, normalized: box.opcolor.green.normalized),
-                blue: .init(raw: box.opcolor.blue.raw, normalized: box.opcolor.blue.normalized)
-            )
+                blue: .init(raw: box.opcolor.blue.raw, normalized: box.opcolor.blue.normalized))
         }
 
         private enum CodingKeys: String, CodingKey {

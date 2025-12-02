@@ -17,11 +17,19 @@ opt_in_rules:
   - strict_fileprivate
   - toggle_bool
   - unneeded_parentheses_in_closure_argument
-  - vertical_whitespace_closing_braces
-  - vertical_whitespace_opening_braces
 
 # Disabled Rules
 disabled_rules:
+  # Formatting is handled by swift-format
+  - opening_brace
+  - closure_parameter_position
+  - trailing_comma
+  - indentation_width
+  - vertical_whitespace
+  - vertical_whitespace_closing_braces
+  - vertical_whitespace_opening_braces
+
+  # Non-formatting relaxations
   - todo
   - trailing_whitespace
   - zero_magic_numbers  # Design system code defines tokens and platform scale factors directly

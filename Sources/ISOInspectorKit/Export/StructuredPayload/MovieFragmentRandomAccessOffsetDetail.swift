@@ -8,8 +8,6 @@ extension StructuredPayload {
             self.mfraSize = box.mfraSize
         }
 
-        private enum CodingKeys: String, CodingKey {
-            case mfraSize = "mfra_size"
-        }
+        private enum CodingKeys: String, CodingKey { case mfraSize = "mfra_size" }
     }
 }

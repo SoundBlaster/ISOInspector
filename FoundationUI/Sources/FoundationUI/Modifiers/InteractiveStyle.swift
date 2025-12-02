@@ -41,10 +41,8 @@ public enum InteractionType: Equatable, Sendable {
     /// Whether this interaction type applies any effects
     public var hasEffect: Bool {
         switch self {
-        case .none:
-            false
-        case .subtle, .standard, .prominent:
-            true
+        case .none: false
+        case .subtle, .standard, .prominent: true
         }
     }
 
@@ -54,14 +52,10 @@ public enum InteractionType: Equatable, Sendable {
     /// Larger values create more noticeable interaction.
     public var scaleFactor: CGFloat {
         switch self {
-        case .none:
-            1.0
-        case .subtle:
-            1.02 // 2% increase
-        case .standard:
-            1.05 // 5% increase
-        case .prominent:
-            1.08 // 8% increase
+        case .none: 1.0
+        case .subtle: 1.02  // 2% increase
+        case .standard: 1.05  // 5% increase
+        case .prominent: 1.08  // 8% increase
         }
     }
 
@@ -71,14 +65,10 @@ public enum InteractionType: Equatable, Sendable {
     /// Lower values create more prominent dimming effect.
     public var hoverOpacity: Double {
         switch self {
-        case .none:
-            1.0
-        case .subtle:
-            0.95 // 5% reduction
-        case .standard:
-            0.9 // 10% reduction
-        case .prominent:
-            0.85 // 15% reduction
+        case .none: 1.0
+        case .subtle: 0.95  // 5% reduction
+        case .standard: 0.9  // 10% reduction
+        case .prominent: 0.85  // 15% reduction
         }
     }
 
@@ -88,44 +78,32 @@ public enum InteractionType: Equatable, Sendable {
     /// responds to interaction.
     public var accessibilityHint: String {
         switch self {
-        case .none:
-            ""
-        case .subtle:
-            "Interactive element with subtle feedback"
-        case .standard:
-            "Interactive element"
-        case .prominent:
-            "Primary interactive element with prominent feedback"
+        case .none: ""
+        case .subtle: "Interactive element with subtle feedback"
+        case .standard: "Interactive element"
+        case .prominent: "Primary interactive element with prominent feedback"
         }
     }
 
     /// Whether this interaction type supports keyboard focus
     ///
     /// Interactive elements should be keyboard-navigable for accessibility.
-    public var supportsKeyboardFocus: Bool {
-        hasEffect
-    }
+    public var supportsKeyboardFocus: Bool { hasEffect }
 
     /// Focus ring color for keyboard navigation
     ///
     /// Uses system accent color for consistency with platform conventions.
-    public var focusRingColor: Color {
-        DS.Colors.accent
-    }
+    public var focusRingColor: Color { DS.Colors.accent }
 
     /// Focus ring width in points
     ///
     /// Larger values create more prominent focus indicators.
     public var focusRingWidth: CGFloat {
         switch self {
-        case .none:
-            0
-        case .subtle:
-            1
-        case .standard:
-            2
-        case .prominent:
-            3
+        case .none: 0
+        case .subtle: 1
+        case .standard: 2
+        case .prominent: 3
         }
     }
 }
@@ -166,33 +144,20 @@ public struct InteractiveStyle: ViewModifier {
     @FocusState private var isFocused: Bool
 
     public func body(content: Content) -> some View {
-        content
-            .scaleEffect(effectiveScale)
-            .opacity(effectiveOpacity)
-            .overlay(
-                Group {
-                    if showFocusRing, isFocused, type.supportsKeyboardFocus {
-                        RoundedRectangle(cornerRadius: DS.Radius.small)
-                            .strokeBorder(type.focusRingColor, lineWidth: type.focusRingWidth)
-                    }
+        content.scaleEffect(effectiveScale).opacity(effectiveOpacity).overlay(
+            Group {
+                if showFocusRing, isFocused, type.supportsKeyboardFocus {
+                    RoundedRectangle(cornerRadius: DS.Radius.small).strokeBorder(
+                        type.focusRingColor, lineWidth: type.focusRingWidth)
                 }
-            )
-            .animation(DS.Animation.quick, value: isHovered)
-            .animation(DS.Animation.quick, value: isPressed)
-            .animation(DS.Animation.quick, value: isFocused)
-            .modifier(
-                FocusableIfAvailable(
-                    isEnabled: type.supportsKeyboardFocus,
-                    focusBinding: $isFocused
-                )
-            )
-            #if os(macOS)
-            .onHover { hovering in
-                isHovered = hovering
             }
-            #endif
-            .accessibilityHint(type.accessibilityHint)
-            .accessibilityAddTraits(.isButton)
+        ).animation(DS.Animation.quick, value: isHovered).animation(
+            DS.Animation.quick, value: isPressed
+        ).animation(DS.Animation.quick, value: isFocused).modifier(
+            FocusableIfAvailable(isEnabled: type.supportsKeyboardFocus, focusBinding: $isFocused)
+        )#if os(macOS)
+            .onHover { hovering in isHovered = hovering }
+            #endif.accessibilityHint(type.accessibilityHint).accessibilityAddTraits(.isButton)
     }
 
     /// Effective scale factor based on current interaction state
@@ -234,25 +199,20 @@ private struct FocusableIfAvailable: ViewModifier {
 
     func body(content: Content) -> some View {
         #if os(iOS)
-        if #available(iOS 17, *) {
-            content
-                .focusable(isEnabled)
-                .focused(focusBinding)
-        } else {
-            content
-                .focused(focusBinding)
-        }
+            if #available(iOS 17, *) {
+                content.focusable(isEnabled).focused(focusBinding)
+            } else {
+                content.focused(focusBinding)
+            }
         #else
-        content
-            .focusable(isEnabled)
-            .focused(focusBinding)
+            content.focusable(isEnabled).focused(focusBinding)
         #endif
     }
 }
 
 // MARK: - View Extension
 
-public extension View {
+extension View {
     /// Applies interactive styling with platform-adaptive feedback
     ///
     /// Adds visual feedback for user interactions, adapting to the platform:
@@ -291,155 +251,94 @@ public extension View {
     /// - Works with Switch Control and Voice Control
     ///
     /// - Returns: A view with interactive feedback styling
-    func interactiveStyle(
-        type: InteractionType = .standard,
-        showFocusRing: Bool = true
-    ) -> some View {
-        modifier(
-            InteractiveStyle(
-                type: type,
-                showFocusRing: showFocusRing
-            )
-        )
-    }
+    public func interactiveStyle(type: InteractionType = .standard, showFocusRing: Bool = true)
+        -> some View
+    { modifier(InteractiveStyle(type: type, showFocusRing: showFocusRing)) }
 }
 
 // MARK: - SwiftUI Previews
 
 #Preview("Interactive Styles - All Types") {
     VStack(spacing: DS.Spacing.xl) {
-        Text("No Interaction")
-            .padding()
-            .background(DS.Colors.tertiary)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-            .interactiveStyle(type: .none)
+        Text("No Interaction").padding().background(DS.Colors.tertiary).clipShape(
+            RoundedRectangle(cornerRadius: DS.Radius.card)
+        ).interactiveStyle(type: .none)
 
-        Text("Subtle Interaction")
-            .padding()
-            .background(DS.Colors.tertiary)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-            .interactiveStyle(type: .subtle)
+        Text("Subtle Interaction").padding().background(DS.Colors.tertiary).clipShape(
+            RoundedRectangle(cornerRadius: DS.Radius.card)
+        ).interactiveStyle(type: .subtle)
 
-        Text("Standard Interaction")
-            .padding()
-            .background(DS.Colors.tertiary)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-            .interactiveStyle(type: .standard)
+        Text("Standard Interaction").padding().background(DS.Colors.tertiary).clipShape(
+            RoundedRectangle(cornerRadius: DS.Radius.card)
+        ).interactiveStyle(type: .standard)
 
-        Text("Prominent Interaction")
-            .padding()
-            .background(DS.Colors.tertiary)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-            .interactiveStyle(type: .prominent)
-    }
-    .padding()
+        Text("Prominent Interaction").padding().background(DS.Colors.tertiary).clipShape(
+            RoundedRectangle(cornerRadius: DS.Radius.card)
+        ).interactiveStyle(type: .prominent)
+    }.padding()
 }
 
 #Preview("Interactive Styles - With Card Style") {
     VStack(spacing: DS.Spacing.l) {
         VStack {
-            Text("Clickable Card")
-                .font(.headline)
-            Text("Hover or click to see interaction")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .cardStyle(elevation: .low)
-        .interactiveStyle(type: .standard)
+            Text("Clickable Card").font(.headline)
+            Text("Hover or click to see interaction").font(.caption).foregroundStyle(.secondary)
+        }.padding().cardStyle(elevation: .low).interactiveStyle(type: .standard)
 
         VStack {
-            Text("Button-Like Card")
-                .font(.headline)
-            Text("Prominent interaction feedback")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .cardStyle(elevation: .medium)
-        .interactiveStyle(type: .prominent)
-    }
-    .padding()
+            Text("Button-Like Card").font(.headline)
+            Text("Prominent interaction feedback").font(.caption).foregroundStyle(.secondary)
+        }.padding().cardStyle(elevation: .medium).interactiveStyle(type: .prominent)
+    }.padding()
 }
 
 #Preview("Interactive Styles - With Badges") {
     VStack(spacing: DS.Spacing.l) {
         HStack(spacing: DS.Spacing.m) {
-            Text("INFO")
-                .badgeChipStyle(level: .info)
-                .interactiveStyle(type: .subtle)
+            Text("INFO").badgeChipStyle(level: .info).interactiveStyle(type: .subtle)
 
-            Text("WARNING")
-                .badgeChipStyle(level: .warning)
-                .interactiveStyle(type: .subtle)
+            Text("WARNING").badgeChipStyle(level: .warning).interactiveStyle(type: .subtle)
 
-            Text("ERROR")
-                .badgeChipStyle(level: .error)
-                .interactiveStyle(type: .subtle)
+            Text("ERROR").badgeChipStyle(level: .error).interactiveStyle(type: .subtle)
 
-            Text("SUCCESS")
-                .badgeChipStyle(level: .success)
-                .interactiveStyle(type: .subtle)
+            Text("SUCCESS").badgeChipStyle(level: .success).interactiveStyle(type: .subtle)
         }
 
-        Text("Interactive badges with subtle feedback")
-            .font(.caption)
-            .foregroundStyle(.secondary)
-    }
-    .padding()
+        Text("Interactive badges with subtle feedback").font(.caption).foregroundStyle(.secondary)
+    }.padding()
 }
 
 #Preview("Interactive Styles - Focus Ring") {
     VStack(spacing: DS.Spacing.l) {
-        Text("Tab to focus")
-            .padding()
-            .background(DS.Colors.tertiary)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-            .interactiveStyle(type: .standard, showFocusRing: true)
+        Text("Tab to focus").padding().background(DS.Colors.tertiary).clipShape(
+            RoundedRectangle(cornerRadius: DS.Radius.card)
+        ).interactiveStyle(type: .standard, showFocusRing: true)
 
-        Text("No focus ring")
-            .padding()
-            .background(DS.Colors.tertiary)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-            .interactiveStyle(type: .standard, showFocusRing: false)
-    }
-    .padding()
+        Text("No focus ring").padding().background(DS.Colors.tertiary).clipShape(
+            RoundedRectangle(cornerRadius: DS.Radius.card)
+        ).interactiveStyle(type: .standard, showFocusRing: false)
+    }.padding()
 }
 
 #Preview("Interactive Styles - Dark Mode") {
     VStack(spacing: DS.Spacing.l) {
-        Text("Subtle")
-            .padding()
-            .cardStyle(elevation: .medium)
-            .interactiveStyle(type: .subtle)
+        Text("Subtle").padding().cardStyle(elevation: .medium).interactiveStyle(type: .subtle)
 
-        Text("Standard")
-            .padding()
-            .cardStyle(elevation: .medium)
-            .interactiveStyle(type: .standard)
+        Text("Standard").padding().cardStyle(elevation: .medium).interactiveStyle(type: .standard)
 
-        Text("Prominent")
-            .padding()
-            .cardStyle(elevation: .medium)
-            .interactiveStyle(type: .prominent)
-    }
-    .padding()
-    .preferredColorScheme(.dark)
+        Text("Prominent").padding().cardStyle(elevation: .medium).interactiveStyle(type: .prominent)
+    }.padding().preferredColorScheme(.dark)
 }
 
 #Preview("Interactive Styles - List Items") {
     List {
-        ForEach(1 ... 5, id: \.self) { index in
+        ForEach(1...5, id: \.self) { index in
             HStack {
-                Image(systemName: "\(index).circle.fill")
-                    .foregroundStyle(DS.Colors.accent)
+                Image(systemName: "\(index).circle.fill").foregroundStyle(DS.Colors.accent)
                 Text("Item \(index)")
                 Spacer()
-                Image(systemName: "chevron.right")
-                    .foregroundStyle(.secondary)
-            }
-            .padding(.vertical, DS.Spacing.s)
-            .interactiveStyle(type: .subtle)
+                Image(systemName: "chevron.right").foregroundStyle(.secondary)
+            }.padding(.vertical, DS.Spacing.s).interactiveStyle(type: .subtle)
         }
     }
 }

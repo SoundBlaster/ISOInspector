@@ -9,9 +9,7 @@ struct ParseEventCapturePayload: Codable {
         self.events = events.map(Event.init)
     }
 
-    func parseEvents() throws -> [ParseEvent] {
-        try events.map { try $0.makeEvent() }
-    }
+    func parseEvents() throws -> [ParseEvent] { try events.map { try $0.makeEvent() } }
 }
 
 extension ParseEventCapturePayload {
@@ -41,17 +39,9 @@ extension ParseEventCapturePayload {
                 let fourcc = try FourCharCode(type)
                 let identifier = BoxDescriptor.Identifier(type: fourcc, extendedType: uuid)
                 return BoxDescriptor(
-                    identifier: identifier,
-                    name: name,
-                    summary: summary,
-                    category: category,
-                    specification: specification,
-                    version: version,
-                    flags: flags
-                )
-            } catch {
-                throw ParseEventCaptureDecodingError.invalidFourCharCode(type)
-            }
+                    identifier: identifier, name: name, summary: summary, category: category,
+                    specification: specification, version: version, flags: flags)
+            } catch { throw ParseEventCaptureDecodingError.invalidFourCharCode(type) }
         }
     }
 }
@@ -60,9 +50,7 @@ extension ParseEventCapturePayload {
     struct Payload: Codable {
         let fields: [Field]
 
-        init(payload: ParsedBoxPayload) {
-            self.fields = payload.fields.map(Field.init)
-        }
+        init(payload: ParsedBoxPayload) { self.fields = payload.fields.map(Field.init) }
 
         func makePayload() -> ParsedBoxPayload {
             ParsedBoxPayload(fields: fields.map { $0.makeField() })
@@ -88,17 +76,9 @@ extension ParseEventCapturePayload {
 
         func makeField() -> ParsedBoxPayload.Field {
             let range: Range<Int64>?
-            if let start, let end {
-                range = start..<end
-            } else {
-                range = nil
-            }
+            if let start, let end { range = start..<end } else { range = nil }
             return ParsedBoxPayload.Field(
-                name: name,
-                value: value,
-                description: summary,
-                byteRange: range
-            )
+                name: name, value: value, description: summary, byteRange: range)
         }
     }
 }
@@ -117,10 +97,8 @@ extension ParseEventCapturePayload {
 
         func makeIssue() -> ValidationIssue {
             ValidationIssue(
-                ruleID: ruleID,
-                message: message,
-                severity: ValidationIssue.Severity(rawValue: severity) ?? .info
-            )
+                ruleID: ruleID, message: message,
+                severity: ValidationIssue.Severity(rawValue: severity) ?? .info)
         }
     }
 }
@@ -151,18 +129,10 @@ extension ParseEventCapturePayload {
         func makeIssue() -> ParseIssue {
             let severityValue = ParseIssue.Severity(rawValue: severity) ?? .error
             let range: Range<Int64>?
-            if let start, let end, end > start {
-                range = start..<end
-            } else {
-                range = nil
-            }
+            if let start, let end, end > start { range = start..<end } else { range = nil }
             return ParseIssue(
-                severity: severityValue,
-                code: code,
-                message: message,
-                byteRange: range,
-                affectedNodeIDs: affectedNodeIDs
-            )
+                severity: severityValue, code: code, message: message, byteRange: range,
+                affectedNodeIDs: affectedNodeIDs)
         }
     }
 }
@@ -210,9 +180,9 @@ extension ParseEventCapturePayload {
             self.metadata = try container.decodeIfPresent(Metadata.self, forKey: .metadata)
             self.payload = try container.decodeIfPresent(Payload.self, forKey: .payload)
             self.validationIssues =
-            try container.decodeIfPresent([Issue].self, forKey: .validationIssues) ?? []
+                try container.decodeIfPresent([Issue].self, forKey: .validationIssues) ?? []
             self.parseIssues =
-            try container.decodeIfPresent([ParseIssuePayload].self, forKey: .parseIssues) ?? []
+                try container.decodeIfPresent([ParseIssuePayload].self, forKey: .parseIssues) ?? []
         }
 
         func encode(to encoder: Encoder) throws {
@@ -224,9 +194,7 @@ extension ParseEventCapturePayload {
             try container.encodeIfPresent(metadata, forKey: .metadata)
             try container.encodeIfPresent(payload, forKey: .payload)
             try container.encode(validationIssues, forKey: .validationIssues)
-            if !parseIssues.isEmpty {
-                try container.encode(parseIssues, forKey: .parseIssues)
-            }
+            if !parseIssues.isEmpty { try container.encode(parseIssues, forKey: .parseIssues) }
         }
 
         func makeEvent() throws -> ParseEvent {
@@ -238,22 +206,14 @@ extension ParseEventCapturePayload {
             switch kind {
             case .willStart:
                 return ParseEvent(
-                    kind: .willStartBox(header: header, depth: depth),
-                    offset: offset,
-                    metadata: metadata,
-                    payload: payload,
-                    validationIssues: validationIssues,
-                    issues: parseIssues
-                )
+                    kind: .willStartBox(header: header, depth: depth), offset: offset,
+                    metadata: metadata, payload: payload, validationIssues: validationIssues,
+                    issues: parseIssues)
             case .didFinish:
                 return ParseEvent(
-                    kind: .didFinishBox(header: header, depth: depth),
-                    offset: offset,
-                    metadata: metadata,
-                    payload: payload,
-                    validationIssues: validationIssues,
-                    issues: parseIssues
-                )
+                    kind: .didFinishBox(header: header, depth: depth), offset: offset,
+                    metadata: metadata, payload: payload, validationIssues: validationIssues,
+                    issues: parseIssues)
             }
         }
 
@@ -296,16 +256,10 @@ extension ParseEventCapturePayload {
             do {
                 let fourcc = try FourCharCode(type)
                 return BoxHeader(
-                    type: fourcc,
-                    totalSize: totalSize,
-                    headerSize: headerSize,
-                    payloadRange: payloadStart..<payloadEnd,
-                    range: rangeStart..<rangeEnd,
-                    uuid: uuid
-                )
-            } catch {
-                throw ParseEventCaptureDecodingError.invalidFourCharCode(type)
-            }
+                    type: fourcc, totalSize: totalSize, headerSize: headerSize,
+                    payloadRange: payloadStart..<payloadEnd, range: rangeStart..<rangeEnd,
+                    uuid: uuid)
+            } catch { throw ParseEventCaptureDecodingError.invalidFourCharCode(type) }
         }
     }
 }

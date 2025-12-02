@@ -18,7 +18,8 @@ extension StructuredPayload {
             self.auxInfoType = box.auxInfoType?.rawValue
             self.auxInfoTypeParameter = box.auxInfoTypeParameter
             if let range = box.variableEntriesRange {
-                self.variableSizes = RangeSummary(range: range, length: box.variableEntriesByteLength)
+                self.variableSizes = RangeSummary(
+                    range: range, length: box.variableEntriesByteLength)
             } else {
                 self.variableSizes = nil
             }

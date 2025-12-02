@@ -49,11 +49,8 @@ struct UtilitiesScreen: View {
 
                 // AccessibilityHelpers Demo
                 accessibilityHelpersSection
-            }
-            .padding(DS.Spacing.l)
-        }
-        .navigationTitle("Utilities")
-        .alert("Copied!", isPresented: $showCopiedFeedback) {
+            }.padding(DS.Spacing.l)
+        }.navigationTitle("Utilities").alert("Copied!", isPresented: $showCopiedFeedback) {
             Button("OK", role: .cancel) {}
         } message: {
             Text("Copied '\(copiedText)' to clipboard")
@@ -67,13 +64,11 @@ extension UtilitiesScreen {
 
     private var headerView: some View {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Utilities")
-                .font(DS.Typography.title)
-                .foregroundColor(DS.Colors.textPrimary)
+            Text("Utilities").font(DS.Typography.title).foregroundColor(DS.Colors.textPrimary)
 
-            Text("FoundationUI provides powerful utilities for common UI tasks: clipboard operations, keyboard shortcuts, and accessibility helpers.")
-                .font(DS.Typography.body)
-                .foregroundColor(DS.Colors.textSecondary)
+            Text(
+                "FoundationUI provides powerful utilities for common UI tasks: clipboard operations, keyboard shortcuts, and accessibility helpers."
+            ).font(DS.Typography.body).foregroundColor(DS.Colors.textSecondary)
         }
     }
 }
@@ -87,76 +82,63 @@ extension UtilitiesScreen {
             SectionHeader(title: "CopyableText", showDivider: true)
 
             Text("Platform-specific clipboard integration with visual feedback. Click to copy:")
-                .font(DS.Typography.body)
-                .foregroundColor(DS.Colors.textSecondary)
+                .font(DS.Typography.body).foregroundColor(DS.Colors.textSecondary)
 
             // Examples
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 // Hex value example
                 HStack {
-                    Text("Hex Value:")
-                        .font(DS.Typography.label)
-                        .foregroundColor(DS.Colors.textSecondary)
+                    Text("Hex Value:").font(DS.Typography.label).foregroundColor(
+                        DS.Colors.textSecondary)
 
-                    CopyableText(text: "0xDEADBEEF", label: "0xDEADBEEF")
-                        .font(DS.Typography.code)
+                    CopyableText(text: "0xDEADBEEF", label: "0xDEADBEEF").font(DS.Typography.code)
                 }
 
                 // File path example
                 HStack {
-                    Text("File Path:")
-                        .font(DS.Typography.label)
-                        .foregroundColor(DS.Colors.textSecondary)
+                    Text("File Path:").font(DS.Typography.label).foregroundColor(
+                        DS.Colors.textSecondary)
 
                     CopyableText(
                         text: "/Users/developer/Documents/sample.mp4",
                         label: "/Users/developer/Documents/sample.mp4"
-                    )
-                    .font(DS.Typography.code)
+                    ).font(DS.Typography.code)
                 }
 
                 // UUID example
                 HStack {
-                    Text("UUID:")
-                        .font(DS.Typography.label)
-                        .foregroundColor(DS.Colors.textSecondary)
+                    Text("UUID:").font(DS.Typography.label).foregroundColor(DS.Colors.textSecondary)
 
                     CopyableText(
                         text: "550e8400-e29b-41d4-a716-446655440000",
                         label: "550e8400-e29b-41d4-a716-446655440000"
-                    )
-                    .font(DS.Typography.code)
+                    ).font(DS.Typography.code)
                 }
 
                 // JSON example
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    Text("JSON Data:")
-                        .font(DS.Typography.label)
-                        .foregroundColor(DS.Colors.textSecondary)
+                    Text("JSON Data:").font(DS.Typography.label).foregroundColor(
+                        DS.Colors.textSecondary)
 
                     CopyableText(
                         text: """
-                        {
-                          "name": "ISO Inspector",
-                          "version": "1.0.0",
-                          "platform": "iOS/macOS"
-                        }
-                        """,
+                            {
+                              "name": "ISO Inspector",
+                              "version": "1.0.0",
+                              "platform": "iOS/macOS"
+                            }
+                            """,
                         label: """
-                        {
-                          "name": "ISO Inspector",
-                          "version": "1.0.0",
-                          "platform": "iOS/macOS"
-                        }
-                        """
-                    )
-                    .font(DS.Typography.code)
-                    .padding(DS.Spacing.m)
-                    .background(DS.Colors.tertiary)
-                    .cornerRadius(DS.Radius.small)
+                            {
+                              "name": "ISO Inspector",
+                              "version": "1.0.0",
+                              "platform": "iOS/macOS"
+                            }
+                            """
+                    ).font(DS.Typography.code).padding(DS.Spacing.m).background(DS.Colors.tertiary)
+                        .cornerRadius(DS.Radius.small)
                 }
-            }
-            .padding(.horizontal, DS.Spacing.m)
+            }.padding(.horizontal, DS.Spacing.m)
         }
     }
 }
@@ -169,55 +151,45 @@ extension UtilitiesScreen {
         VStack(alignment: .leading, spacing: DS.Spacing.l) {
             SectionHeader(title: "Copyable Wrapper", showDivider: true)
 
-            Text("Wrap any view with copyable functionality:")
-                .font(DS.Typography.body)
+            Text("Wrap any view with copyable functionality:").font(DS.Typography.body)
                 .foregroundColor(DS.Colors.textSecondary)
 
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 // Badge with copyable wrapper
                 HStack {
-                    Text("Badge:")
-                        .font(DS.Typography.label)
-                        .foregroundColor(DS.Colors.textSecondary)
+                    Text("Badge:").font(DS.Typography.label).foregroundColor(
+                        DS.Colors.textSecondary)
 
-                    Copyable(text: "ftyp") {
-                        Badge(text: "ftyp", level: .info, showIcon: false)
-                    }
+                    Copyable(text: "ftyp") { Badge(text: "ftyp", level: .info, showIcon: false) }
                 }
 
                 // Card with copyable wrapper
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    Text("Card (click to copy title):")
-                        .font(DS.Typography.label)
-                        .foregroundColor(DS.Colors.textSecondary)
+                    Text("Card (click to copy title):").font(DS.Typography.label).foregroundColor(
+                        DS.Colors.textSecondary)
 
                     Copyable(text: "Movie Box (moov)") {
                         Card(elevation: .medium, cornerRadius: DS.Radius.medium) {
                             VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                                Text("Movie Box (moov)")
-                                    .font(DS.Typography.headline)
+                                Text("Movie Box (moov)").font(DS.Typography.headline)
 
-                                Text("Container for all metadata")
-                                    .font(DS.Typography.caption)
+                                Text("Container for all metadata").font(DS.Typography.caption)
                                     .foregroundColor(DS.Colors.textSecondary)
-                            }
-                            .padding(DS.Spacing.m)
+                            }.padding(DS.Spacing.m)
                         }
                     }
                 }
 
                 // KeyValueRow with copyable wrapper
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    Text("KeyValueRow (click to copy value):")
-                        .font(DS.Typography.label)
+                    Text("KeyValueRow (click to copy value):").font(DS.Typography.label)
                         .foregroundColor(DS.Colors.textSecondary)
 
                     Copyable(text: "1920x1080") {
                         KeyValueRow(key: "Resolution", value: "1920x1080")
                     }
                 }
-            }
-            .padding(.horizontal, DS.Spacing.m)
+            }.padding(.horizontal, DS.Spacing.m)
         }
     }
 }
@@ -230,9 +202,9 @@ extension UtilitiesScreen {
         VStack(alignment: .leading, spacing: DS.Spacing.l) {
             SectionHeader(title: "Keyboard Shortcuts", showDivider: true)
 
-            Text("Platform-adaptive keyboard shortcut display (⌘ on macOS, Ctrl elsewhere):")
-                .font(DS.Typography.body)
-                .foregroundColor(DS.Colors.textSecondary)
+            Text("Platform-adaptive keyboard shortcut display (⌘ on macOS, Ctrl elsewhere):").font(
+                DS.Typography.body
+            ).foregroundColor(DS.Colors.textSecondary)
 
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 // Standard shortcuts
@@ -261,8 +233,7 @@ extension UtilitiesScreen {
                     shortcutRow(action: "Export", shortcut: "⌘E")
                     shortcutRow(action: "Find", shortcut: "⌘F")
                 }
-            }
-            .padding(.horizontal, DS.Spacing.m)
+            }.padding(.horizontal, DS.Spacing.m)
         }
     }
 }
@@ -275,16 +246,14 @@ extension UtilitiesScreen {
         VStack(alignment: .leading, spacing: DS.Spacing.l) {
             SectionHeader(title: "Accessibility Helpers", showDivider: true)
 
-            Text("Tools for ensuring WCAG 2.1 compliance:")
-                .font(DS.Typography.body)
+            Text("Tools for ensuring WCAG 2.1 compliance:").font(DS.Typography.body)
                 .foregroundColor(DS.Colors.textSecondary)
 
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
                 // Contrast ratio validation
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    Text("Contrast Ratio Validation:")
-                        .font(DS.Typography.label)
-                        .foregroundColor(DS.Colors.textSecondary)
+                    Text("Contrast Ratio Validation:").font(DS.Typography.label).foregroundColor(
+                        DS.Colors.textSecondary)
 
                     contrastValidatorView
                 }
@@ -293,37 +262,31 @@ extension UtilitiesScreen {
 
                 // Touch target validation
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    Text("Touch Target Validation:")
-                        .font(DS.Typography.label)
-                        .foregroundColor(DS.Colors.textSecondary)
+                    Text("Touch Target Validation:").font(DS.Typography.label).foregroundColor(
+                        DS.Colors.textSecondary)
 
-                    Text("Minimum touch target: 44×44 pt (iOS HIG)")
-                        .font(DS.Typography.caption)
+                    Text("Minimum touch target: 44×44 pt (iOS HIG)").font(DS.Typography.caption)
                         .foregroundColor(DS.Colors.textSecondary)
 
                     HStack(spacing: DS.Spacing.l) {
                         // Valid touch target
                         VStack(spacing: DS.Spacing.s) {
-                            Button("Valid") {}
-                                .frame(width: 44, height: 44)
-                                .background(DS.Colors.successBG)
-                                .cornerRadius(DS.Radius.small)
+                            Button("Valid") {}.frame(width: 44, height: 44).background(
+                                DS.Colors.successBG
+                            ).cornerRadius(DS.Radius.small)
 
-                            Text("44×44 pt ✓")
-                                .font(DS.Typography.caption)
-                                .foregroundColor(DS.Colors.textSecondary)
+                            Text("44×44 pt ✓").font(DS.Typography.caption).foregroundColor(
+                                DS.Colors.textSecondary)
                         }
 
                         // Invalid touch target
                         VStack(spacing: DS.Spacing.s) {
-                            Button("Too Small") {}
-                                .frame(width: 30, height: 30)
-                                .background(DS.Colors.errorBG)
-                                .cornerRadius(DS.Radius.small)
+                            Button("Too Small") {}.frame(width: 30, height: 30).background(
+                                DS.Colors.errorBG
+                            ).cornerRadius(DS.Radius.small)
 
-                            Text("30×30 pt ✗")
-                                .font(DS.Typography.caption)
-                                .foregroundColor(DS.Colors.textSecondary)
+                            Text("30×30 pt ✗").font(DS.Typography.caption).foregroundColor(
+                                DS.Colors.textSecondary)
                         }
                     }
                 }
@@ -332,33 +295,25 @@ extension UtilitiesScreen {
 
                 // VoiceOver labels
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                    Text("VoiceOver Labels:")
-                        .font(DS.Typography.label)
-                        .foregroundColor(DS.Colors.textSecondary)
+                    Text("VoiceOver Labels:").font(DS.Typography.label).foregroundColor(
+                        DS.Colors.textSecondary)
 
-                    Text("All interactive elements have accessibility labels")
-                        .font(DS.Typography.caption)
-                        .foregroundColor(DS.Colors.textSecondary)
+                    Text("All interactive elements have accessibility labels").font(
+                        DS.Typography.caption
+                    ).foregroundColor(DS.Colors.textSecondary)
 
                     HStack(spacing: DS.Spacing.m) {
-                        Button(action: {}) {
-                            Image(systemName: "play.fill")
-                        }
-                        .accessibilityLabel("Play")
+                        Button(action: {}) { Image(systemName: "play.fill") }.accessibilityLabel(
+                            "Play")
 
-                        Button(action: {}) {
-                            Image(systemName: "pause.fill")
-                        }
-                        .accessibilityLabel("Pause")
+                        Button(action: {}) { Image(systemName: "pause.fill") }.accessibilityLabel(
+                            "Pause")
 
-                        Button(action: {}) {
-                            Image(systemName: "stop.fill")
-                        }
-                        .accessibilityLabel("Stop")
+                        Button(action: {}) { Image(systemName: "stop.fill") }.accessibilityLabel(
+                            "Stop")
                     }
                 }
-            }
-            .padding(.horizontal, DS.Spacing.m)
+            }.padding(.horizontal, DS.Spacing.m)
         }
     }
 }
@@ -371,32 +326,20 @@ extension UtilitiesScreen {
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
             // DS Color examples with contrast ratios
             contrastExample(
-                name: "Info Background",
-                foreground: DS.Colors.textPrimary,
-                background: DS.Colors.infoBG,
-                expectedRatio: "≥4.5:1"
-            )
+                name: "Info Background", foreground: DS.Colors.textPrimary,
+                background: DS.Colors.infoBG, expectedRatio: "≥4.5:1")
 
             contrastExample(
-                name: "Warning Background",
-                foreground: DS.Colors.textPrimary,
-                background: DS.Colors.warnBG,
-                expectedRatio: "≥4.5:1"
-            )
+                name: "Warning Background", foreground: DS.Colors.textPrimary,
+                background: DS.Colors.warnBG, expectedRatio: "≥4.5:1")
 
             contrastExample(
-                name: "Error Background",
-                foreground: DS.Colors.textPrimary,
-                background: DS.Colors.errorBG,
-                expectedRatio: "≥4.5:1"
-            )
+                name: "Error Background", foreground: DS.Colors.textPrimary,
+                background: DS.Colors.errorBG, expectedRatio: "≥4.5:1")
 
             contrastExample(
-                name: "Success Background",
-                foreground: DS.Colors.textPrimary,
-                background: DS.Colors.successBG,
-                expectedRatio: "≥4.5:1"
-            )
+                name: "Success Background", foreground: DS.Colors.textPrimary,
+                background: DS.Colors.successBG, expectedRatio: "≥4.5:1")
         }
     }
 }
@@ -407,61 +350,35 @@ extension UtilitiesScreen {
 
     private func shortcutRow(action: String, shortcut: String) -> some View {
         HStack {
-            Text(action)
-                .font(DS.Typography.body)
-                .foregroundColor(DS.Colors.textPrimary)
+            Text(action).font(DS.Typography.body).foregroundColor(DS.Colors.textPrimary)
 
             Spacer()
 
-            Text(shortcut)
-                .font(DS.Typography.code)
-                .padding(.horizontal, DS.Spacing.m)
-                .padding(.vertical, DS.Spacing.s)
-                .background(DS.Colors.tertiary)
-                .cornerRadius(DS.Radius.small)
+            Text(shortcut).font(DS.Typography.code).padding(.horizontal, DS.Spacing.m).padding(
+                .vertical, DS.Spacing.s
+            ).background(DS.Colors.tertiary).cornerRadius(DS.Radius.small)
         }
     }
 
     private func contrastExample(
-        name: String,
-        foreground: Color,
-        background: Color,
-        expectedRatio: String
+        name: String, foreground: Color, background: Color, expectedRatio: String
     ) -> some View {
         HStack {
-            Text(name)
-                .font(DS.Typography.body)
-                .foregroundColor(DS.Colors.textPrimary)
+            Text(name).font(DS.Typography.body).foregroundColor(DS.Colors.textPrimary)
 
             Spacer()
 
-            Text("Sample")
-                .font(DS.Typography.body)
-                .foregroundColor(foreground)
-                .padding(.horizontal, DS.Spacing.m)
-                .padding(.vertical, DS.Spacing.s)
-                .background(background)
-                .cornerRadius(DS.Radius.small)
+            Text("Sample").font(DS.Typography.body).foregroundColor(foreground).padding(
+                .horizontal, DS.Spacing.m
+            ).padding(.vertical, DS.Spacing.s).background(background).cornerRadius(DS.Radius.small)
 
-            Text(expectedRatio)
-                .font(DS.Typography.caption)
-                .foregroundColor(DS.Colors.successBG)
+            Text(expectedRatio).font(DS.Typography.caption).foregroundColor(DS.Colors.successBG)
         }
     }
 }
 
 // MARK: - Previews
 
-#Preview("Utilities - Light") {
-    NavigationStack {
-        UtilitiesScreen()
-    }
-    .preferredColorScheme(.light)
-}
+#Preview("Utilities - Light") { NavigationStack { UtilitiesScreen() }.preferredColorScheme(.light) }
 
-#Preview("Utilities - Dark") {
-    NavigationStack {
-        UtilitiesScreen()
-    }
-    .preferredColorScheme(.dark)
-}
+#Preview("Utilities - Dark") { NavigationStack { UtilitiesScreen() }.preferredColorScheme(.dark) }

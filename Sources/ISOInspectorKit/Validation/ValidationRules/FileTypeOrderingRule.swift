@@ -18,37 +18,31 @@ import Foundation
 /// - moov box appears at offset 0 before ftyp
 /// - mdat box encountered before ftyp
 final class FileTypeOrderingRule: BoxValidationRule, @unchecked Sendable {
-  private var hasSeenFileType = false
+    private var hasSeenFileType = false
 
-  func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
-    guard case .willStartBox(let header, _) = event.kind else { return [] }
+    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
+        guard case .willStartBox(let header, _) = event.kind else { return [] }
 
-    let type = header.type.rawValue
-    if type == "ftyp" {
-      hasSeenFileType = true
-      return []
+        let type = header.type.rawValue
+        if type == "ftyp" {
+            hasSeenFileType = true
+            return []
+        }
+
+        guard !hasSeenFileType, Self.mediaBoxTypes.contains(type) else { return [] }
+
+        let message = "Encountered \(header.identifierString) before required file type box (ftyp)."
+        return [ValidationIssue(ruleID: "VR-004", message: message, severity: .error)]
     }
 
-    guard !hasSeenFileType, Self.mediaBoxTypes.contains(type) else {
-      return []
-    }
-
-    let message = "Encountered \(header.identifierString) before required file type box (ftyp)."
-    return [ValidationIssue(ruleID: "VR-004", message: message, severity: .error)]
-  }
-
-  private static let mediaBoxTypes: Set<String> = {
-    var values: Set<String> = [
-      FourCharContainerCode.moov.rawValue,
-      FourCharContainerCode.trak.rawValue,
-      FourCharContainerCode.mdia.rawValue,
-      FourCharContainerCode.minf.rawValue,
-      FourCharContainerCode.stbl.rawValue,
-      FourCharContainerCode.moof.rawValue,
-      FourCharContainerCode.traf.rawValue,
-      FourCharContainerCode.mvex.rawValue,
-    ]
-    values.formUnion(MediaAndIndexBoxCode.rawValueSet)
-    return values
-  }()
+    private static let mediaBoxTypes: Set<String> = {
+        var values: Set<String> = [
+            FourCharContainerCode.moov.rawValue, FourCharContainerCode.trak.rawValue,
+            FourCharContainerCode.mdia.rawValue, FourCharContainerCode.minf.rawValue,
+            FourCharContainerCode.stbl.rawValue, FourCharContainerCode.moof.rawValue,
+            FourCharContainerCode.traf.rawValue, FourCharContainerCode.mvex.rawValue,
+        ]
+        values.formUnion(MediaAndIndexBoxCode.rawValueSet)
+        return values
+    }()
 }
