@@ -5,6 +5,7 @@ disabled_rules:
   - opening_brace
   - indentation_width
   - vertical_parameter_alignment
+  - function_body_length
 
   # Relaxed rules for sample app ergonomics
   - line_length

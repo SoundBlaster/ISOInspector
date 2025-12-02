@@ -12,6 +12,7 @@ disabled_rules:
   - indentation_width
   - vertical_whitespace
   - vertical_parameter_alignment
+  - function_body_length
 
   # Non-formatting relaxations
   - line_length  # Allow longer lines for SwiftUI view builders and complex expressions
