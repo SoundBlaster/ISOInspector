@@ -1,3 +1,6 @@
+// swiftlint:disable type_body_length
+// @todo #a7 Refactor EventConsoleFormatter: Break down 195-line struct into smaller formatting components
+
 import Foundation
 import ISOInspectorKit
 

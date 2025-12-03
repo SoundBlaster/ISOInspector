@@ -144,7 +144,13 @@ public struct InteractiveStyle: ViewModifier {
     @FocusState private var isFocused: Bool
 
     public func body(content: Content) -> some View {
-        content.scaleEffect(effectiveScale).opacity(effectiveOpacity).overlay(
+        var interactiveContent = content
+
+        #if os(macOS)
+            interactiveContent = interactiveContent.onHover { hovering in isHovered = hovering }
+        #endif
+
+        return interactiveContent.scaleEffect(effectiveScale).opacity(effectiveOpacity).overlay(
             Group {
                 if showFocusRing, isFocused, type.supportsKeyboardFocus {
                     RoundedRectangle(cornerRadius: DS.Radius.small).strokeBorder(
@@ -155,9 +161,7 @@ public struct InteractiveStyle: ViewModifier {
             DS.Animation.quick, value: isPressed
         ).animation(DS.Animation.quick, value: isFocused).modifier(
             FocusableIfAvailable(isEnabled: type.supportsKeyboardFocus, focusBinding: $isFocused)
-        )#if os(macOS)
-            .onHover { hovering in isHovered = hovering }
-            #endif.accessibilityHint(type.accessibilityHint).accessibilityAddTraits(.isButton)
+        ).accessibilityHint(type.accessibilityHint).accessibilityAddTraits(.isButton)
     }
 
     /// Effective scale factor based on current interaction state

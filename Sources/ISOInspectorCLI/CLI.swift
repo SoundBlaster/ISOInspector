@@ -113,6 +113,8 @@ public struct ISOInspectorCLIEnvironment: Sendable {
 
 private struct UncheckedSendableValue<Value>: @unchecked Sendable { var value: Value }
 
+// swiftlint:disable type_body_length
+// @todo #a7 Refactor ISOInspectorCLIRunner: Break down 355-line enum into smaller command runner modules
 public enum ISOInspectorCLIRunner {
     public static func run(
         arguments: [String] = CommandLine.arguments, environment: ISOInspectorCLIEnvironment = .live

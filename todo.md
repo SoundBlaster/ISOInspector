@@ -58,6 +58,19 @@
 - [ ] #307 Break `ContentView.destinationView` into smaller subviews to reduce SwiftLint `cyclomatic_complexity`. (Examples/ComponentTestApp/ComponentTestApp/ContentView.swift:203)
 - [ ] #308 Re-enable SwiftLint `function_body_length` after fixing the current 67 violations and removing the global disable. (.swiftlint.yml)
 - [ ] #309 Re-enable SwiftLint `cyclomatic_complexity` after cleaning up the current backlog and removing the global disable. (.swiftlint.yml)
+- [ ] #311 Break `MP4RACatalogRefresher` into smaller components to satisfy SwiftLint `type_body_length`. (Sources/ISOInspectorKit/Metadata/MP4RACatalogRefresher.swift:84)
+
+## Task A7 SwiftLint Suppressions (Added 2025-12-03)
+
+The following files received localized `swiftlint:disable` directives with PDD `@todo #a7` markers. These suppressions were added to achieve zero lint errors while deferring structural refactoring:
+
+- [ ] #a7 Refactor EventConsoleFormatter: Break down 195-line struct into smaller formatting components. (Sources/ISOInspectorCLI/EventConsoleFormatter.swift:4)
+- [ ] #a7 Refactor ISOInspectorCLIRunner: Break down 355-line enum into smaller command runner modules. (Sources/ISOInspectorCLI/CLI.swift:116)
+- [ ] #a7 Refactor ISOInspectorCommand: Break down 780-line struct into smaller command modules. (Sources/ISOInspectorCLI/ISOInspectorCommand.swift:11)
+- [ ] #a7 Refactor Commands enum: Break down 540-line enum into smaller command structures. (Sources/ISOInspectorCLI/ISOInspectorCommand.swift:306)
+- [ ] #a7 Refactor Batch command: Break down 247-line struct into smaller validation modules. (Sources/ISOInspectorCLI/ISOInspectorCommand.swift:661)
+- [ ] #a7 Refactor BoxParserRegistry: Break down 224-line struct into smaller parser registration modules. (Sources/ISOInspectorKit/ISO/BoxParserRegistry.swift:3)
+- [ ] #a7 Reduce nesting: Extract SignedFixedPoint.Format enum to reduce nesting level. (Sources/ISOInspectorKit/ISO/ParsedBoxPayload.swift:1086)
 
 ## Performance & Benchmarking
 

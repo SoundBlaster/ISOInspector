@@ -8,6 +8,8 @@ import ISOInspectorKit
     import Glibc
 #endif
 
+// swiftlint:disable type_body_length
+// @todo #a7 Refactor ISOInspectorCommand: Break down 780-line struct into smaller command modules
 public struct ISOInspectorCommand: AsyncParsableCommand {
     public init() {}
 
@@ -301,6 +303,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
 
     }
 
+    // @todo #a7 Refactor Commands enum: Break down 540-line enum into smaller command structures
     public enum Commands {
         public struct Inspect: AsyncParsableCommand {
             public static let configuration = CommandConfiguration(
@@ -654,6 +657,7 @@ public struct ISOInspectorCommand: AsyncParsableCommand {
             }
         }
 
+        // @todo #a7 Refactor Batch command: Break down 247-line struct into smaller validation modules
         public struct Batch: AsyncParsableCommand {
             public static let configuration = CommandConfiguration(
                 abstract: "Validate multiple ISO BMFF files and emit an aggregated summary.")

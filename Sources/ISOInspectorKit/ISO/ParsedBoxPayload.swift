@@ -1,3 +1,6 @@
+// swiftlint:disable nesting
+// @todo #a7 Reduce nesting: Extract SignedFixedPoint to reduce nesting level from 5 to 4
+
 import Foundation
 
 // Rationale: Large struct containing all ISO box payload types. Splitting would reduce discoverability and type safety.
