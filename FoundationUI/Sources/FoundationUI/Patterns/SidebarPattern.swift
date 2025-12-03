@@ -129,7 +129,8 @@
                     sidebarContent.accessibilityIdentifier("FoundationUI.SidebarPattern.sidebar")
                 } detail: {
                     detailContent.accessibilityIdentifier("FoundationUI.SidebarPattern.detail")
-                }.navigationSplitViewStyle(.balanced)#if os(macOS)
+                }.navigationSplitViewStyle(.balanced)
+                #if os(macOS)
                     .navigationSplitViewColumnWidth(
                         min: Layout.sidebarMinimumWidth, ideal: Layout.sidebarIdealWidth)
                     #endif
@@ -204,7 +205,7 @@
         public var properties: [String: Any] {
             [
                 "sections": sections.map { ["title": $0.title, "itemCount": $0.items.count] },
-                "selection": selection.map { String(describing: $0) } ?? "none"
+                "selection": selection.map { String(describing: $0) } ?? "none",
             ]
         }
 
