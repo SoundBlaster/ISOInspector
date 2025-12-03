@@ -1,3 +1,6 @@
+// swiftlint:disable type_body_length
+// @todo #a7 Refactor BoxParserRegistry: Break down 224-line struct into smaller parser registration modules
+
 import Foundation
 
 public struct BoxParserRegistry: Sendable {

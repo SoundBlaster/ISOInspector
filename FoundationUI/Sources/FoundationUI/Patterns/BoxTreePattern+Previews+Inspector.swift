@@ -187,14 +187,15 @@ import SwiftUI
             ScrollView {
                 BoxTreePattern(
                     data: flatData, children: { $0.children.isEmpty ? nil : $0.children },
-                    expandedNodes: $expandedNodes, selection: $selection
-                ) { node in
-                    HStack {
-                        Text(node.title).font(DS.Typography.body)
-                        Spacer()
-                        Badge(text: "ITEM", level: .info)
+                    expandedNodes: $expandedNodes, selection: $selection,
+                    content: { node in
+                        HStack {
+                            Text(node.title).font(DS.Typography.body)
+                            Spacer()
+                            Badge(text: "ITEM", level: .info)
+                        }
                     }
-                }.padding(DS.Spacing.l)
+                ).padding(DS.Spacing.l)
             }.frame(width: 400, height: 600)
         }
     }

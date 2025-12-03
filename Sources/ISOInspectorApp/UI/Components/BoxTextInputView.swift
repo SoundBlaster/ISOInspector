@@ -125,15 +125,15 @@
         // MARK: - Private Helpers
 
         private var textField: some View {
-            TextField(placeholder, text: $text, onEditingChanged: onEditingChanged).textFieldStyle(
-                .roundedBorder
-            ).overlay(
+            var field = TextField(placeholder, text: $text, onEditingChanged: onEditingChanged)
+            #if os(iOS)
+                field = field.keyboardType(keyboardType.uiKeyboardType)
+            #endif
+
+            return field.textFieldStyle(.roundedBorder).overlay(
                 RoundedRectangle(cornerRadius: 6).stroke(
                     validationError != nil ? Color.red : Color.clear, lineWidth: 2)
-            )#if os(iOS)
-                .keyboardType(keyboardType.uiKeyboardType)
-                #endif.accessibilityLabel(placeholder).accessibilityValue(
-                    text.isEmpty ? "Empty" : text)
+            ).accessibilityLabel(placeholder).accessibilityValue(text.isEmpty ? "Empty" : text)
         }
 
         private func errorLabel(_ message: String) -> some View {

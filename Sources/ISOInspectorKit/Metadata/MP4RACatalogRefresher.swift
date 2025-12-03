@@ -79,6 +79,8 @@ public struct HTTPMP4RARegistryDataProvider: MP4RARegistryDataProvider {
     }
 }
 
+// @todo #311 Split MP4RACatalogRefresher into smaller components to satisfy type_body_length
+// swiftlint:disable:next type_body_length
 public struct MP4RACatalogRefresher {
     public struct Catalog: Codable, Equatable {
         public struct Metadata: Codable, Equatable {

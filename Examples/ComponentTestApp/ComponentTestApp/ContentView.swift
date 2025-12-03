@@ -200,9 +200,8 @@ struct ContentView: View {
     }
 
     /// Returns the appropriate view for the given destination
-    // @todo #307 Break destinationView into smaller subviews to lower cyclomatic_complexity
-    // swiftlint:disable cyclomatic_complexity
     @ViewBuilder private func destinationView(for destination: ScreenDestination) -> some View {
+        // @todo #307 Break destinationView into smaller subviews to lower cyclomatic_complexity
         switch destination {
         case .designTokens: DesignTokensScreen()
         case .modifiers: ModifiersScreen()
@@ -220,7 +219,7 @@ struct ContentView: View {
         case .accessibilityTesting: AccessibilityTestingScreen()
         case .performanceMonitoring: PerformanceMonitoringScreen()
         }
-    }  // swiftlint:enable cyclomatic_complexity
+    }
 }
 
 #Preview("Light Mode") { ContentView().preferredColorScheme(.light) }

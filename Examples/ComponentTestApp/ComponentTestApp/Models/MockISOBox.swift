@@ -138,13 +138,12 @@ struct MockISOBox: Identifiable, Hashable {
     }
 }
 
-// MARK: - Sample Data Generation
-
 extension MockISOBox {
+    // MARK: - Sample Data Generation
+
     /// Generate a realistic ISO/MP4 file structure
-    // @todo #306 Split sampleISOHierarchy into smaller helpers to satisfy SwiftLint function_body_length
-    // swiftlint:disable function_body_length
     static func sampleISOHierarchy() -> [MockISOBox] {
+        // @todo #306 Split sampleISOHierarchy into smaller helpers to satisfy SwiftLint function_body_length
         [
             // File Type Box
             MockISOBox(
@@ -288,7 +287,6 @@ extension MockISOBox {
                 ], status: .normal),
         ]
     }
-    // swiftlint:enable function_body_length
 
     /// Generate a large dataset for performance testing (1000+ boxes)
     static func largeDataset() -> [MockISOBox] {

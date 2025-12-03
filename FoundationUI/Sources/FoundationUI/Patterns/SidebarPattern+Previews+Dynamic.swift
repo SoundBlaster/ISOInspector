@@ -52,8 +52,8 @@
 
             var body: some View {
                 SidebarPattern(
-                    sections: [.init(title: "Empty Section", items: [])], selection: $selection,
-                    content: { _ in
+                    sections: [.init(title: "Empty Section", items: [])], selection: $selection
+                ) { _ in
                     VStack(spacing: DS.Spacing.l) {
                         Image(systemName: "tray").font(.system(size: DS.Spacing.xl * 2))
                             .foregroundStyle(.secondary)
@@ -91,8 +91,8 @@
                                         id: UUID(), title: "Current Platform",
                                         iconSystemName: "display")
                                 ])
-                        ], selection: $selection,
-                        content: { _ in
+                        ], selection: $selection
+                    ) { _ in
                         InspectorPattern(title: "Platform Details") {
                             #if os(macOS)
                                 KeyValueRow(key: "Platform", value: "macOS")
@@ -138,8 +138,8 @@
                                     .init(id: 2, title: "Item 2", iconSystemName: "folder"),
                                     .init(id: 3, title: "Item 3", iconSystemName: "star"),
                                 ])
-                        ], selection: $selection,
-                        content: { _ in
+                        ], selection: $selection
+                    ) { _ in
                         VStack(alignment: .leading, spacing: DS.Spacing.m) {
                             Text("Detail Content Area").font(DS.Typography.title)
 
@@ -194,9 +194,7 @@
                                 id: "bm2", title: "Error Locations",
                                 iconSystemName: "exclamationmark.triangle"),
                         ]),
-                ], selection: $selection,
-                content: { _ in EmptyView() }
-            )
+                ], selection: $selection, content: { _ in EmptyView() })
         } content: {
             VStack(alignment: .leading, spacing: DS.Spacing.l) {
                 Text("Parse Tree").font(DS.Typography.title).padding(DS.Spacing.l)
