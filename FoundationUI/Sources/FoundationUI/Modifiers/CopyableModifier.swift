@@ -114,7 +114,8 @@ public struct CopyableModifier: ViewModifier {
             }.padding(.horizontal, DS.Spacing.m).padding(.vertical, DS.Spacing.s)
         }.buttonStyle(.plain).accessibilityLabel("Copy \(textToCopy)").accessibilityHint(
             "Double tap to copy to clipboard"
-        )#if os(macOS)
+        )
+        #if os(macOS)
             .keyboardShortcut("c", modifiers: .command)
             #endif
     }
