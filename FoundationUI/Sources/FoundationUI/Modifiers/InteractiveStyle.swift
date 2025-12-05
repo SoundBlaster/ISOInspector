@@ -144,10 +144,10 @@ public struct InteractiveStyle: ViewModifier {
     @FocusState private var isFocused: Bool
 
     public func body(content: Content) -> some View {
-        var interactiveContent = content
-
         #if os(macOS)
-            interactiveContent = interactiveContent.onHover { hovering in isHovered = hovering }
+            let interactiveContent = content.onHover { hovering in isHovered = hovering }
+        #else
+            let interactiveContent = content
         #endif
 
         return interactiveContent.scaleEffect(effectiveScale).opacity(effectiveOpacity).overlay(
