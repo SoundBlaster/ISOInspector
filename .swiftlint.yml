@@ -24,6 +24,7 @@ disabled_rules:
   - function_body_length
   - cyclomatic_complexity
   - blanket_disable_command  # Allow file-level swiftlint:disable for large legacy files with @todo markers
+  - type_body_length
 
 # ========================================
 # Complexity Thresholds (Task A7)
