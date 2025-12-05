@@ -1,14 +1,3 @@
-// ISOInspectorDemoScreen - Full ISO Inspector Mockup
-//
-// Demonstrates the complete ISO Inspector workflow by combining all FoundationUI patterns:
-// - SidebarPattern for file/section navigation
-// - BoxTreePattern for hierarchical ISO box structure
-// - InspectorPattern for selected box metadata display
-// - ToolbarPattern for action buttons with keyboard shortcuts
-//
-// This screen serves as a real-world integration example and testing environment
-// for all FoundationUI components and patterns working together.
-
 // swiftlint:disable file_length
 
 import FoundationUI
