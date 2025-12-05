@@ -204,9 +204,9 @@ public enum KeyValueLayout: Equatable {
 
 extension View {
     /// Conditionally applies a view modifier
-    @ViewBuilder private func `if`(_ condition: Bool, transform: (Self) -> some View) -> some View {
-        if condition { transform(self) } else { self }
-    }
+    @ViewBuilder fileprivate func `if`(_ condition: Bool, transform: (Self) -> some View)
+        -> some View
+    { if condition { transform(self) } else { self } }
 }
 
 // MARK: - SwiftUI Previews
