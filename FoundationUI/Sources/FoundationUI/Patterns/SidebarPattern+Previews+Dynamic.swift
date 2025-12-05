@@ -15,7 +15,7 @@
                                 .init(id: UUID(), title: "Details", iconSystemName: "info.circle"),
                             ])
                     ], selection: $selection,
-                    content: { _ in Text("Detail content").font(DS.Typography.body) }
+                    detail: { _ in Text("Detail content").font(DS.Typography.body) }
                 ).environment(\.dynamicTypeSize, .xSmall)
             }
         }
@@ -37,8 +37,7 @@
                                 .init(id: UUID(), title: "Details", iconSystemName: "info.circle"),
                             ])
                     ], selection: $selection,
-                    content: { _ in Text("Detail content with large type").font(DS.Typography.body)
-                    }
+                    detail: { _ in Text("Detail content with large type").font(DS.Typography.body) }
                 ).environment(\.dynamicTypeSize, .xxxLarge)
             }
         }
@@ -194,7 +193,7 @@
                                 id: "bm2", title: "Error Locations",
                                 iconSystemName: "exclamationmark.triangle"),
                         ]),
-                ], selection: $selection, content: { _ in EmptyView() })
+                ], selection: $selection, detail: { _ in EmptyView() })
         } content: {
             VStack(alignment: .leading, spacing: DS.Spacing.l) {
                 Text("Parse Tree").font(DS.Typography.title).padding(DS.Spacing.l)
