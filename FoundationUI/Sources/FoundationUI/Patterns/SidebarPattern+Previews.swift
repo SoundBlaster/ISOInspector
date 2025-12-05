@@ -15,13 +15,13 @@
                             items: [
                                 .init(
                                     id: UUID(), title: "Overview", iconSystemName: "doc.richtext"),
-                                .init(id: UUID(), title: "Metadata", iconSystemName: "info.circle"),
+                                .init(id: UUID(), title: "Metadata", iconSystemName: "info.circle")
                             ]),
                         .init(
                             title: "Quality",
                             items: [
                                 .init(id: UUID(), title: "Waveform", iconSystemName: "waveform")
-                            ]),
+                            ])
                     ], selection: $selection
                 ) { selection in
                     VStack(alignment: .leading, spacing: DS.Spacing.m) {
@@ -58,15 +58,15 @@
                             .init(
                                 id: UUID(), title: "Structure", iconSystemName: "square.grid.3x3"),
                             .init(
-                                id: UUID(), title: "Validation", iconSystemName: "checkmark.seal"),
+                                id: UUID(), title: "Validation", iconSystemName: "checkmark.seal")
                         ]),
                     .init(
                         title: "Media",
                         items: [
                             .init(id: UUID(), title: "Video Tracks", iconSystemName: "video"),
                             .init(id: UUID(), title: "Audio Tracks", iconSystemName: "waveform"),
-                            .init(id: UUID(), title: "Subtitles", iconSystemName: "text.bubble"),
-                        ]),
+                            .init(id: UUID(), title: "Subtitles", iconSystemName: "text.bubble")
+                        ])
                 ]
             }()
 
@@ -100,14 +100,14 @@
                             id: "structure", title: "Box Structure",
                             iconSystemName: "square.stack.3d.up"),
                         .init(
-                            id: "validation", title: "Validation", iconSystemName: "checkmark.seal"),
+                            id: "validation", title: "Validation", iconSystemName: "checkmark.seal")
                     ]),
                 .init(
                     title: "Media Tracks",
                     items: [
                         .init(id: "video", title: "Video Tracks", iconSystemName: "video"),
                         .init(id: "audio", title: "Audio Tracks", iconSystemName: "waveform"),
-                        .init(id: "text", title: "Text Tracks", iconSystemName: "text.bubble"),
+                        .init(id: "text", title: "Text Tracks", iconSystemName: "text.bubble")
                     ]),
                 .init(
                     title: "Advanced",
@@ -115,8 +115,8 @@
                         .init(id: "hex", title: "Hex Viewer", iconSystemName: "number"),
                         .init(
                             id: "export", title: "Export Data",
-                            iconSystemName: "square.and.arrow.up"),
-                    ]),
+                            iconSystemName: "square.and.arrow.up")
+                    ])
             ]
 
             var body: some View {
@@ -211,7 +211,7 @@
                             accessibilityLabel: "Movie Box"),
                         .init(
                             id: 3, title: "mdat", iconSystemName: "cube",
-                            accessibilityLabel: "Media Data Box"),
+                            accessibilityLabel: "Media Data Box")
                     ]),
                 .init(
                     title: "Metadata",
@@ -221,15 +221,15 @@
                             accessibilityLabel: "Movie Header"),
                         .init(
                             id: 5, title: "iods", iconSystemName: "gearshape",
-                            accessibilityLabel: "Object Descriptor"),
+                            accessibilityLabel: "Object Descriptor")
                     ]),
                 .init(
                     title: "Tracks",
                     items: [
                         .init(id: 6, title: "trak (Video)", iconSystemName: "video"),
                         .init(id: 7, title: "trak (Audio)", iconSystemName: "speaker.wave.2"),
-                        .init(id: 8, title: "trak (Subtitle)", iconSystemName: "text.bubble"),
-                    ]),
+                        .init(id: 8, title: "trak (Subtitle)", iconSystemName: "text.bubble")
+                    ])
             ]
 
             var body: some View {

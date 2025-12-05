@@ -27,10 +27,10 @@ import SwiftUI
                                 title: "mdia",
                                 children: [
                                     PreviewNode(title: "mdhd", children: []),
-                                    PreviewNode(title: "hdlr", children: []),
-                                ]),
-                        ]),
-                ]), PreviewNode(title: "mdat", children: []),
+                                    PreviewNode(title: "hdlr", children: [])
+                                ])
+                        ])
+                ]), PreviewNode(title: "mdat", children: [])
         ]
 
         var body: some View {
@@ -101,9 +101,9 @@ import SwiftUI
                 title: "Root 1",
                 children: [
                     PreviewNode(title: "Child 1.1", children: []),
-                    PreviewNode(title: "Child 1.2", children: []),
+                    PreviewNode(title: "Child 1.2", children: [])
                 ]),
-            PreviewNode(title: "Root 2", children: [PreviewNode(title: "Child 2.1", children: [])]),
+            PreviewNode(title: "Root 2", children: [PreviewNode(title: "Child 2.1", children: [])])
         ]
 
         var body: some View {
@@ -177,8 +177,8 @@ import SwiftUI
                 title: "moov",
                 children: [
                     PreviewNode(title: "mvhd", children: []),
-                    PreviewNode(title: "trak", children: []),
-                ]),
+                    PreviewNode(title: "trak", children: [])
+                ])
         ]
 
         var body: some View {

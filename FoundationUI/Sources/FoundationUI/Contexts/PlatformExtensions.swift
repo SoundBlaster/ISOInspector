@@ -181,7 +181,8 @@ import SwiftUI
         ///   - action: Action to perform when tapped
         /// - Returns: View with tap gesture applied
         public func platformTapGesture(count: Int = 1, perform action: @escaping () -> Void)
-            -> some View { onTapGesture(count: count, perform: action) }
+            -> some View
+        { onTapGesture(count: count, perform: action) }
 
         /// Applies a platform-specific long press gesture on iOS/iPadOS
         ///
@@ -312,7 +313,8 @@ import SwiftUI
         /// - Parameter style: The hover effect style (default: .lift)
         /// - Returns: View with hover effect applied on iPad, unchanged on other devices
         @ViewBuilder public func platformHoverEffect(_ style: PlatformHoverEffectStyle = .lift)
-            -> some View {
+            -> some View
+        {
             if UIDevice.current.userInterfaceIdiom == .pad {
                 // Only apply hover effect on iPad
                 switch style {
@@ -357,7 +359,8 @@ import SwiftUI
             if UIDevice.current.userInterfaceIdiom == .pad {
                 // Only apply hover effect on iPad with animation
                 switch style {
-                case .lift: hoverEffect(.lift).animation(animation, value: UUID())  // Trigger animation
+                // Trigger animation
+                case .lift: hoverEffect(.lift).animation(animation, value: UUID())
                 case .highlight: hoverEffect(.highlight).animation(animation, value: UUID())
                 case .automatic: hoverEffect(.automatic).animation(animation, value: UUID())
                 }
