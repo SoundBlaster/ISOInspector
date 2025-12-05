@@ -125,11 +125,7 @@ public struct Copyable<Content: View>: View {
     ///     Text("Silent copy")
     /// }
     /// ```
-    public init(
-        text: String,
-        showFeedback: Bool = true,
-        @ViewBuilder content: () -> Content
-    ) {
+    public init(text: String, showFeedback: Bool = true, @ViewBuilder content: () -> Content) {
         textToCopy = text
         self.showFeedback = showFeedback
         self.content = content()
@@ -148,74 +144,53 @@ public struct Copyable<Content: View>: View {
 
 #Preview("Basic Copyable Wrapper") {
     VStack(spacing: DS.Spacing.l) {
-        Copyable(text: "Simple Value") {
-            Text("Simple Value")
-                .font(DS.Typography.code)
-        }
+        Copyable(text: "Simple Value") { Text("Simple Value").font(DS.Typography.code) }
 
         Copyable(text: "Styled Value") {
-            Text("Styled Value")
-                .font(DS.Typography.body)
-                .foregroundColor(DS.Colors.accent)
+            Text("Styled Value").font(DS.Typography.body).foregroundColor(DS.Colors.accent)
         }
 
         Copyable(text: "No Feedback", showFeedback: false) {
-            Text("No Feedback")
-                .font(DS.Typography.code)
+            Text("No Feedback").font(DS.Typography.code)
         }
-    }
-    .padding(DS.Spacing.xl)
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Complex Content") {
     VStack(spacing: DS.Spacing.l) {
         Copyable(text: "Document.pdf") {
             HStack(spacing: DS.Spacing.s) {
-                Image(systemName: "doc.text.fill")
-                    .foregroundColor(DS.Colors.accent)
-                Text("Document.pdf")
-                    .font(DS.Typography.code)
+                Image(systemName: "doc.text.fill").foregroundColor(DS.Colors.accent)
+                Text("Document.pdf").font(DS.Typography.code)
             }
         }
 
         Copyable(text: "0x1A2B3C4D") {
             HStack(spacing: DS.Spacing.s) {
-                Image(systemName: "number")
-                    .foregroundColor(DS.Colors.secondary)
-                Text("0x1A2B3C4D")
-                    .font(DS.Typography.code)
+                Image(systemName: "number").foregroundColor(DS.Colors.secondary)
+                Text("0x1A2B3C4D").font(DS.Typography.code)
                 Badge(text: "Hex", level: .info)
             }
         }
 
         Copyable(text: "192.168.1.1") {
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("IP Address")
-                    .font(DS.Typography.caption)
-                    .foregroundColor(DS.Colors.textSecondary)
-                Text("192.168.1.1")
-                    .font(DS.Typography.code)
+                Text("IP Address").font(DS.Typography.caption).foregroundColor(
+                    DS.Colors.textSecondary)
+                Text("192.168.1.1").font(DS.Typography.code)
             }
         }
-    }
-    .padding(DS.Spacing.xl)
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("With FoundationUI Components") {
     VStack(spacing: DS.Spacing.l) {
-        Copyable(text: "Info Badge") {
-            Badge(text: "Info", level: .info)
-        }
+        Copyable(text: "Info Badge") { Badge(text: "Info", level: .info) }
 
-        Copyable(text: "Warning Badge") {
-            Badge(text: "Warning", level: .warning)
-        }
+        Copyable(text: "Warning Badge") { Badge(text: "Warning", level: .warning) }
 
-        Copyable(text: "Key-Value Pair") {
-            KeyValueRow(key: "File ID", value: "ABC123")
-        }
-    }
-    .padding(DS.Spacing.xl)
+        Copyable(text: "Key-Value Pair") { KeyValueRow(key: "File ID", value: "ABC123") }
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("In Card Context") {
@@ -225,10 +200,8 @@ public struct Copyable<Content: View>: View {
 
             Copyable(text: "Document.pdf") {
                 HStack {
-                    Image(systemName: "doc.text")
-                        .foregroundColor(DS.Colors.accent)
-                    Text("Document.pdf")
-                        .font(DS.Typography.code)
+                    Image(systemName: "doc.text").foregroundColor(DS.Colors.accent)
+                    Text("Document.pdf").font(DS.Typography.code)
                 }
             }
 
@@ -236,11 +209,9 @@ public struct Copyable<Content: View>: View {
 
             Copyable(text: "0xDEADBEEF") {
                 HStack {
-                    Text("Checksum:")
-                        .font(DS.Typography.body)
+                    Text("Checksum:").font(DS.Typography.body)
                     Spacer()
-                    Text("0xDEADBEEF")
-                        .font(DS.Typography.code)
+                    Text("0xDEADBEEF").font(DS.Typography.code)
                 }
             }
 
@@ -248,30 +219,23 @@ public struct Copyable<Content: View>: View {
 
             Copyable(text: "Active") {
                 HStack {
-                    Text("Status:")
-                        .font(DS.Typography.body)
+                    Text("Status:").font(DS.Typography.body)
                     Spacer()
                     Badge(text: "Active", level: .success)
                 }
             }
-        }
-        .padding(DS.Spacing.l)
-    }
-    .padding(DS.Spacing.xl)
+        }.padding(DS.Spacing.l)
+    }.padding(DS.Spacing.xl)
 }
 
 #Preview("Dark Mode") {
     VStack(spacing: DS.Spacing.l) {
-        Copyable(text: "Dark Mode Value") {
-            Text("Dark Mode Value")
-                .font(DS.Typography.code)
-        }
+        Copyable(text: "Dark Mode Value") { Text("Dark Mode Value").font(DS.Typography.code) }
 
         Copyable(text: "0xABCDEF") {
             HStack(spacing: DS.Spacing.s) {
                 Image(systemName: "moon.fill")
-                Text("0xABCDEF")
-                    .font(DS.Typography.code)
+                Text("0xABCDEF").font(DS.Typography.code)
             }
         }
 
@@ -282,9 +246,7 @@ public struct Copyable<Content: View>: View {
                 Badge(text: "New", level: .info)
             }
         }
-    }
-    .padding(DS.Spacing.xl)
-    .preferredColorScheme(.dark)
+    }.padding(DS.Spacing.xl).preferredColorScheme(.dark)
 }
 
 #Preview("Real-World: ISO Inspector") {
@@ -294,28 +256,20 @@ public struct Copyable<Content: View>: View {
 
             Copyable(text: "ftyp") {
                 HStack {
-                    Text("Type:")
-                        .font(DS.Typography.body)
+                    Text("Type:").font(DS.Typography.body)
                     Spacer()
-                    Text("ftyp")
-                        .font(DS.Typography.code)
+                    Text("ftyp").font(DS.Typography.code)
                     Badge(text: "Container", level: .info)
                 }
             }
 
             Divider()
 
-            Copyable(text: "0x00000018") {
-                KeyValueRow(key: "Size", value: "0x00000018")
-            }
+            Copyable(text: "0x00000018") { KeyValueRow(key: "Size", value: "0x00000018") }
 
             Divider()
 
-            Copyable(text: "0x00000000") {
-                KeyValueRow(key: "Offset", value: "0x00000000")
-            }
-        }
-        .padding(DS.Spacing.l)
-    }
-    .padding(DS.Spacing.xl)
+            Copyable(text: "0x00000000") { KeyValueRow(key: "Offset", value: "0x00000000") }
+        }.padding(DS.Spacing.l)
+    }.padding(DS.Spacing.xl)
 }

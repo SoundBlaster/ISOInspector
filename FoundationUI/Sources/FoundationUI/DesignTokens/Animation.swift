@@ -40,8 +40,8 @@ import SwiftUI
 /// - iOS: Animations feel responsive and fluid
 /// - macOS: Slightly snappier to match desktop expectations
 /// - Both platforms respect user preferences for motion
-public extension DS {
-    enum Animation {
+extension DS {
+    public enum Animation {
         /// Quick animation (0.15s) with snappy timing
         ///
         /// Fast, responsive animation for immediate user feedback.
@@ -102,10 +102,7 @@ public extension DS {
         /// **Timing**: Spring physics with moderate dampening
         ///
         /// **Accessibility**: Becomes instant when Reduce Motion is enabled
-        public static let spring: SwiftUI.Animation = .spring(
-            response: 0.3,
-            dampingFraction: 0.7
-        )
+        public static let spring: SwiftUI.Animation = .spring(response: 0.3, dampingFraction: 0.7)
 
         // MARK: - Accessibility-Aware Animations
 
@@ -121,8 +118,7 @@ public extension DS {
         ///
         /// - Parameter animation: The animation to use when motion is enabled
         /// - Returns: The animation if Reduce Motion is off, nil otherwise
-        @available(iOS 17.0, macOS 14.0, *)
-        public static func ifMotionEnabled(
+        @available(iOS 17.0, macOS 14.0, *) public static func ifMotionEnabled(
             _ animation: SwiftUI.Animation
         ) -> SwiftUI.Animation? {
             // Note: In a real implementation, we'd check AccessibilitySettings

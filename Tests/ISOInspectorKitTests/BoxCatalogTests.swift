@@ -3,53 +3,49 @@ import XCTest
 @testable import ISOInspectorKit
 
 final class BoxCatalogTests: XCTestCase {
-  func testLookupReturnsDescriptorForKnownFourCharCode() throws {
-    let catalog = try BoxCatalog.loadBundledCatalog()
-    let header = try makeHeader(type: "ftyp")
+    func testLookupReturnsDescriptorForKnownFourCharCode() throws {
+        let catalog = try BoxCatalog.loadBundledCatalog()
+        let header = try makeHeader(type: "ftyp")
 
-    let descriptor = catalog.descriptor(for: header)
+        let descriptor = catalog.descriptor(for: header)
 
-    XCTAssertEqual(descriptor?.name, "File Type And Compatibility")
-    XCTAssertTrue(descriptor?.summary.contains("compatibility") ?? false)
-  }
+        XCTAssertEqual(descriptor?.name, "File Type And Compatibility")
+        XCTAssertTrue(descriptor?.summary.contains("compatibility") ?? false)
+    }
 
-  func testLookupReturnsDescriptorForExtendedType() throws {
-    let catalog = try BoxCatalog.loadBundledCatalog()
-    let header = try makeHeader(
-      type: "uuid", uuid: UUID(uuidString: "D4807EF2-CA39-4695-8E54-26CB9E46A79F"))
+    func testLookupReturnsDescriptorForExtendedType() throws {
+        let catalog = try BoxCatalog.loadBundledCatalog()
+        let header = try makeHeader(
+            type: "uuid", uuid: UUID(uuidString: "D4807EF2-CA39-4695-8E54-26CB9E46A79F"))
 
-    let descriptor = catalog.descriptor(for: header)
+        let descriptor = catalog.descriptor(for: header)
 
-    XCTAssertEqual(descriptor?.name, "KLV Sample Entry")
-    XCTAssertEqual(
-      descriptor?.identifier.extendedType, UUID(uuidString: "D4807EF2-CA39-4695-8E54-26CB9E46A79F"))
-  }
+        XCTAssertEqual(descriptor?.name, "KLV Sample Entry")
+        XCTAssertEqual(
+            descriptor?.identifier.extendedType,
+            UUID(uuidString: "D4807EF2-CA39-4695-8E54-26CB9E46A79F"))
+    }
 
-  func testLookupReturnsNilForUnknownBox() throws {
-    let catalog = try BoxCatalog.loadBundledCatalog()
-    let header = try makeHeader(type: "zzzz")
+    func testLookupReturnsNilForUnknownBox() throws {
+        let catalog = try BoxCatalog.loadBundledCatalog()
+        let header = try makeHeader(type: "zzzz")
 
-    XCTAssertNil(catalog.descriptor(for: header))
-  }
+        XCTAssertNil(catalog.descriptor(for: header))
+    }
 
-  func testLookupExtractsCategoryFromSummary() throws {
-    let catalog = try BoxCatalog.loadBundledCatalog()
-    let header = try makeHeader(type: "GRAP")
+    func testLookupExtractsCategoryFromSummary() throws {
+        let catalog = try BoxCatalog.loadBundledCatalog()
+        let header = try makeHeader(type: "GRAP")
 
-    let descriptor = try XCTUnwrap(catalog.descriptor(for: header))
+        let descriptor = try XCTUnwrap(catalog.descriptor(for: header))
 
-    XCTAssertEqual(descriptor.category, "handler")
-  }
+        XCTAssertEqual(descriptor.category, "handler")
+    }
 
-  private func makeHeader(type: String, uuid: UUID? = nil) throws -> BoxHeader {
-    let code = try FourCharCode(type)
-    return BoxHeader(
-      type: code,
-      totalSize: 32,
-      headerSize: uuid == nil ? 8 : 24,
-      payloadRange: 8..<32,
-      range: 0..<32,
-      uuid: uuid
-    )
-  }
+    private func makeHeader(type: String, uuid: UUID? = nil) throws -> BoxHeader {
+        let code = try FourCharCode(type)
+        return BoxHeader(
+            type: code, totalSize: 32, headerSize: uuid == nil ? 8 : 24, payloadRange: 8..<32,
+            range: 0..<32, uuid: uuid)
+    }
 }

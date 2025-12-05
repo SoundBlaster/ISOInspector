@@ -129,10 +129,8 @@ public struct NavigationSplitScaffold<Sidebar: View, Content: View, Detail: View
     /// }
     /// ```
     public init(
-        model: NavigationModel = NavigationModel(),
-        @ViewBuilder sidebar: () -> Sidebar,
-        @ViewBuilder content: () -> Content,
-        @ViewBuilder detail: () -> Detail
+        model: NavigationModel = NavigationModel(), @ViewBuilder sidebar: () -> Sidebar,
+        @ViewBuilder content: () -> Content, @ViewBuilder detail: () -> Detail
     ) {
         self.navigationModel = model
         self.sidebar = sidebar()
@@ -143,19 +141,13 @@ public struct NavigationSplitScaffold<Sidebar: View, Content: View, Detail: View
     // MARK: - Body
 
     public var body: some View {
-        NavigationSplitView(
-            columnVisibility: $navigationModel.columnVisibility
-        ) {
-            sidebar
-                .environment(\.navigationModel, navigationModel)
+        NavigationSplitView(columnVisibility: $navigationModel.columnVisibility) {
+            sidebar.environment(\.navigationModel, navigationModel)
         } content: {
-            content
-                .environment(\.navigationModel, navigationModel)
+            content.environment(\.navigationModel, navigationModel)
         } detail: {
-            detail
-                .environment(\.navigationModel, navigationModel)
-        }
-        .animation(DS.Animation.medium, value: navigationModel.columnVisibility)
+            detail.environment(\.navigationModel, navigationModel)
+        }.animation(DS.Animation.medium, value: navigationModel.columnVisibility)
     }
 }
 
@@ -171,9 +163,7 @@ public struct NavigationSplitScaffold<Sidebar: View, Content: View, Detail: View
 ///
 /// This allows patterns like `SidebarPattern` or `InspectorPattern` to query
 /// navigation state without owning it.
-struct NavigationModelKey: EnvironmentKey {
-    static let defaultValue: NavigationModel? = nil
-}
+struct NavigationModelKey: EnvironmentKey { static let defaultValue: NavigationModel? = nil }
 
 extension EnvironmentValues {
     /// The navigation model from the nearest enclosing `NavigationSplitScaffold`.
@@ -202,260 +192,205 @@ extension EnvironmentValues {
 // MARK: - Preview Support
 
 #if DEBUG
-    @available(iOS 17.0, macOS 14.0, *)
-    struct NavigationSplitScaffold_Previews: PreviewProvider {
+    @available(iOS 17.0, macOS 14.0, *) struct NavigationSplitScaffold_Previews: PreviewProvider {
         static var previews: some View {
             Group {
-            // Preview 1: Basic Three-Column Layout
-            basicThreeColumn
-                .previewDisplayName("1. Basic Three-Column")
+                // Preview 1: Basic Three-Column Layout
+                basicThreeColumn.previewDisplayName("1. Basic Three-Column")
 
-            // Preview 2: Compact Two-Column
-            compactTwoColumn
-                .previewDisplayName("2. Compact Two-Column")
+                // Preview 2: Compact Two-Column
+                compactTwoColumn.previewDisplayName("2. Compact Two-Column")
 
-            // Preview 3: ISO Inspector Reference
-            isoInspectorReference
-                .previewDisplayName("3. ISO Inspector Reference")
+                // Preview 3: ISO Inspector Reference
+                isoInspectorReference.previewDisplayName("3. ISO Inspector Reference")
 
-            // Preview 4: Dark Mode
-            basicThreeColumn
-                .preferredColorScheme(.dark)
-                .previewDisplayName("4. Dark Mode")
+                // Preview 4: Dark Mode
+                basicThreeColumn.preferredColorScheme(.dark).previewDisplayName("4. Dark Mode")
 
-            // Preview 5: All Columns Visible
-            allColumnsVisible
-                .previewDisplayName("5. All Columns Visible")
+                // Preview 5: All Columns Visible
+                allColumnsVisible.previewDisplayName("5. All Columns Visible")
 
-            // Preview 6: Content Only
-            contentOnly
-                .previewDisplayName("6. Content Only")
+                // Preview 6: Content Only
+                contentOnly.previewDisplayName("6. Content Only")
+            }
         }
-    }
 
-    // MARK: - Preview Variants
+        // MARK: - Preview Variants
 
-    @MainActor
-    static var basicThreeColumn: some View {
-        NavigationSplitScaffold {
-            List {
-                Section("Files") {
-                    Label("Recents", systemImage: "clock")
-                    Label("Browse", systemImage: "folder")
-                }
+        @MainActor static var basicThreeColumn: some View {
+            NavigationSplitScaffold {
+                List {
+                    Section("Files") {
+                        Label("Recents", systemImage: "clock")
+                        Label("Browse", systemImage: "folder")
+                    }
+                }.navigationTitle("ISOInspector")
+            } content: {
+                List {
+                    Text("ftyp")
+                    Text("moov")
+                    Text("trak")
+                }.navigationTitle("Parse Tree")
+            } detail: {
+                VStack(alignment: .leading, spacing: DS.Spacing.m) {
+                    Text("Atom Properties").font(DS.Typography.title)
+                    Divider()
+                    Text("Type: ftyp")
+                    Text("Size: 20 bytes")
+                    Text("Offset: 0x00000000")
+                }.padding(DS.Spacing.m).navigationTitle("Inspector")
             }
-            .navigationTitle("ISOInspector")
-        } content: {
-            List {
-                Text("ftyp")
-                Text("moov")
-                Text("trak")
-            }
-            .navigationTitle("Parse Tree")
-        } detail: {
-            VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                Text("Atom Properties")
-                    .font(DS.Typography.title)
-                Divider()
-                Text("Type: ftyp")
-                Text("Size: 20 bytes")
-                Text("Offset: 0x00000000")
-            }
-            .padding(DS.Spacing.m)
-            .navigationTitle("Inspector")
         }
-    }
 
-    @MainActor
-    static var compactTwoColumn: some View {
-        let model = NavigationModel()
-        model.columnVisibility = .doubleColumn
+        @MainActor static var compactTwoColumn: some View {
+            let model = NavigationModel()
+            model.columnVisibility = .doubleColumn
 
-        return NavigationSplitScaffold(model: model) {
-            List {
-                Text("sample.mp4")
-                Text("test.iso")
+            return NavigationSplitScaffold(model: model) {
+                List {
+                    Text("sample.mp4")
+                    Text("test.iso")
+                }.navigationTitle("Files")
+            } content: {
+                List {
+                    Text("ftyp")
+                    Text("moov")
+                }.navigationTitle("Parse Tree")
+            } detail: {
+                Text("Detail View").navigationTitle("Inspector")
             }
-            .navigationTitle("Files")
-        } content: {
-            List {
-                Text("ftyp")
-                Text("moov")
-            }
-            .navigationTitle("Parse Tree")
-        } detail: {
-            Text("Detail View")
-                .navigationTitle("Inspector")
         }
-    }
 
-    @MainActor
-    static var isoInspectorReference: some View {
-        let model = NavigationModel()
-        model.columnVisibility = .all
+        @MainActor static var isoInspectorReference: some View {
+            let model = NavigationModel()
+            model.columnVisibility = .all
 
-        return NavigationSplitScaffold(model: model) {
-            List {
-                Section("Recent") {
-                    HStack {
-                        Image(systemName: "doc.fill")
-                            .foregroundStyle(DS.Colors.accent)
-                        VStack(alignment: .leading, spacing: DS.Spacing.xs) {
-                            Text("sample.mp4")
-                                .font(DS.Typography.body)
-                            Text("2.4 MB • 2 min ago")
-                                .font(DS.Typography.caption)
-                                .foregroundStyle(DS.Colors.textSecondary)
-                        }
-                    }
-                    HStack {
-                        Image(systemName: "doc.fill")
-                            .foregroundStyle(DS.Colors.accent)
-                        VStack(alignment: .leading, spacing: DS.Spacing.xs) {
-                            Text("test.iso")
-                                .font(DS.Typography.body)
-                            Text("15.3 MB • 1 hour ago")
-                                .font(DS.Typography.caption)
-                                .foregroundStyle(DS.Colors.textSecondary)
-                        }
-                    }
-                }
-                Section("Tools") {
-                    Label("Search", systemImage: "magnifyingglass")
-                    Label("Bookmarks", systemImage: "bookmark")
-                }
-            }
-            .navigationTitle("ISOInspector")
-            .accessibilityLabel("File Browser")
-        } content: {
-            List {
-                Section("Container") {
-                    HStack {
-                        Image(systemName: "cube")
-                        Text("ftyp")
-                        Spacer()
-                        Text("20 bytes")
-                            .foregroundStyle(DS.Colors.textSecondary)
-                            .font(DS.Typography.caption)
-                    }
-                    HStack {
-                        Image(systemName: "cube.fill")
-                        Text("moov")
-                        Spacer()
-                        Text("1.2 KB")
-                            .foregroundStyle(DS.Colors.textSecondary)
-                            .font(DS.Typography.caption)
-                    }
-                }
-                Section("Media") {
-                    HStack {
-                        Image(systemName: "waveform")
-                        Text("trak")
-                        Spacer()
-                        Text("850 bytes")
-                            .foregroundStyle(DS.Colors.textSecondary)
-                            .font(DS.Typography.caption)
-                    }
-                }
-            }
-            .navigationTitle("Parse Tree")
-            .accessibilityLabel("Parse Tree")
-        } detail: {
-            ScrollView {
-                VStack(alignment: .leading, spacing: DS.Spacing.l) {
-                    VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                        Text("Properties")
-                            .font(DS.Typography.title)
-                        Divider()
-                        propertyRow("Type", "ftyp")
-                        propertyRow("Size", "20 bytes")
-                        propertyRow("Offset", "0x00000000")
-                    }
-
-                    VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                        Text("Integrity")
-                            .font(DS.Typography.title)
-                        Divider()
+            return NavigationSplitScaffold(model: model) {
+                List {
+                    Section("Recent") {
                         HStack {
-                            Image(systemName: "checkmark.circle.fill")
-                                .foregroundStyle(.green)
-                            Text("Valid")
-                                .font(DS.Typography.body)
+                            Image(systemName: "doc.fill").foregroundStyle(DS.Colors.accent)
+                            VStack(alignment: .leading, spacing: DS.Spacing.xs) {
+                                Text("sample.mp4").font(DS.Typography.body)
+                                Text("2.4 MB • 2 min ago").font(DS.Typography.caption)
+                                    .foregroundStyle(DS.Colors.textSecondary)
+                            }
+                        }
+                        HStack {
+                            Image(systemName: "doc.fill").foregroundStyle(DS.Colors.accent)
+                            VStack(alignment: .leading, spacing: DS.Spacing.xs) {
+                                Text("test.iso").font(DS.Typography.body)
+                                Text("15.3 MB • 1 hour ago").font(DS.Typography.caption)
+                                    .foregroundStyle(DS.Colors.textSecondary)
+                            }
                         }
                     }
-
-                    VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                        Text("Metadata")
-                            .font(DS.Typography.title)
-                        Divider()
-                        propertyRow("Major Brand", "isom")
-                        propertyRow("Minor Version", "512")
-                        propertyRow("Compatible Brands", "isom, iso2, mp41")
+                    Section("Tools") {
+                        Label("Search", systemImage: "magnifyingglass")
+                        Label("Bookmarks", systemImage: "bookmark")
                     }
-                }
-                .padding(DS.Spacing.m)
+                }.navigationTitle("ISOInspector").accessibilityLabel("File Browser")
+            } content: {
+                List {
+                    Section("Container") {
+                        HStack {
+                            Image(systemName: "cube")
+                            Text("ftyp")
+                            Spacer()
+                            Text("20 bytes").foregroundStyle(DS.Colors.textSecondary).font(
+                                DS.Typography.caption)
+                        }
+                        HStack {
+                            Image(systemName: "cube.fill")
+                            Text("moov")
+                            Spacer()
+                            Text("1.2 KB").foregroundStyle(DS.Colors.textSecondary).font(
+                                DS.Typography.caption)
+                        }
+                    }
+                    Section("Media") {
+                        HStack {
+                            Image(systemName: "waveform")
+                            Text("trak")
+                            Spacer()
+                            Text("850 bytes").foregroundStyle(DS.Colors.textSecondary).font(
+                                DS.Typography.caption)
+                        }
+                    }
+                }.navigationTitle("Parse Tree").accessibilityLabel("Parse Tree")
+            } detail: {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: DS.Spacing.l) {
+                        VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                            Text("Properties").font(DS.Typography.title)
+                            Divider()
+                            propertyRow("Type", "ftyp")
+                            propertyRow("Size", "20 bytes")
+                            propertyRow("Offset", "0x00000000")
+                        }
+
+                        VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                            Text("Integrity").font(DS.Typography.title)
+                            Divider()
+                            HStack {
+                                Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
+                                Text("Valid").font(DS.Typography.body)
+                            }
+                        }
+
+                        VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                            Text("Metadata").font(DS.Typography.title)
+                            Divider()
+                            propertyRow("Major Brand", "isom")
+                            propertyRow("Minor Version", "512")
+                            propertyRow("Compatible Brands", "isom, iso2, mp41")
+                        }
+                    }.padding(DS.Spacing.m)
+                }.navigationTitle("Inspector").accessibilityLabel("Atom Inspector")
             }
-            .navigationTitle("Inspector")
-            .accessibilityLabel("Atom Inspector")
         }
-    }
 
-    @MainActor
-    static var allColumnsVisible: some View {
-        let model = NavigationModel()
-        model.columnVisibility = .all
+        @MainActor static var allColumnsVisible: some View {
+            let model = NavigationModel()
+            model.columnVisibility = .all
 
-        return NavigationSplitScaffold(model: model) {
-            List {
-                Text("Item 1")
-                Text("Item 2")
+            return NavigationSplitScaffold(model: model) {
+                List {
+                    Text("Item 1")
+                    Text("Item 2")
+                }.navigationTitle("Sidebar")
+            } content: {
+                Text("Content View").navigationTitle("Content")
+            } detail: {
+                Text("Detail View").navigationTitle("Detail")
             }
-            .navigationTitle("Sidebar")
-        } content: {
-            Text("Content View")
-                .navigationTitle("Content")
-        } detail: {
-            Text("Detail View")
-                .navigationTitle("Detail")
         }
-    }
 
-    @MainActor
-    static var contentOnly: some View {
-        let model = NavigationModel()
-        model.columnVisibility = .detailOnly
+        @MainActor static var contentOnly: some View {
+            let model = NavigationModel()
+            model.columnVisibility = .detailOnly
 
-        return NavigationSplitScaffold(model: model) {
-            List {
-                Text("Hidden Sidebar")
+            return NavigationSplitScaffold(model: model) {
+                List { Text("Hidden Sidebar") }
+            } content: {
+                VStack(spacing: DS.Spacing.m) {
+                    Image(systemName: "doc.text.magnifyingglass").font(.system(size: 64))
+                        .foregroundStyle(DS.Colors.textSecondary)
+                    Text("Content Only Mode").font(DS.Typography.title)
+                    Text("Sidebar and detail are hidden").font(DS.Typography.body).foregroundStyle(
+                        DS.Colors.textSecondary)
+                }.padding(DS.Spacing.xl)
+            } detail: {
+                Text("Hidden Detail")
             }
-        } content: {
-            VStack(spacing: DS.Spacing.m) {
-                Image(systemName: "doc.text.magnifyingglass")
-                    .font(.system(size: 64))
-                    .foregroundStyle(DS.Colors.textSecondary)
-                Text("Content Only Mode")
-                    .font(DS.Typography.title)
-                Text("Sidebar and detail are hidden")
-                    .font(DS.Typography.body)
-                    .foregroundStyle(DS.Colors.textSecondary)
-            }
-            .padding(DS.Spacing.xl)
-        } detail: {
-            Text("Hidden Detail")
         }
-    }
 
-    @MainActor
-    static func propertyRow(_ key: String, _ value: String) -> some View {
-        HStack {
-            Text(key)
-                .font(DS.Typography.body)
-                .foregroundStyle(DS.Colors.textSecondary)
-            Spacer()
-            Text(value)
-                .font(DS.Typography.body)
+        @MainActor static func propertyRow(_ key: String, _ value: String) -> some View {
+            HStack {
+                Text(key).font(DS.Typography.body).foregroundStyle(DS.Colors.textSecondary)
+                Spacer()
+                Text(value).font(DS.Typography.body)
+            }
         }
-    }
     }
 #endif

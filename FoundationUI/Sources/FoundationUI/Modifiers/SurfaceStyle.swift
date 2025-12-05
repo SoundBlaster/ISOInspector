@@ -43,14 +43,10 @@ public enum SurfaceMaterial: Equatable, Sendable {
     /// Human-readable description of the material
     public var description: String {
         switch self {
-        case .thin:
-            "Thin material"
-        case .regular:
-            "Regular material"
-        case .thick:
-            "Thick material"
-        case .ultra:
-            "Ultra thick material"
+        case .thin: "Thin material"
+        case .regular: "Regular material"
+        case .thick: "Thick material"
+        case .ultra: "Ultra thick material"
         }
     }
 
@@ -60,14 +56,10 @@ public enum SurfaceMaterial: Equatable, Sendable {
     /// the translucency effects.
     public var accessibilityLabel: String {
         switch self {
-        case .thin:
-            "Thin material background"
-        case .regular:
-            "Regular material background"
-        case .thick:
-            "Thick material background"
-        case .ultra:
-            "Ultra thick material background"
+        case .thin: "Thin material background"
+        case .regular: "Regular material background"
+        case .thick: "Thick material background"
+        case .ultra: "Ultra thick material background"
         }
     }
 
@@ -96,17 +88,12 @@ public enum SurfaceMaterial: Equatable, Sendable {
     ///
     /// Maps surface materials to SwiftUI's Material types for
     /// consistent appearance across the system.
-    @available(iOS 17.0, macOS 14.0, *)
-    public var swiftUIMaterial: Material {
+    @available(iOS 17.0, macOS 14.0, *) public var swiftUIMaterial: Material {
         switch self {
-        case .thin:
-            .thinMaterial
-        case .regular:
-            .regularMaterial
-        case .thick:
-            .thickMaterial
-        case .ultra:
-            .ultraThickMaterial
+        case .thin: .thinMaterial
+        case .regular: .regularMaterial
+        case .thick: .thickMaterial
+        case .ultra: .ultraThickMaterial
         }
     }
 }
@@ -142,18 +129,14 @@ public struct SurfaceStyle: ViewModifier {
     @Environment(\.accessibilityReduceTransparency) private var reduceTransparency
 
     public func body(content: Content) -> some View {
-        content
-            .background(backgroundView)
-            .accessibilityElement(children: .contain)
+        content.background(backgroundView).accessibilityElement(children: .contain)
     }
 
     /// The background view with material or fallback
-    @ViewBuilder
-    private var backgroundView: some View {
+    @ViewBuilder private var backgroundView: some View {
         if #available(iOS 17.0, macOS 14.0, *), !reduceTransparency {
             // Use system material on supported platforms
-            Color.clear
-                .background(material.swiftUIMaterial)
+            Color.clear.background(material.swiftUIMaterial)
         } else if allowFallback {
             // Fall back to solid color when materials unavailable
             // or when Reduce Transparency is enabled
@@ -167,7 +150,7 @@ public struct SurfaceStyle: ViewModifier {
 
 // MARK: - View Extension
 
-public extension View {
+extension View {
     /// Applies material-based surface styling to the view
     ///
     /// Adds a translucent material background that adapts to light/dark mode
@@ -213,17 +196,8 @@ public extension View {
     /// - **Ultra**: Use for critical modals, blocking overlays
     ///
     /// - Returns: A view with material-based surface styling
-    func surfaceStyle(
-        material: SurfaceMaterial = .regular,
-        allowFallback: Bool = true
-    ) -> some View {
-        modifier(
-            SurfaceStyle(
-                material: material,
-                allowFallback: allowFallback
-            )
-        )
-    }
+    public func surfaceStyle(material: SurfaceMaterial = .regular, allowFallback: Bool = true)
+        -> some View { modifier(SurfaceStyle(material: material, allowFallback: allowFallback)) }
 }
 
 // MARK: - SwiftUI Previews
@@ -231,227 +205,147 @@ public extension View {
 #Preview("Surface Styles - All Materials") {
     ZStack {
         // Background image to show translucency
-        Image(systemName: "grid.circle.fill")
-            .resizable()
-            .frame(width: 200, height: 200)
-            .foregroundStyle(.blue)
-            .opacity(0.3)
+        Image(systemName: "grid.circle.fill").resizable().frame(width: 200, height: 200)
+            .foregroundStyle(.blue).opacity(0.3)
 
         VStack(spacing: DS.Spacing.xl) {
             VStack {
-                Text("Thin Material")
-                    .font(.headline)
-                Text("Maximum translucency")
-                    .font(.caption)
-            }
-            .padding()
-            .surfaceStyle(material: .thin)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
+                Text("Thin Material").font(.headline)
+                Text("Maximum translucency").font(.caption)
+            }.padding().surfaceStyle(material: .thin).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.card))
 
             VStack {
-                Text("Regular Material")
-                    .font(.headline)
-                Text("Balanced vibrancy")
-                    .font(.caption)
-            }
-            .padding()
-            .surfaceStyle(material: .regular)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
+                Text("Regular Material").font(.headline)
+                Text("Balanced vibrancy").font(.caption)
+            }.padding().surfaceStyle(material: .regular).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.card))
 
             VStack {
-                Text("Thick Material")
-                    .font(.headline)
-                Text("Reduced translucency")
-                    .font(.caption)
-            }
-            .padding()
-            .surfaceStyle(material: .thick)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
+                Text("Thick Material").font(.headline)
+                Text("Reduced translucency").font(.caption)
+            }.padding().surfaceStyle(material: .thick).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.card))
 
             VStack {
-                Text("Ultra Thick Material")
-                    .font(.headline)
-                Text("Minimal translucency")
-                    .font(.caption)
-            }
-            .padding()
-            .surfaceStyle(material: .ultra)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-        }
-        .padding()
+                Text("Ultra Thick Material").font(.headline)
+                Text("Minimal translucency").font(.caption)
+            }.padding().surfaceStyle(material: .ultra).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.card))
+        }.padding()
     }
 }
 
 #Preview("Surface Styles - With Card Elevation") {
     ZStack {
         LinearGradient(
-            colors: [.blue.opacity(0.3), .purple.opacity(0.3)],
-            startPoint: .topLeading,
+            colors: [.blue.opacity(0.3), .purple.opacity(0.3)], startPoint: .topLeading,
             endPoint: .bottomTrailing
-        )
-        .ignoresSafeArea()
+        ).ignoresSafeArea()
 
         VStack(spacing: DS.Spacing.l) {
-            VStack {
-                Text("Surface + Low Elevation")
-                    .font(.headline)
-            }
-            .padding()
-            .surfaceStyle(material: .regular)
-            .cardStyle(elevation: .low, useMaterial: false)
+            VStack { Text("Surface + Low Elevation").font(.headline) }.padding().surfaceStyle(
+                material: .regular
+            ).cardStyle(elevation: .low, useMaterial: false)
 
-            VStack {
-                Text("Surface + Medium Elevation")
-                    .font(.headline)
-            }
-            .padding()
-            .surfaceStyle(material: .regular)
-            .cardStyle(elevation: .medium, useMaterial: false)
+            VStack { Text("Surface + Medium Elevation").font(.headline) }.padding().surfaceStyle(
+                material: .regular
+            ).cardStyle(elevation: .medium, useMaterial: false)
 
-            VStack {
-                Text("Surface + High Elevation")
-                    .font(.headline)
-            }
-            .padding()
-            .surfaceStyle(material: .thick)
-            .cardStyle(elevation: .high, useMaterial: false)
-        }
-        .padding()
+            VStack { Text("Surface + High Elevation").font(.headline) }.padding().surfaceStyle(
+                material: .thick
+            ).cardStyle(elevation: .high, useMaterial: false)
+        }.padding()
     }
 }
 
 #Preview("Surface Styles - Dark Mode") {
     ZStack {
-        Color.blue.opacity(0.2)
-            .ignoresSafeArea()
+        Color.blue.opacity(0.2).ignoresSafeArea()
 
         VStack(spacing: DS.Spacing.l) {
-            Text("Thin")
-                .padding()
-                .surfaceStyle(material: .thin)
-                .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
+            Text("Thin").padding().surfaceStyle(material: .thin).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.card))
 
-            Text("Regular")
-                .padding()
-                .surfaceStyle(material: .regular)
-                .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
+            Text("Regular").padding().surfaceStyle(material: .regular).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.card))
 
-            Text("Thick")
-                .padding()
-                .surfaceStyle(material: .thick)
-                .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
+            Text("Thick").padding().surfaceStyle(material: .thick).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.card))
 
-            Text("Ultra")
-                .padding()
-                .surfaceStyle(material: .ultra)
-                .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-        }
-        .padding()
-    }
-    .preferredColorScheme(.dark)
+            Text("Ultra").padding().surfaceStyle(material: .ultra).clipShape(
+                RoundedRectangle(cornerRadius: DS.Radius.card))
+        }.padding()
+    }.preferredColorScheme(.dark)
 }
 
 #Preview("Surface Styles - Inspector Pattern") {
     HStack(spacing: 0) {
         // Main content area
         VStack {
-            Text("Main Content")
-                .font(.largeTitle)
+            Text("Main Content").font(.largeTitle)
             Spacer()
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.gray.opacity(0.1))
+        }.frame(maxWidth: .infinity, maxHeight: .infinity).background(Color.gray.opacity(0.1))
 
         // Inspector panel with surface style
         VStack(alignment: .leading, spacing: DS.Spacing.m) {
-            Text("Inspector")
-                .font(.headline)
+            Text("Inspector").font(.headline)
 
             Divider()
 
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("Property")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                Text("Property").font(.caption).foregroundStyle(.secondary)
                 Text("Value")
             }
 
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("Status")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Text("ACTIVE")
-                    .badgeChipStyle(level: .success)
+                Text("Status").font(.caption).foregroundStyle(.secondary)
+                Text("ACTIVE").badgeChipStyle(level: .success)
             }
 
             Spacer()
-        }
-        .padding()
-        .frame(width: 250)
-        .surfaceStyle(material: .regular)
+        }.padding().frame(width: 250).surfaceStyle(material: .regular)
     }
 }
 
 #Preview("Surface Styles - Layered Panels") {
     ZStack {
         // Background layer
-        Color.blue.opacity(0.1)
-            .ignoresSafeArea()
+        Color.blue.opacity(0.1).ignoresSafeArea()
 
         // Back panel
         VStack {
-            Text("Back Panel")
-                .font(.title)
+            Text("Back Panel").font(.title)
             Spacer()
-        }
-        .padding()
-        .frame(width: 350, height: 450)
-        .surfaceStyle(material: .regular)
-        .cardStyle(elevation: .low)
-        .offset(x: -20, y: -20)
+        }.padding().frame(width: 350, height: 450).surfaceStyle(material: .regular).cardStyle(
+            elevation: .low
+        ).offset(x: -20, y: -20)
 
         // Middle panel
         VStack {
-            Text("Middle Panel")
-                .font(.title2)
+            Text("Middle Panel").font(.title2)
             Spacer()
-        }
-        .padding()
-        .frame(width: 320, height: 400)
-        .surfaceStyle(material: .thick)
-        .cardStyle(elevation: .medium)
-        .offset(x: 0, y: 0)
+        }.padding().frame(width: 320, height: 400).surfaceStyle(material: .thick).cardStyle(
+            elevation: .medium
+        ).offset(x: 0, y: 0)
 
         // Front panel
         VStack {
-            Text("Front Panel")
-                .font(.headline)
-            Text("Ultra thick material")
-                .font(.caption)
-        }
-        .padding()
-        .frame(width: 250, height: 150)
-        .surfaceStyle(material: .ultra)
-        .cardStyle(elevation: .high)
-        .offset(x: 20, y: 100)
+            Text("Front Panel").font(.headline)
+            Text("Ultra thick material").font(.caption)
+        }.padding().frame(width: 250, height: 150).surfaceStyle(material: .ultra).cardStyle(
+            elevation: .high
+        ).offset(x: 20, y: 100)
     }
 }
 
 #Preview("Surface Styles - No Fallback") {
     VStack(spacing: DS.Spacing.l) {
-        Text("With Fallback")
-            .padding()
-            .surfaceStyle(material: .regular, allowFallback: true)
+        Text("With Fallback").padding().surfaceStyle(material: .regular, allowFallback: true)
             .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
 
-        Text("Without Fallback")
-            .padding()
-            .surfaceStyle(material: .regular, allowFallback: false)
-            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card))
-            .overlay(
-                RoundedRectangle(cornerRadius: DS.Radius.card)
-                    .stroke(Color.gray, lineWidth: 1)
-            )
-    }
-    .padding()
+        Text("Without Fallback").padding().surfaceStyle(material: .regular, allowFallback: false)
+            .clipShape(RoundedRectangle(cornerRadius: DS.Radius.card)).overlay(
+                RoundedRectangle(cornerRadius: DS.Radius.card).stroke(Color.gray, lineWidth: 1))
+    }.padding()
 }

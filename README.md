@@ -70,72 +70,35 @@ scripts/check_yaml.py path/to/workflow.yml another/config.yaml
 
 ## Code Formatting
 
-The repository enforces consistent Swift code style using **swift-format** (Apple's official Swift formatter). All Swift files are automatically formatted before commits via pre-commit hooks, and formatting compliance is validated in CI.
-
-### Local Formatting
-
-Format all Swift files before committing:
-
-```sh
-swift format --in-place --recursive Sources Tests
-```
-
-Check formatting without modifying files (mirrors CI check):
-
-```sh
-swift format lint --recursive Sources Tests
-```
-
-### Pre-commit Hook
-
-The `.pre-commit-config.yaml` includes a `swift-format-all` hook that automatically formats staged Swift files before each commit. Install pre-commit hooks:
-
-```sh
-pip install pre-commit
-pre-commit install --hook-type pre-commit --hook-type pre-push
-```
-
-Run all hooks manually:
-
-```sh
-pre-commit run --all-files
-```
-
-### Configuration
-
-Swift formatting is configured via `.swift-format.json` at the repository root. The configuration sets `respectsExistingLineBreaks: false` to ensure consistent brace positioning across the codebase.
-
-### CI Enforcement
-
-The GitHub Actions workflow includes a `swift-format-check` job that runs `swift format lint` on all Swift files. If unformatted code is detected, the workflow fails with instructions to run the formatter locally.
-
-### SwiftLint Compatibility
-
-The repository uses both **SwiftFormat** (for automatic code formatting) and **SwiftLint** (for linting and style enforcement). To avoid conflicts, the following SwiftLint rules are disabled in `.swiftlint.yml`:
-
-- `opening_brace` — SwiftFormat handles brace positioning
-- `closure_parameter_position` — SwiftFormat controls closure parameter layout
-- `trailing_comma` — SwiftFormat manages trailing commas in multiline collections
-
-This configuration allows both tools to work together harmoniously without creating conflicting formatting requirements.
+Swift formatting checks are currently disabled in both CI and local scripts. The `swift-format` job has been removed from CI, and `scripts/local-ci/run-lint.sh` no longer calls the formatter. SwiftLint remains the active enforcement tool, along with the helper hook `scripts/swiftlint_autocorrect_multiple_closures.sh` for multi-closure fixes.
 
 ## Code Quality Gates
 
-The repository enforces complexity thresholds using **SwiftLint** to prevent code quality regressions:
+The repository enforces strict complexity thresholds using **SwiftLint** to prevent code quality regressions:
 
-- **Cyclomatic Complexity:** Warning at 30, error at 55
-- **Function Body Length:** Warning at 250 lines, error at 350 lines
-- **Type Body Length:** Warning at 1200 lines, error at 1500 lines
-- **Nesting Depth:** Warning at 5 type levels, error at 7 levels
+- **Cyclomatic Complexity:** Warning at 8, error at 10
+- **Function Body Length:** Warning at 35 lines, error at 40 lines
+- **Type Body Length:** Warning at 180 lines, error at 200 lines
+- **Nesting Depth:** Warning at 4 levels, error at 5 levels
 
-These thresholds are tuned to allow 95%+ of existing code to pass while blocking future complexity growth. Pre-push hooks and CI workflows run `swiftlint lint --strict` to enforce these limits.
+Existing legacy violations are tracked in `.swiftlint.baseline.json` (main app/kit) and `Examples/ComponentTestApp/.swiftlint-baseline.json`. CI and git hooks load these baselines so new violations still fail while the backlog is cleaned up incrementally.
+
+Pre-commit and pre-push hooks both run `swiftlint lint --strict` (with the baselines) against the staged Swift files. GitHub Actions executes the `SwiftLint Code Quality` workflow on every push/PR, blocking merges when violations exist and uploading JSON artifacts (`swiftlint-main-report`, `swiftlint-foundationui-report`, `swiftlint-componenttestapp-report`) for detailed review in CI.
 
 ### Running SwiftLint Locally
 
-Check for complexity violations:
+Check for complexity violations (leave off `--config` so nested configs like `Tests/.swiftlint.yml` are respected):
 
 ```sh
-swiftlint lint --strict
+swiftlint lint --strict --baseline .swiftlint.baseline.json
+# ComponentTestApp sample app
+cd Examples/ComponentTestApp && swiftlint lint --strict --baseline .swiftlint-baseline.json
+```
+
+Auto-fix style issues where possible:
+
+```sh
+swiftlint --fix --baseline .swiftlint.baseline.json
 ```
 
 Install SwiftLint (macOS):
@@ -161,6 +124,10 @@ func parseComplexBox(...) {
 ```
 
 See existing disable pragmas in the codebase for examples of documented exceptions.
+
+### CI Analyzer Reports
+
+The `SwiftLint Code Quality` workflow uploads JSON reports for each Swift target. Download the artifacts from the CI run summary and open them with `jq`/`python -m json.tool` to inspect per-file violations when tightening guardrails or reviewing PR feedback.
 
 ## Test Coverage Gating
 

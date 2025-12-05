@@ -107,32 +107,23 @@ public struct Badge: View {
     // MARK: - Body
 
     public var body: some View {
-        Text(displayText)
-            .badgeChipStyle(level: level, showIcon: showIcon, hasText: hasText)
+        Text(displayText).badgeChipStyle(level: level, showIcon: showIcon, hasText: hasText)
             .accessibilityLabel(accessibilityLabel)
     }
 
     // MARK: - Helpers
 
-    private var hasText: Bool {
-        !displayText.isEmpty
-    }
+    private var hasText: Bool { !displayText.isEmpty }
 
     private var semanticsTextDescription: String {
-        if hasText {
-            return "'\(displayText)'"
-        }
+        if hasText { return "'\(displayText)'" }
         return "(icon only)"
     }
 
-    private var displayText: String {
-        text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
-    }
+    private var displayText: String { text?.trimmingCharacters(in: .whitespacesAndNewlines) ?? "" }
 
     private var accessibilityLabel: String {
-        if hasText {
-            return "\(level.accessibilityLabel): \(displayText)"
-        }
+        if hasText { return "\(level.accessibilityLabel): \(displayText)" }
         return level.accessibilityLabel
     }
 }
@@ -145,8 +136,7 @@ public struct Badge: View {
         Badge(text: "WARNING", level: .warning)
         Badge(text: "ERROR", level: .error)
         Badge(text: "SUCCESS", level: .success)
-    }
-    .padding()
+    }.padding()
 }
 
 #Preview("Badge - With Icons") {
@@ -155,8 +145,7 @@ public struct Badge: View {
         Badge(text: "Warning", level: .warning, showIcon: true)
         Badge(text: "Error", level: .error, showIcon: true)
         Badge(text: "Success", level: .success, showIcon: true)
-    }
-    .padding()
+    }.padding()
 }
 
 #Preview("Badge - Dark Mode") {
@@ -165,9 +154,7 @@ public struct Badge: View {
         Badge(text: "WARNING", level: .warning)
         Badge(text: "ERROR", level: .error)
         Badge(text: "SUCCESS", level: .success)
-    }
-    .padding()
-    .preferredColorScheme(.dark)
+    }.padding().preferredColorScheme(.dark)
 }
 
 #Preview("Badge - Various Lengths") {
@@ -176,59 +163,44 @@ public struct Badge: View {
         Badge(text: "PENDING", level: .info)
         Badge(text: "ATTENTION REQUIRED", level: .warning)
         Badge(text: "CRITICAL FAILURE", level: .error)
-    }
-    .padding()
+    }.padding()
 }
 
 #Preview("Badge - Real World Usage") {
     VStack(alignment: .leading, spacing: DS.Spacing.l) {
         // File type indicators
         HStack {
-            Text("File Type:")
-                .font(.body)
+            Text("File Type:").font(.body)
             Badge(text: "VALID", level: .success, showIcon: true)
         }
 
         // Status indicators
         HStack {
-            Text("Status:")
-                .font(.body)
+            Text("Status:").font(.body)
             Badge(text: "PROCESSING", level: .info)
         }
 
         // Validation results
         HStack {
-            Text("Validation:")
-                .font(.body)
+            Text("Validation:").font(.body)
             Badge(text: "FAILED", level: .error, showIcon: true)
         }
 
         // Warnings
         HStack {
-            Text("Check:")
-                .font(.body)
+            Text("Check:").font(.body)
             Badge(text: "NEEDS REVIEW", level: .warning, showIcon: true)
         }
-    }
-    .padding()
+    }.padding()
 }
 
 // MARK: - AgentDescribable Conformance
 
-@available(iOS 17.0, macOS 14.0, *)
-@MainActor
-extension Badge: AgentDescribable {
-    public var componentType: String {
-        "Badge"
-    }
+@available(iOS 17.0, macOS 14.0, *) @MainActor extension Badge: AgentDescribable {
+    public var componentType: String { "Badge" }
 
     public var properties: [String: Any] {
-        [
-            "text": displayText,
-            "level": level.stringValue,
-            "showIcon": showIcon,
-            "hasText": hasText
-        ]
+        ["text": displayText, "level": level.stringValue, "showIcon": showIcon, "hasText": hasText]
     }
 
     public var semantics: String {
@@ -243,9 +215,7 @@ extension Badge: AgentDescribable {
 #Preview("Badge - Platform Comparison") {
     VStack(spacing: DS.Spacing.xl) {
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            Text("iOS/iPadOS Style")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Text("iOS/iPadOS Style").font(.caption).foregroundStyle(.secondary)
 
             HStack(spacing: DS.Spacing.m) {
                 Badge(text: "NEW", level: .info)
@@ -254,44 +224,31 @@ extension Badge: AgentDescribable {
         }
 
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            Text("macOS Style")
-                .font(.caption)
-                .foregroundStyle(.secondary)
+            Text("macOS Style").font(.caption).foregroundStyle(.secondary)
 
             HStack(spacing: DS.Spacing.m) {
                 Badge(text: "NEW", level: .info)
                 Badge(text: "ALERT", level: .warning, showIcon: true)
             }
         }
-    }
-    .padding()
+    }.padding()
 }
 
-@available(iOS 17.0, macOS 14.0, *)
-#Preview("Badge - Agent Integration") {
+@available(iOS 17.0, macOS 14.0, *) #Preview("Badge - Agent Integration") {
     VStack(alignment: .leading, spacing: DS.Spacing.l) {
-        Text("AgentDescribable Protocol Demo")
-            .font(.headline)
+        Text("AgentDescribable Protocol Demo").font(.headline)
 
         let infoBadge = Badge(text: "INFO", level: .info, showIcon: true)
         infoBadge
 
         VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            Text("Component Type: \(infoBadge.componentType)")
-                .font(.caption)
+            Text("Component Type: \(infoBadge.componentType)").font(.caption).foregroundStyle(
+                .secondary)
+
+            Text("Properties: \(String(describing: infoBadge.properties))").font(.caption)
                 .foregroundStyle(.secondary)
 
-            Text("Properties: \(String(describing: infoBadge.properties))")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-
-            Text("Semantics: \(infoBadge.semantics)")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(DS.Radius.small)
-    }
-    .padding()
+            Text("Semantics: \(infoBadge.semantics)").font(.caption).foregroundStyle(.secondary)
+        }.padding().background(Color.gray.opacity(0.1)).cornerRadius(DS.Radius.small)
+    }.padding()
 }

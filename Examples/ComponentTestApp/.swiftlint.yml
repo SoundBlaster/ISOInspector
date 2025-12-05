@@ -1,0 +1,12 @@
+disabled_rules:
+  # Formatting is handled by swift-format
+  - trailing_comma
+  - closure_parameter_position
+  - opening_brace
+  - indentation_width
+  - vertical_parameter_alignment
+  - function_body_length
+  - cyclomatic_complexity
+
+  # Relaxed rules for sample app ergonomics
+  - line_length

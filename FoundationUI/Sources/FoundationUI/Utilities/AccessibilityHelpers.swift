@@ -4,9 +4,9 @@
 import SwiftUI
 
 #if canImport(UIKit)
-import UIKit
+    import UIKit
 #elseif canImport(AppKit)
-import AppKit
+    import AppKit
 #endif
 
 // MARK: - AccessibilityHelpers
@@ -273,20 +273,13 @@ public enum AccessibilityHelpers {
     /// }
     /// ```
     public static func auditView(
-        hasLabel: Bool,
-        hasHint: Bool,
-        touchTargetSize: CGSize,
-        contrastRatio: CGFloat
+        hasLabel: Bool, hasHint: Bool, touchTargetSize: CGSize, contrastRatio: CGFloat
     ) -> AuditResult {
         var issues: [String] = []
 
-        if !hasLabel {
-            issues.append("Missing accessibility label")
-        }
+        if !hasLabel { issues.append("Missing accessibility label") }
 
-        if !hasHint {
-            issues.append("Missing accessibility hint")
-        }
+        if !hasHint { issues.append("Missing accessibility hint") }
 
         if !isValidTouchTarget(size: touchTargetSize) {
             issues.append("Touch target too small (minimum 44×44 pt)")
@@ -417,13 +410,12 @@ public enum AccessibilityHelpers {
     /// Calculates relative luminance of a color (WCAG 2.1 formula)
     private static func relativeLuminance(of color: Color) -> CGFloat {
         #if canImport(UIKit)
-        guard let components = UIColor(color).cgColor.components else { return 0 }
+            guard let components = UIColor(color).cgColor.components else { return 0 }
         #elseif canImport(AppKit)
-        guard let components = NSColor(color).usingColorSpace(.deviceRGB)?.cgColor.components else {
-            return 0
-        }
+            guard let components = NSColor(color).usingColorSpace(.deviceRGB)?.cgColor.components
+            else { return 0 }
         #else
-        return 0
+            return 0
         #endif
 
         let r = !components.isEmpty ? gammaCorrect(components[0]) : 0
@@ -473,16 +465,13 @@ public enum AccessibilityHelpers {
 // MARK: - Result Builder
 
 /// Result builder for constructing VoiceOver hints
-@resultBuilder
-public struct StringBuilder {
-    public static func buildBlock(_ components: String...) -> String {
-        components.joined()
-    }
+@resultBuilder public struct StringBuilder {
+    public static func buildBlock(_ components: String...) -> String { components.joined() }
 }
 
 // MARK: - View Extensions
 
-public extension View {
+extension View {
     /// Applies accessible button modifiers
     ///
     /// - Parameters:
@@ -498,10 +487,8 @@ public extension View {
     ///         hint: "Copies the value to clipboard"
     ///     )
     /// ```
-    func accessibleButton(label: String, hint: String) -> some View {
-        accessibilityLabel(label)
-            .accessibilityHint(hint)
-            .accessibilityAddTraits(.isButton)
+    public func accessibleButton(label: String, hint: String) -> some View {
+        accessibilityLabel(label).accessibilityHint(hint).accessibilityAddTraits(.isButton)
     }
 
     /// Applies accessible toggle modifiers
@@ -516,10 +503,9 @@ public extension View {
     /// Image(systemName: isExpanded ? "chevron.down" : "chevron.right")
     ///     .accessibleToggle(label: "Section", isOn: isExpanded)
     /// ```
-    func accessibleToggle(label: String, isOn: Bool) -> some View {
-        accessibilityLabel(label)
-            .accessibilityValue(isOn ? "On" : "Off")
-            .accessibilityAddTraits(.isButton)
+    public func accessibleToggle(label: String, isOn: Bool) -> some View {
+        accessibilityLabel(label).accessibilityValue(isOn ? "On" : "Off").accessibilityAddTraits(
+            .isButton)
     }
 
     /// Applies accessible heading modifiers
@@ -532,9 +518,7 @@ public extension View {
     /// Text("Title")
     ///     .accessibleHeading(level: 1)
     /// ```
-    func accessibleHeading(level _: Int) -> some View {
-        accessibilityAddTraits(.isHeader)
-    }
+    public func accessibleHeading(level _: Int) -> some View { accessibilityAddTraits(.isHeader) }
 
     /// Applies accessible value modifiers for key-value pairs
     ///
@@ -548,9 +532,8 @@ public extension View {
     /// Text("12345")
     ///     .accessibleValue(label: "Count", value: "12345")
     /// ```
-    func accessibleValue(label: String, value: String) -> some View {
-        accessibilityLabel(label)
-            .accessibilityValue(value)
+    public func accessibleValue(label: String, value: String) -> some View {
+        accessibilityLabel(label).accessibilityValue(value)
     }
 
     /// Applies focus priority for keyboard navigation
@@ -572,40 +555,37 @@ public extension View {
     /// - `.high`
     /// - `.medium`
     /// - `.low`
-    func accessibleFocus(priority: AccessibilityFocusPriority) -> some View {
+    public func accessibleFocus(priority: AccessibilityFocusPriority) -> some View {
         accessibilitySortPriority(priority.rawValue)
     }
 
     // MARK: - Platform-Specific Extensions
 
     #if os(macOS)
-    /// Enables macOS keyboard navigation
-    ///
-    /// - Returns: A view with macOS keyboard navigation enabled
-    func macOSKeyboardNavigable() -> some View {
-        focusable()
-    }
+        /// Enables macOS keyboard navigation
+        ///
+        /// - Returns: A view with macOS keyboard navigation enabled
+        public func macOSKeyboardNavigable() -> some View { focusable() }
     #endif
 
     #if os(iOS)
-    /// Adds entry to iOS VoiceOver rotor
-    ///
-    /// VoiceOver rotor allows users to quickly navigate between specific elements
-    /// (like headings, links, buttons) by rotating two fingers on the screen.
-    ///
-    /// - Parameter entry: The rotor entry name describing the element type
-    /// - Returns: A view with VoiceOver rotor entry
-    ///
-    /// ## Example
-    /// ```swift
-    /// Text("Section Title")
-    ///     .font(.headline)
-    ///     .voiceOverRotor(entry: "Heading")
-    /// ```
-    func voiceOverRotor(entry: String) -> some View {
-        accessibilityAddTraits(.isHeader)
-            .accessibilityLabel(entry)
-    }
+        /// Adds entry to iOS VoiceOver rotor
+        ///
+        /// VoiceOver rotor allows users to quickly navigate between specific elements
+        /// (like headings, links, buttons) by rotating two fingers on the screen.
+        ///
+        /// - Parameter entry: The rotor entry name describing the element type
+        /// - Returns: A view with VoiceOver rotor entry
+        ///
+        /// ## Example
+        /// ```swift
+        /// Text("Section Title")
+        ///     .font(.headline)
+        ///     .voiceOverRotor(entry: "Heading")
+        /// ```
+        public func voiceOverRotor(entry: String) -> some View {
+            accessibilityAddTraits(.isHeader).accessibilityLabel(entry)
+        }
     #endif
 }
 
@@ -652,216 +632,168 @@ public enum AccessibilityFocusPriority {
 // MARK: - SwiftUI Previews
 
 #if DEBUG && canImport(SwiftUI)
-import SwiftUI
+    import SwiftUI
 
-#Preview("Accessibility Helpers Demo") {
-    ScrollView {
-        VStack(alignment: .leading, spacing: DS.Spacing.l) {
-            // Contrast Ratio Demo
-            VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("Contrast Ratio Validation")
-                    .font(DS.Typography.headline)
-                    .accessibleHeading(level: 1)
+    #Preview("Accessibility Helpers Demo") {
+        ScrollView {
+            VStack(alignment: .leading, spacing: DS.Spacing.l) {
+                // Contrast Ratio Demo
+                VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                    Text("Contrast Ratio Validation").font(DS.Typography.headline)
+                        .accessibleHeading(level: 1)
 
-                HStack {
-                    Text("Black on White")
-                    Spacer()
-                    Text(
-                        "\(AccessibilityHelpers.contrastRatio(foreground: .black, background: .white), specifier: "%.1f"):1"
-                    )
-                    .foregroundColor(DS.Colors.accent)
-                }
+                    HStack {
+                        Text("Black on White")
+                        Spacer()
+                        Text(
+                            "\(AccessibilityHelpers.contrastRatio(foreground: .black, background: .white), specifier: "%.1f"):1"
+                        ).foregroundColor(DS.Colors.accent)
+                    }
 
-                HStack {
-                    Text("DS.Colors.infoBG")
-                    Spacer()
-                    Text(
-                        AccessibilityHelpers.meetsWCAG_AA(foreground: .black, background: DS.Colors.infoBG)
-                            ? "✓ AA" : "✗ Fail"
-                    )
-                    .foregroundColor(
-                        AccessibilityHelpers.meetsWCAG_AA(foreground: .black, background: DS.Colors.infoBG)
-                            ? .green : .red)
-                }
-            }
-            .padding(DS.Spacing.m)
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(DS.Radius.medium)
+                    HStack {
+                        Text("DS.Colors.infoBG")
+                        Spacer()
+                        Text(
+                            AccessibilityHelpers.meetsWCAG_AA(
+                                foreground: .black, background: DS.Colors.infoBG)
+                                ? "✓ AA" : "✗ Fail"
+                        ).foregroundColor(
+                            AccessibilityHelpers.meetsWCAG_AA(
+                                foreground: .black, background: DS.Colors.infoBG) ? .green : .red)
+                    }
+                }.padding(DS.Spacing.m).background(Color.gray.opacity(0.1)).cornerRadius(
+                    DS.Radius.medium)
 
-            // VoiceOver Hints Demo
-            VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("VoiceOver Hints")
-                    .font(DS.Typography.headline)
-                    .accessibleHeading(level: 1)
+                // VoiceOver Hints Demo
+                VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                    Text("VoiceOver Hints").font(DS.Typography.headline).accessibleHeading(level: 1)
 
-                Button("Copy Value") {}
-                    .accessibleButton(
+                    Button("Copy Value") {}.accessibleButton(
                         label: "Copy Value",
                         hint: AccessibilityHelpers.voiceOverHint(action: "copy", target: "value")
-                    )
-                    .padding(DS.Spacing.s)
-                    .background(DS.Colors.infoBG)
-                    .cornerRadius(DS.Radius.small)
+                    ).padding(DS.Spacing.s).background(DS.Colors.infoBG).cornerRadius(
+                        DS.Radius.small)
 
-                Button("Expand Section") {}
-                    .accessibleToggle(label: "Section", isOn: false)
-                    .padding(DS.Spacing.s)
-                    .background(DS.Colors.warnBG)
-                    .cornerRadius(DS.Radius.small)
-            }
-            .padding(DS.Spacing.m)
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(DS.Radius.medium)
+                    Button("Expand Section") {}.accessibleToggle(label: "Section", isOn: false)
+                        .padding(DS.Spacing.s).background(DS.Colors.warnBG).cornerRadius(
+                            DS.Radius.small)
+                }.padding(DS.Spacing.m).background(Color.gray.opacity(0.1)).cornerRadius(
+                    DS.Radius.medium)
 
-            // Touch Target Validation Demo
-            VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("Touch Target Validation")
-                    .font(DS.Typography.headline)
-                    .accessibleHeading(level: 1)
-
-                HStack {
-                    Text("44×44 pt")
-                    Spacer()
-                    Text(
-                        AccessibilityHelpers.isValidTouchTarget(size: CGSize(width: 44, height: 44))
-                            ? "✓ Valid" : "✗ Invalid"
-                    )
-                    .foregroundColor(.green)
-                }
-
-                HStack {
-                    Text("30×30 pt")
-                    Spacer()
-                    Text(
-                        AccessibilityHelpers.isValidTouchTarget(size: CGSize(width: 30, height: 30))
-                            ? "✓ Valid" : "✗ Invalid"
-                    )
-                    .foregroundColor(.red)
-                }
-            }
-            .padding(DS.Spacing.m)
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(DS.Radius.medium)
-
-            // Accessibility Audit Demo
-            VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("Accessibility Audit")
-                    .font(DS.Typography.headline)
-                    .accessibleHeading(level: 1)
-
-                let goodAudit = AccessibilityHelpers.auditView(
-                    hasLabel: true,
-                    hasHint: true,
-                    touchTargetSize: CGSize(width: 44, height: 44),
-                    contrastRatio: 7.0
-                )
-
-                HStack {
-                    Text("Good View")
-                    Spacer()
-                    Text(goodAudit.passes ? "✓ Passes" : "✗ Fails")
-                        .foregroundColor(.green)
-                }
-
-                let badAudit = AccessibilityHelpers.auditView(
-                    hasLabel: false,
-                    hasHint: false,
-                    touchTargetSize: CGSize(width: 20, height: 20),
-                    contrastRatio: 2.0
-                )
-
+                // Touch Target Validation Demo
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                    Text("Touch Target Validation").font(DS.Typography.headline).accessibleHeading(
+                        level: 1)
+
                     HStack {
-                        Text("Bad View")
+                        Text("44×44 pt")
                         Spacer()
-                        Text(badAudit.passes ? "✓ Passes" : "✗ Fails")
-                            .foregroundColor(.red)
+                        Text(
+                            AccessibilityHelpers.isValidTouchTarget(
+                                size: CGSize(width: 44, height: 44)) ? "✓ Valid" : "✗ Invalid"
+                        ).foregroundColor(.green)
                     }
 
-                    ForEach(badAudit.issues, id: \.self) { issue in
-                        Text("• \(issue)")
-                            .font(DS.Typography.caption)
-                            .foregroundColor(.red)
+                    HStack {
+                        Text("30×30 pt")
+                        Spacer()
+                        Text(
+                            AccessibilityHelpers.isValidTouchTarget(
+                                size: CGSize(width: 30, height: 30)) ? "✓ Valid" : "✗ Invalid"
+                        ).foregroundColor(.red)
                     }
-                }
-            }
-            .padding(DS.Spacing.m)
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(DS.Radius.medium)
+                }.padding(DS.Spacing.m).background(Color.gray.opacity(0.1)).cornerRadius(
+                    DS.Radius.medium)
+
+                // Accessibility Audit Demo
+                VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                    Text("Accessibility Audit").font(DS.Typography.headline).accessibleHeading(
+                        level: 1)
+
+                    let goodAudit = AccessibilityHelpers.auditView(
+                        hasLabel: true, hasHint: true,
+                        touchTargetSize: CGSize(width: 44, height: 44), contrastRatio: 7.0)
+
+                    HStack {
+                        Text("Good View")
+                        Spacer()
+                        Text(goodAudit.passes ? "✓ Passes" : "✗ Fails").foregroundColor(.green)
+                    }
+
+                    let badAudit = AccessibilityHelpers.auditView(
+                        hasLabel: false, hasHint: false,
+                        touchTargetSize: CGSize(width: 20, height: 20), contrastRatio: 2.0)
+
+                    VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                        HStack {
+                            Text("Bad View")
+                            Spacer()
+                            Text(badAudit.passes ? "✓ Passes" : "✗ Fails").foregroundColor(.red)
+                        }
+
+                        ForEach(badAudit.issues, id: \.self) { issue in
+                            Text("• \(issue)").font(DS.Typography.caption).foregroundColor(.red)
+                        }
+                    }
+                }.padding(DS.Spacing.m).background(Color.gray.opacity(0.1)).cornerRadius(
+                    DS.Radius.medium)
+            }.padding(DS.Spacing.l)
         }
-        .padding(DS.Spacing.l)
     }
-}
 
-#Preview("Dynamic Type Scaling") {
-    VStack(spacing: DS.Spacing.l) {
-        ForEach([DynamicTypeSize.large, .xLarge, .xxLarge, .accessibilityMedium], id: \.self) {
-            size in
+    #Preview("Dynamic Type Scaling") {
+        VStack(spacing: DS.Spacing.l) {
+            ForEach([DynamicTypeSize.large, .xLarge, .xxLarge, .accessibilityMedium], id: \.self) {
+                size in
+                VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                    Text("\(String(describing: size))").font(DS.Typography.headline)
+
+                    Text(
+                        "Base: 16.0 → Scaled: \(AccessibilityHelpers.scaledValue(16.0, for: size), specifier: "%.1f")"
+                    ).font(DS.Typography.body)
+
+                    Text(
+                        AccessibilityHelpers.isAccessibilitySize(size)
+                            ? "Accessibility Size" : "Normal Size"
+                    ).font(DS.Typography.caption).foregroundColor(
+                        AccessibilityHelpers.isAccessibilitySize(size) ? .orange : .gray)
+                }.padding(DS.Spacing.m).background(Color.gray.opacity(0.1)).cornerRadius(
+                    DS.Radius.medium)
+            }
+        }.padding(DS.Spacing.l)
+    }
+
+    #Preview("AccessibilityContext Integration") {
+        let reducedMotionContext = AccessibilityContext(
+            prefersReducedMotion: true, prefersIncreasedContrast: false)
+
+        let highContrastContext = AccessibilityContext(
+            prefersReducedMotion: false, prefersIncreasedContrast: true)
+
+        VStack(spacing: DS.Spacing.l) {
             VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                Text("\(String(describing: size))")
-                    .font(DS.Typography.headline)
+                Text("Reduced Motion Context").font(DS.Typography.headline)
 
                 Text(
-                    "Base: 16.0 → Scaled: \(AccessibilityHelpers.scaledValue(16.0, for: size), specifier: "%.1f")"
+                    "Should Animate: \(AccessibilityHelpers.shouldAnimate(in: reducedMotionContext) ? "Yes" : "No")"
                 )
-                .font(DS.Typography.body)
+                Text(
+                    "Preferred Spacing: \(AccessibilityHelpers.preferredSpacing(in: reducedMotionContext), specifier: "%.0f") pt"
+                )
+            }.padding(DS.Spacing.m).background(Color.blue.opacity(0.1)).cornerRadius(
+                DS.Radius.medium)
+
+            VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                Text("High Contrast Context").font(DS.Typography.headline)
 
                 Text(
-                    AccessibilityHelpers.isAccessibilitySize(size) ? "Accessibility Size" : "Normal Size"
+                    "Should Animate: \(AccessibilityHelpers.shouldAnimate(in: highContrastContext) ? "Yes" : "No")"
                 )
-                .font(DS.Typography.caption)
-                .foregroundColor(AccessibilityHelpers.isAccessibilitySize(size) ? .orange : .gray)
-            }
-            .padding(DS.Spacing.m)
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(DS.Radius.medium)
-        }
+                Text(
+                    "Preferred Spacing: \(AccessibilityHelpers.preferredSpacing(in: highContrastContext), specifier: "%.0f") pt"
+                )
+            }.padding(DS.Spacing.m).background(Color.orange.opacity(0.1)).cornerRadius(
+                DS.Radius.medium)
+        }.padding(DS.Spacing.l)
     }
-    .padding(DS.Spacing.l)
-}
-
-#Preview("AccessibilityContext Integration") {
-    let reducedMotionContext = AccessibilityContext(
-        prefersReducedMotion: true,
-        prefersIncreasedContrast: false
-    )
-
-    let highContrastContext = AccessibilityContext(
-        prefersReducedMotion: false,
-        prefersIncreasedContrast: true
-    )
-
-    VStack(spacing: DS.Spacing.l) {
-        VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            Text("Reduced Motion Context")
-                .font(DS.Typography.headline)
-
-            Text(
-                "Should Animate: \(AccessibilityHelpers.shouldAnimate(in: reducedMotionContext) ? "Yes" : "No")"
-            )
-            Text(
-                "Preferred Spacing: \(AccessibilityHelpers.preferredSpacing(in: reducedMotionContext), specifier: "%.0f") pt"
-            )
-        }
-        .padding(DS.Spacing.m)
-        .background(Color.blue.opacity(0.1))
-        .cornerRadius(DS.Radius.medium)
-
-        VStack(alignment: .leading, spacing: DS.Spacing.s) {
-            Text("High Contrast Context")
-                .font(DS.Typography.headline)
-
-            Text(
-                "Should Animate: \(AccessibilityHelpers.shouldAnimate(in: highContrastContext) ? "Yes" : "No")"
-            )
-            Text(
-                "Preferred Spacing: \(AccessibilityHelpers.preferredSpacing(in: highContrastContext), specifier: "%.0f") pt"
-            )
-        }
-        .padding(DS.Spacing.m)
-        .background(Color.orange.opacity(0.1))
-        .cornerRadius(DS.Radius.medium)
-    }
-    .padding(DS.Spacing.l)
-}
 #endif

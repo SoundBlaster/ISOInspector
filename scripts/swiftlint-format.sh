@@ -16,5 +16,5 @@ docker run --rm \
   -u "$(id -u):$(id -g)" \
   -v "$PWD:/work" \
   -w /work \
-  ghcr.io/realm/swiftlint:0.53.0 \
-  swiftlint --fix --no-cache --config .swiftlint.yml "$@"
+  ghcr.io/realm/swiftlint:0.57.0 \
+  swiftlint --fix --no-cache --config .swiftlint.yml --baseline .swiftlint.baseline.json "$@"

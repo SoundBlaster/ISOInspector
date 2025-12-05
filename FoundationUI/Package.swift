@@ -4,17 +4,8 @@
 import PackageDescription
 
 let package = Package(
-    name: "FoundationUI",
-    platforms: [
-        .iOS(.v17),
-        .macOS(.v14)
-    ],
-    products: [
-        .library(
-            name: "FoundationUI",
-            targets: ["FoundationUI"]
-        )
-    ],
+    name: "FoundationUI", platforms: [.iOS(.v17), .macOS(.v14)],
+    products: [.library(name: "FoundationUI", targets: ["FoundationUI"])],
     dependencies: [
         // NOTE: swift-snapshot-testing removed from SPM dependencies
         // Snapshot tests are only run via Tuist + xcodebuild (not SPM)
@@ -23,30 +14,19 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "FoundationUI",
-            dependencies: [
-                .product(name: "Yams", package: "Yams")
-            ],
+            name: "FoundationUI", dependencies: [.product(name: "Yams", package: "Yams")],
             exclude: [
-                "README.md",
-                "AgentSupport/ComponentSchema.yaml",
-                "AgentSupport/Examples/README.md",
+                "README.md", "AgentSupport/ComponentSchema.yaml", "AgentSupport/Examples/README.md",
                 "AgentSupport/Examples/badge_examples.yaml",
                 "AgentSupport/Examples/inspector_pattern_examples.yaml",
                 "AgentSupport/Examples/complete_ui_example.yaml"
             ],
-            swiftSettings: [
-                .unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))
-            ]
-        ),
+            swiftSettings: [.unsafeFlags(["-warnings-as-errors"], .when(configuration: .release))]),
 
         // MARK: - Test Targets
 
         .testTarget(
-            name: "FoundationUITests",
-            dependencies: [
-                "FoundationUI"
-            ],
+            name: "FoundationUITests", dependencies: ["FoundationUI"],
             path: "Tests/FoundationUITests",
             exclude: [
                 // Exclude any non-test files
@@ -59,5 +39,4 @@ let package = Package(
         // SPM validation job runs only unit tests (FoundationUITests)
         // Reason: SnapshotTesting API incompatibility with SPM on macOS
         // See: .github/workflows/foundationui.yml (validate-spm-package job)
-    ]
-)
+    ])

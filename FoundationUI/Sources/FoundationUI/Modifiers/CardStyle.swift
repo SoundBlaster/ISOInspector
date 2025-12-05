@@ -36,10 +36,8 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     /// Whether this elevation level applies a shadow effect
     public var hasShadow: Bool {
         switch self {
-        case .none:
-            false
-        case .low, .medium, .high:
-            true
+        case .none: false
+        case .low, .medium, .high: true
         }
     }
 
@@ -49,14 +47,10 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     /// Values are calibrated to work on both iOS and macOS.
     public var shadowRadius: CGFloat {
         switch self {
-        case .none:
-            0
-        case .low:
-            2
-        case .medium:
-            4
-        case .high:
-            8
+        case .none: 0
+        case .low: 2
+        case .medium: 4
+        case .high: 8
         }
     }
 
@@ -66,14 +60,10 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     /// Values are subtle to avoid overwhelming the interface.
     public var shadowOpacity: Double {
         switch self {
-        case .none:
-            0
-        case .low:
-            0.1
-        case .medium:
-            0.15
-        case .high:
-            0.2
+        case .none: 0
+        case .low: 0.1
+        case .medium: 0.15
+        case .high: 0.2
         }
     }
 
@@ -83,14 +73,10 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     /// Higher elevations have larger offsets for more dramatic depth.
     public var shadowYOffset: CGFloat {
         switch self {
-        case .none:
-            0
-        case .low:
-            1
-        case .medium:
-            2
-        case .high:
-            4
+        case .none: 0
+        case .low: 1
+        case .medium: 2
+        case .high: 4
         }
     }
 
@@ -100,14 +86,10 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     /// suitable for JSON serialization and agent-driven UI generation.
     public var stringValue: String {
         switch self {
-        case .none:
-            "none"
-        case .low:
-            "low"
-        case .medium:
-            "medium"
-        case .high:
-            "high"
+        case .none: "none"
+        case .low: "low"
+        case .medium: "medium"
+        case .high: "high"
         }
     }
 
@@ -117,14 +99,10 @@ public enum CardElevation: Equatable, Sendable, CaseIterable {
     /// visual prominence of the card.
     public var accessibilityLabel: String {
         switch self {
-        case .none:
-            "Flat card"
-        case .low:
-            "Card with subtle elevation"
-        case .medium:
-            "Card with medium elevation"
-        case .high:
-            "Card with high elevation"
+        case .none: "Flat card"
+        case .low: "Card with subtle elevation"
+        case .medium: "Card with medium elevation"
+        case .high: "Card with high elevation"
         }
     }
 }
@@ -161,40 +139,31 @@ public struct CardStyle: ViewModifier {
     let useMaterial: Bool
 
     public func body(content: Content) -> some View {
-        content
-            .background(
-                Group {
-                    if useMaterial {
-                        // Use system material for depth and vibrancy
-                        #if os(iOS)
-                        Color.clear
-                            .background(.regularMaterial)
-                        #elseif os(macOS)
-                        Color.clear
-                            .background(.regularMaterial)
-                        #else
+        content.background(
+            Group {
+                if useMaterial {
+                    // Use system material for depth and vibrancy
+                    #if os(iOS)
+                        Color.clear.background(.regularMaterial)
+                    #elseif os(macOS)
+                        Color.clear.background(.regularMaterial)
+                    #else
                         DS.Colors.tertiary
-                        #endif
-                    } else {
-                        DS.Colors.tertiary
-                    }
+                    #endif
+                } else {
+                    DS.Colors.tertiary
                 }
-            )
-            .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
-            .shadow(
-                color: elevation.hasShadow ? Color.black.opacity(elevation.shadowOpacity) : .clear,
-                radius: elevation.shadowRadius,
-                x: 0,
-                y: elevation.shadowYOffset
-            )
-            .accessibilityElement(children: .contain)
-            .accessibilityAddTraits(.isStaticText)
+            }
+        ).clipShape(RoundedRectangle(cornerRadius: cornerRadius)).shadow(
+            color: elevation.hasShadow ? Color.black.opacity(elevation.shadowOpacity) : .clear,
+            radius: elevation.shadowRadius, x: 0, y: elevation.shadowYOffset
+        ).accessibilityElement(children: .contain).accessibilityAddTraits(.isStaticText)
     }
 }
 
 // MARK: - View Extension
 
-public extension View {
+extension View {
     /// Applies card styling to the view
     ///
     /// Transforms the view into a card with configurable elevation and corner radius.
@@ -233,18 +202,12 @@ public extension View {
     /// - Supports Dynamic Type scaling
     ///
     /// - Returns: A view styled as a card with elevation
-    func cardStyle(
-        elevation: CardElevation = .medium,
-        cornerRadius: CGFloat = DS.Radius.card,
+    public func cardStyle(
+        elevation: CardElevation = .medium, cornerRadius: CGFloat = DS.Radius.card,
         useMaterial: Bool = true
     ) -> some View {
         modifier(
-            CardStyle(
-                elevation: elevation,
-                cornerRadius: cornerRadius,
-                useMaterial: useMaterial
-            )
-        )
+            CardStyle(elevation: elevation, cornerRadius: cornerRadius, useMaterial: useMaterial))
     }
 }
 
@@ -253,105 +216,54 @@ public extension View {
 #Preview("Card Styles - Elevation Levels") {
     VStack(spacing: DS.Spacing.xl) {
         VStack {
-            Text("No Elevation")
-                .font(.headline)
-            Text("Flat appearance")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .cardStyle(elevation: .none)
+            Text("No Elevation").font(.headline)
+            Text("Flat appearance").font(.caption).foregroundStyle(.secondary)
+        }.padding().cardStyle(elevation: .none)
 
         VStack {
-            Text("Low Elevation")
-                .font(.headline)
-            Text("Subtle shadow")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .cardStyle(elevation: .low)
+            Text("Low Elevation").font(.headline)
+            Text("Subtle shadow").font(.caption).foregroundStyle(.secondary)
+        }.padding().cardStyle(elevation: .low)
 
         VStack {
-            Text("Medium Elevation")
-                .font(.headline)
-            Text("Standard card")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .cardStyle(elevation: .medium)
+            Text("Medium Elevation").font(.headline)
+            Text("Standard card").font(.caption).foregroundStyle(.secondary)
+        }.padding().cardStyle(elevation: .medium)
 
         VStack {
-            Text("High Elevation")
-                .font(.headline)
-            Text("Prominent shadow")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .cardStyle(elevation: .high)
-    }
-    .padding()
+            Text("High Elevation").font(.headline)
+            Text("Prominent shadow").font(.caption).foregroundStyle(.secondary)
+        }.padding().cardStyle(elevation: .high)
+    }.padding()
 }
 
 #Preview("Card Styles - Corner Radius Variants") {
     VStack(spacing: DS.Spacing.l) {
         VStack {
             Text("Small Radius")
-            Text("6pt corners")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .cardStyle(elevation: .medium, cornerRadius: DS.Radius.small)
+            Text("6pt corners").font(.caption).foregroundStyle(.secondary)
+        }.padding().cardStyle(elevation: .medium, cornerRadius: DS.Radius.small)
 
         VStack {
             Text("Medium Radius")
-            Text("8pt corners")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .cardStyle(elevation: .medium, cornerRadius: DS.Radius.medium)
+            Text("8pt corners").font(.caption).foregroundStyle(.secondary)
+        }.padding().cardStyle(elevation: .medium, cornerRadius: DS.Radius.medium)
 
         VStack {
             Text("Card Radius")
-            Text("10pt corners (default)")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .cardStyle(elevation: .medium, cornerRadius: DS.Radius.card)
-    }
-    .padding()
+            Text("10pt corners (default)").font(.caption).foregroundStyle(.secondary)
+        }.padding().cardStyle(elevation: .medium, cornerRadius: DS.Radius.card)
+    }.padding()
 }
 
 #Preview("Card Styles - Dark Mode") {
     VStack(spacing: DS.Spacing.l) {
-        VStack {
-            Text("Low Elevation")
-                .font(.headline)
-        }
-        .padding()
-        .cardStyle(elevation: .low)
+        VStack { Text("Low Elevation").font(.headline) }.padding().cardStyle(elevation: .low)
 
-        VStack {
-            Text("Medium Elevation")
-                .font(.headline)
-        }
-        .padding()
-        .cardStyle(elevation: .medium)
+        VStack { Text("Medium Elevation").font(.headline) }.padding().cardStyle(elevation: .medium)
 
-        VStack {
-            Text("High Elevation")
-                .font(.headline)
-        }
-        .padding()
-        .cardStyle(elevation: .high)
-    }
-    .padding()
-    .preferredColorScheme(.dark)
+        VStack { Text("High Elevation").font(.headline) }.padding().cardStyle(elevation: .high)
+    }.padding().preferredColorScheme(.dark)
 }
 
 #Preview("Card Styles - Content Examples") {
@@ -359,77 +271,49 @@ public extension View {
         VStack(spacing: DS.Spacing.l) {
             // Simple text card
             VStack(alignment: .leading) {
-                Text("Simple Card")
-                    .font(.headline)
-                Text("This is a basic card with text content.")
-                    .font(.body)
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .padding()
-            .cardStyle(elevation: .low)
+                Text("Simple Card").font(.headline)
+                Text("This is a basic card with text content.").font(.body)
+            }.frame(maxWidth: .infinity, alignment: .leading).padding().cardStyle(elevation: .low)
 
             // Card with badge
             VStack(alignment: .leading) {
                 HStack {
-                    Text("Status Card")
-                        .font(.headline)
+                    Text("Status Card").font(.headline)
                     Spacer()
-                    Text("ACTIVE")
-                        .badgeChipStyle(level: .success)
+                    Text("ACTIVE").badgeChipStyle(level: .success)
                 }
-                Text("Card showing integration with badge components.")
-                    .font(.body)
-            }
-            .padding()
-            .cardStyle(elevation: .medium)
+                Text("Card showing integration with badge components.").font(.body)
+            }.padding().cardStyle(elevation: .medium)
 
             // Complex content card
             VStack(alignment: .leading, spacing: DS.Spacing.m) {
-                Text("Feature Card")
-                    .font(.headline)
+                Text("Feature Card").font(.headline)
                 Divider()
                 VStack(alignment: .leading, spacing: DS.Spacing.s) {
                     HStack {
-                        Image(systemName: "checkmark.circle.fill")
-                            .foregroundStyle(.green)
+                        Image(systemName: "checkmark.circle.fill").foregroundStyle(.green)
                         Text("Feature enabled")
                     }
                     HStack {
-                        Image(systemName: "clock.fill")
-                            .foregroundStyle(.orange)
+                        Image(systemName: "clock.fill").foregroundStyle(.orange)
                         Text("Last updated: Today")
                     }
-                }
-                .font(.caption)
-            }
-            .padding()
-            .cardStyle(elevation: .high)
-        }
-        .padding()
+                }.font(.caption)
+            }.padding().cardStyle(elevation: .high)
+        }.padding()
     }
 }
 
 #Preview("Card Styles - No Material Background") {
     VStack(spacing: DS.Spacing.l) {
         VStack {
-            Text("Without Material")
-                .font(.headline)
-            Text("Uses solid background color")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .cardStyle(elevation: .medium, useMaterial: false)
+            Text("Without Material").font(.headline)
+            Text("Uses solid background color").font(.caption).foregroundStyle(.secondary)
+        }.padding().cardStyle(elevation: .medium, useMaterial: false)
 
         VStack {
-            Text("With Material")
-                .font(.headline)
-            Text("Uses system material")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-        }
-        .padding()
-        .cardStyle(elevation: .medium, useMaterial: true)
-    }
-    .padding()
+            Text("With Material").font(.headline)
+            Text("Uses system material").font(.caption).foregroundStyle(.secondary)
+        }.padding().cardStyle(elevation: .medium, useMaterial: true)
+    }.padding()
 }

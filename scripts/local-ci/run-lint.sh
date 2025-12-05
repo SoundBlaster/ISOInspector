@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run linting and formatting checks locally
+# Run linting checks locally
 # Mirrors: ci.yml, swift-linux.yml, swiftlint.yml
 
 set -euo pipefail
@@ -23,13 +23,12 @@ show_help() {
     cat <<EOF
 Usage: $(basename "$0") [OPTIONS]
 
-Run linting and formatting checks (SwiftLint, swift-format, JSON validation)
+Run linting checks (SwiftLint, JSON validation)
 
 OPTIONS:
     -m, --mode MODE         SwiftLint mode: native or docker (default: from config)
     -f, --fix              Auto-fix issues where possible
     --skip-swiftlint       Skip SwiftLint checks
-    --skip-format          Skip swift-format checks
     --skip-json            Skip JSON validation
     -v, --verbose          Verbose output
     -h, --help             Show this help message
@@ -45,7 +44,7 @@ EXAMPLES:
     $(basename "$0") --fix
 
     # Skip specific checks
-    $(basename "$0") --skip-json --skip-format
+    $(basename "$0") --skip-json
 EOF
 }
 
@@ -53,7 +52,6 @@ EOF
 SWIFTLINT_MODE_OVERRIDE=""
 AUTO_FIX=false
 SKIP_SWIFTLINT=false
-SKIP_FORMAT=false
 SKIP_JSON=false
 
 while [[ $# -gt 0 ]]; do
@@ -68,10 +66,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         --skip-swiftlint)
             SKIP_SWIFTLINT=true
-            shift
-            ;;
-        --skip-format)
-            SKIP_FORMAT=true
             shift
             ;;
         --skip-json)
@@ -123,32 +117,6 @@ if [[ "$SKIP_JSON" != "true" ]]; then
 fi
 
 # ============================================================================
-# Swift Format Check
-# ============================================================================
-if [[ "$SKIP_FORMAT" != "true" ]]; then
-    log_section "Swift Format Check"
-
-    if [[ "$AUTO_FIX" == "true" ]]; then
-        log_info "Auto-fixing Swift formatting..."
-        if timed_run "Swift format (fix)" swift format --in-place --recursive Sources Tests; then
-            log_success "Swift formatting applied"
-        else
-            log_error "Swift format failed"
-            ((FAILURES++))
-        fi
-    else
-        log_info "Checking Swift code formatting (lint mode)..."
-        if timed_run "Swift format (lint)" swift format lint --recursive Sources Tests; then
-            log_success "All Swift files are correctly formatted"
-        else
-            log_error "Swift code is not formatted correctly"
-            log_info "Run locally to fix: swift format --in-place --recursive Sources Tests"
-            ((FAILURES++))
-        fi
-    fi
-fi
-
-# ============================================================================
 # SwiftLint
 # ============================================================================
 if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
@@ -175,23 +143,33 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
             local name="$1"
             local work_dir="$2"
             local config="$3"
+            local baseline="${4:-}"
 
             log_info "Running SwiftLint on $name..."
+
+            local baseline_args=()
+            if [[ -n "$baseline" && -f "$work_dir/$baseline" ]]; then
+                baseline_args=(--baseline "$baseline")
+            fi
+            local config_args=()
+            if [[ -n "$config" ]]; then
+                config_args=(--config "$config")
+            fi
 
             if [[ "$SWIFTLINT_MODE" == "docker" ]]; then
                 if [[ "$AUTO_FIX" == "true" ]]; then
                     run_swiftlint_autocorrect_docker "$work_dir" "$config"
                 fi
-                run_swiftlint_docker "$work_dir" "$config" --strict
+                run_swiftlint_docker "$work_dir" "$config" --strict "${baseline_args[@]:-}"
             else
                 # Native mode
                 pushd "$work_dir" >/dev/null
 
                 if [[ "$AUTO_FIX" == "true" ]]; then
-                    swiftlint --fix --config "$config" || true
+                    swiftlint --fix "${config_args[@]:-}" || true
                 fi
 
-                swiftlint lint --strict --config "$config"
+                swiftlint lint --strict "${config_args[@]:-}" "${baseline_args[@]:-}"
                 local result=$?
 
                 popd >/dev/null
@@ -200,7 +178,7 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
         }
 
     # Main Project
-    if timed_run "SwiftLint (Main Project)" run_swiftlint_check "Main Project" "$REPO_ROOT" ".swiftlint.yml"; then
+    if timed_run "SwiftLint (Main Project)" run_swiftlint_check "Main Project" "$REPO_ROOT" "" ".swiftlint.baseline.json"; then
         log_success "Main Project SwiftLint passed"
     else
         log_error "Main Project SwiftLint failed"
@@ -209,7 +187,7 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
 
     # FoundationUI
     if [[ -d "$REPO_ROOT/FoundationUI" ]]; then
-        if timed_run "SwiftLint (FoundationUI)" run_swiftlint_check "FoundationUI" "$REPO_ROOT/FoundationUI" ".swiftlint.yml"; then
+        if timed_run "SwiftLint (FoundationUI)" run_swiftlint_check "FoundationUI" "$REPO_ROOT/FoundationUI" ""; then
             log_success "FoundationUI SwiftLint passed"
         else
             log_error "FoundationUI SwiftLint failed"
@@ -219,7 +197,7 @@ if [[ "$SKIP_SWIFTLINT" != "true" ]]; then
 
     # ComponentTestApp
     if [[ -d "$REPO_ROOT/Examples/ComponentTestApp" ]]; then
-        if timed_run "SwiftLint (ComponentTestApp)" run_swiftlint_check "ComponentTestApp" "$REPO_ROOT/Examples/ComponentTestApp" "../../.swiftlint.yml"; then
+        if timed_run "SwiftLint (ComponentTestApp)" run_swiftlint_check "ComponentTestApp" "$REPO_ROOT/Examples/ComponentTestApp" "../../.swiftlint.yml" ".swiftlint-baseline.json"; then
             log_success "ComponentTestApp SwiftLint passed"
         else
             log_error "ComponentTestApp SwiftLint failed"

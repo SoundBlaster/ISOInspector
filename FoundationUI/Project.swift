@@ -15,11 +15,8 @@ import ProjectDescription
 /// - Layer 4: Contexts
 
 let baseSettings: SettingsDictionary = [
-    "MARKETING_VERSION": "0.1.0",
-    "CURRENT_PROJECT_VERSION": "1",
-    "SWIFT_VERSION": "6.0",
-    "IPHONEOS_DEPLOYMENT_TARGET": "17.0",
-    "MACOSX_DEPLOYMENT_TARGET": "14.0",
+    "MARKETING_VERSION": "0.1.0", "CURRENT_PROJECT_VERSION": "1", "SWIFT_VERSION": "6.0",
+    "IPHONEOS_DEPLOYMENT_TARGET": "17.0", "MACOSX_DEPLOYMENT_TARGET": "14.0",
     "SWIFT_TREAT_WARNINGS_AS_ERRORS": "YES"
 ]
 
@@ -27,65 +24,39 @@ let baseSettings: SettingsDictionary = [
 
 func foundationUIFramework() -> Target {
     Target.target(
-        name: "FoundationUI",
-        destinations: [.iPhone, .iPad, .mac],
-        product: .framework,
+        name: "FoundationUI", destinations: [.iPhone, .iPad, .mac], product: .framework,
         bundleId: "ru.egormerkushev.foundationui",
         deploymentTargets: DeploymentTargets.multiplatform(iOS: "17.0", macOS: "14.0"),
-        infoPlist: .default,
-        sources: ["Sources/FoundationUI/**"],
-        dependencies: [
-            .package(product: "Yams")
-        ],
-        settings: .settings(base: baseSettings)
-    )
+        infoPlist: .default, sources: ["Sources/FoundationUI/**"],
+        dependencies: [.package(product: "Yams")], settings: .settings(base: baseSettings))
 }
 
 // MARK: - Test Target
 
 func foundationUITests() -> Target {
     Target.target(
-        name: "FoundationUITests",
-        destinations: [.iPhone, .iPad, .mac],
-        product: .unitTests,
+        name: "FoundationUITests", destinations: [.iPhone, .iPad, .mac], product: .unitTests,
         bundleId: "ru.egormerkushev.foundationui.tests",
         deploymentTargets: DeploymentTargets.multiplatform(iOS: "17.0", macOS: "14.0"),
-        infoPlist: .default,
-        sources: ["Tests/FoundationUITests/**"],
-        dependencies: [
-            .target(name: "FoundationUI"),
-            .package(product: "SnapshotTesting")
-        ],
-        settings: .settings(base: baseSettings)
-    )
+        infoPlist: .default, sources: ["Tests/FoundationUITests/**"],
+        dependencies: [.target(name: "FoundationUI"), .package(product: "SnapshotTesting")],
+        settings: .settings(base: baseSettings))
 }
 
 // MARK: - Project
 
 let project = Project(
-    name: "FoundationUI",
-    organizationName: "ISOInspector",
-    options: .options(),
+    name: "FoundationUI", organizationName: "ISOInspector", options: .options(),
     packages: [
         .remote(
             url: "https://github.com/pointfreeco/swift-snapshot-testing",
-            requirement: .upToNextMajor(from: "1.15.0")
-        ),
+            requirement: .upToNextMajor(from: "1.15.0")),
         .remote(
-            url: "https://github.com/jpsim/Yams.git",
-            requirement: .upToNextMajor(from: "5.0.0")
-        )
-    ],
-    targets: [
-        foundationUIFramework(),
-        foundationUITests()
-    ],
+            url: "https://github.com/jpsim/Yams.git", requirement: .upToNextMajor(from: "5.0.0"))
+    ], targets: [foundationUIFramework(), foundationUITests()],
     schemes: [
         .scheme(
-            name: "FoundationUI",
-            shared: true,
+            name: "FoundationUI", shared: true,
             buildAction: .buildAction(targets: ["FoundationUI"]),
-            testAction: .targets(["FoundationUITests"])
-        )
-    ]
-)
+            testAction: .targets(["FoundationUITests"]))
+    ])

@@ -24,39 +24,39 @@ import SwiftUI
 /// let sizes: [DynamicTypeSize] = [.small, .medium, .large, .accessibilityLarge]
 /// let sorted = sizes.sorted() // Automatic ordering
 /// ```
-public extension DynamicTypeSize {
+extension DynamicTypeSize {
     // MARK: - Semantic Accessibility Names
 
     /// Accessibility Medium size (equivalent to .accessibility1)
     ///
     /// First level of accessibility text sizes, typically 1.5× base size.
     /// Used when user enables larger text for improved readability.
-    static var accessibilityMedium: DynamicTypeSize { .accessibility1 }
+    public static var accessibilityMedium: DynamicTypeSize { .accessibility1 }
 
     /// Accessibility Large size (equivalent to .accessibility2)
     ///
     /// Second level of accessibility text sizes, typically 1.8× base size.
     /// Provides significantly larger text for vision accessibility.
-    static var accessibilityLarge: DynamicTypeSize { .accessibility2 }
+    public static var accessibilityLarge: DynamicTypeSize { .accessibility2 }
 
     /// Accessibility XLarge size (equivalent to .accessibility3)
     ///
     /// Third level of accessibility text sizes, typically 2.0× base size.
     /// For users who need very large text.
     /// Consistent naming with base `.xLarge` size.
-    static var accessibilityXLarge: DynamicTypeSize { .accessibility3 }
+    public static var accessibilityXLarge: DynamicTypeSize { .accessibility3 }
 
     /// Accessibility XXLarge size (equivalent to .accessibility4)
     ///
     /// Fourth level of accessibility text sizes, typically 2.3× base size.
     /// For users with significant vision impairments.
     /// Consistent naming with base `.xxLarge` size.
-    static var accessibilityXxLarge: DynamicTypeSize { .accessibility4 }
+    public static var accessibilityXxLarge: DynamicTypeSize { .accessibility4 }
 
     /// Accessibility XXXLarge size (equivalent to .accessibility5)
     ///
     /// Maximum accessibility text size, typically 2.5× base size.
     /// Largest possible Dynamic Type size for maximum accessibility.
     /// Consistent naming with base `.xxxLarge` size.
-    static var accessibilityXxxLarge: DynamicTypeSize { .accessibility5 }
+    public static var accessibilityXxxLarge: DynamicTypeSize { .accessibility5 }
 }

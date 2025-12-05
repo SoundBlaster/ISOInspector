@@ -45,8 +45,7 @@ import Yams
 /// - ``ComponentDescription``
 /// - ``ParseError``
 ///
-@available(iOS 17.0, macOS 14.0, *)
-public struct YAMLParser {
+@available(iOS 17.0, macOS 14.0, *) public struct YAMLParser {
     // MARK: - Data Structures
 
     /// A parsed component description from YAML.
@@ -91,9 +90,7 @@ public struct YAMLParser {
         ///   - semantics: Optional semantic description
         ///   - content: Optional nested components
         public init(
-            componentType: String,
-            properties: [String: Any] = [:],
-            semantics: String? = nil,
+            componentType: String, properties: [String: Any] = [:], semantics: String? = nil,
             content: [ComponentDescription]? = nil
         ) {
             self.componentType = componentType
@@ -121,17 +118,17 @@ public struct YAMLParser {
 
         public var errorDescription: String? {
             switch self {
-            case let .invalidYAML(details):
-                return "Invalid YAML syntax: \(details)"
-            case let .missingComponentType(line):
+            case .invalidYAML(let details): return "Invalid YAML syntax: \(details)"
+            case .missingComponentType(let line):
                 if let line {
                     return "Missing required 'componentType' field at line \(line)"
                 } else {
                     return "Missing required 'componentType' field"
                 }
-            case let .invalidStructure(details):
-                return "Invalid YAML structure: \(details). Expected array of component definitions or single component."
-            case let .fileReadError(url, error):
+            case .invalidStructure(let details):
+                return
+                    "Invalid YAML structure: \(details). Expected array of component definitions or single component."
+            case .fileReadError(let url, let error):
                 return "Failed to read file at \(url.path): \(error.localizedDescription)"
             }
         }
@@ -177,9 +174,7 @@ public struct YAMLParser {
 
         // Parse YAML using Yams
         let yamlDocuments: [Any]
-        do {
-            yamlDocuments = try Array(Yams.load_all(yaml: yamlString))
-        } catch {
+        do { yamlDocuments = try Array(Yams.load_all(yaml: yamlString)) } catch {
             throw ParseError.invalidYAML(error.localizedDescription)
         }
 
@@ -191,20 +186,14 @@ public struct YAMLParser {
             if let componentsArray = document as? [[String: Any]] {
                 for (itemIndex, componentDict) in componentsArray.enumerated() {
                     let description = try parseComponentDict(
-                        componentDict,
-                        documentIndex: docIndex,
-                        itemIndex: itemIndex
-                    )
+                        componentDict, documentIndex: docIndex, itemIndex: itemIndex)
                     allDescriptions.append(description)
                 }
             }
             // Handle single component
             else if let componentDict = document as? [String: Any] {
                 let description = try parseComponentDict(
-                    componentDict,
-                    documentIndex: docIndex,
-                    itemIndex: 0
-                )
+                    componentDict, documentIndex: docIndex, itemIndex: 0)
                 allDescriptions.append(description)
             }
             // Invalid structure
@@ -234,9 +223,7 @@ public struct YAMLParser {
     /// - Throws: ``ParseError`` if file cannot be read or YAML is invalid
     public static func parse(fileAt url: URL) throws -> [ComponentDescription] {
         let yamlString: String
-        do {
-            yamlString = try String(contentsOf: url, encoding: .utf8)
-        } catch {
+        do { yamlString = try String(contentsOf: url, encoding: .utf8) } catch {
             throw ParseError.fileReadError(url, error)
         }
 
@@ -247,9 +234,7 @@ public struct YAMLParser {
 
     /// Parses a single component dictionary into a ComponentDescription.
     private static func parseComponentDict(
-        _ dict: [String: Any],
-        documentIndex: Int,
-        itemIndex _: Int
+        _ dict: [String: Any], documentIndex: Int, itemIndex _: Int
     ) throws -> ComponentDescription {
         // Extract componentType (required)
         guard let componentType = dict["componentType"] as? String else {
@@ -267,21 +252,13 @@ public struct YAMLParser {
             if let contentArray = dict["content"] as? [[String: Any]] {
                 try contentArray.enumerated().map { index, contentDict in
                     try parseComponentDict(
-                        contentDict,
-                        documentIndex: documentIndex,
-                        itemIndex: index
-                    )
+                        contentDict, documentIndex: documentIndex, itemIndex: index)
                 }
-            } else {
-                nil
-            }
+            } else { nil }
 
         return ComponentDescription(
-            componentType: componentType,
-            properties: properties,
-            semantics: semantics,
-            content: content
-        )
+            componentType: componentType, properties: properties, semantics: semantics,
+            content: content)
     }
 
     /// Validates YAML syntax by checking for unclosed quotes.
@@ -307,11 +284,7 @@ public struct YAMLParser {
         }
 
         // Check for unclosed quotes
-        if inDoubleQuote {
-            throw ParseError.invalidYAML("Unclosed double quote in YAML string")
-        }
-        if inSingleQuote {
-            throw ParseError.invalidYAML("Unclosed single quote in YAML string")
-        }
+        if inDoubleQuote { throw ParseError.invalidYAML("Unclosed double quote in YAML string") }
+        if inSingleQuote { throw ParseError.invalidYAML("Unclosed single quote in YAML string") }
     }
 }

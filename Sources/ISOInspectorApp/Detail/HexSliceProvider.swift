@@ -1,3 +1,1 @@
-protocol HexSliceProvider {
-  func loadSlice(for request: HexSliceRequest) async throws -> HexSlice
-}
+protocol HexSliceProvider { func loadSlice(for request: HexSliceRequest) async throws -> HexSlice }

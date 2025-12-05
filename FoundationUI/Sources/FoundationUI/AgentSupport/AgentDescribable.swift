@@ -1,11 +1,3 @@
-//
-//  AgentDescribable.swift
-//  FoundationUI
-//
-//  Created by AI Assistant on 2025-11-08.
-//  Copyright © 2025 ISO Inspector. All rights reserved.
-//
-
 import Foundation
 
 /// A protocol that enables AI agents to programmatically generate and manipulate FoundationUI components.
@@ -119,9 +111,7 @@ import Foundation
 /// - ``Swift/Codable``
 /// - ``Swift/Identifiable``
 ///
-@available(iOS 17.0, macOS 14.0, *)
-@MainActor
-public protocol AgentDescribable {
+@available(iOS 17.0, macOS 14.0, *) @MainActor public protocol AgentDescribable {
     /// A unique string identifier for the component type.
     ///
     /// This identifier allows agents to distinguish between different component types
@@ -269,20 +259,19 @@ public protocol AgentDescribable {
 
 // MARK: - Default Implementations
 
-@available(iOS 17.0, macOS 14.0, *)
-public extension AgentDescribable {
+@available(iOS 17.0, macOS 14.0, *) extension AgentDescribable {
     /// Default implementation for debugging and development.
     ///
     /// Returns a formatted string representation of the component's agent-describable state.
     /// Useful for debugging agent-driven UI generation.
     ///
     /// - Returns: A multi-line string with component type, properties, and semantics.
-    func agentDescription() -> String {
+    public func agentDescription() -> String {
         var description = """
-        Component Type: \(componentType)
-        Semantics: \(semantics)
-        Properties:
-        """
+            Component Type: \(componentType)
+            Semantics: \(semantics)
+            Properties:
+            """
 
         for (key, value) in properties.sorted(by: { $0.key < $1.key }) {
             description += "\n  - \(key): \(value)"
@@ -297,7 +286,5 @@ public extension AgentDescribable {
     /// which is required for agent communication and persistence.
     ///
     /// - Returns: `true` if properties can be serialized to JSON, `false` otherwise.
-    func isJSONSerializable() -> Bool {
-        JSONSerialization.isValidJSONObject(properties)
-    }
+    public func isJSONSerializable() -> Bool { JSONSerialization.isValidJSONObject(properties) }
 }

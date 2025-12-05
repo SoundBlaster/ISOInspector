@@ -142,7 +142,7 @@ log_info "Mode: ${JOBS:-all jobs}"
 
 # 1. Linting
 if [[ "$SKIP_LINT" != "true" ]]; then
-    run_job "Linting & Formatting" "$SCRIPT_DIR/run-lint.sh"
+    run_job "Linting" "$SCRIPT_DIR/run-lint.sh"
 fi
 
 # 2. Build
