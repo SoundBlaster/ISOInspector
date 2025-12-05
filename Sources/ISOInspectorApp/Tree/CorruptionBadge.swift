@@ -11,7 +11,8 @@ struct CorruptionBadge: View {
         Badge(text: summary.badgeText, level: badgeLevel, showIcon: true).help(
             summary.tooltipText ?? summary.badgeText
         ).accessibilityElement(children: .ignore).accessibilityLabel(summary.accessibilityLabel)
-            .accessibilityHint(optional: summary.accessibilityHint)#if os(macOS)
+            .accessibilityHint(optional: summary.accessibilityHint)
+            #if os(macOS)
                 .focusable(true)
             #endif
     }

@@ -48,7 +48,8 @@ struct DesignTokensScreen: View {
 
                 animationTokens
             }.padding(DS.Spacing.l)
-        }.navigationTitle("Design Tokens")#if os(macOS)
+        }.navigationTitle("Design Tokens")
+        #if os(macOS)
             .frame(minWidth: 600, minHeight: 400)
             #endif
     }

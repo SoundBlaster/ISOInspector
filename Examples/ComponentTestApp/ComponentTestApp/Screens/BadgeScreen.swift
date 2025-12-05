@@ -152,7 +152,8 @@ struct BadgeScreen: View {
                             """)
                 }
             }.padding(DS.Spacing.l)
-        }.navigationTitle("Badge Component")#if os(macOS)
+        }.navigationTitle("Badge Component")
+        #if os(macOS)
             .frame(minWidth: 600, minHeight: 500)
             #endif
     }

@@ -177,7 +177,8 @@ struct SectionHeaderScreen: View {
                             """)
                 }
             }.padding(DS.Spacing.l)
-        }.navigationTitle("SectionHeader Component")#if os(macOS)
+        }.navigationTitle("SectionHeader Component")
+        #if os(macOS)
             .frame(minWidth: 700, minHeight: 600)
             #endif
     }

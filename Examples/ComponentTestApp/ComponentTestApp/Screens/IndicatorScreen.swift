@@ -43,7 +43,8 @@ struct IndicatorScreen: View {
 
                 apiSection
             }.padding(DS.Spacing.l).indicatorTooltipStyle(tooltipStyle)
-        }.navigationTitle("Indicator Component")#if os(macOS)
+        }.navigationTitle("Indicator Component")
+        #if os(macOS)
             .frame(minWidth: 600, minHeight: 500)
             #endif
     }

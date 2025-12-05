@@ -169,7 +169,8 @@ struct ModifiersScreen: View {
                             """)
                 }
             }.padding(DS.Spacing.l)
-        }.navigationTitle("View Modifiers")#if os(macOS)
+        }.navigationTitle("View Modifiers")
+        #if os(macOS)
             .frame(minWidth: 700, minHeight: 600)
             #endif
     }

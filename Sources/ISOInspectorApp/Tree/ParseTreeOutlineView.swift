@@ -169,8 +169,8 @@
                                 focusedRowID = row.id
                             }
                     }
-                }.nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.root)#if !os(
-                    iOS)
+                }.nestedAccessibilityIdentifier(ParseTreeAccessibilityID.Outline.List.root)
+                #if !os(iOS)
                         .onMoveCommand { direction in
                             guard focusTarget.wrappedValue == .outline else { return }
                             guard let nextID = nextRowID(for: direction) else { return }
