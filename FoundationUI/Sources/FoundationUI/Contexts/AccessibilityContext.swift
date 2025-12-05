@@ -115,7 +115,7 @@ public struct AccessibilityContext: Equatable, Sendable {
 
 extension DynamicTypeSize {
     /// Indicates whether the dynamic type size is an accessibility category.
-    fileprivate var isAccessibilityCategory: Bool { self >= .accessibility1 }
+    private var isAccessibilityCategory: Bool { self >= .accessibility1 }
 }
 
 /// Overrides that can be applied to the derived accessibility context.
