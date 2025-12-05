@@ -75,7 +75,8 @@ enum DynamicTypeSizePreference: Int, CaseIterable {
 
 @main struct ComponentTestApp: App {
     var body: some Scene {
-        WindowGroup { ContentView() }#if os(macOS)
+        WindowGroup { ContentView() }
+        #if os(macOS)
             .windowStyle(.automatic).windowToolbarStyle(.unified)
             #endif
     }
