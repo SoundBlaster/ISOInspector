@@ -183,7 +183,16 @@ extension View {
     ///
     /// - Returns: A view styled as a badge chip
     public func badgeChipStyle(level: BadgeLevel, showIcon: Bool = false, hasText: Bool = true)
-        -> some View { modifier(BadgeChipStyle(level: level, showIcon: showIcon, hasText: hasText)) }
+        -> some View
+    {
+        modifier(
+            BadgeChipStyle(
+                level: level,
+                showIcon: showIcon,
+                hasText: hasText
+            )
+        )
+    }
 }
 
 // MARK: - SwiftUI Previews

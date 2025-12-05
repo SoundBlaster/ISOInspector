@@ -150,7 +150,7 @@ extension MockISOBox {
                 boxType: "ftyp", size: 32, offset: 0,
                 metadata: [
                     "Major Brand": "isom", "Minor Version": "512",
-                    "Compatible Brands": "isomiso2mp41",
+                    "Compatible Brands": "isomiso2mp41"
                 ], status: .highlighted),
 
             // Movie Box (container)
@@ -163,7 +163,7 @@ extension MockISOBox {
                         metadata: [
                             "Version": "0", "Creation Time": "2024-01-15 10:30:00",
                             "Modification Time": "2024-01-15 10:30:00", "Time Scale": "1000",
-                            "Duration": "60000",
+                            "Duration": "60000"
                         ]),
 
                     // Video Track
@@ -175,7 +175,7 @@ extension MockISOBox {
                                 boxType: "tkhd", size: 92, offset: 156,
                                 metadata: [
                                     "Version": "0", "Flags": "0x00000f", "Track ID": "1",
-                                    "Duration": "60000", "Width": "1920.0", "Height": "1080.0",
+                                    "Duration": "60000", "Width": "1920.0", "Height": "1080.0"
                                 ]),
 
                             // Media Box
@@ -187,14 +187,14 @@ extension MockISOBox {
                                         boxType: "mdhd", size: 32, offset: 256,
                                         metadata: [
                                             "Version": "0", "Creation Time": "2024-01-15 10:30:00",
-                                            "Time Scale": "30000", "Duration": "1800000",
+                                            "Time Scale": "30000", "Duration": "1800000"
                                         ]),
 
                                     // Handler Reference
                                     MockISOBox(
                                         boxType: "hdlr", size: 45, offset: 288,
                                         metadata: [
-                                            "Handler Type": "vide", "Handler Name": "VideoHandler",
+                                            "Handler Type": "vide", "Handler Name": "VideoHandler"
                                         ]),
 
                                     // Media Information
@@ -206,7 +206,7 @@ extension MockISOBox {
                                                 boxType: "vmhd", size: 20, offset: 341,
                                                 metadata: [
                                                     "Version": "0", "Flags": "0x000001",
-                                                    "Graphics Mode": "0", "OpColor": "0, 0, 0",
+                                                    "Graphics Mode": "0", "OpColor": "0, 0, 0"
                                                 ]),
 
                                             // Data Information
@@ -221,26 +221,26 @@ extension MockISOBox {
                                                     MockISOBox(
                                                         boxType: "stsd", size: 150, offset: 405,
                                                         metadata: [
-                                                            "Entry Count": "1", "Format": "avc1",
+                                                            "Entry Count": "1", "Format": "avc1"
                                                         ]),
                                                     MockISOBox(
                                                         boxType: "stts", size: 24, offset: 555,
                                                         metadata: [
                                                             "Entry Count": "1",
                                                             "Sample Count": "1800",
-                                                            "Sample Delta": "1000",
+                                                            "Sample Delta": "1000"
                                                         ]),
                                                     MockISOBox(
                                                         boxType: "stsc", size: 28, offset: 579,
                                                         metadata: [
                                                             "Entry Count": "1", "First Chunk": "1",
-                                                            "Samples Per Chunk": "1",
+                                                            "Samples Per Chunk": "1"
                                                         ]),
                                                     MockISOBox(
                                                         boxType: "stsz", size: 7220, offset: 607,
                                                         metadata: [
                                                             "Sample Count": "1800",
-                                                            "Default Size": "0",
+                                                            "Default Size": "0"
                                                         ]),
                                                     MockISOBox(
                                                         boxType: "stco", size: 7216, offset: 7827,
@@ -283,7 +283,7 @@ extension MockISOBox {
             MockISOBox(
                 boxType: "mdat", size: 10_485_760, offset: 4128,
                 metadata: [
-                    "Data Type": "Compressed video and audio samples", "Sample Count": "1800",
+                    "Data Type": "Compressed video and audio samples", "Sample Count": "1800"
                 ], status: .normal),
         ]
     }

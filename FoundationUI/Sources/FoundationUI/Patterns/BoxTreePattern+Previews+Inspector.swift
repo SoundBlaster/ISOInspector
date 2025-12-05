@@ -21,8 +21,8 @@ import SwiftUI
                 name: "moov", type: "Movie", offset: "0x0020",
                 children: [
                     PreviewNode(name: "mvhd", type: "Movie Header", offset: "0x0028", children: []),
-                    PreviewNode(name: "trak", type: "Track", offset: "0x0068", children: []),
-                ]),
+                    PreviewNode(name: "trak", type: "Track", offset: "0x0068", children: [])
+                ])
         ]
 
         var body: some View {
@@ -87,8 +87,8 @@ import SwiftUI
                 title: "Root 1",
                 children: [
                     PreviewNode(title: "Child 1.1", children: []),
-                    PreviewNode(title: "Child 1.2", children: []),
-                ]), PreviewNode(title: "Root 2", children: []),
+                    PreviewNode(title: "Child 1.2", children: [])
+                ]), PreviewNode(title: "Root 2", children: [])
         ]
 
         var body: some View {
@@ -180,7 +180,7 @@ import SwiftUI
         let flatData = [
             PreviewNode(title: "Item 1", children: []), PreviewNode(title: "Item 2", children: []),
             PreviewNode(title: "Item 3", children: []), PreviewNode(title: "Item 4", children: []),
-            PreviewNode(title: "Item 5", children: []),
+            PreviewNode(title: "Item 5", children: [])
         ]
 
         var body: some View {
