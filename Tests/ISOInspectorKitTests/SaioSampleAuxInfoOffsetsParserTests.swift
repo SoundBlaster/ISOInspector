@@ -27,9 +27,9 @@ final class SaioSampleAuxInfoOffsetsParserTests: XCTestCase {
 
         let payloadStart: Int64 = 8
         let entriesLength: Int64 = Int64(entryCount) * 4
-        let entriesRange =
-            (payloadStart + Int64(payload.count) - entriesLength)
-            ..<(payloadStart + Int64(payload.count))
+        let entriesRangeStart = payloadStart + Int64(payload.count) - entriesLength
+        let entriesRangeEnd = payloadStart + Int64(payload.count)
+        let entriesRange = entriesRangeStart..<entriesRangeEnd
         XCTAssertEqual(fields["entries_range"]?.value, String(describing: entriesRange))
         XCTAssertEqual(fields["entries_length"]?.value, String(entriesRange.count))
 
