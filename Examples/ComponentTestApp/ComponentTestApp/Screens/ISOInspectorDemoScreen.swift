@@ -207,54 +207,53 @@ extension ISOInspectorDemoScreen {
     // MARK: - iOS/iPadOS Layout (Adaptive)
 
     #if !os(macOS)
-        private var iOSLayout: some View {
-            NavigationStack {
-                VStack(spacing: 0) {
-                    // Box tree
-                    if filteredBoxes.isEmpty {
-                        emptyStateView
-                    } else {
-                        BoxTreePattern(
-                            data: filteredBoxes,
-                            children: { $0.children.isEmpty ? nil : $0.children },
-                            expandedNodes: $expandedBoxIDs,
-                            selection: $selectedBoxID,
-                            content: { box in
-                                HStack(spacing: DS.Spacing.s) {
-                                    Badge(
-                                        text: box.boxType, level: box.status.badgeLevel,
-                                        showIcon: false
-                                    )
+    private var iOSLayout: some View {
+        NavigationStack {
+            VStack(spacing: 0) {
+                // Box tree
+                if filteredBoxes.isEmpty {
+                    emptyStateView
+                } else {
+                    BoxTreePattern(
+                        data: filteredBoxes,
+                        children: { $0.children.isEmpty ? nil : $0.children },
+                        expandedNodes: $expandedBoxIDs,
+                        selection: $selectedBoxID,
+                        content: { box in
+                            HStack(spacing: DS.Spacing.s) {
+                                Badge(
+                                    text: box.boxType, level: box.status.badgeLevel,
+                                    showIcon: false
+                                )
 
-                                    VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                                        Text(box.typeDescription).font(DS.Typography.body)
+                                VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                                    Text(box.typeDescription).font(DS.Typography.body)
 
-                                        Text(box.formattedSize).font(DS.Typography.caption)
-                                            .foregroundColor(DS.Colors.textSecondary)
-                                    }
-
-                                    Spacer()
+                                    Text(box.formattedSize).font(DS.Typography.caption)
+                                        .foregroundColor(DS.Colors.textSecondary)
                                 }
-                            }
-                        )
-                        }
-                    }
-                }.sheet(
-                    isPresented: Binding(
-                        get: { selectedBoxID != nil }, set: { if !$0 { selectedBoxID = nil } })
-                ) {
-                    NavigationStack {
-                        inspectorView.navigationTitle("Box Details").navigationBarTitleDisplayMode(
-                            .inline
-                        ).toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Close") { selectedBoxID = nil }
+
+                                Spacer()
                             }
                         }
+                    )
+                }
+            }
+        }.sheet(
+            isPresented: Binding(
+                get: { selectedBoxID != nil }, set: { if !$0 { selectedBoxID = nil } })
+        ) {
+            NavigationStack {
+                inspectorView.navigationTitle("Box Details").navigationBarTitleDisplayMode(
+                    .inline
+                ).toolbar {
+                    ToolbarItem(placement: .cancellationAction) {
+                        Button("Close") { selectedBoxID = nil }
                     }
                 }
             }
         }
+    }
     #endif
 }
 

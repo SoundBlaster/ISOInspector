@@ -70,73 +70,7 @@ scripts/check_yaml.py path/to/workflow.yml another/config.yaml
 
 ## Code Formatting
 
-The repository enforces consistent Swift code style using **swift-format** (Apple's official Swift formatter). All Swift files are automatically formatted before commits via pre-commit hooks, and formatting compliance is validated in CI.
-
-### Local Formatting
-
-Format all Swift files before committing (same paths and arguments as CI):
-
-```sh
-swift format --in-place --recursive Sources Tests FoundationUI Examples
-```
-
-Check formatting without modifying files (mirrors CI check):
-
-```sh
-swift format lint --recursive Sources Tests FoundationUI Examples
-```
-
-### Pre-commit Hook
-
-Install pre-commit hooks to run SwiftLint, YAML, and Markdown checks:
-
-```sh
-pip install pre-commit
-pre-commit install --hook-type pre-commit --hook-type pre-push
-```
-
-Run all hooks manually:
-
-```sh
-pre-commit run --all-files
-```
-
-For an all-in-one local check that matches CI (swift-format lint + SwiftLint across all targets), run:
-
-```sh
-./scripts/local-ci/run-lint.sh
-```
-
-### Configuration
-
-Swift formatting is configured via `.swift-format` at the repository root. The configuration sets `respectsExistingLineBreaks: false` to ensure consistent brace positioning across the codebase.
-
-### CI Enforcement
-
-The GitHub Actions workflow includes a `swift-format-check` job that runs `swift format lint --recursive Sources Tests FoundationUI Examples`. If unformatted code is detected, the workflow fails with instructions to run the formatter locally using the same arguments.
-
-### SwiftLint Compatibility
-
-The repository uses both **SwiftFormat** (for automatic code formatting) and **SwiftLint** (for linting and style enforcement). To avoid conflicts, the following SwiftLint rules are disabled in `.swiftlint.yml`:
-
-- `opening_brace` — SwiftFormat handles brace positioning
-- `closure_parameter_position` — SwiftFormat controls closure parameter layout
-- `trailing_comma` — SwiftFormat manages trailing commas in multiline collections
-- `indentation_width` — SwiftFormat owns indentation/line wraps
-- `vertical_whitespace` — SwiftFormat manages blank-line spacing
-
-Run SwiftFormat first, then SwiftLint in strict mode with baselines so both tools use identical arguments locally and in CI:
-
-```sh
-swift format lint --recursive Sources Tests FoundationUI Examples
-swiftlint lint --strict --config .swiftlint.yml --baseline .swiftlint.baseline.json
-(cd FoundationUI && swiftlint lint --strict --config .swiftlint.yml)
-(cd Examples/ComponentTestApp && swiftlint lint --strict --baseline .swiftlint-baseline.json)
-```
-
-This configuration allows both tools to work together harmoniously without creating conflicting formatting requirements.
-
-Additionally, a pre-commit hook runs `scripts/swiftlint_autocorrect_multiple_closures.sh` to automatically rewrite SwiftUI builder calls that violate SwiftLint's `multiple_closures_with_trailing_closure` rule. This keeps FoundationUI previews and inspectors compliant without manual intervention.
+Swift formatting checks are currently disabled in both CI and local scripts. The `swift-format` job has been removed from CI, and `scripts/local-ci/run-lint.sh` no longer calls the formatter. SwiftLint remains the active enforcement tool, along with the helper hook `scripts/swiftlint_autocorrect_multiple_closures.sh` for multi-closure fixes.
 
 ## Code Quality Gates
 

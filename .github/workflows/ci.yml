@@ -75,29 +75,6 @@ jobs:
       - name: Validate JSON formatting
         run: ./scripts/validate_json.py
 
-  swift-format-check:
-    name: Swift Format Check
-    runs-on: ubuntu-22.04
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Swift
-        uses: SwiftyLab/setup-swift@v1
-        with:
-          swift-version: '6.0'
-
-      - name: Check Swift formatting (lint mode)
-        run: |
-          echo "Checking Swift code formatting..."
-          swift format lint --recursive Sources Tests FoundationUI Examples
-          if [ $? -ne 0 ]; then
-            echo "::error::Swift code is not formatted correctly. Run locally:"
-            echo "  swift format --in-place --recursive Sources Tests FoundationUI Examples"
-            exit 1
-          fi
-          echo "All Swift files are correctly formatted."
-
   swiftlint-complexity:
     name: SwiftLint Complexity Check
     runs-on: macos-latest

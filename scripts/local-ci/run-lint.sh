@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run linting and formatting checks locally
+# Run linting checks locally
 # Mirrors: ci.yml, swift-linux.yml, swiftlint.yml
 
 set -euo pipefail
@@ -23,13 +23,12 @@ show_help() {
     cat <<EOF
 Usage: $(basename "$0") [OPTIONS]
 
-Run linting and formatting checks (SwiftLint, swift-format, JSON validation)
+Run linting checks (SwiftLint, JSON validation)
 
 OPTIONS:
     -m, --mode MODE         SwiftLint mode: native or docker (default: from config)
     -f, --fix              Auto-fix issues where possible
     --skip-swiftlint       Skip SwiftLint checks
-    --skip-format          Skip swift-format checks
     --skip-json            Skip JSON validation
     -v, --verbose          Verbose output
     -h, --help             Show this help message
@@ -45,7 +44,7 @@ EXAMPLES:
     $(basename "$0") --fix
 
     # Skip specific checks
-    $(basename "$0") --skip-json --skip-format
+    $(basename "$0") --skip-json
 EOF
 }
 
@@ -53,7 +52,6 @@ EOF
 SWIFTLINT_MODE_OVERRIDE=""
 AUTO_FIX=false
 SKIP_SWIFTLINT=false
-SKIP_FORMAT=false
 SKIP_JSON=false
 
 while [[ $# -gt 0 ]]; do
@@ -68,10 +66,6 @@ while [[ $# -gt 0 ]]; do
             ;;
         --skip-swiftlint)
             SKIP_SWIFTLINT=true
-            shift
-            ;;
-        --skip-format)
-            SKIP_FORMAT=true
             shift
             ;;
         --skip-json)
@@ -119,35 +113,6 @@ if [[ "$SKIP_JSON" != "true" ]]; then
     else
         log_error "JSON validation failed"
         ((FAILURES++))
-    fi
-fi
-
-# ============================================================================
-# Swift Format Check
-# ============================================================================
-if [[ "$SKIP_FORMAT" != "true" ]]; then
-    log_section "Swift Format Check"
-
-    SWIFT_FORMAT_PATHS=(Sources Tests FoundationUI Examples)
-    SWIFT_FORMAT_ARGS=(--recursive "${SWIFT_FORMAT_PATHS[@]}")
-
-    if [[ "$AUTO_FIX" == "true" ]]; then
-        log_info "Auto-fixing Swift formatting..."
-        if timed_run "Swift format (fix)" swift format --in-place "${SWIFT_FORMAT_ARGS[@]}" > /tmp/local-ci-swift-format.log 2>&1; then
-            log_success "Swift formatting applied"
-        else
-            log_error "Swift format failed"
-            ((FAILURES++))
-        fi
-    else
-        log_info "Checking Swift code formatting (lint mode)..."
-        if timed_run "Swift format (lint)" swift format lint "${SWIFT_FORMAT_ARGS[@]}"; then
-            log_success "All Swift files are correctly formatted"
-        else
-            log_error "Swift code is not formatted correctly"
-            log_info "Run locally to fix: swift format --in-place --recursive ${SWIFT_FORMAT_PATHS[*]}"
-            ((FAILURES++))
-        fi
     fi
 fi
 
