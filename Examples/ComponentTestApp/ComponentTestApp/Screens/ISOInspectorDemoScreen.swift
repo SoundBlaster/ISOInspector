@@ -1,13 +1,15 @@
-/// ISOInspectorDemoScreen - Full ISO Inspector Mockup
-///
-/// Demonstrates the complete ISO Inspector workflow by combining all FoundationUI patterns:
-/// - SidebarPattern for file/section navigation
-/// - BoxTreePattern for hierarchical ISO box structure
-/// - InspectorPattern for selected box metadata display
-/// - ToolbarPattern for action buttons with keyboard shortcuts
-///
-/// This screen serves as a real-world integration example and testing environment
-/// for all FoundationUI components and patterns working together.
+// ISOInspectorDemoScreen - Full ISO Inspector Mockup
+//
+// Demonstrates the complete ISO Inspector workflow by combining all FoundationUI patterns:
+// - SidebarPattern for file/section navigation
+// - BoxTreePattern for hierarchical ISO box structure
+// - InspectorPattern for selected box metadata display
+// - ToolbarPattern for action buttons with keyboard shortcuts
+//
+// This screen serves as a real-world integration example and testing environment
+// for all FoundationUI components and patterns working together.
+
+// swiftlint:disable file_length
 
 import FoundationUI
 import SwiftUI
@@ -86,11 +88,16 @@ struct ISOInspectorDemoScreen: View {
             #else
                 iOSLayout
             #endif
-        }.navigationTitle("ISO Inspector Demo").alert("Action Performed", isPresented: $showAlert) {
-            Button("OK", role: .cancel) {}
-        } message: {
-            Text(alertMessage)
-        }
+        }.navigationTitle("ISO Inspector Demo").alert(
+            "Action Performed",
+            isPresented: $showAlert,
+            actions: {
+                Button("OK", role: .cancel, action: {})
+            },
+            message: {
+                Text(alertMessage)
+            }
+        )
     }
 }
 
@@ -108,10 +115,13 @@ extension ISOInspectorDemoScreen {
                     DS.Typography.body)
 
                 if !filterText.isEmpty {
-                    Button(action: { filterText = "" }) {
-                        Image(systemName: "xmark.circle.fill").foregroundColor(
-                            DS.Colors.textSecondary)
-                    }.buttonStyle(.plain)
+                    Button(
+                        action: { filterText = "" },
+                        label: {
+                            Image(systemName: "xmark.circle.fill").foregroundColor(
+                                DS.Colors.textSecondary)
+                        }
+                    ).buttonStyle(.plain)
                 }
             }.padding(.horizontal, DS.Spacing.m).padding(.vertical, DS.Spacing.s).background(
                 DS.Colors.secondary
@@ -120,17 +130,18 @@ extension ISOInspectorDemoScreen {
             Spacer()
 
             // Action buttons
-            Button(action: openFileAction) { Label("Open", systemImage: "folder.fill") }
+            Button(action: openFileAction, label: { Label("Open", systemImage: "folder.fill") })
                 .keyboardShortcut("o", modifiers: .command)
 
-            Button(action: copyAction) { Label("Copy", systemImage: "doc.on.doc.fill") }
+            Button(action: copyAction, label: { Label("Copy", systemImage: "doc.on.doc.fill") })
                 .keyboardShortcut("c", modifiers: .command).disabled(selectedBox == nil)
 
-            Button(action: exportAction) {
-                Label("Export", systemImage: "square.and.arrow.up.fill")
-            }.keyboardShortcut("e", modifiers: .command).disabled(selectedBox == nil)
+            Button(
+                action: exportAction,
+                label: { Label("Export", systemImage: "square.and.arrow.up.fill") }
+            ).keyboardShortcut("e", modifiers: .command).disabled(selectedBox == nil)
 
-            Button(action: refreshAction) { Label("Refresh", systemImage: "arrow.clockwise") }
+            Button(action: refreshAction, label: { Label("Refresh", systemImage: "arrow.clockwise") })
                 .keyboardShortcut("r", modifiers: .command)
         }.font(DS.Typography.body)
     }
@@ -172,21 +183,23 @@ extension ISOInspectorDemoScreen {
                             BoxTreePattern(
                                 data: filteredBoxes,
                                 children: { $0.children.isEmpty ? nil : $0.children },
-                                expandedNodes: $expandedBoxIDs, selection: $selectedBoxID
-                            ) { box in
-                                HStack(spacing: DS.Spacing.s) {
-                                    Badge(
-                                        text: box.boxType, level: box.status.badgeLevel,
-                                        showIcon: false)
+                                expandedNodes: $expandedBoxIDs,
+                                selection: $selectedBoxID,
+                                content: { box in
+                                    HStack(spacing: DS.Spacing.s) {
+                                        Badge(
+                                            text: box.boxType, level: box.status.badgeLevel,
+                                            showIcon: false)
 
-                                    Text(box.typeDescription).font(DS.Typography.body)
+                                        Text(box.typeDescription).font(DS.Typography.body)
 
-                                    Spacer()
+                                        Spacer()
 
-                                    Text(box.formattedSize).font(DS.Typography.caption)
-                                        .foregroundColor(DS.Colors.textSecondary)
+                                        Text(box.formattedSize).font(DS.Typography.caption)
+                                            .foregroundColor(DS.Colors.textSecondary)
+                                    }
                                 }
-                            }
+                            )
                         }
                     }.frame(width: geometry.size.width * 0.4)
 
@@ -215,22 +228,26 @@ extension ISOInspectorDemoScreen {
                         BoxTreePattern(
                             data: filteredBoxes,
                             children: { $0.children.isEmpty ? nil : $0.children },
-                            expandedNodes: $expandedBoxIDs, selection: $selectedBoxID
-                        ) { box in
-                            HStack(spacing: DS.Spacing.s) {
-                                Badge(
-                                    text: box.boxType, level: box.status.badgeLevel, showIcon: false
-                                )
+                            expandedNodes: $expandedBoxIDs,
+                            selection: $selectedBoxID,
+                            content: { box in
+                                HStack(spacing: DS.Spacing.s) {
+                                    Badge(
+                                        text: box.boxType, level: box.status.badgeLevel,
+                                        showIcon: false
+                                    )
 
-                                VStack(alignment: .leading, spacing: DS.Spacing.s) {
-                                    Text(box.typeDescription).font(DS.Typography.body)
+                                    VStack(alignment: .leading, spacing: DS.Spacing.s) {
+                                        Text(box.typeDescription).font(DS.Typography.body)
 
-                                    Text(box.formattedSize).font(DS.Typography.caption)
-                                        .foregroundColor(DS.Colors.textSecondary)
+                                        Text(box.formattedSize).font(DS.Typography.caption)
+                                            .foregroundColor(DS.Colors.textSecondary)
+                                    }
+
+                                    Spacer()
                                 }
-
-                                Spacer()
                             }
+                        )
                         }
                     }
                 }.sheet(
@@ -409,3 +426,5 @@ extension ISOInspectorDemoScreen {
 #Preview("ISO Inspector Demo - Dark") {
     NavigationStack { ISOInspectorDemoScreen() }.preferredColorScheme(.dark)
 }
+
+// swiftlint:enable file_length

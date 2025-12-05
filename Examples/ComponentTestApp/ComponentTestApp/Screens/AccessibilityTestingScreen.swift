@@ -157,7 +157,7 @@ extension AccessibilityTestingScreen {
                 // Visual preview
                 HStack(spacing: DS.Spacing.xl) {
                     VStack(spacing: DS.Spacing.s) {
-                        Button(action: {}) { Image(systemName: "star.fill") }.frame(
+                        Button(action: {}, label: { Image(systemName: "star.fill") }).frame(
                             width: touchTargetSize, height: touchTargetSize
                         ).background(
                             touchTargetSize >= 44 ? DS.Colors.successBG : DS.Colors.errorBG
@@ -169,7 +169,7 @@ extension AccessibilityTestingScreen {
 
                     // Reference (44×44)
                     VStack(spacing: DS.Spacing.s) {
-                        Button(action: {}) { Image(systemName: "checkmark") }.frame(
+                        Button(action: {}, label: { Image(systemName: "checkmark") }).frame(
                             width: 44, height: 44
                         ).background(DS.Colors.infoBG).cornerRadius(DS.Radius.small)
 

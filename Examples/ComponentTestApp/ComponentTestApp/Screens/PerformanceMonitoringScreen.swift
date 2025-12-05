@@ -1,17 +1,19 @@
-/// PerformanceMonitoringScreen - Performance Testing and Monitoring
-///
-/// Interactive performance testing tools:
-/// - Large dataset stress tests (BoxTreePattern with 1000+ nodes)
-/// - Memory usage monitoring
-/// - Animation performance testing
-/// - Lazy loading validation
-/// - Performance baselines comparison
-///
-/// This screen helps developers identify performance bottlenecks and
-/// validate that FoundationUI components meet performance requirements:
-/// - Render time <100ms
-/// - Memory footprint <5MB per screen
-/// - 60 FPS rendering
+// PerformanceMonitoringScreen - Performance Testing and Monitoring
+//
+// Interactive performance testing tools:
+// - Large dataset stress tests (BoxTreePattern with 1000+ nodes)
+// - Memory usage monitoring
+// - Animation performance testing
+// - Lazy loading validation
+// - Performance baselines comparison
+//
+// This screen helps developers identify performance bottlenecks and
+// validate that FoundationUI components meet performance requirements:
+// - Render time <100ms
+// - Memory footprint <5MB per screen
+// - 60 FPS rendering
+
+// swiftlint:disable file_length
 
 import FoundationUI
 import SwiftUI
@@ -257,19 +259,20 @@ extension PerformanceMonitoringScreen {
                     BoxTreePattern(
                         data: Array(largeDataset.prefix(10)),
                         children: { $0.children.isEmpty ? nil : $0.children },
-                        expandedNodes: $expandedNodes, selection: $selectedBoxID
-                    ) { box in
-                        HStack(spacing: DS.Spacing.s) {
-                            Badge(text: box.boxType, level: .info, showIcon: false)
+                        expandedNodes: $expandedNodes, selection: $selectedBoxID,
+                        content: { box in
+                            HStack(spacing: DS.Spacing.s) {
+                                Badge(text: box.boxType, level: .info, showIcon: false)
 
-                            Text(box.typeDescription).font(DS.Typography.caption)
+                                Text(box.typeDescription).font(DS.Typography.caption)
 
-                            Spacer()
+                                Spacer()
 
-                            Text("\(box.childCount) children").font(DS.Typography.caption)
-                                .foregroundColor(DS.Colors.textSecondary)
+                                Text("\(box.childCount) children").font(DS.Typography.caption)
+                                    .foregroundColor(DS.Colors.textSecondary)
+                            }
                         }
-                    }.frame(height: 300)
+                    ).frame(height: 300)
 
                     if largeDataset.count > 10 {
                         Text("Showing first 10 of \(largeDataset.count) boxes").font(
@@ -429,3 +432,5 @@ extension PerformanceMonitoringScreen {
 #Preview("Performance Monitoring - Dark") {
     NavigationStack { PerformanceMonitoringScreen() }.preferredColorScheme(.dark)
 }
+
+// swiftlint:enable file_length
