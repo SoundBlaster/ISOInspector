@@ -91,11 +91,13 @@ struct BoxTreePatternScreen: View {
             ScrollView {
                 // Tree View
                 if selectionMode == .single {
-                    BoxTreePattern(data: treeItems, children: { _ in selectedNode?.children ?? [] })
-                    { box in BoxTreeNodeView(box: box) }
+                    BoxTreePattern(
+                        data: treeItems, children: { _ in selectedNode?.children ?? [] },
+                        content: { box in BoxTreeNodeView(box: box) })
                 } else {
-                    BoxTreePattern(data: treeItems, children: { _ in selectedNode?.children ?? [] })
-                    { box in BoxTreeNodeView(box: box) }
+                    BoxTreePattern(
+                        data: treeItems, children: { _ in selectedNode?.children ?? [] },
+                        content: { box in BoxTreeNodeView(box: box) })
                 }
             }.padding(.horizontal, DS.Spacing.platformDefault)
 

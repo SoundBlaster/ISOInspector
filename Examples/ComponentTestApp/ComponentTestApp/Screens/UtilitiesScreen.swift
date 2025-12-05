@@ -303,14 +303,14 @@ extension UtilitiesScreen {
                     ).foregroundColor(DS.Colors.textSecondary)
 
                     HStack(spacing: DS.Spacing.m) {
-                        Button(action: {}) { Image(systemName: "play.fill") }.accessibilityLabel(
-                            "Play")
+                        Button(action: {}, label: { Image(systemName: "play.fill") })
+                            .accessibilityLabel("Play")
 
-                        Button(action: {}) { Image(systemName: "pause.fill") }.accessibilityLabel(
-                            "Pause")
+                        Button(action: {}, label: { Image(systemName: "pause.fill") })
+                            .accessibilityLabel("Pause")
 
-                        Button(action: {}) { Image(systemName: "stop.fill") }.accessibilityLabel(
-                            "Stop")
+                        Button(action: {}, label: { Image(systemName: "stop.fill") })
+                            .accessibilityLabel("Stop")
                     }
                 }
             }.padding(.horizontal, DS.Spacing.m)
