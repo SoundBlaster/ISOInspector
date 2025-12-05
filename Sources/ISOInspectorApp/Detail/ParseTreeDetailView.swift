@@ -546,7 +546,8 @@
                         focusedOffset = highlightedRange?.lowerBound
                     }.onChangeCompatibility(of: highlightedRange) { newValue in
                         focusedOffset = newValue?.lowerBound
-                    }#if canImport(AppKit)
+                    }
+                    #if canImport(AppKit)
                         .onMoveCommand { direction in
                             guard focusTarget.wrappedValue == .hex else { return }
                             guard let offset = focusedOffset ?? highlightedRange?.lowerBound else {

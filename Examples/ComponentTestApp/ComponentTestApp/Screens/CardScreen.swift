@@ -195,7 +195,8 @@ struct CardScreen: View {
                             """)
                 }
             }.padding(DS.Spacing.l)
-        }.navigationTitle("Card Component")#if os(macOS)
+        }.navigationTitle("Card Component")
+        #if os(macOS)
             .frame(minWidth: 700, minHeight: 600)
             #endif
     }

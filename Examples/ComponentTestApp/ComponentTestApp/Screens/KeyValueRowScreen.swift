@@ -164,7 +164,8 @@ struct KeyValueRowScreen: View {
                             """)
                 }
             }.padding(DS.Spacing.l)
-        }.navigationTitle("KeyValueRow Component")#if os(macOS)
+        }.navigationTitle("KeyValueRow Component")
+        #if os(macOS)
             .frame(minWidth: 700, minHeight: 600)
             #endif
     }
