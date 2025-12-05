@@ -244,10 +244,10 @@ extension MockISOBox {
                                                         ]),
                                                     MockISOBox(
                                                         boxType: "stco", size: 7216, offset: 7827,
-                                                        metadata: ["Entry Count": "1800"]),
-                                                ]),
-                                        ]),
-                                ]),
+                                                        metadata: ["Entry Count": "1800"])
+                                                ])
+                                        ])
+                                ])
                         ]),
 
                     // Audio Track
@@ -266,7 +266,7 @@ extension MockISOBox {
                                     MockISOBox(
                                         boxType: "hdlr", size: 45, offset: 2112,
                                         metadata: [
-                                            "Handler Type": "soun", "Handler Name": "SoundHandler",
+                                            "Handler Type": "soun", "Handler Name": "SoundHandler"
                                         ]),
                                     MockISOBox(
                                         boxType: "minf", size: 1439, offset: 2157,
@@ -274,9 +274,9 @@ extension MockISOBox {
                                             MockISOBox(
                                                 boxType: "smhd", size: 16, offset: 2165,
                                                 metadata: ["Balance": "0"])
-                                        ]),
-                                ]),
-                        ]),
+                                        ])
+                                ])
+                        ])
                 ], status: .normal),
 
             // Media Data Box
@@ -284,7 +284,7 @@ extension MockISOBox {
                 boxType: "mdat", size: 10_485_760, offset: 4128,
                 metadata: [
                     "Data Type": "Compressed video and audio samples", "Sample Count": "1800"
-                ], status: .normal),
+                ], status: .normal)
         ]
     }
 

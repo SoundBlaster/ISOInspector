@@ -74,7 +74,7 @@ MAX_JOBS=4
 ./scripts/local-ci/run-all.sh --verbose
 ```
 
-### Linting & Formatting
+### Linting
 
 ```bash
 # Check all linting rules
@@ -87,12 +87,11 @@ MAX_JOBS=4
 ./scripts/local-ci/run-lint.sh --mode docker
 
 # Skip specific checks
-./scripts/local-ci/run-lint.sh --skip-json --skip-format
+./scripts/local-ci/run-lint.sh --skip-json
 ```
 
 **What it runs:**
 - SwiftLint (main project, FoundationUI, ComponentTestApp)
-- swift-format (Sources/, Tests/, FoundationUI/, Examples/)
 - JSON validation (MP4RABoxes.json)
 
 ### Build Matrix
