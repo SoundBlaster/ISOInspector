@@ -163,6 +163,7 @@ Create a **Swift** library (`ISOInspectorKit`) and a **multiplatform SwiftUI app
 
 
 ### 🚧 In Progress
+- [ ] **UI-245 — Adopt SwiftUI `.inspector` API on macOS.** Collapse the macOS `NavigationSplitView` to sidebar + content, move inspector content into `.inspector(isPresented:)` with a single `showInspector` binding (⌘⌥I), and host `InspectorDetailView` (selection details + integrity) there. Selection should flip the inspector display mode without hiding the pane. Remove legacy `NavigationSplitViewVisibility` inspector plumbing on macOS; keep current iPad/iPhone fallbacks intact.
 - [ ] **T5.4 — Performance Benchmark (Lenient vs. Strict).** Harness delivery is archived in `DOCS/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/`, and the Linux baseline metrics live in `Documentation/Performance/2025-11-04-lenient-vs-strict-benchmark.log`. Execute the macOS 1 GiB rerun (`ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824`) per the active checklist in `DOCS/INPROGRESS/next_tasks.md` to close the tolerance gate; the most recent summary and blockers are captured in `DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/`.
 - [x] **T6.2 — CLI Corruption Summary Output.** _(Completed — see `DOCS/TASK_ARCHIVE/208_T6_2_CLI_Corruption_Summary_Output/` for the objective, implementation notes, and verification log covering strict vs. tolerant snapshot tests.)_
 - [x] **T3.6 — Integrity Summary Tab.** _(Completed — see `DOCS/TASK_ARCHIVE/196_T3_6_Integrity_Summary_Tab/` for the release notes and follow-up checklist.)_
