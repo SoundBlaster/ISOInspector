@@ -1,0 +1,206 @@
+
+================================================================================
+Layer 0: DesignTokens
+================================================================================
+  Animation.swift                             14 LOC (  129 total)
+  Colors.swift                                36 LOC (  144 total)
+  Radius.swift                                12 LOC (   95 total)
+  Spacing.swift                               22 LOC (   97 total)
+  Typography.swift                            12 LOC (   93 total)
+
+  TOTAL                                       96 LOC (  558 total)
+
+  Constructs:
+    Functions:   1
+    Structs:     0
+    Classes:     0
+    Enums:       6
+    Extensions:  5
+    Properties:  33
+
+  Test Files:
+    TokenValidationTests.swift               142 LOC (  255 total)
+
+  TEST TOTAL                                 142 LOC (  255 total)
+
+  Test/Code Ratio: 147.9%
+  Coverage Estimate: GOOD
+
+================================================================================
+Layer 1: Modifiers
+================================================================================
+  BadgeChipStyle.swift                       111 LOC (  246 total)
+  CardStyle.swift                            174 LOC (  319 total)
+  CopyableModifier.swift                     134 LOC (  312 total)
+  InteractiveStyle.swift                     181 LOC (  348 total)
+  SurfaceStyle.swift                         179 LOC (  351 total)
+
+  TOTAL                                      779 LOC ( 1576 total)
+
+  Constructs:
+    Functions:   15
+    Structs:     6
+    Classes:     0
+    Enums:       4
+    Extensions:  5
+    Properties:  48
+
+  Test Files:
+    BadgeChipStyleTests.swift                 87 LOC (  197 total)
+    CardStyleTests.swift                     127 LOC (  274 total)
+    CopyableModifierTests.swift              147 LOC (  275 total)
+    InteractiveStyleTests.swift              131 LOC (  275 total)
+    SurfaceStyleTests.swift                  125 LOC (  266 total)
+
+  TEST TOTAL                                 617 LOC ( 1287 total)
+
+  Test/Code Ratio: 79.2%
+  Coverage Estimate: GOOD
+
+================================================================================
+Layer 2: Components
+================================================================================
+  Badge.swift                                125 LOC (  254 total)
+  Card.swift                                 270 LOC (  439 total)
+  Copyable.swift                             122 LOC (  275 total)
+  Indicator.swift                            241 LOC (  359 total)
+  KeyValueRow.swift                          179 LOC (  332 total)
+  SectionHeader.swift                        111 LOC (  204 total)
+
+  TOTAL                                     1048 LOC ( 1863 total)
+
+  Constructs:
+    Functions:   10
+    Structs:     11
+    Classes:     0
+    Enums:       4
+    Extensions:  13
+    Properties:  104
+
+  Test Files:
+    BadgeTests.swift                         137 LOC (  243 total)
+    CardTests.swift                          163 LOC (  309 total)
+    CopyableTests.swift                      200 LOC (  333 total)
+    IndicatorTests.swift                      72 LOC (  115 total)
+    KeyValueRowTests.swift                   137 LOC (  256 total)
+    SectionHeaderTests.swift                  85 LOC (  163 total)
+
+  TEST TOTAL                                 794 LOC ( 1419 total)
+
+  Test/Code Ratio: 75.8%
+  Coverage Estimate: GOOD
+
+================================================================================
+Layer 3: Patterns
+================================================================================
+  BoxTreePattern+Previews+Inspector.swift    171 LOC (  204 total)
+  BoxTreePattern+Previews.swift              165 LOC (  197 total)
+  BoxTreePattern.swift                       162 LOC (  313 total)
+  InspectorPattern.swift                     272 LOC (  372 total)
+  NavigationSplitScaffold.swift              211 LOC (  396 total)
+  SidebarPattern+Previews+Dynamic.swift      192 LOC (  220 total)
+  SidebarPattern+Previews.swift              227 LOC (  255 total)
+  SidebarPattern.swift                       127 LOC (  220 total)
+  ToolbarPattern+Previews.swift              313 LOC (  352 total)
+  ToolbarPattern.swift                       335 LOC (  436 total)
+
+  TOTAL                                     2175 LOC ( 2965 total)
+
+  Constructs:
+    Functions:   24
+    Structs:     45
+    Classes:     2
+    Enums:       6
+    Extensions:  10
+    Properties:  236
+
+  Test Files:
+    BoxTreePatternTests.swift                215 LOC (  369 total)
+    InspectorPatternTests.swift              191 LOC (  337 total)
+    NavigationSplitScaffoldTests.swift       408 LOC (  636 total)
+    SidebarPatternTests.swift                342 LOC (  508 total)
+    ToolbarPatternTests.swift                292 LOC (  482 total)
+
+  TEST TOTAL                                1448 LOC ( 2332 total)
+
+  Test/Code Ratio: 66.6%
+  Coverage Estimate: GOOD
+
+================================================================================
+Layer 4: Contexts
+================================================================================
+  AccessibilityContext.swift                 108 LOC (  229 total)
+  ColorSchemeAdapter.swift                   243 LOC (  715 total)
+  PlatformAdaptation.swift                   169 LOC (  476 total)
+  PlatformExtensions.swift                   181 LOC (  473 total)
+  SurfaceStyleKey.swift                      133 LOC (  417 total)
+
+  TOTAL                                      834 LOC ( 2310 total)
+
+  Constructs:
+    Functions:   21
+    Structs:     27
+    Classes:     5
+    Enums:       4
+    Extensions:  11
+    Properties:  112
+
+  Test Files:
+    AccessibilityContextTests.swift          154 LOC (  244 total)
+    ColorSchemeAdapterTests.swift            191 LOC (  519 total)
+    ContextIntegrationTests.swift            217 LOC (  414 total)
+    PlatformAdaptationIntegrationTests.swift   503 LOC ( 1001 total)
+    PlatformAdaptationTests.swift            137 LOC (  219 total)
+    PlatformExtensionsTests.swift            137 LOC (  230 total)
+    SurfaceStyleKeyTests.swift               103 LOC (  291 total)
+
+  TEST TOTAL                                1442 LOC ( 2918 total)
+
+  Test/Code Ratio: 172.9%
+  Coverage Estimate: GOOD
+
+================================================================================
+Utilities: Utilities
+================================================================================
+  AccessibilityHelpers.swift                 307 LOC (  799 total)
+  CopyableText.swift                          44 LOC (  145 total)
+  DynamicTypeSize+Extensions.swift             8 LOC (   62 total)
+  KeyboardShortcuts.swift                    287 LOC (  521 total)
+
+  TOTAL                                      646 LOC ( 1527 total)
+
+  Constructs:
+    Functions:   26
+    Structs:     4
+    Classes:     0
+    Enums:       6
+    Extensions:  6
+    Properties:  81
+
+  Test Files:
+    AccessibilityHelpersTests.swift          187 LOC (  304 total)
+    CopyableTextTests.swift                   77 LOC (  176 total)
+    DynamicTypeSizeExtensionsTests.swift     136 LOC (  177 total)
+    KeyboardShortcutsTests.swift             119 LOC (  178 total)
+
+  TEST TOTAL                                 519 LOC (  835 total)
+
+  Test/Code Ratio: 80.3%
+  Coverage Estimate: GOOD
+
+================================================================================
+SUMMARY
+================================================================================
+
+Total Source LOC: 5,578
+Total Test LOC:   4,962
+Overall Test/Code Ratio: 89.0%
+
+Layer                  Source LOC     Test LOC      Ratio
+------------------------------------------------------------
+Layer 0                        96          142     147.9%
+Layer 1                       779          617      79.2%
+Layer 2                     1,048          794      75.8%
+Layer 3                     2,175        1,448      66.6%
+Layer 4                       834        1,442     172.9%
+Utilities                     646          519      80.3%
