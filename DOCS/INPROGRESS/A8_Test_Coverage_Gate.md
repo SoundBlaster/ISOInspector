@@ -26,3 +26,9 @@ Add automated coverage enforcement so pushes and CI runs fail when overall Swift
 - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES`](../RULES)
 - Relevant archives in [`DOCS/TASK_ARCHIVE`](../TASK_ARCHIVE)
+
+## ✅ Resolution Notes — 2025-12-12
+
+- **Pre-push enforcement:** `.githooks/pre-push` now runs `swift test --package-path FoundationUI --enable-code-coverage` followed by `coverage_analysis.py --threshold 0.67` (reporting to `Documentation/Quality/`). Pushes fail if either the coverage test run or threshold check fails. Threshold respects `ISOINSPECTOR_MIN_TEST_COVERAGE` when set.
+- **CI enforcement:** `.github/workflows/ci.yml` adds a macOS `coverage-gate` job that executes the same FoundationUI coverage test run, invokes the coverage analysis with a 0.67 threshold, and uploads logs/reports from `Documentation/Quality/` as CI artifacts.
+- **Artifacts:** Coverage logs and reports are stored under `Documentation/Quality/` for both local hooks and CI, providing a consistent audit trail for regressions.

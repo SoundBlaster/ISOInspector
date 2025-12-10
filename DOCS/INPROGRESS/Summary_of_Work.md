@@ -1,3 +1,18 @@
+## Summary of Work — 2025-12-12
+
+### Completed Tasks
+- ✅ **Task A8 — Test Coverage Gate**
+
+### Implementation Highlights
+- Added macOS-only FoundationUI coverage enforcement to `.githooks/pre-push`, running `swift test --enable-code-coverage` followed by `coverage_analysis.py --threshold 0.67` with reports under `Documentation/Quality/`.
+- Introduced a macOS `coverage-gate` job in `.github/workflows/ci.yml` that mirrors the pre-push coverage gate and uploads coverage logs/reports as CI artifacts.
+- Updated task trackers (`todo.md`, `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md`, `DOCS/INPROGRESS/next_tasks.md`, and `DOCS/INPROGRESS/A8_Test_Coverage_Gate.md`) to record the completed coverage gate rollout and artifact locations.
+
+### Verification
+- ⚠️ `swift test --package-path FoundationUI --enable-code-coverage` (fails on Linux due to missing SwiftUI SDK; coverage gate runs on macOS runners in CI and on macOS developer machines.)
+
+---
+
 ## Summary of Work — 2025-11-28
 
 ### Completed Tasks

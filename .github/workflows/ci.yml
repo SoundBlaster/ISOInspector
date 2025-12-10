@@ -181,6 +181,40 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+  coverage-gate:
+    name: Coverage Gate (FoundationUI)
+    runs-on: macos-14
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Swift
+        uses: SwiftyLab/setup-swift@v1
+        with:
+          swift-version: '6.0'
+
+      - name: Create log directory
+        run: mkdir -p Documentation/Quality
+
+      - name: Run FoundationUI tests with coverage
+        run: swift test --package-path FoundationUI --enable-code-coverage 2>&1 | tee Documentation/Quality/foundationui-coverage-test.log
+
+      - name: Enforce coverage threshold (67%)
+        run: |
+          python3 coverage_analysis.py --threshold 0.67 --report Documentation/Quality/foundationui-coverage-report.txt -v
+          echo "Coverage report written to Documentation/Quality/foundationui-coverage-report.txt"
+
+      - name: Upload coverage artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: foundationui-coverage
+          path: |
+            Documentation/Quality/foundationui-coverage-test.log
+            Documentation/Quality/foundationui-coverage-report.txt
+          if-no-files-found: error
+          retention-days: 14
+
   docc-archives:
     name: Generate DocC Archives
     runs-on: ubuntu-22.04
