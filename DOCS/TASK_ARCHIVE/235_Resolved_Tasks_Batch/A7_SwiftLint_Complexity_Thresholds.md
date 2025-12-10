@@ -1,5 +1,7 @@
 # Task A7: Reinstate SwiftLint Complexity Thresholds
 
+**Status**: COMPLETED
+
 ## 🎯 Objective
 
 Restore code quality gates by configuring SwiftLint complexity thresholds for cyclomatic complexity, function body length, nesting depth, and type body length across all Swift targets (ISOInspectorKit, ISOInspector UI, CLI). Ensure these rules are enforced both locally via pre-commit hook and in CI/CD pipelines with automated reporting.
