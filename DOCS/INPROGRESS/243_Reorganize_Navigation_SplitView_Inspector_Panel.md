@@ -1,10 +1,12 @@
 # Task 243: Reorganize NavigationSplitView – Move Selection Details & Integrity Summary to Inspector Panel
 
-**Status**: In Progress (selected 2025-12-17)
+**Status**: Not Needed (declined 2025-12-17 — stakeholder prefers current 4-column layout)
 **Created**: 2025-11-19 (UTC)
 **Session ID**: `claude/reorganize-navigation-split-view-01DgfApqEpedTA17urnmfHFE`
 
 ---
+
+> Decision: No implementation required. Stakeholder confirmed the existing layout (sidebar = files, content = box tree, detail = selection details, inspector overlay = integrity report) is acceptable; requested to keep it as-is.
 
 ## 📋 FEATURE REQUEST
 

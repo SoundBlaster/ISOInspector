@@ -6,16 +6,9 @@ _Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever ta
 
 > **Note:** Tasks 240, 241, and 242 have been completed and archived to `DOCS/TASK_ARCHIVE/234_Resolved_Tasks_Batch/` (2025-11-19). See ARCHIVE_SUMMARY.md for details.
 
-1. **Task 243 – Reorganize NavigationSplitView: Selection Details & Integrity Summary in Inspector** _(In Progress — selected 2025-12-17; PRD: `DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md`)_
-   - Move Selection Details content (metadata, corruption, encryption, notes, fields, validation, hex) to third column (Inspector)
-   - Move Integrity Summary to Inspector panel with toggle button in Box Tree panel header
-   - Refactor ParseTreeDetailView into sub-components for better composability
-   - Add toggle UI in Box Tree panel to switch between Selection Details and Integrity Summary views
-   - Ensure responsive layout across macOS (3 columns), iPad (adaptive), iPhone (compact)
-   - Implement keyboard shortcuts (⌘⌥I for inspector toggle) and VoiceOver labels
-   - Create 25-30 unit tests, 10-15 integration tests, 4+ UI snapshot tests
-   - Effort: ~4.5 days
-   - Ready: 2025-11-19
+1. **Task 243 – Reorganize NavigationSplitView: Selection Details & Integrity Summary in Inspector** _(Not Needed — declined 2025-12-17; PRD: `DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md`)_ 
+   - Stakeholder requested to keep the current layout (sidebar files, box tree, selection details, integrity inspector overlay).
+   - No implementation planned; select a new next task per `DOCS/COMMANDS/SELECT_NEXT.md`.
 
 ---
 
