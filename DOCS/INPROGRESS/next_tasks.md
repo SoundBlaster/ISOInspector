@@ -6,7 +6,7 @@ _Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever ta
 
 > **Note:** Tasks 240, 241, and 242 have been completed and archived to `DOCS/TASK_ARCHIVE/234_Resolved_Tasks_Batch/` (2025-11-19). See ARCHIVE_SUMMARY.md for details.
 
-1. **Task 243 – Reorganize NavigationSplitView: Selection Details & Integrity Summary in Inspector** _(Ready for implementation — `DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md`)_
+1. **Task 243 – Reorganize NavigationSplitView: Selection Details & Integrity Summary in Inspector** _(In Progress — selected 2025-12-17; PRD: `DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md`)_
    - Move Selection Details content (metadata, corruption, encryption, notes, fields, validation, hex) to third column (Inspector)
    - Move Integrity Summary to Inspector panel with toggle button in Box Tree panel header
    - Refactor ParseTreeDetailView into sub-components for better composability
