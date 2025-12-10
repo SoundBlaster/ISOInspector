@@ -21,10 +21,10 @@ _Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever ta
 
 ## 1. Automation & Quality Gates
 
-1. **Task A8 – Test Coverage Gate** _(In Progress — `DOCS/INPROGRESS/A8_Test_Coverage_Gate.md`)_
-   - Wire `coverage_analysis.py --threshold 0.67` into `.githooks/pre-push` and `.github/workflows/ci.yml` immediately after `swift test --enable-code-coverage`.
-   - Publish the HTML or JSON coverage artifacts under `Documentation/Quality/` so regressions have concrete data.
-   - Update `todo.md` and `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md` once the hook and CI gate are enforced.
+1. **Task A8 – Test Coverage Gate** ✅ _(Completed — `DOCS/INPROGRESS/A8_Test_Coverage_Gate.md`)_
+   - `coverage_analysis.py --threshold 0.67` now runs in `.githooks/pre-push` after `swift test --enable-code-coverage` (macOS-only due to SwiftUI dependency) and blocks pushes on coverage failures.
+   - CI `coverage-gate` job executes the same workflow on macOS runners and publishes logs/reports under `Documentation/Quality/`.
+   - `todo.md` and the Execution Workplan have been updated to reflect the enforced gate and artifact locations.
 
 2. **Task A10 – Swift Duplication Detection** _(Ready)_
    - Add `.github/workflows/swift-duplication.yml` that runs `scripts/run_swift_duplication_check.sh` (wrapper around `npx jscpd@3.5.10`).

@@ -73,30 +73,41 @@ else
 fi
 echo ""
 
-# 4. Check test coverage threshold (if FoundationUI sources/tests changed)
+# 4. Check test coverage threshold (FoundationUI)
 echo "4️⃣  Checking test coverage threshold..."
-MERGE_BASE=$(git merge-base origin/main HEAD 2>/dev/null || echo "HEAD")
-if git diff $MERGE_BASE...HEAD --name-only | grep -qE '^FoundationUI/(Sources|Tests)/'; then
-    echo "   FoundationUI code detected in commits, checking coverage..."
-    if command -v python3 &> /dev/null; then
-        COVERAGE_THRESHOLD=${ISOINSPECTOR_MIN_TEST_COVERAGE:-0.67}
+COVERAGE_THRESHOLD=${ISOINSPECTOR_MIN_TEST_COVERAGE:-0.67}
+COVERAGE_TEST_LOG="$LOG_DIR/foundationui-coverage-test-$(date +%Y%m%d-%H%M%S).log"
+COVERAGE_REPORT="$LOG_DIR/foundationui-coverage-report-$(date +%Y%m%d-%H%M%S).txt"
 
-        # Run coverage analysis with threshold check
-        if python3 coverage_analysis.py --threshold "$COVERAGE_THRESHOLD" -v >/dev/null 2>&1; then
-            echo -e "${GREEN}✅ Test coverage check passed${NC}"
-            echo "   Threshold: $COVERAGE_THRESHOLD (67%)"
+PLATFORM=$(uname -s)
+if [[ "$PLATFORM" != "Darwin" ]]; then
+    echo -e "${YELLOW}⚠️  FoundationUI coverage requires macOS SwiftUI SDKs; skipping on $PLATFORM${NC}"
+else
+    echo "   Running FoundationUI tests with coverage..."
+    if swift test --package-path FoundationUI --enable-code-coverage 2>&1 | tee "$COVERAGE_TEST_LOG"; then
+        echo -e "${GREEN}✅ FoundationUI tests with coverage passed${NC}"
+        echo "   Log: $COVERAGE_TEST_LOG"
+
+        if command -v python3 &> /dev/null; then
+            if python3 coverage_analysis.py --threshold "$COVERAGE_THRESHOLD" --report "$COVERAGE_REPORT" -v; then
+                echo -e "${GREEN}✅ Test coverage check passed${NC}"
+                echo "   Threshold: $COVERAGE_THRESHOLD (67%)"
+                echo "   Report: $COVERAGE_REPORT"
+            else
+                echo -e "${RED}❌ Test coverage below threshold${NC}"
+                echo "   Threshold: $COVERAGE_THRESHOLD (67%)"
+                echo "   Report: $COVERAGE_REPORT"
+                echo "   For guidance, see Documentation/ISOInspector.docc/Guides/TestingAndCoverage.md"
+                FAILED=$((FAILED + 1))
+            fi
         else
-            echo -e "${RED}❌ Test coverage below threshold${NC}"
-            echo "   Run: python3 coverage_analysis.py --verbose"
-            echo "   For more details on how to improve test coverage, see:"
-            echo "   Documentation/ISOInspector.docc/Guides/TestingAndCoverage.md"
-            FAILED=$((FAILED + 1))
+            echo -e "${YELLOW}⚠️  Python3 not available, skipping coverage check${NC}"
         fi
     else
-        echo -e "${YELLOW}⚠️  Python3 not available, skipping coverage check${NC}"
+        echo -e "${RED}❌ FoundationUI tests with coverage failed${NC}"
+        echo "   Log: $COVERAGE_TEST_LOG"
+        FAILED=$((FAILED + 1))
     fi
-else
-    echo "   No FoundationUI code changes detected, skipping coverage check"
 fi
 echo ""
 
