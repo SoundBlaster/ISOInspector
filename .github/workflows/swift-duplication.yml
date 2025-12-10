@@ -42,7 +42,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Disable npm funding messages
         run: npm config set fund false
