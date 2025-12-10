@@ -1,3 +1,19 @@
+## Summary of Work — 2025-12-17
+
+### Completed Tasks
+- ✅ **Task A10 — Swift Duplication Detection**
+
+### Implementation Highlights
+- Added `scripts/run_swift_duplication_check.sh` wrapper for `npx jscpd@3.5.10` with the agreed thresholds (≤1% overall, <45-line clones), mirroring console output to `artifacts/swift-duplication-report.txt` and ignoring generated/Derived/.build/TestResults content.
+- Introduced `.github/workflows/swift-duplication.yml` running on PRs and pushes to `main`, provisioning Node 20, invoking the wrapper, and uploading `swift-duplication-report` artifacts with 30-day retention.
+- Updated task trackers (`todo.md`, `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md`, `DOCS/AI/github-workflows/02_swift_duplication_guard/prd.md`, `DOCS/INPROGRESS/A10_Swift_Duplication_Detection.md`) and logged the pre-push hook follow-up. Pre-push now runs the duplication gate and writes `Documentation/Quality/swift-duplication-report-*.txt`.
+- Deduplicated the shared `InMemoryRandomAccessReader` into `Sources/ISOInspectorKit/TestSupport/` so tests reuse a single implementation.
+
+### Verification
+- ✅ `scripts/run_swift_duplication_check.sh` (local) — 0% duplication with Swift-only pattern and ignore list; report at `/tmp/swift-duplication-report.txt`.
+
+---
+
 ## Summary of Work — 2025-12-12
 
 ### Completed Tasks

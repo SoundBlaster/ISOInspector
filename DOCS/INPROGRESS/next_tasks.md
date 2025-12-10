@@ -26,10 +26,9 @@ _Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever ta
    - CI `coverage-gate` job executes the same workflow on macOS runners and publishes logs/reports under `Documentation/Quality/`.
    - `todo.md` and the Execution Workplan have been updated to reflect the enforced gate and artifact locations.
 
-2. **Task A10 – Swift Duplication Detection** _(In Progress — `DOCS/INPROGRESS/A10_Swift_Duplication_Detection.md`)_
-   - Add `.github/workflows/swift-duplication.yml` that runs `scripts/run_swift_duplication_check.sh` (wrapper around `npx jscpd@3.5.10`).
-   - Fail the workflow when duplicated lines exceed 1% or when any repeated block is >45 lines, and upload the console log artifact for review.
-   - Link the rollout summary back to `DOCS/AI/github-workflows/02_swift_duplication_guard/prd.md` once complete.
+2. **Task A10 – Swift Duplication Detection** ✅ _(Completed — `DOCS/INPROGRESS/A10_Swift_Duplication_Detection.md`)_
+   - `.github/workflows/swift-duplication.yml` runs `scripts/run_swift_duplication_check.sh` (Node 20 + `npx jscpd@3.5.10`) on PR/main pushes with 30-day artifact retention.
+   - Thresholds enforced: >1% overall duplication or ≥45-line clones fail the job; report saved as `swift-duplication-report.txt`. Pre-push runs the same gate and writes reports under `Documentation/Quality/`.
 
 ## 2. UI Defects & Experience Fixes
 

@@ -1,0 +1,62 @@
+name: Swift Duplication Guard
+
+on:
+  workflow_dispatch: {}
+  pull_request:
+    branches:
+      - "**"
+    paths:
+      - 'Sources/**/*.swift'
+      - 'Tests/**/*.swift'
+      - 'FoundationUI/**/*.swift'
+      - 'Examples/**/*.swift'
+      - 'scripts/run_swift_duplication_check.sh'
+      - '.github/workflows/swift-duplication.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'Sources/**/*.swift'
+      - 'Tests/**/*.swift'
+      - 'FoundationUI/**/*.swift'
+      - 'Examples/**/*.swift'
+      - 'scripts/run_swift_duplication_check.sh'
+      - '.github/workflows/swift-duplication.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  swift-duplication:
+    name: Swift Duplication Guard
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Disable npm funding messages
+        run: npm config set fund false
+
+      - name: Run Swift duplication check
+        run: |
+          set -eo pipefail
+          mkdir -p artifacts
+          scripts/run_swift_duplication_check.sh
+
+      - name: Upload duplication report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swift-duplication-report
+          path: artifacts/swift-duplication-report.txt
+          retention-days: 30

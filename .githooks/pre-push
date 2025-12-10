@@ -111,8 +111,30 @@ else
 fi
 echo ""
 
-# 5. Check for large files in commits being pushed
-echo "5️⃣  Checking for large files in commits being pushed..."
+# 5. Swift duplication guard
+echo "5️⃣  Checking Swift duplication guard (jscpd @3.5.10)..."
+DUP_REPORT="$LOG_DIR/swift-duplication-report-$(date +%Y%m%d-%H%M%S).txt"
+
+if command -v node &> /dev/null && command -v npx &> /dev/null; then
+    if REPORT_PATH="$DUP_REPORT" ./scripts/run_swift_duplication_check.sh; then
+        echo -e "${GREEN}✅ Swift duplication check passed${NC}"
+        echo "   Report: $DUP_REPORT"
+    else
+        echo -e "${RED}❌ Swift duplication check failed${NC}"
+        echo "   Threshold: ≤1% overall duplication, clones <45 lines"
+        echo "   Report: $DUP_REPORT"
+        echo "   See DOCS/AI/github-workflows/02_swift_duplication_guard/prd.md for remediation guidance"
+        FAILED=$((FAILED + 1))
+    fi
+else
+    echo -e "${RED}❌ Node.js (npx) not available; duplication gate is required${NC}"
+    echo "   Install Node 20+ (same as CI) to run scripts/run_swift_duplication_check.sh"
+    FAILED=$((FAILED + 1))
+fi
+echo ""
+
+# 6. Check for large files in commits being pushed
+echo "6️⃣  Checking for large files in commits being pushed..."
 # Check commits between remote main and current branch
 MERGE_BASE=$(git merge-base origin/main HEAD 2>/dev/null || echo "HEAD")
 LARGE_FILES=$(git diff $MERGE_BASE...HEAD --name-only --diff-filter=ACM | while read file; do
@@ -122,8 +144,8 @@ LARGE_FILES=$(git diff $MERGE_BASE...HEAD --name-only --diff-filter=ACM | while 
         if [ "$SIZE" -gt 10485760 ]; then  # 10MB
             echo "$file ($((SIZE/1048576))MB)"
         fi
-    fi
-done)
+        fi
+    done)
 
 if [ -z "$LARGE_FILES" ]; then
     echo -e "${GREEN}✅ No large files detected${NC}"
@@ -134,8 +156,8 @@ else
 fi
 echo ""
 
-# 6. Check for secrets in commits being pushed
-echo "6️⃣  Scanning for secrets in commits being pushed..."
+# 7. Check for secrets in commits being pushed
+echo "7️⃣  Scanning for secrets in commits being pushed..."
 SECRETS_FOUND=0
 MERGE_BASE=$(git merge-base origin/main HEAD 2>/dev/null || echo "HEAD")
 for commit in $(git rev-list $MERGE_BASE...HEAD); do
