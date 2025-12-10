@@ -1773,3 +1773,12 @@
   - Task 244: Declined; requested parity refactor not needed with current layout preference.
   - Task 245: Declined; adoption of native `.inspector` API deferred/not required.
 - **Next steps:** None — tasks closed as not needed.
+
+## 237_Resolved_Tasks_Batch
+- **Archived files:** `A10_Swift_Duplication_Detection.md`
+- **Archived location:** `DOCS/TASK_ARCHIVE/237_Resolved_Tasks_Batch/`
+- **Archival date:** 2025-12-17
+- **Status:** ✅ All tasks COMPLETED
+- **Summary:**
+  - Task A10 — Swift Duplication Detection: CI duplication gate and pre-push hook implemented using `jscpd` (Swift-only, ≤1% overall, <45-line clones), with workflow, wrapper script, artifacts, and documentation updates.
+- **Next steps:** None — gate is live.
