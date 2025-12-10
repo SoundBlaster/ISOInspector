@@ -1,6 +1,6 @@
 # Task 243: Reorganize NavigationSplitView – Move Selection Details & Integrity Summary to Inspector Panel
 
-**Status**: New (Awaiting Planning & Decomposition)
+**Status**: In Progress (selected 2025-12-17)
 **Created**: 2025-11-19 (UTC)
 **Session ID**: `claude/reorganize-navigation-split-view-01DgfApqEpedTA17urnmfHFE`
 
