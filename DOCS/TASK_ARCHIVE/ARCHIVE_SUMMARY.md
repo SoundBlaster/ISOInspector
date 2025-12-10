@@ -1753,3 +1753,12 @@
 - **Summary:**
   - **Bug/Task #A7_SwiftLint_Complexity_Thresholds:** **Status**: COMPLETED
 - **Next steps:** None — all archived items are resolved and ready for verification.
+
+## 236_Resolved_Tasks_Batch
+- **Archived files:** `A8_Test_Coverage_Gate.md`
+- **Archived location:** `DOCS/TASK_ARCHIVE/236_Resolved_Tasks_Batch/`
+- **Archival date:** 2025-12-10
+- **Status:** ✅ All tasks RESOLVED
+- **Summary:**
+  - **Bug/Task #A8_Test_Coverage_Gate:** **Status**: RESOLVED
+- **Next steps:** None — all archived items are resolved and ready for verification.

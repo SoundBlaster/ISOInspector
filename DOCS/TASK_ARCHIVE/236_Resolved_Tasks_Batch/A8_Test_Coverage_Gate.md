@@ -1,5 +1,7 @@
 # A8 — Test Coverage Gate
 
+**Status**: RESOLVED
+
 ## 🎯 Objective
 Add automated coverage enforcement so pushes and CI runs fail when overall Swift test coverage drops below the 0.67 threshold, and publish coverage artifacts for inspection.
 
