@@ -1,5 +1,7 @@
 # Task 245 – Adopt SwiftUI `.inspector` API for ISOInspectorApp
 
+**Status**: Not Needed (declined 2025-12-17 — stakeholder prefers current inspector approach)
+
 ## 🎯 Objective
 Replace the custom inspector column plumbing with the native SwiftUI `.inspector` API on macOS, so the inspector behaves like the platform demo: a system-managed pane that can be shown/hidden independently of the main NavigationSplitView (sidebar + content), eliminating nested split views and layout insets.
 
