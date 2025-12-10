@@ -1,8 +1,7 @@
 import Foundation
 
-@testable import ISOInspectorKit
-
-struct InMemoryRandomAccessReader: RandomAccessReader {
+// Lightweight in-memory reader used by test targets; mirrors RandomAccessReader behavior without I/O.
+internal struct InMemoryRandomAccessReader: RandomAccessReader {
     let data: Data
 
     var length: Int64 { Int64(data.count) }
