@@ -21,7 +21,7 @@ _Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever ta
 
 ## 1. Automation & Quality Gates
 
-1. **Task A8 – Test Coverage Gate** _(Ready — depends on A7)_
+1. **Task A8 – Test Coverage Gate** _(In Progress — `DOCS/INPROGRESS/A8_Test_Coverage_Gate.md`)_
    - Wire `coverage_analysis.py --threshold 0.67` into `.githooks/pre-push` and `.github/workflows/ci.yml` immediately after `swift test --enable-code-coverage`.
    - Publish the HTML or JSON coverage artifacts under `Documentation/Quality/` so regressions have concrete data.
    - Update `todo.md` and `DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md` once the hook and CI gate are enforced.
