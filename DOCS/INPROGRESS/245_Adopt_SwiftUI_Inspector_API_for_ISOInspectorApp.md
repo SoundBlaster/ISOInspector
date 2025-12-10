@@ -8,6 +8,13 @@ Replace the custom inspector column plumbing with the native SwiftUI `.inspector
 - SwiftUI’s `.inspector(isPresented:)` provides a native inspector pane on macOS that avoids layout fights and aligns with the NavigationSplitViewKit demo behavior.
 - Goal: Use `.inspector` to host `InspectorDetailView` while keeping the main split for sidebar + content only. The inspector becomes system-managed, and visibility toggles become simple bindings.
 
+## 📌 Status Check (2025-12-17)
+- macOS still uses a three-column `NavigationSplitView` (sidebar/content/detail) plus `.inspector` hosting only the integrity summary. The inspector is not the sole host for Selection Details + Integrity.
+- `InspectorDetailView` does not exist in the codebase; inspector content is `IntegritySummaryView` only.
+- Legacy inspector column state remains (`columnVisibility`, `NavigationSplitViewVisibility` binding). The `showInspector` binding defaults to `false` and only toggles Integrity, not a unified inspector.
+- Selection handling (`handleIssueSelected`) does not adjust inspector display mode or ensure the inspector stays visible.
+- iOS/iPadOS fallbacks are unaffected (still using the existing layout), but macOS parity with the `.inspector` demo is not met yet.
+
 ## ✅ Success Criteria
 - macOS: `NavigationSplitView` contains only sidebar (recents) and content (box tree + filters); inspector is shown via `.inspector(isPresented:)`.
 - Inspector content is always `InspectorDetailView` (Selection Details / Integrity), not embedded in the main split columns.
