@@ -6,9 +6,7 @@ _Last updated: 2025-11-19 (UTC). Maintainers should update this file whenever ta
 
 > **Note:** Tasks 240, 241, and 242 have been completed and archived to `DOCS/TASK_ARCHIVE/234_Resolved_Tasks_Batch/` (2025-11-19). See ARCHIVE_SUMMARY.md for details.
 
-1. **Task 243 – Reorganize NavigationSplitView: Selection Details & Integrity Summary in Inspector** _(Not Needed — declined 2025-12-17; PRD: `DOCS/INPROGRESS/243_Reorganize_Navigation_SplitView_Inspector_Panel.md`)_ 
-   - Stakeholder requested to keep the current layout (sidebar files, box tree, selection details, integrity inspector overlay).
-   - No implementation planned; select a new next task per `DOCS/COMMANDS/SELECT_NEXT.md`.
+_No active items in this queue. Select the next task per `DOCS/COMMANDS/SELECT_NEXT.md`._
 
 ---
 

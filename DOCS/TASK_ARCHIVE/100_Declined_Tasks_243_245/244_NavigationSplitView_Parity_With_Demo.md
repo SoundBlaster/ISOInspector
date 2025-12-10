@@ -1,6 +1,6 @@
 # Task 244 – NavigationSplitView Parity with Demo
 
-**Status**: Not Needed (declined 2025-12-17 — stakeholder wants to retain current layout)
+**Status**: RESOLVED (declined 2025-12-17 — stakeholder wants to retain current layout)
 
 ## 🎯 Objective
 Refactor the app shell and parse tree experience so the three-column NavigationSplitView matches the clean NavigationSplitViewKit demo layout (no overlaid “frame” under the toolbar, single split view, stable column order, and inspector-only details/integrity).
