@@ -1762,3 +1762,14 @@
 - **Summary:**
   - **Bug/Task #A8_Test_Coverage_Gate:** **Status**: RESOLVED
 - **Next steps:** None — all archived items are resolved and ready for verification.
+
+## 100_Declined_Tasks_243_245
+- **Archived files:** `243_Reorganize_Navigation_SplitView_Inspector_Panel.md`, `244_NavigationSplitView_Parity_With_Demo.md`, `245_Adopt_SwiftUI_Inspector_API_for_ISOInspectorApp.md`
+- **Archived location:** `DOCS/TASK_ARCHIVE/100_Declined_Tasks_243_245/`
+- **Archival date:** 2025-12-17
+- **Status:** ✅ Declined/Resolved (no implementation needed per stakeholder)
+- **Summary:**
+  - Task 243: Declined; stakeholder prefers existing layout (sidebar, box tree, detail, integrity inspector overlay).
+  - Task 244: Declined; requested parity refactor not needed with current layout preference.
+  - Task 245: Declined; adoption of native `.inspector` API deferred/not required.
+- **Next steps:** None — tasks closed as not needed.

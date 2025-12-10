@@ -1,6 +1,6 @@
 # Task 243: Reorganize NavigationSplitView – Move Selection Details & Integrity Summary to Inspector Panel
 
-**Status**: Not Needed (declined 2025-12-17 — stakeholder prefers current 4-column layout)
+**Status**: RESOLVED (declined 2025-12-17 — stakeholder prefers current 4-column layout)
 **Created**: 2025-11-19 (UTC)
 **Session ID**: `claude/reorganize-navigation-split-view-01DgfApqEpedTA17urnmfHFE`
 
