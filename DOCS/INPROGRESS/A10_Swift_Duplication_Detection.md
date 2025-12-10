@@ -14,9 +14,9 @@ Ship the Swift duplication guard workflow so CI fails whenever duplicated Swift 
 ## ✅ Success Criteria
 - `.github/workflows/swift-duplication.yml` runs on `push` to `main` and `pull_request`, executing `scripts/run_swift_duplication_check.sh`.
 - Workflow provisions Node 20, runs `npx jscpd@3.5.10` against Swift sources, and fails when duplicated percentage exceeds 1.0% or any block is ≥45 lines.
-- Console report saved to `artifacts/swift-duplication-report.txt` (or similar) and uploaded via `actions/upload-artifact` for each run.
-- Documentation updated (`todo.md`, Execution Workplan row A10, and refs inside the PRD) to indicate the gate is live with remediation guidance.
-- Optional pre-push integration captured as a follow-up TODO if not completed inside this task.
+- Console report saved to `artifacts/swift-duplication-report.txt` (or similar) and uploaded via `actions/upload-artifact` for each CI run.
+- Pre-push integration implemented: the pre-push hook invokes the duplication check via the wrapper and stores its report under `Documentation/Quality/`, so developers can check duplication before pushing.
+- Documentation updated (`todo.md`, Execution Workplan row A10, and refs inside the PRD) to indicate both the CI gate and pre-push hook are live with remediation guidance.
 
 ## 📦 Delivery Notes (2025-12-18)
 - Added `scripts/run_swift_duplication_check.sh` wrapper for `npx jscpd@3.5.10` with the Phase A thresholds (≤1% overall, <45-line clones) and ignores for generated artifacts/Derived/.build/TestResults. Console output is mirrored to `artifacts/swift-duplication-report.txt`, scoped to Swift files only.
@@ -32,7 +32,7 @@ Ship the Swift duplication guard workflow so CI fails whenever duplicated Swift 
 - Update `DOCS/INPROGRESS/next_tasks.md` to mark A10 as in progress and remove it from the queue of ready items.
 
 ## 🧠 Source References
-- [`ISOInspector_Master_PRD.md`](../AI/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
+- [`ISOInspector_Master_PRD.md`](../AI/ISOViewer/ISOInspector_PRD_Full/ISOInspector_Master_PRD.md)
 - [`04_TODO_Workplan.md`](../AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md)
 - [`ISOInspector_PRD_TODO.md`](../AI/ISOViewer/ISOInspector_PRD_TODO.md)
 - [`DOCS/RULES`](../RULES)
