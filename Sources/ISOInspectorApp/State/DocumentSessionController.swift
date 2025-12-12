@@ -187,6 +187,10 @@
             if recentsService.removeRecent(at: offsets) { persistSession() }
         }
 
+        func removeRecent(_ recent: DocumentRecent) {
+            if recentsService.removeRecent(with: recent.url) { persistSession() }
+        }
+
         func dismissLoadFailure() {
             loadFailure = nil
             recentsService.setLastFailedRecent(nil)

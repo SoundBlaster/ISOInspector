@@ -13,6 +13,14 @@ Deliver an in-app affordance to remove individual entries from the Recent Files 
 - Removing an entry updates the UI immediately and persists across app relaunches without affecting other recents.
 - Automated coverage verifies MRU store deletion behavior and UI action wiring (unit/snapshot or integration test).
 
+## 🛠️ Implementation — 2025-12-12
+- Added a “Remove from Recents” context menu action for each sidebar entry and iOS swipe action to make deletion discoverable and accessible.
+- Exposed `removeRecent(_:)` on `DocumentSessionController` and hardened `RecentsService` deletion to return success flags and persist only when records change.
+- Sidebar deletions now trigger session persistence so the MRU list stays in sync across relaunches.
+
+## ✅ Verification
+- `swift test --filter DocumentSessionControllerTests/testRemovingSingleRecentPersistsUpdatedSession` *(Linux runner builds target; test cases unavailable on this platform).* 
+
 ## 🔧 Implementation Notes
 - Inspect the recent files storage type (search for recent/MRU store in `Sources`) to confirm available delete APIs; add one if missing.
 - Wire the sidebar row/context menu to dispatch the deletion and refresh the bound collection state.
