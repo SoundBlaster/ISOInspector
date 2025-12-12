@@ -1742,8 +1742,12 @@
   - **Bug/Task #242_Update_Existing_Patterns_For_NavigationSplitScaffold:** **Phase**: 3.1 (Patterns & Platform Adaptation)
   - **Bug/Task #Summary_of_Work_Task_240:** **Date**: 2025-11-18
   - **Bug/Task #Summary_of_Work_Task_241:** **Date**: 2025-11-18
-  - **Bug/Task #Summary_of_Work_Task_242:** **Date**: 2025-11-19
+- **Bug/Task #Summary_of_Work_Task_242:** **Date**: 2025-11-19
 - **Next steps:** None — all archived items are resolved and ready for verification.
+
+### Check: Bug 234 – Remove Recent File from Sidebar
+- **Result:** No archive entry found for Bug 234 in `DOCS/TASK_ARCHIVE`; the current planning document lives at `DOCS/BUGS/234_Remove_Recent_File_From_Sidebar.md`.
+- **Next steps:** Archive the task once implementation finishes so the Task Archive reflects the bug’s completion status alongside the resolved batch above.
 
 ## 235_Resolved_Tasks_Batch
 - **Archived files:** `A7_SwiftLint_Complexity_Thresholds.md`
