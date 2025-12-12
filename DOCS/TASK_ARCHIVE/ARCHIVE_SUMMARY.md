@@ -1782,3 +1782,12 @@
 - **Summary:**
   - Task A10 — Swift Duplication Detection: CI duplication gate and pre-push hook implemented using `jscpd` (Swift-only, ≤1% overall, <45-line clones), with workflow, wrapper script, artifacts, and documentation updates.
 - **Next steps:** None — gate is live.
+
+## 238_Summary_NEW_Command_Execution
+- **Archived files:** `243_Summary_NEW_Command_Execution.md`
+- **Archived location:** `DOCS/TASK_ARCHIVE/238_Summary_NEW_Command_Execution/`
+- **Archival date:** 2025-12-12
+- **Status:** ✅ All tasks RESOLVED
+- **Summary:**
+  - **Bug/Task #243_Summary_NEW_Command_Execution:** Status: RESOLVED
+- **Next steps:** None — all archived items are resolved and ready for verification.
