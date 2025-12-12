@@ -756,6 +756,25 @@
             XCTAssertTrue(message.contains("sessionID"))
         }
 
+        func testRemovingSingleRecentPersistsUpdatedSession() throws {
+            let first = sampleRecent(index: 1)
+            let second = sampleRecent(index: 2)
+            let recentsStore = DocumentRecentsStoreStub(initialRecents: [first, second])
+            let sessionStore = WorkspaceSessionStoreStub()
+            let controller = makeController(store: recentsStore, sessionStore: sessionStore)
+
+            controller.removeRecent(second)
+
+            XCTAssertEqual(controller.recents, [first])
+            let savedRecents = try XCTUnwrap(recentsStore.savedRecents)
+            XCTAssertEqual(savedRecents.map(\.url.standardizedFileURL), [first.url.standardizedFileURL])
+
+            let snapshot = try XCTUnwrap(sessionStore.savedSnapshots.last)
+            XCTAssertEqual(
+                snapshot.files.map { $0.recent.url.standardizedFileURL },
+                [first.url.standardizedFileURL])
+        }
+
         private func makeController(
             store: DocumentRecentsStoring, sessionStore: WorkspaceSessionStoring? = nil,
             annotationsStore: AnnotationBookmarkStoring? = nil, pipeline: ParsePipeline? = nil,

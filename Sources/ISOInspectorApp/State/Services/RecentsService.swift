@@ -51,9 +51,12 @@
         }
 
         /// Removes a recent document by URL.
-        func removeRecent(with url: URL) {
-            recents.removeAll { $0.url.standardizedFileURL == url.standardizedFileURL }
-            persistRecents()
+        @discardableResult func removeRecent(with url: URL) -> Bool {
+            let standardized = url.standardizedFileURL
+            let originalCount = recents.count
+            recents.removeAll { $0.url.standardizedFileURL == standardized }
+            if recents.count != originalCount { persistRecents() }
+            return recents.count != originalCount
         }
 
         /// Removes recent documents at the specified offsets.

@@ -1,13 +1,15 @@
 ## Project State Report
 
 ### Current Active Tasks
-- **Bug #234 – Remove Recent File from Sidebar**: implementation PRD stub created; focus on adding the sidebar MRU removal affordance and persistence update.
 - **Bug 246 — NavigationSplitView width overflow**: documented reproduction, hypotheses, and diagnostics plan remain open for macOS window sizing constraints when sidebar, detail, and inspector are visible.
+
+### Recently Completed
+- **Bug #234 – Remove Recent File from Sidebar**: Added context menu/swipe removal affordances, persisted MRU deletions, and documented verification in `DOCS/INPROGRESS/234_Remove_Recent_File_From_Sidebar.md`.
 
 
 
 ### Next Selected Tasks
-- Task queue currently lists **no active items** beyond the in-progress Bug #234; future selections should follow `SELECT_NEXT.md` once capacity frees up.
+- Task queue currently lists **no active items** beyond Bug #246; future selections should follow `SELECT_NEXT.md` once capacity frees up.
 
 
 - Recently resolved and no longer active: **Bug #235 – Smoke tests Sendable violations** (fix landed, smoke filters green).
@@ -40,7 +42,7 @@
 
 
 ### Recommended Updates
-- Keep `next_tasks.md` synchronized as Bug 234 progresses and after resolving Bug 246 or scheduling T5.4 on macOS hardware to maintain queue accuracy.
+- Keep `next_tasks.md` synchronized as Bug 246 progresses and after scheduling T5.4 on macOS hardware to maintain queue accuracy.
 
 
 - Consider refreshing `todo.md` to reflect current prioritization around documentation linting, FoundationUI integrations, NavigationSplitView fixes, and the macOS benchmark so completion metrics track actionable work.
