@@ -1791,3 +1791,11 @@
 - **Summary:**
   - **Bug/Task #243_Summary_NEW_Command_Execution:** Status: RESOLVED
 - **Next steps:** None — all archived items are resolved and ready for verification.
+
+## 239_Summary_of_Work_2025-12-17
+- **Archived files:** `Summary_of_Work.md`.
+- **Archived location:** `DOCS/TASK_ARCHIVE/239_Summary_of_Work_2025-12-17/`.
+- **Archival date:** 2025-12-17.
+- **Status:** ✅ Documentation archived.
+- **Summary:** Captures the December 17, 2025 work summaries covering Swift duplication detection rollout, coverage gate enforcement, and SwiftLint complexity refactors across ISOInspector and FoundationUI.
+- **Next steps:** None — record retained for historical reference.
