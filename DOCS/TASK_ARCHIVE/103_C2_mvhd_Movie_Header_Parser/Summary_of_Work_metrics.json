@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/Summary_of_Work.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a dedicated mvhd parser that decodes versioned timeline fields and normalizes playback rate/volume and transformation matrix for downstream consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser correctly handles version 0 and 1 decoding, guards against truncated payloads, and outputs normalized doubles for timescale, duration, rate, volume, and orientation metadata.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Expose parsed movie header data via ParsedBoxPayload.MovieHeaderBox with a TransformationMatrix helper for UI exporters and consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSON exporter emits structured movie_header payloads matching the new schema and snapshots are regenerated to reflect changes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parser must always guard against truncated payloads and never produce invalid data.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add mvhd parser to BoxParserRegistry.swift and extend JSONParseTreeExporter.swift for structured output.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Document codec payload expansion roadmap for Dolby Vision, AV1, VP9, Dolby AC-4, MPEG-H in DOCS/INPROGRESS/C6_Codec_Payload_Additions.md.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Roadmap includes parser models, fixtures, and validation strategies for each codec.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update next_tasks.md to close monitoring follow-up and direct future implementation to dedicated puzzles.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "mvhd Parser",
+      "description": "Decodes the Movie Header Box (mvhd) from ISO Base Media File Format files, handling versioned timeline fields, playback rate/volume normalization, and a full 3\u00d73 transformation matrix while guarding against truncated payloads.",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload.MovieHeaderBox Data Structure",
+      "description": "Provides structured access to normalized movie header metadata such as timescale, duration, rate, volume, and orientation for downstream exporters and UI consumers.",
+      "source_line": null
+    },
+    {
+      "name": "TransformationMatrix Helper",
+      "description": "Encapsulates the 3\u00d73 transformation matrix from mvhd and exposes it as normalized double values for use by other components.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Exporter Extension",
+      "description": "Extends the JSON exporter to emit structured movie_header payloads, enabling snapshot testing of parsed data in JSON format.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for mvhd Parser",
+      "description": "Tests covering version 0/1 decoding and truncation handling for the mvhd parser, ensuring correct behavior across edge cases.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot Tests for JSON Exporter",
+      "description": "Regenerates exporter snapshots to validate that the JSON output matches expected structured data for movie_header payloads.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2125,
+    "line_count": 35
+  }
+}

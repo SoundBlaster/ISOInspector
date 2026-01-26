@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/45_E2_Integrate_Parser_Event_Pipeline/next_tasks.md",
+  "n_spec": 9,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate parser event pipeline with UI components in app context to enable live tree/detail refreshes when opening a file using the existing Combine bridge.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The streaming parser feed must be bridged into the SwiftUI shell so that opening a file drives live tree/detail refreshes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use Combine as the bridge between the parser event pipeline and UI components in the app context.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute the Combine-backed UI benchmark on macOS to capture latency metrics while maintaining throughput parity with the CLI harness.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark must run on a platform that ships Combine and record latency metrics, ensuring throughput parity with the CLI harness.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Throughput must remain equal to or greater than the CLI harness during benchmarking.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Global logging and telemetry toggles should be available after streaming metrics are exposed.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Route export operations to streaming capture utilities as they migrate from ISOInspectorCLIRunner.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Parser Event Pipeline Integration",
+      "description": "Integrates the streaming parser feed into SwiftUI shell to refresh tree/detail views when opening a file",
+      "source_line": null
+    },
+    {
+      "name": "Combine-Backed UI Benchmark on macOS",
+      "description": "Executes Combine-backed UI benchmark to capture latency metrics while maintaining throughput parity with CLI harness",
+      "source_line": null
+    },
+    {
+      "name": "Global Logging and Telemetry Toggles",
+      "description": "Provides surface-level global logging and telemetry toggles once streaming metrics are exposed to the CLI",
+      "source_line": null
+    },
+    {
+      "name": "Route Export Operations to Streaming Capture Utilities",
+      "description": "Exports route operations to streaming capture utilities as they migrate from ISOInspectorCLIRunner",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 835,
+    "line_count": 17
+  }
+}

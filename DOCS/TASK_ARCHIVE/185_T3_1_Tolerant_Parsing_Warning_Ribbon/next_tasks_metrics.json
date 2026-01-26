@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/185_T3_1_Tolerant_Parsing_Warning_Ribbon/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Connect DocumentSessionController.focusIntegrityDiagnostics() to the forthcoming Integrity tab once UI scaffolding lands.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The Integrity tab navigation wiring must be connected to DocumentSessionController.focusIntegrityDiagnostics() after UI scaffolding is available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add targeted snapshot/UI tests that exercise ribbon dismissal persistence and Integrity hand-off when additional tooling is available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot/UI tests must cover ribbon dismissal persistence and Integrity hand-off with new tooling.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Integrity Tab Navigation Wiring",
+      "description": "Connects DocumentSessionController.focusIntegrityDiagnostics() to the Integrity tab for navigation",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & UI Automation Expansion",
+      "description": "Adds targeted snapshot and UI tests covering ribbon dismissal persistence and integrity hand-off functionality",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 432,
+    "line_count": 6
+  }
+}

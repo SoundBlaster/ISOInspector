@@ -1,0 +1,57 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/next_tasks.md",
+  "n_spec": 9,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The system must always register a parser for mdhd boxes in ISOInspectorKit and provide tests validating timestamp, timescale, duration, and language metadata extraction.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule macOS CLI/UI large-file benchmark execution using the R4 protocol once dedicated hardware runners are available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "macOS automation with Instruments support must be available to run the large-file benchmark; fixtures and manifest revisions should be tracked in the specified documentation.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA once runners are available following the release readiness runbook.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "macOS infrastructure must support DocC generation, notarization, TestFlight export and QA; relevant runbooks and archival notes must be referenced.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute random slice benchmark suite on macOS hardware once Combine support is available to compare mapped vs. chunked readers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "macOS runner with Combine must present identical workloads for benchmarking; documentation references must follow.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS with XCTest UI support to validate SwiftUI automation flow.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 2567,
+    "line_count": 25
+  }
+}

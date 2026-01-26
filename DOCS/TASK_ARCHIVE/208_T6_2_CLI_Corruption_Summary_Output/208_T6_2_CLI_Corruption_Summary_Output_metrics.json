@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/208_T6_2_CLI_Corruption_Summary_Output/208_T6_2_CLI_Corruption_Summary_Output.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expose tolerant parsing metrics in the iso-inspector-cli output so operators can immediately understand corruption severity without opening the UI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI analysis output prints corruption summary lines (errors, warnings, info, deepest affected depth) whenever lenient mode encounters recorded issues.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Strict-mode runs exit unchanged while tolerant-mode runs without issues continue to omit the summary block.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit or snapshot tests cover representative outputs: strict success, lenient with no issues, lenient with mixed-severity issues.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation (help text or usage examples) references the new summary block.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the CLI formatter to query ParseIssueStore metrics after analysis completes; ensure formatting stays deterministic for snapshot tests.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse the existing ParseIssueSummary types introduced by T2.3 instead of duplicating aggregation logic.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Gate summary emission on tolerant mode or presence of issues to avoid altering strict-mode ergonomics.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Corruption Summary Output",
+      "description": "Prints a summary block in the CLI analysis output showing counts of errors, warnings, info and deepest affected depth when tolerant mode encounters recorded issues.",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Mode Detection",
+      "description": "Determines whether the CLI is running in tolerant mode or strict mode to decide if the corruption summary should be emitted.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssueStore Metrics Query",
+      "description": "Queries ParseIssueStore.metricsSnapshot() after analysis completes to obtain formatter-ready data for the summary.",
+      "source_line": null
+    },
+    {
+      "name": "Summary Block Formatting",
+      "description": "Formats the corruption summary lines deterministically for snapshot tests and UI parity.",
+      "source_line": null
+    },
+    {
+      "name": "Unit/Snapshot Test Coverage",
+      "description": "Provides unit or snapshot tests covering strict success, lenient with no issues, and lenient with mixed-severity issues.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update",
+      "description": "Updates help text or usage examples to reference the new corruption summary block.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2326,
+    "line_count": 31
+  }
+}

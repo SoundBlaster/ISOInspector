@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/06_B4_MP4RA_Metadata_Integration/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate MP4RA-backed BoxCatalog into ParsePipeline.live() so streaming events include metadata for known boxes and log unknown identifiers once per run.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "MP4RA Boxes are correctly decoded from bundled JSON fixture and cross-platform diagnostics support is available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsePipeline live tests expanded to cover standard and UUID-based lookups of BoxCatalog.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Unknown identifiers are logged only once per run.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Bundled MP4RA JSON fixture and decoding infrastructure added with cross-platform diagnostics support.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Automate refreshing MP4RABoxes.json from upstream registry and document maintenance workflow via R1.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "MP4RA BoxCatalog Integration",
+      "description": "Integrates the MP4RA-backed BoxCatalog into ParsePipeline.live() to provide metadata for known boxes and logs unknown identifiers once per run.",
+      "source_line": null
+    },
+    {
+      "name": "Bundled MP4RA JSON Fixture & Decoding Infrastructure",
+      "description": "Provides bundled MP4RA JSON fixture and decoding infrastructure with cross-platform diagnostics support.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline Live Tests",
+      "description": "Expanded tests for ParsePipeline live functionality, including catalog lookups for standard and UUID-based boxes.",
+      "source_line": null
+    },
+    {
+      "name": "Catalog Lookup Tests",
+      "description": "Dedicated tests covering standard and UUID-based lookups in the BoxCatalog.",
+      "source_line": null
+    },
+    {
+      "name": "MP4RA Catalog Refresh Automation",
+      "description": "Automates refreshing MP4RABoxes.json from the upstream registry and documents maintenance workflow.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1055,
+    "line_count": 21
+  }
+}

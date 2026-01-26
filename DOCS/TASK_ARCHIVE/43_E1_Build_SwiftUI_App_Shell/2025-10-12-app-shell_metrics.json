@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/43_E1_Build_SwiftUI_App_Shell/2025-10-12-app-shell.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Deliver a SwiftUI document shell that lets ISOInspectorApp open MP4/QuickTime files, stream them into the existing tree/detail UI, and persist a recent files list.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The app shell must host AppShellView with DocumentSessionController as entry point.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "DocumentRecentsStore persists a recent files list.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "When a document is active, the previous parsing explorer remains available (backward compatibility).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "No changes to public Kit API.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "AppShellView and DocumentSessionController are wired into SwiftUI app entry point.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DocumentSessionController",
+      "description": "Manages opening and streaming MP4/QuickTime files into the existing tree/detail UI",
+      "source_line": null
+    },
+    {
+      "name": "DocumentRecentsStore",
+      "description": "Persists a list of recently opened documents",
+      "source_line": null
+    },
+    {
+      "name": "AppShellView",
+      "description": "SwiftUI view that hosts the document session controller and provides the app shell interface",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorApp wiring",
+      "description": "Application entry point that integrates AppShellView with the rest of the app",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 933,
+    "line_count": 28
+  }
+}

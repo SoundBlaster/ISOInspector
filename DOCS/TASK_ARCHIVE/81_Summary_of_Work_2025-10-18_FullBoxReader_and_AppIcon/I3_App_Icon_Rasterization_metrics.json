@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/I3_App_Icon_Rasterization.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Generate production-quality raster assets for the ISOInspector app icon across all required Apple platform sizes so the branding work from Task I3 ships in notarized builds with light and dark appearance fidelity.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Rasterized icon assets exist for every slot required by the multiplatform asset catalog (macOS, iOS, iPadOS) with correct pixel dimensions and idiom metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Light and dark appearance variants render without color banding or clipped safe zones when previewed in Xcode asset inspector.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Updated asset catalog integrates into both SwiftUI previews and notarized archive builds without triggering missing asset warnings or placeholder fallbacks.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation sources (todo.md, workplan, PRD backlog) reflect Task I3 as in progress until assets merge into main.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Raster outputs are ignored via .gitignore and regenerated locally before shipping notarized builds.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a script (scripts/generate_app_icon.py) to generate 26 production PNG variants from a single 1024\u00d71024 master, outputting on-demand and ignoring by source control.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update AppIcon.appiconset/Contents.json with deterministic filenames so the catalog resolves new artwork across macOS, iOS, and iPadOS targets once generator runs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add AppIconAssetTests to assert manifest entries stay in sync with the generator's filename convention.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "App Icon Rasterization Script",
+      "description": "Generates production-quality PNG assets for all required Apple platform icon sizes from a master vector source using scripts/generate_app_icon.py",
+      "source_line": null
+    },
+    {
+      "name": "Asset Catalog Manifest Update",
+      "description": "Updates AppIcon.appiconset/Contents.json with deterministic filenames and idiom metadata to reference generated raster assets",
+      "source_line": null
+    },
+    {
+      "name": "App Icon Asset Tests",
+      "description": "Swift test suite (AppIconAssetTests) that verifies manifest entries match generator filename conventions",
+      "source_line": null
+    },
+    {
+      "name": "Dark/Light Appearance Variant Handling",
+      "description": "Ensures light and dark appearance variants render correctly without banding or clipping in Xcode asset inspector",
+      "source_line": null
+    },
+    {
+      "name": "Build Integration for Notarized Builds",
+      "description": "Integrates generated icon assets into SwiftUI previews and notarized archive builds, preventing missing asset warnings",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Automation Workflow",
+      "description": "Documents the automation process in DOCS/TASK_ARCHIVE/100_Summary_of_Work.md and updates related markdown via scripts/fix_markdown.py",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3612,
+    "line_count": 53
+  }
+}

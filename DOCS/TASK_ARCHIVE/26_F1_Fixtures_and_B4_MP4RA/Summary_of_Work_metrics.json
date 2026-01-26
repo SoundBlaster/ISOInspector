@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/26_F1_Fixtures_and_B4_MP4RA/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide an automated fixture catalog for task F1 that includes bundled metadata and a baseline QuickTime sample for ISOInspectorKit tests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FixtureCatalog unit tests must confirm that fixture metadata is decoded correctly and resources are accessible, ensuring regression coverage.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The fixture catalog is bootstrapped as an automated component integrated with the test suite.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Expand the fixture catalog to include fragmented, DASH, and malformed assets along with validation expectations.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 487,
+    "line_count": 16
+  }
+}

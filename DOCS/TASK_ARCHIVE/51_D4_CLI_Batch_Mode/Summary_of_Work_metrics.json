@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a CLI batch mode that allows users to validate multiple files at once and receive aggregated status tables.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Export validation results from the batch command as CSV payloads for CI integration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The batch command must emit deterministic ordering of summary rows in the console output.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CSV output must be generated with a correct total row and consistent formatting.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Exit codes from the batch command should reflect aggregated results (CI-friendly).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Unmatched glob patterns must not halt the process; diagnostics are printed but continue processing other resolved files.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "isoinspect batch subcommand",
+      "description": "CLI command that accepts a list of files (or glob patterns), streams validation for each file, and outputs aggregated status tables with CI-friendly exit codes.",
+      "source_line": null
+    },
+    {
+      "name": "BatchValidationSummary utilities",
+      "description": "Functions to render aligned console summaries and CSV payloads for batch validation results, ensuring deterministic ordering and totals.",
+      "source_line": null
+    },
+    {
+      "name": "CSV summary export feature",
+      "description": "Generates CSV files containing aggregated validation results from batch runs.",
+      "source_line": null
+    },
+    {
+      "name": "CI-friendly exit code handling",
+      "description": "Exits with appropriate status codes based on aggregate validation outcomes for continuous integration pipelines.",
+      "source_line": null
+    },
+    {
+      "name": "DocC command reference updates",
+      "description": "Documentation that includes both single-file and batch validation workflows in the command reference.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 897,
+    "line_count": 19
+  }
+}

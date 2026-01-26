@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/33_C4_CoreData_Annotation_Persistence/next_tasks.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "CoreData-backed annotation and bookmark storage",
+      "description": "Persist annotations and bookmarks using CoreData according to the R6 decision record",
+      "source_line": null
+    },
+    {
+      "name": "Live UI updates for annotations and bookmarks",
+      "description": "Wire CoreData store into SwiftUI editing surfaces so changes are reflected in real time",
+      "source_line": null
+    },
+    {
+      "name": "CLI and App DocC catalog expansion",
+      "description": "Add tutorials and screenshots to CLI and App DocC catalogs as new UI and command features are released",
+      "source_line": null
+    },
+    {
+      "name": "DocC publishing via CI",
+      "description": "Publish DocC bundles through GitHub Actions, uploading artifacts for every build",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 600,
+    "line_count": 8
+  }
+}

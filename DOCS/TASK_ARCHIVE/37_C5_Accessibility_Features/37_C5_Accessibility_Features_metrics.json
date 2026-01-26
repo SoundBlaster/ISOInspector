@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/37_C5_Accessibility_Features/37_C5_Accessibility_Features.md",
+  "n_spec": 9,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide VoiceOver-friendly labels for all UI elements in the SwiftUI interface of ISOInspectorUI.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Enable Dynamic Type adaptability so that layout remains readable at large content sizes across tree, detail, and hex views.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement full keyboard navigation allowing selection of tree nodes, pane switching, and toolbar action activation without a pointing device.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver must announce meaningful descriptions for tree rows, detail fields, validation badges, and hex viewer sections, with rotor navigation enabling box-to-box traversal.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Dynamic Type scaling should preserve layout readability without truncating metadata or controls in all primary views.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Keyboard navigation must allow selecting tree nodes, switching panes, and activating toolbar actions, following logical reading sequence focus order.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated accessibility checks using XCTest + Accessibility Inspector run in CI to verify labels and focus behaviors, with documentation of the test plan.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All SwiftUI views must have populated accessibilityLabel, accessibilityValue, and accessibilityHint properties derived from MP4RA metadata where applicable.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use @FocusState and FocusScope to manage focus between tree selection and detail pane editing via keyboard input.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "VoiceOver Labeling for Tree Rows",
+      "description": "Provide VoiceOver-friendly labels, values, and hints for each row in the tree view using MP4RA metadata.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Labeling for Detail Fields",
+      "description": "Announce meaningful descriptions for fields in the detail pane, including validation badges.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Labeling for Hex Viewer Sections",
+      "description": "Ensure VoiceOver announces sections of the hex viewer with appropriate labels and rotor navigation support.",
+      "source_line": null
+    },
+    {
+      "name": "Dynamic Type Support for Primary Views",
+      "description": "Apply dynamicTypeSize modifiers to tree, detail, and hex views so layout scales without truncation.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Navigation for Tree Selection",
+      "description": "Allow users to navigate and select tree nodes using keyboard keys and focus management.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Navigation for Pane Switching",
+      "description": "Enable switching between tree, detail, and hex panes via keyboard shortcuts or focus traversal.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Activation of Toolbar Actions",
+      "description": "Activate toolbar buttons and actions from the keyboard without a pointing device.",
+      "source_line": null
+    },
+    {
+      "name": "Focus Management with @FocusState/FocusScope",
+      "description": "Coordinate focus across tree selection and detail editing using SwiftUI focus APIs.",
+      "source_line": null
+    },
+    {
+      "name": "Automated Accessibility Testing in CI",
+      "description": "Run XCTest accessibility assertions and Accessibility Inspector snapshots as part of continuous integration.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Test Documentation",
+      "description": "Document test plans, results, and blockers in the research gaps document.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2922,
+    "line_count": 58
+  }
+}

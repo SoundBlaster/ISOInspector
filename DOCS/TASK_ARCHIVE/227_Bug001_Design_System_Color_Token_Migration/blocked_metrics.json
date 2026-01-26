@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/blocked.md",
+  "n_spec": 10,
+  "n_func": 1,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Manual color usage must be migrated to FoundationUI design tokens before Phase 5.2 can be finalized.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Audit FoundationUI design tokens and map current opacity values to semantic tokens, then update all views to use DS.* tokens exclusively.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All affected view files must use DS.* tokens for color and opacity instead of hardcoded .accentColor and manual values.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures must be obtained before importing assets and refreshing regression baselines.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Import licensed assets and refresh regression baselines to validate tolerant parsing and export scenarios against real-world payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression baselines are refreshed after asset import and validated with real-world payloads.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "macOS hardware with 1 GiB performance fixture must be available before running lenient-vs\u2011strict benchmark.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute macOS 1 GiB benchmark, collect runtime and RSS metrics, and archive them under Documentation/Performance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark results are recorded in Documentation/Performance with specified environment variables.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Performance profiling and benchmarks will be manually executed using Xcode Instruments and CI integration will only after manual baseline creation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Design Token Migration",
+      "description": "Update view files to replace hardcoded colors and opacity values with FoundationUI design tokens (DS.*)",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5356,
+    "line_count": 87
+  }
+}

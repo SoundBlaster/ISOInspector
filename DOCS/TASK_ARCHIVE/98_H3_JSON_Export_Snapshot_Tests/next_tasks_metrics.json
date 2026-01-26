@@ -1,0 +1,123 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/next_tasks.md",
+  "n_spec": 14,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Extend the stsd sample description parser to extract codec-specific fields such as avcC, hvcC, and encrypted variants when future tasks define required metadata surface.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser must correctly extract codec-specific fields for supported codecs once metadata surface is defined.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Evaluate additional handler type categorizations in the hdlr parser if future boxes require specialized roles beyond current mapping set.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Handler type categorization should accommodate new specialized roles as identified.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule and execute macOS CLI/UI large-file benchmark using R4 protocol on dedicated hardware runners.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark results must be captured and documented once macOS automation with Instruments support is available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA following release readiness runbook.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All steps of the release readiness runbook must be completed and documented once macOS infrastructure is available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run random slice benchmark suite on macOS hardware to compare mapped vs. chunked readers under identical workloads using Combine support.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark results should show comparable performance metrics between mapped and chunked readers when Combine is available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS with XCTest UI to validate SwiftUI automation flow for streaming selection.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automation tests must pass and confirm end-to-end SwiftUI flow works as introduced.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute Combine-backed UI benchmark on macOS to capture latency metrics while maintaining CLI throughput parity.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Latency metrics should be captured and recorded with Combine support, ensuring throughput remains consistent with CLI harness.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "JSON Export Snapshot Tests",
+      "description": "Captures baseline snapshots of JSON export for representative fixtures",
+      "source_line": null
+    },
+    {
+      "name": "stsd Sample Description Parser Extension",
+      "description": "Parses codec-specific fields such as avcC, hvcC and encrypted variants from stsd boxes",
+      "source_line": null
+    },
+    {
+      "name": "hdlr Handler Type Categorization Evaluation",
+      "description": "Evaluates additional handler type categorizations for specialized roles in hdlr boxes",
+      "source_line": null
+    },
+    {
+      "name": "macOS CLI/UI Large-File Performance Benchmark Execution",
+      "description": "Runs large-file benchmarks on macOS using the R4 protocol to measure performance of CLI and UI paths",
+      "source_line": null
+    },
+    {
+      "name": "Release Readiness Validation Workflow",
+      "description": "Executes DocC generation, notarization, TestFlight export and hardware QA for release readiness",
+      "source_line": null
+    },
+    {
+      "name": "Random Slice Benchmark Suite Execution",
+      "description": "Runs random slice benchmark suite on macOS to compare mapped vs. chunked readers",
+      "source_line": null
+    },
+    {
+      "name": "ParseTree Streaming Selection Automation Tests",
+      "description": "Automates SwiftUI UI flow to validate end-to-end streaming selection in parse trees",
+      "source_line": null
+    },
+    {
+      "name": "Combine-Backed UI Benchmark Execution",
+      "description": "Captures latency metrics for Combine-backed UI benchmarks on macOS",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2940,
+    "line_count": 33
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/87_Summary_of_Work_2025-10-18_Storage_Workflow/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The system must document macOS and Linux fixture storage quotas, mount expectations, and cache maintenance guidance in Documentation/FixtureCatalog/README.md.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Archive notes under DOCS/TASK_ARCHIVE/86_PDD_30m_Fixture_Storage_README to preserve historical context.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I want to exercise the storage workflow end-to-end on macOS hardware so that I can validate the sparse bundle mount integration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The CI job scripts must include commands to mount and test the sparse bundle after macOS hardware is available.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 492,
+    "line_count": 11
+  }
+}

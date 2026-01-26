@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/234_Resolved_Tasks_Batch/Summary_of_Work_Task_240.md",
+  "n_spec": 8,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate NavigationSplitViewKit as a foundational dependency for FoundationUI's navigation architecture modernization.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "NavigationSplitViewKit dependency added to Package.swift with version \u22651.0.0.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Dependency mirrored in Project.swift (Tuist) with same version constraint.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI workflows updated to cache the SPM dependency and invalidate on Package.resolved changes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updated: README.md and BUILD.md include a dependencies section listing NavigationSplitViewKit.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "SPM and Tuist configurations must use identical version constraints for NavigationSplitViewKit to ensure consistent dependency resolution.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use semantic versioning with .from(\"1.0.0\") to pin major version 1.x of NavigationSplitViewKit, preventing breaking changes from major bumps.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Cache SPM dependencies in CI using actions/cache keyed on hash of Package.resolved for reproducible builds and performance.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SPM Dependency Integration",
+      "description": "Adds NavigationSplitViewKit as a Swift Package Manager dependency to FoundationUI's Package.swift",
+      "source_line": null
+    },
+    {
+      "name": "Tuist Dependency Integration",
+      "description": "Mirrors the SPM dependency in Tuist's Project.swift and links it to the foundationUIFramework target",
+      "source_line": null
+    },
+    {
+      "name": "CI Dependency Caching",
+      "description": "Configures GitHub Actions workflow to cache SPM dependencies for faster CI builds",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Dependencies Section",
+      "description": "Updates README.md and BUILD.md with a new Dependencies section listing NavigationSplitViewKit and its purpose",
+      "source_line": null
+    },
+    {
+      "name": "Task Specification Document",
+      "description": "Creates DOCS/INPROGRESS/240_NavigationSplitViewKit_Integration.md outlining objectives, criteria, and steps",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 7835,
+    "line_count": 249
+  }
+}

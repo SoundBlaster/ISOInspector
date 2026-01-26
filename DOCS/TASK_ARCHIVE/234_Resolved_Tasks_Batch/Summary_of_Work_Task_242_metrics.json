@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/234_Resolved_Tasks_Batch/Summary_of_Work_Task_242.md",
+  "n_spec": 8,
+  "n_func": 11,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Update SidebarPattern to support NavigationSplitScaffold integration while maintaining backward compatibility.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update InspectorPattern to support NavigationSplitScaffold integration and enhanced accessibility when inside a scaffold.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update ToolbarPattern to provide navigation controls (sidebar/inspector toggles) when inside a NavigationSplitScaffold, with keyboard shortcuts and accessibility labels.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SidebarPattern must detect presence of $navigationModel via @Environment and render only sidebar content in scaffold mode, otherwise render full NavigationSplitView.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SidebarPattern must provide enhanced accessibility label \"File Browser in Navigation\" when inside a scaffold.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SidebarPattern must remain fully functional without a navigationModel (standalone) and not produce runtime errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "InspectorPattern must detect $navigationModel via @Environment and adjust accessibility labels to \"{title} Inspector\" with hint \"Detail inspector within navigation\" when inside scaffold.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Inspector\u00a0\u200b\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SidebarPattern View",
+      "description": "SwiftUI view that renders a sidebar; adapts to be inside or outside NavigationSplitScaffold, providing navigation split view when standalone.",
+      "source_line": null
+    },
+    {
+      "name": "InspectorPattern View",
+      "description": "SwiftUI view presenting an inspector panel with header and scrollable content; adjusts accessibility labels based on scaffold context.",
+      "source_line": null
+    },
+    {
+      "name": "ToolbarPattern View",
+      "description": "SwiftUI toolbar that conditionally shows navigation controls (sidebar/inspector toggles) when inside a NavigationSplitScaffold, including keyboard shortcuts.",
+      "source_line": null
+    },
+    {
+      "name": "NavigationModel Environment Key",
+      "description": "Environment key exposing the current NavigationSplitViewKit navigation model to child views for context detection.",
+      "source_line": null
+    },
+    {
+      "name": "isInScaffold Computed Property",
+      "description": "Boolean computed property used by patterns to determine if they are rendered within a NavigationSplitScaffold.",
+      "source_line": null
+    },
+    {
+      "name": "toggleSidebar Function",
+      "description": "Method in ToolbarPattern that toggles sidebar visibility via the navigation model\u2019s columnVisibility state.",
+      "source_line": null
+    },
+    {
+      "name": "toggleInspector Function",
+      "description": "Method in ToolbarPattern that manages inspector column visibility using the navigation model.",
+      "source_line": null
+    },
+    {
+      "name": "NavigationScaffoldIntegrationTests Test Suite",
+      "description": "XCTest suite with 15 integration tests validating pattern behavior inside and outside a scaffold, accessibility, platform\u2011specific behavior, and backward compatibility.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Previews for SidebarPattern",
+      "description": "Preview demonstrating SidebarPattern in both standalone and scaffold modes, including content and inspector columns.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Previews for InspectorPattern",
+      "description": "Preview showing InspectorPattern within a three\u2011column layout inside NavigationSplitScaffold.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Previews for ToolbarPattern",
+      "description": "Preview illustrating ToolbarPattern with navigation controls and keyboard shortcuts in a scaffolded environment.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 20176,
+    "line_count": 579
+  }
+}

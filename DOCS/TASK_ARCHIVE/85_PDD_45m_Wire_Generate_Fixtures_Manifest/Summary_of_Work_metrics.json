@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/85_PDD_45m_Wire_Generate_Fixtures_Manifest/Summary_of_Work.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Generate fixture files from a manifest that includes remote metadata and license texts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The generate_fixtures.py script must load the manifest.json file located in Documentation/FixtureCatalog/manifest.json.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The script must stream downloads of fixtures with SHA-256 checksum validation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "License texts for each fixture must be mirrored under Documentation/FixtureCatalog/licenses/.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The script should support a dry-run mode that verifies the manifest without performing actual downloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests must cover successful download scenarios, checksum failures, and dry\u2011run behavior.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Checksum validation must always succeed for valid fixtures; if it fails, the process should abort.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Fixture metadata is stored in a JSON manifest file under Documentation/FixtureCatalog/manifest.json to keep track of remote resources.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "License texts are mirrored in separate folder\u00a0(\u2026\u00a0licenses\u00a0..).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "generate_fixtures.py",
+      "description": "Loads fixture manifests, streams downloads with SHA-256 validation, mirrors license texts, and supports dry-run verification.",
+      "source_line": null
+    },
+    {
+      "name": "manifest.json",
+      "description": "Tracks remote fixture metadata and mirrored license texts for fixtures.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation/FixtureCatalog/licenses/",
+      "description": "Directory containing mirrored license texts for each fixture.",
+      "source_line": null
+    },
+    {
+      "name": "Tests/test_generate_fixtures_manifest.py",
+      "description": "Unit tests exercising the manifest pipeline via unittest runner.",
+      "source_line": null
+    },
+    {
+      "name": "Python command to run tests",
+      "description": "Runs all unit tests in Tests directory using python -m unittest.",
+      "source_line": null
+    },
+    {
+      "name": "Dry-run command",
+      "description": "Executes generate_fixtures.py with skip-text-fixtures, manifest path, and dry-run flag for validation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1285,
+    "line_count": 21
+  }
+}

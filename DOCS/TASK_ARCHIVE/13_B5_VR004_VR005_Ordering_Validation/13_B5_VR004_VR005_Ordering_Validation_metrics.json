@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/13_B5_VR004_VR005_Ordering_Validation/13_B5_VR004_VR005_Ordering_Validation.md",
+  "n_spec": 11,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement remaining B5 ordering rules so the streaming validator surfaces VR-004 when no ftyp appears before media boxes and VR-005 when moov trails mdat outside of explicit streaming scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming parses raise a VR-004 error if any media-designated box (moov, mdat, trak, moof, etc.) arrives before an ftyp, and tests assert the issue flows through ParsePipeline.live() and CLI formatters.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VR-005 warnings trigger when mdat precedes moov unless an accepted streaming signal (e.g., mvex/fragmented layout flag) was observed, with fixtures covering both the violation and the allowed exception.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation summaries and research logs continue to include VR-006 information without regression, ensuring ordering signals feed the broader metadata UX plans.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation and backlog trackers update to reflect VR-004/VR-005 completion and remaining VR-006 follow-up work.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The validator state machine must track whether ftyp appeared before other top-level media boxes, leveraging existing event ordering guarantees from the streaming pipeline.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The set of boxes considered \"media\" for VR-004 is defined and references MP4RA catalog metadata so additions remain future\u2011proof once B4 integration lands.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "For VR-005, watch for moov and mdat top-level encounters while recognizing fragmented workflows (e.g., presence of mvex, sidx, moof) as streaming-friendly layouts to avoid false positives.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the validator state machine to track ftyp appearance before other top-level media boxes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Define the set of media boxes for VR-004 using MP4RA catalog metadata.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Recognize fragmented workflows (mvex, sidx, moof) as streaming-friendly layouts to avoid false positives for VR-005.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Streaming Validator Ordering Rules",
+      "description": "Enforces VR-004 and VR-005 ordering constraints during streaming parsing",
+      "source_line": null
+    },
+    {
+      "name": "FTYP Presence Tracker",
+      "description": "Tracks whether an ftyp box has appeared before other top-level media boxes",
+      "source_line": null
+    },
+    {
+      "name": "Media Box Set Definition",
+      "description": "Defines the set of boxes considered media for VR-004 validation",
+      "source_line": null
+    },
+    {
+      "name": "Fragmented Layout Detector",
+      "description": "Detects presence of mvex, sidx, moof to identify streaming-friendly layouts and suppress VR-005 warnings",
+      "source_line": null
+    },
+    {
+      "name": "Moov-Mdat Ordering Checker",
+      "description": "Checks top-level encounters of moov and mdat to trigger VR-005 warnings when appropriate",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline Integration",
+      "description": "Integrates ordering rule checks into ParsePipeline.live() flow and CLI formatters",
+      "source_line": null
+    },
+    {
+      "name": "Unit & Integration Test Fixtures",
+      "description": "Provides deterministic test cases for both violation and compliant sequences for VR-004/VR-005",
+      "source_line": null
+    },
+    {
+      "name": "CLI/UI Messaging Extension",
+      "description": "Coordinates error/warning output with VR-006 research logging for downstream consumers",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3511,
+    "line_count": 55
+  }
+}

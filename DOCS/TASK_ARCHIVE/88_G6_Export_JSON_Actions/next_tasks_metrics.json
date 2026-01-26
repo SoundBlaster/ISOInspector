@@ -1,0 +1,27 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/88_G6_Export_JSON_Actions/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement Task G6 export actions so the app can produce JSON for the full tree or a selected subtree.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Task G6 export actions must correctly generate JSON for the full tree or a selected subtree.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Export actions produce valid JSON that matches expected structure for both full tree and selected subtree scenarios.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 2062,
+    "line_count": 21
+  }
+}

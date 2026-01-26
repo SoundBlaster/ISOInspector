@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/16_Integrate_ResearchLogMonitor_SwiftUI_Previews/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Integrated ResearchLogMonitor.audit(logURL:) into SwiftUI previews through the new preview provider and diagnostics view scaffolding.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add deterministic VR-006 fixtures so previews reuse the same schema metadata that powers the CLI audit helper.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Create ResearchLogPreviewProviderTests to guard success, missing fixture, and schema mismatch scenarios and keep the preview pipeline wired into ResearchLogMonitor.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Introduce ResearchLogAuditPreview SwiftUI view plus preview scenarios that visualize schema alignment, drift, and missing fixture diagnostics for VR-006.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Mark todo item #4 and the matching next-task checklist entry as complete.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ResearchLogMonitor.audit(logURL:)",
+      "description": "Audits a research log file at the specified URL and integrates results into SwiftUI previews",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogPreviewProvider",
+      "description": "Provides deterministic VR-006 fixtures for SwiftUI previews, reusing schema metadata from CLI audit helper",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogAuditPreview",
+      "description": "SwiftUI view that visualizes schema alignment, drift, and missing fixture diagnostics for VR-006 in preview scenarios",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogPreviewProviderTests",
+      "description": "Unit tests ensuring preview pipeline success, handling of missing fixtures, and schema mismatch scenarios",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 945,
+    "line_count": 19
+  }
+}

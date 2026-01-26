@@ -1,0 +1,232 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/ARCHIVE_SUMMARY.md",
+  "n_spec": 0,
+  "n_func": 44,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Permanently Blocked Tasks Archive",
+      "description": "Central repository for tasks that cannot proceed due to missing resources; provides documentation and conditions required to resume.",
+      "source_line": null
+    },
+    {
+      "name": "CI Pipeline Configuration",
+      "description": "Automated GitHub Actions workflow that builds and tests ISOInspector Swift package on every pull request, with status checks and caching.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline Streaming Interface Evaluation",
+      "description": "Documentation of asynchronous ParsePipeline event model, parser integration guidance, and fixture planning for streaming validation.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline Live Streaming Implementation",
+      "description": "Implementation of ParsePipeline.live() for nested box traversal, offset accounting, and regression unit tests.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline Live Integration with Production Walker",
+      "description": "Wiring of ParsePipeline.live() to the production StreamingBoxWalker, validating nested traversal and cancellation propagation.",
+      "source_line": null
+    },
+    {
+      "name": "MP4RA Metadata Catalog Integration",
+      "description": "Integration of MP4RA-backed BoxCatalog into streaming pipeline, including bundled metadata fixture and diagnostics coverage.",
+      "source_line": null
+    },
+    {
+      "name": "MP4RA Catalog Refresh Automation",
+      "description": "CLI automation for regenerating MP4RABoxes.json and maintaining catalog alignment with upstream registry.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata-Driven Validation & Reporting Extension",
+      "description": "Extension of MP4RA metadata-aware validation layer, integration of EventConsoleFormatter, and reporting updates exposing catalog-backed context.",
+      "source_line": null
+    },
+    {
+      "name": "VR-003 Metadata Comparison Rule Implementation",
+      "description": "CLI and validation pipeline warning flow for comparing metadata against catalog data with expanded coverage for truncated payloads.",
+      "source_line": null
+    },
+    {
+      "name": "VR-003 Metadata Validation Tests",
+      "description": "Unit and live parse integration tests ensuring VR-003 comparison behavior remains warning-free.",
+      "source_line": null
+    },
+    {
+      "name": "Structural Validation Rules VR-001/VR-002",
+      "description": "Validation of impossible box sizes, boundary drift detection, and regression coverage in BoxValidatorTests.",
+      "source_line": null
+    },
+    {
+      "name": "Ordering Validation Rules VR-004/VR-005",
+      "description": "State tracking for ftyp precedence, streaming-aware exceptions for fragmented layouts, and unit/integration coverage.",
+      "source_line": null
+    },
+    {
+      "name": "VR-006 Research Logging Delivery",
+      "description": "Persistent research logging shared by CLI and UI consumers with configurable log handling and expanded pipeline coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Research Log Monitoring & Adoption",
+      "description": "Audit helper and monitoring checklist for VR-006 diagnostics across SwiftUI previews and UI smoke telemetry.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Preview Integration of ResearchLogMonitor",
+      "description": "Integration of ResearchLogMonitor.audit(logURL:) into SwiftUI previews, deterministic VR-006 fixtures, preview diagnostics views.",
+      "source_line": null
+    },
+    {
+      "name": "Telemetry Smoke Tests for VR-006",
+      "description": "Automated tests exercising ResearchLogTelemetryProbe and Snapshot across CLI and SwiftUI entry points.",
+      "source_line": null
+    },
+    {
+      "name": "Combine Bridge & ParseTree Store Integration",
+      "description": "Combine-based bridge fans out ParseEvent streams to @MainActor parse tree store aggregating validation issues for SwiftUI consumers.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Tree View Virtualization",
+      "description": "Outline explorer powered by ParseTreeStore with severity filtering, search, and preview data seeding for virtualization experiments.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming Outline Explorer Integration",
+      "description": "Explorer consuming live ParseTreeStore snapshots, latency instrumentation via Logger signposts, and removal of preview-only sample data.",
+      "source_line": null
+    },
+    {
+      "name": "Outline Filters Extension",
+      "description": "Reusable box classification helpers and streaming metadata toggles extending outline explorer filters while maintaining performance.",
+      "source_line": null
+    },
+    {
+      "name": "Detail & Hex Inspectors",
+      "description": "SwiftUI detail and hex inspectors bound to ParseTreeSnapshot updates with metadata panes, validation issue listings, and synchronized hex slices.",
+      "source_line": null
+    },
+    {
+      "name": "Field Subrange Highlighting",
+      "description": "Synchronized SwiftUI detail pane annotations and hex highlighting for selectable field subranges.",
+      "source_line": null
+    },
+    {
+      "name": "Category Filtering in Outline Explorer",
+      "description": "MP4RA catalog enrichment adding category chips and streaming toggles to outline explorer without regression.",
+      "source_line": null
+    },
+    {
+      "name": "Automated Fixture Corpus Development",
+      "description": "Roadmap and implementation of automated test fixtures covering fragmented, DASH, large payload, and malformed samples.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Annotation Persistence",
+      "description": "CoreData-backed annotation and bookmark store with sync between persistence layer and SwiftUI consumers.",
+      "source_line": null
+    },
+    {
+      "name": "JSON & Binary Export Modules",
+      "description": "Reusable parse tree builder plus JSON and binary exporters in ISOInspectorKit with CLI smoke coverage.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Export Commands",
+      "description": "Implementation of export-json and export-capture commands, option parsing, output validation, and integration with ISOInspectorKit exporters.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Catalog Setup & Publishing CI",
+      "description": "Scaffolding for ISOInspectorKit DocC catalog, automation scripts, and GitHub Actions job for publishing archives.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Features Rollout",
+      "description": "VoiceOver descriptors, keyboard focus management, Dynamic Type validation, and XCTest coverage for UI components.",
+      "source_line": null
+    },
+    {
+      "name": "NestedA11yIDs Integration",
+      "description": "Integration of NestedA11yIDs across ISOInspector App parse tree explorer and CLI/UI metadata consumption.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Base Command Scaffold",
+      "description": "Root isoinspector command with placeholder subcommands inspect, validate, export.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming CLI Commands",
+      "description": "Implementation of streaming inspect and validate commands with asynchronous environment wiring and logging.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI App Shell Build",
+      "description": "Navigation shell with AppShellView, persisted DocumentRecentsStore, and DocumentSessionController integration.",
+      "source_line": null
+    },
+    {
+      "name": "Performance Benchmark Harnesses",
+      "description": "Benchmarks for CLI validation throughput and Combine\u2011based UI latency metrics.",
+      "source_line": null
+    },
+    {
+      "name": "Parser Event Pipeline Integration",
+      "description": "Wiring of streaming parser bridge into application shell, automatic selection of first parsed node.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming Export Routing",
+      "description": "Routing of isoinspector export JSON/Binary flows through shared streaming capture utilities.",
+      "source_line": null
+    },
+    {
+      "name": "Combine UI Benchmark macOS",
+      "description": "Benchmark plan for measuring Combine\u2011based UI performance on macOS.",
+      "source_line": null
+    },
+    {
+      "name": "UI Automation for Streaming Default Selection",
+      "description": "XCTest UI automation harness that asserts outline/detail synchronization during live updates.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Global Logging & Telemetry Toggles",
+      "description": "Global logging and telemetry toggles for CLI, including dependency-injectable view wiring.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Preview Integration of ResearchLogMonitor (duplicate)",
+      "description": "Same as earlier preview integration.",
+      "source_line": null
+    },
+    {
+      "name": "Research Log Monitoring (duplicate)",
+      "description": "Same as earlier monitoring.",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing Configuration",
+      "description": "Configuration options for parsing with strict or tolerant mode, including status and issues tracking.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssue Model & Tolerance Metrics",
+      "description": "Model for ParseIssue with severity, code, byte range, and node reference; metrics aggregation in CLI/SwiftUI.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline Options",
+      "description": "Options struct for\u00a0Parse\u2011\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 185606,
+    "line_count": 1805
+  }
+}

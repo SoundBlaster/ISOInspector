@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/189_Summary_of_Work_2025-10-25_Integrity_Follow_Ups/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The corruption diagnostics section must be added to the detail inspector.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Adaptive hex navigation must correctly handle issue ranges.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Accessibility updates must be applied to the detail inspector.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Track T3.4 placeholder node integration so that corruption diagnostics can link into placeholder affordances.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Expand tolerant parsing fixtures with deeper corruption offsets to stress test the new hex window logic.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 572,
+    "line_count": 11
+  }
+}

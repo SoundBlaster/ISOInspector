@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/179_Summary_of_Work_2025-10-27_G6_Export_JSON_Actions/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "VoiceOver Regression Pass for Accessibility Shortcuts must be completed before hardware verification is scheduled.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Focus command menus on macOS and iPadOS must announce controls and restore focus targets after hardware verification.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Real-World Assets cannot be used until licensing approvals are obtained.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Secure Dolby Vision, AV1, VP9, Dolby AC\u20114..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Verify that focus command menus announce controls and restore focus targets on macOS and iPadOS hardware",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Licensing",
+      "description": "Secure licensing approvals and fixtures for Dolby Vision, AV1, VP9, Dolby AC\u20114, and MPEG\u2011H to enable regression baselines with real-world media",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing Metrics UI in SwiftUI",
+      "description": "Display ParseIssueStore metrics in SwiftUI ribbons once tolerant parsing UI specifications are finalized",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 835,
+    "line_count": 8
+  }
+}

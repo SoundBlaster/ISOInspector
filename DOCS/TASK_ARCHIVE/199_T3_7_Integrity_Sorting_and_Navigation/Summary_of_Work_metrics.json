@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "PDD Puzzle Retire",
+      "description": "Retires the PDD puzzle in ResearchLogMonitor.audit when SwiftUI preview pipelines execute audit via ResearchLogPreviewProvider snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "Task Tracker Update",
+      "description": "Updates todo.md, DOCS/INPROGRESS/next_tasks.md and archive next-task trackers to mark task #4 complete with cross-references to verification notes.",
+      "source_line": null
+    },
+    {
+      "name": "Completion Summary Capture",
+      "description": "Captures completion summaries in active task brief DOCS/INPROGRESS/194_ResearchLogMonitor_SwiftUIPreviews.md and related archive entries documenting fixture health and diagnostic coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Swift Test Execution Policy",
+      "description": "Defines that CI-equivalent Swift tests are not executed in Linux container; rely on existing ResearchLogPreviewProviderTests and ResearchLogAccessibilityIdentifierTests during macOS verification.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1073,
+    "line_count": 10
+  }
+}

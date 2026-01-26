@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/53_F3_Developer_Onboarding_Guide/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a comprehensive onboarding guide for new developers covering toolchain setup, repository bootstrap, architecture boundaries, and API reference outlines for ISOInspectorKit, CLI, and app targets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The onboarding guide must be authored and published in Docs/Guides/DeveloperOnboarding.md.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The Getting Started guide must be refreshed to point newcomers at the onboarding manual and updated prerequisite versions to match the current toolchain baseline.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Task F3 is marked as complete across execution workplan and PRD trackers, indicating the published guide and archived task location.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The onboarding guide should remain synchronized with future DocC expansions and API changes, updating module outlines and contribution checklists as new surfaces ship.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Developer Onboarding Guide",
+      "description": "Provides comprehensive instructions for new developers covering toolchain setup, repository bootstrap, architecture boundaries, and API reference outlines for ISOInspectorKit, CLI, and app targets.",
+      "source_line": null
+    },
+    {
+      "name": "Getting Started Guide Update",
+      "description": "Updates the high-level Getting Started guide to direct newcomers to the onboarding manual and align prerequisite versions with current toolchain baseline.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1293,
+    "line_count": 17
+  }
+}

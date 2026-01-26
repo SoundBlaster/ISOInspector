@@ -1,0 +1,17 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/133_Summary_of_Work_2025-10-20_mvex_trex_Defaults/next_tasks.md",
+  "n_spec": 1,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Acquire real-world fixtures for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H codecs to replace synthetic payloads and refresh snapshot baselines once licensing is cleared.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 308,
+    "line_count": 4
+  }
+}

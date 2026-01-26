@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/223_C22_User_Settings_Persistence_and_Reset/next_tasks.md",
+  "n_spec": 6,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "User Settings Panel: Phase 2 \u2013 Persistence + Reset Wiring",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Settings panel must persist user preferences via UserPreferencesStore and reset actions must confirm before execution",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All 5 of the 7 puzzles (#222.1\u2013#222.5) are fully implemented, with #222.4 and #222.5 documented but partially completed; #222.6 and #222.7 remain deferred",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Integration of FileBackedUserPreferencesStore into SettingsPanelViewModel via dependency injection",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "SDK Documentation \u2013 Tolerant Parsing Guide for ISOInspectorKit",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Create DocC article TolerantParsingGuide.md with code examples, update inline docs for ParsePipeline.Options, link guide from Documentation.md, and verify examples with test file",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "UserPreferencesStore Integration",
+      "description": "File-backed store for user preferences with load, save, and reset capabilities, integrated via dependency injection into SettingsPanelViewModel.",
+      "source_line": null
+    },
+    {
+      "name": "SessionSettingsPayload Mutations",
+      "description": "Session-scoped settings management including resetSessionSettings, selectValidationPreset, setValidationRule, with dirty tracking and badge indicators.",
+      "source_line": null
+    },
+    {
+      "name": "Reset Actions",
+      "description": "UI actions for resetting settings to defaults or global values, featuring native confirmation alerts and session override badges.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Shortcut (\u2318,)",
+      "description": "Stub implementation of a keyboard shortcut handler using NotificationCenter, documented for future CommandGroup integration.",
+      "source_line": null
+    },
+    {
+      "name": "Platform-Specific Presentation",
+      "description": "Presentation logic for the settings panel: macOS sheet with size constraints, iPad/iPhone sheet presentation; pending NSPanel window controller and detents.",
+      "source_line": null
+    },
+    {
+      "name": "SDK Tolerant Parsing Documentation",
+      "description": "DocC article and inline docs explaining tolerant parsing setup, ParseIssueStore usage, and options for strict vs tolerant parsing.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4536,
+    "line_count": 93
+  }
+}

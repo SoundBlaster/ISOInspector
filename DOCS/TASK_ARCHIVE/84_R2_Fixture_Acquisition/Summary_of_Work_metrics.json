@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/84_R2_Fixture_Acquisition/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement manifest-driven fixture acquisition in generate_fixtures.py ensuring checksum validation and license mirroring accompany downloads.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Author fixture storage README describing mount paths and quotas for macOS runners and Linux caches once infrastructure is available.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Fixture Catalog",
+      "description": "Provides a prioritized catalog of MP4 fixture families with metadata and storage recommendations",
+      "source_line": null
+    },
+    {
+      "name": "Manifest Schema for Fixtures",
+      "description": "Defines the schema used to describe fixture acquisition manifests",
+      "source_line": null
+    },
+    {
+      "name": "Scripted Fixture Download Tool",
+      "description": "Automates downloading fixtures based on manifests, including checksum verification and license mirroring",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Acquisition Workflow",
+      "description": "End-to-end process for acquiring, verifying, and storing fixtures in CI environments",
+      "source_line": null
+    },
+    {
+      "name": "Documentation of Fixture Sources",
+      "description": "Documents ranked fixture sources, licensing notes, download pointers, storage sizing, and ingestion guidance",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Storage README",
+      "description": "Describes mount paths and quotas for macOS runners and Linux caches",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2247,
+    "line_count": 25
+  }
+}

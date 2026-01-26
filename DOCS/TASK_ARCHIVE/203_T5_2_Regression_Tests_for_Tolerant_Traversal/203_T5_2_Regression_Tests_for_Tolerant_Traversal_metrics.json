@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/203_T5_2_Regression_Tests_for_Tolerant_Traversal.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add regression tests for tolerant traversal that exercise truncated, overlapping, and malformed-header corrupt fixtures using the tolerant pipeline options.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each test must assert that traversal continues beyond the corrupt node, verifies emitted ParseIssue reason codes/ranges, and checks aggregate metrics (counts/depth) match manifest expectations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI or exporter-facing smoke tests must confirm tolerant runs produce warnings without aborting, ensuring UI/CLI wiring remains regression-free.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Strict-mode control coverage must remain unchanged; paired assertions that .strict runs still throw/abort as documented.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The ParseIssueStore metrics and summary functions (makeIssueSummary(), metricsSnapshot()) must accurately reflect aggregated warnings during tolerant traversal.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend Tests/ISOInspectorKitTests/ParsePipelineLiveTests.swift or add a dedicated TolerantTraversalRegressionTests suite to stream corrupt fixtures with .tolerant options and assert continued event emission.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Tolerant Parsing Pipeline",
+      "description": "Processes box trees while continuing traversal after encountering corrupted nodes and records ParseIssue entries",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssue Store",
+      "description": "Aggregates parse issues, provides metrics snapshots and issue summaries for UI ribbons and CLI summaries",
+      "source_line": null
+    },
+    {
+      "name": "Regression Test Suite \u2013 Tolerant Traversal Tests",
+      "description": "XCTest coverage that streams corrupt fixtures with tolerant options, asserts continued event emission and verifies ParseIssue reason codes/ranges and aggregate metrics",
+      "source_line": null
+    },
+    {
+      "name": "CLI/Exporter Smoke Tests",
+      "description": "Snapshot or textual tests confirming tolerant runs produce warnings without aborting, ensuring UI/CLI wiring remains functional",
+      "source_line": null
+    },
+    {
+      "name": "Strict Mode Control Tests",
+      "description": "Paired assertions that strict parsing runs still throw/abort as documented",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2805,
+    "line_count": 30
+  }
+}

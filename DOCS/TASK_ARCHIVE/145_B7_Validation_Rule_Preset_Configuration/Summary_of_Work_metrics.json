@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/145_B7_Validation_Rule_Preset_Configuration/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Wire preset selection flags through ISOInspectorCLI and propagate configuration summaries to CLI output.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Persist user-authored presets inside ISOInspectorApp with Application Support storage and settings UI.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend validation export metadata (CLI, JSON, session state) to record the active preset identifier and disabled rule IDs.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ValidationRuleIdentifier",
+      "description": "Represents a unique identifier for a validation rule within ISOInspectorKit.",
+      "source_line": null
+    },
+    {
+      "name": "ValidationPreset",
+      "description": "Defines a set of pre-configured validation rules that can be applied together.",
+      "source_line": null
+    },
+    {
+      "name": "ValidationConfiguration",
+      "description": "Encapsulates the configuration model for toggling validation rules, including preset selection and overrides.",
+      "source_line": null
+    },
+    {
+      "name": "Bundled ValidationPresets.json",
+      "description": "Provides bundled presets such as \"All\u00a0Checks\u00a0Enabled\" and \"Structural\u00a0Focus\" for use in ISOInspectorKit.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCLI preset selection flags",
+      "description": "Allows the user to command\u2011line interface to set or modify the validation preset selection.",
+      "source_line": null
+    },
+    {
+      "name": "Configuration summary output in CLI",
+      "description": "The\u00a0CLI\u00a0to\u00a0..\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 950,
+    "line_count": 12
+  }
+}

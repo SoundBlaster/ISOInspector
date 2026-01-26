@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/10_B5_VR003_Metadata_Comparison_Rule/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement VR-006 research logging so unknown boxes and catalog gaps are tracked alongside VR-003 warnings.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VR-006 research logging must track unknown boxes and catalog gaps in addition to VR-003 warnings.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Continue implementing remaining validation rules (VR-001, VR-002, VR-004, VR-005) in alignment with @todo #3.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation rules VR-001, VR-002, VR-004, VR-5 must be implemented according to the specifications outlined in @todo #3.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 245,
+    "line_count": 4
+  }
+}

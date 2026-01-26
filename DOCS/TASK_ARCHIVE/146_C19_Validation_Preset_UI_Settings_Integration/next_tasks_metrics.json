@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/146_C19_Validation_Preset_UI_Settings_Integration/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Expose configuration controls via ISOInspectorCLI flags and exports by handing off to Task D7 \u2013 Validation Preset CLI Wiring.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Capture manual QA notes for the macOS Settings pane after UI review and update design documentation accordingly.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Task D7 \u2013 Validation Preset CLI Wiring",
+      "description": "Expose configuration controls via ISOInspectorCLI flags and exports",
+      "source_line": null
+    },
+    {
+      "name": "Capture manual QA notes for macOS Settings pane",
+      "description": "Record QA observations after UI review and update design documentation",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 286,
+    "line_count": 4
+  }
+}

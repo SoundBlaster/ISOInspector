@@ -1,0 +1,17 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/36_A3_DocC_Publishing_CI/next_tasks.md",
+  "n_spec": 1,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add DocC publishing to CI (e.g., GitHub Actions artifact uploads) after storage and hosting requirements are validated.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 172,
+    "line_count": 5
+  }
+}

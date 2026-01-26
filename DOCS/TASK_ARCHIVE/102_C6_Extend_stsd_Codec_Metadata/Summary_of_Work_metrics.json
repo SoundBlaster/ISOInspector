@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Extend the stsd sample description parser to extract codec-specific metadata for avcC, hvcC, and esds payloads so that CLI exports and UI detail panes display codec profiles, NAL unit lists, AAC AudioSpecificConfig, and Common Encryption defaults.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser must correctly parse avcC, hvcC, and esds payloads and expose codec profiles, SPS/PPS/VPS lengths, HEVC constraint flags, AAC object type and sampling frequency, and tenc encryption defaults from sinf/schi boxes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests in StsdSampleDescriptionParserTests must cover AVC, HEVC, AAC, and encrypted sample entries and validate JSON export snapshots against baseline.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "BoxParserRegistry must enumerate codec-specific metadata consistently across platforms (macOS and Linux).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add dedicated parsers for avcC, hvcC, and esds payloads and extend BoxParserRegistry to include new metadata fields.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "stsd Sample Description Parser",
+      "description": "Parses stsd boxes and extracts codec-specific fields such as avcC, hvcC, esds payloads, and protection metadata for CLI exports and UI detail panes.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Extension",
+      "description": "Enumerates codec-specific metadata including SPS/PPS/VPS lengths, HEVC constraint flags, AAC object type and sampling frequency, and tenc encryption defaults from sinf/schi boxes.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Export Feature",
+      "description": "Exports enriched codec metadata to command-line interface output.",
+      "source_line": null
+    },
+    {
+      "name": "UI Detail Pane Feature",
+      "description": "Displays extracted codec profiles, NAL unit lists, AAC AudioSpecificConfig, and Common Encryption defaults in the user interface.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite for Codec Parsing",
+      "description": "Provides targeted tests covering AVC, HEVC, AAC, and encrypted sample entries to validate parser output.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1429,
+    "line_count": 22
+  }
+}

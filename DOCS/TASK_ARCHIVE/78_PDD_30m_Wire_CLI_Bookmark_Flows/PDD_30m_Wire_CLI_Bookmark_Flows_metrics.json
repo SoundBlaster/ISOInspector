@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/78_PDD_30m_Wire_CLI_Bookmark_Flows/PDD_30m_Wire_CLI_Bookmark_Flows.md",
+  "n_spec": 6,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a CLI user, I want bookmark acquisition, refresh, and reuse operations to emit structured audit events so that headless file access is tracked in the FilesystemAccessAuditTrail.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI bookmark acquisition, refresh, and reuse paths append structured events to a process-scoped FilesystemAccessAuditTrail even when running headless.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Disabling telemetry via --disable-telemetry suppresses audit publishing; enabling telemetry ensures audit output is flushed or exported for automation logs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover CLI bookmark flows with audit assertions, and documentation cross\u2011references are updated to reflect the new telemetry behavior.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Audit persistence must be routed separately from user-facing logVerbosity semantics so quiet/verbose logging options continue to work.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ISOInspectorCLIEnvironment to provide a FilesystemAccessLogger that threads a shared FilesystemAccessAuditTrail into bookmark helpers without mutating existing reader/parsing contracts.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Bookmark Acquisition",
+      "description": "Command-line interface flow that acquires a filesystem bookmark for a specified path and records the operation in FilesystemAccessAuditTrail.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Bookmark Refresh",
+      "description": "CLI flow to refresh an existing filesystem bookmark, updating its state and logging the event to the audit trail.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Bookmark Reuse",
+      "description": "Mechanism allowing CLI to reuse an existing bookmark without prompting the user, emitting an audit record for the operation.",
+      "source_line": null
+    },
+    {
+      "name": "Telemetry Flag Handling",
+      "description": "Global --enable-telemetry/--disable-telemetry flags that control whether audit events are published or suppressed during headless CLI runs.",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccessLogger Integration",
+      "description": "Wrapper that injects a shared FilesystemAccessAuditTrail into bookmark helpers, enabling audit logging without altering reader/parsing contracts.",
+      "source_line": null
+    },
+    {
+      "name": "Quiet/Verbose Logging Routing",
+      "description": "Preserves logVerbosity semantics by routing audit persistence separately from user-facing output while supporting quiet and verbose modes.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite for Bookmark Audit",
+      "description": "Automated tests that validate CLI bookmark flows emit or suppress audit entries based on telemetry settings, ensuring compliance with audit requirements.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2915,
+    "line_count": 39
+  }
+}

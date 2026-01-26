@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/121_C14b_Implement_elst_Parser/next_tasks.md",
+  "n_spec": 11,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Finalize the edts/elst parser scope by reviewing ISO/IEC 14496-12 \u00a78.6 and confirming field widths, fixed\u2011point rate handling, and how edit list segment counts relate to mvhd/tkhd durations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Scope documented in DOCS/TASK_ARCHIVE/120_C14a_Finalize_Edit_List_Scope/C14a_Finalize_Edit_List_Scope.md to unblock parser, validation, and fixture follow\u2011ups.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement elst entry parsing within BoxParserRegistry, capturing segment duration, media time, and rate while normalizing rate to double precision for UI/export consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Ensure large edit lists stream without over\u2011allocation.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parse pipeline now threads mvhd/mdhd timescales into the edit list environment.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Wire edit list payloads into validation so reconciled presentation durations align with movie/track headers and flag gaps or overlaps.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Extend existing duration diagnostics to reference edit list context.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Refresh fixtures, JSON exports, and snapshot baselines covering common edit list scenarios (empty list, single offset, multi\u2011segment, rate adjustments) and document test execution notes in the new task summary.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement baseline metadata box coverage for udta, meta (handler), keys, and ilst atoms, surfacing simple string/integer payloads for CLI export.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Follow archival context in DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md to keep handler mappings consistent.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Validation Rule #15 correlates stsc chunk runs, stsz/stz2 sample sizes, and stco/co64 offsets to flag mismatches alongside the new sync sample metadata.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Edit List Parser",
+      "description": "Parses 'elst' box entries capturing segment duration, media time, and rate, normalizing rate to double precision.",
+      "source_line": null
+    },
+    {
+      "name": "Edit List Validation Integration",
+      "description": "Validates edit list payloads against movie/track headers, flagging gaps or overlaps and extending duration diagnostics.",
+      "source_line": null
+    },
+    {
+      "name": "Edit List Fixture Refresh",
+      "description": "Refreshes fixtures, JSON exports, and snapshot baselines for common edit list scenarios.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Box Parser Coverage",
+      "description": "Parses 'udta', 'meta' (handler), 'keys', and 'ilst' atoms to surface simple string/integer payloads for CLI export.",
+      "source_line": null
+    },
+    {
+      "name": "Chunk Run Validation Rule #15",
+      "description": "Correlates stsc, stsz/stz2 sample sizes, and stco/co64 offsets to flag mismatches with sync sample metadata.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2197,
+    "line_count": 39
+  }
+}

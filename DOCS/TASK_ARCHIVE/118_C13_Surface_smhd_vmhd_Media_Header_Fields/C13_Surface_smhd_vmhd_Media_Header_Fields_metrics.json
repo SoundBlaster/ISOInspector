@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/118_C13_Surface_smhd_vmhd_Media_Header_Fields/C13_Surface_smhd_vmhd_Media_Header_Fields.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expose audio (smhd) and video (vmhd) media header box fields through BoxParserRegistry so parsed trees and JSON exports include balance, graphics mode, and opcolor metadata for downstream UI and validation consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "smhd and vmhd parsers populate dedicated model structures registered with BoxParserRegistry and appear in CLI JSON output.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Balance and graphics mode/opcolor values are normalized into human-readable representations while retaining raw numeric forms for validation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression fixtures cover representative audio- and video-track samples, updating snapshot baselines as needed without breaking unrelated boxes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation (DocC or inline developer notes) references the new fields so UI components can bind to them without guesswork.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse the shared FullBox decoding utilities introduced in earlier tasks to handle version/flags fields before reading payload data.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Ensure handler metadata from hdlr stays consistent when presenting media header fields; cross-check existing archives for codec metadata formatting.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update BoxParserRegistry mappings, Swift data models, and JSON coding keys together to avoid mismatched exports.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parsed values must be validated against reference material ISO/IEC 14496-12 \u00a78.4.3 and available fixtures; spec gaps remain only if TODOs are added.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxParserRegistry Registration for smhd",
+      "description": "Registers the audio media header box parser so parsed trees include balance and opcolor metadata.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Registration for vmhd",
+      "description": "Registers the video media header box parser to expose graphics mode, opcolor, and balance fields in parsed output.",
+      "source_line": null
+    },
+    {
+      "name": "FullBox Decoding Utility Integration",
+      "description": "Utilizes shared FullBox decoding utilities to parse version/flags before reading payload data for smhd and vmhd boxes.",
+      "source_line": null
+    },
+    {
+      "name": "Human-Readable Normalization of Balance",
+      "description": "Converts raw numeric balance values into human-readable representations while retaining the original number for validation.",
+      "source_line": null
+    },
+    {
+      "name": "Human-Readable Normalization of Graphics Mode and Opcolor",
+      "description": "Translates graphics mode and opcolor fields into readable forms, preserving raw numeric data.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Inclusion",
+      "description": "Ensures smhd and vmhd parsed data appear in CLI JSON output with correct coding keys.",
+      "source_line": null
+    },
+    {
+      "name": "UI Binding Support for Media Header Fields",
+      "description": "Provides documented field names so UI components can bind to balance, graphics mode, opcolor, and related metadata.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Fixture Updates",
+      "description": "Adds or updates regression fixtures covering audio and video track samples to validate smhd and vmhd parsing.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2458,
+    "line_count": 51
+  }
+}

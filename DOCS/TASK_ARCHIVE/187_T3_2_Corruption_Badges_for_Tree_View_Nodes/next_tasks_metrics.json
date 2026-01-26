@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/187_T3_2_Corruption_Badges_for_Tree_View_Nodes/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Surface tolerant parsing issue badges in the outline so operators can immediately spot corrupt structures.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always display corruption badges for tree view nodes when a tolerant parsing issue is detected.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Badges appear correctly in the outline and are visible to operators.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implementation notes are documented in DOCS/TASK_ARCHIVE/187_T3_2_Corruption_Badges_for_Tree_View_Nodes/Summary_of_Work.md.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Corruption Badges for Tree View Nodes",
+      "description": "Displays surface\u2011tolerant parsing issue badges in the outline view to allow operators to spot corrupt structures immediately.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Verifies that focus command menus announce controls and restore focus targets on macOS and iPadOS hardware, ensuring VoiceOver accessibility shortcuts work correctly.",
+      "source_line": null
+    },
+    {
+      "name": "Real\u2011World Asset Licensing and Integration",
+      "description": "Secures licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG\u2011H fixtures to replace synthetic payloads in regression baselines with real-world assets.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 849,
+    "line_count": 8
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/180_T2_2_Emit_Parse_Events/T2_2_Emit_Parse_Events.md",
+  "n_spec": 8,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Deliver enriched tolerant parsing stream events that include severity, offset, and reason code metadata so UI and CLI consumers can react to corruption diagnostics without waiting for the full parse to complete.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming parse events carry structured severity, offsets, and reason code fields aligned with ParseIssue records.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeStore observes the enriched events and updates UI state without regressing strict-mode behavior.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI streaming consumers receive the new metadata without breaking existing log formats; regression tests updated as needed.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Feature is guarded by existing tolerant parsing configuration options with documentation updates queued for downstream tasks.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the existing ParsePipeline event payload to embed issue metadata, leveraging the aggregation capabilities introduced in T2.1.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit ParseTreeStore Combine bindings to ensure issue metrics remain synchronized with live events; coordinate with the pending SwiftUI metrics surfacing task noted in backlog.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Validate CLI streaming output paths and JSON export hooks to keep schema compatibility, using fixture-driven tests where available.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseEventEnrichment",
+      "description": "Emit parse events that include severity, offset, and reason code metadata for tolerant parsing",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStoreSync",
+      "description": "Update ParseTreeStore UI state in real time based on enriched parse events without affecting strict-mode behavior",
+      "source_line": null
+    },
+    {
+      "name": "CLIStreamingConsumerSupport",
+      "description": "Provide CLI consumers with streaming parse event metadata while maintaining existing log format compatibility",
+      "source_line": null
+    },
+    {
+      "name": "EventPayloadExtension",
+      "description": "Extend ParsePipeline event payload to embed issue metadata leveraging aggregation store",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2442,
+    "line_count": 26
+  }
+}

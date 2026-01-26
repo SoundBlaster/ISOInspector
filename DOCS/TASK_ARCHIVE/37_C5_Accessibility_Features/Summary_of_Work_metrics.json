@@ -1,0 +1,38 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/37_C5_Accessibility_Features/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Accessibility descriptor helpers for tree rows and detail metadata must be shared across components to drive VoiceOver labels backed by MP4RA metadata and validation severity.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Keyboard focus management is introduced across outline, detail, notes, and hex panes with arrow-key navigation for tree rows and byte-level movement inside the hex viewer.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test coverage must be extended with ParseTreeAccessibilityFormatterTests and new navigation scenarios in ParseTreeOutlineViewModelTests, and documentation refreshed in the Phase C workplan.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Accessibility Descriptor Helpers",
+      "description": "Provides shared helpers for generating accessibility descriptors for tree rows and detail metadata, enabling VoiceOver labels based on MP4RA metadata and validation severity.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Focus Management",
+      "description": "Manages keyboard focus across outline, detail, notes, and hex panes with arrow-key navigation for tree rows and byte-level movement inside the hex viewer.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 688,
+    "line_count": 14
+  }
+}

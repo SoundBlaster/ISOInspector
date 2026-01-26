@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/85_PDD_45m_Wire_Generate_Fixtures_Manifest/PDD_45m_Wire_Generate_Fixtures_Manifest.md",
+  "n_spec": 10,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement manifest-driven remote fixture acquisition so generate_fixtures.py can download, verify, and catalog large media assets required for benchmarking and validation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "generate_fixtures.py accepts a manifest describing remote assets, downloads each entry, verifies SHA-256 checksums, and writes deterministic filenames under the documented storage structure.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The script copies or references license texts for each source into Documentation/FixtureCatalog/licenses/ so redistribution requirements are met.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A tracked manifest (e.g., Documentation/FixtureCatalog/manifest.json) records URLs, checksums, coverage tags, and license references for CI/hardware runners.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Script output logs clearly indicate download status, verification results, and storage paths to aid future automation and troubleshooting.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The script must always verify SHA-256 checksums of downloaded assets before accepting them.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the Python script with a manifest loader, streaming download helpers (with resume-friendly temp files), and checksum validation; reuse existing fixture catalog patterns for deterministic naming.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Mirror each source license into a dedicated directory and link it from the manifest entry to satisfy attribution requirements before bundling fixtures with runners.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Stage large assets outside the test bundle under Distribution/Fixtures/ while keeping lightweight regression assets in-repo; document mount paths in the follow-up README task to align with storage guidance.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Consider adding a dry-run mode that validates checksums and license availability without downloading to support CI gating.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Manifest Loader",
+      "description": "Loads a manifest file describing remote assets, including URLs, checksums, coverage tags, and license references.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming Download Helper",
+      "description": "Downloads each asset from its URL using streaming with resume-friendly temporary files.",
+      "source_line": null
+    },
+    {
+      "name": "Checksum Validator",
+      "description": "Verifies downloaded files against provided SHA-256 checksums.",
+      "source_line": null
+    },
+    {
+      "name": "Deterministic Filename Generator",
+      "description": "Creates deterministic filenames for assets based on catalog patterns and writes them to the documented storage structure.",
+      "source_line": null
+    },
+    {
+      "name": "License Mirroring",
+      "description": "Copies or references license texts for each source into Documentation/FixtureCatalog/licenses/ and links them from the manifest entry.",
+      "source_line": null
+    },
+    {
+      "name": "Manifest Tracker Writer",
+      "description": "Writes a tracked manifest (e.g., Documentation/FixtureCatalog/manifest.json) recording URLs, checksums, coverage tags, and license references for CI/hardware runners.",
+      "source_line": null
+    },
+    {
+      "name": "Logging Output",
+      "description": "Logs download status, verification results, and storage paths to aid automation and troubleshooting.",
+      "source_line": null
+    },
+    {
+      "name": "Dry-Run Mode",
+      "description": "Validates checksums and license availability without downloading assets, useful for CI gating.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3242,
+    "line_count": 48
+  }
+}

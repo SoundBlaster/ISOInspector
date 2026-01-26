@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/120_C14a_Finalize_Edit_List_Scope/C14a_Finalize_Edit_List_Scope.md",
+  "n_spec": 15,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Define the complete parsing and validation scope for the ISO Base Media File Format `edts/elst` edit list so subsequent parser work can rely on an authoritative contract aligned with ISO/IEC 14496-12 \u00a78.6 and previously archived movie (`mvhd`) and track (`tkhd`) header metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`elst` is the sole defined child of the optional `edts` container; multiple `edts` boxes are not expected, treat the first `elst` encountered under a track as authoritative and surface a warning if duplicates appear.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The full box header supplies `version` and `flags`; flags are unused in the current standard and should be preserved but ignored by consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`entry_count` (32-bit unsigned) follows the header and determines how many edit records to parse; large edit lists are valid and must stream without pre-allocation of all entries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Entry field widths depend on `version`: Version 0 uses 32\u2011bit unsigned `segment_duration` and 32\u2011bit signed `media_time`; Version 1 promotes both fields to 64\u2011bit; `media_rate` fields are always stored as a signed 16.16 fixed\u2011point pair `{ media_rate_integer (S16), media_rate_fraction (U16) }`.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`segment_duration` is expressed in the movie timescale obtained from `mvhd`; it represents presentation time on the movie timeline that this edit occupies.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`media_time` is expressed in the owning track\u2019s media timescale from `mdhd` and identifies the first media sample to play within the edit; a value of `-1` indicates an empty edit: playback outputs silence/black for the specified duration and does not consume media samples.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`media_rate` controls playback rate adjustments. The spec requires `media_rate_fraction == 0`; non\u2011zero fractions should raise a diagnostics warning. `media_rate_integer` defaults to `0x0001` for normal playback. Values of `0` pause playback while advancing media time; negative values play in reverse and should flag unsupported-rate diagnostics in current builds.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Empty edits that lead the list define presentation offsets; later segments advance the composed timeline. Trailing empty edits prolong presentation without consuming media and should be surfaced to consumers for trimming/diagnostics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parsing workflow: read `entry_count` and stream entries one at a time to avoid allocating unbounded arrays; surface progress to downstream consumers immediately so UI and CLI exports can render partial results.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "For each entry, normalize `segment_duration_seconds = segment_duration / mvhd.timescale`; `media_time_seconds = media_time / mdhd.timescale` (skip normalization for empty edits where `media_time == -1`).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`media_rate` should be emitted as a signed double by dividing the fixed\u2011point pair (`integer + fraction / 65536`).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Maintain cumulative movie timeline offsets to expose `presentation_start` and `presentation_end` for each edit entry.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Preserve the raw fixed\u2011point integers alongside normalized values so round\u2011tripping\u00a0to\u00a0JSON\u00a0exports\u00a0retains\u00a0fidelity.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation:\u00a0Duration reconciliation\u00a0\u2013\u00a0Sum\u00a0of\u00a0all\u00a0segment_duration\u00a0\u2026\u00a0..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "elst Box Header Reader",
+      "description": "Parses the elst box header to extract version and flags.",
+      "source_line": null
+    },
+    {
+      "name": "Entry Count Extractor",
+      "description": "Reads the 32-bit unsigned entry_count following the header.",
+      "source_line": null
+    },
+    {
+      "name": "Edit Entry Streamer",
+      "description": "Streams edit entries one at a time without pre\u2011allocating an array.",
+      "source_line": null
+    },
+    {
+      "name": "Versioned Field Parser",
+      "description": "Parses segment_duration, media_time and media_rate fields according to version (0 or 1).",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5826,
+    "line_count": 84
+  }
+}

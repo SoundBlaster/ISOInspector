@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/122_C14c_Edit_List_Duration_Validation/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Validation rule VR-014 must reconcile edit list presentation spans with mvhd, tkhd, and mdhd durations and surface unsupported playback rates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming coverage ensures media duration diagnostics defer until the owning mdhd payload is parsed, preserving order-agnostic validation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "BoxValidator extended with a stateful edit list rule that tracks movie- and track-level context, computes tolerance-aware tick differences, and emits targeted messages for gaps, overruns, and rate anomalies.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Edit List Duration Reconciliation",
+      "description": "Validates that edit list presentation spans match movie, track, and media header durations and flags unsupported playback rates.",
+      "source_line": null
+    },
+    {
+      "name": "Stateful Edit List Validation Rule (VR-014)",
+      "description": "Tracks movie and track context, computes tolerance-aware tick differences, and emits messages for gaps, overruns, and rate anomalies during validation.",
+      "source_line": null
+    },
+    {
+      "name": "Deferred Media Duration Diagnostics",
+      "description": "Delays media duration checks until the owning media header payload is parsed to maintain order-agnostic validation.",
+      "source_line": null
+    },
+    {
+      "name": "Parse Pipeline Live Tests for Edit List Scenarios",
+      "description": "Regression tests covering mismatched durations, deferred reconciliation, and unsupported rates in the parsing pipeline.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1174,
+    "line_count": 23
+  }
+}

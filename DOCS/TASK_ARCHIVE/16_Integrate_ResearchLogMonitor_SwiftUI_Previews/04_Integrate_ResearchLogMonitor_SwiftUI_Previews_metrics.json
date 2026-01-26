@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/16_Integrate_ResearchLogMonitor_SwiftUI_Previews/04_Integrate_ResearchLogMonitor_SwiftUI_Previews.md",
+  "n_spec": 7,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Create SwiftUI preview scaffolding that runs ResearchLogMonitor.audit(logURL:) against representative VR-006 research log samples so UI components can validate schema alignment before binding live parse events.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftUI previews load a deterministic VR-006 research log fixture, invoke ResearchLogMonitor.audit, and render the results (schema version, field names, entry counts) without runtime errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Preview failure cases (missing file, schema mismatch) surface developer-facing diagnostics that mirror CLI expectations, preventing silent drift between surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation and inline preview guidance point to the shared schema source so UI engineers can update fixtures alongside schema changes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests or preview assertions prevent regressions by ensuring the audit call stays wired into the preview pipeline during future UI work.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Previews must exercise ResearchLogMonitor.audit without diverging from the shared schema definition exposed by ResearchLogMonitor.swift.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Provide preview-only adapters (e.g., PreviewResearchLogProvider) that locate or synthesize the log file, allowing multiple UI previews to share the same audit result while remaining deterministic.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ResearchLogMonitor.audit(logURL:)",
+      "description": "Runs audit on a research log file and returns schema validation results",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI preview scaffolding for ResearchLogMonitor",
+      "description": "Loads deterministic VR-006 fixture, invokes audit, and renders schema version, field names, entry counts in SwiftUI previews",
+      "source_line": null
+    },
+    {
+      "name": "PreviewResearchLogProvider",
+      "description": "Adapter that locates or synthesizes a log file for use by multiple UI previews",
+      "source_line": null
+    },
+    {
+      "name": "CLI fixtures integration",
+      "description": "Reuses existing CLI JSON samples as deterministic test data for the preview audit",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3963,
+    "line_count": 56
+  }
+}

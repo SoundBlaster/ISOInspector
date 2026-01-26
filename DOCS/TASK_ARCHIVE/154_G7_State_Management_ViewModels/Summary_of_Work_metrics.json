@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/154_G7_State_Management_ViewModels/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The DocumentViewModel must orchestrate ParseTreeStore and track validation badge counts.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Export availability for outline/detail flows must be surfaced by DocumentViewModel.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "NodeSelectionViewModel and HexViewModel must keep selection, annotations, and hex highlights synchronized as the streaming parser mutates the tree.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "SwiftUI explorer, app shell, and session controller depend on shared document view model to keep export affordances and toolbar actions in sync.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1129,
+    "line_count": 13
+  }
+}

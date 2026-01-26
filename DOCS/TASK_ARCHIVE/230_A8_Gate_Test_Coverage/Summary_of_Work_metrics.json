@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/230_A8_Gate_Test_Coverage/Summary_of_Work.md",
+  "n_spec": 9,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a test coverage gating system that enforces a minimum of 67% coverage for the ISOInspector repository via pre-push hooks and GitHub Actions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The script `coverage_analysis.py` must dynamically locate the repository root, accept a threshold argument, output to stdout or file, and return exit code 0 when coverage meets or exceeds the threshold, otherwise 1.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pre-push hook `.githooks/pre-push` must detect changes in FoundationUI sources/tests, run `coverage_analysis.py --threshold 0.67`, respect an optional environment variable for custom thresholds, and block pushes with a clear error message if coverage is below the threshold.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "GitHub Actions workflow `.github/workflows/coverage-gate.yml` must run on PRs and pushes to main, execute tests with code coverage, invoke `coverage_analysis.py`, fail the job when coverage < 67%, upload coverage reports as artifacts, and comment on PRs with a summary.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation must include a guide explaining how to run tests locally, interpret coverage analysis output, update thresholds, and provide troubleshooting information.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always enforce the 67% coverage threshold unless overridden by the environment variable `ISOINSPECTOR_MIN_TEST_COVERAGE`.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a single Python script (`coverage_analysis.py`) with CLI arguments for dynamic path resolution and reporting, rather than hardcoded paths or multiple scripts.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement pre-push hook logic in `.githooks/pre-push` to perform the coverage check before any push is allowed, ensuring local enforcement.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Deploy GitHub Actions workflow to automate coverage checks on CI for PRs and main branch, providing artifacts and PR comments.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "coverage_analysis.py",
+      "description": "Script that calculates test coverage for the repository, supports dynamic path resolution, CLI arguments for threshold, report file, and verbose output; exits with code 0 if coverage meets threshold, 1 otherwise.",
+      "source_line": null
+    },
+    {
+      "name": "Pre-push Hook",
+      "description": "Git hook that runs before pushes, detects changes to FoundationUI sources/tests, executes coverage_analysis.py with a 67% threshold (or env variable), blocks push if coverage is below threshold, provides error message and remediation guidance, skips when no relevant changes.",
+      "source_line": null
+    },
+    {
+      "name": "GitHub Actions Coverage Workflow",
+      "description": "CI workflow triggered on PRs and main pushes that checks out code, sets up Swift 6.0, runs tests with coverage for FoundationUI and main project, executes coverage_analysis.py, generates markdown summary, uploads coverage reports as artifacts, comments on PRs with results.",
+      "source_line": null
+    },
+    {
+      "name": "TestingAndCoverage.md Guide",
+      "description": "DocC guide detailing the coverage gating system, how to run tests locally, understand the script output, pre-push hook and workflow details, updating thresholds, best practices, troubleshooting, and examples.",
+      "source_line": null
+    },
+    {
+      "name": "README Test Coverage Gating Section",
+      "description": "Quick reference in README that explains the 67% threshold enforcement, pre-push hook workflow, GitHub Actions automation, local analysis instructions, threshold updates, and links to the comprehensive guide.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 10073,
+    "line_count": 281
+  }
+}

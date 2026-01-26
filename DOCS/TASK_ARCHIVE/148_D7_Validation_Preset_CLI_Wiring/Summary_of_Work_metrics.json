@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/148_D7_Validation_Preset_CLI_Wiring/Summary_of_Work.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide global CLI options for validation presets, including --preset, --structural-only, --enable-rule, and --disable-rule.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI must correctly parse preset flags and apply them to threaded validation configuration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Disabled rules should be filtered from output.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Preset details must be embedded in JSON exports and batch summaries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Metadata printing for presets should be available via CLI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSON annotations must include preset metadata.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Threaded validation configuration must always propagate preset settings through the CLI context.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Preset information is threaded through the CLI context and embedded in JSON exports.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Global CLI Flags for Validation Preset",
+      "description": "Provides global command-line options --preset, --structural-only, --enable-rule, and --disable-rule to configure validation behavior across the application.",
+      "source_line": null
+    },
+    {
+      "name": "Threaded Validation Configuration via CLI Context",
+      "description": "Passes threaded validation settings and metadata through the CLI context to enable concurrent processing of validation tasks.",
+      "source_line": null
+    },
+    {
+      "name": "Disabled Rule Output Filtering",
+      "description": "Filters out output for rules that have been disabled by user flags, ensuring only relevant results are shown.",
+      "source_line": null
+    },
+    {
+      "name": "Preset Metadata in JSON Exports",
+      "description": "Embeds detailed preset information into JSON export files and batch summaries for traceability and reporting.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Test Coverage for Preset Parsing",
+      "description": "Automated tests validate correct parsing of presets, handling of conflicting overrides, metadata printing, and JSON annotations to catch regressions.",
+      "source_line": null
+    },
+    {
+      "name": "Updated CLI Manual Documentation",
+      "description": "Documentation updates describe new global options, preset metadata output, JSON export annotations, and batch filtering behavior for end\u2011users.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1451,
+    "line_count": 14
+  }
+}

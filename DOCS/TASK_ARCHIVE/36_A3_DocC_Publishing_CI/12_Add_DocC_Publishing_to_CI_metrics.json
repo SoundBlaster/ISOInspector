@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/36_A3_DocC_Publishing_CI/12_Add_DocC_Publishing_to_CI.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Automate generation and upload of DocC documentation archives within the continuous integration pipeline so reviewers can download the latest documentation from each build.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI workflow job invokes the existing documentation generation script and succeeds without manual intervention.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Generated DocC archive is uploaded as a persistent artifact (or equivalent) and exposed for download on each CI run.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pipeline updates pass the existing CI checks and integrate with the established GitHub Actions workflow.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CI Workflow Job for DocC Generation",
+      "description": "Automates invocation of the documentation generation script within the CI pipeline to produce DocC archives.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Archive Upload as Persistent Artifact",
+      "description": "Uploads the generated DocC archive to the CI artifact storage, making it available for download on each build.",
+      "source_line": null
+    },
+    {
+      "name": "Artifact Naming and Retention Management",
+      "description": "Defines naming conventions and retention policies for stored DocC artifacts in coordination with documentation owners.",
+      "source_line": null
+    },
+    {
+      "name": "Integration with Existing GitHub Actions Workflow",
+      "description": "Ensures the new DocC publishing steps are compatible with and integrated into the established CI workflow.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1708,
+    "line_count": 37
+  }
+}

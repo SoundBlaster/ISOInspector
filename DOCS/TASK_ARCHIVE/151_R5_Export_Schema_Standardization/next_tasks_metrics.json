@@ -1,0 +1,38 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/151_R5_Export_Schema_Standardization/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Child boxes must not exceed parent ranges and overlapping payloads are disallowed.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Export schema standardization to provide canonical export recommendations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Comparative schema analysis completed, canonical export recommendations documented, and verification plan verified.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Parent Containment and Non-Overlap Enforcement",
+      "description": "Validates that child boxes are within parent ranges and flags overlapping payloads for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "name": "Schema Export Standardization",
+      "description": "Provides canonical export recommendations and verification plan for schema exports.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1085,
+    "line_count": 5
+  }
+}

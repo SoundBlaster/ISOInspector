@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/78_PDD_30m_Wire_CLI_Bookmark_Flows/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Zero-trust telemetry flags must be available before consuming FilesystemAccessAuditTrail events in Wire CLI bookmark flows.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Execute the random slice benchmark suite on macOS hardware once Combine support is available to compare mapped vs. chunked readers under identical workloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware with XCTest UI support to validate end-to-end SwiftUI automation flow.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Execute the Combine-backed UI benchmark on macOS to capture latency metrics while maintaining throughput parity with the CLI harness.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Track outcome of notarized build Apple Events automation assessment and reference final decision in documentation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 2290,
+    "line_count": 22
+  }
+}

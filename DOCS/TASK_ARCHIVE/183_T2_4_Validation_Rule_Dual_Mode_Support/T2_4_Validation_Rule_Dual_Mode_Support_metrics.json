@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/183_T2_4_Validation_Rule_Dual_Mode_Support/T2_4_Validation_Rule_Dual_Mode_Support.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Enable validation rules VR-001 through VR-015 to emit ParseIssue diagnostics when tolerant parsing is enabled while maintaining strict-mode exception behavior for regression parity.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Strict mode continues to throw existing validation errors, while tolerant mode records equivalent ParseIssue entries without halting traversal.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and integration tests demonstrate both behaviors across the full rule suite, ensuring downstream UI, CLI, and export flows receive issues through the shared store.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ValidationContext.handleIssue(_:) must centralize tolerance-mode branching so that each rule respects tolerance options and records issues via the shared store.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a shared ValidationContext.handleIssue(_:) helper to centralize tolerance-mode branching, updating each VR-001\u2026VR-015 implementation to call it before throwing or recording issues.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseIssueStore",
+      "description": "Central repository for recording validation diagnostics in tolerant mode",
+      "source_line": null
+    },
+    {
+      "name": "ValidationContext.handleIssue(_:)",
+      "description": "Helper method to branch between strict and tolerant behavior when a rule encounters an issue",
+      "source_line": null
+    },
+    {
+      "name": "VR-001 through VR-015 rules",
+      "description": "Individual validation rules that emit ParseIssue diagnostics or throw errors based on parsing mode",
+      "source_line": null
+    },
+    {
+      "name": "Unit and integration tests for dual-mode behavior",
+      "description": "Test suites verifying both strict exception throwing and tolerant issue recording across all rules",
+      "source_line": null
+    },
+    {
+      "name": "Shared metrics alignment",
+      "description": "Mechanism ensuring emitted issues carry severity codes compatible with ParseIssueStore.metrics()",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3034,
+    "line_count": 33
+  }
+}

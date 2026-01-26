@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/195_T4_4_Sanitize_Issue_Exports.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide diagnostics exports (JSON, plaintext, and future variants) that omit raw binary payloads while conveying sufficient metadata for debugging.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSON and plaintext issue exports contain only metadata (counts, severities, byte ranges, identifiers) and never embed raw byte arrays, hexdumps, or base64 payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated tests assert that exporters redact payload data when issues include cached byte buffers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation for tolerant parsing exports explicitly states that binary content is excluded and references the sanitisation guarantee.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Exporters must never emit raw hexdumps or payload slices in any export format.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit ParseEventCapturePayload and related DTOs to ensure ParseIssuePayload ignores binary attachments, stripping or rejecting such fields during encoding.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update PlaintextIssueSummaryExporter (and CLI bridge formatting) to elide payload previews while still including offset ranges and diagnostic codes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend exporter-focused tests in Tests/ISOInspectorKitTests to cover issues that previously included Data payloads, confirming sanitised output.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update DocC or README sections covering exports to mention the privacy guardrails once code changes land.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "JSON Tolerant Exporter",
+      "description": "Exports diagnostic issues in JSON format while omitting raw binary payloads and including metadata such as counts, severities, byte ranges, identifiers, and byte lengths for data references.",
+      "source_line": null
+    },
+    {
+      "name": "Plaintext Issue Summary Exporter",
+      "description": "Generates plaintext summaries of diagnostic issues, excluding any payload previews but retaining offset ranges and diagnostic codes.",
+      "source_line": null
+    },
+    {
+      "name": "ParseEventCapturePayload Sanitisation Module",
+      "description": "Processes event capture payloads to strip or reject binary attachments before encoding, ensuring no raw data is exported.",
+      "source_line": null
+    },
+    {
+      "name": "Export Redaction Test Suite",
+      "description": "Automated unit and snapshot tests that verify exporters redact payload data when issues contain cached byte buffers.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Bridge Formatter for Exports",
+      "description": "Formats export output for command-line interfaces, ensuring payload previews are elided while metadata remains visible.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update Engine",
+      "description": "Updates DocC or README sections to explicitly state that binary content is excluded from tolerant parsing exports and references the sanitisation guarantee.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3100,
+    "line_count": 34
+  }
+}

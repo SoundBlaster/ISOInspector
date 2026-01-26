@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/171_T1_7_Finalize_Traversal_Guard_Requirements/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement traversal guard logic and fixtures per the new specification before enabling tolerant parsing in downstream aggregators.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Traversal guard logic must adhere to forward-progress budgets, zero-length retry limits, recursion depth caps, and issue burst ceilings as defined in Traversal_Guard_Requirements.md.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 771,
+    "line_count": 16
+  }
+}

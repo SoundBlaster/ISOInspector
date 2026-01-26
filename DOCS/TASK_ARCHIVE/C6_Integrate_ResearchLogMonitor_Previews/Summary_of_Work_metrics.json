@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/C6_Integrate_ResearchLogMonitor_Previews/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate ResearchLogMonitor audit results into SwiftUI previews",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ResearchLogPreviewProvider snapshots must execute ResearchLogMonitor.audit against VR-006 fixtures and wire diagnostics into ResearchLogAuditPreview preview states",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Missing fixture and schema mismatch states in the preview-only audit flows must expose NestedA11yIDs identifiers as asserted by ResearchLogAccessibilityIdentifierTests",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ResearchLogMonitor.audit must always be executed when snapshots are taken for VR-006 fixtures",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ResearchLogPreviewProvider snapshots execution",
+      "description": "Executes ResearchLogMonitor.audit against VR-006 fixtures and provides snapshot data for SwiftUI previews.",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogAuditPreview preview states",
+      "description": "Wires diagnostics into preview states to display audit results in SwiftUI previews.",
+      "source_line": null
+    },
+    {
+      "name": "NestedA11yIDs identifier exposure",
+      "description": "Exposes NestedA11yIDs identifiers when missing fixture or schema mismatch states occur during preview-only audit flows.",
+      "source_line": null
+    },
+    {
+      "name": "DocC guidance update",
+      "description": "Updates documentation and PRD trackers to highlight the SwiftUI preview audit workflow.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 788,
+    "line_count": 12
+  }
+}

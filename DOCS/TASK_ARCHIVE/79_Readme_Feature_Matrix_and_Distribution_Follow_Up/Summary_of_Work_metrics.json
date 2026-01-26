@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a comprehensive README feature matrix that lists supported boxes, platforms, file types, and key MP4 box families for ISOInspectorKit, ISOInspectorApp, and the CLI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The README must include a feature matrix summarizing ISOInspectorKit, ISOInspectorApp, and the CLI using DocC manuals and kit exports.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Supported platforms, file types, and key MP4 box families must be documented by linking to the Swift enums that power traversal heuristics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A DocC-aligned SVG concept capture depicting the tree/detail/hex workflow must be added to the README until production screenshots are available.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The README feature matrix and documentation must remain consistent with the canonical references in DocC manuals and kit exports.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use DocC manuals and ISOInspectorKit exports as the canonical source for the feature matrix to ensure consistency across documentation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "README Feature Matrix",
+      "description": "Provides a summary of supported boxes, platforms, and screenshots in the README",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorKit API Documentation",
+      "description": "DocC manuals and kit exports summarising ISOInspectorKit capabilities",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorApp Overview",
+      "description": "DocC-aligned SVG depicting tree/detail/hex workflow for the app",
+      "source_line": null
+    },
+    {
+      "name": "CLI Feature Matrix",
+      "description": "Summarises CLI features alongside ISOInspectorKit and ISOInspectorApp in README",
+      "source_line": null
+    },
+    {
+      "name": "Supported Platforms Listing",
+      "description": "Documents which platforms are supported by the system",
+      "source_line": null
+    },
+    {
+      "name": "Supported File Types Listing",
+      "description": "Lists file types that the system can handle",
+      "source_line": null
+    },
+    {
+      "name": "MP4 Box Families Documentation",
+      "description": "Links to Swift enums powering traversal heuristics for MP4 box families",
+      "source_line": null
+    },
+    {
+      "name": "FourCharContainerCode Enum",
+      "description": "Swift enum defining four-character container codes used in ISO traversal",
+      "source_line": null
+    },
+    {
+      "name": "MediaAndIndexBoxCode Enum",
+      "description": "Swift enum defining media and index box codes used in ISO traversal",
+      "source_line": null
+    },
+    {
+      "name": "Markdown Normalization Script",
+      "description": "Python script that normalises Markdown spacing and wrapping for notes",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1954,
+    "line_count": 40
+  }
+}

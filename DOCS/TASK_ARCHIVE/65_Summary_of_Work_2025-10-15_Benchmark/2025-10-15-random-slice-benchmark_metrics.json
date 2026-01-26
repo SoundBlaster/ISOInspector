@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/65_Summary_of_Work_2025-10-15_Benchmark/2025-10-15-random-slice-benchmark.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Deliver deterministic random slice performance benchmarks that compare MappedReader and ChunkedFileReader under identical workloads.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "No code changes; exercises existing RandomAccessReader conformers.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Public Kit API added/changed: None.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Backward compatibility remains unchanged.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark scenarios reuse PerformanceBenchmarkConfiguration iteration controls and print baseline metrics for three slice classes (small/medium/large) derived from a seeded SplitMix64 generator.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Default CI intensity yielded 0.06, 8.04, and 34.60 MiB per-iteration throughput samples for both readers.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Random Slice Performance Benchmark",
+      "description": "Executes deterministic random slice performance tests comparing MappedReader and ChunkedFileReader under identical workloads.",
+      "source_line": null
+    },
+    {
+      "name": "Benchmark Configuration Reuse",
+      "description": "Utilizes PerformanceBenchmarkConfiguration iteration controls to set up benchmark scenarios for small, medium, and large slices derived from a seeded SplitMix64 generator.",
+      "source_line": null
+    },
+    {
+      "name": "Baseline Metrics Reporting",
+      "description": "Prints baseline throughput metrics (MiB per-iteration) for both readers across slice classes.",
+      "source_line": null
+    },
+    {
+      "name": "Test Integration",
+      "description": "Integrates new benchmark cases into Tests/ISOInspectorPerformanceTests/LargeFileBenchmarkTests.swift for both reader implementations.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1212,
+    "line_count": 30
+  }
+}

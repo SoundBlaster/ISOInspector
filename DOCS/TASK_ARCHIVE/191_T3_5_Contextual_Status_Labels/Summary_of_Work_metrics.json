@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/191_T3_5_Contextual_Status_Labels/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Display tolerant parsing status chips in outline rows and detail inspector to show invalid, partial, corrupted, trimmed, and related node states at a glance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline view models propagate ParseTreeStatusDescriptor through row snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Detail inspector renders synchronized badges using ParseTreeStatusBadge SwiftUI view.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tolerant parsing status enums include future states: invalid, empty, trimmed.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParseTreeStatusDescriptor model is shared across outline rows and detail inspector.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use ParseTreeStatusBadge SwiftUI view for badge presentation in both outline row and detail inspector.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeStatusDescriptor Model",
+      "description": "Provides a shared data model representing the status of tolerant parsing for nodes.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStatusBadge View",
+      "description": "A SwiftUI view that displays a badge indicating the node's parsing status.",
+      "source_line": null
+    },
+    {
+      "name": "Outline Row Badge Rendering",
+      "description": "Renders synchronized status badges in outline rows based on ParseTreeStatusDescriptor.",
+      "source_line": null
+    },
+    {
+      "name": "Detail Inspector Badge Rendering",
+      "description": "Displays status badges in the detail inspector for nodes, mirroring the outline row badges.",
+      "source_line": null
+    },
+    {
+      "name": "Extended Parsing Status Enums",
+      "description": "Adds future parsing states such as invalid, empty, trimmed to the tolerant parsing status enumeration.",
+      "source_line": null
+    },
+    {
+      "name": "Outline View Model Propagation",
+      "description": "Propagates ParseTreeStatusDescriptor through row snapshots in outline view models.",
+      "source_line": null
+    },
+    {
+      "name": "Detail Metadata Badge Replacement",
+      "description": "Replaces the detail metadata status row with a badge presentation for node status.",
+      "source_line": null
+    },
+    {
+      "name": "Corruption Issue Section Header Badge",
+      "description": "Mirrors the same status badge alongside the corruption issue section header for consistency.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 964,
+    "line_count": 12
+  }
+}

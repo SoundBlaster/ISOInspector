@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/158_B2_Define_BoxNode/next_tasks.md",
+  "n_spec": 6,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Define BoxNode Aggregate to formalize parse tree node model bridging streaming events to UI/CLI/export consumers.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Child boxes cannot exceed parent ranges and must not overlap payloads.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Persist Security-Scoped Bookmarks: log bookmark identifiers, refresh stale ledger entries, remove invalid recents.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver regression pass for accessibility shortcuts: manual verification on macOS and iPadOS hardware to confirm focus command menu announces controls and restores focus targets as expected.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Secure licensing for Dolby Vision, AV1, VP9, Dolby AC-4, MPEG-H fixtures before replacing synthetic payloads and refreshing regression baselines.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Snapshot & CLI fixture maintenance: refresh snapshots and CLI fixtures whenever schema updates are intentional via ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxNode Aggregate Definition",
+      "description": "Defines the parse tree node model that bridges streaming events to UI/CLI/export consumers.",
+      "source_line": null
+    },
+    {
+      "name": "Parent Containment and Non-Overlap Enforcement",
+      "description": "Validates structural integrity ensuring child boxes stay within parent ranges and flags overlapping payloads for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "name": "Persist Security-Scoped Bookmarks",
+      "description": "Logs bookmark identifiers, refreshes stale ledger entries, and removes invalid recent items in the filesystem access layer.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Manual VoiceOver verification on macOS/iPadOS to confirm focus command menu announcements and focus target restoration.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing",
+      "description": "Secures licensing for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to replace synthetic payloads and refresh regression baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & CLI Fixture Maintenance",
+      "description": "Automated regeneration of snapshots and CLI fixtures when schema updates occur via a specific environment variable and test command.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1921,
+    "line_count": 8
+  }
+}

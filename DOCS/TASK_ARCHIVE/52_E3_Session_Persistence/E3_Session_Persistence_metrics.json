@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/52_E3_Session_Persistence/E3_Session_Persistence.md",
+  "n_spec": 11,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Restore the previous workspace on launch by persisting open documents, annotation/bookmark state, and window layouts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Launching the app after a clean quit restores the previously open files, selected nodes, window positions, and any unsaved annotation edits without data loss.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automatic CoreData migration upgrades existing annotation/bookmark stores to the new schema without requiring manual recovery steps.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Linux/CLI builds continue to operate with a JSON fallback when CoreData is unavailable while keeping schema metadata in sync.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "New tests verify migration, workspace restoration, and fallback behaviors across macOS and non-CoreData environments.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "CoreData lightweight migration paths must remain enabled for the extended model.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the CoreData model to include Workspace, Session, SessionFile, WindowLayout, and related entities while keeping lightweight migration paths enabled.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update CoreDataAnnotationBookmarkStore to surface session APIs that coordinate with existing annotation operations and maintain thread-safety on the background context.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement WorkspaceSessionSnapshot models with CoreData-backed session storage and a JSON fallback, wiring restoration through DocumentSessionController so the last workspace reopens automatically.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "DocumentSessionController observes bookmark session selection changes to keep workspace snapshots current after navigation without reopening files.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Persist parse snapshots or reference external artifacts judiciously to avoid bloating CoreData store, following open questions captured during planning.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CoreData Annotation Bookmark Store Session APIs",
+      "description": "Provides thread\u2011safe session persistence operations for annotations and bookmarks using CoreData",
+      "source_line": null
+    },
+    {
+      "name": "WorkspaceSessionSnapshot Models",
+      "description": "Defines CoreData backed workspace snapshot entities (Workspace, Session, SessionFile, WindowLayout) with JSON fallback support",
+      "source_line": null
+    },
+    {
+      "name": "DocumentSessionController",
+      "description": "Observes bookmark selection changes and restores the last workspace on app launch, coordinating with session snapshots",
+      "source_line": null
+    },
+    {
+      "name": "WorkspaceSessionStore",
+      "description": "Manages storage and retrieval of workspace sessions, handling migration and JSON fallback",
+      "source_line": null
+    },
+    {
+      "name": "Automatic CoreData Migration Path",
+      "description": "Performs lightweight migrations for annotation/bookmark stores to new schema without user intervention",
+      "source_line": null
+    },
+    {
+      "name": "JSON Fallback Persistence",
+      "description": "Provides a JSON\u2011based persistence mechanism when CoreData is unavailable (e.g., Linux/CLI builds) while keeping metadata in sync",
+      "source_line": null
+    },
+    {
+      "name": "Session Restoration Workflow",
+      "description": "Restores previously open files, selected nodes, window positions and unsaved annotation edits on launch",
+      "source_line": null
+    },
+    {
+      "name": "Diagnostics for Session Persistence Errors",
+      "description": "Surface errors related to session persistence in diagnostics logs",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4611,
+    "line_count": 78
+  }
+}

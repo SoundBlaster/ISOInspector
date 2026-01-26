@@ -1,0 +1,17 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/next_tasks.md",
+  "n_spec": 1,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Draft C3 detail and hex inspectors that subscribe to the Combine bridge for payload slices and metadata panes.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 249,
+    "line_count": 3
+  }
+}

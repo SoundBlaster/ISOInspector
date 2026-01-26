@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/101_Summary_of_Work_2025-10-19_SwiftLint_Cleanup.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The SwiftLint configuration must not contain the rule `function_parameter_count` to avoid repeated in-source suppressions.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The SwiftLint configuration must not contain the stale entry `optional_data_string_conversion` that triggers warnings.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Replace Linux workflow SwiftLint steps with a UID/GID aware docker invocation that clears `.swiftlint.cache`, runs swiftlint with --fix, no-cache, and config, failing with concise file list when formatting is required.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add strict verification pass that reuses repository configuration without cache to ensure lint parity with local runs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update scripts/swiftlint-format.sh to mirror CI container command, purge cache, and run swiftlint --fix --no-cache --config .swiftlint.yml.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Developers should have consistent developer workflows for SwiftLint formatting.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The script `scripts/swiftlint-format.sh` runs with no errors and success status.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Docker run command executed in CI/CD pipeline must produce success status.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Weird\u00a0\u2026..?\u00a0...",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SwiftLint Configuration Update",
+      "description": "Modifies .swiftlint.yml to disable function_parameter_count rule and remove optional_data_string_conversion entry",
+      "source_line": null
+    },
+    {
+      "name": "Linux CI SwiftLint Workflow Replacement",
+      "description": "Replaces Linux workflow steps with UID/GID aware Docker invocation that clears cache, runs swiftlint --fix without cache, and fails with concise file list when formatting is required",
+      "source_line": null
+    },
+    {
+      "name": "Strict Lint Verification Pass",
+      "description": "Adds a verification pass in CI that reuses repository configuration without cache to ensure lint parity with local runs",
+      "source_line": null
+    },
+    {
+      "name": "Local SwiftLint Formatting Script Update",
+      "description": "Updates scripts/swiftlint-format.sh to mirror CI container command, purge cache, and run swiftlint --fix without cache for consistent developer workflows",
+      "source_line": null
+    },
+    {
+      "name": "DescriptorHeader Helper Struct Introduction",
+      "description": "Adds DescriptorHeader struct in ISOInspectorKit to replace tuple return from readDescriptorHeader, satisfying large_tuple rule",
+      "source_line": null
+    },
+    {
+      "name": "SwiftLint Verification Commands",
+      "description": "Provides commands to verify linting locally and via Docker, reporting success and matching prior behavior",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1534,
+    "line_count": 21
+  }
+}

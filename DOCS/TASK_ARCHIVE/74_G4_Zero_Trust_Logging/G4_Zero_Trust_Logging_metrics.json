@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/G4_Zero_Trust_Logging.md",
+  "n_spec": 10,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide zero-trust logging for FilesystemAccessKit so that file access events record hashed identifiers and redact absolute paths while exposing an auditable trail for sandbox compliance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Access logging layer produces hashed handles and timestamped events without leaking raw file paths.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover log hashing, rotation, and failure cases for bookmark resolution.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI automation emits the same redacted diagnostics so documentation examples remain accurate.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Logging hooks integrate with existing persistence diagnostics without duplicating identifiers.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Hashed identifiers must be used instead of raw file paths in all logged events.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Log entries must include ISO 8601 timestamps and be bounded by rotation limits.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend FilesystemAccessKit logging utilities before wiring through app and CLI targets to avoid API churn.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing diagnostics infrastructure from session persistence work to attach hashed bookmark IDs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with sandbox profile guidance to document any new environment variables or flags required for audit exports.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FilesystemAccessAuditTrail",
+      "description": "Records timestamped audit entries for every FilesystemAccessKit operation with hashed identifiers and bounded rotation",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccessAuditEvent",
+      "description": "Represents a single audit event containing hashed handle, timestamp, and sanitized diagnostics",
+      "source_line": null
+    },
+    {
+      "name": "LoggingAdapters",
+      "description": "Emit ISO 8601 timestamps, redact error details, and expose sanitized diagnostics for bookmark operations",
+      "source_line": null
+    },
+    {
+      "name": "UnitTestSuite_FilesystemAccessAuditTrailTests",
+      "description": "Verifies hashing, rotation limits, and failure handling of the audit trail",
+      "source_line": null
+    },
+    {
+      "name": "UnitTestSuite_FilesystemAccessLoggerTests",
+      "description": "Ensures logging utilities correctly hash identifiers and redact paths",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2851,
+    "line_count": 58
+  }
+}

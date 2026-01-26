@@ -1,0 +1,118 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/221_I1_5_Advanced_Layouts_Navigation/next_tasks.md",
+  "n_spec": 14,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI components for Badge & Status Indicators",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI components for Card Containers & Sections",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI components for Key-Value Rows & Metadata Display",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI components for Form Controls & Input Wrappers",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FoundationUI component integration replaces native SwiftUI with DS components",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot testing library integration",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Form migration in settings/dialogs",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement Advanced Layouts & Navigation using FoundationUI grid and spacing system",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Migrate sidebar and detail view layouts",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validate responsive behavior across device sizes",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility and dark mode support",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create SDK Tolerant Parsing Documentation",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Create DocC article \"TolerantParsingGuide.md\" in specified path",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add code examples for tolerant parsing setup..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Badge & Status Indicators",
+      "description": "Provides badge and status indicator components for UI",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Card Containers & Sections",
+      "description": "Offers card container and section layout components",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Key-Value Rows & Metadata Display",
+      "description": "Displays key-value rows and metadata in the interface",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Form Controls & Input Wrappers",
+      "description": "Wraps form controls with FoundationUI styling and behavior",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Advanced Layouts & Navigation",
+      "description": "Implements advanced layout patterns, navigation, responsive design, accessibility and dark mode support using FoundationUI grid and spacing system",
+      "source_line": null
+    },
+    {
+      "name": "SDK Tolerant Parsing Documentation",
+      "description": "DocC article and code examples for tolerant parsing setup and ParseIssueStore usage in the SDK",
+      "source_line": null
+    },
+    {
+      "name": "User Settings Panel Floating Preferences Shell",
+      "description": "Implements a floating settings panel scene with FoundationUI cards, separate permanent and session groups, platform-specific presentation",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3243,
+    "line_count": 69
+  }
+}

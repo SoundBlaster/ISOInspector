@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/next_tasks.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "dinf/dref Data Reference Parser",
+      "description": "Parses data reference boxes to emit entry type, version/flags, and URL/URN payload metadata for downstream chunk lookup tracking.",
+      "source_line": null
+    },
+    {
+      "name": "smhd/vmhd Media Header Surface",
+      "description": "Exposes media header fields (balance, graphics mode, opcolor) via BoxParserRegistry and updates JSON exports.",
+      "source_line": null
+    },
+    {
+      "name": "edts/elst Edit List Decoder",
+      "description": "Decodes edit lists including segment duration, media time, and rate, and extends validation hooks to reconcile timeline adjustments with movie and track durations.",
+      "source_line": null
+    },
+    {
+      "name": "udta/meta/keys/ilst Metadata Parser",
+      "description": "Parses baseline metadata boxes (udta, meta handler, keys, ilst) surfacing simple string/integer payloads for CLI export while maintaining handler mappings.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1880,
+    "line_count": 12
+  }
+}

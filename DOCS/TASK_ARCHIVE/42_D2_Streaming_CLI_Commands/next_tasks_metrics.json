@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/42_D2_Streaming_CLI_Commands/next_tasks.md",
+  "n_spec": 6,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Build SwiftUI app shell with document browser and recents list that integrates CoreData-backed session persistence once CLI scaffolding stabilizes and C1/C2 foundations remain green.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Configure performance benchmarks for large files by standing up benchmarking harnesses using streaming fixtures to measure CLI and app throughput for large MP4 payloads.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Execute streaming inspection by consuming ParsePipeline events when Task D2 builds the streaming command.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Produce validation reports with the streaming pipeline once Task D2 defines the CLI output contract.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Route export operations to streaming capture utilities as they migrate from ISOInspectorCLIRunner.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SwiftUI App Shell with Document Browser and Recents List",
+      "description": "Provides a SwiftUI application shell that includes a document browser interface and a list of recently accessed documents, backed by CoreData for session persistence.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData-backed Session Persistence Integration",
+      "description": "Integrates CoreData to persist user sessions within the app shell, ensuring data is retained across launches.",
+      "source_line": null
+    },
+    {
+      "name": "Performance Benchmarking Harnesses for Large MP4 Files",
+      "description": "Sets up benchmarking tools that measure command-line interface and application throughput when processing large MP4 payloads using streaming fixtures.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming Inspection via ParsePipeline Events",
+      "description": "Consumes events from the ParsePipeline to inspect streaming data during the construction of streaming commands.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Report Generation for Streaming Pipeline",
+      "description": "Produces validation reports based on the output of the streaming pipeline once the CLI output contract is defined.",
+      "source_line": null
+    },
+    {
+      "name": "Export Operation Routing to Streaming Capture Utilities",
+      "description": "Routes export operations through streaming capture utilities as they transition from the ISOInspectorCLIRunner.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 926,
+    "line_count": 18
+  }
+}

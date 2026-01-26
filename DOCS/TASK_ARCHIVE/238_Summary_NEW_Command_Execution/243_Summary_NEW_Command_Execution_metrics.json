@@ -1,0 +1,168 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/238_Summary_NEW_Command_Execution/243_Summary_NEW_Command_Execution.md",
+  "n_spec": 17,
+  "n_func": 14,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Reorganize NavigationSplitView layout by moving Selection Details and Integrity Summary to the Inspector column with a toggle control in the Content panel header.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selection Details fully functional in third column (Inspector).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integrity Summary toggleable via button on Box Tree panel header.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All 35+ NavigationSplitScaffold tests pass.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All 15+ Task 242 integration tests pass.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "25-30 new unit tests for Task 243.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "10-15 new integration tests for Task 243.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "4+ UI snapshot tests for responsive layouts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Bug #232 fixed and verified.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver & keyboard navigation working.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "NavigationSplitView_Guidelines.md updated.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Bug #232 must be fixed before Task 243 end\u2011to\u2011end testing begins.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use existing NavigationSplitScaffold pattern to implement three\u2011column layout; no new dependencies required.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "InspectorDetailView container will host Selection Details and Integrity Summary.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Toggle state management implemented via InspectorDetailState observable.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Responsive design handled for 360\u2011700pt widths with compact/regular size classes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Accessibility features (VoiceOver, dynamic type, keyboard shortcuts) integrated in each phase.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "NavigationSplitView three-column layout",
+      "description": "Provides a three\u2011column UI with Sidebar, Content and Inspector columns.",
+      "source_line": null
+    },
+    {
+      "name": "InspectorDetailView container",
+      "description": "Container view that hosts Selection Details in the Inspector column.",
+      "source_line": null
+    },
+    {
+      "name": "SelectionDetailsView components",
+      "description": "Seven sub\u2011components displaying detailed information about the selected item.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreePanelHeaderView toggle button",
+      "description": "Toggle control in the Content panel header to show/hide Integrity Summary.",
+      "source_line": null
+    },
+    {
+      "name": "SelectionIntegritySummaryView",
+      "description": "View that presents integrity summary data for the selected file.",
+      "source_line": null
+    },
+    {
+      "name": "AppShellView three\u2011column configuration",
+      "description": "Updates AppShellView to use a three\u2011column layout across platforms.",
+      "source_line": null
+    },
+    {
+      "name": "Responsive inspector column layout logic",
+      "description": "Handles compact/regular size classes and width ranges (360\u2011700pt) for Inspector column.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility audit for Inspector components",
+      "description": "VoiceOver labels, dynamic type scaling, keyboard shortcuts for the new inspector features.",
+      "source_line": null
+    },
+    {
+      "name": "State management for inspector toggle",
+      "description": "Observable state (InspectorDetailState) controlling visibility of Integrity Summary.",
+      "source_line": null
+    },
+    {
+      "name": "Unit tests for SelectionDetailsView",
+      "description": "Automated unit tests covering functionality of the seven sub\u2011components.",
+      "source_line": null
+    },
+    {
+      "name": "Unit tests for SelectionIntegritySummaryView",
+      "description": "Tests verifying integrity summary rendering and toggle behavior.",
+      "source_line": null
+    },
+    {
+      "name": "Integration tests for NavigationSplitScaffold",
+      "description": "End\u2011to\u2011end tests ensuring new inspector layout works with existing navigation scaffold.",
+      "source_line": null
+    },
+    {
+      "name": "UI snapshot tests for responsive layouts",
+      "description": "Snapshot tests validating Inspector column appearance across device sizes.",
+      "source_line": null
+    },
+    {
+      "name": "Bug #232 fix",
+      "description": "Resolution of UI blank issue after file selection, enabling proper rendering of the new layout.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 12728,
+    "line_count": 312
+  }
+}

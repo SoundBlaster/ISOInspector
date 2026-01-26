@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/61_A2_Implement_MappedReader/A2_Implement_MappedReader.md",
+  "n_spec": 8,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a memory-mapped RandomAccessReader implementation that allows bounded, slice-based reads for large media files without duplicating buffers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "MappedReader conforms to RandomAccessReader, exposing file length and read(at:count:) with defensive bounds checking and descriptive errors when requests exceed the available range.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Reader initialization validates the URL, captures the mapped Data, and releases resources deterministically when deallocated.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover full-file reads, partial slices, zero-length requests, and out-of-bounds failures alongside parity checks with ChunkedFileReader fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation explains when to prefer the mapped versus chunked reader and how they interoperate with parser components.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "MappedReader must always treat the mapped Data as immutable and document concurrency expectations for thread safety.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use Data(contentsOf:options:.mappedIfSafe) for memory mapping, with graceful degradation to a chunked reader when mapping is unsupported or unavailable.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Mirror the error surface of RandomAccessReaderValueDecodingError and extend it for IO-specific faults without adding new dependencies.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "MappedReader",
+      "description": "Memory\u2011mapped random access reader that implements RandomAccessReader, exposing file length and read(at:count:) with bounds checking and error handling.",
+      "source_line": null
+    },
+    {
+      "name": "RandomAccessReader protocol",
+      "description": "Defines interface for random\u2011access reads by offset and length, including length property and read(at:count:) method.",
+      "source_line": null
+    },
+    {
+      "name": "ChunkedFileReader",
+      "description": "Existing reader that satisfies RandomAccessReader using FileHandle buffers; serves as a fallback or comparison.",
+      "source_line": null
+    },
+    {
+      "name": "MappedReaderFactory",
+      "description": "Factory closures in CLI/app to choose between MappedReader and ChunkedFileReader based on platform support.",
+      "source_line": null
+    },
+    {
+      "name": "MappedReaderTests",
+      "description": "Unit test suite covering full-file reads, partial slices, zero-length requests, out-of-bounds failures, and parity with ChunkedFileReader.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3484,
+    "line_count": 47
+  }
+}

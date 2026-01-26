@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/129_C15_Metadata_Value_Type_Expansion/C15_Metadata_Value_Type_Expansion.md",
+  "n_spec": 7,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Extend metadata value decoding coverage so that udta/meta/ilst entries for additional MP4RA-defined data types render human-readable values across the CLI and SwiftUI app exports.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "MP4RA metadata value types called out in the backlog (e.g., GIF/TIFF image payloads, signed fixed-point formats, any additional binary encodings) are decoded into readable structures for both CLI and app consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated tests cover each newly supported value type using fixtures or synthetic payloads while preserving existing coverage for previously handled types.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSON export snapshots and app detail panes display meaningful representations for the new value types without regressions in existing metadata output.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation and inline code comments reference the MP4RA specification identifiers for each added type to simplify future maintenance.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Unrecognized value types still fall back to binary representations with research log entries.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the metadata decoder registry in BoxParserRegistry+Metadata.swift and related value adapters, ensuring Combine/UI pipelines continue to emit normalized metadata models.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Metadata Value Decoder Registry Extension",
+      "description": "Adds support for new MP4RA metadata value types in the decoder registry so CLI and SwiftUI can render human-readable values.",
+      "source_line": null
+    },
+    {
+      "name": "Synthetic Payload Generator for Unavailable Fixtures",
+      "description": "Creates minimal synthetic payloads to drive parser behavior when real samples are not yet available.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Metadata Export Update",
+      "description": "Updates command-line interface to include expanded metadata value decoding in its output and regression snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI App Detail Pane Enhancement",
+      "description": "Enhances SwiftUI app detail panes to display meaningful representations of newly supported metadata types.",
+      "source_line": null
+    },
+    {
+      "name": "Automated Test Suite Expansion",
+      "description": "Adds tests covering each new metadata value type using fixtures or synthetic data, while preserving existing coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Hook Integration",
+      "description": "Reuses validation hooks to ensure unrecognized value types fall back to binary representations with research log entries.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update for MP4RA Types",
+      "description": "Updates documentation and inline code comments to reference MP4RA specification identifiers for each added type.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2717,
+    "line_count": 52
+  }
+}

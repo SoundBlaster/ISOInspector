@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/BUG_Manual_Color_Usage_vs_FoundationUI.md",
+  "n_spec": 8,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The application must use FoundationUI design system tokens as the single source of truth for all color definitions.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I want to audit existing manual SwiftUI color usages so that I can map them to equivalent FoundationUI design tokens.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All hardcoded Color.accentColor and opacity values (0.08, 0.12, 0.15, 0.18, 0.25) across the specified files are replaced with corresponding DS.Color.* tokens.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I want to update ParseTreeOutlineView.swift, ParseTreeDetailView.swift, ValidationSettingsView.swift, IntegritySummaryView.swift, ISOInspectorAppTheme.swift, and Tree/ParseTreeOutlineView.swift to use FoundationUI tokens instead of manual colors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "After the update, no file contains direct usage of Color.accentColor or .foregroundColor(.accentColor) outside of FoundationUI context.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a QA engineer, I want to validate consistency by running UI integration tests that verify FoundationUI token compliance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All existing 123 FoundationUI integration tests pass and new linting rules detect any direct .accentColor usage.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Remove the ISOInspectorAppTheme.swift color functions and Asset Catalog colorsets (AccentColor.colorset & SurfaceBackground..).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeOutlineView",
+      "description": "UI component displaying parse tree outline with filter button, search match text, bookmark icon, and row highlighting using color tokens",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeDetailView",
+      "description": "UI component showing detailed parse tree items with selection and highlight backgrounds/borders",
+      "source_line": null
+    },
+    {
+      "name": "ValidationSettingsView",
+      "description": "UI component for enabling/disabling validation rules with foreground color styling",
+      "source_line": null
+    },
+    {
+      "name": "IntegritySummaryView",
+      "description": "UI component displaying integrity summary text styled with foreground color",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorAppTheme",
+      "description": "Centralized theme providing app-wide tint and surface background colors via custom functions",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Design Token Audit Tool",
+      "description": "Process to review FoundationUI documentation, map existing opacity values to semantic tokens, and document mappings",
+      "source_line": null
+    },
+    {
+      "name": "View Color Migration Process",
+      "description": "Procedure to replace manual color usage in views with FoundationUI design system tokens",
+      "source_line": null
+    },
+    {
+      "name": "Manual Color Cleanup Procedure",
+      "description": "Steps to remove legacy color definitions from theme files and asset catalog",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Compliance Validation Tests",
+      "description": "UI integration tests that verify components use only FoundationUI tokens and enforce linting rules",
+      "source_line": null
+    },
+    {
+      "name": "Design Token Usage Documentation",
+      "description": "Guide documenting how to use design tokens in future development",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5534,
+    "line_count": 115
+  }
+}

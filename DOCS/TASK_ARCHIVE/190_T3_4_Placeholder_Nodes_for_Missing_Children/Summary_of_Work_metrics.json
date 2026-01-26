@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add placeholder synthesis to parse tree builders so missing required children surface as .corrupt synthetic nodes with structure.missing_child issues that anchor into the parent byte range.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Placeholder nodes are recorded via ParseIssueStore and ribbon metrics and Integrity views remain consistent across tolerant parses.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Full swift test suite passes on Linux.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend regression coverage with ParseExportTests.testParseTreeBuilderSynthesizesPlaceholderForMissingRequiredChild and ParseTreeStoreTests.testPlaceholderNodesRecordedForMissingRequiredChildren.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Placeholder Node Synthesis for Missing Children",
+      "description": "Adds synthetic .corrupt nodes to parse trees when required children are missing, such as stbl under minf or tfhd under traf.",
+      "source_line": null
+    },
+    {
+      "name": "Parse Issue Recording via ParseIssueStore",
+      "description": "Records placeholder issues in the app store pipeline, maintaining ribbon metrics and Integrity views during tolerant parses.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Tests for Placeholder Nodes",
+      "description": "Includes tests that verify placeholder synthesis and recording, ensuring full test suite passes on Linux.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 942,
+    "line_count": 10
+  }
+}

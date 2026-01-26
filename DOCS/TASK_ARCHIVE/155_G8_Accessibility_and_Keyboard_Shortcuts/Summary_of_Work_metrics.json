@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/155_G8_Accessibility_and_Keyboard_Shortcuts/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide centralized focus shortcuts and a Focus command menu for macOS and iPadOS so that outline, detail, notes, and hex panes can be navigated using the same hardware commands.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Focus shortcuts are exposed in InspectorFocusShortcutCatalog and bound to hidden keyboard accelerators and the new Focus command menu across platforms.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The explorer view\u2019s focus binding is registered with the SwiftUI scene so that .focused scopes stay synchronized when commands fire.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility documentation reflects the updated keyboard navigation improvements.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Manual VoiceOver regression pass confirms discoverability strings and focus announcements match the updated commands on macOS and iPadOS.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "InspectorFocusShortcutCatalog",
+      "description": "Centralized focus shortcuts catalog exposing focus command menu for macOS and iPadOS",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeExplorerView Focus Binding",
+      "description": "Wires ParseTreeExplorerView to share focus bindings so outline, detail, notes, and hex panes respond to the same hardware commands",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Scene Focus Synchronization",
+      "description": "Registers explorer view's focus binding with SwiftUI scene to keep .focused scopes synchronized when commands fire",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1264,
+    "line_count": 16
+  }
+}

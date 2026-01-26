@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/124_Summary_of_Work_2025-10-20/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 5,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Synthetic Edit List Fixtures Generation",
+      "description": "Generates synthetic edit list fixtures (empty, single-offset, multi-segment, rate-adjusted) via generate_fixtures.py and publishes them to the fixture catalog.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Metadata Extension",
+      "description": "Extends fixture metadata to include VR-014 warning coverage information and new JSON export snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Tests for Edit List Fixtures",
+      "description": "Runs regression tests that assert VR-014 warning coverage for various edit list scenarios using snapshot comparisons.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Snapshot Testing",
+      "description": "Executes Swift test cases to validate JSON export snapshots for empty, single-offset, multi-segment and rate\u2011adjusted edit lists.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update for C14d Completion",
+      "description": "Updates project documentation to mark C14d as complete and direct follow-up work to C15 and Validation Rule\u00a0#15.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1401,
+    "line_count": 27
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide lenient-versus-strict performance benchmarking for ISOInspector CLI to validate runtime and RSS differences.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark must capture average runtime and RSS deltas for both lenient and strict modes using LargeFileBenchmarkTests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Performance budgets in tolerant-mode must allow up to 1.2\u00d7 runtime overhead and +50 MiB RSS increase, enforced by XCTest assertions.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Runtime overhead must not exceed 1.049\u00d7 and RSS increase must not exceed 0.01 MiB for the 32\u202fMiB fixture measurements.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add tolerant-mode performance budgets to PerformanceBenchmarkConfiguration and wire them into XCTest assertions.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Lenient vs Strict Performance Benchmarking",
+      "description": "Captures average runtime and RSS deltas for CLI validation runs using lenient-versus-strict mode in LargeFileBenchmarkTests.",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant-Mode Performance Budgets Configuration",
+      "description": "Defines performance budget limits (1.2\u00d7 runtime, +50 MiB RSS) in PerformanceBenchmarkConfiguration and applies XCTest assertions.",
+      "source_line": null
+    },
+    {
+      "name": "Local Measurement Recording for 32 MiB Fixture",
+      "description": "Records local measurements showing runtime overhead \u22641.049\u00d7 and RSS increase \u22640.01 MiB, archived in a log file.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1073,
+    "line_count": 8
+  }
+}

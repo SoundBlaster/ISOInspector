@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/135_Summary_of_Work_2025-10-20_moof_mfhd_Sequence_Number/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Parse and expose moof/mfhd sequence numbers in the media parsing pipeline, JSON export, and CLI formatting.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Fragment sequence numbers must exist and be monotonic across fragments.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Sequence numbers flow through parse pipeline, JSON export, and CLI formatting consistently.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Registered moof/mfhd handlers via ParsedBoxPayload.MovieFragmentHeaderBox to integrate sequence number parsing into the system.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "moof/mfhd Sequence Number Parser",
+      "description": "Parses fragment header information from moof/mfhd boxes and registers handlers to flow sequence numbers through the parse pipeline, JSON export, and CLI formatting.",
+      "source_line": null
+    },
+    {
+      "name": "Sequence Number Validation",
+      "description": "Validates that fragment sequence numbers exist and remain monotonic across fragments.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export of Sequence Metadata",
+      "description": "Exports parsed sequence number metadata in JSON format as part of the system output.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Formatting of Sequence Data",
+      "description": "Formats and displays sequence number information via command-line interface.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 900,
+    "line_count": 16
+  }
+}

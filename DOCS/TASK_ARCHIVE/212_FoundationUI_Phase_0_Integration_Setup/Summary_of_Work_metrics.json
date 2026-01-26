@@ -1,0 +1,118 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/Summary_of_Work.md",
+  "n_spec": 14,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "FoundationUI dependency must be declared in Package.swift for ISOInspectorApp",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ISOInspectorApp targets must import FoundationUI without compile errors",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration tests verify module import, component availability (Badge, Card, KeyValueRow), BadgeLevel compatibility, design token accessibility, and platform compatibility",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I want to add FoundationUI as a dependency so that the app can use its UI components",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a phased integration approach with Phase 0 for setup and verification, followed by subsequent phases for component, layout, platform, and advanced feature integration",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All DS.Spacing tokens must be used instead of hardcoded magic numbers",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test coverage per phase must \u226580%",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility score must \u226598% (WCAG 2.1 AA)",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "App launch time <2s, tree scroll \u226555fps, memory usage <250MB",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FoundationUI components must coexist with legacy UI during transition",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer or QA engineer, I want to document integration patterns and quality gates in Technical Spec",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updates must reflect current phase and quality gates",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Create test infrastructure for 80%+ coverage and 0.5d per phase",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a user?\u00a0",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Dependency Integration",
+      "description": "Adds FoundationUI as a package dependency to ISOInspectorApp and verifies importability.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStatusBadge Component Usage",
+      "description": "Uses the Badge component from FoundationUI in ParseTreeStatusBadge.swift to display status badges.",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Integration Test Suite",
+      "description": "Provides automated tests confirming module import, component availability (Badge, Card, KeyValueRow), badge levels, design tokens, and platform compatibility.",
+      "source_line": null
+    },
+    {
+      "name": "Component Showcase SwiftUI View",
+      "description": "A SwiftUI view that demonstrates FoundationUI components for development and testing purposes.",
+      "source_line": null
+    },
+    {
+      "name": "Technical Specification Documentation of Integration Patterns",
+      "description": "Documents patterns and best practices for integrating FoundationUI into the app.",
+      "source_line": null
+    },
+    {
+      "name": "Design System Guide Integration Checklist",
+      "description": "Updates the design system guide with a checklist for integrating FoundationUI components.",
+      "source_line": null
+    },
+    {
+      "name": "SDK Tolerant Parsing Documentation",
+      "description": "Creates DocC article and inline documentation explaining tolerant parsing options in the SDK.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 6748,
+    "line_count": 158
+  }
+}

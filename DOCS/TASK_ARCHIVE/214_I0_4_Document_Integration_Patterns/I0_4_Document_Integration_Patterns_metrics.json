@@ -1,0 +1,138 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/214_I0_4_Document_Integration_Patterns/I0_4_Document_Integration_Patterns.md",
+  "n_spec": 12,
+  "n_func": 13,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Future developers can wire FoundationUI components into ISOInspector features (C21, C22) using documented integration patterns.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Added \"FoundationUI Integration\" section to 03_Technical_Spec.md or created new file.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documented architecture patterns for wrapping FoundationUI components such as Badge, Card, KeyValueRow.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Provided code examples for Badge integration with ISOInspector state, Card layout patterns for detail panes, and KeyValueRow usage for metadata display.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documented design token usage (DS.Spacing, DS.Colors, DS.Typography, etc.).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Created \"Do's and Don'ts\" guidelines for consistency.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Referenced existing test suite and ComponentTestApp in documentation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Cross-linked from relevant PRDs and README sections.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation reviewed for clarity and correctness with no broken references.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Design tokens must be used for spacing, colors, typography when styling FoundationUI components.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wrap FoundationUI components in custom wrappers to adapt them to ISOInspector state and Combine/SwiftUI previews.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use snapshot tests to validate component rendering.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Integration Section",
+      "description": "Documentation section detailing how to integrate FoundationUI components into ISOInspector",
+      "source_line": null
+    },
+    {
+      "name": "Component Wrapper Patterns",
+      "description": "Guidelines for wrapping and adapting FoundationUI components such as Badge, Card, KeyValueRow",
+      "source_line": null
+    },
+    {
+      "name": "State Management Bridge",
+      "description": "Mechanism for connecting FoundationUI component state with Combine/SwiftUI previews",
+      "source_line": null
+    },
+    {
+      "name": "Design Token Usage Guide",
+      "description": "Examples of using design tokens (DS.Spacing, DS.Colors, DS.Typography) within FoundationUI components",
+      "source_line": null
+    },
+    {
+      "name": "Platform Considerations Documentation",
+      "description": "Notes on iOS, macOS, iPadOS specifics for FoundationUI integration",
+      "source_line": null
+    },
+    {
+      "name": "Badge Integration Code Example",
+      "description": "Sample code showing how to integrate a FoundationUI Badge with ISOInspector state",
+      "source_line": null
+    },
+    {
+      "name": "Card Layout Pattern Example",
+      "description": "Pattern for wrapping detail pane content using FoundationUI Card layout",
+      "source_line": null
+    },
+    {
+      "name": "KeyValueRow Usage Example",
+      "description": "Example of using FoundationUI KeyValueRow for metadata display",
+      "source_line": null
+    },
+    {
+      "name": "Integrity Summary Panel Mockup",
+      "description": "Cross\u2011component example building an Integrity Summary panel with FoundationUI components",
+      "source_line": null
+    },
+    {
+      "name": "Do's and Don'ts Guidelines",
+      "description": "Best practices and pitfalls to avoid when integrating FoundationUI",
+      "source_line": null
+    },
+    {
+      "name": "Cross\u2011linking Instructions",
+      "description": "Guidelines for linking documentation from README, PRDs, and ComponentTestApp",
+      "source_line": null
+    },
+    {
+      "name": "Integration Test Suite Reference",
+      "description": "Documentation reference to the 123\u2011test integration suite covering Badge, Card, KeyValueRow",
+      "source_line": null
+    },
+    {
+      "name": "ComponentTestApp Showcase Reference",
+      "description": "Reference to live examples in the ComponentTestApp showcase application",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4861,
+    "line_count": 79
+  }
+}

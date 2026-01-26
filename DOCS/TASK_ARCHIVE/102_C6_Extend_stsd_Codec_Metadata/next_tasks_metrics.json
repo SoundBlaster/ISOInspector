@@ -1,0 +1,38 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "All parser enhancements must be documented in DOCS/TASK_ARCHIVE and referenced from the main specification.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement a ftyp box parser that extracts major_brand, minor_version, and compatible_brands.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The ftyp box parser is completed and its summary of work is documented in DOCS/TASK_ARCHIVE/99_C1_ftyp_Box_Parser/Summary_of_Work.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "stsd sample description parser",
+      "description": "Parses stsd boxes and extracts codec-specific metadata such as avcC, hvcC, and encrypted variants",
+      "source_line": null
+    },
+    {
+      "name": "ftyp box parser",
+      "description": "Parses ftyp boxes extracting major_brand, minor_version, and compatible_brands",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3295,
+    "line_count": 37
+  }
+}

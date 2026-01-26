@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/001_Design_System_Color_Token_Migration.md",
+  "n_spec": 9,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a developer, I want all SwiftUI views in ISOInspectorApp to use FoundationUI design system tokens instead of manual color definitions so that the app adheres to the design system architecture and Phase 5.2 can be completed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All manual `.accentColor` usages are replaced with `DS.Color.*` tokens across all view files listed in the specification (ParseTreeOutlineView.swift, ParseTreeDetailView.swift, ValidationSettingsView.swift, IntegritySummaryView.swift, ISOInspectorAppTheme.swift).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All hardcoded opacity values (0.08, 0.12, 0.15, 0.18, 0.25) are replaced with semantic token values from FoundationUI or custom tokens defined in the app theme.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Asset Catalog color definitions `AccentColor.colorset` and `SurfaceBackground.colorset` are removed after confirming no code references them.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FoundationUI integration tests (123) and full test suite (751) pass with no failures related to color usage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "New design token compliance tests are added, passing, and detect any remaining manual color or opacity usage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No references to `.accentColor` remain in the app codebase (excluding test files).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always use FoundationUI `DS.Color.*` tokens for all UI colors; manual color definitions are disallowed.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "FoundationUI design system tokens will be used as the single source of truth for all UI colors, replacing both Asset Catalog entries and custom brand palette definitions in ISOInspectorAppTheme.swift.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ISOInspectorApp Theme Configuration",
+      "description": "Provides app-wide color palette using FoundationUI design tokens or brand-specific colors",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeOutlineView SwiftUI Component",
+      "description": "Displays tree outline with accent colors and opacity applied to UI elements",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeDetailView SwiftUI Component",
+      "description": "Shows detailed view of selected parse tree nodes, uses accent colors for highlighting",
+      "source_line": null
+    },
+    {
+      "name": "ValidationSettingsView SwiftUI Component",
+      "description": "User interface for configuring validation settings, includes color styling for controls",
+      "source_line": null
+    },
+    {
+      "name": "IntegritySummaryView SwiftUI Component",
+      "description": "Summarizes integrity checks with colored status indicators",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Design Token Mapping Layer",
+      "description": "Maps semantic design tokens (DS.Color.*) to actual color values used in the app",
+      "source_line": null
+    },
+    {
+      "name": "Asset Catalog Color Definitions",
+      "description": "Legacy color sets such as AccentColor and SurfaceBackground stored in .xcassets",
+      "source_line": null
+    },
+    {
+      "name": "Design Token Compliance Test Suite",
+      "description": "Automated tests ensuring all views use FoundationUI tokens instead of manual colors",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Integration Tests",
+      "description": "Tests verifying correct integration of FoundationUI components within ISOInspectorApp",
+      "source_line": null
+    },
+    {
+      "name": "Color Contrast Validation Tests",
+      "description": "Checks that color combinations meet WCAG AA contrast ratios",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 13594,
+    "line_count": 335
+  }
+}

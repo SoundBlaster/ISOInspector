@@ -1,0 +1,153 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/220_I1_4_Form_Controls_Input_Wrappers/220_I1_4_Form_Controls_Input_Wrappers.md",
+  "n_spec": 18,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Wrap FoundationUI form components (DS.TextInput, DS.Toggle, DS.Picker) and migrate existing input patterns in settings and configuration dialogs to use these standardized controls.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxTextInputView wrapper component created with ISO-specific styling, placeholder, validation, keyboard types, and accessibility support.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxToggleView wrapper component created with label, disabled state, and accessibility labels.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxPickerView wrapper component created with custom selection logic, binding to Codable enums, and accessibility support.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Audit existing form inputs across codebase (settings panel, configuration dialogs, search/filter controls) and document findings.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Migrate at least 3 critical form locations to use new wrappers, prioritizing settings panel inputs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests for all three wrapper components covering input validation, state binding, accessibility attributes with \u226590% coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot tests (light/dark modes) for empty, filled, error, and disabled states of all three components on macOS, iOS, iPadOS.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility tests ensuring VoiceOver labels, focus management, keyboard interaction with \u226598% audit score.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update Component Showcase with form control examples.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add DocC documentation for wrapper components and update Technical Spec with Form Controls subsection.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update MIGRATION.md with old\u2192new form control mapping.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftLint violations: 0; no force unwraps or implicitly unwrapped optionals; all components marked @MainActor where appropriate.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FoundationUI Swift Package must be available in ISOInspectorApp before integration.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Integration test infrastructure must be in place prior to component implementation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "BoxTextInputView public API includes @Binding var text, placeholder, validationError, keyboardType, onEditingChanged.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "BoxToggleView public API includes @Binding var isOn, label, disabled.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "BoxPickerView generic over selection type T: Hashable with @Binding var selection, label, options.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxTextInputView",
+      "description": "Wrapper component exposing a styled text input field with placeholder, validation error display, keyboard type support, and binding to external text state.",
+      "source_line": null
+    },
+    {
+      "name": "BoxToggleView",
+      "description": "Wrapper component providing a styled toggle switch with label, disabled state handling, accessibility labeling, and binding to an external boolean state.",
+      "source_line": null
+    },
+    {
+      "name": "BoxPickerView",
+      "description": "Generic wrapper for a picker control that binds to a selectable value, presents options with labels, supports Codable enums or hashable types, and adapts platform-specific presentation.",
+      "source_line": null
+    },
+    {
+      "name": "FormControlAudit",
+      "description": "Process of locating and cataloging existing form inputs across the codebase for migration purposes.",
+      "source_line": null
+    },
+    {
+      "name": "MigrationPathDocumentation",
+      "description": "Documented mapping from legacy input patterns to new wrapper components, including migration steps and affected UI locations.",
+      "source_line": null
+    },
+    {
+      "name": "UnitTestsForFormControls",
+      "description": "Automated tests verifying interaction behavior, state binding, validation, and accessibility of each wrapper component.",
+      "source_line": null
+    },
+    {
+      "name": "SnapshotTestsForFormControls",
+      "description": "Visual regression tests capturing light/dark mode appearances for various states (empty, filled, error, disabled) of the form control wrappers.",
+      "source_line": null
+    },
+    {
+      "name": "AccessibilityTestsForFormControls",
+      "description": "Automated checks ensuring VoiceOver labels, focus management, keyboard navigation, and audit scores meet accessibility standards.",
+      "source_line": null
+    },
+    {
+      "name": "ComponentShowcaseUpdates",
+      "description": "Updated showcase pages displaying examples of the new form control wrappers in use.",
+      "source_line": null
+    },
+    {
+      "name": "DocCDocumentationForWrappers",
+      "description": "Generated documentation for each wrapper component\u2019s public API and usage examples.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 9322,
+    "line_count": 260
+  }
+}

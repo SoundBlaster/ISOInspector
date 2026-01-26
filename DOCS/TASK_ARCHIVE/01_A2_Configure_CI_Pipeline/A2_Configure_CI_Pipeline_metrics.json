@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/01_A2_Configure_CI_Pipeline/A2_Configure_CI_Pipeline.md",
+  "n_spec": 9,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Establish an automated GitHub Actions workflow that builds and tests the ISOInspector Swift package on every pull request so regressions are blocked before merge.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Workflow triggers on pull requests to the default branch.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Jobs execute swift test (and swift build if separated) against all targets without manual intervention.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Workflow fails the PR when tests fail.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Basic caching or toolchain version pinning prevents unnecessary redownloads (optional but recommended for stability).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "CI must run on pull requests and gate merges on failures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use swift-actions/setup-swift for toolchain installation to match Linux container environment.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Start with Ubuntu runners; macOS jobs optional later.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Surface build logs via --enable-test-discovery default behavior; attach artifacts only if job logs become unwieldy.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "GitHub Actions CI Workflow",
+      "description": "Automated workflow that builds and tests the ISOInspector Swift package on every pull request to ensure regressions are blocked before merge.",
+      "source_line": null
+    },
+    {
+      "name": "Swift Toolchain Setup Step",
+      "description": "Installs a specific Swift toolchain (5.9+) using swift-actions/setup-swift for consistent build environment.",
+      "source_line": null
+    },
+    {
+      "name": "Source Code Checkout Step",
+      "description": "Checks out repository code into the workflow runner.",
+      "source_line": null
+    },
+    {
+      "name": "Dependency Caching Step",
+      "description": "Caches the .build directory and other dependencies to speed up subsequent runs.",
+      "source_line": null
+    },
+    {
+      "name": "Build Job/Step",
+      "description": "Executes swift build on all package targets, optionally separated from test execution.",
+      "source_line": null
+    },
+    {
+      "name": "Test Job/Step",
+      "description": "Runs swift test against all package targets, capturing failures for PR status checks.",
+      "source_line": null
+    },
+    {
+      "name": "Status Check Configuration",
+      "description": "Configures required status checks so that the pull request fails if CI jobs fail.",
+      "source_line": null
+    },
+    {
+      "name": "Artifact Logging Step",
+      "description": "Captures and surfaces build/test logs as workflow artifacts or console output for debugging.",
+      "source_line": null
+    },
+    {
+      "name": "Linting Stub Step",
+      "description": "Optional placeholder step with TODO comments for future linting/static analysis integration.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2948,
+    "line_count": 43
+  }
+}

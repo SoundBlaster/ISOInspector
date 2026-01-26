@@ -1,0 +1,113 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/Summary_of_Work.md",
+  "n_spec": 9,
+  "n_func": 11,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a regression test suite for tolerant traversal that verifies continued parsing after corruption and accurate issue recording.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All 11 test methods must pass without failures when run against the tolerant parser implementation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each tolerant mode test must assert that traversal continues beyond a corrupt node and records a ParseIssue with correct reason code and byte range.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Zero-length loop guard tests must prevent infinite iteration and record guard.zero_size_loop issue.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Deep recursion guard tests must enforce a depth limit of 64 and record guard.recursion_depth_exceeded issue.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Invalid four-character code test must record an unknown box issue (VR-006) instead of header.invalid_fourcc.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Truncated size field test must record a reader_error issue.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Child exceeding parent range test must record payload.truncated for child exceeding parent bounds.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Metrics aggregation tests must verify error/warning/info counts match actual issues and use ParseIssueStore.makeIssueSummary().",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "TolerantTraversalRegressionTests Suite",
+      "description": "A test suite validating tolerant parsing pipeline behavior across various corruption scenarios",
+      "source_line": null
+    },
+    {
+      "name": "testTruncatedMoovContinuesTraversalAndRecordsIssue",
+      "description": "Ensures traversal continues after truncated moov payload and records a payload.truncated issue with correct severity and byte range",
+      "source_line": null
+    },
+    {
+      "name": "testZeroLengthLoopGuardPreventsInfiniteIteration",
+      "description": "Verifies zero-length loop guard prevents infinite iteration and records guard.zero_size_loop issue while keeping depth bounded",
+      "source_line": null
+    },
+    {
+      "name": "testDeepRecursionGuardLimitsTraversalDepth",
+      "description": "Checks recursion depth limit enforcement, recording guard.recursion_depth_exceeded issue and respecting configured depth limit",
+      "source_line": null
+    },
+    {
+      "name": "testInvalidFourCCRecordsHeaderIssue",
+      "description": "Tests handling of invalid four-character codes and records appropriate header issue (e.g., VR-006)",
+      "source_line": null
+    },
+    {
+      "name": "testTruncatedSizeFieldRecordsHeaderIssue",
+      "description": "Validates truncated size field handling and records header.truncated_field or reader_error issue",
+      "source_line": null
+    },
+    {
+      "name": "testChildExceedingParentRangeRecordsPayloadIssue",
+      "description": "Ensures parent-child boundary violations are recorded as payload.truncated for the child node",
+      "source_line": null
+    },
+    {
+      "name": "testTolerantModeAggregatesMetricsAcrossMultipleIssues",
+      "description": "Confirms aggregate metrics (error/warning/info counts) match actual issues and ParseIssueStore.makeIssueSummary() consistency",
+      "source_line": null
+    },
+    {
+      "name": "testAllFixturesProcessInTolerantModeWithoutCrashing",
+      "description": "Processes all corrupt fixtures in tolerant mode, verifying expected issues without crashes",
+      "source_line": null
+    },
+    {
+      "name": "testStrictModeThrowsOnTruncatedPayload",
+      "description": "Confirms strict mode aborts on truncated payload; exception throws",
+      "source_line": null
+    },
+    {
+      "name": "testStrictModeThrowsOnZeroLengthLoop",
+      "description": "Confirm strict mode aborts\u00a0on\u00a0zero\u2011length\u00a0loop\u00a0..",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 6892,
+    "line_count": 166
+  }
+}

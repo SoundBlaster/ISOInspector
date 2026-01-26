@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/D6A_Register_Sample_Encryption_Parsers_PRD.md",
+  "n_spec": 9,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add dedicated stub-level parsers for the senc, saio, and saiz Common Encryption helper boxes to capture version headers, entry counts, and byte ranges without touching protected payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsedBoxPayload objects emitted from the new handlers include version/flags (where applicable), IV size hints, table lengths, and byte ranges for the box content and auxiliary tables.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Registry lookups resolve the new parser identifiers so streaming parses of fragmented files capture placeholder metadata without throwing or skipping nodes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser unit tests feed synthetic senc, saio, and saiz payloads through the registry and assert emitted field values and byte ranges follow expectations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming integration tests parse a fragmented fixture containing the placeholder boxes, verifying no crashes occur when tables are empty, duplicated, or contain out-of-range offsets.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Each read must be guarded with payload range checks and return informational validation issues if entries exceed the box payload to avoid crashes during malformed inputs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Register new parser functions sampleEncryption, sampleAuxInfoOffsets, and sampleAuxInfoSizes under BoxParserRegistry.DefaultParsers using FullBoxReader pattern and mirror existing field emission patterns.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wire the new handlers into the fragment registry so traf traversal automatically invokes them when the boxes appear, matching how tfhd and related parsers are registered today.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Default to 32-bit saio offsets and saiz lengths, emitting validation warnings or notes when 64-bit flag combinations appear until future work promotes support.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Register sampleEncryption parser",
+      "description": "Adds a parser for the senc box that reads version/flags, IV size hints, entry counts and byte ranges without decrypting data.",
+      "source_line": null
+    },
+    {
+      "name": "Register sampleAuxInfoOffsets parser",
+      "description": "Adds a parser for the saio box that records offset table entries, default 32\u2011bit offsets, and validates 64\u2011bit flag combinations.",
+      "source_line": null
+    },
+    {
+      "name": "Register sampleAuxInfoSizes parser",
+      "description": "Adds a parser for the saiz box that records size table entries, default 32\u2011bit lengths, and emits validation notes for 64\u2011bit flags.",
+      "source_line": null
+    },
+    {
+      "name": "Wire parsers into fragment registry",
+      "description": "Integrates the new parsers into BoxParserRegistry.DefaultParsers so they are invoked during traf traversal of fragmented files.",
+      "source_line": null
+    },
+    {
+      "name": "Emit ParsedBoxPayload with metadata",
+      "description": "Each parser returns a ParsedBoxPayload containing version/flags, IV size hints, table lengths, and byte ranges for the box content and auxiliary tables.",
+      "source_line": null
+    },
+    {
+      "name": "Unit tests for placeholder parsers",
+      "description": "Provides focused unit tests that feed synthetic senc, saio, saiz payloads through the registry and assert emitted field values and byte ranges.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming integration tests",
+      "description": "Extends streaming tests to parse fragmented fixtures with placeholder boxes, ensuring no crashes when tables are empty or out\u2011of\u2011range.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5438,
+    "line_count": 41
+  }
+}

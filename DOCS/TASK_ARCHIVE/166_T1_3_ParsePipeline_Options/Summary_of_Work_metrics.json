@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/166_T1_3_ParsePipeline_Options/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "ParsePipeline must store default options and resolve them per context",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "ParsePipeline.Options includes abortOnStructuralError, maxCorruptionEvents, payloadValidationLevel settings with .strict/.tolerant presets",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Contexts inherit pipeline defaults unless explicitly overridden",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Runtime clients should pick strict or tolerant mode without extra configuration via ISOInspectorCLIEnvironment and DocumentSessionController",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests cover strict/tolerant defaults and dependency injection",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipeline Options",
+      "description": "Configurable parsing options with strict/tolerant presets and default propagation to CLI and app entry points.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline.Options Settings",
+      "description": "Settings include abortOnStructuralError, maxCorruptionEvents, payloadValidationLevel, and .strict/.tolerant presets.",
+      "source_line": null
+    },
+    {
+      "name": "Context Default Inheritance",
+      "description": "Contexts inherit pipeline defaults unless explicitly overridden.",
+      "source_line": null
+    },
+    {
+      "name": "Configuration Exposure Tests",
+      "description": "Tests covering strict/tolerant defaults and dependency injection for ParsePipeline configuration.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCLIEnvironment Configuration",
+      "description": "Wires strict defaults through ISOInspectorCLIEnvironment for runtime clients.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentSessionController Configuration",
+      "description": "Wires tolerant defaults through DocumentSessionController for runtime clients.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1135,
+    "line_count": 16
+  }
+}

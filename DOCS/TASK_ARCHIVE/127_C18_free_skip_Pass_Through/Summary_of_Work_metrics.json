@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The system must always register a shared padding parser in BoxParserRegistry so that free/skip nodes emit structured ParsedBoxPayload.PaddingBox details with accurate byte ranges.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit coverage in Tests/ISOInspectorKitTests/BoxParserRegistryTests.swift verifies the registration and emission of padding metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Live pipeline assertions in Tests/ISOInspectorKitTests/ParsePipelineLiveTests.swift confirm correct behavior during runtime.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSON export scaffolding must encode padding metadata, as tested by regression coverage in Tests/ISOInspectorKitTests/ParseExportTests.swift.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend JSON export to include padding metadata for free/skip nodes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Documentation trackers must always reflect the completion status of the puzzle.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Free/Skip Opaque Pass-Through Handling",
+      "description": "Handles free and skip nodes by emitting structured ParsedBoxPayload.PaddingBox details with accurate byte ranges.",
+      "source_line": null
+    },
+    {
+      "name": "Shared Padding Parser Registration",
+      "description": "Registers a shared padding parser in BoxParserRegistry for processing free/skip nodes.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export of Padding Metadata",
+      "description": "Exports padding metadata to JSON format as part of the system\u2019s export scaffolding.",
+      "source_line": null
+    },
+    {
+      "name": "Unit and Live Pipeline Testing",
+      "description": "Provides unit tests and live pipeline assertions to verify correct handling of free/skip nodes and padding metadata.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 859,
+    "line_count": 12
+  }
+}

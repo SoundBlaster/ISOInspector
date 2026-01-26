@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/23_C3_Detail_and_Hex_Inspectors.md",
+  "n_spec": 8,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a user, I want the detail pane stack to render metadata, validation issues, and hex slices for the selected box so that I can inspect information in a unified view.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting a node produces a metadata detail view populated from ParseTreeSnapshot descriptors, including MP4RA-backed field labels.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation issues associated with the node render in a dedicated section with severity badges and copy\u2011to\u2011clipboard support.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Hex inspector shows a bounded payload window (configurable size) that stays synchronized with selection changes and shares snapshot timestamps for latency diagnostics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Detail + hex panes update within 200 ms of incoming events during live parsing, matching tree updates.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The detail pane stack must preserve separation between presentation (SwiftUI views) and derived state (view models).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse Combine snapshot models from C1/C2 and extend them with convenience accessors for metadata fields and payload slices.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with planned hex slice provider work by defining protocols now and backing with simple file range requests until dedicated caching lands.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Detail Pane Stack",
+      "description": "Renders metadata, validation issues, and hex slices for the selected box using Combine bridge snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Detail View",
+      "description": "Displays node metadata populated from ParseTreeSnapshot descriptors, including MP4RA-backed field labels.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Issues Section",
+      "description": "Shows validation issues with severity badges and copy-to-clipboard support.",
+      "source_line": null
+    },
+    {
+      "name": "Hex Inspector Pane",
+      "description": "Displays a bounded payload window (configurable size) synchronized with selection changes and shares snapshot timestamps for latency diagnostics.",
+      "source_line": null
+    },
+    {
+      "name": "Live Parsing Update Mechanism",
+      "description": "Updates Detail + hex panes within 200 ms of incoming events during live parsing, matching tree updates.",
+      "source_line": null
+    },
+    {
+      "name": "Combine Snapshot Models Extension",
+      "description": "Extends Combine snapshot models with convenience accessors for metadata fields and payload slices.",
+      "source_line": null
+    },
+    {
+      "name": "Hex Slice Provider Protocols",
+      "description": "Defines protocols for providing hex slices via file range requests until dedicated caching is available.",
+      "source_line": null
+    },
+    {
+      "name": "Presentation Layer Separation",
+      "description": "Separates SwiftUI views (presentation) from derived state (view models) to ease snapshot testing and previews.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2490,
+    "line_count": 58
+  }
+}

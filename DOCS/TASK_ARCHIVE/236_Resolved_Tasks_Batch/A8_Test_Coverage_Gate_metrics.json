@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/236_Resolved_Tasks_Batch/A8_Test_Coverage_Gate.md",
+  "n_spec": 9,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add automated coverage enforcement so pushes and CI runs fail when overall Swift test coverage drops below the 0.67 threshold, and publish coverage artifacts for inspection.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`.githooks/pre-push` runs `coverage_analysis.py --threshold 0.67` after `swift test --enable-code-coverage` and blocks pushes when coverage is below the threshold.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`.github/workflows/ci.yml` runs the same coverage gate post-tests and fails the workflow when the threshold is not met.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Coverage report artifacts (HTML or JSON) are uploaded under `Documentation/Quality/` for CI runs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Planning files (`todo.md`, Execution Workplan) are updated to reflect the enforced gate once implemented.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Pre-push hook changes preserve executable permissions and are mirrored in CI to avoid divergence.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse the existing `coverage_analysis.py` utility; verify its invocation path matches repository layout.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "If coverage artifacts are large, consider pruning history or compressing before upload to keep CI artifacts lightweight.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Coverage data paths for both SwiftPM packages and workspace targets must be validated to avoid missing modules.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Pre-push Coverage Gate Hook",
+      "description": "Runs Swift tests with code coverage enabled and executes coverage_analysis.py to enforce a minimum coverage threshold before allowing pushes",
+      "source_line": null
+    },
+    {
+      "name": "CI Coverage Gate Job",
+      "description": "Adds a macOS job in the CI workflow that runs Swift tests, performs coverage analysis, and fails the workflow if the threshold is not met",
+      "source_line": null
+    },
+    {
+      "name": "Coverage Report Artifact Upload",
+      "description": "Uploads generated HTML or JSON coverage reports from Documentation/Quality/ as artifacts for inspection during CI runs",
+      "source_line": null
+    },
+    {
+      "name": "Threshold Configuration Support",
+      "description": "Allows the coverage threshold to be overridden via ISOINSPECTOR_MIN_TEST_COVERAGE environment variable",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2857,
+    "line_count": 36
+  }
+}

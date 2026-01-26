@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/170_T1_6_Implement_Binary_Reader_Guards/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Streaming walker must clamp traversal to parent ranges and emit payload.truncated issues when payload bytes run short.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Decoder failure issues will be wired into CLI/app summaries once issue aggregation APIs land.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "VoiceOver regression pass for accessibility shortcuts requires macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Real\u2011world assets such as Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG\u2011H fixtures must be secured before regression baselines can shift from synthetic payloads.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Snapshots and CLI fixtures should refresh whenever schema updates are intentional via ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Binary Reader Guards",
+      "description": "Clamps traversal to parent ranges and emits payload.truncated issues when payload bytes run short during streaming walk",
+      "source_line": null
+    },
+    {
+      "name": "Decoder Failure Aggregation API Integration",
+      "description": "Wires archived decoder failure issues into CLI/app summaries once issue aggregation APIs are available",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Accessibility Verification",
+      "description": "Verifies that focus command menus announce controls and restore focus targets on macOS and iPadOS hardware",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing",
+      "description": "Secures licensing for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to shift regression baselines from synthetic payloads",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & CLI Fixture Refresh",
+      "description": "Refreshes snapshots and CLI fixtures when schema updates are intentional via ISOINSPECTOR_REGENERATE_SNAPSHOTS environment variable",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1508,
+    "line_count": 12
+  }
+}

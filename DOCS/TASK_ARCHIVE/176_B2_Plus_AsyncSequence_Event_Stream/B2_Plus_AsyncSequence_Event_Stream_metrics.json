@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/176_B2_Plus_AsyncSequence_Event_Stream/B2_Plus_AsyncSequence_Event_Stream.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement the production AsyncSequence interface for ParsePipeline so streaming parse events feed CLI and SwiftUI consumers without blocking while preserving tolerant parsing metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsePipeline.live() constructs an AsyncThrowingStream powered by StreamingBoxWalker, yielding ordered box lifecycle events with validation, research logging, and issue tracking wired for downstream consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI and SwiftUI entry points consume the stream directly with async/await, matching the architecture\u2019s distribution guidance without additional bridging layers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression coverage exercises ordered delivery and error propagation through the finalized stream so downstream integrations inherit the guarantees captured during evaluation.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The live event stream must preserve sub-200\u202fms event latency for UI consumers as committed in the PRD.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse the existing AsyncThrowingStream builder to host the real StreamingBoxWalker, ensuring metadata/environment coordinators remain connected to validators, research logging, and random-access tracking when yielding events.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit CLI and SwiftUI consumers against the finalized stream contract, adjusting adapters or documentation only if required to keep within the PRD\u2019s latency expectations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the existing interface tests (and add integration coverage if necessary) so ordered emission and failure propagation remain enforced once the live walker powers the stream.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "AsyncThrowingStream-based ParsePipeline.live()",
+      "description": "Provides an async throwing stream of ordered box lifecycle events from StreamingBoxWalker for consumers",
+      "source_line": null
+    },
+    {
+      "name": "CLI event consumer",
+      "description": "Command-line interface that subscribes to the ParsePipeline live stream using async/await and processes events",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI event consumer",
+      "description": "SwiftUI UI layer that consumes the ParsePipeline live stream asynchronously to update views",
+      "source_line": null
+    },
+    {
+      "name": "StreamingBoxWalker integration",
+      "description": "Internal walker that yields parsing events, validation, research logging, and issue tracking into the stream",
+      "source_line": null
+    },
+    {
+      "name": "Metadata/environment coordinator wiring",
+      "description": "Connects validators, research logging, and random-access tracking to the stream during event emission",
+      "source_line": null
+    },
+    {
+      "name": "Ordered delivery enforcement",
+      "description": "Guarantees that events are emitted in order and errors propagate correctly through the stream",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3238,
+    "line_count": 26
+  }
+}

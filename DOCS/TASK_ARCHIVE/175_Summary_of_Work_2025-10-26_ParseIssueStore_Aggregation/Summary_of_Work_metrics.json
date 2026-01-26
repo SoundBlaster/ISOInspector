@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/175_Summary_of_Work_2025-10-26_ParseIssueStore_Aggregation/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "ParseIssueStore aggregate must record tolerant parsing events and expose query helpers for downstream consumers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Thread ParseIssueStore through ParsePipeline, CLI environment, and ParseTreeStore to propagate tolerant parsing issues.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Surface ParseIssueStore metrics in SwiftUI ribbons once tolerant parsing UI specs are finalized.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseIssueStore aggregate",
+      "description": "Records tolerant parsing events and provides query helpers for accessing stored issues",
+      "source_line": null
+    },
+    {
+      "name": "Metrics publishing for ParseIssueStore",
+      "description": "Publishes metrics related to tolerant parsing events",
+      "source_line": null
+    },
+    {
+      "name": "Threaded ParseIssueStore through ParsePipeline",
+      "description": "Propagates tolerant parsing issues to downstream consumers via the parse pipeline",
+      "source_line": null
+    },
+    {
+      "name": "Integration with CLI environment",
+      "description": "Makes ParseIssueStore available in command-line interface operations",
+      "source_line": null
+    },
+    {
+      "name": "Integration with ParseTreeStore state",
+      "description": "Stores and exposes parsed tree issues within application state",
+      "source_line": null
+    },
+    {
+      "name": "Unit tests for ParseIssueStore behavior",
+      "description": "Provides automated test coverage for store functionality",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 927,
+    "line_count": 13
+  }
+}

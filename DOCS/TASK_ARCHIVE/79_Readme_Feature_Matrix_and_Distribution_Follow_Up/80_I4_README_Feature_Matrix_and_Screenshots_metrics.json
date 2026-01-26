@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/80_I4_README_Feature_Matrix_and_Screenshots.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Deliver a release-ready README that highlights ISOInspector\u2019s CLI, app, and library capabilities with a concise feature matrix, enumerates supported box categories, and embeds representative UI captures for prospective users.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "README gains a \u201cFeature Matrix\u201d table covering ISOInspectorKit, ISOInspectorApp, and the `isoinspect` CLI with their flagship capabilities (streaming parse, validation, export, bookmarks, automation flags).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "README lists supported platforms, file types, and major box families (e.g., container, metadata, streaming) aligned with the existing documentation and code registries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "README embeds at least one current UI screenshot illustrating the tree/detail/hex workflow, sourced from the latest DocC or simulator capture and stored in the repo\u2019s documentation assets hierarchy.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "README cross-links to the DocC manuals and guides so readers can dive deeper without navigating the repo tree manually.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The feature matrix wording must match the canonical descriptions from the CLI and app manuals.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Supported box lists in the README must stay aligned with `ISOInspectorKit` internals (container and media code enums).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Store UI screenshots under `Documentation/Assets/` or an equivalent tracked location referenced in DocC.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Run `scripts/fix_markdown.py README.md` after editing to keep formatting consistent with repository conventions.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Feature Matrix Table",
+      "description": "A table in the README listing ISOInspectorKit, ISOInspectorApp, and isoinspect CLI capabilities such as streaming parse, validation, export, bookmarks, automation flags.",
+      "source_line": null
+    },
+    {
+      "name": "Supported Platforms List",
+      "description": "Section of the README enumerating platforms, file types, and major box families (container, metadata, streaming) supported by ISOInspector.",
+      "source_line": null
+    },
+    {
+      "name": "UI Screenshot Embedding",
+      "description": "Inclusion of at least one current UI screenshot illustrating the tree/detail/hex workflow in the README, sourced from DocC or simulator captures.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Manual Cross\u2011Links",
+      "description": "Hyperlinks in the README that point to the DocC manuals and guides for deeper exploration without repo navigation.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Capability Documentation",
+      "description": "Canonical description of isoinspect CLI features derived from the CLI manual, used in the feature matrix.",
+      "source_line": null
+    },
+    {
+      "name": "App Capability Documentation",
+      "description": "Canonical description of ISOInspectorApp features derived from the App manual, used in the feature matrix.",
+      "source_line": null
+    },
+    {
+      "name": "Container Box List Reference",
+      "description": "Reference to container box enums (FourCharContainerCode) for supported box lists in the README.",
+      "source_line": null
+    },
+    {
+      "name": "Media and Index Box List Reference",
+      "description": "Reference to media/index box enums (MediaAndIndexBoxCode) for supported box lists in the README.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4654,
+    "line_count": 68
+  }
+}

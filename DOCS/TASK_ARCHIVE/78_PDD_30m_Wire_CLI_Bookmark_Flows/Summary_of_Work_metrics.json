@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/78_PDD_30m_Wire_CLI_Bookmark_Flows/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Extended ISOInspectorCLIEnvironment with audit-aware filesystem access factories so bookmark commands share a process-scoped FilesystemAccessAuditTrail while respecting telemetry toggles.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI unit tests verify that bookmark acquisition and authorization append audit events only when telemetry is enabled.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide CLI bookmark flows that consume FilesystemAccessAuditTrail events once dedicated zero-trust telemetry flags land.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FilesystemAccessAuditTrail Event Consumption",
+      "description": "CLI bookmark flows consume FilesystemAccessAuditTrail events when zero-trust telemetry flags are enabled.",
+      "source_line": null
+    },
+    {
+      "name": "Audit-Aware Filesystem Access Factories",
+      "description": "ISOInspectorCLIEnvironment provides factories that create filesystem access objects tied to a process-scoped FilesystemAccessAuditTrail, respecting telemetry toggles.",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Acquisition Audit Event Generation",
+      "description": "When a bookmark is acquired via the CLI, an authorization append audit event is emitted only if telemetry is enabled.",
+      "source_line": null
+    },
+    {
+      "name": "Hashed Audit Output for Telemetry Publishing",
+      "description": "CLI sandbox automation guide describes generating hashed audit output and how telemetry flags affect publishing of audit data.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 985,
+    "line_count": 22
+  }
+}

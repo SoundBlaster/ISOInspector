@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/33_C4_CoreData_Annotation_Persistence/C4_CoreData_Annotation_Persistence.md",
+  "n_spec": 8,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Persist user annotations and bookmarks across app sessions using CoreData so that ISOInspectorUI and ISOInspectorApp can maintain notes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CoreData model must include entities for annotations, bookmarks, and file metadata with schema migration guidance replacing the prior JSON spike.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The new store must integrate with existing SwiftUI view models so that create/update/delete flows and bookmark toggles update UI state immediately.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests must cover persistence round-trips, conflict handling, and integration with the random-access payload annotation provider.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Persisted data must survive app relaunch and remain compatible with planned session persistence work (E3) without regressions in existing tests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "CoreData stack initialization must work in both macOS/iOS app contexts and SwiftUI previews/tests, ensuring required container configuration is documented.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a private-queue CoreData stack with programmatic model definitions for files, annotations, and bookmarks instead of JSON storage.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Design fetch/update APIs that align with the current in-memory store protocol to minimize UI consumer changes.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CoreData Model Definition",
+      "description": "Defines entities for annotations, bookmarks, and file metadata with schema migration guidance",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Store Initialization",
+      "description": "Initializes a private\u2011queue CoreData stack usable on macOS/iOS and SwiftUI previews/tests",
+      "source_line": null
+    },
+    {
+      "name": "Fetch API for Annotations",
+      "description": "Retrieves annotations for a given file from the persistent store",
+      "source_line": null
+    },
+    {
+      "name": "Update API for Annotations",
+      "description": "Creates or updates annotation records in CoreData, reflecting changes immediately to UI",
+      "source_line": null
+    },
+    {
+      "name": "Delete API for Annotations",
+      "description": "Removes annotation records from the store and updates UI state",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Toggle API",
+      "description": "Adds or removes bookmarks for a file, persisting the change and updating UI instantly",
+      "source_line": null
+    },
+    {
+      "name": "Multi\u2011File Separation Logic",
+      "description": "Ensures annotations/bookmarks are isolated per file in persistence layer",
+      "source_line": null
+    },
+    {
+      "name": "Conflict Handling Mechanism",
+      "description": "Detects and resolves missing record conflicts during round\u2011trip tests",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite",
+      "description": "Tests persistence round\u2011trips, conflict handling, and integration with random\u2011access payload provider",
+      "source_line": null
+    },
+    {
+      "name": "DocC Documentation Update",
+      "description": "Describes annotation workflows and storage path in developer docs",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3130,
+    "line_count": 73
+  }
+}

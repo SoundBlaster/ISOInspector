@@ -1,0 +1,38 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/125_C15_Metadata_Box_Coverage/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement baseline metadata box coverage for udta, meta (handler), keys, and ilst atoms to surface simple string/integer payloads for CLI export while preserving handler mappings documented in DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Baseline metadata box coverage must expose simple string or integer payloads for the specified atoms (udta, meta, keys, ilst) and preserve handler mappings as per documentation.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Handler mappings documented in DOCS/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser must always be preserved when exposing metadata payloads.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Metadata Box Coverage for udta, meta, keys, ilst",
+      "description": "Provides CLI export of simple string/integer payloads from specified atoms while preserving handler mappings",
+      "source_line": null
+    },
+    {
+      "name": "Validation Rule #15 for stsc/stsz/stz2/stco/co64 mismatch detection",
+      "description": "Flags mismatches between chunk runs, sample sizes, and offsets and reports edit list duration diagnostics",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 756,
+    "line_count": 9
+  }
+}

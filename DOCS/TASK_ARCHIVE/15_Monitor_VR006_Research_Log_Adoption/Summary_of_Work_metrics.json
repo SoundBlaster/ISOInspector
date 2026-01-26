@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/15_Monitor_VR006_Research_Log_Adoption/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a CLI schema banner that displays VR-006 research log fields for both CLI and UI consumers",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Enable programmatic audit of stored research log files to verify conformance to the supported schema via ResearchLogMonitor.audit(logURL:)",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Schema Banner",
+      "description": "Displays a banner in the CLI that shows the VR-006 research log schema fields sourced from ResearchLogSchema",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogMonitor.audit(logURL:)",
+      "description": "Programmatic checkpoint that verifies stored research log files conform to the supported VR-006 schema",
+      "source_line": null
+    },
+    {
+      "name": "UI Integration of Audit Helper via ResearchLogPreviewProvider",
+      "description": "Integrates the audit helper into SwiftUI previews for visual inspection",
+      "source_line": null
+    },
+    {
+      "name": "UI Smoke Telemetry Test (ResearchLogTelemetrySmokeTests)",
+      "description": "Watches UI for missing VR-006 entries during smoke testing",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 905,
+    "line_count": 29
+  }
+}

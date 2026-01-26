@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/188_T3_3_Integrity_Detail_Pane/T3_3_Integrity_Detail_Pane.md",
+  "n_spec": 7,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add a dedicated \"Corruption\" section to the inspector detail pane so investigators can review tolerant parsing diagnostics for the selected node without leaving the primary workflow.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting a node with ParseIssue entries reveals a \"Corruption\" section summarizing each issue (severity icon, error code, message, byte range).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Byte offsets, lengths, and reason codes are copyable via standard text selection or explicit copy actions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Issue rows expose affordances to jump to the associated hex range or open follow-up actions when available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver announces the section heading and each issue row with severity context and actionable hints, matching accessibility guidance from prior tolerant parsing tasks.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a dedicated CorruptionIssueSection component used by DetailView when node issues non\u2011empty.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse CorruptionIssueRow presentation patterns established in the badge work, ensuring severity color tokens and iconography\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Corruption Section in Inspector Detail Pane",
+      "description": "Displays a list of parsing issues for the selected node, including severity icon, error code, message, and byte range.",
+      "source_line": null
+    },
+    {
+      "name": "Copyable Byte Offsets and Lengths",
+      "description": "Allows users to copy byte offsets, lengths, and reason codes via text selection or explicit copy actions.",
+      "source_line": null
+    },
+    {
+      "name": "Jump to Hex Range Action",
+      "description": "Provides a button or link in each issue row that navigates the user to the corresponding hex range using the existing hex jump mechanism.",
+      "source_line": null
+    },
+    {
+      "name": "Follow-up Actions for Issues",
+      "description": "Exposes additional actions when available for a given parsing issue, such as opening related workflows.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Accessibility Support",
+      "description": "Announces section heading and each issue row with severity context and actionable hints to aid screen reader users.",
+      "source_line": null
+    },
+    {
+      "name": "CorruptionIssueSection Component",
+      "description": "A reusable SwiftUI view that renders the corruption issues list within DetailView when node.issues is not empty.",
+      "source_line": null
+    },
+    {
+      "name": "CorruptionIssueRow Presentation",
+      "description": "Reuses existing badge patterns for severity color tokens and iconography in each issue row.",
+      "source_line": null
+    },
+    {
+      "name": "Integration with DocumentVM/NodeVM Hex Jump",
+      "description": "Wires callbacks so tapping \"View in Hex\" forwards to the hex jump mechanism without breaking strict mode behavior.",
+      "source_line": null
+    },
+    {
+      "name": "Selectable Text Views on macOS/iPadOS",
+      "description": "Ensures Text views are selectable/copyable and provide context menu actions for copy functionality.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2644,
+    "line_count": 31
+  }
+}

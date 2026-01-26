@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/2025-10-21-track-fragment-header.md",
+  "n_spec": 4,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expose structured parsing for tfhd so fragment run metadata includes track defaults across Kit, CLI, and JSON export surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Public Kit API added/changed: ParsedBoxPayload.Detail.trackFragmentHeader, ParsedBoxPayload.TrackFragmentHeaderBox",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Call sites updated: CLI EventConsoleFormatter, JSON exporter snapshot fixture",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Backward compatibility: additive parsing and formatting; existing fields remain intact",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsedBoxPayload.Detail.trackFragmentHeader",
+      "description": "Provides structured access to track fragment header information within parsed box payloads",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload.TrackFragmentHeaderBox",
+      "description": "Represents the parsed track fragment header box data structure",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry+MovieFragments",
+      "description": "Registers and parses movie fragment boxes, including tfhd parsing",
+      "source_line": null
+    },
+    {
+      "name": "JSONParseTreeExporter",
+      "description": "Exports parsed box payloads to JSON format, including track fragment header details",
+      "source_line": null
+    },
+    {
+      "name": "EventConsoleFormatter",
+      "description": "Formats event console output for CLI, incorporating track fragment header information",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1055,
+    "line_count": 21
+  }
+}

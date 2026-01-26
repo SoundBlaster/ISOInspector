@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/200_T3_7_Integrity_Navigation_Filters.md",
+  "n_spec": 10,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Investigator can navigate from an Integrity tab issue to the affected node in the Explorer outline.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Investigators can hide healthy branches and view only issue-bearing nodes using an \"Issues only\" filter toggle.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Keyboard shortcuts (Cmd+Shift+E / Cmd+Shift+Option+E) allow cycling through issue-bearing nodes in document order.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting an Integrity issue expands ancestors, focuses the Explorer outline on the affected node, and maintains stable handoff between Integrity and Explorer tabs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The \"Issues only\" toggle hides healthy branches while preserving sibling context for affected nodes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Keyboard shortcuts cycle through issue-bearing nodes without conflicting with existing focus shortcuts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests and preview\u2011driven QA cover the new filter mode and navigation helpers, ensuring deterministic behavior across fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The ParseTreeOutlineViewModel must always expose a consistent set of rows that include the affected node when an issue is selected.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a showsOnlyIssues flag in ParseTreeOutlineFilter to control visibility of healthy branches.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use existing navigation helpers (rowID\u00a0after\u00a0..\u00a0\u2026) and view model\u2011based navigation coordinator for keyboard shortcuts.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Integrity Issue Navigation",
+      "description": "Allows selecting an integrity issue to expand ancestor nodes and focus the outline view on the affected node.",
+      "source_line": null
+    },
+    {
+      "name": "Issues-Only Filter Toggle",
+      "description": "Toolbar toggle that shows only nodes with integrity issues, hiding healthy branches while preserving sibling context.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Navigation Shortcuts",
+      "description": "Cmd+Shift+E / Cmd+Shift+Option+E shortcuts to cycle through issue-bearing nodes in document order using view model helpers.",
+      "source_line": null
+    },
+    {
+      "name": "Outline View Model Helpers",
+      "description": "Functions such as rowID(after:direction:) and navigation utilities exposed on ParseTreeOutlineViewModel for navigating and revealing nodes.",
+      "source_line": null
+    },
+    {
+      "name": "Filter State Management",
+      "description": "ParseTreeOutlineFilter includes a showsOnlyIssues flag to control visibility of issue nodes in the outline.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for Outline View Model",
+      "description": "Test suite covering filter mode, navigation helpers, and deterministic behavior across fixtures.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5941,
+    "line_count": 38
+  }
+}

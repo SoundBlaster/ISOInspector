@@ -1,0 +1,138 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/232_MacOS_iPadOS_MultiWindow_SharedState_Bug/231_MacOS_iPadOS_MultiWindow_SharedState_Bug.md",
+  "n_spec": 10,
+  "n_func": 15,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a user of ISOInspector on macOS/iPadOS, I want each window to maintain its own independent state for file selection, detail views, and other session-specific properties so that actions in one window do not affect the others.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "When multiple windows are open, changing the selected file in one window does not change the selection in any other window.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each window displays its own document and detail panel content independently of other windows.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Hex viewer scroll position, search state, and tree view selections are isolated per window.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Closing a window does not close the documents open in other windows.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each window persists its own state on close and restores it correctly when reopened.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The application must never share mutable document or UI state between windows; all shared data is read\u2011only or isolated per window.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Replace the singleton DocumentSessionController with a per-window WindowState (WindowSessionController) that holds independent DocumentViewModel, TreeOutlineViewModel, DetailPanelViewModel, HexViewerViewModel, and SearchViewModel instances.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use @SceneStorage or per\u2011scene environment objects to persist window\u2011specific state across launches.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Keep a shared app-level controller (appSessionController) for global data such as recents, preferences, and export functionality, while delegating document-specific operations to the per-window controller.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ISOInspectorApp",
+      "description": "Application entry point initializing shared app-level state and window group.",
+      "source_line": null
+    },
+    {
+      "name": "WindowGroup",
+      "description": "SwiftUI WindowGroup that creates a new window for each document session.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentView",
+      "description": "Main view hierarchy displaying ISO contents, tree outline, detail panel, hex viewer, and search UI.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentSessionController",
+      "description": "Shared singleton controller managing global app state such as recent documents and preferences.",
+      "source_line": null
+    },
+    {
+      "name": "WindowSessionController",
+      "description": "Per-window controller holding independent document state, parse tree store, annotation session, and view models.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentViewModel",
+      "description": "Observable object representing the current ISO document, its parse tree, and UI selections within a window.",
+      "source_line": null
+    },
+    {
+      "name": "TreeOutlineViewModel",
+      "description": "State for expanded/collapsed nodes in the file tree view.",
+      "source_line": null
+    },
+    {
+      "name": "DetailPanelViewModel",
+      "description": "State for detail panel content, scroll position, and selected details.",
+      "source_line": null
+    },
+    {
+      "name": "HexViewerViewModel",
+      "description": "State for hex viewer scroll position, selection, and rendering options.",
+      "source_line": null
+    },
+    {
+      "name": "SearchViewModel",
+      "description": "State for search query, results, and navigation within a document.",
+      "source_line": null
+    },
+    {
+      "name": "PreferencesStore",
+      "description": "Observable object storing user preferences such as theme, font size, and other UI settings.",
+      "source_line": null
+    },
+    {
+      "name": "ExportJSONCommand",
+      "description": "Command to export the current document\u2019s data to JSON format.",
+      "source_line": null
+    },
+    {
+      "name": "ExportIssueSummaryCommand",
+      "description": "Command to export a summary of issues found in the current document.",
+      "source_line": null
+    },
+    {
+      "name": "AppShellView",
+      "description": "Wrapper view that injects per-window WindowSessionController and shared app-level controller into the UI hierarchy.",
+      "source_line": null
+    },
+    {
+      "name": "UnitTests",
+      "description": "Automated tests verifying independent window state, parse tree isolation, and export functionality.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 14972,
+    "line_count": 377
+  }
+}

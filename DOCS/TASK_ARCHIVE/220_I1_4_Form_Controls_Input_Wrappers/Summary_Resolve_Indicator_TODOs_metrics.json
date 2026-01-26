@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/220_I1_4_Form_Controls_Input_Wrappers/Summary_Resolve_Indicator_TODOs.md",
+  "n_spec": 8,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate DS.Indicator component into ISOInspectorApp views to provide compact visual status cues alongside existing badges.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Indicator component must be added in ParseTreeDetailView.swift at lines 143-179 with size .small and spacing DS.Spacing.s, including accessibility label and tooltip.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Indicator component must be added in ParseTreeOutlineView.swift at lines 550-654 with size .mini and spacing DS.Spacing.xs, including accessibility label and tooltip.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Both indicators use descriptorBadgeLevel() helper to map status levels to BadgeLevel equivalents (info, warning, error, success).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All @todo #I1.1 markers are removed from the source files.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Indicator component must not increase row height or alter layout beyond specified spacing.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Accessibility labels and tooltips must be fully configured for VoiceOver support.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use existing FoundationUI Indicator component instead of creating a new one, reusing design tokens DS.Spacing.s/xs.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeDetailView Metadata Status Row",
+      "description": "Displays metadata rows in the parse tree detail view with a small DS.Indicator dot and a ParseTreeStatusBadge, providing compact visual status cues, accessibility labels, and tooltips.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeOutlineView Tree Node Status",
+      "description": "Shows tree nodes in the parse tree outline view with a mini DS.Indicator dot next to a ParseTreeStatusBadge, offering ultra-compact status indicators, minimal spacing, accessibility support, and tooltips.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 7284,
+    "line_count": 201
+  }
+}

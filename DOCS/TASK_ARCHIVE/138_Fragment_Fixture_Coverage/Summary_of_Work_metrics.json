@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/138_Fragment_Fixture_Coverage/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add synthetic fragment fixtures covering multi-`trun` aggregation, negative `data_offset` handling, and fragments without `tfdt` while exercising version 0 composition offsets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Generated new base64 fixtures (`fragmented_multi_trun`, `fragmented_negative_offset`, `fragmented_no_tfdt`) via `generate_fixtures.py` and registered them in `Tests/ISOInspectorKitTests/Fixtures/catalog.json` with descriptive tags and expectations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Extended `FixtureCatalogExpandedCoverageTests`, `JSONExportSnapshotTests`, and the new `FragmentFixtureCoverageTests` to assert run aggregation, decode-time defaults, and CLI/export snapshots for the additional fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Updated catalog metadata, fixture documentation, and JSON snapshot baselines so validator, CLI, and export flows incorporate the new assets.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Documented regeneration steps in `Documentation/FixtureCatalog/README.md` and `Tests/ISOInspectorKitTests/Fixtures/README.md`; marked the puzzle as complete in `DOCS/INPROGRESS/next_tasks.md`",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Verify by running `swift test --filter FragmentFixtureCoverageTests` and `swift test --filter JSONExportSnapshotTests`. ",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Fragment Fixture Coverage",
+      "description": "Provides synthetic fragment fixtures covering multi-trun aggregation, negative data_offset handling, and fragments without tfdt while exercising version 0 composition offsets.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Catalog Registration",
+      "description": "Registers new base64 fixtures in the catalog with descriptive tags and expectations for use by validator, CLI, and export flows.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Coverage Tests",
+      "description": "Runs tests to assert run aggregation, decode-time defaults, and CLI/export snapshots for additional fixtures.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Snapshot Tests",
+      "description": "Validates JSON export snapshots against baseline data for the new fixtures.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation of Regeneration Steps",
+      "description": "Documents steps to regenerate fixtures in README files and marks puzzle completion.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1233,
+    "line_count": 13
+  }
+}

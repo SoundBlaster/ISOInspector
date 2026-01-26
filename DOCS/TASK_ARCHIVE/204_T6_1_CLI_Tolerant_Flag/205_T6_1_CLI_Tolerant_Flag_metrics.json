@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/204_T6_1_CLI_Tolerant_Flag/205_T6_1_CLI_Tolerant_Flag.md",
+  "n_spec": 10,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a CLI user of isoinspect, I want to be able to enable tolerant parsing via a --tolerant flag so that corruption diagnostics can be gathered without aborting the run.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a CI script runner, I want the default behavior to remain strict mode unless explicitly overridden, ensuring reliable exit codes and error handling.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The isoinspect command accepts a --tolerant flag (and an inverse --strict flag) and defaults to strict behavior when unspecified.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI help text and documentation explain the tolerant mode, its defaults, and how it interacts with existing logging/export options.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tolerant runs surface corruption summaries using existing metrics without regressing strict-mode exits or error codes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests cover tolerant flag parsing and ensure strict mode remains default for CI-friendly invocations.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The --tolerant and --strict flags are mutually exclusive in the ArgumentParser configuration.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the ArgumentParser command configuration to add mutually exclusive tolerant/strict flags, mapping into ParsePipeline.Options presets already shipped for the app/SDK.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wire the chosen mode into CLI execution so tolerant runs reuse ParseIssueStore summaries in final output.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Refresh CLI documentation (DocC manual and --help) to describe the new switches and defaults.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "--tolerant flag",
+      "description": "CLI option to enable lenient parsing for corruption diagnostics",
+      "source_line": null
+    },
+    {
+      "name": "--strict flag",
+      "description": "CLI option to enforce strict parsing, inverse of tolerant mode",
+      "source_line": null
+    },
+    {
+      "name": "ArgumentParser configuration update",
+      "description": "Adds mutually exclusive tolerant/strict flags mapped to ParsePipeline.Options presets",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant mode execution wiring",
+      "description": "Integrates chosen mode into CLI workflow, reusing ParseIssueStore summaries in output",
+      "source_line": null
+    },
+    {
+      "name": "CLI help text and documentation update",
+      "description": "Describes tolerant/strict switches, defaults, and interaction with logging/export options",
+      "source_line": null
+    },
+    {
+      "name": "Regression tests for tolerant flag parsing",
+      "description": "Unit/integration tests ensuring correct behavior of tolerant vs strict invocations",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2630,
+    "line_count": 29
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/33_C4_CoreData_Annotation_Persistence/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Users can add, edit, delete notes and toggle bookmarks in SwiftUI outline/detail views with live updates.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "CoreData-backed store must persist files, annotations, and bookmarks correctly across create/update/delete operations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All persistence tests (AnnotationBookmarkStoreTests) for create, update, delete, bookmark flows pass, including conflict handling and multi-file isolation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a programmatically-defined CoreData model covering files, annotations, and bookmarks instead of a pre-built .xcdatamodeld file.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CoreDataAnnotationBookmarkStore",
+      "description": "Provides persistence for files, annotations, and bookmarks using a programmatically-defined CoreData model.",
+      "source_line": null
+    },
+    {
+      "name": "AnnotationBookmarkStoreTests",
+      "description": "Unit tests covering create, update, delete, bookmark flows, conflict handling, and multi-file isolation for the CoreData-backed store.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Outline View Integration",
+      "description": "Allows users to view and edit annotations and bookmarks in an outline UI with live updates.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Detail View Integration",
+      "description": "Provides a detail screen where users can add, edit, delete notes and toggle bookmarks.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 997,
+    "line_count": 23
+  }
+}

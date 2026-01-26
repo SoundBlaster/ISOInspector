@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/191_T3_5_Contextual_Status_Labels/T3_5_Contextual_Status_Labels.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Surface contextual status labels (Invalid, Empty, Corrupted, Partial, Trimmed) in both the outline tree and detail inspector so tolerant parsing metadata is actionable at a glance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline rows display localized, color-coded status chips for nodes flagged as invalid, empty, corrupted, partial, or trimmed, meeting contrast and VoiceOver labeling guidance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Detail inspector presents the same status chip near the corruption guidance block, keeping copy and announcements in sync across panes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Status chips respond to ParseIssueStore updates without manual refresh, preserving tolerant parsing live-update behavior and snapshot baselines.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Status-to-severity mapping matches tolerant parsing definitions in the execution workplan and archived T3.4 notes before hard-coding colors or labels.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse badge styling foundations from the T3.2/T3.4 outline work (spacing, typography, accessibility modifiers) to avoid regressions.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Shared components or strings live in ISOInspectorUI modules rather than ad-hoc view code.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Outline Status Chip Display",
+      "description": "Shows localized, color\u2011coded status chips (Invalid, Empty, Corrupted, Partial, Trimmed) next to outline tree rows based on ParseTreeNode.status",
+      "source_line": null
+    },
+    {
+      "name": "Detail Inspector Status Chip",
+      "description": "Presents the same status chip near the corruption guidance block in the detail inspector pane",
+      "source_line": null
+    },
+    {
+      "name": "Live Update Integration with ParseIssueStore",
+      "description": "Status chips automatically update in response to changes emitted by ParseIssueStore without manual refresh",
+      "source_line": null
+    },
+    {
+      "name": "Shared Styling and Accessibility Module",
+      "description": "Reuses badge styling, spacing, typography, and accessibility modifiers from ISOInspectorUI modules for consistency across outline, detail inspector, integrity tab, and export ribbons",
+      "source_line": null
+    },
+    {
+      "name": "Status-to-Severity Mapping Validation",
+      "description": "Ensures status-to-severity mapping matches tolerant parsing definitions before hard\u2011coding colors or labels",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2339,
+    "line_count": 27
+  }
+}

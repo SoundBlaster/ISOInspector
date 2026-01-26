@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/178_Snapshot_and_CLI_Fixture_Maintenance/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "VoiceOver regression pass must confirm focus command menus announce controls and restore focus targets on macOS and iPadOS hardware.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Real-World Assets task requires securing Dolby Vision, AV1, VP9, Dolby AC-4 and MPEG-H fixtures before regression baselines can shift from synthetic payloads.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Snapshot & CLI Fixture Maintenance must export metrics alongside parse trees with refreshed JSON snapshots and maintain CLI fixture assertions.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Future schema updates will use ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests to regenerate snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Surface ParseIssueStore metrics in SwiftUI ribbons once tolerant parsing UI specs are finalized.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Verify that focus command menus announce controls and restore focus targets on macOS and iPadOS hardware",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Licensing",
+      "description": "Secure licensing approvals for Dolby Vision, AV1, VP9, Dolby AC\u20114, and MPEG\u2011H fixtures to enable regression baselines with real-world media",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & CLI Fixture Maintenance",
+      "description": "Export metrics alongside parse trees in refreshed JSON snapshots and maintain CLI fixture assertions using ISOINSPECTOR_REGENERATE_SNAPSHOTS environment variable",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing Metrics UI",
+      "description": "Display ParseIssueStore metrics in SwiftUI ribbons once tolerant parsing UI specifications are finalized",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1161,
+    "line_count": 11
+  }
+}

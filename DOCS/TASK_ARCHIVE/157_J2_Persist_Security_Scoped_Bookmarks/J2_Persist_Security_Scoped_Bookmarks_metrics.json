@@ -1,0 +1,118 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/157_J2_Persist_Security_Scoped_Bookmarks/J2_Persist_Security_Scoped_Bookmarks.md",
+  "n_spec": 13,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Restore previously authorized files across sessions using FilesystemAccessKit bookmarks",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Heal stale bookmark entries and prompt user for remediation",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Align audit logging with zero-trust policies by recording hashed events for each lifecycle transition",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Session restoration must reopen prior documents without manual re-authorization when files remain available",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Stale or invalid bookmarks trigger deterministic cleanup and user prompts, with remediation logged using hashed identifiers and covered by regression tests",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Recent-files lists and CLI automation guides document the refreshed workflow, including export/import of bookmark data for headless scenarios",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated tests confirm scopes are activated and revoked exactly once per access and that audit events mirror CLI coverage",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Bookmark persistence records must map to the session controller without duplicating scope ownership",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Legacy recents entries must reference bookmark IDs after migration",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use CoreData or JSON for BookmarkStore persistence, ensuring mapping to session controller",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement backfill scripts for legacy data lacking audit metadata",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend FilesystemAccessKit error handling to classify stale bookmark failures and emit structured diagnostics",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update documentation and cross\u2011reveal?",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FilesystemAccessKit Bookmark Ledger",
+      "description": "Manages security-scoped URLs, persists consent, and records hashed audit events for every lifecycle transition",
+      "source_line": null
+    },
+    {
+      "name": "Session Restoration via Bookmarks",
+      "description": "Restores previously authorized files across sessions using stored bookmarks without manual re-authorization",
+      "source_line": null
+    },
+    {
+      "name": "Stale/Invalid Bookmark Cleanup",
+      "description": "Detects stale or invalid bookmarks, triggers deterministic cleanup, prompts user, logs remediation with hashed identifiers",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Migration and Backfill",
+      "description": "Migrates legacy recent-file entries to reference bookmark IDs and backfills missing audit metadata",
+      "source_line": null
+    },
+    {
+      "name": "Error Handling for Bookmark Resolution",
+      "description": "Classifies stale bookmark resolution failures, surfaces actionable recovery in UI, emits structured diagnostics",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Rotation & Revocation Workflow",
+      "description": "Provides UI and CLI guidance for rotating and revoking bookmarks, including headless authorization flows",
+      "source_line": null
+    },
+    {
+      "name": "Audit Logging of Access Events",
+      "description": "Logs hashed identifiers for each access event, ensuring audit events mirror CLI coverage",
+      "source_line": null
+    },
+    {
+      "name": "Automated Test Suites",
+      "description": "Unit, UI, and integration tests confirming scope activation/revocation, ledger edge cases, and hashed logging output",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2810,
+    "line_count": 29
+  }
+}

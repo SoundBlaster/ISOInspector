@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/174_T2_1_ParseIssueStore_Aggregation/T2_1_ParseIssueStore_Aggregation.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Create a shared ParseIssueStore aggregate that captures tolerant parsing issues during streaming runs and exposes them to CLI and SwiftUI consumers with real-time metrics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseIssueStore records issues emitted by tolerant parsing pipelines, supports queries by node identifier and byte range, and publishes metrics summarizing severity counts and deepest affected depth.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming parse workflows pass a store instance through ValidationContext, ensuring CLI summaries and SwiftUI observers receive issue updates without additional bookkeeping.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and integration tests cover recording, querying, and metric computation paths, including concurrent issue emissions that drive UI refreshes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParseIssueStore must be an ObservableObject with @Published issue collections and IssueMetrics struct for summary ribbons.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Thread the store through ParsePipeline and ValidationContext so validators and traversal hooks register issues centrally instead of mutating ParseTreeNode arrays directly.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update the Combine bridge (ParseTreeStore, CLI capture utilities) to observe the new store and react to @Published metrics, preparing downstream tasks without implementing them yet.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseIssueStore aggregate",
+      "description": "Observable object that records tolerant parsing issues by node and byte range, publishes issue collections and metrics for UI and CLI",
+      "source_line": null
+    },
+    {
+      "name": "IssueMetrics struct",
+      "description": "Lightweight summary of severity counts and deepest affected depth exposed by ParseIssueStore",
+      "source_line": null
+    },
+    {
+      "name": "Query helpers",
+      "description": "Functions to retrieve issues from ParseIssueStore filtered by node identifier or byte range",
+      "source_line": null
+    },
+    {
+      "name": "Combine bridge integration",
+      "description": "Connects ParseIssueStore to ValidationContext, ParsePipeline, CLI capture utilities and SwiftUI observers via @Published properties",
+      "source_line": null
+    },
+    {
+      "name": "Unit and integration tests for store",
+      "description": "Tests covering recording, querying, metric computation, concurrent emissions and ordering",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3236,
+    "line_count": 29
+  }
+}

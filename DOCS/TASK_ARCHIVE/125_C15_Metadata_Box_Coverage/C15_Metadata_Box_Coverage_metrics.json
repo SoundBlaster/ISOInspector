@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/125_C15_Metadata_Box_Coverage/C15_Metadata_Box_Coverage.md",
+  "n_spec": 9,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement baseline parsing and export coverage for QuickTime metadata boxes (udta, meta with handler metadata, keys, and ilst) so the CLI can surface simple string and integer tags while preserving handler mappings captured in prior handler parser work.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxParserRegistry registers parsers for udta, meta, keys, and ilst boxes with baseline decoding for UTF-8 strings and integer payloads documented in MP4RA.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Handler mapping from the meta box correctly ties parsed ilst entries to the owning namespace (e.g., mdta, mdir Apple tags).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI export output includes the decoded metadata pairs in JSON/terminal formats with regression fixtures refreshed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and fixture tests cover representative tags (\u00a9nam, \u00a9day, integer values) and confirm graceful fallback for unsupported value types.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parsers emit structured warnings for unknown key types but do not block traversal.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse FullBoxReader utilities for version/flags handling in meta, keys, and ilst payloads.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Leverage metadata planning artifacts to align exported field names and CLI formatting expectations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update fixture generation scripts to include sample udta/meta/ilst structures and extend validation suites accordingly.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxParserRegistry Registration for Metadata Boxes",
+      "description": "Registers parsers for 'udta', 'meta', 'keys', and 'ilst' boxes to enable baseline decoding of UTF-8 strings and integer payloads.",
+      "source_line": null
+    },
+    {
+      "name": "Meta Box Handler Mapping",
+      "description": "Extracts handler codes from the 'meta' box and associates parsed 'ilst' entries with their owning namespace (e.g., mdta, mdir Apple tags).",
+      "source_line": null
+    },
+    {
+      "name": "CLI Export of Decoded Metadata",
+      "description": "Outputs decoded metadata key-value pairs in JSON or terminal formats via the CLI, including string and integer tags.",
+      "source_line": null
+    },
+    {
+      "name": "Structured Warning Emission for Unknown Key Types",
+      "description": "Generates structured warnings when encountering unsupported value types during parsing without halting traversal.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Generation for Metadata Structures",
+      "description": "Creates sample 'udta/meta/ilst' structures and updates validation suites to support regression testing of metadata parsing.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2583,
+    "line_count": 35
+  }
+}

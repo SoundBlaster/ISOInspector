@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/08_Metadata_Driven_Validation_and_Reporting/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Outline the additional downstream parser follow-ups now unlocked by real-time streaming events (e.g., catalog integration test coverage and fallback handling).",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Wire the console formatter into an inspect command so validation summaries appear in the CLI pipeline.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Downstream Parser Follow-Ups",
+      "description": "Provides real-time streaming event-driven parsing for downstream processes such as catalog integration test coverage and fallback handling.",
+      "source_line": null
+    },
+    {
+      "name": "Console Formatter Integration",
+      "description": "Adds a console formatter to the inspect command, displaying validation summaries in the CLI pipeline.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 295,
+    "line_count": 7
+  }
+}

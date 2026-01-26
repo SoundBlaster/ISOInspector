@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement CLI batch mode and CSV summary export for Task D4",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Task D4 must be completed after Task D2 is finished and ready for batch orchestration work",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "CLI batch mode and CSV summary export functionality should not depend on incomplete tasks other than Task D2",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Batch orchestration will be handled separately from the CLI batch mode implementation",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1322,
+    "line_count": 14
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/Phase3.2_SurfaceStyleKey.md",
+  "n_spec": 10,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a SwiftUI EnvironmentKey for Material backgrounds to enable environment-based surface styling throughout the FoundationUI component hierarchy.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests written and passing",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SurfaceStyleKey EnvironmentKey implemented",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "EnvironmentValues extension created",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Default value set to .regular",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "View extension for environment modifier",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftUI Preview included",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "DocC documentation complete",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Zero magic numbers (use Material enum values)",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Platform support verified (iOS/macOS/iPadOS)",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SurfaceStyleKey EnvironmentKey",
+      "description": "Provides a SwiftUI environment key for Material background styling with default .regular value.",
+      "source_line": null
+    },
+    {
+      "name": "EnvironmentValues.surfaceStyle property",
+      "description": "Extension to access and modify the surfaceStyle environment value.",
+      "source_line": null
+    },
+    {
+      "name": "View.surfaceStyle(_:) modifier",
+      "description": "Convenience view modifier that sets the surfaceStyle environment value for a view and its children.",
+      "source_line": null
+    },
+    {
+      "name": "Unit tests for SurfaceStyleKey",
+      "description": "Tests verifying default value, environment read/write, and support for all Material variants.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Previews for SurfaceStyleKey",
+      "description": "Previews demonstrating hierarchy propagation, environment reading, and dark mode behavior.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 9683,
+    "line_count": 344
+  }
+}

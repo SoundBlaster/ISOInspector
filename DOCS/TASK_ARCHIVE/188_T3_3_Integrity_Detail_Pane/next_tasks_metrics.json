@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/188_T3_3_Integrity_Detail_Pane/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with T3.4 placeholder node work so corruption diagnostics can link into placeholder actions when expected children are missing.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Expand tolerant parsing fixtures with deep-offset corruption cases to validate the adaptive hex window logic introduced for issue jumps.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Coordinate Placeholder Node Work",
+      "description": "Integrate corruption diagnostics with placeholder actions for missing expected children",
+      "source_line": null
+    },
+    {
+      "name": "Expand Tolerant Parsing Fixtures",
+      "description": "Add deep-offset corruption cases to test adaptive hex window logic for issue jumps",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 304,
+    "line_count": 4
+  }
+}

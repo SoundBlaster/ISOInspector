@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/196_T3_6_Integrity_Summary_Tab/T3_6_Integrity_Summary_Tab.md",
+  "n_spec": 9,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Deliver a dedicated Integrity tab that consolidates all recorded ParseIssue entries into a sortable, filterable table and exposes exports so operators can triage corruption without scanning the outline manually.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integrity tab appears alongside the tree/detail panes and lists aggregated ParseIssue rows with default severity sorting plus controls to sort by offset and affected node.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Severity filters adjust the table contents while keeping ribbon counts (ParseIssueStore.IssueMetrics) and the detail pane badges in sync.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting a table row focuses the associated node in the outline and detail panes using the existing navigation APIs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Share/Export actions invoked from the tab reuse the document-level plaintext and JSON exporters, and exported counts match the tab and ribbon totals.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "UI automation or snapshot coverage verifies that a corrupt fixture displays the expected issue count in the tab and that exports succeed for both full-document and selection scopes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParseIssueStore aggregates tolerant parsing diagnostics with severity counts following T2.1 and T2.3, enabling ribbon updates and Share sheet summaries without recomputation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce IntegritySummaryView (SwiftUI) under Sources/ISOInspectorApp backed by a lightweight view model that observes ParseIssueStore.issues and metrics snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ParseTreeExplorerView/AppShellView to include the new tab alongside existing tree/detail/hex content, ensuring tab state updates DocumentSessionController.focusIntegrityDiagnostics()",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Integrity Summary Tab",
+      "description": "A UI tab that displays a sortable and filterable table of all ParseIssue entries for the current document.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssueStore Observation",
+      "description": "The view model observes ParseIssueStore.issues and IssueMetrics to provide real-time data to the Integrity Summary Tab.",
+      "source_line": null
+    },
+    {
+      "name": "Severity Sorting and Filtering Controls",
+      "description": "UI controls that allow users to sort the issue table by severity, offset, or affected node, and filter by severity levels.",
+      "source_line": null
+    },
+    {
+      "name": "Row Selection Navigation",
+      "description": "Selecting a row in the table focuses the associated node in the document outline and detail panes via DocumentSessionController APIs.",
+      "source_line": null
+    },
+    {
+      "name": "Export Issue Summary Actions",
+      "description": "Share/Export buttons that invoke DocumentSessionController.exportIssueSummary(scope:) for plaintext export and exportJSON(scope:) for JSON export, reusing existing exporters.",
+      "source_line": null
+    },
+    {
+      "name": "Tab State Management",
+      "description": "The tab state updates DocumentSessionController.focusIntegrityDiagnostics() to keep the UI in sync with the current document session.",
+      "source_line": null
+    },
+    {
+      "name": "UI Automation & Snapshot Tests",
+      "description": "Automated tests that verify correct issue counts, table rendering, filter interactions and export functionality for both full-document and selection scopes.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3007,
+    "line_count": 32
+  }
+}

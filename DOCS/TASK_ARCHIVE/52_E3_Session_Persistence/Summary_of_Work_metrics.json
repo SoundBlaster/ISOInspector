@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/52_E3_Session_Persistence/Summary_of_Work.md",
+  "n_spec": 7,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Persist workspace sessions alongside annotations in CoreData",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide shared WorkspaceSessionSnapshot models with JSON-backed fallback store and automatic restoration/persistence via DocumentSessionController",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Capture latest focused node in workspace snapshots without reopening files by subscribing to bookmark selection changes",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CoreData migration, file-backed persistence, and controller restoration flows must be covered by regression tests",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Workspace session data should always be consistent with CoreData annotations",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use JSON-backed fallback store for WorkspaceSessionSnapshot models",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Integrate automatic restoration/persistence through DocumentSessionController",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CoreData Annotation Bookmark Store Persistence",
+      "description": "Extends CoreData schema to persist workspace sessions, annotations, and related entities, providing restoration APIs.",
+      "source_line": null
+    },
+    {
+      "name": "Workspace Session Snapshot Model",
+      "description": "Shared model representing a workspace session snapshot with JSON-backed fallback storage.",
+      "source_line": null
+    },
+    {
+      "name": "Document Session Controller",
+      "description": "Manages automatic persistence and restoration of document sessions, subscribing to bookmark selection changes to capture focused nodes.",
+      "source_line": null
+    },
+    {
+      "name": "Session Restoration API",
+      "description": "APIs that restore persisted workspace sessions from CoreData or JSON store.",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Selection Persistence",
+      "description": "Captures the latest focused node in a session without reopening files by listening to bookmark selection changes.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Migration Regression Tests",
+      "description": "Tests covering CoreData migration, file-backed persistence, and controller restoration flows.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1903,
+    "line_count": 22
+  }
+}

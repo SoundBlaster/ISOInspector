@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/178_Snapshot_and_CLI_Fixture_Maintenance/178_Snapshot_and_CLI_Fixture_Maintenance.md",
+  "n_spec": 11,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Maintain accurate JSON export snapshots and CLI fixtures after intentional schema or presentation updates to keep app, library, and tooling outputs in sync.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All snapshot fixtures are regenerated using ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests when schema changes require it, followed by clean test runs without regeneration notices.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI fixture expectations are audited and updated alongside snapshot refreshes to match intentional schema or formatting adjustments.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "PRD backlog and TODO sources reflect the maintenance status and reference this in-progress document.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Issue metrics emitted by tolerant parsing export paths appear in JSON snapshots and CLI assertions so downstream clients observe severity counts and depth summaries.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Snapshot baselines validated by JSONExportSnapshotTests guard exported structure, derived metadata, and compatibility aliases across representative fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use the regeneration environment variable before committing schema changes to capture updated baselines emitted by JSONExportSnapshotTests.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "After regenerating baselines, rerun the snapshot test target without the environment variable to confirm deterministic output and avoid accidental regressions.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Validate CLI regressions with existing integration tests and manually inspect fixture diffs for readability and alignment with documented schema fields.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with tolerant parsing consumers to ensure new issue fields or format summaries continue to render as documented across app and CLI surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Export updates now include issue_metrics counts; refresh CLI coverage when severity totals change.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "JSON Export Snapshot Tests",
+      "description": "Runs tests to validate exported JSON structure, metadata, and compatibility aliases against baseline snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot Regeneration Process",
+      "description": "Regenerates snapshot fixtures using the ISOINSPECTOR_REGENERATE_SNAPSHOTS environment variable during schema changes.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Fixture Validation",
+      "description": "Validates expected formatter output for CLI regressions when schema fields or presentation change.",
+      "source_line": null
+    },
+    {
+      "name": "Issue Metrics Export",
+      "description": "Includes issue severity counts and depth summaries in JSON snapshots and CLI assertions for downstream clients.",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing Integration",
+      "description": "Ensures new issue fields or format summaries render correctly across app and CLI surfaces.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2412,
+    "line_count": 29
+  }
+}

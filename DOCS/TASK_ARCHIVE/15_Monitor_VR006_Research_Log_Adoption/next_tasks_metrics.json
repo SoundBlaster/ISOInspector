@@ -1,0 +1,17 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/15_Monitor_VR006_Research_Log_Adoption/next_tasks.md",
+  "n_spec": 1,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The system must consistently surface insights from the VR-006 research log schema to both CLI and UI consumers as UI components evolve.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 160,
+    "line_count": 3
+  }
+}

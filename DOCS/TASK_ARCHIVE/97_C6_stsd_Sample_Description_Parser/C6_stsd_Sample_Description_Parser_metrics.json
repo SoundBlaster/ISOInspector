@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/C6_stsd_Sample_Description_Parser.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement parsing support for the stsd (Sample Description) box so the pipeline can enumerate media sample entries, classify audio versus visual codecs, and expose structured metadata for downstream validation and UI layers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxParserRegistry registers a parser for stsd, returning a ParsedBoxPayload that surfaces entry_count plus a collection of parsed sample entries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each sample entry records its format (fourcc), size, and critical header fields (e.g., width/height for visual, channel/sample rate for audio).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests feed representative audio and visual fixtures to ensure parsed entries align with ISO/IEC 14496-12 structure.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Exporters and UI components can render the parsed metadata without additional manual decoding.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Byte range calculations guard against malformed lengths, matching validation expectations outlined in existing structural rules.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse FullBoxReader helpers for version/flags to simplify parsing and maintain consistent byte range accounting.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Leverage streaming tree builders to attach parsed entry data to ParseTreeNode instances so validation and export layers consume a uniform structure.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Start with baseline support for ISO base media sample entries (mp4a, avc1, hvc1, hev1) and design extensible decoding to add codecs iteratively.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "stsd Box Parser",
+      "description": "Parses the 'stsd' (Sample Description) box and returns a ParsedBoxPayload containing entry_count and parsed sample entries.",
+      "source_line": null
+    },
+    {
+      "name": "Parsed Sample Entry Representation",
+      "description": "Each sample entry includes format (fourcc), size, and critical header fields such as width/height for visual codecs or channel/sample rate for audio codecs.",
+      "source_line": null
+    },
+    {
+      "name": "FullBoxReader Integration",
+      "description": "Utilizes FullBoxReader helpers to read version and flags of the stsd box during parsing.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeNode Attachment",
+      "description": "Attaches parsed entry data to ParseTreeNode instances for uniform consumption by validation, export, and UI layers.",
+      "source_line": null
+    },
+    {
+      "name": "Baseline Codec Support",
+      "description": "Provides initial decoding support for ISO base media sample entries: mp4a, avc1, hvc1, hev1.",
+      "source_line": null
+    },
+    {
+      "name": "Byte Range Validation",
+      "description": "Calculates byte ranges and guards against malformed lengths to satisfy structural validation rules.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2619,
+    "line_count": 37
+  }
+}

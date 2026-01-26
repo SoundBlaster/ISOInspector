@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/159_E1_Enforce_Parent_Containment_and_Non_Overlap/E1_Enforce_Parent_Containment_and_Non_Overlap.md",
+  "n_spec": 11,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Ensure ISOInspector emits structural validation errors whenever a child box extends beyond its parent's byte range or overlaps neighbouring payload spans, keeping CLI and UI surfaces trustworthy for nested container layouts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation layer flags any child node whose computed end offset exceeds its parent's declared range or collides with sibling spans, emitting deterministic .error results.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI reports and SwiftUI issue lists surface the new containment failures with actionable messaging while keeping parse sessions stable after detection.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression coverage exercises positive (well-formed) and negative (overflowing/overlapping) fixtures across parser, validation, CLI, and UI layers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation sources reflect the task's progress and completion status once shipped.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Container iteration must respect declared sizes as per VR-001/VR-002.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit existing BoxValidator/ValidationRuleContext metadata to confirm start/end offsets are available per node; extend tracking to retain sibling cursor state for overlap detection.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement containment accounting that accumulates consumed payload bytes per parent and compares each child header against both the parent's declared end and the running sibling boundary.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce targeted fixtures or synthesize ones that reproduce child overflow and overlap scenarios, wiring them into ISOInspectorKit tests and CLI snapshot assertions.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Propagate new validation IDs through CLI formatting, JSON export annotations, and SwiftUI issue presenters so surfaces explain the error and highlight the offending node.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with validation preset defaults to ensure the new structural rule ships enabled and can be toggled consistently across app, CLI, and export pipelines.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Child Containment Validation",
+      "description": "Checks that each child box\u2019s end offset does not exceed its parent\u2019s declared byte range.",
+      "source_line": null
+    },
+    {
+      "name": "Sibling Overlap Detection",
+      "description": "Detects when a child box overlaps the payload span of an adjacent sibling within the same parent.",
+      "source_line": null
+    },
+    {
+      "name": "Error Reporting in CLI",
+      "description": "Outputs deterministic .error results for containment and overlap violations to the command\u2011line interface.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Issue Presentation",
+      "description": "Displays containment failures as actionable issue lists in the SwiftUI UI, highlighting offending nodes.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Annotation",
+      "description": "Includes validation IDs and error details in JSON exports of parsing results.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Generation for Validation Tests",
+      "description": "Creates positive and negative test fixtures that trigger child overflow and overlap scenarios for unit testing.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Rule Context Extension",
+      "description": "Extends BoxValidator metadata to track start/end offsets and sibling cursor state for accurate validation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3400,
+    "line_count": 30
+  }
+}

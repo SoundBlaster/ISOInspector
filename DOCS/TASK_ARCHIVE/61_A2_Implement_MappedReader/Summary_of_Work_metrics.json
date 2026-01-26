@@ -1,0 +1,38 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/61_A2_Implement_MappedReader/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 1,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "MappedReader must perform bounds-checked slicing and prevent out-of-range requests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "MappedReader should gracefully fallback when memory mapping is unavailable.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "MappedReaderTests cover full and partial reads, zero-length slices, missing files, and boundary enforcement.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Memory-mapped RandomAccessReader implementation was added in Sources/ISOInspectorKit/IO/MappedReader.swift.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "MappedReader",
+      "description": "Provides a memory-mapped RandomAccessReader implementation that reads file contents via Data(contentsOf:options:.mappedIfSafe) with bounds-checked slicing and graceful fallback when mapping is unavailable.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1143,
+    "line_count": 19
+  }
+}

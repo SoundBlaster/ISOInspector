@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/189_Summary_of_Work_2025-10-25_Integrity_Follow_Ups/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement placeholder nodes for missing children to guide operators toward absent structures and maintain contextual hex jumps.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Perform VoiceOver regression pass for accessibility shortcuts on macOS and iPadOS hardware to confirm focus command menus announce controls and restore focus targets.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Secure real\u2011world media assets (Dolby Vision, AV1, VP9, Dolby AC-4, MPEG\u2011H) for regression baselines once licensing approvals are obtained.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Placeholder Nodes for Missing Children",
+      "description": "Provide placeholder affordances to guide operators toward absent structures and maintain contextual hex jumps during tolerant parsing.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Verify macOS and iPadOS hardware focus command menus announce controls and restore focus targets for VoiceOver accessibility shortcuts.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Licensing",
+      "description": "Secure licensing for Dolby Vision, AV1, VP9, Dolby AC\u20114, and MPEG\u2011H fixtures to enable regression baselines with real-world media payloads.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 816,
+    "line_count": 8
+  }
+}

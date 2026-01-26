@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/next_tasks.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Detect Zero/Negative Progress Loops in the streaming parser to prevent non-progressing iterations and cap nesting depth.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The streaming parser must detect non-progressing iterations and enforce a maximum nesting depth as defined in E2_Detect_Progress_Loops.md.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run manual VoiceOver verification on macOS and iPadOS hardware to confirm focus command menu announces controls and restores focus targets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver must announce all controls in the focus command menu and restore focus targets correctly after interaction, as verified by manual testing.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Licensing for Dolby Vision, AV1 etc. must be secured before synthetic payloads can be replaced or regression baselines refreshed.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Refresh snapshots and CLI fixtures whenever the schema updates are intentional.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Streaming Parser Progress Loop Detection",
+      "description": "Detects non-progressing iterations in the streaming parser and caps nesting depth to prevent infinite loops.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Accessibility Shortcut Verification",
+      "description": "Runs manual VoiceOver verification on macOS and iPadOS hardware to confirm focus command menu announcements and focus target restoration.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing Management",
+      "description": "Secures licensing for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to replace synthetic payloads and refresh regression baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot and CLI Fixture Refresh",
+      "description": "Refreshes snapshots and CLI fixtures when schema updates occur using a regeneration flag and test command.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1225,
+    "line_count": 7
+  }
+}

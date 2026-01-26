@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/131_C16_4_Future_Codec_Payload_Descriptors/Summary_of_Work.md",
+  "n_spec": 8,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add typed parsers for Dolby Vision (dvvC), AV1 (av1C), VP9 (vpcC), Dolby AC-4 (dac4), and MPEG-H (mhaC) configuration boxes to support future codec payload descriptors.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update sample entry registries so new visual formats (av01, vp09, vp08, dvav, dvvc) and audio formats (ac-4, mha1, mhm1) participate in visual/audio parsing flows.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All unit, integration, and snapshot tests pass for the new parsers and registries on Linux.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The parser registry exposes human-readable fields such as versioning, tiers, bit depths, chroma layouts, presentation counts, compatibility flags for each codec.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parsing logic must correctly handle both clear and protected sample entries.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce BoxParserRegistry+SampleDescriptionCodecFuture.swift with dedicated parsing helpers to surface human-readable fields for export and UI consumers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend parseCodecSpecificFields to wire new helpers into existing registry logic.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use reusable BitWriter support in unit test builders to express packed descriptor payloads precisely.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Dolby Vision Payload Parser",
+      "description": "Parses Dolby Vision dvvC configuration boxes and exposes human-readable fields for UI and export",
+      "source_line": null
+    },
+    {
+      "name": "AV1 Payload Parser",
+      "description": "Parses AV1 av1C configuration boxes and surfaces versioning, tiers, bit depths, chroma layouts, presentation counts, compatibility flags",
+      "source_line": null
+    },
+    {
+      "name": "VP9 Payload Parser",
+      "description": "Parses VP9 vpcC configuration boxes with detailed field extraction for UI consumers",
+      "source_line": null
+    },
+    {
+      "name": "Dolby AC-4 Payload Parser",
+      "description": "Parses Dolby AC-4 dac4 configuration boxes and provides parsed fields to downstream consumers",
+      "source_line": null
+    },
+    {
+      "name": "MPEG-H Payload Parser",
+      "description": "Parses MPEG-H mhaC configuration boxes and exposes parsed metadata",
+      "source_line": null
+    },
+    {
+      "name": "Sample Description Registry Extension",
+      "description": "Extends the BoxParserRegistry to include new visual and audio formats in parsing flows for sample entries",
+      "source_line": null
+    },
+    {
+      "name": "BitWriter Utility",
+      "description": "Reusable builder that writes packed descriptor payloads at bit level for unit test construction",
+      "source_line": null
+    },
+    {
+      "name": "StsdSampleDescriptionParserTests Fixture Support",
+      "description": "Unit tests with fixture-backed coverage for each new codec payload, including snapshot testing",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1448,
+    "line_count": 15
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/185_T3_1_Tolerant_Parsing_Warning_Ribbon/T3_1_Tolerant_Parsing_Warning_Ribbon.md",
+  "n_spec": 8,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a non-modal corruption warning ribbon in the SwiftUI app shell that displays tolerant parsing issue metrics immediately after a parse completes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Ribbon is displayed whenever ParseIssueStore.metricsSnapshot().totalCount > 0, summarizing error and warning counts plus deepest affected depth.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tapping the ribbon focuses the forthcoming \"Integrity\" tab or equivalent diagnostics destination.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver announces the ribbon with severity and action affordances, matching accessibility notes in the tolerance parsing PRD.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Existing document loading and layout flows remain regression-free (no overlap with navigation bars, supports light/dark mode).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParseTreeStore publishes ribbon-ready metrics via @Published var issueMetrics: IssueMetrics so the view updates live during streaming parses.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a dedicated SwiftUI component (e.g., CorruptionWarningRibbon) that accepts IssueMetrics snapshots supplied by ParseTreeStore.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Provide dismissal persistence using UserDefaults/AppStorage as outlined in integration summary to respect user preference.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CorruptionWarningRibbon",
+      "description": "Non\u2011modal SwiftUI component that displays a warning ribbon when parsing issues are detected",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStore.issueMetrics Publisher",
+      "description": "Publishes IssueMetrics snapshots to drive the ribbon\u2019s visibility and content",
+      "source_line": null
+    },
+    {
+      "name": "UserDefaults/AppStorage dismissal persistence",
+      "description": "Stores user preference to hide the ribbon after acknowledgement",
+      "source_line": null
+    },
+    {
+      "name": "Ribbon tap action",
+      "description": "Navigates focus to the Integrity tab or diagnostics destination when the ribbon is tapped",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver announcement",
+      "description": "Announces the ribbon with severity and action affordances for accessibility",
+      "source_line": null
+    },
+    {
+      "name": "UI styling integration",
+      "description": "Applies color tokens, iconography, and text consistent with UI guidelines",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI previews for mocked metrics",
+      "description": "Provides design review previews of the ribbon with sample IssueMetrics",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2679,
+    "line_count": 29
+  }
+}

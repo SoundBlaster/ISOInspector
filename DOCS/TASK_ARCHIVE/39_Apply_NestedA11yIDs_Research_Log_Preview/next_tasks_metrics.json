@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/39_Apply_NestedA11yIDs_Research_Log_Preview/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Apply NestedA11yIDs identifiers to research log preview flows",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "NestedA11yIDs identifiers must be applied to research log preview flows as per todo.md item #13",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 266,
+    "line_count": 4
+  }
+}

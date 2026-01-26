@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/142_E3_Warn_on_Unusual_Top_Level_Ordering/E3_Warn_on_Unusual_Top_Level_Ordering.md",
+  "n_spec": 6,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide an advisory warning when top-level boxes in a media file arrive in an unexpected order so that CLI, JSON exports, and UI can guide reviewers to potential packaging issues without blocking legitimate streaming layouts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Advisory diagnostics are triggered when the ordering of 'moov'/'ftyp' differs from common multiplexing layouts yet still passes existing VR-004/VR-005 checks, with tests confirming visibility in CLI and JSON export.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Configuration supports severity toggles so UI consumers can present non-blocking guidance distinct from structural errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression fixtures cover baseline MP4, fragmented, and streaming-friendly orderings to avoid false positives, and documentation cross-links the new advisory to VR-004/VR-005 behavior.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The validator must use the existing event sequencing model and state machine hooks for top-level encounters and streaming signals without duplicating logic from VR-004/VR-005.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Advisory messages will be plumbed through the existing validation payload, augmenting JSON exports with a dedicated advisory code, avoiding schema churn.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Advisory Validation Rule for Unusual Top-Level Ordering",
+      "description": "Detects and warns when top-level MP4 boxes (e.g., moov, ftyp) appear in an uncommon order that still passes existing fatal/warning checks.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Diagnostic Output Extension",
+      "description": "Outputs advisory messages to the command-line interface so users see warnings about unusual ordering.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Advisory Field",
+      "description": "Adds a dedicated advisory code and message to JSON exports of validation results.",
+      "source_line": null
+    },
+    {
+      "name": "UI Guidance Component",
+      "description": "Provides non-blocking UI feedback for reviewers, highlighting potential packaging issues based on the advisory.",
+      "source_line": null
+    },
+    {
+      "name": "Severity Toggle Configuration",
+      "description": "Allows configuration of advisory severity levels so consumers can control warning visibility versus errors.",
+      "source_line": null
+    },
+    {
+      "name": "Validator State Machine Hook Integration",
+      "description": "Reuses existing state machine hooks to register top-level box encounters and emit soft advisories when heuristics flag uncommon patterns.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2664,
+    "line_count": 26
+  }
+}

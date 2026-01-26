@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/163_E2_Detect_Progress_Loops/E2_Detect_Progress_Loops.md",
+  "n_spec": 9,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Ensure the streaming parser always makes forward progress by detecting zero- or negative-advance iterations and enforcing a safe maximum nesting depth so malformed media cannot hang parsing or exhaust resources.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parsing any fixture or fuzzed input must either complete or emit a structured validation error without entering an infinite loop or exceeding the configured depth budget.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "New unit and regression tests cover zero/negative-size boxes, malicious largesize combinations, and degenerate container nesting, failing if progress guards or depth caps are bypassed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI, UI, and JSON export smoke tests continue to succeed, demonstrating that the added guards do not regress legitimate deep hierarchies.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Logging or diagnostics clearly communicate when progress limits are triggered so follow-up fixture triage can occur quickly.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The streaming parser must always advance monotonically in offset before reading the next header.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "A centralized maximum-depth constant is shared by kit, CLI, and UI targets to keep guard rails consistent across entry points.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the streaming parser loop (within BoxParser and any iterator helpers) to track the previous offset and assert monotonic advancement before reading the next header.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Surface guard failures through existing validation error plumbing, aligning with VR-001/VR-002 behavior while avoiding noisy duplication for already-covered bounds checks.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Streaming Parser Progress Guard",
+      "description": "Ensures the streaming parser makes forward progress by detecting zero- or negative-advance iterations and enforcing a safe maximum nesting depth to prevent hangs or resource exhaustion.",
+      "source_line": null
+    },
+    {
+      "name": "Maximum Depth Constant",
+      "description": "Centralized constant shared across kit, CLI, and UI targets that defines the allowed maximum nesting depth for parsing boxes.",
+      "source_line": null
+    },
+    {
+      "name": "Guard Failure Validation Error",
+      "description": "Surface guard failures through existing validation error plumbing, emitting structured errors when progress limits are triggered.",
+      "source_line": null
+    },
+    {
+      "name": "Progress Tracking in Parser Loop",
+      "description": "Extend the BoxParser loop and iterator helpers to track previous offset and assert monotonic advancement before reading the next header.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Test Suite for Progress Guards",
+      "description": "Unit and regression tests covering zero/negative-size boxes, malicious largesize combinations, and degenerate container nesting to ensure guard rails trip during automated testing.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2928,
+    "line_count": 28
+  }
+}

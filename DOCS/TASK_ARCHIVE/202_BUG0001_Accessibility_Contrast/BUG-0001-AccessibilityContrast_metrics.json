@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/202_BUG0001_Accessibility_Contrast/BUG-0001-AccessibilityContrast.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Validate and correct FoundationUI's AccessibilityContext contrast detection logic so that it honours the platform \"Increase Contrast\" preference.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Contrast detection aligns with the \"Increase Contrast\" preference.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated tests cover the scenario where contrast and differentiate flags diverge.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The SwiftUI accessibilityContrast environment value is absent from the deployed toolchain, so referencing it directly breaks compilation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Switch the detection logic to consult AccessibilityContrast when available, falling back to legacy APIs for older platforms.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Updated baselinePrefersIncreasedContrast to favour system accessibility APIs (UIAccessibility.isDarkerSystemColorsEnabled / NSWorkspace.accessibilityDisplayShouldIncreaseContrast) and fall back to accessibilityDifferentiateWithoutColor only when no platform hook exists.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "AccessibilityContext.prefersIncreasedContrast",
+      "description": "Provides a boolean indicating whether the system \"Increase Contrast\" accessibility setting is enabled, used by FoundationUI components to adjust styling for high-contrast users.",
+      "source_line": null
+    },
+    {
+      "name": "AccessibilityContext.accessibilityDifferentiateWithoutColor",
+      "description": "Exposes the system \"Differentiate Without Color\" accessibility flag, which can be overridden in tests and used as a fallback when contrast detection APIs are unavailable.",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Accessibility Context Environment Accessor",
+      "description": "A SwiftUI environment accessor that aggregates platform-specific accessibility flags into a single context object for use by UI components.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for AccessibilityContext",
+      "description": "Test suite verifying the correctness of prefersIncreasedContrast logic, including scenarios where contrast and differentiate flags diverge and ensuring regression coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Fallback Logic to Legacy APIs",
+      "description": "Implementation that falls back to UIAccessibility.isDarkerSystemColorsEnabled on iOS or NSWorkspace.accessibilityDisplayShouldIncreaseContrast on macOS when SwiftUI's accessibilityContrast is unavailable.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4301,
+    "line_count": 60
+  }
+}

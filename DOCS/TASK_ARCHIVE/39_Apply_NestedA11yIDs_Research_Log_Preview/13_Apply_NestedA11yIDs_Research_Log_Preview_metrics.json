@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/39_Apply_NestedA11yIDs_Research_Log_Preview/13_Apply_NestedA11yIDs_Research_Log_Preview.md",
+  "n_spec": 7,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Introduce hierarchical accessibility identifiers to the research log preview interfaces so QA automation can target audit components without relying on localized strings or layout heuristics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ResearchLogAuditPreview (and any production host screens) declare a stable .a11yRoot for the research log surface and apply .nestedAccessibilityIdentifier(...) to key subviews such as headers, diagnostic lists, and status badges.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility snapshots or UI tests confirm identifiers follow the researchLogPreview.* naming pattern without collisions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation and TODO references are updated to point at the implemented identifiers, closing the outstanding @todo marker in ResearchLogAuditPreview.swift and marking todo.md item #13 as complete when shipped.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Identifiers must be ready when the preview is promoted into production screens (release R13).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse conventions introduced for the parse tree explorer (e.g., lowercase slug segments) to keep identifier schemes consistent.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ParseTreeAccessibilityIdentifierTests or add focused SwiftUI preview tests to assert presence of the new identifiers.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ResearchLogAuditPreview UI",
+      "description": "Provides a preview interface for research log audits with nested accessibility identifiers.",
+      "source_line": null
+    },
+    {
+      "name": "Nested Accessibility Identifier Assignment",
+      "description": "Applies .a11yRoot and .nestedAccessibilityIdentifier to key subviews such as headers, diagnostic lists, and status badges in the research log preview surface.",
+      "source_line": null
+    },
+    {
+      "name": "Production Host Screen Integration",
+      "description": "Ensures production screens hosting the research log audit expose stable a11y identifiers following the researchLogPreview.* pattern.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Snapshot & UI Test Validation",
+      "description": "Runs accessibility snapshots or UI tests to confirm identifier naming and absence of collisions.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeAccessibilityIdentifierTests Extension",
+      "description": "Extends existing ParseTreeAccessibilityIdentifierTests or adds SwiftUI preview tests to assert presence of new identifiers.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update",
+      "description": "Updates documentation, TODO references, and closes @todo marker in ResearchLogAuditPreview.swift and todo.md item #13.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2543,
+    "line_count": 42
+  }
+}

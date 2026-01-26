@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/228_A7_A8_SwiftLint_and_Coverage_Gates/Summary_A7_SwiftLint_Complexity_Thresholds.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Restore and enforce SwiftLint complexity thresholds across the ISOInspector codebase to prevent code quality regressions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`.swiftlint.yml` updated with cyclomatic_complexity warning 30 error 55, function_body_length warning 250 error 350, type_body_length warning 1200 error 1500, nesting type_level warning 5 error 7.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pre-commit hook runs `swiftlint lint --strict --quiet` and fails pushes on violations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI workflow includes a swiftlint-complexity job that runs `swiftlint lint --strict` on macos-latest and publishes SARIF report on failure.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All existing code passes thresholds: 10 files exceed limits but have disable pragmas with rationale and @todo #A7 comments.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updated with a Code Quality Gates section in README.md explaining thresholds, enforcement mechanisms, and guidance for exceeding them.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Zero violations when running `swiftlint lint --strict` across the codebase.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Complexity rules are enforced via pre-commit hook and CI job to block pushes/PRs with violations.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SwiftLint Complexity Threshold Configuration",
+      "description": "Defines cyclomatic complexity, function body length, type body length, and nesting depth limits in .swiftlint.yml",
+      "source_line": null
+    },
+    {
+      "name": "Pre-commit SwiftLint Hook",
+      "description": "Runs swiftlint lint --strict --quiet before pushing code to enforce rules locally",
+      "source_line": null
+    },
+    {
+      "name": "CI SwiftLint Complexity Job",
+      "description": "GitHub Actions job that installs SwiftLint, runs it in strict mode, and uploads SARIF report on failure",
+      "source_line": null
+    },
+    {
+      "name": "Code Quality Gates Documentation",
+      "description": "README section explaining complexity thresholds, enforcement mechanisms, and how to fix violations",
+      "source_line": null
+    },
+    {
+      "name": "Exception Pragmas in Source Files",
+      "description": "swiftlint:disable:next pragmas with rationale and @todo markers for files that exceed thresholds",
+      "source_line": null
+    },
+    {
+      "name": "Build and Test Verification Scripts",
+      "description": "Commands to build ISOInspectorKit target and run tests ensuring no lint or test failures",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 8212,
+    "line_count": 233
+  }
+}

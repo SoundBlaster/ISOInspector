@@ -204,6 +204,22 @@
                                 } label: {
                                     RecentRow(recent: recent)
                                 }.buttonStyle(.plain)
+                                    .contextMenu {
+                                        Button(role: .destructive) {
+                                            appController.removeRecent(recent)
+                                        } label: {
+                                            Label("Remove from Recents", systemImage: "trash")
+                                        }
+                                    }
+#if os(iOS)
+                                    .swipeActions {
+                                        Button(role: .destructive) {
+                                            appController.removeRecent(recent)
+                                        } label: {
+                                            Label("Remove", systemImage: "trash")
+                                        }
+                                    }
+#endif
                             }.onDelete(perform: appController.removeRecent)
                         }
                     }

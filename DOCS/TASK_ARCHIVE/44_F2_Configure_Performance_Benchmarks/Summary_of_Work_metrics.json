@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/44_F2_Configure_Performance_Benchmarks/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Configure performance benchmarks for large files",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add PerformanceBenchmarkConfiguration with environment-tunable payload sizes, iteration counts, and slack multipliers scaled from NFR throughput targets",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce LargeFileBenchmarkTests exercising CLI validation throughput and SwiftUI bridge latency via XCTest metrics harnesses and a reusable large-fixture generator",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Run swift test to execute full test suite including new performance benchmarks, with UI latency benchmark skipping automatically when Combine is unavailable",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "PerformanceBenchmarkConfiguration",
+      "description": "Configures environment-tunable payload sizes, iteration counts, and slack multipliers for large file performance benchmarks based on NFR throughput targets.",
+      "source_line": null
+    },
+    {
+      "name": "LargeFileBenchmarkTests",
+      "description": "Executes CLI validation throughput tests and, when Combine is available, SwiftUI bridge latency tests using XCTest metrics harnesses with a reusable large-fixture generator.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Validation Throughput Benchmark",
+      "description": "Measures the system's command-line interface throughput for processing large files.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Bridge Latency Benchmark",
+      "description": "Measures latency of the SwiftUI bridge when Combine is available, using XCTest metrics harnesses.",
+      "source_line": null
+    },
+    {
+      "name": "Automated Benchmark Execution via swift test",
+      "description": "Runs the full test suite including performance benchmarks automatically through the 'swift test' command.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 969,
+    "line_count": 17
+  }
+}
