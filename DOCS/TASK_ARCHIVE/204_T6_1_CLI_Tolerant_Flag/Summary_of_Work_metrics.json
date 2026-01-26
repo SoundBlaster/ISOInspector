@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/204_T6_1_CLI_Tolerant_Flag/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 1,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a command-line interface that allows users to toggle between tolerant and strict parsing modes for the inspect, export-json, export-text, and export-capture commands.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The CLI must support --tolerant and --strict switches on the specified commands, defaulting to strict mode when no flag is provided.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "When --tolerant is used, parsing should be lenient; when --strict is used, parsing should be strict.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The help text and DocC manual must document the tolerant parsing usage for all affected commands.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests must cover strict defaults, tolerant overrides, flag conflicts, and export parsing behavior.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system should always enforce that only one of --tolerant or --strict is present at any given time.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Tolerant Parsing Flag",
+      "description": "Adds --tolerant/--strict switches to inspect, export-json, export-text, and export-capture commands, enabling lenient or strict parsing modes.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 589,
+    "line_count": 11
+  }
+}

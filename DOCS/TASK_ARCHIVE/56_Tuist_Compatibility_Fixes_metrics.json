@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/56_Tuist_Compatibility_Fixes.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Deployment targets in the Tuist manifest must be lowered to support iOS and macOS app builds.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wrap iOS 17-only SwiftUI APIs (`onChange(initial:)`, `ContentUnavailableView`, focusable) in helpers that fall back to older equivalents.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Use `.foregroundColor` instead of `.foregroundStyle` so colour styling compiles on iOS 16 and macOS 13.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Verify `xcodebuild` for ISOInspectorApp-iOS (simulator) and ISOInspectorApp-mathematical? Wait...",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "iOS and macOS App Build Restoration",
+      "description": "Restores the ability to build iOS and macOS applications after deployment target changes in the Tuist manifest.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI API Compatibility Helpers",
+      "description": "Provides helper wrappers for iOS 17-only SwiftUI APIs (onChange(initial:), ContentUnavailableView, focusable) that fall back to older equivalents when running on earlier OS versions.",
+      "source_line": null
+    },
+    {
+      "name": "Foreground Style Compatibility Fix",
+      "description": "Replaces .foregroundStyle usage with .foregroundColor to ensure colour styling compiles on iOS 16 and macOS 13.",
+      "source_line": null
+    },
+    {
+      "name": "Build Verification for ISOInspectorApp",
+      "description": "Verifies successful builds of ISOInspectorApp-iOS (simulator) and ISOInspectorApp-macOS using xcodebuild, and verifies swift build for the project.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 510,
+    "line_count": 6
+  }
+}

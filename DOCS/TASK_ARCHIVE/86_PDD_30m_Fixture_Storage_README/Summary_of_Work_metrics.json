@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/86_PDD_30m_Fixture_Storage_README/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide documentation for fixture storage quotas, mount strategies, and cache maintenance steps for manifest-driven fixture downloads on macOS hardware runners and Linux CI agents.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation must include storage quotas, mount strategies, and cache maintenance steps as outlined in Documentation/FixtureCatalog/README.md.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The README should remain consistent with the manifest file and not allow fixture downloads during dry-run validation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use sparse bundle setup commands to ensure mounting precedes fixture sync on macOS runners, integrated into automation scripts or CI workflows.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Fixture Catalog Documentation",
+      "description": "Provides documentation on storage quotas, mount strategies, and cache maintenance for manifest-driven fixture downloads on macOS hardware runners and Linux CI agents.",
+      "source_line": null
+    },
+    {
+      "name": "Generate Fixtures Script",
+      "description": "Python script to generate fixtures based on a manifest, with options to skip text fixtures and perform dry runs.",
+      "source_line": null
+    },
+    {
+      "name": "Sparse Bundle Setup Commands",
+      "description": "Commands to set up sparse bundles for mounting fixtures before sync in automation scripts or CI workflows.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1116,
+    "line_count": 16
+  }
+}

@@ -1,0 +1,118 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/216_I1_1_Badge_Status_Indicators/214_I1_1_Badge_Status_Indicators.md",
+  "n_spec": 14,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Consolidate scattered manual badge implementations in ISOInspectorApp into consistent, reusable FoundationUI components (DS.Badge and DS.Indicator) for displaying parse status, error levels, and processing indicators.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All manual badges replaced with DS.Badge (CorruptionBadge, SeverityBadge, ParseStateBadge).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeStatusBadge wrapper uses DS.Badge for parse status levels.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Component migration completed: no dedicated BoxStatusBadgeView or ParseStatusIndicator wrappers needed; reusing ParseTreeStatusBadge.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit test coverage \u226590% for badge variants (33 Badge tests inherited from Phase 0).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot tests pass for all variants in light/dark modes, covering all 4 status levels.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility tests verify VoiceOver labels, contrast ratios, focus (WCAG 2.1 AA compliance via FoundationUI Badge).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Zero SwiftLint violations and build time impact <5%.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No performance regressions in tree rendering.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All status indicators use DS.Badge component; DS.Indicator not used at this time.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Consistent visual language across light/dark modes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Accessibility compliance (VoiceOver, contrast, focus) must always hold for badges.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use DS.Badge component for all status indicators; re-use ParseTreeStatusBadge wrapper instead of creating new BoxStatusBadgeView or ParseStatusIndicator components.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Platform-adaptive sizing via FoundationUI and use of DS.PlatformAdaptation for size/spacing differences.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DS.Badge Component",
+      "description": "Reusable UI component for displaying status badges (info, warning, error, success) across the application.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStatusBadge Wrapper",
+      "description": "Convenience wrapper that uses DS.Badge to represent parse status levels within tree view nodes.",
+      "source_line": null
+    },
+    {
+      "name": "Badge Migration Utility",
+      "description": "Process that replaces manual badge implementations (CorruptionBadge, SeverityBadge, ParseStateBadge) with DS.Badge in ISOInspectorApp codebase.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Test Suite for Badges",
+      "description": "Automated tests ensuring badges have VoiceOver labels, contrast ratios, and focus behavior compliant with WCAG 2.1 AA.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot Test Suite for Badge Variants",
+      "description": "Tests capturing visual appearance of badge variants in light and dark modes.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite for Badge Variants",
+      "description": "Comprehensive unit tests covering all status levels and platform-specific behaviors of DS.Badge.",
+      "source_line": null
+    },
+    {
+      "name": "Component Showcase App (ComponentTestApp)",
+      "description": "Application demonstrating badge components and their usage examples.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 7628,
+    "line_count": 167
+  }
+}

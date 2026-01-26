@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/17_Extend_VR006_Telemetry_UI_Smoke_Tests/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add telemetry diagnostics for ResearchLogMonitor audits via CLI/SwiftUI to support VR-006 telemetry coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ResearchLogTelemetryProbe and ResearchLogTelemetrySnapshot convert ResearchLogMonitor audits into telemetry diagnostics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ResearchLogTelemetrySmokeTests exercise ParsePipeline-driven success, missing log, empty log, and schema mismatch scenarios to verify VR-006 telemetry across app and CLI entry points.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Telemetry backlog item #5 is marked complete and documented in project tracking artifacts.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ResearchLogTelemetryProbe",
+      "description": "Converts ResearchLogMonitor audits into CLI/SwiftUI telemetry diagnostics for smoke coverage",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogTelemetrySnapshot",
+      "description": "Captures snapshots of ResearchLogMonitor audits for telemetry diagnostics",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogTelemetrySmokeTests",
+      "description": "Automated tests exercising ParsePipeline-driven success, missing log, empty log, and schema mismatch scenarios to verify VR-006 telemetry across app and CLI entry points",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 807,
+    "line_count": 16
+  }
+}

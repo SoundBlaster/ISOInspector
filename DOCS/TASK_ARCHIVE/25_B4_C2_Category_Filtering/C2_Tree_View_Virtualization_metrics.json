@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/25_B4_C2_Category_Filtering/C2_Tree_View_Virtualization.md",
+  "n_spec": 9,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Render a SwiftUI outline explorer that displays streaming ParseTreeStore snapshots with virtualization to keep scrolling smooth for MP4 structures exceeding 10k nodes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The tree view must render streaming ParseTreeStore snapshots with virtualization, ensuring scrolling remains smooth for structures over 10k nodes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Search input should narrow visible nodes instantly, honoring severity and category filters as described in archived spikes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Filter controls must display MP4RA category groupings and streaming metadata toggles without breaking existing severity filtering.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "UI tests or previews must verify that latency stays below the 200\u202fms streaming target during live updates.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The Combine-backed ParseTreeStore bridge from task 18 must be reused to feed SwiftUI state while minimizing main-thread work per update.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Apply virtualization strategies proven in archived spikes (batching, lazy stacks) and replace preview-only data with real parser events.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wire MP4RA-derived category metadata into filter chips, ensuring catalog lookups remain lightweight for streaming workloads.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add instrumentation hooks (signposts or metrics) to allow future performance regression tests to assert <200\u202fms UI latency during large file inspection.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeStore Bridge",
+      "description": "Provides streaming parse snapshots to SwiftUI state via Combine",
+      "source_line": null
+    },
+    {
+      "name": "Virtualized Tree View Rendering",
+      "description": "Renders large parse trees (10k+ nodes) using virtualization techniques such as batching and lazy stacks for smooth scrolling",
+      "source_line": null
+    },
+    {
+      "name": "Search Input with Instant Feedback",
+      "description": "Filters visible tree nodes in real time based on user search query while respecting severity/category filters",
+      "source_line": null
+    },
+    {
+      "name": "Category Filter Chips",
+      "description": "UI controls that display MP4RA category groupings and allow users to toggle visibility of nodes by category",
+      "source_line": null
+    },
+    {
+      "name": "Streaming Indicator Switch",
+      "description": "Toggle to show or hide nodes that are marked as streaming metadata",
+      "source_line": null
+    },
+    {
+      "name": "Severity Filter Controls",
+      "description": "Existing filter UI for node severity levels, integrated with new category filters",
+      "source_line": null
+    },
+    {
+      "name": "Instrumentation Hooks",
+      "description": "Signposts/metrics for measuring UI latency to ensure <200\u202fms during large file inspection",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for ViewModel",
+      "description": "Tests verifying that ParseTreeOutlineViewModel correctly surfaces category inventory and streaming presence from snapshots",
+      "source_line": null
+    },
+    {
+      "name": "UI Tests / Previews for Latency",
+      "description": "Automated tests or SwiftUI previews that confirm scrolling and search latency stays below 200\u202fms",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4067,
+    "line_count": 74
+  }
+}

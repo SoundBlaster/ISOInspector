@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/25_B4_C2_Category_Filtering/B4_Integrate_MP4RA_Metadata_Catalog.md",
+  "n_spec": 4,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Bundle the official MP4 Registration Authority (MP4RA) box metadata into the parser so box names, categories, and fallback descriptions are available during streaming parse operations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "MP4RA catalog JSON is bundled with the Swift package and can be loaded without network access.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser emits box events annotated with human-readable names and categories when entries exist.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unknown or missing entries log structured fallback records compatible with the existing research log (per VR-006 note in workplan).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "MP4RA Catalog Bundle",
+      "description": "Include the MP4 Registration Authority metadata catalog as a bundled JSON asset within the Swift package for offline access",
+      "source_line": null
+    },
+    {
+      "name": "Runtime Catalog Loader",
+      "description": "Load and parse the bundled MP4RA JSON at application start without network calls",
+      "source_line": null
+    },
+    {
+      "name": "Box Metadata Registry Service",
+      "description": "Provide a lightweight registry that maps fourcc box types to human\u2011readable names, categories, and summaries during streaming parsing",
+      "source_line": null
+    },
+    {
+      "name": "Event Annotation Middleware",
+      "description": "Annotate parser box events with cataloged name, category, and summary when available",
+      "source_line": null
+    },
+    {
+      "name": "Unknown Box Fallback Logger",
+      "description": "Log structured fallback records for boxes not found in the catalog, compatible with existing research log format",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite for Catalog Operations",
+      "description": "Tests covering catalog loading, lookup hits, and unknown\u2011box fallback paths",
+      "source_line": null
+    },
+    {
+      "name": "Dependency Injection Point for Catalog Updates",
+      "description": "Allow runtime configuration or injection to update the catalog without code changes (e.g., versioned JSON asset)",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3013,
+    "line_count": 59
+  }
+}

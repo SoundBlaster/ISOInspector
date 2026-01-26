@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Wire the Integrity tab layout so aggregated ParseIssue rows support severity sorting, filtering, and node focus.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Connect Share menu actions to the refreshed plaintext and JSON exporters without diverging from ribbon and detail pane counts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Aggregated ParseIssue rows must allow severity sorting, filtering, and node focus.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Share menu actions must use the refreshed plaintext and JSON exporters while maintaining consistency with ribbon and detail pane counts.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Integrity Summary Tab",
+      "description": "Provides a tab layout that aggregates ParseIssue rows and supports severity sorting, filtering, and node focus; includes share menu actions for plaintext and JSON exporters linked to ribbon and detail pane counts.",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogMonitor Audit Integration in SwiftUI Previews",
+      "description": "Enables SwiftUI previews to consume ResearchLogPreviewProvider snapshots, displaying audit diagnostics for ready, missing, and schema mismatch fixtures.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 701,
+    "line_count": 7
+  }
+}

@@ -1,0 +1,163 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/222_C21_Floating_Settings_Panel/222_C21_Floating_Settings_Panel.md",
+  "n_spec": 17,
+  "n_func": 13,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Build a floating or modal user settings panel that consolidates preference management across macOS, iPadOS, and iOS platforms.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SettingsPanelView implemented with FoundationUI cards and clearly labeled sections for permanent vs. session settings.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Platform-adaptive presentation: macOS floating NSPanel or detent-based sheet anchored to current document window; iPadOS/iOS modal sheet with drag-to-dismiss, full-screen on iPhone.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Keyboard shortcut support (\u2318,) toggles panel open/closed consistently across platforms.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Permanent settings persist correctly across app relaunch (verified by unit + UI tests).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Session settings survive document reopen but do not leak to other sessions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver focus starts on the first control in the previously active section; all interactive elements have accessible labels.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Reset affordances: \"Reset to Global\" clears all permanent settings overrides and reloads from defaults; \"Reset Session\" clears only the current session-scoped payload.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot tests pass for light/dark modes and all platform variants.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Zero SwiftLint violations; code coverage \u226580%.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Permanent settings are stored in Application Support/ISOInspector/UserPreferences.json via UserPreferencesStore.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Session settings are stored in DocumentSessionController snapshots via SessionSettingsPayload.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Define SettingsPanelViewModel to bridge UserPreferencesStore (permanent) and DocumentSessionController (session).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Create a SettingsPanelState struct capturing permanent, session, and UI state (search filter, active section).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Document concurrency model (async preference loads, debounced writes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use shared SwiftUI view with platform-aware modifiers; snapshot tests to ensure parity.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a single\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SettingsPanelView",
+      "description": "SwiftUI view rendering the floating/settings panel UI using FoundationUI cards and sections for permanent and session settings.",
+      "source_line": null
+    },
+    {
+      "name": "SettingsPanelScene",
+      "description": "Platform\u2011specific presentation layer that wraps SettingsPanelView in an NSPanel, sheet, or full\u2011screen cover with appropriate detents and modifiers.",
+      "source_line": null
+    },
+    {
+      "name": "SettingsPanelViewModel",
+      "description": "Actor/bridge coordinating data between UserPreferencesStore (permanent) and DocumentSessionController (session), exposing state and handling updates.",
+      "source_line": null
+    },
+    {
+      "name": "SettingsPanelState",
+      "description": "Struct holding current permanent settings, session settings, UI state such as search filter and active section.",
+      "source_line": null
+    },
+    {
+      "name": "UserPreferencesStore.reset() integration",
+      "description": "Reset to Global button functionality that clears all permanent overrides and reloads defaults from UserPreferencesStore.",
+      "source_line": null
+    },
+    {
+      "name": "SessionSettingsReset",
+      "description": "Reset Session button functionality that clears the current document\u2019s session\u2011scoped payload via DocumentSessionController.",
+      "source_line": null
+    },
+    {
+      "name": "KeyboardShortcutHandler",
+      "description": "Global Command+Comma (or platform equivalent) binding to toggle the settings panel open/closed across macOS, iPadOS, and iOS.",
+      "source_line": null
+    },
+    {
+      "name": "AccessibilityFocusManager",
+      "description": "VoiceOver focus logic that sets initial focus on first control in previously active section and provides accessible labels for all interactive elements.",
+      "source_line": null
+    },
+    {
+      "name": "PersistenceLayerIntegration",
+      "description": "Mechanism ensuring permanent settings persist across launches via UserPreferencesStore and session settings survive document reopen without leaking to other sessions.",
+      "source_line": null
+    },
+    {
+      "name": "SnapshotTestingSuite",
+      "description": "Tests capturing light/dark mode renders of SettingsPanelView on macOS, iPadOS, and iPhone for visual regression.",
+      "source_line": null
+    },
+    {
+      "name": "UnitTestSuite",
+      "description": "Tests verifying state mutations, persistence calls, reset logic, and concurrency behavior in SettingsPanelViewModel.",
+      "source_line": null
+    },
+    {
+      "name": "AccessibilityTestSuite",
+      "description": "Automated tests checking VoiceOver focus order, keyboard navigation, WCAG 2.1 AA compliance.",
+      "source_line": null
+    },
+    {
+      "name": "UIKeyboardShortcutTest",
+      "description": "UI test confirming keyboard shortcut opens/closes the panel and synchronizes state after reopening.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 7597,
+    "line_count": 134
+  }
+}

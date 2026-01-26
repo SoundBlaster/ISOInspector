@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Child boxes cannot exceed parent ranges and must not overlap payloads.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement real\u2011world asset licensing for Dolby Vision, AV1, VP9, Dolby AC-4 and MPEG\u2011H to replace synthetic payloads in regression baselines.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Sample Encryption Placeholder Parsing",
+      "description": "Parses and validates sample encryption placeholder data for senc/saio/saiz boxes, providing regression fixtures and coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Enforce Parent Containment and Non-Overlap Validation",
+      "description": "Ensures child boxes stay within parent ranges and flags overlapping payloads, with support for CLI and UI surfaces.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 968,
+    "line_count": 5
+  }
+}

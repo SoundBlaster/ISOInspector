@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/55_E4_Prepare_App_Distribution_Configuration/2025-10-13-distribution-scaffolding.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Ship initial distribution metadata, entitlements, and notarization tooling so the ISOInspector app bundle is ready for signed macOS/iOS builds.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Public Kit API added/changed: DistributionMetadataLoader.defaultMetadata() decodes versioned configuration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Call sites updated: New XCTest DistributionMetadataTests ensures metadata loads under SwiftPM.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Backward compatibility: Additive resource and loader; no existing APIs modified.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DistributionMetadataLoader.defaultMetadata()",
+      "description": "Public API that decodes versioned distribution configuration metadata",
+      "source_line": null
+    },
+    {
+      "name": "DistributionMetadata resource bundle",
+      "description": "Resource containing bundle IDs, versioning, and team identifier for distribution",
+      "source_line": null
+    },
+    {
+      "name": "Distribution/Entitlements storage",
+      "description": "Directory storing platform-specific distribution entitlements used during build",
+      "source_line": null
+    },
+    {
+      "name": "XCTest DistributionMetadataTests",
+      "description": "Test suite validating that distribution metadata loads correctly under Swift Package Manager",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1072,
+    "line_count": 28
+  }
+}

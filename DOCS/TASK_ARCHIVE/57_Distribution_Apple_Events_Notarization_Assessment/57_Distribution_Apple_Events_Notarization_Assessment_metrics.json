@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assessment.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Apple Events automation is not required for ISOInspector\u2019s notarized distribution; the build/sign/notarization pipeline must remain fully CLI-driven and must not use AppleScript/ScriptingBridge.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The codebase and scripts contain no usage of osascript, .scpt, NSAppleScript, OSAScript, ScriptingBridge, or tell application \"Finder\"/\"System Events\".",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Distribution tooling (scripts/notarize_app.sh) must exclusively shell out to CLI utilities like xcrun notarytool and not use Finder/System Events automation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Entitlements should remain unchanged; do not add com.apple.security.automation.apple-events.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Do not add NSAppleEventsUsageDescription.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The user\u2011to\u2011CI workflow must only use the hardened runtime, codesign flags, and \"notarytool\"\u00a0with\u00a0--wait\u00a0...",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "We want to ensure that CI builds and CI\u2011secret\u2011sized\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI-driven build pipeline",
+      "description": "Builds, signs, and notarizes the application using command-line tools such as xcodebuild, codesign, and xcrun notarytool without any AppleScript or scripting bridge usage.",
+      "source_line": null
+    },
+    {
+      "name": "Notarization script execution",
+      "description": "Executes a shell script (e.g., scripts/notarize_app.sh) that calls CLI utilities like xcrun notarytool to submit the app for notarization.",
+      "source_line": null
+    },
+    {
+      "name": "CI credential configuration",
+      "description": "Stores and uses App Store Connect credentials (API key or Apple ID with app\u2011specific password) as CI secrets for automated notarization.",
+      "source_line": null
+    },
+    {
+      "name": "Hardening runtime signing",
+      "description": "Applies hardened runtime flags during codesign, ensuring the application is signed with proper security settings.",
+      "source_line": null
+    },
+    {
+      "name": "TCC automation entitlement management",
+      "description": "Manages the com.apple.security.automation.apple-events entitlement and NSAppleEventsUsageDescription to enable or disable Apple Events automation based on feature requirements.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1612,
+    "line_count": 29
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/76_VR006_Preview_Audit_Integration/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate ResearchLogMonitor audit results into SwiftUI previews that render VR-006 research log entries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The integration of ResearchLogMonitor audit results must be visible in SwiftUI previews rendering VR-006 research log entries.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ResearchLogMonitor audit results should always be available for preview rendering.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use SwiftUI previews to display VR-006 research log entries with integrated audit data.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 2505,
+    "line_count": 28
+  }
+}

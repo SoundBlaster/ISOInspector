@@ -1,0 +1,42 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/47_Combine_UI_Benchmark_macOS/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Run the Combine-backed UI benchmark on macOS to collect latency, CPU, and memory metrics for the SwiftUI event bridge.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark must be executed on macOS hardware with Xcode 14 or newer.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Collected measurements should be archived alongside CLI throughput baselines for comparison against PerformanceBenchmarkConfiguration budgets.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use XCTest to run the benchmark, but skip scenarios where Combine is unavailable (e.g., Linux CI container).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The benchmark test LargeFileBenchmarkTests.testAppEventBridgeDeliversUpdatesWithinLatencyBudget should report XCTSkip when Combine is not available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Surface the Linux skip status in CI dashboards or alerts to highlight macOS coverage gaps until a native runner is wired up.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1125,
+    "line_count": 19
+  }
+}

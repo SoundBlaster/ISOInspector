@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Validation rule VR-015 must reconcile stsc, stsz/stz2, stco/co64, and the new stss sync sample numbers.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend UI affordances to highlight sync samples once the validation overlay consumes SyncSampleTableBox details.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Validation Rule VR-015",
+      "description": "Reconciles stsc, stsz/stz2, stco/co64, and stss sync sample numbers to ensure consistency",
+      "source_line": null
+    },
+    {
+      "name": "SyncSampleTableBox Validation Overlay",
+      "description": "Consumes SyncSampleTableBox details for validation purposes",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 361,
+    "line_count": 4
+  }
+}

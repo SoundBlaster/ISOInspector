@@ -1,0 +1,27 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/67_Summary_of_Work_2025-10-16/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 3,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Document Load Failure State Controller",
+      "description": "Publishes a load failure state for documents and surfaces it via SwiftUI banner with retry/dismiss controls.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Banner for Document Load Failures",
+      "description": "Displays an observable banner in the UI when document loading fails, providing retry and dismiss options.",
+      "source_line": null
+    },
+    {
+      "name": "Unit/UI Coverage Extension for Failure Handling",
+      "description": "Extends unit and UI test coverage to validate document load failure handling and banner behavior.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 603,
+    "line_count": 17
+  }
+}

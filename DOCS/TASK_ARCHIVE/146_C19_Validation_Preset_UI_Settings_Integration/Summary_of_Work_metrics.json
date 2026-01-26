@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/146_C19_Validation_Preset_UI_Settings_Integration/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Validation metadata must be present in ParseTree, JSON exports, and session snapshots to convey active preset and disabled rules.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Persist validation configuration defaults and workspace overrides; expose preset/rule operations via DocumentSessionController.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide a macOS ValidationSettingsView scene that allows users to switch scopes, select presets, toggle individual rules, and reset workspace overrides.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The ValidationSettingsView must correctly switch scopes, allow preset selection, enable rule toggling, and support resetting workspace overrides.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Validation Metadata Support",
+      "description": "Adds validation metadata to ParseTree, JSON exports, and session snapshots so consumers can identify active preset and disabled rules.",
+      "source_line": null
+    },
+    {
+      "name": "Persistence of Validation Configuration Defaults",
+      "description": "Stores default validation configuration settings and allows workspace overrides.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentSessionController Preset/Rule Operations",
+      "description": "Exposes operations for managing presets and rules through the DocumentSessionController API.",
+      "source_line": null
+    },
+    {
+      "name": "macOS ValidationSettingsView Scene",
+      "description": "Provides a UI scene to switch scopes, select presets, toggle individual rules, and reset workspace overrides.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 782,
+    "line_count": 13
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/54_Summary_of_Work_2025-10-13/next_tasks.md",
+  "n_spec": 10,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware to validate end-to-end SwiftUI automation flow",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeStreamingSelectionAutomationTests must pass successfully on macOS with XCTest UI support",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "macOS UI testing entitlements are required for running the tests; without them, the test cannot be executed",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute Combine-backed UI benchmark on macOS to capture latency metrics while maintaining throughput parity with CLI harness",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Combine-backed UI benchmark must run successfully on macOS with Xcode/Combine and produce latency metrics",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Benchmark requires a macOS runner with Xcode/Combine; without it, the benchmark cannot be executed",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Surface session persistence errors once diagnostics plumbing is available",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Session persistence errors must be surfaced when diagnostics plumbing is enabled",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Reconcile CoreData session bookmark diffs with live bookmark entities according to defined reconciliation rules",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CoreData session bookmarks and live bookmark entities must match after applying reconciliation rules",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1743,
+    "line_count": 19
+  }
+}

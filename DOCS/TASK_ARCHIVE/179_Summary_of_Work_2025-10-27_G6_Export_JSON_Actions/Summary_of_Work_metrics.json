@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/179_Summary_of_Work_2025-10-27_G6_Export_JSON_Actions/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The user-facing alerts and diagnostics must always stay in sync with exporter outcomes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests for missing selections and save dialog failures are added to the SwiftUI export pipeline.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 770,
+    "line_count": 11
+  }
+}

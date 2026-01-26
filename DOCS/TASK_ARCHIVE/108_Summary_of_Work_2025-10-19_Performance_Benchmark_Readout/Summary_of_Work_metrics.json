@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/108_Summary_of_Work_2025-10-19_Performance_Benchmark_Readout/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "CLI throughput and random slice readers must stay within budget during LargeFileBenchmarkTests",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Release managers should use the archived benchmark summary as baseline evidence packet for release readiness",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "LargeFileBenchmarkTests must pass when run under CI defaults and with ISOINSPECTOR_BENCHMENT_INTENSITY=local",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "LargeFileBenchmarkTests",
+      "description": "CLI throughput and random slice reader performance tests for large files",
+      "source_line": null
+    },
+    {
+      "name": "ISOINSPECTOR_BENCHMARK_INTENSITY local benchmark run",
+      "description": "Local intensity benchmark execution of LargeFileBenchmarkTests with increased load",
+      "source_line": null
+    },
+    {
+      "name": "Documentation/Performance/2025-10-19-benchmark-summary.md",
+      "description": "Human-readable summary of benchmark results and logs",
+      "source_line": null
+    },
+    {
+      "name": "Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md link to benchmark archive",
+      "description": "Reference for release managers to baseline evidence packet",
+      "source_line": null
+    },
+    {
+      "name": "H4_Performance_Tests.md archival",
+      "description": "Archived test documentation in DOCS/TASK_ARCHIVE/107_H4_Performance_Benchmark_Validation/",
+      "source_line": null
+    },
+    {
+      "name": "Summary_of_Work.md task-specific summary",
+      "description": "Task outcome captured in a summary file",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1297,
+    "line_count": 23
+  }
+}

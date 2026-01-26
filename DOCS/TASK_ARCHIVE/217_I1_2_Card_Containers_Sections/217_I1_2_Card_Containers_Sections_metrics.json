@@ -1,0 +1,133 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/217_I1_2_Card_Containers_Sections/217_I1_2_Card_Containers_Sections.md",
+  "n_spec": 16,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Migrate ISOInspectorApp details panel container sections to use FoundationUI Design System DS.Card and DS.SectionHeader components for consistent layout and dark mode support.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All details panel container sections must use DS.Card component with appropriate elevation levels (thin, regular, thick).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All section headers must be replaced with DS.SectionHeader component via BoxSectionHeader wrapper.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No hardcoded padding, corner radius, or shadow values; all spacing uses DS.Spacing tokens.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Dark mode rendering must be correct and consistent across all cards using ColorSchemeAdapter.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Card elevation hierarchy must be visually clear (thin < regular < thick).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit test coverage for new wrapper components must be \u226590%.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot tests must pass for all card variants in light and dark modes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration tests must verify card nesting behavior.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility tests must confirm semantic structure, landmarks, VoiceOver announcements, keyboard focus order, and WCAG 2.1 AA compliance with score \u226598%.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No SwiftLint violations introduced.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Build time impact must be <5%.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No performance regressions in details panel rendering; frame time <16ms.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FoundationUI DS.Card and DS.SectionHeader components are available and integrated into the project.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Create BoxDetailsCard wrapper around DS.Card to support all elevation levels and platform adaptation context.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Create BoxSectionHeader\u00a0wrapper\u00a0to\u00a0wrap\u00a0DS\u00a0\u2013\u00a0the\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxDetailsCard",
+      "description": "SwiftUI wrapper around FoundationUI DS.Card providing elevation levels (thin, regular, thick) and platform adaptation for details panel sections.",
+      "source_line": null
+    },
+    {
+      "name": "BoxSectionHeader",
+      "description": "SwiftUI wrapper around FoundationUI DS.SectionHeader with typography variants, optional divider support, and VoiceOver landmark announcements for section headers.",
+      "source_line": null
+    },
+    {
+      "name": "DetailsPanelCardLayout",
+      "description": "Refactored layout of the ISOInspectorApp details panel using BoxDetailsCard and BoxSectionHeader, replacing manual styling with Design System tokens and automatic dark mode rendering.",
+      "source_line": null
+    },
+    {
+      "name": "CardElevationUnitTests",
+      "description": "Unit tests covering all DS.Card elevation variants (thin, regular, thick) within BoxDetailsCard, ensuring correct appearance and token usage.",
+      "source_line": null
+    },
+    {
+      "name": "CardSnapshotTests",
+      "description": "Snapshot tests for light/dark modes and elevation levels of BoxDetailsCard to verify visual consistency across platforms.",
+      "source_line": null
+    },
+    {
+      "name": "CardIntegrationTests",
+      "description": "Integration tests validating nested card layouts, cards inside scrollable containers, and interaction with other FoundationUI components.",
+      "source_line": null
+    },
+    {
+      "name": "AccessibilityTests",
+      "description": "Tests confirming semantic structure, landmarks, VoiceOver announcements, keyboard focus order, and WCAG 2.1 AA compliance for BoxDetailsCard and BoxSectionHeader.",
+      "source_line": null
+    },
+    {
+      "name": "DarkModeVerification",
+      "description": "Manual and automated checks ensuring automatic dark mode adaptation via ColorSchemeAdapter for all card components across macOS, iOS, and iPadOS.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 9460,
+    "line_count": 265
+  }
+}

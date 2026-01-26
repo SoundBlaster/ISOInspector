@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/89_Close_TODO_3/89_Close_TODO_3.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Confirm that backlog item `todo.md #3` is fully satisfied by existing VR-001 through VR-005 implementations and update the project trackers accordingly so the remaining TODO list reflects current reality.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`todo.md #3` is marked complete and references remain intact for each VR rule.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`DOCS/INPROGRESS/next_tasks.md` no longer lists an unassigned placeholder that simply points back to the backlog entry.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "New summary notes describe the close-out so future contributors see the reconciliation work in the PDD archive and the rolling `Summary_of_Work.md`.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "VR ordering and structural rules were delivered across archived tasks `12_B5_VR001_VR002_Structural_Validation` and `13_B5_VR004_VR005_Ordering_Validation`, both of which document code-level validation behavior now present in the repository.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit existing code/tests in `Sources/ISOInspectorKit/Validation/` and `Tests/ISOInspectorKitTests/` to confirm VR-001\u2014VR-005 coverage before updating trackers.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Validate VR-001 through VR-005 implementation coverage",
+      "description": "Audit existing code and tests to confirm that validation rules VR-001 to VR-005 are fully implemented in the ISOInspectorKit repository.",
+      "source_line": null
+    },
+    {
+      "name": "Update todo.md backlog status",
+      "description": "Mark backlog item #3 as complete and ensure all references to VR rules remain intact.",
+      "source_line": null
+    },
+    {
+      "name": "Synchronize next_tasks.md tracker",
+      "description": "Remove placeholder entries related to backlog #3 from DOCS/INPROGRESS/next_tasks.md so the task list reflects current reality.",
+      "source_line": null
+    },
+    {
+      "name": "Generate close\u2011out summary notes",
+      "description": "Create a new summary entry describing the reconciliation work and archive it in the PDD archive and Summary_of_Work.md.",
+      "source_line": null
+    },
+    {
+      "name": "Run markdown formatting script",
+      "description": "Execute scripts/fix_markdown.py on updated Markdown files to normalize formatting.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1944,
+    "line_count": 23
+  }
+}

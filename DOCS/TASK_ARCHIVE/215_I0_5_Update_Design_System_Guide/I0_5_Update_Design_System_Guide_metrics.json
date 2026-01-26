@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/215_I0_5_Update_Design_System_Guide/I0_5_Update_Design_System_Guide.md",
+  "n_spec": 13,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Update the Design System Guide to include FoundationUI integration checklist, migration path, quality gates, and accessibility requirements.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add \"FoundationUI Integration Checklist\" section to Design System Guide.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Document migration path from old UI patterns to FoundationUI components with code examples.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add quality gates per integration phase (Phase 0-6).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Document accessibility requirements ensuring \u226598% WCAG 2.1 AA compliance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Cross-reference ComponentTestApp and integration test suite.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Ensure all code examples are accurate and testable.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No broken links or references in the guide.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Design tokens must be used for spacing, colors, typography, and animations; no hard\u2011coded platform values.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FoundationUI components must be wrapped with domain\u2011specific semantics before exposure to business logic.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "SwiftLint 0 violations, compiler warnings 0, test coverage \u226580%, accessibility audit \u226598% must hold for each phase.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a single file per component wrapper following \"One File\u2011\"\u2011one\u2011Entity\u00a0principle.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Platform adaptation uses @Environment(\\",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Integration Checklist",
+      "description": "Section detailing checklist items for integrating FoundationUI components into the app",
+      "source_line": null
+    },
+    {
+      "name": "Migration Path to FoundationUI",
+      "description": "Guidance on mapping old UI patterns to new FoundationUI components with code examples and workflow",
+      "source_line": null
+    },
+    {
+      "name": "Quality Gates per Integration Phase",
+      "description": "Defined quality criteria and gates for each of the six integration phases (Phase\u00a00\u20136)",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Requirements for FoundationUI Integration",
+      "description": "WCAG 2.1 AA compliance checklist, VoiceOver, keyboard navigation, dynamic\u2011type and color contrast guidelines",
+      "source_line": null
+    },
+    {
+      "name": "ComponentTestApp Cross-References",
+      "description": "Links to live examples in ComponentTestApp and test suite references throughout the guide",
+      "source_line": null
+    },
+    {
+      "name": "Design System Guide Update Process",
+      "description": "Procedure for reviewing current guide, adding new sections, and marking task completion",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 10593,
+    "line_count": 241
+  }
+}

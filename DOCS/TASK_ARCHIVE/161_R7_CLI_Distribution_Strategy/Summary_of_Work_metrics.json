@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/161_R7_CLI_Distribution_Strategy/Summary_of_Work.md",
+  "n_spec": 7,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a documented CLI distribution strategy for notarized macOS releases, Homebrew tap workflow, Linux packaging, automation hooks, and risk mitigations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation includes notarized macOS distribution steps, Homebrew tap workflow, Linux packaging details, automation hooks, and risk mitigations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Release readiness runbook incorporates CLI packaging checks into pre-release validation, reuses the new script helper, and enumerates artifact naming for macOS and Linux deliverables.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add scripts/package_cli.sh to orchestrate building, signing, zipping, checksum generation, and notarization submission for CLI releases.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI must invoke scripts/package_cli.sh --skip-notarize on tagged builds and publish artifacts as GitHub Release assets.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Publish and maintain the private isoinspector/homebrew-tap repository referenced by the strategy.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The script helper must always generate checksum files for each artifact.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Release Packaging Script",
+      "description": "Automates building, signing, zipping, checksum generation, and notarization submission for isoinspect CLI releases via scripts/package_cli.sh",
+      "source_line": null
+    },
+    {
+      "name": "Homebrew Tap Workflow Documentation",
+      "description": "Guides the process of publishing the isoinspect CLI to a private Homebrew tap repository",
+      "source_line": null
+    },
+    {
+      "name": "Linux Packaging Process",
+      "description": "Details how the isoinspect CLI is packaged for Linux distributions",
+      "source_line": null
+    },
+    {
+      "name": "macOS Distribution with Notarization",
+      "description": "Specifies notarized macOS distribution steps and artifact naming conventions",
+      "source_line": null
+    },
+    {
+      "name": "Pre-Release Validation Integration",
+      "description": "Integrates CLI packaging checks into the release readiness runbook for pre-release validation",
+      "source_line": null
+    },
+    {
+      "name": "GitHub Release Asset Publishing",
+      "description": "CI extension to publish packaged artifacts as GitHub Release assets on tagged builds",
+      "source_line": null
+    },
+    {
+      "name": "Checksum Verification Workflow",
+      "description": "Documentation of checksum verification steps for QA during first release",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1479,
+    "line_count": 16
+  }
+}

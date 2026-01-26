@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/27_F1_Expand_Fixture_Catalog/27_F1_Expand_Fixture_Catalog.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Create an expanded automated fixture corpus covering fragmented MP4, DASH segment pairs, large mdat edge cases, and deliberately malformed files so validation rules and streaming parsers have representative samples with documented expectations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Fixture directory gains representative samples for baseline MP4/MOV, fragmented MP4 (moof/traf), DASH init + media segments, large mdat, and intentionally malformed headers or hierarchies.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each fixture is accompanied by metadata describing provenance, scenario focus, and expected validation outcomes (pass/fail rules, warnings).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated tests reference the new fixtures to assert parser behavior and validation diagnostics without manual setup.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Repository documentation (fixture catalog README or inline comments) is updated so future tasks can regenerate or extend assets consistently.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Generated malformed or fragmented files must be deterministic and small enough for version control; generation scripts or commands are captured alongside fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use existing fixture harness in Tests/ISOInspectorKitTests/Fixtures as the staging area; extend helper types in FixtureCatalog.swift to describe new assets and expectations.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Large mdat coverage uses sparse data or truncated payloads to keep repository size manageable while still exercising streaming behaviors.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Fixture Catalog Expansion",
+      "description": "Add new MP4/MOV fixture files covering fragmented, DASH, large mdat, and malformed cases to the repository.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Attachment for Fixtures",
+      "description": "Attach provenance, scenario focus, and expected validation outcomes metadata to each fixture.",
+      "source_line": null
+    },
+    {
+      "name": "Automated Test Integration",
+      "description": "Reference new fixtures in automated tests to assert parser behavior and diagnostics.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update",
+      "description": "Update README or inline comments to document fixture catalog and generation process.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Generation Scripts",
+      "description": "Provide deterministic Python/Swift scripts for creating fragmented, DASH, large mdat, and malformed files.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Expectation Coordination",
+      "description": "Align expected validation outcomes with existing VR-001\u2013VR-006 rules and add TODO hooks for new rules.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2787,
+    "line_count": 48
+  }
+}

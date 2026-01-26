@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/A5_Random_Slice_Benchmarking.md",
+  "n_spec": 9,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a repeatable micro\u2011benchmark suite that exercises random slice reads against both MappedReader and ChunkedFileReader, capturing latency and throughput metrics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmarks execute both reader implementations across representative slice sizes (small, medium, large) using shared fixtures, reporting latency and throughput deltas within XCTest\u2019s metrics harness.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Harness integrates into the existing performance test suite so swift test captures regressions automatically, leveraging PerformanceBenchmarkConfiguration controls delivered by Task F2.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark failures emit structured RandomAccessReaderError diagnostics, confirming the error taxonomy is preserved end\u2011to\u2011end during stress scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation or README notes summarize the measurement approach and baseline numbers so future tasks can compare against the established envelope.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Random slice read operations must use the unified RandomAccessReaderError taxonomy for error reporting.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the performance benchmark target introduced in Task F2, reusing configurable payload sizing and iteration controls to cover random slice workloads for both reader implementations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Parameterize slice offsets to model warm and cold cache behaviour using existing IO subsystem fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Capture metrics in a format suitable for future CI gating (e.g., JSON artifacts or baseline files) while keeping Linux compatibility for non\u2011Combine scenarios.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "RandomSliceBenchmarkHarness",
+      "description": "Executes micro\u2011benchmarks that read random slices using MappedReader and ChunkedFileReader, measuring latency and throughput",
+      "source_line": null
+    },
+    {
+      "name": "SharedFixtureManager",
+      "description": "Provides large file fixtures reused across benchmarks to avoid generating new assets",
+      "source_line": null
+    },
+    {
+      "name": "SliceOffsetParameterizer",
+      "description": "Generates slice offsets to model warm and cold cache behavior for benchmark runs",
+      "source_line": null
+    },
+    {
+      "name": "PerformanceMetricsCollector",
+      "description": "Collects latency and throughput metrics in a format suitable for CI gating (JSON artifacts or baseline files)",
+      "source_line": null
+    },
+    {
+      "name": "ErrorDiagnosticEmitter",
+      "description": "Emits structured RandomAccessReaderError diagnostics when benchmarks fail, preserving the error taxonomy",
+      "source_line": null
+    },
+    {
+      "name": "BenchmarkIntegrationModule",
+      "description": "Integrates the harness into the existing performance test suite using swift test and PerformanceBenchmarkConfiguration controls",
+      "source_line": null
+    },
+    {
+      "name": "DocumentationGenerator",
+      "description": "Produces README notes summarizing measurement approach and baseline numbers",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3572,
+    "line_count": 46
+  }
+}

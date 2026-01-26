@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/14_B5_VR006_Research_Logging/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Execute VR-006 research logging alongside the CLI and UI metadata consumption work tracked in todo.md #3",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Ensure ordering insights flow into downstream consumers",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 187,
+    "line_count": 3
+  }
+}

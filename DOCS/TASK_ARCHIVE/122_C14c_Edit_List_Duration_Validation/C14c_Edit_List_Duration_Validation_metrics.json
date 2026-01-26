@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/122_C14c_Edit_List_Duration_Validation/C14c_Edit_List_Duration_Validation.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Validate edit list payloads so that presentation durations align with movie and track headers, flagging gaps, overlaps, and unsupported rate adjustments surfaced by the elst parser.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation compares summed edit list movie durations against mvhd.duration and reports discrepancies exceeding one tick of the movie timescale.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Track-level reconciliation maps non-empty edits into media timescale units and surfaces drift relative to tkhd and mdhd durations, tolerating disabled tracks.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Diagnostics call out overlapping presentation windows, unsupported reverse/paused segments, and non-zero media_rate_fraction values with actionable messages.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Results flow into CLI/JSON exports and existing UI diagnostic channels without regressing current tests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Edit list payloads must be consumed by the validation pipeline alongside mvhd, tkhd, and mdhd metadata.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the validation pipeline to consume elst entries using cumulative presentation offsets computed by the parser.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Emit structured diagnostics tagged with affected track IDs for future fixture updates.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add targeted regression coverage exercising empty edits, multi-segment offsets, and mismatched durations using existing fixture corpus.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Edit List Payload Validation",
+      "description": "Validates elst entries against movie and track headers for duration consistency, gaps, overlaps, and rate adjustments.",
+      "source_line": null
+    },
+    {
+      "name": "Presentation Duration Reconciliation",
+      "description": "Compares summed edit list movie durations to mvhd.duration and reports discrepancies beyond one tick of the movie timescale.",
+      "source_line": null
+    },
+    {
+      "name": "Track-Level Edit Mapping",
+      "description": "Maps non-empty edits into media timescale units and surfaces drift relative to tkhd and mdhd durations, handling disabled tracks.",
+      "source_line": null
+    },
+    {
+      "name": "Diagnostic Messaging for Overlaps and Unsupported Segments",
+      "description": "Generates structured diagnostics for overlapping presentation windows, reverse/paused segments, and non-zero media_rate_fraction values with actionable messages.",
+      "source_line": null
+    },
+    {
+      "name": "CLI and JSON Export Integration",
+      "description": "Flows validation results into CLI outputs and JSON exports for downstream consumption.",
+      "source_line": null
+    },
+    {
+      "name": "UI Diagnostic Channel Update",
+      "description": "Integrates new diagnostics into existing UI diagnostic channels without regression.",
+      "source_line": null
+    },
+    {
+      "name": "Structured Diagnostic Tagging",
+      "description": "Tags diagnostics with affected track IDs to aid future fixture updates and assertions.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Test Coverage Extension",
+      "description": "Adds targeted regression tests covering empty edits, multi-segment offsets, and mismatched durations using existing fixtures.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3073,
+    "line_count": 50
+  }
+}

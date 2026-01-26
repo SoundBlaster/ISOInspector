@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/next_tasks.md",
+  "n_spec": 7,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Propagate Decoder Failures Through Tolerant Parsing: Update streaming iteration to capture BoxHeaderDecoder failures, attach diagnostics to the current node, and continue traversal.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Continue traversal per the acceptance criteria tracked in DOCS/AI/Tolerance_Parsing/TODO.md.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "VoiceOver Regression Pass for Accessibility Shortcuts: Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Hardware verification must be scheduled only after confirming availability of required macOS and iPadOS devices.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Real-World Assets: Secure Dolby Vision, AV1, VP9, Dolby AC-4 and MPEG\u2011H fixtures to shift regression baselines from synthetic payloads once approvals land.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Licensing approvals must be obtained before assets can be secured.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Snapshot & CLI Fixture Maintenance: Refresh snapshots and CLI fixtures whenever schema updates are an intentional change, using ISOINSPECTT...",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Propagate Decoder Failures Through Tolerant Parsing",
+      "description": "Update streaming iteration to capture BoxHeaderDecoder failures, attach diagnostics to the current node, and continue traversal per acceptance criteria",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Licensing",
+      "description": "Secure Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures so regression baselines can shift from synthetic payloads",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & CLI Fixture Maintenance",
+      "description": "Refresh snapshots and CLI fixtures whenever schema updates are intentional via ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1175,
+    "line_count": 6
+  }
+}

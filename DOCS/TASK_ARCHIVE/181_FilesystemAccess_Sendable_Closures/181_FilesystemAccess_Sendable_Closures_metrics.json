@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/181_FilesystemAccess_Sendable_Closures/181_FilesystemAccess_Sendable_Closures.md",
+  "n_spec": 8,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Eliminate Swift concurrency warnings triggered when FilesystemAccess captured non-Sendable bookmark helpers so the app builds cleanly under strict Sendable checking on both macOS and iOS targets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Build succeeds without any Swift concurrency warnings related to non\u2011Sendable function values in FilesystemAccess, its live factory, unit tests, and CLI factory when compiled with SWIFT_STRICT_CONCURRENCY enabled.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All bookmark manager method calls used by FilesystemAccess are wrapped in inline Sendable closures that immediately invoke the underlying manager.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FilesystemAccess initializers in unit tests mirror the production closure pattern for bookmark helpers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FilesystemAccessLogger receives an explicit clock closure (makeDate) from callers, avoiding capture of implicit defaults.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FilesystemsAccess dialog handlers must be @Sendable function typealiases.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wrap non\u2011Sendable bookmark manager methods in inline closures to satisfy Sendable contract without changing behavior.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Require callers to pass an explicit clock closure to FilesystemAccessLogger to avoid implicit default capture.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FilesystemAccess Live Factory",
+      "description": "Creates a FilesystemAccess instance configured for production, wrapping bookmark manager methods in Sendable closures.",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccess Logger",
+      "description": "Logs filesystem access events, requiring an explicit clock closure to avoid implicit defaults and maintain Sendable compliance.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Factory",
+      "description": "Provides command-line interface configuration, including a disabled singleton and integration with FilesystemAccessLogger.",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccess Unit Tests",
+      "description": "Test harnesses that initialize FilesystemAccess with Sendable closures mirroring production behavior.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2089,
+    "line_count": 20
+  }
+}

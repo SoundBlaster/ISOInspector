@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/62_A4_RandomAccessReader_Error_Types/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "RandomAccessReader error surface must be standardised using the RandomAccessReaderError taxonomy and propagated through kit readers and fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add RandomAccessReaderError and RandomAccessReaderBoundsError enumerations to RandomAccessReader.swift with Sendable and Equatable conformance for safe concurrency diagnostics.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "MappedReader and ChunkedFileReader must emit shared error cases (invalid offset/count, bounds, IO, overflow) while performing overflow-safe range calculations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "In-memory test reader and unit suites must cover new error behaviours: negative offsets, invalid counts, IO failure propagation, arithmetic overflow detection.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "RandomAccessReaderError Taxonomy",
+      "description": "Defines a standardized set of error types for random-access readers, including bounds and IO errors.",
+      "source_line": null
+    },
+    {
+      "name": "RandomAccessReaderBoundsError Enumeration",
+      "description": "Specifies bounds-related error cases for random-access reader operations.",
+      "source_line": null
+    },
+    {
+      "name": "MappedReader Error Handling",
+      "description": "Updates the MappedReader to emit shared error cases such as invalid offset/count, bounds, IO, and overflow during range calculations.",
+      "source_line": null
+    },
+    {
+      "name": "ChunkedFileReader Error Handling",
+      "description": "Updates the ChunkedFileReader to emit shared error cases such as invalid offset/count, bounds, IO, and overflow during range calculations.",
+      "source_line": null
+    },
+    {
+      "name": "In-Memory Test Reader",
+      "description": "Provides an in-memory reader for testing that covers new error behaviors like negative offsets, invalid counts.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1071,
+    "line_count": 19
+  }
+}

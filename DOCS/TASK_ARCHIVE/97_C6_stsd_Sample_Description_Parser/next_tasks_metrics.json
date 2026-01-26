@@ -1,0 +1,62 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/next_tasks.md",
+  "n_spec": 10,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement the stsd sample description parser to enumerate media sample entries.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The stsd parser must correctly enumerate all media sample entries as defined in the specification.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The implementation is considered complete when the parser produces the expected enumeration of media sample entries and passes all relevant unit tests.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Evaluate additional handler type categorizations if future boxes require specialized roles beyond the current mapping set.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Handler type categorizations must remain consistent with existing mappings unless a new requirement is identified.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A refined categorization scheme is documented and reviewed when new handler types are added.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule macOS CLI/UI large-file benchmark execution using the R4 protocol.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Benchmark results must reflect accurate performance metrics for large files.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmarks run on dedicated macOS hardware and executed with the R4 protocol, resulting in a report.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute macOS DocC generation, notarization\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 2712,
+    "line_count": 29
+  }
+}

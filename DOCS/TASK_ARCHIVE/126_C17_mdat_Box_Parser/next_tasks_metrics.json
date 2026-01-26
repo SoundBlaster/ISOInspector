@@ -1,0 +1,27 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/126_C17_mdat_Box_Parser/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expand metadata value decoding for additional data types surfaced by future fixtures so CLI exports stay aligned with MP4RA guidance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Track coverage opportunities against DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Validation Rule #15 correlates stsc chunk runs, stsz/stz2 sample sizes, and stco/co64 offsets to flag mismatches alongside the edit list duration diagnostics archived in DOCS/TASK_ARCHIVE/122_C14c_Edit_List_Duration_Validation/.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 798,
+    "line_count": 13
+  }
+}

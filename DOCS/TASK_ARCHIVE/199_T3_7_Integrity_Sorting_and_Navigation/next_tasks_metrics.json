@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "IntegritySummaryViewModel implements deterministic order for CLI/UI parity via multi-field offset and affected-node sort implementations.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "When selecting an Integrity issue, the Explorer outline expands and focuses the matching node before switching tabs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting an Integrity issue must expand and focus the matching node in the Explorer outline before tab switch.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add an \"issues only\" outline filter with keyboard shortcuts to jump between issue-bearing nodes as per tolerant parsing backlog.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ResearchLog preview scenarios invoke the audit helper and surface ready/missing/schema mismatch diagnostics from ResearchLogPreviewProvider fixtures.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Integrity Summary ViewModel Sorting",
+      "description": "Provides deterministic multi-field offset and affected-node sorting for integrity summaries in CLI/UI.",
+      "source_line": null
+    },
+    {
+      "name": "Integrity Navigation Filter \u2013 Issue Expansion",
+      "description": "Expands and focuses the matching node in the Explorer outline when an integrity issue is selected before switching tabs.",
+      "source_line": null
+    },
+    {
+      "name": "Integrity Navigation Filter \u2013 Issues Only Outline Filter",
+      "description": "Adds a filter to show only nodes with issues and keyboard shortcuts to navigate between them.",
+      "source_line": null
+    },
+    {
+      "name": "Research Log Monitor SwiftUI Previews Integration",
+      "description": "Integrates ResearchLog audit into SwiftUI previews, displaying diagnostics for ready/missing/schema mismatches from preview fixtures.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1365,
+    "line_count": 11
+  }
+}

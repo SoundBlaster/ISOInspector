@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/139_Validator_and_CLI_Polish/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Validator diagnostics and CLI formatting must incorporate fragment fixture metadata",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "JSON export snapshots must be revalidated with expanded coverage",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Secure licensing for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to replace synthetic payloads and refresh regression baselines",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Validator Diagnostics",
+      "description": "Provides diagnostic information for validation processes",
+      "source_line": null
+    },
+    {
+      "name": "CLI Formatting",
+      "description": "Formats command-line interface output incorporating fragment fixture metadata",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Snapshots",
+      "description": "Exports snapshots in JSON format and revalidates them with expanded coverage",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing",
+      "description": "Manages licensing for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to replace synthetic payloads",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 543,
+    "line_count": 4
+  }
+}

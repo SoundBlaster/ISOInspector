@@ -1,0 +1,133 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/197_Test_Suite_Fixes_Swift6_Concurrency/Summary_of_Work.md",
+  "n_spec": 16,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Ensure all test suites pass in CI by fixing Swift 6 concurrency and memory management issues.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Eliminate CoreData warnings about multiple NSEntityDescriptions by caching NSManagedObjectModel instances.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Prevent crashes caused by invalid UUID strings in tests.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Avoid RunLoop.main.run usage that causes EXC_BAD_ACCESS during SwiftUI view tests.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Make IntegritySummaryViewModel sorting deterministic by replacing asynchronous Combine publishers with synchronous property observers.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Disable unreliable SwiftUI view hierarchy tests and recommend state-based or UI test alternatives.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All compilation errors related to Swift 6 strict concurrency are resolved, including type ambiguity, MainActor isolation violations, and Sendable conformance for test stubs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CoreData warnings about multiple NSEntityDescriptions no longer appear in any test run.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests that previously crashed due to invalid UUID strings now use valid hexadecimal UUIDs and do not crash.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftUI view tests no longer invoke RunLoop.main.run; instead they use XCTestExpectation with async dispatch to avoid memory access violations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "IntegritySummaryViewModel updates its displayed issues immediately upon sortOrder or severityFilter changes, ensuring sorting tests pass deterministically.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All disabled AppShellViewErrorBannerTests are marked with skip_ prefix and contain FIXME comments; no test failures occur from SwiftUI view hierarchy inspection.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Test stubs that mutate state must be annotated with @unchecked Sendable to avoid concurrency warnings.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The NSManagedObjectModel cache is a static property ensuring each model version only once, preventing duplicate entity descriptions.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Explicitly import ISOInspectorKit.FourCharCode to resolve type ambiguity between Foundation and project types.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Mark test methods accessing @MainActor isolated objects with @MainActor to enforce isolation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FourCharCode Type Disambiguation Import",
+      "description": "Explicitly imports the custom FourCharCode struct to avoid Foundation's Darwin.FourCharCode ambiguity in tests.",
+      "source_line": null
+    },
+    {
+      "name": "MainActor Isolation for Test Methods",
+      "description": "Marks test methods that access @MainActor types with @MainActor to satisfy Swift 6 concurrency rules.",
+      "source_line": null
+    },
+    {
+      "name": "Sendable Conformance for Test Stubs",
+      "description": "Adds @unchecked Sendable to mutable test stub classes so they can be used in concurrent contexts without thread safety concerns.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Model Caching",
+      "description": "Creates a static cache of NSManagedObjectModel instances per model version to eliminate multiple NSEntityDescriptions warnings during tests.",
+      "source_line": null
+    },
+    {
+      "name": "UUID Validation Fix",
+      "description": "Replaces an invalid UUID string with a valid hexadecimal UUID to prevent nil unwrapping crashes in tests.",
+      "source_line": null
+    },
+    {
+      "name": "Safe Async Expectation for SwiftUI View Tests",
+      "description": "Replaces unsafe RunLoop.main.run calls with XCTestExpectation and asyncAfter to wait for UI updates without corrupting the autorelease pool.",
+      "source_line": null
+    },
+    {
+      "name": "Synchronous Property Observers in ViewModel",
+      "description": "Changes Combine publisher sinks to synchronous didSet observers on @Published properties so that test assertions see immediate state changes.",
+      "source_line": null
+    },
+    {
+      "name": "Disabled SwiftUI View Hierarchy Tests with FIXME",
+      "description": "Marks tests that rely on containsText() for SwiftUI views as disabled, adding comments recommending state-based testing instead of view hierarchy inspection.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 15304,
+    "line_count": 401
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/45_E2_Integrate_Parser_Event_Pipeline/E2_Integrate_Parser_Event_Pipeline.md",
+  "n_spec": 6,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a user, I want the SwiftUI document shell to automatically update its outline, detail, and validation panels when I open or select a media file so that I can inspect the file contents immediately.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "When a supported file is selected or opened within the app, the parser pipeline is triggered and the UI tree/detail panes are populated without requiring a manual refresh.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation and event state remain synchronized between the streaming parser pipeline and the SwiftUI view models while respecting main-actor updates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "End-to-end latency from file selection to UI update stays below 200 ms, meeting the responsiveness requirement for streaming updates.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The document shell must invoke the parser through a clear coordinator (e.g., an app-level controller) and clean up subscriptions when sessions close.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse the Combine bridge and session stores established during task C1 to fan out parser events to SwiftUI-managed state.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Parser Event Streaming to UI",
+      "description": "Streams parser output from ISOInspectorCore to SwiftUI document shell, updating outline, detail, and validation panels in real time.",
+      "source_line": null
+    },
+    {
+      "name": "File Selection Trigger",
+      "description": "Handles selecting or opening a supported file within the app, initiating the parser pipeline automatically.",
+      "source_line": null
+    },
+    {
+      "name": "Coordinator Controller",
+      "description": "App-level controller that invokes the parser and manages subscriptions for each session, ensuring cleanup when sessions close.",
+      "source_line": null
+    },
+    {
+      "name": "Combine Bridge Integration",
+      "description": "Reuses Combine bridge and session stores to fan out parser events to SwiftUI-managed state.",
+      "source_line": null
+    },
+    {
+      "name": "Latency Monitoring",
+      "description": "Ensures end-to-end latency stays below 200 ms for responsive inspection workflows.",
+      "source_line": null
+    },
+    {
+      "name": "Validation State Synchronization",
+      "description": "Keeps validation and event state synchronized between the streaming pipeline and UI view models on the main actor.",
+      "source_line": null
+    },
+    {
+      "name": "Telemetry Compatibility",
+      "description": "Verifies compatibility with export and benchmarking hooks so downstream telemetry tasks can observe streamed data.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1972,
+    "line_count": 37
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/139_Validator_and_CLI_Polish/Validator_and_CLI_Polish.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Ensure validator messaging, CLI formatting, and JSON export snapshots fully incorporate the expanded fragment fixture metadata so diagnostics and summaries stay accurate and readable for complex moof/traf scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxValidator (and related validation rule surfaces) reflect fragment fixture metadata without regressions, emitting diagnostics that reference run aggregation, offsets, and timing where applicable.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "isoinspect CLI output (human-readable and JSON modes) formats the new fragment details coherently, including friendly headings, ordering, and highlighting for warnings/errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSON export snapshots and associated tests remain stable or are updated deliberately to match the refined formatter output for the new fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation or release notes are refreshed if user-facing CLI/validator messaging changes materially.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "System constraints or rules that must always hold: The validator and CLI must consistently present fragment metadata across all modes without regressions.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Review and align diagnostic text in BoxValidator.swift with newly captured metadata; audit CLI printers to ensure consistent rendering; coordinate documentation updates before publishing changes.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxValidator Diagnostic Generation",
+      "description": "Generates diagnostics for ISO boxes, incorporating expanded fragment fixture metadata such as run aggregation, offsets, and timing.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspector CLI Human-Readable Output",
+      "description": "Formats validation results into a user-friendly console display with headings, ordering, and highlighting for warnings/errors.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspector CLI JSON Export",
+      "description": "Outputs validation results in JSON format, including detailed fragment metadata and maintaining snapshot stability.",
+      "source_line": null
+    },
+    {
+      "name": "Fragment Metadata Formatter",
+      "description": "Shared formatting helpers that render fragment summaries consistently across the CLI and documentation.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Rule Surface Update",
+      "description": "Updates rule types to align diagnostic text with newly captured fragment fixture metadata.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3195,
+    "line_count": 31
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/next_tasks.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement validation rule #15 to correlate stsc chunk runs, stsz/stz2 sample sizes, and the new stco/co64 chunk offsets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation rule #15 must correctly correlate stsc chunk runs, stsz/stz2 sample sizes, and stco/co64 chunk offsets according to integration notes.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Evaluate additional handler type categorizations if future boxes require specialized roles beyond the current mapping set.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Handler type categorizations must be evaluated and documented once refined.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule macOS CLI/UI large-file benchmark execution using the R4 protocol once dedicated hardware runners come online.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Benchmarks can only run when macOS automation with Instruments support is available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute macOS DocC generation, notarization, TestFlight export and hardware-dependent QA once runners are available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Release readiness tasks must be executed following the runbook.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute random slice benchmark suite on mac\u2011to\u2011s?",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "stco/co64 Chunk Offset Parser",
+      "description": "Parses stco and co64 chunks to emit normalized offsets for both 32\u2011bit and 64\u2011bit entries",
+      "source_line": null
+    },
+    {
+      "name": "Validation Rule #15",
+      "description": "Correlates stsc chunk runs, stsz/stz2 sample sizes, and stco/co64 chunk offsets to ensure consistency",
+      "source_line": null
+    },
+    {
+      "name": "hdlr Handler Type Categorization",
+      "description": "Parses hdlr boxes and maps handler types to specialized roles",
+      "source_line": null
+    },
+    {
+      "name": "macOS CLI/UI Large\u2011File Benchmark Execution",
+      "description": "Runs large\u2011file performance benchmarks using the R4 protocol on macOS hardware",
+      "source_line": null
+    },
+    {
+      "name": "Release Readiness Validation",
+      "description": "Generates DocC documentation, notarizes builds, exports TestFlight packages, and performs hardware\u2011dependent QA for release readiness",
+      "source_line": null
+    },
+    {
+      "name": "Random Slice Benchmark Suite Execution",
+      "description": "Executes random slice benchmark tests on macOS to compare mapped vs. chunked readers",
+      "source_line": null
+    },
+    {
+      "name": "ParseTree Streaming Selection Automation Tests",
+      "description": "Runs XCTest UI automation to validate SwiftUI streaming selection flow",
+      "source_line": null
+    },
+    {
+      "name": "Combine\u2011backed UI Benchmark",
+      "description": "Captures latency metrics for Combine\u2011based UI benchmarks on macOS while maintaining CLI throughput parity",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3127,
+    "line_count": 30
+  }
+}

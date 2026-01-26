@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/84_R2_Fixture_Acquisition/R2_Fixture_Acquisition.md",
+  "n_spec": 8,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Curate a catalog of MP4/QuickTime fixtures covering standard, fragmented, and vendor-specific atoms for parsing, validation, and benchmarking suites.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Produce a ranked list of sample sources with licensing notes and download metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Ensure the catalog covers core MP4 families (progressive moov/mdat, fragmented moof/traf), metadata-heavy assets, and edge cases referenced in benchmarking runbooks.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Document storage and size requirements so CI or hardware runners can stage media without exhausting quotas.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All downloaded fixtures must have SHA-256 checksums recorded in a manifest for integrity verification.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "License texts must be mirrored under Documentation/FixtureCatalog/licenses/ and referenced from the manifest to satisfy attribution requirements.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Store large assets under Distribution/Fixtures/<category>/ while keeping lightweight regression fixtures inside the test bundle.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use Tests/ISOInspectorKitTests/Fixtures/generate_fixtures.py to ingest a manifest-driven remote download workflow with deterministic filenames.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Fixture Catalog Manifest Generation",
+      "description": "Generate a manifest.json capturing source URL, SHA-256 checksum, license snippet, and coverage tags for each fixture",
+      "source_line": null
+    },
+    {
+      "name": "Scripted Fixture Download Helper",
+      "description": "Extend generate_fixtures.py to download fixtures from URLs specified in the manifest and emit deterministic filenames",
+      "source_line": null
+    },
+    {
+      "name": "Checksum Validation Process",
+      "description": "Validate downloaded files against recorded SHA-256 checksums and log digests for CI verification",
+      "source_line": null
+    },
+    {
+      "name": "Storage Allocation Strategy",
+      "description": "Allocate and document storage targets (e.g., 40 GB macOS, 15 GB Linux) for staging media fixtures",
+      "source_line": null
+    },
+    {
+      "name": "License Mirroring and Attribution",
+      "description": "Mirror license texts under Documentation/FixtureCatalog/licenses/ and reference them in the manifest to satisfy attribution requirements",
+      "source_line": null
+    },
+    {
+      "name": "Vendor Telemetry Fixture Support",
+      "description": "Include vendor-specific UUID metadata boxes (GoPro, DJI) in fixture set for telemetry parsing coverage",
+      "source_line": null
+    },
+    {
+      "name": "Progressive MP4 Coverage",
+      "description": "Provide progressive MP4 samples with canonical moov/mdat ordering from Apple and Bento4 sources",
+      "source_line": null
+    },
+    {
+      "name": "Fragmented MP4 Coverage",
+      "description": "Provide fragmented MP4 samples (moof/traf) from Apple HLS, DASH-IF, GPAC datasets",
+      "source_line": null
+    },
+    {
+      "name": "Metadata-Rich Asset Support",
+      "description": "Include high-bitrate cinematic MP4s with large co64 tables and metadata boxes from Blender Foundation and Xiph.org",
+      "source_line": null
+    },
+    {
+      "name": "Malformed/Truncated Sample Inclusion",
+      "description": "Add intentionally malformed or truncated MP4 samples for parser regression testing (Xiph.org)",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 9621,
+    "line_count": 90
+  }
+}

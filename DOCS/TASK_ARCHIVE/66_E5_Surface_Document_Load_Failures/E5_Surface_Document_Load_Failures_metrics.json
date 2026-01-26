@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/66_E5_Surface_Document_Load_Failures/E5_Surface_Document_Load_Failures.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a SwiftUI error banner that appears when the app cannot open a document, providing user-friendly failure messaging instead of silent failure.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Attempting to open an invalid or inaccessible file in the app shell presents the designed error banner with actionable text.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "UI tests cover the error presentation path and assert the banner clears when the user dismisses or retries successfully.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Error events are logged or traced in a way that aligns with existing diagnostics expectations for document handling.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The document session controller must publish failure state that the SwiftUI shell can observe, replacing the existing TODO placeholder.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the document session controller to publish failure state and coordinate banner styling and copy with existing design tokens or guidelines referenced in the workplan.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Document Load Error Banner",
+      "description": "Displays a SwiftUI banner when the app fails to open an invalid or inaccessible document, providing user-friendly failure messaging and actionable options.",
+      "source_line": null
+    },
+    {
+      "name": "Document Session Failure State Publisher",
+      "description": "Extends the document session controller to publish a failure state that the SwiftUI shell observes for error handling.",
+      "source_line": null
+    },
+    {
+      "name": "Error Event Logging/Tracing",
+      "description": "Logs or traces document load failures in alignment with existing diagnostics expectations.",
+      "source_line": null
+    },
+    {
+      "name": "UI Test Coverage for Error Path",
+      "description": "Automated UI tests that verify the error banner appears, persists until acknowledged, and clears upon dismissal or successful retry.",
+      "source_line": null
+    },
+    {
+      "name": "View Model Regression Tests",
+      "description": "XCTest view model tests ensuring the banner remains until acknowledged and does not regress future success flows.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1769,
+    "line_count": 37
+  }
+}

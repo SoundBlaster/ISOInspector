@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/179_Summary_of_Work_2025-10-27_G6_Export_JSON_Actions/G6_Export_JSON_Actions.md",
+  "n_spec": 9,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As an ISOInspector user, I want to export the entire parse tree or the currently selected node as JSON directly from SwiftUI controls so that I can save and share data easily.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Toolbar buttons and command menu entries for Export JSON\u2026 and Export Selection\u2026 are present and active only when their flows are valid (selection-aware for subtree export).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Invoking an export writes JSON files that match the CLI exporter output for the same scope, reusing shared encoder configuration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "UI tests or snapshot coverage confirm button/menu availability and verify that export completion updates user feedback (e.g., confirmation alerts or recent documents list) without regressions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility affordances exist for VoiceOver and keyboard navigation, matching the shortcuts documented in the manuals.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Exported file destinations must respect sandbox constraints by delegating to FilesystemAccessKit helpers already integrated with recents/session persistence.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse JSONParseTreeExporter from ISOInspectorKit and wire it through existing document session controllers for file save coordination.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Hook toolbar actions in AppShellView and outline context menu to the same export pipeline, ensuring command menu entries share the handler.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Align telemetry or logging hooks with zero-trust logging guidelines so exports are captured without leaking absolute file paths.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Export Entire Parse Tree to JSON",
+      "description": "Allows users to export the full parse tree of a document as a JSON file via toolbar button, menu bar entry, or context menu.",
+      "source_line": null
+    },
+    {
+      "name": "Export Selected Node to JSON",
+      "description": "Enables exporting only the currently selected node (subtree) from the outline view as a JSON file through UI controls.",
+      "source_line": null
+    },
+    {
+      "name": "Toolbar Export Commands",
+      "description": "Provides toolbar buttons for 'Export JSON\u2026' and 'Export Selection\u2026', enabled only when export is valid.",
+      "source_line": null
+    },
+    {
+      "name": "Context Menu Export Commands",
+      "description": "Adds context menu items for exporting entire parse tree or selected node, sharing the same handler as toolbar and command menu.",
+      "source_line": null
+    },
+    {
+      "name": "Command Menu Export Entries",
+      "description": "Includes menu bar entries for export actions that mirror CLI functionality and are selection\u2011aware.",
+      "source_line": null
+    },
+    {
+      "name": "File Save Coordination",
+      "description": "Uses document session controllers to coordinate file save dialogs and ensure sandboxed destinations via FilesystemAccessKit.",
+      "source_line": null
+    },
+    {
+      "name": "Shared JSON Encoder Configuration",
+      "description": "Reuses ISOInspectorKit's JSONParseTreeExporter encoder settings so exported files match CLI output.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Support",
+      "description": "Provides VoiceOver and keyboard navigation support for export controls, including documented shortcuts.",
+      "source_line": null
+    },
+    {
+      "name": "Telemetry Logging for Exports",
+      "description": "Captures export events in logs without exposing absolute file paths, following zero\u2011trust guidelines.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2349,
+    "line_count": 29
+  }
+}

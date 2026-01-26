@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/C5_hdlr_Handler_Parser.md",
+  "n_spec": 8,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a concrete parser for the ISO BMFF `hdlr` (handler reference) box so media, metadata, and streaming contexts expose handler type and name details across the CLI, SwiftUI detail panes, and JSON exports.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`BoxParserRegistry` registers a `hdlr` parser that extracts handler type, subtype, and name strings using the shared `FullBoxReader` for `(version, flags)`.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parsing representative fixtures populates structured data for movie (`mdia/hdlr`) and metadata (`meta/hdlr`) boxes, with unit tests covering text vs. null-terminated names.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming pipeline, CLI exports, and SwiftUI detail panes render handler metadata without regressions (update snapshots or fixtures if required).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation and backlog entries referencing the missing `hdlr` parser are updated to reflect active work and eventual completion.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The parser must gracefully handle null-terminated names and empty strings, matching expectations in Bento4 sample files located under `DOCS/SAMPLES`. ",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse `FullBoxReader` to consume the header, then parse `pre_defined`, `handler_type`, `reserved` fields, and the UTF-8/Pascal name as described in ISO/IEC 14496-12.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the `HandlerType` model (if present) or introduce a lightweight wrapper to expose common handlers (..).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "hdlr Box Parser",
+      "description": "Parses ISO BMFF handler reference boxes extracting handler type, subtype, and name strings using FullBoxReader.",
+      "source_line": null
+    },
+    {
+      "name": "FullBoxReader Integration",
+      "description": "Consumes version and flags from full box headers for hdlr parsing.",
+      "source_line": null
+    },
+    {
+      "name": "HandlerType Model Extension",
+      "description": "Provides lightweight wrapper or extension to expose common handler types such as vide, soun, hint, mdir.",
+      "source_line": null
+    },
+    {
+      "name": "Null-Terminated Name Handling",
+      "description": "Gracefully parses null-terminated names and empty strings in hdlr boxes.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Update",
+      "description": "Registers the hdlr parser in the registry's default parser map.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Schema Translation",
+      "description": "Ensures handler metadata is preserved through JSON exports.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Export Rendering",
+      "description": "Renders handler metadata in command-line interface outputs.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Detail Pane Rendering",
+      "description": "Displays handler metadata in SwiftUI detail panes.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for hdlr Parsing",
+      "description": "Tests that read fixtures and assert correct handler metadata extraction.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2518,
+    "line_count": 39
+  }
+}

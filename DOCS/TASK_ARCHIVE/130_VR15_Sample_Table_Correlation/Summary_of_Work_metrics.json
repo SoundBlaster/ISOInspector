@@ -1,0 +1,38 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/130_VR15_Sample_Table_Correlation/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Sample counts across stsc, stsz/stz2, and stco/co64 tables must match; chunk offsets must be monotonic.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "When totals diverge or offsets regress, SampleTableCorrelationRule emits VR-015 diagnostics.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "SampleTableCorrelationRule added to BoxValidator to reconcile chunk runs, sample sizes, and chunk offsets.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SampleTableCorrelationRule",
+      "description": "Validates and reconciles chunk runs, sample sizes, and chunk offsets in media boxes, emitting VR-015 diagnostics when totals diverge or offsets regress.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipelineLiveTests for aligned tables",
+      "description": "Regression tests that verify parsing of aligned tables, detecting sample count mismatches and non-monotonic chunk offsets.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1503,
+    "line_count": 25
+  }
+}

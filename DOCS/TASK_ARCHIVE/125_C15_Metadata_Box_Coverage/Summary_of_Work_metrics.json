@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/125_C15_Metadata_Box_Coverage/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Parsing, environment propagation, and JSON export coverage must be implemented for udta/meta/keys/ilst.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Dedicated metadata parsers and environment plumbing are added so handler context and key tables flow into ilst parsing.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The streaming walker is extended to accommodate meta payload offsets and FourCharCode decoding supports non-ASCII identifiers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "JSON export structured payloads include metadata detail encoders for metadata boxes and item lists.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Metadata Box Parsing",
+      "description": "Parses metadata boxes within the 'udta/meta/keys/ilst' structure, extracting key-value pairs and handling various data types.",
+      "source_line": null
+    },
+    {
+      "name": "Environment Propagation for Metadata Parsing",
+      "description": "Propagates handler context and key tables into the metadata parsing process to ensure correct interpretation of metadata values.",
+      "source_line": null
+    },
+    {
+      "name": "FourCharCode Decoding Extension",
+      "description": "Extends FourCharCode decoding logic to support non-ASCII identifiers used in metadata boxes.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming Walker Offset Handling",
+      "description": "Updates the streaming walker to accommodate meta payload offsets, enabling accurate traversal of nested metadata structures.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export for Metadata Boxes",
+      "description": "Exports parsed metadata boxes into structured JSON format, including detailed encoders for metadata detail and item lists.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 778,
+    "line_count": 20
+  }
+}

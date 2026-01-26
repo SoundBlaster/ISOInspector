@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/155_G8_Accessibility_and_Keyboard_Shortcuts/G8_Accessibility_and_Keyboard_Shortcuts.md",
+  "n_spec": 8,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide consistent hardware keyboard navigation and accessibility focus management across macOS and iPadOS so that the tree, detail, notes, and hex panes remain operable without pointer input.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Hardware shortcuts (\u2318\u23251\u2013\u2318\u23254 on macOS; discoverable key commands on iPadOS) shift focus between outline, detail, notes, and hex panes and restore the prior selection where available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Arrow key and move-command handling in the outline, detail, and hex panes maintains focus scopes while VoiceOver announces the active element using descriptors from AccessibilitySupport.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Keyboard shortcuts and focus flows are documented in the Accessibility Guidelines and, where applicable, surfaced in user-facing help or menu command titles.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated coverage (e.g., ParseTreeAccessibilityIdentifierTests, ParseTreeAccessibilityFormatterTests) reflects any new identifiers or descriptors introduced during shortcut work.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add or refine key command registration so iPad hardware keyboards expose the same focus commands as macOS, using hidden Button.keyboardShortcut registrations or platform\u2011specific commands modifiers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update AccessibilitySupport helpers and related tests if new labels or hints are required for shortcut discoverability or VoiceOver announcements.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Existing focus routing relies on InspectorFocusTarget bindings inside ParseTreeOutlineView and ParseTreeDetailView to coordinate selection, keyboard shortcuts, and accessibility identifiers.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Keyboard Shortcut Registration for Pane Focus",
+      "description": "Registers hardware keyboard shortcuts (\u2318\u23251\u20134 on macOS and equivalent on iPadOS) to shift focus between outline, detail, notes, and hex panes.",
+      "source_line": null
+    },
+    {
+      "name": "Focus Routing Logic in Outline View",
+      "description": "Manages .focused bindings in ParseTreeOutlineView to update selection and maintain focus scope when pane switches occur.",
+      "source_line": null
+    },
+    {
+      "name": "Focus Routing Logic in Detail View",
+      "description": "Handles .focused bindings in ParseTreeDetailView for consistent focus updates during pane changes.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Identifier Assignment",
+      "description": "Assigns unique accessibility identifiers to outline, detail, notes, and hex panes via AccessibilitySupport helpers.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Announcement Handling",
+      "description": "Ensures arrow key navigation and move commands announce the active element using descriptors from AccessibilitySupport.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Command Discovery UI",
+      "description": "Provides discoverable key command listings in iPadOS hardware keyboard context menus or help menu items.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Documentation Update",
+      "description": "Documents shortcut map, focus behavior, and accessibility expectations in AccessibilityGuidelines.md and related release notes.",
+      "source_line": null
+    },
+    {
+      "name": "Automated Accessibility Tests",
+      "description": "Runs ParseTreeAccessibilityIdentifierTests and ParseTreeAccessibilityFormatterTests to verify identifiers and descriptors after changes.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3905,
+    "line_count": 36
+  }
+}

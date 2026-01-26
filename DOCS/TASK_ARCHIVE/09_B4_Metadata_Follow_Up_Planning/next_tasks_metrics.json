@@ -1,0 +1,27 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/09_B4_Metadata_Follow_Up_Planning/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Outline the additional downstream parser follow-ups now unlocked by real-time streaming events (e.g., catalog integration test coverage and fallback handling) in `09_B4_Metadata_Follow_Up_Planning.md`.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Wire the console formatter into an inspect command so validation summaries appear in the CLI pipeline.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement VR-003 metadata comparison rule so CLI and validation pipelines emit catalog-driven warnings.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 447,
+    "line_count": 8
+  }
+}

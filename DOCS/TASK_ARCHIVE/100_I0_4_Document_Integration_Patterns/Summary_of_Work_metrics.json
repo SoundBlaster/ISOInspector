@@ -1,0 +1,138 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/100_I0_4_Document_Integration_Patterns/Summary_of_Work.md",
+  "n_spec": 15,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Future developers can understand and apply FoundationUI integration patterns without reverse-engineering code.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Phase 1 implementation of Foundation components (Badges, Cards, Key-Value Rows) proceeds with clear examples and guidelines.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation includes a \"FoundationUI Integration\" section in Technical Spec and README.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Technical Spec contains 4 detailed code examples for Badge, Card, KeyValueRow, and complex composition.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Design token usage guidelines cover spacing, color, typography, animation tokens with correct/incorrect examples.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Do's and Don'ts list includes 13 guidelines with code examples and rationale.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration checklist has 19 verification points covering design tokens, component integration, testing, accessibility, platform compatibility, documentation, build quality gates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "README feature matrix updated to highlight FoundationUI usage and cross-references to Technical Spec.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Package layout includes Examples/ComponentTestApp and Tests/ISOInspectorAppTests/FoundationUI directories.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ComponentTestApp running instructions added with Tuist workflow guidance.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All design tokens must be used exclusively; no magic numbers or hardcoded values in business logic.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FoundationUI types cannot be exposed in business logic layers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wrapper components (e.g., BoxStatusBadgeView, BoxMetadataCard) will represent domain semantics and compose with FoundationUI components.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Component composition patterns will follow multi\u2011component composition for complex UIs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Accessibility compliance must be WCAG 2.1 AA compliant across all UI components.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Badge Integration Wrapper",
+      "description": "Component that maps domain ParseStatus to UI BadgeLevel and displays in tree view with accessibility labels",
+      "source_line": null
+    },
+    {
+      "name": "Card Integration Wrapper",
+      "description": "Wrapper for BoxMetadataCard providing elevation control, design token styling, and nested composition for detail panels",
+      "source_line": null
+    },
+    {
+      "name": "KeyValueRow Integration Wrapper",
+      "description": "BoxMetadataRow component with copyable text, HexOffsetRow specialization, supporting horizontal/vertical layouts and monospaced fonts",
+      "source_line": null
+    },
+    {
+      "name": "Complex Composition Example",
+      "description": "Multi-component panel combining Badge, Card, KeyValueRow, SectionHeader, semantic validation counters, and dark mode support",
+      "source_line": null
+    },
+    {
+      "name": "Design Token Usage Guidelines",
+      "description": "Reference for spacing, color, typography, animation tokens with correct usage examples",
+      "source_line": null
+    },
+    {
+      "name": "Do's and Don'ts Checklist",
+      "description": "13 guidelines for wrapping FoundationUI components, using design tokens, testing, accessibility, platform adaptation, documentation, etc.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Checklist",
+      "description": "19-point verification list covering token usage, component integration, testing, accessibility, platform compatibility, documentation, build quality gates",
+      "source_line": null
+    },
+    {
+      "name": "ComponentTestApp Showcase",
+      "description": "Interactive app demonstrating FoundationUI components and integration patterns",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Integration Section in README",
+      "description": "Documentation section with quick links, key features, running instructions for ComponentTestApp",
+      "source_line": null
+    },
+    {
+      "name": "Technical Spec Integration Documentation",
+      "description": "Detailed technical spec section covering architecture patterns, code examples, design token usage, guidelines, and checklist",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 9073,
+    "line_count": 268
+  }
+}

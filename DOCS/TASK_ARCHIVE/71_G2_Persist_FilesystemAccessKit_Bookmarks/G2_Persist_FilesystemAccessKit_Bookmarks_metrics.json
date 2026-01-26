@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/G2_Persist_FilesystemAccessKit_Bookmarks.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Deliver bookmark persistence that unifies security-scoped bookmark storage across recents and session controllers using the shared BookmarkPersistenceStore so files reopen without re-authorization after relaunch.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Recents and session persistence flows write and resolve bookmark identifiers exclusively through BookmarkPersistenceStore, covering both JSON and CoreData code paths.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Existing persisted data without bookmark identifiers continues to decode, adopting the new identifiers once files are re-authorized.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests updated in DocumentRecentsStoreTests, WorkspaceSessionStoreTests, and related controller tests validate bookmark survival across save/load and migration scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation in user-facing guides and CLI/app notes references the unified bookmark persistence behavior and re-authorization expectations.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Dependencies satisfied: G1 core API shipped and E3 session persistence completed before implementation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update CoreData models and JSON payload structs to store bookmark identifiers, ensuring migrations follow the existing lightweight migration strategy captured in the session persistence archive.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit BookmarkPersistenceStore @todo markers for integration touchpoints, covering both SwiftUI app controllers and CLI sandbox adapters planned for G3.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with forthcoming CLI sandbox guidance to avoid schema drift; any new fields should be versioned within the store to remain forward-compatible.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BookmarkPersistenceStore API",
+      "description": "Provides read/write operations for bookmark identifiers used by recents and session controllers, supporting both CoreData and JSON storage paths.",
+      "source_line": null
+    },
+    {
+      "name": "Recents Persistence Flow",
+      "description": "Writes and resolves bookmark identifiers through BookmarkPersistenceStore when saving and loading recent files.",
+      "source_line": null
+    },
+    {
+      "name": "Session Persistence Flow",
+      "description": "Writes and resolves bookmark identifiers through BookmarkPersistenceStore during workspace session save/load operations.",
+      "source_line": null
+    },
+    {
+      "name": "Migration Handler for Existing Data",
+      "description": "Decodes legacy persisted data without bookmark IDs, assigns new identifiers upon re-authorization, and updates storage.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suites",
+      "description": "Tests in DocumentRecentsStoreTests, WorkspaceSessionStoreTests, and controller tests that validate bookmark survival across save/load and migration scenarios.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Updates",
+      "description": "User-facing guides and CLI/app notes describing unified bookmark persistence behavior and re-authorization expectations.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2807,
+    "line_count": 44
+  }
+}

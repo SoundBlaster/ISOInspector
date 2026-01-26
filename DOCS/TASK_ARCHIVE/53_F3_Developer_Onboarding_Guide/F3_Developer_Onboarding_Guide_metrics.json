@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/53_F3_Developer_Onboarding_Guide/F3_Developer_Onboarding_Guide.md",
+  "n_spec": 10,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Create comprehensive onboarding materials that help new contributors set up the ISOInspector workspace, run the full SwiftPM test suite, and understand core architecture boundaries alongside an API reference outline for ISOInspectorKit and the UI surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Step-by-step setup guide covering toolchains, repository bootstrap, and SwiftPM workflows validated on supported Apple platforms.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Clear explanation of package targets (core parser, UI, CLI, app) with diagrams or tables linking to DocC catalogs and relevant tests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "API reference outline describing primary entry points (parsers, validation, exporters, UI stores) and where detailed DocC articles live or need to be authored.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Contribution checklist documenting coding standards, test expectations, and documentation update requirements in line with XP workflow guidance.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Documentation must align with established TDD and CI practices as per XP workflow rules.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Leverage existing DocC catalogs and archived task notes for authoritative descriptions of modules and workflows.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Highlight dependencies resolved by tasks A3, B6, and C3 to guide readers toward existing documentation assets and source code examples.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Capture environment prerequisites (Swift toolchain version, platform-specific requirements) and CI expectations so contributors can mirror release readiness locally.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Outline future DocC expansions or TODOs uncovered during documentation review to feed back into the backlog once this task is complete.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Developer Onboarding Guide",
+      "description": "Step-by-step setup guide covering toolchains, repository bootstrap, and SwiftPM workflows validated on supported Apple platforms.",
+      "source_line": null
+    },
+    {
+      "name": "API Reference Outline",
+      "description": "Describes primary entry points (parsers, validation, exporters, UI stores) and links to DocC articles or notes where detailed docs live.",
+      "source_line": null
+    },
+    {
+      "name": "Package Target Documentation",
+      "description": "Clear explanation of package targets (core parser, UI, CLI, app) with diagrams/tables linking to DocC catalogs and relevant tests.",
+      "source_line": null
+    },
+    {
+      "name": "Contribution Checklist",
+      "description": "Documents coding standards, test expectations, and documentation update requirements aligned with XP workflow guidance.",
+      "source_line": null
+    },
+    {
+      "name": "Environment Prerequisites Section",
+      "description": "Captures Swift toolchain version, platform-specific requirements, and CI expectations for local release readiness.",
+      "source_line": null
+    },
+    {
+      "name": "Future DocC Expansion Notes",
+      "description": "Outlines future DocC expansions or TODOs to feed back into backlog after task completion.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2705,
+    "line_count": 28
+  }
+}

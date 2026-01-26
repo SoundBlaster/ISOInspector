@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/138_Fragment_Fixture_Coverage/Fragment_Fixture_Coverage.md",
+  "n_spec": 7,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expand the fragment fixture catalog with synthetic samples that stress new traf/tfhd/tfdt/trun parsing paths so the validator, CLI, and exports exercise multi-run edge cases before assets are promoted into the golden regression set.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "New fixtures capture scenarios noted after Task D3: multi-trun runs, negative data_offset, fragments without tfdt, version 0 composition offsets and are registered in the fixture catalog with licensing metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression assets are wired into Swift test suites and JSON/CLI snapshot baselines so fragment summaries and validation warnings are asserted end-to-end.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation in the fixture catalog README reflects additional generation profiles or manifest entries required to reproduce new assets locally.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Existing fixture automation generate_fixtures.py already regenerates catalogued assets with checksum enforcement, making it the preferred entry point for expanding fragment coverage.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use Tests/ISOInspectorKitTests/Fixtures/generate_fixtures.py and its manifest workflow to produce deterministic fragment assets, storing large binaries under documented fixture directories with mirrored license texts.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update Documentation/FixtureCatalog/manifest.json, Tests/ISOInspectorKitTests/Fixtures/catalog.json and related README guidance to describe new fragment profiles and reproduction commands.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Generate Synthetic Fragment Fixtures",
+      "description": "Creates deterministic MP4 fragment assets covering multi-trun runs, negative data_offset, missing tfdt, and default composition offsets via generate_fixtures.py",
+      "source_line": null
+    },
+    {
+      "name": "Register Fixtures in Catalog",
+      "description": "Adds new fixture entries to catalog.json with licensing metadata and manifest updates",
+      "source_line": null
+    },
+    {
+      "name": "Update Documentation for New Profiles",
+      "description": "Refreshes README and manifest files to describe reproduction commands and profile details",
+      "source_line": null
+    },
+    {
+      "name": "Run Fragment Coverage Tests",
+      "description": "Executes Swift test suites (FixtureCatalogExpandedCoverageTests, JSONExportSnapshotTests, FragmentFixtureCoverageTests) to assert fragment summaries and validation warnings end-to-end",
+      "source_line": null
+    },
+    {
+      "name": "Update CLI Snapshot Baselines",
+      "description": "Refreshes command-line integration snapshots after confirming new fixtures",
+      "source_line": null
+    },
+    {
+      "name": "Maintain License Texts for Large Binaries",
+      "description": "Stores large binary fixture files with mirrored license texts in documented directories",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3375,
+    "line_count": 32
+  }
+}

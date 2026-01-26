@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/229_A7_SwiftLint_Complexity_Thresholds/Summary_of_Work.md",
+  "n_spec": 9,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Restore SwiftLint complexity thresholds to enforce guardrails on parser and UI code growth.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Complexity thresholds for cyclomatic_complexity, function_body_length, type_body_length, and nesting are re\u2011introduced in .swiftlint.yml with documentation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Local pre\u2011push Git hook runs swiftlint lint --strict --quiet and fails when violations exist.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "GitHub Actions workflow runs SwiftLint on pull requests and pushes for Sources, Tests, FoundationUI, shared config, and ComponentTestApp, producing JSON artifacts per target.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FoundationUI and ComponentTestApp phases must fail the job if violations are found; main project phase is informational only until large files shrink below 1,500 lines.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "PR comment summarizes errors/warnings and links to artifacts.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Main-project strict mode remains off until oversized files drop below 1,500 lines.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Git hook uses swiftlint --strict --quiet before push; GitHub Actions installs SwiftLint on macOS-15 runners and runs three scoped analyses with JSON reporters.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Automation backlog dependencies (A2/A8/A10) are documented to coordinate future adjustments.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SwiftLint Configuration File",
+      "description": "Defines complexity thresholds for cyclomatic_complexity, function_body_length, type_body_length, and nesting in .swiftlint.yml",
+      "source_line": null
+    },
+    {
+      "name": "Git Pre-Push Hook",
+      "description": "Runs swiftlint lint --strict before every push, failing if violations exist",
+      "source_line": null
+    },
+    {
+      "name": "GitHub Actions SwiftLint Workflow",
+      "description": "Automated CI job that runs SwiftLint on pull requests and pushes for specified directories and publishes JSON reports",
+      "source_line": null
+    },
+    {
+      "name": "Main Project Linting Step",
+      "description": "Informational-only SwiftLint run on Sources & Tests with tolerant errors and artifact upload",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Linting Step",
+      "description": "Strict SwiftLint run on FoundationUI directory, failures block job",
+      "source_line": null
+    },
+    {
+      "name": "ComponentTestApp Linting Step",
+      "description": "Strict SwiftLint run inside Examples/ComponentTestApp, failures block\u00a0the\u00a0job",
+      "source_line": null
+    },
+    {
+      "name": "PR Comment Summary",
+      "description": "Adds a PR comment summarizing per-target errors/warnings and links to artifacts",
+      "source_line": null
+    },
+    {
+      "name": "Quality Gate Step",
+      "description": "Blocks pipeline only when FoundationUI or ComponentTestApp phases fail",
+      "source_line": null
+    },
+    {
+      "name": "Documentation of Guardrails",
+      "description": "Notes in config comments, workflow\u00a0@todos\u00a0and repo\u00a0todo.md\u00a0for future adjustments",
+      "source_line": null
+    },
+    {
+      "name": "Strict Mode Enablement Tracker",
+      "description": "Tracks when the main\u2011project strict flag should re\u2011enable after large files shrink below 1500 lines",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3574,
+    "line_count": 41
+  }
+}

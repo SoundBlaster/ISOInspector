@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/15_Monitor_VR006_Research_Log_Adoption/15_Monitor_VR006_Research_Log_Adoption.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Ensure VR-006 research log entries are available and consistent across CLI and UI components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Schema usage audit confirms CLI output, persisted research log files, and any UI viewer prototypes all read identical fields and severity semantics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Monitoring checklist created for upcoming UI milestones covering VR-006 event binding, log locations, and analyst workflows.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updates proposed (or merged) to flag any schema adjustments required by UI components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No regression in existing VR-006 tests or CLI behaviors after any follow-up changes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "CLI and UI clients share the same canonical field list during inspection runs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce ResearchLogMonitor.audit(logURL:) to validate stored entries and signal schema drift for downstream automation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Inspect Command",
+      "description": "Provides VR-006 research log streaming and schema banner via the inspect command in the CLI.",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogSchema Exposure",
+      "description": "Defines the canonical field list for VR-006 logs shared between CLI and UI consumers.",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogMonitor.audit(logURL:)",
+      "description": "Validates stored VR-006 entries against the schema and signals drift for downstream automation.",
+      "source_line": null
+    },
+    {
+      "name": "VR006 Monitoring Checklist",
+      "description": "Tracks UI integration checkpoints, log locations, and analyst workflows related to VR-006.",
+      "source_line": null
+    },
+    {
+      "name": "Automated Smoke Tests for VR-006",
+      "description": "Ensures research log writers and viewers remain aligned after UI integrations.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2937,
+    "line_count": 66
+  }
+}

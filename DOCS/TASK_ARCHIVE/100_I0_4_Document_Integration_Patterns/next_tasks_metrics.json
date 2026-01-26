@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/100_I0_4_Document_Integration_Patterns/next_tasks.md",
+  "n_spec": 10,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI into ISOInspectorApp as a dependency and verify build compatibility.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create an integration test suite covering all core FoundationUI components (Badge, Card, KeyValueRow) with comprehensive coverage across iOS and macOS platforms.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Build a component showcase application demonstrating design tokens, view modifiers, component showcases, pattern showcases, and accessibility features for FoundationUI.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Document integration patterns for wrapping FoundationUI components, including code examples, design token usage, and do\u2019s/don\u2019ts guidelines.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update the Design System Guide with a FoundationUI integration checklist, migration path, quality gates per phase, and accessibility requirements (\u226598% WCAG 2.1 AA compliance).",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement a floating settings panel shell using FoundationUI cards for permanent vs. session settings, with macOS NSPanel and iPad/iOS sheet presentations.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Persist and reset user settings across sessions and permanent changes via UserPreferencesStore and CoreData JSON fallback.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FoundationUI dependency added to Package.swift and builds succeed on all target platforms.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration test suite contains at least 123 tests, covering Badge, Card, KeyValueRow components across iOS and macOS.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Component showcase app includes 14+ screens with design tokens, view modifiers..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Dependency Injection",
+      "description": "Adds FoundationUI as a dependency to the ISOInspectorApp package and verifies build compatibility.",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Integration Test Suite",
+      "description": "A comprehensive test suite covering Badge, Card, KeyValueRow components across iOS and macOS platforms.",
+      "source_line": null
+    },
+    {
+      "name": "Component Showcase Application",
+      "description": "Demo app displaying design tokens, view modifiers, component patterns, and live preview features for FoundationUI components.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Patterns Documentation",
+      "description": "Technical documentation outlining architecture patterns, code examples, and guidelines for wrapping FoundationUI components.",
+      "source_line": null
+    },
+    {
+      "name": "Design System Guide Update",
+      "description": "Updates the design system guide with integration checklist, migration path, quality gates, and accessibility requirements.",
+      "source_line": null
+    },
+    {
+      "name": "Badge Component Implementation",
+      "description": "Provides Badge UI component with status indicators using FoundationUI.",
+      "source_line": null
+    },
+    {
+      "name": "Card Component Implementation",
+      "description": "Provides Card UI component for containers and sections using FoundationUI.",
+      "source_line": null
+    },
+    {
+      "name": "Key-Value Row Component Implementation",
+      "description": "Saves/..",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5441,
+    "line_count": 95
+  }
+}

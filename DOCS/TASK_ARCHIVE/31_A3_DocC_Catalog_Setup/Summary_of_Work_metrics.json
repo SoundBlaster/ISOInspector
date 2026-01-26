@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/31_A3_DocC_Catalog_Setup/Summary_of_Work.md",
+  "n_spec": 9,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Establish DocC catalogs for ISOInspectorKit, ISOInspectorCLI, and ISOInspectorApp with architecture and workflow articles seeded for future expansion.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add DocC generation test coverage to enforce catalog presence and ensure the documentation build script remains executable.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Introduce scripts/generate_documentation.sh and wire the Swift-DocC plugin dependency so swift package generate-documentation produces static-hostable archives for every target.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update repository documentation (README, execution workplan) with DocC workflow details and ensure generated artifacts are ignored under Documentation/DocC.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "swift test passes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "./scripts/generate_documentation.sh Documentation/DocC runs successfully.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Generated DocC bundles are ignored under Documentation/DocC directory.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use Swift-DocC plugin dependency to generate static-hostable archives for every target.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Run DocC publishing in CI via the docc-archives GitHub Actions job, generating and uploading bundles on every pipeline execution.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DocC Catalogs for ISOInspectorKit",
+      "description": "Provides documentation catalogs containing architecture and workflow articles for the ISOInspectorKit target.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Catalogs for ISOInspectorCLI",
+      "description": "Provides documentation catalogs containing architecture and workflow articles for the ISOInspectorCLI target.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Catalogs for ISOInspectorApp",
+      "description": "Provides documentation catalogs containing architecture and workflow articles for the ISOInspectorApp target.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Generation Test Coverage",
+      "description": "Enforces presence of DocC catalogs and ensures the documentation build script remains executable through automated tests.",
+      "source_line": null
+    },
+    {
+      "name": "generate_documentation.sh Script",
+      "description": "Shell script that runs swift package generate-documentation to produce static-hostable archives for every target.",
+      "source_line": null
+    },
+    {
+      "name": "Swift-DocC Plugin Dependency Integration",
+      "description": "Integrates Swift-DocC plugin so that swift package generate-documentation generates documentation bundles.",
+      "source_line": null
+    },
+    {
+      "name": "CI DocC Publishing Job",
+      "description": "GitHub Actions job that runs docc-archives to generate and upload DocC bundles on each pipeline execution.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1112,
+    "line_count": 34
+  }
+}

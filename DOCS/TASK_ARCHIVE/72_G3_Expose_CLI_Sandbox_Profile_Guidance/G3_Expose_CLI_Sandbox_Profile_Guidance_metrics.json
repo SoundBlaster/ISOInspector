@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/72_G3_Expose_CLI_Sandbox_Profile_Guidance/G3_Expose_CLI_Sandbox_Profile_Guidance.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide actionable CLI documentation that explains how to run ISOInspector headlessly with sandbox profiles, including the --open/--authorize automation path backed by FilesystemAccessKit.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Guidance document describes required entitlements and shows a signed sandbox profile snippet granting com.apple.security.files.user-selected.read-write access for pre-approved paths.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Instructions cover invoking the CLI with FilesystemAccessKit-aware flags (--open, --authorize) and how to supply pre-authorized bookmarks or security-scoped URLs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Runbook clarifies notarization or codesign prerequisites for distributing the sandbox profile to automation systems.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Verification checklist enumerates how to confirm access works (e.g., running swift test --disable-sandbox locally, executing CLI against sample files) and references archival validation notes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Headless flows must rely on security-scoped bookmarks and sandbox profile allowances rather than unsandboxed execution.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse entitlement configuration from Distribution/Entitlements/ to ensure CLI documentation matches shipping profiles; highlight differences between macOS app sandboxing and headless automation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reference FilesystemAccessKit APIs (openFile, createBookmark, resolveBookmarkData) so operators understand how CLI commands activate security-scoped bookmarks during execution.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Include troubleshooting tips for bookmark expiry, revocation, and telemetry logging so automation runs remain auditable under zero-trust policies.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Sandbox Profile Guidance Document",
+      "description": "Provides actionable documentation for running ISOInspector headlessly with sandbox profiles, including required entitlements and signed profile snippets.",
+      "source_line": null
+    },
+    {
+      "name": "Signed Sandbox Profile Snippet",
+      "description": "A code snippet granting com.apple.security.files.user-selected.read-write access for pre-approved paths.",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccessKit-aware CLI Flags",
+      "description": "Instructions on using --open and --authorize flags to supply pre-authorized bookmarks or security-scoped URLs.",
+      "source_line": null
+    },
+    {
+      "name": "Notarization & Code Signing Checklist",
+      "description": "Runbook clarifying notarization or codesign prerequisites for distributing the sandbox profile to automation systems.",
+      "source_line": null
+    },
+    {
+      "name": "Verification Checklist",
+      "description": "Steps to confirm access works, such as running swift test --disable-sandbox locally and executing CLI against sample files.",
+      "source_line": null
+    },
+    {
+      "name": "Entitlement Configuration Reference",
+      "description": "Reuse of entitlement configuration from Distribution/Entitlements/ ensuring CLI documentation matches shipping profiles.",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccessKit API Usage Guide",
+      "description": "Reference to openFile, createBookmark, resolveBookmarkData APIs for operators to understand bookmark activation during execution.",
+      "source_line": null
+    },
+    {
+      "name": "Troubleshooting & Telemetry Tips",
+      "description": "Guidance on bookmark expiry, revocation, and telemetry logging for auditable automation runs.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2676,
+    "line_count": 42
+  }
+}

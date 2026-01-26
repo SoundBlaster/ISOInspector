@@ -1,0 +1,113 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/224_A9_Automate_Strict_Concurrency_Checks/224_A9_Automate_Strict_Concurrency_Checks.md",
+  "n_spec": 10,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Automate strict concurrency checks via Swift's --strict-concurrency=complete flag across build and test phases to enforce thread-safe concurrent design patterns.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pre-push hook executes swift build and swift test with --strict-concurrency=complete, logs are published to Documentation/Quality with timestamps, and exits with status 1 if either command fails.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "GitHub Actions CI runs strict concurrency checks on every pull request and push to main; workflow fails if either build or test command returns non-zero exit code.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Build and test logs show zero strict concurrency diagnostics (suppressed diagnostics do not count; all must be resolved).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI uploads concurrency logs as workflow artifacts for historical tracking and failure investigation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation PRD is updated with links to passing logs, status transition from \"Proposed\" to \"Automation Gate Established\", and any deviations or special exemptions noted with justification.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All open items in the PRD's \"Automation Alignment\" section are resolved.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No regressions: existing CI gates (from A2, A6, A7, A8) remain operational; no breaking changes to build matrix or timeout settings.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Swift version must be 5.9+ for --strict-concurrency=complete flag support.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Strict concurrency checks are enforced via pre-push hook and GitHub Actions CI, but the existing Store implementation is not refactored; future changes must maintain thread safety without altering current architecture.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Pre-Push Strict Concurrency Build Check",
+      "description": "Runs swift build --strict-concurrency=complete before a git push and logs output to Documentation/Quality with timestamped filename",
+      "source_line": null
+    },
+    {
+      "name": "Pre-Push Strict Concurrency Test Check",
+      "description": "Runs swift test --strict-concurrency=complete before a git push and logs output to Documentation/Quality with timestamped filename",
+      "source_line": null
+    },
+    {
+      "name": "Pre-Push Hook Exit Status Enforcement",
+      "description": "Exits with status 1 if either build or test command fails, preventing the push",
+      "source_line": null
+    },
+    {
+      "name": "Human-Readable Pre-Push Summary",
+      "description": "Prints a summary message indicating success or failure of strict concurrency checks",
+      "source_line": null
+    },
+    {
+      "name": "CI Strict Concurrency Build Job",
+      "description": "GitHub Actions job that runs swift build --strict-concurrency=complete on CI runners",
+      "source_line": null
+    },
+    {
+      "name": "CI Strict Concurrency Test Job",
+      "description": "GitHub Actions job that runs swift test --strict-concurrency=complete on CI runners",
+      "source_line": null
+    },
+    {
+      "name": "CI Log Artifact Upload",
+      "description": "Uploads strict concurrency build and test logs as artifacts for historical tracking",
+      "source_line": null
+    },
+    {
+      "name": "CI Failure Handling",
+      "description": "Automatically fails the workflow if either build or test command exits non-zero, blocking PR merge",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update for PRD",
+      "description": "Updates DOCS/AI/PRD_SwiftStrictConcurrency_Store.md with links to passing logs and status transition",
+      "source_line": null
+    },
+    {
+      "name": "Todo List Completion Marker",
+      "description": "Marks strict concurrency item as Completed in todo.md with link to CI artifact",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 7205,
+    "line_count": 111
+  }
+}

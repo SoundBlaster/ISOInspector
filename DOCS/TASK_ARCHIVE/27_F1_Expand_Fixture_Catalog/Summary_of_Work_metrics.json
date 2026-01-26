@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/27_F1_Expand_Fixture_Catalog/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The fixture catalog must always contain entries that expose the correct box layout, payload sizing, and documented warnings/errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All binary assets in the fixture corpus can be deterministically regenerated using generate_fixtures.py.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests (FixtureCatalogExpandedCoverageTests) must pass for all catalog entries.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "A deterministic generation script is used to rebuild all binary assets.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Fixture Corpus Expansion",
+      "description": "Adds new MP4/DASH segment fixtures including fragmented files, large mdat boxes, and malformed samples to the test suite.",
+      "source_line": null
+    },
+    {
+      "name": "Deterministic Fixture Generation Script",
+      "description": "Provides a script to rebuild all binary fixture assets deterministically for reproducibility.",
+      "source_line": null
+    },
+    {
+      "name": "Extended Fixture Catalog Metadata",
+      "description": "Enhances catalog entries with detailed metadata, documentation, and expected validation outcomes for each fixture.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Tests for Fixture Catalog",
+      "description": "Runs tests that verify catalog entries expose correct box layout, payload sizing, and documented warnings/errors.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1061,
+    "line_count": 28
+  }
+}

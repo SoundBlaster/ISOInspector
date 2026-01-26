@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/235_Resolved_Tasks_Batch/A7_SwiftLint_Complexity_Thresholds.md",
+  "n_spec": 11,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Restore code quality gates by configuring SwiftLint complexity thresholds for cyclomatic complexity, function body length, nesting depth, and type body length across all Swift targets (ISOInspectorKit, ISOInspector UI, CLI).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`.swiftlint.yml` configuration file restores the following rules with agreed limits: cyclomatic_complexity max 10, function_body_length max 40 lines, nesting_level max 5 levels, type_body_length max 200 lines.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pre-commit hook `.git/hooks/pre-commit` executes `swiftlint lint --strict` on staged Swift files and blocks commit if violations detected.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI workflow step runs complexity checks on every PR and push, fails build if violations exceed thresholds.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftLint analyzer report artifact is generated and uploaded to GitHub Actions for each CI run.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All three targets pass without complexity violations: ISOInspectorKit, ISOInspector (SwiftUI app target), isoinspect (CLI target).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updated in README.md under Code Quality or Tooling section explaining how to run local checks, auto-fix simple violations, and interpret CI analyzer reports.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests confirm that existing codebase passes new thresholds (no false positives blocking the build).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "SwiftLint strict mode is fully enforced with no suppressions remaining for core files after refactoring.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Refactor large Swift files (e.g., BoxValidator.swift, DocumentSessionController.swift) into smaller modules to reduce type_body_length violations and improve maintainability.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use file-level swiftlint disable comments with PDD @todo #a7 markers for remaining violations that cannot be split further.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SwiftLint Complexity Threshold Configuration",
+      "description": "Defines cyclomatic complexity, function body length, nesting depth, and type body length limits in .swiftlint.yml for all Swift targets.",
+      "source_line": null
+    },
+    {
+      "name": "Pre-commit SwiftLint Hook",
+      "description": "Runs swiftlint lint --strict on staged Swift files before commit, blocking commits with violations.",
+      "source_line": null
+    },
+    {
+      "name": "CI SwiftLint Step",
+      "description": "Executes swiftlint lint with JSON reporter during CI runs, failing the build if thresholds are exceeded and uploading a report artifact.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftLint Report Artifact Upload",
+      "description": "Generates and uploads swiftlint-report.json as an artifact in GitHub Actions for each CI run.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update \u2013 Code Quality Section",
+      "description": "Adds README.md section explaining how to run local SwiftLint checks, auto-fix, and interpret CI reports.",
+      "source_line": null
+    },
+    {
+      "name": "Target-Specific Complexity Compliance",
+      "description": "Ensures ISOInspectorKit, ISOInspector UI, and isoinspect CLI targets meet complexity thresholds without violations.",
+      "source_line": null
+    },
+    {
+      "name": "Local SwiftLint Execution Command",
+      "description": "Provides command swiftlint lint --strict for developers to run local checks.",
+      "source_line": null
+    },
+    {
+      "name": "Auto-Fix Simple Violations Command",
+      "description": "Provides command swiftlint --fix for automatically fixing simple SwiftLint violations.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 9196,
+    "line_count": 144
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/07_R1_MP4RA_Catalog_Refresh/07_R1_MP4RA_Catalog_Refresh.md",
+  "n_spec": 6,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement automation to refresh MP4RABoxes.json from the upstream MP4RA registry and publish a repeatable maintenance workflow for keeping the catalog current.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A scripted or documented automation path retrieves the latest MP4RA registry data (HTML, CSV, or JSON) and regenerates MP4RABoxes.json without manual editing.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Running the automation updates metadata versioning markers (timestamp, source URL, or hash) and verifies schema compatibility with existing catalog consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A maintenance guide covers prerequisites, execution steps, validation checks, and contribution workflow updates so other contributors can refresh the catalog confidently.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Decide whether the automation lives as a Swift command, Python script, or documented manual recipe; align tooling with existing repository scripting conventions.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Validation hooks must surface warnings during tests or CI for stale or malformed catalog data to prevent regressions in downstream validation/reporting tasks.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "MP4RACatalogRefresher",
+      "description": "Reusable component in ISOInspectorKit that fetches MP4RA registry data and regenerates MP4RABoxes.json",
+      "source_line": null
+    },
+    {
+      "name": "isoinspect mp4ra refresh CLI command",
+      "description": "Command-line interface to trigger the catalog refresh automation via https://mp4ra.org/api/boxes",
+      "source_line": null
+    },
+    {
+      "name": "MP4RARefreshGuide",
+      "description": "Documentation guide detailing prerequisites, execution steps, validation checks, and contribution workflow for refreshing the catalog",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3490,
+    "line_count": 63
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/31_A3_DocC_Catalog_Setup/31_A3_DocC_Catalog_Setup.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Establish DocC catalogs and an automated publishing path so the ISOInspector modules ship with browsable developer documentation from the outset.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Create DocC catalogs (e.g., `ISOInspectorKit.docc`, `ISOInspectorApp.docc`) added to the SwiftPM package so that `swift package generate-documentation` succeeds without warnings.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Configure build scripts or CI steps to produce DocC archives (`.doccarchive`) and publishable HTML artifacts accessible to the team.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Provide README/DocC landing page entries that cross-link to core modules and reference guides, ensuring developer onboarding material has a single entry point.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Document the command(s) needed to regenerate the docs locally (`xcodebuild docbuild` or SwiftPM equivalents) and ensure they run successfully on current fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "DocC generation must be integrated into the existing CI pipeline (or a manual script) while respecting repository constraints (no external hosting yet).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing package structure to register DocC resources for both CLI/App targets; ensure conditional compilation flags match platform availability.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Seed initial DocC articles with architecture overviews and module indices drawn from the master PRD and execution guide so later tasks can expand API details.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validate the generated documentation for broken links/anchors and add guidance for extending DocC coverage as new modules appear.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DocC Catalog Creation",
+      "description": "Create DocC catalogs such as ISOInspectorKit.docc and ISOInspectorApp.docc within the SwiftPM package so that swift package generate-documentation runs without warnings.",
+      "source_line": null
+    },
+    {
+      "name": "CI Build Script for DocC Archives",
+      "description": "Configure build scripts or CI steps to produce .doccarchive files and publishable HTML artifacts accessible to the team.",
+      "source_line": null
+    },
+    {
+      "name": "Cross\u2011Linked README/DocC Landing Page",
+      "description": "Provide a README or DocC landing page that cross\u2011links to core modules and reference guides, serving as a single entry point for developer onboarding.",
+      "source_line": null
+    },
+    {
+      "name": "Local Regeneration Documentation",
+      "description": "Document the command(s) needed to regenerate docs locally (e.g., xcodebuild docbuild or SwiftPM equivalents) and ensure they run successfully on current fixtures.",
+      "source_line": null
+    },
+    {
+      "name": "Conditional Compilation Registration",
+      "description": "Register DocC resources for both CLI/App targets using conditional compilation flags that match platform availability.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Generation Integration",
+      "description": "Integrate DocC generation into the existing CI pipeline (or create a manual script) while respecting repository constraints.",
+      "source_line": null
+    },
+    {
+      "name": "Initial DocC Article Seeding",
+      "description": "Seed initial DocC articles with architecture overviews and module indices drawn from the master PRD and execution guide.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Validation & Guidance",
+      "description": "Validate generated documentation for broken links/anchors and provide guidance for extending DocC coverage as new modules appear.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2638,
+    "line_count": 58
+  }
+}

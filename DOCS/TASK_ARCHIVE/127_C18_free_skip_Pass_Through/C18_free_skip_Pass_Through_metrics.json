@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/127_C18_free_skip_Pass_Through/C18_free_skip_Pass_Through.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add support for parsing 'free' and 'skip' boxes as opaque padding segments in the streaming pipeline.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A parser or stub is registered that emits ParseEvent entries for 'free' and 'skip' types without decoding payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Byte range metadata (start offset, size) is preserved so UI/CLI presentations list padding regions accurately.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSON exports and tree snapshots include nodes with type 'free'/'skip', size, and offsets while omitting payload fields.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Synthetic fixtures are created to cover mixed content scenarios where 'free' boxes interleave with metadata/data boxes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The parsing pipeline must not attempt to decode the payload of 'free' or 'skip' boxes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend BoxParserRegistry with entries for 'free' and 'skip', reusing existing opaque-box utilities similar to 'mdat'.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Register free/skip parser",
+      "description": "Add entries to BoxParserRegistry that emit ParseEvent for free and skip boxes without decoding payloads.",
+      "source_line": null
+    },
+    {
+      "name": "Preserve byte range metadata",
+      "description": "Ensure start offset and size of free/skip boxes are stored in ParseEvent for downstream UI and CLI consumers.",
+      "source_line": null
+    },
+    {
+      "name": "Generate synthetic padding fixtures",
+      "description": "Create lightweight sample files containing free/skip boxes interleaved with other boxes to test parsing and export.",
+      "source_line": null
+    },
+    {
+      "name": "CLI JSON output support",
+      "description": "Expose free/skip nodes in CLI JSON exports, including type, size, and offsets but no payload data.",
+      "source_line": null
+    },
+    {
+      "name": "UI preview integration",
+      "description": "Allow Combine-backed UI stores to display free/skip nodes without additional work.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2118,
+    "line_count": 41
+  }
+}

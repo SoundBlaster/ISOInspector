@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/216_I1_1_Badge_Status_Indicators/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Consolidate scattered manual badge implementations in ISOInspectorApp into consistent, reusable FoundationUI DS.Badge component for displaying parse status, error levels, and processing indicators.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All three manual badge implementations (CorruptionBadge, SeverityBadge, ParseStateBadge) are migrated to use DS.Badge with correct level mappings and preserve tooltip, accessibility labels, and macOS focusable behavior.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Import FoundationUI in Sources/ISOInspectorApp/Tree/ParseTreeOutlineView.swift and remove unused .iconName extension from ParseIssue.Severity.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add @todo #I1.1 comments for future DS.Indicator usage at specified locations (ParseTreeOutlineView.swift:550-552 and ParseTreeDetailView.swift:138-139).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CorruptionBadge",
+      "description": "Displays corruption status using DS.Badge component with icon support and accessibility features",
+      "source_line": null
+    },
+    {
+      "name": "SeverityBadge",
+      "description": "Shows severity level of parse issues via DS.Badge with consistent styling",
+      "source_line": null
+    },
+    {
+      "name": "ParseStateBadge",
+      "description": "Indicates current parse state (idle, parsing, finished, failed) using DS.Badge levels mapping",
+      "source_line": null
+    },
+    {
+      "name": "DS.Badge API usage in ParseTreeOutlineView",
+      "description": "Reusable badge component integration for various status indicators in the tree view",
+      "source_line": null
+    },
+    {
+      "name": "@todo #I1.1 DS.Indicator consideration points",
+      "description": "Markers for future compact inline status indicators in tree and metadata rows",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 8769,
+    "line_count": 224
+  }
+}

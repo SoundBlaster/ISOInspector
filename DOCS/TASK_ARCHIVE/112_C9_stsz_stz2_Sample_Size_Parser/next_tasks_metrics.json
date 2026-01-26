@@ -1,0 +1,62 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/next_tasks.md",
+  "n_spec": 10,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Coordinate upcoming C10 (stco/co64) parser work with the new stsz/stz2 sample size tables so validation can reconcile counts across the stsc detail model.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation must reconcile counts across the stsc detail model using the new stsz/stz2 sample size tables.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Evaluate additional handler type categorizations if future boxes require specialized roles beyond the current mapping set.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule macOS CLI/UI large-file benchmark execution using the R4 protocol once dedicated hardware runners come online.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmarks must be executed on macOS CLI/UI with the R4 protocol and dedicated hardware runners.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA once runners are available, following the release readiness runbook.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "DocC generation, notarization, TestFlight export, and hardware\u2011dependent QA must be completed according to the release readiness runbook.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute the random slice benchmark suite on macOS hardware once Combine support is available so we can compare mapped vs. chunked readers under identical workloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Random slice benchmark suite must be executed on macOS with Combine support and results compared between mapped and chunked readers.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware with XCTest UI support to validate the end\u2011to\u2011e\u00ad...",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 2776,
+    "line_count": 29
+  }
+}

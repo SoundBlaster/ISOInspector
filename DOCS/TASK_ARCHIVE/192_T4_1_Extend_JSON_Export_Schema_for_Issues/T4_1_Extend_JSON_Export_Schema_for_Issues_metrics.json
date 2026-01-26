@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/T4_1_Extend_JSON_Export_Schema_for_Issues.md",
+  "n_spec": 8,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add tolerant parsing diagnostics to the exported JSON schema so every node serializes its collected ParseIssue records alongside existing metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSON exports include an issues collection for each node with severity, reason code, byte range, and human-readable description.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Schema/version documentation updated so downstream consumers can detect tolerant-mode payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Golden-file snapshot tests cover nodes with zero, single, and multiple issues to prevent regressions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Strict mode exports remain byte-for-byte compatible when no issues are present.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParseIssueStore lookups remain efficient for large trees; reuse existing query helpers where possible.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ExportedNode/JSONExportEncoder structures in ISOInspectorKit to encode tolerant fields conditionally.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Consider forward compatibility by gating new fields behind a schema version bump and documenting fallback behavior for older consumers.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ExportedNode issues collection",
+      "description": "Adds an 'issues' array to each exported node containing ParseIssue records with severity, reason code, byte range, and description.",
+      "source_line": null
+    },
+    {
+      "name": "JSONExportEncoder tolerant field encoding",
+      "description": "Extends the encoder to conditionally include tolerant fields when serializing nodes.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssueStore lookup optimization",
+      "description": "Ensures efficient retrieval of ParseIssue data for large parse trees during export.",
+      "source_line": null
+    },
+    {
+      "name": "Schema version bump and documentation update",
+      "description": "Introduces a new schema version to signal tolerant-mode payloads and updates docs accordingly.",
+      "source_line": null
+    },
+    {
+      "name": "Golden-file snapshot tests for issue scenarios",
+      "description": "Creates snapshot tests covering nodes with zero, single, and multiple issues to guard against regressions.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2229,
+    "line_count": 29
+  }
+}

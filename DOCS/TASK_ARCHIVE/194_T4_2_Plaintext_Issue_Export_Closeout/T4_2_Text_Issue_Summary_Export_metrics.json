@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/194_T4_2_Plaintext_Issue_Export_Closeout/T4_2_Text_Issue_Summary_Export.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a human-readable plaintext export of tolerant parsing issues and key file metadata for operators to share integrity results without requiring JSON tooling.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The export command (UI and CLI) must offer a plaintext option that writes a UTF-8 report summarizing file metadata (path, size, analysis timestamp) followed by each ParseIssue grouped by severity.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Report includes issue code, severity, affected node path, and byte range offsets using the tolerant parsing metadata aggregated by ParseIssueStore.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated tests must verify that the plaintext export for representative fixtures matches stored baselines and handles files with zero issues.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Metadata fields in the report must match forthcoming T4.3 requirements (size, hash, timestamp); placeholder fields may remain TODOs if hash work is deferred.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse the shared export pipeline introduced for JSON exports via ParseIssueStore.makeIssueSummary() and extend it with a formatter that produces deterministic plain text.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wire the new export option into the Integrity tab\u2019s Share menu and the CLI \"isoinspector export\" command, mirroring the JSON option naming.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add DocC and README snippets explaining when to prefer plaintext reports and how they differ from JSON payloads.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Plaintext Export Command",
+      "description": "Provides a UI and CLI option to generate a UTF-8 plaintext report summarizing file metadata and tolerant parsing issues.",
+      "source_line": null
+    },
+    {
+      "name": "File Metadata Section",
+      "description": "Outputs path, size, analysis timestamp (and placeholder hash) for each exported file.",
+      "source_line": null
+    },
+    {
+      "name": "Issue Grouping by Severity",
+      "description": "Lists ParseIssues grouped under severity headings in the plaintext report.",
+      "source_line": null
+    },
+    {
+      "name": "Issue Detail Formatting",
+      "description": "Each issue includes code, severity, affected node path, and byte range offsets derived from ParseIssueStore metadata.",
+      "source_line": null
+    },
+    {
+      "name": "Deterministic Plaintext Formatter",
+      "description": "Formatter that converts aggregated issue summaries into a deterministic plain\u2011text format for export.",
+      "source_line": null
+    },
+    {
+      "name": "Export Pipeline Integration",
+      "description": "Integrates the plaintext formatter into the existing JSON export pipeline via ParseIssueStore.makeIssueSummary().",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2267,
+    "line_count": 27
+  }
+}

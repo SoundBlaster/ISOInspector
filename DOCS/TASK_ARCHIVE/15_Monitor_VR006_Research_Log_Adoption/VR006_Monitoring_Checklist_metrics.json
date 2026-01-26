@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/15_Monitor_VR006_Research_Log_Adoption/VR006_Monitoring_Checklist.md",
+  "n_spec": 6,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "CLI emits VR-006 schema version and field list for analysts to verify downstream tooling compatibility.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide a programmatic audit that UI prototypes can run to confirm log compatibility before binding to streaming events.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Audit helper validates persisted logs contain only supported fields and surfaces mismatches.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI output must capture schema metadata for quick regression detection.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Schema version v1.0 enumerates boxType, filePath, startOffset, endOffset; any additions require a coordinated schema bump.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit helper throws descriptive error when unexpected keys appear, to be surfaced in developer tooling and CI.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Schema Banner",
+      "description": "Outputs VR-006 schema version and field list during isoinspect inspect command for regression detection",
+      "source_line": null
+    },
+    {
+      "name": "Schema Audit Helper",
+      "description": "Validates persisted logs against supported fields and surfaces mismatches; throws descriptive errors on unexpected keys",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1264,
+    "line_count": 38
+  }
+}

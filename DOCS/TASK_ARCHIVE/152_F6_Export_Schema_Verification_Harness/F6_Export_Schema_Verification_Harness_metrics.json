@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/152_F6_Export_Schema_Verification_Harness/F6_Export_Schema_Verification_Harness.md",
+  "n_spec": 8,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Automate coverage to lock down proposed JSON export compatibility aliases and format summary fields before production schema updates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "New or updated JSONExportSnapshotTests cover fixtures that include the compatibility alias fields and format summary metadata proposed by R5, failing if output diverges from the agreed schema.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI-level regression coverage compares exported JSON against stored Bento4 and ffprobe baselines, confirming adapters remain byte-for-byte compatible on representative assets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot regeneration workflow documentation stays accurate so future schema migrations follow the reviewed process.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Existing snapshot tests in JSONExportSnapshotTests protect current exporter structure and document the refresh workflow for intentional schema changes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse archived Bento4 and ffprobe fixture outputs captured during R5 analysis to seed comparison expectations for both unit and CLI integration tests.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Consider environment variables (e.g., ISOINSPECTOR_REGENERATE_SNAPSHOTS) and targeted test filters when refreshing baselines to limit the surface area of schema diffs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Ensure CLI checks run in CI-friendly time by scoping fixtures to small canonical assets already tracked in the repository.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "JSONExportSnapshotTests",
+      "description": "Unit tests that validate exported JSON against expected schema and compatibility alias fields",
+      "source_line": null
+    },
+    {
+      "name": "CLI regression coverage for JSON export",
+      "description": "Command\u2011line integration test comparing exported JSON to Bento4/ffprobe baselines to ensure byte\u2011for\u2011byte compatibility",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot regeneration workflow documentation",
+      "description": "Documentation and tooling for regenerating snapshot tests when the schema changes",
+      "source_line": null
+    },
+    {
+      "name": "Environment variable controlled snapshot refresh",
+      "description": "Mechanism using ISOINSPECTOR_REGENERATE_SNAPSHOTS to trigger selective baseline updates",
+      "source_line": null
+    },
+    {
+      "name": "Fixture management for JSON export tests",
+      "description": "Repository of small canonical asset fixtures used for unit and CLI tests",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3129,
+    "line_count": 26
+  }
+}

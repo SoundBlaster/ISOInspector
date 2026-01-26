@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/145_B7_Validation_Rule_Preset_Configuration/B7_Validation_Rule_Preset_Configuration.md",
+  "n_spec": 8,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Enable downstream CLI and SwiftUI surfaces to consume a consistent validation configuration API via preset registries and per-rule toggles.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ValidationConfiguration and ValidationPreset types enumerate rule identifiers, load bundled presets, and default to all rules enabled with Codable support for persistence.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Application Support storage persists user-authored presets alongside global defaults, and per-document overrides inherit from the active preset.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation output metadata records the active preset and lists disabled rules as \"skipped\" for audit trails.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests cover preset selection, per-rule overrides, and default fallbacks in ISOInspectorKit so downstream consumers can rely on deterministic behavior.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Preset manifest schema must include name, description, and default rule states.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Rule identifiers VR-001\u2026VR-015 must stay synchronized with the rule registry.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Expose preset listings, change notifications, and serialization helpers to downstream layers (CLI and app).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ValidationConfiguration",
+      "description": "Manages rule identifiers, loads bundled presets, defaults to all rules enabled, and provides Codable persistence.",
+      "source_line": null
+    },
+    {
+      "name": "ValidationPreset",
+      "description": "Represents a preset with name, description, and default rule states; can be loaded from JSON manifests.",
+      "source_line": null
+    },
+    {
+      "name": "PresetRegistry",
+      "description": "Catalogs available validation presets and exposes listings for downstream consumers.",
+      "source_line": null
+    },
+    {
+      "name": "RuleToggleAPI",
+      "description": "Provides per-rule enable/disable toggles at runtime within a preset configuration.",
+      "source_line": null
+    },
+    {
+      "name": "PresetPersistence",
+      "description": "Persists user-authored presets in Application Support storage alongside global defaults.",
+      "source_line": null
+    },
+    {
+      "name": "PresetChangeNotification",
+      "description": "Notifies downstream layers (CLI, UI) when the active preset changes.",
+      "source_line": null
+    },
+    {
+      "name": "ValidationMetadataExporter",
+      "description": "Adds active preset identifier and disabled rule IDs to validation output metadata for CLI headers, JSON exports, and session state.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3318,
+    "line_count": 39
+  }
+}

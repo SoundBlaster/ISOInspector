@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/60_Summary_of_Work_2025-10-13_Release_Runbook/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The release readiness checklist and go-live runbook must be published at Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Publish the release readiness checklist and go\u2011live runbook to provide QA gates, documentation deliverables, distribution packaging steps, and post\u2011release bookkeeping tied to shared distribution metadata and notarization tooling.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The guide must capture QA gates, documentation deliverables, distribution packaging steps, and post\u2011release bookkeeping tied to shared distribution metadata and notarization tooling.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "MacOS UI automation and Combine benchmark runs cannot proceed until hardware is available",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Evaluate options for hosting DocC archives beyond GitHub Releases to improve release artifact discoverability.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 889,
+    "line_count": 10
+  }
+}

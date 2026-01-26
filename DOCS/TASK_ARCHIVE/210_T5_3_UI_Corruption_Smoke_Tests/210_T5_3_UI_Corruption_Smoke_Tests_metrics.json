@@ -1,0 +1,113 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/210_T5_3_UI_Corruption_Smoke_Tests/210_T5_3_UI_Corruption_Smoke_Tests.md",
+  "n_spec": 12,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Develop automated UI smoke tests that verify corruption indicators (badges, placeholders, detail diagnostics) render correctly in the ISOInspector app when tolerant parsing detects issues.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "UI automation tests load corrupt fixtures and assert the warning ribbon, corruption badges, and placeholder nodes appear with the correct accessibility labels.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integrity summary views expose the aggregate issue list for the loaded fixture and the tests validate representative rows.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests confirm that selecting nodes reveals the Corruption detail section populated with offsets and reason codes sourced from ParseIssueStore.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test suite passes locally (swift test) and integrates into CI without flakiness, using fixtures or previews available in the repository.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "No FoundationUI deliverables are involved; this work targets the primary ISOInspector app test suite.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse or extend existing UI automation infrastructure under Tests/ISOInspectorUITests (e.g., ParseTreeStreamingSelectionAutomationTests) to open fixtures and interact with the Integrity tab.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reference manifest metadata from Fixtures/Corrupted/manifest.json to drive expectations for badge counts and placeholder presence.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Ensure automation waits for streaming parse completion; consider existing Combine publishers or view model states to synchronize assertions.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Cover at least one case each for: corrupt node badge, missing-child placeholder, and aggregate Integrity list entry.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with tolerance parsing exports to reuse shared helper functions (Tests/ISOInspectorKitTests/Helpers/FixtureLoading.swift) if UI tests need to verify textual content.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update documentation after landing to mark T5.3 complete and archive PRD.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Warning Ribbon Rendering",
+      "description": "UI component that displays a warning ribbon when tolerant parsing detects corruption in the ISOInspector app.",
+      "source_line": null
+    },
+    {
+      "name": "Corruption Badge Display",
+      "description": "Badge UI element shown on corrupt nodes indicating the presence of corruption issues.",
+      "source_line": null
+    },
+    {
+      "name": "Placeholder Node Rendering",
+      "description": "UI placeholder elements inserted for missing or corrupted child nodes during parsing.",
+      "source_line": null
+    },
+    {
+      "name": "Integrity Summary Tab View",
+      "description": "Tab that aggregates and lists all detected corruption issues for a loaded fixture.",
+      "source_line": null
+    },
+    {
+      "name": "Corruption Detail Section",
+      "description": "Detail pane showing offsets, reason codes, and other information for selected corrupt nodes.",
+      "source_line": null
+    },
+    {
+      "name": "UI Automation Test Suite for Corrupt Fixtures",
+      "description": "Automated tests that load corrupted fixtures, interact with UI components, and assert correct rendering and accessibility labels.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Loading Helper Functions",
+      "description": "Shared utilities to load fixture data and manifest metadata for use in UI tests.",
+      "source_line": null
+    },
+    {
+      "name": "Synchronization Mechanism for Streaming Parse Completion",
+      "description": "Logic to wait for parsing streams to finish before asserting UI state, using Combine publishers or view model states.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3114,
+    "line_count": 31
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/59_F5_Finalize_Release_Checklist_and_Go_Live_Runbook/Summary_of_Work.md",
+  "n_spec": 8,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Use a dedicated Release Readiness Runbook document (Documentation/ISOInspector.docc/Guides/ReleaseReadinessRunbook.md) as the canonical playbook for QA, distribution, and communications.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide a documented release checklist and go\u2011live runbook that covers QA gates, documentation deliverables, packaging steps, shared distribution metadata, Tuist manifests, and notarization tooling.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The Release Readiness Runbook must include: 1) QA gates, 2) documentation deliverables, 3) packaging steps tied to shared distribution metadata, Tuist manifests, and notarization tooling; 4) go/no\u2011go evidence requirements; 5) post\u2011release bookkeeping that keeps workplan, PRD TODO, and next\u2011task trackers synchronized.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The Release Readiness Runbook must be the single source of truth for release playbooks and must remain in sync with the distribution metadata, Tuist manifests, and notarization tooling.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Validate Markdown formatting using scripts/fix_markdown.py and Markdownlint before committing documentation changes.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule macOS UI automation and Combine benchmarks when hardware is available and attach evidence to the release QA log.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Evidence from macOS UI automation and Combine benchmarks must be attached to the release QA log.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Evaluate hosted DocC publishing so that release artifacts are discoverable beyond GitHub Releases.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1560,
+    "line_count": 21
+  }
+}

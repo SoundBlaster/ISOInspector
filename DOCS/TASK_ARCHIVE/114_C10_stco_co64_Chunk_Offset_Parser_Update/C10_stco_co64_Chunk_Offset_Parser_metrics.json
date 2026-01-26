@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/114_C10_stco_co64_Chunk_Offset_Parser_Update/C10_stco_co64_Chunk_Offset_Parser.md",
+  "n_spec": 7,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement structured parsing for the stco (32-bit) and co64 (64-bit) chunk offset tables so the inspector exposes accurate byte offsets for each media chunk across legacy and large-file assets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ISOInspectorKit gains decoders that handle both stco and co64 payload layouts, respecting entry counts and integer width differences.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parsed offsets populate the box detail view and JSON export with correctly typed numeric values (UInt32 vs UInt64) while presenting a normalized Swift model for consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Fixtures covering small (<4 GiB) and large (\u22654 GiB) files parse without overflow, and malformed tables (e.g., counts exceeding payload length) raise validation warnings consistent with Phase B guardrails.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated tests assert the parser behavior for representative assets and snapshot exports update accordingly.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parser must respect entry counts and integer width differences for stco and co64.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parsed offsets must be correctly typed numeric values (UInt32 vs UInt64).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "stco Chunk Offset Parser",
+      "description": "Parses the 32-bit stco box to extract chunk offsets and expose them in the inspector.",
+      "source_line": null
+    },
+    {
+      "name": "co64 Chunk Offset Parser",
+      "description": "Parses the 64-bit co64 box to extract chunk offsets and expose them in the inspector.",
+      "source_line": null
+    },
+    {
+      "name": "FullBox Header Reader",
+      "description": "Reuses shared FullBox utilities to read version/flags for stco/co64 boxes.",
+      "source_line": null
+    },
+    {
+      "name": "Chunk Offset Detail View Renderer",
+      "description": "Displays parsed chunk offsets in the UI detail view with decimal and hexadecimal formatting.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Exporter for Chunk Offsets",
+      "description": "Exports parsed chunk offsets as typed numeric values (UInt32 or UInt64) in JSON.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Warning Generator",
+      "description": "Raises warnings when offset table counts exceed payload length, following Phase B guardrails.",
+      "source_line": null
+    },
+    {
+      "name": "Sample Table Aggregation Layer Integration",
+      "description": "Provides a normalized Swift model for consumers to iterate offsets alongside chunk run definitions.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3117,
+    "line_count": 50
+  }
+}

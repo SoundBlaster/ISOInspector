@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/55_E4_Prepare_App_Distribution_Configuration/54_E4_Prepare_App_Distribution_Configuration.md",
+  "n_spec": 12,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Define bundle identifiers and versioning metadata for macOS, iPadOS, and iOS targets to be referenced by CI build scripts.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create platform-specific entitlement plists enabling App Sandbox, security-scoped bookmarks, and automation/test allowances for each target.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement a notarization script that submits the app bundle to Apple\u2019s notarization service and supports dry-run execution for local validation.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Generate a Tuist Project.swift that imports shared distribution metadata, applies marketing/build versions, sets platform-specific bundle identifiers and entitlements, and produces Xcode projects for signing and upload.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Bundle identifiers and versioning metadata must be recorded for macOS, iPadOS, and iOS targets and referenced by CI build scripts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "App sandbox entitlements must be finalized for file access, bookmark persistence, and optional automation hooks, with validation via signing tools.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Notarization pipeline must be exercised end-to-end (locally or via CI) to confirm the packaged app is accepted by Apple notarization services.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updates must summarize distribution settings and prerequisites for future automation tasks.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Distribution metadata resource (DistributionMetadata.json) must be versioned alongside the SwiftPM package code.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Entitlement files (.entitlements) per platform must cover sandbox, security-scoped bookmarks, and automation/test allowances.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use SwiftPM package structure to align Xcode project settings and avoid duplicated identifiers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Generate release Xcode project with Tuist to codify distribution-critical build settings in versioned Project.swift.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DistributionMetadata.json",
+      "description": "Resource file recording bundle identifiers, marketing version, build number, and development team placeholder for CI scripts",
+      "source_line": null
+    },
+    {
+      "name": "DistributionMetadataLoader",
+      "description": "Swift module that loads distribution metadata from Bundle.module during CI runs",
+      "source_line": null
+    },
+    {
+      "name": "Platform-specific Entitlement Plists",
+      "description": "Entitlement files (.entitlements) for macOS, iOS, and iPadOS enabling App Sandbox, security-scoped bookmarks, and automation/test allowances",
+      "source_line": null
+    },
+    {
+      "name": "notarize_app.sh Script",
+      "description": "Shell script that submits the app bundle to Apple notarization services using notarytool, supports dry-run, reads team identifier from metadata",
+      "source_line": null
+    },
+    {
+      "name": "Tuist Project.swift",
+      "description": "Project definition that imports distribution metadata, sets marketing/build versions, bundle identifiers, and entitlements for generated Xcode projects",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5240,
+    "line_count": 90
+  }
+}

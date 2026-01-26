@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/228_A7_A8_SwiftLint_and_Coverage_Gates/228_A7_Reinstate_SwiftLint_Complexity_Thresholds.md",
+  "n_spec": 11,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Restore and enforce SwiftLint complexity thresholds across the ISOInspector codebase to prevent code quality regressions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`.swiftlint.yml` is updated with cyclomatic_complexity, function_body_length, type_body_length, nesting depth limits tuned to current codebase state.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pre-commit hook runs `swiftlint lint --strict` and fails pushes on violations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI workflow includes a SwiftLint analyzer step that runs `swiftlint lint --strict`, publishes an analyzer report artifact on violation, and fails the workflow when thresholds exceeded.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All existing code in Sources/ and Tests/ passes the reinstated thresholds (no violations).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updated to reflect complexity limits and guidance on checking locally and refactoring strategy.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Verification by running `swiftlint lint --strict` locally shows zero violations and CI workflow passes SwiftLint step.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Complexity thresholds must always be enforced in pre-commit and CI to prevent regressions.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Integrate SwiftLint complexity checks into the pre-commit hook (`.githooks/pre-push`) and CI workflow (`.github/workflows/ci.yml`).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use `swiftlint lint --strict` with sarif reporter for automated analysis and artifact upload on failure.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Enable/restore four complexity rules in `.swiftlint.yml` with chosen thresholds based on current codebase metrics.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SwiftLint Complexity Configuration",
+      "description": "Defines cyclomatic complexity, function body length, nesting depth, and type body length thresholds in .swiftlint.yml",
+      "source_line": null
+    },
+    {
+      "name": "Pre-commit SwiftLint Hook",
+      "description": "Runs swiftlint lint --strict during pre-push to block pushes with violations",
+      "source_line": null
+    },
+    {
+      "name": "CI SwiftLint Analyzer Step",
+      "description": "Executes swiftlint lint --strict in CI workflow, publishes SARIF report on failure and fails the job if thresholds exceeded",
+      "source_line": null
+    },
+    {
+      "name": "Codebase Complexity Audit Tool",
+      "description": "Runs swiftlint with permissive thresholds to capture current complexity metrics for setting new limits",
+      "source_line": null
+    },
+    {
+      "name": "Refactoring Guidance Workflow",
+      "description": "Provides instructions for refactoring high-complexity code and documenting exceptions via swiftlint:disable pragmas",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update Process",
+      "description": "Updates README/CONTRIBUTING with complexity limits, local check guidance, and exception handling notes",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4209,
+    "line_count": 97
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/228_A7_A8_SwiftLint_and_Coverage_Gates/README.md",
+  "n_spec": 6,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Remove or relocate large log files (>1MB) from the repository to prevent committing them.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Large log files must be deleted if not needed, moved to a local-only location, or added to .gitignore if regenerated frequently.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The check-added-large-files pre-commit hook is temporarily disabled to allow commits to proceed.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Re-enable the swift-build-foundationui pre-push hook after resolving test compilation failures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The swift-build-foundationui pre-push hook must be re-enabled once test compilation issues are fixed.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Fix incorrect usage of YAMLValidator.validate() in tests and use the correct API methods validateComponent() or validateComponents().",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1603,
+    "line_count": 40
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/next_tasks.md",
+  "n_spec": 9,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement app theming for icon and light/dark modes",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Accent palette and SwiftUI tint wiring must be included in Summary_of_Work.md as of 2025-10-17",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Production icon rasterization is tracked via @todo PDD:45m",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute random slice benchmark suite on macOS with Combine support to compare mapped vs chunked readers under identical workloads",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Benchmark must be executed only when a macOS runner with Combine is available",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS with XCTest UI to validate end-to-end SwiftUI automation flow",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Testing requires macOS UI testing entitlements and cannot run in container",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute Combine-backed UI benchmark on macOS to capture latency metrics while maintaining throughput parity with CLI harness",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Benchmark must only run on mac\u2011macOS runner with Xcode/Combine",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "App Theming",
+      "description": "Provides icon and light/dark theme support with accent palette and SwiftUI tint wiring",
+      "source_line": null
+    },
+    {
+      "name": "Benchmark Validation",
+      "description": "Executes random slice benchmark suite on macOS to compare mapped vs chunked readers under identical workloads",
+      "source_line": null
+    },
+    {
+      "name": "Streaming UI Coverage",
+      "description": "Runs ParseTreeStreamingSelectionAutomationTests on macOS to validate end-to-end SwiftUI automation flow for streaming selection",
+      "source_line": null
+    },
+    {
+      "name": "Combine UI Benchmark Follow-Up",
+      "description": "Executes Combine-backed UI benchmark on macOS to capture latency metrics while maintaining throughput parity with CLI harness",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1820,
+    "line_count": 34
+  }
+}

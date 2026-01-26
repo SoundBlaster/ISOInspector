@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/59_F5_Finalize_Release_Checklist_and_Go_Live_Runbook/F5_Finalize_Release_Checklist_and_Go_Live_Runbook.md",
+  "n_spec": 4,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Deliver a consolidated release readiness checklist and go-live runbook so QA, release engineering, and product stakeholders can execute ISOInspector releases consistently across CLI, notarized macOS DMG, and TestFlight builds.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Checklist enumerates QA gates with owners, commands, and evidence expectations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Runbook instructions reuse distribution metadata, notarization tooling, and Tuist manifests from tasks E4 and F2.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updates and post-release bookkeeping steps (todo/workplan/prd trackers) appear explicitly.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Release Readiness Checklist",
+      "description": "A consolidated checklist of QA gates, commands, owners, and evidence expectations for build, test, automation, and benchmark coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Synchronization",
+      "description": "Ensures release notes, README, manuals, and DocC archives stay in sync with the version bump.",
+      "source_line": null
+    },
+    {
+      "name": "Packaging Runbook",
+      "description": "Outlines Tuist metadata updates, CLI binary builds, notarization flow, and TestFlight submission steps using shared distribution configuration and tooling.",
+      "source_line": null
+    },
+    {
+      "name": "Go/No-Go Sign-Off Process",
+      "description": "Documents evidence required for release approval and captures deferred QA items such as macOS Combine benchmark follow-up.",
+      "source_line": null
+    },
+    {
+      "name": "Runbook Command Execution Interface",
+      "description": "Provides commands to capture required actions for build, test, automation, and benchmark coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update Workflow",
+      "description": "Workflow for updating documentation deliverables during a release.",
+      "source_line": null
+    },
+    {
+      "name": "Post-Release Bookkeeping Steps",
+      "description": "Steps for tracking post-release tasks in todo/workplan/prd trackers.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2408,
+    "line_count": 29
+  }
+}

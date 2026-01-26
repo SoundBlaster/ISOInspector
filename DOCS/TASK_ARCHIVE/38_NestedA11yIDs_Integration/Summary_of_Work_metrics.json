@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/38_NestedA11yIDs_Integration/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The ISOInspector App target must integrate NestedA11yIDs with rooted identifiers for the parse tree explorer.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide documentation outlining usage conventions and migration plan for NestedA11yIDs integration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation file Docs/Guides/NestedA11yIDsIntegration.md must be added.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Follow-up puzzles for research log previews and annotation notes must be captured via @todo entries and todo.md.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend movie header parsing to surface next_track_ID payload data.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Movie header parsing must support extracting and displaying next_track_id.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "NestedA11yIDs Integration",
+      "description": "Integrates NestedA11yIDs into ISOInspector App target providing rooted identifiers for the parse tree explorer.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation for NestedA11yIDs Usage",
+      "description": "Provides documentation outlining usage conventions and migration plan for NestedA11yIDs integration.",
+      "source_line": null
+    },
+    {
+      "name": "Research Log Previews Capture",
+      "description": "Captures follow-up puzzles for research log previews and annotation notes via @todo entries and todo.md.",
+      "source_line": null
+    },
+    {
+      "name": "Movie Header Parsing Extension",
+      "description": "Extends movie header parsing to surface next_track_ID payload data.",
+      "source_line": null
+    },
+    {
+      "name": "App Detail Payload Annotations Restoration",
+      "description": "Restores app detail payload annotations, enabling B6 registry integration tests.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 740,
+    "line_count": 18
+  }
+}

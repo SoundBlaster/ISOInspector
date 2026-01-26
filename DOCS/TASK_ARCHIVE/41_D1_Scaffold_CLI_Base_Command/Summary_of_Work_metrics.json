@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/41_D1_Scaffold_CLI_Base_Command/Summary_of_Work.md",
+  "n_spec": 8,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Introduce an isoinspector root command powered by swift-argument-parser with placeholder inspect, validate, and export subcommands plus shared context bootstrap for future streaming operations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add Swift ArgumentParser dependency to Package.swift and update the CLI target along with its tests to link the new product.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Create ISOInspectorCommand, ISOInspectorCommandContext, and ISOInspectorCommandContextStore to wire shared ISOInspectorCLIEnvironment state and expose global options for upcoming telemetry toggles.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update the CLI entry point to execute the new command, leaving legacy runner logic in place for existing tests.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Surface global logging and telemetry toggles once streaming metrics are exposed to the CLI.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute streaming inspection by consuming ParsePipeline events when Task D2 builds the streaming command.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Produce validation reports with streaming pipeline once Task D2 defines the CLI output contract.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Route export operations to streaming capture utilities as they migrate from ISOInspectorCLIRunner.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ISOInspector CLI Root Command",
+      "description": "Provides the base command 'isoinspector' for the tool, serving as entry point for subcommands.",
+      "source_line": null
+    },
+    {
+      "name": "Inspect Subcommand",
+      "description": "Placeholder subcommand intended to perform inspection operations on ISO data.",
+      "source_line": null
+    },
+    {
+      "name": "Validate Subcommand",
+      "description": "Placeholder subcommand intended to validate ISO data.",
+      "source_line": null
+    },
+    {
+      "name": "Export Subcommand",
+      "description": "Placeholder subcommand intended to export ISO data.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCommandContext",
+      "description": "Shared context object exposing global options and environment state for CLI commands.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCommandContextStore",
+      "description": "Storage mechanism for the shared command context across the CLI.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCLIEnvironment",
+      "description": "Global environment state used by the CLI, including telemetry toggles.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1332,
+    "line_count": 22
+  }
+}

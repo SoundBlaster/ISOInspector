@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/171_T1_7_Finalize_Traversal_Guard_Requirements/next_tasks.md",
+  "n_spec": 11,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement traversal guard enforcement inside StreamingBoxWalker to honor budgets defined in Traversal_Guard_Requirements.md and maintain strict mode behavior.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Traversal guard enforcement must correctly enforce budgets as specified in Traversal_Guard_Requirements.md.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Strict mode behavior remains unchanged after adding traversal guard enforcement.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add corrupt fixtures (zero-size-loop.mp4, nested uuid stack, overlapping children) to the fixture catalog and integrate them into unit, integration, and fuzz harnesses.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Corrupt fixtures are added to the fixture catalog.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit, integration, and fuzz harnesses use the new corrupt fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update CLI/UI issue presenters to localize new guard.* codes and display guard counts in integrity summaries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI/UI issue presenters localize all new guard.* codes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integrity summaries include guard counts.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Capture guard activation metrics in tolerant parsing dashboards to allow QA track hit rates across fuzz campaigns.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Guard activation metrics are captured and displayed in the dashboard.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Traversal Guard Enforcement",
+      "description": "Enforces traversal guard budgets within StreamingBoxWalker according to defined requirements and maintains strict mode behavior",
+      "source_line": null
+    },
+    {
+      "name": "Corrupt Fixture Catalog Extension",
+      "description": "Adds corrupt media fixtures (zero-size-loop.mp4, nested uuid stack, overlapping children) to the catalog for testing harnesses",
+      "source_line": null
+    },
+    {
+      "name": "CLI/UI Issue Presenter Localization",
+      "description": "Localizes new guard.* error codes in CLI/UI presenters and displays guard counts in integrity summaries",
+      "source_line": null
+    },
+    {
+      "name": "Guard Activation Metrics Capture",
+      "description": "Collects and reports guard activation metrics in tolerant parsing dashboards for QA tracking",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 609,
+    "line_count": 12
+  }
+}

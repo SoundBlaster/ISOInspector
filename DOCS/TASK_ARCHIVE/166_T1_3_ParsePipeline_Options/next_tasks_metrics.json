@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/166_T1_3_ParsePipeline_Options/next_tasks.md",
+  "n_spec": 6,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Track manual VoiceOver verification on macOS and iPadOS hardware to confirm the focus command menu announces controls and restores focus targets as expected.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver focus command menu must announce all controls and restore focus targets correctly after interaction.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always maintain correct focus target restoration when VoiceOver is active.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Secure Dolby Vision, AV1, VP9, Dolby AC-4 and MPEG\u2011H fixtures for regression baselines to shift from synthetic payloads once approvals are available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All requested fixtures must be obtained and integrated into regression tests before proceeding.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Refresh snapshots and CLI fixtures whenever schema updates are intentional via the specified command.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "VoiceOver Accessibility Shortcut Verification",
+      "description": "Manual tracking and verification of VoiceOver focus command menu announcements and focus restoration on macOS and iPadOS hardware.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing Management",
+      "description": "Process to secure licensing for Dolby Vision, AV1, VP9, Dolby AC\u20114, and MPEG\u2011H fixtures to enable regression baselines with real-world media.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot and CLI Fixture Refresh",
+      "description": "Automated or manual regeneration of JSON export snapshots and command-line interface fixtures when schema changes occur using a specific test command.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 842,
+    "line_count": 5
+  }
+}

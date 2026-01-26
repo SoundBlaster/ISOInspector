@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/29_D3_CLI_Export_Commands/29_D3_CLI_Export_Commands.md",
+  "n_spec": 10,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a CLI command `isoinspector export-json <input> --output <file>` that streams a parse tree into the JSON exporter and writes a deterministic document matching the schema used in kit round-trip tests.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide a CLI command `isoinspector export-capture <input> --output <file>` that persists a binary capture compatible with the kit reader, reports the output path, and respects existing logging conventions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The export-json command must produce a deterministic JSON document matching the schema used in kit round-trip tests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The export-capture command must produce a binary capture compatible with the kit reader and report the output path.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Both commands must respect existing logging conventions (research log notices, validation summaries) and return non-zero exit codes on I/O or encoding failures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI help (`--help`) must list the new subcommands with brief usage examples, keeping inspect behavior unchanged.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add focused tests that invoke each command against fixture media, asserting file creation and re-import using ISOInspectorKit APIs.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The destination path for export commands must be writable before starting export work.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse ParseTreeBuilder to collect streaming events before handing them to JSONParseTreeExporter and the capture encoder, sharing pipeline/environment wiring with existing inspect command paths.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Encapsulate export logic in reusable helpers that accept an array of files for future batch mode alignment.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "export-json command",
+      "description": "CLI subcommand that streams a parse tree from an input file into the JSON exporter and writes a deterministic JSON document to a specified or default output path.",
+      "source_line": null
+    },
+    {
+      "name": "export-capture command",
+      "description": "CLI subcommand that streams a parse tree from an input file into the binary capture encoder and writes a binary capture file compatible with the kit reader to a specified or default output path, reporting the output location.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeBuilder integration for export",
+      "description": "Reuses the ParseTreeBuilder pipeline to collect streaming events before handing them to the JSON exporter or capture encoder, ensuring consistent parsing across commands.",
+      "source_line": null
+    },
+    {
+      "name": "Output path validation and defaults",
+      "description": "Validates that the destination path is writable and provides default output filenames based on the input name with .isoinspector.json or .capture extensions.",
+      "source_line": null
+    },
+    {
+      "name": "Logging and error handling for export commands",
+      "description": "Respects existing logging conventions, surfaces validation issues or exporter errors through printError, and returns non-zero exit codes on I/O or encoding failures.",
+      "source_line": null
+    },
+    {
+      "name": "CLI help integration",
+      "description": "Adds brief usage examples to the CLI help output for the new subcommands while keeping inspect behavior unchanged.",
+      "source_line": null
+    },
+    {
+      "name": "Reusable export helpers for batch mode",
+      "description": "Encapsulates export logic in reusable helpers that accept an array of files, enabling future batch processing alignment.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3178,
+    "line_count": 42
+  }
+}

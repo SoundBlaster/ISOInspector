@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a parser for the 'stss' sync sample table box that decodes its contents and makes the data available to downstream consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The parser must correctly decode version/flags, entry counts, and sync sample numbers from the stss box.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "When the stss box is empty, the parser should return an empty list of sync samples without error.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "If the stss box contains truncated entries (i.e., fewer bytes than required for a full entry), parsing should fail gracefully and be detected by tests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The SyncSampleTableBox model must always expose the parsed sync sample numbers as well\u2011to\u2011witness? (explanation missing).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SyncSampleTable Parser",
+      "description": "Parses 'stss' sync sample table boxes decoding version/flags, entry counts, and sync sample numbers into structured data",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload SyncSampleTableBox Model",
+      "description": "Extends ParsedBoxPayload to include a SyncSampleTableBox model representing sync sample metadata",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export for SyncSampleTableBox",
+      "description": "Provides JSON export coverage so CLI/UI can surface sync sample metadata",
+      "source_line": null
+    },
+    {
+      "name": "StssSyncSampleTableParser Tests",
+      "description": "Unit tests validating happy path, empty table, and truncated entry scenarios for the parser",
+      "source_line": null
+    },
+    {
+      "name": "JSONExportSnapshot Tests",
+      "description": "Tests ensuring JSON parse tree snapshots include new structured sync sample payload",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 890,
+    "line_count": 18
+  }
+}

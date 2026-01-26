@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add SwiftFormat enforcement to pre-push hook and CI workflow to maintain consistent code style across the project.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftFormat must be run on all files before push and during CI; failures block merge.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All code must pass SwiftFormat checks in pre\u2011push and CI environments.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a pre\u2011push hook and GitHub Actions workflow to enforce SwiftFormat across the repository.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Strict Concurrency Checks Automation",
+      "description": "Automated enforcement of Swift StrictConcurrency across all build and test phases via pre-push hooks and CI.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftFormat Formatting Enforcement",
+      "description": "Pre\u2011push hook and CI workflow that enforces consistent code style using SwiftFormat.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftLint Complexity Thresholds Reinforcement",
+      "description": "Restoration and enforcement of SwiftLint complexity thresholds (cyclomatic, function length, type length) to maintain code quality.",
+      "source_line": null
+    },
+    {
+      "name": "Test Coverage Gate",
+      "description": "Integration of coverage_analysis.py into CI to enforce minimum test coverage thresholds.",
+      "source_line": null
+    },
+    {
+      "name": "Duplication Detection Guard",
+      "description": "CI workflow using jscpd to detect and block copy/paste regressions in Swift code.",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Interactive Components",
+      "description": "Implementation of interactive SwiftUI components such as buttons, sliders, toggles, and other user input controls.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssueStore Concurrency Migration",
+      "description": "Migration of ParseIssueStore from GCD queues to @MainActor or custom actor isolation for Swift concurrency.",
+      "source_line": null
+    },
+    {
+      "name": "Removal of @unchecked Sendable",
+      "description": "Elimination of @unchecked Sendable conformance after actor isolation is complete.",
+      "source_line": null
+    },
+    {
+      "name": "Other Stores Migration",
+      "description": "Migrate remaining stores to Swift Concurrency following the ParseIssueStore pattern.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4533,
+    "line_count": 113
+  }
+}

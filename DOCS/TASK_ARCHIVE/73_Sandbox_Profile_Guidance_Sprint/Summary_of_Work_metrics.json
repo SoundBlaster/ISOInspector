@@ -1,0 +1,27 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/73_Sandbox_Profile_Guidance_Sprint/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 3,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "ISOInspector CLI Sandbox Automation Guide",
+      "description": "Provides sample profiles, bookmark workflows, and verification checklists for automating ISOInspector sandbox tasks via the command line.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Manual Update",
+      "description": "Updates the ISOInspector command-line interface manual to reference new sandbox guidance and mark milestone completion.",
+      "source_line": null
+    },
+    {
+      "name": "Planning Artifacts Update",
+      "description": "Revisions to workplan, PRD TODO, and next task tracker documents to reflect updated CLI guidance and milestones.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1096,
+    "line_count": 18
+  }
+}

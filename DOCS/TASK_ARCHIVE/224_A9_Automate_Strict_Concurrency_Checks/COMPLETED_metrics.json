@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/224_A9_Automate_Strict_Concurrency_Checks/COMPLETED.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Automate strict concurrency checks across all build and test targets",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All targets compile with strict concurrency enabled (zero warnings)",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pre-push hook verifies concurrency compliance before every push",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI workflow runs dedicated strict concurrency job with artifact uploads",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Strict concurrency checks must always be enforced during build and test phases",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Strict Concurrency Build Target Configuration",
+      "description": "Enables strict concurrency checks for all build and test targets via .enableUpcomingFeature(\"StrictConcurrency\") in Package.swift",
+      "source_line": null
+    },
+    {
+      "name": "Pre-Push Hook for Concurrency Compliance",
+      "description": "A Git hook that verifies strict concurrency compliance before every push",
+      "source_line": null
+    },
+    {
+      "name": "CI Workflow Strict Concurrency Job",
+      "description": "GitHub Actions workflow that runs a dedicated job to check strict concurrency and uploads artifacts",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update for Automation Gate",
+      "description": "Updates PRD and related docs to reflect the established automation gate for strict concurrency checks",
+      "source_line": null
+    },
+    {
+      "name": "Quality Logs Directory with .gitignore Rules",
+      "description": "Creates a directory for quality logs and configures .gitignore rules to manage log files",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1293,
+    "line_count": 43
+  }
+}

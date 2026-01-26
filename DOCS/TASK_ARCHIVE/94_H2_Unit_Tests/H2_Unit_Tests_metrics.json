@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/94_H2_Unit_Tests/H2_Unit_Tests.md",
+  "n_spec": 9,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Establish deterministic XCTest coverage for ISOInspectorKit parsing primitives so header math, container boundaries, and critical box field decoders remain stable across future refactors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests in Tests/ISOInspectorKitTests fail when header size arithmetic or parent/child range validation regresses.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Box-specific unit tests confirm decoded field values for key structures (ftyp, mvhd, tkhd, sample tables, codec configs).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression suite runs quickly enough for CI gating (<30s incremental) using lightweight fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updated where necessary to reflect new test coverage expectations.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ISOInspectorKit modules (BoxHeader, BoxNode, FullBoxReader, targeted parsers) must correctly parse header math, container boundaries, and critical box fields.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use existing fixtures in Tests/ISOInspectorKitTests/Fixtures plus synthetic minimal boxes generated inline for edge cases.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Incorporate failure-case fixtures from the manifest workflow to assert error pathways without relying on macOS-specific tooling.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Consider using helper builders (e.g., TestFileHandle) to simulate truncated payloads or overlapping ranges.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ISOInspectorKit BoxHeader Parser",
+      "description": "Parses and validates MP4/MOV box headers for size and type",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorKit BoxNode Structure",
+      "description": "Represents hierarchical relationships between boxes in a media file",
+      "source_line": null
+    },
+    {
+      "name": "FullBoxReader Decoder",
+      "description": "Decodes full-box fields such as version, flags, and extended data",
+      "source_line": null
+    },
+    {
+      "name": "FTYP Box Field Decoder",
+      "description": "Validates and extracts major brand, compatible brands from ftyp box",
+      "source_line": null
+    },
+    {
+      "name": "MVHD Box Field Decoder",
+      "description": "Parses movie header information like creation time, duration, etc.",
+      "source_line": null
+    },
+    {
+      "name": "TKHD Box Field Decoder",
+      "description": "Parses track header details including track ID, duration, and dimensions",
+      "source_line": null
+    },
+    {
+      "name": "Sample Table Parser",
+      "description": "Processes sample tables for media data extraction",
+      "source_line": null
+    },
+    {
+      "name": "Codec Configuration Parser",
+      "description": "Decodes codec configuration boxes such as AVC/H.264, HEVC, etc.",
+      "source_line": null
+    },
+    {
+      "name": "TestFileHandle Builder",
+      "description": "Simulates file handles for truncated or overlapping payloads in unit tests",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2001,
+    "line_count": 42
+  }
+}

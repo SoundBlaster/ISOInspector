@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/123_C14d_Refresh_Edit_List_Fixtures/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Synthetic edit list fixtures must be regenerated for empty, single-offset, multi-segment, and rate-adjusted scenarios to ensure VR-014 diagnostics surface across representative payloads.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Expand the fixture catalog metadata, regression tests, and JSON export snapshots to cover new assets and verify rule messaging.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Updated repository documentation must mark C14d complete and point follow-on efforts toward pending metadata parser work.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Proceed with C15 metadata container coverage and Validation Rule #15 chunk/sample correlation per existing planning documents.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Generate Synthetic Edit List Fixtures",
+      "description": "Creates synthetic edit list fixtures for various scenarios such as empty, single-offset, multi-segment, and rate-adjusted using generate_fixtures.py",
+      "source_line": null
+    },
+    {
+      "name": "Export JSON Snapshots of Edit Lists",
+      "description": "Exports JSON representations of edit lists to verify rule messaging and snapshot consistency",
+      "source_line": null
+    },
+    {
+      "name": "Run Validation Tests for Edit List Scenarios",
+      "description": "Executes Swift test cases filtered by specific edit list snapshot tests (empty, single-offset, multi-segment, rate-adjusted) and overall test suite",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1227,
+    "line_count": 19
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/next_tasks.md",
+  "n_spec": 9,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Parser tasks must align validation rules with the new stsc detail model.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement C3 tkhd track header parser with flag-dependent field decoding, track duration calculations, and presentation dimensions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "C3 tkhd parser implementation summarized in DOCS/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/Summary_of_Work.md.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Coordinate upcoming C9 (stsz/stz2) and C10 (stco/co64) parser tasks.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation rules must be aligned with the new stsc detail model.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Evaluate additional handler type categorizations for future boxes beyond current mapping set.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Future handler types may require specialized roles.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule macOS CLI/UI large-file benchmark execution using R4 protocol once dedicated hardware runners.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark must be executed on macOS with Instruments support.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "tkhd track header parser",
+      "description": "Parses the tkhd box to decode flag-dependent fields, calculate track duration, and determine presentation dimensions",
+      "source_line": null
+    },
+    {
+      "name": "stsz/stz2 parser coordination",
+      "description": "Aligns validation rules for stsz/stz2 parsing with the new stsc detail model",
+      "source_line": null
+    },
+    {
+      "name": "stco/co64 parser coordination",
+      "description": "Aligns validation rules for stco/co64 parsing with the new stsc detail model",
+      "source_line": null
+    },
+    {
+      "name": "hdlr handler type evaluation",
+      "description": "Evaluates additional handler type categorizations for future boxes beyond current mapping set",
+      "source_line": null
+    },
+    {
+      "name": "macOS CLI/UI large-file benchmark execution",
+      "description": "Runs macOS command-line or UI benchmarks on large files using the R4 protocol",
+      "source_line": null
+    },
+    {
+      "name": "macOS DocC generation and notarization",
+      "description": "Generates DocC documentation, notarizes it, exports to TestFlight, and performs hardware-dependent QA for release readiness",
+      "source_line": null
+    },
+    {
+      "name": "random slice benchmark suite execution",
+      "description": "Executes random slice benchmark tests on macOS to compare mapped vs. chunked readers",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStreamingSelectionAutomationTests execution",
+      "description": "Runs SwiftUI automation tests for end\u2011to\u2011end streaming UI selection flow",
+      "source_line": null
+    },
+    {
+      "name": "Combine-backed UI benchmark execution",
+      "description": "Captures latency metrics for Combine-based UI benchmarks on macOS",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2914,
+    "line_count": 33
+  }
+}

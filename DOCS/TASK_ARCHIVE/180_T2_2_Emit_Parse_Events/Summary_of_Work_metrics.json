@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/180_T2_2_Emit_Parse_Events/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Emit parse events with severity metadata so tolerant parsing consumers receive corruption diagnostics immediately.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsePipeline.live() streams ParseIssue severity, offsets, and reason codes with every matching event.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ISOInspectorCommand.filteredEvent preserves streamed ParseIssue collections so CLI formatting retains tolerant metadata even when validation rules are filtered.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Regression coverage via ParsePipelineLiveTests.testLivePipelineStreamsParseIssueMetadata and ISOInspectorCommandTests.testFilteredEventPreservesParseIssueMetadata ensures correctness of the new behavior.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Proceed to T2.3 to aggregate per-severity metrics from ParseIssueStore for UI ribbons and CLI summaries once design handoff completes.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipeline.live() event stream",
+      "description": "Streams parse events enriched with severity metadata, offsets, and reason codes for tolerant parsing consumers",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCommand.filteredEvent formatting",
+      "description": "CLI command that preserves streamed ParseIssue collections, maintaining tolerant metadata even when validation rules are filtered",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipelineLiveTests.testLivePipelineStreamsParseIssueMetadata test",
+      "description": "Unit test ensuring live pipeline streams parse issue metadata correctly",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCommandTests.testFilteredEventPreservesParseIssueMetadata test",
+      "description": "Unit test verifying CLI formatting retains parse issue metadata after filtering",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 957,
+    "line_count": 14
+  }
+}

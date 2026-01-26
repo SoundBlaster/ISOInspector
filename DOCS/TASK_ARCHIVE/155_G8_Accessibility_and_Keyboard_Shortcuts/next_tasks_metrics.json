@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/155_G8_Accessibility_and_Keyboard_Shortcuts/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Child boxes must not exceed parent ranges and overlapping payloads are disallowed.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Hardware focus shortcuts should flow through a shared catalog and Focus command menu so macOS and iPadOS expose the same key bindings and restore focus targets without pointer input.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "When schema updates are intentional, snapshots and CLI fixtures must be refreshed via ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Parent Containment Validation",
+      "description": "Ensures child boxes cannot exceed parent ranges and flags overlapping payloads for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility & Keyboard Shortcuts Integration",
+      "description": "Provides shared catalog of hardware focus shortcuts and Focus command menu to expose consistent key bindings across macOS and iPadOS, restoring focus targets without pointer input.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing Management",
+      "description": "Manages licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, MPEG-H fixtures to replace synthetic payloads and refresh regression baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & CLI Fixture Refresh",
+      "description": "Automates refreshing of snapshots and CLI fixtures when schema updates occur via environment variable and test command.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1308,
+    "line_count": 6
+  }
+}

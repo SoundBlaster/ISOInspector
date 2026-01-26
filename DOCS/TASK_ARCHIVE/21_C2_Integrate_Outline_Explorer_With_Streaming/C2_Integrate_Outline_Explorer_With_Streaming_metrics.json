@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/21_C2_Integrate_Outline_Explorer_With_Streaming/C2_Integrate_Outline_Explorer_With_Streaming.md",
+  "n_spec": 9,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Connect the SwiftUI outline explorer to the existing Combine session bridge so that live parse events populate and update the tree view without manual refresh.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tree view subscribes to the session publisher and displays root and nested boxes as soon as events arrive, preserving order.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting nodes triggers detail/hex requests using identifiers without blocking incoming updates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming updates remain responsive (target <200\u202fms latency) and keep the outline in sync with parser completion states.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline search/filter controls continue to operate against the live data set without crashing or stale content.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Memory usage stays bounded when handling large (>10k node) trees\u2014prefer incremental append over full array rebuilds.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing Combine stores to drive a view model that batches updates for SwiftUI diffing; consider @MainActor isolation for UI mutations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Verify compatibility with forthcoming detail/hex stores (task C3) to avoid conflicting data ownership.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add lightweight instrumentation/logging to observe event-to-UI latency during integration testing.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Outline Explorer Tree View",
+      "description": "Displays a hierarchical tree of parsed nodes in SwiftUI, rendering >10k nodes smoothly and updating live as parse events arrive.",
+      "source_line": null
+    },
+    {
+      "name": "Session Publisher Subscription",
+      "description": "Subscribes to Combine session publisher to receive parse events and materialize them into UI view model updates.",
+      "source_line": null
+    },
+    {
+      "name": "Node Selection Handler",
+      "description": "Handles user selection of tree nodes, triggering detail and hex data requests via identifiers without blocking incoming updates.",
+      "source_line": null
+    },
+    {
+      "name": "Live Update Batching Engine",
+      "description": "Batches incoming parse events for SwiftUI diffing, using @MainActor isolation to batch updates efficiently and keep latency <200\u202fms.",
+      "source_line": null
+    },
+    {
+      "name": "Incremental Tree Builder",
+      "description": "Appends new nodes incrementally to the existing tree structure instead of rebuilding full arrays, ensuring bounded memory usage with large trees.",
+      "source_line": null
+    },
+    {
+      "name": "Search/Filter Control for Live Data",
+      "description": "Provides search and filter UI controls that operate against the live outline data set without crashing or showing stale content.",
+      "source_line": null
+    },
+    {
+      "name": "Instrumentation & Logging Module",
+      "description": "Logs event-to-UI latency and other metrics to observe integration performance during testing.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2070,
+    "line_count": 49
+  }
+}

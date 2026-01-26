@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/03_B2_Plus_Streaming_Interface_Evaluation/F1_Test_Fixtures.md",
+  "n_spec": 7,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a curated collection of MP4/MOV sample files and supporting metadata for automated regression testing of parser, validators, and exporters.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Fixture corpus includes at least: standard MP4, fragmented MP4, MOV variant, DASH init/media segments, large mdat, and intentionally malformed headers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each fixture ships with machine-readable metadata (box inventory, expected warnings/errors, licensing notes) stored alongside the files for automated validation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "swift test suites load fixtures without exceeding memory/time budgets and assert expected parse/validation outcomes for both success and failure cases.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation explains sourcing/licensing for every file and the process to refresh or regenerate fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Fixtures must be stored under Tests/ISOInspectorKitTests/Fixtures/ with checksum tracking so CI can verify integrity and detect drift.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Define helper utilities (e.g., FixtureCatalog) that expose fixture metadata to tests and future benchmarks without hard-coding paths.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Fixture Corpus Generation",
+      "description": "Create a curated set of MP4/MOV sample files covering nominal and malformed structures for regression testing.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Packaging",
+      "description": "Generate machine-readable metadata (box inventory, expected warnings/errors, licensing notes) alongside each fixture file.",
+      "source_line": null
+    },
+    {
+      "name": "Test Suite Integration",
+      "description": "Load fixtures into swift test suites, ensuring memory/time budgets are respected and validate parse/validation outcomes.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Storage & Integrity",
+      "description": "Store fixtures under Tests/ISOInspectorKitTests/Fixtures/ with checksum tracking for CI integrity verification.",
+      "source_line": null
+    },
+    {
+      "name": "Helper Utilities (FixtureCatalog)",
+      "description": "Provide programmatic access to fixture metadata and paths for tests and benchmarks without hard-coding.",
+      "source_line": null
+    },
+    {
+      "name": "Synthetic Fixture Generation",
+      "description": "Generate synthetic MP4 structures using Bento4 or FFmpeg scripted in Python when real samples are unavailable.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation of Fixtures",
+      "description": "Document sourcing, licensing, and regeneration process for each fixture in DocC or Guides for cross-team visibility.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2487,
+    "line_count": 58
+  }
+}

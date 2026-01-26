@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/18_C1_Combine_Bridge_and_State_Stores/18_C1_Combine_Bridge_and_State_Stores.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Establish Combine-powered state stores that subscribe to the streaming parse pipeline so SwiftUI surfaces (tree, detail, hex) receive timely updates without data races.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Provide a Combine publisher (or publisher-adapter) that emits ParseEvent updates from the core async stream and backs SwiftUI-facing state stores.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Maintain thread-safe state transitions so snapshot updates occur deterministically and without race conditions while parsing large files.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Supply focused unit and/or integration coverage demonstrating that representative parse fixtures update the stores and propagate validation metadata for UI consumption.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce dedicated store types (e.g., tree/detail/hex) that collect events, maintain derived state, and expose observable properties for SwiftUI. Ensure they are @MainActor or otherwise synchronized for view updates.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing core models (ParseEvent, BoxDescriptor, validation issues) and ensure the stores can map catalog-backed metadata and research flags into UI-friendly structures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Consider cancellation, replay, and completion semantics so the UI can reset or switch files without leaking tasks. Capture any future hooks required by subsequent UI tasks (tree rendering, detail pane) in TODOs.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseEvent Publisher",
+      "description": "Combine publisher that emits ParseEvent updates from the core async stream to UI subscribers",
+      "source_line": null
+    },
+    {
+      "name": "TreeStateStore",
+      "description": "@MainActor store collecting parse events and maintaining derived state for tree view",
+      "source_line": null
+    },
+    {
+      "name": "DetailStateStore",
+      "description": "@MainActor store collecting parse events and maintaining derived state for detail pane",
+      "source_line": null
+    },
+    {
+      "name": "HexStateStore",
+      "description": "@MainActor store collecting parse events and maintaining derived state for hex view",
+      "source_line": null
+    },
+    {
+      "name": "Publisher Adapter",
+      "description": "Adapter that bridges async stream to Combine publisher with cancellation, replay, completion semantics",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2597,
+    "line_count": 38
+  }
+}

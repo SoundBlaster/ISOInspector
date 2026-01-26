@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/228_A7_A8_SwiftLint_and_Coverage_Gates/blocked.md",
+  "n_spec": 9,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "FoundationUI design tokens must be used exclusively in all view files; hardcoded .accentColor and manual opacity values are disallowed.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I want to migrate ISOInspectorApp\u2019s color usage from hardcoded values to FoundationUI design tokens so that the app follows the centralized design system.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All affected view files (ParseTreeOutlineView.swift, ParseTreeDetailView.swift, ValidationSettingsView.swift, IntegritySummaryView.swift, ISOInspectorAppTheme.swift) must reference DS.* tokens for color and opacity; no hardcoded .accentColor or manual opacity remains.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures must be obtained before importing assets and updating regression baselines.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a QA engineer, I want to import licensed media assets and refresh regression baselines so that tolerant parsing and export scenarios can validate against real-world payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Licensed assets are imported and regression baselines are refreshed; tests pass against the new payloads.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "macOS hardware with 1 GiB performance fixture must be available before running the lenient\u2011vs\u2011strict benchmark.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a performance engineer, I want to execute the macOS 1 GiB benchmark and collect runtime and RSS metrics so that we can publish them in Documentation/Performance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark runs with ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824 produce runtime and RSS metrics;\u00a0the results are archived\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Design System Color Token Migration",
+      "description": "Migrates hardcoded accent colors and opacity values in view files to use FoundationUI design tokens (DS.*) for consistency.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Acquisition",
+      "description": "Imports licensed media assets (Dolby Vision, AV1, VP9, Dolby AC-4, MPEG-H) and refreshes regression baselines for tolerant parsing and export scenarios.",
+      "source_line": null
+    },
+    {
+      "name": "macOS Benchmark Execution",
+      "description": "Runs a 1 GiB lenient\u2011vs\u2011strict benchmark on macOS, collects runtime and RSS metrics, and archives results in Documentation/Performance.",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Performance Profiling with Instruments",
+      "description": "Manually profiles rendering, memory, and animation performance using Xcode Instruments across iOS 17 and macOS 14 devices to meet target thresholds.",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Performance Benchmarks",
+      "description": "Measures build time, binary size, memory footprint, FPS, and large\u2011node tree performance across platforms, documenting baseline metrics.",
+      "source_line": null
+    },
+    {
+      "name": "Cross-Platform Testing",
+      "description": "Manually tests ComponentTestApp on iOS, macOS, and iPadOS devices/simulators for UI consistency, dark mode, RTL, locale, and orientation.",
+      "source_line": null
+    },
+    {
+      "name": "Manual Accessibility Testing",
+      "description": "Verifies VoiceOver, keyboard navigation, dynamic type, contrast, and other accessibility features across iOS and macOS to achieve final sign\u2011off.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5433,
+    "line_count": 87
+  }
+}

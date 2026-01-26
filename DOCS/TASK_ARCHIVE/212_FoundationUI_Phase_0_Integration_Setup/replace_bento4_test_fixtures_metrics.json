@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/replace_bento4_test_fixtures.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Replace external Bento4 test fixtures with internal MP4 sample files to eliminate dependency and gain control over test data.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All CLI compatibility tests must pass using the new internal MP4 samples.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The DOCS/SAMPLES/Bento4-master directory must be removed from the repository.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Test references should point only to internal sample files and not to any external Bento4 paths.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Create Minimal MP4 Sample Files",
+      "description": "Generate small MP4 files for testing purposes",
+      "source_line": null
+    },
+    {
+      "name": "Update Test References",
+      "description": "Modify test code to point to new sample file locations",
+      "source_line": null
+    },
+    {
+      "name": "Verify CLI Compatibility Tests",
+      "description": "Run and confirm that all command-line interface tests pass using the new fixtures",
+      "source_line": null
+    },
+    {
+      "name": "Remove External Bento4 Samples Directory",
+      "description": "Delete the DOCS/SAMPLES/Bento4-master directory from the project",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1047,
+    "line_count": 39
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/70_Bookmark_Persistence_Schema/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Bookmark Persistence Store",
+      "description": "Provides a versioned JSON format for storing and resolving security-scoped bookmark identifiers used by recents and session snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "Recents Session Snapshot Integration",
+      "description": "Extends DocumentRecent and WorkspaceSessionFileSnapshot to include bookmark identifiers, enabling persistence of recent files and workspace sessions via the BookmarkPersistenceStore.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Session Persistence Extension",
+      "description": "Adds support for storing bookmark identifiers in CoreData session persistence without breaking existing data formats.",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Persistence Store Tests",
+      "description": "Unit tests exercising the new bookmark persistence schema and resolution tracking.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1152,
+    "line_count": 22
+  }
+}

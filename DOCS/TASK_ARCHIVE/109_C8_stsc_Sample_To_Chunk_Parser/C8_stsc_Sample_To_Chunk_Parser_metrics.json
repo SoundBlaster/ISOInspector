@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/C8_stsc_Sample_To_Chunk_Parser.md",
+  "n_spec": 5,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a robust parser for the Sample-to-Chunk (stsc) box so that the pipeline can translate sample table metadata into UI and validation insights without relying on placeholder decoding.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Decode the stsc FullBox header (version, flags) using the shared FullBoxReader helper and surface creation of structured fields for UI/CLI consumption.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parse entry_count followed by every SampleToChunk tuple (first_chunk, samples_per_chunk, sample_description_index), capturing byte ranges for hex highlighting.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Support version 0 semantics per ISO BMFF and gracefully bail when unknown flags appear.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Emit validation-friendly detail metadata that downstream rules can use to cross-check related boxes (stsz, stco).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FullBox Header Parsing",
+      "description": "Decode the stsc FullBox header (version and flags) using FullBoxReader.",
+      "source_line": null
+    },
+    {
+      "name": "Entry Count Extraction",
+      "description": "Parse entry_count field from stsc box payload.",
+      "source_line": null
+    },
+    {
+      "name": "SampleToChunk Tuple Parsing",
+      "description": "Iterate over each SampleToChunk tuple (first_chunk, samples_per_chunk, sample_description_index) and capture byte ranges for hex highlighting.",
+      "source_line": null
+    },
+    {
+      "name": "Version 0 Semantics Support",
+      "description": "Handle version 0 semantics and validate unknown flags gracefully.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Metadata Emission",
+      "description": "Emit detail metadata usable by downstream validation rules to cross-check related boxes.",
+      "source_line": null
+    },
+    {
+      "name": "Placeholder Messaging for Truncated Payloads",
+      "description": "Provide placeholder messages when payload is truncated or inconsistent.",
+      "source_line": null
+    },
+    {
+      "name": "Typed Detail Payload Exposure",
+      "description": "Expose a typed detail payload (e.g., ParsedBoxPayload.Detail.sampleToChunk(entries:)) for UI table rendering and CLI export formatting.",
+      "source_line": null
+    },
+    {
+      "name": "Integer Overflow Guarding",
+      "description": "Guard against integer overflow when parsing large entry_count values.",
+      "source_line": null
+    },
+    {
+      "name": "Reusing Numeric Helpers",
+      "description": "Reuse FullBoxReader and numeric helpers from BoxParserRegistry to avoid duplicate bounds checks.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2930,
+    "line_count": 38
+  }
+}

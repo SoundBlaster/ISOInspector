@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Extend the JSON export schema for issues to include a schema.version descriptor (v2) when parse issues are present so tolerant payload consumers can detect the richer schema while strict-mode exports remain unchanged.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The JSON exporter emits a schema.version field with value v2 whenever parse issues are present.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Strict-mode exports do not include the schema.version descriptor and remain unchanged.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot tests cover trees containing zero, single, and multiple parse issues to guard new schema fields and issue payload structure.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The schema.version field is only present when parse issues exist.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The JSON exporter implementation was updated in ISOInspectorKit/Export/JSONParseTreeExporter.swift to emit the schema.version descriptor.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "JSON Exporter Schema Version Descriptor",
+      "description": "Emits a schema.version field (v2) in the exported JSON when parse issues are present to indicate richer schema for tolerant consumers.",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Issue Payload Structure",
+      "description": "Provides structured payload for zero, single, and multiple parse issues within the JSON export.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot Coverage for Parse Issues",
+      "description": "Unit tests that snapshot the JSON output for trees with no, one, or many parse issues to validate schema fields and issue structure.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update for Tolerant Exports",
+      "description": "Updates the app manual to explain the new schema version and removes the task from the active list.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1009,
+    "line_count": 9
+  }
+}

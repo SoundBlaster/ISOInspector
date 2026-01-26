@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/70_Bookmark_Persistence_Schema/next_tasks.md",
+  "n_spec": 9,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Design bookmark persistence schema aligned with existing recents/session storage so Phase G (Workplan) can integrate without data loss.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Bookmark persistence schema must be compatible with existing recents/session storage and allow integration in Phase G without data loss.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use the same persistence schema for bookmarks as used for recents/session storage to maintain consistency across phases.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Draft CLI sandbox profile guidance covering com.apple.security.files.user-selected.read-write and automation workflows for headless usage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI sandbox profile guidance must include permissions for user-selected read-write access and describe automation workflows for headless environments.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute random slice benchmark suite on macOS hardware once Combine support is available to compare mapped vs. chunked readers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark results should show comparable performance between mapped and chunked readers under identical workloads on macOS with Combine.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware with XCTest UI support to validate end\u2011to\u2011end SwiftUI automation flow.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test suite must run successfully on mac\u00a0macOS\u00a0..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Bookmark Persistence Schema Design",
+      "description": "Defines the data schema for persisting bookmarks aligned with existing recents/session storage to enable Phase G integration without data loss.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Sandbox Profile Guidance Drafting",
+      "description": "Creates documentation and guidance for CLI sandbox profiles covering user-selected file read-write permissions and automation workflows for headless usage.",
+      "source_line": null
+    },
+    {
+      "name": "Random Slice Benchmark Execution",
+      "description": "Runs the random slice benchmark suite on macOS hardware to compare mapped vs. chunked readers under identical workloads once Combine support is available.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTree Streaming Selection Automation Tests",
+      "description": "Executes XCTest UI tests for ParseTree streaming selection automation flow in SwiftUI on macOS hardware to validate end-to-end functionality.",
+      "source_line": null
+    },
+    {
+      "name": "Combine-backed UI Benchmark Execution",
+      "description": "Runs the Combine-supported UI benchmark on macOS to capture latency metrics while maintaining CLI harness throughput parity.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Session Bookmark Reconciliation",
+      "description": "Reconciles CoreData session bookmark differences with live bookmark entities once reconciliation rules are defined.",
+      "source_line": null
+    },
+    {
+      "name": "Notarized Build Apple Events Automation Assessment Tracking",
+      "description": "Tracks the outcome of notarized build Apple Events automation assessment and evaluates the need for automation via Apple Events, extending entitlements safely.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2739,
+    "line_count": 30
+  }
+}

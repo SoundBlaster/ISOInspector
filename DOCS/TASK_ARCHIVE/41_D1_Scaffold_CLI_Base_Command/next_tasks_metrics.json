@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/41_D1_Scaffold_CLI_Base_Command/next_tasks.md",
+  "n_spec": 11,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Establish the isoinspector executable target and root command using swift-argument-parser so downstream streaming commands can share consistent infrastructure.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The isoinspector executable target and root command must be established using swift-argument-parser.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Downstream streaming commands (Task D2) rely on the consistent infrastructure provided by the isoinspector root command.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement inspect and validate commands once the CLI scaffolding is complete.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The inspect and validate commands must be implemented after completion of Task D1.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Task D2 cannot proceed until Task D1 is completed.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Build a SwiftUI app shell with document browser and recents list once the CLI scaffolding stabilizes and foundation C1 is completed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The SwiftUI app shell must be built after the CLI scaffolding stabilizes and the foundation C1 is completed.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "E1 depends on completed C1 foundation.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Configure performance benchmarks for large files once the parsing pipeline from Phase B is stabilized and streaming fixtures delivered.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The benchmark configuration must be done after the parsing pipeline has been stable\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "isoinspector CLI executable",
+      "description": "Provides a command-line interface executable named isoinspector that serves as the root command for downstream streaming commands.",
+      "source_line": null
+    },
+    {
+      "name": "inspect command",
+      "description": "Command to inspect data streams or files, part of the CLI functionality.",
+      "source_line": null
+    },
+    {
+      "name": "validate command",
+      "description": "Command to validate data streams or files, part of the CLI functionality.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI app shell",
+      "description": "Graphical user interface built with SwiftUI that includes a document browser and recents list for managing documents.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 681,
+    "line_count": 16
+  }
+}

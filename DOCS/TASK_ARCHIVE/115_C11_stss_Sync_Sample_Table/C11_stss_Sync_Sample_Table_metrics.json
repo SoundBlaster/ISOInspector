@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/115_C11_stss_Sync_Sample_Table/C11_stss_Sync_Sample_Table.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a parser that reads stss (Sync Sample Table) boxes so ISOInspector surfaces random-access sample numbers alongside existing sample table metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser reads the entry_count followed by each sync sample number using big-endian 32-bit integers and gracefully handles truncated payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxParserRegistry registers the parser so streaming pipelines, CLI output, and UI tree nodes expose sync sample metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot/fixture updates cover representative media (with and without stss boxes) and assert correct sample numbering and empty-table handling.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation or code comments record how stss integrates with downstream validation (e.g., VR-015) and related sample table views.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parser depends on existing sample table data from C8 (stsc), C9 (stsz/stz2), and C10 (stco/co64); coordinate acceptance tests that combine these boxes to ensure coherent indices.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse FullBoxReader helpers introduced in Task B5 for consistent (version, flags) handling.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Parser emits structured sync sample arrays accessible to validation and UI components.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Confirm MP4RA catalog metadata for stss is surfaced (name, specification link) to keep tree labels consistent.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "stss Box Parser",
+      "description": "Parses the Sync Sample Table box by reading entry_count and subsequent sync sample numbers as big-endian 32-bit integers, handling truncated payloads gracefully.",
+      "source_line": null
+    },
+    {
+      "name": "FullBox Reader Integration",
+      "description": "Utilizes FullBoxReader helpers to process version and flags fields consistently across stss parsing.",
+      "source_line": null
+    },
+    {
+      "name": "Parser Registration",
+      "description": "Registers the stss parser with BoxParserRegistry so that streaming pipelines, CLI output, and UI tree nodes can expose sync sample metadata.",
+      "source_line": null
+    },
+    {
+      "name": "Sync Sample Metadata Exposure",
+      "description": "Makes parsed sync sample arrays available to downstream components such as validation rules (e.g., VR-015) and UI views for keyframe identification.",
+      "source_line": null
+    },
+    {
+      "name": "Sample Table Coordination",
+      "description": "Coordinates with existing stsc, stsz/stz2, and stco/co64 parsers to ensure coherent indices when combining boxes in acceptance tests.",
+      "source_line": null
+    },
+    {
+      "name": "UI Tree Labeling",
+      "description": "Surfaces MP4RA catalog metadata for stss (name, specification link) to maintain consistent tree labels in the UI.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Output Support",
+      "description": "Enables CLI output to display random-access sample numbers derived from stss data.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot/Fixture Updates",
+      "description": "Updates snapshot and fixture tests to cover media with and without stss boxes, asserting correct sample numbering and empty-table handling.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2138,
+    "line_count": 38
+  }
+}

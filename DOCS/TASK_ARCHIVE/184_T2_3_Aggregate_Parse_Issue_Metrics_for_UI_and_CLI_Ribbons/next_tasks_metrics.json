@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons/next_tasks.md",
+  "n_spec": 8,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Aggregate per-severity ParseIssueStore metrics for UI and CLI ribbons to support tolerant parsing dashboards and streaming summaries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseIssueStore aggregation must expose per-severity counts for tolerant parsing dashboards and streaming summaries.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Design deliverables in DOCS/AI/ISOInspector_Execution_Guide/04_TODO_Workplan.md must confirm ribbon layout requirements before downstream UI wiring proceeds.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "VoiceOver regression pass for accessibility shortcuts on macOS and iPadOS hardware to ensure focus command menus announce controls and restore focus targets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Hardware verification on macOS and iPadOS must confirm focus command menus announce controls and restore focus targets.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "VoiceOver regression pass is blocked until required hardware is available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Secure Dolby Vision, AV1 etc. real\u2011world asset fixtures to shift regression baselines from synthetic payloads once licensing approvals are obtained.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Licensing approvals for Dolby Vision\u2026\u00a0?",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseIssueStore Aggregation API",
+      "description": "Provides per-severity issue counts for tolerant parsing dashboards and streaming summaries",
+      "source_line": null
+    },
+    {
+      "name": "UI Ribbon Integration for Parse Issue Metrics",
+      "description": "Exposes parsed issue metrics in SwiftUI ribbons according to design specifications",
+      "source_line": null
+    },
+    {
+      "name": "CLI Ribbon Integration for Parse Issue Metrics",
+      "description": "Displays parsed issue metrics in command-line interface ribbons",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Accessibility Verification Workflow",
+      "description": "Hardware verification process ensuring focus commands announce controls and restore focus targets on macOS and iPadOS",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing Management",
+      "description": "Process to secure licensing for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures for regression baselines",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1263,
+    "line_count": 11
+  }
+}

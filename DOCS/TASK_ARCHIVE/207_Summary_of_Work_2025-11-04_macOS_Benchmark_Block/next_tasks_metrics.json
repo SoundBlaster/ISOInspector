@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Run the lenient-versus-strict benchmark on macOS hardware with Combine enabled using the 1 GiB fixture",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Export ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Invoke swift test --filter LargeFileBenchmarkTests/testCLIValidationLenientModePerformanceStaysWithinToleranceBudget",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Archive the printed runtime and RSS metrics under Documentation/Performance/ alongside the existing 32 MiB results",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Run lenient-versus-strict benchmark",
+      "description": "Execute the performance benchmark comparing lenient and strict modes on macOS hardware using Combine framework",
+      "source_line": null
+    },
+    {
+      "name": "Export payload size environment variable",
+      "description": "Set ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES to 1 GiB for the benchmark run",
+      "source_line": null
+    },
+    {
+      "name": "Invoke specific test case",
+      "description": "Run swift test with filter LargeFileBenchmarkTests/testCLIValidationLenientModePerformanceStaysWithinToleranceBudget",
+      "source_line": null
+    },
+    {
+      "name": "Archive runtime and RSS metrics",
+      "description": "Store printed runtime and RSS metrics in Documentation/Performance/ alongside existing 32 MiB results",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 432,
+    "line_count": 6
+  }
+}

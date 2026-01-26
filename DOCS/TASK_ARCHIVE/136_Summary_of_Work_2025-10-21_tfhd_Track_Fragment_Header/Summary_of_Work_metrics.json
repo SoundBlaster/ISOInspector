@@ -1,0 +1,42 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 6,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "tfhd Track Fragment Header Parser",
+      "description": "Parses tfhd boxes in ISO media files and surfaces structured metadata for each track fragment.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Console Formatter Extension",
+      "description": "Formats parsed box data into human\u2011readable console output, including tfhd details.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Parse Tree Exporter",
+      "description": "Exports the full parse tree of ISO boxes to JSON, regenerating DASH segment snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "DASH Segment Snapshot Regeneration",
+      "description": "Recreates a snapshot of a DASH segment in JSON format from parsed box data.",
+      "source_line": null
+    },
+    {
+      "name": "Parser Unit Tests for tfhd",
+      "description": "Automated tests validating correct parsing of tfhd boxes.",
+      "source_line": null
+    },
+    {
+      "name": "Console Formatter Unit Tests",
+      "description": "Tests ensuring console output correctly reflects parsed data.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1146,
+    "line_count": 18
+  }
+}

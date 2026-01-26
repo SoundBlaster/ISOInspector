@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/227_Bug001_Design_System_Color_Token_Migration/Summary_Color_Theme_Resolution.md",
+  "n_spec": 4,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Color values must be derived from ISOInspectorBrandPalette.production to ensure consistency across app and tests.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Replace Asset Catalog color initialization with direct Color(red:green:blue:) using palette values in ISOInspectorAppTheme.swift.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All tests that previously failed due to black accent colors now pass (0 failures).",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I want the app\u2019s accent and surface background colors to be correctly resolved so that UI elements display the intended brand palette instead of defaulting to black.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ISOInspectorAppTheme.accentColor",
+      "description": "Provides the accent color for a given ColorScheme by returning a SwiftUI Color constructed from brand palette values.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorAppTheme.surfaceBackground",
+      "description": "Provides the surface background color for a given ColorScheme using brand palette values to construct a SwiftUI Color.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3071,
+    "line_count": 81
+  }
+}

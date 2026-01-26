@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/85_PDD_45m_Wire_Generate_Fixtures_Manifest/next_tasks.md",
+  "n_spec": 6,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Curated multi-source fixture catalog with licensing, download, and storage guidance.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend generate_fixtures.py to download fixtures from the curated manifest with checksum verification and license mirroring.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA following the release readiness runbook.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Execute the random slice benchmark suite on macOS hardware to compare mapped vs. chunked readers under identical workloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware with XCTest UI support to validate end-to-end SwiftUI automation flow.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Execute the Combine-backed UI benchmark on macOS to capture latency metrics while maintaining throughput parity with the CLI harness.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "R2 Fixture Acquisition Research",
+      "description": "Curated multi-source fixture catalog with licensing, download, and storage guidance.",
+      "source_line": null
+    },
+    {
+      "name": "PDD:45m Manifest-Driven Fixture Acquisition",
+      "description": "Download fixtures from the curated manifest with checksum verification and license mirroring via generate_fixtures.py.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2529,
+    "line_count": 25
+  }
+}

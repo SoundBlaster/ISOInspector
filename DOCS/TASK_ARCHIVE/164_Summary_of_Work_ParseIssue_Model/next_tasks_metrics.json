@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/164_Summary_of_Work_ParseIssue_Model/next_tasks.md",
+  "n_spec": 7,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "No active research tasks beyond the items listed below.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Define ParseIssue Model to underpin tolerant parsing mode.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseIssue model implemented and documented in Summary_of_Work.md and planning resources in DOCS/AI/Tolerance_Parsing/README.md.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "VoiceOver Regression Pass for Accessibility Shortcuts is blocked without hardware.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run manual VoiceOver verification on macOS and iPadOS to confirm new focus command menu announces controls and restores focus targets as expected.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tracking details live in DOCS/TASK_ARCHIVE/...md.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Real-World Assets task is blocked awaiting external licensing approvals.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseIssue Model Definition",
+      "description": "Defines the structured corruption event model ParseIssue to support tolerant parsing mode.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Manual VoiceOver verification on macOS and iPadOS hardware to confirm focus command menu announcements and focus target restoration.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Licensing",
+      "description": "Securing licensing for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to replace synthetic payloads and refresh regression baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & CLI Fixture Maintenance",
+      "description": "Refreshing snapshots and CLI fixtures when schema updates occur using ISOINSPECTOR_REGENERATE_SNAPSHOTS environment variable and swift test command.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1317,
+    "line_count": 7
+  }
+}

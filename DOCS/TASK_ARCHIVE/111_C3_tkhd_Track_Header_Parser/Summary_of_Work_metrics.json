@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/111_C3_tkhd_Track_Header_Parser/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide full tkhd track header parsing capability in BoxParserRegistry.trackHeader to extract versioned timestamps, flag states, transformation matrices, and presentation dimensions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsedBoxPayload.TrackHeaderBox must include all parsed fields and be exportable as JSON for UI and export surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests cover synthetic version 0/1 cases, disabled-track handling, and baseline fixture assertions with regenerated JSON snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParsedBoxPayload.TrackHeaderBox must always contain valid timestamp, flag, matrix, and dimension data derived from the tkhd payload.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 768,
+    "line_count": 18
+  }
+}

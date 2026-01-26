@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/B5_FullBoxReader.md",
+  "n_spec": 10,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Introduce a reusable helper that extracts the common (version, flags) header shared by ISO Base Media File Format \"full boxes\" so downstream parsers can focus on box-specific payload fields instead of repeating boilerplate bit parsing.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A FullBoxReader type lives in ISOInspectorKit, exposes validated version and flags values, and handles both truncated and complete payload ranges gracefully.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover version/flag decoding for representative fixtures, including short reads and large payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Existing parsers that currently hand\u2011roll version/flags extraction (mvhd, tkhd, and upcoming timeline boxes) adopt the helper without regressing current test coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation sources reflect Task B5 as in progress until code lands.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Validation rules VR-001\u2013VR-006 already ensure structural integrity, so this task can rely on existing header ranges reported by BoxHeader and the RandomAccessReader protocol delivered in Task B1.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse the RandomAccessReader protocol utilities (e.g., read(at:count:), endian helpers) to keep the helper pure and testable.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Consider returning a lightweight struct (e.g., FullBoxHeader) that encapsulates decoded values plus the payload offset where box\u2011specific fields begin.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Ensure error reporting aligns with existing parsing errors (IOError, BoundsError, OverflowError) so callers can surface consistent diagnostics.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update BoxParserRegistry.DefaultParsers to call the helper and stage future parser registrations (e.g., mdhd, hdlr) on top of it.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FullBoxReader",
+      "description": "Utility that extracts the common (version, flags) header from ISO Base Media File Format full boxes and provides validated values along with payload offset.",
+      "source_line": null
+    },
+    {
+      "name": "FullBoxHeaderFields struct",
+      "description": "Lightweight struct returned by FullBoxReader containing decoded version, flags, and remaining payload range.",
+      "source_line": null
+    },
+    {
+      "name": "mvhd parser integration",
+      "description": "Default mvhd box parser updated to use FullBoxReader for header extraction.",
+      "source_line": null
+    },
+    {
+      "name": "tkhd parser integration",
+      "description": "Default tkhd box parser updated to use FullBoxReader for header extraction.",
+      "source_line": null
+    },
+    {
+      "name": "Unit tests for FullBoxReader",
+      "description": "Tests covering successful decoding, truncated payload handling, and reader error propagation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3147,
+    "line_count": 40
+  }
+}

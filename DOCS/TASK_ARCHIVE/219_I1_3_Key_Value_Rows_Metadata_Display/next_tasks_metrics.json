@@ -1,0 +1,128 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/219_I1_3_Key_Value_Rows_Metadata_Display/next_tasks.md",
+  "n_spec": 14,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Create SDK Tolerant Parsing Documentation for ISOInspectorKit",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation includes DocC article TolerantParsingGuide.md in specified path",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add code examples for tolerant parsing setup and ParseIssueStore usage",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update inline documentation for ParsePipeline.Options, .strict, .tolerant",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Link new guide from main Documentation.md Topics section",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Verify examples with test file in Tests/ISOInspectorKitTests/",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI dependency into ISOInspectorKit project",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FoundationUI dependency is added and builds successfully",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Zero SwiftLint violations, \u226580% test coverage after integration",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create 123 comprehensive integration tests for FoundationUI components",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration tests cover Badge, Card, KeyValueRow and other components with 33/43/40/7 tests",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Accessibility compliance \u226598% WCAG 2.1 AA for badge component",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Migrate Badge & Status Indicators to DS.Badge",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Migrate?\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Tolerant Parsing Documentation",
+      "description": "DocC article explaining SDK tolerant parsing setup and ParseIssueStore usage, including code examples and inline documentation updates for ParsePipeline.Options",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Dependency Integration",
+      "description": "Adds FoundationUI as a dependency to the project and ensures it builds successfully",
+      "source_line": null
+    },
+    {
+      "name": "Integration Test Suite",
+      "description": "A comprehensive suite of 123 integration tests covering Badge, Card, KeyValueRow, and Integration components",
+      "source_line": null
+    },
+    {
+      "name": "Component Showcase App",
+      "description": "Live ComponentTestApp providing over 14 screens showcasing FoundationUI components",
+      "source_line": null
+    },
+    {
+      "name": "Badge & Status Indicators Migration",
+      "description": "Migrates CorruptionBadge, SeverityBadge, ParseStateBadge to DS.Badge with unit tests and accessibility compliance",
+      "source_line": null
+    },
+    {
+      "name": "Card Containers & Sections Implementation",
+      "description": "Implements Card container and section components in FoundationUI",
+      "source_line": null
+    },
+    {
+      "name": "Key-Value Rows & Metadata Display Wrapper",
+      "description": "Creates BoxMetadataRow wrapper around DS.KeyValueRow for metadata display with extensive testing",
+      "source_line": null
+    },
+    {
+      "name": "Floating Settings Panel Shell",
+      "description": "Implements SettingsPanelScene with FoundationUI cards, macOS NSPanel host, iPad/iOS sheet presentation and accessibility hooks",
+      "source_line": null
+    },
+    {
+      "name": "Settings Persistence and Reset Wiring",
+      "description": "Threads permanent changes through UserPreferencesStore, updates session settings, adds reset actions and logs",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5229,
+    "line_count": 98
+  }
+}

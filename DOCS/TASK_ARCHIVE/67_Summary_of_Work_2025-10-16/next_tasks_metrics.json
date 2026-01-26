@@ -1,0 +1,47 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/67_Summary_of_Work_2025-10-16/next_tasks.md",
+  "n_spec": 7,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Surface document load failures in the app shell UI once the error banner design is ready.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Execute the random slice benchmark suite on macOS hardware once Combine support is available to compare mapped vs. chunked readers under identical workloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware with XCTest UI support to validate the end-to-end SwiftUI automation flow introduced in the specified documentation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Execute the Combine-backed UI benchmark on macOS to capture latency metrics on a platform that ships Combine, keeping throughput parity with the CLI harness.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Surface session persistence errors once diagnostics plumbing is available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Reconcile CoreData session bookmark diffs with live bookmark entities when reconciliation rules are defined.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Track outcome of the notarized build Apple Events automation assessment alongside todo entry and reference final decision in specified documentation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 2581,
+    "line_count": 27
+  }
+}

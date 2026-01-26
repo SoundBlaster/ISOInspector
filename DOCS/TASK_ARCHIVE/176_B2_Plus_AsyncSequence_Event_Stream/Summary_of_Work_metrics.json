@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/176_B2_Plus_AsyncSequence_Event_Stream/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Replaced the SwiftUI bridge with direct AsyncSequence consumption so ParseTreeStore drives updates from ParsePipeline.events(for:context:) without Combine intermediaries.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Removed the obsolete ParsePipelineEventBridge implementation and refreshed iOS, iPadOS, and macOS build targets to drop the source file.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extended app tests and performance benchmarks to exercise the new streaming path, and refactored CLI/app fixtures to rely on the unified stream.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "AsyncSequence Consumption of ParsePipeline Events",
+      "description": "Directly consumes AsyncSequence from ParsePipeline.events(for:context:) to drive updates in ParseTreeStore without Combine",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStore Update Mechanism",
+      "description": "Provides observable updates based on parsed events and drives UI or other consumers",
+      "source_line": null
+    },
+    {
+      "name": "Removed Combine Bridge (ParsePipelineEventBridge)",
+      "description": "Eliminates obsolete bridge that previously translated Combine publishers into AsyncSequence",
+      "source_line": null
+    },
+    {
+      "name": "Unified Stream for CLI/App Fixtures",
+      "description": "CLI and app fixtures rely on a single unified event stream for testing and performance benchmarks",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 725,
+    "line_count": 12
+  }
+}

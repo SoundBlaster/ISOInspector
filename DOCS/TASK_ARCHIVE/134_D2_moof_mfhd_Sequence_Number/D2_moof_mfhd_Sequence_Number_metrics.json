@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/134_D2_moof_mfhd_Sequence_Number/D2_moof_mfhd_Sequence_Number.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement fragment-level parsing for the moof container and its mfhd header so the CLI and UI expose correct sequence numbers for fragmented MP4 files.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ISOInspectorKit parses moof boxes and captures the mfhd.sequence_number field with overflow-safe math.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming pipeline emits fragment nodes with offsets, sizes, and sequence numbers reflected in JSON export snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation layer gains basic checks ensuring sequence numbers increment monotonically when multiple fragments are present in a file.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI inspect / UI tree views present the decoded sequence number and no longer show placeholder or missing values for mfhd.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Error handling covers absent or zero sequence numbers by emitting validation warnings rather than crashing parsing consumers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing container iteration utilities to traverse moof children while guarding against nested fragment loops.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the box registry with fragment-specific parsers (mfhd, traf, tfhd, etc.) while keeping leaf payloads lightweight until D3 follows up on sample tables.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "moof Container Parser",
+      "description": "Parses the 'moof' container box and iterates over its child boxes while preventing nested fragment loops.",
+      "source_line": null
+    },
+    {
+      "name": "mfhd Header Parser",
+      "description": "Extracts the 'mfhd.sequence_number' field from the 'mfhd' header with overflow\u2011safe arithmetic.",
+      "source_line": null
+    },
+    {
+      "name": "Fragment Node Generator",
+      "description": "Emits fragment nodes containing offsets, sizes, and sequence numbers into the streaming pipeline for JSON export.",
+      "source_line": null
+    },
+    {
+      "name": "Sequence Number Validation",
+      "description": "Checks that sequence numbers increment monotonically across multiple fragments in a file and issues warnings if absent or zero.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Inspect Command Update",
+      "description": "Updates the CLI 'inspect' command to display decoded sequence numbers instead of placeholders.",
+      "source_line": null
+    },
+    {
+      "name": "UI Tree View Enhancement",
+      "description": "Enhances UI tree views to show fragment sequence numbers from parsed data.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2227,
+    "line_count": 28
+  }
+}

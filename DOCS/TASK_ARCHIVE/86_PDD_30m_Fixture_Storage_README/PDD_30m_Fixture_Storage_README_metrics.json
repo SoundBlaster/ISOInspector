@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/86_PDD_30m_Fixture_Storage_README/PDD_30m_Fixture_Storage_README.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide operators with clear storage locations and mount expectations for large fixture downloads on macOS and Linux CI agents.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Spell out required disk quotas and mount paths for macOS runners (~40 GB) and Linux CI caches (~15 GB) with headroom recommendations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Provide directory layout diagrams tying together Documentation/FixtureCatalog/manifest.json, mirrored licenses, and Distribution/Fixtures/<category>/ staging folders so operators know where downloads land.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Include setup steps for mounting or syncing caches on both platforms, referencing the existing generate_fixtures.py invocation patterns to keep tooling consistent.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The fixture storage guidance must align with current fixture tooling conventions under Distribution/Fixtures/ and accompanying license texts.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Confirm whether macOS runners expose writable volumes like /Volumes/Fixtures or use workspace-relative directories, describing fallback strategies such as symlinks if elevated permissions are unavailable.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Capture expectations for periodic cache refreshes, including checksum validation via the manifest helper to avoid stale or corrupted assets during release readiness rehearsals.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate fixture storage guidance with the release readiness runbook so it dovetails with notarization and benchmark preflight checklists tracked for macOS distribution sign-off.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Disk Quota Specification",
+      "description": "Defines required disk space and headroom for macOS runners (~40\u202fGB) and Linux CI caches (~15\u202fGB).",
+      "source_line": null
+    },
+    {
+      "name": "Mount Path Definition",
+      "description": "Specifies the exact mount points or workspace-relative directories for fixture storage on macOS and Linux, including fallback strategies such as symlinks.",
+      "source_line": null
+    },
+    {
+      "name": "Directory Layout Diagram",
+      "description": "Provides a visual layout tying together manifest.json, mirrored license texts, and Distribution/Fixtures/<category>/ staging folders to show where downloads are stored.",
+      "source_line": null
+    },
+    {
+      "name": "Setup Steps for Mounting/Synchronizing Caches",
+      "description": "Outlines commands or scripts to mount or sync fixture caches on both platforms, referencing generate_fixtures.py usage.",
+      "source_line": null
+    },
+    {
+      "name": "Periodic Cache Refresh Policy",
+      "description": "Describes how often caches should be refreshed and includes checksum validation via the manifest helper to prevent stale or corrupted assets.",
+      "source_line": null
+    },
+    {
+      "name": "Integration with Release Readiness Runbook",
+      "description": "Aligns fixture storage guidance with notarization, benchmark preflight checks, and other release readiness processes.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3235,
+    "line_count": 42
+  }
+}

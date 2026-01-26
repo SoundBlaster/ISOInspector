@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/next_tasks.md",
+  "n_spec": 0,
+  "n_func": 5,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Integrity Summary ViewModel Sorting",
+      "description": "Provides deterministic multi-field offset and affected-node sorting for integrity summaries in CLI/UI.",
+      "source_line": null
+    },
+    {
+      "name": "Explorer Outline Expansion",
+      "description": "Expands ancestor nodes when navigating to an integrity issue and returns focus to the selected node.",
+      "source_line": null
+    },
+    {
+      "name": "Affected Node Selection",
+      "description": "Automatically selects affected nodes in the explorer outline upon choosing an integrity issue.",
+      "source_line": null
+    },
+    {
+      "name": "Issues Only Toggle",
+      "description": "UI toggle that filters the explorer view to show only integrity issues.",
+      "source_line": null
+    },
+    {
+      "name": "Issue Navigation Shortcuts",
+      "description": "Keyboard shortcuts (Cmd+Shift+E / Cmd+Shift+Option+E) for navigating between integrity issues using new navigation helpers.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 887,
+    "line_count": 8
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/209_T5_5_Tolerant_Parsing_Fuzzing_Harness/Summary_of_Work_T5.5.md",
+  "n_spec": 10,
+  "n_func": 26,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Build an automated fuzzing harness that exercises tolerant parsing against 100+ synthetically corrupted MP4 fixtures and demonstrates a 99.9% crash\u2011free completion rate so lenient mode can ship with confidence.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The fuzzing harness must generate at least 100 corrupt payloads per run using deterministic mutations seeded with 42, assert a success rate of \u226599.9%, capture reproduction artifacts for any failures, and complete within a 5\u2011minute CI budget.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All mutation coverage tests (header truncation, overlapping ranges, bogus size) must pass with 20 iterations each.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Reproduction artifacts must be saved as JSON metadata and binary payload in Documentation/CorruptedFixtures/FuzzArtifacts/, including seed, mutation description, error message, and exact corrupt payload.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Deterministic mutations use a seeded RNG (seed 42) to ensure reproducibility of failures.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The fuzzing harness must integrate with existing tolerant parsing pipeline ParsePipeline.live(options: .tolerant), ParseIssueStore, and ChunkedFileReader.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a single XCTestCase class TolerantParsingFuzzTests.swift containing four test methods for core fuzz, mutation coverage, CI budget, and artifact capture.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement CorruptPayloadGenerator with six mutation types: header truncation, overlapping ranges, bogus size, invalid FourCC, zero\u2011size loop, payload truncation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce FuzzStatistics struct to track success/failure counts and generate human\u2011readable summary.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use ReproductionArtifact struct and saveReproductionArtifact() helper to automatically capture artifacts for failures.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "TolerantParsingFuzzTests",
+      "description": "XCTestCase providing fuzzing harness for tolerant parsing against corrupted MP4 payloads",
+      "source_line": null
+    },
+    {
+      "name": "testFuzzTolerantParsingWith100PlusCorruptPayloads",
+      "description": "Core test generating 100+ deterministic corrupt payloads, asserting \u226599.9% crash-free rate and capturing reproduction artifacts",
+      "source_line": null
+    },
+    {
+      "name": "testHeaderTruncationMutations",
+      "description": "Mutation coverage test for header truncation scenarios (20 iterations)",
+      "source_line": null
+    },
+    {
+      "name": "testOverlappingRangeMutations",
+      "description": "Mutation coverage test for overlapping parent-child range violations (20 iterations)",
+      "source_line": null
+    },
+    {
+      "name": "testBogusSizeMutations",
+      "description": "Mutation coverage test for impossibly large size declarations (20 iterations)",
+      "source_line": null
+    },
+    {
+      "name": "testFuzzHarnessCompletesWithinBenchmarkBudget",
+      "description": "CI integration test validating runtime within 5\u2011minute budget using a subset of iterations",
+      "source_line": null
+    },
+    {
+      "name": "CorruptPayloadGenerator",
+      "description": "Deterministic mutation engine producing six types of MP4 corruption mutations",
+      "source_line": null
+    },
+    {
+      "name": "HeaderTruncationMutation",
+      "description": "Incomplete box header mutation (1\u20133 bytes) applied by CorruptPayloadGenerator",
+      "source_line": null
+    },
+    {
+      "name": "OverlappingRangeMutation",
+      "description": "Child boxes exceeding parent boundaries mutation",
+      "source_line": null
+    },
+    {
+      "name": "BogusSizeMutation",
+      "description": "Impossibly large size declaration mutation",
+      "source_line": null
+    },
+    {
+      "name": "InvalidFourCCMutation",
+      "description": "Non\u2011ASCII four\u2011character code mutation",
+      "source_line": null
+    },
+    {
+      "name": "ZeroSizeLoopMutation",
+      "description": "Multiple zero\u2011size children to trigger loop guards",
+      "source_line": null
+    },
+    {
+      "name": "PayloadTruncationMutation",
+      "description": "Declared size larger than actual payload mutation",
+      "source_line": null
+    },
+    {
+      "name": "FuzzStatistics",
+      "description": "Struct aggregating success/failure counts, rates and detailed failure records",
+      "source_line": null
+    },
+    {
+      "name": "ReproductionArtifact",
+      "description": "Struct holding metadata and binary payload for reproducing failures",
+      "source_line": null
+    },
+    {
+      "name": "saveReproductionArtifact",
+      "description": "Helper to persist JSON metadata and MP4 payload for a failed case",
+      "source_line": null
+    },
+    {
+      "name": "SeededRandomNumberGenerator",
+      "description": "LCG based RNG providing deterministic seeds for fuzzing",
+      "source_line": null
+    },
+    {
+      "name": "CorruptPayload",
+      "description": "Wrapper combining binary data with mutation metadata",
+      "source_line": null
+    },
+    {
+      "name": "MutationDescription",
+      "description": "Codable description of applied mutation",
+      "source_line": null
+    },
+    {
+      "name": "ParseResult",
+      "description": "Aggregates completion status, event count and issue count",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline.live(\".tolerant\")",
+      "description": "Existing tolerant parsing pipeline used by the fuzz harness",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssueStore",
+      "description": "Issue aggregation store for collecting parse issues during tests",
+      "source_line": null
+    },
+    {
+      "name": "ChunkedFileReader",
+      "description": "Binary reader used to read input payloads in chunks",
+      "source_line": null
+    },
+    {
+      "name": "Documentation/CorruptedFixtures/FuzzArtifacts/.gitignore",
+      "description": "Git\u2011ignored file excluding auto\u2011generated artifacts from version control",
+      "source_line": null
+    },
+    {
+      "name": "Documentation/CorruptedFixtures/FuzzArtifacts/README.md",
+      "description": "Guide for artifact reproduction and cleanup",
+      "source_line": null
+    },
+    {
+      "name": "Summary_of_Work_T5.5",
+      "description": "Document summarizing the work done and success criteria met",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 9395,
+    "line_count": 258
+  }
+}

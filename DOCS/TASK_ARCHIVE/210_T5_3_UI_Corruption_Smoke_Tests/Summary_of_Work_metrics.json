@@ -1,0 +1,123 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/210_T5_3_UI_Corruption_Smoke_Tests/Summary_of_Work.md",
+  "n_spec": 15,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Validate UI corruption indicators (badges, warning ribbons, integrity summaries, and detail diagnostics) render correctly when tolerant parsing detects issues in corrupt MP4 fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Corruption badge displays \"Corrupted\" with error level and accessibility label \"Corrupted status\" for corrupt nodes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Partial badge displays \"Partial\" with warning level and accessibility label \"Partial status\" for partially corrupted nodes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No corruption badge is displayed for valid nodes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "IntegritySummaryViewModel displays corruption issues such as payload.truncated and guard.zero_size_loop.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integrity summary offsets are sorted based on offset values for corruption issues.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Corruption detail section populates with issue offsets, reason codes, and severity from ParseIssueStore.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Warning ribbon accessibility labels are derived from ParseIssueStore.IssueMetrics structure.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No warning ribbon appears when no issues are present.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration test processes all smoke fixtures (truncated-moov.mp4, zero-length-loop.mp4, deep-recursion.mp4) and verifies nodes with issues have non\u2011valid status, badge descriptors created for corrupt nodes, and expected issue codes in ParseIssueStore.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility labels for corruption indicators match specified strings: \"Corrupted status\", \"Partial status\", and warning ribbon text.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParseTreeStore state management must consistently reflect parse tree and issues across tests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "IntegritySummaryViewModel must always expose an aggregate issue list for loaded fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Test suite placed in Tests/ISOInspectorAppTests/UICorruptionIndicatorsSmokeTests.swift with 449 lines of test code.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "CI pipeline integration via xcodebuild test and deterministic fixtures to avoid flakiness.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Corruption Badge Display",
+      "description": "UI component that shows a badge labeled 'Corrupted' or 'Partial' on nodes with corruption issues and provides accessibility labels.",
+      "source_line": null
+    },
+    {
+      "name": "Integrity Summary View Model",
+      "description": "View model that aggregates and sorts corruption issues for display in an integrity summary list, including payload truncation and guard loop errors.",
+      "source_line": null
+    },
+    {
+      "name": "Corruption Detail Section",
+      "description": "UI section within a node detail view that lists issue offsets, reason codes, and severity from the parse issue store.",
+      "source_line": null
+    },
+    {
+      "name": "Warning Ribbon Component",
+      "description": "UI ribbon that appears when corruption issues are detected, displaying counts and deepest affected depth with an accessibility label.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStore State Management",
+      "description": "Central state store for the parse tree and associated corruption issues used by UI components.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssueStore.IssueMetrics",
+      "description": "Data structure providing metrics for warning ribbon content such as issue counts and depth information.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Test Suite UICorruptionIndicatorsSmokeTests",
+      "description": "Automated test suite that verifies badge, summary, detail, and ribbon behavior against corrupt MP4 fixtures.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5513,
+    "line_count": 112
+  }
+}

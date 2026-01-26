@@ -1,0 +1,118 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/196_T3_6_Integrity_Summary_Tab/T3_6_Summary_of_Work.md",
+  "n_spec": 15,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As an operator, I want a dedicated Integrity Summary tab that lists all ParseIssue entries in a sortable and filterable table so that I can triage corruption issues without manually scanning the outline.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The Integrity tab appears alongside tree/detail panes as a TabView with Explorer and Integrity tabs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All ParseIssue rows are aggregated and displayed in the IntegritySummaryView.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Issues are sorted by severity (Error > Warning > Info) by default.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The user can sort issues by offset or affected node using a sort picker.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Severity filter toggle buttons allow the user to show/hide specific issue levels.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting an issue row focuses the associated node in the tree view and switches back to the Explorer tab.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Export actions (JSON, Issue Summary) are available in the Integrity tab toolbar and reuse existing DocumentSessionController export methods.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Ribbon counts and detail pane badges stay synchronized with ParseIssueStore metrics.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The IntegritySummaryViewModel must observe ParseIssueStore for real-time updates via Combine publishers.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Severity filter state is maintained consistently across the view model and UI.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use MVVM pattern: IntegritySummaryViewModel handles business logic, IntegritySummaryView handles presentation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Integrate Integrity tab into ParseTreeExplorerView using a TabView with dynamic header.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Make DocumentViewModel.store internal to allow access from ParseTreeExplorerView and IntegritySummaryView.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Follow One File, One Entity principle; keep files under 400 lines.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "IntegritySummaryViewModel",
+      "description": "Observes ParseIssueStore and provides sorted/filtered issue data for the UI",
+      "source_line": null
+    },
+    {
+      "name": "IntegritySummaryView",
+      "description": "SwiftUI view displaying a sortable, filterable table of parsing issues with export buttons and navigation controls",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeExplorerView Tab Integration",
+      "description": "Adds Explorer and Integrity tabs to the tree outline, handling dynamic headers and tab switching",
+      "source_line": null
+    },
+    {
+      "name": "Issue Selection Navigation",
+      "description": "When an issue row is selected, focuses the corresponding node in the tree and switches back to the Explorer tab",
+      "source_line": null
+    },
+    {
+      "name": "Export Handlers for Integrity Tab",
+      "description": "Provides JSON and issue summary export actions linked to DocumentSessionController",
+      "source_line": null
+    },
+    {
+      "name": "DocumentViewModel Store Exposure",
+      "description": "Makes ParseIssueStore accessible to other views by changing its visibility from private to internal",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 8568,
+    "line_count": 225
+  }
+}

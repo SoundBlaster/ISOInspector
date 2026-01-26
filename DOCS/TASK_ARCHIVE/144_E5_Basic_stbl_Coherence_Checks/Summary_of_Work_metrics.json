@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The number of samples derived from the time-to-sample (stts) and composition-offset (ctts) tables must equal the total sample sizes specified in the stsz table and be consistent with chunk coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSON exporter snapshots must include decoding-time and composition-offset table details for each sample-table.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsePipeline live tests must assert VR-015 diagnostics on stsz and ctts events that emit them.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "SampleTableCorrelationRule aggregates sample counts from stts and ctts boxes and compares them against stsz and chunk coverage to validate coherence.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "stbl Coherence Checks",
+      "description": "Validates consistency between decoding-time (stts), composition-offset (ctts), sample sizes (stsz), and chunk layouts in MP4 sample tables.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Exporter Snapshots for Sample Tables",
+      "description": "Exports updated JSON representations of sample-table metadata, including new table details and validation signals.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline Live Tests for stbl Events",
+      "description": "Runs live tests that assert VR-015 diagnostics on stsz and ctts events emitted during parsing.",
+      "source_line": null
+    },
+    {
+      "name": "SampleTableCorrelationRule Aggregation",
+      "description": "Aggregates sample counts from time-to-sample and composition-offset boxes to compare against sample sizes and chunk coverage, ensuring coherence.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 959,
+    "line_count": 17
+  }
+}

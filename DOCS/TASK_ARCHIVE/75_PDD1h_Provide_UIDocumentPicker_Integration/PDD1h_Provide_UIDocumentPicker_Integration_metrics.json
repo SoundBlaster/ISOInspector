@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/75_PDD1h_Provide_UIDocumentPicker_Integration/PDD1h_Provide_UIDocumentPicker_Integration.md",
+  "n_spec": 9,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide UIDocumentPicker integration for iOS/iPadOS so sandboxed builds can open and save files using the shared FilesystemAccess API without relying on macOS-only panels.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A UIKit-backed adapter presents UIDocumentPickerViewController for open/save flows and delivers security-scoped URLs compatible with existing bookmark persistence.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Shared async FilesystemAccess API chooses the UIKit adapter when running on iOS/iPadOS without regressing macOS behaviour.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit or UI-level smoke coverage exercises the new adapter using dependency injection or targeted stubs to validate URL handling and sandbox scope lifetimes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation in the FilesystemAccess PRD/workplan reflects the completed iOS integration.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The FilesystemAccess.live() implementation must preserve AppKit behaviour on macOS while selecting UIKit presenter when AppKit is unavailable.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use Swift concurrency continuations (or Combine bridges) to await picker completion inside FilesystemAccess.live() while ensuring calls run on the main actor.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Provide injectable presenter hooks so SwiftUI scenes or controllers can trigger the picker without direct UIKit coupling in call sites.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with bookmark persistence stores to start/stop security-scoped resource access when the adapter resolves returned URLs.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FilesystemDocumentPickerPresenter",
+      "description": "UIKit-backed factory that presents UIDocumentPickerViewController and returns selected URL via Swift concurrency continuations",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccess.live UIKit integration",
+      "description": "Runtime selection of the UIKit presenter on iOS/iPadOS while preserving AppKit behavior on macOS and allowing test stubs",
+      "source_line": null
+    },
+    {
+      "name": "Security-scoped URL handling",
+      "description": "Bridging selected URLs to security-scoped resources for bookmark persistence, including start/stop access",
+      "source_line": null
+    },
+    {
+      "name": "Dependency injection hooks for picker presentation",
+      "description": "Injectable presenter interfaces so SwiftUI scenes or controllers can trigger the picker without direct UIKit coupling",
+      "source_line": null
+    },
+    {
+      "name": "Unit/UI smoke tests for adapter",
+      "description": "Tests exercising open/save flows and sandbox scope lifetimes using injected stubs or dependency injection",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3807,
+    "line_count": 55
+  }
+}

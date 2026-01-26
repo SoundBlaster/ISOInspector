@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/132_B6_Box_Parser_Registry/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "When a box is unregistered, the BoxParserRegistry must return a placeholder payload containing byte-range context instead of nil.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The default placeholder parser provides a payload shape that matches the expected structure for unknown boxes.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I want the system to surface byte\u2011range context for unregistered boxes so that debugging is easier.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Box Parser Registry",
+      "description": "Provides a registry for parsing media boxes and returns placeholder payload metadata for unknown boxes",
+      "source_line": null
+    },
+    {
+      "name": "Placeholder Payload Generation",
+      "description": "Generates byte-range context placeholders when unregistered boxes are encountered",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Baselines",
+      "description": "Exports structured JSON representations of media data, including new placeholder fields in baseline, streaming, and edit-list fixtures",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 851,
+    "line_count": 15
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 5,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Sample Encryption Box Parser Registration",
+      "description": "Registers parsers for sample encryption boxes (senc, saio, saiz) and provides populated ranges/counts",
+      "source_line": null
+    },
+    {
+      "name": "JSON Exporter Inclusion of Sample Encryption Metadata",
+      "description": "Exports media metadata to JSON including sample encryption placeholder information",
+      "source_line": null
+    },
+    {
+      "name": "CLI Summary Display of Sample Encryption Metadata",
+      "description": "Command-line interface outputs summaries of sample encryption metadata",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Detail Pane for Sample Encryption Metadata",
+      "description": "Provides a SwiftUI UI component that displays detailed sample encryption metadata",
+      "source_line": null
+    },
+    {
+      "name": "Sample Encryption Placeholder Validation Fixture",
+      "description": "Validates placeholder metadata end-to-end using fixtures and snapshot tests",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1637,
+    "line_count": 18
+  }
+}

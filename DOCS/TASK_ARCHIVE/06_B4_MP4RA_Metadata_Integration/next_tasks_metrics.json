@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/06_B4_MP4RA_Metadata_Integration/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate the MP4RA metadata catalog into the streaming pipeline so that it can resolve box definitions during live parsing.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The streaming pipeline must be able to resolve box definitions using the MP4RA metadata catalog during live parsing.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The integration of the MP4RA metadata catalog should not alter existing functionality of the streaming pipeline.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use ParsePipeline.live() to emit real streaming events for downstream parser follow-ups, enabling catalog integration test coverage and fallback handling.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Integrate MP4RA metadata catalog into streaming pipeline",
+      "description": "Adds the MP4RA metadata catalog so that the streaming pipeline can resolve box definitions during live parsing.",
+      "source_line": null
+    },
+    {
+      "name": "Emit real streaming events from ParsePipeline.live()",
+      "description": "The ParsePipeline.live() method emits real streaming events, enabling downstream parser follow-ups such as catalog integration testing and fallback handling.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 346,
+    "line_count": 7
+  }
+}

@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts.md",
+  "n_spec": 7,
+  "n_func": 12,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Validate VoiceOver behavior on macOS and iPadOS hardware for the refreshed Focus command menu and shared keyboard shortcuts from Task G8",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "On macOS, enabling VoiceOver and invoking each Focus command (\u2318\u23251 through \u2318\u23254) announces the pane name from InspectorFocusShortcutCatalog, shifts focus into the correct SwiftUI scope, and reselects the previous node when applicable.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "On iPadOS with a hardware keyboard, the discoverability HUD and commands menu expose the same shortcuts, VoiceOver announces the menu titles, and focus switches among outline, detail, notes, and hex panes without pointer interaction.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Manual VoiceOver navigation within each pane (arrow keys in the outline, metadata traversal in the detail view, byte stepping in the hex view) retains accessibility identifiers and announcements that match the formatter expectations documented in the guidelines.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "QA notes summarizing the macOS and iPadOS runs, including any issues or screenshots, are archived alongside Task\u00a0G8 once testing concludes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The .focused bindings in ParseTreeOutlineView and ParseTreeDetailView must update as expected when the scene value changes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use the Focus menu or associated shortcuts to cycle panes while VoiceOver is active; confirm the .focused bindings in ParseTreeOutlineView and ParseTreeDetailView.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Focus Command Menu",
+      "description": "UI component that lists focus shortcuts for switching panes",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Shortcuts (\u2318\u23251-4)",
+      "description": "Hardware keyboard bindings to invoke Focus commands on macOS",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Announcements for Pane Names",
+      "description": "Accessibility feature that announces the target pane when a shortcut is used",
+      "source_line": null
+    },
+    {
+      "name": "Focus Transfer Logic",
+      "description": "Mechanism that moves VoiceOver focus into the correct SwiftUI scope and reselects previous node",
+      "source_line": null
+    },
+    {
+      "name": "iPadOS Hardware Keyboard Support",
+      "description": "Exposes same shortcuts via discoverability HUD and commands menu on iPadOS",
+      "source_line": null
+    },
+    {
+      "name": "Outline Pane Navigation",
+      "description": "Arrow key traversal within the outline view with proper accessibility identifiers",
+      "source_line": null
+    },
+    {
+      "name": "Detail View Metadata Traversal",
+      "description": "Keyboard navigation through metadata in the detail pane with correct announcements",
+      "source_line": null
+    },
+    {
+      "name": "Hex View Byte Stepping",
+      "description": "Byte-level stepping in hex pane with accurate formatter-based announcements",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Identifiers Maintenance",
+      "description": "Ensures identifiers like NestedA11yIDs remain consistent for VoiceOver",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Formatter Support",
+      "description": "Use of HexByteAccessibilityFormatter and other formatters to generate announcements",
+      "source_line": null
+    },
+    {
+      "name": "Automated Test Coverage for Focus Shortcut Strings",
+      "description": "XCTest suite that verifies InspectorFocusShortcutCatalog strings are synchronized",
+      "source_line": null
+    },
+    {
+      "name": "QA Reporting and Archiving",
+      "description": "Process of recording findings, screenshots, and QA notes in Task G8 archive",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3876,
+    "line_count": 41
+  }
+}

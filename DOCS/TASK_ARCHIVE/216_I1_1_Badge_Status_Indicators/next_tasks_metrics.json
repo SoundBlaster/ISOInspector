@@ -1,0 +1,128 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/216_I1_1_Badge_Status_Indicators/next_tasks.md",
+  "n_spec": 12,
+  "n_func": 11,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI dependency into the project and ensure it builds successfully.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FoundationUI dependency is added and project compiles without errors.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All integration tests must pass (123 tests) before moving to next phase.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create a comprehensive integration test suite for FoundationUI components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration test suite contains 123 tests covering Badge, Card, KeyValueRow, and Integration components.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Test coverage must be \u226580% after Phase 0.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Build a component showcase using ComponentTestApp to display all FoundationUI components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ComponentTestApp shows at least 14 screens with live components.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Document integration patterns and design system guide updates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation includes a migration path, quality gates for each of six phases, and accessibility requirements \u226598% WCAG 2.1 AA.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use DS.Badge for all badge components instead of custom implementations.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Migrate existing badges (..).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Dependency Integration",
+      "description": "Integrates FoundationUI library into the project and ensures successful build.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Test Suite for FoundationUI",
+      "description": "A comprehensive set of automated tests covering Badge, Card, KeyValueRow, and Integration components (123 tests).",
+      "source_line": null
+    },
+    {
+      "name": "Component Showcase Application",
+      "description": "Live demo app displaying all FoundationUI components across multiple screens.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation of Integration Patterns",
+      "description": "Technical spec detailing how to integrate FoundationUI components into existing code.",
+      "source_line": null
+    },
+    {
+      "name": "Design System Guide Update",
+      "description": "Updated guide with migration roadmap, quality gates, and accessibility requirements for FoundationUI integration.",
+      "source_line": null
+    },
+    {
+      "name": "Badge & Status Indicator Component",
+      "description": "Standardized DS.Badge component used throughout the app for status badges.",
+      "source_line": null
+    },
+    {
+      "name": "Card Container Component",
+      "description": "BoxDetailsCard wrapper around DS.Card for consistent card styling.",
+      "source_line": null
+    },
+    {
+      "name": "Section Header Component",
+      "description": "BoxSectionHeader\u00a0wrapper\u00a0around\u00a0DS.SectionHeader.",
+      "source_line": null
+    },
+    {
+      "name": "Key\u2011Value Row Component",
+      "description": "BoxMetadataRow\u00a0\u2013\u00a0a reusable\u00a0DS.KeyValueRow\u00a0for display of metadata.",
+      "source_line": null
+    },
+    {
+      "name": "SettingsPanelScene UI",
+      "description": "Floating settings panel UI with FoundationUI cards for user preferences.",
+      "source_line": null
+    },
+    {
+      "name": "User Preferences Persistence Layer",
+      "description": "Handles persistence and reset logic for global and session\u2011based settings via UserPreferencesStore.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5222,
+    "line_count": 99
+  }
+}

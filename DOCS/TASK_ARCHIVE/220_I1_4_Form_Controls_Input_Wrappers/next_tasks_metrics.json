@@ -1,0 +1,133 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/220_I1_4_Form_Controls_Input_Wrappers/next_tasks.md",
+  "n_spec": 16,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI components for form controls and input wrappers (I1.4) including wrapping DS.TextInput, DS.Toggle, DS.Picker, migrating existing patterns, ensuring \u226590% test coverage, WCAG 2.1 AA accessibility.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test suite coverage for I1.4 must be at least 90%.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility validation for I1.4 must meet WCAG 2.1 AA standards.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement advanced layouts and navigation using FoundationUI grid and spacing system (I1.5), migrate sidebar and detail view layouts, validate responsive behavior across device sizes, support accessibility and dark mode.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Responsive behavior must be validated across all target device sizes for I1.5.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create SDK tolerant parsing documentation (T6.3) including DocC article, code examples, inline docs updates, linking guide from main Documentation.md, and verifying examples with test file.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "DocC article TolerantParsingGuide.md must be created in specified path.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Code examples for tolerant parsing setup and ParseIssueStore usage must be included.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Inline documentation for ParsePipeline.Options .strict and .tolerant must be updated.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Guide must be linked from main Documentation.md Topics section.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Examples verified with test file in Tests/ISOInspectorKitTests.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement Floating Settings Panel Shell (C21) with FoundationUI cards, macOS NSPanel host, remembered frame, keyboard shortcut \u2318,, iPad/iOS sheet detents, VoiceOver focus start at selected section, snapshot and accessibility tests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot and accessibility tests must validate both macOS and iPad/iOS presentations for C21.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement Persistence + Reset Wiring (C22) threading permanent changes through UserPreferencesStore, updating DocumentSessionController with SessionSettingsPayload mutations, adding reset actions, logging, and DocC documentation of layered persistence behavior.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Reset actions must include \"Reset Global\" and \"Reset Session\" options.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FoundationUI integration tasks must only proceed after Phase 0 is complete.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Badge & Status Indicators",
+      "description": "Provides badge and status indicator components for UI",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Card Containers & Sections",
+      "description": "Offers card container and section layout components",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Key-Value Rows & Metadata Display",
+      "description": "Displays key-value rows and metadata in the UI",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Form Controls & Input Wrappers",
+      "description": "Wraps FoundationUI form components (TextInput, Toggle, Picker) for settings and configuration dialogs with testing and accessibility compliance",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Advanced Layouts & Navigation",
+      "description": "Implements grid-based layout patterns, responsive behavior, dark mode and navigation support",
+      "source_line": null
+    },
+    {
+      "name": "SDK Tolerant Parsing Documentation",
+      "description": "DocC article and code examples documenting tolerant parsing options in the SDK",
+      "source_line": null
+    },
+    {
+      "name": "User Settings Panel Floating Preferences Shell",
+      "description": "Implements a floating settings panel with FoundationUI cards for macOS and iPad/iOS, including keyboard shortcuts and VoiceOver focus",
+      "source_line": null
+    },
+    {
+      "name": "User Settings Persistence & Reset Wiring",
+      "description": "Handles persistence of permanent and session settings via UserPreferencesStore and provides reset actions",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3231,
+    "line_count": 70
+  }
+}

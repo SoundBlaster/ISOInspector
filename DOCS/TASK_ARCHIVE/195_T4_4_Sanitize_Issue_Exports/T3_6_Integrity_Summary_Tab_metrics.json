@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/T3_6_Integrity_Summary_Tab.md",
+  "n_spec": 4,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide operators a dedicated Integrity tab that consolidates all recorded ParseIssue entries into a sortable, filterable table and exposes exports so they can triage corruption without scanning the outline manually.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The SwiftUI tab layout must be finished with severity sort/filter controls synchronized with ribbon and detail pane counts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Row selection in the Integrity tab must bind to the outline/detail focus APIs introduced during T3.3\u2013T3.5 so navigation remains contextual.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The Share menu must be wired to the refreshed plaintext and JSON exporters now shipping in T4.2.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Integrity Summary Tab UI",
+      "description": "A SwiftUI tab that displays a sortable and filterable table of all recorded ParseIssue entries.",
+      "source_line": null
+    },
+    {
+      "name": "Severity Sort/Filter Controls",
+      "description": "Controls that allow users to sort or filter issues by severity, synchronized with ribbon and detail pane counts.",
+      "source_line": null
+    },
+    {
+      "name": "Row Selection Binding",
+      "description": "Binding of table row selection to the outline/detail focus APIs for contextual navigation.",
+      "source_line": null
+    },
+    {
+      "name": "Share Menu Integration",
+      "description": "A Share menu that exposes plaintext and JSON export options for the issue summary.",
+      "source_line": null
+    },
+    {
+      "name": "Plaintext Issue Exporter",
+      "description": "An exporter that outputs the integrity summary in plaintext format, as defined in T4.2.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Issue Exporter",
+      "description": "An exporter that outputs the integrity summary in JSON format, as per\u00a0T\u2011\u00a0..",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1238,
+    "line_count": 16
+  }
+}

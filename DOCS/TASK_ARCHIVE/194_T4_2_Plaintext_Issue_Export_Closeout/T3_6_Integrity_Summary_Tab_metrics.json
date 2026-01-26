@@ -1,0 +1,113 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/194_T4_2_Plaintext_Issue_Export_Closeout/T3_6_Integrity_Summary_Tab.md",
+  "n_spec": 11,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a dedicated Integrity tab that consolidates all recorded ParseIssue entries into a sortable, filterable table and exposes exports so operators can triage corruption without scanning the outline manually.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integrity tab is accessible from the main inspector alongside Tree, Detail, and Hex tabs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Table lists every issue with sortable columns (severity default) and severity filters.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting an issue focuses the associated node in the outline/detail views.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Share/Export menu offers JSON (existing schema v2) and plaintext summaries that include file metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "UI automation or SwiftUI preview coverage demonstrates populated corrupt fixture renders.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Data is surfaced via shared ParseIssueStore observers so counts stay in sync with ribbons.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse contextual status copy/colors from ISOInspectorUI to avoid divergence with badges and detail pane.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Provide keyboard shortcuts/hooks that future T3.7 navigation work can extend.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate export actions with ongoing T4 diagnostics deliverables to prevent duplicative menu wiring.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Validate VoiceOver labels and table focus order per accessibility guidance.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Integrity Tab",
+      "description": "A dedicated tab in the main inspector that displays all ParseIssue entries in a sortable, filterable table.",
+      "source_line": null
+    },
+    {
+      "name": "Sortable Issue Table",
+      "description": "Table columns for severity, code, message, offset, and owning node with default sorting by severity.",
+      "source_line": null
+    },
+    {
+      "name": "Severity Filter Control",
+      "description": "UI control to filter issues displayed in the table based on their severity level.",
+      "source_line": null
+    },
+    {
+      "name": "Issue Selection Focus",
+      "description": "Selecting a row focuses the corresponding node in the outline/detail views.",
+      "source_line": null
+    },
+    {
+      "name": "Share/Export Menu",
+      "description": "Menu providing JSON (v2 schema) and plaintext export options for issue summaries, including file metadata.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssueStore Observer Integration",
+      "description": "Mechanism to observe ParseIssueStore updates so the table stays synchronized with ribbons and other UI elements.",
+      "source_line": null
+    },
+    {
+      "name": "Contextual Status Styling",
+      "description": "Reuse of contextual status copy/colors from ISOInspectorUI for consistency across badges and detail pane.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Shortcuts/Navigation Hooks",
+      "description": "Keyboard shortcuts or hooks that allow future navigation features to extend the tab\u2019s functionality.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Support",
+      "description": "VoiceOver labels and keyboard focus order compliance for the Integrity Tab and its table.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2243,
+    "line_count": 29
+  }
+}

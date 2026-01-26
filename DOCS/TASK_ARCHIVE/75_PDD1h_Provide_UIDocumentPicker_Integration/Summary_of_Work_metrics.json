@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/75_PDD1h_Provide_UIDocumentPicker_Integration/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide UIDocumentPicker integration for iOS/iPadOS once UIKit adapters are introduced.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The FilesystemAccessKit PRD success criteria must be satisfied by the UIKit adapter.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "UIDocumentPicker integration",
+      "description": "Provides a UIKit-backed presenter that surfaces UIDocumentPickerViewController for open/save flows and bridges completions via continuations.",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemDocumentPickerPresenter",
+      "description": "A class that presents UIDocumentPickerViewController and handles completion callbacks.",
+      "source_line": null
+    },
+    {
+      "name": "UIKit presenter factory selection",
+      "description": "Logic in FilesystemAccess.live to select the UIKit presenter on iOS/iPadOS, retain AppKit behavior on macOS, and allow tests to inject custom presenters.",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccess live adapter",
+      "description": "Runtime component that chooses appropriate document picker presenter based on platform and test injections.",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccessTests for presenter injection",
+      "description": "Unit tests verifying that the live adapter consumes an injected presenter when AppKit is unavailable, ensuring CI coverage.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1109,
+    "line_count": 19
+  }
+}

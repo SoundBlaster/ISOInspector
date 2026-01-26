@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/183_T2_4_Validation_Rule_Dual_Mode_Support/next_tasks.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Validation rules VR-001\u2026VR-015 must emit ParseIssue records when tolerant parsing is enabled while preserving strict-mode behavior.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend ParseIssueStore aggregation to expose per-severity counts for tolerant parsing dashboards and streaming summaries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsePipeline converts validation diagnostics into issues, records them in ParseIssueStore, and existing tests cover the new tolerant flow.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "VoiceOver regression pass must confirm focus command menus announce controls and restore focus targets on macOS and iPadOS hardware.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Secure Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures so regression baselines can shift from synthetic payloads once approvals land.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Surface ParseIssueStore metrics in SwiftUI ribbons once tolerant parsing UI specs are finalized.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseIssueStore",
+      "description": "Stores and aggregates ParseIssue records emitted by validation rules during tolerant parsing",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline",
+      "description": "Converts validation diagnostics into ParseIssue records and records them in ParseIssueStore",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing UI Ribbons",
+      "description": "SwiftUI components that display per-severity ParseIssue metrics for tolerant parsing dashboards and streaming summaries",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Accessibility Shortcuts Verification",
+      "description": "Hardware verification process to ensure VoiceOver focus command menus announce controls and restore focus targets on macOS and iPadOS devices",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1661,
+    "line_count": 14
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "FullBoxReader must correctly extract version and flags from a full box",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "App theming feature including icon rasterization and light/dark mode support",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Random slice benchmark suite executed on macOS with Combine support to compare mapped vs chunked readers under identical workloads",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeStreamingSelectionAutomationTests run on macOS with XCTest UI support to validate end-to-end SwiftUI automation flow",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Combine-backed UI benchmark executed on macOS to capture latency metrics while maintaining throughput parity with CLI harness",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FullBoxReader",
+      "description": "Extracts version and flags from full boxes in media file parsing",
+      "source_line": null
+    },
+    {
+      "name": "App Theming",
+      "description": "Provides icon rasterization and light/dark theme support for the application UI",
+      "source_line": null
+    },
+    {
+      "name": "Random Slice Benchmark Suite",
+      "description": "Executes random slice benchmarks to compare mapped vs. chunked readers on macOS hardware",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStreamingSelectionAutomationTests",
+      "description": "Runs SwiftUI automation flow tests for streaming UI selection on macOS",
+      "source_line": null
+    },
+    {
+      "name": "Combine-backed UI Benchmark",
+      "description": "Captures latency metrics for Combine-enabled UI on macOS while maintaining CLI throughput",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2316,
+    "line_count": 38
+  }
+}

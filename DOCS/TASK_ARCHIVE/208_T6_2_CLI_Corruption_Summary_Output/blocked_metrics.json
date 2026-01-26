@@ -1,0 +1,113 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/208_T6_2_CLI_Corruption_Summary_Output/blocked.md",
+  "n_spec": 13,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Blocked tasks must be updated whenever blocker status changes to maintain day\u2011to\u2011day visibility.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Import licensed real\u2011world assets and refresh regression baselines so tolerant parsing and export scenarios can validate against real\u2011world payloads once licensing approvals are obtained.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures must be granted before importing assets.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute the macOS 1 GiB lenient\u2011vs\u2011strict benchmark with ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824, collect runtime and RSS metrics, and archive them under Documentation/Performance once macOS hardware with the 1 GiB performance fixture becomes available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "macOS hardware with the 1 GiB performance fixture must be available in the automation environment before running the benchmark.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Publish FoundationUI Phase\u202f5.2 performance baselines in PERFORMANCE.md after manual profiling with Xcode Instruments on macOS developer machine.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Render times measured by Time Profiler must be under 100\u202fms, allocations under 5\u202fMB, and Core Animation must verify 60\u202fFPS on device for the manual performance profiling task.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Publish CI integration with performance gates after completing multi\u2011platform benchmark tests (iOS\u00a017, macOS\u00a014, iPadOS\u00a017) once all required metrics are documented.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Build time must be under 10s for a clean build, binary size under 500KB release, memory footprint under 5MB per screen, 60\u202fFPS during interactions, and BoxTreePattern with 1000+ nodes must perform within acceptable limits.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Compile cross\u2011platform test results and create a cross\u2011platform report after testing on iOS\u00a017+, macOS\u00a014+, and iPadOS\u00a017+ devices and simulators.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All platforms must pass dark mode verification, RTL language testing (Arabic, Hebrew), and multiple locale/region testing before the report is compiled.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Achieve final accessibility sign\u2011off after manual VoiceOver, keyboard navigation, dynamic type, reduce motion, contrast, and bold text testing on real devices.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility score must reach 100% after automated tests and manual edge\u2011case validation before sign\u2011off.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Import Licensed Assets",
+      "description": "Import licensed media assets and refresh regression baselines for tolerant parsing and export scenarios",
+      "source_line": null
+    },
+    {
+      "name": "Execute macOS 1 GiB Benchmark",
+      "description": "Run lenient vs strict benchmark on macOS with 1 GiB payload, collect runtime and RSS metrics, archive results",
+      "source_line": null
+    },
+    {
+      "name": "Publish Performance Baselines",
+      "description": "Publish performance baseline data in PERFORMANCE.md after profiling",
+      "source_line": null
+    },
+    {
+      "name": "Generate Performance Report",
+      "description": "Document findings from Xcode Instruments profiling (render time, memory, FPS) into a report",
+      "source_line": null
+    },
+    {
+      "name": "Create Benchmark Metrics Report",
+      "description": "Document baseline metrics for build time, binary size, memory footprint, FPS and performance of BoxTreePattern",
+      "source_line": null
+    },
+    {
+      "name": "Compile Cross-Platform Test Results",
+      "description": "Collect and compile test results across iOS, macOS, iPadOS devices and simulators into a cross\u2011platform report",
+      "source_line": null
+    },
+    {
+      "name": "Finalize Accessibility Sign-Off",
+      "description": "Complete manual accessibility testing and final sign-off on VoiceOver, keyboard navigation etc.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4383,
+    "line_count": 75
+  }
+}

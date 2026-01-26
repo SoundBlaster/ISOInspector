@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/129_C15_Metadata_Value_Type_Expansion/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Metadata value type follow-up is marked complete after landing decoding support for GIF, TIFF, and signed fixed-point MP4RA data types.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extended BoxParserRegistry+Metadata to recognize GIF (type=0x00000C), TIFF (type=0x000010), and signed fixed-point (type=0x000041, 0x000042) payloads, including signature fallbacks for legacy samples.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Added SignedFixedPoint metadata kind plus GIF/TIFF data formats to ParsedBoxPayload and wired JSON export encoding for the new structure.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Metadata parser unit tests cover the new formats and verify both field summaries and parsed detail models.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Metadata Value Type Decoding",
+      "description": "Decodes metadata payloads for GIF, TIFF, and signed fixed-point MP4RA data types",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry+Metadata Extension",
+      "description": "Extends the box parser registry to recognize new metadata value types and handle legacy signatures",
+      "source_line": null
+    },
+    {
+      "name": "SignedFixedPoint Metadata Kind",
+      "description": "Introduces a new metadata kind for signed fixed-point values",
+      "source_line": null
+    },
+    {
+      "name": "GIF/TIFF Data Formats Support",
+      "description": "Adds support for GIF and TIFF data formats in parsed payloads",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Encoding for New Structures",
+      "description": "Wires JSON export encoding to include the newly added metadata structures",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Parser Unit Tests",
+      "description": "Provides unit tests covering new formats, field summaries, and parsed detail models",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1225,
+    "line_count": 20
+  }
+}

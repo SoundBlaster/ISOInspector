@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/157_J2_Persist_Security_Scoped_Bookmarks/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Persisted bookmark identifiers must be annotated in audit events and failures must still redact paths while retaining ledger context.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Document session restoration passes bookmark identifiers into FilesystemAccessKit, refreshes stale records with new data, and removes failed ledger entries to keep recents accurate across launches.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Operators can correlate bookmark_id output with stored credentials via ledger-aware audit logging in the CLI sandbox guide.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Persist Security-Scoped Bookmarks",
+      "description": "Handles persistence of security-scoped bookmarks, annotating audit events with bookmark identifiers and ensuring failures redact paths while retaining ledger context.",
+      "source_line": null
+    },
+    {
+      "name": "Document Session Restoration via Bookmark Identifiers",
+      "description": "Restores document sessions by passing bookmark identifiers into FilesystemAccessKit, refreshing stale records with new data, and removing failed ledger entries to keep recents accurate across launches.",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Recovery Documentation",
+      "description": "Provides app manual guidance on bookmark recovery behavior and CLI sandbox guide updates for ledger-aware audit logging, enabling operators to correlate bookmark_id output with stored credentials.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1201,
+    "line_count": 11
+  }
+}

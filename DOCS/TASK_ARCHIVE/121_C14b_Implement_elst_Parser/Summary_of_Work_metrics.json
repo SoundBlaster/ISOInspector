@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/121_C14b_Implement_elst_Parser/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The parser scope for `edts/elst` must be documented and include validation checkpoints and streaming considerations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "A streaming `elst` decoder is registered in `BoxParserRegistry` that emits normalized edit metadata, playback rates, and cumulative presentation offsets while keeping fields accessible to the CLI exporter.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The parser must emit structured payload surfaces for both 32-bit and 64-bit edit entries and normalize seconds using mvhd/mdhd timescales without test-only overrides.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "edts/elst Parser Scope Documentation",
+      "description": "Documents parser scope, validation checkpoints, and streaming considerations for the elst edit list parser.",
+      "source_line": null
+    },
+    {
+      "name": "elst Edit List Parser Implementation",
+      "description": "Registers a streaming elst decoder that emits normalized edit metadata, playback rates, and cumulative presentation offsets; provides structured payload surfaces and supports 32-bit and 64-bit entries.",
+      "source_line": null
+    },
+    {
+      "name": "Live Parse Pipeline Integration",
+      "description": "Integrates mvhd/mdhd timescales into the edit list environment so normalized seconds populate without test-only overrides.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1122,
+    "line_count": 26
+  }
+}

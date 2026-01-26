@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/91_R3_Accessibility_Guidelines/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Developers can access and use the Accessibility Guidelines document to apply VoiceOver labels, Dynamic Type scaling, and keyboard navigation rules for parse tree explorer, detail inspector, and hex viewer.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The Accessibility Guidelines document is linked from the DocC catalog and NestedA11yIDs integration notes so developers land on the checklist alongside identifier conventions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Running `swift test` covers ParseTreeAccessibilityIdentifierTests and accessibility formatter suites, ensuring identifier and descriptor regressions are protected.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The Accessibility Inspector manual audit checklist is updated in the Accessibility Guidelines document to direct future VoiceOver and rotor validation.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Accessibility gaps must be resolved before appending validation evidence to the summary for audit traceability.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Future rotor customization or phonetic spelling changes will be tracked as discrete @todo entries in todo.md once UX research scopes them.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Accessibility Guidelines Document",
+      "description": "Provides VoiceOver labels, Dynamic Type scaling, and keyboard navigation rules for parse tree explorer, detail inspector, and hex viewer.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Catalog Link to Accessibility Checklist",
+      "description": "Links the new guide from the DocC catalog and NestedA11yIDs integration notes so developers land on the checklist alongside identifier conventions.",
+      "source_line": null
+    },
+    {
+      "name": "Swift Test Suite for Accessibility",
+      "description": "Runs swift test covering ParseTreeAccessibilityIdentifierTests and accessibility formatter suites protecting identifier and descriptor regressions.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Inspector Manual Audit Checklist",
+      "description": "Updated in the Accessibility Guidelines document to direct future VoiceOver and rotor validation.",
+      "source_line": null
+    },
+    {
+      "name": "Todo Tracking System",
+      "description": "Tracks future rotor customization or phonetic spellings as discrete @todo entries, mirrored in todo.md when created.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1242,
+    "line_count": 13
+  }
+}

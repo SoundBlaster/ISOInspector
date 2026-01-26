@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/126_C17_mdat_Box_Parser/C17_mdat_Box_Parser.md",
+  "n_spec": 7,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a parser that records the media data (mdat) box's byte range so the UI and CLI can display payload boundaries without materializing large media blobs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Register an mdat parser in BoxParserRegistry that emits a structured payload containing the header start offset, total size, and payload length while seeking past the media bytes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Ensure the streaming reader advances using seek/skip semantics so even multi-gigabyte payloads do not allocate buffers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Extend unit tests and JSON export baselines to prove offsets and sizes are reported for regular and large-size mdat fixtures without impacting existing validation rules (e.g., VR-005 ordering checks).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The parser must cooperate with existing VR-005 handling when mdat precedes moov in streaming files.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse the shared chunked reader helpers to compute start offsets and to jump over payload bytes for both 32-bit and large-size headers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Surface the recorded metadata through existing detail/hex view models and CLI export structures so downstream components can surface payload boundaries without reading the media data.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Mdat Box Parser Registration",
+      "description": "Registers an mdat parser in the BoxParserRegistry that emits structured payload metadata",
+      "source_line": null
+    },
+    {
+      "name": "Offset and Size Recording",
+      "description": "Captures header start offset, total size, and payload length for each mdat box",
+      "source_line": null
+    },
+    {
+      "name": "Payload Skipping Mechanism",
+      "description": "Skips over media payload bytes using seek/skip semantics without allocating buffers",
+      "source_line": null
+    },
+    {
+      "name": "Large-Size Header Support",
+      "description": "Handles both 32-bit and large-size mdat headers while computing offsets",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Exposure to UI",
+      "description": "Surfaces recorded metadata through detail/hex view models for UI display",
+      "source_line": null
+    },
+    {
+      "name": "CLI Export Integration",
+      "description": "Provides mdat payload boundaries in CLI export structures without reading media data",
+      "source_line": null
+    },
+    {
+      "name": "Validation Logging Cooperation",
+      "description": "Ensures parser cooperates with VR-005 validation logging when mdat precedes moov",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2245,
+    "line_count": 38
+  }
+}

@@ -1,0 +1,123 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C6_Codec_Payload_Additions.md",
+  "n_spec": 17,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Extend BoxParserRegistry to support new codec-specific payload parsers for future codecs such as Dolby Vision, AV1, VP9, Dolby AC-4 and MPEG-H 3D Audio so that rich metadata surfaces without regressions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Inventory target codec payloads with fixture sources and decoding references.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Define parser requirements, emitted fields, and validation hooks per payload while preserving existing snapshot/export regressions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline test coverage updates (unit + JSON snapshot) required for each new payload and identify fixture gaps.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Enumerate documentation updates needed across PRD, user guides, and archived follow-up notes once implementations land.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parser registry must preserve existing encrypted sample entry handling so sinf/schi/tenc metadata is preserved.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Feature flags gate release of new codec-specific parsers until fixtures are available.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce CodecPayload structs for DolbyVisionConfiguration, AV1Configuration, VP9Configuration, DolbyAC4, and MPEGHConfiguration exposing relevant fields.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Register each codec-specific parser behind feature flags in BoxParserRegistry.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use existing bit reader utilities to parse packed fields for AV1Configuration.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Fallback to opaque payloads when unrecognized profile combinations appear while logging VR-006 research entries.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wire new payload models into validation rule VR-006 logging paths to capture unsupported configurations for telemetry review.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide unit tests with one case per payload using fixture-backed data and negative tests for truncated payloads.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update JSON export baseline CodecMetadataBaseline.json with new codec-specific fields, gated behind fixture availability.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add manifest entries in scripts/generate_fixtures.py for each new sample including checksum, license text, and encryption metadata.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Document CLI export examples showcasing the new metadata fields in Documentation/Guides/CodecMetadata.md and SwiftUI detail pane guide.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Capture release notes for each codec payload in Documentation/ReleaseNotes/ so downstream consumers can track metadata expansion per release.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxParserRegistry Extension for Dolby Vision Payload",
+      "description": "Registers a parser that extracts Dolby Vision configuration fields (dv_version_major/minor, profile, level, flags, compatibility identifiers) from dvvC boxes and falls back to opaque payloads when unrecognized profiles are encountered.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Extension for AV1 Payload",
+      "description": "Adds a parser that reads AV1 Codec Configuration Box (av1C) fields such as sequence profile, level, tier, bit depth, chroma subsampling, monochrome flag, operating point flags and records configOBUs lengths.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Extension for VP9 Payload",
+      "description": "Introduces a parser for VP Codec Configuration box (vpcC) extracting profile, level, bit depth, chroma subsampling, colour primaries, transfer characteristics, matrix coefficients.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Extension for Dolby AC-4 Payload",
+      "description": "Adds a parser that captures Dolby AC\u20114 descriptor fields (bitstream version, presentation version, mdcompat, frame rate code, program identifier lists) from dac4 boxes.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Extension for MPEG-H 3D Audio Payload",
+      "description": "Registers a parser that extracts MPEG\u2011H configuration record fields (profile level indication, reference channel layout, compatibleSetIndication, generalProfileCompatibilitySet bits).",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 7538,
+    "line_count": 105
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/01_B1_Chunked_File_Reader/B1_2025-10-04_Summary.md",
+  "n_spec": 6,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a file reader that can read large files in configurable chunks without loading the entire file into memory.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Expose chunk-aligned caching to improve read performance for repeated accesses within the same chunk.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The reader must support a default chunk size of 1 MiB, but allow configuration of different chunk sizes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Reads spanning multiple chunks must return correct data without errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The reader should read sequentially and cross\u2011chunk spans correctly.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "In order to\u00a0the\u00a0\u2026?\u00a0..??",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "RandomAccessReader protocol",
+      "description": "Defines an interface for random-access reading of data streams.",
+      "source_line": null
+    },
+    {
+      "name": "ChunkedFileReader implementation",
+      "description": "Provides buffered file reading with configurable chunk sizes and chunk-aligned caching.",
+      "source_line": null
+    },
+    {
+      "name": "Configurable chunk size feature",
+      "description": "Allows setting a custom chunk size, defaulting to 1 MiB.",
+      "source_line": null
+    },
+    {
+      "name": "Chunk-aligned caching mechanism",
+      "description": "Caches data in chunks aligned to the configured chunk boundary for efficient access.",
+      "source_line": null
+    },
+    {
+      "name": "IO error propagation with context",
+      "description": "Propagates underlying IO errors while adding contextual information.",
+      "source_line": null
+    },
+    {
+      "name": "XCTest coverage suite",
+      "description": "Automated tests covering sequential reads, cross-chunk spans, arbitrary offset seeks, EOF partial reads, out-of-bounds validation, and injected IO failure scenarios.",
+      "source_line": null
+    },
+    {
+      "name": "Error taxonomy (ChunkedFileReader.Error)",
+      "description": "Defines specific error types for IO edge cases to guide upstream pipeline handling.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 990,
+    "line_count": 14
+  }
+}

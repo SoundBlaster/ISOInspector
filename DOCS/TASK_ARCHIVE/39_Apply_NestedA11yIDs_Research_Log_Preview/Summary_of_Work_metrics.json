@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/39_Apply_NestedA11yIDs_Research_Log_Preview/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "NestedA11yIDs identifiers must be applied to ResearchLogAuditPreview and include researchLogPreview root, header/status metadata coverage, and stable diagnostics row identifiers for QA automation.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Apply NestedA11yIDs identifiers to ResearchLogAuditPreview to support accessibility and QA automation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The application of NestedA11yIDs must cover the researchLogPreview root, header/status metadata, and stable diagnostics row identifiers as documented in Docs/Guides/NestedA11yIDsIntegration.md.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ResearchLogAuditPreview Component",
+      "description": "UI component that displays a research log preview with nested accessibility IDs and stable diagnostics row identifiers for QA automation.",
+      "source_line": null
+    },
+    {
+      "name": "NestedA11yIDs Integration Documentation",
+      "description": "Documentation detailing how to apply NestedA11yIDs identifiers to components, including examples for research logs.",
+      "source_line": null
+    },
+    {
+      "name": "Research Log Preview Rollout Process",
+      "description": "Workflow for rolling out the research log preview feature across the system, tracked via documentation and task management.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 738,
+    "line_count": 25
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/183_T2_4_Validation_Rule_Dual_Mode_Support/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Validation rules VR-001\u2026VR-015 must generate ParseIssue diagnostics when tolerant parsing is enabled while preserving strict-mode behavior.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Convert validation diagnostics into ParseIssue records inside ParsePipeline and surface them on streamed events.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsePipelineLiveTests must cover tolerant mode behavior, ensuring parse issues and the shared issue store capture VR-003 warnings alongside existing structural diagnostics.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipeline Live Mode Validation Diagnostics",
+      "description": "Generates ParseIssue diagnostics for validation rules VR-001\u2026VR-015 when tolerant parsing is enabled while preserving strict-mode behavior.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssue Store Recording",
+      "description": "Records ParseIssue diagnostics in ParseIssueStore and surfaces them on streamed events.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipelineLiveTests Tolerant Mode Coverage",
+      "description": "Unit tests covering tolerant mode behavior, ensuring parse issues and shared issue store capture VR-003 warnings alongside structural diagnostics.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1167,
+    "line_count": 20
+  }
+}

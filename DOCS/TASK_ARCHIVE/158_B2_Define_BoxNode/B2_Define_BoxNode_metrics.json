@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/158_B2_Define_BoxNode/B2_Define_BoxNode.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Define a canonical BoxNode domain model that captures parsed header metadata, optional payload details, validation issues, and child relationships for use in ISOInspector's UI, CLI, and export layers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A BoxNode type (or equivalent renamed domain struct) exists in ISOInspectorKit with properties for BoxHeader, optional catalog metadata, optional parsed payload, validation issues, and child nodes, all marked Sendable for concurrency safety.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming parse events can be accumulated into a deterministic BoxNode tree that UI stores, CLI formatters, and JSON exporters can consume without losing validation warnings or metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation and developer guides reference the new node aggregate so future tasks understand how to traverse or extend the tree representation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression checks (unit tests or snapshot exports) demonstrate that building a tree from representative fixtures preserves header offsets, payload annotations, and validation results.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Metadata from BoxCatalog, parsed payload structures, and validation issues must attach to the node before it is emitted so downstream presentation layers stay synchronized.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Build on the existing ParsePipeline event stream by introducing or updating a builder that accumulates events into mutable nodes before snapshotting them as BoxNode instances.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Align naming and API surface with existing consumers (ParseTreeBuilder, UI tree stores, CLI exporters) to avoid parallel representations; migrate call sites to the canonical type where necessary.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxNode Domain Model",
+      "description": "Defines a canonical data structure representing a parsed box header, optional payload metadata, validation issues, and child nodes, marked Sendable for concurrency.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeBuilder Integration",
+      "description": "A builder that consumes ParsePipeline events to accumulate mutable nodes and snapshot them as BoxNode instances.",
+      "source_line": null
+    },
+    {
+      "name": "UI Tree Store Compatibility",
+      "description": "Ensures the UI tree module operates on BoxNode representations for view models and exporters across ISOInspector targets.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Formatter Support",
+      "description": "Allows CLI formatters to consume deterministic BoxNode trees, preserving validation warnings and metadata.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Exporter Integration",
+      "description": "Enables JSON exporters to serialize BoxNode trees while maintaining header offsets, payload annotations, and validation results.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation & Developer Guides Update",
+      "description": "References the new node aggregate in docs so future tasks can traverse or extend the tree representation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2952,
+    "line_count": 28
+  }
+}

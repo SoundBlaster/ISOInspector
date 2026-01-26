@@ -1,0 +1,118 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/32_C4_Annotation_Bookmark_Store/C4_Annotation_and_Bookmark_Management.md",
+  "n_spec": 10,
+  "n_func": 11,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Investigator can flag boxes, jot notes, and reopen sessions with context intact using persistent annotations and bookmarks in the SwiftUI app.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Users can create, edit, and delete annotations tied to specific parse tree nodes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Bookmarks surface within the tree UI and survive app relaunches for at least one fixture.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Persistence layer passes unit tests covering serialization, migrations, and concurrency safety.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Detail and hex panes remain synchronized with annotation/bookmark selections without regressions in existing tests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Session bookmarking and annotations must be stored per file across launches.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Choose between CoreData vs. JSON persistence mechanics (research gap R6).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Define a persistence schema likely CoreData-backed with JSON export interop aligned with research outcome.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Expose bookmark state through SwiftUI state stores for filters/search highlighting or scoping to bookmarked boxes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with forthcoming E3 session persistence to ensure storage APIs compose cleanly.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Annotation Creation",
+      "description": "Allows users to create annotations tied to specific parse tree nodes",
+      "source_line": null
+    },
+    {
+      "name": "Annotation Editing",
+      "description": "Enables users to edit existing annotations",
+      "source_line": null
+    },
+    {
+      "name": "Annotation Deletion",
+      "description": "Permits users to delete annotations",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Creation",
+      "description": "Lets users bookmark boxes within the parse tree",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Persistence",
+      "description": "Stores bookmarks across app launches per file",
+      "source_line": null
+    },
+    {
+      "name": "Tree UI Bookmark Display",
+      "description": "Shows bookmarks within the tree user interface",
+      "source_line": null
+    },
+    {
+      "name": "Persistence Layer Serialization",
+      "description": "Handles serialization of annotations and bookmarks for storage",
+      "source_line": null
+    },
+    {
+      "name": "Persistence Layer Migration Support",
+      "description": "Supports data migrations in the persistence layer",
+      "source_line": null
+    },
+    {
+      "name": "Concurrency Safety",
+      "description": "Ensures thread\u2011safe access to the persistence layer",
+      "source_line": null
+    },
+    {
+      "name": "Detail Pane Synchronization",
+      "description": "Keeps the detail pane in sync with annotation/bookmark selections",
+      "source_line": null
+    },
+    {
+      "name": "Hex Pane Synchronization",
+      "description": "Keeps the hex pane in sync with annotation/bookmark\u00a0synchronization",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2282,
+    "line_count": 43
+  }
+}

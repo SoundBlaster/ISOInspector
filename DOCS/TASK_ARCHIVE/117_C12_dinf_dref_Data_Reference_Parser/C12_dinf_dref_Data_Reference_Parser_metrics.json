@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/117_C12_dinf_dref_Data_Reference_Parser/C12_dinf_dref_Data_Reference_Parser.md",
+  "n_spec": 10,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Enable ISOInspector to parse the movie data information container (dinf) and its data reference table (dref), exposing entry metadata (type, version, flags, and location payload) through the BoxParserRegistry so downstream components can resolve external or self-contained media references.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxParserRegistry registers dedicated decoders for dinf (container) and dref (full box) that iterate all child entries without breaking streaming guarantees.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each dref entry captures its reference type (e.g., url, urn), flags, and payload bytes, surfacing URL/URN strings for CLI JSON export and UI detail panes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The parser updates JSON export snapshots to include data reference collections under the owning track/media context, with regression coverage in ISOInspectorKitTests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation scaffolding consumes parsed references to associate chunk offsets with the correct reference index, enabling follow-up rule authoring without additional structural changes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Reference indices align with one-based numbering described in ISO/IEC 14496-12.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend existing full-box parsing helpers (FullBoxReader) to decode dref version/flags, then branch on entry type identifiers to extract URL and optional name fields.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Ensure reference indices align with one-based numbering described in ISO/IEC 14496-12; unit tests should assert index ordering and flag-driven semantics (self-contained bit vs. external resource).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update CLI export mappers and SwiftUI detail views to include parsed data references, mirroring the formatting used for other sample table arrays.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with pending Validation Rule #15 work so parsed reference indices are available to correlation logic without duplicating traversal state.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxParserRegistry Registration for dinf",
+      "description": "Registers a decoder that parses the 'dinf' container box and exposes its child boxes.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Registration for dref",
+      "description": "Registers a decoder that parses the full-box 'dref', iterating over all data reference entries.",
+      "source_line": null
+    },
+    {
+      "name": "FullBoxReader Extension for dref",
+      "description": "Extends FullBoxReader helpers to decode version, flags, and entry type identifiers for each dref entry.",
+      "source_line": null
+    },
+    {
+      "name": "Data Reference Entry Parsing",
+      "description": "Parses each dref entry to capture reference type (url/urn), flags, payload bytes, and optional name fields.",
+      "source_line": null
+    },
+    {
+      "name": "Reference Index Alignment",
+      "description": "Ensures parsed entries are indexed one\u2011based as per ISO/IEC 14496-12 and validates ordering and flag semantics.",
+      "source_line": null
+    },
+    {
+      "name": "CLI JSON Export Mapper Update",
+      "description": "Updates the command\u2011line export to include data reference collections under the owning track/media context.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Detail View Update",
+      "description": "Adds UI detail panes that display parsed data references, mirroring formatting of other sample tables.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Rule #15 Integration",
+      "description": "Makes parsed reference indices available for chunk offset correlation logic used by Validation Rule\u00a0#15.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3093,
+    "line_count": 44
+  }
+}

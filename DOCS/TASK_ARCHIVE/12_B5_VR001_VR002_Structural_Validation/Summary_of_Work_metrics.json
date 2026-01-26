@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/12_B5_VR001_VR002_Structural_Validation/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Headers must not have impossible sizes (VR-001).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Container boundaries must match their declared payload; drift is disallowed (VR-002).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming validator rules flag headers with impossible sizes and container boundary drift.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxValidatorTests cover error, underflow, and alignment scenarios, including regression for well-formed containers.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Live parsing must surface new issues alongside existing VR-003/VR-006 annotations.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 678,
+    "line_count": 18
+  }
+}

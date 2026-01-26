@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/25_B4_C2_Category_Filtering/2025-10-09-mp4ra-category-integration.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expose MP4RA category strings through the catalog so streaming parse events can surface human-readable metadata groupings.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Addition of category metadata to BoxDescriptor is additive and defaults to nil when absent, ensuring backward compatibility.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxDescriptor Category Metadata",
+      "description": "Adds an optional 'category' field to BoxDescriptor objects for MP4RA category strings",
+      "source_line": null
+    },
+    {
+      "name": "MP4RACatalogRefresher Integration",
+      "description": "Updates the catalog loader and refresher pipelines to populate the new category property in descriptors",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 966,
+    "line_count": 27
+  }
+}

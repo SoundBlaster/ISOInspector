@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/45_E2_Integrate_Parser_Event_Pipeline/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate Parser Event Pipeline with UI Components to auto-select the first parsed node so the detail pane populates as soon as streaming events arrive.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Default selection of the first parsed node is verified by ParseTreeOutlineViewModelTests and identifier tracking for updated snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always maintain a consistent mapping between parser events and UI component selections.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add macOS SwiftUI automation once available to cover end-to-end selection updates.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Parser Event Pipeline Integration",
+      "description": "Integrates the parser event pipeline with UI components to automatically select and display parsed nodes in the detail pane.",
+      "source_line": null
+    },
+    {
+      "name": "Default Selection Logic for Parsed Nodes",
+      "description": "Automatically selects the first parsed node so the detail pane populates immediately upon receiving streaming events.",
+      "source_line": null
+    },
+    {
+      "name": "Identifier Tracking for Snapshot Updates",
+      "description": "Tracks identifiers of selected nodes across updated snapshots to maintain selection state.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeOutlineViewModel Tests",
+      "description": "Unit tests verifying default selection and identifier tracking behavior in the ParseTreeOutlineViewModel.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 473,
+    "line_count": 6
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/202_BUG0001_Accessibility_Contrast/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement deterministic corrupt fixture set (Fixtures/Corrupt/) and associated metadata, generator support, and tolerant parsing smoke tests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Run swift test --filter CorruptFixtureCorpusTests to verify implementation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Corrupt Fixture Corpus API",
+      "description": "Provides deterministic corrupt fixture set and metadata for testing",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Catalog Manifest",
+      "description": "JSON catalog of corrupt fixtures used by the system",
+      "source_line": null
+    },
+    {
+      "name": "Generator Support for Corrupt Fixtures",
+      "description": "Tooling to generate corrupt fixture data",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing Smoke Tests",
+      "description": "Tests that validate parsing tolerates corrupt data",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Contrast Flag Validation Workflow",
+      "description": "Process for capturing reproduction steps and findings for contrast helper mismatch",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 760,
+    "line_count": 8
+  }
+}

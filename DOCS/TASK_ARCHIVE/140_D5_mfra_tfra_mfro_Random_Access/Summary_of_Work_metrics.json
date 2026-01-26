@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/Summary_of_Work.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expose random access metadata through parsed payload models for mfra, tfra, and mfro boxes",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide CLI output and JSON export of random access metadata via EventConsoleFormatter and JSONParseTreeExporter",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsedBoxPayload must expose typed track summaries and offset metadata for mfra, tfra, and mfro boxes",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "RandomAccessIndexCoordinator tracks fragment order and provides lookup context to parsers",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "tfra entries correlate with previously parsed traf/trun fragments",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover random access parsing, CLI formatting, and JSON export",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "RandomAccessIndexCoordinator must always maintain fragment order consistency",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Dedicated random access parsers added to BoxParserRegistry with TaskLocal environment plumbing",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsedBoxPayload Accessors for Random Access Boxes",
+      "description": "Exposes typed track summaries and offset metadata from parsed mfra, tfra, and mfro boxes via ParsedBoxPayload accessors.",
+      "source_line": null
+    },
+    {
+      "name": "RandomAccessParser Registration in BoxParserRegistry",
+      "description": "Registers dedicated parsers for random access tables (mfra, tfra, mfro) and wires TaskLocal environment so tfra entries correlate with previously parsed traf/trun fragments.",
+      "source_line": null
+    },
+    {
+      "name": "RandomAccessIndexCoordinator in ParsePipeline",
+      "description": "Tracks fragment order, provides lookup context to parsers, aggregates mfra summaries, and emits them alongside existing fragment payloads during parsing.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Output Enhancement for Random Access Metadata",
+      "description": "Updates EventConsoleFormatter to surface random access metadata in command\u2011line output.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export of Parse Trees with Random Access Data",
+      "description": "Extends JSONParseTreeExporter to include random access metadata in exported parse trees.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for Random Access Parsing and Formatting",
+      "description": "Provides test suites (e.g., TfraTrackFragmentRandomAccessParserTests) covering parsing, CLI formatting, and JSON export behaviors.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1702,
+    "line_count": 20
+  }
+}

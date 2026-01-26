@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/72_G3_Expose_CLI_Sandbox_Profile_Guidance/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "CLI sandbox runs must emit hashed telemetry that can be audited alongside bookmark activations.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add end-to-end tests that exercise the --open/--authorize flags once automation harnesses land, ensuring bookmark resolution failures surface actionable errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Capture notarized distribution example (DMG/ZIP) that bundles the sandbox profile and document the verification checklist in release notes.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Sandbox Profile Guidance",
+      "description": "Provides guidance for configuring and using sandbox profiles in the CLI",
+      "source_line": null
+    },
+    {
+      "name": "Zero-Trust Logging for CLI Sandbox",
+      "description": "Logs hashed telemetry from CLI sandbox runs for audit purposes",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Activation Auditing",
+      "description": "Allows auditing of bookmark activations alongside CLI sandbox logs",
+      "source_line": null
+    },
+    {
+      "name": "--open Flag Functionality",
+      "description": "Enables opening resources via the CLI with specified parameters",
+      "source_line": null
+    },
+    {
+      "name": "--authorize Flag Functionality",
+      "description": "Handles authorization flows when using the CLI",
+      "source_line": null
+    },
+    {
+      "name": "End-to-End Testing for --open and --authorize Flags",
+      "description": "Runs automated tests to validate flag behavior and error handling",
+      "source_line": null
+    },
+    {
+      "name": "Notarized Distribution Packaging",
+      "description": "Creates a notarized DMG/ZIP bundle that includes the sandbox profile",
+      "source_line": null
+    },
+    {
+      "name": "Verification Checklist Documentation",
+      "description": "Documents verification steps in release notes",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 646,
+    "line_count": 5
+  }
+}

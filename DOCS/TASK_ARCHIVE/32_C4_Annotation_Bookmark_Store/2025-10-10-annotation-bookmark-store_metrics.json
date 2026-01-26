@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/32_C4_Annotation_Bookmark_Store/2025-10-10-annotation-bookmark-store.md",
+  "n_spec": 2,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Persist user-authored annotations and bookmarks between runs using a lightweight JSON store",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must maintain data integrity when storing annotations and bookmarks in JSON format",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FileBackedAnnotationBookmarkStore",
+      "description": "Persists user-authored annotations and bookmarks between runs using a lightweight JSON store.",
+      "source_line": null
+    },
+    {
+      "name": "AnnotationRecord",
+      "description": "Represents an individual annotation record stored by the system.",
+      "source_line": null
+    },
+    {
+      "name": "BookmarkRecord",
+      "description": "Represents an individual bookmark record stored by the system.",
+      "source_line": null
+    },
+    {
+      "name": "AnnotationBookmarkSession",
+      "description": "Manages a session of annotations and bookmarks, coordinating between records and storage.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 939,
+    "line_count": 27
+  }
+}

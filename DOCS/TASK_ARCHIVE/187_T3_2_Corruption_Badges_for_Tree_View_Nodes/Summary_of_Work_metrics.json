@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/187_T3_2_Corruption_Badges_for_Tree_View_Nodes/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "ParseIssue data must be propagated into ParseTreeStore snapshots so that outline rows receive per-node corruption context.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Render accessible badges with tooltip and VoiceOver support for corruption summaries in the parse tree outline view.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline filters and accessibility helpers must factor in tolerant parsing issues while keeping previews representative.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseIssue Data Propagation",
+      "description": "Propagates ParseIssue data into ParseTreeStore snapshots so outline rows receive per-node corruption context.",
+      "source_line": null
+    },
+    {
+      "name": "Corruption Summary Model in Outline Row",
+      "description": "Extends ParseTreeOutlineRow with a CorruptionSummary model and renders accessible badges with tooltip and VoiceOver support.",
+      "source_line": null
+    },
+    {
+      "name": "Updated SwiftUI List Rendering",
+      "description": "Updates the SwiftUI list to render accessible badges for corruption nodes.",
+      "source_line": null
+    },
+    {
+      "name": "Outline Filters Updated for Tolerant Parsing",
+      "description": "Modifies outline filters and accessibility helpers to factor in tolerant parsing issues while keeping previews representative.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Support Enhancements",
+      "description": "Adds VoiceOver support and tooltip for badges.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1127,
+    "line_count": 11
+  }
+}

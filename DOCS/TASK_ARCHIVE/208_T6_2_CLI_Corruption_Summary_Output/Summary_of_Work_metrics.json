@@ -1,0 +1,23 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/208_T6_2_CLI_Corruption_Summary_Output/Summary_of_Work.md",
+  "n_spec": 1,
+  "n_func": 1,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "All prior in-progress notes for the macOS 1 GiB lenient-versus-strict benchmark must be archived under DOCS/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/. ",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Corruption Summary Output",
+      "description": "Provides tolerant-mode corruption summary lines in the isoinspect inspect command, including severity counts and deepest affected depth from ParseIssueStore; documented in DocC and tested via CLI scaffold tests for tolerant and strict modes.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 897,
+    "line_count": 14
+  }
+}

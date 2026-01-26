@@ -1,0 +1,118 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/100_Declined_Tasks_243_245/245_Adopt_SwiftUI_Inspector_API_for_ISOInspectorApp.md",
+  "n_spec": 13,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Replace the custom inspector column plumbing with the native SwiftUI .inspector API on macOS so that the inspector behaves like the platform demo: a system-managed pane that can be shown/hidden independently of the main NavigationSplitView (sidebar + content), eliminating nested split views and layout insets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "On macOS, NavigationSplitView contains only sidebar (recents) and content (box tree + filters); inspector is shown via .inspector(isPresented:).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Inspector content is always InspectorDetailView (Selection Details / Integrity), not embedded in the main split columns.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Toggling inspector visibility uses a single @State showInspector bound to .inspector; \u2318\u2325I toggles it.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting a box sets displayMode = .selectionDetails and does not hide the inspector.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integrity/Details toggle switches content inside the inspector without affecting sidebar/content columns.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Layout parity: no extra frame/inset under the toolbar; columns align like the SwiftUI demo.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "iPad/iPhone fallback to existing behavior (inspector hidden or alternate UI) without breaking builds.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Build and basic navigation remain green on macOS.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The inspector must be system-managed via .inspector(isPresented:) when active on macOS.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Apply .inspector(isPresented:) at the AppShell level (macOS only) and keep the main NavigationSplitView to two columns (sidebar/content).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a single @State private var showInspector = true on macOS; bind \u2318\u2325I to cross\u2011platform keyboard shortcut.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Remove legacy inspector column visibility state on macOS when .inspector is active, but retain it for platforms without .inspector.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "NavigationSplitView two-column layout",
+      "description": "Main split view containing sidebar (recents) and content (box tree + filters) on macOS",
+      "source_line": null
+    },
+    {
+      "name": "InspectorDetailView in .inspector pane",
+      "description": "System-managed inspector pane displaying selection details or integrity summary, controlled by .inspector(isPresented:)",
+      "source_line": null
+    },
+    {
+      "name": "showInspector state binding",
+      "description": "@State variable toggled via \u2318\u2325I to show/hide the inspector pane on macOS",
+      "source_line": null
+    },
+    {
+      "name": "displayMode state for inspector content",
+      "description": "Enum controlling whether InspectorDetailView shows selection details or integrity summary within the inspector",
+      "source_line": null
+    },
+    {
+      "name": "Selection handling logic",
+      "description": "On node select, set displayMode to .selectionDetails and ensure inspector remains visible",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard shortcut \u2318\u2325I",
+      "description": "Toggles showInspector state to show/hide the inspector pane",
+      "source_line": null
+    },
+    {
+      "name": "iOS/iPadOS fallback layout",
+      "description": "Maintains existing three-column arrangement or hidden inspector on non-macOS platforms without breaking builds",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility identifiers for inspector components",
+      "description": "Identifiers attached to inspector content, toggles, and keyboard shortcuts for testing and accessibility",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4318,
+    "line_count": 44
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/204_T6_1_CLI_Tolerant_Flag/204_InspectorPattern_Lazy_Loading.md",
+  "n_spec": 9,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a developer using InspectorPattern, I want inspector panels to defer expensive subviews until they appear so that initial presentation is fast and scrolling remains smooth.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Inspector panels load heavy subviews on-demand without blocking initial presentation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "State bindings between InspectorPattern and downstream editor view models propagate updates without redundant re-rendering of off-screen sections.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Scroll performance in inspector panes remains smooth when toggling sections or editing fields, as measured by SwiftUI Instruments traces or comparable profiling notes captured in the implementation summary.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation and previews illustrate the lazy-loading behavior and state-handling patterns for downstream adopters.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "InspectorPattern must retain existing spacing tokens and layout structure when using LazyVStack/LazyVGrid wrappers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use LazyVStack or LazyVGrid inside ScrollView to enable lazy loading of subviews while preserving spacing.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce optional binding hooks (e.g., @Binding\u00a0var\u00a0selection\u00a0\u2026\u00a0..) allow inspector panels control expansion/collapsing without eager evaluation.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "API changes must be source\u2011compatible or provide shims to ensure continuity of downstream usage.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "InspectorPattern Lazy Loading",
+      "description": "Allows inspector panels to defer rendering of expensive subviews until they become visible within a scroll view.",
+      "source_line": null
+    },
+    {
+      "name": "State Binding Hooks for InspectorPanel",
+      "description": "Provides optional @Binding or closure hooks so that panel expansion/collapsing and state updates propagate without eager evaluation.",
+      "source_line": null
+    },
+    {
+      "name": "Scroll Performance Monitoring API",
+      "description": "Exposes instrumentation hooks to capture smooth scrolling metrics during inspector pane interactions.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation & Preview Generator",
+      "description": "Generates documentation and SwiftUI previews that illustrate lazy-loading behavior and state handling for downstream adopters.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2815,
+    "line_count": 28
+  }
+}

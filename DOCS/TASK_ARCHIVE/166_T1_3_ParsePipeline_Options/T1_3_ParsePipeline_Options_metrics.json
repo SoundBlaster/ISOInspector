@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/166_T1_3_ParsePipeline_Options/T1_3_ParsePipeline_Options.md",
+  "n_spec": 11,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Define a configurable ParsePipeline.Options structure that lets the parser toggle between strict and tolerant execution modes while exposing limits for corruption reporting and payload validation depth.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsePipeline.Options type exists in ISOInspectorKit with documented properties: abortOnStructuralError, maxCorruptionEvents, and payloadValidationLevel (enum covering strict vs. limited payload parsing).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Default options selected for each client: CLI defaults to strict (abortOnStructuralError == true), app/SDK defaults to tolerant (false) with sensible corruption/event caps.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover serialization or initialization defaults and verify that pipeline components receive the options via dependency injection.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Public API documentation updated where necessary so downstream callers understand new configuration entry points.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Current pipeline behavior aborts on structural errors; introducing options is prerequisite for continuing after corrupt headers and recording ParseIssue metadata.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit ParsePipeline initialization and thread the new options through constructors or builder methods.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Consider namespacing payloadValidationLevel via a dedicated enum (e.g., .full, .structureOnly) with room for expansion highlighted in the tolerance PRD.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update CLI/app wiring to pass explicit options; stubs may live near ISOInspectorKit+Configuration.swift and ISOInspectorApp document controllers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with upcoming T1.4 refactors so options plumbing does not conflict with the Result-based decoder work.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Capture decision notes on maximum corruption events (initial recommendation: 500 before halting) and document rationale for future tuning.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipeline.Options Structure",
+      "description": "Defines configurable options for the parser including strict/tolerant modes and limits for corruption reporting and payload validation depth.",
+      "source_line": null
+    },
+    {
+      "name": "abortOnStructuralError Property",
+      "description": "Boolean flag to abort parsing on structural errors; true in CLI, false in app/SDK defaults.",
+      "source_line": null
+    },
+    {
+      "name": "maxCorruptionEvents Property",
+      "description": "Limit on number of corruption events before halting the parser (default 500).",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2660,
+    "line_count": 28
+  }
+}

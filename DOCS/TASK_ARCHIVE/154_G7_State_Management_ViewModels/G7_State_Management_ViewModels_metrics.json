@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/154_G7_State_Management_ViewModels/G7_State_Management_ViewModels.md",
+  "n_spec": 10,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a DocumentViewModel layer that adapts parser output into tree, detail, and hex components for the ISOInspector UI.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Expose parsed tree, validation badges, and export affordances via a DocumentVM (or equivalent controller) with observable updates.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Track selection, filters, and bookmarks in a NodeVM to keep outline and detail panes consistent.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide on-demand slice loading with highlight ranges aligned to selected nodes through a HexVM.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "DocumentVM exposes parsed tree, validation badges, and export affordances with observable updates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "NodeVM tracks selection, filters, and bookmarks, keeping outline and detail panes consistent.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "HexVM provides on-demand slice loading with highlight ranges aligned to selected nodes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and integration tests cover multi-pane synchronization (selection changes, filter toggles, exports).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "View models coordinate with persistence layers without introducing race conditions.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse established parse pipeline bridges and SwiftUI outline/detail components; formalize state orchestration above them.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Document ViewModel",
+      "description": "Exposes parsed tree, validation badges, and export affordances with observable updates for UI consumers.",
+      "source_line": null
+    },
+    {
+      "name": "Node ViewModel",
+      "description": "Tracks selection, filters, and bookmarks, keeping outline and detail panes consistent.",
+      "source_line": null
+    },
+    {
+      "name": "Hex ViewModel",
+      "description": "Provides on-demand slice loading with highlight ranges aligned to selected nodes.",
+      "source_line": null
+    },
+    {
+      "name": "State Synchronization Engine",
+      "description": "Coordinates parse tree state across SwiftUI outline, detail, and export flows ensuring real-time updates.",
+      "source_line": null
+    },
+    {
+      "name": "Export Hook Service",
+      "description": "Surfaces export hooks for full document and node-level JSON flows, mirroring CLI expectations.",
+      "source_line": null
+    },
+    {
+      "name": "Persistence Coordinator",
+      "description": "Manages interaction with persistence layers (recents, annotations, bookmarks) without race conditions.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility API Layer",
+      "description": "Exposes focus order and keyboard navigation APIs for accessibility affordances.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2173,
+    "line_count": 29
+  }
+}

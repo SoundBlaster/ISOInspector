@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/blocked.md",
+  "n_spec": 5,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Blocked tasks must be logged and updated whenever blockers change to maintain day\u2011to\u2011day visibility.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run the VoiceOver regression checklist once macOS and iPadOS hardware becomes available to confirm focus command menus announce controls and restore focus targets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The VoiceOver regression checklist must reference archived context in DOCS/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Import licensed real\u2011world assets (Dolby Vision, AV1, VP9, Dolby AC-4, MPEG\u2011H) once licensing approvals are obtained and refresh regression baselines to validate tolerant parsing and export scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The regression baselines must be refreshed after importing the licensed assets.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Run regression checklist to confirm focus command menus announce controls and restore focus targets after VoiceOver verification",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Acquisition",
+      "description": "Import licensed media assets (Dolby Vision, AV1, VP9, Dolby AC-4, MPEG-H) and refresh regression baselines for tolerant parsing and export validation",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1074,
+    "line_count": 12
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/16_Integrate_ResearchLogMonitor_SwiftUI_Previews/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Integrate ResearchLogMonitor.audit(logURL:) with SwiftUI previews to keep UI bindings aligned with the VR-006 research log schema.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend telemetry once UI smoke tests exist to monitor for missing VR-006 research log entries across CLI and UI consumers.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ResearchLogMonitor.audit(logURL:) integration",
+      "description": "Integrates the audit function into SwiftUI previews to keep UI bindings aligned with the VR-006 research log schema.",
+      "source_line": null
+    },
+    {
+      "name": "Telemetry extension for missing VR-006 entries",
+      "description": "Extends telemetry to monitor and detect missing VR-006 research log entries across CLI and UI consumers using ResearchLogTelemetryProbe and UI smoke tests.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 357,
+    "line_count": 6
+  }
+}

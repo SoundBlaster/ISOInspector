@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/173_T1_8_Traversal_Guard_Implementation/Traversal_Guard_Implementation.md",
+  "n_spec": 8,
+  "n_func": 11,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement tolerant parsing traversal guard logic in StreamingBoxWalker to enforce forward progress, depth limits, and corruption budgets while maintaining strict-mode behavior.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Guard implementation emits documented ParseIssue codes (guard.no_progress, guard.zero_size_loop, etc.) with correct metadata when thresholds trigger.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Lenient traversal never loops indefinitely on corrupt fixtures; strict mode continues to abort on the first structural error.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "New corrupt fixtures (e.g., zero-size flood, overlapping boxes) are added and referenced by regression tests covering guard activation paths.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI/app surfaces reflect guard issues in summaries or telemetry hooks without duplicate reporting.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Guard-triggered nodes adjust ParseTreeNode.status to .partial and integrate with existing logging/telemetry categories.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ParsePipeline.Options with guard configuration parameters and propagate them through tolerant parsing entry points.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update StreamingBoxWalker (and related iterators) to enforce minimum cursor advances, zero-length limits, recursion depth caps, cursor regression fences, and per-frame issue budgets.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipeline Options Guard Configuration",
+      "description": "Extends the parsing pipeline options to include guard configuration parameters for tolerant parsing.",
+      "source_line": null
+    },
+    {
+      "name": "StreamingBoxWalker Forward Progress Enforcement",
+      "description": "Ensures that the streaming box walker advances its cursor forward and does not regress, enforcing minimum cursor advancement.",
+      "source_line": null
+    },
+    {
+      "name": "Zero-Size Loop Detection",
+      "description": "Detects and prevents loops caused by zero-length boxes during traversal.",
+      "source_line": null
+    },
+    {
+      "name": "Recursion Depth Cap",
+      "description": "Limits the depth of recursive parsing to prevent stack overflows or infinite recursion.",
+      "source_line": null
+    },
+    {
+      "name": "Cursor Regression Fence",
+      "description": "Prevents the parser cursor from moving backwards, acting as a fence against regression.",
+      "source_line": null
+    },
+    {
+      "name": "Per-Frame Issue Budgeting",
+      "description": "Implements a budget for the number of parse issues per frame to limit corruption handling.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssue Emission",
+      "description": "Generates documented ParseIssue codes such as guard.no_progress, guard.zero_size_loop etc., with correct metadata when thresholds are triggered.",
+      "source_line": null
+    },
+    {
+      "name": "Partial Node Status Update",
+      "description": "Adjusts ParseTreeNode.status to partial for nodes affected by guard triggers.",
+      "source_line": null
+    },
+    {
+      "name": "Logging and Telemetry Integration",
+      "description": "Integrates guard-triggered node status changes and issues with existing logging/telemetry categories.",
+      "source_line": null
+    },
+    {
+      "name": "CLI/APP Summary Reporting",
+      "description": "Displays guard issues in summaries or telemetry hooks within the CLI/app without duplicate reporting.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Test Fixtures for Guard Paths",
+      "description": "Adds or refreshes test fixtures (zero\u2011size flood, etc..) and tests that cover guard activation paths.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2366,
+    "line_count": 29
+  }
+}

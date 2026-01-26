@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/C6_Integrate_ResearchLogMonitor_Previews/C6_Integrate_ResearchLogMonitor_Previews.md",
+  "n_spec": 8,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate ResearchLogMonitor audit results into SwiftUI previews so UI contributors can see VR-006 auditing without running the full app.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftUI preview definitions instantiate ResearchLogAuditPreview snapshots for ready, missing fixture, and schema mismatch cases using ResearchLogPreviewProvider, ensuring previews render audit metadata without runtime errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Preview rendering surfaces diagnostics text for schema mismatch and missing fixture scenarios that mirrors ResearchLogMonitor expectations, keeping VR-006 schema drift visible in design tools.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests cover the preview provider fixtures and accessibility identifiers so the audit previews remain synchronized with VR-006 schema and NestedA11yIDs contracts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation references the preview audit capability so contributors know how to validate VR-006 fixtures locally.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Preview fixture bundles (VR006PreviewLog*.json) must live alongside the SwiftUI preview target and remain synchronized with ResearchLogSchema.fieldNames.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend or validate ResearchLogPreviewProvider and ResearchLogAuditPreview to emit consistent diagnostics strings and accessibility identifiers for automation tests and DocC snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Augment ResearchLogPreviewProviderTests and ResearchLogAccessibilityIdentifierTests to assert the ready/missing/schema mismatch flows remain stable when previews load audit snapshots.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ResearchLogAuditPreview SwiftUI component",
+      "description": "Renders audit diagnostics UI for research log fixtures in SwiftUI previews, displaying ready, missing, and schema mismatch states.",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogPreviewProvider helper",
+      "description": "Provides deterministic fixture states (ready, missing, schema mismatch) and diagnostic metadata for preview rendering.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI preview definitions for VR-006 cases",
+      "description": "Instantiate ResearchLogAuditPreview snapshots for each fixture scenario using ResearchLogPreviewProvider in the SwiftUI preview target.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility identifiers for audit previews",
+      "description": "Assigns accessibility IDs to UI elements in ResearchLogAuditPreview for automation and DocC snapshot testing.",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogPreviewProviderTests unit tests",
+      "description": "Verify that preview provider emits correct ready/missing/schema mismatch flows and diagnostics strings when loading audit snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogAccessibilityIdentifierTests unit tests",
+      "description": "Assert accessibility identifiers remain stable across preview audit states.",
+      "source_line": null
+    },
+    {
+      "name": "DocC/README documentation updates",
+      "description": "Document the new preview audit capability, including usage instructions for validating VR-006 fixtures locally.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3068,
+    "line_count": 38
+  }
+}

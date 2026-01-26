@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/194_T4_2_Plaintext_Issue_Export_Closeout/194_ResearchLogMonitor_SwiftUIPreviews.md",
+  "n_spec": 7,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a developer, I want SwiftUI previews that display VR-006 research log information to load diagnostics from ResearchLogPreviewProvider and present ready/missing/schema-mismatch states without runtime failures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftUI previews that display VR-006 research log information load diagnostics from ResearchLogPreviewProvider and present ready/missing/schema-mismatch states without runtime failures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Preview bundles include the canonical VR006PreviewLog fixture plus representative missing and mismatch variants so schema drift is caught.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Inline documentation (DocC or preview annotations) instructs contributors how to refresh fixtures when schema fields change.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend preview compositions in the relevant UI modules to bind against ResearchLogPreviewProvider snapshots and render status messaging.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add lightweight unit or snapshot coverage (if feasible) to guarantee previews continue invoking the audit helper when fixtures changes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ResearchLogMonitor.audit must always be invoked for VR-006 research logs during design-time preview rendering.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ResearchLogMonitor.audit",
+      "description": "Audits VR-006 research logs for schema conformance and surfaces diagnostics such as missing fields or schema drift",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogPreviewProvider",
+      "description": "Synthesizes deterministic snapshots of VR-006 research log data, validates them via ResearchLogMonitor.audit, and provides fixtures for SwiftUI previews",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI preview compositions for VR-006 research logs",
+      "description": "UI components that bind to ResearchLogPreviewProvider snapshots and render status messaging (ready/missing/schema-mismatch) in design-time previews",
+      "source_line": null
+    },
+    {
+      "name": "Diagnostic presentation layer in previews",
+      "description": "Displays audit diagnostics from ResearchLogMonitor.audit within SwiftUI preview compositions without runtime failures",
+      "source_line": null
+    },
+    {
+      "name": "Fixture management system",
+      "description": "Maintains canonical VR006PreviewLog fixture plus missing and mismatch variants, ensuring schema drift is caught during preview validation",
+      "source_line": null
+    },
+    {
+      "name": "Documentation annotations for fixture refresh",
+      "description": "DocC or preview annotations that instruct contributors on refreshing fixtures when schema fields change",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2741,
+    "line_count": 32
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/207_Summary_of_Work_2025-11-04_macOS_Benchmark_Block/blocked.md",
+  "n_spec": 5,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The log of blocked tasks must be updated whenever blocker status changes to maintain day\u2011to\u2011day visibility.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Import licensed real\u2011world assets and refresh regression baselines so tolerant parsing and export scenarios can validate against real\u2011world payloads once licensing approvals are obtained.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG\u2011H fixtures must be secured before importing assets.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute the macOS 1 GiB lenient\u2011vs\u2011strict benchmark once macOS hardware with the 1 GiB performance fixture becomes available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The benchmark must run with ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824, collect runtime and RSS metrics, and archive them under Documentation/Performance/.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Import Licensed Assets",
+      "description": "Imports licensed media assets into the system and refreshes regression baselines for tolerant parsing and export validation.",
+      "source_line": null
+    },
+    {
+      "name": "Execute macOS Benchmark",
+      "description": "Runs a macOS performance benchmark with a 1 GiB payload, collects runtime and RSS metrics, and archives results in Documentation/Performance.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1254,
+    "line_count": 15
+  }
+}

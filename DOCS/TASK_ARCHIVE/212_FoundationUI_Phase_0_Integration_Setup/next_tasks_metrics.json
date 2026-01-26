@@ -1,0 +1,123 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/next_tasks.md",
+  "n_spec": 11,
+  "n_func": 11,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement SDK Tolerant Parsing Documentation (T6.3) to provide a DocC guide with examples and inline documentation updates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation includes TolerantParsingGuide.md in specified location, code examples for tolerant parsing setup and ParseIssueStore usage, updated inline docs for ParsePipeline.Options, .strict, .tolerant, link from main Documentation.md Topics section, and verified with test file in Tests/ISOInspectorKitTests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Documentation must be completed by 2025-11-12 as marked COMPLETED.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add FoundationUI dependency to ISOInspectorApp package.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FoundationUI added in Package.swift, builds with FoundationUI target, platform requirements updated if needed.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create integration test suite for FoundationUI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests/ISOInspectorAppTests/FoundationUI directory created, XCTest framework set up, test templates for snapshot/unit/integration patterns exist.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Build component showcase view (ComponentShowcase.swift) with tabs and render all Foundation UI components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "View has tabs for each foundation layer, scrollable & searchable, renders all components.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Document integration patterns in technical spec.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add \"FoundationUI Integration\" section\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Tolerant Parsing Documentation",
+      "description": "Provides a DocC guide and code examples for SDK tolerant parsing setup and ParseIssueStore usage, including inline documentation updates for ParsePipeline options.",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Dependency Integration",
+      "description": "Adds FoundationUI as a package dependency, verifies builds, and updates platform requirements.",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Integration Test Suite",
+      "description": "Creates XCTest integration tests for FoundationUI components, including snapshot, unit, and integration patterns.",
+      "source_line": null
+    },
+    {
+      "name": "Component Showcase View",
+      "description": "SwiftUI view that displays all FoundationUI components in tabs with search and scrollable interface for visual testing.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Patterns Documentation",
+      "description": "Adds a section to the technical spec documenting architecture patterns for wrapping FoundationUI components with code examples.",
+      "source_line": null
+    },
+    {
+      "name": "Design System Integration Guide Update",
+      "description": "Updates the design system guide with an integration checklist, migration path, and quality gates per phase.",
+      "source_line": null
+    },
+    {
+      "name": "Badge Component Feature",
+      "description": "FoundationUI badge and status indicator component implementation as part of Phase 1.",
+      "source_line": null
+    },
+    {
+      "name": "Card Component Feature",
+      "description": "FoundationUI card container and section component implementation.",
+      "source_line": null
+    },
+    {
+      "name": "Key-Value Row Component",
+      "description": "FoundationUI key\u2011value row and metadata component.",
+      "source_line": null
+    },
+    {
+      "name": "Floating Settings Panel Shell",
+      "description": "Implements a macOS/iPad/iOS settings panel scene using FoundationUI cards, with keyboard shortcuts and accessibility focus.",
+      "source_line": null
+    },
+    {
+      "name": "Settings Persistence & Reset",
+      "description": "Wires persistence of permanent and session settings through UserPreferencesStore and CoreData JSON fallback, including reset actions and diagnostics.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4987,
+    "line_count": 88
+  }
+}

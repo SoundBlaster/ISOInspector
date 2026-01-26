@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/46_D3_Route_Streaming_Export_Operations/Route_Streaming_Export_Operations.md",
+  "n_spec": 8,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Enable the isoinspector export subcommand to stream parse events through ISOInspectorCLIEnvironment and produce JSON or binary capture artifacts without relying on legacy ISOInspectorCLIRunner.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "isoinspector export accepts target media path (and optional output overrides) and streams events using ISOInspectorCLIEnvironment.parsePipeline, writing JSON trees or capture files via existing exporters.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Output paths mirror legacy defaults (.isoinspector.json and .capture), validate writability, and emit success/error messaging consistent with other subcommands.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests cover the new export subcommand end-to-end, including success cases and error propagation, ensuring swift test exercises both JSON and capture flows.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The environment remains swappable for tests via ISOInspectorCommandContext.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Lift option parsing and default-path logic from legacy runner into reusable helpers or directly into Commands.Export, adapting to async execution while avoiding duplicated semaphore patterns.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse ParseTreeBuilder, JSONParseTreeExporter, and ParseEventCaptureEncoder to build outputs, wiring them through ISOInspectorCommandContext.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update CLI help text and DocC command reference once export subcommand is functional, aligning documentation with PRD requirements.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ISOInspectorCLI export subcommand",
+      "description": "Streams parse events through ISOInspectorCLIEnvironment.parsePipeline and writes JSON or binary capture artifacts based on target media path and optional output overrides.",
+      "source_line": null
+    },
+    {
+      "name": "Option parsing helper for export",
+      "description": "Parses command-line options, applies default-path logic from legacy runner, and validates writability of output paths.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeBuilder integration",
+      "description": "Builds parse trees from streamed events during export operation.",
+      "source_line": null
+    },
+    {
+      "name": "JSONParseTreeExporter usage",
+      "description": "Exports built parse trees to JSON files (.isoinspector.json) when requested.",
+      "source_line": null
+    },
+    {
+      "name": "ParseEventCaptureEncoder usage",
+      "description": "Encodes streamed parse events into binary capture files (.capture) when requested.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCommandContext wiring",
+      "description": "Provides a swappable environment for export command, enabling testability and dependency injection.",
+      "source_line": null
+    },
+    {
+      "name": "Export success/error messaging",
+      "description": "Emits consistent success or error messages for export operation, mirroring other subcommands.",
+      "source_line": null
+    },
+    {
+      "name": "End-to-end export tests",
+      "description": "Unit and integration tests covering JSON and capture flows, including success cases and error propagation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3458,
+    "line_count": 40
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/28_B6_JSON_and_Binary_Export_Modules/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "ParseTreeBuilder",
+      "description": "Builds reusable parse trees from streaming ParseEvent values",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeNode",
+      "description": "Represents a node within a parse tree structure",
+      "source_line": null
+    },
+    {
+      "name": "ParseTree",
+      "description": "Encapsulates the entire parse tree for export operations",
+      "source_line": null
+    },
+    {
+      "name": "JSONParseTreeExporter",
+      "description": "Exports parse trees to JSON format using ISOInspectorKit",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1046,
+    "line_count": 22
+  }
+}

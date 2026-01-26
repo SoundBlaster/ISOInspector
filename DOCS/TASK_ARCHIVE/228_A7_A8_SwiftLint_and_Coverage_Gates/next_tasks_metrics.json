@@ -1,0 +1,143 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/228_A7_A8_SwiftLint_and_Coverage_Gates/next_tasks.md",
+  "n_spec": 14,
+  "n_func": 12,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement SwiftFormat enforcement in pre-push hook and CI workflow to maintain consistent code style across the project.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "SwiftFormat must be enforced before any push is allowed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All commits must pass SwiftFormat checks; failing commits are rejected by pre-push hook and CI.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Reinstate SwiftLint complexity thresholds in the codebase to enforce coding standards.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftLint complexity thresholds are re-enabled and validated against existing code.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Gate test coverage using coverage_analysis.py to ensure minimum coverage levels.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test coverage must meet the defined threshold; otherwise CI fails.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add Swift duplication detection to CI using jscpd in a new workflow file swift-duplication.yml.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Fix shellcheck style warnings in GitHub Actions workflows by removing suppression flags and re-enabling full validation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All GitHub Actions workflows pass actionlint and shellcheck without suppressed warnings.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement interactive SwiftUI components (buttons, sliders, toggles) as part of Foundation UI Phase 2.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Migrate manual .accentColor usage to Foundation UI design tokens DS.Color.*.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The application uses only DS.Color* tokens for color and opacity values.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Move ParseIssueStore from GCD queues to @MainActor or custom actor isolation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SwiftFormat Enforcement Hook",
+      "description": "Enforces SwiftFormat code style via pre-push hook and CI workflow",
+      "source_line": null
+    },
+    {
+      "name": "Design System Color Token Migration",
+      "description": "Migrates hardcoded accent colors and opacity values to FoundationUI design tokens in the app views",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Phase 1 Completion",
+      "description": "Provides foundational design system components and utilities completed in Phase 1",
+      "source_line": null
+    },
+    {
+      "name": "User Settings Panel Phase 1",
+      "description": "Floating settings panel UI for user preferences",
+      "source_line": null
+    },
+    {
+      "name": "User Settings Panel Phase 2",
+      "description": "Persistence and reset functionality for user settings",
+      "source_line": null
+    },
+    {
+      "name": "Strict Concurrency Checks Automation",
+      "description": "Automates Swift 6 concurrency cleanup checks in CI",
+      "source_line": null
+    },
+    {
+      "name": "SDK Tolerant Parsing Documentation",
+      "description": "Documents tolerant parsing behavior for the SDK",
+      "source_line": null
+    },
+    {
+      "name": "SwiftLint Complexity Thresholds Reinstate",
+      "description": "Reinstates complexity thresholds in SwiftLint configuration",
+      "source_line": null
+    },
+    {
+      "name": "Test Coverage Gate",
+      "description": "Gates test coverage using a Python script to enforce coverage thresholds",
+      "source_line": null
+    },
+    {
+      "name": "Swift Duplication Detection CI",
+      "description": "Adds jscpd-based duplication detection to CI workflow",
+      "source_line": null
+    },
+    {
+      "name": "Shellcheck Style Warning Fixes",
+      "description": "Fixes shellcheck style warnings in GitHub Actions workflows",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Phase 2 Interactive Components",
+      "description": "Implements interactive SwiftUI components such as buttons, sliders\u00a0and\u00a0t\u2011\u00a0..",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5722,
+    "line_count": 142
+  }
+}

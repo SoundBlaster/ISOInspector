@@ -1,0 +1,118 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Suite/212_I0_2_Create_Integration_Test_Suite.md",
+  "n_spec": 11,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expand the Tests/ISOInspectorAppTests/FoundationUI/ test suite to provide comprehensive FoundationUI component test coverage for iOS and macOS platforms.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Comprehensive test coverage of at least 80% for core FoundationUI components (Badge, Card, KeyValueRow, Button, TextField).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot tests implemented for visual regression detection across iOS and macOS.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Platform-specific test variants covering iOS 17+, macOS 14+ and relevant device sizes (iPad Pro 12.9\", 11\").",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All tests pass locally with swift test, showing zero failures and snapshot diffs match expectations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI integration ready: tests integrated into GitHub Actions workflow if applicable.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Updated DOCS/INPROGRESS/next_tasks.md marking I0.2 as completed and I0.3 as next priority.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FoundationUI must be added to SwiftPM dependencies (I0.1 complete).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use SwiftUI .snapshot() testing framework for snapshot tests.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Lock snapshot baseline to specific Xcode version in CI config.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Parallelize snapshot generation across test targets.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Badge Component Tests",
+      "description": "Unit tests verifying rendering, states, sizes, and colors of the Badge component across iOS and macOS.",
+      "source_line": null
+    },
+    {
+      "name": "Card Component Tests",
+      "description": "Tests for Card layout, padding, shadow handling, and responsive behavior on different platforms.",
+      "source_line": null
+    },
+    {
+      "name": "KeyValueRow Component Tests",
+      "description": "Validation of label/value alignment, wrapping, and layout consistency in KeyValueRow views.",
+      "source_line": null
+    },
+    {
+      "name": "Button Component Tests",
+      "description": "Tests ensuring Button action triggers, state changes, accessibility labels, and visual appearance.",
+      "source_line": null
+    },
+    {
+      "name": "TextField Component Tests",
+      "description": "Unit tests for TextField input binding, placeholder text, validation states, and accessibility.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot Testing Framework Integration",
+      "description": "Implementation of SwiftUI snapshot testing across light/dark modes, accessibility sizes, and platform traits.",
+      "source_line": null
+    },
+    {
+      "name": "Platform-Specific Test Variants",
+      "description": "Test suites configured to run on iOS 17.x simulators, macOS 14.x simulators, and iPad Pro variants for responsive layout validation.",
+      "source_line": null
+    },
+    {
+      "name": "Coverage Measurement Tool",
+      "description": "Tooling to measure and enforce \u226580% test coverage of FoundationUI component code paths.",
+      "source_line": null
+    },
+    {
+      "name": "CI Integration for Tests",
+      "description": "GitHub Actions workflow configuration to run the FoundationUI test suite on CI runners with snapshot baseline locking.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Validation Tests",
+      "description": "Tests that verify components announce correctly with VoiceOver enabled and meet accessibility standards.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4569,
+    "line_count": 88
+  }
+}

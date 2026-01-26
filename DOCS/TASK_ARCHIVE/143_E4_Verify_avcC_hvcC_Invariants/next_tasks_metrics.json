@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Recognize senc, saio, and saiz boxes during fragment parsing so the pipeline records their offsets/sizes and surfaces presence to CLI/UI consumers without attempting decryption.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Child boxes cannot exceed parent ranges; overlapping payloads are flagged for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Codec configuration validator enforces lengthSizeMinusOne, parameter-set counts, and NAL array integrity across ISOInspectorKit.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Advisory validator warns when ftyp or moov appear in atypical top-level sequences while keeping streaming layouts non-blocking.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Secure licensing for Dolby Vision, AV1, VP9, Dolby AC-4 and MPEG-H fixtures so synthetic payloads can be replaced and regression baselines refreshed once approvals land.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Sample Encryption Placeholder Parsing",
+      "description": "Recognizes senc, saio, and saiz boxes during fragment parsing, records their offsets/sizes, and surfaces presence to CLI/UI without attempting decryption.",
+      "source_line": null
+    },
+    {
+      "name": "Enforce Parent Containment and Non-Overlap Validation",
+      "description": "Validates that child boxes do not exceed parent ranges and flags overlapping payloads for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "name": "Verify avcC/hvcC Invariants Validator",
+      "description": "Ensures codec configuration entries have correct lengthSizeMinusOne, parameter-set counts, and NAL array integrity, surfacing errors in CLI and JSON.",
+      "source_line": null
+    },
+    {
+      "name": "Warn on Unusual Top-Level Ordering Advisory",
+      "description": "Issues warnings when ftyp or moov appear in atypical top-level sequences while maintaining non-blocking streaming layouts.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1621,
+    "line_count": 9
+  }
+}

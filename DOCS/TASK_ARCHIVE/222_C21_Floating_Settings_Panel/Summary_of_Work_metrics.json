@@ -1,0 +1,158 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/222_C21_Floating_Settings_Panel/Summary_of_Work.md",
+  "n_spec": 13,
+  "n_func": 16,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a user, I want to open a floating settings panel that displays Permanent, Session, and Advanced sections so I can configure application preferences.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I need a SettingsPanelViewModel that manages state for the settings panel, including active section, search filter, and loading status.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The SettingsPanelView must render three distinct sections: Permanent Settings, Session Settings, and Advanced Settings, each with appropriate FoundationUI Card components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The view model must expose @Published properties for activeSection, searchFilter, and isLoading, and provide methods selectSection(_:), updateSearchFilter(_:) that correctly mutate state.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All interactive UI elements (sidebar sections, search field, reset buttons, cards) must have unique accessibility identifiers following the NestedA11yIDs pattern.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests verify initial state of SettingsPanelViewModel, section navigation, search filter updates, and Combine publication.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration tests confirm that SettingsPanelView renders without crashes, contains sidebar and content panes, and synchronizes with the view model.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility tests ensure presence of identifiers, readable labels, SF Symbol icons, and hierarchical naming conventions.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The SettingsPanelState must always be Equatable and its properties (activeSection, searchFilter, isLoading) must remain consistent with the view model's published values.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use Main Actor isolation for SettingsPanelViewModel to ensure SwiftUI compatibility and thread safety.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement SettingsPanelSection as an enum with cases Permanent, Session, Advanced to represent sidebar navigation options.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Adopt FoundationUI design system components (Card, DS.Spacing tokens) for consistent styling across the panel.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Apply PDD principles by marking incomplete work with @todo #222 and synchronizing todo.md to maintain traceability.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SettingsPanelViewModel",
+      "description": "ObservableObject managing settings panel state including active section, search filter, and loading indicator.",
+      "source_line": null
+    },
+    {
+      "name": "SettingsPanelState",
+      "description": "Equatable model representing the current state of the settings panel.",
+      "source_line": null
+    },
+    {
+      "name": "SettingsPanelSection",
+      "description": "Enumeration defining Permanent, Session, and Advanced sections of the panel.",
+      "source_line": null
+    },
+    {
+      "name": "selectSection",
+      "description": "Method to navigate between sidebar sections.",
+      "source_line": null
+    },
+    {
+      "name": "updateSearchFilter",
+      "description": "Method to update the search query for filtering settings.",
+      "source_line": null
+    },
+    {
+      "name": "SettingsPanelView",
+      "description": "SwiftUI view rendering the floating settings panel with navigation split view, sidebar, and detail panes.",
+      "source_line": null
+    },
+    {
+      "name": "Permanent Settings Section View",
+      "description": "Section displaying global preferences that persist across launches.",
+      "source_line": null
+    },
+    {
+      "name": "Session Settings Section View",
+      "description": "Section displaying document-scoped preferences.",
+      "source_line": null
+    },
+    {
+      "name": "Advanced Settings Section View",
+      "description": "Power\u2011user options section.",
+      "source_line": null
+    },
+    {
+      "name": "Searchable Interface",
+      "description": "UI component allowing users to search for specific settings within the panel.",
+      "source_line": null
+    },
+    {
+      "name": "Card Component Usage",
+      "description": "FoundationUI Card used to visually group settings within each section.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Identifier System",
+      "description": "Hierarchical dot notation identifiers for all interactive UI elements.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Support",
+      "description": "Accessibility labels and SF Symbol icons for VoiceOver compatibility.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for ViewModel",
+      "description": "Tests verifying initialization, state changes, and Combine publication.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Tests for View",
+      "description": "Tests ensuring view renders correctly and syncs with the ViewModel.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Tests",
+      "description": "Tests checking accessibility identifiers, voice\u2011over labels, and icon presence.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 13037,
+    "line_count": 388
+  }
+}

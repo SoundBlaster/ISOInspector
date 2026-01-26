@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/148_D7_Validation_Preset_CLI_Wiring/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Recognize sample encryption placeholder boxes (senc, saio, saiz) during fragment parsing and record their offsets/sizes for CLI/UI consumers without attempting decryption.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Child boxes must not exceed parent ranges; overlapping payloads are flagged for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Global flags now surface validation presets, aliases, and per\u2011rule overrides across all commands with metadata printing and JSON embedding.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always enforce that child boxes cannot exceed parent ranges and overlapping payloads are detected.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Sample Encryption Placeholder Parsing",
+      "description": "Recognizes senc, saio, and saiz boxes during fragment parsing, records their offsets/sizes, and surfaces presence to CLI/UI without attempting decryption.",
+      "source_line": null
+    },
+    {
+      "name": "Enforce Parent Containment and Non-Overlap Validation",
+      "description": "Validates that child boxes do not exceed parent ranges and flags overlapping payloads for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Preset CLI Wiring",
+      "description": "Provides global flags for presets, aliases, and per-rule overrides across all commands, with metadata printing and JSON embedding.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Export Metadata Enhancements",
+      "description": "CLI commands print preset metadata; JSON exports embed active preset and disabled rule IDs; batch summaries filter disabled rules.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Licensing Management",
+      "description": "Manages secure licensing for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to replace synthetic payloads and refresh regression baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Codec Validation Coverage Expansion",
+      "description": "Expands end-to-end codec validation coverage as documented in the task archive.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2074,
+    "line_count": 8
+  }
+}

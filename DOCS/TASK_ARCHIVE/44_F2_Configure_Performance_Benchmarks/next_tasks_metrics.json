@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/44_F2_Configure_Performance_Benchmarks/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Build SwiftUI app shell with document browser and recents list, wiring CoreData-backed session persistence into the app shell.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Configure performance benchmarks for large files to validate CLI and app throughput for streaming MP4 analysis.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark harness implementation must track against performance NFRs called out in the execution guide and PRD while instrumentation hooks land.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "CoreData-backed session persistence must remain stable as CLI scaffolding is stable and C1/C2 foundations remain green.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1274,
+    "line_count": 25
+  }
+}

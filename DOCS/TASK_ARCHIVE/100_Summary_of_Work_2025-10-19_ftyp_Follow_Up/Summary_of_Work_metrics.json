@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/100_Summary_of_Work_2025-10-19_ftyp_Follow_Up/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The parser registry and live pipeline must propagate structured fileType payload support so downstream consumers can access decoded brand metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and integration tests (BoxParserRegistryTests, ParsePipelineLiveTests, ParseExportTests, JSONExportSnapshotTests) must pass after adding ftyp box parser.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 817,
+    "line_count": 19
+  }
+}

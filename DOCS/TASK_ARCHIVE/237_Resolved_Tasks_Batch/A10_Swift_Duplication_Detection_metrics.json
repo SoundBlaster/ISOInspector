@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/237_Resolved_Tasks_Batch/A10_Swift_Duplication_Detection.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a Swift duplication guard workflow that fails CI when duplicated Swift code exceeds 1% overall or any single clone surpasses 45 lines.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The workflow file .github/workflows/swift-duplication.yml must run on push to main and pull_request events, execute scripts/run_swift_duplication_check.sh, provision Node 20, and fail when thresholds are exceeded.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Console report is saved to artifacts/swift-duplication-report.txt (or similar) and uploaded via actions/upload-artifact for each CI run with at least 30\u2011day retention.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A pre\u2011push hook invokes the duplication check wrapper and stores its report under Documentation/Quality/, allowing developers to see duplication before pushing.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation (todo.md, Execution Workplan row A10, PRD references) is updated to indicate live CI gate and pre\u2011push hook with remediation guidance.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The duplication check must ignore generated artifacts/Derived/, .build/, TestResults-* directories as specified in the jscpd flags.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a wrapper script scripts/run_swift_duplication_check.sh to encapsulate npx jscpd@3.5.10 invocation, enabling local execution and CI reuse.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Provision Node 20 via actions/setup-node@v4 with caching to reduce install time and set npm config fund false to suppress logs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Deduplicate the InMemoryRandomAccessReader helper into Sources/ISOInspectorKit/TestSupport/ to centralize test support and remove last in\u2011repo clone.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Swift Duplication Guard Workflow",
+      "description": "GitHub Actions workflow that runs on push to main and pull_request, executing a duplication check script and failing if thresholds are exceeded.",
+      "source_line": null
+    },
+    {
+      "name": "Duplication Check Script",
+      "description": "Shell wrapper `scripts/run_swift_duplication_check.sh` that invokes jscpd with Swift-specific flags and threshold settings.",
+      "source_line": null
+    },
+    {
+      "name": "Artifact Upload",
+      "description": "Uploads the console report to GitHub Actions artifacts (`artifacts/swift-duplication-report.txt`) for each CI run.",
+      "source_line": null
+    },
+    {
+      "name": "Pre\u2011push Hook Integration",
+      "description": "Local git pre\u2011push hook that runs the duplication check wrapper and stores the report under Documentation/Quality/ before allowing a push.",
+      "source_line": null
+    },
+    {
+      "name": "Threshold Configuration",
+      "description": "Defines overall duplicate percentage limit (\u22641%) and maximum clone length (45 lines) used by jscpd.",
+      "source_line": null
+    },
+    {
+      "name": "Ignore Path Rules",
+      "description": "Specifies directories to ignore during duplication scanning such as Derived, .build, TestResults, Documentation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3994,
+    "line_count": 39
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/22_C2_Extend_Outline_Filters/C2_Extend_Outline_Filters.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement outline explorer filters that allow analysts to toggle visibility of MP4 box categories and streaming metadata indicators alongside existing validation-severity controls.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline filter UI exposes switches/chips for at least the defined box categories (e.g., metadata, media, index) and streaming-specific markers, allowing combinations with severity filters.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Filtering operates on the current ParseTreeSnapshot without breaking virtualization performance targets (10k+ nodes) and keeps latency instrumentation within acceptable bounds.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Filter state persists during live streaming updates from the Combine bridge and survives snapshot refreshes without resetting user selections.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit or UI tests cover category/streaming filtering logic, ensuring boxes enter/exit the visible set as expected.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Filtering must not break virtualization performance targets of 10k+ nodes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ParseTreeOutlineFilter to model category and streaming toggles while maintaining backward compatibility with severity filters and search matching.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate Combine snapshot publishers so filter recalculations remain responsive, reusing or extending existing latency probes for regression detection.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Outline Explorer Filters UI",
+      "description": "UI component that exposes switches or chips to toggle visibility of MP4 box categories (e.g., metadata, media, index) and streaming metadata indicators, allowing combinations with existing severity filters.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeOutlineFilter Model",
+      "description": "Data model representing filter state for category, streaming markers, and validation severity, used by the outline view to determine which nodes are visible.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeSnapshot Filtering Logic",
+      "description": "Algorithm that applies current filter settings to a ParseTreeSnapshot, producing a filtered set of nodes while maintaining virtualization performance for large trees.",
+      "source_line": null
+    },
+    {
+      "name": "Filter State Persistence Mechanism",
+      "description": "Logic ensuring that user-selected filter toggles survive live streaming updates from the Combine bridge and snapshot refreshes without resetting selections.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for Category/Streaming Filtering",
+      "description": "Test suite validating that boxes enter or exit the visible set correctly when category or streaming filters are applied, covering various combinations with severity filters.",
+      "source_line": null
+    },
+    {
+      "name": "UI Tests for Filter Controls",
+      "description": "Automated UI tests verifying that the filter switches/chips in the outline explorer behave as expected and reflect the underlying model state.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2713,
+    "line_count": 53
+  }
+}

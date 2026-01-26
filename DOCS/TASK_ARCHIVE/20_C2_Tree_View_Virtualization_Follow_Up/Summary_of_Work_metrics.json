@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/20_C2_Tree_View_Virtualization_Follow_Up/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Hook the outline explorer to actual file import and streaming parse sessions so snapshots arrive from user-selected MP4 files.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline explorer must display snapshots that are generated from user-selected MP4 files via streaming parse sessions.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend outline filters to cover box categories and streaming metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline filters should include options for box categories and streaming metadata as tracked by @todo #6.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Tree View Virtualization & Search",
+      "description": "Provides a virtualized tree view of parsed data with search and severity filtering capabilities",
+      "source_line": null
+    },
+    {
+      "name": "Combine-driven Outline View Model",
+      "description": "Manages outline data using Combine for reactive updates",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Explorer Surfaces",
+      "description": "Renders the explorer UI using SwiftUI, including virtualization via LazyVStack and severity toggles",
+      "source_line": null
+    },
+    {
+      "name": "Parse State Badges",
+      "description": "Displays badges indicating the parse state of items in the tree view",
+      "source_line": null
+    },
+    {
+      "name": "Preview Hierarchy Data Seeding",
+      "description": "Seeds preview data so the explorer can render without a live parse pipeline",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 738,
+    "line_count": 18
+  }
+}

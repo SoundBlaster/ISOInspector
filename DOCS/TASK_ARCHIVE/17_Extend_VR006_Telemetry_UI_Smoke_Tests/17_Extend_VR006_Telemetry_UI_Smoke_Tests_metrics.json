@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/17_Extend_VR006_Telemetry_UI_Smoke_Tests/17_Extend_VR006_Telemetry_UI_Smoke_Tests.md",
+  "n_spec": 8,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add VR-006 research log telemetry to UI smoke tests so that automated runs surface missing or malformed research log entries for both CLI and SwiftUI consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "UI smoke tests execute at least one end-to-end parse scenario that writes VR-006 research log entries and emits telemetry events or assertions when entries are missing, empty, or schema-incompatible.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI telemetry hooks (e.g., log writers or diagnostics) are exercised in the same smoke suite so both surfaces emit consistent VR-006 coverage data.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test failures clearly identify whether the research log was absent, empty, or schema drifted, mirroring ResearchLogMonitor.Error.schemaMismatch messaging.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation or inline comments link the smoke test telemetry to todo.md #5 and the VR-006 monitoring checklist so future contributors maintain the instrumentation.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ResearchLogPreviewProvider snapshots must be deterministic and reused across tests.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Telemetry should be surfaced via DiagnosticsLogger, os_signpost, or explicit XCTest assertions to fail fast when VR-006 events are missing.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Smoke tests will cover both CLI (isoinspect inspect) and SwiftUI pathways by sharing a helper that inspects the persisted research log and emits telemetry counts.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ResearchLogTelemetryProbe",
+      "description": "Translates research log audit results into telemetry diagnostics for CLI and SwiftUI smoke tests",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogTelemetrySnapshot",
+      "description": "Captures a snapshot of telemetry data from research log audits",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogTelemetrySmokeTests",
+      "description": "XCTest suite that runs end-to-end parse scenarios, emits telemetry events or assertions for missing/empty/schema-mismatched VR-006 research logs",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogPreviewProvider",
+      "description": "Provides deterministic fixtures and audit helpers for SwiftUI previews and smoke tests",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline.live",
+      "description": "Live parsing pipeline used in smoke tests to generate VR-006 research log entries",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3794,
+    "line_count": 82
+  }
+}

@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement app theming with accent palette and light/dark modes for ISOInspector SwiftUI app",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The brand accent color must be shared across all controls via isoInspectorAppTheme() modifier",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover WCAG-AA contrast coverage for ISOInspectorBrandPalette",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use Assets.xcassets catalog to store accent and surface color variants",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Generate production app icon raster assets from approved vector design and wire filenames into AppIcon.appiconset",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "App icon filenames must match the approved vector design naming convention",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ISOInspectorBrandPalette",
+      "description": "Provides a brand accent palette with WCAG-AA contrast coverage and unit tests for measurability",
+      "source_line": null
+    },
+    {
+      "name": "Assets.xcassets catalog",
+      "description": "Holds SwiftUI app color assets including accent and surface variants for light/dark modes",
+      "source_line": null
+    },
+    {
+      "name": "isoInspectorAppTheme() modifier",
+      "description": "Applies the brand accent across the app shell, sharing theme colors with controls",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 859,
+    "line_count": 20
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/225_A9_Swift6_Concurrency_Cleanup/next_tasks.md",
+  "n_spec": 8,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "User can persist and reset settings in the Settings Panel via UserPreferencesStore and DocumentSessionController.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Settings persistence must be thread\u2011safe and consistent across sessions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Reset actions require confirmation dialogs before clearing settings.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Persistence is threaded through UserPreferencesStore and DocumentSessionController.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Automate strict concurrency checks during build and test phases using --strict-concurrency=complete flag.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pre\u2011push hooks must enforce strict concurrency checks before code is pushed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "GitHub Actions CI workflows must include jobs that run strict concurrency checks.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Strict concurrency checks are integrated into .githooks/pre-push and .github/workflows/ci.yml.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "User Settings Panel Persistence",
+      "description": "Stores user preferences in UserPreferencesStore and DocumentSessionController, ensuring settings persist across sessions.",
+      "source_line": null
+    },
+    {
+      "name": "User Settings Reset Action",
+      "description": "Provides reset actions with confirmation dialogs to revert settings to defaults.",
+      "source_line": null
+    },
+    {
+      "name": "Strict Concurrency Check Hook",
+      "description": "Automates strict concurrency checks using --strict-concurrency=complete flag during pre-push Git hooks.",
+      "source_line": null
+    },
+    {
+      "name": "CI Strict Concurrency Job",
+      "description": "Extends GitHub Actions CI workflow to run strict concurrency jobs on every build and test phase.",
+      "source_line": null
+    },
+    {
+      "name": "Concurrency Documentation & Rollout",
+      "description": "Documents and rolls out the strict concurrency enforcement, updating PRD with passing logs.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4069,
+    "line_count": 79
+  }
+}

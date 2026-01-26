@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/02_B2_Box_Header_Decoder/B2_Box_Header_Decoder.md",
+  "n_spec": 9,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Develop a reusable header decoding layer for ISO BMFF boxes that downstream parsers can rely on consistent metadata (size, type, offsets, uuid) derived from buffered IO provided by RandomAccessReader.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Decoding supports size32, largesize64, and optional uuid fields with accurate header size computation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Handles size == 0 semantics (extends to parent/end-of-file) without unsafe assumptions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Raises descriptive errors on truncated buffers, overflow, or invalid combinations while keeping parser state consistent.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "XCTest suite covers 32-bit, 64-bit, and uuid boxes plus malformed scenarios per Execution Workplan Task B2.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend RandomAccessReader with big-endian helpers for 32-bit/64-bit integers and FourCC decoding required by ISO BMFF headers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement a header decoding API that reads 32-bit, 64-bit (largesize), and uuid variants while validating forward progress and parent bounds.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Surface structured errors for malformed headers aligned with PRD validation requirements.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Provide unit tests covering standard, extended, and malformed headers using in-memory reader stubs or fixtures.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "RandomAccessReader Big-Endian Helpers",
+      "description": "Provides methods to read big-endian u16, u32, u64 integers and FourCC strings from a buffered reader.",
+      "source_line": null
+    },
+    {
+      "name": "BoxHeader Model",
+      "description": "Represents an ISO BMFF box header with fields for offset, payload range, header size, and optional UUID.",
+      "source_line": null
+    },
+    {
+      "name": "Box Header Decoding API",
+      "description": "Reads and validates 32-bit, 64-bit (largesize), and uuid box headers from a RandomAccessReader, computing accurate header sizes and handling size==0 semantics.",
+      "source_line": null
+    },
+    {
+      "name": "Structured Error Handling for Malformed Headers",
+      "description": "Raises descriptive errors for truncated reads, overflow, invalid combinations, and maintains parser state consistency.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite for Header Decoding",
+      "description": "Tests nominal 32-bit, large-size, uuid boxes and malformed scenarios using in-memory reader stubs or fixtures.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1872,
+    "line_count": 25
+  }
+}

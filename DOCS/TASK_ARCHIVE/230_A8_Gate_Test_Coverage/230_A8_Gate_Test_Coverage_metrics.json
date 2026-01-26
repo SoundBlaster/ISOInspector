@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/230_A8_Gate_Test_Coverage/230_A8_Gate_Test_Coverage.md",
+  "n_spec": 10,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Ensure test coverage stays above the agreed 67% threshold by running coverage_analysis.py in pre-push hook and GitHub Actions workflow, blocking merges or pushes that fall below the target and publishing the report artifact.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "coverage_analysis.py --threshold 0.67 runs automatically after swift test --enable-code-coverage in the pre-push hook.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pushes abort with a clear error if the coverage ratio drops below 67%.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "GitHub Actions adds a coverage job that executes the script against generated .build/debug/codecov/ data, fails the workflow when coverage <67%, and uploads the textual report under Documentation/Quality/ as an artifact.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation explains how to run the script locally, interpret the output, and update thresholds if requirements change.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The task is removed from next_tasks.md candidates and archived once complete.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "coverage_analysis.py must correctly resolve repository-relative paths instead of hardcoded /home/user/ISOInspector/FoundationUI.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Pre-push hook will run swift test --enable-code-coverage before invoking coverage_analysis.py with threshold 0.67, capturing exit code and aborting push if non-zero.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "GitHub Actions workflow will cache .build/debug/codecov/ across runs, execute swift test --enable-code-coverage, run coverage_analysis.py with report path, fail workflow on non-zero exit, and upload artifact.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Environment variable ISOINSPECTOR_MIN_TEST_COVERAGE=0.67 will be used for future flexibility in threshold configuration.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Coverage Analysis Script",
+      "description": "Python script that calculates test coverage ratio from source and test files and reports if below threshold",
+      "source_line": null
+    },
+    {
+      "name": "Pre-Push Hook for Coverage Gating",
+      "description": "Git hook that runs Swift tests with code coverage enabled, then executes the coverage analysis script and aborts push if coverage is insufficient",
+      "source_line": null
+    },
+    {
+      "name": "GitHub Actions Coverage Job",
+      "description": "CI workflow step that runs Swift tests with code coverage, invokes the coverage analysis script, fails the job if coverage < 67%, and uploads a textual report as an artifact",
+      "source_line": null
+    },
+    {
+      "name": "Dynamic Path Resolution Fix",
+      "description": "Modification to the coverage analysis script to use repository-relative paths instead of hardcoded absolute paths",
+      "source_line": null
+    },
+    {
+      "name": "Coverage Report Artifact Upload",
+      "description": "Mechanism in CI to store the generated coverage report under Documentation/Quality/ for later reference",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Updates for Coverage Gating",
+      "description": "README and Docc guide updates explaining how to run the script locally, interpret output, and adjust thresholds",
+      "source_line": null
+    },
+    {
+      "name": "Threshold Configuration Parameterization",
+      "description": "Use of environment variable ISOINSPECTOR_MIN_TEST_COVERAGE to allow dynamic threshold setting in scripts and CI",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4686,
+    "line_count": 106
+  }
+}

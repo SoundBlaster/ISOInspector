@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/99_C1_ftyp_Box_Parser/C1_ftyp_Box_Parser.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a streaming parser for the ftyp box that extracts major_brand, minor_version, and ordered compatible_brands so downstream validation and UI layers can display compatibility metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxParserRegistry registers a concrete ftyp parser that emits typed field values for major_brand, minor_version, and every compatible_brand detected in payload order.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parsing logic handles payload lengths that are not multiples of four gracefully, rejecting malformed brand lists via existing validation pathways.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot/fixture coverage exercises representative MP4 samples to verify decoded values and confirm JSON exports surface the new metadata fields.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI and UI layers surface decoded ftyp metadata without regressions in streaming order validation.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The parser must integrate with the existing registry and streaming pipeline from Tasks B1\u2013B5 to correctly identify the first ftyp occurrence for VR-004 ordering validation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the streaming parser event model to attach a structured payload (e.g., FtypBox) while preserving existing node construction behavior.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse shared RandomAccessReader utilities for big-endian four-character codes and integers introduced in Tasks B1\u2013B3.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update JSON export schemas and any UI detail presenters to include the new fields; coordinate with existing snapshot tests to capture schema evolution.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ftyp Box Parser",
+      "description": "Streams and parses the ftyp box extracting major_brand, minor_version, and ordered compatible_brands for downstream validation and UI display.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Registration",
+      "description": "Registers the concrete ftyp parser in the registry so it can be invoked during parsing.",
+      "source_line": null
+    },
+    {
+      "name": "Payload Length Validation",
+      "description": "Handles non-multiple-of-four payload lengths gracefully, rejecting malformed brand lists via existing validation pathways.",
+      "source_line": null
+    },
+    {
+      "name": "Structured Payload Attachment",
+      "description": "Extends the streaming parser event model to attach a structured FtypBox payload while preserving node construction behavior.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Schema Update",
+      "description": "Updates JSON export schemas and UI detail presenters to include new ftyp metadata fields.",
+      "source_line": null
+    },
+    {
+      "name": "CLI/UI Display of ftyp Metadata",
+      "description": "Ensures CLI and UI layers surface decoded ftyp metadata without regressions in streaming order validation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2652,
+    "line_count": 41
+  }
+}

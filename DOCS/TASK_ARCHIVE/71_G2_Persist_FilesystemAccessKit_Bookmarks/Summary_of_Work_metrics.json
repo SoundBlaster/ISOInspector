@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Bookmark identifiers must be persisted consistently across the recents JSON store and workspace session snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a BookmarkPersistenceManaging abstraction to provide a consistent bookmark store contract for UI controllers and tests, enabling dependency injection for deterministic TDD scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Provision a shared BookmarkPersistenceStore in ISOInspectorApp composition alongside the recents directory.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Bookmark Persistence Store",
+      "description": "Provides unified persistence of bookmark identifiers across recents JSON store and workspace session snapshots, normalizing payloads and migrating existing data.",
+      "source_line": null
+    },
+    {
+      "name": "Document Session Controller Integration",
+      "description": "Wires BookmarkPersistenceStore into DocumentSessionController to manage bookmark state within document sessions.",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Persistence Managing Abstraction",
+      "description": "Defines a shared contract for bookmark storage used by UI controllers and tests, enabling dependency injection for deterministic testing.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorApp Composition Update",
+      "description": "Configures ISOInspectorApp to provision a shared BookmarkPersistenceStore alongside the recents directory.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1096,
+    "line_count": 22
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation/T3_6_Integrity_Summary_Tab.md",
+  "n_spec": 11,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Triage polish items from Integrity tab release to keep table interactions, sorting refinements, and exporter hooks aligned with ribbon metrics and DocumentSession navigation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Sorting polish (#T36-001,#T36-002) must produce deterministic ordering matching CLI exports on large fixture sets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Navigation cue review (#T36-003) must restore Explorer tab selection reliably after state store refactors when focusing an issue row.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Metrics health check must spot-audit ribbon versus tab counts after tolerance parsing fixture regenerations to surface regressions quickly.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Running swift test --filter IntegritySummaryViewTests validates updated ordering expectations after sorting refinements ship.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "UI automation coverage must confirm severity filtering keeps outline badges synchronized.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Exports for corrupt fixtures (Tests/Fixtures/Corrupt/*) must match plaintext/JSON summaries with table counts.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Table interactions, sorting refinements, and exporter hooks must remain aligned with ribbon metrics and DocumentSession navigation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit @todo markers in Sources/ISOInspectorApp/Integrity/IntegritySummaryView.swift and IntegritySummaryViewModel.swift to translate into discrete follow-up tasks for backlog.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Coordinate design to confirm final filter/button layout before freezing automation screenshots.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Draft acceptance criteria for T3.7 (issue navigation filters) based on backlog guidance in DOCS/AI/ISOViewer/ISOInspector_PRD_TODO.md.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Integrity Summary View",
+      "description": "UI component displaying a table of integrity issues with sorting and filtering capabilities",
+      "source_line": null
+    },
+    {
+      "name": "Sorting Behavior for Integrity Issues",
+      "description": "Deterministic ordering of table rows based on offset/node to match CLI exports",
+      "source_line": null
+    },
+    {
+      "name": "Navigation Cue Restoration",
+      "description": "Ensures focusing an issue row restores Explorer tab selection after state store changes",
+      "source_line": null
+    },
+    {
+      "name": "Metrics Health Check",
+      "description": "Audit ribbon versus tab counts to detect regressions in metric displays",
+      "source_line": null
+    },
+    {
+      "name": "Export Hooks for Integrity Summary",
+      "description": "Generate plaintext and JSON summaries of table data, ensuring consistency with exported fixture counts",
+      "source_line": null
+    },
+    {
+      "name": "Severity Filtering Synchronization",
+      "description": "UI automation verifies that severity filters keep outline badges synchronized with filtered results",
+      "source_line": null
+    },
+    {
+      "name": "Test Automation Suite for Integrity Summary",
+      "description": "Swift test suite (IntegritySummaryViewTests) validating sorting, filtering, and export behavior",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1901,
+    "line_count": 25
+  }
+}

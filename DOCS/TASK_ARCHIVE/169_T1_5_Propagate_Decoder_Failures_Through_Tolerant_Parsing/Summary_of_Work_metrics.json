@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Streaming walker must not abort on decoder failures; instead it should convert failures into ParseIssue records and advance within parent boundaries.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "ParsePipeline.live propagates tolerant options, tracks per-node issues, and emits them with parse events for tree builders and captures.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParseEvent/ParseTreeBuilder/capture payload must carry parse issues end-to-end.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression coverage must include tolerant recovery and parse tree aggregation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Tolerant Parsing Walker",
+      "description": "Inspects BoxHeaderDecoder results with tolerant options, converts failures into ParseIssue records, and advances within parent boundaries instead of aborting.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline Live Propagation",
+      "description": "Propagates tolerant options, tracks per-node issues, and emits them with parse events for tree builders and captures.",
+      "source_line": null
+    },
+    {
+      "name": "ParseEvent Payload Extension",
+      "description": "Carries parse issues end-to-end through ParseEvent/ParseTreeBuilder/capture payload.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssue Aggregation API",
+      "description": "Aggregates parse issues across nodes and provides them to downstream consumers such as CLI/app summaries.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 879,
+    "line_count": 14
+  }
+}

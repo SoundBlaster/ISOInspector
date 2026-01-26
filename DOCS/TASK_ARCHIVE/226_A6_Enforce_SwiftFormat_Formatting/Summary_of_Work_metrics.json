@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/226_A6_Enforce_SwiftFormat_Formatting/Summary_of_Work.md",
+  "n_spec": 10,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate SwiftFormat enforcement into the development workflow to automatically format Swift code before commits and validate formatting in CI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pre-commit hook runs swift format --in-place on all staged Swift files and fails commit if formatter modifies files.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI workflow includes a swift-format-check job that lints Sources and Tests directories, failing with clear error message when unformatted code is detected.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All Swift files in Sources/ and Tests/ are formatted to 2-space indentation, consistent spacing, trailing commas, line length adjustments, and whitespace normalization.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation includes a Code Formatting section with local formatting instructions, lint-only verification command, pre-commit hook setup guide, CI enforcement behavior explanation, and examples.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftLint violations are resolved to zero by disabling conflicting rules (opening_brace, closure_parameter_position, trailing_comma) and aligning .swift-format configuration with SwiftLint expectations.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The pre-commit hook must not break existing swiftlint and build checks.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "CI workflow must run on Ubuntu 22.04 using Swift 6.0 toolchain.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Rename existing swift-format-foundationui hook to swift-build-foundationui for clarity.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add new swift-format-all hook that runs swift format --in-place on all staged Swift (i.e.,\u00a0the\u00a0..???)",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SwiftFormat Pre-commit Hook",
+      "description": "Automatically formats staged Swift files before commit using swift format --in-place",
+      "source_line": null
+    },
+    {
+      "name": "SwiftFormat CI Check Job",
+      "description": "Runs swift format lint on Sources and Tests directories during CI to detect formatting violations and fail the workflow if unformatted code is found",
+      "source_line": null
+    },
+    {
+      "name": "Codebase Formatting Process",
+      "description": "Applies swift format --in-place recursively to all Swift files in Sources/ and Tests/, standardizing indentation, spacing, commas, line length, and whitespace",
+      "source_line": null
+    },
+    {
+      "name": "README Code Formatting Documentation",
+      "description": "Provides local formatting instructions, lint-only verification command, pre-commit hook setup guide, CI enforcement behavior explanation, and examples for manual and automated workflows",
+      "source_line": null
+    },
+    {
+      "name": "SwiftLint Compatibility Configuration",
+      "description": "Disables conflicting SwiftLint rules (opening_brace, closure_parameter_position, trailing_comma) and sets swift-format configuration to align with SwiftLint expectations, enabling both tools to coexist without conflicts",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 7763,
+    "line_count": 203
+  }
+}

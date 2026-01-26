@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/62_A4_RandomAccessReader_Error_Types/A4_RandomAccessReader_Error_Types.md",
+  "n_spec": 10,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Introduce explicit RandomAccessReader error types (IOError, BoundsError, OverflowError) and align existing reader implementations so downstream components receive consistent diagnostics while preparing for the A5 benchmarking follow-up.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Define repository-wide error enumerations that cover IO failures, invalid request bounds, and arithmetic overflow scenarios exposed via RandomAccessReader APIs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update MappedReader and other conformers to translate their internal error conditions into the shared error surface, maintaining existing read semantics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Extend unit tests to validate each error path, including offset/count guards and simulated IO failures, ensuring the typed errors propagate to decoding helpers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Document the new error contracts to unblock A5 benchmarking scenarios that compare reader implementations under failure and stress conditions.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "RandomAccessReader implementations must return deterministic Swift.Error values conforming to the shared RandomAccessReaderError type.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a top-level RandomAccessReaderError (or similar) that encapsulates IO, bounds, and overflow cases while mapping existing conformer-specific errors to the shared cases.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit each RandomAccessReader implementation (MappedReader, ChunkedFileReader, future variants) to ensure they conform to the shared error interface.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update decoding helpers and associated tests to assert on the new error cases where appropriate, including overflow checks in integer-sized reads.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Outline performance metrics and harness hooks required for Task A5 so benchmarking can consume the standardized error metadata without additional refactors.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "RandomAccessReaderError Enumeration",
+      "description": "Defines standardized error cases (IOError, BoundsError, OverflowError) for all RandomAccessReader implementations.",
+      "source_line": null
+    },
+    {
+      "name": "MappedReader Error Translation",
+      "description": "Converts MappedReader internal errors into the shared RandomAccessReaderError surface while preserving read semantics.",
+      "source_line": null
+    },
+    {
+      "name": "ChunkedFileReader Error Conformance",
+      "description": "Ensures ChunkedFileReader (and future variants) map their errors to RandomAccessReaderError for consistent diagnostics.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite for Error Paths",
+      "description": "Tests each error scenario\u2014offset/count guards, simulated IO failures, and integer overflow checks\u2014to validate propagation of typed errors.",
+      "source_line": null
+    },
+    {
+      "name": "Decoding Helper Error Handling",
+      "description": "Updates decoding helpers to assert on and propagate RandomAccessReaderError cases during data processing.",
+      "source_line": null
+    },
+    {
+      "name": "Benchmark Harness Integration",
+      "description": "Provides hooks and performance metrics so A5 benchmarking can consume standardized error metadata from reader implementations.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3500,
+    "line_count": 48
+  }
+}

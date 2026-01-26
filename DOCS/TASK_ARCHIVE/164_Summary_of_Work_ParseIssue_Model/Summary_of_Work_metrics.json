@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/164_Summary_of_Work_ParseIssue_Model/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 1,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The ParseIssue model must be tolerant and not halt traversal when corruption events occur.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "ParseIssue is implemented as a validation model conforming to Codable, Equatable, Sendable for use across app, CLI, and export layers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover initializer behavior and JSON round-tripping of ParseIssue.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseIssue Model",
+      "description": "A tolerant parsing issue model capturing severity, code, message, byte range, and node reference for corruption events without halting traversal.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 825,
+    "line_count": 14
+  }
+}

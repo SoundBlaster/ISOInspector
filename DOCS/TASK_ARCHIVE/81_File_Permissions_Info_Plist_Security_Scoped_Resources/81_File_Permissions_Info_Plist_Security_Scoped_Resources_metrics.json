@@ -1,0 +1,113 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/81_File_Permissions_Info_Plist_Security_Scoped_Resources/81_File_Permissions_Info_Plist_Security_Scoped_Resources.md",
+  "n_spec": 13,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Open MP4/QuickTime files from protected folders (Documents, Downloads, Desktop) without permission errors",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Persist access to opened files across app launches using security\u2011scoped bookmarks",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Info.plist contains NSDocumentsFolderUsageDescription, NSDownloadsFolderUsageDescription, and for macOS NSDesktopFolderUsageDescription with appropriate messages",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Info.plist contains CFBundleDocumentTypes entry for public.mpeg-4 and com.apple.quicktime-movie UTIs",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Security\u2011scoped resource is activated immediately after receiving URL from file picker",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Active security scope is kept alive for the entire document session and released when a new document opens or controller deinitializes",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Bookmark resolution occurs before activating security scope, ensuring scope is on the resolved URL",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "@Published properties recents and currentDocument are updated only on the main thread to avoid NSInternalInconsistencyException crashes",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The app must always have a valid sandbox entitlement set for com.apple.security.app-sandbox, files.user-selected.read-write, files.bookmarks.app-scope, and files.bookmarks.document-scope",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use Tuist Project.swift to generate Info.plist with extendingDefault(with:) for platform\u2011specific privacy keys",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add a private activeSecurityScopedURL property in DocumentSessionController to manage security scope lifecycle",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Pass security\u2011scoped URL as parameter to startSession() to keep scope active during session",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement custom error handling for 1\u2011step\u2011solve\u2011tunnel?",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Info.plist Privacy Configuration",
+      "description": "Adds required privacy description keys and document type associations to the app\u2019s Info.plist for accessing Documents, Downloads, Desktop folders and MP4/QuickTime files.",
+      "source_line": null
+    },
+    {
+      "name": "Security-Scoped Resource Activation",
+      "description": "Implements startAccessingSecurityScopedResource() on file URLs obtained from .fileImporter(), keeping the scope alive during a document session via activeSecurityScopedURL.",
+      "source_line": null
+    },
+    {
+      "name": "Document Session Lifecycle Management",
+      "description": "Manages opening, parsing, and annotation of documents, including starting/stopping security scopes, handling bookmarks, and maintaining current document state.",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Resolution Ordering Fix",
+      "description": "Resolves bookmark URLs before activating security scope to ensure the correct URL is used for file access during session restoration or recents reopening.",
+      "source_line": null
+    },
+    {
+      "name": "Thread\u2011Safe Recents Update",
+      "description": "Ensures @Published recents and currentDocument properties are updated on the main thread, preventing NSInternalInconsistencyException crashes when modifying UI from background queues.",
+      "source_line": null
+    },
+    {
+      "name": "Info.plist Verification Utility",
+      "description": "Provides command\u2011line checks (plutil) to confirm presence of required keys in generated Info.plist files.",
+      "source_line": null
+    },
+    {
+      "name": "Build & Test Automation Scripts",
+      "description": "Automated Tuist generation, Xcode build, and SwiftLint linting steps for verifying the implementation changes.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 32931,
+    "line_count": 772
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/51_ParseTreeStreamingSelectionAutomation_macOS_Run.md",
+  "n_spec": 9,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Execute the ParseTreeStreamingSelectionAutomationTests suite on macOS hardware to validate end-to-end SwiftUI streaming selection flow and capture evidence of stable automation outside Linux container.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeStreamingSelectionAutomationTests executes on macOS with UI automation enabled and reports success.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Resulting logs/screenshots are archived for future regression comparison and attached to the task record.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Any macOS-specific issues discovered are filed with actionable follow-up items or patches.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation (next_tasks.md, backlog, automation notes) updated to reflect completion status.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The test is skipped on Linux because Combine and SwiftUI automation are unavailable.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a macOS runner with XCTest UI entitlement; preferred invocation via xcodebuild test command targeting ParseTreeStreamingSelectionAutomationTests.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Ensure SwiftUI accessibility permissions granted to the test runner, pre-authorized in System Settings \u2192 Privacy & Security \u2192 Accessibility.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Capture and store DerivedData xcresult bundle for evidence; upload alongside a short execution summary in DOCS/TASK_ARCHIVE when complete.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeStreamingSelectionAutomationTests",
+      "description": "XCTest UI test suite that validates SwiftUI streaming selection flow on macOS",
+      "source_line": null
+    },
+    {
+      "name": "macOS Runner Execution",
+      "description": "Running tests on a physical or CI-hosted macOS runner with XCTest UI entitlement",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Accessibility Permission Setup",
+      "description": "Pre-authorizing SwiftUI accessibility permissions in System Settings for automated UI testing",
+      "source_line": null
+    },
+    {
+      "name": "DerivedData xcresult Capture",
+      "description": "Capturing and storing the DerivedData xcresult bundle as evidence of test execution",
+      "source_line": null
+    },
+    {
+      "name": "Artifact Archival",
+      "description": "Uploading execution summary and xcresult bundle to DOCS/TASK_ARCHIVE for regression comparison",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2947,
+    "line_count": 54
+  }
+}

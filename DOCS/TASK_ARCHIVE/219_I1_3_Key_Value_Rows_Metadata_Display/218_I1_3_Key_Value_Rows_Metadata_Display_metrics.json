@@ -1,0 +1,148 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/219_I1_3_Key_Value_Rows_Metadata_Display/218_I1_3_Key_Value_Rows_Metadata_Display.md",
+  "n_spec": 16,
+  "n_func": 11,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Migrate metadata display patterns across the ISOInspector UI to use the FoundationUI DS.KeyValueRow component via a new BoxMetadataRow wrapper that supports label, value, and optional copyable action.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Audit all current metadata display patterns (row heights, spacing, font sizes, colors).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Create BoxMetadataRow wrapper around DS.KeyValueRow supporting label, value, optional copyable action, inheriting dark mode and accessibility from FoundationUI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Refactor all metadata field displays to use BoxMetadataRow for ISO box metadata, parse results, issue summaries, codec/track info, file header details.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests for BoxMetadataRow component with \u226590% coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot tests validating layout, colors, dark mode adaptation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility tests confirming WCAG 2.1 AA compliance (\u226598% score).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration tests with copyable action behavior.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests ensuring existing metadata displays still function correctly.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add BoxMetadataRow to ComponentTestApp showcase screen.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update Design System Guide with migration patterns.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Verify zero SwiftLint violations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Maintain test coverage \u226580% across affected targets.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All Phase 0 tasks must be complete before starting this task.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "I1.1 and I1.2 must be completed before starting this task.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "BoxMetadataRow will wrap DS.KeyValueRow to provide consistent styling, dark mode inheritance, accessibility, and optional copyable action.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxMetadataRow Component",
+      "description": "A reusable UI component that wraps FoundationUI's DS.KeyValueRow to display a label and value pair with optional copy-to-clipboard action, inheriting dark mode and accessibility features.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Display Audit Tool",
+      "description": "An internal process or script that inventories all current metadata display patterns across ISOInspector UI, documenting spacing, fonts, colors, and accessibility attributes.",
+      "source_line": null
+    },
+    {
+      "name": "CopyableAction Integration",
+      "description": "Implementation of a copy-to-clipboard action for metadata values, providing visual/haptic feedback and supporting iOS, iPadOS, and macOS platforms.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Migration Workflow",
+      "description": "A refactoring workflow that replaces existing metadata field displays with BoxMetadataRow across screens such as Box Details, Parse Results, Codec/Track info, and File Header details.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite for BoxMetadataRow",
+      "description": "Automated tests ensuring component behavior, state management, and API surface meet 90%+ coverage requirements.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot Testing for Layout & Dark Mode",
+      "description": "Tests that capture UI snapshots of BoxMetadataRow in various states to validate layout, colors, and dark mode adaptation against approved baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Compliance Tests",
+      "description": "Automated checks confirming WCAG\u202f2.1\u202fAA compliance with \u226598% score for the metadata display components.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Test Suite for Copyable Action",
+      "description": "Tests that simulate user interactions with the copy button, verifying clipboard behavior and feedback across platforms.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Test Suite for Existing Metadata Displays",
+      "description": "Tests ensuring that refactored metadata displays continue to function correctly without breaking existing UI behavior.",
+      "source_line": null
+    },
+    {
+      "name": "ComponentTestApp Showcase Screen",
+      "description": "A screen in ComponentTestApp that demonstrates BoxMetadataRow usage within the design system showcase.",
+      "source_line": null
+    },
+    {
+      "name": "Design System Guide Update",
+      "description": "Documentation updates that describe the migration patterns, component API, and styling guidelines for BoxMetadataRow.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 6121,
+    "line_count": 119
+  }
+}

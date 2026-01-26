@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/174_T2_1_ParseIssueStore_Aggregation/next_tasks.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The shared aggregation store, metrics, and tests must be consistent across ISOInspectorKit, CLI, and SwiftUI scaffolding.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend the tolerant parsing event stream to include severity, offset, and reason metadata for downstream UI and CLI surfacing.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The extended event stream must provide severity, offset, and reason metadata that unblocks downstream UI and CLI work.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "VoiceOver regression tests must confirm focus command menus announce controls and restore focus targets on macOS and iPadOS hardware.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule and perform macOS and i\u2011pad\u00a0iOS hardware verification for VoiceOver regression pass.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Hardware verification should be completed with reference to the documented task archive.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseIssueStore Aggregation",
+      "description": "Aggregates shared issue store data, metrics, and tests across ISOInspectorKit, CLI, and SwiftUI scaffolding.",
+      "source_line": null
+    },
+    {
+      "name": "Issue Metrics Presentation",
+      "description": "Extends tolerant parsing event stream with severity, offset, and reason metadata for UI and CLI surfacing.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Verifies VoiceOver focus command menus announce controls and restore focus targets on macOS and iPadOS hardware.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Integration",
+      "description": "Secures Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to shift regression baselines from synthetic payloads.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1026,
+    "line_count": 10
+  }
+}

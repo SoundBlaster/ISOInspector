@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 5,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "BoxHeader memberwise initializer exposure",
+      "description": "Exposes BoxHeader's memberwise initializer to allow SwiftUI previews to compile in ISOInspectorApp.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTree preview data coverage",
+      "description": "Ensures preview sample snapshots build valid headers from outside the Kit module.",
+      "source_line": null
+    },
+    {
+      "name": "Random-access payload annotation provider",
+      "description": "Provides annotations for ftyp and mvhd field ranges, enabling UI highlights with regression coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Detail pane refresh",
+      "description": "Lists selectable annotations and renders a synchronized hex grid with interactive byte selection.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeDetailViewModel orchestration",
+      "description": "Orchestrates annotation loading, selection state, and highlighted ranges shared with the hex viewer.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1246,
+    "line_count": 17
+  }
+}

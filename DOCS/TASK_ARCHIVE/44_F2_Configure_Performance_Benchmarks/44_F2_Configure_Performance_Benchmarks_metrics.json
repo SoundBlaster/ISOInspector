@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/44_F2_Configure_Performance_Benchmarks/44_F2_Configure_Performance_Benchmarks.md",
+  "n_spec": 8,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Configure automated performance benchmarks for large MP4 analyses to capture CLI and app throughput.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmarks execute representative large-file scenarios for CLI streaming validation and UI event propagation, recording latency, throughput, and memory use.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Baseline thresholds derived from initial runs are encoded so CI fails when regressions exceed agreed tolerances.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updates summarize benchmark scenarios, metrics captured, and instructions for reproducing measurements locally.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Non-functional requirements mandate sub-45-second CLI validation for 4 GB reference files and <200 ms UI update latency.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Leverage existing streaming fixtures or generate synthetic large files guided by Research Task R4 recommendations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Integrate XCTest Metrics and signpost instrumentation to capture CPU time, wall-clock latency, and memory for both CLI commands and UI pipelines.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Provide configuration hooks (e.g., environment variables) to toggle benchmark intensity to keep default CI runtime manageable while enabling deeper local profiling when needed.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Large-File Performance Benchmark Suite",
+      "description": "Automated tests that measure CLI and UI throughput for large MP4 analyses, capturing latency, throughput, and memory usage.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Streaming Validation Benchmark",
+      "description": "Executes representative large-file scenarios via command-line interface to validate streaming performance against sub\u201145\u2011second thresholds.",
+      "source_line": null
+    },
+    {
+      "name": "UI Event Propagation Benchmark",
+      "description": "Runs large-file scenarios in the application UI to measure event propagation latency (<200\u202fms) and throughput.",
+      "source_line": null
+    },
+    {
+      "name": "Benchmark Configuration Hooks",
+      "description": "Environment variable or other configuration options that toggle benchmark intensity, allowing default CI runtime to remain manageable while enabling deeper local profiling.",
+      "source_line": null
+    },
+    {
+      "name": "Baseline Threshold Encoder",
+      "description": "Stores derived baseline metrics so that CI fails when regressions exceed agreed tolerances.",
+      "source_line": null
+    },
+    {
+      "name": "Synthetic Large-File Generator",
+      "description": "Tool for generating synthetic 4\u202fGB MP4 files guided by research task recommendations, used as test assets when existing fixtures are insufficient.",
+      "source_line": null
+    },
+    {
+      "name": "XCTest Metrics Integration",
+      "description": "Instrumentation using XCTest Metrics to capture CPU time and wall\u2011clock latency for both CLI commands and UI pipelines.",
+      "source_line": null
+    },
+    {
+      "name": "Signpost Instrumentation Module",
+      "description": "Adds signpost logging to record detailed performance data during benchmark runs.",
+      "source_line": null
+    },
+    {
+      "name": "Benchmark Documentation Generator",
+      "description": "Produces documentation summarizing benchmark scenarios, captured metrics, and instructions for reproducing measurements locally.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2450,
+    "line_count": 56
+  }
+}

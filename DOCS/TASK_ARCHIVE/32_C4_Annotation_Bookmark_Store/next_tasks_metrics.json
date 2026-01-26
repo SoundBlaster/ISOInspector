@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/32_C4_Annotation_Bookmark_Store/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expand CLI and App DocC catalogs with end-to-end tutorials and screenshots once the UI and command surfaces gain additional features.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Layer DocC publishing into CI (e.g., GitHub Actions artifact upload) after validating storage and hosting requirements.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI and App DocC Catalogs",
+      "description": "Provide end-to-end tutorials and screenshots for the CLI and App DocC catalogs once UI and command surfaces gain additional features.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Publishing Layer in CI",
+      "description": "Publish DocC bundles into continuous integration pipelines, such as GitHub Actions, by uploading artifacts after validating storage and hosting requirements.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 411,
+    "line_count": 9
+  }
+}

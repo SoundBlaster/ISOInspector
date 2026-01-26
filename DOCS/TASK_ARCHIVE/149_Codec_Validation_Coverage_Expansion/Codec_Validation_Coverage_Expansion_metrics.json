@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/149_Codec_Validation_Coverage_Expansion/Codec_Validation_Coverage_Expansion.md",
+  "n_spec": 8,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Extend automated coverage so the CodecConfigurationValidationRule warnings introduced in Task E4 are exercised end to end across the streaming ParsePipeline, CLI output, and JSON export snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add or update ParsePipeline integration tests to assert codec validation warnings are emitted for fixtures containing malformed avcC/hvcC metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Refresh CLI validate command snapshot(s) so codec warnings appear with stable formatting and rule identifiers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update JSON export snapshot baselines (or add targeted fixtures) to include warnings entries showing codec validation diagnostics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Document any new fixtures or fixture mutations so downstream teams understand how to exercise the warnings manually.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing malformed codec fixtures from Task E4 where possible; introduce additional fixture variants only if necessary to capture warning diversity (e.g., truncated SPS/PPS, invalid length size).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate updates with validation preset defaults so new warnings appear under standard configurations without requiring manual toggles.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Maintain deterministic ordering in snapshots to avoid flakey diffs\u2014normalize warning arrays if needed.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipeline Integration Tests for Codec Validation",
+      "description": "Automated tests that run the streaming ParsePipeline and assert codec validation warnings are emitted for malformed avcC/hvcC metadata.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Validate Command Snapshot Updates",
+      "description": "Updates to the CLI 'validate' command snapshots so that codec validation warnings appear with stable formatting and rule identifiers.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Snapshot Baselines for Codec Warnings",
+      "description": "Baseline JSON export snapshots updated or added to include warning entries showing codec validation diagnostics.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Management for Malformed Codec Metadata",
+      "description": "Creation and documentation of test fixtures containing malformed avcC/hvcC metadata (e.g., truncated SPS/PPS, invalid length size) used to exercise warnings.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Preset Coordination",
+      "description": "Ensuring new codec warnings appear under standard validation presets without requiring manual toggles.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2582,
+    "line_count": 28
+  }
+}

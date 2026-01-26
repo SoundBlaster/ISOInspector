@@ -1,0 +1,17 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/05_B3_Puzzle1_ParsePipeline_Live_Integration/next_tasks.md",
+  "n_spec": 1,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Complete Puzzle #1 by wiring ParsePipeline.live() to the real streaming walker so the async pipeline runs against concrete parsing logic.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 160,
+    "line_count": 3
+  }
+}

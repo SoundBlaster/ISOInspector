@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/147_Summary_of_Work_2025-10-22_Validation_Preset_UI_Settings_Integration/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The ParseTree and JSON exports must always include the active preset and disabled rule identifiers for downstream consumers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a file-backed validation configuration store to persist global defaults, workspace overrides, and propagate rule filters into ParseTreeStore snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide a macOS settings scene with ValidationSettingsView that allows users to select presets, toggle per-rule settings, switch scopes, and reset to global behavior.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The macOS Settings pane must correctly display preset selection, custom override labeling, and reset behavior as verified by manual QA.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI wiring (Task D7) must surface the same configuration metadata for full E7 coverage.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Validation Preset UI Settings Integration",
+      "description": "Provides a macOS settings scene that allows users to select validation presets, toggle individual rules, switch scopes, and reset to global defaults.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTree Validation Metadata Plumbing",
+      "description": "Exposes active preset and disabled rule identifiers in ParseTree and JSON exports for downstream consumers.",
+      "source_line": null
+    },
+    {
+      "name": "File-backed Validation Configuration Store",
+      "description": "Stores validation configuration data on disk, enabling loading and saving of global defaults, workspace overrides, and propagating rule filters into ParseTreeStore snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentSessionController Integration",
+      "description": "Loads and saves global defaults, manages workspace overrides, and propagates rule filters to ParseTreeStore snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "ValidationSettingsView UI Component",
+      "description": "UI component that presents preset selection, per-rule toggles, scope switching, and reset-to-global behavior backed by controller APIs.",
+      "source_line": null
+    },
+    {
+      "name": "Workspace Session Snapshot Persistence",
+      "description": "Persists per-file validation overrides with bookmark metadata so overrides restore when documents are reopened.",
+      "source_line": null
+    },
+    {
+      "name": "State Store Updates for Validation Filtering",
+      "description": "Updates state stores to support filtering, persistence, and export metadata flows across app and kit targets.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1238,
+    "line_count": 18
+  }
+}

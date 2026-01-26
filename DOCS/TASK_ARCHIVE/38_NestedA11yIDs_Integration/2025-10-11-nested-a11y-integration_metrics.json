@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/38_NestedA11yIDs_Integration/2025-10-11-nested-a11y-integration.md",
+  "n_spec": 5,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Wire NestedA11yIDs into the ISOInspector App target so that the parse tree explorer exposes deterministic accessibility identifiers and downstream documentation reflects the conventions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Public Kit API added/changed: none",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Call sites updated: ISOInspectorApp.swift, ParseTreeOutlineView.swift, ParseTreeDetailView.swift",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Backward compatibility: additive identifiers only",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests implemented in Tests/ISOInspectorAppTests/ParseTreeAccessibilityIdentifierTests.swift",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Nested Accessibility ID Injection",
+      "description": "Injects deterministic accessibility identifiers into the ISOInspector App's parse tree explorer components",
+      "source_line": null
+    },
+    {
+      "name": "Parse Tree Explorer UI Update",
+      "description": "Updates ParseTreeOutlineView to expose nested accessibility IDs for each node in the parse tree",
+      "source_line": null
+    },
+    {
+      "name": "Parse Tree Detail View Enhancement",
+      "description": "Adds nested accessibility identifiers to ParseTreeDetailView elements for better testability and documentation",
+      "source_line": null
+    },
+    {
+      "name": "Research Log Audit Preview Integration",
+      "description": "Applies nested accessibility IDs to the ResearchLogAuditPreview flow (planned)",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 944,
+    "line_count": 28
+  }
+}

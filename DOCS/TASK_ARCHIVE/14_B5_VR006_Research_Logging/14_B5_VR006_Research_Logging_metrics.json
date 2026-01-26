@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/14_B5_VR006_Research_Logging/14_B5_VR006_Research_Logging.md",
+  "n_spec": 9,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement research logging for validation rule VR-006 so unknown or catalog-missing boxes encountered during streaming parses are persisted for follow-up analysis across CLI and UI workflows.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unknown or catalog-missing boxes encountered by the parser append deduplicated entries (fourcc, path, offsets) to a persistent research log file accessible to subsequent CLI/UI runs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI surface: `validate`/`inspect` commands expose flags or default behavior to enable VR-006 logging and confirm log file location, with tests proving log entries are emitted.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "UI surface: metadata consumers receive VR-006 research entries alongside validation issues so warnings and info events remain visible in tree/detail panes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation in TODO/PRD trackers updated to reflect VR-006 logging availability and guidance for analysts.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "VR-006 events are recorded as info-level issues.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse or extend existing diagnostics logging infrastructure to capture VR-006 events without blocking streaming throughput; ensure async-safe writes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate storage location and format (e.g., JSONL or CSV) so CLI and UI share the same research log schema and dedupe strategy.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Logging preserves ordering context for downstream analysis by reviewing prior VR-004/VR-005 ordering work.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Research Log File Persistence",
+      "description": "Persist unknown or catalog-missing box entries (fourcc, path, offsets) to a deduplicated research log file accessible across CLI and UI runs.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Validation Logging Flags",
+      "description": "Expose flags or default behavior in validate/inspect commands to enable VR-006 logging and report the log file location.",
+      "source_line": null
+    },
+    {
+      "name": "UI Metadata Consumer Integration",
+      "description": "Provide VR-006 research entries to UI metadata consumers so warnings and info events appear in tree/detail panes alongside other validation issues.",
+      "source_line": null
+    },
+    {
+      "name": "Async-Safe Log Writing",
+      "description": "Write VR-006 events asynchronously without blocking streaming throughput, using existing diagnostics logging infrastructure.",
+      "source_line": null
+    },
+    {
+      "name": "Unified Log Schema & Dedupe Strategy",
+      "description": "Coordinate storage format (JSONL or CSV) and deduplication strategy so CLI and UI share the same research log schema.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2365,
+    "line_count": 57
+  }
+}

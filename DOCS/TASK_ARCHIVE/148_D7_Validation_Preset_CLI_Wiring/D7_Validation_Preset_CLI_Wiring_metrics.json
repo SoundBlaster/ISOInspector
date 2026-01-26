@@ -1,0 +1,113 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/148_D7_Validation_Preset_CLI_Wiring/D7_Validation_Preset_CLI_Wiring.md",
+  "n_spec": 10,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As an ISOInspectorCLI consumer, I want to select bundled validation presets or override individual rules via command-line flags so that I can configure the ValidationConfiguration pipeline without editing configuration files.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The `isoinspector validate` and related commands accept a `--preset <identifier>` flag along with `--enable-rule` / `--disable-rule` flags, which populate a ValidationConfiguration sent to the inspection pipeline.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI help text enumerates available preset identifiers plus shorthand aliases (e.g., `--structural-only`) sourced from the bundled manifest so users can discover options without consulting documentation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "When presets or per-rule overrides are supplied, CLI output and JSON exports annotate the active preset and any disabled rule IDs, matching the configuration persistence semantics delivered in task B7.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "New and updated tests cover flag parsing, preset alias resolution, and integration with the existing validation execution path to ensure regressions are caught by `swift test`.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The command context must thread a single effective ValidationConfiguration through all downstream commands (`inspect`, `validate`, `export`, `batch`).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Conflicting overrides (e.g., enabling and disabling the same rule) are prevented and produce friendly help text.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ISOInspectorCommand.GlobalOptions to declare new flags and surface preset metadata pulled from ValidationPresetRegistry or equivalent helpers introduced in task B7.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Ensure command context (ISOInspectorCommandContext and ISOInspectorCommandContextStore) receives the effective ValidationConfiguration so downstream handlers reuse the same configuration regardless of entry point.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reconcile new flags with existing global options like logging/telemetry toggles to avoid conflicting short names and keep help formatting consistent with Swift ArgumentParser conventions.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ISOInspector validate command",
+      "description": "CLI command that runs validation using a ValidationConfiguration derived from preset or rule overrides",
+      "source_line": null
+    },
+    {
+      "name": "Preset selection flag (--preset)",
+      "description": "Global CLI option to choose a bundled validation preset identifier",
+      "source_line": null
+    },
+    {
+      "name": "Structural-only alias flag (--structural-only)",
+      "description": "Convenience flag that selects the structural\u2011only preset via an alias",
+      "source_line": null
+    },
+    {
+      "name": "Enable rule flag (--enable-rule)",
+      "description": "Global CLI option to explicitly enable a specific validation rule, overriding a preset",
+      "source_line": null
+    },
+    {
+      "name": "Disable rule flag (--disable-rule)",
+      "description": "Global CLI option to explicitly disable a specific validation rule, overriding a preset",
+      "source_line": null
+    },
+    {
+      "name": "ValidationConfiguration propagation",
+      "description": "Mechanism that threads the effective ValidationConfiguration through command context so all sub\u2011commands (inspect, validate, export, batch) use the same configuration",
+      "source_line": null
+    },
+    {
+      "name": "Preset summary output",
+      "description": "CLI and JSON export include an annotation of the active preset and any disabled rule IDs for the run",
+      "source_line": null
+    },
+    {
+      "name": "Help text generation",
+      "description": "Automatic enumeration of available preset identifiers and aliases in CLI help based on bundled manifest",
+      "source_line": null
+    },
+    {
+      "name": "JSON export metadata injection",
+      "description": "Embedding of validation preset and rule override information into exported JSON results",
+      "source_line": null
+    },
+    {
+      "name": "CLI documentation update",
+      "description": "Manual documentation that reflects new flags, metadata behavior, and batch/export notes",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4905,
+    "line_count": 40
+  }
+}

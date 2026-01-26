@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/66_E5_Surface_Document_Load_Failures/Summary_of_Work.md",
+  "n_spec": 8,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a DocumentLoadFailure state in DocumentSessionController to allow the SwiftUI app shell to react to unreadable files.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Display a DocumentLoadFailureBanner overlay in AppShellView with retry and \"Open File\u2026\" controls that use controller APIs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The banner must appear when a document load failure occurs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Retry action clears the failure state and removes the banner.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Open File\u2026 action triggers file picker to open a new file.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The banner should automatically clear on retry.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "DocumentLoadFailure state must always be available in DocumentSessionController.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Expose document load failure state and retry/dismissal affordances via a published state variable.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DocumentLoadFailure State",
+      "description": "Represents a failure state in DocumentSessionController when a document cannot be loaded, exposing retry and dismissal options.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentLoadFailureBanner Overlay",
+      "description": "UI component displayed over AppShellView to inform users of load failures with actionable retry and Open File controls.",
+      "source_line": null
+    },
+    {
+      "name": "Retry Action API",
+      "description": "Endpoint exposed by DocumentSessionController allowing the app shell to trigger a document reload after a failure.",
+      "source_line": null
+    },
+    {
+      "name": "Open File Action API",
+      "description": "Endpoint exposed by DocumentSessionController enabling the user to select a new file when a load failure occurs.",
+      "source_line": null
+    },
+    {
+      "name": "Automatic Banner Clearing Logic",
+      "description": "Behavior that clears the DocumentLoadFailureBanner automatically upon successful retry or dismissal.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1065,
+    "line_count": 22
+  }
+}

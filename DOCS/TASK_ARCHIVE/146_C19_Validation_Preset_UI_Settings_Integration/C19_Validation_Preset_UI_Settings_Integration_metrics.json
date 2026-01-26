@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/146_C19_Validation_Preset_UI_Settings_Integration/C19_Validation_Preset_UI_Settings_Integration.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As an analyst, I want to select validation presets from a SwiftUI settings pane so that I can quickly apply a set of rule configurations.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As an analyst, I want to toggle individual validation rules in the settings UI so that I can override preset defaults for specific rules.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As an analyst, I want changes to be persisted to Application Support global defaults and optional workspace-specific overrides so that my configuration survives app restarts and is consistent across workspaces.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The settings pane lists all bundled presets with descriptions and updates the active configuration immediately after selection.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Per\u2011rule toggles reflect the current preset, allow overrides, and show when the user diverges from preset defaults (e.g., \"Custom\" state).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Choices persist to Application Support global defaults and optional workspace\u2011specific overrides, including a \"Reset\u00a0to\u00a0Global\u201d affor\u00addance that clears\u00a0local\u00a0customizations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation badges, lists\u00a0and downstream\u00a0exports\u00a0reflect\u00a0the\u00a0active preset metadata\u00a0\u2013\u00a0\u2026\u00a0.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The UI must observe and re\u2011apply\u00a0the\u00a0current\u00a0..???",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse\u00a0the\u00a0..\u2026\u00a0..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Preset Selection Pane",
+      "description": "Displays all bundled validation presets with descriptions and allows the user to select one, immediately updating the active configuration.",
+      "source_line": null
+    },
+    {
+      "name": "Per-Rule Toggle Controls",
+      "description": "Shows individual rule toggles reflecting the current preset, permits overrides, and indicates custom states when diverging from preset defaults.",
+      "source_line": null
+    },
+    {
+      "name": "Reset to Global Button",
+      "description": "Provides an affordance to clear local workspace overrides and revert to global default settings.",
+      "source_line": null
+    },
+    {
+      "name": "Persistence Layer Integration",
+      "description": "Saves user selections and overrides to Application Support global defaults and optional workspace-specific files, ensuring persistence across upgrades.",
+      "source_line": null
+    },
+    {
+      "name": "Configuration Observer",
+      "description": "Observes changes in ValidationConfiguration/ValidationPreset APIs to provide live UI feedback when configuration updates occur.",
+      "source_line": null
+    },
+    {
+      "name": "Badge & Export Sync",
+      "description": "Updates validation badges, lists, and downstream exports to reflect the active preset metadata so CLI/JSON outputs remain aligned.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4528,
+    "line_count": 29
+  }
+}

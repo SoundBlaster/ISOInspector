@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Implemented a concrete parser for the `hdlr` box in BoxParserRegistry that decodes version, flags, handler_type, normalized handler categories, and UTF-8 handler names using FullBoxReader.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide human-friendly handler category display by introducing a reusable HandlerType model to classify common four-character codes such as vide, soun, mdir.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Ensure that handler metadata propagates from the streaming pipeline into JSON exports and on-screen annotations via CLI export path and SwiftUI detail flows.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Handler names must be decoded using UTF-8 encoding.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "hdlr handler parser",
+      "description": "Parses 'hdlr' boxes decoding version, flags, handler_type, normalizes categories and UTF-8 names using FullBoxReader",
+      "source_line": null
+    },
+    {
+      "name": "HandlerType model",
+      "description": "Classifies common handler four-character codes into human-friendly categories for downstream exports",
+      "source_line": null
+    },
+    {
+      "name": "CLI export path extension",
+      "description": "Extends CLI to include handler metadata in JSON exports",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI detail flow update",
+      "description": "Displays handler metadata on-screen annotations in SwiftUI views",
+      "source_line": null
+    },
+    {
+      "name": "Regression tests for handler metadata propagation",
+      "description": "Ensures handler data flows from streaming pipeline into JSON and UI",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1052,
+    "line_count": 19
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/next_tasks.md",
+  "n_spec": 6,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Zero-Trust Logging must emit hashed identifiers, timestamped audit entries, and rotation-aware diagnostics aligned with CLI sandbox guidance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Random slice benchmark suite must be executed on macOS hardware once Combine support is available to compare mapped vs. chunked readers under identical workloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeStreamingSelectionAutomationTests must run on macOS hardware with XCTest UI support to validate the end-to-end SwiftUI automation flow.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Combine-backed UI benchmark must be executed on macOS to capture latency metrics while maintaining throughput parity with the CLI harness.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Reconcile CoreData session bookmark diffs with live bookmark entities when reconciliation rules are defined.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Track outcome of notarized build Apple Events automation assessment and reference final decision in documentation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 2546,
+    "line_count": 26
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/130_VR15_Sample_Table_Correlation/Validation_Rule_15_Sample_Table_Correlation.md",
+  "n_spec": 7,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement Validation Rule #15 to cross\u2011check stsc chunk run definitions, stsz/stz2 sample sizes, and stco/co64 chunk offsets so mismatches are surfaced alongside existing edit list duration diagnostics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming validation emits a dedicated VR-015 diagnostic when correlated chunk/sample data is inconsistent (e.g., counts mismatch, offsets not monotonic, or sample totals disagree).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Existing fixtures covering chunk tables and edit lists gain positive/negative assertions for the new rule without regressing prior validation snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation output links to affected boxes (chunk table, sample size table, edit list) for UI highlighting and CLI reporting.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must use existing structured models emitted by BoxParserRegistry for stsc, stsz/stz2, and stco/co64 so validation runs without reparsing payload bytes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the validation aggregation pipeline established in VR-014 to include cross\u2011table summaries and computed totals.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add targeted fixtures or mutate existing archives to cover edge cases such as sparse chunk runs or zero\u2011sized samples.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "VR-015 Diagnostic Emission",
+      "description": "Generates a dedicated VR\u2011015 diagnostic when stsc, stsz/stz2, and stco/co64 tables are inconsistent (count mismatches, non\u2011monotonic offsets, sample total discrepancies).",
+      "source_line": null
+    },
+    {
+      "name": "Cross\u2011Table Validation Pipeline Extension",
+      "description": "Extends the existing VR\u2011014 aggregation pipeline to compute cross\u2011table summaries and totals for stsc, stsz/stz2, and stco/co64.",
+      "source_line": null
+    },
+    {
+      "name": "Structured Model Utilization",
+      "description": "Uses pre\u2011parsed structured models from BoxParserRegistry for stsc, stsz/stz2, and stco/co64 instead of reparsing raw bytes during validation.",
+      "source_line": null
+    },
+    {
+      "name": "Edit List Duration Integration",
+      "description": "Integrates VR\u2011015 diagnostics with edit list duration validation so timing warnings include chunk/sample anomalies.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Coverage Coordination",
+      "description": "Ensures correlated diagnostics flow through CLI and UI layers by linking affected boxes (chunk table, sample size table, edit list) for highlighting and reporting.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Generation & Mutation",
+      "description": "Creates or mutates test archives to cover edge cases such as sparse chunk runs, zero\u2011size samples, and misordered offsets for regression testing.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation & PRD Updates",
+      "description": "Updates documentation, workplan, backlog, and todo lists to reflect completion of VR\u2011015 rule implementation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2816,
+    "line_count": 46
+  }
+}

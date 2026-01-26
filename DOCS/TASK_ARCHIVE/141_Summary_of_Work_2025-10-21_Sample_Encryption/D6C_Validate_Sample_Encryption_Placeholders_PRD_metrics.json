@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/D6C_Validate_Sample_Encryption_Placeholders_PRD.md",
+  "n_spec": 9,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a developer, I want to validate and document that the `senc`, `saio`, and `saiz` placeholder workflows behave correctly across kit, CLI, and app surfaces so that stakeholders can see encryption scaffolding without decrypting samples.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated tests fail if placeholder parsing regresses (missing fields, incorrect counts, unexpected crashes), providing clear diagnostics for malformed fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility and export workflows in the app continue to pass existing assertions while including encryption metadata in exported JSON snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updates land alongside code changes, and release notes highlight the new visibility so distribution artifacts communicate the enhancement to end users.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Synthetic fixtures must be deterministic and self\u2011contained, using helper builders or inline byte buffers with hex literals and comments for readability.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Validation utilities should assert warnings rather than hard failures when encountering unsupported flag combinations, matching graceful degradation goals.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use existing export and CLI test patterns to validate JSON parity and command output; extend them to cover encryption metadata scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce SwiftUI regression coverage (snapshot or view\u2011model tests) confirming the detail pane renders encryption metadata without crashing, leveraging document session export tests as references.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update DocC onboarding guides, release notes, and next_tasks.md to announce placeholder visibility and record remaining follow-ups.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Synthetic Fragmented Fixture Builder",
+      "description": "Creates minimal moof/traf samples embedding senc, saio, and saiz tables with varied combinations for deterministic tests",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorKit Placeholder Parser Tests",
+      "description": "Unit tests that parse fixtures and assert emitted fields, detail structs, and validation issues for encryption placeholders",
+      "source_line": null
+    },
+    {
+      "name": "CLI Export-JSON Validation Tests",
+      "description": "Integration tests verifying export-json output, console summaries, and failure handling when placeholders are absent or malformed",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Detail Pane Rendering Tests",
+      "description": "Regression coverage confirming the detail pane renders encryption metadata without crashing using snapshot or view-model tests",
+      "source_line": null
+    },
+    {
+      "name": "DocC Onboarding Guide Updates",
+      "description": "Documentation updates that announce placeholder visibility to developers in DocC guides",
+      "source_line": null
+    },
+    {
+      "name": "Release Notes Enhancements",
+      "description": "Release notes highlighting new visibility of encryption scaffolding for end users",
+      "source_line": null
+    },
+    {
+      "name": "Next Tasks Documentation",
+      "description": "Document remaining edge cases and future follow-ups in next_tasks.md",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 6260,
+    "line_count": 47
+  }
+}

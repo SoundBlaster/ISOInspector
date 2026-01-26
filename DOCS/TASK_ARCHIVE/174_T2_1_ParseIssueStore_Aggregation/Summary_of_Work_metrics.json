@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/174_T2_1_ParseIssueStore_Aggregation/Summary_of_Work.md",
+  "n_spec": 8,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a shared ParseIssueStore aggregate that records tolerant parsing issues and exposes metrics to downstream observers",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Allow node and byte range queries on stored parsing issues",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Make the ParseIssueStore available through ISOInspectorCLIEnvironment and ParseTreeStore for CLI and SwiftUI clients",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseIssueStore must publish issue collections via @Published",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Metrics tracking must be implemented and exposed",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Main\u2011thread coordination is required to ensure safe reuse across Combine and CLI workflows",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "StreamingBoxWalker must supply depth values for each issue",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The\u00a0ParsePipeline.Context\u00a0must\u00a0be\u00a0the\u00a0one\u00a0..??",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseIssueStore Aggregate",
+      "description": "Records tolerant parsing issues, supports node/byte range queries, and publishes real-time metrics for downstream observers.",
+      "source_line": null
+    },
+    {
+      "name": "StreamingBoxWalker Depth-aware Issue Emission",
+      "description": "Supplies depth values when emitting issues to enable store to calculate deepest affected depth without re-traversal.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline Context Integration",
+      "description": "Propagates an optional ParseIssueStore, resets it before runs and records issues as they stream in.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCLIEnvironment Exposure",
+      "description": "Exposes the ParseIssueStore through CLI environment for commands to access shared metrics.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStore Exposure",
+      "description": "Provides SwiftUI state with access to shared metrics via ParseTreeStore.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1520,
+    "line_count": 19
+  }
+}

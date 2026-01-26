@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/next_tasks.md",
+  "n_spec": 0,
+  "n_func": 2,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Interactive Payload Annotation",
+      "description": "Provides interactive annotations for payloads and synchronizes hex highlighting across the UI.",
+      "source_line": null
+    },
+    {
+      "name": "Hex Highlighting Synchronization",
+      "description": "Synchronizes hex highlighting between different views when payload annotations are available.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 239,
+    "line_count": 4
+  }
+}

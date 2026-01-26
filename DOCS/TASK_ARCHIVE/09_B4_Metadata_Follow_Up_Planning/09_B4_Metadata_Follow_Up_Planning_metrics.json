@@ -1,0 +1,133 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/09_B4_Metadata_Follow_Up_Planning/09_B4_Metadata_Follow_Up_Planning.md",
+  "n_spec": 14,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Extend StreamingBoxWalker integration tests to assert catalog lookups for standard and UUID boxes, including logging expectations for unknown identifiers.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement VR-003 metadata comparison rule to enforce MP4RA-defined version and flag constraints, emitting warnings when payload headers diverge.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Capture VR-006 research entries by persisting unknown box types with offsets into a research log, ensuring deduplication across runs.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Wire catalog metadata into CLI inspect streaming output with graceful fallback when descriptors are missing.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide metadata-aware adapters for future UI tree/detail panes, including placeholder descriptors when catalog entries are absent.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Introduce regression fixtures that mix known, UUID, and custom boxes to cover fallback behaviors and ensure catalog refresh automation stays effective.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Produce a prioritized checklist of downstream B4 follow-up tasks (tests, fallbacks, consumer updates) with dependencies and expected artifacts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Identify required fixtures and catalog scenarios (standard, UUID, unknown types) and document how they will be exercised in automation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Specify how validation and reporting layers (CLI/UI/export) should consume catalog metadata, including acceptance signals for graceful degradation when descriptors are missing.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Capture any open risks or external research needed before implementation begins.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Catalog lookups must always return a descriptor if the box type is known; unknown types must be logged exactly once per occurrence.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Validation rules VR-003 and VR-006 must continue emitting warnings/info without halting parsing.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use ParsePipeline.live() event coverage to define integration test hooks for metadata assertions and fallback logging.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate validation rule backlog (VR-003, VR-006) so that catalog mismatches and unknown box tracking align with success criteria.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipeline Metadata Enrichment",
+      "description": "Enriches streaming parse events by consulting the MP4RA BoxCatalog to attach descriptive metadata to each box event.",
+      "source_line": null
+    },
+    {
+      "name": "StreamingBoxWalker Integration Tests",
+      "description": "Integration tests that assert catalog lookups for standard and UUID boxes, verify logging expectations for unknown identifiers during streaming parsing.",
+      "source_line": null
+    },
+    {
+      "name": "VR-003 Metadata Comparison Rule",
+      "description": "Validation rule enforcing MP4RA-defined version and flag constraints, emitting warnings when payload headers diverge from catalog definitions.",
+      "source_line": null
+    },
+    {
+      "name": "VR-006 Unknown Box Research Logging",
+      "description": "Captures unknown box types with offsets into a research log, ensuring deduplication across runs for future investigation.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Inspect Streaming Output Formatter",
+      "description": "Formats console output for the CLI inspect command, displaying catalog names/summaries when available and falling back to raw fourcc/UUID when descriptors are missing.",
+      "source_line": null
+    },
+    {
+      "name": "UI Metadata Adapter",
+      "description": "Provides metadata-aware adapters for UI tree/detail panes, supplying placeholder descriptors when catalog entries are absent.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Fixture Generator",
+      "description": "Generates media samples mixing known, UUID, and custom boxes to cover fallback behaviors and ensure catalog refresh automation remains effective.",
+      "source_line": null
+    },
+    {
+      "name": "BoxValidator Annotation Engine",
+      "description": "Annotates parse events with VR-003 warnings and VR-006 info-level issues, continuing emission of events while surfacing actionable validation messages.",
+      "source_line": null
+    },
+    {
+      "name": "EventConsoleFormatter",
+      "description": "Formats parse events for console output, incorporating catalog metadata and graceful degradation for unknown descriptors.",
+      "source_line": null
+    },
+    {
+      "name": "Export Metadata Mapper",
+      "description": "Maps box descriptors into JSON export metadata and UI view models, inserting placeholders for missing descriptors to prevent downstream crashes.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 8601,
+    "line_count": 84
+  }
+}

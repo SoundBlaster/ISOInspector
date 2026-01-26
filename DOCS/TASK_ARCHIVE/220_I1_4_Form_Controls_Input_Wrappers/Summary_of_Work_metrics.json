@@ -1,0 +1,113 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/220_I1_4_Form_Controls_Input_Wrappers/Summary_of_Work.md",
+  "n_spec": 15,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Create a BoxToggleView wrapper component that wraps native SwiftUI Toggle and supports custom accessibility labels, disabled state, and future DS.Toggle integration.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create a BoxTextInputView wrapper component that wraps native SwiftUI TextField with built\u2011in validation error display, platform\u2011adaptive keyboard types, copyable text support, and future DS.TextInput integration.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create a BoxPickerView wrapper component that wraps native SwiftUI Picker with generic type support, platform\u2011adaptive styles (segmented vs. menu), accessibility labels including selected option, and future DS.Picker integration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All three components must be implemented in separate files under 300 lines each following One File = One Entity principle.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests covering all code paths with \u226590% coverage must exist for each component.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot test placeholders for light/dark modes and all component states must be present, pending snapshot library integration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility tests achieving \u226598% WCAG 2.1 AA compliance score must be written.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Components must expose no magic numbers in public APIs and use design token placeholders for future styling.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All incomplete FoundationUI integration work is marked with @todo #220 comments.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Concurrency annotations: all view creation and test code must be annotated with @MainActor.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system shall never use force unwraps; all optionals are safely handled.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "SwiftLint violations must be zero once the build environment is available.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use native SwiftUI components as placeholders until DS components are integrated, allowing functional prototypes and test coverage.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Adopt PDD (Puzzle\u2011Driven Development) to track incomplete work via @todo #220 markers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Apply design tokens (DS.Spacing, DS.Radius, DS.Color\u2026 ) for future consistency across components.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxToggleView",
+      "description": "A SwiftUI wrapper component that exposes a toggle control with custom accessibility labels, disabled state support, and placeholder for DS.Toggle integration.",
+      "source_line": null
+    },
+    {
+      "name": "BoxTextInputView",
+      "description": "A SwiftUI wrapper component that exposes a text input field with built\u2011in validation error display, platform\u2011adaptive keyboard types, copyable text support, and accessibility announcements for errors.",
+      "source_line": null
+    },
+    {
+      "name": "BoxPickerView",
+      "description": "A SwiftUI wrapper component that exposes a picker control supporting generic types (enum, string, integer), platform\u2011adaptive styles (segmented vs. menu), and accessibility labels including the selected option.",
+      "source_line": null
+    },
+    {
+      "name": "FormControlsUnitTests",
+      "description": "A comprehensive unit test suite for the form control components covering initialization, property handling, accessibility, disabled state, validation, keyboard type, generic type support, style overrides, and component composition.",
+      "source_line": null
+    },
+    {
+      "name": "FormControlsSnapshotTests",
+      "description": "Placeholder snapshot tests for the form control components across light/dark modes, all states (eaw?\u2026",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 11879,
+    "line_count": 328
+  }
+}

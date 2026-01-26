@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/next_tasks.md",
+  "n_spec": 9,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "BoxParserRegistry must have dedicated entries for new codec payload boxes when fixtures arrive.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute macOS CLI/UI large-file benchmark using R4 protocol once hardware runners are available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark execution must be scheduled and tracked in the specified documentation.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Release readiness steps (DocC generation, notarization, TestFlight export, QA) require macOS infrastructure before completion.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run random slice benchmark suite on macOS hardware to compare mapped vs. chunked readers under identical workloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark must be executed once Combine support is available and results documented.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS with XCTest UI to validate SwiftUI automation flow.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Testing entitlements for macOS UI testing are unavailable in the container.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute Combine-backed UI benchmark on macmacOS to capture latency metrics.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "mvhd Movie Header Parser",
+      "description": "Parses the 'mvhd' movie header box into a detail struct and exposes its data via tests and documentation.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Codec Payload Monitoring",
+      "description": "Monitors incoming codec payloads (e.g., Dolby Vision boxes) and registers dedicated parser entries when new fixtures arrive.",
+      "source_line": null
+    },
+    {
+      "name": "Handler Type Categorization Evaluation",
+      "description": "Evaluates additional handler type categorizations for future boxes beyond current mapping set.",
+      "source_line": null
+    },
+    {
+      "name": "macOS CLI/UI Large-File Benchmark Execution",
+      "description": "Executes large-file performance benchmarks on macOS using the R4 protocol via CLI or UI.",
+      "source_line": null
+    },
+    {
+      "name": "Release Readiness Validation Workflow",
+      "description": "Runs macOS DocC generation, notarization, TestFlight export and hardware QA to validate release readiness.",
+      "source_line": null
+    },
+    {
+      "name": "Random Slice Benchmark Suite Execution",
+      "description": "Runs random slice benchmark suite on macOS to compare mapped vs. chunked readers under identical workloads.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStreamingSelectionAutomationTests",
+      "description": "Automates end\u2011to\u2011end SwiftUI parsing tree streaming selection flow using XCTest UI on macOS.",
+      "source_line": null
+    },
+    {
+      "name": "Combine-backed UI Benchmark",
+      "description": "Captures latency metrics for Combine\u2011based UI benchmark on macOS, maintaining CLI throughput parity.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Snapshot Tests",
+      "description": "Provides snapshot tests for JSON export functionality, ensuring consistent output across versions.",
+      "source_line": null
+    },
+    {
+      "name": "Codec Metadata Extraction",
+      "description": "Extracts and verifies codec metadata from stsd boxes.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3650,
+    "line_count": 38
+  }
+}

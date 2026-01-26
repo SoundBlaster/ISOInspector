@@ -1,0 +1,42 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/118_C13_Surface_smhd_vmhd_Media_Header_Fields/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 6,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "smhd Box Parser",
+      "description": "Parses the smhd media header box and exposes normalized sound metadata such as balance, graphics mode, and opcolor.",
+      "source_line": null
+    },
+    {
+      "name": "vmhd Box Parser",
+      "description": "Parses the vmhd media header box and exposes normalized video metadata such as graphics mode and opcolor.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Extension",
+      "description": "Registers the smhd and vmhd parsers so they can be resolved by the registry.",
+      "source_line": null
+    },
+    {
+      "name": "JSONParseTreeExporter Update",
+      "description": "Exports parsed boxes into a JSON structure, including the new sound/video metadata fields.",
+      "source_line": null
+    },
+    {
+      "name": "Structured Payload Encoder Update",
+      "description": "Encodes typed payload models for smhd and vmhd into structured data for CLI snapshots and DocC consumers.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Integration Notes Update",
+      "description": "Provides documentation on how to surface the media header details in DocC.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 970,
+    "line_count": 19
+  }
+}

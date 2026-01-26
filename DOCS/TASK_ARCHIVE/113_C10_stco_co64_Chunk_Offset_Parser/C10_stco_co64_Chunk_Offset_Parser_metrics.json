@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/113_C10_stco_co64_Chunk_Offset_Parser/C10_stco_co64_Chunk_Offset_Parser.md",
+  "n_spec": 4,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement dedicated parsers for the 32-bit stco and 64-bit co64 chunk offset tables so ISOInspector exposes precise byte offsets for each media chunk and enables validation against the recently delivered stsc and stsz/stz2 sample table models.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parsers decode entry_count and capture each chunk offset as either UInt32 (stco) or UInt64 (co64), normalizing to a shared model downstream.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxParserRegistry registers both boxes, and streaming parse events emit structured metadata consumed by the CLI and SwiftUI experiences without regression.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation pipeline gains access to chunk offsets, enabling cross-checks that correlate stsc chunk ranges and stsz/stz2 sample sizes (unblocking repo todo.md item #15).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "stco Chunk Offset Parser",
+      "description": "Parses the 32\u2011bit stco box to extract entry_count and each chunk offset as UInt32, normalizing into a shared sample table model.",
+      "source_line": null
+    },
+    {
+      "name": "co64 Chunk Offset Parser",
+      "description": "Parses the 64\u2011bit co64 box to extract entry_count and each chunk offset as UInt64, normalizing into a shared sample table model.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry Registration for stco/co64",
+      "description": "Registers both stco and co64 parsers in the BoxParserRegistry so that streaming parse events emit structured metadata.",
+      "source_line": null
+    },
+    {
+      "name": "Shared Sample Table Detail Model Extension",
+      "description": "Extends the existing sample table detail model to include chunk offsets, ensuring UI and JSON export formatting consistency.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Rule #15 Integration",
+      "description": "Reconciles stsc chunk runs, stsz/stz2 sample sizes, and captured chunk offsets to flag discrepancies during validation.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite for Chunk Offset Parsers",
+      "description": "Provides tests covering mixed stco/co64 fixtures, boundary cases, maximum counts, large offsets, and file range compliance.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & Fixture Coverage Update",
+      "description": "Updates regression test snapshots and fixtures to confirm correct parsing of offsets, counts, and 32/64\u2011bit handling across representative MP4 files.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Updates for stco/co64 Support",
+      "description": "Adds entries in DocC, README matrices, and other docs to list stco/co64 as supported boxes once the parser ships.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3184,
+    "line_count": 42
+  }
+}

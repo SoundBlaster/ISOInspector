@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/215_I0_5_Update_Design_System_Guide/Summary_of_Work.md",
+  "n_spec": 8,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Update Design System Guide to include FoundationUI integration checklist, migration path, quality gates, and accessibility requirements.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Design token usage verification points (5), component wrapper pattern points (4), testing requirements (5), platform compatibility points (5), accessibility compliance points (7), documentation points (4), build quality gates (5).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Migration path includes 10 component mappings, 7-step workflow, before/after code examples for Badge, Card, KeyValueRow, common pitfalls with solutions, rollback strategy.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Quality gates documented for phases 0-6 with objectives, validation metrics, success criteria, performance budgets (Phase 6).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility requirements meet WCAG 2.1 AA \u226598%, include VoiceOver testing, keyboard navigation, dynamic type support, color contrast, reduce motion, high contrast mode.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All code examples are accurate and testable; no broken links or references.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "FoundationUI integration checklist added as Section 9 in Design System Guide with subsections 9.1-9.6.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Component mapping table for 10 components, migration workflow, and cross\u2011reference links to technical spec and test suite.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Integration Checklist API",
+      "description": "Endpoint or documentation section that lists verification points for design tokens, component wrappers, testing, platform compatibility, accessibility, documentation, and build quality gates.",
+      "source_line": null
+    },
+    {
+      "name": "Component Mapping Table",
+      "description": "Data structure mapping old UI components to FoundationUI equivalents with priorities, phases, and effort estimates.",
+      "source_line": null
+    },
+    {
+      "name": "Migration Workflow Engine",
+      "description": "Process definition that guides developers through the 7-step migration from identification to archival of legacy UI patterns.",
+      "source_line": null
+    },
+    {
+      "name": "Code Example Repository",
+      "description": "Collection of before/after code snippets for Badge, Card, KeyValueRow and other components demonstrating migration and pitfalls.",
+      "source_line": null
+    },
+    {
+      "name": "Quality Gates Dashboard",
+      "description": "Interface showing phase\u2011specific quality gates (Phase\u00a00\u20136) with objectives, validation metrics, success criteria and performance budgets.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Compliance Checker",
+      "description": "Checklist and tooling integration that verifies WCAG\u00a02.1 AA compliance, VoiceOver, keyboard navigation, dynamic\u2011type support, color contrast, etc.",
+      "source_line": null
+    },
+    {
+      "name": "Cross\u2011Reference Link Manager",
+      "description": "System that manages links to external resources such as component showcase, test suite, technical spec.",
+      "source_line": null
+    },
+    {
+      "name": "Design System Guide Document",
+      "description": "Markdown file (10_DESIGN_SYSTEM_GUIDE.md) containing all sections of the specification.",
+      "source_line": null
+    },
+    {
+      "name": "Phase\u00a00 Status Tracker",
+      "description": "Tool or document tracking completion status of Phase\u00a00 tasks and quality gates.",
+      "source_line": null
+    },
+    {
+      "name": "Next Tasks Planner",
+      "description": "Document or interface that manages next\u2011step tasks for future phases.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 11719,
+    "line_count": 258
+  }
+}

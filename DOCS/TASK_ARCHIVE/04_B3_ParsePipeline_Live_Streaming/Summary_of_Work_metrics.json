@@ -1,0 +1,28 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/04_B3_ParsePipeline_Live_Streaming/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 1,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The ParsePipeline.live() streaming parse pipeline must emit ordered willStartBox/didFinishBox events with accurate offsets for all MP4 boxes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover nested container traversal, large-size boxes, and error propagation to validate the live pipeline behavior.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipeline.live() streaming parse pipeline",
+      "description": "Provides a live streaming parse pipeline that traverses nested MP4 boxes using an explicit stack and emits ordered willStartBox/didFinishBox events with accurate offsets.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 548,
+    "line_count": 12
+  }
+}

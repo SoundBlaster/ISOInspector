@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/136_Summary_of_Work_2025-10-21_tfhd_Track_Fragment_Header/D3_traf_tfhd_tfdt_trun_Parsing.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide fragment run parsing for traf, tfhd, tfdt, and trun boxes so ISOInspector exposes accurate sample table metadata for fragmented MP4 files across CLI, library exports, and UI surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ISOInspectorKit registers parsers for traf, tfhd, tfdt, and trun, emitting strongly typed models that honor optional fields governed by each flag bit.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming events, JSON exports, and CLI output include fragment run details: track IDs, default/sample flags, base decode time, sample counts, sizes, durations, and optional data offsets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and snapshot tests cover representative flag combinations (e.g., data-offset present, first-sample-flags overrides) and guard against malformed counts or offsets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation layer gains initial checks that correlate trun metadata with trex defaults and fail gracefully when runs declare zero progress or inconsistent array lengths.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Bounds and overflow checks on cumulative sample durations/sizes must mirror existing sample table protections, emitting warnings instead of crashing on malformed data.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse FullBoxReader to read tfhd/trun version and flag fields, applying trex defaults when optional values are absent.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the streaming parser to accumulate fragment state so downstream consumers can cross-reference tfdt base decode time and trun timestamps during validation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update JSON export schemas and fixtures to include fragment run payloads; refresh CLI snapshot baselines.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "traf box parser",
+      "description": "Parses the 'traf' container box to expose fragment run metadata such as track IDs and default/sample flags",
+      "source_line": null
+    },
+    {
+      "name": "tfhd box parser",
+      "description": "Reads 'tfhd' full-box fields, applies trex defaults, and emits typed model for track fragment header information",
+      "source_line": null
+    },
+    {
+      "name": "tfdt box parser",
+      "description": "Parses 'tfdt' base decode time and makes it available to downstream consumers",
+      "source_line": null
+    },
+    {
+      "name": "trun box parser",
+      "description": "Decodes 'trun' sample run data including counts, sizes, durations, offsets and optional flags",
+      "source_line": null
+    },
+    {
+      "name": "fragment state accumulator",
+      "description": "Accumulates fragment-level state across boxes so downstream consumers can cross-reference tfdt and trun data during validation",
+      "source_line": null
+    },
+    {
+      "name": "JSON export schema update",
+      "description": "Extends JSON export to include fragment run payloads with new fields",
+      "source_line": null
+    },
+    {
+      "name": "CLI snapshot baseline refresh",
+      "description": "Updates CLI output snapshots to assert presence of new fragment run details",
+      "source_line": null
+    },
+    {
+      "name": "validation layer enhancement",
+      "description": "Adds checks correlating trun metadata with trex defaults and guards against zero progress or inconsistent array lengths",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2755,
+    "line_count": 29
+  }
+}

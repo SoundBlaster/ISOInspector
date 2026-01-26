@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/82_I5_v0_1_0_Release_Notes/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a shareable release notes document for the v0.1.0 MVP that includes kit/app/CLI highlights, QA evidence, and outstanding release follow-ups.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Release notes must reference marketing version 0.1.0 and build 1 as advertised in distribution metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Release notes must list macOS-only gaps such as DocC archives, notarization/TestFlight automation, and Combine/UI runs to inform release managers of required hardware steps before tagging.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Distribution metadata must advertise marketing version 0.1.0 and build 1 consistently across all artifacts.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use the Distribution/ReleaseNotes/v0.1.0.md file as the single source of truth for release notes, shared via GitHub Releases and TestFlight notes.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Release Notes Generation",
+      "description": "Creates and publishes release notes for the v0.1.0 MVP release, including kit/app/CLI highlights, QA evidence, and follow\u2011up items.",
+      "source_line": null
+    },
+    {
+      "name": "Distribution Metadata Verification",
+      "description": "Confirms that distribution metadata advertises the correct marketing version and build number, ensuring alignment with Tuist configuration.",
+      "source_line": null
+    },
+    {
+      "name": "macOS\u2011Specific Release Gap Reporting",
+      "description": "Records gaps in macOS release steps such as DocC generation, notarization, TestFlight automation, and Combine/UI runs to inform release managers of required hardware execution before tagging.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Binary Build for Packaging",
+      "description": "Builds the isoinspect CLI binary using Swift build in release configuration for packaging purposes.",
+      "source_line": null
+    },
+    {
+      "name": "Workspace Test Suite Execution",
+      "description": "Runs the full workspace test suite on Linux, logging benchmark metrics and skipping Combine tests as expected.",
+      "source_line": null
+    },
+    {
+      "name": "Release Readiness Runbook Tracking",
+      "description": "Tracks DocC generation, notarization, TestFlight export, and macOS QA steps via a runbook to ensure release readiness once hardware runners are available.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1735,
+    "line_count": 20
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/177_Summary_of_Work_2025-10-24/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Rewired ParseTreeStore to iterate ParsePipeline.events(for:context:) directly with Swift concurrency.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Removed the Combine-only ParsePipelineEventBridge and updated Xcode project sources.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "swift test verifies async streaming without the bridge.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 630,
+    "line_count": 13
+  }
+}

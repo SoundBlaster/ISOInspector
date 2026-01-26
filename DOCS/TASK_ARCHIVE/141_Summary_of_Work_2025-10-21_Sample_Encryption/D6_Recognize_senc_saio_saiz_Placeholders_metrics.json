@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/D6_Recognize_senc_saio_saiz_Placeholders.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement stub-level parsing for sample encryption support boxes (senc, saio, saiz) so fragment workflows expose byte ranges and counts without decrypting payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxParserRegistry registers dedicated handlers for senc, saio, and saiz that read version/flag headers and emit summary fields such as entry counts, default IV sizes, and referenced offsets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsedBoxPayload instances capture byte ranges for each structure so JSON export, CLI reports, and SwiftUI detail panes can highlight where encryption metadata lives.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover synthetic fragment fixtures exercising each box type, validating parsed field values and ensuring unknown/unsupported flag combinations degrade gracefully with informational validation issues rather than crashes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation and changelog entries mention the new coverage so stakeholders know encrypted sample scaffolding is now visible even without decryption capabilities.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parser must not attempt to decrypt protected payloads; it should only record metadata.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend BoxParserRegistry.DefaultParsers in BoxParserRegistry+MovieFragments.swift to include parser functions for senc, saio, and saiz, wiring them into the registry so they populate ParsedBoxPayload.Field entries with offsets, counts, and IV sizing hints.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use FullBoxReader for senc to extract version/flags, handling optional constant IV sections before iterating sample records; stub per-sample payloads by recording counts and sizes rather than storing raw encryption data.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "For saio/saiz prefer 32-bit entry arrays initially and gate 64-bit offsets via feature flags or warnings until fixtures exist; surface aggregate totals so validators/UI can warn when offsets fall outside their parent payload range.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Register Sample Encryption Box Parsers",
+      "description": "Adds registry handlers that emit placeholder metadata for senc, saio, and saiz boxes",
+      "source_line": null
+    },
+    {
+      "name": "Surface Sample Encryption Metadata Across Outputs",
+      "description": "Propagates new fields through kit models, JSON exports, CLI formatting, and SwiftUI detail panes",
+      "source_line": null
+    },
+    {
+      "name": "Validate & Document Sample Encryption Placeholder Coverage",
+      "description": "Establishes regression fixtures, tests, and documentation updates covering the new functionality end-to-end",
+      "source_line": null
+    },
+    {
+      "name": "Parse senc Box",
+      "description": "Parses version/flags and records entry counts, default IV sizes, and placeholder sample records without decrypting data",
+      "source_line": null
+    },
+    {
+      "name": "Parse saio Box",
+      "description": "Parses 32-bit (and optionally 64-bit) offset entries, records byte ranges and totals for encryption offsets",
+      "source_line": null
+    },
+    {
+      "name": "Parse saiz Box",
+      "description": "Parses size entries, records byte ranges and totals for encryption sizes",
+      "source_line": null
+    },
+    {
+      "name": "Emit ParsedBoxPayload Fields",
+      "description": "Captures byte ranges for each structure so JSON export, CLI reports, and SwiftUI detail panes can highlight where encryption metadata lives",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for Sample Encryption Parsing",
+      "description": "Tests synthetic fragment fixtures exercising each box type and validates parsed field values and graceful degradation",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4413,
+    "line_count": 35
+  }
+}

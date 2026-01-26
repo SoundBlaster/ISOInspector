@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/219_I1_3_Key_Value_Rows_Metadata_Display/Summary_of_Work_I1_3.md",
+  "n_spec": 10,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a user of ISOInspector UI, I want metadata display patterns to use FoundationUI DS.KeyValueRow via BoxMetadataRow so that the UI is consistent, accessible, and testable.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All metadata displays in ParseTreeDetailView, EncryptionSubsection, and other views must be refactored to use BoxMetadataRow with correct layout, copyable behavior, and design system tokens.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxMetadataRow component must expose label, value, layout, and copyable properties as defined, support horizontal/vertical layouts, and provide copy-to-clipboard functionality when enabled.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Component must pass 60+ unit tests covering initialization, layout, copyable, content variations, real\u2011world metadata, agent describable conformance, integration, accessibility, dark mode, design system tokens, snapshot, and performance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility compliance: WCAG\u202f2.1\u202fAA, VoiceOver labels, dynamic type support, minimum touch target size, reduce motion, high contrast, and copyable hints.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Dark mode support: correct color adaptation for light/dark schemes, button visibility, layout preservation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Design system integration: use DS.Typography, DS.Spacing, DS.Color tokens consistently across the component and previews.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "BoxMetadataRow must be a single entity per file and file size <400 lines.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wrap FoundationUI DS.KeyValueRow in a new SwiftUI view (BoxMetadataRow) to provide ISOInspector\u2011specific API, layout options, and copyable action instead of custom Grid/GridRow implementations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use TDD with 60+ tests, XP incremental refactoring, PDD puzzle\u2011driven approach, and single-entity file structure for maintainability.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxMetadataRow Component",
+      "description": "A SwiftUI view that wraps FoundationUI's DS.KeyValueRow to display metadata key-value pairs with optional copy-to-clipboard functionality and support for horizontal or vertical layout.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeDetailView Metadata Refactor",
+      "description": "Updates to ParseTreeDetailView that replace custom Grid/GridRow patterns with BoxMetadataRow components for displaying ISO box metadata, status rows, and encryption subsections.",
+      "source_line": null
+    },
+    {
+      "name": "ComponentTestApp Showcase Screen",
+      "description": "An interactive screen in ComponentTestApp demonstrating the BoxMetadataRow component with various layouts, copyable options, dark mode, accessibility features, and real\u2011world ISO metadata examples.",
+      "source_line": null
+    },
+    {
+      "name": "Navigation Integration for BoxMetadataRow",
+      "description": "Adds a new destination case to the ComponentTestApp navigation enum and links it from the Components section, enabling users to navigate to the showcase screen.",
+      "source_line": null
+    },
+    {
+      "name": "BoxMetadataRow Test Suite",
+      "description": "A comprehensive XCTest suite covering initialization, layout, copyable behavior, content variations, real\u2011world metadata scenarios, agent describability, integration, accessibility, dark mode, design system tokens, snapshot/layout consistency, and performance of the BoxMetadataRow component.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 19443,
+    "line_count": 567
+  }
+}

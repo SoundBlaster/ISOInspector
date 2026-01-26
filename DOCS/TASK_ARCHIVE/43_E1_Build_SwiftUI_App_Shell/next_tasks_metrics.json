@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/43_E1_Build_SwiftUI_App_Shell/next_tasks.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Build SwiftUI app shell with document browser and recents list using CoreData-backed session persistence",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use CoreData for session persistence in the SwiftUI app shell",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Configure performance benchmarks for large MP4 files by standing up benchmarking harnesses using streaming fixtures to measure CLI and app throughput",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmarking harnesses must measure both CLI and app throughput for large MP4 payloads",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Expose global logging and telemetry toggles once streaming metrics are exposed to the CLI",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute streaming inspection by consuming ParsePipeline events when Task D2 builds the streaming command",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming inspection must consume ParsePipeline events during Task D2's streaming command build",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Produce validation reports with the streaming pipeline once Task D3 (?\u00a0??)\u00a0\u2014\u00a0\"\u2026\u00a0..\u00a0\"",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SwiftUI App Shell",
+      "description": "Provides a SwiftUI application shell featuring a document browser and recents list backed by CoreData for session persistence.",
+      "source_line": null
+    },
+    {
+      "name": "Performance Benchmarking Harnesses",
+      "description": "Offers benchmarking tools to measure CLI and app throughput for large MP4 files using streaming fixtures.",
+      "source_line": null
+    },
+    {
+      "name": "Global Logging & Telemetry Toggles",
+      "description": "Enables toggling of surface-level global logging and telemetry within the system when streaming metrics are available.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming Inspection Consumer",
+      "description": "Consumes ParsePipeline events during Task D2 to inspect streaming data.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Report Generator",
+      "description": "Produces validation reports from the streaming pipeline once the CLI output contract is defined.",
+      "source_line": null
+    },
+    {
+      "name": "Export Operation Routing",
+      "description": "Routes export operations to streaming capture utilities as they transition from ISOInspectorCLIRunner.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1055,
+    "line_count": 21
+  }
+}

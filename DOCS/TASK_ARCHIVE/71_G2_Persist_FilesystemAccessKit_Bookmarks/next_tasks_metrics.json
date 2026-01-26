@@ -1,0 +1,47 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/71_G2_Persist_FilesystemAccessKit_Bookmarks/next_tasks.md",
+  "n_spec": 0,
+  "n_func": 7,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Bookmark Persistence Store Integration",
+      "description": "Persist FilesystemAccessKit bookmarks alongside recents/session storage controllers using shared BookmarkPersistenceStore in CoreData and JSON flows",
+      "source_line": null
+    },
+    {
+      "name": "Filesystem Access CLI Sandbox Guidance",
+      "description": "Provide guidance for sandbox profiles covering com.apple.security.files.user-selected.read-write and automation workflows for headless usage",
+      "source_line": null
+    },
+    {
+      "name": "Random Slice Benchmark Execution",
+      "description": "Execute random slice benchmark suite on macOS to compare mapped vs. chunked readers under identical workloads",
+      "source_line": null
+    },
+    {
+      "name": "ParseTree Streaming Selection Automation Tests",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS with XCTest UI support to validate SwiftUI automation flow",
+      "source_line": null
+    },
+    {
+      "name": "Combine-backed UI Benchmark Execution",
+      "description": "Execute Combine-backed UI benchmark on macOS to capture latency metrics while maintaining CLI throughput parity",
+      "source_line": null
+    },
+    {
+      "name": "Session Bookmark Reconciliation",
+      "description": "Reconcile CoreData session bookmark diffs with live bookmark entities according to defined reconciliation rules",
+      "source_line": null
+    },
+    {
+      "name": "Notarized Build Apple Events Automation Assessment",
+      "description": "Track outcome of notarized build Apple Events automation assessment and evaluate entitlements for notarized builds",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3153,
+    "line_count": 32
+  }
+}

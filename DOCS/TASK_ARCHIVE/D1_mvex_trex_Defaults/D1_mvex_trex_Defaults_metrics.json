@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/D1_mvex_trex_Defaults/D1_mvex_trex_Defaults.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement parsing support for the fragmented movie extension (mvex) and its track extends entries (trex) so the parser surfaces default sample parameters required by movie fragments.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "mvex boxes are registered as containers whose children are parsed and attached to the tree.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each trex child exposes track ID, default sample description index, duration, size, and flags fields with correct numeric widths.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming parser preserves byte ranges and flag semantics for export/validation consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and snapshot tests cover fixtures with fragmented files to guard regressions.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend BoxParserRegistry with dedicated handlers for mvex (container) and trex (full box with fixed payload layout).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "mvex Container Parser",
+      "description": "Registers and parses mvex boxes as containers, attaching child trex entries to the parse tree.",
+      "source_line": null
+    },
+    {
+      "name": "trex Full Box Parser",
+      "description": "Parses each trex entry exposing track ID, default sample description index, duration, size, and flags with correct numeric widths.",
+      "source_line": null
+    },
+    {
+      "name": "FullBoxReader Utilization",
+      "description": "Uses existing FullBoxReader utilities for version/flags handling and big-endian integer decoding across 32-bit fields.",
+      "source_line": null
+    },
+    {
+      "name": "Byte Range Preservation in Streaming Parser",
+      "description": "Ensures streaming parser preserves byte ranges and flag semantics for export/validation consumers.",
+      "source_line": null
+    },
+    {
+      "name": "Fragmented MP4 Default Sample Parameters Exposure",
+      "description": "Provides parsed default sample parameters to downstream fragment interpretation and validation workflows.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2192,
+    "line_count": 28
+  }
+}

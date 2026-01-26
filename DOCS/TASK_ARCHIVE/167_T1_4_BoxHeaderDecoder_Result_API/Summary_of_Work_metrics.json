@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "BoxHeaderDecoder.readHeader must return a Result<BoxHeader, BoxHeaderDecodingError> instead of throwing errors.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The decoder internals are refactored into a shared implementation that populates Result values rather than throwing.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Legacy callers can still use the deprecated strict convenience wrapper for BoxHeaderDecoder.readHeader.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "StreamingBoxWalker and unit tests must adopt the new API surface, propagating failures explicitly and validating both success and failure scenarios across existing coverage.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxHeaderDecoder.readHeader API",
+      "description": "Provides a result-based method to read and parse box headers, returning either a BoxHeader or a BoxHeaderDecodingError",
+      "source_line": null
+    },
+    {
+      "name": "Deprecated strict convenience wrapper for BoxHeaderDecoder.readHeader",
+      "description": "Legacy synchronous API that throws errors instead of returning Result",
+      "source_line": null
+    },
+    {
+      "name": "Shared decoder implementation",
+      "description": "Internal logic used by both strict and tolerant parsing flows to populate Result values",
+      "source_line": null
+    },
+    {
+      "name": "StreamingBoxWalker integration",
+      "description": "Component that consumes the BoxHeaderDecoder API, propagating failures explicitly and continuing traversal in tolerant mode",
+      "source_line": null
+    },
+    {
+      "name": "Unit tests for header decoding",
+      "description": "Test suite validating success and failure scenarios of the new result-based API",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1043,
+    "line_count": 15
+  }
+}

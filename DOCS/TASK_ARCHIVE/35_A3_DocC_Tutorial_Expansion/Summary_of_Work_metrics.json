@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expand ISOInspectorCLI DocC catalog with a tutorial on capturing research logs for annotation reviews, including cross-links to app workflows and new CLI screenshot assets.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Expand ISOInspectorApp DocC catalog with a tutorial on annotating and bookmarking MP4 investigations, covering persistence steps and supporting screenshots.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tutorial files are added under both DocC catalogs along with generated PNG resources.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Catalog landing pages are updated to surface the new tutorials within the overview and topics sections.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must continue to pass swift test and python3 scripts/fix_markdown.py validation after changes.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Capture Research Logs for Annotation Reviews",
+      "description": "CLI feature that captures research logs during annotation reviews",
+      "source_line": null
+    },
+    {
+      "name": "Annotate and Bookmark MP4 Investigations",
+      "description": "App feature allowing users to annotate and bookmark sections of MP4 investigations with persistence",
+      "source_line": null
+    },
+    {
+      "name": "DocC Catalog Landing Page Update",
+      "description": "UI component that surfaces new tutorials within overview and topics sections of the DocC catalog",
+      "source_line": null
+    },
+    {
+      "name": "CLI Screenshot Asset Generation",
+      "description": "Process that generates PNG assets for CLI screenshots used in documentation",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Asset Management",
+      "description": "System managing tutorial files and generated resources across ISOInspectorCLI and ISOInspectorApp DocC catalogs",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1087,
+    "line_count": 25
+  }
+}

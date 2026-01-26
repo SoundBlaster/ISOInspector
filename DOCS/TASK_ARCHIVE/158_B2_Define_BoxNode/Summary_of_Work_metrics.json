@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/158_B2_Define_BoxNode/Summary_of_Work.md",
+  "n_spec": 3,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The BoxNode aggregate must be a sendable struct that captures headers, optional catalog metadata, parsed payload details, validation issues, and child nodes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "ParseTree now stores an array of BoxNode instead of ParseTreeNode; a public typealias preserves existing ParseTreeNode references to maintain backward compatibility.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The shared BoxNode aggregate is used by UI, CLI, and export layers, ensuring consistent tree representation across components.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxNode Aggregate",
+      "description": "Defines the canonical BoxNode domain type used across ISOInspectorKit for representing parsed data nodes with headers, optional catalog metadata, payload details, validation issues, and child nodes.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTree Structure",
+      "description": "Stores an array of BoxNode instances and provides a public typealias to preserve existing ParseTreeNode references.",
+      "source_line": null
+    },
+    {
+      "name": "Tree Builder Responsibilities",
+      "description": "Defines responsibilities for building the shared tree model used by UI, CLI, and export layers.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 815,
+    "line_count": 14
+  }
+}

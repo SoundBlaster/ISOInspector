@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/150_Summary_of_Work_2025-10-22_Sample_Encryption_Metadata/2025-10-22-sample-encryption-metadata-surfacing.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expose placeholder metadata from senc/saio/saiz boxes across JSON exports, CLI streaming output, and SwiftUI detail panes so users can locate encrypted payload scaffolding without decoding bytes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSON structured payload includes sample_encryption, sample_aux_info_offsets, sample_aux_info_sizes dictionaries with counts, sizes, and byte ranges.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI formatter emits short encryption summaries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftUI detail view renders encryption rows with accessibility identifiers and labels.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Existing payload consumers continue to parse; new keys are additive.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Public Kit API added/changed: JSON structured payload now includes sample_encryption, sample_aux_info_offsets, sample_aux_info_sizes dictionaries.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "JSONParseTreeExporter sample_encryption metadata inclusion",
+      "description": "Exports structured JSON payloads that include sample encryption metadata such as counts, sizes, and byte ranges for senc/saio/saiz boxes.",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload.Detail structured encoders for encryption metadata",
+      "description": "Encodes detailed parsed box payloads with added fields for sample encryption, auxiliary info offsets, and sizes.",
+      "source_line": null
+    },
+    {
+      "name": "EventConsoleFormatter short encryption summaries",
+      "description": "CLI formatter outputs concise summary lines indicating presence of encryption data in event logs.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeDetailView encryption section rendering",
+      "description": "SwiftUI detail view displays an encryption section with rows for each box type and accessibility identifiers/labels.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeNodeDetail.accessibilitySummary updates",
+      "description": "Provides updated accessibility summaries that include encryption metadata information.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1574,
+    "line_count": 23
+  }
+}

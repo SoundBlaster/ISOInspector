@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/153_Summary_of_Work_Export_Schema_Verification_Harness/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Child boxes must not exceed parent ranges and cannot overlap payloads within the same parent.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Export schema verification harness should produce JSON exporter aliases and format summary coverage across kit snapshots and CLI regression tests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The export schema verification harness must be completed and shipped with the specified features.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Real\u2011world assets licensing must be secured before replacing synthetic payloads and refreshing regression baselines.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Parent Containment and Non-Overlap Validation",
+      "description": "Validates that child boxes are within parent ranges and flags overlapping payloads for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "name": "Export Schema Verification Harness",
+      "description": "Provides a JSON exporter aliasing and format summary coverage across kit snapshots and CLI regression tests.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1018,
+    "line_count": 5
+  }
+}

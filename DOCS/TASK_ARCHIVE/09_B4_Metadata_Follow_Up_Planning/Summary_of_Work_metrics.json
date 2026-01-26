@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/09_B4_Metadata_Follow_Up_Planning/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a command-line interface that streams event data through an EventConsoleFormatter to display catalog summaries and validation issues while expanding CLI coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The isoinspect inspect command must parse events stream through EventConsoleFormatter, printing catalog summaries and validation issues as part of the CLI output.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Metadata follow-up planning tasks must be recorded in the in-progress checklist upon completion.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a catalog-driven parser and consumer follow-up plan to prioritize backlog items, fixture coverage, and risk management for metadata integration.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1532,
+    "line_count": 26
+  }
+}

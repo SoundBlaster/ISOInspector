@@ -1,0 +1,62 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/next_tasks.md",
+  "n_spec": 0,
+  "n_func": 10,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "FilesystemAccessKit Core APIs",
+      "description": "Provides file system operations such as openFile, saveFile, createBookmark, and resolveBookmarkData for user-selected files.",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark Persistence Schema Design",
+      "description": "Defines a schema to persist bookmarks aligned with recents/session storage for seamless integration.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Sandbox Profile Guidance",
+      "description": "Offers guidance on sandbox profiles covering com.apple.security.files.user-selected.read-write and automation workflows for headless usage.",
+      "source_line": null
+    },
+    {
+      "name": "Random Slice Benchmark Execution",
+      "description": "Runs random slice benchmark suite on macOS to compare mapped vs. chunked readers under identical workloads.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTree Streaming Selection Automation Tests",
+      "description": "Executes SwiftUI automation flow tests for parse tree streaming selection on macOS hardware.",
+      "source_line": null
+    },
+    {
+      "name": "Combine-backed UI Benchmark Execution",
+      "description": "Captures latency metrics for Combine-backed UI benchmark on macOS, maintaining throughput parity with CLI harness.",
+      "source_line": null
+    },
+    {
+      "name": "Session Persistence Error Surface",
+      "description": "Surfaces session persistence errors through diagnostics plumbing once logging pipeline is available.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Session Bookmark Reconciliation",
+      "description": "Reconciles CoreData session bookmark diffs with live bookmark entities based on defined reconciliation rules.",
+      "source_line": null
+    },
+    {
+      "name": "Recents Persistence Error Surface",
+      "description": "Surfaces recents persistence errors via diagnostics plumbing once logging pipeline is available.",
+      "source_line": null
+    },
+    {
+      "name": "Notarized Build Apple Events Automation Tracking",
+      "description": "Tracks outcomes of notarized build Apple Events automation assessment and extends entitlements safely.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3630,
+    "line_count": 31
+  }
+}

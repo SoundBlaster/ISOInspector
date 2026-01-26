@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/205_T5_4_Performance_Benchmark.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Benchmark lenient parsing against strict mode on a 1 GB reference fixture to ensure performance stays within budget.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Strict-mode benchmark establishes baseline metrics for the 1 GB reference fixture using the existing XCTest performance suite.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Lenient-mode benchmark completes on the same fixture with \u22641.2\u00d7 runtime overhead and \u226450 MB additional peak memory compared to the baseline.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Results (metrics, configuration, fixture hash) are recorded and linked for archival in the forthcoming task summary.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI or local automation notes indicate how to repeat the benchmark (e.g., command invocation, environment requirements).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Performance gate must be enforced before the beta exit criteria can be met, pairing strict-mode baselines with lenient-mode runs on large_file_1GB.mp4.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse LargeFileBenchmarkTests by parameterizing the parsing mode (strict vs. lenient) and capturing metrics for both runs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend PerformanceBenchmarkConfiguration with tolerant-mode overhead budgets (1.2\u00d7 runtime, +50 MiB RSS) so the suite enforces the gate directly.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Lenient Parsing Performance Benchmark",
+      "description": "Runs a performance test comparing lenient parsing mode against strict mode on a 1 GB media fixture to ensure runtime and memory overhead stay within specified limits.",
+      "source_line": null
+    },
+    {
+      "name": "Strict Mode Baseline Benchmark",
+      "description": "Executes the existing XCTest performance suite in strict parsing mode to establish baseline metrics for the 1 GB reference fixture.",
+      "source_line": null
+    },
+    {
+      "name": "Parameterized Large File Benchmark Harness",
+      "description": "Reuses LargeFileBenchmarkTests, parameterized by parsing mode (strict or lenient), to capture runtime and memory metrics for each run.",
+      "source_line": null
+    },
+    {
+      "name": "Performance Metrics Capture and Archival",
+      "description": "Collects raw timing and peak RSS data during benchmark runs and records them in Documentation/Performance for archival and regression analysis.",
+      "source_line": null
+    },
+    {
+      "name": "CI / Local Automation Benchmark Invocation Guide",
+      "description": "Provides command invocation details, environment requirements, and notes on how to repeat the benchmark in CI or locally.",
+      "source_line": null
+    },
+    {
+      "name": "Environment Constraint Documentation",
+      "description": "Documents macOS hardware and Combine support requirements for running lenient mode benchmarks, including mitigation steps for future automation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3743,
+    "line_count": 38
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/222_C21_Floating_Settings_Panel/next_tasks.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI components into the application by replacing native SwiftUI elements with DS components and ensuring snapshot testing integration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All Phase 1 tasks (I1.1\u2013I1.5) must be completed and verified on 2025-11-14, including badge & status indicators, card containers, key-value rows, form controls, advanced layouts, responsive behavior, accessibility, and dark mode support.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FoundationUI integration tasks cannot begin until Phase 0 is complete.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use FoundationUI grid and spacing system for layout patterns in Advanced Layouts & Navigation (I1.5).",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create SDK Tolerant Parsing Documentation with DocC article, code examples, and inline documentation updates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation must be verified against test file in Tests/ISOInspectorKitTests/ and linked from main Documentation.md Topics section.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement Floating Settings Panel Shell (C21) using FoundationUI cards and macOS NSPanel or iPad/iOS .sheet detents.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot and accessibility tests must validate both macOS and iOS presentations.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "C22 cannot be thread permanent changes through UserPreferencesStore only after C21 is completed.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Badge & Status Indicators",
+      "description": "UI component for displaying badges and status indicators using FoundationUI",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Card Containers & Sections",
+      "description": "Reusable card container UI components for grouping content",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Key-Value Rows & Metadata Display",
+      "description": "Component to display key-value pairs and metadata in a structured row format",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Form Controls & Input Wrappers",
+      "description": "Form control wrappers integrating FoundationUI components with SwiftUI forms",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Advanced Layouts & Navigation",
+      "description": "Layout patterns using FoundationUI grid, spacing, responsive behavior, dark mode and navigation",
+      "source_line": null
+    },
+    {
+      "name": "SDK Tolerant Parsing Documentation",
+      "description": "DocC article and inline docs for tolerant parsing options in ISOInspectorKit",
+      "source_line": null
+    },
+    {
+      "name": "Floating Settings Panel Shell",
+      "description": "SettingsPanelScene UI presenting settings in a floating panel on macOS and sheet detents on iPad/iOS",
+      "source_line": null
+    },
+    {
+      "name": "Floating Settings Panel Persistence & Reset Wiring",
+      "description": "Persistence logic for permanent and session settings, reset actions, and documentation",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3626,
+    "line_count": 71
+  }
+}

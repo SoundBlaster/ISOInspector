@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/41_D1_Scaffold_CLI_Base_Command/D1_Scaffold_CLI_Base_Command.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Create the initial isoinspector executable with a root command that prints help and wires shared configuration so future subcommands can reuse the streaming parser pipeline.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftPM workspace defines an ISOInspectorCLI target that builds a runnable tool.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Running isoinspector --help lists the base command description and planned subcommands placeholder(s).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Command-line entry point shares logging/telemetry hooks with existing packages without regressing existing tests.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add a swift-argument-parser dependency if not already declared and register the root ParsableCommand for isoinspector.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Structure the command hierarchy to accept global options (e.g., verbosity, output format) that downstream subcommands can extend.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce smoke tests or fixtures that execute the command with --help to guard the interface contract.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "isoinspector root command",
+      "description": "Executable CLI that prints help and lists planned subcommands",
+      "source_line": null
+    },
+    {
+      "name": "global options handling",
+      "description": "Supports global flags such as verbosity and output format for all subcommands",
+      "source_line": null
+    },
+    {
+      "name": "shared configuration wiring",
+      "description": "Reuses streaming parser pipeline services across future subcommands",
+      "source_line": null
+    },
+    {
+      "name": "logging/telemetry integration",
+      "description": "Hooks into existing logging and telemetry systems without regressions",
+      "source_line": null
+    },
+    {
+      "name": "help command smoke test",
+      "description": "Automated test that runs isoinspector --help to verify interface contract",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2083,
+    "line_count": 39
+  }
+}

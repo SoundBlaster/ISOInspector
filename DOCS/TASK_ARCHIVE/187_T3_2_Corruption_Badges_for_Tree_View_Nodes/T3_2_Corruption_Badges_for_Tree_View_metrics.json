@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/187_T3_2_Corruption_Badges_for_Tree_View_Nodes/T3_2_Corruption_Badges_for_Tree_View.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Highlight corrupt or degraded structures directly inside the outline tree so operators can triage tolerant parsing results without leaving their navigation workflow.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Every TreeNodeView entry with one or more ParseIssue records renders a corruption badge with severity color consistent with the warning ribbon palette.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver announces the badge state (e.g., \"Corrupted, 2 issues\") and the badge is keyboard focusable.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Hover tooltips (macOS) and secondary detail affordances (iPadOS) show a short issue summary sourced from ParseIssueStore.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit/UI preview coverage demonstrates badges for at least error, warning, and info severities without regressing healthy nodes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Severity styling must remain consistent with tolerant parsing ribbon color tokens.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse ParseIssueStore.metricsSnapshot() and extend the outline item view model to expose aggregated issue counts so SwiftUI views stay declarative.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "TreeNodeView Corruption Badge Rendering",
+      "description": "Displays a corruption badge on each TreeNodeView that has one or more ParseIssue records, styled with severity color from the warning ribbon palette.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility VoiceOver Support for Badges",
+      "description": "VoiceOver announces the badge state (e.g., \"Corrupted, 2 issues\") and makes the badge keyboard focusable.",
+      "source_line": null
+    },
+    {
+      "name": "Hover Tooltip / Secondary Detail Summary",
+      "description": "Shows a short issue summary on macOS hover tooltips or iPadOS secondary detail affordances sourced from ParseIssueStore.",
+      "source_line": null
+    },
+    {
+      "name": "Outline Item View Model Aggregation",
+      "description": "Extends the outline item view model to expose aggregated issue counts for declarative SwiftUI views.",
+      "source_line": null
+    },
+    {
+      "name": "Badge Layout Coordination",
+      "description": "Coordinates badge layout with existing selection, disclosure, and icon affordances to avoid clipping on compact width (iPad split view).",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2311,
+    "line_count": 36
+  }
+}

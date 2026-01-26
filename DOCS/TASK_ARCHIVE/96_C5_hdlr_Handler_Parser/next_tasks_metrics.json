@@ -1,0 +1,72 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/96_C5_hdlr_Handler_Parser/next_tasks.md",
+  "n_spec": 12,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement the hdlr parser to close out remaining Phase C backlog item referenced in MVP checklists and surface handler metadata alongside mdhd parser coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The hdlr parser must integrate with BoxParserRegistry wiring so that streaming pipeline, CLI exports, and SwiftUI detail panes display handler metadata.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Handler metadata must be consistently available across all interfaces (streaming pipeline, CLI, SwiftUI).",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule macOS CLI/UI large-file benchmark execution using the R4 protocol once dedicated hardware runners are online.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmarks should run on macOS with Instruments support and track fixtures and manifest revisions as documented.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Benchmark results must be reproducible and recorded in specified documentation files.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA once runners are available following the release readiness runbook.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All steps of the release readiness runbook must be completed and documented in the specified guides.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute random slice benchmark suite on macOS to compare mapped vs. chunked readers under identical workloads once Combine support is available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark results should reflect comparable workloads and be recorded as per archival notes.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS with XCTest UI support to validate end\u2011to\u2011end SwiftUI automation flow.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test suite must run successfully on macOS and confirm that the automation flow works.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 2657,
+    "line_count": 25
+  }
+}

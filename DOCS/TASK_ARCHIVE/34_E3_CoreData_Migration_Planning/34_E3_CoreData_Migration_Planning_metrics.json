@@ -1,0 +1,123 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/34_E3_CoreData_Migration_Planning/34_E3_CoreData_Migration_Planning.md",
+  "n_spec": 11,
+  "n_func": 11,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement session persistence that stores open files, window layouts, and workspace metadata without data loss or schema churn.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Maintain backward compatibility for annotations and bookmarks across CoreData migrations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Document a proposed CoreData model extension covering session metadata (recent files, window layouts, parse session snapshots) and its relationships to existing annotation/bookmark entities.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Provide a migration strategy outlining lightweight versioning, automated migration steps, and fallback behavior when CoreData is unavailable (e.g., Linux CLI builds).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Identify required updates to tests, DocC catalogs, and manuals to reflect the new persistence scope once migrations land in Task E3.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "List open questions or dependencies (concurrency constraints, shared stores across platforms) that must be resolved before implementation begins.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "CoreData migrations must preserve existing user data while accommodating future session-level records.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce explicit model versions using a ModelVersion enum and wrap makeModel() to support v1, v2 schemas.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use lightweight migration for new entities that only add tables/relationships without altering existing columns.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Seed workspace rows on first launch after migration.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "When CoreData is unavailable or migration fails, use JSON export/import sidecar files.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CoreDataAnnotationBookmarkStore",
+      "description": "Programmatic CoreData stack managing File, Annotation, Bookmark entities and migration hooks",
+      "source_line": null
+    },
+    {
+      "name": "Workspace entity",
+      "description": "Single-row metadata describing last-known app state (app version, timestamp, schemaVersion) linked to Sessions",
+      "source_line": null
+    },
+    {
+      "name": "Session entity",
+      "description": "Persisted workspace snapshot capturing open documents, window layouts, parse caches and session metadata",
+      "source_line": null
+    },
+    {
+      "name": "SessionFile join entity",
+      "description": "Connects a Session to File entries with per-file UI state such as orderIndex, selection, scrollOffset, pinned flag",
+      "source_line": null
+    },
+    {
+      "name": "WindowLayout entity",
+      "description": "Captures per-scene SwiftUI window geometry and navigation stack for multi-window setups",
+      "source_line": null
+    },
+    {
+      "name": "SessionBookmarkDiff entity",
+      "description": "Tracks transient bookmark changes per session for conflict resolution with live annotation data",
+      "source_line": null
+    },
+    {
+      "name": "AnnotationBookmarkStoreTests",
+      "description": "Unit tests exercising create/update/delete flows, cross-file isolation, and migration paths for annotations/bookmarks",
+      "source_line": null
+    },
+    {
+      "name": "SessionStoreTests",
+      "description": "Future unit tests covering session persistence APIs (order indices, layout payloads, bookmark diffs)",
+      "source_line": null
+    },
+    {
+      "name": "Migration tooling",
+      "description": "Automated lightweight migration strategy with explicit model versions and fallback JSON export/import utilities",
+      "source_line": null
+    },
+    {
+      "name": "DocC InterfaceOverview updates",
+      "description": "Documentation describing workspace restoration including open files and window layouts",
+      "source_line": null
+    },
+    {
+      "name": "App manual updates",
+      "description": "Manual entries explaining new persistence scope for annotations, bookmarks, and session metadata",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 10257,
+    "line_count": 104
+  }
+}

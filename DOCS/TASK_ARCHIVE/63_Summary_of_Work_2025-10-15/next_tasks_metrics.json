@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/63_Summary_of_Work_2025-10-15/next_tasks.md",
+  "n_spec": 6,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Advance Task A5 from the IO roadmap by wiring up the random-slice benchmarking harness now that Task A4\u2019s error taxonomy is complete.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware with XCTest UI support to validate the end-to-end SwiftUI automation flow introduced in DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Execute the Combine-backed UI benchmark on macOS to capture latency metrics on a platform that ships Combine, keeping throughput parity with the CLI harness.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Surface session persistence errors once diagnostics plumbing is available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Reconcile CoreData session bookmark diffs with live bookmark entities when reconciliation rules are defined.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Track outcome of the notarized build Apple Events automation assessment alongside todo.md entry \u201cPDD:30m Evaluate whether automation via Apple Events is required for notarized builds and extend entitlements safely.\u201d",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Random-slice Benchmark Harness",
+      "description": "Runs a random-slice benchmarking harness for IO tasks using the error taxonomy from Task A4.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Automation Flow Validation",
+      "description": "Executes ParseTreeStreamingSelectionAutomationTests on macOS to validate end-to-end SwiftUI automation flow for streaming UI coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Combine-backed UI Benchmark",
+      "description": "Captures latency metrics for Combine-supported UI benchmarks on macOS, maintaining throughput parity with CLI harness.",
+      "source_line": null
+    },
+    {
+      "name": "Session Persistence Error Surface",
+      "description": "Displays session persistence errors once diagnostics plumbing is available.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Session Bookmark Reconciliation",
+      "description": "Reconciles CoreData session bookmark differences with live bookmark entities based on defined reconciliation rules.",
+      "source_line": null
+    },
+    {
+      "name": "Notarized Build Apple Events Automation Tracking",
+      "description": "Tracks outcomes of notarized build Apple Events automation assessment and evaluates entitlements for notarization.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2328,
+    "line_count": 23
+  }
+}

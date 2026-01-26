@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/223_C22_User_Settings_Persistence_and_Reset/223_C22_User_Settings_Persistence_and_Reset.md",
+  "n_spec": 12,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement floating user settings panel with persistence for permanent and session-scoped settings, reset affordances, keyboard shortcut support, and platform-specific presentation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Thread permanent settings changes through UserPreferencesStore, load global preferences on app startup, save changes immediately with optimistic writes and diagnostics, and verify persistence across relaunch via automated tests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update DocumentSessionController to support session settings mutations, bind session changes from SettingsPanelViewModel, implement dirty tracking for session scope (badge indicators), and ensure session snapshots serialize/deserialize with SessionSettingsPayload.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Implement Reset Global button that restores permanent defaults via UserPreferencesStore.reset(), reset session button that restores session defaults by reloading snapshot, add confirmation dialogs, and verify reset behavior across platform-specific presentations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Bind keyboard shortcut (\u2318,) to toggle panel visibility, register across macOS, iPad, and iPhone targets, ensure it works throughout app lifecycle, and test focus restoration when panel toggles open.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Implement platform-specific presentation: macOS uses NSPanel with remembered frame/position, iPad presents via .sheet with 2-3 detents, iPhone full-screen cover or modal card, with platform detection and conditional rendering.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test all platforms (iOS 17+, macOS 14+, iPadOS 17+), color schemes, responsive behavior across screen sizes, and capture state transitions (empty, loading, with errors) via snapshot tests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Perform advanced accessibility tests: dynamic type scaling XS\u2013XXXL, reduce motion compliance, VoiceOver focus order, keyboard-only navigation across all sections.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "No cross-device sync; iCloud/CloudKit out of scope per PRD.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "No new validation rules added; C22 reuses existing presets from B7/C19.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use UserPreferencesStore for permanent settings persistence and DocumentSessionController for session-scoped settings, integrating with ValidationConfiguration and preset registry.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Persistently store user preferences including frame rect for macOS NSPanel to remember size/position.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SettingsPanelViewModel",
+      "description": "Manages state for the floating settings panel, including section navigation and published properties for permanent, session, and advanced settings.",
+      "source_line": null
+    },
+    {
+      "name": "SettingsPanelView",
+      "description": "UI component rendering three sections (Permanent, Session, Advanced) with controls, accessibility identifiers, and snapshot test support.",
+      "source_line": null
+    },
+    {
+      "name": "UserPreferencesStore Integration",
+      "description": "Persists permanent user preferences, loads defaults on startup, performs optimistic writes, and handles reset to defaults.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentSessionController Session Settings Mutations",
+      "description": "Handles session-scoped settings mutations, updates snapshots, tracks dirty state, and serializes/deserializes via SessionSettingsPayload.",
+      "source_line": null
+    },
+    {
+      "name": "Reset Global Action",
+      "description": "Button that triggers confirmation dialog and resets permanent preferences using UserPreferencesStore.reset().",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 7258,
+    "line_count": 162
+  }
+}

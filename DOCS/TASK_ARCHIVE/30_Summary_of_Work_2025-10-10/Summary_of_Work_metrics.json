@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/30_Summary_of_Work_2025-10-10/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement CLI export commands for exporting parse events to JSON and capture formats",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI export-json command produces JSON output that matches original input (JSON parity)",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 888,
+    "line_count": 19
+  }
+}

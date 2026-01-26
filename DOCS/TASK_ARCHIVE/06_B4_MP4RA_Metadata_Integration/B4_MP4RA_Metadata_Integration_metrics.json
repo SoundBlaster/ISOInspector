@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/06_B4_MP4RA_Metadata_Integration/B4_MP4RA_Metadata_Integration.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Bundle and expose MP4RA box metadata so the streaming parse pipeline can label known boxes and flag unknown types for follow-up.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "MP4RA registry JSON (or generated data) is bundled or fetched and loaded by the core catalog during pipeline startup.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Known box events attach human-readable metadata (name, description, version flags) sourced from MP4RA.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unknown boxes trigger structured logging or research hooks without crashing parsing, satisfying VR-006 expectations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and integration tests cover catalog loading, lookup by FourCC/extended types, and fallback behavior.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Create a BoxCatalog backed by MP4RA data; consider generating Swift structures from registry JSON for compile-time safety.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Ensure catalog access is concurrency-safe since ParsePipeline operates asynchronously; use an actor or immutable structure.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The catalog must always be loaded before the pipeline emits events.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "MP4RA Catalog Loader",
+      "description": "Loads MP4RA registry JSON or generated data into the core catalog during pipeline startup",
+      "source_line": null
+    },
+    {
+      "name": "Box Metadata Attacher",
+      "description": "Attaches human-readable metadata (name, description, version flags) to known box events emitted by the parse pipeline",
+      "source_line": null
+    },
+    {
+      "name": "Unknown Box Logger",
+      "description": "Triggers structured logging or research hooks for unknown boxes without crashing parsing",
+      "source_line": null
+    },
+    {
+      "name": "Catalog Lookup Service",
+      "description": "Provides lookup of box metadata by FourCC or extended type, concurrency-safe for async pipeline use",
+      "source_line": null
+    },
+    {
+      "name": "Catalog Diagnostics Provider",
+      "description": "Offers diagnostics for missing or stale catalog entries and documentation for updating MP4RA data",
+      "source_line": null
+    },
+    {
+      "name": "Unit and Integration Test Suite",
+      "description": "Tests covering catalog loading, lookup functionality, and fallback behavior for unknown boxes",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2507,
+    "line_count": 48
+  }
+}

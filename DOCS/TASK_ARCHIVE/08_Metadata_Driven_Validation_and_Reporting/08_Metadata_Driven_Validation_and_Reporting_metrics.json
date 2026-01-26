@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/08_Metadata_Driven_Validation_and_Reporting/08_Metadata_Driven_Validation_and_Reporting.md",
+  "n_spec": 7,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide validation and reporting enhancements that use MP4RA metadata emitted by ParsePipeline.live() so downstream components can surface human-readable context and catch metadata mismatches early.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation layer inspects MP4RA metadata (e.g., expected version/flags) and raises rule VR-003 warnings when stream events diverge from catalog definitions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI and future UI reporters display box names, descriptions, and validation outcomes sourced from the catalog for each emitted event.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unknown or stale MP4RA entries are surfaced as research issues with enough context to update the catalog refresh workflow documented in task R1.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend validation pipeline to attach MP4RA-derived descriptors to ParseEvent results and implement rule handlers that compare event payloads against catalog expectations before raising issues.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update CLI reporting utilities to render descriptive names and validation summaries; capture follow-up requirements for SwiftUI consumers while maintaining streaming performance guarantees.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always attach MP4RA-derived descriptors to ParseEvent results before any rule handling occurs.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "MP4RA Metadata Attachment to ParseEvent",
+      "description": "Enriches each parse event with MP4RA-derived descriptors such as box names and expected version/flag information",
+      "source_line": null
+    },
+    {
+      "name": "VR-003 Validation Rule Engine",
+      "description": "Compares event payloads against catalog expectations and raises warnings when mismatches occur",
+      "source_line": null
+    },
+    {
+      "name": "CLI Reporting Utility Enhancement",
+      "description": "Renders descriptive box names, descriptions, and validation summaries for each emitted event in the command-line interface",
+      "source_line": null
+    },
+    {
+      "name": "UI Reporter Integration (SwiftUI)",
+      "description": "Provides future UI components with validated metadata and descriptive context for display",
+      "source_line": null
+    },
+    {
+      "name": "Unknown/ Stale MP4RA Entry Detection",
+      "description": "Identifies unknown or outdated catalog entries during parsing and surfaces them as research issues",
+      "source_line": null
+    },
+    {
+      "name": "Catalog Refresh Workflow Coordination",
+      "description": "Integrates fallback logging and stale entry detection logic based on archived B4 notes and R1 refresh guidance",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3280,
+    "line_count": 60
+  }
+}

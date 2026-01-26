@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/38_NestedA11yIDs_Integration/B6_BoxParserRegistry.md",
+  "n_spec": 8,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Establish a registry in ISOInspectorCore that maps each known MP4/ISO BMFF box type to its concrete parser so the streaming pipeline can construct structured payloads instead of opaque blobs, while preserving safe fallbacks for unknown leaf boxes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Registry object exposes lookup/registration APIs consumed by the streaming pipeline without breaking existing tests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Known box types (ftyp, moov, trak, mdia, etc.) resolve to appropriate parser implementations covering high-priority structures listed in the PRD backlog.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unknown or unsupported boxes fall back to a safe opaque leaf handler while still emitting metadata for research logging.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover registry defaults, overrides, and integration with at least one specialized parser.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Registry configuration remains extensible so CLI/App targets can inject feature flags or experimental parsers without re-linking core modules.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Start from the current streaming parser entry points in ISOInspectorCore and thread the registry through existing factories to avoid broad refactors.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Seed the registry with specialized parsers for high-signal boxes already described in Phase C backlog items (e.g., ftyp, mvhd, tkhd) to align with upcoming UI feature needs.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxParserRegistry",
+      "description": "Central registry mapping MP4/ISO BMFF box types to concrete parser implementations, exposing lookup and registration APIs for the streaming pipeline.",
+      "source_line": null
+    },
+    {
+      "name": "Lookup API",
+      "description": "Method to retrieve a parser for a given box type, returning specialized parser or default container/opaque leaf handler.",
+      "source_line": null
+    },
+    {
+      "name": "Registration API",
+      "description": "Method to register or override parsers for specific box types in the registry.",
+      "source_line": null
+    },
+    {
+      "name": "Default Container Parser",
+      "description": "Fallback parser that treats unknown boxes as containers, preserving child structure.",
+      "source_line": null
+    },
+    {
+      "name": "Opaque Leaf Handler",
+      "description": "Safe fallback parser for unsupported leaf boxes that emits metadata without parsing payload.",
+      "source_line": null
+    },
+    {
+      "name": "Specialized Parsers (ftyp,mvhd,tkhd,etc.)",
+      "description": "Concrete parser implementations for high-priority box types seeded into the registry.",
+      "source_line": null
+    },
+    {
+      "name": "Exporter Integration",
+      "description": "Mechanism for JSON and binary exporters to consume structured payloads produced via the registry.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2325,
+    "line_count": 48
+  }
+}

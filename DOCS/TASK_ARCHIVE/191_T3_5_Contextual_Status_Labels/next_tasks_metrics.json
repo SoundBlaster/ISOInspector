@@ -1,0 +1,38 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/191_T3_5_Contextual_Status_Labels/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Contextual status chips now surface across outline rows and the detail inspector.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver regression pass for accessibility shortcuts must confirm focus command menus announce controls and restore focus targets on macOS and iPadOS hardware.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Real\u2011world assets such as Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG\u2011H fixtures are required to shift regression baselines from synthetic payloads once licensing approvals are obtained.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Contextual Status Labels",
+      "description": "Displays contextual status chips across outline rows and the detail inspector",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Accessibility Shortcuts Verification",
+      "description": "Verifies that focus command menus announce controls and restore focus targets on macOS and iPadOS hardware",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 801,
+    "line_count": 7
+  }
+}

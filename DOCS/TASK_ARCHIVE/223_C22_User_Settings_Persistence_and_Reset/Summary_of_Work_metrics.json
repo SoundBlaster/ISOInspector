@@ -1,0 +1,113 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/223_C22_User_Settings_Persistence_and_Reset/Summary_of_Work.md",
+  "n_spec": 14,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "User can view and modify permanent settings via the Settings Panel UI.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "User can view and modify session-specific validation settings via the Settings Panel UI.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "User can reset permanent settings to defaults using a \"Reset Global\" button with confirmation dialog.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "User can reset session settings to defaults using a \"Reset Session\" button with confirmation dialog.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Permanent settings are loaded from UserPreferencesStore on app startup and persisted immediately upon change, with optimistic UI updates and revert on failure.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Session settings mutations (reset, preset selection, rule setting) are applied through DocumentSessionController and persist in WorkspaceSessionSnapshot.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Reset actions trigger native alert dialogs that explain impact and require confirmation before proceeding.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "UI badges indicate when session overrides exist (\"orange warning icon\".",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The Settings Panel view renders both permanent and session sections.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Permanent changes persist across app re\u2011launches; session changes survive workspace reloads.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "UserPreferencesStore must always read/write JSON file with atomic operations.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always maintain a Combine publisher for event\u2011based updates to the ViewModel.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use\u00a0UserPreferences\u00a0struct and one JSON file (UserPreferences.json) for permanent settings.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Optimistic writes with reverts\u00a0\u2013\u00a0i.e.,\u00a0..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "UserPreferencesStore",
+      "description": "Persistently stores permanent user settings in a JSON file and provides load/save/reset operations.",
+      "source_line": null
+    },
+    {
+      "name": "SettingsPanelViewModel",
+      "description": "Manages UI state for the Settings panel, including loading/saving permanent settings via UserPreferencesStore and session settings via DocumentSessionController.",
+      "source_line": null
+    },
+    {
+      "name": "SessionSettingsPayload Mutations",
+      "description": "Provides methods to reset session settings, select validation presets, and set individual validation rules within a workspace session.",
+      "source_line": null
+    },
+    {
+      "name": "Reset Actions with Confirmation Dialogs",
+      "description": "UI actions for resetting to defaults or global settings, including destructive alerts and badge indicators for overridden session settings.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Shortcut Integration Stub",
+      "description": "Documentation and NotificationCenter-based stub for toggling the Settings panel via \u2318, with @todo markers for full CommandGroup wiring.",
+      "source_line": null
+    },
+    {
+      "name": "Platform-Specific Presentation Logic",
+      "description": "Conditional rendering of the Settings panel as a sheet on macOS/iPad/iPhone, with size constraints and detent hints; NSPanel and frame persistence are deferred.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 16181,
+    "line_count": 443
+  }
+}

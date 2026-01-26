@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/209_T5_5_Tolerant_Parsing_Fuzzing_Harness/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The tolerant parsing fuzzing harness must achieve a crash\u2011free completion rate of at least 99.9% across all generated MP4 payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All 100+ synthetic corrupted MP4 payloads are automatically generated and each iteration is executed with the CI integration test validating benchmark budget.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I want the tolerant parsing fuzzing harness to generate deterministic mutation types (header truncation, overlapping ranges, bogus size declarations, invalid FourCC, zero\u2011size loop guards, payload truncation) so that I can validate ISOInspectorKit\u2019s resilience.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The reproduction artifact capture system will automatically save artifacts to Documentation/CorruptedFixtures/FuzzArtifacts/, including JSON metadata (seed, mutation, error) and the binary payload, with .gitignore and README.md documentation.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All test files must follow TDD workflow, PDD principles, XP practices, and AI code structure guidelines (e.g., 474 lines, one entity per file).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Tolerant Parsing Fuzzing Harness",
+      "description": "Automated generation and execution of over 100 synthetically corrupted MP4 payloads to test parser resilience, ensuring \u226599.9% crash-free completion.",
+      "source_line": null
+    },
+    {
+      "name": "Corrupt Payload Generator",
+      "description": "Deterministic mutation engine producing six types of corrupt MP4 headers/payloads (header truncation, overlapping ranges, bogus size declarations, invalid FourCC, zero-size loop guards, payload truncation).",
+      "source_line": null
+    },
+    {
+      "name": "Reproduction Artifact Capture System",
+      "description": "Automatically saves corrupted test artifacts with JSON metadata (seed, mutation, error) and binary payload to Documentation/CorruptedFixtures/FuzzArtifacts/. ",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2564,
+    "line_count": 52
+  }
+}

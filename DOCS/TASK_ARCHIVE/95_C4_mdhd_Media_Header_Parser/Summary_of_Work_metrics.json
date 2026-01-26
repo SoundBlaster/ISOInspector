@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 1,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Parse mdhd (Media Header) boxes to expose media header metadata in CLI exports, streaming pipeline, and SwiftUI detail panes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser must read versioned timestamps, timescale, duration, language, and reserved fields for both 32-bit and 64-bit layouts using FullBoxReader.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Language code decoding helpers are added and short payloads cause the parser to return nil instead of partial data.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parser must always register with BoxParserRegistry so that all components can surface media header metadata.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use FullBoxReader for reading mdhd boxes and return a structured ParsedBoxPayload.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement hdlr (handler) parser to finish remaining Phase C backlog item referenced in MVP checklists.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "mdhd Box Parser",
+      "description": "Parses mdhd (Media Header) boxes from ISO media files, extracting versioned timestamps, timescale, duration, language, and reserved fields into a structured ParsedBoxPayload for both 32-bit and 64\u2011bit layouts.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1347,
+    "line_count": 24
+  }
+}

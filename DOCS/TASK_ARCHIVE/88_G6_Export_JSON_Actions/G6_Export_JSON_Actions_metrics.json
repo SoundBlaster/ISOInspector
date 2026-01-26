@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/88_G6_Export_JSON_Actions/G6_Export_JSON_Actions.md",
+  "n_spec": 10,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Export the parsed box tree as JSON from the app UI, either the entire document or a selected subtree.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Provide explicit export affordances (menu command + toolbar or context menu) for full document and selected subtree JSON captures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Wire UI actions to existing exporter pipeline so generated files match CLI schema, including offsets, sizes, and metadata fields.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Persist exported files to a user-chosen location via FilesystemAccessKit with proper sandbox-scoped bookmarks and error handling.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Cover the feature with unit or UI tests that validate command availability and the structure of produced JSON for representative fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update user-facing documentation or release notes if new UI elements are introduced.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ISOInspectorApp scene commands and document toolbar with export options invoking JSON exporter APIs from ISOInspectorKit.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing document/session view models to scope exports (root vs. current selection) and ensure operations remain responsive by leveraging async tasks.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Integrate with FilesystemAccessKit save flows to present destination pickers on macOS/iPadOS/iOS and record bookmarks where required.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with telemetry/logging to record export attempts and failures, following zero-trust logging conventions already in place.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Full Document JSON Export Command",
+      "description": "UI command to export the entire parsed box tree as a JSON file via the existing exporter pipeline",
+      "source_line": null
+    },
+    {
+      "name": "Subtree JSON Export Command",
+      "description": "UI command to export only the currently selected subtree of the parsed box tree as JSON",
+      "source_line": null
+    },
+    {
+      "name": "Export Menu Integration",
+      "description": "Adds menu items and toolbar/context menu entries for JSON export actions in ISOInspectorApp scene commands",
+      "source_line": null
+    },
+    {
+      "name": "Filesystem Save Flow",
+      "description": "Presents a destination picker using FilesystemAccessKit, records sandbox-scoped bookmarks, and handles errors during file saving",
+      "source_line": null
+    },
+    {
+      "name": "Exporter Pipeline Wiring",
+      "description": "Connects UI actions to ISOInspectorKit's JSON exporter APIs ensuring output matches CLI schema with offsets, sizes, and metadata",
+      "source_line": null
+    },
+    {
+      "name": "Async Export Task Handling",
+      "description": "Runs export operations asynchronously to keep the UI responsive",
+      "source_line": null
+    },
+    {
+      "name": "Telemetry Logging for Exports",
+      "description": "Records export attempts and failures following zero-trust logging conventions",
+      "source_line": null
+    },
+    {
+      "name": "Unit/UI Test Coverage for Export Feature",
+      "description": "Tests that validate command availability and JSON structure against representative fixtures",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2376,
+    "line_count": 58
+  }
+}

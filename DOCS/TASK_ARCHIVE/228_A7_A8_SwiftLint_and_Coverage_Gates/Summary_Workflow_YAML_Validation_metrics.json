@@ -1,0 +1,113 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/228_A7_A8_SwiftLint_and_Coverage_Gates/Summary_Workflow_YAML_Validation.md",
+  "n_spec": 12,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement comprehensive multi-layer validation system for GitHub Actions workflows to prevent broken workflows in main branch.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Fix YAML syntax errors in performance-regression.yml by correcting heredoc indentation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Original YAML error fixed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All workflow files validate successfully.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pre-commit hooks configured.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI validation workflow created.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation written.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Changes committed and pushed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Ready for PR review.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "YAML files must use 2 spaces per indentation level, no tabs, and heredoc content must match parent block indentation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use pre-commit hooks (check-yaml, check-added-large-files, trailing-whitespace, end-of-file-fixer, validate-github-workflows) for local validation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement CI validation workflow with jobs: validate-yaml-syntax (PyYAML), validate-with-actionlint (actionlint), report-validation (summary).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "GitHub Actions Workflow YAML Validation CI",
+      "description": "A GitHub Actions workflow that validates all workflow YAML files for syntax and best practices using PyYAML and actionlint.",
+      "source_line": null
+    },
+    {
+      "name": "Pre-commit Hook: check-yaml",
+      "description": "Local pre-commit hook that checks basic YAML syntax for any committed file, including .github/workflows/*.yml.",
+      "source_line": null
+    },
+    {
+      "name": "Pre-commit Hook: check-added-large-files",
+      "description": "Hook preventing commits of files larger than 1MB.",
+      "source_line": null
+    },
+    {
+      "name": "Pre-commit Hook: trailing-whitespace",
+      "description": "Hook that removes or flags trailing whitespace in committed files.",
+      "source_line": null
+    },
+    {
+      "name": "Pre-commit Hook: end-of-file-fixer",
+      "description": "Ensures a newline at the end of file for all committed files.",
+      "source_line": null
+    },
+    {
+      "name": "Pre-commit Hook: validate-github-workflows",
+      "description": "Custom local hook that validates GitHub Actions workflow YAML files for proper structure and heredoc indentation.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation: WORKFLOW_VALIDATION.md",
+      "description": "Guide detailing setup, common errors, heredoc indentation rules, IDE settings, and quick\u2011relevant commands.",
+      "source_line": null
+    },
+    {
+      "name": "Python script for manual validation",
+      "description": "Command line snippet that loads YAML via PyYAML to check syntax of a specific workflow file.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 7889,
+    "line_count": 319
+  }
+}

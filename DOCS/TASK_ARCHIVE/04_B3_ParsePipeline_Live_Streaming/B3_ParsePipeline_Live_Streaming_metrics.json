@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/04_B3_ParsePipeline_Live_Streaming/B3_ParsePipeline_Live_Streaming.md",
+  "n_spec": 7,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement the real streaming pipeline so ParsePipeline.live() iterates through MP4 boxes using the async reader stack and emits ordered parse events for downstream consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsePipeline.live() produces an AsyncThrowingStream that walks the file via the configured RandomAccessReader, yielding willStartBox/didFinishBox events in document order with accurate offsets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Container traversal respects size boundaries and context stack semantics outlined in the technical spec to avoid infinite loops or mis-nested events.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming integration is validated with unit tests that feed synthetic readers and assert event ordering and error propagation, ensuring readiness for UI/CLI consumers.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "RandomAccessReader implementations and BoxHeaderDecoder from B1/B2 must be reused to decode headers before emitting events; error handling forwards through the stream continuation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Model traversal with an explicit stack so containers emit paired start/finish events without recursion depth issues, matching the technical spec guidance.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use the existing ParsePipeline builder abstraction to keep the reader injectable for tests; replace the current placeholder continuation that immediately finishes.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipeline.live()",
+      "description": "Produces an AsyncThrowingStream that iterates through MP4 boxes using the async reader stack and emits ordered parse events (willStartBox/didFinishBox) in document order with accurate offsets.",
+      "source_line": null
+    },
+    {
+      "name": "AsyncThrowingStream event distribution",
+      "description": "Streams parsing events to downstream consumers such as UI or CLI integrations with low latency.",
+      "source_line": null
+    },
+    {
+      "name": "RandomAccessReader integration",
+      "description": "Uses existing RandomAccessReader implementations to read file data during streaming traversal.",
+      "source_line": null
+    },
+    {
+      "name": "BoxHeaderDecoder usage",
+      "description": "Decodes box headers before emitting start/finish events, forwarding any decoding errors through the stream continuation.",
+      "source_line": null
+    },
+    {
+      "name": "Container traversal stack",
+      "description": "Manages container boxes with an explicit stack to emit paired start/finish events without recursion depth issues and respects size boundaries and context stack semantics.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline builder abstraction",
+      "description": "Allows injection of different readers for testing and replaces placeholder continuations with real streaming logic.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3061,
+    "line_count": 31
+  }
+}

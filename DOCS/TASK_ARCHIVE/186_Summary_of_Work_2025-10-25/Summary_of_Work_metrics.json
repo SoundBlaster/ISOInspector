@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/186_Summary_of_Work_2025-10-25/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a tolerant parsing warning ribbon that informs users of parsing issues and allows them to dismiss it.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Bind ParseTreeStore to the tolerant parsing issue metrics stream and reset counters during lifecycle events.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add CorruptionWarningRibbon SwiftUI component with persisted dismissal state and accessibility copy.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update AppShellView and DocumentSessionController to present the ribbon, animate transitions, and focus first affected node when tapped.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The ribbon must present in the app shell view and show the warning message.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The user should only..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Tolerant Parsing Warning Ribbon",
+      "description": "A SwiftUI component that displays a warning ribbon when tolerant parsing issues are detected, persists dismissal state, and provides accessibility copy.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStore Integration",
+      "description": "Binds ParseTreeStore to the tolerant parsing issue metrics stream and resets counters during lifecycle events.",
+      "source_line": null
+    },
+    {
+      "name": "AppShellView Update",
+      "description": "Updates AppShellView to present the warning ribbon, animate transitions, and focus the first affected node when tapped.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentSessionController Update",
+      "description": "Adds functionality to DocumentSessionController to handle presentation of the warning ribbon, navigation to first affected node, and integration with integrity diagnostics.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 831,
+    "line_count": 14
+  }
+}

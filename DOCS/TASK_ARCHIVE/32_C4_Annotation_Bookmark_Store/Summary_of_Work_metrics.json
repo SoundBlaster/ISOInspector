@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/32_C4_Annotation_Bookmark_Store/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The annotation and bookmark data must be persisted reliably across instances of the FileBackedAnnotationBookmarkStore.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a user, I want annotations and bookmarks to be stored in a file-backed JSON store so that they persist between app launches.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Given the FileBackedAnnotationBookmarkStore is initialized, when an annotation or bookmark is created/updated/deleted, then the changes are written to the JSON file and subsequent instances read the same data.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a JSON-backed FileBackedAnnotationBookmarkStore for persistence instead of CoreData until the research gap R6 lands.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I want the store to be migrated to CoreData once the research gap is resolved so that we can use the final storage layer.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Once the core data migration plan is defined and applied, the store should read/write data using CoreData and integrate with SwiftUI view models.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "File-backed Annotation Bookmark Store",
+      "description": "Provides persistence for annotations and bookmarks using a JSON file store, supporting create, update, delete, and bookmark flows.",
+      "source_line": null
+    },
+    {
+      "name": "Annotation Bookmark Persistence Tests",
+      "description": "Unit tests that verify the correctness of annotation and bookmark creation, updating, deletion, and persistence across multiple store instances.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 880,
+    "line_count": 21
+  }
+}

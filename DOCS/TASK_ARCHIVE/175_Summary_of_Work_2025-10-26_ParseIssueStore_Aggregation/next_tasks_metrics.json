@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/175_Summary_of_Work_2025-10-26_ParseIssueStore_Aggregation/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The system must always maintain consistent snapshot and CLI fixture data when schema updates are intentional.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Snapshot and CLI fixtures will be refreshed using the ISOINSPECTOR_REGENERATE_SNAPSHOT environment variable and swift test command.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Tolerant Parsing Surface Issue Aggregation",
+      "description": "Provides shared aggregation and metrics for tolerant parsing flows via the ParseIssueStore component.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Accessibility Shortcut Regression Pass",
+      "description": "Verifies macOS and iPadOS hardware focus command menus announce controls and restore focus targets for VoiceOver accessibility shortcuts.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing Integration",
+      "description": "Secures Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to enable regression baselines using real-world media assets.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot and CLI Fixture Maintenance Tool",
+      "description": "Refreshes snapshots and CLI fixtures automatically when schema updates occur, triggered by ISOINSPECTOR_REGENERATE_SNAPSHOTS environment variable.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1015,
+    "line_count": 10
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/201_T5_1_Corrupt_Fixture_Corpus/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide deterministic corrupt fixtures for testing header decoding failures, truncated payloads, and traversal guard triggers in tolerant parsing.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Corrupt fixtures must be located under Fixtures/Corrupt/, catalogued in Documentation/FixtureCatalog/corrupt-fixtures.json with corruption patterns, affected boxes, expected ParseIssue codes, and smoke-test hints.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "generate_fixtures.py should emit the corrupt corpus alongside existing synthetic text fixtures to allow reproducible regeneration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CorruptFixtureCorpusTests must validate manifest structure and confirm tolerant parsing processes smoke fixtures while recording documented issues.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always maintain a consistent fixture catalog and manifest structure for corrupt fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add deterministic corrupt fixtures under Fixtures/Corrupt/ and integrate them into the generated corpus via generate_fixtures.py.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Deterministic Corrupt Fixtures",
+      "description": "Provides a set of reproducible corrupt data fixtures covering header decoding failures, truncated payloads, and traversal guard triggers for tolerant parsing.",
+      "source_line": null
+    },
+    {
+      "name": "Corrupt Fixture Catalog Documentation",
+      "description": "Documents corruption patterns, affected boxes, and expected ParseIssue codes with smoke-test hints in corrupt-fixtures.json.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Generation Extension",
+      "description": "Extends generate_fixtures.py to emit the corrupt corpus alongside existing synthetic text fixtures for reproducible regeneration.",
+      "source_line": null
+    },
+    {
+      "name": "Corrupt Fixture Corpus Tests",
+      "description": "Validates manifest structure and ensures tolerant parsing processes smoke fixtures while recording documented issues.",
+      "source_line": null
+    },
+    {
+      "name": "Updated Fixture Catalog Documentation Workflow",
+      "description": "Describes the corrupt corpus workflow, references the new manifest and tests in the fixture catalog documentation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 894,
+    "line_count": 11
+  }
+}

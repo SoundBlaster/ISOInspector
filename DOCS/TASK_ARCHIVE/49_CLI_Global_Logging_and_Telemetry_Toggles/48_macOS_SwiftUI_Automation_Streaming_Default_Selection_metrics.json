@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/49_CLI_Global_Logging_and_Telemetry_Toggles/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md",
+  "n_spec": 8,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Automated macOS SwiftUI UI test that opens a streaming parse session and verifies the tree and detail panes update with the default selection when live events arrive.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test opens representative media file and confirms outline view selects and displays first node without manual interaction during streaming events.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Detail pane reflects selected node\u2019s metadata, demonstrating tree/detail synchronization during automated run.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test integrated into existing test suite and conditionally compiled or skipped on platforms without SwiftUI UI automation support.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation in next_tasks.md, execution workplan, and backlog PRD references updated to show task is in progress.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Automation must gracefully handle asynchronous event delivery by waiting on published snapshots or notifications before asserting selection state.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ParseTreeExplorerView with dependency-injectable initializer so automation can observe existing outline and detail view models while reusing production wiring.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing fixture media and streaming test harnesses from ISOInspectorAppTests; extend them to drive SwiftUI UI actions via new XCTest interfaces.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeExplorerView",
+      "description": "SwiftUI view that displays a parse tree outline and detail pane, auto-selects first node on snapshot updates",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeOutlineViewModel",
+      "description": "View model exposing helpers for default selection checks in the parse tree outline",
+      "source_line": null
+    },
+    {
+      "name": "XCTest UI Hooks for SwiftUI",
+      "description": "Framework to drive SwiftUI UI actions and assertions during automated tests",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStreamingSelectionAutomationTests",
+      "description": "macOS-only XCTest suite that opens a media file, drives streaming parse events, and verifies default node selection and detail pane synchronization",
+      "source_line": null
+    },
+    {
+      "name": "NSWindow Hosting of ParseTreeExplorerView",
+      "description": "Test setup that hosts the view in an NSWindow for UI automation",
+      "source_line": null
+    },
+    {
+      "name": "Dependency-injectable initializer for ParseTreeExplorerView",
+      "description": "Allows injection of outline and detail view models for testing while reusing production wiring",
+      "source_line": null
+    },
+    {
+      "name": "Streaming ParsePipeline Stub",
+      "description": "Stubbed parse pipeline used to feed streaming events into the test harness",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Identifier Conventions (NestedA11yIDs)",
+      "description": "Naming scheme used to locate tree rows and detail views during automation",
+      "source_line": null
+    },
+    {
+      "name": "Conditional Compilation / Skipping Logic for Non-macOS Platforms",
+      "description": "Test annotations that skip or compile tests only on supported platforms",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3191,
+    "line_count": 92
+  }
+}

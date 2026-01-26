@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Recognize `senc`, `saio`, and `saiz` boxes during fragment parsing so the pipeline records their offsets/sizes and surfaces presence to CLI/UI consumers without attempting decryption.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Child boxes cannot exceed parent ranges, flag overlapping payloads for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validate that sample table counts and array lengths across `stts/ctts/stsc/stsz/stz2/stco` align, surfacing structured warnings in CLI/UI outputs.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement the configuration layer, CLI flags, and UI settings for Validation Rule Preset Controls with bundled preset manifests, Application Support storage for custom sets, global-vs-document persistence layers, export metadata marking disabled rules as `skipped`, and CLI alias flags.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Sample table counts and array lengths across `stts/ctts/stsc/stsz/stz2/stco` must align.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Sample Encryption Placeholder Parsing",
+      "description": "Recognizes senc, saio, and saiz boxes during fragment parsing, records their offsets/sizes, and surfaces presence to CLI/UI consumers without attempting decryption.",
+      "source_line": null
+    },
+    {
+      "name": "Enforce Parent Containment and Non-Overlap Validation",
+      "description": "Validates that child boxes cannot exceed parent ranges and flags overlapping payloads for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "name": "Basic stbl Coherence Checks",
+      "description": "Validates alignment of sample table counts and array lengths across stts/ctts/stsc/stsz/stz2/stco, surfacing structured warnings in CLI/UI outputs.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Rule Preset Controls",
+      "description": "Provides configuration layer, CLI flags, and UI settings for toggling validation rule presets, including storage, persistence layers, export metadata marking disabled rules as skipped, and alias flags.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing Management",
+      "description": "Manages licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to replace synthetic payloads and refresh regression baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Codec Validation Coverage Expansion",
+      "description": "Expands coverage of codec validation features.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1879,
+    "line_count": 8
+  }
+}

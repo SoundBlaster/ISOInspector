@@ -1,0 +1,348 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/FoundationUI_Integration_Strategy.md",
+  "n_spec": 48,
+  "n_func": 19,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI into ISOInspectorApp gradually and phasically starting with small components.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add FoundationUI Swift Package dependency to ISOInspectorApp target.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ISOInspectorApp builds successfully with FoundationUI dependency added.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create integration test suite for FoundationUI in ISOInspectorApp.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration test suite structure is established under Tests/ISOInspectorAppTests/FoundationUI/.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Build Component Showcase SwiftUI view to incrementally test UI components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Component Showcase renders all FoundationUI components without crashes.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Document FoundationUI integration patterns in technical specification.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Technical spec updated with \"FoundationUI Integration Patterns\" section.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update design system guide with integration checklist for FoundationUI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Design System Guide includes new integration checklist.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Consolidate manual badge implementations into DS.Badge and DS.Indicator components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All manual badges replaced with DS.Badge; all status indicators use DS.Indicator.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit test coverage for badge/indicator variants is \u226590%.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot tests pass for light/dark modes and all four status levels.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility score for badges/indicators is \u226598%.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Migrate details panel container styling to DS.Card and DS.SectionHeader components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All container styling uses DS.Card; all section headers use DS.SectionHeader.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No manual padding or corner magic numbers; spacing uses DS.Spacing tokens.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Dark mode is fully functional for card and section components.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Replace metadata display with DS.KeyValueRow component.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All metadata displayed via DS.KeyValueRow with consistent spacing using DS tokens.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Copyable action integrated into key-value rows.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test coverage for key-value row variants is \u226585%.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Integrate DS.CopyableText and DS.Copyable wrappers for copy functionality across metadata values, hex viewer addresses, and other text fields.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Copy works on macOS, iOS, and iPadOS with correct keyboard shortcuts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Visual feedback appears upon copying.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Apply DS.InteractiveStyle modifier to clickable rows, tree controls, and toolbar buttons for consistent interaction feedback.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All interactive elements exhibit hover (macOS) or touch (iOS) feedback.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No accessibility conflicts with focus management.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Use DS.SurfaceStyle environment key to apply surface material and elevation across primary, detail, and modal surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All surfaces use appropriate SurfaceStyle; shadows render correctly on all platforms.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Dark mode shadows are correct and no accessibility violations.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Replace manual sidebar navigation with DS.SidebarPattern for macOS and iPadOS, providing search/filter integration and keyboard shortcuts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Sidebar pattern works on macOS/iPad; file browser navigation functional; keyboard shortcuts operational.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver and keyboard navigation are fully accessible.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Replace manual inspector panel layout with DS.InspectorPattern, ensuring fixed header sticky behavior and platform-adaptive spacing.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Inspector pattern applied to all detail sections; scroll performance maintained.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility tests pass for heading hierarchy and landmarks.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Replace manual tree view with DS.BoxTreePattern, implementing lazy rendering, animation, selection highlighting, and virtualized large trees.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tree renders with <16ms per frame; memory stable during expand/collapse.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot tests for tree appearance\u00a0and VoiceOver navigation are verified.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Apply DS.ToolbarPattern to the top toolbar, ensuring adaptive layout across macOS and iOS.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Toolbar layout adapts; overflow menu functional; accessibility score \u226598%.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Use platform adaptation context to apply platform\u2011specific spacing and sizing\u00a0for\u00a0macOS\u00a0and\u00a0iOS\u00a0sized\u00a0by\u00a0the\u00a0environment.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Spacing\u00a0is\u00a0correct\u00a0on\u00a0all\u00a0platforms\u00a0with\u00a0size\u00a0class\u00a0\u2013\u00a0regular\u00a0or\u00a0compact.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Apply\u00a0DS.AccessibilityContext\u00a0to\u00a0all\u00a0i18n\u00a0\u2011\u00a0i.e.,\u00a0Reduce\u00a0Motion\u00a0..\u00a0\u2026.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "WCAG\u00a02.1\u00a0AA\u00a0Compliance\u00a0\u2013\u00a0a\u00a0in\u2011\u2010\u00a0..\u00a0..\u00a0..\u00a0..\u00a0..\u00a0..\u00a0We\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Dependency Integration",
+      "description": "Add FoundationUI Swift package as a dependency to ISOInspectorApp target and ensure build succeeds.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Test Suite Setup",
+      "description": "Create structured integration test directories for FoundationUI components within ISOInspectorAppTests.",
+      "source_line": null
+    },
+    {
+      "name": "Component Showcase View",
+      "description": "Build a SwiftUI view that renders all FoundationUI components for development and testing purposes.",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUI Integration Patterns Documentation",
+      "description": "Document patterns and best practices for integrating FoundationUI into the app in technical specifications.",
+      "source_line": null
+    },
+    {
+      "name": "Design System Integration Checklist Update",
+      "description": "Update design system guide with checklist items for FoundationUI integration.",
+      "source_line": null
+    },
+    {
+      "name": "Badge & Status Indicator Wrapper",
+      "description": "Wrap existing badge logic in DS.Badge and DS.Indicator components, providing reusable views for status badges.",
+      "source_line": null
+    },
+    {
+      "name": "Parse Status Indicator Component",
+      "description": "Create a view that displays parse tree node status using DS.Indicator variants.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for Badge/Indicator Variants",
+      "description": "Provide unit tests covering all badge and indicator states.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot Tests for Badges",
+      "description": "Generate snapshot tests for light/dark mode and four status levels.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Tests for Badges",
+      "description": "Test VoiceOver labels, contrast, focus for badge components.",
+      "source_line": null
+    },
+    {
+      "name": "Card Container Wrapper",
+      "description": "Wrap details panel sections in DS.Card and section headers in DS.SectionHeader.",
+      "source_line": null
+    },
+    {
+      "name": "BoxDetailsCard Component",
+      "description": "Reusable SwiftUI view that encapsulates a DS.Card for detail panels.",
+      "source_line": null
+    },
+    {
+      "name": "BoxSectionHeader Component",
+      "description": "Reusable SwiftUI view that encapsulates a DS.SectionHeader.",
+      "source_line": null
+    },
+    {
+      "name": "Unit & Snapshot Tests for Card Variants",
+      "description": "Test card elevation, material and layout across platforms.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Tests for Card/Section Header",
+      "description": "Ensure semantic structure and landmarks for cards and headers.",
+      "source_line": null
+    },
+    {
+      "name": "Key-Value Row Wrapper",
+      "description": "Wrap metadata display using DS.KeyValueRow with ISO-specific formatting.",
+      "source_line": null
+    },
+    {
+      "name": "BoxMetadataRow Component",
+      "description": "Reusable SwiftUI view that implements a copyable key\u2011value row.",
+      "source_line": null
+    },
+    {
+      "name": "Unit & Snapshot Tests for Key\u2011Value Rows",
+      "description": "Test layout variants and copy functionality.",
+      "source_line": null
+    },
+    {
+      "name": "Copyable Text Wrapper",
+      "description": "Use DS.CopyableText or DS.Copycopy?\"",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 34571,
+    "line_count": 1079
+  }
+}

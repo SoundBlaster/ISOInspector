@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/192_T4_1_Extend_JSON_Export_Schema_for_Issues/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "VoiceOver regression pass for accessibility shortcuts must be completed before hardware verification is scheduled.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Hardware verification confirms that focus command menus announce controls and restore focus targets.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Real\u2011world assets must be secured before regression baselines can shift from synthetic payloads.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Verify that VoiceOver focus command menus announce controls and restore focus targets on macOS and iPadOS hardware",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Licensing and Integration",
+      "description": "Secure licensing approvals and integrate Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to replace synthetic payloads in regression baselines",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 554,
+    "line_count": 6
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/23_C3_Detail_and_Hex_Inspectors/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "SwiftUI Detail Pane",
+      "description": "Displays metadata, validation issues, and hex sections for a selected ParseTreeSnapshot",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeDetailViewModel",
+      "description": "Manages detail pane data, provides asynchronous HexSliceProvider support, propagates snapshot timestamps",
+      "source_line": null
+    },
+    {
+      "name": "HexSliceProvider",
+      "description": "Asynchronously supplies hex slices of the parse tree data",
+      "source_line": null
+    },
+    {
+      "name": "Selection Synchronization",
+      "description": "Highlights selected nodes in the tree explorer and syncs selection changes with the detail pane",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 607,
+    "line_count": 16
+  }
+}

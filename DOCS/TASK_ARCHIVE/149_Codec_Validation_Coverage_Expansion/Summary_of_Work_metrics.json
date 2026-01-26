@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/149_Codec_Validation_Coverage_Expansion/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "CodecValidationCoverageTests",
+      "description": "Runs tests to exercise VR-018 diagnostics emitted by ParsePipeline.live() when parsing new codec fixture and asserts AVC and HEVC zero-length parameter set errors reach streaming events.",
+      "source_line": null
+    },
+    {
+      "name": "JSONExportSnapshotTests",
+      "description": "Regenerates JSON export snapshots for the codec-invalid-configs fixture, ensuring VR-018 errors appear in the canonical tree output.",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCommand validate command",
+      "description": "CLI validation coverage test that verifies isoinspect validate reports VR-018 errors and surfaces preset metadata when parsing the codec fixture.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture catalog metadata update",
+      "description": "Updates catalog.json with expectations for two VR-018 errors and records generation provenance.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1578,
+    "line_count": 17
+  }
+}

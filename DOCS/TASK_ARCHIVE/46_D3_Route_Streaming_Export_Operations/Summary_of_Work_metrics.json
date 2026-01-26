@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/46_D3_Route_Streaming_Export_Operations/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a command-line interface for exporting data in JSON format and binary capture format via the isoinspector export subcommands.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The export json and export capture subcommands must be wired through ISOInspectorCLIEnvironment.parsePipeline and use shared exporters.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Default output paths, custom destinations, and failure propagation should behave like the legacy runner.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Export operations must always route through the shared streaming capture utilities to produce JSON trees and binary captures using the modern pipeline.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ISOInspectorCLI export json command",
+      "description": "Exports data as a JSON tree using the shared streaming capture utilities",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCLI export capture command",
+      "description": "Exports binary captures via the shared streaming capture utilities",
+      "source_line": null
+    },
+    {
+      "name": "ArgumentParser subcommands for export operations",
+      "description": "Provides CLI subcommands to invoke export functionalities and parse pipelines",
+      "source_line": null
+    },
+    {
+      "name": "Default output path handling",
+      "description": "Determines default destination paths for export outputs when none are specified",
+      "source_line": null
+    },
+    {
+      "name": "Custom destination handling",
+      "description": "Allows users to specify custom file destinations for export outputs",
+      "source_line": null
+    },
+    {
+      "name": "Error propagation in export commands",
+      "description": "Propagates failures from legacy runner to new streaming pipeline and reports errors",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 828,
+    "line_count": 20
+  }
+}

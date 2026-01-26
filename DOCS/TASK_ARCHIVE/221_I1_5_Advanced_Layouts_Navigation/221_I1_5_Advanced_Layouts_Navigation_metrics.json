@@ -1,0 +1,148 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/221_I1_5_Advanced_Layouts_Navigation/221_I1_5_Advanced_Layouts_Navigation.md",
+  "n_spec": 17,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement layout patterns and navigation structures using FoundationUI's grid system, spacing tokens, and responsive design capabilities.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Migrate the app's sidebar and detail view layouts to use FoundationUI patterns while ensuring accessibility, dark mode support, and responsive behavior across all platform sizes (iPhone SE, iPhone 15 Pro Max, iPad, macOS).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All manual padding/margins replaced with DS.Spacing tokens.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Sidebar layout uses DS.SidebarPattern or compatible patterns.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Detail panels use DS.Card for visual hierarchy.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Responsive layout tested on iPhone SE, iPhone 15 Pro Max, iPad, macOS.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Dark mode adaptation validated across all layouts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit test coverage \u226580% for new/modified components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot tests pass for all device/platform variants.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility tests pass (VoiceOver, keyboard, Dynamic Type).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Zero SwiftLint violations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updated in technical spec and design guide.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "DOCS/MIGRATION.md includes layout refactoring notes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All existing app functionality remains operational (no breaking changes).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FoundationUI components coexist with native SwiftUI during transition.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use FoundationUI grid system, spacing tokens, and responsive design capabilities for layout patterns.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement SidebarLayoutContainer, DetailPanelLayout, ResponsiveGrid as new pattern components.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SidebarLayoutContainer",
+      "description": "FoundationUI grid-based container for the app sidebar using DS.SidebarPattern and spacing tokens",
+      "source_line": null
+    },
+    {
+      "name": "DetailPanelLayout",
+      "description": "Card\u2011based layout for detail panels, applying DS.Card and DS.KeyValueRow components with spacing tokens",
+      "source_line": null
+    },
+    {
+      "name": "ResponsiveGrid",
+      "description": "Wrapper around FoundationUI\u2019s grid system to provide responsive column layouts across device sizes",
+      "source_line": null
+    },
+    {
+      "name": "ContentView Refactor",
+      "description": "Main content view updated to use FoundationUI patterns, spacing tokens, and platform adaptation contexts",
+      "source_line": null
+    },
+    {
+      "name": "Sidebar View Refactor (BoxesSidebar.swift)",
+      "description": "Refactored sidebar using FoundationUI grid, DS.Spacing, and responsive breakpoints for iPhone/iPad",
+      "source_line": null
+    },
+    {
+      "name": "Detail View Refactor (BoxDetailView.swift)",
+      "description": "Replaced manual padding with DS.Spacing tokens, used DS.Card for sections, ensured dark mode adaptation",
+      "source_line": null
+    },
+    {
+      "name": "LayoutPatternTests",
+      "description": "Unit tests validating layout components behavior and spacing token usage",
+      "source_line": null
+    },
+    {
+      "name": "LayoutSnapshotTests",
+      "description": "Snapshot tests for all device sizes, light/dark modes, orientations",
+      "source_line": null
+    },
+    {
+      "name": "ResponsiveLayoutTests",
+      "description": "Tests for size\u2011class adaptation and breakpoint behavior across platforms",
+      "source_line": null
+    },
+    {
+      "name": "LayoutAccessibilityTests",
+      "description": "VoiceOver, keyboard navigation, dynamic type and contrast compliance tests",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 11189,
+    "line_count": 283
+  }
+}

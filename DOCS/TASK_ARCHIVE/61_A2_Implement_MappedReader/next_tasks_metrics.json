@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/61_A2_Implement_MappedReader/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "MappedReader must use Data(...,.mappedIfSafe) with bounds-checked slices",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware to validate end-to-end SwiftUI automation flow",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "MappedReader Implementation",
+      "description": "Provides a Data reader that uses mappedIfSafe with bounds-checked slices for efficient data access.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStreamingSelectionAutomationTests Execution on macOS",
+      "description": "Runs SwiftUI automation tests to validate end-to-end streaming selection flow in the UI.",
+      "source_line": null
+    },
+    {
+      "name": "Combine-backed UI Benchmark on macOS",
+      "description": "Captures latency metrics for Combine-based UI while maintaining CLI throughput parity.",
+      "source_line": null
+    },
+    {
+      "name": "Session Persistence Error Surfacing",
+      "description": "Displays session persistence errors once diagnostics plumbing is available.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Session Bookmark Reconciliation",
+      "description": "Reconciles CoreData session bookmark diffs with live bookmark entities according to defined rules.",
+      "source_line": null
+    },
+    {
+      "name": "Automation via Apple Events for Notarized Builds",
+      "description": "Evaluates and extends entitlements for automation using Apple Events in notarized builds.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2049,
+    "line_count": 23
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/11_B5_VR003_Metadata_Validation/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement VR-003 metadata comparison rule so CLI and validation pipelines emit catalog-driven warnings.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VR-003 metadata comparison rule is implemented and causes CLI and validation pipelines to emit catalog-driven warnings.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "VR-003 Metadata Comparison Rule",
+      "description": "Implements a rule that compares metadata against catalog definitions and emits warnings during CLI operations and validation pipelines",
+      "source_line": null
+    },
+    {
+      "name": "VR-006 Research Logging Integration",
+      "description": "Executes research logging for VR-006 alongside CLI and UI metadata consumption once implementation tasks begin",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 237,
+    "line_count": 4
+  }
+}

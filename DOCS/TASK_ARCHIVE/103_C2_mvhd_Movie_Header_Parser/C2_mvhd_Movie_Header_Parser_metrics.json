@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/103_C2_mvhd_Movie_Header_Parser/C2_mvhd_Movie_Header_Parser.md",
+  "n_spec": 7,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a dedicated parser for the mvhd movie header box so ISOInspector can surface its timeline metadata (timescale, duration, playback rate, volume, and transformation matrix) across streaming, UI, and export surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parsing supports both version 0 (32-bit) and version 1 (64-bit) mvhd duration layouts while always exposing the declared timescale.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The parser outputs normalized playback rate and volume values needed by clients that visualize movie timing characteristics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The transformation matrix entries are decoded and propagated so UI and export consumers can represent orientation metadata alongside other header fields.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Treat mvhd as a FullBox, reusing the shared version/flags reader so downstream code can gate duration width on the version bit.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wire the parser into the core registry once the BoxParserRegistry scaffolding stabilizes so the broader movie tree gains mvhd coverage alongside existing mdhd/hdlr support.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The parser must always expose the declared timescale regardless of version.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "mvhd FullBox Parser",
+      "description": "Parses the mvhd movie header box as a FullBox, extracting version and flags.",
+      "source_line": null
+    },
+    {
+      "name": "Timescale Extraction",
+      "description": "Decodes and exposes the declared timescale value from the mvhd header.",
+      "source_line": null
+    },
+    {
+      "name": "Duration Decoding",
+      "description": "Handles both 32-bit (version 0) and 64-bit (version 1) duration fields in mvhd.",
+      "source_line": null
+    },
+    {
+      "name": "Playback Rate Normalization",
+      "description": "Converts fixed-point playback rate to a normalized double for consumers.",
+      "source_line": null
+    },
+    {
+      "name": "Volume Normalization",
+      "description": "Converts fixed-point volume to a normalized double for consumers.",
+      "source_line": null
+    },
+    {
+      "name": "Transformation Matrix Parsing",
+      "description": "Decodes the nine matrix entries from mvhd and provides them via a TransformationMatrix helper.",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload.MovieHeaderBox Model",
+      "description": "Structured data model representing parsed mvhd fields for downstream use.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Integration",
+      "description": "Extends JSON exporter to include mvhd details in snapshot baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for mvhd Parsing",
+      "description": "Tests covering version 0 and version 1 decoding, truncation guard, and fixture validation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2886,
+    "line_count": 42
+  }
+}

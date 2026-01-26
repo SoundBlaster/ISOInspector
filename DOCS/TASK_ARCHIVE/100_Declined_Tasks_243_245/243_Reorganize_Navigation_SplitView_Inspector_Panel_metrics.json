@@ -1,0 +1,138 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/100_Declined_Tasks_243_245/243_Reorganize_Navigation_SplitView_Inspector_Panel.md",
+  "n_spec": 17,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Move Selection Details content to the third column of NavigationSplitView and move Integrity Summary to the Inspector panel \u2013 display it when pressing a button at the top of the second panel of NavigationSplitView where Box Tree is displayed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selection Details fully accessible in third column when a box is selected",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integrity Summary toggleable via button on Box Tree panel header",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Both views adapt to available space in Inspector column (scrolling where needed)",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Keyboard shortcuts work: \u2318\u2303S for sidebar toggle, \u2318\u2325I for inspector toggle",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver labels correctly identify UI elements and state",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All existing functionality preserved (notes, field selection, hex navigation, etc.)",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Three-column layout stable across macOS, iPad portrait, iPad landscape, iPhone",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No regressions in existing tests (35+ from NavigationSplitScaffold, 15+ integration tests)",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always maintain a three\u2011column layout when the device supports it and hide or collapse columns appropriately on compact size classes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use NavigationSplitScaffold pattern with .balanced style and minimum column widths: sidebar 280pt, content 320pt, inspector 360pt.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Selection Details will be extracted into InspectorDetailView container composed of sub\u2011components (Metadata, Corruption, Encryption, Notes, Fields, Validation, Hex).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Integrity Summary will be moved to the Inspector column and controlled by a toggle button in the Box Tree panel header.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "InspectorDetailView will conditionally render SelectionDetailsView or SelectionIntegritySummaryView based on @State showIntegritySummary.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The toggle button will expose VoiceOver labels, keyboard shortcut \u2318\u2325I and update parent state to switch inspector content.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Responsive design: when inspector width >500pt show both views side\u2011by\u2011side; between 360-500pt use tabs or segmented picker; <360pt stack with scroll.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Accessibility audit will ensure VoiceOver, keyboard navigation, dynamic type and contrast meet WCAG AA.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "NavigationSplitView Three-Column Layout",
+      "description": "Provides a three-column UI with Sidebar (primary), Content (secondary), and Inspector (detail) columns.",
+      "source_line": null
+    },
+    {
+      "name": "InspectorDetailView Container",
+      "description": "Aggregates Selection Details and Integrity Summary views within the Inspector column, managing toggle state.",
+      "source_line": null
+    },
+    {
+      "name": "SelectionDetailsView",
+      "description": "Displays metadata, corruption, encryption, notes, field annotations, validation, and hex sections for a selected box.",
+      "source_line": null
+    },
+    {
+      "name": "SelectionIntegritySummaryView",
+      "description": "Shows integrity summary information, including sort controls, filter bar, issue list, and navigation to the tree.",
+      "source_line": null
+    },
+    {
+      "name": "BoxTreePanelHeader with Toggle Button",
+      "description": "Adds a button in the Box Tree panel header that toggles between showing Selection Details or Integrity Summary in the Inspector column.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Shortcuts for Column Visibility",
+      "description": "Provides \u2318\u2303S to toggle sidebar visibility and \u2318\u2325I to toggle inspector visibility or content.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Layer for Inspector Components",
+      "description": "Implements VoiceOver labels, keyboard navigation, dynamic type support, and contrast compliance for all inspector UI elements.",
+      "source_line": null
+    },
+    {
+      "name": "Responsive Layout Logic for Inspector Column",
+      "description": "Adjusts the display of Selection Details and Integrity Summary based on available width (tabs, split view, or stacked).",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 17283,
+    "line_count": 355
+  }
+}

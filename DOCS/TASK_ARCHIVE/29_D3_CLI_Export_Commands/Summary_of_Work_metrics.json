@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/29_D3_CLI_Export_Commands/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide CLI commands to export parse trees as JSON or binary capture files via ISOInspectorCLI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The CLI must support subcommands `export-json` and `export-capture` with deterministic exporters.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Output validation and streaming integration must correctly feed ParseTreeBuilder, JSONParseTreeExporter, and ParseEventCaptureEncoder.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Help output, default destination derivation, exporter round-tripping, and capture decoding are covered by tests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Export commands must surface failures via stderr and maintain consistent success/error messaging.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "CLI argument parsing, output validation, streaming integration, and test coverage were added to support the new export functionality.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "export-json CLI subcommand",
+      "description": "Exports parse trees to deterministic JSON files via ISOInspectorCLI",
+      "source_line": null
+    },
+    {
+      "name": "export-capture CLI subcommand",
+      "description": "Captures and exports parse events in binary format via ISOInspectorCLI",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeBuilder integration",
+      "description": "Builds parse trees from streamed input for export commands",
+      "source_line": null
+    },
+    {
+      "name": "JSONParseTreeExporter component",
+      "description": "Converts parse trees into JSON output",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 995,
+    "line_count": 20
+  }
+}

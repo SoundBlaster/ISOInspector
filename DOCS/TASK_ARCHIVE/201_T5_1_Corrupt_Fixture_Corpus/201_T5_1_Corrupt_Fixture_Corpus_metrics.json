@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/201_T5_1_Corrupt_Fixture_Corpus/201_T5_1_Corrupt_Fixture_Corpus.md",
+  "n_spec": 7,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Create a dedicated corrupted media fixture corpus to exercise tolerant parsing across diverse failure modes for regression suites and manual QA.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "At least ten fixtures representing unique corruption scenarios live under Fixtures/Corrupt/ with descriptive filenames.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each fixture includes a machine-readable manifest entry describing corruption type, affected boxes, and expected ParseIssue codes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated sanity checks load a subset of the new fixtures to ensure tolerant parsing completes and records the documented issues without crashes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "No current assets satisfy the acceptance criteria of covering at least ten distinct corruption patterns with curated metadata for downstream automation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Define a manifest schema (JSON or YAML) for corruption metadata so future tasks can consume it programmatically.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Generate fixtures via scripted manipulations of known-good assets to keep creation reproducible; document scripts under scripts/fixtures/ if needed.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Corrupt Fixture Corpus Repository",
+      "description": "A dedicated directory structure (Fixtures/Corrupt/) containing at least ten media fixture files that each represent a unique corruption scenario.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Manifest Schema",
+      "description": "A machine\u2011readable manifest (JSON or YAML) that describes each fixture\u2019s corruption type, affected boxes, and expected ParseIssue codes.",
+      "source_line": null
+    },
+    {
+      "name": "Automated Sanity Test Suite",
+      "description": "Unit/integration tests that load selected fixtures to verify tolerant parsing completes and records the documented issues without crashing.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Generation Scripts",
+      "description": "Scripts under scripts/fixtures/ that programmatically create corrupted media files from known\u2011good assets by manipulating bytes (e.g., truncation, header patching).",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2385,
+    "line_count": 33
+  }
+}

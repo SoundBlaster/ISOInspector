@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/07_R1_MP4RA_Catalog_Refresh/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Added MP4RACatalogRefresher and supporting HTTP data provider to ISOInspectorKit, including metadata-aware JSON generation and FourCC normalization.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend the isoinspect CLI with a new mp4ra refresh command backed by dependency-injectable environment hooks for testing.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "BoxCatalog must remove the fulfilled puzzle reference.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "swift test and swift run isoinspect mp4ra refresh must pass.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "MP4RA Catalog Refresh Automation",
+      "description": "Automates refreshing the MP4RA catalog by generating metadata-aware JSON and normalizing FourCC codes",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorKit MP4RACatalogRefresher component",
+      "description": "Provides functionality to refresh MP4RA catalogs within the ISOInspectorKit library",
+      "source_line": null
+    },
+    {
+      "name": "HTTP data provider for ISOInspectorKit",
+      "description": "Supplies HTTP-based data needed for catalog refreshing operations",
+      "source_line": null
+    },
+    {
+      "name": "isoinspect CLI mp4ra refresh command",
+      "description": "Command-line interface command that triggers a catalog refresh via isoinspect tool",
+      "source_line": null
+    },
+    {
+      "name": "MP4RABoxes.json generation",
+      "description": "Creates a JSON file containing 1,167 MP4RA box entries with provenance metadata",
+      "source_line": null
+    },
+    {
+      "name": "BoxCatalog update",
+      "description": "Updates the BoxCatalog to remove fulfilled puzzle references",
+      "source_line": null
+    },
+    {
+      "name": "MP4RA Refresh Guide documentation",
+      "description": "Guide describing maintenance workflow for MP4RA catalog refresh",
+      "source_line": null
+    },
+    {
+      "name": "Documentation updates (todo.md etc.)",
+      "description": "Tracks task completion and research gaps related to MP4RA",
+      "source_line": null
+    },
+    {
+      "name": "Swift test execution",
+      "description": "Runs tests for the API and components",
+      "source_line": null
+    },
+    {
+      "name": "Swift run isoinspect mp5?",
+      "description": "Weird\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1180,
+    "line_count": 26
+  }
+}

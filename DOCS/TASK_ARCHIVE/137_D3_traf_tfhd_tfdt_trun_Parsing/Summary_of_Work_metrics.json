@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The system must always register tfdt, trun, and traf parsers in BoxParserRegistry to provide fragment environment plumbing.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide structured payloads for track fragments with resolved defaults.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Typed models for track fragment decode time, run entries, and aggregated fragment summaries must be available with JSON and CLI formatting coverage.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Validation must include VR-017 fragment run checks.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Expose fragment metadata in DASH segment exports via refreshed snapshot.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All tests (swiftswift test\u00a0\u2026\u00a0..?\u2026??",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Track Fragment Parser Registration",
+      "description": "Registers tfdt, trun, and traf parsers in BoxParserRegistry to handle track fragment parsing.",
+      "source_line": null
+    },
+    {
+      "name": "Typed Models for Track Fragment Data",
+      "description": "Provides typed models for decode time, run entries, and aggregated fragment summaries with JSON and CLI formatting.",
+      "source_line": null
+    },
+    {
+      "name": "Fragment Run Validation",
+      "description": "Extends validation logic with VR-017 checks for fragment runs.",
+      "source_line": null
+    },
+    {
+      "name": "DASH Segment Snapshot Export",
+      "description": "Refreshes DASH segment snapshot to include fragment metadata in exports.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Formatting for Fragment Summaries",
+      "description": "Formats track fragment summaries for command-line interface output.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export of Fragment Metadata",
+      "description": "Exports structured payloads with JSON formatting for track fragments.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1257,
+    "line_count": 18
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/14_B5_VR006_Research_Logging/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Research logging must be persistent and deduplicated across CLI and UI consumers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce ResearchLogEntry/ResearchLogWriter infrastructure and extend ParsePipeline to record unknown boxes using contextual metadata.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "CLI users can configure research log handling via the --research-log option and receive a default location announcement.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The CLI must surface the research log path before streaming events.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Research logging schema usage should be monitored as UI components evolve beyond current scaffold.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Persistent Research Log Storage",
+      "description": "Stores research log entries as deduplicated JSON files shared by CLI and UI consumers.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Research Log Configuration",
+      "description": "Provides a --research-log option to configure the path of the research log and announces default location.",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogEntry/Writer Infrastructure",
+      "description": "Defines data structures and writer components for creating and recording research log entries.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline Extension for Unknown Boxes",
+      "description": "Extends the parsing pipeline to record unknown boxes using contextual metadata into the research log.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Environment Provisioning of Log Writers",
+      "description": "Sets up research log writers in the CLI environment based on parsed flags and surfaces the log path before streaming events.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 905,
+    "line_count": 21
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/196_T3_6_Integrity_Summary_Tab/Summary_of_Work.md",
+  "n_spec": 1,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Previous session notes must be archived in DOCS/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/Summary_of_Work.md on 2025-10-27 and used to capture future verification runs, commands, and observations as new work begins.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 351,
+    "line_count": 7
+  }
+}

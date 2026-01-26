@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/198_Summary_of_Work_2025-10-29_JSON_Snapshot_Rounding/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "All second-based values exported to JSON must be rounded to a fixed six-decimal precision before encoding to eliminate cross-platform float drift.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The exporter\u2019s JSON output for edit-list data must use Decimal representation of the rounded values.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Running swift test with filter JSONExportSnapshotTests should pass after implementation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a shared quantization helper utility (quantizedSeconds) to be used across exporter surfaces for consistent rounding.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Quantized Seconds Utility",
+      "description": "Provides a shared helper to round second-based values to a fixed six-decimal precision before JSON encoding.",
+      "source_line": null
+    },
+    {
+      "name": "Edit List Exporter JSON Encoding",
+      "description": "Exports edit-list data as JSON using Decimal representation of quantized seconds, ensuring consistent formatting across platforms.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 916,
+    "line_count": 10
+  }
+}

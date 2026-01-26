@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/43_E1_Build_SwiftUI_App_Shell/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Use a DocumentSessionController to coordinate ParseTreeStore, annotation sessions, and a persisted DocumentRecentsStore with security-scoped bookmarks.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide an AppShellView navigation split interface that replaces the previous single-screen ContentView.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Persist recents to Application Support/DocumentRecents and hydrate them on launch, including bookmark refresh for stale entries.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Security-scoped bookmarks must be used for persisted DocumentRecentsStore.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DocumentSessionController",
+      "description": "Coordinates ParseTreeStore, annotation sessions, and persisted DocumentRecentsStore with security-scoped bookmarks.",
+      "source_line": null
+    },
+    {
+      "name": "AppShellView",
+      "description": "Navigation split interface providing onboarding, recents management, and file import handling for MP4/QuickTime sources.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentRecentsStore",
+      "description": "Persisted storage of recent documents in Application Support/DocumentRecents, including bookmark refresh for stale entries.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1043,
+    "line_count": 22
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/51_D4_CLI_Batch_Mode/51_D4_CLI_Batch_Mode.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a user, I want to run isoinspector in batch mode so that I can analyze multiple media files in a single invocation and receive an aggregated summary.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI accepts multiple input files via paths, directory globs, or explicit lists and processes them sequentially using the existing streaming pipeline.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The consolidated summary table includes per-file path, size, parse/validation status, box counts, and aggregates that match product requirements.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CSV export flag writes the aggregated table to disk with headers so CI systems can consume the batch results, while textual summary mirrors CSV content.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Exit code reflects aggregate success/failure: any failed parse or validation yields a non-zero exit status suitable for CI gating.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Result accumulator type must collect per-file metrics and produce both console table and CSV rows, aligning with FR-CLI-002 expectations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse Task D2 command plumbing for inspect/validate to minimize duplication; introduce a dedicated batch subcommand or flag (e.g., validate --batch --report summary.csv).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Batch CLI Subcommand",
+      "description": "Command to invoke ISOInspector in batch mode accepting multiple files via paths, globs or lists",
+      "source_line": null
+    },
+    {
+      "name": "Aggregated Summary Table Output",
+      "description": "Console table summarizing per-file metrics and overall aggregates",
+      "source_line": null
+    },
+    {
+      "name": "CSV Export Flag",
+      "description": "Option to write the aggregated summary to a CSV file with headers for CI consumption",
+      "source_line": null
+    },
+    {
+      "name": "Result Accumulator",
+      "description": "Internal type that collects per-file metrics, produces console rows and CSV rows, and supports future extensions",
+      "source_line": null
+    },
+    {
+      "name": "Exit Code Logic",
+      "description": "Batch exit status reflects aggregate success/failure based on parse/validation results",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2741,
+    "line_count": 51
+  }
+}

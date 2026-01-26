@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/01_B1_Chunked_File_Reader/B1_Chunked_File_Reader.md",
+  "n_spec": 12,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Build a streaming file reader that allows large ISO BMFF assets to be parsed without loading entire files into memory.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Expose buffered sequential reads with configurable chunk size (default 1 MiB) while supporting seeking to arbitrary offsets.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide safe handling for end-of-file, partial reads, and IO errors with explicit error types.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Integrate with Swift concurrency primitives when helpful but keep synchronous API available for parser pipeline.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Reader streams 1 MiB chunks (configurable) without excessive memory allocations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests cover EOF, seek, and error paths per Execution Workplan.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "API aligns with PRD Section 2.1 (File IO) requiring random-access reads and accurate file length.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Buffered reads reuse storage and do not retain entire file contents.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Abstract file handles so platform differences are handled via conditional compilation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Define RandomAccessReader protocol covering length and offset-based read semantics derived from PRD File IO requirements.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement concrete reader backed by FileHandle with chunked buffer reuse, caching, and bounds checking.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Write XCTest cases for sequential and spanning chunk reads, seeking, EOF partial chunk, and injected read errors.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "RandomAccessReader Protocol",
+      "description": "Defines length and offset-based read semantics for random-access file reading.",
+      "source_line": null
+    },
+    {
+      "name": "ChunkedFileReader Implementation",
+      "description": "Concrete reader backed by FileHandle that streams configurable chunk sizes (default 1\u202fMiB) with buffer reuse, caching, and bounds checking.",
+      "source_line": null
+    },
+    {
+      "name": "Buffered Sequential Read API",
+      "description": "Exposes buffered sequential reads with configurable chunk size while supporting seeking to arbitrary offsets.",
+      "source_line": null
+    },
+    {
+      "name": "AsyncSequence Wrapper",
+      "description": "Optional Swift concurrency wrapper providing async iteration over file chunks.",
+      "source_line": null
+    },
+    {
+      "name": "Error Handling Types",
+      "description": "Explicit error types for EOF, partial reads, and IO failures.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite",
+      "description": "Tests covering sequential reads, multi\u2011chunk spans, seeks, EOF handling, out\u2011of\u2011bounds requests, and injected read errors.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2541,
+    "line_count": 34
+  }
+}

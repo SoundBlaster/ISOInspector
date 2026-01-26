@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/69_G1_FilesystemAccessKit_Core_API/G1_FilesystemAccessKit_Core_API.md",
+  "n_spec": 10,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a unified FilesystemAccessKit surface exposing async openFile, saveFile, createBookmark, and resolveBookmarkData operations for ISOInspector targets across macOS, iOS, and iPadOS.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Async APIs return security-scoped URLs validated by unit tests covering bookmark creation, resolution, and failure recovery scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Platform adapters bridge the shared API to NSOpenPanel/NSSavePanel on macOS and UIDocumentPickerViewController on iOS/iPadOS without regressing existing document commands.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Bookmark data persists alongside recents/session stores with migration notes for integrating Phase G2 once defined.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Logging and diagnostics redact absolute paths while capturing hashed identifiers so compliance requirements remain intact.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The core module must integrate with existing diagnostics and persistence infrastructure, ensuring security-scoped access and zero-trust logging are maintained.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse entitlements and notarization artifacts from Task E4, verifying sandbox profiles expose com.apple.security.files.user-selected.read-write and bookmark scopes before wiring new APIs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Model bookmark persistence in a dedicated store under Application Support with identifiers referenced by existing recents/session entities; include reconciliation hooks for future G2 work.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Provide CLI affordances or stubs that accept pre-authorized paths, aligning with sandbox profile guidance.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Document access auditing and error surfaces so diagnostics align with the persistence logging already emitting recents/session failures.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "openFile API",
+      "description": "Asynchronously opens a user-selected file and returns a security-scoped URL",
+      "source_line": null
+    },
+    {
+      "name": "saveFile API",
+      "description": "Asynchronously saves data to a user-selected location and returns a security-scoped URL",
+      "source_line": null
+    },
+    {
+      "name": "createBookmark API",
+      "description": "Creates a persistent bookmark for a given file URL and stores it in the application support store",
+      "source_line": null
+    },
+    {
+      "name": "resolveBookmarkData API",
+      "description": "Resolves a stored bookmark back into an accessible URL, handling failure recovery",
+      "source_line": null
+    },
+    {
+      "name": "macOS NSOpenPanel adapter",
+      "description": "Bridges the shared openFile API to macOS's NSOpenPanel UI component",
+      "source_line": null
+    },
+    {
+      "name": "macOS NSSavePanel adapter",
+      "description": "Bridges the shared saveFile API to macOS's NSSavePanel UI component",
+      "source_line": null
+    },
+    {
+      "name": "iOS/iPadOS UIDocumentPickerViewController adapter",
+      "description": "Bridges the shared file operations to iOS/iPadOS document picker UI",
+      "source_line": null
+    },
+    {
+      "name": "Bookmark persistence store",
+      "description": "Dedicated storage under Application Support for bookmark data linked to recents/session entities",
+      "source_line": null
+    },
+    {
+      "name": "Logging and diagnostics module",
+      "description": "Redacts absolute paths, logs hashed identifiers, and records access audit events",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2695,
+    "line_count": 42
+  }
+}

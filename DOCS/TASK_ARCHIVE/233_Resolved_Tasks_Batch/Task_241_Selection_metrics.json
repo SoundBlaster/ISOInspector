@@ -1,0 +1,123 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/233_Resolved_Tasks_Batch/Task_241_Selection.md",
+  "n_spec": 16,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Create NavigationSplitScaffold wrapper pattern that integrates NavigationSplitViewKit.NavigationModel with FoundationUI's design system for cross-platform navigation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Core API implemented with ViewBuilder support.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "NavigationModelKey environment integration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Design token compliance (spacing, colors, animation, typography).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "35+ unit and integration tests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "6+ SwiftUI previews including ISO Inspector reference.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "100% DocC API coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Zero SwiftLint violations.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All layout constants use DS tokens (no magic numbers).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a generic struct over Sidebar/Content/Detail view types.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Environment key for navigation state propagation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Platform support: iOS 17+, iPadOS 17+, macOS 14+.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Select Task 241 over Bug #232 and Task A7 based on priority, dependencies, and strategic value.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Task 241 selected because all dependencies satisfied (Task 240 complete).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "No permanent blockers for Task 241.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Task selection follows rules in DOCS/COMMANDS/SELECT_NEXT.md and DOCS/RULES/03_Next_Task_Selection.md.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "NavigationSplitScaffold API",
+      "description": "Generic SwiftUI wrapper struct that integrates NavigationSplitViewKit\u2019s NavigationModel with FoundationUI design system, exposing a view builder interface for sidebar, content, and detail views.",
+      "source_line": null
+    },
+    {
+      "name": "EnvironmentKey for NavigationState",
+      "description": "An EnvironmentKey that propagates the navigation state throughout the view hierarchy, enabling child views to access and modify navigation context.",
+      "source_line": null
+    },
+    {
+      "name": "DesignToken Integration",
+      "description": "All layout constants within NavigationSplitScaffold are derived from FoundationUI design system tokens (spacing, colors, animation, typography), ensuring zero magic numbers.",
+      "source_line": null
+    },
+    {
+      "name": "Unit & Integration Tests",
+      "description": "A suite of 35+ automated tests covering core API behavior, environment propagation, token usage, and platform-specific functionality across iOS, iPadOS, macOS.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Previews",
+      "description": "Six comprehensive SwiftUI previews demonstrating typical use cases, including an ISO Inspector mockup and platform comparison variants.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Documentation",
+      "description": "Full DocC API reference and usage guide for NavigationSplitScaffold, providing 100% coverage of public interfaces.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 8071,
+    "line_count": 242
+  }
+}

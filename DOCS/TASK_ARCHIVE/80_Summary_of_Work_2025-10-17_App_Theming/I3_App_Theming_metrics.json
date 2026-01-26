@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/80_Summary_of_Work_2025-10-17_App_Theming/I3_App_Theming.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Deliver a branded ISOInspector visual identity by supplying production-ready app icons and accent colors that respect both light and dark appearances across macOS, iPadOS, and iOS builds.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "App icon sets include all required idioms and scales for macOS, iOS, and iPadOS targets, packaged inside an asset catalog referenced by the Xcode project.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accent colors and theming resources render correctly in both light and dark modes, with SwiftUI previews or screenshots confirming contrast and accessibility compliance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Updated theming assets are reflected in distribution artifacts (TestFlight/DMG) with documentation/screenshots refreshed as needed.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Populate Sources/ISOInspectorApp/Resources/ with an Assets.xcassets catalog that contains AppIcon.appiconset entries covering platform-specific size requirements.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Define shared accent colors within the asset catalog and apply them through SwiftUI AccentColor or environment modifiers inside ISOInspectorApp scene declarations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with distribution tooling (Distribution/ scripts and project settings) to ensure new assets flow through notarization and packaging workflows without additional manual steps.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "App Icon Asset Catalog",
+      "description": "Provides a complete set of app icon images for macOS, iPadOS, and iOS in all required idioms and scales, packaged within an Assets.xcassets catalog referenced by the Xcode project.",
+      "source_line": null
+    },
+    {
+      "name": "Accent Color Definition",
+      "description": "Defines shared accent colors with light/dark variants inside the asset catalog, ensuring consistent theming across the app.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Accent Application",
+      "description": "Applies the defined accent colors to the ISOInspectorApp scene using SwiftUI's AccentColor or environment modifiers so that UI elements use the brand accent.",
+      "source_line": null
+    },
+    {
+      "name": "Theming Resource Packaging",
+      "description": "Includes all theming assets (icons, colors) in distribution artifacts such as TestFlight builds and DMG installers, ensuring they are notarized and packaged automatically.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation & Screenshot Updates",
+      "description": "Updates marketing captures, DocC manuals, README imagery, and screenshots to reflect new iconography and primary colors for consistency across docs and product surfaces.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2704,
+    "line_count": 57
+  }
+}

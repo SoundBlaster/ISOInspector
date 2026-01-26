@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/33_C4_CoreData_Annotation_Persistence/2025-10-10-coredata-annotation-bookmark-store.md",
+  "n_spec": 5,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Persist annotation and bookmark notes across app sessions using CoreData instead of the previous JSON-based storage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The CoreDataAnnotationBookmarkStore must replace the JSON spike and store records in SQLite, ensuring data persists between launches.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "On platforms without CoreData support, attempting to use the store should throw a .featureUnsupported error.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Records must always be stored in SQLite when using CoreDataAnnotationBookmarkStore.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The JSON-based annotation/bookmark storage spike is removed and replaced with the CoreData schema defined in R6.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CoreDataAnnotationBookmarkStore",
+      "description": "A CoreData-backed store that persists annotation and bookmark data across app sessions",
+      "source_line": null
+    },
+    {
+      "name": "AnnotationBookmarkStoreTests",
+      "description": "Unit tests for the CoreDataAnnotationBookmarkStore ensuring correct persistence behavior",
+      "source_line": null
+    },
+    {
+      "name": "Persistence documentation in DocC & manual notes",
+      "description": "Documentation describing how the new CoreData schema is used for persistence",
+      "source_line": null
+    },
+    {
+      "name": "Fallback mechanism for unsupported platforms",
+      "description": "Throws .featureUnsupported when CoreData is unavailable, maintaining backward compatibility",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1014,
+    "line_count": 28
+  }
+}

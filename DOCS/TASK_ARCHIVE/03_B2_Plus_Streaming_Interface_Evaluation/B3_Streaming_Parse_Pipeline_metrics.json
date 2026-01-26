@@ -1,0 +1,113 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/03_B2_Plus_Streaming_Interface_Evaluation/B3_Streaming_Parse_Pipeline.md",
+  "n_spec": 10,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a streaming parse pipeline that reads MP4 boxes sequentially and emits typed parse events for downstream consumers such as UI, CLI, and validation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parsing sample fixtures yields ordered parse events containing headers, offsets, and context metadata per specification.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Event stream maintains parent/child context via an explicit stack without recursion depth issues.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Pipeline handles container traversal, size==0/1, and malformed structures by emitting validation hooks rather than crashing.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "XCTest coverage proves deterministic event ordering and error handling across nominal and malformed inputs.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The context stack must always reflect the current hierarchy of parsed boxes, respecting declared payload boundaries.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use RandomAccessReader and BoxHeaderDecoder from B1/B2 as foundation for reading headers and payload ranges.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Define ParsePipeline that produces AsyncStream<ParseEvent> or Combine publisher for consumers; ensure thread safety with Swift concurrency primitives.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Maintain an explicit context stack/iterator to traverse container boxes without recursion, enforcing declared payload boundaries.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Integrate validation hooks for VR-001/VR-002, capturing issues in emitted events but allowing parsing to continue when possible.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "RandomAccessReader",
+      "description": "Provides random access reading of MP4 file data for header and payload extraction.",
+      "source_line": null
+    },
+    {
+      "name": "BoxHeaderDecoder",
+      "description": "Decodes MP4 box headers to determine type, size, and flags from the binary stream.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline",
+      "description": "Orchestrates streaming parsing of MP4 boxes, emitting typed parse events as an AsyncStream or Combine publisher.",
+      "source_line": null
+    },
+    {
+      "name": "AsyncParseEventStream",
+      "description": "Asynchronous stream of ParseEvent objects produced by ParsePipeline for downstream consumers.",
+      "source_line": null
+    },
+    {
+      "name": "ContextStackManager",
+      "description": "Maintains an explicit stack of box contexts to enable parent/child traversal without recursion and enforce payload boundaries.",
+      "source_line": null
+    },
+    {
+      "name": "ValidationHookHandler",
+      "description": "Captures validation errors (e.g., VR-001, VR-002) during parsing and emits them as part of the event stream while allowing continuation.",
+      "source_line": null
+    },
+    {
+      "name": "ContainerTraversalEngine",
+      "description": "Iteratively traverses container boxes using the context stack to process nested structures.",
+      "source_line": null
+    },
+    {
+      "name": "EventEmitter",
+      "description": "Emits parse events containing headers, offsets, and contextual metadata for each box.",
+      "source_line": null
+    },
+    {
+      "name": "ErrorHandlingStrategy",
+      "description": "Defines how malformed structures are handled\u2014emit validation hooks instead of crashing.",
+      "source_line": null
+    },
+    {
+      "name": "TestFixtureLoader",
+      "description": "Loads small MP4 samples and malformed header fixtures for testing the pipeline.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2034,
+    "line_count": 46
+  }
+}

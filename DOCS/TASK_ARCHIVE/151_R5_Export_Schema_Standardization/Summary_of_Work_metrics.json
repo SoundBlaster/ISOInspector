@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/151_R5_Export_Schema_Standardization/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a canonical export schema for media metadata that can be used by both compatibility-focused and rich-detail consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The proposed schema must include all fields present in Bento4 mp4dump, ISOInspector, and FFmpeg ffprobe exports, with clear naming conventions and coverage gaps addressed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Adapters should be defined to allow future exporters to map their output to the canonical schema without breaking existing consumers.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The export schema must remain backward compatible with current ISOInspector output structure during analysis.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend JSONExportSnapshotTests and add new CLI integration checks to validate compatibility aliases and format summary block before modifying production schemas.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1477,
+    "line_count": 12
+  }
+}

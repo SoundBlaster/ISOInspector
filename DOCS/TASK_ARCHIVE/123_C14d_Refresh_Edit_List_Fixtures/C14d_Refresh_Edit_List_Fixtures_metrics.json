@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/123_C14d_Refresh_Edit_List_Fixtures/C14d_Refresh_Edit_List_Fixtures.md",
+  "n_spec": 7,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Update edit list diagnostics (VR-014) fixtures and exports to cover empty, single-offset, multi-segment, and rate-adjusted elst scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Refresh fixture inputs for all specified elst cases with regenerated JSON exports and snapshots reflecting VR-014 outputs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update any failing snapshot or export assertions in Tests/ISOInspectorKitTests to align with the new fixtures without regressing unrelated parsers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Document test execution notes (e.g., swift test, targeted snapshot regenerations) within the eventual task summary.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Confirm regression coverage by running the full SwiftPM test suite after fixture updates.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Checksums and metadata of regenerated assets must stay in sync with Tests/Fixtures manifests.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use existing fixture generation utilities in scripts/ and guidance from DOCS/TASK_ARCHIVE/27_F1_Expand_Fixture_Catalog to regenerate assets.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Edit List Fixture Generation",
+      "description": "Generate test fixtures for edit list scenarios (empty, single-offset, multi-segment, rate-adjusted) using existing utilities in scripts/ and task archive guidance.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Regeneration",
+      "description": "Regenerate JSON exports of edit lists to reflect updated diagnostics VR-014 outputs.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot Baseline Update",
+      "description": "Update snapshot baselines for edit list JSON exports under Tests/__Snapshots__/ to match regenerated data.",
+      "source_line": null
+    },
+    {
+      "name": "Test Suite Execution",
+      "description": "Run the full SwiftPM test suite after fixture updates to confirm regression coverage and no regressions in unrelated parsers.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Metadata Synchronization",
+      "description": "Ensure checksums and metadata of generated fixtures stay in sync with Tests/Fixtures/ manifests.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Rule Coordination",
+      "description": "Coordinate with Validation Rule #15 planning notes to avoid conflicting expectations for chunk/sample correlation follow-ups.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2631,
+    "line_count": 36
+  }
+}

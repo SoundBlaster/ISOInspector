@@ -1,0 +1,27 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/139_Validator_and_CLI_Polish/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 3,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "VR-017 Diagnostics Enhancement",
+      "description": "Provides detailed diagnostics for VR-017 validation errors, including track/run context and missing entry indexes.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Formatter Extension",
+      "description": "Extends the command\u2011line interface to display run indices, decode/presentation ranges, and data offset coverage for fragment fixtures.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Snapshot Support",
+      "description": "Enables exporting snapshots in JSON format without requiring schema updates after verification.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 738,
+    "line_count": 13
+  }
+}

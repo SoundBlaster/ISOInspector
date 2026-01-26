@@ -1,0 +1,42 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "ParseIssueStore must provide metricsSnapshot() and makeIssueSummary() to allow SwiftUI ribbons and CLI flows to fetch per-severity counts, totals, and deepest affected depth without recomputing the store.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a user of the SwiftUI UI or CLI ribbon, I want to see aggregated parse issue metrics so that I can quickly assess severity distribution and overall health.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The system must expose metricsSnapshot() and makeIssueSummary() APIs in ParseIssueStore; these APIs should return per-severity counts, total counts, and deepest affected depth. The UI and CLI ribbons must be able to consume these values without recomputing the store.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Documentation for tolerant parsing must reference the new aggregation APIs (DOCS/AI/Tolerance_Parsing/TODO.md, IntegrationSummary.md).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseIssueStoreTests must cover severity dictionaries, background snapshots, and summary DTOs to validate correct behavior.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The ParseIssueStore will be extended with metricsSnapshot() and makeIssueSummary() methods; these are added as part of the store's public API for aggregation purposes.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 858,
+    "line_count": 14
+  }
+}

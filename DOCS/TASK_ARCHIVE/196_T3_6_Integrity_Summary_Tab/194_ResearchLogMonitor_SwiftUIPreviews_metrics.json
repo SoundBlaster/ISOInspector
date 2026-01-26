@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/196_T3_6_Integrity_Summary_Tab/194_ResearchLogMonitor_SwiftUIPreviews.md",
+  "n_spec": 5,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate ResearchLogMonitor audit into SwiftUI previews so designers can see diagnostics during design-time validation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftUI preview compositions must consume ResearchLogPreviewProvider snapshots and run ResearchLogMonitor.audit against bundled VR-006 fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Diagnostics for ready, missing, and schema mismatch states must appear in ResearchLogAuditPreview matching the monitoring checklist.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ResearchLogMonitor.audit must always execute when preview scenarios render VR-006 research log data.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use ResearchLogPreviewProvider snapshots through preview compositions to provide sample payloads and diagnostics alongside previews.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ResearchLogPreviewProvider snapshots",
+      "description": "Provides SwiftUI preview compositions that render VR-006 research log data and run ResearchLogMonitor.audit to surface schema drift, missing fixtures, and empty payloads during design-time validation.",
+      "source_line": null
+    },
+    {
+      "name": "ResearchLogAuditPreview diagnostics display",
+      "description": "Displays diagnostics for ready, missing, and schema mismatch states alongside sample payloads in SwiftUI previews.",
+      "source_line": null
+    },
+    {
+      "name": "Canonical VR-006 fixture management",
+      "description": "Maintains canonical VR-006 fixtures and provides mismatch/missing variants for regression visibility in preview compositions.",
+      "source_line": null
+    },
+    {
+      "name": "Schema change refresh process documentation",
+      "description": "Documents the process for refreshing preview fixtures when schema fields change to keep designers unblocked.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1621,
+    "line_count": 24
+  }
+}

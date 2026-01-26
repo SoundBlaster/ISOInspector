@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/234_Resolved_Tasks_Batch/240_NavigationSplitViewKit_Integration.md",
+  "n_spec": 10,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate NavigationSplitViewKit Swift Package into FoundationUI module to enable modern navigation split view patterns across the application.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "NavigationSplitViewKit dependency added to FoundationUI/Package.swift with version \u22651.0.0.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Dependency mirrored in FoundationUI/Project.swift (Tuist).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Lockfiles regenerated successfully.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI workflows updated to cache the dependency.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All targets build successfully with the new dependency.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No build time regressions (or documented if any).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All existing tests pass.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "SPM and Tuist configurations must remain consistent for NavigationSplitViewKit dependency.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use version pinning \u22651.0.0 for NavigationSplitViewKit to ensure stability.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SPM Dependency Addition",
+      "description": "Adds NavigationSplitViewKit as a Swift Package Manager dependency to FoundationUI's Package.swift with version pinning and documentation.",
+      "source_line": null
+    },
+    {
+      "name": "Tuist Manifest Integration",
+      "description": "Mirrors the SPM dependency in Tuist's Project.swift and regenerates lockfiles to include the new package.",
+      "source_line": null
+    },
+    {
+      "name": "CI/CD Dependency Caching",
+      "description": "Updates GitHub Actions workflows to cache NavigationSplitViewKit, monitors build time impact, and ensures CI can fetch and build it.",
+      "source_line": null
+    },
+    {
+      "name": "Target Linking Verification",
+      "description": "Verifies that all relevant targets (main, examples, tests) link against NavigationSplitViewKit without linker errors across macOS, iOS, and iPadOS.",
+      "source_line": null
+    },
+    {
+      "name": "Build Success Validation",
+      "description": "Ensures all targets build successfully with the new dependency and no regressions in build time or test failures.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2843,
+    "line_count": 71
+  }
+}

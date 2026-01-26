@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/209_T5_5_Tolerant_Parsing_Fuzzing_Harness/209_T5_5_Fuzzing_Harness.md",
+  "n_spec": 10,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Build an automated fuzzing harness that exercises tolerant parsing against 100+ synthetically corrupted MP4 fixtures and demonstrates a 99.9% crash\u2011free completion rate so lenient mode can ship with confidence.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "An XCTest-driven fuzz suite generates or mutates \u2265100 corrupt payloads per run and feeds them through the tolerant parsing pipeline.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Harness reports aggregate completion statistics and asserts that all cases complete without crashes or unexpected fatal errors (\u226599.9% success for the batch).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Failures capture reproduction artifacts (seed, mutation description, minimal repro payload) for archival under `Documentation/CorruptedFixtures/` when encountered.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CI configuration executes the fuzz suite on Linux runners without timeouts, keeping total runtime within the existing benchmark budget.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The tolerant parsing pipeline must be forced into tolerant mode via ParsePipeline.Options and clamp issue budgets so runaway corruption still terminates; strict mode remains unaffected by running a small control sample.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a dedicated test target module (e.g., `TolerantParsingFuzzTests`) that iterates over generated cases inside a single XCTest, recording completion counts and measuring guard coverage.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse the CorruptFixtureBuilder utilities from Task T5.1 archives to seed base payloads, then apply deterministic mutations driven by seeded RandomNumberGenerator so failures are reproducible.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Emit structured diagnostics (seed, mutation kind, offsets) via XCTAttachment for any failure and optionally persist the offending payload using existing fixture manifest helpers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update documentation trackers once the harness lands so stakeholders know crash\u2011free validation is covered.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "XCTest-Driven Fuzz Suite",
+      "description": "Automated test harness that generates or mutates \u2265100 corrupt MP4 payloads per run and feeds them through the tolerant parsing pipeline.",
+      "source_line": null
+    },
+    {
+      "name": "CorruptFixtureBuilder Integration",
+      "description": "Utility module reusing CorruptFixtureBuilder to seed base payloads and apply deterministic mutations driven by seeded RNGs for reproducible failures.",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing Pipeline Configuration",
+      "description": "Integration with ParsePipeline.Options to force tolerant mode, clamp issue budgets, and ensure strict mode remains unaffected via control sample.",
+      "source_line": null
+    },
+    {
+      "name": "Failure Artifact Capture",
+      "description": "On failure, captures reproduction artifacts (seed, mutation description, minimal repro payload) and persists them under Documentation/CorruptedFixtures/ using XCTAttachment and fixture manifest helpers.",
+      "source_line": null
+    },
+    {
+      "name": "CI Execution Configuration",
+      "description": "Configures CI to run the fuzz suite on Linux runners without timeouts, keeping total runtime within benchmark budget.",
+      "source_line": null
+    },
+    {
+      "name": "Guard Coverage Measurement",
+      "description": "Records completion counts and measures traversal guard coverage during each test run.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Update Tracker",
+      "description": "Updates documentation trackers once harness lands so stakeholders know crash-free validation is covered.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3086,
+    "line_count": 28
+  }
+}

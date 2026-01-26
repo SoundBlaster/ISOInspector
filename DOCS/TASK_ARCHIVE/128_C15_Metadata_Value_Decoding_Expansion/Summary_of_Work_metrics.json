@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/128_C15_Metadata_Value_Decoding_Expansion/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 5,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Metadata Value Decoding",
+      "description": "Decodes metadata values for boolean, float32/float64, and common binary payload types (JPEG/PNG/BMP) into human-readable output across parse tree and JSON exporters.",
+      "source_line": null
+    },
+    {
+      "name": "Value Kind Exposure in ParsedBoxPayload",
+      "description": "Provides dedicated value kinds (boolean, float32, float64, data) and DataFormat descriptors within ParsedBoxPayload.MetadataItemListBox.Entry.Value for downstream consumers.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Value Parsing Extension",
+      "description": "Extends BoxParserRegistry+Metadata.decodeMetadataValue to parse MP4RA type codes 13/14/15/23/24/27 and produce friendly display strings, with future variants noted via @todo.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Exporter Enhancement",
+      "description": "Surfaces new value kinds in JSON output with explicit fields (boolean_value, float32_value, float64_value, data_format) for CLI snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Test Coverage",
+      "description": "Includes tests exercising metadata decoding paths, synthetic JPEG payloads, and float/boolean fixtures to ensure correctness.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1684,
+    "line_count": 20
+  }
+}

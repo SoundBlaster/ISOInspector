@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/165_T1_2_Extend_ParseTreeNode_Status_and_Issues/next_tasks.md",
+  "n_spec": 9,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "No active research tasks beyond the items listed below.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend ParseTreeNode with Issues and Status Fields to emit tolerant parsing metadata, expose status and issues in JSON exports, and surface status indicator in app detail views.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parse tree nodes must emit tolerant parsing metadata; JSON exports must include status and issues fields; app detail views must display the status indicator.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "VoiceOver Regression Pass for Accessibility Shortcuts is blocked without hardware.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Track manual VoiceOver verification on macOS and iPadOS hardware to confirm focus command menu announces controls and restores focus targets as expected.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Manual VoiceOver verification must confirm that focus command menu announces controls and restores focus targets.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Real-World Assets task is blocked awaiting external licensing approvals.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Secure Dolby Vision, AV1.. etc. to shift regression baselines from synthetic payloads once approvals land.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Licensing approvals must be obtained for Dolby Vision\u2026.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeNode Metadata Extension",
+      "description": "Adds issues and status fields to parse tree nodes, exposing tolerant parsing metadata in JSON exports and UI detail views.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Accessibility Verification",
+      "description": "Manually tracks VoiceOver focus command menu announcements and focus restoration on macOS and iPadOS hardware.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing",
+      "description": "Secures external licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to enable realistic regression baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & CLI Fixture Refresh",
+      "description": "Automates refreshing of snapshots and CLI fixtures when schema updates occur via a regeneration flag and test command.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1199,
+    "line_count": 9
+  }
+}

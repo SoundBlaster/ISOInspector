@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/79_Readme_Feature_Matrix_and_Distribution_Follow_Up/79_Distribution_Apple_Events_Follow_Up.md",
+  "n_spec": 5,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Notarized distribution does not require Apple Events automation; the pipeline relies exclusively on CLI tooling (codesign, xcrun notarytool).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The codebase contains no AppleScript/ScriptingBridge integrations.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Entitlements remain unchanged; no com.apple.security.automation.apple-events entitlement or NSAppleEventsUsageDescription entry is necessary.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Future distribution work starts from a verified baseline, as repository docs and TODO trackers point to the archived outcome record.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The final decision log and re-evaluation guidance are documented in DOCS/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/57_Distribution_Apple_Events_Notarization_Assession.md.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 910,
+    "line_count": 25
+  }
+}
