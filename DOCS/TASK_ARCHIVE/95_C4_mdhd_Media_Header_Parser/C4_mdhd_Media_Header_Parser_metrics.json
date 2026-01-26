@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/95_C4_mdhd_Media_Header_Parser/C4_mdhd_Media_Header_Parser.md",
+  "n_spec": 8,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a concrete parser for mdhd (Media Header) boxes so the streaming pipeline, CLI exports, and SwiftUI detail panes surface creation/modification timestamps, media timescale, duration, and ISO-639-2/T language codes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxParserRegistry registers an mdhd parser that consumes the full box header via FullBoxReader and extracts creation and modification timestamps (32- or 64-bit based on version), timescale and duration fields, language code (converted from the packed 5-bit characters), optional pre-roll or reserved fields documented in the PRD.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser returns a ParsedBoxPayload that powers CLI JSON export and SwiftUI detail views with descriptive labels and byte ranges.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover both version 0 and version 1 payload layouts, including malformed/short payload handling.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Hex/detail UI reflects parsed values for representative fixtures without regressions in existing tests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "mdhd parser gracefully returns nil when payload length is insufficient, matching registry conventions.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse FullBoxReader to handle version/flags and derive the payload cursor.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use helper utilities (extend if necessary) to decode the 15-bit language code into a three\u2011letter identifier.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "mdhd Box Parser",
+      "description": "Parses 'mdhd' Media Header boxes extracting creation/modification timestamps, timescale, duration, language code, and optional fields using FullBoxReader.",
+      "source_line": null
+    },
+    {
+      "name": "FullBoxReader Integration",
+      "description": "Utilizes FullBoxReader to read versioned full box headers and provide payload cursor for mdhd parsing.",
+      "source_line": null
+    },
+    {
+      "name": "Language Code Decoder",
+      "description": "Decodes 15-bit packed language codes into three-letter ISO-639-2/T identifiers.",
+      "source_line": null
+    },
+    {
+      "name": "CLI JSON Exporter",
+      "description": "Outputs parsed mdhd data as JSON for command-line interface exports.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Detail View Renderer",
+      "description": "Displays parsed mdhd information with descriptive labels and byte ranges in SwiftUI detail panes.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite for mdhd Parser",
+      "description": "Tests both version 0 and version 1 payload layouts, malformed/short payload handling, and fixture validation.",
+      "source_line": null
+    },
+    {
+      "name": "Parser Registry Entry",
+      "description": "Registers the mdhd parser in BoxParserRegistry so it can be invoked during parsing.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2406,
+    "line_count": 38
+  }
+}

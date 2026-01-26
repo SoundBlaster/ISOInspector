@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/next_tasks.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "CoreData session bookmark diffs must be reconciled with persisted bookmark entities when reconciliation rules are defined.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute the random slice benchmark suite on macOS hardware to compare mapped vs. chunked readers under identical workloads once Combine support is available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark results should show latency and throughput metrics for mapped and chunked readers on macOS with Combine support.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware with XCTest UI support to validate the end-to-end SwiftUI automation flow.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test must complete successfully without blocking due to missing macOS UI testing entitlements.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute Combine-backed UI benchmark on macOS to capture latency metrics while maintaining throughput parity with CLI harness.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark should run on macOS with Xcode/Combine and produce comparable latency data.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Session persistence must reconcile CoreData session bookmark diffs with live bookmark entities when reconciliation rules defined.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Track outcome of notarized build Apple Events automation assessment and reference final decision in documentation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Connect Bookmark Diffs to Persisted Bookmarks",
+      "description": "Reconciles CoreData session bookmark diffs with persisted bookmark entities",
+      "source_line": null
+    },
+    {
+      "name": "Random Slice Benchmark Execution",
+      "description": "Runs random slice benchmark suite on macOS hardware to compare mapped vs. chunked readers",
+      "source_line": null
+    },
+    {
+      "name": "Parse Tree Streaming Selection Automation Tests",
+      "description": "Executes SwiftUI automation flow tests for parse tree streaming selection on macOS",
+      "source_line": null
+    },
+    {
+      "name": "Combine-backed UI Benchmark Execution",
+      "description": "Captures latency metrics for Combine-backed UI on macOS while maintaining CLI throughput parity",
+      "source_line": null
+    },
+    {
+      "name": "Session Persistence Reconciliation",
+      "description": "Reconciles CoreData session bookmark diffs with live bookmark entities based on defined rules",
+      "source_line": null
+    },
+    {
+      "name": "Notarized Build Apple Events Automation Assessment",
+      "description": "Tracks outcome of notarized build automation via Apple Events and updates entitlements",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2568,
+    "line_count": 26
+  }
+}

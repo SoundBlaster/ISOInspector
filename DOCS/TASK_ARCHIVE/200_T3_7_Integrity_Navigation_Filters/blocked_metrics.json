@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/blocked.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Blocked tasks must not proceed until upstream dependencies are resolved.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Import licensed assets and refresh regression baselines after licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H are obtained.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression baselines are refreshed so tolerant parsing and export scenarios validate against real-world payloads.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Maintain a log of blocked tasks and update it whenever blockers change to ensure day\u2011to\u2011day visibility.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 659,
+    "line_count": 9
+  }
+}

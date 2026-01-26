@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/70_Bookmark_Persistence_Schema/2025-10-16-bookmark-persistence-schema.md",
+  "n_spec": 10,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Design a shared bookmark persistence schema so recents and workspace sessions can reference a single security-scoped bookmark record.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Kit: BookmarkPersistenceStore with versioned JSON format and resolution metadata must be implemented.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI should not have direct changes yet; future integrations will load bookmark identifiers when wiring sandbox profiles.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "App components DocumentRecent/WorkspaceSessionFileSnapshot must track bookmark identifiers and CoreData session persistence mirrors the new field.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Public Kit API BookmarkPersistenceStore and nested Record must be added or changed as specified.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Call sites such as DocumentSessionController, CoreData session persistence, recents/session tests must be updated to use the new API.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Existing JSON/CoreData payloads must decode with default nil bookmark identifiers for backward compatibility.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests must include BookmarkPersistenceStoreTests and updated recents/sessions persistence tests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Bookmark persistence records capture canonical file URLs, resolution state, and timestamps.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The schema is additive; new fields are added without breaking existing payloads.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BookmarkPersistenceStore",
+      "description": "Provides storage and retrieval of bookmark records in a versioned JSON format with resolution metadata.",
+      "source_line": null
+    },
+    {
+      "name": "BookmarkPersistenceStore.Record",
+      "description": "Represents an individual bookmark record containing canonical file URL, resolution state, timestamps, and optional identifier.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentRecent integration",
+      "description": "Tracks bookmark identifiers for recent documents within the app's recents feature.",
+      "source_line": null
+    },
+    {
+      "name": "WorkspaceSessionFileSnapshot integration",
+      "description": "Stores bookmark identifiers in workspace session snapshots to enable persistence across sessions.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData session persistence update",
+      "description": "Mirrors new bookmark identifier field in CoreData session records for consistency with the store.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentSessionController API changes",
+      "description": "Updated to use BookmarkPersistenceStore for managing document session data, including bookmark handling.",
+      "source_line": null
+    },
+    {
+      "name": "Recents and Session tests",
+      "description": "Unit tests ensuring correct encoding/decoding of bookmark identifiers in recents and workspace sessions.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1720,
+    "line_count": 31
+  }
+}

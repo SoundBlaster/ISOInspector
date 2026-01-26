@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/74_G4_Zero_Trust_Logging/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 5,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "FilesystemAccessAuditEvent",
+      "description": "Structured audit event emitted for each filesystem access operation, containing hashed path identifiers and timestamped data.",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccessAuditTrail",
+      "description": "Rotating log store that records all FilesystemAccessAuditEvents with bounded rotation and redacted metadata.",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccessLogger",
+      "description": "Component responsible for formatting audit logs in ISO 8601 timestamps, sanitizing error metadata, and writing events to the audit trail.",
+      "source_line": null
+    },
+    {
+      "name": "FilesystemAccess",
+      "description": "Core filesystem access module that emits structured audit events for open, save, and bookmark flows while preserving hashed path identifiers.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Bookmark Flow Integration",
+      "description": "Command-line interface flow that consumes FilesystemAccessAuditTrail events once zero-trust telemetry flags are enabled.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1642,
+    "line_count": 20
+  }
+}

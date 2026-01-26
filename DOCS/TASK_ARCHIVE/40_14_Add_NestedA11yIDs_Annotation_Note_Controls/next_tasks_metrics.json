@@ -1,0 +1,23 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/40_14_Add_NestedA11yIDs_Annotation_Note_Controls/next_tasks.md",
+  "n_spec": 1,
+  "n_func": 1,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add NestedA11yIDs tags to note edit/save/delete controls",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "NestedA11yIDs Tagging for Note Controls",
+      "description": "Adds NestedA11yIDs tags to the edit, save, and delete controls of notes to support accessibility features",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 146,
+    "line_count": 3
+  }
+}

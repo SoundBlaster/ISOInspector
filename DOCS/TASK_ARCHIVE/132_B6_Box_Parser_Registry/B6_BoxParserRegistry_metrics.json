@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/132_B6_Box_Parser_Registry/B6_BoxParserRegistry.md",
+  "n_spec": 8,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a shared registry that routes MP4/QuickTime box headers to the correct parser implementation for downstream modules (streaming pipeline, CLI, and UI) so they consistently decode typed payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A BoxParserRegistry type maps fourcc and UUID identifiers to parser closures, with facilities to register defaults at startup.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Container defaults recurse into child ranges while opaque leaves capture offset/length metadata without payload inflation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unknown box types return a safe placeholder payload and emit research hooks defined in existing validation rules.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover registry registration, unknown fallback behavior, and parser invocation for representative headers.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The streaming pipeline must request the registry instance instead of constructing parsers manually to centralize behavior.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement the registry under Sources/ISOInspectorKit/ISO, exposing a shared instance for app/CLI consumers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Seed registrations for all core Phase C parsers; leave extension points for codec\u2011specific handlers documented in the backlog.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxParserRegistry",
+      "description": "Central registry mapping MP4/QuickTime box fourcc and UUID identifiers to parser closures, providing a single source of truth for parsing logic.",
+      "source_line": null
+    },
+    {
+      "name": "Shared Registry Instance",
+      "description": "Exposes a shared singleton instance of BoxParserRegistry for app, CLI, and UI consumers to access parsers consistently.",
+      "source_line": null
+    },
+    {
+      "name": "Default Parser Registration",
+      "description": "Initializes the registry with default parsers for all core Phase C box types at startup, including container and leaf handling logic.",
+      "source_line": null
+    },
+    {
+      "name": "Container Passthrough Logic",
+      "description": "Handles container boxes by recursively registering child ranges while capturing offset/length metadata without inflating payloads.",
+      "source_line": null
+    },
+    {
+      "name": "Opaque Leaf Handling",
+      "description": "Captures offset and length metadata for opaque leaf boxes, returning a safe placeholder payload when the type is unknown.",
+      "source_line": null
+    },
+    {
+      "name": "Unknown Box Fallback",
+      "description": "Provides a safe placeholder payload for unrecognized box types and emits research hooks defined in validation rules.",
+      "source_line": null
+    },
+    {
+      "name": "Registry Registration API",
+      "description": "Public interface to register new parser closures for specific fourcc or UUID identifiers, allowing extension points for codec\u2011specific handlers.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming Pipeline Integration",
+      "description": "Ensures the streaming pipeline requests parsers from the registry instead of constructing them manually, centralizing parsing behavior.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite",
+      "description": "XCTest coverage verifying registry registration, unknown handling, and container passthrough logic.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2129,
+    "line_count": 28
+  }
+}

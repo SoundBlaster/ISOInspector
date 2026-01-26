@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "JSONParseTreeExporter must replace base64 payload fields with byte-length metadata for metadata item list values and data reference entries to prevent binary leakage in tolerant reports.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Capture next round of verification results, commands, and follow-up observations in the work log.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit coverage for the updated JSONParseTreeExporter must exist in Tests/ISOInspectorKitTests/ParseExportTests.swift.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The tolerance workplan, integration summary, and in-progress tracker must be refreshed to mark T4.4 complete and document the privacy audit outcome.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implementation details and verification notes are captured in DOCS/TASK_ARCHIVE/195_T4_4_Sanitize_Issue_Exports/195_T4_4_Sanitize_Issue_Export.md.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "JSONParseTreeExporter",
+      "description": "Exports parse trees to JSON while sanitizing base64 payloads by replacing them with byte-length metadata for metadata item list values and data reference entries to prevent binary leakage in tolerant reports.",
+      "source_line": null
+    },
+    {
+      "name": "T4.4 Sanitize Tolerant Exports Workplan",
+      "description": "Tracks progress, marks completion, and documents privacy audit outcomes for the T4.4 sanitize tolerant exports task.",
+      "source_line": null
+    },
+    {
+      "name": "Verification Notes Capture",
+      "description": "Stores implementation details and verification notes in a dedicated markdown file within the task archive.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 929,
+    "line_count": 10
+  }
+}

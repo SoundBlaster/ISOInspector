@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/107_H4_Performance_Benchmark_Validation/Summary_of_Work.md",
+  "n_spec": 7,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "CLI validation must stay within configured budgets: 0.067 s \u2264 0.527 s in CI and 0.083 s \u2264 0.844 s at local intensity.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Both ChunkedFileReader and MappedReader must return the exact expected byte totals for every random slice scenario.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Archive raw XCTest logs for both intensities under Documentation/Performance/ and produce a Markdown summary so release reviewers can audit captured metrics alongside future runs.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Random slice scenarios transfer 67,046 bytes (small), 8,430,601 bytes (medium), and 36,284,892 bytes (large) per iteration; logs must confirm identical coverage for both readers at each intensity.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "UI latency benchmark is skipped on Linux due to Combine unavailability; macOS follow-up task tracks required hardware run.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute the Combine-driven UI latency benchmark on macOS hardware once runners are available, capturing matching metrics for archive.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Schedule the macOS CLI/UI benchmark protocol (Task R4) so the release runbook includes cross-platform throughput comparisons.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "LargeFileBenchmarkTests",
+      "description": "CLI performance benchmark test suite validating throughput and random slice readers against configured budgets",
+      "source_line": null
+    },
+    {
+      "name": "PerformanceBenchmarkConfiguration",
+      "description": "Configuration object defining budget thresholds for CLI validation",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1872,
+    "line_count": 28
+  }
+}

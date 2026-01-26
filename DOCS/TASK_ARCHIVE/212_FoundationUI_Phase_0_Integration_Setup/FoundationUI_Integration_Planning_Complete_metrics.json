@@ -1,0 +1,158 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/FoundationUI_Integration_Planning_Complete.md",
+  "n_spec": 15,
+  "n_func": 14,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI into ISOInspectorApp gradually, starting with small components and scaling up.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Maintain backward compatibility so old and new UI coexist during integration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All phase tasks complete before proceeding to next phase.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests pass with coverage \u226580% per phase.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot regression tests pass on all platforms.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility audit score \u226595% (WCAG 2.1 AA).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Zero SwiftLint violations after code review.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Performance baselines met with no regressions.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FoundationUI components must be fully tested before integration.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "No magic numbers; all design tokens used from FoundationUI.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a phased 6\u2011phase integration roadmap (Phases\u00a00\u20136) with quality gates.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement a testing pyramid: 70% unit, 20% integration, 10% E2E.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Adopt WCAG\u00a02.1 AA accessibility compliance as cross\u2011cutting requirement.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Support macOS/iOS/iPadOS platforms with platform\u2011aware adaptations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Document integration patterns and success criteria in FoundationUI_Integration_Strategy.md.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Integration Strategy Document",
+      "description": "Detailed phased roadmap for integrating FoundationUI into ISOInspectorApp, including phases, subtasks, testing strategy, quality metrics, and risk assessment.",
+      "source_line": null
+    },
+    {
+      "name": "Phase 0 Setup & Verification Tasks",
+      "description": "Initial setup tasks such as adding FoundationUI dependency, creating integration test suite, building component showcase, documenting patterns, and updating design system guide.",
+      "source_line": null
+    },
+    {
+      "name": "Phase 1 Foundation Components Integration",
+      "description": "Integration of core FoundationUI components into the app with unit tests, snapshot tests, accessibility checks, and performance baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Phase 2 Interactive Components Integration",
+      "description": "Adding interactive FoundationUI components to the app, ensuring functionality across platforms and compliance with testing and accessibility standards.",
+      "source_line": null
+    },
+    {
+      "name": "Phase 3 Layout Patterns Implementation",
+      "description": "Implementing layout patterns from FoundationUI, including complex UI arrangements, with comprehensive testing and performance monitoring.",
+      "source_line": null
+    },
+    {
+      "name": "Phase 4 Platform Adaptation",
+      "description": "Adapting FoundationUI components for macOS, iOS, and iPadOS specific behaviors such as keyboard shortcuts, hover effects, and layout differences.",
+      "source_line": null
+    },
+    {
+      "name": "Phase 5 Advanced Features Integration",
+      "description": "Incorporating advanced FoundationUI features like documentation, QA hooks, and extended component capabilities into the app.",
+      "source_line": null
+    },
+    {
+      "name": "Phase 6 Full Integration & Validation",
+      "description": "Final integration phase validating all components, running full test suite, ensuring WCAG 2.1 AA compliance, performance budgets, and publishing migration guide.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Test Suite",
+      "description": "Automated tests covering unit, snapshot, accessibility, performance, and integration scenarios for FoundationUI integration.",
+      "source_line": null
+    },
+    {
+      "name": "Component Showcase Application",
+      "description": "A showcase app demonstrating all integrated FoundationUI components for development velocity and testing.",
+      "source_line": null
+    },
+    {
+      "name": "Design System Architecture Documentation",
+      "description": "Technical spec section detailing FoundationUI layers, integration patterns, quality metrics, and platform adaptations.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Audit Tooling",
+      "description": "Automated accessibility tests ensuring WCAG 2.1 AA compliance across all platforms.",
+      "source_line": null
+    },
+    {
+      "name": "Performance Monitoring Suite",
+      "description": "Tools and tests measuring app launch time, tree scroll FPS, memory usage to enforce performance budgets.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Updates (next_tasks.md, Summary_of_Work.md)",
+      "description": "Updated task queues and project status documents reflecting integration plan progress.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 16075,
+    "line_count": 493
+  }
+}

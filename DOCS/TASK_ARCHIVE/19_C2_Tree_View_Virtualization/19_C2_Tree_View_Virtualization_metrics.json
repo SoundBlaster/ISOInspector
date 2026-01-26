@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/19_C2_Tree_View_Virtualization/19_C2_Tree_View_Virtualization.md",
+  "n_spec": 8,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Deliver a SwiftUI outline view for parsed ISO BMFF boxes using ParseTreeStore snapshots so users can explore files through a responsive hierarchy with search and filtering.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline renders >10k nodes smoothly while expanding/collapsing and reacting to incoming snapshots.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Search input filters the tree immediately, highlighting matches and collapsing irrelevant branches per UX expectations from the UI PRD.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Filter toggles allow focusing on validation warnings/errors, box categories, and streaming metadata in line with backlog notes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Works across macOS/iPadOS form factors with SwiftUI best practices, ready for integration in Phase E.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Search/filter logic can be reused by CLI/export features and unknown box warnings from VR-006 remain visible.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Consume ParseTreeStore Combine snapshots and virtualize rendering to avoid performance cliffs when large payloads arrive.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Define view models for nodes, selection state, and filtering categories so C3 detail/hex panes can subscribe later.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Tree View Rendering",
+      "description": "Displays a SwiftUI outline view of parsed ISO BMFF boxes using ParseTreeStore snapshots, supporting smooth rendering of >10k nodes with virtualization.",
+      "source_line": null
+    },
+    {
+      "name": "Node Selection State Management",
+      "description": "Manages selection state for tree nodes so that detail/hex panes can subscribe and react to user selections.",
+      "source_line": null
+    },
+    {
+      "name": "Search Filtering",
+      "description": "Provides a search input that filters the tree immediately, highlights matches, and collapses irrelevant branches according to UX expectations.",
+      "source_line": null
+    },
+    {
+      "name": "Category & Validation Filters",
+      "description": "Offers toggle controls to focus on validation warnings/errors, box categories, and streaming metadata, updating the tree view accordingly.",
+      "source_line": null
+    },
+    {
+      "name": "Cross-Platform Compatibility",
+      "description": "Ensures the tree view works across macOS and iPadOS form factors following SwiftUI best practices.",
+      "source_line": null
+    },
+    {
+      "name": "Combine Snapshot Consumption",
+      "description": "Consumes Combine snapshots from ParseTreeStore to update the tree view in real time as new data arrives.",
+      "source_line": null
+    },
+    {
+      "name": "Reusable Search/Filter Logic",
+      "description": "Exposes search and filter logic that can be reused by CLI/export features and other components.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2543,
+    "line_count": 42
+  }
+}

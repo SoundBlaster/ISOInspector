@@ -1,0 +1,52 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/116_Summary_of_Work_Parser_Focus/next_tasks.md",
+  "n_spec": 8,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement C11 stss sync sample table parser to surface random-access sample numbers",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Validation rule #15 must correlate stsc chunk runs, stsz/stz2 sample sizes, and updated stco/co64 chunk offsets according to integration notes in specified docs",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Evaluate additional handler type categorizations for future boxes beyond current mapping set",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Schedule macOS CLI/UI large-file benchmark execution using R4 protocol once dedicated hardware runners are available, following performance benchmark planning",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Execute macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA only when macOS infrastructure is available, per release readiness runbook",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Run random slice benchmark suite on macOS hardware with Combine support to compare mapped vs. chunked readers under identical workloads",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware with XCTest UI support to validate SwiftUI automation flow",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Execute Combine-backed UI benchmark on macOS to capture latency metrics while maintaining throughput parity with CLI harness",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 3065,
+    "line_count": 30
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/171_T1_7_Finalize_Traversal_Guard_Requirements/T1_7_Finalize_Traversal_Guard_Requirements.md",
+  "n_spec": 6,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement traversal guard requirements for tolerant parsing to prevent hangs and resource exhaustion while still emitting actionable ParseIssue diagnostics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Guard catalogue defines minimum progress budgets, zero-length retry limits, recursion caps, and per-frame issue ceilings with rationale linked to fixture behaviour and fuzzing goals.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Acceptance plan enumerates fixtures, fuzz harnesses, and regression tests that must pass once guards are implemented, preventing hangs while preserving valid traversal output.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "API notes specify new ParseIssue codes and ParsePipeline.Options knobs so downstream consumers can present guard violations consistently.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Traversal never hangs or explodes resource usage while still emitting actionable ParseIssue diagnostics.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "New ParseIssue codes and ParsePipeline.Options knobs are added to expose guard metadata to UI/CLI consumers.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 2552,
+    "line_count": 35
+  }
+}

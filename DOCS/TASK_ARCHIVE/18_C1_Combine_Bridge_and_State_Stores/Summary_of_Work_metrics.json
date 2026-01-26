@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/18_C1_Combine_Bridge_and_State_Stores/Summary_of_Work.md",
+  "n_spec": 7,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a Combine-backed bridge that fan\u2011outs ParseEvent streams to multiple subscribers and provide a @MainActor parse tree store aggregating validation issues for SwiftUI consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The ParsePipelineEventBridge must convert AsyncThrowingStream pipelines into shareable Combine publishers with deterministic cancellation semantics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeStore must maintain hierarchical box trees and accumulated validation issues while staying main\u2011actor isolated for SwiftUI updates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests in ParseTreeStoreTests must cover bridge fan\u2011out, tree aggregation, and failure propagation.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The Combine-backed bridge must always provide deterministic cancellation semantics for subscribers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a Combine-backed bridge (ParsePipelineEventBridge) to convert AsyncThrowingStream pipelines into shareable publishers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Store parse tree and validation issues in a @MainActor isolated ParseTreeStore for SwiftUI updates.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipelineEventBridge",
+      "description": "Converts AsyncThrowingStream pipelines into shareable Combine publishers with deterministic cancellation semantics and fan\u2011outs ParseEvent streams to multiple subscribers.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStore",
+      "description": "MainActor isolated store that aggregates hierarchical parse tree snapshots and accumulated validation issues for SwiftUI consumers.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot Models for ParseTreeStore",
+      "description": "Data structures representing hierarchical box trees and validation issue collections used by ParseTreeStore.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Bridge Integration",
+      "description": "Exposes the Combine-backed bridge to SwiftUI components, enabling real\u2011time updates of parse tree data and validation issues.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1514,
+    "line_count": 24
+  }
+}

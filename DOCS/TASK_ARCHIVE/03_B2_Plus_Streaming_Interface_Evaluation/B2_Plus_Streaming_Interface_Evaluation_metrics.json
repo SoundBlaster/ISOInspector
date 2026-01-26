@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/03_B2_Plus_Streaming_Interface_Evaluation/B2_Plus_Streaming_Interface_Evaluation.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expose an async streaming interface for ISOInspectorCore that allows higher parser layers to request progressive reads and react to parse events without blocking.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Document a recommended async interface shape (e.g., AsyncSequence, AsyncThrowingStream, Combine publisher) with rationale covering concurrency guarantees, backpressure, and compatibility with SwiftUI/CLI consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Provide a lightweight prototype or pseudocode demonstrating the interface integration with the existing ParsePipeline so it can emit ordered events that uphold PRD latency goals.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Capture consumer requirements (UI tree updates, CLI streaming) and note any additional dependencies or research items, ensuring no unresolved blockers remain before implementation proceeds.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The async stream must deliver events in order and propagate errors deterministically to consumers.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParseEvent must be a Sendable value type to allow safe cross-actor transport.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Recommend exposing parser output as AsyncThrowingStream<ParseEvent, Error> for natural Swift Concurrency integration, backpressure via demand-driven iteration, and deterministic failure propagation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "ParsePipeline acts as a factory for asynchronous event streams, keeping the reader abstraction injectable to allow future implementations with real RandomAccessReader instances or synthetic fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The async stream plugs into Task-driven ObservableObject reducers for SwiftUI tree updates and can be iterated over with for try await in CLI handlers.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "AsyncThrowingStream<ParseEvent, Error> interface",
+      "description": "Exposes parser output as an async throwing stream of ParseEvent objects for consumers such as SwiftUI and CLI.",
+      "source_line": null
+    },
+    {
+      "name": "ParseEvent data type",
+      "description": "Sendable value type encapsulating box lifecycle data (offset, depth, entry/exit moments).",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline factory",
+      "description": "Creates asynchronous event streams from a reader abstraction, allowing injection of real or synthetic readers.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline.live() method",
+      "description": "Drives the AsyncThrowingStream using BoxHeaderDecoder and context stack walker to emit entry/exit events per box boundary.",
+      "source_line": null
+    },
+    {
+      "name": "Prototype stream builder",
+      "description": "Constructs deterministic test events in an AsyncThrowingStream for unit testing ordered delivery and error propagation.",
+      "source_line": null
+    },
+    {
+      "name": "Unit tests for ParsePipelineInterface",
+      "description": "Exercise sequential consumption, error handling, and guarantee of ordered event delivery.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI tree update consumer pattern",
+      "description": "Uses Task-driven ObservableObject reducers that await events from the stream on the main actor.",
+      "source_line": null
+    },
+    {
+      "name": "CLI streaming consumer pattern",
+      "description": "Iterates over the same stream with for try await to emit progress rows or structured JSON incrementally.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 7100,
+    "line_count": 77
+  }
+}

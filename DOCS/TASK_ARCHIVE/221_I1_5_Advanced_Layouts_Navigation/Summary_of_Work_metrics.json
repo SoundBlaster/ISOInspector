@@ -1,0 +1,133 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/221_I1_5_Advanced_Layouts_Navigation/Summary_of_Work.md",
+  "n_spec": 12,
+  "n_func": 12,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Migrate app layout components to use FoundationUI design system tokens for consistent spacing, radius, and responsive design across all platform sizes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All hardcoded spacing values in AppShellView.swift, ParseTreeOutlineView.swift, and core layout of ParseTreeDetailView.swift are replaced with DS.Spacing tokens (xxs, xs, s, m, l, xl).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All hardcoded corner radius values in the same files are replaced with DS.Radius tokens or expressions using DS.Radius.card + 4.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Token validation tests cover new tokens and verify ordering, positivity, uniqueness, and platform-agnostic behavior.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Responsive layout is verified on iPhone SE, iPhone 15 Pro Max, iPad portrait/landscape, macOS variable window sizes, dark mode, VoiceOver navigation flow, and Dynamic Type support XS-XXXL.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Design system tokens must be used exclusively for spacing and corner radius; no magic numbers allowed.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "FoundationUI design tokens are extended with DS.Spacing.xxs (4pt) and DS.Spacing.xs (6pt) to replace frequent hardcoded values.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "DS.Radius.card + 4 is used for custom large radius where needed instead of a raw numeric value.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "@todo markers are added for remaining spacing:2 instances to defer migration until later puzzles.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Complete migration of ParseTreeDetailView.swift sections (encryptionSection, userNotesSection etc.) to use DS.Spacing and DS.Radius tokens.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All section functions in ParseTreeDetailView.swift must use DS.Spacing and DS.Radius tokens instead of hardcoded values.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Consider adding DS.Spacing.xxxs (2pt) token if usage justifies it, as part of optional puzzle I1.5.2.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DS.Spacing.xxs Token",
+      "description": "Design system token representing 4pt spacing for extra tight layout elements.",
+      "source_line": null
+    },
+    {
+      "name": "DS.Spacing.xs Token",
+      "description": "Design system token representing 6pt spacing for dense UI elements.",
+      "source_line": null
+    },
+    {
+      "name": "AppShellView Layout Component",
+      "description": "UI component that defines the overall app shell layout using FoundationUI spacing and radius tokens.",
+      "source_line": null
+    },
+    {
+      "name": "Sidebar Layout",
+      "description": "Section of AppShellView responsible for rendering the sidebar with consistent spacing.",
+      "source_line": null
+    },
+    {
+      "name": "CorruptionWarningRibbon Component",
+      "description": "UI element displaying a warning ribbon, styled with DS.Spacing and DS.Radius tokens.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentLoadFailureBanner Component",
+      "description": "Banner component shown when document loading fails, using Foundation UI tokens.",
+      "source_line": null
+    },
+    {
+      "name": "OnboardingView Layout",
+      "description": "Component that presents onboarding screens with standardized spacing.",
+      "source_line": null
+    },
+    {
+      "name": "RecentRow Component",
+      "description": "UI row in the sidebar or list showing recent items; currently has a TODO for spacing token.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeExplorerView",
+      "description": "VStack and HStack layout for exploring parse trees, using DS.Spacing tokens.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeOutlineFilterBar",
+      "description": "Filter bar UI with severity and category filters, styled with Foundation tokens.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeOutlineRowView",
+      "description": "Row view in the outline tree displaying individual parse tree nodes.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeDetailView Layout",
+      "description": "Main layout for detailed view of a parsed tree node, using DS.Spacing and DS.Radius.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 9541,
+    "line_count": 241
+  }
+}

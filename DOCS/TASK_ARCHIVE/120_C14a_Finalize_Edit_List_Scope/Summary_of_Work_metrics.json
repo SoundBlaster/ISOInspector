@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/120_C14a_Finalize_Edit_List_Scope/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The edit list duration must reconcile with mvhd/tkhd metadata and not contain unsupported rate or duplicate edit list scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The definitive elst parser scope defines box placement, version-specific field widths, field semantics, and normalization rules for segment duration, media time, and fixed-point rate conversion.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "elst parser scope definition",
+      "description": "Defines box placement, field widths, semantics, and normalization rules for edit list parsing",
+      "source_line": null
+    },
+    {
+      "name": "validation checkpoints catalog",
+      "description": "Reconciles edit list durations with mvhd/tkhd metadata and flags unsupported rates or duplicate edits",
+      "source_line": null
+    },
+    {
+      "name": "streaming considerations documentation",
+      "description": "Guides implementation, validation, and fixture refresh across downstream tasks C14b\u2013C14d",
+      "source_line": null
+    },
+    {
+      "name": "scope document archival",
+      "description": "Archives the finalized scope for use by parser, validation, and fixture owners",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1434,
+    "line_count": 24
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/BLOCKED/README.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Store permanently blocked tasks in a dedicated directory to keep the day\u2011to\u2011day blocked list focused on recoverable issues.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each archived task file must contain: 1) a descriptive title and date of retirement; 2) the reason it is permanently blocked; 3) prerequisite conditions that would allow work to resume; 4) links to historical context in DOCS/TASK_ARCHIVE or related specs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Archived tasks must be moved from DOCS/INPROGRESS/blocked.md into this folder when they are deemed permanently blocked.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The day\u2011to\u2011day blocked list (DOCS/INPROGRESS/blocked.md) should only contain recoverable issues.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 745,
+    "line_count": 10
+  }
+}

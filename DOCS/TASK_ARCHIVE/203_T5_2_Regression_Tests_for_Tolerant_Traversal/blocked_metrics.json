@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/203_T5_2_Regression_Tests_for_Tolerant_Traversal/blocked.md",
+  "n_spec": 5,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Blocked tasks must not proceed until upstream dependencies are resolved.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Import licensed real\u2011world assets and refresh regression baselines so tolerant parsing and export scenarios can validate against real\u2011world payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG\u2011H fixtures must be obtained before importing assets.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The log of blocked tasks should be updated whenever blockers change to maintain day\u2011to\u2011day visibility.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Permanent blockers are stored under DOCS/TASK_ARCHIVE/BLOCKED to avoid duplicating retired work.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Blocked Tasks Log",
+      "description": "Tracks tasks that cannot proceed due to unresolved upstream dependencies and provides visibility into blocker status",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Acquisition",
+      "description": "Handles acquisition of licensed media assets such as Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H for use in the system",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 659,
+    "line_count": 9
+  }
+}

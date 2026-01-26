@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/185_T3_1_Tolerant_Parsing_Warning_Ribbon/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a visual warning ribbon in the SwiftUI interface that alerts users to tolerant parsing issues detected by ParseTreeStore.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The CorruptionWarningRibbon component must display persisted dismissal state and accessible copy, and it should be layered above the navigation split view in AppShellView.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The ribbon should animate its presentation and reset the dismissal flag when no issues remain.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeStore must publish tolerant parsing metrics and reset them with document lifecycle events so that SwiftUI overlays can react without polling.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "DocumentSessionController.focusIntegrityDiagnostics() should hook into the ribbon to provide diagnostics information.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system always re\u2011value\u00a0?",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Tolerant Parsing Warning Ribbon",
+      "description": "Displays a warning ribbon overlay when tolerant parsing detects issues, persisting dismissal state and integrating with document lifecycle events",
+      "source_line": null
+    },
+    {
+      "name": "CorruptionWarningRibbon component",
+      "description": "UI component that shows corruption warnings, supports persisted dismissal, accessible copy, and hooks into focus integrity diagnostics",
+      "source_line": null
+    },
+    {
+      "name": "AppShellView layering of ribbon",
+      "description": "Layers the warning ribbon above navigation split view, animates presentation, resets dismissal flag when no issues remain",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStore metrics publishing",
+      "description": "Publishes tolerant parsing metrics from ParseTreeStore for external observers",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 917,
+    "line_count": 14
+  }
+}

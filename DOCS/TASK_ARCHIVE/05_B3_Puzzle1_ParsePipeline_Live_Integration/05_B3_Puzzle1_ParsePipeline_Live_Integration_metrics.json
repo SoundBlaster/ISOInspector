@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/05_B3_Puzzle1_ParsePipeline_Live_Integration/05_B3_Puzzle1_ParsePipeline_Live_Integration.md",
+  "n_spec": 10,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement the production ParsePipeline.live() builder to drive the concrete streaming walker against a RandomAccessReader, emitting real ParseEvent values for downstream consumers instead of fixture stubs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsePipeline.live() returns an AsyncThrowingStream that iterates using the streaming walker, yielding willStartBox and didFinishBox events with accurate offsets for nested containers and mdat skips.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration tests cover at least one nested fixture and a large-size box to confirm ordering, depth accounting, and error propagation from the walker through the stream continuation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Cancellation and failure states from the walker terminate the stream cleanly, matching the concurrency guarantees promised in the technical spec and workplan acceptance criteria.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Existing automated tests (swift test) continue to pass after the integration, ensuring no regressions in prior B1/B2 functionality.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The pipeline must traverse MP4 boxes in document order, maintain a context stack, and surface validation hooks over an AsyncStream, respecting contracts from PRD and technical spec.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use RandomAccessReader protocol and helpers for header reads; walker logic uses bounded ranges when decoding sizes and UUID payloads.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Maintain an explicit traversal stack mirroring the archived B3 solution so each container yields paired start/finish events without recursion depth issues.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Skip mdat payload bodies by advancing cursor to payload end while still emitting metadata events, satisfying streaming performance expectations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Surface walker errors (header decoding, boundary violations) by finishing the stream with a thrown error, and wire cancellation via Task.checkCancellation() to honor consumer backpressure.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipeline.live() builder",
+      "description": "Creates an AsyncThrowingStream that drives a streaming walker over a RandomAccessReader and emits ParseEvent values such as willStartBox and didFinishBox for each MP4 box in document order.",
+      "source_line": null
+    },
+    {
+      "name": "AsyncThrowingStream of ParseEvent",
+      "description": "Provides a stream interface to downstream consumers, yielding events with accurate offsets for nested containers and mdat skips, while propagating errors and supporting cancellation.",
+      "source_line": null
+    },
+    {
+      "name": "RandomAccessReader integration",
+      "description": "Uses the RandomAccessReader protocol to read box headers and payloads, ensuring bounded ranges when decoding sizes and UUID payloads during traversal.",
+      "source_line": null
+    },
+    {
+      "name": "Traversal stack maintenance",
+      "description": "Maintains an explicit stack mirroring container hierarchy to emit paired start/finish events without recursion depth issues.",
+      "source_line": null
+    },
+    {
+      "name": "mdat payload skipping",
+      "description": "Advances the cursor past mdat payload bodies while still emitting metadata events, enabling efficient streaming performance.",
+      "source_line": null
+    },
+    {
+      "name": "Error handling and cancellation",
+      "description": "Surface walker errors by throwing through the stream continuation and wire Task.checkCancellation() to terminate cleanly on consumer backpressure or failure.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4172,
+    "line_count": 56
+  }
+}

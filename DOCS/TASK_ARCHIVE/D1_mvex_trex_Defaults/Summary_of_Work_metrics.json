@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/D1_mvex_trex_Defaults/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 5,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "mvex container parsing",
+      "description": "Parses the mvex container to expose default sample metadata and structured details for fragment processing",
+      "source_line": null
+    },
+    {
+      "name": "trex track extends payload parsing",
+      "description": "Parses trex track-extends payloads within mvex to surface default values for tracks",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload JSON export enhancement",
+      "description": "Extends ParsedBoxPayload/JSON export structures with a dedicated track-extends model for downstream consumers and UI views",
+      "source_line": null
+    },
+    {
+      "name": "Unit tests for new parsers",
+      "description": "Provides focused unit coverage testing the mvex/trex parsing logic",
+      "source_line": null
+    },
+    {
+      "name": "End-to-end export snapshot test",
+      "description": "Refreshes fragmented-stream-init snapshot fixture to exercise mvex/trex defaults in full exports",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 876,
+    "line_count": 14
+  }
+}

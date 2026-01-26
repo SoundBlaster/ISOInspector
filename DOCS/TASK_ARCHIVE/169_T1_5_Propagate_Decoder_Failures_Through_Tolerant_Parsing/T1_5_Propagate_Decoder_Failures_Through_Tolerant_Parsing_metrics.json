@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/169_T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing/T1_5_Propagate_Decoder_Failures_Through_Tolerant_Parsing.md",
+  "n_spec": 9,
+  "n_func": 1,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Enable the streaming container walker to treat BoxHeaderDecoder failures as recoverable events by emitting ParseIssue records on the active node and resuming iteration without aborting tolerant parses.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Decoder failures encountered during container iteration attach a ParseIssue to the current node with reason code, byte range, and severity, matching the acceptance test bullets in DOCS/AI/Tolerance_Parsing/TODO.md (T1.5).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "After logging the issue, iteration advances to the next sibling using the parent boundary without infinite loops or duplicate traversal.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Existing strict parsing flows remain unchanged; unit and integration tests for strict mode continue to pass.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "New regression coverage demonstrates tolerant continuation for at least one malformed header fixture (e.g., truncated size, exceedsParent).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update the streaming walker (StreamingBoxWalker.walk and related helpers) to switch on the Result returned by BoxHeaderDecoder and translate failures into ParseIssue instances via the tolerant parsing options.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Ensure parent-range arithmetic leverages the existing forward-progress guard from Task B3 so tolerant mode cannot re-read the same offsets when a header is rejected.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend tolerant parsing tests to cover skipped headers and placeholder nodes, referencing corrupt fixture notes in DOCS/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/ and follow-ups captured in DOCS/AI/Tolerance_Parsing/ResearchSummary.md.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Confirm CLI/app integrations that depend on header iteration continue to surface nodes in order, updating snapshots only when intentional.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "StreamingBoxWalker.walk",
+      "description": "Iterates over container boxes, handling header decoding and node traversal",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2790,
+    "line_count": 29
+  }
+}

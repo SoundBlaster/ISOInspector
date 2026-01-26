@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/151_R5_Export_Schema_Standardization/R5_Export_Schema_Standardization.md",
+  "n_spec": 7,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Define an export schema recommendation so ISOInspector's JSON and report outputs align with widely used MP4 inspection tools while preserving round-trip fidelity requirements.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Document a comparative analysis of at least Bento4 mp4dump --format json, FFmpeg/ffprobe, and any other relevant schema, highlighting coverage gaps and incompatible structures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Recommend a canonical ISOInspector export schema (or adaptations) with explicit field mappings and conversion notes for existing exporters.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Identify verification steps needed so future automated tests can validate exports against the chosen schema.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "JSON and binary export capabilities must support re-import verification as mandated by FR-CORE-004.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add optional compatibility aliases (name, header_size, size) alongside fourcc, offsets, and sizes in node records to enable Bento4 consumers to map fields without transforming arrays.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce an optional top-level format section mirroring ffprobe\u2019s key metrics (filename, duration, bitrate, brands, encoder).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ISOInspector JSON Exporter",
+      "description": "Produces a top\u2011level object containing an array of node records that describe each MP4 box with fourcc, offsets, sizes, metadata, payload ranges and optional structured views.",
+      "source_line": null
+    },
+    {
+      "name": "Compatibility Alias Layer for Bento4",
+      "description": "Adds optional fields (name, header_size, size) to ISOInspector node objects so Bento4 consumers can map directly without transforming arrays.",
+      "source_line": null
+    },
+    {
+      "name": "Format Summary Block",
+      "description": "Introduces an optional top\u2011level format section mirroring ffprobe\u2019s key metrics (filename, duration, bitrate, brands, encoder) derived from ftyp/mvhd and stream headers.",
+      "source_line": null
+    },
+    {
+      "name": "Schema Descriptor Manifest",
+      "description": "Publishes a machine\u2011readable schema version and compatibility list, plus per\u2011node type hints indicating raw, structured or validation data to aid adapters.",
+      "source_line": null
+    },
+    {
+      "name": "Adapter Guides for Bento4 & ffprobe",
+      "description": "Documents deterministic mappings between ISOInspector fields and external tool schemas, enabling CLI/UI layers to export alternate views without re\u2011parsing.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Snapshot Tests",
+      "description": "Unit tests that compare exported JSON against stored fixtures to verify compatibility aliases and format summary across assets.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Integration Tests for Export Compatibility",
+      "description": "Automated tests that run the command line exporter and compare its output with Bento4 and ffprobe exports to ensure byte\u2011for\u2011byte compatibility.",
+      "source_line": null
+    },
+    {
+      "name": "Schema Version Bump Gate",
+      "description": "Bumps schema version in export payloads and gates changes behind a documented version so downstream tooling can negotiate compatibility before consuming new fields.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 8417,
+    "line_count": 59
+  }
+}

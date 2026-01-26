@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/184_T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons/T2_3_Aggregate_Parse_Issue_Metrics_for_UI_and_CLI_Ribbons.md",
+  "n_spec": 9,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide shared tolerant parsing analytics that expose per-severity issue counts, deepest affected hierarchy depth, and streaming-ready snapshots so SwiftUI ribbons and CLI summaries can surface corruption health at a glance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseIssueStore (and any related fa\u00e7ade) exposes computed properties returning counts grouped by severity and flags the deepest node depth affected during the current parse session.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Metrics update incrementally during streaming parses so UI ribbons can reflect live progress without recomputing the entire store.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI consumers can request a lightweight summary struct or DTO to print aggregated counts once parsing completes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit or integration coverage documents the aggregation math, including edge cases with zero issues, mixed severities, and deeply nested corruption.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation in todo.md and tolerance parsing guides points to these aggregation APIs for downstream UI/CLI wiring.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Aggregation APIs must be concurrency\u2011safe for the existing streaming pipeline (Combine publishers driving ParseTreeStore).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ParseIssueStore (or companion types) with cached aggregations keyed by severity enum and track maximum depth as issues register.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Provide SwiftUI-friendly bindings (e.g., ParseMetrics\u00a0\u2026\u00a0..\u00a0...",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseIssueStore.metricsSnapshot",
+      "description": "Returns a snapshot of issue counts grouped by severity, total count, and deepest affected depth for the current parse session.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssueStore.IssueSummary DTO",
+      "description": "Lightweight data transfer object containing aggregated counts and depth information for CLI consumption.",
+      "source_line": null
+    },
+    {
+      "name": "Incremental aggregation during streaming parses",
+      "description": "Updates metrics incrementally as new issues are parsed so UI ribbons can reflect live progress without full recomputation.",
+      "source_line": null
+    },
+    {
+      "name": "Concurrency-safe aggregation APIs",
+      "description": "Ensures thread\u2011safe access to metrics while Combine publishers drive the parsing pipeline.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI-friendly bindings (ParseIssueMetrics struct)",
+      "description": "Provides a struct that SwiftUI ribbons can bind to for real\u2011time display of issue severity counts and depth.",
+      "source_line": null
+    },
+    {
+      "name": "CLI summary formatting interface",
+      "description": "Exposes formatting\u2011ready data for CLI consumers to print aggregated counts after parsing completes.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3107,
+    "line_count": 32
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/T3_4_Placeholder_Nodes_for_Missing_Children.md",
+  "n_spec": 10,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide synthetic placeholder nodes for missing required children in the parse tree so that operators can see expected-but-absent structures and navigate to relevant hex ranges.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Missing required children such as stbl under minf or tfhd under traf must generate a ParseTreeNode with status .corrupt, attached ParseIssue metadata, and contextual copy in the detail pane.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The tree outline must render placeholders with italic fourcc, muted row styling, and corruption badges matching T3.2 behavior.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting a placeholder must surface guidance in the Integrity detail section and provide a jump action into the hex viewer anchored to the parent range.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests must include fixtures with removed required children and assert placeholder creation, issue propagation, and navigation hooks.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Placeholder nodes should be created without disrupting stream traversal or other parsing logic.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use existing missing-child detection from validation (VR-001\u2026VR-015) and tolerant parsing guardrails to synthesize ParseTreeNode instances.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ParseIssueStore or related aggregation to register placeholder issues so that ribbon counts and Integrity panes remain accurate.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Placeholder styling, severity badges, and copy blocks must remain consistent with contextual status labeling workstream (T3.5).",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Ensure accessibility: VoiceOver announces the placeholder status and suggested remediation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Placeholder Node Creation",
+      "description": "Generate synthetic ParseTreeNode entries for missing required children during tolerant parsing",
+      "source_line": null
+    },
+    {
+      "name": "Status Metadata Attachment",
+      "description": "Assign status .corrupt and attach ParseIssue metadata to placeholder nodes",
+      "source_line": null
+    },
+    {
+      "name": "Detail Pane Contextual Copy",
+      "description": "Display contextual guidance and copy in the Integrity detail pane when a placeholder is selected",
+      "source_line": null
+    },
+    {
+      "name": "Outline Rendering of Placeholders",
+      "description": "Render placeholders with italic fourcc, muted row styling, and corruption badges in the tree outline",
+      "source_line": null
+    },
+    {
+      "name": "Hex Viewer Jump Action",
+      "description": "Provide jump-to-hex functionality anchored to the parent range for selected placeholders",
+      "source_line": null
+    },
+    {
+      "name": "Issue Registration in ParseIssueStore",
+      "description": "Register placeholder issues so ribbon counts and Integrity panes remain accurate",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Announcements",
+      "description": "VoiceOver announces placeholder status and suggested remediation, including keyboard shortcut guidance",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3185,
+    "line_count": 30
+  }
+}

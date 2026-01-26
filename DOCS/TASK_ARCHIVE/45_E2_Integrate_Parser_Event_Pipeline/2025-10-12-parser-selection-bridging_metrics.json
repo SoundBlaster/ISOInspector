@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/45_E2_Integrate_Parser_Event_Pipeline/2025-10-12-parser-selection-bridging.md",
+  "n_spec": 6,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a user of the SwiftUI explorer, I want the first available node to be automatically selected when streaming events populate the parse tree so that I can immediately view its details.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "When ParseTreeStore publishes a new snapshot, ParseTreeExplorerView must auto-select the first node in the tree if no node is currently selected.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "If a node was already selected before the snapshot update, the selection should remain unchanged (backward compatibility).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeOutlineViewModel exposes helpers for default selection and node existence checks that are used by ParseTreeExplorerView to determine the first available node.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must never auto-select a node when no nodes exist in the parse tree.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "No changes to Kit or CLI; only App layer components (ParseTreeExplorerView and ParseTreeOutlineViewModel) are modified for automatic selection behavior.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeExplorerView auto-selection",
+      "description": "Automatically selects the first available node in the SwiftUI explorer when parse snapshot updates",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeOutlineViewModel default selection helpers",
+      "description": "Provides helper methods to determine and expose the default selected node and check for node existence",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 984,
+    "line_count": 27
+  }
+}

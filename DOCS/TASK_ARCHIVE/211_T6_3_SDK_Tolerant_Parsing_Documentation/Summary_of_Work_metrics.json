@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/211_T6_3_SDK_Tolerant_Parsing_Documentation/Summary_of_Work.md",
+  "n_spec": 7,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "As a third\u2011party developer I want to opt into tolerant parsing via ParsePipeline.Options so that my application can parse corrupted media files and collect corruption metrics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SDK documentation includes a TolerantParsingGuide.md article with 5+ working code examples covering basic setup, accessing issues, filtering by severity, custom options configuration, and strict vs tolerant comparison.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParsePipeline.Options has comprehensive inline DocC comments for all properties, presets (.strict and .tolerant), and PayloadValidationLevel enum cases.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The Documentation.md Topics section contains a new \"Tolerant Parsing\" topic linking to the guide article.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test file TolerantParsingDocTests.swift verifies that all documented code patterns compile, execute correctly, and match preset values.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParsePipeline.Options.tolerant preset must not alter any existing public API behavior beyond enabling tolerant parsing mode.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Documentation is structured using DocC markdown with Topics organization to improve discoverability of tolerant parsing features.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "TolerantParsingGuide Article",
+      "description": "DocC article providing overview, use cases, setup, issue access, advanced config, best practices for tolerant parsing",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline.Options API",
+      "description": "Public struct exposing configuration options for parsing pipelines, including presets .strict and .tolerant",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline.live(options:) Method",
+      "description": "Creates a ParsePipeline instance configured with given Options",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssueStore Component",
+      "description": "Stores and queries ParseIssue objects collected during parsing",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssue Representation",
+      "description": "Individual issue object containing severity, code, message, byte range",
+      "source_line": null
+    },
+    {
+      "name": "Documentation.md Topics Section",
+      "description": "Catalog entry linking to TolerantParsingGuide article",
+      "source_line": null
+    },
+    {
+      "name": "Code Examples in Documentation",
+      "description": "Five+ copy\u2011paste ready snippets demonstrating tolerant parsing usage and issue handling",
+      "source_line": null
+    },
+    {
+      "name": "Test Suite TolerantParsingDocTests",
+      "description": "Automated tests verifying documented API patterns, preset values, and issue querying",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 9142,
+    "line_count": 252
+  }
+}

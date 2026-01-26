@@ -1,0 +1,27 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/162_Summary_of_Work_2025-10-23_CLI_Distribution_Follow_Up/next_tasks.md",
+  "n_spec": 0,
+  "n_func": 3,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "VoiceOver Accessibility Shortcut Verification",
+      "description": "Manual VoiceOver verification on macOS and iPadOS hardware to confirm focus command menu announces controls and restores focus targets.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing Management",
+      "description": "Secure licensing for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to replace synthetic payloads and refresh regression baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot and CLI Fixture Refresh",
+      "description": "Refresh snapshots and CLI fixtures when schema updates occur using ISOINSPECTOR_REGENERATE_SNAPSHOTS environment variable and swift test command.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 989,
+    "line_count": 6
+  }
+}

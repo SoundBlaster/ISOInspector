@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/43_E1_Build_SwiftUI_App_Shell/E1_Build_SwiftUI_App_Shell.md",
+  "n_spec": 12,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Deliver the initial ISOInspectorApp shell that lets users browse MP4/QuickTime files and open them into the existing streaming UI.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Persist a recents list so the groundwork for full session restoration is in place.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Users see onboarding or recent files immediately upon launch, backed by persisted entries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Opening files via the browser or picker streams events into tree/detail/hex views without hurting responsiveness goals.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Successfully opened files land in a recents model (security-scoped bookmarks/CoreData) that reloads on relaunch.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Analytics toggles stay disabled to retain CLI parity while leaving hooks for later instrumentation tasks.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Integrate the ParsePipeline and Combine stores into a DocumentSessionController.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Ensure parsing stays off the main actor while that controller feeds SwiftUI state.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Adopt platform pickers (DocumentGroup on macOS/iPadOS, .fileImporter on iOS) to cover the required MP4/QuickTime UTTypes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Persist recents using security-scoped bookmarks or CoreData scaffolding.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Expose the data so Task E3 can extend the store to full workspace restoration.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Centralize future streaming metrics toggles in the shell and keep them disabled to mirror CLI behavior tracked in the PDD follow-ups.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Document Browser UI",
+      "description": "Allows users to browse MP4/QuickTime files and select one for opening",
+      "source_line": null
+    },
+    {
+      "name": "File Picker Integration",
+      "description": "Uses platform pickers (DocumentGroup on macOS/iPadOS, .fileImporter on iOS) to import files",
+      "source_line": null
+    },
+    {
+      "name": "Onboarding Screen",
+      "description": "Displays onboarding or recent files immediately upon launch",
+      "source_line": null
+    },
+    {
+      "name": "Recents List Persistence",
+      "description": "Persists a list of recently opened files using security\u2011scoped bookmarks or CoreData and reloads it on relaunch",
+      "source_line": null
+    },
+    {
+      "name": "Document Session Controller",
+      "description": "Integrates ParsePipeline and Combine stores to manage document parsing off the main actor and feed SwiftUI state",
+      "source_line": null
+    },
+    {
+      "name": "Streaming Pipeline",
+      "description": "Streams parsed events into tree/detail/hex views without blocking UI responsiveness",
+      "source_line": null
+    },
+    {
+      "name": "Analytics Toggle Hook",
+      "description": "Provides disabled analytics toggles for future instrumentation while maintaining CLI parity",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2543,
+    "line_count": 52
+  }
+}

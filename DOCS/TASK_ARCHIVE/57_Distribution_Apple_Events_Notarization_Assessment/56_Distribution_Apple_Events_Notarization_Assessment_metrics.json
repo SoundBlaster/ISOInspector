@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/57_Distribution_Apple_Events_Notarization_Assessment/56_Distribution_Apple_Events_Notarization_Assessment.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Determine whether ISOInspector's notarized build process requires Apple Events automation and document any entitlement or tooling adjustments needed to keep distribution workflows compliant.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Document whether notarization flows rely on Apple Events automation (e.g., driving Finder/archive steps) or can remain purely notarytool-based.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update entitlements and documentation if Apple Events access is required, or confirm current entitlements are sufficient.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline any CI or manual steps needed so future packaging work (release notes, theming, TestFlight/DMG distribution) can proceed without blocking dependencies.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Only add Apple Events entitlements if necessary and ensure documentation captures rationale for security review.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate changes with sandboxing requirements; only add Apple Events entitlements if necessary and ensure documentation captures rationale for security review.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Notarization Process Evaluation",
+      "description": "Assess if notarized build workflow requires Apple Events automation or can use only notarytool",
+      "source_line": null
+    },
+    {
+      "name": "Entitlement Update Procedure",
+      "description": "Add or confirm Apple Events entitlements in the app\u2019s macOS entitlement file based on evaluation",
+      "source_line": null
+    },
+    {
+      "name": "Documentation of Decision and Rationale",
+      "description": "Record findings, decisions, and security rationale for future reference",
+      "source_line": null
+    },
+    {
+      "name": "CI/Manual Steps Outline",
+      "description": "Define continuous integration or manual steps needed to avoid blocking dependencies in packaging",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2315,
+    "line_count": 38
+  }
+}

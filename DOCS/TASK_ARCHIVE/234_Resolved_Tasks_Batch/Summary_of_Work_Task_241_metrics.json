@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/234_Resolved_Tasks_Batch/Summary_of_Work_Task_241.md",
+  "n_spec": 12,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a generic NavigationSplitScaffold pattern that wraps NavigationSplitViewKit and supports Sidebar, Content, and Detail views with design token integration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "NavigationSplitScaffold struct is implemented with generics over Sidebar, Content, and Detail view types.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Public initializer accepts ViewBuilder closures for sidebar, content, and detail.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration with NavigationSplitViewKit via a NavigationModel property wrapped in @Bindable.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All layout constants use DS tokens (spacing, colors, typography, animation) and contain no magic numbers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Environment key NavigationModelKey is created with defaultValue nil and EnvironmentValues extension provides navigationModel property.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "NavigationModel is propagated to sidebar, content, and detail views via .environment(\\.&navigationModel, navigationModel).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover initialization, navigation model state transitions, environment key defaults, column visibility transitions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration tests verify environment propagation to all columns.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility labels support is tested and implemented.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Platform adaptation behavior for iOS, iPadOS, macOS is documented and tested.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Six comprehensive SwiftUI previews (i.e., 1..6)\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "NavigationSplitScaffold View",
+      "description": "Generic SwiftUI view that composes a sidebar, content, and detail column using NavigationSplitViewKit and design system tokens.",
+      "source_line": null
+    },
+    {
+      "name": "NavigationModel Environment Key",
+      "description": "Environment key exposing the navigation model to child views via \".navigationModel\".",
+      "source_line": null
+    },
+    {
+      "name": "Public Initializer for Scaffold",
+      "description": "Initializer accepting a NavigationModel and ViewBuilder closures for sidebar, content, and detail.",
+      "source_line": null
+    },
+    {
+      "name": "Binding of NavigationModel",
+      "description": "@Bindable property wrapper that provides two\u2011way binding of column visibility and preferred compact column.",
+      "source_line": null
+    },
+    {
+      "name": "Design System Token Usage",
+      "description": "All spacing, colors, typography, and animations in the scaffold use DS tokens (e.g., DS.Spacing.m, DS.Colors.textSecondary).",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 11859,
+    "line_count": 422
+  }
+}

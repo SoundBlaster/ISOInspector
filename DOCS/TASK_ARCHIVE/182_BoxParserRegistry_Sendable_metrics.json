@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/182_BoxParserRegistry_Sendable.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "BoxParserRegistry",
+      "description": "Registers and manages parsers for data boxes, ensuring they are @Sendable compliant.",
+      "source_line": null
+    },
+    {
+      "name": "parseChunkOffsets helper",
+      "description": "Utility function to parse chunk offsets in data streams, marked as @Sendable.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentSessionController",
+      "description": "Manages document sessions, handling concurrency and related warnings.",
+      "source_line": null
+    },
+    {
+      "name": "CoreDataAnnotationBookmarkStore",
+      "description": "Stores annotation bookmarks using Core Data, with concurrency considerations.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1394,
+    "line_count": 16
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "ISOInspectorKit must validate lengthSizeMinusOne, parameter-set counts, and HEVC NAL array integrity for avcC/hvcC configurations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxValidator must include CodecConfigurationValidationRule that inspects protected sample entries, checks for zero-length NAL units, and flags truncated payloads with contextual messages in CLI/JSON outputs.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CodecConfigurationValidationRule",
+      "description": "Validates codec configuration boxes for avcC/hvcC invariants such as lengthSizeMinusOne, parameter-set counts, and HEVC NAL array integrity",
+      "source_line": null
+    },
+    {
+      "name": "BoxValidator",
+      "description": "Component that applies validation rules to ISO media boxes and produces CLI/JSON output with contextual messages",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 635,
+    "line_count": 10
+  }
+}

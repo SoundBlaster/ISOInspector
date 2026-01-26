@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/109_C8_stsc_Sample_To_Chunk_Parser/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Register a dedicated stsc parser in BoxParserRegistry to decode full box headers, entry counts, and each sample-to-chunk tuple while capturing byte ranges for UI highlighting.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add the typed ParsedBoxPayload.SampleToChunkBox detail model so downstream surfaces (CLI export, UI) can consume structured stsc data and expose per-entry ranges.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser must handle truncated payloads by setting status fields instead of throwing errors, allowing validation to surface actionable errors.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParsedBoxPayload.SampleToChunkBox must contain accurate byte ranges for each entry for UI highlighting.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a dedicated stsc parser registered in BoxParserRegistry rather than generic parsing logic.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "stsc Parser Registration",
+      "description": "Registers a dedicated stsc parser in BoxParserRegistry to decode full box headers and sample-to-chunk tuples.",
+      "source_line": null
+    },
+    {
+      "name": "Sample-to-Chunk Tuple Decoding",
+      "description": "Decodes entry counts and each sample-to-chunk tuple while capturing byte ranges for UI highlighting.",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload SampleToChunkBox Model",
+      "description": "Provides a typed model for downstream surfaces (CLI export, UI) to consume structured stsc data with per-entry ranges.",
+      "source_line": null
+    },
+    {
+      "name": "Truncated Payload Handling",
+      "description": "Hardened parsing against truncated payloads using status fields instead of throwing errors.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Snapshot Update",
+      "description": "Updates JSON export snapshots to include the newly structured stsc output and provides focused unit coverage.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1053,
+    "line_count": 18
+  }
+}

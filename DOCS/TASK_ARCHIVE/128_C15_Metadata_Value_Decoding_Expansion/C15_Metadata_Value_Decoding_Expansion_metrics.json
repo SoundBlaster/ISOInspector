@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/128_C15_Metadata_Value_Decoding_Expansion/C15_Metadata_Value_Decoding_Expansion.md",
+  "n_spec": 8,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Expand metadata value decoding pipeline to render human-readable values for additional ilst data types across CLI and app exports.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add decoding coverage for next tranche of MP4RA-listed metadata value types (boolean, signed/unsigned numeric variants, data flavors) with verified fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI JSON export and SwiftUI detail panes display normalized values for each newly supported type without falling back to hex dumps.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests cover at least one fixture per new type, ensuring decodeMetadataValue continues to resolve UTF-8/UTF-16/integer types while exercising the new cases.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "decodeMetadataValue must always correctly interpret existing UTF-8/UTF-16/integer types and not regress when new types are added.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend decodeMetadataValue(type:data:) in BoxParserRegistry+Metadata.swift to branch on additional four-byte type codes surfaced by MP4RA and recent fixture captures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Refresh MP4RA catalog snapshot or add targeted overrides in Sources/ISOInspectorKit/Metadata when upstream registry introduces new identifiers required for decoding.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce fixture updates (or synthetic samples) that emit the new metadata values and update JSON snapshot tests under Tests/ISOInspectorKitTests to confirm human-readable output.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Metadata Value Decoding Pipeline Extension",
+      "description": "Adds support for decoding new MP4RA metadata value types (boolean, signed/unsigned numeric variants, data flavors) in the CLI and app exports.",
+      "source_line": null
+    },
+    {
+      "name": "CLI JSON Export Update",
+      "description": "Ensures that the command-line interface outputs human-readable values for all supported metadata types instead of hex dumps.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Detail Pane Rendering",
+      "description": "Updates SwiftUI detail panes to display normalized values for newly supported metadata types.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Generation and Management",
+      "description": "Creates or updates test fixtures emitting new metadata value types and maintains them in the repository.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite Enhancement",
+      "description": "Adds regression tests covering at least one fixture per new type, verifying correct decoding of UTF-8/UTF-16/integer values.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Registry Refresh",
+      "description": "Refreshes or overrides MP4RA catalog entries to include identifiers needed for decoding new metadata types.",
+      "source_line": null
+    },
+    {
+      "name": "Integration with Validation Rule #15",
+      "description": "Coordinates changes so that metadata field expansions do not regress pending chunk table audits.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2239,
+    "line_count": 37
+  }
+}

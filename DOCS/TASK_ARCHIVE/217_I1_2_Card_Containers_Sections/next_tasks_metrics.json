@@ -1,0 +1,133 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/217_I1_2_Card_Containers_Sections/next_tasks.md",
+  "n_spec": 14,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate FoundationUI dependency into the project and ensure it builds successfully.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FoundationUI dependency is integrated and building without errors.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All integration tests must pass (123 tests) with \u226580% test coverage.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Create a comprehensive integration test suite for FoundationUI components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration test suite contains 123 tests covering Badge, Card, KeyValueRow, and Integration components.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Zero SwiftLint violations in the project.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Build a component showcase using ComponentTestApp to display live FoundationUI components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ComponentTestApp provides at least 14 screens showcasing components.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Document integration patterns for FoundationUI in technical spec.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation includes ~685 lines in 03_Technical_Spec.md.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update the Design System Guide with migration roadmap.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Design System Guide updated with ~800 lines added.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Accessibility compliance \u226598% WCAG\u00a02.1\u00a0AA for all components.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use\u00a0DS.Badge\u00a0to\u00a0the\u2011end\u00a0of\u2010\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Dependency Integration",
+      "description": "Integrates FoundationUI library into the project and ensures successful build.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Test Suite for FoundationUI",
+      "description": "Runs comprehensive tests covering Badge, Card, KeyValueRow, and Integration components to validate integration.",
+      "source_line": null
+    },
+    {
+      "name": "Component Showcase Application",
+      "description": "Live demo app displaying all FoundationUI components across multiple screens.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation of Integration Patterns",
+      "description": "Technical documentation outlining how to integrate FoundationUI components into the system.",
+      "source_line": null
+    },
+    {
+      "name": "Design System Guide Update",
+      "description": "Updates design system guide with migration roadmap and guidelines for using FoundationUI.",
+      "source_line": null
+    },
+    {
+      "name": "Badge & Status Indicator Component",
+      "description": "Provides Badge UI component (DS.Badge) for displaying corruption, severity, and parse state indicators.",
+      "source_line": null
+    },
+    {
+      "name": "Card Container Component",
+      "description": "Wrapper around DS.Card providing BoxDetailsCard functionality and layout.",
+      "source_line": null
+    },
+    {
+      "name": "Section Header Wrapper",
+      "description": "Wrapper around DS.SectionHeader with \"BoxSectionHeader\"\u00a0.",
+      "source_line": null
+    },
+    {
+      "name": "Key\u2011Value Row Component",
+      "description": "Custom wrapper for DS.KeyValueRow\u00a0\u2014\u00a0i.e.,\u00a0BoxMetadataRow.",
+      "source_line": null
+    },
+    {
+      "name": "User Settings Panel Shell",
+      "description": "Floating settings panel UI that displays\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4447,
+    "line_count": 90
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/140_D5_mfra_tfra_mfro_Random_Access/D5_mfra_tfra_mfro_Random_Access.md",
+  "n_spec": 8,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide parsing and data-model support for the mfra, tfra, and mfro random access boxes so ISOInspector surfaces fragment index metadata across the core library, CLI, and UI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "mfra, tfra, and mfro parsers emit structured nodes via BoxParserRegistry, preserving offsets, sizes, and per-track random access entries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Sample fixtures (fragmented MP4/DASH) produce deterministic random access metadata that flows through CLI output, JSON export, and the SwiftUI detail views.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated tests cover representative entry combinations (single-track, multi-track, and empty tables) and guard against malformed lengths or inconsistent offsets.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the parser registry and decoding layer with dedicated types for MovieFragmentRandomAccessBox, TrackFragmentRandomAccessBox, and MovieFragmentRandomAccessOffsetBox, mirroring the earlier fragment parser style.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse stream context established in D3 (traf/tfhd/tfdt/trun) to correlate random access entries with fragment sequence numbers where data is available.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update CLI formatting, JSON export, and UI presentation helpers so random access entries display track IDs, times, and offsets without regressing existing snapshot tests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Validate payload ranges against the Phase E containment rules once those checks land, ensuring random access metadata does not flag false positives.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "mfra Box Parser",
+      "description": "Parses the MovieFragmentRandomAccessBox and emits structured nodes with offsets, sizes, and per-track random access entries.",
+      "source_line": null
+    },
+    {
+      "name": "tfra Box Parser",
+      "description": "Parses the TrackFragmentRandomAccessBox and emits structured nodes with track-specific random access entries.",
+      "source_line": null
+    },
+    {
+      "name": "mfro Box Parser",
+      "description": "Parses the MovieFragmentRandomAccessOffsetBox and emits structured nodes with offset information for fragmented MP4s.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Random Access Output Formatter",
+      "description": "Formats and displays random access metadata in the command-line interface, showing track IDs, times, and offsets.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export of Random Access Metadata",
+      "description": "Exports parsed random access data to JSON format for downstream consumption.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Detail View for Random Access",
+      "description": "Displays random access entries (track ID, time, offset) in the SwiftUI UI detail views.",
+      "source_line": null
+    },
+    {
+      "name": "Parser Registry Extension",
+      "description": "Extends BoxParserRegistry to include mfra, tfra, and mfro parsers.",
+      "source_line": null
+    },
+    {
+      "name": "Stream Context Correlation",
+      "description": "Correlates random access entries with fragment sequence numbers using existing traf/tfhd/tfdt/trun context.",
+      "source_line": null
+    },
+    {
+      "name": "Automated Random Access Tests",
+      "description": "Unit tests covering single-track, multi-track, empty tables, and malformed payloads for mfra/tfra/ mfro parsing.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2307,
+    "line_count": 27
+  }
+}

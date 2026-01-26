@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/91_R3_Accessibility_Guidelines/R3_Accessibility_Guidelines.md",
+  "n_spec": 6,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Document VoiceOver, Dynamic Type, and keyboard navigation guidelines tailored to ISOInspector\u2019s SwiftUI tree, detail, and hex views so follow-on UI features stay aligned with the completed accessibility work.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Capture a written checklist covering VoiceOver labels, rotor navigation expectations, Dynamic Type behavior, and keyboard focus patterns for tree, detail, and hex surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Provide linkage to existing implementation touchpoints (e.g., accessibility identifiers, tests, and preview audits) plus gaps requiring follow-up bugs or research tasks.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline verification steps (Accessibility Inspector passes, XCTest coverage, manual QA scenarios) that future contributors must satisfy before shipping UI changes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Non-functional requirement NFR-USAB-001 mandates VoiceOver and Dynamic Type support, and the product requirements emphasize keyboard navigation for all interactive components.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Existing NestedA11yIDs integration provides consistent identifiers, offering a baseline the guidelines should reference for automation and documentation touchpoints.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "VoiceOver Label Checklist",
+      "description": "A written checklist ensuring all UI components have appropriate VoiceOver labels and rotor navigation expectations.",
+      "source_line": null
+    },
+    {
+      "name": "Dynamic Type Behavior Checklist",
+      "description": "A written checklist verifying that UI elements adapt correctly to Dynamic Type settings across breakpoints.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Navigation Verification",
+      "description": "Guidelines for testing keyboard focus patterns and shortcuts on tree, detail, and hex surfaces.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Identifier Mapping",
+      "description": "Linkage of existing accessibility identifiers (NestedA11yIDs) to implementation touchpoints for automation and documentation.",
+      "source_line": null
+    },
+    {
+      "name": "Automated Test Integration",
+      "description": "Integration points for XCTest coverage and automated tests that validate accessibility compliance.",
+      "source_line": null
+    },
+    {
+      "name": "Manual QA Scenarios",
+      "description": "Defined manual quality assurance scenarios using Accessibility Inspector and other tools.",
+      "source_line": null
+    },
+    {
+      "name": "Platform Nuance Documentation",
+      "description": "Documentation of macOS vs. iPadOS/iOS differences in keyboard shortcuts, focus scopes, and Dynamic Type breakpoints.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2693,
+    "line_count": 46
+  }
+}

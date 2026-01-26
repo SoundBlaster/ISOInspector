@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/167_T1_4_BoxHeaderDecoder_Result_API/Task_Brief.md",
+  "n_spec": 9,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Enable tolerant parsing flows to capture malformed header diagnostics without halting iteration by refactoring BoxHeaderDecoder to return Result<BoxHeader, BoxHeaderDecodingError> values instead of throwing.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxHeaderDecoder exposes a non-throwing API that conveys malformed header conditions via a typed error and preserves successful decoding semantics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Call sites capture failure cases, attach ParseIssue metadata with appropriate severity and byte ranges, and continue iterating within the parent box boundaries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression test coverage demonstrates tolerant mode continues after malformed headers while strict mode behavior remains unchanged.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation or inline guidance clarifies how the new API participates in the broader tolerance parsing pipeline and future tasks (T1.5+).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Preserve ABI/API stability for strict-mode callers by offering convenience wrappers if necessary, but prefer internal adoption of the Result-based API to avoid double handling.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit decoder entry points across ISOInspectorKit to ensure each path handles the new Result contract.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with upcoming tasks (T1.5\u2013T1.7) so error propagation, boundary clamps, and progress guards share consistent error typing and issue reporting.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend or introduce focused unit tests simulating truncated or oversize headers to verify tolerant parsing emits issues and advances to the next sibling box.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxHeaderDecoder Result API",
+      "description": "Refactored decoder that returns Result<BoxHeader, BoxHeaderDecodingError> instead of throwing errors",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing Integration",
+      "description": "Mechanism for downstream callers to translate decoding errors into ParseIssue records and continue iteration within parent box boundaries",
+      "source_line": null
+    },
+    {
+      "name": "Strict Mode Compatibility Wrapper",
+      "description": "Convenience wrapper preserving ABI/API stability for strict-mode callers while internally using the Result-based API",
+      "source_line": null
+    },
+    {
+      "name": "Error Propagation Consistency",
+      "description": "Unified error typing and issue reporting across decoder, boundary clamps, and progress guards to support tolerant parsing pipeline",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite for Malformed Headers",
+      "description": "Focused tests simulating truncated or oversize headers to verify tolerant parsing emits issues and advances to next sibling box",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2529,
+    "line_count": 28
+  }
+}

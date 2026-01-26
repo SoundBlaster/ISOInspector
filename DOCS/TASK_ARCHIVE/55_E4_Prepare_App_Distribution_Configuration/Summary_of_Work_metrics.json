@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/55_E4_Prepare_App_Distribution_Configuration/Summary_of_Work.md",
+  "n_spec": 10,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a shared distribution metadata file (DistributionMetadata.json) that contains bundle IDs, marketing version, and build numbers for the app.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Expose an API to load distribution metadata within the application code.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The DistributionMetadataLoader must correctly parse DistributionMetadata.json and expose bundle ID, marketing version, and build number values.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests in ISOInspectorKitTests/DistributionMetadataTests.swift must pass for all supported platforms (macOS, iOS, iPadOS).",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add platform-specific entitlements files for macOS, iOS, and iPadOS to support notarization.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Entitlement files ISOInspectorApp.macOS.entitlements, ISOInspectorApp.iOS.entitlements, and ISOInspectorApp.iPadOS.entitlements must be present and correctly referenced in the build process.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide a notarization helper script that reads shared metadata and allows dry\u2011run submissions from Linux CI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The script scripts/notarize_app.sh must read DistributionMetadata.json, submit to Apple\u2019s notarization service (or simulate), and succeed in a dry\u2011run mode on a Linux environment.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Codify distribution settings (bundle identifiers, versioning, entitlements) in Project.swift so that generated Tuist projects inherit these properties automatically.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All generated Xcode projects must always use the bundle identifier and marketing/version numbers defined in DistributionMetadata.json.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Distribution Metadata Loader API",
+      "description": "Loads shared distribution metadata such as bundle IDs, marketing version, and build numbers from DistributionMetadata.json for use in builds",
+      "source_line": null
+    },
+    {
+      "name": "Notarization Helper Script",
+      "description": "Script that reads shared metadata to perform dry-run submissions of notarized builds on Linux CI",
+      "source_line": null
+    },
+    {
+      "name": "Platform Entitlements Configuration",
+      "description": "Entitlement files for macOS, iOS, and iPadOS defining app capabilities required for distribution",
+      "source_line": null
+    },
+    {
+      "name": "Tuist Project Generation Settings",
+      "description": "Codified settings in Project.swift that generate Xcode projects with correct bundle identifiers, versioning, and entitlements",
+      "source_line": null
+    },
+    {
+      "name": "Documentation of Distribution Workflow",
+      "description": "Guides and manuals outlining distribution metadata, entitlements, Tuist generation, and notarization flows for contributors",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2278,
+    "line_count": 41
+  }
+}

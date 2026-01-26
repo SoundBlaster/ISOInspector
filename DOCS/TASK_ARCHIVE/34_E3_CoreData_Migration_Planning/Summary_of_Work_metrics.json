@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/34_E3_CoreData_Migration_Planning/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement Task E3 using the documented schema, adding versioned model loading and migration tests for the CoreData store.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Session persistence implementation must be documented in DocC articles and manuals to describe workspace restoration flows.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CoreData Migration Plan Documentation",
+      "description": "Provides a documented plan for migrating CoreData schema including extensions, workflow, testing impact and dependencies.",
+      "source_line": null
+    },
+    {
+      "name": "Versioned CoreData Model Scaffolding for Annotations and Bookmarks",
+      "description": "Enables loading of specific model versions for annotations and bookmarks, allowing seeding of additional entities without rewriting the store initializer.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Entity Definitions (Workspace, Session, SessionFile, WindowLayout, SessionBookmarkDiff)",
+      "description": "Defines new CoreData entities that extend existing stores while preserving lightweight migration paths.",
+      "source_line": null
+    },
+    {
+      "name": "Fallback Strategies and Manual Recovery Tooling for Linux Builds",
+      "description": "Provides fallback mechanisms and tools to recover from migration failures on Linux builds before session persistence features ship.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Store Migration Tests",
+      "description": "Tests that verify versioned model loading and migration of the CoreData store.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Articles and Manuals Update for Session Persistence",
+      "description": "Updates documentation to describe workspace restoration flows once session persistence is implemented.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1845,
+    "line_count": 23
+  }
+}

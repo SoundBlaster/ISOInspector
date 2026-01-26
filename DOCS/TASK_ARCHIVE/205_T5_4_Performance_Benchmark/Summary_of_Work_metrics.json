@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/205_T5_4_Performance_Benchmark/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide lenient-vs-strict CLI benchmarking for LargeFileBenchmarkTests to capture average duration and RSS deltas per mode.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The benchmark must report average duration and RSS deltas for each mode within the test suite.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Tolerant-mode overhead budgets are enforced: runtime \u22641.2\u00d7 of baseline and RSS increase \u226450 MiB, verified by XCTest assertions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark results must show runtime overhead \u22641.049\u00d7 and RSS increase \u22640.01 MiB for the archived Linux metrics.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce PerformanceBenchmarkConfiguration to hold tolerant-mode budgets and enforce them via XCTest assertions.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "LargeFileBenchmarkTests",
+      "description": "CLI benchmarking for lenient vs strict modes, capturing average duration and RSS deltas",
+      "source_line": null
+    },
+    {
+      "name": "PerformanceBenchmarkConfiguration",
+      "description": "Defines tolerant-mode overhead budgets (runtime multiplier and RSS increase) and enforces them via XCTest assertions",
+      "source_line": null
+    },
+    {
+      "name": "LargeFileBenchmarkFixture",
+      "description": "Generates large test fixture files in a temporary directory under isoinspector-benchmarks",
+      "source_line": null
+    },
+    {
+      "name": "ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES environment variable",
+      "description": "Specifies the size of the reference payload for benchmarking (e.g., 1 GiB)",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1606,
+    "line_count": 17
+  }
+}

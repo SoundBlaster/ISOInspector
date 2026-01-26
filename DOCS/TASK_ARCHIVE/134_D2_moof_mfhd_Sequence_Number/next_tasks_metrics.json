@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/134_D2_moof_mfhd_Sequence_Number/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Parse D3 fragment data to expose sample run metadata and validate run flags",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Capture fixtures for multi-fragment streams to exercise monotonic sequence validation over longer timelines",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "D3 parse tfhd/trun fragment data",
+      "description": "Parse the traf/tfhd/tfdt/trun fragment data to expose sample run metadata and validate run flags",
+      "source_line": null
+    },
+    {
+      "name": "Capture fixtures for multi-fragment streams",
+      "description": "Capture test fixtures that allow monotonic sequence validation over longer timelines",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 251,
+    "line_count": 4
+  }
+}

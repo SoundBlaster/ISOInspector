@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/213_I0_2_Create_Integration_Test_Suite/Summary_of_Work.md",
+  "n_spec": 13,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Create comprehensive integration test suite for FoundationUI components (Badge, Card, KeyValueRow) across iOS and macOS platforms.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test coverage \u226580% for core FoundationUI components.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All tests pass on iOS 17+ and macOS 14+.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each test file contains detailed documentation of coverage areas and test counts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test files follow project coding standards, One File \u2014 One Entity principle, and TDD/XP/PDD methodologies.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All created test files are syntactically correct and ready for execution.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Component initialization tests must validate default and custom parameters across all combinations.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Semantic/property tests must verify enum cases, property values, design tokens, and string serialization.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "View rendering tests must confirm non\u2011nil body and platform-specific rendering.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Accessibility tests must cover labels, VoiceOver compatibility, and platform features.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "AgentDescribable protocol tests must validate component type identification, properties serialization, and semantic description generation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Test suite organized into separate files per component following One File \u2014 One Entity principle.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Tests written using TDD, XP, and PDD practices to ensure maintainability and coverage.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BadgeComponentTests",
+      "description": "Unit tests validating Badge component initialization, semantics, rendering, platform compatibility, protocol conformance, real-world usage, edge cases, and property equality",
+      "source_line": null
+    },
+    {
+      "name": "CardComponentTests",
+      "description": "Unit tests covering Card component initialization, elevation levels, corner radius variations, material backgrounds, rendering, content types, platform compatibility, protocol conformance, nested cards, real-world usage, and elevation property equality",
+      "source_line": null
+    },
+    {
+      "name": "KeyValueRowComponentTests",
+      "description": "Unit tests for KeyValueRow component initialization, layout options, text content variations, copyable functionality, rendering, platform compatibility, protocol conformance, real-world usage, edge cases, layout recommendations, and combinations testing",
+      "source_line": null
+    },
+    {
+      "name": "FoundationUIIntegrationTests",
+      "description": "Integration tests ensuring FoundationUI module import, component availability, design token access, and cross-platform compatibility",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 8673,
+    "line_count": 245
+  }
+}

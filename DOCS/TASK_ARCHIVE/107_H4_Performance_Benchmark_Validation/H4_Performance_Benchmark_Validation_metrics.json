@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/107_H4_Performance_Benchmark_Validation/H4_Performance_Benchmark_Validation.md",
+  "n_spec": 4,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Execute automated large-file benchmarks to confirm CLI and reader implementations meet parse-time and memory budgets specified in the master PRD and publish resulting metrics for release readiness reviews.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark runs cover testCLIValidationCompletesWithinPerformanceBudget plus both random slice benchmarks, using payload sizes representative of large production files.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Captured metrics (duration, CPU, memory) stay within the budgets calculated by PerformanceBenchmarkConfiguration or the configuration is adjusted with documented rationale if thresholds need refinement.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Results and any tuning instructions are documented alongside command invocations so release managers can reproduce them (e.g., via a short note appended to the Release Readiness runbook or archived under DOCS/TASK_ARCHIVE).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Large-File Benchmark Execution",
+      "description": "Automated execution of large-file performance benchmarks for CLI and reader implementations",
+      "source_line": null
+    },
+    {
+      "name": "CLI Validation Benchmark",
+      "description": "Test that the command-line interface completes within specified parse-time and memory budgets",
+      "source_line": null
+    },
+    {
+      "name": "Random Slice Benchmarks",
+      "description": "Performance tests covering random slice scenarios on large payloads",
+      "source_line": null
+    },
+    {
+      "name": "Metric Capture and Reporting",
+      "description": "Collection of duration, CPU, and memory metrics and archiving them for release readiness reviews",
+      "source_line": null
+    },
+    {
+      "name": "Benchmark Configuration Management",
+      "description": "Adjusting or documenting performance thresholds via PerformanceBenchmarkConfiguration",
+      "source_line": null
+    },
+    {
+      "name": "Test Automation Integration",
+      "description": "Wiring benchmark tests into swift test to run automatically in CI without manual skips",
+      "source_line": null
+    },
+    {
+      "name": "Environment Intensity Control",
+      "description": "Running benchmarks with ISOINSPECTOR_BENCHMARK_INTENSITY=local for developer hardware and falling back to CI defaults",
+      "source_line": null
+    },
+    {
+      "name": "Synthetic Payload Generation",
+      "description": "Using LargeFileBenchmarkFixture utilities to generate or reuse synthetic large payloads instead of repo assets",
+      "source_line": null
+    },
+    {
+      "name": "UI Latency Test Handling",
+      "description": "Capturing XCTSkip output when Combine is unavailable and noting macOS validation status",
+      "source_line": null
+    },
+    {
+      "name": "Raw Log Storage",
+      "description": "Storing raw benchmark logs in a dedicated Documentation/Performance folder for regression analysis",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3078,
+    "line_count": 36
+  }
+}

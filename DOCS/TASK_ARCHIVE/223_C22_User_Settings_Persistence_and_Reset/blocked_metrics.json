@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/223_C22_User_Settings_Persistence_and_Reset/blocked.md",
+  "n_spec": 10,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Blocked tasks must be updated whenever blockers change to maintain day\u2011to\u2011day visibility.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Import licensed real\u2011world assets and refresh regression baselines so tolerant parsing and export scenarios can validate against real\u2011world payloads once licensing approvals are obtained.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG\u2011H fixtures must be granted before importing licensed assets.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute the macOS 1 GiB lenient\u2011vs\u2011strict benchmark once macOS hardware with the 1\u202fGiB performance fixture becomes available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "macOS hardware with the 1\u202fGiB performance fixture must be available in the automation environment before running the benchmark.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Publish performance baselines for FoundationUI Phase\u00a05.2 after manual profiling and benchmarking tasks are completed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All manual profiling steps (render time <100\u202fms, memory allocation <5\u202fMB, 60\u202fFPS on device) must be documented in a performance report before publishing baselines.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All benchmark metrics (build time <10s, binary size <500KB, memory footprint <5MB per screen, 60\u202fFPS during interactions, BoxTreePattern with 1000+ nodes) must be recorded and documented before CI integration with performance gates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Cross\u2011platform test results (iOS\u00a017+, macOS\u00a014+, iPadOS\u00a017+ devices, dark mode, RTL, locale/region) must be compiled into a cross\u2011platform report before the next step.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility testing must achieve 98% score via automated tests and manual edge\u2011case validation before final accessibility sign\u2011off.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Import Licensed Assets and Refresh Baselines",
+      "description": "Imports licensed media assets (Dolby Vision, AV1, VP9, Dolby AC-4, MPEG\u2011H) into the system and refreshes regression baselines to validate tolerant parsing and export scenarios against real-world payloads.",
+      "source_line": null
+    },
+    {
+      "name": "Execute macOS 1\u202fGiB Benchmark",
+      "description": "Runs a lenient\u2011vs\u2011strict performance benchmark on macOS using a 1\u202fGiB payload, collects runtime and RSS metrics, and archives the results in Documentation/Performance.",
+      "source_line": null
+    },
+    {
+      "name": "Publish Performance Baselines",
+      "description": "Publishes collected performance baseline data (e.g., render times, memory usage, FPS) into PERFORMANCE.md after profiling with Xcode Instruments.",
+      "source_line": null
+    },
+    {
+      "name": "CI Integration with Performance Gates",
+      "description": "Integrates manual benchmark results into continuous\u2011integration pipelines to enforce performance thresholds for build time, binary size, memory footprint, FPS, and large\u2011node layout tests.",
+      "source_line": null
+    },
+    {
+      "name": "Compile Cross\u2011Platform Test Report",
+      "description": "Aggregates test outcomes from iOS, macOS, and iPadOS devices/simulators (including dark mode, RTL, locale) into a comprehensive cross\u2011platform compatibility report.",
+      "source_line": null
+    },
+    {
+      "name": "Final Accessibility Sign\u2011Off",
+      "description": "Completes manual accessibility validation (VoiceOver, keyboard navigation, dynamic type, contrast, etc.) and signs off the product for accessibility compliance.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4494,
+    "line_count": 77
+  }
+}

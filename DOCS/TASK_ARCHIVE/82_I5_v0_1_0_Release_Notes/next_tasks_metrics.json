@@ -1,0 +1,42 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/82_I5_v0_1_0_Release_Notes/next_tasks.md",
+  "n_spec": 0,
+  "n_func": 6,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Publish DocC archives",
+      "description": "Generate and publish documentation archives for the project",
+      "source_line": null
+    },
+    {
+      "name": "Create notarized DMG",
+      "description": "Build a disk image that is notarized for macOS distribution",
+      "source_line": null
+    },
+    {
+      "name": "Package TestFlight build",
+      "description": "Prepare an iOS/macOS TestFlight package for beta testing",
+      "source_line": null
+    },
+    {
+      "name": "Follow release readiness runbook",
+      "description": "Execute exact commands outlined in the release readiness runbook to ensure readiness",
+      "source_line": null
+    },
+    {
+      "name": "Capture macOS UI automation evidence",
+      "description": "Record and collect UI automation test results on macOS",
+      "source_line": null
+    },
+    {
+      "name": "Collect Combine benchmark evidence",
+      "description": "Gather performance metrics from Combine benchmarks for QA packet",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 426,
+    "line_count": 4
+  }
+}

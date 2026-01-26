@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/154_G7_State_Management_ViewModels/next_tasks.md",
+  "n_spec": 3,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Child boxes must not exceed parent ranges and overlapping payloads are disallowed.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "State management view models coordinate SwiftUI outline/detail panes and export affordances.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshots and CLI fixtures must be refreshed whenever schema updates are intentional via ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Parent Containment Validation",
+      "description": "Ensures child boxes cannot exceed parent ranges and flags overlapping payloads for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "name": "State Management View Models",
+      "description": "Coordinates SwiftUI outline/detail panes and export affordances via document, node, and hex view models.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing",
+      "description": "Manages licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures to replace synthetic payloads.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & CLI Fixture Refresh",
+      "description": "Refreshes snapshots and CLI fixtures when schema updates are intentional using environment variable and test command.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1230,
+    "line_count": 6
+  }
+}

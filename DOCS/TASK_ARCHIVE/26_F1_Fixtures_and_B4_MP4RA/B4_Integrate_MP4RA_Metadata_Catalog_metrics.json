@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/26_F1_Fixtures_and_B4_MP4RA/B4_Integrate_MP4RA_Metadata_Catalog.md",
+  "n_spec": 10,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Bundle MP4RA metadata catalog into parser so streaming events include human-readable names, categories, and structured fallbacks for unknown boxes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "MP4RA catalog JSON ships inside Swift package and loads without network access, covering known box types.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming parse events annotate boxes with names/categories when catalog entries exist and emit structured fallback data for unknown entries compatible with research log pipeline.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover catalog loading, lookup hits, fallback paths, and ensure streaming performance characteristics remain unaffected.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation notes how to refresh the catalog and where fallback records appear for follow-up triage.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Catalog must be bundled inside Swift package and load without network access.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Normalize MP4RA dataset into lightweight JSON resource refreshed via script and bundled for use across CLI, UI, and app targets.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Provide lightweight BoxCatalog service for streaming lookups so metadata resolution remains constant time and allocations per box stay minimal.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing research log/fallback infrastructure (e.g., VR-006 logging) so unknown boxes are captured consistently for tooling consumers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Expose catalog metadata (names, categories, descriptions) through public API to unblock downstream filters and detail panes once UI tasks begin.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "MP4RA Catalog Bundle",
+      "description": "Include the MP4 Registration Authority metadata catalog as a bundled JSON resource within the Swift package for offline access.",
+      "source_line": null
+    },
+    {
+      "name": "Catalog Loading Service",
+      "description": "Provide functionality to load and parse the bundled MP4RA JSON catalog at runtime.",
+      "source_line": null
+    },
+    {
+      "name": "BoxCatalog Lookup API",
+      "description": "Expose a lightweight service that performs constant\u2011time lookups of box type identifiers to retrieve name, category, and description metadata.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming Event Annotation",
+      "description": "Annotate streaming parse events with human\u2011readable names and categories when catalog entries exist.",
+      "source_line": null
+    },
+    {
+      "name": "Unknown Box Fallback Handling",
+      "description": "Emit structured fallback data for unknown box types compatible with the research log pipeline.",
+      "source_line": null
+    },
+    {
+      "name": "Research Log Integration",
+      "description": "Integrate with existing logging infrastructure to capture unknown boxes consistently for tooling consumers.",
+      "source_line": null
+    },
+    {
+      "name": "Public API Exposure",
+      "description": "Expose catalog metadata (names, categories, descriptions) through a public API for downstream filters and detail panes.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite",
+      "description": "Provide unit tests covering catalog loading, lookup hits, fallback paths, and performance characteristics.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Updates",
+      "description": "Document how to refresh the catalog and where fallback records appear for follow\u2011up triage in DocC/Markdown.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2582,
+    "line_count": 61
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/206_T5_4_Performance_Benchmark_macOS_Run/blocked.md",
+  "n_spec": 3,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Blocked tasks cannot proceed until their upstream dependencies are resolved.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Import licensed assets and refresh regression baselines so tolerant parsing and export scenarios can validate against real-world payloads once licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures are obtained.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures must be obtained before importing licensed assets and refreshing regression baselines.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Blocked Tasks Log",
+      "description": "Tracks tasks that cannot proceed due to unresolved upstream dependencies and provides visibility into blocker status",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Acquisition",
+      "description": "Manages the acquisition of licensed media assets such as Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H for use in testing",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 646,
+    "line_count": 9
+  }
+}

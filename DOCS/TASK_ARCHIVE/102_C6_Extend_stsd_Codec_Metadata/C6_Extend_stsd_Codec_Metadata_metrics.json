@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/102_C6_Extend_stsd_Codec_Metadata/C6_Extend_stsd_Codec_Metadata.md",
+  "n_spec": 10,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement codec-specific payload parsing for stsd sample entries so ISOInspector surfaces rich metadata for H.264/AVC, H.265/HEVC, and MPEG-4 Audio tracks, including encrypted variants, across the CLI and SwiftUI front ends.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parse avcC boxes nested under avc1/avc2/avc3/avc4 sample entries, extracting profile, compatibility flags, level, and SPS/PPS descriptors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parse hvcC boxes under hvc1/hev1/dvh1/dvhe entries, capturing profile space, tier, level, constraint flags, and VPS/SPS/PPS lists.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parse esds descriptors for mp4a entries to expose AudioSpecificConfig (object type, sampling frequency, channel configuration) and any extension descriptors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Preserve encrypted sample entry metadata (encv/enca) by threading sinf/schi/tenc relationships without losing codec payload access.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Extend JSON/export models and SwiftUI detail views so newly parsed codec fields appear in CLI exports and the detail pane with regression test coverage.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Unknown codecs should be handled resiliently, not causing parser failures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing FullBoxReader/BitReader utilities where possible; add targeted helpers if new bit-level parsing is required.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce strongly typed models for codec payloads with Codable conformance for JSON export.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update the parser registry to associate codec sample entries with the new payload decoders while keeping unknown codecs resilient.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "AVC Codec Metadata Parser",
+      "description": "Parses avcC boxes within AVC sample entries to extract profile, compatibility flags, level, and SPS/PPS descriptors.",
+      "source_line": null
+    },
+    {
+      "name": "HEVC Codec Metadata Parser",
+      "description": "Parses hvcC boxes within HEVC sample entries to capture profile space, tier, level, constraint flags, and VPS/SPS/PPS lists.",
+      "source_line": null
+    },
+    {
+      "name": "AAC Codec Metadata Parser",
+      "description": "Parses esds descriptors in mp4a entries to expose AudioSpecificConfig details such as object type, sampling frequency, channel configuration, and extensions.",
+      "source_line": null
+    },
+    {
+      "name": "Encrypted Sample Entry Handler",
+      "description": "Preserves encrypted sample entry metadata (encv/enca) by threading sinf/schi/tenc relationships while maintaining access to codec payloads.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Model Extension",
+      "description": "Extends JSON export models to include newly parsed codec fields for CLI exports.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Detail View Update",
+      "description": "Updates SwiftUI detail pane to display new codec metadata fields with regression test coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Box Parser Registry Integration",
+      "description": "Registers avcC, hvcC, and esds payload decoders in the BoxParserRegistry for automatic association with sample entries.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3283,
+    "line_count": 53
+  }
+}

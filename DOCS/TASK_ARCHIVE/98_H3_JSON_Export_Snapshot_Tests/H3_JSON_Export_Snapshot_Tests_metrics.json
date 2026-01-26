@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/98_H3_JSON_Export_Snapshot_Tests/H3_JSON_Export_Snapshot_Tests.md",
+  "n_spec": 9,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Establish deterministic snapshot coverage for ISOInspectorKit's JSON export pipeline using representative fixture files so schema or formatting regressions are detected automatically.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot fixtures exist for at least one small MP4 sample per major track type (video, audio, metadata) covering nested containers and parsed fields.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Running swift test exercises new snapshot cases that fail when JSON output changes unexpectedly.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot baselines live alongside existing exporter tests with documentation on how to update them after intentional schema revisions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests run in CI without macOS-only requirements and complete within current suite timing targets.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse ParseTreeBuilder to generate deterministic tree structures from fixture parse events before exporting via JSONParseTreeExporter.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Store JSON baselines in the Tests target using stable formatting (sorted keys, pretty-printed) to minimize churn.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Cover both CLI-facing and Swift API entry points if they produce distinct export code paths; otherwise document why a single path suffices.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Snapshot files reside in Tests/ISOInspectorKitTests/Fixtures/Snapshots/ and are generated in pretty-printed form to reduce churn.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "JSONExportSnapshotTests",
+      "description": "Runs snapshot tests comparing exported JSON trees against stored baselines for various media fixture files",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeBuilder usage in tests",
+      "description": "Generates deterministic parse tree structures from fixture parse events before exporting",
+      "source_line": null
+    },
+    {
+      "name": "JSONParseTreeExporter",
+      "description": "Exports parse trees to JSON format used by snapshot tests",
+      "source_line": null
+    },
+    {
+      "name": "CLI-facing export path",
+      "description": "Entry point for exporting via command line that may produce distinct code paths",
+      "source_line": null
+    },
+    {
+      "name": "Swift API export path",
+      "description": "Programmatic entry point for exporting parse trees to JSON",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot baseline storage",
+      "description": "Stores pretty\u2011printed, sorted\u2011key JSON baselines in Tests/ISOInspectorKitTests/Fixtures/Snapshots/",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot update workflow",
+      "description": "Environment variable ISOINSPECTOR_REGENERATE_SNAPSHOTS triggers regeneration of snapshot files during test run",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2904,
+    "line_count": 62
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/02_B2_Box_Header_Decoder/B2_Box_Header_Decoder_Summary.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide big-endian decoding helpers for RandomAccessReader to support 32-bit, 64-bit, and FourCC values with error reporting on short reads.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Introduce a FourCharCode value type and BoxHeader model representing header metadata including payload range and optional UUID.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement BoxHeaderDecoder.readHeader to handle standard, largesize, uuid, and zero-sized boxes while validating parent/file bounds.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Decoding helpers must report an error when the read length is shorter than required for 32-bit, 64-bit, or FourCC values.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxHeaderDecoder.readHeader must correctly parse standard boxes with size and type fields.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "BoxHeaderDecoder.readHeader must parse large-size boxes (i.e.,\u00a0large size field).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Box-uuid\u2011tapped?..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Big-endian decoding helpers",
+      "description": "Provides methods in RandomAccessReader to decode 32-bit, 64-bit, and FourCC values from big-endian byte streams with error handling for short reads.",
+      "source_line": null
+    },
+    {
+      "name": "FourCharCode value type",
+      "description": "Defines a value type representing a FourCC (four-character code) used in box headers.",
+      "source_line": null
+    },
+    {
+      "name": "BoxHeader model",
+      "description": "Represents metadata of a box header including size, type, optional UUID, and payload range within the file.",
+      "source_line": null
+    },
+    {
+      "name": "BoxHeaderDecoder.readHeader method",
+      "description": "Decodes a box header from a RandomAccessReader, handling standard, largesize, uuid, and zero-sized boxes while validating bounds against parent or file limits.",
+      "source_line": null
+    },
+    {
+      "name": "XCTest suite for Box Header Decoder",
+      "description": "Unit tests covering nominal and malformed headers, as well as helper behavior for decoding functions.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 746,
+    "line_count": 13
+  }
+}

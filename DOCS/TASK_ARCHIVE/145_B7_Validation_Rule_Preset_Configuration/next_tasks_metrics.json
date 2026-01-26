@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/145_B7_Validation_Rule_Preset_Configuration/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Recognize senc, saio, and saiz boxes during fragment parsing so the pipeline records their offsets/sizes and surfaces presence to CLI/UI consumers without attempting decryption.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Child boxes cannot exceed parent ranges and overlapping payloads are flagged for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Implement configuration layer, CLI flags, and UI settings for validation rule preset controls with bundled preset manifests, Application Support storage for custom sets, global-vs-document persistence layers, export metadata marking disabled rules as skipped, and CLI alias flags tracked via workplan items B7, C19, D7.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Child boxes must not exceed parent ranges and cannot overlap within the same parent.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Sample Encryption Placeholder Parsing",
+      "description": "Recognizes senc, saio, and saiz boxes during fragment parsing, records their offsets/sizes, and surfaces presence to CLI/UI without attempting decryption.",
+      "source_line": null
+    },
+    {
+      "name": "Enforce Parent Containment and Non-Overlap Validation",
+      "description": "Validates that child boxes do not exceed parent ranges and flags overlapping payloads for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Rule Preset Controls",
+      "description": "Provides configuration layer, CLI flags, UI settings, preset manifests, storage of custom sets, persistence layers, export metadata marking disabled rules as skipped, and tracks CLI alias flags.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Licensing Integration",
+      "description": "Secures licensing for Dolby Vision, AV1, VP9, Dolby AC-4, MPEG-H fixtures to replace synthetic payloads and refresh regression baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Codec Validation Coverage Expansion",
+      "description": "Expands coverage of codec validation within the system.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1676,
+    "line_count": 7
+  }
+}

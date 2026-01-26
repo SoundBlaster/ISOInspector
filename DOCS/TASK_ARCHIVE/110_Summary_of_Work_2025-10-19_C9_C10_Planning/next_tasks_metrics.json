@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/110_Summary_of_Work_2025-10-19_C9_C10_Planning/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Execute macOS CLI/UI large-file benchmark using R4 protocol once dedicated hardware runners are available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run macOS DocC generation, notarization, TestFlight export, and hardware-dependent QA following the release readiness runbook when runners are available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute random slice benchmark suite on macOS to compare mapped vs. chunked readers under identical workloads once Combine support is available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS with XCTest UI support to validate SwiftUI automation flow.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute Combine-backed UI benchmark on macOS to capture latency metrics while maintaining CLI throughput parity when a macOS runner with Xcode/Combine is available.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 2660,
+    "line_count": 29
+  }
+}

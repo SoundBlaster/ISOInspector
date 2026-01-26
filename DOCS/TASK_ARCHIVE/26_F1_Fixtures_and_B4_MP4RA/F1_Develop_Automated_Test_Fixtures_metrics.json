@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/26_F1_Fixtures_and_B4_MP4RA/F1_Develop_Automated_Test_Fixtures.md",
+  "n_spec": 9,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Build a comprehensive automated fixture corpus that exercises nominal and malformed MP4/QuickTime structures for regression testing of validation and export behaviors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Fixture set includes baseline MP4, MOV, fragmented fMP4, DASH segments, oversized mdat, and deliberately malformed files with clear metadata describing scenarios and expected validation outcomes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated scripts generate or ingest fixtures reproducibly and place them in version-controlled locations consumable by Swift tests and CLI smoke runs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests reference the new fixtures to cover box parsing, validation rules, and JSON export flows without manual setup.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation explains how to refresh or extend the fixture library and how each sample maps to validation coverage gaps.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use lightweight Python or Swift utilities to synthesize malformed headers, truncated payloads, and large-data placeholders while keeping repository size manageable.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Store fixtures with sidecar JSON/YAML metadata (description, provenance, expected warnings) to aid automated assertions and research-log integrations.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Integrate fixture loading helpers into existing test targets so future rules or UI flows can reuse the corpus without duplicating IO setup.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Consider CI storage constraints; compress or programmatically generate large artifacts on demand when full binaries would bloat the repository.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Automated Fixture Corpus Generation",
+      "description": "Scripts that generate or ingest MP4/QuickTime test fixtures, including malformed and edge\u2011case files, and store them in version control.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Metadata Management",
+      "description": "Sidecar JSON/YAML files describing each fixture\u2019s purpose, provenance, expected warnings, and validation coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Test Target Integration",
+      "description": "Helpers that load fixtures into Swift tests or CLI smoke runs, enabling reuse across unit tests and UI flows.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Test Reference",
+      "description": "Automated regression tests that use the fixture set to validate box parsing, rule enforcement, and JSON export behavior.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation for Fixture Library",
+      "description": "Guidance on refreshing, extending, and mapping fixtures to validation gaps.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2380,
+    "line_count": 57
+  }
+}

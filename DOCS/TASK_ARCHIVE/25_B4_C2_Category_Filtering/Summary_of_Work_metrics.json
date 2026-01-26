@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/25_B4_C2_Category_Filtering/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Integrate MP4RA Metadata Catalog to expose categories for streaming events",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Preserve category values during catalog regeneration so future snapshots retain enriched fields without manual edits",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Minimal validator and regression tests must cover new metadata shape and keep workspace green",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement Tree View Virtualization & Search with category chips and streaming toggle for multi-facet filtering while maintaining lazy rendering",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParseTreeOutlineViewModel must track available MP4RA categories and streaming indicator presence to keep UI filters scoped to active snapshot",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "MP4RA Metadata Catalog Exposure",
+      "description": "Exposes MP4RA categories from bundled metadata via BoxDescriptor for streaming events to surface friendly groupings.",
+      "source_line": null
+    },
+    {
+      "name": "MP4RACatalog Refresher",
+      "description": "Preserves category values when regenerating the catalog so future snapshots keep enriched fields without manual edits.",
+      "source_line": null
+    },
+    {
+      "name": "Tree View Virtualization and Search",
+      "description": "Tracks MP4RA categories and streaming indicator presence in ParseTreeOutlineViewModel, enabling UI filters scoped to active snapshot while preserving virtualization.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Outline Explorer Rendering",
+      "description": "Renders category chips and a streaming toggle beside severity controls for multi-facet filtering with lazy rendering.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1740,
+    "line_count": 24
+  }
+}

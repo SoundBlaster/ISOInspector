@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/234_Resolved_Tasks_Batch/242_Update_Existing_Patterns_For_NavigationSplitScaffold.md",
+  "n_spec": 8,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Update SidebarPattern to consume NavigationModel from environment and provide sidebar visibility control when inside NavigationSplitScaffold while maintaining backward compatibility.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update InspectorPattern to consume NavigationModel from environment, react to inspector column visibility and pinning state, and expose accessibility labels for toggle actions, with graceful degradation outside scaffold.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Update ToolbarPattern to consume NavigationModel from environment, provide toolbar items for column visibility toggles, add keyboard shortcuts and VoiceOver labels when inside NavigationSplitScaffold, and hide/disable controls gracefully when outside.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SidebarPattern must access @Environment(\\.navigationModel) and use navigationModel.columnVisibility to determine sidebar visibility; if navigationModel is nil, it should fall back to internal state without errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "InspectorPattern must access @Environment(\\.?navigationModel), react to inspector column visibility changes via navigationModel.columnVisibility, support pinning state from NavigationModel, and provide accessibility labels for toggle actions; fallback to internal state when navigationModel is nil.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ToolbarPattern must access @Environment(\\.navigationModel) and conditionally display toolbar items for sidebar and inspector toggles with keyboard shortcuts (\u2318\u2303S, \u2318\u2325I), expose VoiceOver labels; if navigationModel is nil, toolbar items should be hidden or disabled.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration tests must cover six scenarios: Scaffold + SidebarPattern composition, Scaffold + InspectorPattern composition, Scaffold + ToolbarPattern composition, full three-pattern composition, NavigationModel synchronization across patterns, column visibility state propagation, accessibility label verification, and platform-specific behavior (compact vs regular).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests: 3 for SidebarPattern (environment access, backward compatibility, visibility sync), 3 for InspectorPattern (environment access, visibility binding, pinning coordination), 3 for ToolbarPattern (conditional items, keyboard shortcuts, accessibility labels).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SidebarPattern",
+      "description": "A SwiftUI component that displays a sidebar list of sections and handles selection. It can operate standalone or within NavigationSplitScaffold, accessing the shared NavigationModel to sync visibility and provide accessibility labels.",
+      "source_line": null
+    },
+    {
+      "name": "InspectorPattern",
+      "description": "A SwiftUI component that shows an inspector panel. It reacts to column visibility changes from NavigationModel when inside a scaffold, supports pinning state, and falls back to internal state when used standalone.",
+      "source_line": null
+    },
+    {
+      "name": "ToolbarPattern",
+      "description": "A SwiftUI toolbar providing navigation controls such as toggling sidebar and inspector columns, keyboard shortcuts, and VoiceOver labels. It conditionally shows items based on the presence of a NavigationModel in the environment.",
+      "source_line": null
+    },
+    {
+      "name": "NavigationSplitScaffold",
+      "description": "A layout container that arranges three columns (sidebar, content, detail) using NavigationModel for state management across platforms. It supplies the navigationModel environment key to child patterns.",
+      "source_line": null
+    },
+    {
+      "name": "NavigationModel",
+      "description": "An observable object representing the shared navigation state, including column visibility and pinning information, exposed via an environment key.",
+      "source_line": null
+    },
+    {
+      "name": "IntegrationTests/NavigationScaffoldIntegrationTests",
+      "description": "A suite of XCTest cases that verify correct composition of SidebarPattern, InspectorPattern, and ToolbarPattern within NavigationSplitScaffold, ensuring state synchronization, accessibility, and platform behavior.",
+      "source_line": null
+    },
+    {
+      "name": "AgentSupport YAML Schemas",
+      "description": "Configuration files defining component types such as navigationScaffold, specifying properties like column visibility bindings and documenting environment access for pattern integration.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Documentation & Migration Guide",
+      "description": "Documentation that explains how to use and migrate existing patterns to work with NavigationSplitScaffold, including examples, architecture diagrams and best\u2011practice guidelines.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 12595,
+    "line_count": 409
+  }
+}

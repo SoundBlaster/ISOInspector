@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/228_A7_A8_SwiftLint_and_Coverage_Gates/229_BUG_Docc_Warnings.md",
+  "n_spec": 10,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Eliminate DocC and Swift compilation warnings emitted while building ISOInspector documentation so the doc archive can be generated cleanly and the documentation site preserves credibility for downstream reviewers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "DocC build completes without warnings originating from ISOInspector repositories (FoundationUI, ISOInspectorKit, ISOInspectorApp).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tutorials validate without syntax warnings.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Compiler warnings tied to @ViewBuilder misuse are eliminated.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "External package warnings are documented (if unavoidable) so CI filters know what remains.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "DocC build must not emit unresolved symbol links for project-owned modules.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Documentation articles link only to valid symbols and tutorials render cleanly.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Export all FoundationUI modifiers that documentation referenced (BadgeChipStyle, CardStyle, InteractiveStyle, SurfaceStyle) and reword cross-target doc links to avoid unresolved symbol warnings.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Modernize ISOInspectorApp documentation by updating tutorial steps to use DocC-supported directives and adding a table-of-contents with a bundle image.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Fix SwiftUI result-builder warning in SettingsPanelView by removing explicit returns and AnyView wrapping.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DocC Build Process",
+      "description": "Command or Xcode action that compiles documentation archives for ISOInspectorKit, FoundationUI, and ISOInspectorApp-macOS.",
+      "source_line": null
+    },
+    {
+      "name": "Swift Compilation of ISOInspectorApp-macOS",
+      "description": "Build phase that compiles Swift source files, including SettingsPanelView, emitting compiler warnings.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Symbol Link Validation",
+      "description": "Mechanism that checks referenced symbols in documentation (e.g., BadgeChipStyle) against exported API surface to prevent unresolved symbol warnings.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI @ViewBuilder Usage Enforcement",
+      "description": "Rule or lint that ensures @ViewBuilder blocks do not contain explicit return statements or AnyView wrappers, eliminating related compiler warnings.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Tutorial Syntax Validation",
+      "description": "Parser that validates tutorial directives (e.g., Step(title:)) against supported DocC syntax to avoid syntax warnings.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Article Structure Management",
+      "description": "Process for organizing and formatting documentation articles, including topics, sections, and link lists to satisfy DocC formatting rules.",
+      "source_line": null
+    },
+    {
+      "name": "External Package Warning Suppression",
+      "description": "Feature that allows selective suppression of DocC warnings originating from third\u2011party SourcePackages such as Yams and NestedA11yIDs.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Build Test Automation",
+      "description": "Automated test that runs xcodebuild docbuild to verify warning-free documentation generation.",
+      "source_line": null
+    },
+    {
+      "name": "Swift Package Build Test Automation",
+      "description": "Automated test that builds ISOInspectorKit or FoundationUI packages to ensure source code compiles without errors.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 8188,
+    "line_count": 87
+  }
+}

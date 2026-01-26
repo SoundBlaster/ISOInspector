@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/75_PDD1h_Provide_UIDocumentPicker_Integration/next_tasks.md",
+  "n_spec": 10,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Execute the random slice benchmark suite on macOS hardware once Combine support is available to compare mapped vs. chunked readers under identical workloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark results must show latency and throughput metrics for both mapped and chunked readers on macOS with Combine support.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware with XCTest UI support to validate the end-to-end SwiftUI automation flow.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test execution must complete successfully without skipping scenarios, confirming UI automation works on macOS.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute the Combine-backed UI benchmark on macOS to capture latency metrics while maintaining throughput parity with the CLI harness.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark must run on macOS with Xcode/Combine and produce comparable latency data to the CLI version.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "CoreData session bookmark diffs must be reconciled with live bookmark entities once reconciliation rules are defined.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Track outcome of the notarized build Apple Events automation assessment and reference final decision in documentation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Decision on whether automation via Apple Events is required for notarized builds must be documented and entitlements extended safely.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Provide UIDocumentPicker integration for iOS/iPadOS once UIKit adapters are introduced.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Random Slice Benchmark Execution",
+      "description": "Execute the random slice benchmark suite on macOS hardware to compare mapped vs. chunked readers under identical workloads.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTree Streaming Selection Automation Tests",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS with XCTest UI support to validate end-to-end SwiftUI automation flow.",
+      "source_line": null
+    },
+    {
+      "name": "Combine-backed UI Benchmark Execution",
+      "description": "Execute the Combine-backed UI benchmark on macOS to capture latency metrics while maintaining throughput parity with the CLI harness.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Session Bookmark Reconciliation",
+      "description": "Reconcile CoreData session bookmark diffs with live bookmark entities when reconciliation rules are defined.",
+      "source_line": null
+    },
+    {
+      "name": "Notarized Build Apple Events Automation Assessment",
+      "description": "Track outcome of notarized build Apple Events automation assessment and document decision on required automation via Apple Events.",
+      "source_line": null
+    },
+    {
+      "name": "UIDocumentPicker Integration for iOS/iPadOS",
+      "description": "Provide UIDocumentPicker integration for iOS/iPadOS once UIKit adapters are introduced, routing FilesystemAccess.live to the UIKit adapter.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2423,
+    "line_count": 28
+  }
+}

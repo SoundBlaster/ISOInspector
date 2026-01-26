@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/134_D2_moof_mfhd_Sequence_Number/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Support parsing of moof/mfhd sequence numbers in the BoxParserRegistry so that fragment sequence numbers are available through the streaming pipeline, JSON export, and CLI formatting layers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each parsed fragment header must declare a sequence number.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Sequence numbers across fragments must increase monotonically; warnings should be emitted when gaps or regressions occur.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always enforce that fragment sequence numbers are present and monotonic within a stream.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a dedicated MovieFragmentHeaderBox payload in the BoxParserRegistry to expose fragment sequence numbers.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "moof Fragment Support",
+      "description": "Adds support for parsing 'moof' fragments in BoxParserRegistry and exposes fragment sequence numbers through the streaming pipeline.",
+      "source_line": null
+    },
+    {
+      "name": "MovieFragmentHeaderBox Payload",
+      "description": "Introduces a dedicated payload type for MovieFragmentHeaderBox to surface fragment sequence numbers.",
+      "source_line": null
+    },
+    {
+      "name": "Sequence Number Validation",
+      "description": "Validates that each fragment header declares a sequence number and that they increase monotonically, emitting warnings on gaps or regressions.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export of Sequence Numbers",
+      "description": "Ensures fragment sequence numbers are included in the JSON export layer.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Formatting for Sequence Numbers",
+      "description": "Formats and displays fragment sequence numbers in CLI output.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for Parser",
+      "description": "Provides unit tests covering parsing of moof fragments and validation logic.",
+      "source_line": null
+    },
+    {
+      "name": "Live Pipeline Coverage Tests",
+      "description": "Adds live pipeline tests to confirm end-to-end emission of metadata.",
+      "source_line": null
+    },
+    {
+      "name": "Validator Expectations Update",
+      "description": "Updates validator expectations to reflect new sequence number metadata.",
+      "source_line": null
+    },
+    {
+      "name": "DASH Snapshot JSON Update",
+      "description": "Includes fragment sequence numbers in DASH snapshot JSON for integration testing.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 878,
+    "line_count": 15
+  }
+}

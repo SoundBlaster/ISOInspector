@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/157_J2_Persist_Security_Scoped_Bookmarks/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Child boxes cannot exceed parent ranges and overlapping payloads must be flagged during structural validation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "FilesystemAccessKit logs bookmark identifiers, refreshes stale ledger entries, and removes invalid recents to persist security\u2011scoped bookmarks.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "VoiceOver regression pass for accessibility shortcuts: verify that new focus command menu announces controls and restores focus targets on macOS and iPadOS hardware.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Real\u2011world assets (Dolby Vision, AV1, VP9 etc.) must be licensed before synthetic payloads can be replaced and regression baselines refreshed.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Snapshot & CLI fixture maintenance is triggered by setting ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 and running swift test --filter JSONExportSnapshotTests when schema updates are intentional.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Enforce Parent Containment and Non-Overlap",
+      "description": "Validates that child boxes are within parent ranges and flags overlapping payloads for CLI/UI surfaces.",
+      "source_line": null
+    },
+    {
+      "name": "Persist Security-Scoped Bookmarks",
+      "description": "Logs bookmark identifiers, refreshes stale ledger entries, and removes invalid recent items in FilesystemAccessKit.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Manual VoiceOver verification on macOS/iPadOS to ensure focus command menu announces controls and restores focus targets.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Licensing",
+      "description": "Secures licensing for Dolby Vision, AV1, VP9, Dolby AC-4, MPEG-H fixtures to replace synthetic payloads and refresh regression baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & CLI Fixture Maintenance",
+      "description": "Refreshes snapshots and CLI fixtures when schema updates occur via ISOINSPECTOR_REGENERATE_SNAPSHOTS environment variable.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1640,
+    "line_count": 7
+  }
+}

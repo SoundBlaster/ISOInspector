@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/42_D2_Streaming_CLI_Commands/Summary_of_Work.md",
+  "n_spec": 7,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement inspect and validate commands with streaming output in the CLI",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Asynchronous subcommands must be backed by ISOInspectorCLIEnvironment",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming parse events should produce VR-006 research logs",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Aggregated validation outcomes must be produced",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI tests must cover new commands, ensuring research log integration and severity-based exit codes",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Global logging and telemetry toggles are surfaced once streaming metrics are exposed via the CLI",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Route export operations are routed to shared streaming capture utilities as part of remaining CLI migration",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "inspect command",
+      "description": "CLI subcommand that streams parse events and produces VR-006 research logs while aggregating validation outcomes",
+      "source_line": null
+    },
+    {
+      "name": "validate command",
+      "description": "CLI subcommand that streams parse events and aggregates validation outcomes with severity-based exit codes",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCLIEnvironment integration",
+      "description": "Asynchronous environment backing the inspect/validate commands for streaming output",
+      "source_line": null
+    },
+    {
+      "name": "global logging toggle",
+      "description": "Feature to enable or disable global logging and telemetry once metrics are exposed via CLI",
+      "source_line": null
+    },
+    {
+      "name": "telemetry toggle",
+      "description": "Feature to enable or disable telemetry collection in the system",
+      "source_line": null
+    },
+    {
+      "name": "route export operation routing",
+      "description": "Routing of route export operations to shared streaming capture utilities as part of CLI migration",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 826,
+    "line_count": 16
+  }
+}

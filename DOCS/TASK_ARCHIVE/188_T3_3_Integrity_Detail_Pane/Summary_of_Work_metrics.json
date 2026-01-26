@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/188_T3_3_Integrity_Detail_Pane/Summary_of_Work.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add a dedicated Corruption section to the SwiftUI detail inspector that displays tolerant parsing issues with severity iconography, copy-friendly metadata, and VoiceOver-ready labels.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement ParseTreeDetailViewModel.focusIssue(on:) to jump the hex viewer to corruption ranges and update hex slice windowing to center on requested offsets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The Corruption section must display severity iconography, copy-friendly metadata, and VoiceOver-ready labels for tolerant parsing issues.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Hex viewer navigation via focusIssue(on:) must correctly jump to corruption ranges and center the hex slice window on requested offsets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility summaries must report corruption counts.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The system must always maintain a consistent state when accessing or updating the Corruption section.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with T3.4 placeholder nodes to allow future linkages between the user\u2011tolerant parsing error\u00a0\u2026",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Corruption Section in SwiftUI Detail Inspector",
+      "description": "Displays corruption information with severity icons, copy-friendly metadata, and VoiceOver-ready labels when tolerant parsing issues occur.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeDetailViewModel.focusIssue(on:) Method",
+      "description": "Jumps the hex viewer to specified corruption ranges and centers the view on requested offsets.",
+      "source_line": null
+    },
+    {
+      "name": "Hex Viewer Slice Windowing",
+      "description": "Adjusts the hex slice window size and centers it around requested offsets for navigation.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Summaries for Corruption Counts",
+      "description": "Provides accessibility summaries that report the number of corruption instances in the inspector.",
+      "source_line": null
+    },
+    {
+      "name": "Hex Navigation Workflow",
+      "description": "Workflow enabling users to navigate through hex data, including jumping to specific corruption ranges.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 910,
+    "line_count": 13
+  }
+}

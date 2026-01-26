@@ -1,0 +1,143 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/218_I1_3_Key_Value_Rows_Metadata_Display/218_I1_3_Key_Value_Rows_Metadata_Display.md",
+  "n_spec": 16,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Migrate metadata display patterns across the ISOInspector UI to use the FoundationUI DS.KeyValueRow component via a new BoxMetadataRow wrapper that supports label, value, and optional copyable action.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Audit all current metadata display patterns for row heights, spacing, font sizes, colors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Create BoxMetadataRow wrapper around DS.KeyValueRow with support for label, value, optional copyable action, inheriting dark mode adaptation and matching accessibility pattern from I1.1 and I1.2.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Refactor all metadata field displays to use BoxMetadataRow across ISO box metadata, parse results, issue summaries, codec/track info, file header details.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests for BoxMetadataRow component with \u226590% coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot tests validating layout, colors, dark mode adaptation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Accessibility tests confirming WCAG 2.1 AA compliance (\u226598% score).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration tests with copyable action behavior.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests ensuring existing metadata displays still function correctly.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Add BoxMetadataRow to ComponentTestApp showcase screen.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update Design System Guide with migration patterns.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Verify zero SwiftLint violations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test coverage remains \u226580% across affected targets.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FoundationUI components automatically handle dark mode; BoxMetadataRow must inherit this behavior via environment modifiers.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Copyable action pattern must provide visual/haptic feedback on successful copy and work on iOS, iPadOS, macOS.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "BoxMetadataRow will be a wrapper around DS.KeyValueRow exposing label, value, optional CopyableAction configuration and conditional display of copy button.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxMetadataRow Component",
+      "description": "A reusable UI component that wraps FoundationUI's DS.KeyValueRow to display a label and value pair with optional copy-to-clipboard action, supporting dark mode and accessibility.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Display Refactor",
+      "description": "System-wide migration of all metadata field displays (box metadata, parse results, codec/track info, file header details) to use the BoxMetadataRow component.",
+      "source_line": null
+    },
+    {
+      "name": "Copyable Action Integration",
+      "description": "Implementation of copy-to-clipboard functionality for metadata values, including visual/haptic feedback and integration with existing CopyableAction patterns.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Suite for BoxMetadataRow",
+      "description": "Automated tests ensuring component behavior, state handling, and 90%+ code coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot Testing for Layout & Dark Mode",
+      "description": "Visual regression tests comparing rendered layouts, colors, and dark mode adaptation against approved baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility Compliance Tests",
+      "description": "Tests verifying WCAG\u202f2.1\u202fAA compliance with \u226598% score, covering VoiceOver labels and Dynamic Type support.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Tests for Copyable Behavior",
+      "description": "Simulated user interaction tests confirming copy action works across iOS, iPadOS, and macOS platforms.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Test Suite",
+      "description": "Tests ensuring existing metadata displays continue to function correctly after migration.",
+      "source_line": null
+    },
+    {
+      "name": "ComponentTestApp Showcase Screen",
+      "description": "A screen in ComponentTestApp that demonstrates the BoxMetadataRow component in use.",
+      "source_line": null
+    },
+    {
+      "name": "Design System Guide Update",
+      "description": "Documentation updates describing migration patterns, usage guidelines, and design tokens for BoxMetadataRow.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 6121,
+    "line_count": 119
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/173_T1_8_Traversal_Guard_Implementation/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Traversal Guard logic must be implemented according to DOCS/AI/Tolerance_Parsing/Traversal_Guard_Requirements.md and verified via DOCS/INPROGRESS/Summary_of_Work.md.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Wire decoder failure issues into CLI/app summaries once aggregation APIs land, following T1.5.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "VoiceOver regression pass must confirm focus command menus announce controls and restore focus targets on macOS and iPadOS hardware.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Real-World Assets (Dolby Vision etc.) must be secured before regression baselines can shift from synthetic payloads.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Snapshot & CLI fixtures should be refreshed whenever schema updates are intentional via ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Traversal Guard API",
+      "description": "Provides guard logic for traversal operations, including telemetry hooks and fixture support as per Traversal Guard requirements.",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing Decoder Failure Propagation",
+      "description": "Exposes an aggregation API that surfaces decoder failure issues into CLI/app summaries during tolerant parsing.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Accessibility Shortcut Verification",
+      "description": "Offers a verification workflow to ensure VoiceOver focus command menus announce controls and restore focus targets on macOS and iPadOS hardware.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Asset Licensing Management",
+      "description": "Manages licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4 and MPEG-H fixtures used in regression baselines.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot and CLI Fixture Refresh Tool",
+      "description": "Automates refreshing of JSON export snapshots and CLI fixtures when schema updates occur via a regeneration command.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1407,
+    "line_count": 12
+  }
+}

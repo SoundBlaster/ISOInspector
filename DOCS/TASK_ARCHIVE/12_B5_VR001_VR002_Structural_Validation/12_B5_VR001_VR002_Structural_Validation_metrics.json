@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/12_B5_VR001_VR002_Structural_Validation/12_B5_VR001_VR002_Structural_Validation.md",
+  "n_spec": 6,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement structural validation rules VR-001 and VR-002 in the streaming parser so that it raises fatal errors when box headers declare impossible sizes or containers fail to close at their declared boundaries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VR-001 emits an error-level ValidationIssue whenever a box header\u2019s declared size is smaller than its header length or cannot fit within the remaining file range, and parsing skips forward safely.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VR-002 emits an error-level ValidationIssue when container boxes consume fewer or more bytes than their declared payload before closing, ensuring downstream code cannot assume structural integrity.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover normal, undersized, oversized, and truncated scenarios for both rules, including regression fixtures that exercise nested containers and large-size headers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integration tests confirm the streaming pipeline yields VR-001/VR-002 issues through ParsePipeline.live() without crashing, and CLI/UI consumers receive the propagated errors.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parsing must stop when a box header\u2019s declared size is smaller than its header length or cannot fit within the remaining file range (VR-001).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsePipeline.live()",
+      "description": "Streams parsing events enriched with metadata through the BoxValidator pipeline",
+      "source_line": null
+    },
+    {
+      "name": "BoxValidator",
+      "description": "Validates box headers and container integrity during streaming parse",
+      "source_line": null
+    },
+    {
+      "name": "VR-001 Validation Rule",
+      "description": "Emits error when a box header\u2019s declared size is smaller than its header length or cannot fit within remaining file range, then skips forward safely",
+      "source_line": null
+    },
+    {
+      "name": "VR-002 Validation Rule",
+      "description": "Emits error when container boxes consume fewer or more bytes than their declared payload before closing",
+      "source_line": null
+    },
+    {
+      "name": "ValidationIssue emission",
+      "description": "Generates error-level issues for structural validation failures that propagate through the pipeline to CLI/UI consumers",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3289,
+    "line_count": 49
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/22_C2_Extend_Outline_Filters/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Draft C3 detail and hex inspectors that subscribe to the Combine bridge for payload slices and metadata panes.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend outline filters to surface box categories and streaming metadata.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "C3 Detail and Hex Inspectors",
+      "description": "API endpoints or UI components that subscribe to the Combine bridge for payload slices and metadata panes.",
+      "source_line": null
+    },
+    {
+      "name": "Outline Filters Extension",
+      "description": "Feature that surfaces box categories and streaming metadata in outline filters.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 241,
+    "line_count": 4
+  }
+}

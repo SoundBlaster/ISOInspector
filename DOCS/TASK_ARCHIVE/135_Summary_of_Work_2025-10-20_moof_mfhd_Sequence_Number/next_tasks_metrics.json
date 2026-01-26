@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/135_Summary_of_Work_2025-10-20_moof_mfhd_Sequence_Number/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The system must always have a completed D2 moof/mfhd sequence number parser before proceeding to D3 parsing tasks.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement D3 parsing and validation for traf/tfhd/tfdt/trun, establishing sample table scaffolding for fragment runs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The D3 parsing implementation must validate the specified fields and ensure that the sample table scaffolding is correctly established.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Real\u2011world fixtures for Dolby Vision, AV1\u2026 must be acquired before synthetic payloads can be replaced and snapshot baselines refreshed.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "moof/mfhd sequence number parser",
+      "description": "Parses the sequence number from the moof/mfhd box in MP4 fragments",
+      "source_line": null
+    },
+    {
+      "name": "traf/tfhd/tfdt/trun parsing and validation",
+      "description": "Parses and validates traf, tfhd, tfdt, and trun boxes to establish sample table scaffolding for fragment runs",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 537,
+    "line_count": 5
+  }
+}

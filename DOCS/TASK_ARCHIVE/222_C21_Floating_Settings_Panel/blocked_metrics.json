@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/222_C21_Floating_Settings_Panel/blocked.md",
+  "n_spec": 0,
+  "n_func": 5,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Import Licensed Media Assets",
+      "description": "Import licensed Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H media assets into the system and refresh regression baselines for tolerant parsing and export scenarios.",
+      "source_line": null
+    },
+    {
+      "name": "Execute macOS 1 GiB Benchmark",
+      "description": "Run a lenient\u2011vs\u2011strict performance benchmark on macOS using a 1\u202fGiB payload, collect runtime and RSS metrics, and archive results in Documentation/Performance.",
+      "source_line": null
+    },
+    {
+      "name": "Publish Performance Baselines",
+      "description": "Publish collected performance baselines for FoundationUI Phase\u00a05.2 into PERFORMANCE.md after profiling or benchmarking tasks are completed.",
+      "source_line": null
+    },
+    {
+      "name": "Generate Cross\u2011Platform Test Report",
+      "description": "Compile test results from iOS, macOS, and iPadOS devices/simulators (including dark mode, RTL, locale) into a cross\u2011platform report.",
+      "source_line": null
+    },
+    {
+      "name": "Finalize Accessibility Sign\u2011off",
+      "description": "Complete manual VoiceOver, keyboard, dynamic type, contrast, and other accessibility checks to achieve final accessibility approval.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4468,
+    "line_count": 77
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/19_C2_Tree_View_Virtualization/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a virtualized parse tree outline view that supports incremental expansion and search filtering for large parse trees in SwiftUI.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The ParseTreeOutlineViewModel must be @MainActor to ensure SwiftUI updates are performed on the main thread.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The view model should support incremental expansion state of parse tree nodes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The view model implements search/filter constraints that allow only partial or full matching of?\u00a0",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeOutlineViewModel",
+      "description": "Virtualizes ParseTreeSnapshot hierarchies, manages incremental expansion state, applies search/filter constraints, and updates SwiftUI on the main actor",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeExplorerView",
+      "description": "SwiftUI component that renders large parse trees using LazyVStack and provides UI for exploring parse nodes",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeOutlineView",
+      "description": "SwiftUI outline view displaying parse tree structure with expandable rows and severity badges",
+      "source_line": null
+    },
+    {
+      "name": "RowBadges",
+      "description": "UI elements indicating severity levels of parse nodes within the explorer",
+      "source_line": null
+    },
+    {
+      "name": "SeverityToggle",
+      "description": "Control to filter parse nodes by severity in the SwiftUI explorer",
+      "source_line": null
+    },
+    {
+      "name": "SearchAutoExpansion",
+      "description": "Feature that automatically expands tree nodes when search results are found",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreePreviewData",
+      "description": "Reusable preview data set for testing and demonstrating the outline view without a live parse pipeline",
+      "source_line": null
+    },
+    {
+      "name": "UnitCoverageTests",
+      "description": "Test suite covering expansion, search auto\u2011expansion, and severity filtering behavior in ParseTreeOutlineViewModel",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1177,
+    "line_count": 17
+  }
+}

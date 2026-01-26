@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/144_E5_Basic_stbl_Coherence_Checks/E5_Basic_stbl_Coherence_Checks.md",
+  "n_spec": 7,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide basic coherence checks for stbl sample tables so that timeline calculations and downstream tooling can trust stbl-derived metadata without manual inspection.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation emits warnings/errors when declared sample counts or entry lengths disagree across stts, ctts, stsc, stsz/stz2, and chunk offset tables.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI, JSON export, and UI surfaces reflect the new diagnostics with regression coverage for representative fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation and backlog entries referencing E5 are updated to indicate the checks are live and verified.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Existing validation infrastructure (VR-00x series) must not be disrupted; lightweight count comparisons should precede deeper correlation efforts.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing stbl parsers (stsc, stsz/stz2, stco/co64) to enable cross-table comparisons without new parsing dependencies.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with ongoing E1 containment work to avoid duplicated diagnostics when boundary violations cascade into count mismatches.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Sample Table Coherence Validator",
+      "description": "Validates that declared sample counts and entry lengths are consistent across stts, ctts, stsc, stsz/stz2, and chunk offset tables, emitting warnings or errors when mismatches occur.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Diagnostic Reporter",
+      "description": "Outputs coherence check diagnostics through the command-line interface as part of the validation run.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Exporter for Diagnostics",
+      "description": "Exports the results of sample table coherence checks in JSON format for downstream tooling.",
+      "source_line": null
+    },
+    {
+      "name": "UI Diagnostic Surface",
+      "description": "Displays coherence check warnings and errors within the user interface, reflecting new diagnostics.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2275,
+    "line_count": 26
+  }
+}

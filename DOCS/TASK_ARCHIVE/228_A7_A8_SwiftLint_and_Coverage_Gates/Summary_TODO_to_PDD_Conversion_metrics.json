@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/228_A7_A8_SwiftLint_and_Coverage_Gates/Summary_TODO_to_PDD_Conversion.md",
+  "n_spec": 4,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Convert all TODO comments added during task A7 (SwiftLint complexity thresholds) from standard format (`// TODO:`) to Puzzle-Driven Development (PDD) format (`@todo #A7`) to enable automated task tracking and synchronization with `todo.md`.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All TODO comments have been successfully converted to PDD format: 9 files with `@todo #A7` markers, 0 remaining old-style TODOs.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "No old-style TODO comments remain in the codebase (`// TODO:`).",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use Puzzle-Driven Development (PDD) format for task tracking by converting `// TODO:` to `@todo #A7` markers, linking refactoring work to originating task A7.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ISOInspectorKit",
+      "description": "Core library providing ISO file parsing and utilities",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorApp",
+      "description": "Application layer managing document sessions and UI interactions",
+      "source_line": null
+    },
+    {
+      "name": "ISOInspectorCLI",
+      "description": "Command-line interface for event console formatting",
+      "source_line": null
+    },
+    {
+      "name": "JSONParseTreeExporter",
+      "description": "Exports parsed ISO structures to JSON format",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipelineLiveTests",
+      "description": "Live tests validating the parse pipeline functionality",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4268,
+    "line_count": 139
+  }
+}

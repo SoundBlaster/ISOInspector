@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/68_E6_Emit_Persistence_Diagnostics/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Log recents store write failures through DiagnosticsLogger with focused document context and persisted file paths",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Emit diagnostics when session snapshot saves or clears fail due to persistence errors, capturing session identifier and focused file URL",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Expose a shared DiagnosticsLogging protocol for dependency injection and unit testing of diagnostics",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Diagnostics must be logged for recents store write failures with context and persisted paths",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Diagnostics must be emitted on session snapshot save/clear persistence errors, including session ID and focused file URL",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Successful flows should not alter when diagnostics are added",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DocumentSessionController Recents Store Failure Logging",
+      "description": "Logs failures when writing to the recents store via DiagnosticsLogger, including focused document context and persisted file paths.",
+      "source_line": null
+    },
+    {
+      "name": "Session Snapshot Persistence Error Diagnostics",
+      "description": "Emits diagnostics on session snapshot save/clear failures, capturing session identifier and focused file URL for triage.",
+      "source_line": null
+    },
+    {
+      "name": "DiagnosticsLogging Protocol Exposure",
+      "description": "Provides a shared protocol for dependency-injected diagnostics logging, enabling unit testing with concrete logger implementations.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentSessionController Tests with Stub Stores and Diagnostics Spy",
+      "description": "Unit tests that use stub stores and a diagnostics spy to validate error logging without affecting successful flows.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1609,
+    "line_count": 28
+  }
+}

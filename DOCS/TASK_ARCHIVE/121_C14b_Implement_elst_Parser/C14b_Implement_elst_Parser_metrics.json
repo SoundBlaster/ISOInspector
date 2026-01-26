@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/121_C14b_Implement_elst_Parser/C14b_Implement_elst_Parser.md",
+  "n_spec": 7,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement streaming support for the `edts/elst` edit list within `BoxParserRegistry`, exposing normalized duration, media time, and playback rate metadata for UI and CLI consumers while respecting the finalized scope from C14a.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "`BoxParserRegistry` registers an `elst` parser that reads entries incrementally, honoring version\u2011specific field sizes (32\u2011bit vs 64\u2011bit durations/media times).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Each entry emits normalized seconds for segment duration and media time, plus the raw fixed\u2011point rate pair and a computed double value without accumulating entire lists in memory.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser records presentation offsets per entry and surfaces rate anomalies (non\u2011zero fractions, unsupported integers) for validation consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Large edit lists stream without excessive allocation and integrate with existing export pathways (JSON, CLI) without breaking regression tests.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The parser must use the timescale context derived from already parsed `mvhd`, `tkhd`, and `mdhd` nodes available in parse state.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse `FullBoxReader` helpers for `(version, flags)` decoding and derive timescale context from already parsed `mvhd`, `tkhd`, and `mdhd` nodes via `BoxParserRegistry.withEditListEnvironmentProvider`. ",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "elst Parser Registration",
+      "description": "Registers an 'elst' parser in BoxParserRegistry that streams edit list entries.",
+      "source_line": null
+    },
+    {
+      "name": "Edit List Entry Streaming",
+      "description": "Reads edit list entries incrementally, handling 32-bit or 64-bit fields based on version.",
+      "source_line": null
+    },
+    {
+      "name": "Duration and Media Time Normalization",
+      "description": "Converts entry durations and media times to normalized seconds using movie/track/media timescales.",
+      "source_line": null
+    },
+    {
+      "name": "Rate Extraction and Computation",
+      "description": "Outputs raw fixed\u2011point rate pair and computes a double playback rate per entry.",
+      "source_line": null
+    },
+    {
+      "name": "Presentation Offset Recording",
+      "description": "Captures presentation offsets for each edit list entry.",
+      "source_line": null
+    },
+    {
+      "name": "Anomaly Diagnostics",
+      "description": "Surfaces diagnostics for non\u2011zero fractional rates or unsupported integer rates.",
+      "source_line": null
+    },
+    {
+      "name": "Lightweight Edit Entry Struct",
+      "description": "Represents each parsed edit entry with raw integers and normalized doubles for downstream use.",
+      "source_line": null
+    },
+    {
+      "name": "Environment Context Injection",
+      "description": "Provides timescale context from mvhd, tkhd, mdhd via ParsePipeline environment provider to the parser.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming Performance Assurance",
+      "description": "Ensures large edit lists stream without excessive memory allocation.",
+      "source_line": null
+    },
+    {
+      "name": "Export Compatibility",
+      "description": "Integrates parsed data with existing JSON and CLI export pathways without breaking regression tests.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3293,
+    "line_count": 63
+  }
+}

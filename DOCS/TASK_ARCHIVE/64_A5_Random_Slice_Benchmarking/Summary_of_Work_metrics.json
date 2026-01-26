@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Random Slice Benchmarking Harness",
+      "description": "Deterministic micro-benchmarks that exercise random slice reads across MappedReader and ChunkedFileReader, wired into a shared performance test target.",
+      "source_line": null
+    },
+    {
+      "name": "LargeFileBenchmarkTests Extension",
+      "description": "Adds seeded random slice scenarios (small, medium, large) using existing fixture builder and respects PerformanceBenchmarkConfiguration iteration controls.",
+      "source_line": null
+    },
+    {
+      "name": "Deterministic SplitMix64 Generator",
+      "description": "Provides reproducible random slice scenario descriptions for both readers to run identical workloads.",
+      "source_line": null
+    },
+    {
+      "name": "Throughput Summary Printer",
+      "description": "Prints per-scenario throughput summaries from the test harness for baseline numbers.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1636,
+    "line_count": 30
+  }
+}

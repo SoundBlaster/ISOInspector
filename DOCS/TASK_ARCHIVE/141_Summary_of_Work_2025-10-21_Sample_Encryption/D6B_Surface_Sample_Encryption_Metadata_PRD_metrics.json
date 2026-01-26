@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/D6B_Surface_Sample_Encryption_Metadata_PRD.md",
+  "n_spec": 10,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Propagate placeholder metadata for senc, saio, and saiz boxes so users can view encryption scaffolding without decrypting payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Exported JSON contains new structured nodes for senc, saio, and saiz with counts, byte ranges, and scalar fields matching CLI/UI summaries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI streaming output indicates when encryption metadata is present (e.g., \"encryption entries=... iv_size=...\") and SwiftUI detail panes list the same information alongside validation issues without regressions to existing layouts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "No raw encrypted payload bytes are persisted; only metadata and ranges are surfaced, maintaining alignment with product security requirements.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "JSON schema updates must not break downstream automation; changes gated behind versioned snapshots and documented in release notes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Console output should remain concise by default, using verbosity toggles for detailed listings.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ParsedBoxPayload.Detail with lightweight structures (SampleEncryptionBox, etc.) to capture counts, IV sizing, and referenced offsets.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use existing naming patterns for field keys (entries[x].encryption.*) from sample description protection helpers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Prefer optional encoding in JSONParseTreeExporter to avoid bloating diff noise.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add localized string resources or reuse existing label helpers for SwiftUI accessibility.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsedBoxPayload.Detail SampleEncryptionBox",
+      "description": "Represents placeholder metadata for the \u2018senc\u2019 box, exposing count, IV size and byte range.",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload.Detail SampleAuxInfoOffsetsBox",
+      "description": "Represents placeholder metadata for the \u2018saio\u2019 box, exposing referenced offsets and byte range.",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload.Detail SampleAuxInfoSizesBox",
+      "description": "Represents placeholder metadata for the \u2018saiz\u2019 box, exposing size table entries and byte range.",
+      "source_line": null
+    },
+    {
+      "name": "JSONParseTreeExporter Encryption Metadata Export",
+      "description": "Encodes the new senc/saio/saiz detail payloads into JSON so CLI and UI can consume them.",
+      "source_line": null
+    },
+    {
+      "name": "EventConsoleFormatter Encryption Summary",
+      "description": "Appends concise encryption summaries (entries count, IV\u2011size) to the console output for each parsed box.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeDetailView Encryption Metadata Display",
+      "description": "Shows the new encryption metadata fields in SwiftUI detail panes with accessible labels.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 6169,
+    "line_count": 46
+  }
+}

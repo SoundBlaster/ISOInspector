@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/150_Summary_of_Work_2025-10-22_Sample_Encryption_Metadata/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "VR-018 codec errors must propagate through the streaming pipeline and be reported by isoinspect validate command.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I want sample encryption metadata (senc/saio/saiz) to be surfaced in JSON exports, CLI summaries, and SwiftUI detail views so that it is visible and accessible.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The JSONParseTreeExporter must include sample encryption metadata; EventConsoleFormatter must output CLI summaries containing these metadata; ParseTreeDetailView must render the metadata with refreshed accessibility summaries.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All placeholder metadata for sample encryption must be visible in the exported JSON and CLI outputs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a new fixture called 'codec-invalid-configs' to test coverage of VR-018 errors across ParsePipeline, CLI validate output, and JSON snapshot baseline.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Codec Validation Coverage Expansion",
+      "description": "Provides comprehensive codec diagnostics across ParsePipeline, CLI validate output, and JSON export snapshots using the `codec-invalid-configs` fixture.",
+      "source_line": null
+    },
+    {
+      "name": "Surface Sample Encryption Metadata Propagation",
+      "description": "Propagates `senc`, `saio`, and `saiz` placeholder metadata into JSON exports, CLI summaries, and SwiftUI detail views with accessibility coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Sample Encryption Placeholder Validation",
+      "description": "Validates visibility of sample encryption placeholders using the `sample-encryption-placeholder` fixture across ParsePipeline, CLI/App regression, JSON snapshot baseline, and documentation.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Validate Command Codec Warning Reporting",
+      "description": "The `isoinspect validate` CLI command emits codec warnings (VR-018 errors) when running against fixtures.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Exporter Inclusion of Sample Encryption Metadata",
+      "description": "JSONParseTreeExporter includes sample encryption metadata in exported JSON snapshots.",
+      "source_line": null
+    },
+    {
+      "name": "Event Console Formatter for CLI Summaries",
+      "description": "Formats and outputs CLI summaries, including sample encryption metadata, via EventConsoleFormatter.",
+      "source_line": null
+    },
+    {
+      "name": "Parse Tree Detail View Rendering",
+      "description": "Renders encryption metadata inside ParseTreeDetailView SwiftUI component with accessibility summaries.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2187,
+    "line_count": 17
+  }
+}

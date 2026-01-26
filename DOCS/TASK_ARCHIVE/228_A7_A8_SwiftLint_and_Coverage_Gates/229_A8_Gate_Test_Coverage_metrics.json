@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/228_A7_A8_SwiftLint_and_Coverage_Gates/229_A8_Gate_Test_Coverage.md",
+  "n_spec": 9,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Ensure test coverage stays above the agreed 67% threshold by running coverage_analysis.py in pre-push hook and GitHub Actions workflow, blocking merges or pushes that fall below the target and publishing the report artifact.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "coverage_analysis.py --threshold 0.67 runs automatically after swift test --enable-code-coverage in the pre-push hook; pushes abort with a clear error if the ratio drops below 67%.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "GitHub Actions adds a coverage job that executes the script against generated .build/debug/codecov/ data, fails the workflow when coverage <67%, and uploads the textual report under Documentation/Quality/ as an artifact.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation explains how to run the script locally, interpret the output, and update thresholds if requirements change.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The task is removed from next_tasks.md candidates and tracked by this document until archived.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "coverage_analysis.py must read repo-relative paths; hardcoded path /home/user/ISOInspector/FoundationUI replaced with dynamic resolution.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update or create automation scripts so coverage_analysis.py reads repo-relative paths.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend .git/hooks/pre-push (or equivalent) to run swift test --enable\u2011code\u2011coverage and python coverage gate.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Create/modify GitHub Actions workflow (ci.yml) to cache build artifacts, invoke tests with coverage flags..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Pre-push Coverage Gate",
+      "description": "Runs swift test with code coverage and executes coverage_analysis.py to enforce a minimum 67% threshold before allowing pushes",
+      "source_line": null
+    },
+    {
+      "name": "GitHub Actions Coverage Job",
+      "description": "Automated CI job that runs tests with coverage, executes coverage_analysis.py, fails workflow if below threshold, and uploads a textual report artifact",
+      "source_line": null
+    },
+    {
+      "name": "Dynamic Path Configuration for Coverage Script",
+      "description": "Modifies coverage_analysis.py to resolve repository-relative paths instead of hardcoded absolute paths",
+      "source_line": null
+    },
+    {
+      "name": "Threshold Parameterization",
+      "description": "Allows the minimum coverage percentage to be set via an environment variable or command-line argument",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3051,
+    "line_count": 30
+  }
+}

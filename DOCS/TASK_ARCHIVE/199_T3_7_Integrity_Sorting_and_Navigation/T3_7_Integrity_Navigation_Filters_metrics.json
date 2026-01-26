@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation/T3_7_Integrity_Navigation_Filters.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Investigators can navigate between corrupt nodes directly from the Integrity tab while keeping the outline tree in sync.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integrity summary table supports deterministic offset and affected-node sorting that matches CLI/export ordering across large fixture sets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting an issue row re-centers the Explorer outline on the affected node and preserves tab focus so investigators can immediately inspect details.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Outline toolbar exposes a filter toggle (and matching keyboard shortcut) that hides resolved/healthy nodes and cycles through corrupt entries in document order per the T3.7 acceptance notes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Navigation controls respect existing accessibility shortcuts and do not regress warning ribbon metrics or export parity validated in prior Integrity tasks.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Existing keyboard shortcut catalogs must not conflict with current Command+Option bindings when adding issue navigation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with ParseIssueStore metrics to reuse severity filters and align the toggle with ribbon counts before introducing new UI state.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend integration tests alongside the Integrity tab suite once filters and navigation land to protect CLI/UI parity.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Integrity Summary Table",
+      "description": "Displays corruption issues in a table with deterministic offset and affected-node sorting matching CLI/export ordering.",
+      "source_line": null
+    },
+    {
+      "name": "Issue Row Selection Navigation",
+      "description": "Selecting an issue row re-centers the Explorer outline on the affected node while preserving tab focus for immediate inspection.",
+      "source_line": null
+    },
+    {
+      "name": "Explorer Outline Filter Toggle",
+      "description": "Toolbar control that toggles visibility of resolved/healthy nodes, with a keyboard shortcut to cycle through corrupt entries in document order.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Shortcut Integration",
+      "description": "Adds issue navigation shortcuts (e.g., Command+Option) without conflicting existing bindings and respects accessibility shortcuts.",
+      "source_line": null
+    },
+    {
+      "name": "ParseIssueStore Severity Filter Coordination",
+      "description": "Reuses severity filters from ParseIssueStore to align the filter toggle with ribbon counts before adding new UI state.",
+      "source_line": null
+    },
+    {
+      "name": "Integration Tests for Filters & Navigation",
+      "description": "Extends Integrity tab test suite to cover navigation controls and filter behavior, ensuring CLI/UI parity.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3275,
+    "line_count": 32
+  }
+}

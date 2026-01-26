@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/10_B5_VR003_Metadata_Comparison_Rule/Summary_of_Work.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "VR-003 validation path must correctly handle matching, mismatching, truncated, and undersized payload scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "CLI formatting for VR-003 issues should preserve existing console formatter expectations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests using BoxValidator must cover matching, mismatching, truncated, and undersized payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Live parse integration tests must confirm catalog-aligned version/flag pairs remain warning-free while mismatches emit VR-003 warnings.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "BoxValidator is used directly for focused unit coverage of VR-003 validation path.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "BoxValidator Validation Path",
+      "description": "Validates payloads against catalog metadata, checking for matching, mismatching, truncated, and undersized scenarios",
+      "source_line": null
+    },
+    {
+      "name": "Live Parse Integration Tests",
+      "description": "Runs integration tests to ensure catalog-aligned version/flag pairs are warning-free while mismatches emit VR-003 warnings through the pipeline",
+      "source_line": null
+    },
+    {
+      "name": "Console Formatter for VR-003 Issues",
+      "description": "Formats VR-003 validation issues in the CLI output according to existing formatting expectations",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Archiving",
+      "description": "Archives in-progress brief and updates summary files for task tracking",
+      "source_line": null
+    },
+    {
+      "name": "CLI and UI Issue Logging for Unknown Catalog Entries",
+      "description": "Produces actionable info-level issues when unknown catalog entries are encountered across CLI and UI pipelines (planned for VR-006)",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1238,
+    "line_count": 22
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/200_T3_7_Integrity_Navigation_Filters/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The system must always preserve historical tracking of archived sorting and navigation notes in DOCS/TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation/.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a user, I want the next_tasks.md file to focus on remaining T3.7 milestones so that I can easily see what is left to complete.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The checklist for T3.7 must be updated and live alongside the work log.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a user, I want to see integrity selections expand the Explorer ancestors, focus the outline, and clear #T36-003 when selecting an Integrity selection.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Integrity selections must expand Explorer ancestors, focus the outline and clear\u00a0#T36-003.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "The user has\u00a0\"\u2026\u00a0..\u00a0..\u00a0\u2026\u00a0\u2026\u00a0\u2026\u00a0i\u2026\u00a0\u2026\u00a0\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026\u2026?",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Archive Prior Integrity Sorting and Navigation",
+      "description": "Archives previous integrity sorting, navigation planning, and ResearchLog preview audit notes to a specified DOCS/TASK_ARCHIVE directory for historical tracking.",
+      "source_line": null
+    },
+    {
+      "name": "Generate Next Tasks Checklist",
+      "description": "Regenerates the next_tasks.md file focusing on remaining T3.7 milestones such as sorting refinements and navigation filters, placing the checklist alongside the work log.",
+      "source_line": null
+    },
+    {
+      "name": "Monitor Real-World Asset Licensing Blocker",
+      "description": "Preserves and monitors an ongoing real-world asset licensing blocker without adding new permanent blockers.",
+      "source_line": null
+    },
+    {
+      "name": "Issue Handoff Wiring for Integrity Selections",
+      "description": "Wires issue handoff so that selecting integrity items expands Explorer ancestors, focuses the outline view, and clears a specific task (#T36-003).",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1643,
+    "line_count": 14
+  }
+}

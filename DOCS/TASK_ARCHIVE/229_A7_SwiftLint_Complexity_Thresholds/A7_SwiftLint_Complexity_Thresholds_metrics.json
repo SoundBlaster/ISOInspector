@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/229_A7_SwiftLint_Complexity_Thresholds/A7_SwiftLint_Complexity_Thresholds.md",
+  "n_spec": 7,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Restore SwiftLint's complexity-related rules (cyclomatic complexity, function/type body length, and nesting) so that local hooks and CI block merges when the limits are exceeded.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": ".swiftlint.yml re-introduces the agreed cyclomatic_complexity, function_body_length, type_body_length, and nesting thresholds with any necessary per-target overrides documented inline.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": ".githooks/pre-push executes swiftlint lint --strict (or the shared lint helper) so contributors cannot push when complexity rules fail.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": ".github/workflows/swiftlint.yml (and any aggregated CI workflow) surfaces the same rule set and publishes the analyzer artifact to PRs.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation or developer notes mention how to adjust thresholds when parser generators expand, keeping the design tokens and FoundationUI workstreams aware of the guardrail.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "SwiftLint must be installed on CI images; if not, bootstrap steps are documented in scripts/bootstrap_swiftlint.sh and caching is added to keep workflow within timeout limits.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend .swiftlint.yml comments so downstream tasks (A8, A10) understand why the thresholds differ between app and CLI targets, and note how the analyzer artifact gets attached via actions/upload-artifact.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "SwiftLint Complexity Threshold Configuration",
+      "description": "Defines cyclomatic complexity, function/body length, type/body length, and nesting limits in .swiftlint.yml with per-target overrides.",
+      "source_line": null
+    },
+    {
+      "name": "Pre-commit SwiftLint Hook",
+      "description": "Runs swiftlint lint --strict via .githooks/pre-push to block pushes that violate complexity rules.",
+      "source_line": null
+    },
+    {
+      "name": "CI SwiftLint Workflow",
+      "description": "Executes SwiftLint during CI (e.g., .github/workflows/swiftlint.yml) and publishes analyzer artifacts to PRs.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftLint Bootstrap Script",
+      "description": "Installs SwiftLint on CI images, caches binaries, and provides bootstrap steps in scripts/bootstrap_swiftlint.sh.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation for Threshold Adjustments",
+      "description": "Notes how to adjust thresholds when parser generators expand, including design token and FoundationUI guardrail awareness.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2917,
+    "line_count": 27
+  }
+}

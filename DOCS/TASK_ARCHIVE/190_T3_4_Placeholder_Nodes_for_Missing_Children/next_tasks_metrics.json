@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/190_T3_4_Placeholder_Nodes_for_Missing_Children/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide contextual status labels for parsing outcomes to allow operators to distinguish issue severity at a glance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Thread tolerant parsing status metadata (Invalid, Empty, Corrupted, Partial, Trimmed) must be displayed through the outline rows and detail inspector.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Placeholder Nodes for Missing Children",
+      "description": "Creates synthetic nodes to represent expected but absent child structures in the outline.",
+      "source_line": null
+    },
+    {
+      "name": "Contextual Status Labels",
+      "description": "Displays thread\u2011tolerant parsing status metadata (Invalid, Empty, Corrupted, Partial, Trimmed) on outline rows and detail inspector for operators.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Verifies that focus command menus announce controls and restore focus targets on macOS and iPadOS hardware.",
+      "source_line": null
+    },
+    {
+      "name": "Real\u2011World Assets Licensing",
+      "description": "Secures licensing for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG\u2011H fixtures to replace synthetic payloads in regression baselines.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1133,
+    "line_count": 9
+  }
+}

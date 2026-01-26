@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/97_C6_stsd_Sample_Description_Parser/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 1,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a sample description parser that can enumerate each sample entry, record byte lengths, and capture shared header fields such as the data reference index.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The parser must recognize baseline visual codecs (avc1, hvc1, hev1) and audio codec mp4a, exposing width/height or channel configuration and sample rate metadata for downstream consumers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests (StsdSampleDescriptionParserTests) must validate parsed metadata against ISO/IEC 14496-12 layout expectations using representative avc1 and mp4a fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The parser should always record entry byte lengths accurately for each sample entry.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add a full-box parser to BoxParserRegistry that enumerates sample entries and captures shared header fields.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Extend the parser with additional codec-specific field extraction (e.g., avcC, hvcC, encrypted variants) as future tasks define required metadata surface.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "stsd sample description parser",
+      "description": "Parses MP4 'stsd' boxes to enumerate sample entries, record byte lengths, and expose shared header fields such as data reference index, width/height for visual codecs (avc1,hvc1,hev1) and channel configuration/sample rate for audio codec mp4a.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1194,
+    "line_count": 22
+  }
+}

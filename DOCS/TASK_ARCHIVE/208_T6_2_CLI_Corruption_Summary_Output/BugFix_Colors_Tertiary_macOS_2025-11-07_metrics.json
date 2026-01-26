@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/208_T6_2_CLI_Corruption_Summary_Output/BugFix_Colors_Tertiary_macOS_2025-11-07.md",
+  "n_spec": 6,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Improve visual clarity and accessibility of macOS UI components by ensuring DS.Colors.tertiary is used as a background color instead of a label color.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "DS.Colors.tertiary on macOS returns .controlBackgroundColor, providing \u22654.5:1 contrast with window backgrounds in both Light and Dark modes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All semantic colors are non\u2011nil and platform parity is maintained between iOS and macOS.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests pass: testTertiaryColorIsBackgroundColorOnMacOS, testTertiaryColorPlatformParity, testAllSemanticColorsAreNotNil.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "DS.Colors.tertiary must always be a background color on macOS and not a label color.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use .controlBackgroundColor for DS.Colors.tertiary on macOS to match iOS's .tertiarySystemBackground and adhere to Apple HIG.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "DS.Colors.tertiary macOS background color token",
+      "description": "Provides a subtle background color for macOS components, matching iOS's tertiarySystemBackground and ensuring WCAG AA contrast",
+      "source_line": null
+    },
+    {
+      "name": "testTertiaryColorIsBackgroundColorOnMacOS test",
+      "description": "Regression test verifying DS.Colors.tertiary uses proper background color on macOS",
+      "source_line": null
+    },
+    {
+      "name": "testTertiaryColorPlatformParity test",
+      "description": "Test ensuring semantic consistency of DS.Colors.tertiary across iOS and macOS",
+      "source_line": null
+    },
+    {
+      "name": "testAllSemanticColorsAreNotNil test",
+      "description": "Prevents accidental breakage by asserting all semantic color definitions are non\u2011nil",
+      "source_line": null
+    },
+    {
+      "name": "Bug Fix - macOS Tertiary Color Contrast preview",
+      "description": "SwiftUI preview demonstrating correct contrast for DS.Colors.tertiary in SidebarPattern, InspectorPattern, Card, SurfaceStyle etc.",
+      "source_line": null
+    },
+    {
+      "name": "SidebarPattern component",
+      "description": "UI pattern showing a detail content area with proper background separation using DS.Colors.tertiary",
+      "source_line": null
+    },
+    {
+      "name": "InspectorPattern component",
+      "description": "UI pattern panel that uses DS.Colors.tertiary for background differentiation",
+      "source_line": null
+    },
+    {
+      "name": "Card component",
+      "description": "Component that displays card backgrounds using DS.Colors.tertiary",
+      "source_line": null
+    },
+    {
+      "name": "SurfaceStyle component",
+      "description": "Applies the style with background color set to DS.1?",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 7897,
+    "line_count": 222
+  }
+}

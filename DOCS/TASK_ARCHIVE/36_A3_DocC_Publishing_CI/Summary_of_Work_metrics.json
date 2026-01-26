@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/36_A3_DocC_Publishing_CI/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Implemented a docc-archives job in .github/workflows/ci.yml that generates DocC documentation using the existing script and uploads the bundles as GitHub Actions artifacts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "DocC generation script is invoked within CI and artifact upload fails when documentation output is missing.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "docc-archives CI Job",
+      "description": "Generates DocC documentation using the existing script and uploads the bundles as GitHub Actions artifacts during continuous integration.",
+      "source_line": null
+    },
+    {
+      "name": "Artifact Upload Validation",
+      "description": "Ensures that the artifact upload fails when documentation output is missing, providing validation of successful DocC generation.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 805,
+    "line_count": 17
+  }
+}

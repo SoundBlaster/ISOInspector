@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/143_E4_Verify_avcC_hvcC_Invariants/E4_Verify_avcC_hvcC_Invariants.md",
+  "n_spec": 8,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Validate codec configuration invariants in avcC and hvcC boxes to surface malformed entries consistently across ISOInspectorKit, CLI, and JSON exports.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation detects and flags lengthSizeMinusOne values outside {0,1,2,3} for both avcC and hvcC payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Mismatched array counts (e.g., SPS/PPS/VPS descriptors with inconsistent lengths) trigger actionable warnings/errors that flow through CLI output, UI badges, and JSON export metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and snapshot tests cover representative fixtures (valid + invalid) ensuring regression protection across Kit, CLI, and export modules.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "lengthSizeMinusOne must be within the set {0,1,2,3} for avcC and hvcC payloads.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Array counts for SPS/PPS/VPS descriptors must be consistent with declared lengths.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend existing validation infrastructure (VR-series rules) with codec-specific checks that run during streaming parse without requiring payload re-reads.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse fixture coverage from codec parser tasks and add targeted malformed fixtures if gaps exist.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "avcC lengthSizeMinusOne Validation",
+      "description": "Detects and flags avcC payloads where lengthSizeMinusOne is not one of {0,1,2,3} during streaming parse.",
+      "source_line": null
+    },
+    {
+      "name": "hvcC lengthSizeMinusOne Validation",
+      "description": "Detects and flags hvcC payloads where lengthSizeMinusOne is not one of {0,1,2,3} during streaming parse.",
+      "source_line": null
+    },
+    {
+      "name": "SPS/PPS/VPS Array Count Consistency Check",
+      "description": "Triggers warnings/errors when the number of SPS, PPS, or VPS descriptors in avcC/hvcC does not match declared array lengths.",
+      "source_line": null
+    },
+    {
+      "name": "NAL Unit Length Validation for Codec Descriptors",
+      "description": "Ensures that NAL units within codec descriptor arrays are non\u2011zero length and correctly formatted.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Output Messaging for Codec Invariant Violations",
+      "description": "Outputs clear warning identifiers and messages to the command\u2011line interface when codec validation failures occur.",
+      "source_line": null
+    },
+    {
+      "name": "UI Badge Generation for Codec Validation Status",
+      "description": "Displays visual badges in the user interface indicating presence of codec invariant violations.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Metadata Augmentation",
+      "description": "Adds codec validation warnings/errors into JSON export metadata so downstream tools can consume them.",
+      "source_line": null
+    },
+    {
+      "name": "Unit and Snapshot Test Suite for Codec Validations",
+      "description": "Provides tests covering valid and invalid avcC/hvcC fixtures to ensure regression protection across Kit, CLI, and export modules.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2466,
+    "line_count": 28
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/122_C14c_Edit_List_Duration_Validation/next_tasks.md",
+  "n_spec": 9,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Wire edit list payloads into validation so reconciled presentation durations align with movie/track headers and flag gaps or overlaps.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Extend duration diagnostics to reference edit list context.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Reconciled presentation durations must align with movie/track headers.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Refresh fixtures, JSON exports, and snapshot baselines covering common edit list scenarios (empty list, single offset, multi-segment, rate adjustments) so VR-014 diagnostics have full regression coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Fixtures, JSON exports, and snapshot baselines must cover empty list, single offset, multi-segment, and rate adjustment scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "VR-014 diagnostics must have full regression coverage.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement baseline metadata box coverage for udta, meta (handler), keys, and ilst atoms, surfacing simple string/integer payloads for CLI export.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Handler mappings must remain consistent with archival context.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Baseline metadata box coverage includes udta, meta (handler), keys..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Edit List Duration Validation",
+      "description": "Validates that presentation durations from edit lists align with movie/track headers and flags gaps or overlaps.",
+      "source_line": null
+    },
+    {
+      "name": "Edit List Fixture Refresh",
+      "description": "Refreshes fixtures, JSON exports, and snapshot baselines for common edit list scenarios to provide regression coverage.",
+      "source_line": null
+    },
+    {
+      "name": "Metadata Box Coverage Export",
+      "description": "Parses udta, meta (handler), keys, and ilst atoms and surfaces simple string/integer payloads for CLI export.",
+      "source_line": null
+    },
+    {
+      "name": "Sample Size & Chunk Offset Correlation Validation",
+      "description": "Correlates stsc chunk runs, stsz/stz2 sample sizes, and stco/co64 offsets to flag mismatches with sync sample metadata.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1598,
+    "line_count": 21
+  }
+}

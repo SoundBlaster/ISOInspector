@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/35_A3_DocC_Tutorial_Expansion/next_tasks.md",
+  "n_spec": 0,
+  "n_func": 2,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "CLI and App Documentation Catalogs",
+      "description": "Provides tutorials and screenshots for annotation and bookmark workflows",
+      "source_line": null
+    },
+    {
+      "name": "DocC Publishing via CI",
+      "description": "Publishes DocC bundles as artifacts in continuous integration pipelines",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 387,
+    "line_count": 9
+  }
+}

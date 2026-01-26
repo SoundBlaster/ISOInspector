@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/2025-10-21-sample-encryption-parser-alignment.md",
+  "n_spec": 7,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Align the new senc/saio/saiz parser scaffolding with targeted unit tests so placeholder metadata is emitted consistently.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Public Kit API added/changed: ParsedBoxPayload.Detail now exposes sampleEncryption, sampleAuxInfoOffsets, and sampleAuxInfoSizes detail structs with range helpers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser registry registration for senc/saio/saiz boxes uses the new detail accessors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Existing consumers continue to parse previous detail cases; JSON exporter keeps placeholders until D6B lands.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests: SencSampleEncryptionParserTests, SaioSampleAuxInfoOffsetsParserTests, SaizSampleAuxInfoSizesParserTests are implemented and pass.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Backward compatibility must be maintained for existing consumers parsing previous detail cases.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Kit components involved: BoxParserRegistry+MovieFragments, ParsedBoxPayload, BoxParserRegistry+DefaultParsers, JSONParseTreeExporter.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParsedBoxPayload.Detail sampleEncryption accessor",
+      "description": "Provides access to parsed sample encryption metadata for a box",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload.Detail sampleAuxInfoOffsets accessor",
+      "description": "Provides access to parsed auxiliary info offsets metadata for a box",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload.Detail sampleAuxInfoSizes accessor",
+      "description": "Provides access to parsed auxiliary info sizes metadata for a box",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry registration for senc boxes",
+      "description": "Registers the parser for 'senc' boxes in the registry",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry registration for saio boxes",
+      "description": "Registers the parser for 'saio' boxes in the registry",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry registration for saiz boxes",
+      "description": "Registers the parser for 'saiz' boxes in the registry",
+      "source_line": null
+    },
+    {
+      "name": "JSONParseTreeExporter placeholder emission for sample encryption metadata",
+      "description": "Exports placeholder JSON when sample encryption metadata is not yet available",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1087,
+    "line_count": 21
+  }
+}

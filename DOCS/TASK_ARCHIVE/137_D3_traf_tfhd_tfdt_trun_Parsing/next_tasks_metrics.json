@@ -1,0 +1,43 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The system must always maintain accurate fragment parsing and validation for traf/tfhd/tfdt/trun fragments.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Fragment coverage expansion with multi-trun, negative data_offset, composition offset, and missing tfdt fixtures is now documented in DOCS/TASK_ARCHIVE/138_Fragment_Fixture_Coverage/Fragment_Fiber...",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Fragment Run Parsing and Validation",
+      "description": "Parses, validates, and exports fragment run data for traf/tfhd/tfdt/trun fragments.",
+      "source_line": null
+    },
+    {
+      "name": "Fragment Coverage Expansion Documentation",
+      "description": "Provides expanded coverage of multi-trun, negative data_offset, composition offset, and missing tfdt scenarios with verification details.",
+      "source_line": null
+    },
+    {
+      "name": "Downstream Validator and CLI Polish Intake",
+      "description": "Evaluates and queues downstream validator and CLI polish tasks that consume new fragment summaries once additional DASH/HLS fixtures are available.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Fixture Acquisition for Codecs",
+      "description": "Acquires real-world media fixtures for Dolby Vision, AV1, VP9, Dolby AC-4, MPEG-H to replace synthetic payloads and refresh snapshot baselines after licensing clearance.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 960,
+    "line_count": 6
+  }
+}

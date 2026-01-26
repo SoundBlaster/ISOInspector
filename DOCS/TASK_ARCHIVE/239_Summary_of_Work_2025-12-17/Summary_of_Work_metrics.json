@@ -1,0 +1,143 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/239_Summary_of_Work_2025-12-17/Summary_of_Work.md",
+  "n_spec": 16,
+  "n_func": 10,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement Swift duplication detection gate for PRs and main branch pushes using npx jscpd with thresholds of \u22641% overall duplication and <45-line clones.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The duplication check wrapper script outputs a report to artifacts/swift-duplication-report.txt and ignores generated/Derived/.build/TestResults directories.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "GitHub workflow swift-duplication.yml runs on PRs and pushes to main, provisions Node 20, invokes the wrapper, and uploads the report as an artifact with 30\u2011day retention.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Add a test coverage gate for macOS-only FoundationUI that enforces \u226567% code coverage using swift test --enable-code-coverage and a custom Python analysis script.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The pre\u2011push hook runs the coverage check locally on macOS and reports under Documentation/Quality/. The CI workflow mirrors this behavior and uploads coverage logs/reports as artifacts.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Coverage gate must only run on macOS runners; it fails on Linux due to missing SwiftUI SDK.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Refactor BoxValidator.swift into a coordinator with 12 separate validation rule types, reducing its size from 1748 to 66 lines and removing swiftlint type_body_length suppression.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All 12 validation rules are placed in Sources/ISOInspectorKit/Validation/ValidationRules/ and the main BoxValidator.swift contains only the coordinator struct and default rules list.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Refactor DocumentSessionController.swift into a thin coordinator by extracting 7 specialized services, reducing its size from 1652 to 347 lines.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The extracted services are located in Sources/ISOInspectorApp/State/Services/ and include BookmarkService, etc., with the main controller acting only as a coordinator.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All refactor tasks for A7 must be tracked in todo.md and marked complete when finished.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Remove SwiftLint type_body_length suppressions from JSONParseTreeExporter.swift by splitting it into helper functions and using a baseline file to keep legacy violations documented.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "A .swiftlint.baseline.json file is added for the project and updated workflows/hooks to consume it, ensuring new violations fail while legacy debt remains.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Make document-loading factories Sendable to prevent actor\u2011boundary breaches and enable smoke tests under strict concurrency.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Factories are marked as @unchecked Sendable where needed and the rest of the document loading code is restructured to avoid actor\u2011boundaries.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Smoke tests must only run with strict concurrency enabled.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Swift Duplication Check Wrapper",
+      "description": "Shell script that runs jscpd to detect Swift code duplication and outputs a report.",
+      "source_line": null
+    },
+    {
+      "name": "GitHub Action for Swift Duplication",
+      "description": "Workflow that triggers on PRs/pushes, runs the duplication check, and uploads the report as an artifact.",
+      "source_line": null
+    },
+    {
+      "name": "Pre\u2011push Duplication Gate Hook",
+      "description": "Git hook that executes the duplication check before pushes and writes a report to Documentation/Quality.",
+      "source_line": null
+    },
+    {
+      "name": "InMemoryRandomAccessReader Deduplication",
+      "description": "Shared implementation used by tests for random access reading.",
+      "source_line": null
+    },
+    {
+      "name": "Test Coverage Gate Script",
+      "description": "Shell script in pre\u2011push that runs swift test with code coverage and analyzes results against a threshold.",
+      "source_line": null
+    },
+    {
+      "name": "Coverage\u2011Gate GitHub Action",
+      "description": "CI job that mirrors the coverage gate, uploads coverage logs/reports as artifacts.",
+      "source_line": null
+    },
+    {
+      "name": "Box Validation Rules Set",
+      "description": "Collection of individual SwiftLint\u2011compliant validation rule files for ISO boxes.",
+      "source_line": null
+    },
+    {
+      "name": "Document Session Coordinator Services",
+      "description": "Set of services (Bookmark, Recents, ParseCoordination, SessionPersistence, ValidationConfiguration, Export, DocumentOpening) that manage document session state and workflows.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Parse Tree Exporter",
+      "description": "Component that builds structured payloads for JSON export of parse trees.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftLint Baseline Management",
+      "description": "Files and workflow updates that handle SwiftLint baseline files to allow legacy violations to be ignored.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 8086,
+    "line_count": 111
+  }
+}

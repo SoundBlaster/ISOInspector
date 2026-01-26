@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/165_T1_2_Extend_ParseTreeNode_Status_and_Issues/T1_2_Extend_ParseTreeNode_Status_and_Issues.md",
+  "n_spec": 10,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Enable tolerant parsing by extending ParseTreeNode to include issues metadata and status enum so that corrupted media can be surfaced without halting traversal.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeNode exposes an issues array of ParseIssue objects and a status enum capturing valid, partial, corrupt, or skipped states, defaulting to valid for untouched nodes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSON export and any mirrored CLI serialization include the new status and issue array so tolerance diagnostics persist in saved artifacts.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tree stores, document view models, and other in-memory aggregates remain source-compatible while gaining accessors for corruption metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and snapshot tests covering healthy and corrupt fixture scenarios validate serialization, ensure backward compatibility for strict mode, and demonstrate how tolerant mode will consume the new fields.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "ParseTreeNode must always expose a status enum and an issues collection; default status is valid when no issues are present.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with T1.1 ParseIssue model to reuse severity codes and byte-range metadata when populating node issues.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit BoxNode/ParseTreeNode initializers and builders to accept optional issue lists without breaking streaming parse performance.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update export encoders and any bridging structures (Combine stores, CLI summaries) to forward status and issues, guarding strict-mode paths that expect empty collections.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Prepare migration notes for downstream tasks so they can rely on the enriched node model without additional refactors.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeNode Issues and Status Exposure",
+      "description": "Adds an `issues` array of ParseIssue objects and a status enum to each ParseTreeNode for tolerant parsing.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Augmentation",
+      "description": "Extends the JSON export (and CLI serialization) to include node status and issues so diagnostics persist in artifacts.",
+      "source_line": null
+    },
+    {
+      "name": "In-Memory Store Compatibility Layer",
+      "description": "Ensures tree stores, document view models, and aggregates remain source-compatible while providing accessors for corruption metadata.",
+      "source_line": null
+    },
+    {
+      "name": "Unit and Snapshot Testing for Tolerant Parsing",
+      "description": "Provides tests covering healthy and corrupt fixtures to validate serialization and backward compatibility with strict mode.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2479,
+    "line_count": 28
+  }
+}

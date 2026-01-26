@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Run ParseTreeStreamingSelectionAutomationTests on macOS hardware with XCTest UI support to validate the end-to-end SwiftUI automation flow introduced in DOCS/TASK_ARCHIVE/48_macOS_SwiftUI_Automation_Streaming_Default_Selection/48_macOS_SwiftUI_Automation_Streaming_Default_Selection.md",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The ParseTreeStreamingSelectionAutomationTests must pass on macOS hardware with XCTest UI support, confirming the SwiftUI automation flow works end-to-end.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute the Combine-backed UI benchmark on macOS to capture latency metrics while maintaining throughput parity with the CLI harness.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The Combine-backed UI benchmark must run on macOS and produce latency metrics that match throughput parity with the CLI harness.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1049,
+    "line_count": 10
+  }
+}

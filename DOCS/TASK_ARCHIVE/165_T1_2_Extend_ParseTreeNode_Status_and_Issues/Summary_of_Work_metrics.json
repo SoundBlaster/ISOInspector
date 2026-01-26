@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/165_T1_2_Extend_ParseTreeNode_Status_and_Issues/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "ParseTreeNode.issues and status fields must be present and default to maintain source compatibility",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ParseTreeNode with Issues and Status Fields to support tolerant parsing metadata",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 815,
+    "line_count": 15
+  }
+}

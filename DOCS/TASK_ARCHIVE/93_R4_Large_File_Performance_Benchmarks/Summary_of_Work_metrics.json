@@ -1,0 +1,68 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Runtime and memory budgets for CLI validation, CLI streaming export, and SwiftUI streaming sessions must be enforced by XCTest Metrics on 20 GB fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI and SwiftUI benchmarks must pass throughput expectations defined in the benchmark charter.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "As a developer, I want to schedule macOS CLI/UI benchmark execution once hardware runners are available so that new benchmark assets can be consumed by UI automation.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "The fixture generation, metric harness invocation, Instruments capture, and regression reporting workflow is orchestrated across macOS runners as documented in the tooling matrix.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Performance Benchmark Execution",
+      "description": "Execute command-line interface benchmarks for large file handling and validate throughput against defined runtime and memory budgets.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Streaming Session Benchmarking",
+      "description": "Run SwiftUI streaming session benchmarks to measure performance with 20 GB fixtures, enforcing throughput expectations.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Generation Workflow",
+      "description": "Generate test fixtures using synthetic fillers, fragmented stressors, vendor mirrors, and error scenarios according to documented acquisition strategy.",
+      "source_line": null
+    },
+    {
+      "name": "Metric Harness Invocation",
+      "description": "Invoke XCTest metrics harnesses to capture performance data during benchmark runs.",
+      "source_line": null
+    },
+    {
+      "name": "Instruments Capture Integration",
+      "description": "Collect detailed instrumentation data via Instruments during benchmark execution.",
+      "source_line": null
+    },
+    {
+      "name": "Regression Reporting Pipeline",
+      "description": "Generate regression reports across macOS runners based on captured metrics and instrumentation results.",
+      "source_line": null
+    },
+    {
+      "name": "Benchmark Execution Scheduling",
+      "description": "Schedule macOS CLI/UI benchmark executions once hardware runners become available, using the defined fixtures and instrumentation plan.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1362,
+    "line_count": 24
+  }
+}

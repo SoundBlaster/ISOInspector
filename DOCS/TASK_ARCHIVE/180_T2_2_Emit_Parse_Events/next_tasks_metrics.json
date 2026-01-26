@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/180_T2_2_Emit_Parse_Events/next_tasks.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "VoiceOver must announce focus command menus and restore focus targets on macOS and iPadOS hardware verification.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Secure Dolby Vision, AV1, VP9, Dolby AC-4 and MPEG-H real\u2011world assets for regression baselines.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Surface ParseIssueStore metrics in SwiftUI ribbons once tolerant parsing UI specs are finalized.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Streaming parse events must propagate ParseIssue severity, offsets, and reason codes to UI/CLI consumers.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Verify macOS and iPadOS hardware focus command menus announce controls and restore focus targets for VoiceOver accessibility shortcuts.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Licensing",
+      "description": "Secure licensing approvals and fixtures for Dolby Vision, AV1, VP9, Dolby AC\u20114, and MPEG\u2011H to enable regression baselines using real-world media assets.",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing Surface Metrics in SwiftUI",
+      "description": "Display ParseIssueStore metrics in SwiftUI ribbons once tolerant parsing UI specifications are finalized.",
+      "source_line": null
+    },
+    {
+      "name": "Emit Parse Events with Severity Metadata",
+      "description": "Stream parse events that include severity, offsets, and reason codes to UI and CLI consumers.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1062,
+    "line_count": 10
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/54_Summary_of_Work_2025-10-13/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Maintain the Developer Onboarding Guide to reflect future API or DocC updates and link new tutorials or automation flows as they are released.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The onboarding guide must be updated whenever a new API or DocC update occurs, and it must include links to any newly created tutorials or automation flows.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 699,
+    "line_count": 10
+  }
+}

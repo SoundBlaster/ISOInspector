@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/100_Summary_of_Work_2025-10-19_ftyp_Follow_Up/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement ftyp box parser for major_brand, minor_version, compatible_brands",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ftyp box parser must correctly parse major_brand, minor_version, and compatible_brands fields",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 3228,
+    "line_count": 37
+  }
+}

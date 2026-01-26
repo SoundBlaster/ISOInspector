@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/219_I1_3_Key_Value_Rows_Metadata_Display/blocked.md",
+  "n_spec": 11,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Blocked tasks must be updated whenever blockers change to maintain day-to-day visibility.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Import licensed real\u2011world assets and refresh regression baselines so tolerant parsing and export scenarios can validate against real-world payloads once licensing approvals are obtained.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures must be granted before importing assets.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute the macOS 1 GiB lenient\u2011vs\u2011strict benchmark once macOS hardware with the 1\u202fGiB performance fixture is available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Benchmark must run with ISOINSPECTOR_BENCHMARK_PAYLOAD_BYTES=1073741824, collect runtime and RSS metrics, and archive them under Documentation/Performance/.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The todo.md entry \"Execute the macOS 1 GiB lenient\u2011v\u2026\" should remain open until benchmark run completes and metrics published.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Publish performance baselines in PERFORMANCE.md after manual profiling with Xcode Instruments on macOS developer machine.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Time Profiler must measure render times <100\u202fms, Allocations instrument memory profiling <5\u202fMB, Core Animation 60\u202fFPS on device, and tests run on iOS\u00a017 and macOS\u00a014 devices.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Publish performance baselines after manual benchmark testing across multiple platforms (iOS\u00a017..iPadOS\u00a017) once the required hardware is available.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Build time <10s for clean build, binary size <500\u202fKB release; memory footprint <5\u202fMB per screen; 60\u202fFPS on all platforms during interactions; BoxTreePattern with 1000+ nodes performance tested and baseline documented.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Compile cross\u2011platform test results and create a report after testing on iOS\u00a0\u2026..\u00a0iPad\u2011?",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Import Licensed Media Assets",
+      "description": "Imports licensed Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H media assets into the system and refreshes regression baselines for tolerant parsing and export validation.",
+      "source_line": null
+    },
+    {
+      "name": "Execute macOS 1 GiB Benchmark",
+      "description": "Runs a lenient\u2011vs\u2011strict performance benchmark on macOS with a 1\u202fGiB payload, collects runtime and RSS metrics, and archives results in Documentation/Performance.",
+      "source_line": null
+    },
+    {
+      "name": "Publish Performance Baselines",
+      "description": "Publishes collected performance baseline data for FoundationUI Phase\u00a05.2 into PERFORMANCE.md after manual profiling or benchmarking.",
+      "source_line": null
+    },
+    {
+      "name": "Generate Manual Performance Report",
+      "description": "Documents findings from Xcode Instruments (Time Profiler, Allocations, Core Animation) and other manual profiling tasks into a performance report.",
+      "source_line": null
+    },
+    {
+      "name": "Compile Cross\u2011Platform Test Results",
+      "description": "Aggregates results from device and simulator tests across iOS, macOS, and iPadOS, including dark mode, RTL, and locale checks, into a cross\u2011platform report.",
+      "source_line": null
+    },
+    {
+      "name": "Finalize Accessibility Sign\u2011off",
+      "description": "Completes manual accessibility validation (VoiceOver, keyboard navigation, dynamic type, contrast, etc.) and issues final accessibility sign\u2011off.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4468,
+    "line_count": 77
+  }
+}

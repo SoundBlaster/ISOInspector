@@ -1,0 +1,128 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/93_R4_Large_File_Performance_Benchmarks/R4_Large_File_Performance_Benchmarks.md",
+  "n_spec": 9,
+  "n_func": 14,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Validate ISOInspector against a 20 GB media file to ensure Phase F2 budgets of <100 MB peak memory and <200 ms UI latency remain credible before hardware validation.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Exercise both the CLI validator and the SwiftUI streaming bridge, which share the same streaming parser but surface different back\u2011pressure risks.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Capture repeatable metrics that can gate regressions inside XCTest Metric harnesses and inform release readiness sign\u2011off.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI validation sweep must complete within \u22647 minutes (\u224850\u202fMB/s sustained throughput), use <90\u202fMB RSS sustained, <100\u202fMB peak memory, and provide specified observability hooks.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI streaming export must complete within \u22649 minutes, use <95\u202fMB sustained, <105\u202fMB peak memory, and provide specified signposts and metrics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftUI streaming session must render first frame in <350\u202fms, maintain steady\u2011state latency per update <200\u202fms, use <120\u202fMB peak combined app+CoreData caches, <80\u202fMB parser process memory, and provide specified logging and metric overlays.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "SwiftUI fragmented session must render initial frame in <500\u202fms, maintain steady\u2011state latency <250\u202fms per fragment batch, use same memory constraints as progressive scenario, and provide specified signposts and metrics.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "All benchmark harnesses must enforce the defined runtime and memory budgets for each scenario.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Fixture creation recipes must produce deterministic 20\u202fGB assets with known layouts, verified by pre\u2011run analysis tools (ffprobe, mp4dump, etc.).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Validator Benchmark",
+      "description": "Runs isoinspector validate on a 20 GB progressive MP4 and measures runtime, memory, and signpost metrics",
+      "source_line": null
+    },
+    {
+      "name": "CLI Streaming Export Benchmark",
+      "description": "Executes isoinspector inspect --stream on a 20 GB fragmented MP4, piping output to /dev/null while capturing throughput, CPU, and memory metrics",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Streaming Session Benchmark",
+      "description": "Automates ISOInspectorApp with a 20 GB progressive MP4, measuring first frame latency, steady-state update latency, and combined app/parser memory usage",
+      "source_line": null
+    },
+    {
+      "name": "SwiftUI Fragmented Session Benchmark",
+      "description": "Automates ISOInspectorApp with a 20 GB fragmented MP4, capturing initial render latency, per-fragment batch latency, and parser memory metrics",
+      "source_line": null
+    },
+    {
+      "name": "Synthetic Fixture Generation",
+      "description": "Creates deterministic 20 GB progressive MP4s using Bento4 mp4mux and dd padding, producing checksum manifests",
+      "source_line": null
+    },
+    {
+      "name": "Fragmented Stressor Generation",
+      "description": "Fragments a synthetic asset into 8 MB segments with alternating track payloads via Bento4 mp4fragment, generating fragment boundary metadata",
+      "source_line": null
+    },
+    {
+      "name": "Vendor Dataset Mirror Creation",
+      "description": "Mirrors publicly redistributable 4K mezzanine assets and expands them to 20 GB for realistic codec distribution benchmarks",
+      "source_line": null
+    },
+    {
+      "name": "Synthetic Error Fixture Generation",
+      "description": "Injects malformed boxes or truncated fragments into synthetic fillers using GPAC MP4Box, producing error variants for regression testing",
+      "source_line": null
+    },
+    {
+      "name": "Baseline Analysis Tooling",
+      "description": "Runs ffprobe, mp4dump, Bento4 mp4info to validate track tables and fragment layouts before benchmark runs",
+      "source_line": null
+    },
+    {
+      "name": "XCTest Metrics Harness",
+      "description": "Collects timing, CPU, memory metrics via XCTestMetrics (e.g.,\u00a0XCTClockMetric\u00a0..), and enforces runtime/memory budgets",
+      "source_line": null
+    },
+    {
+      "name": "Unified Logging & Signpost Collection",
+      "description": "Uses os_log categories and signposts to gather fine\u2011tuned latency data across scenarios",
+      "source_line": null
+    },
+    {
+      "name": "Automated Fixture Provisioning Script",
+      "description": "Scripted workflow that generates fixtures, writes manifest files with SHA256 and cross\u2011linking; runs on macOS runner",
+      "source_line": null
+    },
+    {
+      "name": "CI Benchmark Execution Pipeline",
+      "description": "Runs CI tests (Swift test/xcodebuild) for both CLI and UI benchmarks, automatically re\u2011runs if any metric exceeds thresholds",
+      "source_line": null
+    },
+    {
+      "name": "Regression Dashboard Publishing",
+      "description": "Parses .xcresult metrics into benchmark\u2011tuning\u00a0JSON\u00a0and\u00a0..",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 8205,
+    "line_count": 82
+  }
+}

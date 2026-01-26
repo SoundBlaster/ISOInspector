@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/228_A7_A8_SwiftLint_and_Coverage_Gates/code_review.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "YAMLParser.errorDescription",
+      "description": "Provides human\u2011readable error messages for YAML parsing failures such as invalid syntax, missing component type, structure errors, or file read issues.",
+      "source_line": null
+    },
+    {
+      "name": "YAMLValidator.schema(for:)",
+      "description": "Returns a ComponentSchema object that defines the expected structure for a given component type (e.g., Badge).",
+      "source_line": null
+    },
+    {
+      "name": "AccessibilityHelpers.gammaCorrect",
+      "description": "Applies gamma correction to a color component value to adjust luminance for accessibility calculations.",
+      "source_line": null
+    },
+    {
+      "name": "AccessibilityFocusPriority.rawValue",
+      "description": "Maps an AccessibilityFocusPriority enum case to its corresponding Double sort priority used by SwiftUI's accessibility system.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4407,
+    "line_count": 88
+  }
+}

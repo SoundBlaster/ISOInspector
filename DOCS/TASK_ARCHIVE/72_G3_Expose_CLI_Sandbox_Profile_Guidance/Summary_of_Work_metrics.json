@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/72_G3_Expose_CLI_Sandbox_Profile_Guidance/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide operators with a CLI sandbox automation guide that documents pairing isoinspector with signed sandbox profiles, FilesystemAccessKit bookmarks, and the --open/--authorize workflow for headless execution.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The guide must link to the CLI manual and program documentation so operators can discover sandbox automation requirements alongside existing command help.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The guide must include a minimal .sb allowlist that highlights existing App Sandbox entitlements and maps FilesystemAccessKit APIs (openFile, resolveBookmarkData) to CLI automation commands.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The guide must provide troubleshooting and verification checklists covering stale bookmark handling, sandbox profile signing, and the swift test --disable-sandbox regression run.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Sandbox automation flows must stay aligned with security expectations when future code changes occur.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a minimal .sb allowlist to expose only necessary App Sandbox entitlements for CLI sandbox automation.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Sandbox Automation Guide",
+      "description": "Documentation detailing how to pair isoinspector with signed sandbox profiles, FilesystemAccessKit bookmarks, and the --open/--authorize workflow for headless execution.",
+      "source_line": null
+    },
+    {
+      "name": "CLI Manual Integration",
+      "description": "Links the CLI manual and program documentation back to the new guide so operators can discover sandbox automation requirements alongside existing command help.",
+      "source_line": null
+    },
+    {
+      "name": "Minimal Sandbox Allowlist",
+      "description": "Provides a minimal .sb allowlist mapping App Sandbox entitlements and FilesystemAccessKit APIs (openFile, resolveBookmarkData) to CLI automation commands.",
+      "source_line": null
+    },
+    {
+      "name": "Stale Bookmark Handling Checklist",
+      "description": "Verification steps for handling stale bookmarks during sandbox profile signing and headless execution.",
+      "source_line": null
+    },
+    {
+      "name": "Sandbox Profile Signing Verification",
+      "description": "Checklist for verifying that sandbox profiles are correctly signed before use.",
+      "source_line": null
+    },
+    {
+      "name": "Swift Test Disable Sandbox Command",
+      "description": "Command 'swift test --disable-sandbox' used to run tests without the sandbox for verification purposes.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1999,
+    "line_count": 20
+  }
+}

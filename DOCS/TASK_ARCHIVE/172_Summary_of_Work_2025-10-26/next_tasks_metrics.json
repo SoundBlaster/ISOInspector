@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/172_Summary_of_Work_2025-10-26/next_tasks.md",
+  "n_spec": 5,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Implement traversal guard logic, fixtures, and telemetry as defined in the specified documentation.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Wire decoder failure issues into CLI/app summaries once aggregation APIs land.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Schedule macOS and iPadOS hardware verification to confirm focus command menus announce controls and restore focus targets for VoiceOver regression pass.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Secure Dolby Vision, AV1 etc fixtures so regression baselines can shift from synthetic payloads once approvals land.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Refresh snapshots and CLI fixtures whenever schema updates are intentional via ISOINSPECTER_REGENERATE_SNAPSHOT...",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Traversal Guard Implementation",
+      "description": "Implements guard logic, fixtures, and telemetry for traversal guard as per specified documentation.",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing \u2013 Surface Issues in Downstream Consumers",
+      "description": "Wires decoder failure issues into CLI/app summaries once aggregation APIs are available, tracking roadmap context.",
+      "source_line": null
+    },
+    {
+      "name": "VoiceOver Regression Pass for Accessibility Shortcuts",
+      "description": "Schedules macOS/iPadOS hardware verification to ensure focus command menus announce controls and restore focus targets.",
+      "source_line": null
+    },
+    {
+      "name": "Real-World Assets Acquisition",
+      "description": "Secures Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures for regression baselines after licensing approvals.",
+      "source_line": null
+    },
+    {
+      "name": "Snapshot & CLI Fixture Maintenance",
+      "description": "Refreshes snapshots and CLI fixtures when schema updates occur using specified test command.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1406,
+    "line_count": 13
+  }
+}

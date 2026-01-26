@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/77_C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks/C7_Connect_Bookmark_Diffs_to_Resolved_Bookmarks.md",
+  "n_spec": 6,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Reconcile CoreData session bookmark diff entities with persisted bookmark records so that the session store, recents list, and annotation features stay in sync after Task E3's persistence foundations.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Bookmark diff reconciliation updates or removes CoreData records without duplication or orphaned entries.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Automated tests cover add, update, and delete flows across CoreData and JSON-backed stores.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Session restoration continues to present the latest bookmark state in UI and CLI surfaces without regressions.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FilesystemAccessKit bookmark identifiers remain valid after reconciliation merges.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Review CoreDataAnnotationBookmarkStore and AnnotationBookmarkSession to confirm how diffs are generated and applied.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Bookmark Diff Reconciliation Engine",
+      "description": "Synchronizes CoreData bookmark diff entities with persisted bookmark records, handling additions, updates, and deletions without duplication or orphaned entries.",
+      "source_line": null
+    },
+    {
+      "name": "CoreData Annotation Bookmark Store Integration",
+      "description": "Provides the data layer for storing and retrieving annotation bookmarks in CoreData, used by the reconciliation engine.",
+      "source_line": null
+    },
+    {
+      "name": "Annotation Bookmark Session Manager",
+      "description": "Generates and applies bookmark diffs during a user session, interfacing with the CoreData store.",
+      "source_line": null
+    },
+    {
+      "name": "Filesystem Access Kit Identifier Validator",
+      "description": "Ensures that filesystem bookmark identifiers remain valid after reconciliation merges.",
+      "source_line": null
+    },
+    {
+      "name": "Automated Bookmark Diff Tests",
+      "description": "Unit tests covering add, update, and delete flows across CoreData and JSON-backed stores for bookmark diffs.",
+      "source_line": null
+    },
+    {
+      "name": "Session Restoration UI/CLI Sync",
+      "description": "Restores the latest bookmark state in both UI and CLI surfaces during session restoration.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1773,
+    "line_count": 35
+  }
+}

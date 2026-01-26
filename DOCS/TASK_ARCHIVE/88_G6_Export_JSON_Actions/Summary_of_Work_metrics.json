@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/88_G6_Export_JSON_Actions/Summary_of_Work.md",
+  "n_spec": 7,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide users with the ability to export the entire document or a selected portion as JSON via toolbar buttons, command menu items, and outline context menu options.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "When the user initiates a JSON export, the system must use FilesystemAccessKit to write the file with a contextual filename and display status alerts in the UI indicating success or failure.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Toolbar and context menu export controls should be enabled only when a selection is available, mirroring the availability of corresponding command menu items.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests must verify that exporter output matches expected JSON structure and that selection gating logic correctly enables or disables export actions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests should confirm that failure messages and diagnostics are shown when a selected node disappears or the save dialog fails, preventing silent regressions.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The DocumentSessionController must always orchestrate JSON exports through FilesystemAccessKit and propagate status alerts back to the UI.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "JSON export functionality is centralized in DocumentSessionController and shared across toolbar, command menu, and outline context menu via a common exporter pipeline.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Document-wide JSON Export",
+      "description": "Exports the entire document as a JSON file via toolbar, command menu, or outline context menu.",
+      "source_line": null
+    },
+    {
+      "name": "Selection-scoped JSON Export",
+      "description": "Exports only the currently selected portion of the document as a JSON file through UI controls.",
+      "source_line": null
+    },
+    {
+      "name": "Filesystem Access for Exports",
+      "description": "Handles writing exported JSON to disk using FilesystemAccessKit with contextual filenames.",
+      "source_line": null
+    },
+    {
+      "name": "Status Alert Display",
+      "description": "Shows status alerts in the UI after export operations, indicating success or failure.",
+      "source_line": null
+    },
+    {
+      "name": "Selection State Synchronization",
+      "description": "Keeps toolbar and context menu availability in sync with shared selection state.",
+      "source_line": null
+    },
+    {
+      "name": "Export Gating Logic",
+      "description": "Prevents exports when no valid selection is present, enforcing selection gating.",
+      "source_line": null
+    },
+    {
+      "name": "Error Handling for Missing Nodes",
+      "description": "Displays diagnostics when the selected node disappears during export.",
+      "source_line": null
+    },
+    {
+      "name": "Error Handling for Save Dialog Failures",
+      "description": "Shows error messages if the save dialog fails to complete.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1555,
+    "line_count": 20
+  }
+}

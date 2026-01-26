@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/24_C3_Highlight_Field_Subranges/07_Highlight_Field_Subranges.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement synchronized highlighting between parsed field annotations and the hex viewer so that selecting a metadata field focuses the corresponding byte range and vice versa.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Detail view metadata fields expose selectable annotations describing byte ranges for each structure component.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting a metadata field highlights the associated subrange inside the hex viewer and scrolls it into view when needed.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Clicking or dragging inside the hex viewer updates the active field selection and annotation state.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit/UI tests cover annotation-to-hex synchronization for at least one representative box (e.g., ftyp, mvhd).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Accessibility (VoiceOver) communicates highlighted ranges when focus changes between metadata and hex views.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a payload annotation provider capable of mapping parsed field descriptors to byte offsets within HexSlice windows.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wire annotation updates through ParseTreeDetailViewModel so SwiftUI views remain responsive as slices stream in.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Metadata Field Annotation Selection",
+      "description": "Allows users to select metadata fields in the detail view that expose byte range annotations for each structure component.",
+      "source_line": null
+    },
+    {
+      "name": "Hex Viewer Highlighting Sync",
+      "description": "Highlights the corresponding subrange inside the hex viewer when a metadata field is selected and scrolls it into view if necessary.",
+      "source_line": null
+    },
+    {
+      "name": "Hex Interaction Field Update",
+      "description": "Updates the active field selection and annotation state when users click or drag within the hex viewer.",
+      "source_line": null
+    },
+    {
+      "name": "Annotation Provider Mapping",
+      "description": "Provides mapping from parsed field descriptors to byte offsets within HexSlice windows for synchronization.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeDetailViewModel Integration",
+      "description": "Wires annotation updates through ParseTreeDetailViewModel so SwiftUI views remain responsive as slices stream in.",
+      "source_line": null
+    },
+    {
+      "name": "Accessibility VoiceOver Support",
+      "description": "Communicates highlighted ranges via VoiceOver when focus changes between metadata and hex views.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2410,
+    "line_count": 50
+  }
+}

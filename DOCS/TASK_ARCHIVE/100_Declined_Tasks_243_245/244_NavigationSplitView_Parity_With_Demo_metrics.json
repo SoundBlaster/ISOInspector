@@ -1,0 +1,108 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/100_Declined_Tasks_243_245/244_NavigationSplitView_Parity_With_Demo.md",
+  "n_spec": 11,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Refactor the app shell and parse tree experience so that the three-column NavigationSplitView matches the clean NavigationSplitViewKit demo layout, removing overlaid frames under the toolbar and ensuring a single split view with stable column order.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Single top-level NavigationSplitView owns sidebar/content/inspector (no nested split views inside the content column).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Columns are flush beneath the toolbar with no extra framing or vertical inset; match NavigationSplitViewKit demo proportions. ",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Box Tree (content column) cannot be hidden by inspector toggles; inspector visibility only affects the inspector column.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Selecting a box always switches inspector to Selection Details; integrity view does not stick after selection.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Toggle controls swap inspector content (details vs integrity) without altering column visibility or pushing other columns.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Keyboard shortcuts (\u2318\u2325I\u00a0and focus\u00a0shortcuts) still function with the flattened layout.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "macOS/iPad/iPhone adaptive behaviors remain stable (balanced style).",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The app must always use a single top-level NavigationSplitView; nested split views inside content column are prohibited.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Per-column padding that causes visual insets must be minimized or applied only within the view content.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Keep the single NavigationSplitView at the AppShell level and ensure content is plain\u00a0VStack\u00a0..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "NavigationSplitView Layout Refactor",
+      "description": "Replaces nested split views with a single top-level NavigationSplitView that owns sidebar, content, and inspector columns.",
+      "source_line": null
+    },
+    {
+      "name": "Sidebar Column",
+      "description": "Provides navigation or selection controls for the app shell.",
+      "source_line": null
+    },
+    {
+      "name": "Content Column (Box Tree)",
+      "description": "Displays the box tree view; remains visible regardless of inspector toggles.",
+      "source_line": null
+    },
+    {
+      "name": "Inspector Column",
+      "description": "Shows either Selection Details or Integrity Summary based on toggle state, without affecting column visibility.",
+      "source_line": null
+    },
+    {
+      "name": "Inspector Detail View",
+      "description": "Container for the inspector content, exclusive to details/integrity views.",
+      "source_line": null
+    },
+    {
+      "name": "Toggle Controls for Inspector Content",
+      "description": "Switches between Selection Details and Integrity view within the inspector column.",
+      "source_line": null
+    },
+    {
+      "name": "Keyboard Shortcut Handling (\u2318\u2325I, focus shortcuts)",
+      "description": "Maintains shortcut functionality in the flattened layout.",
+      "source_line": null
+    },
+    {
+      "name": "Adaptive Layout Behavior",
+      "description": "Ensures balanced style on macOS/iPad/iPhone with stable preview updates.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3219,
+    "line_count": 35
+  }
+}

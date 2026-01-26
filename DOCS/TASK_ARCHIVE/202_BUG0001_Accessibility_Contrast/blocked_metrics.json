@@ -1,0 +1,37 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/202_BUG0001_Accessibility_Contrast/blocked.md",
+  "n_spec": 5,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "Blocked tasks must not proceed until upstream dependencies are resolved.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Import licensed real\u2011world assets and refresh regression baselines so tolerant parsing and export scenarios can validate against real\u2011world payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG-H fixtures must be obtained before importing assets.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The log should be updated whenever blockers change to maintain day\u2011to\u2011day visibility.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Permanent blockers are stored under DOCS/TASK_ARCHIVE/BLOCKED to avoid duplicating retired work.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 646,
+    "line_count": 9
+  }
+}

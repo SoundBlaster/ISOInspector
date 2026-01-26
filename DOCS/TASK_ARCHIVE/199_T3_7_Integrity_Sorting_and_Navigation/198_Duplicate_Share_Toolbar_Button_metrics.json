@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation/198_Duplicate_Share_Toolbar_Button.md",
+  "n_spec": 8,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Eliminate the duplicate Share toolbar button in the macOS ISOInspector app so that a single Share control exposes the full export menu without redundant toolbar items.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "macOS build shows a single Share button providing all export options; automated tests confirm non-duplication.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The toolbar must not contain duplicate Share buttons on macOS.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a toolbar policy helper that disables the integrity view toolbar on macOS while preserving it for iOS environments.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Consolidate Share toolbar item definitions, ensuring menu content is composed in one location and reused.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The top-level AppShellView retains the consolidated export menu so macOS continues to expose full export functionality through a single Share button.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Refactor IntegritySummaryView to route toolbar construction through the policy helper so the menu is only emitted when both export handlers are provided.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Extend IntegritySummaryViewTests to cover the new toolbar policy, asserting that macOS disables the secondary toolbar and that the policy requires both export actions before surfacing the menu.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ToolbarPattern",
+      "description": "Defines toolbar groups and items for the ISOInspector macOS app",
+      "source_line": null
+    },
+    {
+      "name": "AppShellView Toolbar Share Button",
+      "description": "Global export/share menu exposed via a single Share button in the main window toolbar",
+      "source_line": null
+    },
+    {
+      "name": "IntegritySummaryView Toolbar Share Button",
+      "description": "Tab-specific Share button providing document-level exports, currently duplicated on macOS",
+      "source_line": null
+    },
+    {
+      "name": "ToolbarPolicyHelper",
+      "description": "Controls whether the IntegritySummaryView toolbar is emitted based on platform and availability of export handlers",
+      "source_line": null
+    },
+    {
+      "name": "ExportMenuBuilder",
+      "description": "Builds the menu items for export actions (JSON, report exports, etc.)",
+      "source_line": null
+    },
+    {
+      "name": "IntegritySummaryViewTests",
+      "description": "Unit tests validating toolbar policy behavior for macOS and iOS platforms",
+      "source_line": null
+    },
+    {
+      "name": "ToolbarPatternTests",
+      "description": "Unit tests covering toolbar item composition in FoundationUI",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 5404,
+    "line_count": 75
+  }
+}

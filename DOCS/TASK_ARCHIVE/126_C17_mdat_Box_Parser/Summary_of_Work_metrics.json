@@ -1,0 +1,42 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/126_C17_mdat_Box_Parser/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 6,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "mdat parser",
+      "description": "Parses mdat boxes in the streaming pipeline and records byte ranges without loading payload data",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry registration for mdat",
+      "description": "Registers a dedicated mdat parser that emits MediaDataBox details with header offsets and payload range metadata",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload extension",
+      "description": "Extends ParsedBoxPayload to include media_data detail",
+      "source_line": null
+    },
+    {
+      "name": "JSON exporter update",
+      "description": "Exports structured media_data detail in JSON format",
+      "source_line": null
+    },
+    {
+      "name": "CLI snapshot baseline refresh for mdat fixtures",
+      "description": "Refreshes CLI snapshot baselines for fixtures that include mdat boxes",
+      "source_line": null
+    },
+    {
+      "name": "Regression coverage for registry and pipeline",
+      "description": "Verifies registry and live pipeline report captured offsets while avoiding payload reads",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 805,
+    "line_count": 20
+  }
+}

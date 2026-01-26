@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/137_D3_traf_tfhd_tfdt_trun_Parsing/D3_traf_tfhd_tfdt_trun_Parsing.md",
+  "n_spec": 8,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement fragment run parsing for traf, tfhd, tfdt, and trun boxes to expose accurate sample timing, offsets, and flag-driven defaults in ISOInspector.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Register parsers for traf, tfhd, tfdt, and trun that emit typed models respecting flag-controlled optional fields and trex defaults.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Streaming events, JSON exports, and CLI rendering must include fragment run details: track IDs, base decode times, sample counts, sizes, durations, data offsets, and optional per-sample overrides.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation must cross-check trun payloads against trex defaults, rejecting inconsistent counts or zero-progress runs while handling errors gracefully.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and snapshot tests cover representative flag combinations (e.g., data-offset present, first-sample-flags overrides) and malformed boundary cases.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Fragment state must be maintained within the streaming pipeline so tfdt base decode times and trun sample timing feed aggregation logic shared by validation, export, and UI layers.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse FullBoxReader helpers for (version, flags) decoding and pipe defaults from existing trex models when optional fields are omitted.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Update JSON schemas, snapshots, and CLI fixtures to include fragment run payloads; refresh any impacted UI previews once streaming structs change.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "traf Box Parser",
+      "description": "Parses the 'traf' box to extract fragment run metadata such as track ID and associated child boxes.",
+      "source_line": null
+    },
+    {
+      "name": "tfhd Box Parser",
+      "description": "Parses the 'tfhd' box to read track fragment header information, including flags and default values for sample properties.",
+      "source_line": null
+    },
+    {
+      "name": "tfdt Box Parser",
+      "description": "Parses the 'tfdt' box to decode base decode time for each fragment run.",
+      "source_line": null
+    },
+    {
+      "name": "trun Box Parser",
+      "description": "Parses the 'trun' box to read sample count, data offset, duration, size, flags and per\u2011sample entries.",
+      "source_line": null
+    },
+    {
+      "name": "Fragment Run Validation",
+      "description": "Validates trun payloads against trex defaults, ensuring consistency and error handling for malformed runs.",
+      "source_line": null
+    },
+    {
+      "name": "Streaming State Management",
+      "description": "Maintains fragment state across the streaming pipeline to provide base decode times and sample timing information to downstream layers.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Extension",
+      "description": "Extends JSON schemas and exports to include fragment run details such as track ID..",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2808,
+    "line_count": 28
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/49_CLI_Global_Logging_and_Telemetry_Toggles/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide automated parse tree streaming tests for ParseTreeExplorerView on macOS",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Allow ParseTreeExplorerView to be initialized with preconstructed outline/detail view models for testing production state wiring",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeStreamingSelectionAutomationTests must assert that the outline and detail panes stay synchronized around the default selection during live updates",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI logging and telemetry toggles (--quiet/--verbose, enable/disable flags) must propagate into ISOInspectorCLIEnvironment and ISOInspectorCommandContext",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Global CLI logging and telemetry options must always be available across all command contexts",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a global CLI logging and telemetry toggle system that propagates options to environment and context objects",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeStreamingSelectionAutomationTests",
+      "description": "Automated tests that host ParseTreeExplorerView, stream parse events, and assert synchronization of outline/detail panes during live updates",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeExplorerView initializer with preconstructed view models",
+      "description": "Allows creation of ParseTreeExplorerView using existing outline and detail view models for testing production state wiring",
+      "source_line": null
+    },
+    {
+      "name": "Global CLI logging toggle (--quiet/--verbose)",
+      "description": "Command-line interface option to control verbosity of logs globally",
+      "source_line": null
+    },
+    {
+      "name": "Telemetry enable/disable flag",
+      "description": "CLI flag to turn telemetry on or off, propagated into ISOInspectorCLIEnvironment and ISOInspectorCommandContext",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1195,
+    "line_count": 17
+  }
+}

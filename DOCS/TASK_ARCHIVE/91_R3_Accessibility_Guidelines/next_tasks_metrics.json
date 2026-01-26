@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/91_R3_Accessibility_Guidelines/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Evaluate rotor categories for validation issues once new UX research defines expected groupings.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Capture phonetic spellings or abbreviations for frequently announced hex byte patterns if VoiceOver pronunciation causes confusion during manual QA.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Rotor Category Evaluation",
+      "description": "Evaluates rotor categories for validation issues based on new UX research groupings.",
+      "source_line": null
+    },
+    {
+      "name": "Phonetic Spelling Capture for Hex Patterns",
+      "description": "Captures phonetic spellings or abbreviations for frequently announced hex byte patterns to improve VoiceOver pronunciation during manual QA.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 304,
+    "line_count": 4
+  }
+}

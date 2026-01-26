@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/50_Combine_UI_Benchmark_macOS_Run.md",
+  "n_spec": 8,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Capture end-to-end latency, CPU, and memory metrics from the SwiftUI streaming bridge on real macOS hardware to confirm UI meets PRD latency budget and aligns with CLI benchmark baselines.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Run the Combine-gated benchmark on macOS (Xcode or xcodebuild test) and capture latency, CPU, and memory metrics for the streaming UI bridge.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Compare collected numbers against configured performance budgets and record findings in performance tracking log or raise follow-up issues if limits are exceeded.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update backlog/workplan entries with captured results so QA task can transition out of \"In Progress.\"",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The master PRD mandates streaming UI updates stay under the 200\u202fms latency ceiling while handling large MP4 inputs.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use a macOS runner with Combine SDK; ensure #if canImport(Combine) paths compile and execute.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Allocate sufficient disk space for temporary large-file fixtures created by LargeFileBenchmarkFixture, and clean them up after the run.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Keep CLI benchmark results available for parity comparison and document any configuration adjustments required by macOS environment.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Combine-Backed UI Benchmark Execution",
+      "description": "Run the Combine-gated benchmark on macOS using Xcode or xcodebuild test to capture latency, CPU, and memory metrics for the streaming UI bridge.",
+      "source_line": null
+    },
+    {
+      "name": "Latency Measurement Capture",
+      "description": "Measure end-to-end latency of SwiftUI streaming bridge updates during benchmark execution.",
+      "source_line": null
+    },
+    {
+      "name": "CPU Usage Monitoring",
+      "description": "Record CPU utilization metrics while running the Combine-Backed UI Benchmark on macOS.",
+      "source_line": null
+    },
+    {
+      "name": "Memory Consumption Tracking",
+      "description": "Track memory usage metrics for the streaming UI bridge during benchmark runs.",
+      "source_line": null
+    },
+    {
+      "name": "Performance Budget Comparison",
+      "description": "Compare collected latency, CPU, and memory numbers against configured performance budgets and log findings or raise issues if limits are exceeded.",
+      "source_line": null
+    },
+    {
+      "name": "Result Logging",
+      "description": "Record benchmark results in the performance tracking log.",
+      "source_line": null
+    },
+    {
+      "name": "Backlog Update",
+      "description": "Update backlog/workplan entries with captured results to transition QA task out of \"In Progress.\"",
+      "source_line": null
+    },
+    {
+      "name": "Large File Fixture Management",
+      "description": "Allocate disk space for temporary large-file fixtures created by LargeFileBenchmarkFixture and clean them up after the run.",
+      "source_line": null
+    },
+    {
+      "name": "Combine SDK Compatibility Check",
+      "description": "Ensure #if canImport(Combine) paths compile and execute on macOS runner with Combine SDK.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2594,
+    "line_count": 53
+  }
+}

@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/231_SwiftUI_Publishing_Changes_Warning_Fix/233_SwiftUI_Publishing_Changes_Warning_Fix.md",
+  "n_spec": 9,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a SwiftUI view model that updates displayed issues based on sort order and severity filter without causing runtime warnings.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The view model must not publish changes to @Published properties during an active SwiftUI view update cycle.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Updates to displayedIssues should be deferred asynchronously using Task with @MainActor and await Task.yield().",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Any pending update tasks must be cancellable to avoid stale updates.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests interacting with the view model must be async and await waitForPendingUpdates() after property changes.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The updateDisplayedIssues method should only modify displayedIssues after the current run loop iteration completes.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Use Swift Concurrency Task { @MainActor } instead of GCD DispatchQueue.main.async for scheduling derived state updates.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce a private updateTask property to track and cancel pending tasks.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Add waitForPendingUpdates() helper for test support that awaits any pending task and yields once more.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "IntegritySummaryViewModel",
+      "description": "Manages and publishes issue data for the Integrity Summary view, including sorting and filtering logic.",
+      "source_line": null
+    },
+    {
+      "name": "scheduleUpdate()",
+      "description": "Defers updates to displayedIssues using Swift Concurrency to avoid publishing during view updates.",
+      "source_line": null
+    },
+    {
+      "name": "waitForPendingUpdates()",
+      "description": "Test helper that waits for any pending async updates in the view model.",
+      "source_line": null
+    },
+    {
+      "name": "IntegritySummaryView",
+      "description": "SwiftUI view displaying a list of issues, allowing users to change sort order and severity filters.",
+      "source_line": null
+    },
+    {
+      "name": "SortOrder enum",
+      "description": "Defines sorting criteria (e.g., severity, offset) used by IntegritySummaryViewModel.",
+      "source_line": null
+    },
+    {
+      "name": "SeverityFilter set",
+      "description": "Set of ParseIssue.Severity values that filter which issues are shown.",
+      "source_line": null
+    },
+    {
+      "name": "updateDisplayedIssues()",
+      "description": "Internal method that applies current sort and filter settings to compute displayedIssues.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 11117,
+    "line_count": 381
+  }
+}

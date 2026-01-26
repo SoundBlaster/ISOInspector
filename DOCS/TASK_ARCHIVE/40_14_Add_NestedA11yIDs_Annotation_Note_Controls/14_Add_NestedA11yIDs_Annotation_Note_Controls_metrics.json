@@ -1,0 +1,58 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/40_14_Add_NestedA11yIDs_Annotation_Note_Controls/14_Add_NestedA11yIDs_Annotation_Note_Controls.md",
+  "n_spec": 5,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add NestedA11yIDs identifiers to the annotation note edit, save, cancel, and delete controls so QA automation can target them deterministically across platforms.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Annotation note toolbar buttons expose stable `.nestedAccessibilityIdentifier` values for edit, save, cancel, and delete actions.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Identifier constants live alongside existing NestedA11yIDs definitions (e.g., in a dedicated `AnnotationAccessibilityID` namespace) with unit coverage similar to other accessibility identifier tests.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation in `Docs/Guides/NestedA11yIDsIntegration.md` lists the new identifiers for QA reference if additional usage notes are required.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Identifier naming follows the no-dot-per-segment rule and mirrors automation semantics (e.g., `annotationNotes.list.row.edit`).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Annotation Note Edit Button",
+      "description": "UI button that allows users to edit an annotation note",
+      "source_line": null
+    },
+    {
+      "name": "Annotation Note Save Button",
+      "description": "UI button that saves changes made to an annotation note",
+      "source_line": null
+    },
+    {
+      "name": "Annotation\u00a0Note\u00a0Cancel\u00a0Button",
+      "description": "UI button that cancels edits on an annotation note",
+      "source_line": null
+    },
+    {
+      "name": "Annotation\u00a0..\u2026",
+      "description": "Weird\u00a0...",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2119,
+    "line_count": 34
+  }
+}

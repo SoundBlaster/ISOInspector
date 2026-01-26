@@ -1,0 +1,48 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/152_F6_Export_Schema_Verification_Harness/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 3,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "JSON exports must include compatibility alias fields (name, header_size, size) and a top-level format summary for downstream tooling validation.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "All snapshot tests in JSONExportSnapshotTests must assert alias parity and correct format summary values against the baseline fixture.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "JSONExportCompatibilityCLITests must replay archived Bento4 parse data through a stub pipeline to verify CLI exporter byte alignment with compatibility aliases and format summary expectations.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Future schema adjustments must regenerate snapshot fixtures using ISOINSPECTOR_REGENERATE_SNAPSHOTS=1 swift test --filter JSONExportSnapshotTests and refresh CLI baselines if new Bento4 assets are introduced.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Export Schema Verification Harness",
+      "description": "Provides a compatibility alias fields and top-level format summary in JSON exports for schema stability validation against Bento4/ffprobe baselines.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Snapshot Tests",
+      "description": "Tests that assert alias parity and format summary values, regenerating snapshots to capture extended schema changes.",
+      "source_line": null
+    },
+    {
+      "name": "JSON Export Compatibility CLI Tests",
+      "description": "Replays archived Bento4 parse data through a stub pipeline to verify the CLI exporter remains byte-aligned with compatibility aliases and format summary expectations.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1556,
+    "line_count": 12
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "The benchmark harness requires macOS-only Combine frameworks and Xcode tooling.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "XCTest UI + SwiftUI accessibility permissions are unavailable in the container.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Secure macOS hardware or CI capacity capable of running both the Combine benchmark and the SwiftUI automation suite.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Once hardware access is confirmed, execute the pending scenarios, archive the resulting metrics or xcresult bundles, and update the relevant task archives and backlog entries.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1020,
+    "line_count": 22
+  }
+}

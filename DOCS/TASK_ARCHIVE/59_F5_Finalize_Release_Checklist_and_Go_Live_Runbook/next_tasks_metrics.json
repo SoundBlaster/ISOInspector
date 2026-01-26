@@ -1,0 +1,73 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/59_F5_Finalize_Release_Checklist_and_Go_Live_Runbook/next_tasks.md",
+  "n_spec": 8,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Execute ParseTreeStreamingSelectionAutomationTests on macOS hardware and attach logs to the release QA archive.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "ParseTreeStreamingSelectionAutomationTests must be executed on macOS hardware and logs attached to the release QA archive.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The task is blocked until a macOS UI runner becomes available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Run LargeFileBenchmarkTests.testAppEventBridgeDeliversUpdatesWithinLatencyBudget on macOS with Combine available and record latency, CPU, and memory metrics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "LargeFileBenchmarkTests.testAppEventBridgeDeliversUpdatesWithinLatencyBudget must be run on macOS with Combine available and latency, CPU, and memory metrics recorded.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The task is blocked until a macOS runner becomes available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Evaluate hosted DocC publishing so release artifacts remain discoverable beyond GitHub Releases.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Automate checksum generation and upload for CLI and notarized app artifacts in the release pipeline.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ParseTreeStreamingSelectionAutomationTests Execution",
+      "description": "Execute the ParseTreeStreamingSelectionAutomationTests suite on macOS hardware and attach logs to the release QA archive.",
+      "source_line": null
+    },
+    {
+      "name": "LargeFileBenchmarkTest Execution",
+      "description": "Run LargeFileBenchmarkTests.testAppEventBridgeDeliversUpdatesWithinLatencyBudget on macOS with Combine, recording latency, CPU, and memory metrics.",
+      "source_line": null
+    },
+    {
+      "name": "DocC Publishing Evaluation",
+      "description": "Evaluate hosting DocC publishing so that release artifacts remain discoverable beyond GitHub Releases.",
+      "source_line": null
+    },
+    {
+      "name": "Checksum Generation Automation",
+      "description": "Automate generation of checksums and upload for CLI and notarized app artifacts in the release pipeline.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 863,
+    "line_count": 11
+  }
+}

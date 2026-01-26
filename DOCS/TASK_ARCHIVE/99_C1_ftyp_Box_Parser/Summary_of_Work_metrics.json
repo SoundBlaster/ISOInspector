@@ -1,0 +1,53 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/99_C1_ftyp_Box_Parser/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 4,
+  "intent_atoms": [
+    {
+      "type": "invariant",
+      "description": "ParsedBoxPayload must always include structured fileType detail containing major_brand, minor_version, and ordered compatible_brands list when parsing ftyp box.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "BoxParserRegistry implementation updated to populate structured payload while maintaining byte-range aware field extraction for UI annotations and exports.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "JSON parse tree exporter should persist the new structured payload in snapshot outputs so CLI exports, fixtures, and downstream consumers can surface parsed metadata.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and integration tests must verify that structured payload propagates through registry, live pipeline, and deterministic JSON exporter.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "ftyp box parser",
+      "description": "Parses the ftyp box of media files and extracts structured metadata such as major_brand, minor_version, and compatible_brands while preserving byte-range annotations for UI and export purposes.",
+      "source_line": null
+    },
+    {
+      "name": "ParsedBoxPayload enhancement",
+      "description": "Extends ParsedBoxPayload to include a structured fileType detail that carries decoded brand information for downstream consumers.",
+      "source_line": null
+    },
+    {
+      "name": "BoxParserRegistry update",
+      "description": "Populates the structured ftyp payload during parsing, maintaining field extraction for annotations and exports.",
+      "source_line": null
+    },
+    {
+      "name": "JSON parse tree exporter extension",
+      "description": "Exports the structured ftyp payload in snapshot outputs so CLI exports, fixtures, and downstream consumers can access parsed metadata.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1337,
+    "line_count": 22
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/28_B6_JSON_and_Binary_Export_Modules/28_B6_JSON_and_Binary_Export_Modules.md",
+  "n_spec": 12,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a public API in ISOInspectorKit that produces a deterministic JSON document containing each box\u2019s fourcc, offsets, sizes, metadata, validation issues, and children.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Implement a binary capture writer/reader pair that records the same event stream for lossless re-import without depending on JSON parsing performance.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The exported JSON document must be deterministic and include each box\u2019s fourcc, offsets, sizes, metadata, validation issues, and children.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The binary capture writer/reader pair must allow lossless round\u2011trip of the event stream back into the tool.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Regression tests export representative fixture parses and reload them to verify structural parity with live pipeline results.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "CLI can invoke the exporters in smoke tests without regressions, preparing the path for D3 export-json/export-report commands.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The JSON output must always be deterministic across runs given the same input parse tree.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Binary capture format must preserve all ParseEvent data required for re\u2011import.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse ParseTreeStore.Builder or a dedicated reducer to accumulate ParseEvent streams into a tree/snapshot model reusable by exporters.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Define Codable models that mirror ParseTreeNode and BoxDescriptor so exported JSON preserves catalog metadata and validation issues.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Store binary captures using a compact container (length\u2011prefixed ParseEvent records encoded with JSONEncoder or BinaryEncoder) and document the format for later tooling.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Expose convenience helpers so the CLI can request export output using an existing ParsePipeline without duplicating parsing logic.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Public API for deterministic JSON export",
+      "description": "Produces a JSON document containing each MP4 box\u2019s fourcc, offsets, sizes, metadata, validation issues, and children.",
+      "source_line": null
+    },
+    {
+      "name": "Binary capture writer/reader pair",
+      "description": "Records the same event stream in a compact binary format for lossless re-import without relying on JSON parsing performance.",
+      "source_line": null
+    },
+    {
+      "name": "CLI export command integration",
+      "description": "Allows the CLI to invoke exporters (e.g., export-json, export-report) during smoke tests and future commands.",
+      "source_line": null
+    },
+    {
+      "name": "ParseEvent stream reducer",
+      "description": "Accumulates ParseEvent streams into a tree/snapshot model reusable by exporters.",
+      "source_line": null
+    },
+    {
+      "name": "Codable models for export",
+      "description": "Defines Codable structures mirroring ParseTreeNode and BoxDescriptor to preserve catalog metadata and validation issues in JSON.",
+      "source_line": null
+    },
+    {
+      "name": "Regression test suite for exports",
+      "description": "Exports representative fixture parses, then reloads them to verify structural parity with live pipeline results.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2724,
+    "line_count": 50
+  }
+}

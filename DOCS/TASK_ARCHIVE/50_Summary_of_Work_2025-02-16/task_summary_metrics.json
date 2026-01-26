@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/50_Summary_of_Work_2025-02-16/task_summary.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "ParseTreeStore Error Handling",
+      "description": "Handles parse tree storage failures by including localized and descriptive error messages for UI exposure.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeStreamingSelectionAutomationTests Deduplication",
+      "description": "Deduplicates detail emissions during streaming UI updates to prevent over-fulfilling test expectations.",
+      "source_line": null
+    },
+    {
+      "name": "DocumentSessionController Main-Thread Shortcuts",
+      "description": "Provides main-thread shortcuts in document session control, awaiting parse completion to avoid race conditions with recents bookkeeping.",
+      "source_line": null
+    },
+    {
+      "name": "Outline View Model Collapse State Persistence",
+      "description": "Respects manual collapse state across rebuilds and aligns accessibility severity strings with formatter expectations.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 700,
+    "line_count": 10
+  }
+}

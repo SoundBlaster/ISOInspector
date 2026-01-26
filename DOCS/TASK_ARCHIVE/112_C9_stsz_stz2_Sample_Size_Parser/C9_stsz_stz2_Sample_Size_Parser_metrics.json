@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/112_C9_stsz_stz2_Sample_Size_Parser/C9_stsz_stz2_Sample_Size_Parser.md",
+  "n_spec": 10,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement dedicated parsers for the stsz and stz2 sample size tables so ISOInspector surfaces per-sample byte lengths alongside summary statistics in both CLI and SwiftUI clients.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parsing handles both stsz (constant sample size plus per-sample overrides) and stz2 (field size encoded entries) according to ISO/IEC 14496-12, populating model structs consumed by CLI/UI layers.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Sample counts emitted by stsz/stz2 align with stsc entries and drive validation that flags mismatches during export, CLI summaries, and UI detail panes.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests cover large constant-size tables, variable-size overrides, and 4/8/16-bit packed stz2 entries, including malformed fixture cases that trigger validation warnings.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Snapshot/JSON export baselines reflect decoded sample size arrays and continue to pass.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parsing must follow ISO/IEC 14496-12 specifications for stsz and stz2 tables.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse the shared FullBoxReader and buffer abstractions established in prior parser work to read headers and iteratively decode entry payloads.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend the stsc-backed detail model so it can correlate sample size arrays with chunk maps; add guardrails that surface inconsistencies to validation routines.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Ensure parsers register within BoxParserRegistry, wiring outputs to SwiftUI detail sections and CLI summaries that currently stub sample size data.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate with the forthcoming C10 (stco/co64) parser to guarantee combined validation over sample counts, sizes, and chunk offsets for each track.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "stsz Parser",
+      "description": "Parses the stsz sample size table, handling constant sizes and per-sample overrides, producing an array of byte lengths for each sample.",
+      "source_line": null
+    },
+    {
+      "name": "stz2 Parser",
+      "description": "Parses the stz2 sample size table with packed 4/8/16-bit entries, decoding variable-length field sizes into per-sample byte lengths.",
+      "source_line": null
+    },
+    {
+      "name": "Sample Size Summary Generator",
+      "description": "Generates CLI and SwiftUI summaries of total sample count, average size, min/max sizes, and other statistics from parsed stsz/stz2 data.",
+      "source_line": null
+    },
+    {
+      "name": "Cross-Table Validation Engine",
+      "description": "Validates that the number of samples reported by stsz/stz2 matches the counts in the stsc table and flags mismatches during export, CLI summaries, and UI detail panes.",
+      "source_line": null
+    },
+    {
+      "name": "Box Parser Registry Integration",
+      "description": "Registers stsz and stz2 parsers within the BoxParserRegistry so they are invoked automatically when encountering these boxes.",
+      "source_line": null
+    },
+    {
+      "name": "Model Correlation with stsc Detail Model",
+      "description": "Extends the stsc-backed detail model to correlate sample size arrays with chunk maps, enabling combined validation with future stco/co64 parsers.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2454,
+    "line_count": 35
+  }
+}

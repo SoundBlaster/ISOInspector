@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/141_Summary_of_Work_2025-10-21_Sample_Encryption/E1_Enforce_Parent_Containment_and_Non_Overlap.md",
+  "n_spec": 9,
+  "n_func": 5,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Ensure that every parsed child box remains fully within its parent\u2019s byte range and that the parser never emits overlapping container spans.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Validation pipeline detects when a child box\u2019s declared end exceeds its parent\u2019s boundary or when cumulative child spans surpass the parent\u2019s payload.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Parser gracefully records and reports non-overlap violations without crashing, enabling CLI and UI consumers to surface errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit and integration tests cover overlapping/overflowing child scenarios across representative fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The parser must never emit overlapping container spans.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Audit existing BoxValidator and streaming parser metrics to confirm available offset metadata for parent/child comparisons.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Introduce containment accounting that tracks active parent ranges and flags violations as .error issues when children overrun or overlap siblings.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend fixture set or synthesize targeted samples (e.g., truncated child boxes) to exercise new detection paths and assert emitted validation issues.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Wire validation outputs into CLI/UI surfaces, ensuring regression suites assert both messaging and continued parse stability after errors.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Parent Containment Validation",
+      "description": "Detects when a child box's declared end exceeds its parent's byte range and flags an error.",
+      "source_line": null
+    },
+    {
+      "name": "Non-Overlap Detection",
+      "description": "Ensures that cumulative child spans do not overlap within the same parent container, reporting violations as errors.",
+      "source_line": null
+    },
+    {
+      "name": "Parser Error Reporting",
+      "description": "Gracefully records and reports validation errors without crashing, allowing CLI/UI consumers to surface them.",
+      "source_line": null
+    },
+    {
+      "name": "Validation Output Integration",
+      "description": "Wires validation results into CLI and UI surfaces for user visibility.",
+      "source_line": null
+    },
+    {
+      "name": "Test Coverage for Overlap/Overflow Scenarios",
+      "description": "Unit and integration tests that exercise overlapping or overflowing child box scenarios across representative fixtures.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2255,
+    "line_count": 27
+  }
+}

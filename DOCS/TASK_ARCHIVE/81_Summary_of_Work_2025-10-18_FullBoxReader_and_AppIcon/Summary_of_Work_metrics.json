@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/81_Summary_of_Work_2025-10-18_FullBoxReader_and_AppIcon/Summary_of_Work.md",
+  "n_spec": 14,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement a FullBoxReader utility to centralize decoding of (version, flags) for ISO full boxes and refactor existing parsers to use it.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FullBoxReader must validate that at least four payload bytes are available before decoding.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FullBoxReader exposes a contentRange so callers can continue parsing box-specific fields.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Existing parsing helpers (readUInt32, readUInt64, etc.) remain in place and FullBoxReader composes them via RandomAccessReader to stay testable.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Downstream call sites rely on contentStart rather than recomputing payloadRange.lowerBound + 4.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "FullBoxReader must always propagate success, truncation, and error scenarios correctly as tested by FullBoxReaderTests.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "FullBoxReader is a helper that centralizes (version, flags) decoding for ISO full boxes.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Automate PNG generation for every AppIcon idiom/scale via generate_app_icon.py script.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "The generator renders a 1024\u00d71024 master icon using the brand palette defined in ISOInspectorBrandPalette.production and resizes it for each required slot.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Generated assets live in Sources/ISOInspectorApp/Resources/Assets.xcassets/AppIcon.appiconset after running the script.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "PNG outputs are .gitignore'd and should be regenerated locally before packaging builds.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "The Python workflow depends on Pillow to render gradients and icon geometry.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "AppIconAssetTests enforce that each manifest entry tracks the generator's filename convention.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Release automation must invoke generate_app_icon.py so notarized builds include regenerated PNGs.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FullBoxReader Utility",
+      "description": "Centralizes decoding of ISO full box (version, flags) and provides content range for downstream parsers.",
+      "source_line": null
+    },
+    {
+      "name": "App Icon Rasterization Script",
+      "description": "Automates PNG generation for all AppIcon idioms/scale using a master icon and brand palette, updating manifest filenames.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2502,
+    "line_count": 48
+  }
+}

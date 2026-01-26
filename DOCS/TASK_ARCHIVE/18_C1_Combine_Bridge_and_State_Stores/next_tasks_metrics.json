@@ -1,0 +1,33 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/18_C1_Combine_Bridge_and_State_Stores/next_tasks.md",
+  "n_spec": 2,
+  "n_func": 2,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Kick off C2 \u2013 Tree view rendering using the new ParseTreeStore snapshots (outline UI, search, filters).",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Draft C3 detail/hex stores that subscribe to the Combine bridge for payload slices and metadata panels.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Tree View Rendering",
+      "description": "Render a tree view UI using ParseTreeStore snapshots, including outline display, search functionality, and filters.",
+      "source_line": null
+    },
+    {
+      "name": "Detail/Hex Stores Subscription",
+      "description": "Create detail and hex data stores that subscribe to the Combine bridge for payload slices and provide metadata panels.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 246,
+    "line_count": 4
+  }
+}

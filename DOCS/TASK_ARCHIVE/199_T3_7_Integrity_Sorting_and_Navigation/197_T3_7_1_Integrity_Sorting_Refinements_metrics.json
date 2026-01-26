@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/199_T3_7_Integrity_Sorting_and_Navigation/197_T3_7_1_Integrity_Sorting_Refinements.md",
+  "n_spec": 8,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement deterministic multi-field sorting for offset-based and affected-node-based orderings in the Integrity summary table to ensure CLI/export parity across large fixture sets.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Offset-based sorting uses primary sort by byteRange.lowerBound, secondary tie-breaker by severity rank (Error > Warning > Info), tertiary tie-breaker by issue code or stable identifier to ensure deterministic ordering even when multiple issues share the same byte offset.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Affected node sorting uses primary sort by affected node depth or path, secondary sort by node ID numeric order, tertiary tie-breaker by severity rank to maintain consistent ordering when multiple issues affect the same node.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Unit tests assert deterministic sort order when issues have matching primary keys (e.g., three issues at the same offset with different severities produce a stable, repeatable order).",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "UI verification confirms that switching sort modes in the Integrity tab produces consistent, repeatable orderings across app relaunch and fixture reload scenarios.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Documentation updates the IntegritySummaryViewModel implementation comments to reflect the multi-field sort strategy and rationale for each tie-breaker.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Sorting must match CLI/export ordering for consistency across all ISOInspector surfaces.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Multi-field sort logic is implemented in IntegritySummaryViewModel.swift, replacing single-field comparisons with deterministic tie-breaking based on severity rank and issue code or node depth.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Integrity Summary ViewModel Sorting",
+      "description": "Provides deterministic multi-field sorting for integrity issues by offset and affected node, ensuring consistent ordering across UI, CLI, and exports.",
+      "source_line": null
+    },
+    {
+      "name": "Offset-Based Issue Sorting Logic",
+      "description": "Implements primary sort on byte range lower bound, secondary severity rank, tertiary issue code to order issues sharing the same offset.",
+      "source_line": null
+    },
+    {
+      "name": "Affected-Node-Based Issue Sorting Logic",
+      "description": "Orders issues by affected node ID (or depth), then severity rank and byte offset to resolve ties when multiple issues affect the same node.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for Deterministic Ordering",
+      "description": "Suite of tests asserting stable sort order for edge cases such as identical offsets, severities, or missing data.",
+      "source_line": null
+    },
+    {
+      "name": "UI Verification of Sort Stability",
+      "description": "Ensures that switching sort modes in the Integrity tab yields repeatable orderings across app relaunches and fixture reloads.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Updates for Sorting Strategy",
+      "description": "Comments and task documentation describing the multi-field sort approach and rationale for each tie-breaker.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 8952,
+    "line_count": 160
+  }
+}

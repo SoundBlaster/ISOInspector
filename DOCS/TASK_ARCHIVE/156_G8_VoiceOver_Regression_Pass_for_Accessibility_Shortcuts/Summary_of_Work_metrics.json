@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/156_G8_VoiceOver_Regression_Pass_for_Accessibility_Shortcuts/Summary_of_Work.md",
+  "n_spec": 4,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Run the VoiceOver regression pass on macOS 14+ and iPadOS 17+ hardware to capture announcements for each Focus shortcut",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "VoiceOver regression pass must be executed on physical devices running macOS 14+ and iPadOS 17+ and all Focus shortcuts\u2019 announcements captured and archived under Task G8",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Any VoiceOver QA notes or screenshots must be attached to DOCS/TASK_ARCHIVE/155_G8_Accessibility_and_Keyboard_Shortcuts/ after physical testing is complete",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Automated regression coverage must remain green when running swift test in the container environment",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 944,
+    "line_count": 15
+  }
+}

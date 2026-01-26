@@ -1,0 +1,93 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/212_FoundationUI_Phase_0_Integration_Setup/212_I0_1_Add_FoundationUI_Dependency.md",
+  "n_spec": 7,
+  "n_func": 9,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Add FoundationUI as a Swift Package dependency to ISOInspectorApp and verify successful builds with the new target, establishing foundation for UI component migration.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FoundationUI added as dependency in Package.swift under ISOInspectorApp target.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Package resolves successfully: swift package resolve completes without errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Clean build succeeds: swift build completes for all platforms.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Test build succeeds: swift test compiles without errors.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Platform requirements validated: macOS 13+, iOS/iPadOS 16+, no conflicts with existing dependencies.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "FoundationUI imports work in app targets (import FoundationUI compiles).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "FoundationUI Dependency Management",
+      "description": "Adds FoundationUI as a Swift Package dependency to ISOInspectorApp and ensures all targets can import it.",
+      "source_line": null
+    },
+    {
+      "name": "Package Resolution Verification",
+      "description": "Runs swift package resolve to fetch and validate the FoundationUI package without errors.",
+      "source_line": null
+    },
+    {
+      "name": "Build Verification Across Platforms",
+      "description": "Compiles ISOInspectorApp for macOS, iOS, and iPadOS using swift build, ensuring no build failures.",
+      "source_line": null
+    },
+    {
+      "name": "Test Build Verification",
+      "description": "Compiles test targets with swift test, confirming that tests compile successfully.",
+      "source_line": null
+    },
+    {
+      "name": "Import Verification Test",
+      "description": "Creates a minimal test file to import FoundationUI and access basic components like DS.Badge.",
+      "source_line": null
+    },
+    {
+      "name": "Platform Requirements Validation",
+      "description": "Checks that the app meets minimum macOS 13+ and iOS/iPadOS 16+ requirements and updates if needed.",
+      "source_line": null
+    },
+    {
+      "name": "CI/CD Pipeline Integration",
+      "description": "Ensures the CI/CD pipeline passes with the new FoundationUI dependency added.",
+      "source_line": null
+    },
+    {
+      "name": "SwiftLint Compliance Check",
+      "description": "Runs swiftlint to verify no lint violations are introduced by adding the dependency.",
+      "source_line": null
+    },
+    {
+      "name": "Documentation Updates",
+      "description": "Updates README, changelog and developer onboarding docs to reflect the foundation UI integration.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 6624,
+    "line_count": 182
+  }
+}

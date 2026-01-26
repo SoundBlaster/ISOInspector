@@ -1,0 +1,22 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/168_Summary_of_Work_2025-10-24/Summary_of_Work.md",
+  "n_spec": 2,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "architectural_decision",
+      "description": "Decoder now returns Result<BoxHeader, BoxHeaderDecodingError> values instead of throwing errors; all call sites/tests consume the non-throwing API.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Propagate decoder failures into tolerant parsing issue reporting and allow traversal to continue (T1.5).",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 732,
+    "line_count": 14
+  }
+}

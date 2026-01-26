@@ -1,0 +1,17 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/64_A5_Random_Slice_Benchmarking/next_tasks.md",
+  "n_spec": 1,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Execute the random slice benchmarking harness on macOS hardware with Combine available to compare results against the Linux baselines captured here.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 169,
+    "line_count": 3
+  }
+}

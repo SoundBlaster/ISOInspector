@@ -1,0 +1,42 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/58_F4_User_Manual/Summary_of_Work.md",
+  "n_spec": 6,
+  "n_func": 0,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Publish ISOInspector app manual with onboarding, navigation, and persistence guidance for the SwiftUI shell.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Author CLI manual covering global options plus inspect, validate, export, and batch commands with troubleshooting tips.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Execution trackers updated to mark F4 complete and reference new manuals.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Markdown files validated using python3 scripts/fix_markdown.py and npx markdownlint-cli2 on specified directories.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Capture platform-specific screenshots to accompany the manuals when assets become available.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Document diagnostics-driven persistence troubleshooting once logging pipeline surfaces signals.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [],
+  "metadata": {
+    "file_size_bytes": 1228,
+    "line_count": 37
+  }
+}

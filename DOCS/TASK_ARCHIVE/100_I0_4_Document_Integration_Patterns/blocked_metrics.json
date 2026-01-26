@@ -1,0 +1,103 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/100_I0_4_Document_Integration_Patterns/blocked.md",
+  "n_spec": 12,
+  "n_func": 6,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Import licensed real\u2011world assets and refresh regression baselines so tolerant parsing and export scenarios can validate against real\u2011world payloads.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Licensing approvals for Dolby Vision, AV1, VP9, Dolby AC-4, and MPEG\u2011H fixtures must be obtained before importing assets.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Execute the macOS 1\u202fGiB lenient\u2011vs\u2011strict benchmark and archive runtime and RSS metrics under Documentation/Performance/.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "macOS hardware with the 1\u202fGiB performance fixture must be available in the automation environment before running the benchmark.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Publish performance baselines for FoundationUI Phase\u00a05.2 in PERFORMANCE.md after manual profiling with Xcode Instruments on macOS developer machine.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Render times measured by Time Profiler must be less than 100\u202fms, allocations must be under 5\u202fMB, and Core Animation must verify 60\u202fFPS on device for the manual performance profiling task.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Publish performance baselines after completing manual performance benchmarks across iOS\u00a017, macOS\u00a014, and iPadOS\u00a017.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Build time must be under 10s for a clean build, binary size under 500\u202fKB, memory footprint under 5\u202fMB per screen, 60\u202fFPS during interactions, and BoxTreePattern with 1000+ nodes must perform within acceptable limits.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Compile cross\u2011platform test results and create a cross\u2011platform report after manual testing on iOS, macOS, and iPadOS devices and simulators.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tests must cover specified device models, window sizes, orientations, dark mode, RTL languages, and multiple locales/regions before compiling the report.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Achieve final accessibility sign\u2011off after manual VoiceOver, keyboard navigation, dynamic type, reduce motion, contrast, and bold text testing on real devices.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Manual accessibility testing must confirm 98% score from automated tests and cover all listed edge cases before sign\u2011off.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Import Licensed Assets",
+      "description": "Import licensed media assets and refresh regression baselines for tolerant parsing and export validation",
+      "source_line": null
+    },
+    {
+      "name": "Archive Benchmark Metrics",
+      "description": "Execute macOS benchmark, collect runtime and RSS metrics, and archive them in Documentation/Performance/",
+      "source_line": null
+    },
+    {
+      "name": "Publish Performance Baselines",
+      "description": "Publish performance baseline data to PERFORMANCE.md after profiling with Xcode Instruments",
+      "source_line": null
+    },
+    {
+      "name": "CI Integration with Performance Gates",
+      "description": "Integrate performance benchmarks into CI pipeline with gates for build time, binary size, memory footprint, FPS, and node count",
+      "source_line": null
+    },
+    {
+      "name": "Compile Cross-Platform Test Report",
+      "description": "Compile results from cross-platform device and simulator testing into a comprehensive report",
+      "source_line": null
+    },
+    {
+      "name": "Final Accessibility Sign-Off",
+      "description": "Complete manual accessibility testing and sign off on accessibility compliance",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 4618,
+    "line_count": 77
+  }
+}

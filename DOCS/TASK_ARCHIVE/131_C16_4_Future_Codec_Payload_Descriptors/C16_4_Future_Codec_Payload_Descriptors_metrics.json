@@ -1,0 +1,88 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/131_C16_4_Future_Codec_Payload_Descriptors/C16_4_Future_Codec_Payload_Descriptors.md",
+  "n_spec": 8,
+  "n_func": 7,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide typed parsers and export coverage for upcoming codec payload descriptors (Dolby Vision dvvC, AV1 av1C, VP9 vpcC, Dolby AC-4 dac4, MPEG-H mhaC) so ISOInspector can surface complete metadata as new fixtures land.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Catalog fixtures and decoding references for each targeted payload descriptor, confirming licensing coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Implement typed CodecPayload models and registry wiring for all targeted descriptors with graceful fallback for unknown variants.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Extend unit tests and JSON snapshot baselines to include the new payload fields without regressing existing coverage.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Update CLI/UI documentation snippets to showcase the additional codec metadata fields once fixtures validate.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Feature flags or guarded registry entries must prevent incomplete payloads from shipping without fixtures.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Reuse existing bit reader utilities for packed-field decoding and ensure colour metadata maps onto existing enums.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Coordinate fixture acquisition updates through scripts/generate_fixtures.py to record checksums and licenses alongside new samples.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "Typed CodecPayload Models",
+      "description": "Defines strongly\u2011typed data structures for each codec payload descriptor (dvvC, av1C, vpcC, dac4, mhaC) and registers them in the system.",
+      "source_line": null
+    },
+    {
+      "name": "Codec Payload Registry Wiring",
+      "description": "Registers codec payload parsers with a central registry, including graceful fallback handling for unknown or incomplete variants.",
+      "source_line": null
+    },
+    {
+      "name": "Fixture Cataloging and Validation",
+      "description": "Catalogs test fixtures and decoding references for each targeted payload descriptor, verifying licensing coverage and checksum integrity.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Test Extension and Snapshot Updates",
+      "description": "Extends existing unit tests to cover new codec metadata fields and updates JSON snapshot baselines without regressing current coverage.",
+      "source_line": null
+    },
+    {
+      "name": "CLI/UI Documentation Snippets Update",
+      "description": "Updates command\u2011line interface and user\u2011interface documentation to display the additional codec metadata fields once fixtures are validated.",
+      "source_line": null
+    },
+    {
+      "name": "Feature Flag / Guarded Registry Implementation",
+      "description": "Introduces feature flags or guarded registry entries so incomplete payloads do not ship without corresponding fixtures.",
+      "source_line": null
+    },
+    {
+      "name": "Bit Reader Utility Reuse",
+      "description": "Reuses existing bit reader utilities for decoding packed fields (e.g., AV1 operating point flags) and maps colour metadata onto existing enums.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 2304,
+    "line_count": 28
+  }
+}

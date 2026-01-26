@@ -1,0 +1,32 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/03_B2_Plus_Streaming_Interface_Evaluation/Summary_of_Work.md",
+  "n_spec": 0,
+  "n_func": 4,
+  "intent_atoms": [],
+  "functional_units": [
+    {
+      "name": "Async Streaming Interface for ParsePipeline",
+      "description": "Provides an asynchronous event stream of parsing events via AsyncThrowingStream, exposing structured box lifecycle metadata to consumers.",
+      "source_line": null
+    },
+    {
+      "name": "ParseEvent Type",
+      "description": "Represents individual parsing events emitted by the ParsePipeline, encapsulating event data and metadata.",
+      "source_line": null
+    },
+    {
+      "name": "Sendable Conformance for BoxHeader and FourCharCode",
+      "description": "Ensures that these primitive types can be safely used across actors in the async pipeline.",
+      "source_line": null
+    },
+    {
+      "name": "Unit Tests for Ordered Event Delivery and Error Propagation",
+      "description": "Validates correct ordering of events and proper error handling in the ParsePipeline stream interface.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1589,
+    "line_count": 22
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/173_T1_8_Traversal_Guard_Implementation/Summary_of_Work.md",
+  "n_spec": 9,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Implement traversal guard thresholds in ParsePipeline.Options to control parsing behavior.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Enforce traversal guards in StreamingBoxWalker and emit scoped ParseIssue diagnostics for each guard.",
+      "source_line": null
+    },
+    {
+      "type": "user_story",
+      "description": "Mark affected nodes as .partial when guard issues occur, keeping parse-tree snapshots aligned with corruption reports.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Traversal guard thresholds must include maxTraversalDepth, maxStalledIterationsPerFrame, maxZeroLengthBoxesPerParent, and maxIssuesPerFrame.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "StreamingBoxWalker must enforce forward-progress, zero-length flood, recursion depth, cursor regression, and per-node issue budget.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Guard issues should emit scoped ParseIssue diagnostics.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Tolerant mode should skip corrupt structures without regressing strict behavior.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "Parsing results must remain consistent with the updated ParseTreeBuilder partial marking.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Extend ParsePipeline.Options and re\u2011use\u00a0the\u00a0..",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "StreamingBoxWalker Traversal Guard Enforcement",
+      "description": "Enforces forward-progress, zero-length flood prevention, recursion depth limits, cursor regression checks, and per-node issue budgets during streaming box traversal.",
+      "source_line": null
+    },
+    {
+      "name": "ParsePipeline Options Extension for Traversal Guards",
+      "description": "Provides configuration options (maxTraversalDepth, maxStalledIterationsPerFrame, maxZeroLengthBoxesPerParent, maxIssuesPerFrame) to control guard thresholds and preset modes.",
+      "source_line": null
+    },
+    {
+      "name": "Scoped ParseIssue Diagnostics Emission",
+      "description": "Generates scoped ParseIssue diagnostics for each traversal guard violation during parsing.",
+      "source_line": null
+    },
+    {
+      "name": "ParseTreeBuilder Partial Node Marking",
+      "description": "Automatically marks affected nodes as .partial when guard issues occur, keeping parse-tree snapshots aligned with corruption reports.",
+      "source_line": null
+    },
+    {
+      "name": "Tolerant Parsing Mode Behavior",
+      "description": "Skips corrupt structures in tolerant mode while preserving strict behavior for non-tolerant parsing.",
+      "source_line": null
+    },
+    {
+      "name": "Zero-Length Flood Handling Tests",
+      "description": "Regression tests validating correct handling of zero-length box floods during traversal.",
+      "source_line": null
+    },
+    {
+      "name": "Recursion Depth Cap Tests",
+      "description": "Regression tests ensuring recursion depth limits are respected.",
+      "source_line": null
+    },
+    {
+      "name": "Traversal Guard Option Defaults Tests",
+      "description": "Regression tests verifying default values for guard options.",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 1423,
+    "line_count": 18
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "file_path": "SPECS/SIB/INTENT/TASK_ARCHIVE/161_R7_CLI_Distribution_Strategy/R7_CLI_Distribution_Strategy.md",
+  "n_spec": 6,
+  "n_func": 8,
+  "intent_atoms": [
+    {
+      "type": "user_story",
+      "description": "Provide a signed distribution plan for the isoinspect CLI that aligns with app release cadence and includes notarized macOS binaries, Homebrew-style tap publication, and Linux artifact delivery.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Decision record must outline macOS notarized ZIP/DMG, Homebrew tap, and Linux packaging recommendations with signing implications.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Updated release checklist tasks and automation hooks necessary to ship CLI artifacts alongside app releases, including storage locations and checksum policies.",
+      "source_line": null
+    },
+    {
+      "type": "acceptance_criteria",
+      "description": "Risk assessment for each distribution channel (licensing, tooling prerequisites, update cadence) with mitigation steps and owner hand-offs captured in the research output.",
+      "source_line": null
+    },
+    {
+      "type": "invariant",
+      "description": "CLI build and notarization steps must be audited and recorded to determine reuse or adjustments for standalone distribution.",
+      "source_line": null
+    },
+    {
+      "type": "architectural_decision",
+      "description": "Define artifact naming, storage layout, and checksum publication rules so QA and release engineering can confirm binary provenance during go/no-go reviews.",
+      "source_line": null
+    }
+  ],
+  "functional_units": [
+    {
+      "name": "CLI Build Automation",
+      "description": "Automates building the ISOInspectorCLI product using swift build in release configuration",
+      "source_line": null
+    },
+    {
+      "name": "Notarization Script",
+      "description": "Runs scripts/notarize_app.sh to notarize macOS CLI binaries and packages",
+      "source_line": null
+    },
+    {
+      "name": "Artifact Packaging",
+      "description": "Creates signed ZIP or DMG distributions for macOS CLI",
+      "source_line": null
+    },
+    {
+      "name": "Homebrew Tap Publication",
+      "description": "Publishes a Homebrew formula for the macOS CLI into a tap repository",
+      "source_line": null
+    },
+    {
+      "name": "Linux Packaging Pipeline",
+      "description": "Builds and packages the CLI for Linux, supporting static/dynamic builds and package manager releases",
+      "source_line": null
+    },
+    {
+      "name": "Checksum Generation",
+      "description": "Generates checksums for all released artifacts to verify integrity",
+      "source_line": null
+    },
+    {
+      "name": "Release Checklist Integration",
+      "description": "Adds tasks and automation hooks to the release checklist for CLI artifact shipping",
+      "source_line": null
+    },
+    {
+      "name": "Distribution Decision Record",
+      "description": "Documents recommended distribution channels, signing, and packaging choices",
+      "source_line": null
+    }
+  ],
+  "metadata": {
+    "file_size_bytes": 3584,
+    "line_count": 31
+  }
+}
