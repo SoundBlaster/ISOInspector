@@ -208,13 +208,18 @@
                         pipeline: resources.pipeline, reader: resources.reader,
                         context: resources.context)
 
+                    // Set file URL for annotations
+                    annotations.setFileURL(url)
+
+                    // Create bookmark for security-scoped access
+                    let bookmarkData = bookmarkDataProvider(scopedURL)
                     let recent = DocumentRecent(
-                        url: url, bookmarkIdentifier: nil, bookmarkData: nil,
+                        url: url, bookmarkIdentifier: nil, bookmarkData: bookmarkData,
                         displayName: url.lastPathComponent, lastOpened: Date())
                     currentDocument = recent
 
-                    // Register with app controller's recent documents
-                    appSessionController.openRecent(recent)
+                    // Register with app controller's recent documents (without re-opening)
+                    appSessionController.registerRecent(recent)
                 }
             } catch {
                 await MainActor.run {

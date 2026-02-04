@@ -132,8 +132,13 @@ public enum BoxHeaderDecoder {
 
         let payloadRange = cursor..<endOffset
         return BoxHeader(
-            type: type, totalSize: totalSize, headerSize: headerSize, payloadRange: payloadRange,
-            range: offset..<endOffset, uuid: uuid)
+            type: type,
+            totalSize: totalSize,
+            headerSize: headerSize,
+            payloadRange: payloadRange,
+            range: offset..<endOffset,
+            uuid: uuid
+        )
     }
 
     private static func uuidFrom(bytes: Data) -> UUID {

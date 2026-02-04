@@ -149,13 +149,20 @@ public struct StreamingBoxWalker: Sendable {
             }
 
             let startEvent = ParseEvent(
-                kind: .willStartBox(header: header, depth: depth), offset: header.startOffset)
+                kind: .willStartBox(header: header, depth: depth),
+                offset: header.startOffset
+            )
             onEvent(startEvent)
 
             stack.append(
                 Frame(
-                    header: header, range: payloadRange, cursor: initialCursor, depth: depth,
-                    shouldParseChildren: shouldParseChildren))
+                    header: header,
+                    range: payloadRange,
+                    cursor: initialCursor,
+                    depth: depth,
+                    shouldParseChildren: shouldParseChildren
+                )
+            )
         }
     }
 }
