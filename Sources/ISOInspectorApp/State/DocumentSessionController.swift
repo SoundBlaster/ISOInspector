@@ -47,6 +47,7 @@
 
         private var annotationsSelectionCancellable: AnyCancellable?
         private var issueMetricsCancellable: AnyCancellable?
+        private var recentsChangeCancellable: AnyCancellable?
         private var latestSelectionNodeID: Int64?
 
         // MARK: - Passthrough Properties
@@ -109,7 +110,8 @@
             setupCoordinatorCallbacks()
             setupObservers(
                 resolvedAnnotations: dependencies.annotations,
-                resolvedParseTreeStore: dependencies.parseTreeStore)
+                resolvedParseTreeStore: dependencies.parseTreeStore,
+                resolvedRecentsService: dependencies.recentsService)
             applyValidationConfigurationFilter()
             restoreSessionIfNeeded()
         }
@@ -130,7 +132,8 @@
         }
 
         private func setupObservers(
-            resolvedAnnotations: AnnotationBookmarkSession, resolvedParseTreeStore: ParseTreeStore
+            resolvedAnnotations: AnnotationBookmarkSession, resolvedParseTreeStore: ParseTreeStore,
+            resolvedRecentsService: RecentsService
         ) {
             latestSelectionNodeID = resolvedAnnotations.currentSelectedNodeID
             annotationsSelectionCancellable = resolvedAnnotations.$currentSelectedNodeID.dropFirst()
@@ -146,6 +149,10 @@
             issueMetricsCancellable = resolvedParseTreeStore.$issueMetrics.receive(
                 on: DispatchQueue.main
             ).sink { [weak self] metrics in self?.issueMetrics = metrics }
+
+            recentsChangeCancellable = resolvedRecentsService.objectWillChange.sink { [weak self] _ in
+                self?.objectWillChange.send()
+            }
         }
 
         private func restoreSessionIfNeeded() {
@@ -181,6 +188,11 @@
             documentOpeningCoordinator.openDocument(
                 recent: recent, restoredSelection: nil, preResolvedScope: nil, failureRecent: recent
             )
+        }
+
+        func registerRecent(_ recent: DocumentRecent) {
+            recentsService.insertRecent(recent)
+            persistSession()
         }
 
         func removeRecent(at offsets: IndexSet) {

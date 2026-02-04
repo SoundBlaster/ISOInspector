@@ -775,6 +775,36 @@
                 [first.url.standardizedFileURL])
         }
 
+        func testRemovingRecentTriggersObjectWillChange() throws {
+            let first = sampleRecent(index: 1)
+            let second = sampleRecent(index: 2)
+            let recentsStore = DocumentRecentsStoreStub(initialRecents: [first, second])
+            let controller = makeController(store: recentsStore)
+
+            var changeCount = 0
+            var cancellables: Set<AnyCancellable> = []
+            controller.objectWillChange.sink { _ in changeCount += 1 }.store(in: &cancellables)
+
+            controller.removeRecent(second)
+
+            XCTAssertEqual(changeCount, 1, "objectWillChange should fire when recent is removed")
+            XCTAssertEqual(controller.recents.count, 1)
+        }
+
+        func testRegisterRecentAddsToListAndPersists() throws {
+            let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
+            let sessionStore = WorkspaceSessionStoreStub()
+            let controller = makeController(store: recentsStore, sessionStore: sessionStore)
+
+            let recent = sampleRecent(index: 1)
+            controller.registerRecent(recent)
+
+            XCTAssertEqual(controller.recents.count, 1)
+            XCTAssertEqual(controller.recents.first?.url, recent.url)
+            XCTAssertEqual(recentsStore.savedRecents?.count, 1)
+            XCTAssertEqual(sessionStore.savedSnapshots.count, 1)
+        }
+
         private func makeController(
             store: DocumentRecentsStoring, sessionStore: WorkspaceSessionStoring? = nil,
             annotationsStore: AnnotationBookmarkStoring? = nil, pipeline: ParsePipeline? = nil,

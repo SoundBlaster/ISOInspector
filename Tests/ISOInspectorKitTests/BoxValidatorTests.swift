@@ -470,8 +470,10 @@ final class BoxValidatorTests: XCTestCase {
             BoxParserRegistry.shared.parse(header: header, reader: reader))
 
         let event = ParseEvent(
-            kind: .willStartBox(header: header, depth: 0), offset: header.startOffset,
-            payload: payloadDetail)
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            payload: payloadDetail
+        )
 
         let validator = BoxValidator()
         let annotated = validator.annotate(event: event, reader: reader)
@@ -490,8 +492,13 @@ final class BoxValidatorTests: XCTestCase {
         let payloadRange = (offset + headerSize)..<(offset + headerSize + Int64(payloadSize))
         let range = offset..<(offset + totalSize)
         return BoxHeader(
-            type: fourCC, totalSize: totalSize, headerSize: headerSize, payloadRange: payloadRange,
-            range: range, uuid: nil)
+            type: fourCC,
+            totalSize: totalSize,
+            headerSize: headerSize,
+            payloadRange: payloadRange,
+            range: range,
+            uuid: nil
+        )
     }
 
     private func makeMfhdEvent(sequenceNumber: UInt32, offset: Int64) throws -> ParseEvent {
@@ -514,10 +521,17 @@ final class BoxValidatorTests: XCTestCase {
             ],
             detail: .movieFragmentHeader(
                 ParsedBoxPayload.MovieFragmentHeaderBox(
-                    version: 0, flags: 0, sequenceNumber: sequenceNumber)))
+                    version: 0,
+                    flags: 0,
+                    sequenceNumber: sequenceNumber
+                )
+            )
+        )
         return ParseEvent(
-            kind: .willStartBox(header: header, depth: 0), offset: header.startOffset,
-            payload: payload)
+            kind: .willStartBox(header: header, depth: 0),
+            offset: header.startOffset,
+            payload: payload
+        )
     }
 
     private func makeHeader(type: String, totalSize: Int64, headerSize: Int64, offset: Int64) throws
@@ -527,8 +541,13 @@ final class BoxValidatorTests: XCTestCase {
         let payloadRange = (offset + headerSize)..<(offset + totalSize)
         let range = offset..<(offset + totalSize)
         return BoxHeader(
-            type: fourCC, totalSize: totalSize, headerSize: headerSize, payloadRange: payloadRange,
-            range: range, uuid: nil)
+            type: fourCC,
+            totalSize: totalSize,
+            headerSize: headerSize,
+            payloadRange: payloadRange,
+            range: range,
+            uuid: nil
+        )
     }
 
     private func makeDescriptor(for header: BoxHeader, version: Int?, flags: UInt32?)
@@ -536,8 +555,14 @@ final class BoxValidatorTests: XCTestCase {
     {
         let identifier = BoxDescriptor.Identifier(type: header.type, extendedType: nil)
         return BoxDescriptor(
-            identifier: identifier, name: "Test", summary: "Test descriptor", category: nil,
-            specification: nil, version: version, flags: flags)
+            identifier: identifier,
+            name: "Test",
+            summary: "Test descriptor",
+            category: nil,
+            specification: nil,
+            version: version,
+            flags: flags
+        )
     }
 
     private func makeStsdBox(entries: [Data]) -> Data {
