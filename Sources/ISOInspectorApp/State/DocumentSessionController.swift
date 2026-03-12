@@ -48,6 +48,7 @@
         private var annotationsSelectionCancellable: AnyCancellable?
         private var issueMetricsCancellable: AnyCancellable?
         private var recentsChangeCancellable: AnyCancellable?
+        private var mirroredWindowSessionCancellables: Set<AnyCancellable> = []
         private var latestSelectionNodeID: Int64?
 
         // MARK: - Passthrough Properties
@@ -195,6 +196,25 @@
             persistSession()
         }
 
+        func synchronizeOpenedWindowSession(
+            recent: DocumentRecent, parseTreeStore sourceParseTreeStore: ParseTreeStore,
+            annotations sourceAnnotations: AnnotationBookmarkSession
+        ) {
+            loadFailure = nil
+            recentsService.setLastFailedRecent(nil)
+            validationConfigurationService.updateActiveValidationConfiguration(for: recent)
+            applyValidationConfigurationFilter()
+            bindMirroredWindowSession(
+                parseTreeStore: sourceParseTreeStore, annotations: sourceAnnotations)
+
+            currentDocument = recent
+            recentsService.insertRecent(recent)
+            annotations.setFileURL(sourceAnnotations.currentFileURL ?? recent.url)
+            mirrorWindowParseState(from: sourceParseTreeStore)
+            documentViewModel.nodeViewModel.select(nodeID: sourceAnnotations.currentSelectedNodeID)
+            persistSession()
+        }
+
         func removeRecent(at offsets: IndexSet) {
             if recentsService.removeRecent(at: offsets) { persistSession() }
         }
@@ -267,6 +287,51 @@
                 latestSelectionNodeID: latestSelectionNodeID,
                 sessionValidationConfigurations:
                     validationConfigurationService.sessionConfigurationsForPersistence())
+        }
+
+        private func bindMirroredWindowSession(
+            parseTreeStore sourceParseTreeStore: ParseTreeStore,
+            annotations sourceAnnotations: AnnotationBookmarkSession
+        ) {
+            mirroredWindowSessionCancellables.removeAll()
+
+            sourceParseTreeStore.$snapshot.sink { [weak self, weak sourceParseTreeStore] _ in
+                guard let self, let sourceParseTreeStore else { return }
+                self.mirrorWindowParseState(from: sourceParseTreeStore)
+            }.store(in: &mirroredWindowSessionCancellables)
+
+            sourceParseTreeStore.$state.sink { [weak self, weak sourceParseTreeStore] _ in
+                guard let self, let sourceParseTreeStore else { return }
+                self.mirrorWindowParseState(from: sourceParseTreeStore)
+            }.store(in: &mirroredWindowSessionCancellables)
+
+            sourceParseTreeStore.$fileURL.sink { [weak self, weak sourceParseTreeStore] _ in
+                guard let self, let sourceParseTreeStore else { return }
+                self.mirrorWindowParseState(from: sourceParseTreeStore)
+            }.store(in: &mirroredWindowSessionCancellables)
+
+            sourceParseTreeStore.issueStore.$issues.receive(on: DispatchQueue.main).sink {
+                [weak self, weak sourceParseTreeStore] _ in
+                guard let self, let sourceParseTreeStore else { return }
+                self.mirrorWindowParseState(from: sourceParseTreeStore)
+            }.store(in: &mirroredWindowSessionCancellables)
+
+            sourceAnnotations.$currentFileURL.dropFirst().sink { [weak self] fileURL in
+                self?.annotations.setFileURL(fileURL)
+            }.store(in: &mirroredWindowSessionCancellables)
+
+            sourceAnnotations.$currentSelectedNodeID.dropFirst().sink { [weak self] nodeID in
+                guard let self else { return }
+                self.documentViewModel.nodeViewModel.select(nodeID: nodeID)
+                self.persistSession()
+            }.store(in: &mirroredWindowSessionCancellables)
+        }
+
+        private func mirrorWindowParseState(from sourceParseTreeStore: ParseTreeStore) {
+            parseTreeStore.replaceContents(
+                snapshot: sourceParseTreeStore.snapshot, state: sourceParseTreeStore.state,
+                fileURL: sourceParseTreeStore.fileURL,
+                issues: sourceParseTreeStore.issueStore.issuesSnapshot())
         }
 
         private func applyValidationConfigurationFilter() {

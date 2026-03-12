@@ -805,6 +805,39 @@
             XCTAssertEqual(sessionStore.savedSnapshots.count, 1)
         }
 
+        func testSynchronizeOpenedWindowSessionMirrorsWindowStateForSharedCommands() throws {
+            let recentsStore = DocumentRecentsStoreStub(initialRecents: [])
+            let sessionStore = WorkspaceSessionStoreStub()
+            let controller = makeController(store: recentsStore, sessionStore: sessionStore)
+            let windowParseTreeStore = ParseTreeStore()
+            let windowAnnotations = AnnotationBookmarkSession(store: nil)
+            let recent = sampleRecent(index: 1)
+
+            controller.synchronizeOpenedWindowSession(
+                recent: recent, parseTreeStore: windowParseTreeStore,
+                annotations: windowAnnotations)
+
+            XCTAssertEqual(
+                controller.currentDocument?.url.standardizedFileURL, recent.url.standardizedFileURL)
+            XCTAssertEqual(
+                controller.recents.first?.url.standardizedFileURL, recent.url.standardizedFileURL)
+            XCTAssertFalse(controller.documentViewModel.exportAvailability.canExportDocument)
+
+            let node = makeNode(identifier: 16, type: "moov")
+            let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [])
+            windowParseTreeStore.replaceContents(
+                snapshot: snapshot, state: .finished, fileURL: recent.url, issues: [])
+            windowAnnotations.setSelectedNode(node.id)
+
+            XCTAssertEqual(controller.documentViewModel.snapshot, snapshot)
+            XCTAssertTrue(controller.documentViewModel.exportAvailability.canExportDocument)
+            XCTAssertEqual(controller.documentViewModel.nodeViewModel.selectedNodeID, node.id)
+            XCTAssertEqual(
+                sessionStore.savedSnapshots.last?.focusedFileURL?.standardizedFileURL,
+                recent.url.standardizedFileURL)
+            XCTAssertEqual(sessionStore.savedSnapshots.last?.files.first?.lastSelectionNodeID, node.id)
+        }
+
         private func makeController(
             store: DocumentRecentsStoring, sessionStore: WorkspaceSessionStoring? = nil,
             annotationsStore: AnnotationBookmarkStoring? = nil, pipeline: ParsePipeline? = nil,

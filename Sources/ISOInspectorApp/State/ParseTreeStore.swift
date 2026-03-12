@@ -67,6 +67,19 @@
             issueMetrics = issueStore.metricsSnapshot()
         }
 
+        func replaceContents(
+            snapshot: ParseTreeSnapshot, state: ParseTreeStoreState, fileURL: URL?,
+            issues: [ParseIssue]
+        ) {
+            disconnect()
+            builder = Self.makeBuilder(issueStore: issueStore)
+            issueStore.replaceAll(with: issues)
+            self.fileURL = fileURL?.standardizedFileURL
+            self.snapshot = Self.makeFilteredSnapshot(from: snapshot, filter: issueFilter)
+            self.state = state
+            self.issueMetrics = issueStore.metricsSnapshot()
+        }
+
         private func disconnect() { resources.stop() }
 
         private static func makeBuilder(issueStore: ParseIssueStore) -> Builder {
