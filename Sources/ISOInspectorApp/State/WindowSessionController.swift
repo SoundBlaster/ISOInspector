@@ -218,8 +218,9 @@
                         displayName: url.lastPathComponent, lastOpened: Date())
                     currentDocument = recent
 
-                    // Register with app controller's recent documents (without re-opening)
-                    appSessionController.registerRecent(recent)
+                    // Mirror the active window into the shared session without re-opening it.
+                    appSessionController.synchronizeOpenedWindowSession(
+                        recent: recent, parseTreeStore: parseTreeStore, annotations: annotations)
                 }
             } catch {
                 await MainActor.run {
