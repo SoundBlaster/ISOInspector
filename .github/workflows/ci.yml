@@ -35,7 +35,7 @@ on:
 jobs:
   markdown-validation:
     # Temporarily disable Markdown linting until the rules are re-enabled.
-    if: ${{ false }}
+    if: ${{ github.ref == 'refs/heads/__disabled_markdown_validation__' }}
     name: Markdown Validation
     runs-on: ubuntu-22.04
     steps:
