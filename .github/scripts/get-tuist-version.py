@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import os
+from pathlib import Path
 import sys
 import urllib.error
 import urllib.request
@@ -26,6 +27,14 @@ max_pages = 10
 version = None
 page = 1
 last_payload = None
+
+repo_root = Path(__file__).resolve().parents[2]
+version_file = repo_root / ".tuist-version"
+if version_file.exists():
+    pinned_version = version_file.read_text(encoding="utf-8").strip()
+    if pinned_version:
+        version = pinned_version
+
 while page <= max_pages and not version:
     url = f"https://api.github.com/repos/tuist/tuist/releases?per_page={per_page}&page={page}"
     request = urllib.request.Request(url, headers=headers)

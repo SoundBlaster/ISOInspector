@@ -9,10 +9,12 @@ on:
       - 'Sources/**'
       - 'Tests/**'
       - 'scripts/**'
+      - '.github/scripts/get-tuist-version.py'
       - 'Package.swift'
       - 'Package.resolved'
       - 'Project.swift'
       - 'Workspace.swift'
+      - '.tuist-version'
       - 'ISOInspector.xcodeproj/**'
       - 'ISOInspector.xcworkspace/**'
       - '.github/workflows/*.yml'
@@ -23,10 +25,12 @@ on:
       - 'Sources/**'
       - 'Tests/**'
       - 'scripts/**'
+      - '.github/scripts/get-tuist-version.py'
       - 'Package.swift'
       - 'Package.resolved'
       - 'Project.swift'
       - 'Workspace.swift'
+      - '.tuist-version'
       - 'ISOInspector.xcodeproj/**'
       - 'ISOInspector.xcworkspace/**'
       - '.github/workflows/*.yml'
@@ -38,6 +42,16 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Select Xcode 16.2
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: "16.2"
+
+      - name: Show Xcode and Swift versions
+        run: |
+          xcodebuild -version
+          swift --version
 
       - name: Determine Tuist CLI release
         id: tuist-version
@@ -80,14 +94,6 @@ jobs:
 
       - name: Show Tuist version
         run: tuist version
-
-      - name: Select Xcode 16.2
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: "16.2"
-
-      - name: Show Xcode version
-        run: xcodebuild -version
 
       - name: Validate Tuist project definition
         run: tuist dump project > /dev/null
