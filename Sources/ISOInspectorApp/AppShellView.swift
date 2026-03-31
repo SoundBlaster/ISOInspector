@@ -160,7 +160,11 @@
                     if shouldShowCorruptionRibbon {
                         CorruptionWarningRibbon(
                             metrics: windowController.issueMetrics,
-                            onTap: windowController.focusIntegrityDiagnostics,
+                            onTap: {
+                                if !showInspector { toggleInspectorVisibility() }
+                                windowController.focusIntegrityDiagnostics()
+                                dismissCorruptionRibbon()
+                            },
                             onDismiss: dismissCorruptionRibbon
                         ).padding(.horizontal).transition(
                             .move(edge: .top).combined(with: .opacity))
