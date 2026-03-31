@@ -58,14 +58,14 @@
             }
 
             sessionFileIDs = Dictionary(
-                uniqueKeysWithValues: sortedFiles.map { file in
+                sortedFiles.map { file in
                     (canonicalIdentifier(for: file.recent.url), file.id)
-                })
+                }, uniquingKeysWith: { first, _ in first })
 
             sessionBookmarkDiffs = Dictionary(
-                uniqueKeysWithValues: sortedFiles.map { file in
+                sortedFiles.map { file in
                     (canonicalIdentifier(for: file.recent.url), file.bookmarkDiffs)
-                })
+                }, uniquingKeysWith: { first, _ in first })
 
             pendingSessionSnapshot = snapshot
         }
