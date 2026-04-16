@@ -51,7 +51,10 @@ jobs:
         run: swift package resolve
 
       - name: Run tests with coverage
-        run: swift test --enable-code-coverage
+        # Skip ISOInspectorPerformanceTests — those are timing-sensitive
+        # benchmarks that are flaky on shared CI runners and are covered by
+        # the dedicated performance-regression.yml workflow.
+        run: swift test --enable-code-coverage --skip ISOInspectorPerformanceTests
 
       - name: Compute per-module coverage and enforce thresholds
         id: coverage
