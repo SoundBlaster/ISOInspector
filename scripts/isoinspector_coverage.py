@@ -124,11 +124,20 @@ def render_markdown(agg: dict[str, dict[str, int]], thresholds: dict[str, float]
     passed = True
     for mod in MODULES:
         b = agg[mod]
+        thr = thresholds.get(mod)
         if b["lines"] == 0:
+            if thr is None:
+                # Module not configured and not found — nothing to report.
+                continue
+            # Module has a threshold but no coverage rows — treat as a failure,
+            # since the gate cannot verify the configured threshold.
+            passed = False
+            lines.append(
+                f"| `{mod}` | 0 | 0 | 0 | **n/a** | {thr:.1f}% | ❌ (no coverage data) |"
+            )
             continue
         covered = b["lines"] - b["missed"]
         line_pct = pct(covered, b["lines"])
-        thr = thresholds.get(mod)
         ok = thr is None or line_pct + 1e-9 >= thr
         passed = passed and ok
         status = "✅" if ok else "❌"
@@ -189,9 +198,10 @@ def main() -> int:
                     "covered_lines": b["lines"] - b["missed"],
                     "line_percent": pct(b["lines"] - b["missed"], b["lines"]),
                     "threshold": thresholds.get(mod),
+                    "missing_from_report": b["lines"] == 0,
                 }
                 for mod, b in agg.items()
-                if b["lines"] > 0
+                if b["lines"] > 0 or mod in thresholds
             },
             "passed": passed,
         }
