@@ -35,12 +35,11 @@
         ) {
             issueStore.reset()
             issueMetrics = issueStore.metricsSnapshot()
-            resources.reader = reader
             fileURL = context.source?.standardizedFileURL
             var enrichedContext = context
             if enrichedContext.issueStore == nil { enrichedContext.issueStore = issueStore }
             let stream = pipeline.events(for: reader, context: enrichedContext)
-            startConsuming(stream)
+            startConsuming(stream, reader: reader)
         }
 
         public func setValidationIssueFilter(_ filter: ((ValidationIssue) -> Bool)?) {
@@ -108,8 +107,9 @@
             }.store(in: &cancellables)
         }
 
-        private func startConsuming(_ stream: ParsePipeline.EventStream) {
+        private func startConsuming(_ stream: ParsePipeline.EventStream, reader: RandomAccessReader) {
             disconnect()
+            resources.reader = reader
             builder = Self.makeBuilder(issueStore: issueStore)
             snapshot = .empty
             state = .parsing
