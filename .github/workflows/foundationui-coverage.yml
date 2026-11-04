@@ -30,8 +30,8 @@ concurrency:
   cancel-in-progress: true
 
 env:
-  FOUNDATIONUI_MACOS_COVERAGE_THRESHOLD: '71'
-  FOUNDATIONUI_IOS_COVERAGE_THRESHOLD: '71'
+  FOUNDATIONUI_MACOS_COVERAGE_THRESHOLD: '82'
+  FOUNDATIONUI_IOS_COVERAGE_THRESHOLD: '82'
 
 jobs:
   # SPM-based coverage (Linux-compatible unit tests only)
@@ -202,6 +202,8 @@ jobs:
           bash scripts/convert_coverage_to_cobertura.sh \
             -xcresult ./TestResults-macOS.xcresult \
             -output coverage-macos.xml \
+            -target FoundationUI.framework \
+            -target FoundationUITests.xctest \
             -v
 
       - name: Upload coverage to Codecov (macOS)
@@ -367,6 +369,8 @@ jobs:
           bash scripts/convert_coverage_to_cobertura.sh \
             -xcresult ./TestResults-iOS.xcresult \
             -output coverage-ios.xml \
+            -target FoundationUI.framework \
+            -target FoundationUITests.xctest \
             -v
 
       - name: Upload coverage to Codecov (iOS)
@@ -476,7 +480,7 @@ jobs:
           echo "## Quality Gate" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Thresholds**: macOS ${FOUNDATIONUI_MACOS_COVERAGE_THRESHOLD}%, iOS ${FOUNDATIONUI_IOS_COVERAGE_THRESHOLD}%" >> $GITHUB_STEP_SUMMARY
-          echo "The Xcode report includes test and dependency targets." >> $GITHUB_STEP_SUMMARY
+          echo "The Xcode report includes the FoundationUI framework and its test target." >> $GITHUB_STEP_SUMMARY
 
           # Determine overall status
           if [ "${{ needs.xcode-coverage-macos.result }}" == "success" ] && [ "${{ needs.xcode-coverage-ios.result }}" == "success" ]; then
