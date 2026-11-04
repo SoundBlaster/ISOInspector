@@ -102,7 +102,7 @@ import Testing
     }
 }
 
-private final class RegistryURLProtocol: URLProtocol, @unchecked Sendable {
+private final class RegistryURLProtocol: URLProtocol {
     override static func canInit(with request: URLRequest) -> Bool {
         request.url?.host == "mp4ra.test.invalid"
     }
