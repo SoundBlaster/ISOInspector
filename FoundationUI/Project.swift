@@ -5,7 +5,7 @@ import ProjectDescription
 /// FoundationUI - Composable Clarity Design System for ISO Inspector
 ///
 /// A SwiftUI component library following TDD, XP, and Composable Clarity principles.
-/// Supports iOS 17+, iPadOS 17+, macOS 14+.
+/// Supports iOS 26+, iPadOS 26+, macOS 26+.
 ///
 /// ## Architecture
 /// - Layer 0: Design Tokens (DS namespace)
@@ -16,7 +16,7 @@ import ProjectDescription
 
 let baseSettings: SettingsDictionary = [
     "MARKETING_VERSION": "0.1.0", "CURRENT_PROJECT_VERSION": "1", "SWIFT_VERSION": "6.0",
-    "IPHONEOS_DEPLOYMENT_TARGET": "17.0", "MACOSX_DEPLOYMENT_TARGET": "14.0",
+    "IPHONEOS_DEPLOYMENT_TARGET": "26.0", "MACOSX_DEPLOYMENT_TARGET": "26.0",
     "SWIFT_TREAT_WARNINGS_AS_ERRORS": "YES"
 ]
 
@@ -26,7 +26,7 @@ func foundationUIFramework() -> Target {
     Target.target(
         name: "FoundationUI", destinations: [.iPhone, .iPad, .mac], product: .framework,
         bundleId: "ru.egormerkushev.foundationui",
-        deploymentTargets: DeploymentTargets.multiplatform(iOS: "17.0", macOS: "14.0"),
+        deploymentTargets: DeploymentTargets.multiplatform(iOS: "26.0", macOS: "26.0"),
         infoPlist: .default, sources: ["Sources/FoundationUI/**"],
         dependencies: [.package(product: "Yams")], settings: .settings(base: baseSettings))
 }
@@ -37,7 +37,7 @@ func foundationUITests() -> Target {
     Target.target(
         name: "FoundationUITests", destinations: [.iPhone, .iPad, .mac], product: .unitTests,
         bundleId: "ru.egormerkushev.foundationui.tests",
-        deploymentTargets: DeploymentTargets.multiplatform(iOS: "17.0", macOS: "14.0"),
+        deploymentTargets: DeploymentTargets.multiplatform(iOS: "26.0", macOS: "26.0"),
         infoPlist: .default, sources: ["Tests/FoundationUITests/**"],
         dependencies: [.target(name: "FoundationUI"), .package(product: "SnapshotTesting")],
         settings: .settings(base: baseSettings))

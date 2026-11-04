@@ -2,7 +2,8 @@ import Foundation
 
 /// Protocol describing the minimal interface necessary for the ISOInspector parser to
 /// perform random-access reads from a binary data source.
-public protocol RandomAccessReader {
+/// Conformers must support concurrent calls to `read(at:count:)`.
+public protocol RandomAccessReader: Sendable {
     /// Total length of the readable data in bytes.
     var length: Int64 { get }
 

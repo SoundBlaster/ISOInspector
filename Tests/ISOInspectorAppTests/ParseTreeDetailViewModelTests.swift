@@ -1,5 +1,6 @@
 #if canImport(Combine)
     import Combine
+    import Synchronization
     import XCTest
     @testable import ISOInspectorApp
     import ISOInspectorKit
@@ -338,13 +339,14 @@
     }
 
     private final class HexSliceProviderStub: HexSliceProvider {
-        private(set) var requests: [HexSliceRequest] = []
+        private let storedRequests = Mutex<[HexSliceRequest]>([])
+        var requests: [HexSliceRequest] { storedRequests.withLock { $0 } }
         let result: HexSlice
 
         init(result: HexSlice) { self.result = result }
 
         func loadSlice(for request: HexSliceRequest) async throws -> HexSlice {
-            requests.append(request)
+            storedRequests.withLock { $0.append(request) }
             return result
         }
     }

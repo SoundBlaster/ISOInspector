@@ -12,7 +12,7 @@ Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (M
 
 ## Supported Platforms & Box Families
 
-- **Platforms:** macOS 14 and iOS/iPadOS 16 or newer targets are available through SwiftPM products for the app and kit.【F:Documentation/ISOInspector.docc/Manuals/App.md†L7-L18】【F:Package.swift†L6-L44】
+- **Platforms:** macOS 26 and iOS/iPadOS 26 or newer targets are available through SwiftPM products for the app and kit.【F:Documentation/ISOInspector.docc/Manuals/App.md†L7-L18】【F:Package.swift†L6-L44】
 - **File types:** MP4 (`.mp4`) and QuickTime (`.mov`) containers stream through the document picker and CLI readers.【F:Documentation/ISOInspector.docc/Manuals/App.md†L9-L34】【F:Documentation/ISOInspector.docc/Manuals/CLI.md†L1-L52】
 - **Container boxes:** `FourCharContainerCode` centralises movie, track, metadata, and streaming container identifiers for traversal utilities.【F:Sources/ISOInspectorKit/ISO/FourCharContainerCode.swift†L1-L46】
 - **Media/index boxes:** `MediaAndIndexBoxCode` captures frequently referenced payload and streaming indicator boxes for validation heuristics.【F:Sources/ISOInspectorKit/ISO/MediaAndIndexBoxCode.swift†L1-L43】
@@ -34,7 +34,7 @@ The overview illustrates the tri-pane layout documented in the app manual so rea
 - `Sources/*/*.docc` — DocC catalogs for the kit, CLI, and SwiftUI app.
 
 ## Getting Started
-1. Install Swift 6.0 or newer (Swift 6.2+ recommended).
+1. Install Xcode 27 or a Swift 6.4 toolchain.
 2. Build all targets:
    ```sh
    swift build

@@ -2,7 +2,8 @@ import Foundation
 
 /// Reader that performs buffered, chunk-aligned file IO to minimise allocation while
 /// supporting random access.
-public final class ChunkedFileReader: RandomAccessReader {
+/// File position and the chunk cache are accessed only while holding the read lock.
+public final class ChunkedFileReader: RandomAccessReader, @unchecked Sendable {
     public static let defaultChunkSize = 1_048_576
 
     public enum Error: Swift.Error { case ioError(underlying: Swift.Error) }
@@ -14,6 +15,7 @@ public final class ChunkedFileReader: RandomAccessReader {
     private var cachedChunkOffset: Int64?
     private var cachedChunkData: Data
     private let closeHandler: (() -> Void)?
+    private let readLock = NSLock()
 
     public convenience init(fileURL: URL, chunkSize: Int = ChunkedFileReader.defaultChunkSize)
         throws
@@ -45,6 +47,8 @@ public final class ChunkedFileReader: RandomAccessReader {
     deinit { closeHandler?() }
 
     public func read(at offset: Int64, count: Int) throws -> Data {
+        readLock.lock()
+        defer { readLock.unlock() }
         guard offset >= 0 else { throw RandomAccessReaderError.boundsError(.invalidOffset(offset)) }
         guard count >= 0 else { throw RandomAccessReaderError.boundsError(.invalidCount(count)) }
         guard count > 0 else { return Data() }

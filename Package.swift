@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.4
 import PackageDescription
 
 // Platform-independent products
@@ -146,8 +146,8 @@ let package = Package(
     name: "ISOInspector",
     defaultLocalization: "en",
     platforms: [
-        .iOS(.v16),
-        .macOS(.v14),
+        .iOS(.v26),
+        .macOS(.v26),
     ],
     products: products,
     dependencies: dependencies,

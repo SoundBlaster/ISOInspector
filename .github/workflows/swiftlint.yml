@@ -37,15 +37,15 @@ concurrency:
 jobs:
   swiftlint:
     name: SwiftLint Code Quality Check
-    runs-on: macos-15
+    runs-on: xcode-27
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Select Xcode 26.0
+      - name: Select Xcode 27.1
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "26.0"
+          xcode-version: "27.1"
 
       - name: Show Swift version
         run: swift --version

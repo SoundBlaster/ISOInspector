@@ -370,8 +370,8 @@ validate_ci_environment() {
     log_info "Detected OS: $current_os"
 
     validate_macos_version
-    validate_xcode 16 0
-    validate_swift 6.0
+    validate_xcode 27 0
+    validate_swift 6.4
     check_homebrew || true
     ensure_swiftlint || true
     validate_python || true

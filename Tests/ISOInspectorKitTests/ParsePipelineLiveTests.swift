@@ -1,4 +1,5 @@
 import Foundation
+import Synchronization
 import XCTest
 
 @testable import ISOInspectorKit
@@ -1191,7 +1192,7 @@ final class ParsePipelineLiveTests: XCTestCase {
     private final class PayloadSpyRandomAccessReader: RandomAccessReader {
         private let reader: InMemoryRandomAccessReader
         private let payloadRange: Range<Int64>
-        private(set) var readRanges: [Range<Int64>] = []
+        private let readRanges = Mutex<[Range<Int64>]>([])
 
         init(data: Data, payloadRange: Range<Int64>) {
             self.reader = InMemoryRandomAccessReader(data: data)
@@ -1200,13 +1201,13 @@ final class ParsePipelineLiveTests: XCTestCase {
 
         var length: Int64 { reader.length }
 
-        var didReadPayload: Bool { readRanges.contains { $0.overlaps(payloadRange) } }
+        var didReadPayload: Bool { readRanges.withLock { $0.contains { $0.overlaps(payloadRange) } } }
 
         func read(at offset: Int64, count: Int) throws -> Data {
             let data = try reader.read(at: offset, count: count)
             if !data.isEmpty {
                 let range = offset..<offset + Int64(data.count)
-                readRanges.append(range)
+                readRanges.withLock { $0.append(range) }
             }
             return data
         }

@@ -1,7 +1,7 @@
 # ComponentTestApp - FoundationUI Demo Application
 
 **Version:** 1.0
-**Platform:** iOS 17+, macOS 14+
+**Platform:** iOS 26+, macOS 26+
 **Swift:** 6.0+
 
 A comprehensive demo application showcasing all implemented FoundationUI components with interactive examples, live preview capabilities, and complete documentation.
@@ -43,9 +43,9 @@ ComponentTestApp/
 
 ### Prerequisites
 
-- **Xcode 15.0+** (for iOS/macOS development)
-- **Swift 6.0+** toolchain
-- **macOS 14+** or **iOS 17+** target device/simulator
+- **Xcode 27+** (for iOS/macOS development)
+- **Swift 6.4+** toolchain
+- **macOS 26+** or **iOS 26+** target device/simulator
 - **Tuist** (for project generation)
 
 ### Installation & Running
@@ -92,7 +92,7 @@ See [Tuist documentation](https://docs.tuist.io/guides/quick-start/install-tuist
 
 **iOS Simulator:**
 1. Select `ComponentTestApp-iOS` scheme
-2. Choose destination: iPhone 15 (or any iOS 17+ simulator)
+2. Choose destination: iPhone 17 (or any iOS 26+ simulator)
 3. Press `⌘R`
 
 **macOS:**

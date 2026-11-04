@@ -1,10 +1,10 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.4
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
 let package = Package(
-    name: "FoundationUI", platforms: [.iOS(.v17), .macOS(.v14)],
+    name: "FoundationUI", platforms: [.iOS(.v26), .macOS(.v26)],
     products: [.library(name: "FoundationUI", targets: ["FoundationUI"])],
     dependencies: [
         // NOTE: swift-snapshot-testing removed from SPM dependencies

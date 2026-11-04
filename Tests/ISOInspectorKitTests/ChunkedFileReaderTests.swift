@@ -72,6 +72,26 @@ final class ChunkedFileReaderTests: XCTestCase {
         XCTAssertEqual(slice, payload.subdata(in: offset..<(offset + count)))
     }
 
+    func testConcurrentReadsReturnRequestedBytes() async throws {
+        let payload = Data((0..<16_384).map { UInt8(($0 * 7 + $0 / 251) % 251) })
+        try payload.write(to: temporaryURL)
+        let reader = try ChunkedFileReader(fileURL: temporaryURL, chunkSize: 128)
+
+        let allMatch = try await withThrowingTaskGroup(of: Bool.self) { group in
+            for index in 0..<128 {
+                group.addTask {
+                    let offset = (index * 113) % (payload.count - 300)
+                    let bytes = try reader.read(at: Int64(offset), count: 300)
+                    return bytes == payload.subdata(in: offset..<(offset + 300))
+                }
+            }
+            var matches = true
+            for try await result in group { matches = matches && result }
+            return matches
+        }
+        XCTAssertTrue(allMatch)
+    }
+
     func testReadBeyondEndOfFileThrows() throws {
         let bytes = Data((0..<400).map { UInt8($0 % 233) })
         try bytes.write(to: temporaryURL)

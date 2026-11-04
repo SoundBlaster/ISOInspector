@@ -7,7 +7,7 @@ This guide helps new contributors prepare their environment, understand the repo
 | Requirement | Notes |
 | --- | --- |
 | Swift toolchain | Install Swift **6.0.1 or newer**; Linux contributors can use the toolchain shipped in CI containers.【F:README.md†L17-L24】 |
-| Xcode (Apple platforms) | Use the latest Xcode 15+ release to build SwiftUI targets and run DocC locally.【F:README.md†L17-L24】 |
+| Xcode (Apple platforms) | Use the latest Xcode 27+ release to build SwiftUI targets and run DocC locally.【F:README.md†L17-L24】 |
 | Node & `npx` | Required if you opt into the repo-provided pre-commit hook for Markdown linting.【F:README.md†L26-L40】 |
 | Docker (optional) | Mirrors CI SwiftLint runs via `docker run --rm -u "$(id -u):$(id -g)" -v "$PWD:/work" -w /work ghcr.io/realm/swiftlint:0.53.0 swiftlint lint --strict --no-cache --config .swiftlint.yml`.【F:README.md†L63-L74】 |
 

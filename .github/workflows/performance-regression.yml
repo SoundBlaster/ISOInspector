@@ -32,15 +32,15 @@ concurrency:
 jobs:
   build-metrics:
     name: Measure Build Performance
-    runs-on: macos-15
+    runs-on: xcode-27
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Select Xcode 26.0
+      - name: Select Xcode 27.1
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "26.0"
+          xcode-version: "27.1"
 
       - name: Show versions
         run: |
@@ -250,15 +250,15 @@ jobs:
 
   test-runtime-performance:
     name: Unit Test Execution Performance
-    runs-on: macos-15
+    runs-on: xcode-27
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Select Xcode 26.0
+      - name: Select Xcode 27.1
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "26.0"
+          xcode-version: "27.1"
 
       - name: Run FoundationUI tests with timing
         id: test-time

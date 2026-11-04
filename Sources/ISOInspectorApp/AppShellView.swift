@@ -376,11 +376,11 @@
             }
         }
 
-        private var exportDocumentJSONHandler: () -> Void {
+        private var exportDocumentJSONHandler: @MainActor @Sendable () -> Void {
             { Task { await windowController.exportJSON(scope: .document) } }
         }
 
-        private var exportDocumentIssueSummaryHandler: () -> Void {
+        private var exportDocumentIssueSummaryHandler: @MainActor @Sendable () -> Void {
             { Task { await windowController.exportIssueSummary(scope: .document) } }
         }
 

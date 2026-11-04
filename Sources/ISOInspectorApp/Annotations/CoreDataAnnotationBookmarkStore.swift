@@ -237,16 +237,9 @@
 
         // MARK: - Private helpers
 
-        private func perform<T>(_ block: @escaping (NSManagedObjectContext) throws -> T) throws -> T
+        private func perform<T>(_ block: @escaping @Sendable (NSManagedObjectContext) throws -> T) throws -> T
         {
-            var value: T?
-            var capturedError: Error?
-            context.performAndWait {
-                do { value = try block(context) } catch { capturedError = error }
-            }
-            if let capturedError { throw capturedError }
-            guard let value else { throw CocoaError(.coderReadCorrupt) }
-            return value
+            try context.performAndWait { try block(context) }
         }
 
         private func fetchFile(
