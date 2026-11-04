@@ -22,8 +22,12 @@
             let second = Data([0, 0, 0, 16, 0x66, 0x74, 0x79, 0x70, 0x6d, 0x70, 0x34, 0x32, 0, 0, 0, 2])
 
             store.start(pipeline: pipeline, reader: InMemoryRandomAccessReader(data: first))
-            let firstHex = try #require(store.makeHexSliceProvider())
-            let firstAnnotations = try #require(store.makePayloadAnnotationProvider())
+            guard case .available(let firstProviders) = store.detailAccess else {
+                Issue.record("The active parse must have detail providers")
+                return
+            }
+            let firstHex = firstProviders.hex
+            let firstAnnotations = firstProviders.annotations
             #expect(try await firstHex.loadSlice(for: request).bytes == first.subdata(in: 8..<12))
             let firstAnnotation = try #require(await firstAnnotations.annotations(for: header).first)
             #expect(firstAnnotation.value == "isom")
@@ -33,15 +37,21 @@
             store.start(
                 pipeline: ParsePipeline(buildStream: { _, _ in nextStream }),
                 reader: InMemoryRandomAccessReader(data: second))
-            let secondHex = try #require(store.makeHexSliceProvider())
-            let secondAnnotations = try #require(store.makePayloadAnnotationProvider())
+            guard case .available(let secondProviders) = store.detailAccess else {
+                Issue.record("The replacement parse must have detail providers")
+                return
+            }
+            let secondHex = secondProviders.hex
+            let secondAnnotations = secondProviders.annotations
             #expect(try await secondHex.loadSlice(for: request).bytes == second.subdata(in: 8..<12))
             let secondAnnotation = try #require(await secondAnnotations.annotations(for: header).first)
             #expect(secondAnnotation.value == "mp42")
 
             store.cancel()
-            #expect(store.makeHexSliceProvider() == nil)
-            #expect(store.makePayloadAnnotationProvider() == nil)
+            guard case .unavailable(.cancelled) = store.detailAccess else {
+                Issue.record("Cancelled parses must not expose a reader")
+                return
+            }
         }
     }
 #endif

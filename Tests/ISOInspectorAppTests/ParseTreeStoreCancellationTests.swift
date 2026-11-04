@@ -12,7 +12,7 @@
             let (stream, continuation) = ParsePipeline.EventStream.makeStream()
             let finished = expectation(description: "Cancelled stream finishes the store")
             var subscriptions: Set<AnyCancellable> = []
-            store.$state.dropFirst().sink { state in
+            store.statePublisher.dropFirst().sink { state in
                 if state == .finished { finished.fulfill() }
             }.store(in: &subscriptions)
 
@@ -55,8 +55,9 @@
             wait(for: [terminated], timeout: 3)
             XCTAssertEqual(store.state, .finished)
             XCTAssertEqual(store.snapshot.nodes.map(\.header.type.rawValue), ["free"])
-            XCTAssertNil(store.makeHexSliceProvider())
-            XCTAssertNil(store.makePayloadAnnotationProvider())
+            guard case .unavailable(.cancelled) = store.detailAccess else {
+                return XCTFail("Cancelled parses must not expose a reader")
+            }
             if case .terminated = continuation.yield(start) {} else {
                 XCTFail("Cancelled stream accepted another event")
             }

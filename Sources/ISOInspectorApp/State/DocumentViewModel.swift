@@ -82,7 +82,7 @@
                 self?.handleSnapshotUpdate(newSnapshot)
             }.store(in: &cancellables)
 
-            store.$state.sink { [weak self] newState in
+            store.statePublisher.sink { [weak self] newState in
                 guard let self else { return }
                 self.parseState = newState
                 self.refreshDetailProviders()
@@ -106,9 +106,10 @@
         }
 
         private func refreshDetailProviders() {
-            detailViewModel.update(
-                hexSliceProvider: store.makeHexSliceProvider(),
-                annotationProvider: store.makePayloadAnnotationProvider())
+            switch store.detailAccess {
+            case .available(let providers): detailViewModel.setProviders(providers)
+            case .unavailable: detailViewModel.clearProviders()
+            }
         }
 
         private func updateExportAvailability() {

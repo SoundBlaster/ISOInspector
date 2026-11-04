@@ -102,7 +102,7 @@ final class LargeFileBenchmarkTests: XCTestCase {
                     }
                 }.store(in: &cancellables)
 
-                store.$state.dropFirst().sink { state in
+                store.statePublisher.dropFirst().sink { state in
                     if state == .finished { expectation.fulfill() }
                 }.store(in: &cancellables)
 

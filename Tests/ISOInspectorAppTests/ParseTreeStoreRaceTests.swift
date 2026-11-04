@@ -75,7 +75,7 @@
             XCTAssertEqual(store.snapshot.nodes.map(\.header.type.rawValue), ["new1"], file: file, line: line)
 
             let newFinished = expectation(description: "New parse finished")
-            store.$state.dropFirst().sink { state in
+            store.statePublisher.dropFirst().sink { state in
                 if state == .finished { newFinished.fulfill() }
             }.store(in: &subscriptions)
             newContinuation.finish()

@@ -6,12 +6,18 @@
 
     @MainActor public final class ParseTreeStore: ObservableObject {
         @Published public private(set) var snapshot: ParseTreeSnapshot
-        @Published public private(set) var state: ParseTreeStoreState
         @Published public private(set) var fileURL: URL?
         @Published public private(set) var issueMetrics: ParseIssueStore.IssueMetrics
         public let issueStore: ParseIssueStore
 
-        private let resources = ResourceBag()
+        private var session: Session
+        private let stateSubject: CurrentValueSubject<ParseTreeStoreState, Never>
+        /// The current display state, derived from the owned or mirrored session.
+        public var state: ParseTreeStoreState { session.state }
+        /// Publishes after the session has changed, including when a parse is replaced.
+        public var statePublisher: AnyPublisher<ParseTreeStoreState, Never> {
+            stateSubject.eraseToAnyPublisher()
+        }
         private var builder: Builder
         private var issueFilter: ((ValidationIssue) -> Bool)?
         private var cancellables: Set<AnyCancellable> = []
@@ -22,7 +28,8 @@
         ) {
             self.issueStore = issueStore
             self.snapshot = initialSnapshot
-            self.state = initialState
+            self.session = initialState == .idle ? .idle : .mirrored(initialState)
+            self.stateSubject = CurrentValueSubject(initialState)
             self.fileURL = nil
             self.issueMetrics = issueStore.metricsSnapshot()
             self.builder = Self.makeBuilder(issueStore: issueStore)
@@ -52,15 +59,13 @@
         }
 
         public func cancel() {
-            disconnect()
-            state = .finished
+            transition(to: .cancelled)
         }
 
         public func shutdown() {
-            disconnect()
+            transition(to: .idle)
             builder = Self.makeBuilder(issueStore: issueStore)
             snapshot = .empty
-            state = .idle
             fileURL = nil
             issueStore.reset()
             issueMetrics = issueStore.metricsSnapshot()
@@ -70,16 +75,21 @@
             snapshot: ParseTreeSnapshot, state: ParseTreeStoreState, fileURL: URL?,
             issues: [ParseIssue]
         ) {
-            disconnect()
             builder = Self.makeBuilder(issueStore: issueStore)
             issueStore.replaceAll(with: issues)
             self.fileURL = fileURL?.standardizedFileURL
             self.snapshot = Self.makeFilteredSnapshot(from: snapshot, filter: issueFilter)
-            self.state = state
+            transition(to: .mirrored(state))
             self.issueMetrics = issueStore.metricsSnapshot()
         }
 
-        private func disconnect() { resources.stop() }
+        private func transition(to next: Session) {
+            let previous = session
+            objectWillChange.send()
+            session = next
+            if case .parsing(let active) = previous { active.task.cancel() }
+            stateSubject.send(next.state)
+        }
 
         private static func makeBuilder(issueStore: ParseIssueStore) -> Builder {
             Builder(issueRecorder: { issue, depth in issueStore.record(issue, depth: depth) })
@@ -108,17 +118,17 @@
         }
 
         private func startConsuming(_ stream: ParsePipeline.EventStream, reader: RandomAccessReader) {
-            disconnect()
-            resources.reader = reader
             builder = Self.makeBuilder(issueStore: issueStore)
             snapshot = .empty
-            state = .parsing
             let taskIdentifier = UUID()
-            resources.reserveStreamingTaskIdentifier(taskIdentifier)
+            // This task inherits MainActor isolation and cannot consume events until
+            // the synchronous transition has installed its reader and identifier.
             let task = Task { [weak self] in
                 guard let self else { return }
                 do {
-                    for try await event in stream { self.consume(event) }
+                    for try await event in stream {
+                        self.consume(event, taskIdentifier: taskIdentifier)
+                    }
                     self.finishStreaming(taskIdentifier: taskIdentifier)
                 } catch {
                     if error is CancellationError {
@@ -128,22 +138,23 @@
                     }
                 }
             }
-            resources.setStreamingTask(task, identifier: taskIdentifier)
+            transition(to: .parsing(ActiveParse(reader: reader, task: task, identifier: taskIdentifier)))
         }
 
-        @MainActor private func consume(_ event: ParseEvent) {
+        @MainActor private func consume(_ event: ParseEvent, taskIdentifier: UUID) {
+            guard case .parsing(let active) = session, active.identifier == taskIdentifier else { return }
             builder.consume(event)
             snapshot = builder.snapshot(filter: issueFilter)
         }
 
         @MainActor private func finishStreaming(taskIdentifier: UUID) {
-            guard resources.clearStreamingTask(matching: taskIdentifier) else { return }
-            if state == .parsing { state = .finished }
+            guard case .parsing(let active) = session, active.identifier == taskIdentifier else { return }
+            transition(to: .finished(active.reader))
         }
 
         @MainActor private func failStreaming(_ error: Error, taskIdentifier: UUID) {
-            guard resources.clearStreamingTask(matching: taskIdentifier) else { return }
-            state = .failed(makeErrorMessage(from: error))
+            guard case .parsing(let active) = session, active.identifier == taskIdentifier else { return }
+            transition(to: .failed(active.reader, makeErrorMessage(from: error)))
         }
 
         private func makeErrorMessage(from error: Error) -> String {
@@ -166,49 +177,59 @@
         }
     }
 
-    extension ParseTreeStore {
-        func makeHexSliceProvider() -> HexSliceProvider? {
-            guard let reader = resources.reader else { return nil }
-            return RandomAccessHexSliceProvider(reader: reader)
-        }
+    private struct ActiveParse {
+        let reader: RandomAccessReader
+        let task: Task<Void, Never>
+        let identifier: UUID
+    }
 
-        func makePayloadAnnotationProvider() -> PayloadAnnotationProvider? {
-            guard let reader = resources.reader else { return nil }
-            return RandomAccessPayloadAnnotationProvider(reader: reader)
+    private enum Session {
+        case idle
+        case parsing(ActiveParse)
+        case finished(RandomAccessReader)
+        case failed(RandomAccessReader, String)
+        case cancelled
+        // A snapshot from another window has no locally owned reader or task.
+        case mirrored(ParseTreeStoreState)
+
+        var state: ParseTreeStoreState {
+            switch self {
+            case .idle: .idle
+            case .parsing: .parsing
+            case .finished, .cancelled: .finished
+            case .failed(_, let message): .failed(message)
+            case .mirrored(let state): state
+            }
         }
     }
 
-    @MainActor private final class ResourceBag {
-        private(set) var streamingTask: Task<Void, Never>? { didSet { oldValue?.cancel() } }
-        private var streamingTaskIdentifier: UUID?
+    enum ParseDetailUnavailableReason: Equatable {
+        case noDocument, cancelled, mirroredSnapshot
+    }
 
-        var reader: RandomAccessReader?
+    struct ParseDetailProviders {
+        let hex: HexSliceProvider
+        let annotations: PayloadAnnotationProvider
+    }
 
-        func setStreamingTask(_ task: Task<Void, Never>?, identifier: UUID) {
-            streamingTaskIdentifier = identifier
-            streamingTask = task
-        }
+    enum ParseDetailAccess {
+        case available(ParseDetailProviders)
+        case unavailable(ParseDetailUnavailableReason)
+    }
 
-        func reserveStreamingTaskIdentifier(_ identifier: UUID) {
-            streamingTaskIdentifier = identifier
-        }
-
-        @discardableResult func clearStreamingTask(matching identifier: UUID) -> Bool {
-            guard streamingTaskIdentifier == identifier else { return false }
-            streamingTask = nil
-            streamingTaskIdentifier = nil
-            return true
-        }
-
-        func clearStreamingTask() {
-            streamingTask?.cancel()
-            streamingTask = nil
-            streamingTaskIdentifier = nil
-        }
-
-        func stop() {
-            clearStreamingTask()
-            reader = nil
+    extension ParseTreeStore {
+        var detailAccess: ParseDetailAccess {
+            let reader: RandomAccessReader
+            switch session {
+            case .idle: return .unavailable(.noDocument)
+            case .cancelled: return .unavailable(.cancelled)
+            case .mirrored: return .unavailable(.mirroredSnapshot)
+            case .parsing(let active): reader = active.reader
+            case .finished(let storedReader), .failed(let storedReader, _): reader = storedReader
+            }
+            return .available(ParseDetailProviders(
+                hex: RandomAccessHexSliceProvider(reader: reader),
+                annotations: RandomAccessPayloadAnnotationProvider(reader: reader)))
         }
     }
 

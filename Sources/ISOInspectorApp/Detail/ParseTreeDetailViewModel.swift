@@ -37,11 +37,15 @@
     }
 
     extension ParseTreeDetailViewModel {
-        func update(
-            hexSliceProvider: HexSliceProvider?, annotationProvider: PayloadAnnotationProvider?
-        ) {
-            self.hexSliceProvider = hexSliceProvider
-            self.annotationProvider = annotationProvider
+        func setProviders(_ providers: ParseDetailProviders) {
+            hexSliceProvider = providers.hex
+            annotationProvider = providers.annotations
+            rebuildDetail()
+        }
+
+        func clearProviders() {
+            hexSliceProvider = nil
+            annotationProvider = nil
             rebuildDetail()
         }
 
