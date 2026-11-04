@@ -4,55 +4,50 @@ import Testing
 
 @testable import ISOInspectorKit
 
-@Suite struct ParsePipelineConcurrencyTests {
+@Suite(.serialized) struct ParsePipelineConcurrencyTests {
     @Test func cancellingConsumerCancelsProducerWhileReaderIsBlocked() async throws {
         let reader = GatedReader()
         defer { reader.release() }
-        let stream = ParsePipeline.live().events(for: reader)
-        let consumer = Task { for try await _ in stream {} }
+        let consumer = Task {
+            for try await _ in ParsePipeline.live().events(for: reader) {}
+        }
 
-        try #require(await reader.waitForRead(), "Producer did not enter the reader")
-        consumer.cancel()
-        try await consumer.value
-        reader.release()
-
-        try #require(await reader.waitForObservation(), "Producer did not resume")
+        try #require(
+            await reader.releaseAfterRead(expectCancellation: true) { consumer.cancel() },
+            "Reader did not resume")
         #expect(reader.wasCancelled == true)
+        try await consumer.value
     }
 
     @Test func cancellingParentCancelsGroupConsumerAndStreamProducer() async throws {
         let reader = GatedReader()
         defer { reader.release() }
-        let stream = ParsePipeline.live().events(for: reader)
         let parent = Task {
             try await withThrowingTaskGroup(of: Void.self) { group in
-                group.addTask { for try await _ in stream {} }
+                group.addTask {
+                    for try await _ in ParsePipeline.live().events(for: reader) {}
+                }
                 try await group.waitForAll()
             }
         }
 
-        try #require(await reader.waitForRead(), "Producer did not enter the reader")
-        parent.cancel()
-        try await parent.value
-        reader.release()
-
-        try #require(await reader.waitForObservation(), "Producer did not resume")
+        try #require(
+            await reader.releaseAfterRead(expectCancellation: true) { parent.cancel() },
+            "Reader did not resume")
         #expect(reader.wasCancelled == true)
+        try await parent.value
     }
 
     @Test func producerContinuesNormallyWhenConsumerIsNotCancelled() async throws {
         let reader = GatedReader()
         defer { reader.release() }
-        let stream = ParsePipeline.live().events(for: reader)
         let consumer = Task {
             var events: [ParseEvent] = []
-            for try await event in stream { events.append(event) }
+            for try await event in ParsePipeline.live().events(for: reader) { events.append(event) }
             return events
         }
 
-        try #require(await reader.waitForRead(), "Producer did not enter the reader")
-        reader.release()
-        try #require(await reader.waitForObservation(), "Producer did not resume")
+        try #require(await reader.releaseAfterRead {}, "Reader did not resume")
         let events = try await consumer.value
 
         #expect(reader.wasCancelled == false)
@@ -91,6 +86,7 @@ private final class GatedReader: RandomAccessReader {
     private let gate = DispatchSemaphore(value: 0)
     private let observed = DispatchSemaphore(value: 0)
     private let observation = Mutex<Bool?>(nil)
+    private let expectsCancellation = Mutex(false)
 
     var wasCancelled: Bool? { observation.withLock { $0 } }
 
@@ -98,6 +94,14 @@ private final class GatedReader: RandomAccessReader {
         if offset == 0 {
             entered.signal()
             guard gate.wait(timeout: .now() + 10) == .success else { throw GateTimeout() }
+            if expectsCancellation.withLock({ $0 }) {
+                // The consumer can be cancelled just before it starts awaiting the stream.
+                // Wait for propagation, with a deadline so a missing cancellation fails the test.
+                let deadline = DispatchTime.now() + .seconds(2)
+                while !Task.isCancelled && DispatchTime.now().uptimeNanoseconds < deadline.uptimeNanoseconds {
+                    Thread.sleep(forTimeInterval: 0.001)
+                }
+            }
             observation.withLock { $0 = Task.isCancelled }
             observed.signal()
         }
@@ -105,13 +109,21 @@ private final class GatedReader: RandomAccessReader {
     }
 
     func release() { gate.signal() }
-    func waitForRead() async -> Bool { await wait(for: entered) }
-    func waitForObservation() async -> Bool { await wait(for: observed) }
-
-    private func wait(for semaphore: DispatchSemaphore) async -> Bool {
+    func releaseAfterRead(
+        expectCancellation: Bool = false, _ action: @escaping @Sendable () -> Void
+    ) async -> Bool {
         await withCheckedContinuation { continuation in
+            // A synchronous reader blocks its producer's cooperative executor thread.
+            // Coordinate from GCD so cancellation and release can run even with a one-thread pool.
             DispatchQueue.global().async {
-                continuation.resume(returning: semaphore.wait(timeout: .now() + 10) == .success)
+                guard self.entered.wait(timeout: .now() + 10) == .success else {
+                    continuation.resume(returning: false)
+                    return
+                }
+                action()
+                self.expectsCancellation.withLock { $0 = expectCancellation }
+                self.gate.signal()
+                continuation.resume(returning: self.observed.wait(timeout: .now() + 10) == .success)
             }
         }
     }
