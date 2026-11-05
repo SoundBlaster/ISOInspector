@@ -65,6 +65,8 @@
         private var activeSecurityScopedURL: SecurityScopedURL?
         private var currentSessionID: UUID?
         private var lastFailedRecent: DocumentRecent?
+        private enum OpenRequest: Equatable { case idle, opening(UUID) }
+        private var openRequest: OpenRequest = .idle
 
         // MARK: - Initialization
 
@@ -124,7 +126,11 @@
         // MARK: - Document Management
 
         /// Open a document in this window
-        func openDocument(at url: URL) { Task { await handleOpenDocument(at: url) } }
+        @discardableResult func openDocument(at url: URL) -> Task<Void, Never> {
+            let identifier = UUID()
+            openRequest = .opening(identifier)
+            return Task { await handleOpenDocument(at: url, request: identifier) }
+        }
 
         /// Open a recent document in this window
         /// Routes through the standard document loading path to ensure the parseTreeStore
@@ -177,7 +183,12 @@
             let context: ParsePipeline.Context
         }
 
-        private func handleOpenDocument(at url: URL) async {
+        private func handleOpenDocument(at url: URL, request: UUID) async {
+            guard openRequest == .opening(request) else { return }
+            if Task.isCancelled {
+                openRequest = .idle
+                return
+            }
             logger.info("Opening document: \(url.lastPathComponent, privacy: .public)")
             loadFailure = nil
             exportStatus = nil
@@ -185,7 +196,6 @@
             do {
                 // Start security-scoped access (on main thread)
                 let scopedURL = try filesystemAccess.adoptSecurityScope(for: url)
-                activeSecurityScopedURL = scopedURL
 
                 // Capture dependencies on the main actor before hopping to a detached task.
                 let readerFactory = self.readerFactory
@@ -204,6 +214,16 @@
 
                 // Back to main thread for UI updates
                 await MainActor.run {
+                    guard openRequest == .opening(request) else {
+                        scopedURL.revoke()
+                        return
+                    }
+                    if Task.isCancelled {
+                        openRequest = .idle
+                        scopedURL.revoke()
+                        return
+                    }
+                    activeSecurityScopedURL = scopedURL
                     parseTreeStore.start(
                         pipeline: resources.pipeline, reader: resources.reader,
                         context: resources.context)
@@ -221,9 +241,13 @@
                     // Mirror the active window into the shared session without re-opening it.
                     appSessionController.synchronizeOpenedWindowSession(
                         recent: recent, parseTreeStore: parseTreeStore, annotations: annotations)
+                    if openRequest == .opening(request) { openRequest = .idle }
                 }
             } catch {
                 await MainActor.run {
+                    guard openRequest == .opening(request) else { return }
+                    openRequest = .idle
+                    if Task.isCancelled || error is CancellationError { return }
                     logger.error("Failed to open document: \(error, privacy: .public)")
                     let recent = DocumentRecent(
                         url: url, bookmarkIdentifier: nil, bookmarkData: nil,
