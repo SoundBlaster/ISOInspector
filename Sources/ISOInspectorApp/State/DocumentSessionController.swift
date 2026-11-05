@@ -200,6 +200,7 @@
             recent: DocumentRecent, parseTreeStore sourceParseTreeStore: ParseTreeStore,
             annotations sourceAnnotations: AnnotationBookmarkSession
         ) {
+            documentOpeningCoordinator.supersedePendingOpen()
             loadFailure = nil
             recentsService.setLastFailedRecent(nil)
             validationConfigurationService.updateActiveValidationConfiguration(for: recent)
