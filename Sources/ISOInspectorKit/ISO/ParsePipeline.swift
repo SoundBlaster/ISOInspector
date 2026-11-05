@@ -30,8 +30,15 @@ extension ParsePipeline {
     fileprivate static func parsePayload(
         header: BoxHeader, reader: RandomAccessReader, registry: BoxParserRegistry,
         logger: DiagnosticsLogger
-    ) -> ParsedBoxPayload? {
-        do { return try registry.parse(header: header, reader: reader) } catch {
+    ) throws -> ParsedBoxPayload? {
+        do {
+            let payload = try registry.parse(header: header, reader: reader)
+            try Task.checkCancellation()
+            return payload
+        } catch let cancellation as CancellationError {
+            throw cancellation
+        } catch {
+            try Task.checkCancellation()
             logger.error(
                 "Failed to parse payload for \(header.identifierString): \(String(describing: error))"
             )
@@ -310,7 +317,7 @@ extension ParsePipeline {
                         let issueStore = context.issueStore
                         issueStore?.reset()
                         do {
-                            try walker.walk(
+                            try walker.walkWithThrowingEvents(
                                 reader: reader, cancellationCheck: { try Task.checkCancellation() },
                                 options: context.options,
                                 onEvent: { event in
@@ -325,28 +332,28 @@ extension ParsePipeline {
                                         let descriptor = catalog.descriptor(for: header)
                                         metadataStack.append(descriptor)
                                         let payload =
-                                            BoxParserRegistry.withEditListEnvironmentProvider({
+                                            try BoxParserRegistry.withEditListEnvironmentProvider({
                                                 request, _ in
                                                 editListCoordinator.environment(for: request)
                                             }) {
-                                                BoxParserRegistry.withMetadataEnvironmentProvider({
+                                                try BoxParserRegistry.withMetadataEnvironmentProvider({
                                                     request, _ in
                                                     metadataCoordinator.environment(for: request)
                                                 }) {
-                                                    BoxParserRegistry
+                                                    try BoxParserRegistry
                                                         .withFragmentEnvironmentProvider({
                                                             request, _ in
                                                             fragmentCoordinator.environment(
                                                                 for: request)
                                                         }) {
-                                                            BoxParserRegistry
+                                                            try BoxParserRegistry
                                                                 .withRandomAccessEnvironmentProvider(
                                                                     { request, _ in
                                                                         randomAccessCoordinator
                                                                             .environment(
                                                                                 for: request)
                                                                     }) {
-                                                                    ParsePipeline.parsePayload(
+                                                                    try ParsePipeline.parsePayload(
                                                                         header: header,
                                                                         reader: reader,
                                                                         registry: registry,
@@ -401,8 +408,10 @@ extension ParsePipeline {
                                             issues: issuesByNodeID[header.startOffset] ?? [])
                                         nodeIDToRemove = header.startOffset
                                     }
-                                    let validated = validator.annotate(
+                                    try Task.checkCancellation()
+                                    let validated = try validator.annotate(
                                         event: enriched, reader: reader)
+                                    try Task.checkCancellation()
                                     let finalEvent = ParsePipeline.attachParseIssuesIfNeeded(
                                         to: validated, options: context.options,
                                         issueStore: issueStore, issuesByNodeID: &issuesByNodeID)

@@ -9,13 +9,13 @@ extension BoxParserRegistry.DefaultParsers {
 
     static func parseVisualSampleEntry(
         reader: RandomAccessReader, contentStart: Int64, entryEnd: Int64, index: Int
-    ) -> [ParsedBoxPayload.Field] {
+    ) throws -> [ParsedBoxPayload.Field] {
         var fields: [ParsedBoxPayload.Field] = []
         let widthOffset = contentStart + 16
         let heightOffset = widthOffset + 2
 
         if widthOffset + 2 <= entryEnd,
-            let width = (try? readUInt16(reader, at: widthOffset, end: entryEnd)) ?? nil
+            let width = try readUInt16(reader, at: widthOffset, end: entryEnd)
         {
             fields.append(
                 ParsedBoxPayload.Field(
@@ -24,7 +24,7 @@ extension BoxParserRegistry.DefaultParsers {
         }
 
         if heightOffset + 2 <= entryEnd,
-            let height = (try? readUInt16(reader, at: heightOffset, end: entryEnd)) ?? nil
+            let height = try readUInt16(reader, at: heightOffset, end: entryEnd)
         {
             fields.append(
                 ParsedBoxPayload.Field(
@@ -38,15 +38,14 @@ extension BoxParserRegistry.DefaultParsers {
 
     static func parseAudioSampleEntry(
         reader: RandomAccessReader, contentStart: Int64, entryEnd: Int64, index: Int
-    ) -> [ParsedBoxPayload.Field] {
+    ) throws -> [ParsedBoxPayload.Field] {
         var fields: [ParsedBoxPayload.Field] = []
         let channelCountOffset = contentStart + 8
         let sampleSizeOffset = channelCountOffset + 2
         let sampleRateOffset = contentStart + 16
 
         if channelCountOffset + 2 <= entryEnd,
-            let channelCount = (try? readUInt16(reader, at: channelCountOffset, end: entryEnd))
-                ?? nil
+            let channelCount = try readUInt16(reader, at: channelCountOffset, end: entryEnd)
         {
             fields.append(
                 ParsedBoxPayload.Field(
@@ -56,7 +55,7 @@ extension BoxParserRegistry.DefaultParsers {
         }
 
         if sampleSizeOffset + 2 <= entryEnd,
-            let sampleSize = (try? readUInt16(reader, at: sampleSizeOffset, end: entryEnd)) ?? nil
+            let sampleSize = try readUInt16(reader, at: sampleSizeOffset, end: entryEnd)
         {
             fields.append(
                 ParsedBoxPayload.Field(
@@ -65,9 +64,8 @@ extension BoxParserRegistry.DefaultParsers {
                     byteRange: sampleSizeOffset..<(sampleSizeOffset + 2)))
         }
 
-        if sampleRateOffset + 4 <= entryEnd,
-            let rawRate = try? reader.readUInt32(at: sampleRateOffset)
-        {
+        if sampleRateOffset + 4 <= entryEnd {
+            let rawRate = try reader.readUInt32(at: sampleRateOffset)
             let integerRate = rawRate >> 16
             fields.append(
                 ParsedBoxPayload.Field(
@@ -87,16 +85,16 @@ extension BoxParserRegistry.DefaultParsers {
 
     static func parseChildBoxes(
         reader: RandomAccessReader, contentStart: Int64, entryEnd: Int64, baseHeaderLength: Int64
-    ) -> [NestedBox] {
+    ) throws -> [NestedBox] {
         var boxes: [NestedBox] = []
         var cursor = contentStart + baseHeaderLength
         guard cursor <= entryEnd else { return boxes }
 
         while cursor + 8 <= entryEnd {
-            guard let size = (try? readUInt32(reader, at: cursor, end: entryEnd)) ?? nil else {
+            guard let size = try readUInt32(reader, at: cursor, end: entryEnd) else {
                 break
             }
-            guard let type = (try? readFourCC(reader, at: cursor + 4, end: entryEnd)) ?? nil else {
+            guard let type = try readFourCC(reader, at: cursor + 4, end: entryEnd) else {
                 break
             }
 
@@ -105,7 +103,7 @@ extension BoxParserRegistry.DefaultParsers {
             if size == 1 {
                 headerLength = 16
                 guard
-                    let largeSize = (try? readUInt64(reader, at: cursor + 8, end: entryEnd)) ?? nil
+                    let largeSize = try readUInt64(reader, at: cursor + 8, end: entryEnd)
                 else { break }
                 boxLength = Int64(largeSize)
             } else if size == 0 {

@@ -39,7 +39,7 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
 
     private var trackStack: [TrackContext] = []
 
-    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
+    func issues(for event: ParseEvent, reader: RandomAccessReader) throws -> [ValidationIssue] {
         switch event.kind {
         case .willStartBox(let header, let depth):
             trimStack(to: depth)
@@ -57,7 +57,7 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
             }
 
             if header.type == BoxType.sampleDescription {
-                return sampleDescriptionIssues(
+                return try sampleDescriptionIssues(
                     header: header, reader: reader, trackContext: trackStack.last)
             }
 
@@ -76,8 +76,8 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
 
     private func sampleDescriptionIssues(
         header: BoxHeader, reader: RandomAccessReader, trackContext: TrackContext?
-    ) -> [ValidationIssue] {
-        let entries = sampleEntries(for: header, reader: reader)
+    ) throws -> [ValidationIssue] {
+        let entries = try sampleEntries(for: header, reader: reader)
         guard !entries.isEmpty else { return [] }
 
         var issues: [ValidationIssue] = []
@@ -90,14 +90,14 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
             if BoxParserRegistry.DefaultParsers.avcSampleEntryTypes.contains(entry.effectiveFormat)
             {
                 for box in entry.nestedBoxes where box.type.rawValue == "avcC" {
-                    issues.append(contentsOf: avcIssues(prefix: prefix, box: box, reader: reader))
+                    issues.append(contentsOf: try avcIssues(prefix: prefix, box: box, reader: reader))
                 }
             }
 
             if BoxParserRegistry.DefaultParsers.hevcSampleEntryTypes.contains(entry.effectiveFormat)
             {
                 for box in entry.nestedBoxes where box.type.rawValue == "hvcC" {
-                    issues.append(contentsOf: hevcIssues(prefix: prefix, box: box, reader: reader))
+                    issues.append(contentsOf: try hevcIssues(prefix: prefix, box: box, reader: reader))
                 }
             }
         }
@@ -115,7 +115,7 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
     }
 
     // swiftlint:disable:next cyclomatic_complexity function_body_length
-    private func sampleEntries(for header: BoxHeader, reader: RandomAccessReader) -> [SampleEntry] {
+    private func sampleEntries(for header: BoxHeader, reader: RandomAccessReader) throws -> [SampleEntry] {
         let payloadStart = header.payloadRange.lowerBound
         let payloadEnd = header.payloadRange.upperBound
         guard payloadEnd > payloadStart else { return [] }
@@ -125,7 +125,7 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
         cursor += 4
 
         guard
-            let entryCountValue = try? BoxParserRegistry.DefaultParsers.readUInt32(
+            let entryCountValue = try BoxParserRegistry.DefaultParsers.readUInt32(
                 reader, at: cursor, end: payloadEnd)
         else { return [] }
         let entryCount = Int(entryCountValue)
@@ -136,9 +136,9 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
 
         while index < entryCount, cursor + 8 <= payloadEnd {
             guard
-                let declaredSizeValue = try? BoxParserRegistry.DefaultParsers.readUInt32(
+                let declaredSizeValue = try BoxParserRegistry.DefaultParsers.readUInt32(
                     reader, at: cursor, end: payloadEnd),
-                let format = try? BoxParserRegistry.DefaultParsers.readFourCC(
+                let format = try BoxParserRegistry.DefaultParsers.readFourCC(
                     reader, at: cursor + 4, end: payloadEnd)
             else { break }
 
@@ -148,7 +148,7 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
             case 0: entryLength = payloadEnd - cursor
             case 1:
                 guard
-                    let largeSize = try? BoxParserRegistry.DefaultParsers.readUInt64(
+                    let largeSize = try BoxParserRegistry.DefaultParsers.readUInt64(
                         reader, at: cursor + 8, end: payloadEnd),
                     let converted = Int64(exactly: largeSize)
                 else { break }
@@ -167,14 +167,14 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
             if let baseHeaderLength = BoxParserRegistry.DefaultParsers.sampleEntryHeaderLength(
                 for: format)
             {
-                nestedBoxes = BoxParserRegistry.DefaultParsers.parseChildBoxes(
+                nestedBoxes = try BoxParserRegistry.DefaultParsers.parseChildBoxes(
                     reader: reader, contentStart: contentStart, entryEnd: entryEnd,
                     baseHeaderLength: baseHeaderLength)
             }
 
             var effectiveFormat = format
             if format.rawValue == "encv" || format.rawValue == "enca" {
-                let protection = BoxParserRegistry.DefaultParsers.parseProtectedSampleEntry(
+                let protection = try BoxParserRegistry.DefaultParsers.parseProtectedSampleEntry(
                     reader: reader, boxes: nestedBoxes, entryIndex: index)
                 if let original = protection.originalFormat { effectiveFormat = original }
             }
@@ -194,8 +194,8 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     private func avcIssues(
         prefix: String, box: BoxParserRegistry.DefaultParsers.NestedBox, reader: RandomAccessReader
-    ) -> [ValidationIssue] {
-        guard let data = readData(for: box, reader: reader) else {
+    ) throws -> [ValidationIssue] {
+        guard let data = try readData(for: box, reader: reader) else {
             return [
                 ValidationIssue(
                     ruleID: "VR-018",
@@ -329,8 +329,8 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     private func hevcIssues(
         prefix: String, box: BoxParserRegistry.DefaultParsers.NestedBox, reader: RandomAccessReader
-    ) -> [ValidationIssue] {
-        guard let data = readData(for: box, reader: reader) else {
+    ) throws -> [ValidationIssue] {
+        guard let data = try readData(for: box, reader: reader) else {
             return [
                 ValidationIssue(
                     ruleID: "VR-018",
@@ -426,15 +426,13 @@ final class CodecConfigurationValidationRule: BoxValidationRule, @unchecked Send
 
     private func readData(
         for box: BoxParserRegistry.DefaultParsers.NestedBox, reader: RandomAccessReader
-    ) -> Data? {
+    ) throws -> Data? {
         let count64 = box.payloadRange.upperBound - box.payloadRange.lowerBound
         guard count64 > 0, count64 <= Int64(Int.max) else { return nil }
         let count = Int(count64)
-        do {
-            return try BoxParserRegistry.DefaultParsers.readData(
-                reader, at: box.payloadRange.lowerBound, count: count,
-                end: box.payloadRange.upperBound)
-        } catch { return nil }
+        return try BoxParserRegistry.DefaultParsers.readData(
+            reader, at: box.payloadRange.lowerBound, count: count,
+            end: box.payloadRange.upperBound)
     }
 
     private func nalTypeName(_ type: UInt8) -> String {

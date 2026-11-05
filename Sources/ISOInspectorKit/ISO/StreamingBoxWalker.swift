@@ -13,6 +13,16 @@ public struct StreamingBoxWalker: Sendable {
         options: ParsePipeline.Options = .strict, onEvent: EventHandler,
         onIssue: IssueHandler = { _, _ in }, onFinish: FinishHandler
     ) throws {
+        try walkWithThrowingEvents(
+            reader: reader, cancellationCheck: cancellationCheck, options: options,
+            onEvent: onEvent, onIssue: onIssue, onFinish: onFinish)
+    }
+
+    func walkWithThrowingEvents(
+        reader: RandomAccessReader, cancellationCheck: CancellationCheck,
+        options: ParsePipeline.Options = .strict, onEvent: (ParseEvent) throws -> Void,
+        onIssue: IssueHandler = { _, _ in }, onFinish: FinishHandler
+    ) throws {
         var stack: [Frame] = [
             Frame(
                 header: nil, range: Int64(0)..<reader.length, cursor: Int64(0), depth: -1,
@@ -47,7 +57,7 @@ public struct StreamingBoxWalker: Sendable {
                     let event = ParseEvent(
                         kind: .didFinishBox(header: header, depth: frame.depth),
                         offset: header.endOffset)
-                    onEvent(event)
+                    try onEvent(event)
                     continue
                 } else {
                     onFinish()
@@ -71,10 +81,16 @@ public struct StreamingBoxWalker: Sendable {
 
             let headerResult = BoxHeaderDecoder.readHeader(
                 from: reader, at: offset, inParentRange: frame.range)
+            try cancellationCheck()
             let header: BoxHeader
             switch headerResult {
             case .success(let decodedHeader): header = decodedHeader
             case .failure(let error):
+                if case .readerError(let underlying) = error,
+                    let cancellation = underlying as? CancellationError
+                {
+                    throw cancellation
+                }
                 guard !options.abortOnStructuralError else { throw error }
 
                 let issue = Self.issue(
@@ -152,7 +168,7 @@ public struct StreamingBoxWalker: Sendable {
                 kind: .willStartBox(header: header, depth: depth),
                 offset: header.startOffset
             )
-            onEvent(startEvent)
+            try onEvent(startEvent)
 
             stack.append(
                 Frame(

@@ -27,8 +27,13 @@ struct BoxValidator: Sendable {
     ///   - event: The parse event to validate
     ///   - reader: Random access reader for inspecting box payload data
     /// - Returns: Parse event with validation issues attached (if any were found)
-    func annotate(event: ParseEvent, reader: RandomAccessReader) -> ParseEvent {
-        let issues = rules.flatMap { $0.issues(for: event, reader: reader) }
+    func annotate(event: ParseEvent, reader: RandomAccessReader) throws -> ParseEvent {
+        var issues: [ValidationIssue] = []
+        for rule in rules {
+            try Task.checkCancellation()
+            issues.append(contentsOf: try rule.issues(for: event, reader: reader))
+        }
+        try Task.checkCancellation()
         guard !issues.isEmpty else { return event }
         return ParseEvent(
             kind: event.kind, offset: event.offset, metadata: event.metadata,

@@ -12,7 +12,7 @@ protocol BoxValidationRule: Sendable {
     ///   - event: The parse event to validate
     ///   - reader: Random access reader for inspecting box payload data
     /// - Returns: Array of validation issues, empty if no violations found
-    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue]
+    func issues(for event: ParseEvent, reader: RandomAccessReader) throws -> [ValidationIssue]
 }
 
 // MARK: - Shared Utilities

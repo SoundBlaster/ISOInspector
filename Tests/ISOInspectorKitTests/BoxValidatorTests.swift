@@ -15,7 +15,7 @@ final class BoxValidatorTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: data)
 
         let validator = BoxValidator()
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
 
         let vr003Issues = annotated.validationIssues.filter { $0.ruleID == "VR-003" }
         XCTAssertTrue(vr003Issues.isEmpty)
@@ -33,7 +33,7 @@ final class BoxValidatorTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: data)
 
         let validator = BoxValidator()
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
 
         let vr003Issues = annotated.validationIssues.filter { $0.ruleID == "VR-003" }
         XCTAssertEqual(vr003Issues.count, 2)
@@ -52,7 +52,7 @@ final class BoxValidatorTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: data)
 
         let validator = BoxValidator()
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
 
         let vr003Issues = annotated.validationIssues.filter { $0.ruleID == "VR-003" }
         XCTAssertEqual(vr003Issues.count, 1)
@@ -71,7 +71,7 @@ final class BoxValidatorTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: data)
 
         let validator = BoxValidator()
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
 
         let vr003Issues = annotated.validationIssues.filter { $0.ruleID == "VR-003" }
         XCTAssertEqual(vr003Issues.count, 1)
@@ -88,7 +88,7 @@ final class BoxValidatorTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: Data(count: 16))
 
         let validator = BoxValidator()
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
 
         let vr001Issues = annotated.validationIssues.filter { $0.ruleID == "VR-001" }
         XCTAssertEqual(vr001Issues.count, 1)
@@ -105,18 +105,18 @@ final class BoxValidatorTests: XCTestCase {
 
         let validator = BoxValidator()
 
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: moov, depth: 0), offset: moov.startOffset),
             reader: reader)
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: trak, depth: 1), offset: trak.startOffset),
             reader: reader)
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(kind: .didFinishBox(header: trak, depth: 1), offset: trak.endOffset),
             reader: reader)
-        let finishedMoov = validator.annotate(
+        let finishedMoov = try validator.annotate(
             event: ParseEvent(kind: .didFinishBox(header: moov, depth: 0), offset: moov.endOffset),
             reader: reader)
 
@@ -135,11 +135,11 @@ final class BoxValidatorTests: XCTestCase {
 
         let validator = BoxValidator()
 
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: moov, depth: 0), offset: moov.startOffset),
             reader: reader)
-        let annotatedChildStart = validator.annotate(
+        let annotatedChildStart = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: misalignedChild, depth: 1),
                 offset: misalignedChild.startOffset), reader: reader)
@@ -161,25 +161,25 @@ final class BoxValidatorTests: XCTestCase {
 
         let validator = BoxValidator()
 
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: moov, depth: 0), offset: moov.startOffset),
             reader: reader)
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: trak, depth: 1), offset: trak.startOffset),
             reader: reader)
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: tkhd, depth: 2), offset: tkhd.startOffset),
             reader: reader)
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(kind: .didFinishBox(header: tkhd, depth: 2), offset: tkhd.endOffset),
             reader: reader)
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(kind: .didFinishBox(header: trak, depth: 1), offset: trak.endOffset),
             reader: reader)
-        let finishedMoov = validator.annotate(
+        let finishedMoov = try validator.annotate(
             event: ParseEvent(kind: .didFinishBox(header: moov, depth: 0), offset: moov.endOffset),
             reader: reader)
 
@@ -196,12 +196,12 @@ final class BoxValidatorTests: XCTestCase {
 
         let validator = BoxValidator()
 
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: moov, depth: 0), offset: moov.startOffset),
             reader: reader)
 
-        let annotatedChildStart = validator.annotate(
+        let annotatedChildStart = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: oversizedChild, depth: 1),
                 offset: oversizedChild.startOffset), reader: reader)
@@ -224,20 +224,20 @@ final class BoxValidatorTests: XCTestCase {
 
         let validator = BoxValidator()
 
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: moov, depth: 0), offset: moov.startOffset),
             reader: reader)
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: firstChild, depth: 1), offset: firstChild.startOffset),
             reader: reader)
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: ParseEvent(
                 kind: .didFinishBox(header: firstChild, depth: 1), offset: firstChild.endOffset),
             reader: reader)
 
-        let annotatedChildStart = validator.annotate(
+        let annotatedChildStart = try validator.annotate(
             event: ParseEvent(
                 kind: .willStartBox(header: overlappingChild, depth: 1),
                 offset: overlappingChild.startOffset), reader: reader)
@@ -253,9 +253,9 @@ final class BoxValidatorTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: Data(count: 64))
         let validator = BoxValidator()
 
-        _ = validator.annotate(
+        _ = try validator.annotate(
             event: try makeMfhdEvent(sequenceNumber: 10, offset: 0), reader: reader)
-        let second = validator.annotate(
+        let second = try validator.annotate(
             event: try makeMfhdEvent(sequenceNumber: 9, offset: 16), reader: reader)
 
         let issues = second.validationIssues.filter { $0.ruleID == "VR-016" }
@@ -268,7 +268,7 @@ final class BoxValidatorTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: Data(count: 64))
         let validator = BoxValidator()
 
-        let event = validator.annotate(
+        let event = try validator.annotate(
             event: try makeMfhdEvent(sequenceNumber: 0, offset: 0), reader: reader)
         let issues = event.validationIssues.filter { $0.ruleID == "VR-016" }
         XCTAssertEqual(issues.count, 1)
@@ -280,11 +280,11 @@ final class BoxValidatorTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: Data(count: 64))
         let validator = BoxValidator()
 
-        let first = validator.annotate(
+        let first = try validator.annotate(
             event: try makeMfhdEvent(sequenceNumber: 1, offset: 0), reader: reader)
         XCTAssertTrue(first.validationIssues.filter { $0.ruleID == "VR-016" }.isEmpty)
 
-        let second = validator.annotate(
+        let second = try validator.annotate(
             event: try makeMfhdEvent(sequenceNumber: 2, offset: 16), reader: reader)
         XCTAssertTrue(second.validationIssues.filter { $0.ruleID == "VR-016" }.isEmpty)
     }
@@ -304,7 +304,7 @@ final class BoxValidatorTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: Data(count: Int(header.totalSize)))
         let validator = BoxValidator()
 
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
         let issues = annotated.validationIssues.filter { $0.ruleID == "VR-017" }
         XCTAssertEqual(issues.count, 1)
         XCTAssertEqual(issues.first?.severity, .error)
@@ -333,7 +333,7 @@ final class BoxValidatorTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: Data(count: Int(header.totalSize)))
         let validator = BoxValidator()
 
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
         let issues = annotated.validationIssues.filter { $0.ruleID == "VR-017" }
         XCTAssertEqual(issues.count, 1)
         XCTAssertEqual(issues.first?.severity, .error)
@@ -362,7 +362,7 @@ final class BoxValidatorTests: XCTestCase {
         let reader = InMemoryRandomAccessReader(data: Data(count: Int(header.totalSize)))
         let validator = BoxValidator()
 
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
         XCTAssertTrue(annotated.validationIssues.filter { $0.ruleID == "VR-017" }.isEmpty)
     }
 
@@ -382,7 +382,7 @@ final class BoxValidatorTests: XCTestCase {
             payload: payload)
 
         let validator = BoxValidator()
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
         let issues = annotated.validationIssues.filter { $0.ruleID == "VR-018" }
 
         XCTAssertEqual(issues.count, 1)
@@ -403,7 +403,7 @@ final class BoxValidatorTests: XCTestCase {
             payload: payload)
 
         let validator = BoxValidator()
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
         let issues = annotated.validationIssues.filter { $0.ruleID == "VR-018" }
 
         XCTAssertEqual(issues.count, 1)
@@ -426,7 +426,7 @@ final class BoxValidatorTests: XCTestCase {
             payload: payload)
 
         let validator = BoxValidator()
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
         let issues = annotated.validationIssues.filter { $0.ruleID == "VR-018" }
 
         XCTAssertTrue(issues.isEmpty, "Unexpected issues: \(issues)")
@@ -449,7 +449,7 @@ final class BoxValidatorTests: XCTestCase {
             payload: payload)
 
         let validator = BoxValidator()
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
         let issues = annotated.validationIssues.filter { $0.ruleID == "VR-018" }
 
         XCTAssertEqual(issues.count, 1)
@@ -476,7 +476,7 @@ final class BoxValidatorTests: XCTestCase {
         )
 
         let validator = BoxValidator()
-        let annotated = validator.annotate(event: event, reader: reader)
+        let annotated = try validator.annotate(event: event, reader: reader)
         let issues = annotated.validationIssues.filter { $0.ruleID == "VR-018" }
 
         XCTAssertEqual(issues.count, 1)
