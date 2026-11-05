@@ -23,6 +23,11 @@
         private let logger = Logger(subsystem: "ISOInspectorApp", category: "DocumentSession")
 
         private var latestSelectionNodeID: Int64?
+        private enum OpenRequest: Equatable {
+            case idle
+            case opening(UUID)
+        }
+        private var openRequest: OpenRequest = .idle
 
         // MARK: - Callbacks
 
@@ -55,6 +60,8 @@
             recent: DocumentRecent, restoredSelection: Int64? = nil,
             preResolvedScope: SecurityScopedURL? = nil, failureRecent: DocumentRecent? = nil
         ) {
+            let request = OpenRequest.opening(UUID())
+            openRequest = request
             do {
                 let accessContext = try bookmarkService.prepareAccess(
                     for: recent, preResolvedScope: preResolvedScope)
@@ -62,12 +69,14 @@
                 openDocument(
                     accessContext: accessContext, recent: recent,
                     restoredSelection: restoredSelection, preResolvedScope: preResolvedScope,
-                    failureRecent: failureRecent)
+                    failureRecent: failureRecent, request: request)
             } catch let accessError as DocumentAccessError {
+                supersedePendingOpen()
                 preResolvedScope?.revoke()
                 let targetRecent = failureRecent ?? recent
                 handleRecentAccessFailure(targetRecent, error: accessError)
             } catch {
+                supersedePendingOpen()
                 preResolvedScope?.revoke()
                 let targetRecent = failureRecent ?? recent
                 emitLoadFailure(for: targetRecent, error: error, failedRecent: nil)
@@ -76,7 +85,7 @@
 
         private func openDocument(
             accessContext: AccessContext, recent: DocumentRecent, restoredSelection: Int64?,
-            preResolvedScope: SecurityScopedURL?, failureRecent: DocumentRecent?
+            preResolvedScope: SecurityScopedURL?, failureRecent: DocumentRecent?, request: OpenRequest
         ) {
             parseCoordinationService.openDocument(
                 accessContext: accessContext, failureRecent: failureRecent,
@@ -84,14 +93,26 @@
                     [weak self]
                     scopedURL, bookmark, bookmarkRecord, reader, pipeline, recent, restoredSelection
                     in
-                    self?.startSession(
+                    guard let self, self.openRequest == request else {
+                        scopedURL.revoke()
+                        return
+                    }
+                    self.openRequest = .idle
+                    self.startSession(
                         scopedURL: scopedURL, bookmark: bookmark, bookmarkRecord: bookmarkRecord,
                         reader: reader, pipeline: pipeline, recent: recent,
                         restoredSelection: restoredSelection)
                 },
                 onFailure: { [weak self] recent, error in
-                    self?.handleOpenFailure(recent: recent, error: error)
+                    guard let self, self.openRequest == request else { return }
+                    self.supersedePendingOpen()
+                    self.handleOpenFailure(recent: recent, error: error)
                 }, restoredSelection: restoredSelection, preResolvedScope: preResolvedScope)
+        }
+
+        func supersedePendingOpen() {
+            openRequest = .idle
+            sessionPersistenceService.setIsRestoringSession(false)
         }
 
         private func handleOpenFailure(recent: DocumentRecent, error: Error?) {
