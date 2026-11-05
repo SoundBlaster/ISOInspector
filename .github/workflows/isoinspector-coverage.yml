@@ -60,7 +60,7 @@ jobs:
         id: coverage
         run: |
           python3 scripts/isoinspector_coverage.py \
-            --kit 88 --app 41 --cli 85 \
+            --kit 89 --app 43 --cli 85 \
             --json coverage-isoinspector.json \
             --summary "$GITHUB_STEP_SUMMARY"
 
