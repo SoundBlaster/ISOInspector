@@ -9,6 +9,8 @@ on:
       - 'Tests/**'
       - 'FoundationUI/**'
       - 'scripts/**'
+      - 'coverage_analysis.py'
+      - '.github/scripts/swiftlint-linux.sh'
       - 'Package.swift'
       - 'Package.resolved'
       - 'Project.swift'
@@ -24,6 +26,8 @@ on:
       - 'Tests/**'
       - 'FoundationUI/**'
       - 'scripts/**'
+      - 'coverage_analysis.py'
+      - '.github/scripts/swiftlint-linux.sh'
       - 'Package.swift'
       - 'Package.resolved'
       - 'Project.swift'
@@ -32,7 +36,26 @@ on:
       - 'ISOInspector.xcworkspace/**'
       - '.github/workflows/*.yml'
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
+  changes:
+    runs-on: ubuntu-22.04
+    outputs:
+      foundationui: ${{ steps.filter.outputs.foundationui }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            foundationui:
+              - 'FoundationUI/**'
+              - 'coverage_analysis.py'
+              - '.github/workflows/ci.yml'
+
   markdown-validation:
     # Temporarily disable Markdown linting until the rules are re-enabled.
     if: ${{ github.ref == 'refs/heads/__disabled_markdown_validation__' }}
@@ -79,13 +102,17 @@ jobs:
 
   swiftlint-complexity:
     name: SwiftLint Complexity Check
-    runs-on: macos-latest
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install SwiftLint
-        run: brew install swiftlint
+        run: |
+          mkdir -p "$RUNNER_TEMP/swiftlint-bin"
+          cp .github/scripts/swiftlint-linux.sh "$RUNNER_TEMP/swiftlint-bin/swiftlint"
+          chmod +x "$RUNNER_TEMP/swiftlint-bin/swiftlint"
+          echo "$RUNNER_TEMP/swiftlint-bin" >> "$GITHUB_PATH"
 
       - name: Run SwiftLint (strict mode)
         continue-on-error: true
@@ -185,6 +212,8 @@ jobs:
 
   coverage-gate:
     name: Coverage Gate (FoundationUI)
+    needs: changes
+    if: needs.changes.outputs.foundationui == 'true'
     runs-on: xcode-27
     steps:
       - name: Checkout repository
@@ -199,7 +228,9 @@ jobs:
         run: mkdir -p Documentation/Quality
 
       - name: Run FoundationUI tests with coverage
-        run: swift test --package-path FoundationUI --enable-code-coverage 2>&1 | tee Documentation/Quality/foundationui-coverage-test.log
+        run: |
+          set -o pipefail
+          swift test --package-path FoundationUI --enable-code-coverage 2>&1 | tee Documentation/Quality/foundationui-coverage-test.log
 
       - name: Enforce coverage threshold (67%)
         run: |
