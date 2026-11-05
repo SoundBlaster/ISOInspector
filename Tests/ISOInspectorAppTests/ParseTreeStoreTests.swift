@@ -22,7 +22,7 @@
             let finished = expectation(description: "Parsing finished")
             var cancellables: Set<AnyCancellable> = []
 
-            store.$state.dropFirst().sink { state in if state == .finished { finished.fulfill() } }
+            store.statePublisher.dropFirst().sink { state in if state == .finished { finished.fulfill() } }
                 .store(in: &cancellables)
 
             store.start(pipeline: pipeline, reader: reader)
@@ -63,7 +63,7 @@
             let finished = expectation(description: "Parsing finished")
             var cancellables: Set<AnyCancellable> = []
 
-            store.$state.dropFirst().sink { state in if state == .finished { finished.fulfill() } }
+            store.statePublisher.dropFirst().sink { state in if state == .finished { finished.fulfill() } }
                 .store(in: &cancellables)
 
             store.start(pipeline: pipeline, reader: reader)
@@ -103,7 +103,7 @@
             let failed = expectation(description: "Parsing failed")
             var cancellables: Set<AnyCancellable> = []
 
-            store.$state.dropFirst().sink { state in
+            store.statePublisher.dropFirst().sink { state in
                 if case .failed(let message) = state {
                     XCTAssertTrue(message.contains("failure"))
                     failed.fulfill()
@@ -162,7 +162,7 @@
             let finished = expectation(description: "Parsing finished")
             var cancellables: Set<AnyCancellable> = []
 
-            store.$state.dropFirst().sink { state in if state == .finished { finished.fulfill() } }
+            store.statePublisher.dropFirst().sink { state in if state == .finished { finished.fulfill() } }
                 .store(in: &cancellables)
 
             store.start(pipeline: pipeline, reader: reader)
@@ -195,7 +195,7 @@
             let finished = expectation(description: "Parsing finished")
             var cancellables: Set<AnyCancellable> = []
 
-            store.$state.dropFirst().sink { state in if state == .finished { finished.fulfill() } }
+            store.statePublisher.dropFirst().sink { state in if state == .finished { finished.fulfill() } }
                 .store(in: &cancellables)
 
             store.start(pipeline: pipeline, reader: reader)
@@ -242,7 +242,7 @@
             let finished = expectation(description: "Parsing finished")
             var cancellables: Set<AnyCancellable> = []
 
-            store.$state.dropFirst().sink { state in if state == .finished { finished.fulfill() } }
+            store.statePublisher.dropFirst().sink { state in if state == .finished { finished.fulfill() } }
                 .store(in: &cancellables)
 
             store.start(pipeline: pipeline, reader: reader)

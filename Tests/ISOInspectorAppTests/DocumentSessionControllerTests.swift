@@ -67,7 +67,7 @@
             var cancellables: Set<AnyCancellable> = []
             let finished = expectation(description: "Parsing finished")
 
-            controller.parseTreeStore.$state.dropFirst().sink { state in
+            controller.parseTreeStore.statePublisher.dropFirst().sink { state in
                 if state == .finished { finished.fulfill() }
             }.store(in: &cancellables)
 
@@ -343,7 +343,7 @@
             var cancellables: Set<AnyCancellable> = []
             let finished = expectation(description: "Parsing finished")
 
-            controller.parseTreeStore.$state.dropFirst().sink { state in
+            controller.parseTreeStore.statePublisher.dropFirst().sink { state in
                 if state == .finished { finished.fulfill() }
             }.store(in: &cancellables)
 
@@ -638,7 +638,7 @@
 
             let finished = expectation(description: "Parsing finished")
             var cancellables: Set<AnyCancellable> = []
-            controller.parseTreeStore.$state.dropFirst().sink { state in
+            controller.parseTreeStore.statePublisher.dropFirst().sink { state in
                 if state == .finished { finished.fulfill() }
             }.store(in: &cancellables)
 
@@ -702,7 +702,7 @@
 
             let finished = expectation(description: "Parsing finished")
             var cancellables: Set<AnyCancellable> = []
-            controller.parseTreeStore.$state.dropFirst().sink { state in
+            controller.parseTreeStore.statePublisher.dropFirst().sink { state in
                 if state == .finished { finished.fulfill() }
             }.store(in: &cancellables)
 

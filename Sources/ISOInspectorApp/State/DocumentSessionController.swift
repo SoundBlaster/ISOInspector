@@ -300,7 +300,7 @@
                 self.mirrorWindowParseState(from: sourceParseTreeStore)
             }.store(in: &mirroredWindowSessionCancellables)
 
-            sourceParseTreeStore.$state.sink { [weak self, weak sourceParseTreeStore] _ in
+            sourceParseTreeStore.statePublisher.sink { [weak self, weak sourceParseTreeStore] _ in
                 guard let self, let sourceParseTreeStore else { return }
                 self.mirrorWindowParseState(from: sourceParseTreeStore)
             }.store(in: &mirroredWindowSessionCancellables)
