@@ -16,7 +16,8 @@ extension BoxParserRegistry.DefaultParsers {
         _ reader: RandomAccessReader, at offset: Int64, end: Int64
     ) throws -> UInt16? {
         guard offset + 2 <= end else { return nil }
-        guard let data = try? reader.read(at: offset, count: 2), data.count == 2 else { return nil }
+        let data = try reader.read(at: offset, count: 2)
+        guard data.count == 2 else { return nil }
         return (UInt16(data[0]) << 8) | UInt16(data[1])
     }
 
@@ -34,28 +35,29 @@ extension BoxParserRegistry.DefaultParsers {
         _ reader: RandomAccessReader, at offset: Int64, end: Int64
     ) throws -> UInt32? {
         guard offset + 4 <= end else { return nil }
-        return try? reader.readUInt32(at: offset)
+        return try reader.readUInt32(at: offset)
     }
 
     @inline(__always) static func readUInt64(
         _ reader: RandomAccessReader, at offset: Int64, end: Int64
     ) throws -> UInt64? {
         guard offset + 8 <= end else { return nil }
-        return try? reader.readUInt64(at: offset)
+        return try reader.readUInt64(at: offset)
     }
 
     @inline(__always) static func readFourCC(
         _ reader: RandomAccessReader, at offset: Int64, end: Int64
     ) throws -> FourCharCode? {
         guard offset + 4 <= end else { return nil }
-        return try? reader.readFourCC(at: offset)
+        return try reader.readFourCC(at: offset)
     }
 
     @inline(__always) static func readInt16(
         _ reader: RandomAccessReader, at offset: Int64, end: Int64
     ) throws -> Int16? {
         guard offset + 2 <= end else { return nil }
-        guard let data = try? reader.read(at: offset, count: 2), data.count == 2 else { return nil }
+        let data = try reader.read(at: offset, count: 2)
+        guard data.count == 2 else { return nil }
         let value = UInt16(data[0]) << 8 | UInt16(data[1])
         return Int16(bitPattern: value)
     }

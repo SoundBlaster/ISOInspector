@@ -3,14 +3,14 @@ import Foundation
 extension BoxParserRegistry.DefaultParsers {
     static func parseCodecSpecificFields(
         format: FourCharCode, boxes: [NestedBox], reader: RandomAccessReader, entryIndex: Int
-    ) -> [ParsedBoxPayload.Field] {
+    ) throws -> [ParsedBoxPayload.Field] {
         var fields: [ParsedBoxPayload.Field] = []
 
         if avcSampleEntryTypes.contains(format),
             let avcBox = boxes.first(where: { $0.type.rawValue == "avcC" })
         {
             fields.append(
-                contentsOf: parseAvcConfiguration(
+                contentsOf: try parseAvcConfiguration(
                     reader: reader, box: avcBox, entryIndex: entryIndex))
         }
 
@@ -18,7 +18,7 @@ extension BoxParserRegistry.DefaultParsers {
             let hevcBox = boxes.first(where: { $0.type.rawValue == "hvcC" })
         {
             fields.append(
-                contentsOf: parseHevcConfiguration(
+                contentsOf: try parseHevcConfiguration(
                     reader: reader, box: hevcBox, entryIndex: entryIndex))
         }
 
@@ -26,13 +26,13 @@ extension BoxParserRegistry.DefaultParsers {
             let esdsBox = boxes.first(where: { $0.type.rawValue == "esds" })
         {
             fields.append(
-                contentsOf: parseEsdsConfiguration(
+                contentsOf: try parseEsdsConfiguration(
                     reader: reader, box: esdsBox, entryIndex: entryIndex))
         }
 
         if let dolbyVisionBox = boxes.first(where: { $0.type.rawValue == "dvvC" }) {
             fields.append(
-                contentsOf: parseDolbyVisionConfiguration(
+                contentsOf: try parseDolbyVisionConfiguration(
                     reader: reader, box: dolbyVisionBox, entryIndex: entryIndex))
         }
 
@@ -40,7 +40,7 @@ extension BoxParserRegistry.DefaultParsers {
             let av1Box = boxes.first(where: { $0.type.rawValue == "av1C" })
         {
             fields.append(
-                contentsOf: parseAv1Configuration(
+                contentsOf: try parseAv1Configuration(
                     reader: reader, box: av1Box, entryIndex: entryIndex))
         }
 
@@ -48,7 +48,7 @@ extension BoxParserRegistry.DefaultParsers {
             let vp9Box = boxes.first(where: { $0.type.rawValue == "vpcC" })
         {
             fields.append(
-                contentsOf: parseVp9Configuration(
+                contentsOf: try parseVp9Configuration(
                     reader: reader, box: vp9Box, entryIndex: entryIndex))
         }
 
@@ -56,7 +56,7 @@ extension BoxParserRegistry.DefaultParsers {
             let ac4Box = boxes.first(where: { $0.type.rawValue == "dac4" })
         {
             fields.append(
-                contentsOf: parseDolbyAC4Configuration(
+                contentsOf: try parseDolbyAC4Configuration(
                     reader: reader, box: ac4Box, entryIndex: entryIndex))
         }
 
@@ -64,7 +64,7 @@ extension BoxParserRegistry.DefaultParsers {
             let mpegHBox = boxes.first(where: { $0.type.rawValue == "mhaC" })
         {
             fields.append(
-                contentsOf: parseMpegHConfiguration(
+                contentsOf: try parseMpegHConfiguration(
                     reader: reader, box: mpegHBox, entryIndex: entryIndex))
         }
 
@@ -73,21 +73,20 @@ extension BoxParserRegistry.DefaultParsers {
 
     static func parseProtectedSampleEntry(
         reader: RandomAccessReader, boxes: [NestedBox], entryIndex: Int
-    ) -> (fields: [ParsedBoxPayload.Field], originalFormat: FourCharCode?) {
+    ) throws -> (fields: [ParsedBoxPayload.Field], originalFormat: FourCharCode?) {
         guard let sinfBox = boxes.first(where: { $0.type.rawValue == "sinf" }) else {
             return ([], nil)
         }
 
-        let sinfChildren = parseChildBoxes(
+        let sinfChildren = try parseChildBoxes(
             reader: reader, contentStart: sinfBox.payloadRange.lowerBound,
             entryEnd: sinfBox.payloadRange.upperBound, baseHeaderLength: 0)
 
         var fields: [ParsedBoxPayload.Field] = []
         var originalFormat: FourCharCode?
 
-        if let frma = sinfChildren.first(where: { $0.type.rawValue == "frma" }),
-            let format = try? reader.readFourCC(at: frma.payloadRange.lowerBound)
-        {
+        if let frma = sinfChildren.first(where: { $0.type.rawValue == "frma" }) {
+            let format = try reader.readFourCC(at: frma.payloadRange.lowerBound)
             originalFormat = format
             fields.append(
                 ParsedBoxPayload.Field(
@@ -98,18 +97,18 @@ extension BoxParserRegistry.DefaultParsers {
 
         if let schm = sinfChildren.first(where: { $0.type.rawValue == "schm" }) {
             fields.append(
-                contentsOf: parseSchemeInformation(
+                contentsOf: try parseSchemeInformation(
                     reader: reader, box: schm, entryIndex: entryIndex))
         }
 
         if let schi = sinfChildren.first(where: { $0.type.rawValue == "schi" }) {
-            let schiChildren = parseChildBoxes(
+            let schiChildren = try parseChildBoxes(
                 reader: reader, contentStart: schi.payloadRange.lowerBound,
                 entryEnd: schi.payloadRange.upperBound, baseHeaderLength: 0)
 
             if let tenc = schiChildren.first(where: { $0.type.rawValue == "tenc" }) {
                 fields.append(
-                    contentsOf: parseTrackEncryption(
+                    contentsOf: try parseTrackEncryption(
                         reader: reader, box: tenc, entryIndex: entryIndex))
             }
         }
@@ -118,11 +117,11 @@ extension BoxParserRegistry.DefaultParsers {
     }
 
     static func parseSchemeInformation(reader: RandomAccessReader, box: NestedBox, entryIndex: Int)
-        -> [ParsedBoxPayload.Field]
+        throws -> [ParsedBoxPayload.Field]
     {
         let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
         guard length > 0,
-            let payload = try? readData(
+            let payload = try readData(
                 reader, at: box.payloadRange.lowerBound, count: length,
                 end: box.payloadRange.upperBound)
         else { return [] }
@@ -169,11 +168,11 @@ extension BoxParserRegistry.DefaultParsers {
     }
 
     static func parseTrackEncryption(reader: RandomAccessReader, box: NestedBox, entryIndex: Int)
-        -> [ParsedBoxPayload.Field]
+        throws -> [ParsedBoxPayload.Field]
     {
         let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
         guard length > 0,
-            let payload = try? readData(
+            let payload = try readData(
                 reader, at: box.payloadRange.lowerBound, count: length,
                 end: box.payloadRange.upperBound)
         else { return [] }

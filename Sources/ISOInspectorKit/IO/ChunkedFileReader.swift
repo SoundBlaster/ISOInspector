@@ -47,8 +47,10 @@ public final class ChunkedFileReader: RandomAccessReader, @unchecked Sendable {
     deinit { closeHandler?() }
 
     public func read(at offset: Int64, count: Int) throws -> Data {
+        try Task.checkCancellation()
         readLock.lock()
         defer { readLock.unlock() }
+        try Task.checkCancellation()
         guard offset >= 0 else { throw RandomAccessReaderError.boundsError(.invalidOffset(offset)) }
         guard count >= 0 else { throw RandomAccessReaderError.boundsError(.invalidCount(count)) }
         guard count > 0 else { return Data() }
@@ -72,6 +74,7 @@ public final class ChunkedFileReader: RandomAccessReader, @unchecked Sendable {
         var result = Data(capacity: count)
 
         while remaining > 0 {
+            try Task.checkCancellation()
             let chunkOffset = alignedOffset(for: currentOffset)
             let chunk = try loadChunk(at: chunkOffset)
             let startIndex = Int(currentOffset - chunkOffset)
@@ -98,14 +101,21 @@ public final class ChunkedFileReader: RandomAccessReader, @unchecked Sendable {
 
         do {
             try file.seek(toOffset: UInt64(offset))
+            try Task.checkCancellation()
             var buffer = Data(repeating: 0, count: chunkSize)
             let readCount = try buffer.withUnsafeMutableBytes { pointer -> Int in
                 try file.read(into: pointer, requestedCount: chunkSize)
             }
+            try Task.checkCancellation()
             cachedChunkOffset = offset
             cachedChunkData = buffer.prefix(readCount)
             return cachedChunkData
-        } catch { throw RandomAccessReaderError.ioError(underlying: error) }
+        } catch let cancellation as CancellationError {
+            throw cancellation
+        } catch {
+            try Task.checkCancellation()
+            throw RandomAccessReaderError.ioError(underlying: error)
+        }
     }
 }
 
@@ -122,7 +132,9 @@ private final class FileHandleAdapter: ChunkedFileReaderRandomAccessFile {
     func seek(toOffset offset: UInt64) throws { try handle.seek(toOffset: offset) }
 
     func read(into buffer: UnsafeMutableRawBufferPointer, requestedCount: Int) throws -> Int {
-        let data = try handle.read(upToCount: requestedCount) ?? Data()
+        let data = try handle.read(upToCount: requestedCount)
+        try Task.checkCancellation()
+        guard let data else { return 0 }
         if let baseAddress = buffer.baseAddress, !data.isEmpty {
             data.copyBytes(to: baseAddress.assumingMemoryBound(to: UInt8.self), count: data.count)
         }

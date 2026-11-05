@@ -20,7 +20,7 @@ import Foundation
 /// - Payload is smaller than 4 bytes when version/flags are expected
 struct VersionFlagsRule: BoxValidationRule {
     // swiftlint:disable:next function_body_length
-    func issues(for event: ParseEvent, reader: RandomAccessReader) -> [ValidationIssue] {
+    func issues(for event: ParseEvent, reader: RandomAccessReader) throws -> [ValidationIssue] {
         guard case .willStartBox(let header, _) = event.kind else { return [] }
         guard let descriptor = event.metadata else { return [] }
         guard descriptor.version != nil || descriptor.flags != nil else { return [] }
@@ -71,7 +71,10 @@ struct VersionFlagsRule: BoxValidationRule {
                         severity: .warning))
             }
             return issues
+        } catch let cancellation as CancellationError {
+            throw cancellation
         } catch {
+            try Task.checkCancellation()
             return [
                 ValidationIssue(
                     ruleID: "VR-003",

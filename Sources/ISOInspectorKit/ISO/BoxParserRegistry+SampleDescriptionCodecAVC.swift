@@ -2,11 +2,11 @@ import Foundation
 
 extension BoxParserRegistry.DefaultParsers {
     static func parseAvcConfiguration(reader: RandomAccessReader, box: NestedBox, entryIndex: Int)
-        -> [ParsedBoxPayload.Field]
+        throws -> [ParsedBoxPayload.Field]
     {
         let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
         guard length > 0,
-            let payload = try? readData(
+            let payload = try readData(
                 reader, at: box.payloadRange.lowerBound, count: length,
                 end: box.payloadRange.upperBound)
         else { return [] }

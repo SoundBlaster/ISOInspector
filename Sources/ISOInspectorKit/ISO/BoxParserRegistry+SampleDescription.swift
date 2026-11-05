@@ -138,11 +138,11 @@ extension BoxParserRegistry.DefaultParsers {
 
         if visualSampleEntryTypes.contains(format) {
             fields.append(
-                contentsOf: parseVisualSampleEntry(
+                contentsOf: try parseVisualSampleEntry(
                     reader: reader, contentStart: contentStart, entryEnd: entryEnd, index: index))
         } else if audioSampleEntryTypes.contains(format) {
             fields.append(
-                contentsOf: parseAudioSampleEntry(
+                contentsOf: try parseAudioSampleEntry(
                     reader: reader, contentStart: contentStart, entryEnd: entryEnd, index: index))
         }
 
@@ -151,20 +151,20 @@ extension BoxParserRegistry.DefaultParsers {
                 fields: fields, nextOffset: entryEnd, startOffset: startOffset)
         }
 
-        let childBoxes = parseChildBoxes(
+        let childBoxes = try parseChildBoxes(
             reader: reader, contentStart: contentStart, entryEnd: entryEnd,
             baseHeaderLength: headerLength)
 
         var effectiveFormat = format
         if protectedSampleEntryTypes.contains(format) {
-            let protection = parseProtectedSampleEntry(
+            let protection = try parseProtectedSampleEntry(
                 reader: reader, boxes: childBoxes, entryIndex: index)
             effectiveFormat = protection.originalFormat ?? format
             fields.append(contentsOf: protection.fields)
         }
 
         fields.append(
-            contentsOf: parseCodecSpecificFields(
+            contentsOf: try parseCodecSpecificFields(
                 format: effectiveFormat, boxes: childBoxes, reader: reader, entryIndex: index))
 
         return SampleEntryParseResult(

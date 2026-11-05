@@ -13,14 +13,12 @@ extension BoxParserRegistry.DefaultParsers {
         let start = payloadRange.lowerBound
         var compatibleBrands: [FourCharCode] = []
 
-        let major = try? reader.readFourCC(at: start)
-        if let major {
-            fields.append(
-                ParsedBoxPayload.Field(
-                    name: "major_brand", value: major.rawValue,
-                    description: "Primary brand identifying the file",
-                    byteRange: start..<(start + 4)))
-        }
+        let major = try reader.readFourCC(at: start)
+        fields.append(
+            ParsedBoxPayload.Field(
+                name: "major_brand", value: major.rawValue,
+                description: "Primary brand identifying the file",
+                byteRange: start..<(start + 4)))
 
         let minorVersion = try readUInt32(reader, at: start + 4, end: payloadRange.upperBound)
         if let minor = minorVersion {
@@ -48,7 +46,7 @@ extension BoxParserRegistry.DefaultParsers {
         guard !fields.isEmpty else { return nil }
 
         let detail: ParsedBoxPayload.Detail?
-        if let major, let minor = minorVersion {
+        if let minor = minorVersion {
             detail = .fileType(
                 ParsedBoxPayload.FileTypeBox(
                     majorBrand: major, minorVersion: minor, compatibleBrands: compatibleBrands))

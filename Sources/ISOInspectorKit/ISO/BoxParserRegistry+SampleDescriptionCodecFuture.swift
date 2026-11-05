@@ -3,10 +3,11 @@ import Foundation
 extension BoxParserRegistry.DefaultParsers {
     static func parseDolbyVisionConfiguration(
         reader: RandomAccessReader, box: NestedBox, entryIndex: Int
-    ) -> [ParsedBoxPayload.Field] {
+    )
+        throws -> [ParsedBoxPayload.Field] {
         let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
         guard length > 0,
-            let payload = try? readData(
+            let payload = try readData(
                 reader, at: box.payloadRange.lowerBound, count: length,
                 end: box.payloadRange.upperBound)
         else { return [] }
@@ -71,11 +72,11 @@ extension BoxParserRegistry.DefaultParsers {
     }
 
     static func parseAv1Configuration(reader: RandomAccessReader, box: NestedBox, entryIndex: Int)
-        -> [ParsedBoxPayload.Field]
+        throws -> [ParsedBoxPayload.Field]
     {
         let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
         guard length > 0,
-            let payload = try? readData(
+            let payload = try readData(
                 reader, at: box.payloadRange.lowerBound, count: length,
                 end: box.payloadRange.upperBound)
         else { return [] }
@@ -189,11 +190,11 @@ extension BoxParserRegistry.DefaultParsers {
     }
 
     static func parseVp9Configuration(reader: RandomAccessReader, box: NestedBox, entryIndex: Int)
-        -> [ParsedBoxPayload.Field]
+        throws -> [ParsedBoxPayload.Field]
     {
         let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
         guard length > 0,
-            let payload = try? readData(
+            let payload = try readData(
                 reader, at: box.payloadRange.lowerBound, count: length,
                 end: box.payloadRange.upperBound)
         else { return [] }
@@ -283,10 +284,11 @@ extension BoxParserRegistry.DefaultParsers {
 
     static func parseDolbyAC4Configuration(
         reader: RandomAccessReader, box: NestedBox, entryIndex: Int
-    ) -> [ParsedBoxPayload.Field] {
+    )
+        throws -> [ParsedBoxPayload.Field] {
         let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
         guard length > 0,
-            let payload = try? readData(
+            let payload = try readData(
                 reader, at: box.payloadRange.lowerBound, count: length,
                 end: box.payloadRange.upperBound)
         else { return [] }
@@ -349,11 +351,11 @@ extension BoxParserRegistry.DefaultParsers {
     }
 
     static func parseMpegHConfiguration(reader: RandomAccessReader, box: NestedBox, entryIndex: Int)
-        -> [ParsedBoxPayload.Field]
+        throws -> [ParsedBoxPayload.Field]
     {
         let length = Int(box.payloadRange.upperBound - box.payloadRange.lowerBound)
         guard length > 0,
-            let payload = try? readData(
+            let payload = try readData(
                 reader, at: box.payloadRange.lowerBound, count: length,
                 end: box.payloadRange.upperBound)
         else { return [] }
