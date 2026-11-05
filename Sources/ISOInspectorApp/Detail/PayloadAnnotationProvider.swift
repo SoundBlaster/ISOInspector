@@ -1,5 +1,5 @@
 import ISOInspectorKit
 
-protocol PayloadAnnotationProvider {
+protocol PayloadAnnotationProvider: Sendable {
     func annotations(for header: BoxHeader) async throws -> [PayloadAnnotation]
 }

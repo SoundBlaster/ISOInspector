@@ -63,23 +63,27 @@ def merge_profdata(bin_path: Path) -> Path:
     return out
 
 
-def find_test_binary(bin_path: Path) -> Path:
-    # macOS bundle layout
-    for bundle in bin_path.glob("*PackageTests.xctest"):
+def find_test_binaries(bin_path: Path) -> list[Path]:
+    # Older SwiftPM produces one PackageTests binary; Swift Build produces one
+    # bundle per test target. Include each so their coverage maps are combined.
+    binaries = []
+    for bundle in sorted(bin_path.glob("*Tests.xctest")):
+        if bundle.name == "ISOInspectorPerformanceTests.xctest":
+            continue  # The coverage workflow deliberately skips benchmarks.
+        if bundle.is_file() and os.access(bundle, os.X_OK):
+            binaries.append(bundle)
         macos = bundle / "Contents" / "MacOS"
         if macos.is_dir():
-            for exe in macos.iterdir():
-                if exe.is_file() and os.access(exe, os.X_OK):
-                    return exe
-    # Linux: plain executable
-    for exe in bin_path.glob("*PackageTests.xctest"):
-        if exe.is_file() and os.access(exe, os.X_OK):
-            return exe
-    sys.exit(f"error: could not locate PackageTests binary under {bin_path}")
+            binaries.extend(p for p in sorted(macos.iterdir()) if p.is_file() and os.access(p, os.X_OK))
+    if not binaries:
+        sys.exit(f"error: could not locate test binaries under {bin_path}")
+    return binaries
 
 
-def llvm_cov_report(binary: Path, profdata: Path) -> str:
-    cmd = ["xcrun", "llvm-cov", "report", str(binary), f"-instr-profile={profdata}"]
+def llvm_cov_report(binaries: list[Path], profdata: Path) -> str:
+    cmd = ["xcrun", "llvm-cov", "report", str(binaries[0]), f"-instr-profile={profdata}"]
+    for binary in binaries[1:]:
+        cmd.extend(["-object", str(binary)])
     print(f"$ {' '.join(cmd)}", file=sys.stderr)
     return subprocess.check_output(cmd, text=True)
 
@@ -169,8 +173,8 @@ def main() -> int:
 
     bin_path = find_bin_path()
     profdata = merge_profdata(bin_path)
-    binary = find_test_binary(bin_path)
-    report = llvm_cov_report(binary, profdata)
+    binaries = find_test_binaries(bin_path)
+    report = llvm_cov_report(binaries, profdata)
     agg = aggregate(report)
 
     thresholds = {}

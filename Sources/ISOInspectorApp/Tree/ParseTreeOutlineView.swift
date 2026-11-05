@@ -182,23 +182,12 @@
             }
         }
 
-        @ViewBuilder private var emptyStateView: some View {
-            if #available(iOS 17, macOS 14, *) {
-                ContentUnavailableView(
-                    "No boxes", systemImage: "tray",
-                    description: Text("Run a parse to populate the hierarchy or adjust filters.")
-                ).frame(maxWidth: .infinity, maxHeight: .infinity).nestedAccessibilityIdentifier(
-                    ParseTreeAccessibilityID.Outline.List.emptyState)
-            } else {
-                VStack(spacing: DS.Spacing.m) {
-                    Image(systemName: "tray").font(.system(size: 44)).foregroundColor(.secondary)
-                    Text("No boxes").font(.headline)
-                    Text("Run a parse to populate the hierarchy or adjust filters.").font(
-                        .subheadline
-                    ).foregroundColor(.secondary).multilineTextAlignment(.center)
-                }.frame(maxWidth: .infinity, maxHeight: .infinity).nestedAccessibilityIdentifier(
-                    ParseTreeAccessibilityID.Outline.List.emptyState)
-            }
+        private var emptyStateView: some View {
+            ContentUnavailableView(
+                "No boxes", systemImage: "tray",
+                description: Text("Run a parse to populate the hierarchy or adjust filters.")
+            ).frame(maxWidth: .infinity, maxHeight: .infinity).nestedAccessibilityIdentifier(
+                ParseTreeAccessibilityID.Outline.List.emptyState)
         }
     }
 

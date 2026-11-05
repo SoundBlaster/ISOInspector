@@ -38,10 +38,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Swift 6.0
+      - name: Set up Swift 6.4
         uses: SwiftyLab/setup-swift@v1
         with:
-          swift-version: '6.0'
+          swift-version: '6.4'
 
       - name: SwiftLint autocorrect check
         run: |
@@ -80,22 +80,24 @@ jobs:
       - name: Test with coverage
         run: |
           # Test platform-independent targets only
+          swift build --product isoinspect --enable-code-coverage
           swift test --enable-code-coverage \
-            --filter ISOInspectorKitTests
-          swift test --enable-code-coverage \
-            --filter ISOInspectorCLITests
+            --filter 'ISOInspectorKitTests|ISOInspectorCLITests'
 
       - name: Coverage summary
         run: |
           set -euo pipefail
-          profile=".build/debug/codecov/default.profdata"
+          bin_path="$(swift build --show-bin-path)"
+          profile="${bin_path}/codecov/default.profdata"
           if [ ! -f "$profile" ]; then
             echo "::error::Coverage profile not found at $profile"
             exit 1
           fi
-          mapfile -t binaries < <(find .build -type f -name '*.xctest')
-          if [ "${#binaries[@]}" -eq 0 ]; then
-            echo "::error::No test binaries found for coverage reporting"
+          # The instrumented CLI contains the Kit and CLI coverage maps.
+          binary="${bin_path}/isoinspect"
+          if [ ! -x "$binary" ]; then
+            echo "::error::Instrumented CLI not found: $binary"
             exit 1
           fi
-          llvm-cov report --ignore-filename-regex='Tests/' --instr-profile="$profile" "${binaries[@]}"
+          llvm-cov report --ignore-filename-regex='Tests/' --instr-profile="$profile" \
+            "$binary"

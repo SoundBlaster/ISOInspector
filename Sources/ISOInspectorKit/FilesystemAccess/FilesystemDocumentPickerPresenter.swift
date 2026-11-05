@@ -106,17 +106,9 @@ public struct FilesystemDocumentPickerPresenter: Sendable {
     @MainActor private func makeOpenPicker(configuration: FilesystemOpenConfiguration)
         -> UIDocumentPickerViewController
     {
-        let picker: UIDocumentPickerViewController
-        if #available(iOS 14.0, macCatalyst 14.0, *) {
-            let contentTypes =
-                makeUniformTypes(from: configuration.allowedContentTypes) ?? [UTType.item]
-            picker = UIDocumentPickerViewController(
-                forOpeningContentTypes: contentTypes, asCopy: false)
-        } else {
-            let identifiers = configuration.allowedContentTypes
-            picker = UIDocumentPickerViewController(
-                documentTypes: identifiers.isEmpty ? ["public.item"] : identifiers, in: .open)
-        }
+        let contentTypes = makeUniformTypes(from: configuration.allowedContentTypes) ?? [UTType.item]
+        let picker = UIDocumentPickerViewController(
+            forOpeningContentTypes: contentTypes, asCopy: false)
         picker.allowsMultipleSelection = configuration.allowsMultipleSelection
         picker.modalPresentationStyle = UIModalPresentationStyle.formSheet
         return picker
@@ -125,22 +117,13 @@ public struct FilesystemDocumentPickerPresenter: Sendable {
     @MainActor private func makeSavePicker(configuration: FilesystemSaveConfiguration) throws
         -> SavePickerPayload
     {
-        if #available(iOS 14.0, macCatalyst 14.0, *) {
-            let contentType =
-                configuration.allowedContentTypes.compactMap { UTType($0) }.first ?? UTType.data
-            let filename = resolveFilename(
-                suggested: configuration.suggestedFilename, contentType: contentType)
-            let placeholder = try createPlaceholderFile(named: filename)
-            let picker = UIDocumentPickerViewController(forExporting: [placeholder], asCopy: true)
-            picker.modalPresentationStyle = UIModalPresentationStyle.formSheet
-            return SavePickerPayload(picker: picker, placeholderURL: placeholder)
-        } else {
-            let identifiers = configuration.allowedContentTypes
-            let picker = UIDocumentPickerViewController(
-                documentTypes: identifiers.isEmpty ? ["public.item"] : identifiers, in: .open)
-            picker.modalPresentationStyle = UIModalPresentationStyle.formSheet
-            return SavePickerPayload(picker: picker, placeholderURL: nil)
-        }
+        let contentType = configuration.allowedContentTypes.compactMap { UTType($0) }.first ?? UTType.data
+        let filename = resolveFilename(
+            suggested: configuration.suggestedFilename, contentType: contentType)
+        let placeholder = try createPlaceholderFile(named: filename)
+        let picker = UIDocumentPickerViewController(forExporting: [placeholder], asCopy: true)
+        picker.modalPresentationStyle = UIModalPresentationStyle.formSheet
+        return SavePickerPayload(picker: picker, placeholderURL: placeholder)
     }
 
     private func makeUniformTypes(from identifiers: [String]) -> [UTType]? {
@@ -244,7 +227,7 @@ public struct FilesystemDocumentPickerPresenter: Sendable {
         }
     }
 
-    private enum AssociatedKeys { static var coordinator = 0 }
+    @MainActor private enum AssociatedKeys { static var coordinator = 0 }
 
     extension UIViewController {
         fileprivate func iso_topMostPresented() -> UIViewController {

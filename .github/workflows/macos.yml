@@ -38,15 +38,15 @@ on:
 jobs:
   macos-builds:
     name: macOS Archive & CLI Binary
-    runs-on: macos-15
+    runs-on: xcode-27
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Select Xcode 16.2
+      - name: Select Xcode 27.1
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "16.2"
+          xcode-version: "27.1"
 
       - name: Show Xcode and Swift versions
         run: |

@@ -81,7 +81,8 @@
                     of: renderResult.image, as: .image, named: snapshotPlatformName,
                     record: shouldRecordSnapshots, file: file, testName: testName, line: line)
             #else
-                let traitCollection = UITraitCollection(displayScale: targetDisplayScale)
+                let displayScale = UIHostingController(rootView: view).view.traitCollection.displayScale
+                let traitCollection = UITraitCollection(displayScale: displayScale)
                 logSnapshotMetadata(
                     platformName: snapshotPlatformName, viewSize: nil, pixelWidth: nil,
                     pixelHeight: nil, scale: traitCollection.displayScale,
@@ -121,15 +122,11 @@
             ProcessInfo.processInfo.environment["SNAPSHOT_RECORDING"] == "1"
         }
 
-        private var targetDisplayScale: CGFloat {
-            #if os(macOS)
+        #if os(macOS)
+            private var targetDisplayScale: CGFloat {
                 return max(NSScreen.main?.backingScaleFactor ?? 2.0, 2.0)
-            #elseif os(iOS) || os(tvOS)
-                return UIScreen.main.scale
-            #else
-                return 1.0
-            #endif
-        }
+            }
+        #endif
 
         #if os(macOS)
             private struct SnapshotRenderResult {

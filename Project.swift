@@ -66,6 +66,7 @@ let metadata = loadDistributionMetadata()
 let baseSettings: SettingsDictionary = [
     "MARKETING_VERSION": .string(metadata.marketingVersion),
     "CURRENT_PROJECT_VERSION": .string(metadata.buildNumber),
+    "SWIFT_VERSION": .string("6.0"),
 ]
 
 let buildConfigurations: [Configuration] = [
@@ -99,9 +100,9 @@ func destinations(for platform: DistributionPlatform) -> Destinations {
 func deploymentTargets(for platform: DistributionPlatform) -> DeploymentTargets {
     switch platform {
     case .macOS:
-        return .macOS("14.0")
+        return .macOS("26.0")
     case .iPadOS, .iOS:
-        return .iOS("17.0")
+        return .iOS("26.0")
     }
 }
 
@@ -111,7 +112,7 @@ func kitTarget() -> Target {
         destinations: [.mac, .iPad, .iPhone],
         product: .framework,
         bundleId: "ru.egormerkushev.isoinspector.kit",
-        deploymentTargets: DeploymentTargets.multiplatform(iOS: "17.0", macOS: "14.0"),
+        deploymentTargets: DeploymentTargets.multiplatform(iOS: "26.0", macOS: "26.0"),
         infoPlist: .default,
         sources: ["Sources/ISOInspectorKit/**"],
         resources: ["Sources/ISOInspectorKit/Resources/**"],
@@ -209,7 +210,7 @@ func cliLibraryTarget() -> Target {
         destinations: [.mac],
         product: .staticLibrary,
         bundleId: "ru.egormerkushev.isoinspector.cli.library",
-        deploymentTargets: .macOS("14.0"),
+        deploymentTargets: .macOS("26.0"),
         infoPlist: .default,
         sources: ["Sources/ISOInspectorCLI/**"],
         dependencies: [
@@ -226,7 +227,7 @@ func cliRunnerTarget() -> Target {
         destinations: [.mac],
         product: .commandLineTool,
         bundleId: "ru.egormerkushev.isoinspector.cli.runner",
-        deploymentTargets: .macOS("14.0"),
+        deploymentTargets: .macOS("26.0"),
         infoPlist: .default,
         sources: ["Sources/ISOInspectorCLIRunner/**"],
         dependencies: [
@@ -243,7 +244,7 @@ func kitTestsTarget() -> Target {
         destinations: [.mac],
         product: .unitTests,
         bundleId: "ru.egormerkushev.isoinspector.kit.tests",
-        deploymentTargets: .macOS("14.0"),
+        deploymentTargets: .macOS("26.0"),
         infoPlist: .default,
         sources: ["Tests/ISOInspectorKitTests/**"],
         resources: ["Tests/ISOInspectorKitTests/Fixtures/**"],
@@ -260,7 +261,7 @@ func cliTestsTarget() -> Target {
         destinations: [.mac],
         product: .unitTests,
         bundleId: "ru.egormerkushev.isoinspector.cli.tests",
-        deploymentTargets: .macOS("14.0"),
+        deploymentTargets: .macOS("26.0"),
         infoPlist: .default,
         sources: ["Tests/ISOInspectorCLITests/**"],
         dependencies: [
@@ -278,7 +279,7 @@ func performanceTestsTarget() -> Target {
         destinations: [.mac],
         product: .unitTests,
         bundleId: "ru.egormerkushev.isoinspector.performance.tests",
-        deploymentTargets: .macOS("14.0"),
+        deploymentTargets: .macOS("26.0"),
         infoPlist: .default,
         sources: ["Tests/ISOInspectorPerformanceTests/**"],
         dependencies: [

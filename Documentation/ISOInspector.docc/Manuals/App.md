@@ -6,7 +6,7 @@ ne used by the CLI, and it keeps bookmarks, notes, and recents in sync across la
 
 ## Supported platforms and requirements
 
-- **Platforms:** macOS 14 and iOS/iPadOS 16 or newer via the SwiftPM targets declared in the package manifest.【F:Package.swift†L6
+- **Platforms:** macOS 26 and iOS/iPadOS 26 or newer via the SwiftPM targets declared in the package manifest.【F:Package.swift†L6
 -L44】
 - **File types:** MP4 (`.mp4`) and QuickTime (`.mov`) containers exposed through the system document picker.【F:Sources/ISOInspecto
 rApp/State/DocumentSessionController.swift†L16-L120】

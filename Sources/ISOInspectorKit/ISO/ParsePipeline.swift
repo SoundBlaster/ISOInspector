@@ -289,12 +289,10 @@ extension ParsePipeline {
         ParsePipeline(
             options: options,
             buildStream: { reader, context in
-                let readerBox = UnsafeSendable(value: reader)
                 let contextBox = UnsafeSendable(value: context)
 
                 return AsyncThrowingStream { continuation in
                     let task = Task {
-                        let reader = readerBox.value
                         let context = contextBox.value
                         let walker = StreamingBoxWalker()
                         var metadataStack: [BoxDescriptor?] = []

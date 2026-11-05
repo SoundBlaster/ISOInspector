@@ -32,15 +32,15 @@ concurrency:
 jobs:
   spm-coverage:
     name: Coverage - SPM (macOS)
-    runs-on: macos-15
+    runs-on: xcode-27
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Select Xcode 26.0
+      - name: Select Xcode 27.1
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: "26.0"
+          xcode-version: "27.1"
 
       - name: Show versions
         run: |
@@ -60,7 +60,7 @@ jobs:
         id: coverage
         run: |
           python3 scripts/isoinspector_coverage.py \
-            --kit 85 --app 40 --cli 80 \
+            --kit 88 --app 41 --cli 85 \
             --json coverage-isoinspector.json \
             --summary "$GITHUB_STEP_SUMMARY"
 

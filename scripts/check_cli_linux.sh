@@ -4,7 +4,7 @@ set -euo pipefail
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 REPO_ROOT=$(cd "${SCRIPT_DIR}/.." && pwd)
 
-SWIFT_IMAGE="${SWIFT_IMAGE:-swift:5.9-jammy}"
+SWIFT_IMAGE="${SWIFT_IMAGE:-swift:6.4.1-jammy}"
 CLI_TARGET="${CLI_TARGET:-ISOInspectorCLI}"
 CLI_PRODUCT="${CLI_PRODUCT:-isoinspect}"
 USE_DOCKER="${USE_DOCKER:-1}"

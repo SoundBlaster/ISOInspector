@@ -60,21 +60,11 @@
             }
         }
 
-        @ViewBuilder private var noSelectionView: some View {
-            if #available(iOS 17, macOS 14, *) {
-                ContentUnavailableView(
-                    "No selection", systemImage: "square.dashed",
-                    description: Text("Choose a box in the hierarchy to inspect its details.")
-                ).frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                VStack(spacing: DS.Spacing.m) {
-                    Image(systemName: "square.dashed").font(.system(size: 44)).foregroundColor(
-                        .secondary)
-                    Text("No selection").font(.headline)
-                    Text("Choose a box in the hierarchy to inspect its details.").font(.subheadline)
-                        .foregroundColor(.secondary).multilineTextAlignment(.center)
-                }.frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
+        private var noSelectionView: some View {
+            ContentUnavailableView(
+                "No selection", systemImage: "square.dashed",
+                description: Text("Choose a box in the hierarchy to inspect its details.")
+            ).frame(maxWidth: .infinity, maxHeight: .infinity)
         }
 
         private func metadataSection(detail: ParseTreeNodeDetail) -> some View {
@@ -85,8 +75,8 @@
                     bookmarkControl()
                 }
                 metadataGrid(detail: detail)
-                Text("Snapshot updated ")
-                    + Text(detail.snapshotTimestamp, style: .relative).font(.footnote)
+                Text("Snapshot updated \(Text(detail.snapshotTimestamp, style: .relative))")
+                    .font(.footnote)
                     .foregroundColor(.secondary)
             }.accessibilityElement(children: .combine).accessibilityLabel(
                 detail.accessibilitySummary

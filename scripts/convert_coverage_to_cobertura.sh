@@ -18,6 +18,7 @@ set -euo pipefail
 XCRESULT_PATH=""
 OUTPUT_PATH="coverage.xml"
 VERBOSE=false
+TARGETS=()
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
@@ -30,6 +31,10 @@ while [[ $# -gt 0 ]]; do
             OUTPUT_PATH="$2"
             shift 2
             ;;
+        -target)
+            TARGETS+=("$2")
+            shift 2
+            ;;
         -v|--verbose)
             VERBOSE=true
             shift
@@ -40,6 +45,7 @@ while [[ $# -gt 0 ]]; do
             echo "Options:"
             echo "  -xcresult <path>  Path to .xcresult bundle"
             echo "  -output <path>    Output path for Cobertura XML (default: coverage.xml)"
+            echo "  -target <name>    Include this target (repeatable; default: all targets)"
             echo "  -v, --verbose     Enable verbose output"
             echo "  -h, --help        Show this help message"
             exit 0
@@ -84,7 +90,8 @@ log "Converting coverage from $XCRESULT_PATH to $OUTPUT_PATH"
 
 # Extract coverage JSON from xcresult
 COVERAGE_JSON=$(mktemp)
-trap "rm -f $COVERAGE_JSON" EXIT
+FILTERED_JSON=$(mktemp)
+trap 'rm -f "$COVERAGE_JSON" "$FILTERED_JSON"' EXIT
 
 log "Extracting coverage data with xccov..."
 xcrun xccov view --report --json "$XCRESULT_PATH" > "$COVERAGE_JSON"
@@ -92,6 +99,30 @@ xcrun xccov view --report --json "$XCRESULT_PATH" > "$COVERAGE_JSON"
 if [[ ! -s "$COVERAGE_JSON" ]]; then
     echo "Error: Failed to extract coverage data from xcresult"
     exit 1
+fi
+
+if (( ${#TARGETS[@]} > 0 )); then
+    TARGET_NAMES=$(printf '%s\n' "${TARGETS[@]}" | jq -R . | jq -s .)
+    if ! jq -e --argjson names "$TARGET_NAMES" \
+        '[.targets[]?.name] as $actual | all($names[]; . as $name | $actual | index($name) != null)' \
+        "$COVERAGE_JSON" > /dev/null; then
+        echo "Error: A requested coverage target is missing: ${TARGETS[*]}" >&2
+        exit 1
+    fi
+    jq --argjson names "$TARGET_NAMES" '
+        .targets |= map(select(.name as $name | $names | index($name))) |
+        .coveredLines = ([.targets[].coveredLines // 0] | add // 0) |
+        .executableLines = ([.targets[].executableLines // 0] | add // 0) |
+        .coveredBranches = ([.targets[].coveredBranches // 0] | add // 0) |
+        .executableBranches = ([.targets[].executableBranches // 0] | add // 0) |
+        .lineCoverage = (if .executableLines > 0 then .coveredLines / .executableLines else 0 end) |
+        .branchCoverage = (if .executableBranches > 0 then .coveredBranches / .executableBranches else 0 end)
+    ' "$COVERAGE_JSON" > "$FILTERED_JSON"
+    mv "$FILTERED_JSON" "$COVERAGE_JSON"
+    if [[ "$(jq -r '.executableLines' "$COVERAGE_JSON")" == "0" ]]; then
+        echo "Error: Requested coverage targets have no executable lines" >&2
+        exit 1
+    fi
 fi
 
 log "Parsing coverage data..."

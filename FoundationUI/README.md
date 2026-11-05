@@ -8,7 +8,7 @@
 [![Platform](https://img.shields.io/badge/platform-iOS%20%7C%20iPadOS%20%7C%20macOS-lightgrey?style=flat-square)](https://developer.apple.com)
 
 **Version:** 0.1.0
-**Platform:** iOS 17+, iPadOS 17+, macOS 14+
+**Platform:** iOS 26+, iPadOS 26+, macOS 26+
 **Swift:** 6.0+
 
 A SwiftUI component library following **Composable Clarity Design System** principles, built with TDD, XP, and zero magic numbers for the ISOInspector project.
@@ -60,9 +60,9 @@ Layer 4: Contexts (Environment keys, platform adaptation)
 
 ### Prerequisites
 
-- **Xcode 15.0+**
-- **Swift 6.0+** toolchain
-- **macOS 14+** for development
+- **Xcode 27+**
+- **Swift 6.4+** toolchain
+- **macOS 26+** for development
 - **Tuist** (for project generation)
 
 ### Using Tuist (Recommended)
