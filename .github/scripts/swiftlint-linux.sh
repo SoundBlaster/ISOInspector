@@ -5,4 +5,4 @@ set -euo pipefail
 workdir="/work${PWD#"$GITHUB_WORKSPACE"}"
 exec docker run --rm -u "$(id -u):$(id -g)" \
   -v "$GITHUB_WORKSPACE:/work" -v /tmp:/tmp -w "$workdir" \
-  ghcr.io/realm/swiftlint:0.57.0 swiftlint "$@"
+  ghcr.io/realm/swiftlint:0.57.0 swiftlint "$@" --no-cache
