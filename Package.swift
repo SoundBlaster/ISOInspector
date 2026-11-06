@@ -31,6 +31,9 @@ var products: [Product] = [
 var targets: [Target] = [
     .target(
         name: "ISOInspectorKit",
+        dependencies: [
+            .product(name: "SpecificationCore", package: "SpecificationCore")
+        ],
         resources: [
             .process("Resources")
         ]
@@ -131,6 +134,7 @@ var targets: [Target] = [
 
 // Platform-independent dependencies
 var dependencies: [Package.Dependency] = [
+    .package(url: "https://github.com/SoundBlaster/SpecificationCore", from: "2.1.0"),
     .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.3.0"),
     .package(url: "https://github.com/apple/swift-argument-parser", from: "1.3.0"),
 ]

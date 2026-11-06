@@ -107,18 +107,22 @@ jobs:
       - name: Run ISOInspectorAppTests-macOS
         run: |
           set -eo pipefail
+          # CI cannot approve SpecificationCoreMacros interactively; this flag applies to all macros in this build.
           xcodebuild test \
             -workspace ISOInspector.xcworkspace \
             -scheme ISOInspectorAppTests-macOS \
+            -skipMacroValidation \
             -destination 'platform=macOS' \
             | tee xcodebuild-test-macos.log
 
       - name: Archive ISOInspectorApp (unsigned)
         run: |
           set -eo pipefail
+          # Match the macro trust policy used for the test build above.
           xcodebuild archive \
             -workspace ISOInspector.xcworkspace \
             -scheme ISOInspectorApp-macOS \
+            -skipMacroValidation \
             -destination 'generic/platform=macOS' \
             -archivePath build/ISOInspectorApp \
             CODE_SIGN_IDENTITY="" \
