@@ -1,0 +1,17 @@
+schema_version = 1
+
+[liveness]
+closed_world = false
+
+[[source_sets]]
+role = "excluded"
+paths = ["."]
+reason = "Only maintained product sources are included in the metric cohort."
+
+[[source_sets]]
+role = "application"
+paths = ["Sources", "FoundationUI/Sources"]
+
+[[source_sets]]
+role = "test"
+paths = ["Tests", "FoundationUI/Tests"]

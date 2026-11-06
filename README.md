@@ -1,5 +1,8 @@
 # ISOInspector
 
+Source-cohort diagnostics and the SpecificationMetrics CI report are described
+in [SpecificationMetrics](Documentation/SpecificationMetrics.md).
+
 Monorepo for the ISOInspector suite: a Swift-based ISO Base Media File Format (MP4/QuickTime) parser, CLI, and multiplatform SwiftUI application. The repository follows the execution guidance documented in `DOCS/AI` and the XP-inspired TDD workflow defined in `DOCS/RULES/02_TDD_XP_Workflow.md`.
 
 ## Feature Matrix
