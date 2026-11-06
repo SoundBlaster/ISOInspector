@@ -11,7 +11,56 @@ import Foundation
     }
 #endif
 
-public final class ParseIssueStore: ObservableObject {
+/// Capability used by parsers to record diagnostics for one parse.
+public protocol ParseIssueRecording: Sendable {
+    func record(_ issue: ParseIssue, depth: Int?)
+    func record(_ issues: [ParseIssue], depthResolver: (@Sendable (ParseIssue) -> Int?)?)
+    func reset()
+    func beginSession() -> ParseIssueStore.Session
+}
+
+extension ParseIssueRecording {
+    public func record(_ issue: ParseIssue) { record(issue, depth: nil) }
+    public func record(_ issues: [ParseIssue]) { record(issues, depthResolver: nil) }
+}
+
+public final class ParseIssueStore: ObservableObject, ParseIssueRecording {
+    private enum SessionState: Equatable { case inactive, active(UUID) }
+    private var activeSession: SessionState = .inactive
+
+    /// A write capability that becomes inert when its parse is superseded.
+    public struct Session: ParseIssueRecording {
+        private let store: ParseIssueStore
+        private let identifier: UUID
+
+        fileprivate init(store: ParseIssueStore, identifier: UUID) {
+            self.store = store
+            self.identifier = identifier
+        }
+
+        public func record(_ issue: ParseIssue, depth: Int? = nil) {
+            store.performForSession(identifier) { store.append(issue, depth: depth) }
+        }
+
+        public func record(
+            _ issues: [ParseIssue], depthResolver: (@Sendable (ParseIssue) -> Int?)? = nil
+        ) {
+            store.performForSession(identifier) {
+                for issue in issues { store.append(issue, depth: depthResolver?(issue)) }
+            }
+        }
+
+        public func reset() { store.performForSession(identifier) { store.resetStorage() } }
+
+        /// A scoped capability cannot create or replace a store session.
+        public func beginSession() -> Session { self }
+
+        public func endSession() {
+            store.readOnQueue {
+                if store.activeSession == .active(identifier) { store.activeSession = .inactive }
+            }
+        }
+    }
     private let queue: DispatchQueue
     private let queueSpecificKey = DispatchSpecificKey<UUID>()
     private let queueSpecificValue = UUID()
@@ -139,6 +188,19 @@ public final class ParseIssueStore: ObservableObject {
     public func issuesSnapshot() -> [ParseIssue] { readOnQueue { issues } }
 
     public func reset() { performOnQueue { [self] in self.resetStorage() } }
+
+    public func beginSession() -> Session {
+        let identifier = UUID()
+        readOnQueue { activeSession = .active(identifier) }
+        return Session(store: self, identifier: identifier)
+    }
+
+    private func performForSession(_ identifier: UUID, action: @escaping @Sendable () -> Void) {
+        performOnQueue { [self] in
+            guard activeSession == .active(identifier) else { return }
+            action()
+        }
+    }
 
     private func append(_ issue: ParseIssue, depth: Int?) {
         issues.append(issue)

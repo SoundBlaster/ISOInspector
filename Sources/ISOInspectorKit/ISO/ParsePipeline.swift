@@ -230,17 +230,18 @@ public struct ParsePipeline: Sendable {
         public var source: URL?
         public var researchLog: (any ResearchLogRecording)?
         public var options: Options { didSet { usesAutomaticOptions = false } }
-        public var issueStore: ParseIssueStore? {
+        /// The parser's recording capability. Keep the original store to observe diagnostics.
+        public var issueStore: (any ParseIssueRecording)? {
             get { issueStoreBox?.value }
             set { issueStoreBox = newValue.map(UnsafeSendable.init) }
         }
 
         @usableFromInline internal private(set) var usesAutomaticOptions: Bool
-        internal var issueStoreBox: UnsafeSendable<ParseIssueStore>?
+        internal var issueStoreBox: UnsafeSendable<any ParseIssueRecording>?
 
         public init(
             source: URL? = nil, researchLog: (any ResearchLogRecording)? = nil,
-            options: Options? = nil, issueStore: ParseIssueStore? = nil
+            options: Options? = nil, issueStore: (any ParseIssueRecording)? = nil
         ) {
             self.source = source
             self.researchLog = researchLog
@@ -435,7 +436,7 @@ extension ParsePipeline {
     }
 
     private static func attachParseIssuesIfNeeded(
-        to event: ParseEvent, options: Options, issueStore: ParseIssueStore?,
+        to event: ParseEvent, options: Options, issueStore: (any ParseIssueRecording)?,
         issuesByNodeID: inout [Int64: [ParseIssue]]
     ) -> ParseEvent {
         guard !event.validationIssues.isEmpty else { return event }

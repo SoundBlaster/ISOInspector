@@ -3,6 +3,44 @@ import XCTest
 @testable import ISOInspectorKit
 
 final class ParseIssueStoreTests: XCTestCase {
+    func testSessionSupportsReadsAndRejectsWritesAfterReplacement() {
+        let store = ParseIssueStore()
+        let first = store.beginSession()
+        let issue = ParseIssue(
+            severity: .warning, code: "current", message: "current",
+            byteRange: 0..<4, affectedNodeIDs: [1])
+        first.record([issue], depthResolver: { _ in 3 })
+        XCTAssertEqual(store.issuesSnapshot(), [issue])
+        XCTAssertEqual(store.issues(forNodeID: 1), [issue])
+        XCTAssertEqual(store.issues(in: 0..<2), [issue])
+        XCTAssertEqual(store.makeIssueSummary().totalCount, 1)
+        XCTAssertEqual(store.metricsSnapshot().deepestAffectedDepth, 3)
+
+        let second = store.beginSession()
+        first.endSession()
+        first.reset()
+        first.record(issue)
+        XCTAssertEqual(store.issuesSnapshot(), [issue])
+        second.reset()
+        second.record([issue], depthResolver: { _ in 4 })
+        XCTAssertEqual(store.metricsSnapshot().deepestAffectedDepth, 4)
+        second.endSession()
+        second.reset()
+        XCTAssertEqual(store.issuesSnapshot(), [issue])
+    }
+
+    func testSupersededSessionCannotStartAnotherSession() {
+        let store = ParseIssueStore()
+        let old = store.beginSession()
+        let current = store.beginSession()
+        let staleChild = old.beginSession()
+        let issue = ParseIssue(severity: .warning, code: "CURRENT", message: "current")
+        current.record(issue)
+        staleChild.reset()
+        staleChild.record(ParseIssue(severity: .error, code: "STALE", message: "stale"))
+        XCTAssertEqual(store.issuesSnapshot().map(\.code), ["CURRENT"])
+    }
+
     func testRecordAppendsIssuesAndUpdatesMetrics() {
         let store = ParseIssueStore()
         let first = ParseIssue(
