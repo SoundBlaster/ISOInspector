@@ -135,7 +135,27 @@ The repository enforces a **minimum test coverage threshold of 67%** using a Pyt
 
 ### Pre-Push Hook
 
-Before you push code, the git pre-push hook automatically checks coverage if FoundationUI sources or tests have changed:
+The hook uses SwiftPM's default build and cache paths unless you configure all
+three paths for the current worktree. Create the directories first, then run:
+
+```sh
+config="$(git rev-parse --absolute-git-dir)/isoinspector-build.conf"
+git config --file "$config" build.rootScratch /path/to/checkout/swiftpm
+git config --file "$config" build.foundationScratch /path/to/foundationui/swiftpm
+git config --file "$config" build.cache /path/to/swiftpm/cache
+```
+
+Use separate scratch directories for the root package and FoundationUI. A
+worktree-specific executable preflight can be configured with `build.preflight`;
+the hook calls it once with the root package path and once with the FoundationUI
+path. If it fails, or a configured directory is unavailable or unwritable, the
+push stops before running SwiftPM. The `ISOINSPECTOR_SWIFTPM_SCRATCH_PATH`,
+`ISOINSPECTOR_FOUNDATIONUI_SCRATCH_PATH`, `ISOINSPECTOR_SWIFTPM_CACHE_PATH`,
+and `ISOINSPECTOR_BUILD_PREFLIGHT` environment variables override those values.
+The configuration file lives in the worktree's Git directory and is not committed.
+
+Before you push code on macOS, the git pre-push hook runs FoundationUI tests and
+checks the source-based coverage estimate:
 
 ```sh
 python3 coverage_analysis.py --threshold 0.67
