@@ -43,3 +43,11 @@ provisional:** 12 files had Swift parse issues. It is not evidence of source
 errors or a reliable whole-project Specification count. PR #1112 is not part
 of that snapshot. Review the recorded parse diagnostics before using this
 measurement as a baseline.
+
+The v11 analyzer, pinned at `19461c7dd4d91db52df2bd6140cd196e2ce7f2cf`,
+was also run against the same source and scope. Its Swift grammar reduces
+parse diagnostics from 12 files to 3; S = 0 and U = 2120 and all U locations
+and fingerprints remain unchanged. The three `@available … #Preview` files
+still make the result provisional. The v10 and v11 contracts differ, so use
+the same v11 pin on both sides of a new comparison; this parser correction is
+not an application refactoring gain. See the [upstream source-bound audit](https://github.com/SoundBlaster/SpecificationMetrics/blob/19461c7dd4d91db52df2bd6140cd196e2ce7f2cf/docs/swift-parser-isoinspector-audit.md).

@@ -20,7 +20,7 @@ jobs:
     env:
       BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
       HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
-      ANALYZER_SHA: 38091108bc18056e345599ed8eb14bd0fb9e563a
+      ANALYZER_SHA: 19461c7dd4d91db52df2bd6140cd196e2ce7f2cf
       PROJECT_NAME: ${{ github.repository }}
     steps:
       - name: Checkout repository history
