@@ -48,7 +48,7 @@ extension BoxValidator {
             StructuralSizeRule(), ContainerBoundaryRule(), FileTypeOrderingRule(),
             MovieDataOrderingRule(), TopLevelOrderingAdvisoryRule(), VersionFlagsRule(),
             EditListValidationRule(), SampleTableCorrelationRule(),
-            CodecConfigurationValidationRule(), FragmentSequenceRule(), FragmentRunValidationRule(),
+            CodecConfigurationValidationRule(), NALSampleValidationRule(), FragmentSequenceRule(), FragmentRunValidationRule(),
             UnknownBoxRule(),
         ]
     }

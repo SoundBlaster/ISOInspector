@@ -14,6 +14,7 @@ extension ValidationRuleIdentifier {
         case .fragmentSequence: return "Fragment Sequence Order"
         case .fragmentRun: return "Fragment Run Integrity"
         case .codecConfiguration: return "Codec Configuration Integrity"
+        case .nalSampleFraming: return "NAL Sample Framing"
         }
     }
 
@@ -41,13 +42,15 @@ extension ValidationRuleIdentifier {
             return "Ensures fragment runs reference valid sample counts and byte ranges."
         case .codecConfiguration:
             return "Validates avcC and hvcC parameter set declarations and payload lengths."
+        case .nalSampleFraming:
+            return "Checks NAL unit boundaries in unencrypted, self-contained, non-fragmented AVC/HEVC samples."
         }
     }
 
     public var defaultSeverity: ValidationIssue.Severity {
         switch self {
         case .structuralSize, .containerBoundary, .fileTypeOrdering, .sampleTableCorrelation,
-            .fragmentRun, .codecConfiguration:
+            .fragmentRun, .codecConfiguration, .nalSampleFraming:
             return .error
         case .versionFlags, .movieDataOrdering, .editListDuration, .fragmentSequence:
             return .warning

@@ -10,4 +10,5 @@ public enum ValidationRuleIdentifier: String, CaseIterable, Codable, Sendable {
     case fragmentSequence = "VR-016"
     case fragmentRun = "VR-017"
     case codecConfiguration = "VR-018"
+    case nalSampleFraming = "VR-019"
 }

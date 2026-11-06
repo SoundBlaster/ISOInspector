@@ -6,7 +6,7 @@ final class ValidationConfigurationTests: XCTestCase {
     func testValidationRuleIdentifiersCoverKnownRules() {
         let expectedRuleIDs: Set<String> = [
             "VR-001", "VR-002", "VR-003", "VR-004", "VR-005", "VR-006", "VR-014", "VR-015",
-            "VR-016", "VR-017", "VR-018",
+            "VR-016", "VR-017", "VR-018", "VR-019",
         ]
 
         let actualRuleIDs = Set(ValidationRuleIdentifier.allCases.map(\.rawValue))

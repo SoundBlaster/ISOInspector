@@ -322,7 +322,8 @@ final class JSONExportCompatibilityCLITests: XCTestCase {
 
     private func repositoryRoot() -> URL {
         var url = URL(fileURLWithPath: #filePath)
-        while url.lastPathComponent != "ISOInspector", url.pathComponents.count > 1 {
+        while !FileManager.default.fileExists(atPath: url.appendingPathComponent("Package.swift").path),
+            url.pathComponents.count > 1 {
             url.deleteLastPathComponent()
         }
         return url
