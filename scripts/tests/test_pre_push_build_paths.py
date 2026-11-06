@@ -12,7 +12,7 @@ class PrePushBuildPathsTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
-        self.root = Path(self.temp.name)
+        self.root = Path(self.temp.name).resolve()
         subprocess.run(["git", "init", "-q", str(self.root)], check=True)
         (self.root / "marker").write_text("test\n")
         subprocess.run(["git", "add", "marker"], cwd=self.root, check=True)
@@ -89,6 +89,12 @@ class PrePushBuildPathsTests(unittest.TestCase):
         calls = self.calls.read_text().splitlines()
         self.assertEqual(len(calls), 3)
         self.assertTrue(all("<--scratch-path>" not in call and "<--cache-path>" not in call for call in calls))
+
+    def test_git_push_environment_does_not_leak_to_swiftpm(self):
+        self.env["GIT_DIR"] = str(self.root / ".git")
+        self.executable("swift", '#!/bin/sh\n[ -z "${GIT_DIR+x}" ] || { echo "GIT_DIR leaked" >&2; exit 1; }\n')
+        result = self.run_hook()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_incomplete_configuration_stops_before_swift_runs(self):
         self.env["ISOINSPECTOR_SWIFTPM_SCRATCH_PATH"] = str(self.root / "scratch")

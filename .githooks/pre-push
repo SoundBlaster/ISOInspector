@@ -33,6 +33,12 @@ BUILD_PREFLIGHT=${ISOINSPECTOR_BUILD_PREFLIGHT:-$(build_config_value build.prefl
 
 ROOT_SWIFT_OPTIONS=()
 FOUNDATION_SWIFT_OPTIONS=()
+run_swift() (
+    # Git exports repository-specific variables to hooks. SwiftPM invokes Git
+    # for dependencies and must discover each dependency's own repository.
+    while IFS= read -r git_variable; do unset "$git_variable"; done < <(git rev-parse --local-env-vars)
+    swift "$@"
+)
 if [[ -n "$ROOT_SCRATCH$FOUNDATION_SCRATCH$SWIFTPM_CACHE$BUILD_PREFLIGHT" ]]; then
     if [[ -z "$ROOT_SCRATCH" || -z "$FOUNDATION_SCRATCH" || -z "$SWIFTPM_CACHE" ]]; then
         echo "❌ Configure root scratch, FoundationUI scratch, and SwiftPM cache together."
@@ -89,7 +95,7 @@ LOG_DIR="Documentation/Quality"
 mkdir -p "$LOG_DIR"
 BUILD_LOG="$LOG_DIR/strict-concurrency-build-$(date +%Y%m%d-%H%M%S).log"
 
-if swift build --target ISOInspectorKit "${ROOT_SWIFT_OPTIONS[@]}" 2>&1 | tee "$BUILD_LOG"; then
+if run_swift build --target ISOInspectorKit "${ROOT_SWIFT_OPTIONS[@]}" 2>&1 | tee "$BUILD_LOG"; then
     echo -e "${GREEN}✅ Build with strict concurrency passed${NC}"
     echo "   Log: $BUILD_LOG"
 else
@@ -104,7 +110,7 @@ echo ""
 echo "3️⃣  Verifying strict concurrency compliance (tests)..."
 TEST_LOG="$LOG_DIR/strict-concurrency-test-$(date +%Y%m%d-%H%M%S).log"
 
-if swift test --filter ISOInspectorKitTests "${ROOT_SWIFT_OPTIONS[@]}" 2>&1 | tee "$TEST_LOG"; then
+if run_swift test --filter ISOInspectorKitTests "${ROOT_SWIFT_OPTIONS[@]}" 2>&1 | tee "$TEST_LOG"; then
     echo -e "${GREEN}✅ Tests with strict concurrency passed${NC}"
     echo "   Log: $TEST_LOG"
 else
@@ -126,7 +132,7 @@ if [[ "$PLATFORM" != "Darwin" ]]; then
     echo -e "${YELLOW}⚠️  FoundationUI coverage requires macOS SwiftUI SDKs; skipping on $PLATFORM${NC}"
 else
     echo "   Running FoundationUI tests with coverage..."
-    if swift test --package-path FoundationUI --enable-code-coverage "${FOUNDATION_SWIFT_OPTIONS[@]}" 2>&1 | tee "$COVERAGE_TEST_LOG"; then
+    if run_swift test --package-path FoundationUI --enable-code-coverage "${FOUNDATION_SWIFT_OPTIONS[@]}" 2>&1 | tee "$COVERAGE_TEST_LOG"; then
         echo -e "${GREEN}✅ FoundationUI tests with coverage passed${NC}"
         echo "   Log: $COVERAGE_TEST_LOG"
 
