@@ -19,7 +19,18 @@ import Testing
         #expect(try validate(data, format: "avc1", codec: "avc", selfContained: false).isEmpty)
     }
 
-    private func validate(_ data: Data, format: String, codec: String, selfContained: Bool) throws -> [ValidationIssue] {
+    @Test(arguments: [UInt64(10_000), UInt64.max])
+    func externalChunkDoesNotPreventLaterLocalValidation(externalOffset: UInt64) throws {
+        let data = Data([0xff, 0xff, 0, 0, 0, 4, 1, 2, 3, 4, 0xff, 0xff, 0, 0])
+        let issues = try validate(data, format: "avc1", codec: "avc", selfContained: true,
+                                  mixed: true, externalOffset: externalOffset)
+        try #require(issues.count == 2)
+        #expect(issues[0].message.contains("sample 2"))
+        #expect(issues[1].message.contains("sample 3"))
+    }
+
+    private func validate(_ data: Data, format: String, codec: String, selfContained: Bool,
+                          mixed: Bool = false, externalOffset: UInt64 = 0) throws -> [ValidationIssue] {
         let rule = NALSampleValidationRule()
         let reader = InMemoryRandomAccessReader(data: data)
         func send(_ type: String, _ payload: ParsedBoxPayload? = nil, finish: Bool = false) throws -> [ValidationIssue] {
@@ -32,19 +43,35 @@ import Testing
         let ref = ParsedBoxPayload.DataReferenceBox.Entry(
             index: 0, type: try FourCharCode("url "), version: 0, flags: 1,
             location: selfContained ? .selfContained : .url("https://example.com/media"), byteRange: 0..<0, payloadRange: nil)
-        _ = try send("dref", ParsedBoxPayload(detail: .dataReference(.init(version: 0, flags: 0, entryCount: 1, entries: [ref]))))
-        let fields: [ParsedBoxPayload.Field] = [
-            .init(name: "entry_count", value: "1"),
+        let external = ParsedBoxPayload.DataReferenceBox.Entry(
+            index: 0, type: try FourCharCode("url "), version: 0, flags: 0,
+            location: .url("https://example.com/media"), byteRange: 0..<0, payloadRange: nil)
+        let local = ParsedBoxPayload.DataReferenceBox.Entry(
+            index: 1, type: try FourCharCode("url "), version: 0, flags: 1,
+            location: .selfContained, byteRange: 0..<0, payloadRange: nil)
+        let references = mixed ? [external, local] : [ref]
+        _ = try send("dref", ParsedBoxPayload(detail: .dataReference(.init(version: 0, flags: 0, entryCount: UInt32(references.count), entries: references))))
+        var fields: [ParsedBoxPayload.Field] = [
+            .init(name: "entry_count", value: mixed ? "2" : "1"),
             .init(name: "entries[0].format", value: format),
             .init(name: "entries[0].data_reference_index", value: "1"),
             .init(name: "entries[0].codec.\(codec).nal_unit_length_bytes", value: "2"),
         ]
+        if mixed {
+            fields.append(contentsOf: [
+                .init(name: "entries[1].format", value: format),
+                .init(name: "entries[1].data_reference_index", value: "2"),
+                .init(name: "entries[1].codec.\(codec).nal_unit_length_bytes", value: "2"),
+            ])
+        }
         _ = try send("stsd", ParsedBoxPayload(fields: fields))
         let mapping = ParsedBoxPayload.SampleToChunkBox.Entry(firstChunk: 1, samplesPerChunk: 1, sampleDescriptionIndex: 1, byteRange: 0..<0)
-        _ = try send("stsc", ParsedBoxPayload(detail: .sampleToChunk(.init(version: 0, flags: 0, entries: [mapping]))))
-        let sizeEntries = [4, 6, 4].enumerated().map { ParsedBoxPayload.SampleSizeBox.Entry(index: UInt32($0.offset), size: UInt32($0.element), byteRange: 0..<0) }
+        let localMapping = ParsedBoxPayload.SampleToChunkBox.Entry(firstChunk: 2, samplesPerChunk: 1, sampleDescriptionIndex: 2, byteRange: 0..<0)
+        _ = try send("stsc", ParsedBoxPayload(detail: .sampleToChunk(.init(version: 0, flags: 0, entries: mixed ? [mapping, localMapping] : [mapping]))))
+        let sizeEntries = (mixed ? [4, 4, 4] : [4, 6, 4]).enumerated().map { ParsedBoxPayload.SampleSizeBox.Entry(index: UInt32($0.offset), size: UInt32($0.element), byteRange: 0..<0) }
         _ = try send("stsz", ParsedBoxPayload(detail: .sampleSize(.init(version: 0, flags: 0, defaultSampleSize: 0, sampleCount: 3, entries: sizeEntries))))
-        let chunks = [0, 4, 10].enumerated().map { ParsedBoxPayload.ChunkOffsetBox.Entry(index: UInt32($0.offset), offset: UInt64($0.element), byteRange: 0..<0) }
+        let offsets: [UInt64] = mixed ? [externalOffset, 0, 10] : [0, 4, 10]
+        let chunks = offsets.enumerated().map { ParsedBoxPayload.ChunkOffsetBox.Entry(index: UInt32($0.offset), offset: $0.element, byteRange: 0..<0) }
         _ = try send("stco", ParsedBoxPayload(detail: .chunkOffset(.init(version: 0, flags: 0, entryCount: 3, width: .bits32, entries: chunks))))
         return try send("trak", finish: true)
     }

@@ -110,6 +110,19 @@ final class NALSampleValidationRule: BoxValidationRule, @unchecked Sendable {
                 mappingIndex += 1
             }
             let entry = mapping[mappingIndex]
+            guard let description = context.descriptions[entry.sampleDescriptionIndex],
+                context.dataReferences.contains(where: { $0.index == description.dataReference - 1 && $0.location == .selfContained })
+            else {
+                let remaining = Int(sizes.count) - sampleIndex
+                let skipped = min(Int(entry.samplesPerChunk), remaining)
+                if skipped > 1_000_000 - sampleIndex {
+                    issues.append(ValidationIssue(ruleID: "VR-019", message: "NAL framing validation stopped after 1000000 samples.", severity: .warning))
+                    return issues
+                }
+                sampleIndex += skipped
+                guard skipped == Int(entry.samplesPerChunk) else { return issues }
+                continue
+            }
             guard let start = Int64(exactly: chunk.offset) else { return issues }
             var offset = start
             for _ in 0..<entry.samplesPerChunk {
@@ -122,22 +135,19 @@ final class NALSampleValidationRule: BoxValidationRule, @unchecked Sendable {
                 let size = sizes.defaultSize == 0 ? sizes.entries[sampleIndex] : sizes.defaultSize
                 let end = offset.addingReportingOverflow(Int64(size))
                 guard !end.overflow, offset >= 0, end.partialValue <= reader.length else { return issues }
-                if let description = context.descriptions[entry.sampleDescriptionIndex],
-                    context.dataReferences.contains(where: { $0.index == description.dataReference - 1 && $0.location == .selfContained }) {
-                    do {
-                        try NALUnitFraming.validate(reader: reader, range: offset..<end.partialValue, lengthBytes: description.lengthBytes)
-                    } catch let failure as NALUnitFraming.Failure {
-                        let track: String
-                        switch context.identity {
-                        case .unspecified: track = "Track"
-                        case .numbered(let id): track = "Track \(id)"
-                        }
-                        let message = describe(failure, sampleOffset: offset, lengthBytes: description.lengthBytes)
-                        issues.append(ValidationIssue(ruleID: "VR-019", message: "\(track) sample \(sampleIndex + 1): \(message)", severity: .error))
-                        if issues.count == 100 {
-                            issues.append(ValidationIssue(ruleID: "VR-019", message: "NAL framing validation stopped after 100 errors.", severity: .warning))
-                            return issues
-                        }
+                do {
+                    try NALUnitFraming.validate(reader: reader, range: offset..<end.partialValue, lengthBytes: description.lengthBytes)
+                } catch let failure as NALUnitFraming.Failure {
+                    let track: String
+                    switch context.identity {
+                    case .unspecified: track = "Track"
+                    case .numbered(let id): track = "Track \(id)"
+                    }
+                    let message = describe(failure, sampleOffset: offset, lengthBytes: description.lengthBytes)
+                    issues.append(ValidationIssue(ruleID: "VR-019", message: "\(track) sample \(sampleIndex + 1): \(message)", severity: .error))
+                    if issues.count == 100 {
+                        issues.append(ValidationIssue(ruleID: "VR-019", message: "NAL framing validation stopped after 100 errors.", severity: .warning))
+                        return issues
                     }
                 }
                 sampleIndex += 1
