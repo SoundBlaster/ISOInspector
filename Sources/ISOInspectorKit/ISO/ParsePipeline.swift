@@ -440,7 +440,6 @@ extension ParsePipeline {
         issuesByNodeID: inout [Int64: [ParseIssue]]
     ) -> ParseEvent {
         guard !event.validationIssues.isEmpty else { return event }
-        guard !options.abortOnStructuralError else { return event }
 
         let header: BoxHeader
         let depth: Int
@@ -453,13 +452,21 @@ extension ParsePipeline {
             depth = resolvedDepth
         }
 
-        let promotableIssues = event.validationIssues.filter(shouldPromoteToParseIssue)
+        let promotableIssues = event.validationIssues.filter { issue in
+            issue.ruleID == ValidationRuleIdentifier.nalSampleFraming.rawValue
+                || (!options.abortOnStructuralError && shouldPromoteToParseIssue(issue))
+        }
         guard !promotableIssues.isEmpty else { return event }
 
         let parseIssues = promotableIssues.map { issue in
-            ParseIssue(
+            let range: Range<Int64>
+            switch issue.location {
+            case .box: range = header.range
+            case .bytes(let location): range = location
+            }
+            return ParseIssue(
                 severity: ParseIssue.Severity(validationSeverity: issue.severity),
-                code: issue.ruleID, message: issue.message, byteRange: header.range,
+                code: issue.ruleID, message: issue.message, byteRange: range,
                 affectedNodeIDs: [header.startOffset])
         }
 
