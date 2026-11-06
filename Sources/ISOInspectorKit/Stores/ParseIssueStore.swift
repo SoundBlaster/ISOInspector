@@ -12,6 +12,18 @@ import Foundation
 #endif
 
 public final class ParseIssueStore: ObservableObject {
+    private enum Scope {
+        case root
+        case session(root: ParseIssueStore, identifier: UUID)
+    }
+    private enum SessionState: Equatable { case inactive, active(UUID) }
+    private var scope: Scope = .root
+    private var activeSession: SessionState = .inactive
+    private final class WeakSession {
+        weak var value: ParseIssueStore?
+        init(_ value: ParseIssueStore) { self.value = value }
+    }
+    private var sessions: [WeakSession] = []
     private let queue: DispatchQueue
     private let queueSpecificKey = DispatchSpecificKey<UUID>()
     private let queueSpecificValue = UUID()
@@ -91,12 +103,22 @@ public final class ParseIssueStore: ObservableObject {
     }
 
     public func record(_ issue: ParseIssue, depth: Int? = nil) {
+        if case .session(let root, let identifier) = scope {
+            root.performForSession(identifier) { root.append(issue, depth: depth) }
+            return
+        }
         performOnQueue { [self] in self.append(issue, depth: depth) }
     }
 
     public func record(
         _ issues: [ParseIssue], depthResolver: (@Sendable (ParseIssue) -> Int?)? = nil
     ) {
+        if case .session(let root, let identifier) = scope {
+            root.performForSession(identifier) {
+                for issue in issues { root.append(issue, depth: depthResolver?(issue)) }
+            }
+            return
+        }
         performOnQueue { [self] in
             for issue in issues {
                 let depth = depthResolver?(issue)
@@ -108,6 +130,13 @@ public final class ParseIssueStore: ObservableObject {
     public func replaceAll(
         with issues: [ParseIssue], depthResolver: (@Sendable (ParseIssue) -> Int?)? = nil
     ) {
+        if case .session(let root, let identifier) = scope {
+            root.performForSession(identifier) {
+                root.resetStorage()
+                for issue in issues { root.append(issue, depth: depthResolver?(issue)) }
+            }
+            return
+        }
         performOnQueue { [self] in
             self.resetStorage()
             for issue in issues {
@@ -118,11 +147,13 @@ public final class ParseIssueStore: ObservableObject {
     }
 
     public func issues(forNodeID nodeID: Int64) -> [ParseIssue] {
-        readOnQueue { issuesByNodeID[nodeID] ?? [] }
+        if case .session(let root, _) = scope { return root.issues(forNodeID: nodeID) }
+        return readOnQueue { issuesByNodeID[nodeID] ?? [] }
     }
 
     public func issues(in range: Range<Int64>) -> [ParseIssue] {
-        readOnQueue {
+        if case .session(let root, _) = scope { return root.issues(in: range) }
+        return readOnQueue {
             issues.filter { issue in
                 guard let byteRange = issue.byteRange else { return false }
                 return Self.intersects(byteRange, range)
@@ -130,15 +161,63 @@ public final class ParseIssueStore: ObservableObject {
         }
     }
 
-    public func metricsSnapshot() -> IssueMetrics { readOnQueue { metrics } }
-
-    public func makeIssueSummary() -> IssueSummary {
-        readOnQueue { IssueSummary(metrics: metrics, totalCount: issues.count) }
+    public func metricsSnapshot() -> IssueMetrics {
+        if case .session(let root, _) = scope { return root.metricsSnapshot() }
+        return readOnQueue { metrics }
     }
 
-    public func issuesSnapshot() -> [ParseIssue] { readOnQueue { issues } }
+    public func makeIssueSummary() -> IssueSummary {
+        if case .session(let root, _) = scope { return root.makeIssueSummary() }
+        return readOnQueue { IssueSummary(metrics: metrics, totalCount: issues.count) }
+    }
 
-    public func reset() { performOnQueue { [self] in self.resetStorage() } }
+    public func issuesSnapshot() -> [ParseIssue] {
+        if case .session(let root, _) = scope { return root.issuesSnapshot() }
+        return readOnQueue { issues }
+    }
+
+    public func reset() {
+        if case .session(let root, let identifier) = scope {
+            root.performForSession(identifier) { root.resetStorage() }
+            return
+        }
+        performOnQueue { [self] in self.resetStorage() }
+    }
+
+    /// Returns a write handle whose operations are discarded after this session ends.
+    public func beginSession() -> ParseIssueStore {
+        let root: ParseIssueStore
+        switch scope {
+        case .root: root = self
+        case .session(let parent, _): root = parent
+        }
+        let identifier = UUID()
+        let handle = ParseIssueStore(queue: root.queue)
+        handle.scope = .session(root: root, identifier: identifier)
+        root.readOnQueue {
+            root.activeSession = .active(identifier)
+            root.sessions.removeAll { $0.value == nil }
+            root.sessions.append(WeakSession(handle))
+            handle.issues = root.issues
+            handle.metrics = root.metrics
+        }
+        return handle
+    }
+
+    /// Invalidates this session without affecting a newer one.
+    public func endSession() {
+        guard case .session(let root, let identifier) = scope else { return }
+        root.readOnQueue {
+            if root.activeSession == .active(identifier) { root.activeSession = .inactive }
+        }
+    }
+
+    private func performForSession(_ identifier: UUID, action: @escaping @Sendable () -> Void) {
+        performOnQueue { [self] in
+            guard activeSession == .active(identifier) else { return }
+            action()
+        }
+    }
 
     private func append(_ issue: ParseIssue, depth: Int?) {
         issues.append(issue)
@@ -153,6 +232,7 @@ public final class ParseIssueStore: ObservableObject {
         metrics = IssueMetrics(
             errorCount: errorCount, warningCount: warningCount, infoCount: infoCount,
             deepestAffectedDepth: deepestDepth)
+        publishToSessions()
     }
 
     private func resetStorage() {
@@ -163,6 +243,16 @@ public final class ParseIssueStore: ObservableObject {
         infoCount = 0
         deepestDepth = 0
         metrics = IssueMetrics()
+        publishToSessions()
+    }
+
+    private func publishToSessions() {
+        sessions.removeAll { $0.value == nil }
+        for entry in sessions {
+            guard let handle = entry.value else { continue }
+            handle.issues = issues
+            handle.metrics = metrics
+        }
     }
 
     private func performOnQueue(_ action: @escaping @Sendable () -> Void) {

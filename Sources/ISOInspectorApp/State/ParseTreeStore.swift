@@ -11,6 +11,8 @@
         public let issueStore: ParseIssueStore
 
         private var session: Session
+        private enum IssueSession { case none, active(ParseIssueStore) }
+        private var issueSession: IssueSession = .none
         private let stateSubject: CurrentValueSubject<ParseTreeStoreState, Never>
         /// The current display state, derived from the owned or mirrored session.
         public var state: ParseTreeStoreState { session.state }
@@ -40,11 +42,14 @@
             pipeline: ParsePipeline, reader: RandomAccessReader,
             context: ParsePipeline.Context = .init()
         ) {
+            endIssueSession()
             issueStore.reset()
             issueMetrics = issueStore.metricsSnapshot()
             fileURL = context.source?.standardizedFileURL
             var enrichedContext = context
-            if enrichedContext.issueStore == nil { enrichedContext.issueStore = issueStore }
+            let scopedIssues = (enrichedContext.issueStore ?? issueStore).beginSession()
+            issueSession = .active(scopedIssues)
+            enrichedContext.issueStore = scopedIssues
             let stream = pipeline.events(for: reader, context: enrichedContext)
             startConsuming(stream, reader: reader)
         }
@@ -59,10 +64,12 @@
         }
 
         public func cancel() {
+            endIssueSession()
             transition(to: .cancelled)
         }
 
         public func shutdown() {
+            endIssueSession()
             transition(to: .idle)
             builder = Self.makeBuilder(issueStore: issueStore)
             snapshot = .empty
@@ -75,6 +82,7 @@
             snapshot: ParseTreeSnapshot, state: ParseTreeStoreState, fileURL: URL?,
             issues: [ParseIssue]
         ) {
+            endIssueSession()
             builder = Self.makeBuilder(issueStore: issueStore)
             issueStore.replaceAll(with: issues)
             self.fileURL = fileURL?.standardizedFileURL
@@ -89,6 +97,11 @@
             session = next
             if case .parsing(let active) = previous { active.task.cancel() }
             stateSubject.send(next.state)
+        }
+
+        private func endIssueSession() {
+            if case .active(let scopedIssues) = issueSession { scopedIssues.endSession() }
+            issueSession = .none
         }
 
         private static func makeBuilder(issueStore: ParseIssueStore) -> Builder {

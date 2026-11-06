@@ -1,12 +1,71 @@
 #if canImport(Combine)
     import Combine
     import Foundation
+    import Synchronization
     import XCTest
 
     @testable import ISOInspectorApp
     @testable import ISOInspectorKit
 
     final class ParseTreeStoreRaceTests: XCTestCase {
+        @MainActor func testSupersededPipelineCannotMutateCurrentIssues() throws {
+            let contexts = Mutex<[ParseIssueStore]>([])
+            let pipeline = ParsePipeline(buildStream: { _, context in
+                if let issueStore = context.issueStore { contexts.withLock { $0.append(issueStore) } }
+                return AsyncThrowingStream { _ in }
+            })
+            let store = ParseTreeStore()
+            let reader = InMemoryRandomAccessReader(data: Data())
+            store.start(pipeline: pipeline, reader: reader)
+            store.start(pipeline: pipeline, reader: reader)
+            let captured = contexts.withLock { $0 }
+            XCTAssertEqual(captured.count, 2)
+            let old = try XCTUnwrap(captured.first)
+            let current = try XCTUnwrap(captured.last)
+            let newIssue = ParseIssue(
+                severity: .warning, code: "NEW", message: "new", byteRange: 0..<1,
+                affectedNodeIDs: [0])
+            let staleIssue = ParseIssue(
+                severity: .error, code: "OLD", message: "old", byteRange: 0..<1,
+                affectedNodeIDs: [0])
+            current.record(newIssue, depth: 1)
+            XCTAssertEqual(store.issueStore.issuesSnapshot().map(\.code), ["NEW"])
+            old.reset()
+            old.record(staleIssue, depth: 9)
+            XCTAssertEqual(store.issueStore.issuesSnapshot().map(\.code), ["NEW"])
+            XCTAssertEqual(store.issueStore.metricsSnapshot().warningCount, 1)
+            XCTAssertEqual(store.issueStore.metricsSnapshot().errorCount, 0)
+            store.shutdown()
+        }
+
+        @MainActor func testQueuedOldIssueIsDiscardedAfterReplacement() throws {
+            let contexts = Mutex<[ParseIssueStore]>([])
+            let pipeline = ParsePipeline(buildStream: { _, context in
+                if let issueStore = context.issueStore { contexts.withLock { $0.append(issueStore) } }
+                return AsyncThrowingStream { _ in }
+            })
+            let store = ParseTreeStore()
+            let reader = InMemoryRandomAccessReader(data: Data())
+            store.start(pipeline: pipeline, reader: reader)
+            let old = try XCTUnwrap(contexts.withLock { $0.first })
+            let queued = DispatchSemaphore(value: 0)
+            let staleIssue = ParseIssue(
+                severity: .error, code: "OLD", message: "old", byteRange: 0..<1,
+                affectedNodeIDs: [0])
+            DispatchQueue.global().async {
+                old.record(staleIssue, depth: 9)
+                queued.signal()
+            }
+            XCTAssertEqual(queued.wait(timeout: .now() + 3), .success)
+            store.start(pipeline: pipeline, reader: reader)
+            let queueDrained = expectation(description: "Queued old issue was handled")
+            DispatchQueue.main.async { queueDrained.fulfill() }
+            wait(for: [queueDrained], timeout: 3)
+            XCTAssertEqual(store.issueStore.issuesSnapshot(), [])
+            XCTAssertEqual(store.issueStore.metricsSnapshot().totalCount, 0)
+            store.shutdown()
+        }
+
         @MainActor func testOldFailureCannotFailNewParse() {
             assertReplacingParse(oldEnding: .failure)
         }

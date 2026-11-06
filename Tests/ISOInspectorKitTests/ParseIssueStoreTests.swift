@@ -3,6 +3,34 @@ import XCTest
 @testable import ISOInspectorKit
 
 final class ParseIssueStoreTests: XCTestCase {
+    func testSessionSupportsReadsAndRejectsWritesAfterReplacement() {
+        let store = ParseIssueStore()
+        let first = store.beginSession()
+        let issue = ParseIssue(
+            severity: .warning, code: "current", message: "current",
+            byteRange: 0..<4, affectedNodeIDs: [1])
+        first.record([issue], depthResolver: { _ in 3 })
+        XCTAssertEqual(first.issuesSnapshot(), [issue])
+        XCTAssertEqual(first.issues, [issue])
+        XCTAssertEqual(first.metrics.deepestAffectedDepth, 3)
+        XCTAssertEqual(first.issues(forNodeID: 1), [issue])
+        XCTAssertEqual(first.issues(in: 0..<2), [issue])
+        XCTAssertEqual(first.makeIssueSummary().totalCount, 1)
+        XCTAssertEqual(first.metricsSnapshot().deepestAffectedDepth, 3)
+
+        let second = store.beginSession()
+        first.endSession()
+        first.replaceAll(with: [])
+        first.reset()
+        XCTAssertEqual(store.issuesSnapshot(), [issue])
+        second.replaceAll(with: [issue], depthResolver: { _ in 4 })
+        XCTAssertEqual(store.metricsSnapshot().deepestAffectedDepth, 4)
+        XCTAssertEqual(second.metrics.deepestAffectedDepth, 4)
+        second.endSession()
+        second.reset()
+        XCTAssertEqual(store.issuesSnapshot(), [issue])
+    }
+
     func testRecordAppendsIssuesAndUpdatesMetrics() {
         let store = ParseIssueStore()
         let first = ParseIssue(
