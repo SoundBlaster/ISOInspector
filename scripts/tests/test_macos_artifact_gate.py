@@ -56,6 +56,11 @@ class MacOSArtifactGateTests(unittest.TestCase):
         head = self.git("rev-parse", "HEAD").strip()
         self.assertEqual(self.gate("push", {"before": self.base, "after": head}), "archive=true")
 
+    def test_nested_package_and_script_tests_skip_archive(self):
+        self.commit({"FoundationUI/Tests/Example.swift": "test", "scripts/tests/test_example.py": "test"})
+        head = self.git("rev-parse", "HEAD").strip()
+        self.assertEqual(self.gate("push", {"before": self.base, "after": head}), "archive=false")
+
     def test_renaming_production_file_into_tests_still_runs_archive(self):
         self.commit({"Tests/moved.swift": "old"}, deleted=("Sources/app.swift",))
         head = self.git("rev-parse", "HEAD").strip()

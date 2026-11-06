@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Skip artifact builds only when all changes are under Tests/."""
+"""Skip artifact builds only when all changes are in test directories."""
 
 import json
 import os
 from pathlib import Path
 import re
 import subprocess
+
+TEST_PREFIXES = (b"Tests/", b"FoundationUI/Tests/", b"scripts/tests/")
 
 
 def should_archive(event_name, event):
@@ -30,7 +32,7 @@ def should_archive(event_name, event):
     if result.returncode:
         return True
     paths = [path for path in result.stdout.split(b"\0") if path]
-    return not paths or any(not path.startswith(b"Tests/") for path in paths)
+    return not paths or any(not path.startswith(TEST_PREFIXES) for path in paths)
 
 
 def main():
