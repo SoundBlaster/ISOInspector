@@ -116,6 +116,7 @@ func kitTarget() -> Target {
         infoPlist: .default,
         sources: ["Sources/ISOInspectorKit/**"],
         resources: ["Sources/ISOInspectorKit/Resources/**"],
+        dependencies: [.package(product: "SpecificationCore")],
         settings: .settings(base: baseSettings, configurations: buildConfigurations)
     )
 }
@@ -327,6 +328,9 @@ let project = Project(
     organizationName: "ISOInspector",
     options: .options(),
     packages: [
+        .remote(
+            url: "https://github.com/SoundBlaster/SpecificationCore",
+            requirement: .upToNextMajor(from: "2.1.0")),
         .remote(
             url: "https://github.com/SoundBlaster/NestedA11yIDs",
             requirement: .upToNextMajor(from: "1.0.0")),
