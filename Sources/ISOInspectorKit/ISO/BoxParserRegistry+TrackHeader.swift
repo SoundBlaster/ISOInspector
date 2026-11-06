@@ -10,6 +10,7 @@ extension BoxParserRegistry.DefaultParsers {
         guard let fullHeader = try FullBoxReader.read(header: header, reader: reader) else {
             return nil
         }
+        guard TrackHeaderVersionSpecification().isSatisfiedBy(fullHeader.version) else { return nil }
 
         let start = header.payloadRange.lowerBound
         let end = header.payloadRange.upperBound

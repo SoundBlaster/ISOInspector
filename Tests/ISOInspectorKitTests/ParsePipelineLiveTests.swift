@@ -692,9 +692,9 @@ final class ParsePipelineLiveTests: XCTestCase {
             cttsIssues.contains { issue in issue.message.contains("composition offset table") })
     }
 
-    func testLivePipelineReportsCatalogVersionMismatchWithoutFlagMismatch() async throws {
+    func testLivePipelineReportsUnsupportedTrackHeaderVersionWithoutFlagMismatch() async throws {
         let mismatchTkhd = makeBox(
-            type: "tkhd", payload: Data([0x01, 0x00, 0x00, 0x00]) + Data(repeating: 0, count: 28))
+            type: "tkhd", payload: Data([0x02, 0x00, 0x00, 0x00]) + Data(repeating: 0, count: 28))
         let trak = makeBox(type: ContainerTypes.track, payload: mismatchTkhd)
         let moov = makeBox(type: ContainerTypes.movie, payload: trak)
         let reader = InMemoryRandomAccessReader(data: moov)
@@ -718,7 +718,7 @@ final class ParsePipelineLiveTests: XCTestCase {
 
     func testTolerantModeEmitsParseIssuesForValidationWarnings() async throws {
         let mismatchTkhd = makeBox(
-            type: "tkhd", payload: Data([0x01, 0x00, 0x00, 0x00]) + Data(repeating: 0, count: 28))
+            type: "tkhd", payload: Data([0x02, 0x00, 0x00, 0x00]) + Data(repeating: 0, count: 28))
         let trak = makeBox(type: ContainerTypes.track, payload: mismatchTkhd)
         let moov = makeBox(type: ContainerTypes.movie, payload: trak)
         let reader = InMemoryRandomAccessReader(data: moov)
