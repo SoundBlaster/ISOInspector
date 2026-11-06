@@ -1,0 +1,65 @@
+{
+  "reference": {
+    "package": "mp4box",
+    "version": "2.5.0",
+    "source": "https://github.com/gpac/mp4box.js/blob/v2.5.0/src/boxes/tkhd.ts",
+    "bundleSHA256": "e9c479ae13ca2c3053bd4ea591e2ce38f7115e9a85abf7bdbfee5379aed86197"
+  },
+  "parsed": {
+    "v0": {
+      "version": 0,
+      "flags": 1,
+      "creationTime": 1,
+      "modificationTime": 2,
+      "trackID": 3,
+      "duration": 540,
+      "layer": -2,
+      "alternateGroup": 3,
+      "volume": 1,
+      "matrix": [
+        1,
+        -1,
+        0.5,
+        0.5,
+        1,
+        -0.5,
+        0,
+        1,
+        1
+      ],
+      "width": 1280,
+      "height": 720
+    },
+    "v1": {
+      "version": 1,
+      "flags": 7,
+      "creationTime": 4294967297,
+      "modificationTime": 4294967298,
+      "trackID": 12,
+      "duration": 4294968196,
+      "layer": -2,
+      "alternateGroup": 3,
+      "volume": 1,
+      "matrix": [
+        1,
+        -1,
+        0.5,
+        0.5,
+        1,
+        -0.5,
+        0,
+        1,
+        1
+      ],
+      "width": 1920,
+      "height": 1080
+    }
+  },
+  "notParsed": [
+    "unknown_version",
+    "v0_incomplete",
+    "v0_short_box",
+    "v1_incomplete",
+    "v1_short_box"
+  ]
+}
