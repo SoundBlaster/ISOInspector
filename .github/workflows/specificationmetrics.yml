@@ -21,7 +21,6 @@ jobs:
       BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
       HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
       ANALYZER_SHA: 38091108bc18056e345599ed8eb14bd0fb9e563a
-      REPORT_DIR: ${{ runner.temp }}/specificationmetrics
       PROJECT_NAME: ${{ github.repository }}
     steps:
       - name: Checkout repository history
@@ -40,6 +39,8 @@ jobs:
 
       - name: Capture and compare source snapshots
         shell: bash
+        env:
+          REPORT_DIR: ${{ runner.temp }}/specificationmetrics
         run: |
           set -euo pipefail
           [[ "$BASE_SHA" =~ ^[a-f0-9]{40}$ && "$HEAD_SHA" =~ ^[a-f0-9]{40}$ ]]
@@ -82,6 +83,8 @@ jobs:
 
       - name: Summarize diagnostic observations
         shell: bash
+        env:
+          REPORT_DIR: ${{ runner.temp }}/specificationmetrics
         run: |
           set -euo pipefail
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
