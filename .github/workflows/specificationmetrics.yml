@@ -1,0 +1,125 @@
+name: SpecificationMetrics
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: specificationmetrics-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  metrics:
+    runs-on: ubuntu-latest
+    env:
+      BASE_SHA: ${{ github.event.pull_request.base.sha || github.sha }}
+      HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+      ANALYZER_SHA: 38091108bc18056e345599ed8eb14bd0fb9e563a
+      REPORT_DIR: ${{ runner.temp }}/specificationmetrics
+      PROJECT_NAME: ${{ github.repository }}
+    steps:
+      - name: Checkout repository history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Set up Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install SpecificationMetrics
+        run: |
+          cargo install --locked --git https://github.com/SoundBlaster/SpecificationMetrics.git \
+            --rev "$ANALYZER_SHA" --root "$RUNNER_TEMP/specificationmetrics-cli" specification-metrics
+
+      - name: Capture and compare source snapshots
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$BASE_SHA" =~ ^[a-f0-9]{40}$ && "$HEAD_SHA" =~ ^[a-f0-9]{40}$ ]]
+          mkdir -p "$REPORT_DIR"
+          cp .specificationmetrics.toml "$REPORT_DIR/collection-config.toml"
+          cp scopes/specificationmetrics.toml "$REPORT_DIR/scope-manifest.toml"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          report = Path(os.environ['REPORT_DIR'])
+          data = {key.lower(): os.environ[key] for key in ('BASE_SHA', 'HEAD_SHA', 'ANALYZER_SHA')}
+          data.update(run_id=os.environ['GITHUB_RUN_ID'], run_attempt=os.environ['GITHUB_RUN_ATTEMPT'],
+                      collection_execution='started')
+          (report / 'provenance.json').write_text(json.dumps(data, indent=2) + '\n')
+          PY
+          cli="$RUNNER_TEMP/specificationmetrics-cli/bin/specification-metrics"
+          for side in before after; do
+            revision="$BASE_SHA"
+            if [[ "$side" == after ]]; then revision="$HEAD_SHA"; fi
+            tree="$RUNNER_TEMP/specificationmetrics-$side"
+            git worktree add --detach "$tree" "$revision"
+            mkdir -p "$tree/scopes"
+            cp .specificationmetrics.toml "$tree/.specificationmetrics.toml"
+            cp scopes/specificationmetrics.toml "$tree/scopes/specificationmetrics.toml"
+            "$cli" collect --candidate-locations --config "$tree/.specificationmetrics.toml" \
+              --output "$REPORT_DIR/$side.json"
+          done
+          "$cli" compare "$REPORT_DIR/before.json" "$REPORT_DIR/after.json" \
+            --output "$REPORT_DIR/diff.json"
+          "$cli" compare "$REPORT_DIR/before.json" "$REPORT_DIR/after.json" \
+            --github-markdown "$PROJECT_NAME" --output "$REPORT_DIR/locations.md"
+          python3 - <<'PY'
+          import json, os
+          from pathlib import Path
+          path = Path(os.environ['REPORT_DIR']) / 'provenance.json'
+          data = json.loads(path.read_text())
+          data['collection_execution'] = 'completed'
+          path.write_text(json.dumps(data, indent=2) + '\n')
+          PY
+
+      - name: Summarize diagnostic observations
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json, os
+          from pathlib import Path
+          report = Path(os.environ['REPORT_DIR'])
+          before = json.loads((report / 'before.json').read_text())
+          after = json.loads((report / 'after.json').read_text())
+          print('### SpecificationMetrics · diagnostic measurement\n')
+          print('| Metric | Base | Head |')
+          print('|---|---:|---:|')
+          for title, key in [('Specifications (S)', 'specification_definitions'),
+                             ('Remaining opportunities (U)', 'remaining_opportunities'),
+                             ('S/U', 'ratio')]:
+              print(f"| {title} | {before['primary'][key]} | {after['primary'][key]} |")
+          for label, snapshot in [('Base', before), ('Head', after)]:
+              primary = snapshot['primary']
+              print(f"\n{label}: **{snapshot['status']}**, revision `{primary['source_revision']}`, "
+                    f"parse issues {len(primary['parse_issues'])}, "
+                    f"scope issues {len(primary['scope_issues'])}, "
+                    f"unknown specifications {primary['unknown_specifications']}.")
+          print('\nDiagnostic only; U is syntactic discovery, not a refactoring verdict. '
+                'Swift CC/Cog are not measured. See the artifact for diagnostics and full comparisons.\n')
+          print((report / 'locations.md').read_text())
+          PY
+
+      - name: Retain metric evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: specificationmetrics-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/specificationmetrics/before.json
+            ${{ runner.temp }}/specificationmetrics/after.json
+            ${{ runner.temp }}/specificationmetrics/diff.json
+            ${{ runner.temp }}/specificationmetrics/locations.md
+            ${{ runner.temp }}/specificationmetrics/provenance.json
+            ${{ runner.temp }}/specificationmetrics/collection-config.toml
+            ${{ runner.temp }}/specificationmetrics/scope-manifest.toml
+          if-no-files-found: warn
+          retention-days: 30
