@@ -9,7 +9,7 @@
 
     final class ParseTreeStoreRaceTests: XCTestCase {
         @MainActor func testSupersededPipelineCannotMutateCurrentIssues() throws {
-            let contexts = Mutex<[ParseIssueStore]>([])
+            let contexts = Mutex<[any ParseIssueRecording]>([])
             let pipeline = ParsePipeline(buildStream: { _, context in
                 if let issueStore = context.issueStore { contexts.withLock { $0.append(issueStore) } }
                 return AsyncThrowingStream { _ in }
@@ -39,7 +39,7 @@
         }
 
         @MainActor func testQueuedOldIssueIsDiscardedAfterReplacement() throws {
-            let contexts = Mutex<[ParseIssueStore]>([])
+            let contexts = Mutex<[any ParseIssueRecording]>([])
             let pipeline = ParsePipeline(buildStream: { _, context in
                 if let issueStore = context.issueStore { contexts.withLock { $0.append(issueStore) } }
                 return AsyncThrowingStream { _ in }

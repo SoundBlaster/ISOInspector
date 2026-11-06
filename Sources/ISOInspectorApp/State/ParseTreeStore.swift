@@ -11,7 +11,7 @@
         public let issueStore: ParseIssueStore
 
         private var session: Session
-        private enum IssueSession { case none, active(ParseIssueStore) }
+        private enum IssueSession { case none, active(ParseIssueStore.Session) }
         private var issueSession: IssueSession = .none
         private let stateSubject: CurrentValueSubject<ParseTreeStoreState, Never>
         /// The current display state, derived from the owned or mirrored session.
