@@ -14,8 +14,8 @@
         private var snapshot: ParseTreeSnapshot = .empty
         private var selectedID: ParseTreeNode.ID?
         private var cancellables: Set<AnyCancellable> = []
-        private var hexTask: Task<Void, Never>?
-        private var annotationTask: Task<Void, Never>?
+        private(set) var hexTask: Task<Void, Never>?
+        private(set) var annotationTask: Task<Void, Never>?
 
         private var hexSliceProvider: HexSliceProvider?
         private var annotationProvider: PayloadAnnotationProvider?
@@ -161,14 +161,16 @@
                 do {
                     let slice = try await provider.loadSlice(for: request)
                     await MainActor.run {
-                        guard let self, self.selectedID == currentSelection else { return }
+                        guard !Task.isCancelled, let self, self.selectedID == currentSelection else { return }
                         var updated = detail
                         updated.hexSlice = slice
                         self.detail = updated
                     }
+                } catch is CancellationError {
+                    return
                 } catch {
                     await MainActor.run {
-                        guard let self, self.selectedID == currentSelection else { return }
+                        guard !Task.isCancelled, let self, self.selectedID == currentSelection else { return }
                         self.hexError = error.localizedDescription
                     }
                 }
@@ -185,7 +187,7 @@
                 do {
                     let annotations = try await provider.annotations(for: node.header)
                     await MainActor.run {
-                        guard let self, self.selectedID == currentSelection else { return }
+                        guard !Task.isCancelled, let self, self.selectedID == currentSelection else { return }
                         self.annotationError = nil
                         let sorted = annotations.sorted {
                             $0.byteRange.lowerBound < $1.byteRange.lowerBound
@@ -198,9 +200,11 @@
                         }
                         self.updateHighlightedRange()
                     }
+                } catch is CancellationError {
+                    return
                 } catch {
                     await MainActor.run {
-                        guard let self, self.selectedID == currentSelection else { return }
+                        guard !Task.isCancelled, let self, self.selectedID == currentSelection else { return }
                         self.annotationError = error.localizedDescription
                         self.annotations = []
                         self.selectedAnnotationID = nil
