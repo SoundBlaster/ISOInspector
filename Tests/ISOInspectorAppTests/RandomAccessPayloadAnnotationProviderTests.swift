@@ -4,6 +4,51 @@ import XCTest
 @testable import ISOInspectorApp
 
 final class RandomAccessPayloadAnnotationProviderTests: XCTestCase {
+    func testFallbackPropagatesCancellation() async throws {
+        let provider = RandomAccessPayloadAnnotationProvider(
+            reader: FailingReader(failure: .cancelled), registry: BoxParserRegistry(fallback: { _, _ in nil }))
+        let header = try movieHeader()
+        do {
+            _ = try await provider.annotations(for: header)
+            XCTFail("Expected cancellation")
+        } catch is CancellationError {
+        } catch {
+            XCTFail("Expected cancellation, got \(error)")
+        }
+    }
+
+    func testFallbackPropagatesReadFailure() async throws {
+        let provider = RandomAccessPayloadAnnotationProvider(
+            reader: FailingReader(failure: .io), registry: BoxParserRegistry(fallback: { _, _ in nil }))
+        let header = try movieHeader()
+        do {
+            _ = try await provider.annotations(for: header)
+            XCTFail("Expected the reader error")
+        } catch FailingReader.Failure.io {
+        } catch {
+            XCTFail("Expected the reader error, got \(error)")
+        }
+    }
+
+    func testFallbackReportsShortRead() async throws {
+        let provider = RandomAccessPayloadAnnotationProvider(
+            reader: ShortReader(), registry: BoxParserRegistry(fallback: { _, _ in nil }))
+        do {
+            _ = try await provider.annotations(for: movieHeader())
+            XCTFail("Expected a truncated read error")
+        } catch let error as RandomAccessReaderValueDecodingError {
+            XCTAssertEqual(error, .truncatedRead(expected: 1, actual: 0))
+        } catch {
+            XCTFail("Expected a truncated read error, got \(error)")
+        }
+    }
+
+    private func movieHeader() throws -> BoxHeader {
+        BoxHeader(
+            type: try FourCharCode("mvhd"), totalSize: 108, headerSize: 8,
+            payloadRange: 8..<108, range: 0..<108, uuid: nil)
+    }
+
     func testFileTypeAnnotations() async throws {
         var data = Data(repeating: 0x00, count: 8)
         data.append(contentsOf: [0x69, 0x73, 0x6F, 0x6D])  // isom
@@ -81,6 +126,23 @@ final class RandomAccessPayloadAnnotationProviderTests: XCTestCase {
         XCTAssertEqual(annotation("next_track_ID")?.value, "2")
         XCTAssertEqual(annotation("next_track_ID")?.byteRange, 104..<108)
     }
+}
+
+private struct FailingReader: RandomAccessReader {
+    enum Failure: Error { case cancelled, io }
+    let failure: Failure
+    let length: Int64 = 108
+    func read(at offset: Int64, count: Int) throws -> Data {
+        switch failure {
+        case .cancelled: throw CancellationError()
+        case .io: throw Failure.io
+        }
+    }
+}
+
+private struct ShortReader: RandomAccessReader {
+    let length: Int64 = 108
+    func read(at offset: Int64, count: Int) throws -> Data { Data() }
 }
 
 private struct InMemoryReader: RandomAccessReader {
