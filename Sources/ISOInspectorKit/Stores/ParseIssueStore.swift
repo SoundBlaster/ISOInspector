@@ -52,7 +52,8 @@ public final class ParseIssueStore: ObservableObject, ParseIssueRecording {
 
         public func reset() { store.performForSession(identifier) { store.resetStorage() } }
 
-        public func beginSession() -> Session { store.beginSession() }
+        /// A scoped capability cannot create or replace a store session.
+        public func beginSession() -> Session { self }
 
         public func endSession() {
             store.readOnQueue {

@@ -29,6 +29,18 @@ final class ParseIssueStoreTests: XCTestCase {
         XCTAssertEqual(store.issuesSnapshot(), [issue])
     }
 
+    func testSupersededSessionCannotStartAnotherSession() {
+        let store = ParseIssueStore()
+        let old = store.beginSession()
+        let current = store.beginSession()
+        let staleChild = old.beginSession()
+        let issue = ParseIssue(severity: .warning, code: "CURRENT", message: "current")
+        current.record(issue)
+        staleChild.reset()
+        staleChild.record(ParseIssue(severity: .error, code: "STALE", message: "stale"))
+        XCTAssertEqual(store.issuesSnapshot().map(\.code), ["CURRENT"])
+    }
+
     func testRecordAppendsIssuesAndUpdatesMetrics() {
         let store = ParseIssueStore()
         let first = ParseIssue(
