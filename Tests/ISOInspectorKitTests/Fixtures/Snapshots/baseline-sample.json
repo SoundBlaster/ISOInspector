@@ -407,7 +407,6 @@
 
               ],
               "metadata" : {
-                "flags" : 7,
                 "name" : "Track Header, Overall Information About The Track",
                 "specification" : "ISO\/IEC 14496-12",
                 "summary" : "Defines the characteristics of a track, including ID, duration, and display parameters.",
@@ -657,11 +656,7 @@
                 }
               },
               "validationIssues" : [
-                {
-                  "message" : "tkhd flags mismatch: expected 0x000007 but found 0x000001",
-                  "ruleID" : "VR-003",
-                  "severity" : "warning"
-                }
+
               ]
             },
             {
@@ -5155,7 +5150,6 @@
 
               ],
               "metadata" : {
-                "flags" : 7,
                 "name" : "Track Header, Overall Information About The Track",
                 "specification" : "ISO\/IEC 14496-12",
                 "summary" : "Defines the characteristics of a track, including ID, duration, and display parameters.",
@@ -5405,11 +5399,7 @@
                 }
               },
               "validationIssues" : [
-                {
-                  "message" : "tkhd flags mismatch: expected 0x000007 but found 0x000001",
-                  "ruleID" : "VR-003",
-                  "severity" : "warning"
-                }
+
               ]
             },
             {
@@ -11153,19 +11143,9 @@
   ],
   "validationIssues" : [
     {
-      "message" : "tkhd flags mismatch: expected 0x000007 but found 0x000001",
-      "ruleID" : "VR-003",
-      "severity" : "warning"
-    },
-    {
       "message" : "Unknown box type \u0000\u0000\u0000\u0001 encountered; schedule catalog research.",
       "ruleID" : "VR-006",
       "severity" : "info"
-    },
-    {
-      "message" : "tkhd flags mismatch: expected 0x000007 but found 0x000001",
-      "ruleID" : "VR-003",
-      "severity" : "warning"
     },
     {
       "message" : "Unknown box type \u0000\u0000\u0000\u0001 encountered; schedule catalog research.",
