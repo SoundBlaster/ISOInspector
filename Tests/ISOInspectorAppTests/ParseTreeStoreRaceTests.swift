@@ -27,6 +27,8 @@
         ) {
             let (oldStream, oldContinuation) = ParsePipeline.EventStream.makeStream()
             let (newStream, newContinuation) = ParsePipeline.EventStream.makeStream()
+            let oldTerminated = expectation(description: "Old stream terminated")
+            oldContinuation.onTermination = { _ in oldTerminated.fulfill() }
             defer {
                 oldContinuation.finish()
                 newContinuation.finish()
@@ -52,16 +54,15 @@
             switch oldEnding {
             case .success: oldContinuation.finish()
             case .failure: oldContinuation.finish(throwing: OldError.expectedFailure)
-            case .cancelled: break
+            case .cancelled:
+                guard case .enqueued = oldContinuation.yield(makeStartEvent(type: "late")) else {
+                    XCTFail("Could not queue the old event", file: file, line: line)
+                    return
+                }
             }
             store.start(pipeline: newPipeline, reader: reader, context: .init(source: newURL))
 
-            if case .cancelled = oldEnding {
-                if case .terminated = oldContinuation.yield(makeStartEvent(type: "late")) {} else {
-                    XCTFail("The old stream accepted an event after cancellation", file: file, line: line)
-                }
-                oldContinuation.finish(throwing: OldError.expectedFailure)
-            }
+            wait(for: [oldTerminated], timeout: 3)
 
             let newEventConsumed = expectation(description: "New event consumed")
             store.$snapshot.dropFirst().sink { snapshot in
