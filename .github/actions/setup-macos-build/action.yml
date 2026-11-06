@@ -1,0 +1,61 @@
+name: Set up macOS build
+description: Configure Xcode and Tuist for ISOInspector builds
+inputs:
+  token:
+    description: GitHub token used to look up a Tuist release
+    required: true
+runs:
+  using: composite
+  steps:
+    - name: Select Xcode 27.1
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: "27.1"
+
+    - name: Show Xcode and Swift versions
+      shell: bash
+      run: |
+        xcodebuild -version
+        swift --version
+
+    - name: Determine Tuist CLI release
+      id: tuist-version
+      shell: bash
+      env:
+        AUTH_HEADER: "Authorization: Bearer ${{ inputs.token }}"
+      run: |
+        set -euo pipefail
+        python3 .github/scripts/get-tuist-version.py
+
+    - name: Cache Tuist binary
+      uses: actions/cache@v4
+      with:
+        path: ${{ runner.temp }}/tuist/${{ steps.tuist-version.outputs.tuist_version }}
+        key: ${{ runner.os }}-tuist-${{ steps.tuist-version.outputs.tuist_version }}
+
+    - name: Install Tuist
+      shell: bash
+      env:
+        TUIST_VERSION: ${{ steps.tuist-version.outputs.tuist_version }}
+      run: |
+        set -euo pipefail
+        INSTALL_DIR="${RUNNER_TEMP}/tuist/${TUIST_VERSION}"
+        mkdir -p "${INSTALL_DIR}"
+        if [ ! -x "${INSTALL_DIR}/tuist" ]; then
+          tmpdir=$(mktemp -d)
+          curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
+          unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
+          rsync -a "${tmpdir}/" "${INSTALL_DIR}/"
+          chmod +x "${INSTALL_DIR}/tuist"
+          rm -rf "${tmpdir}"
+        fi
+        echo "${INSTALL_DIR}" >> "$GITHUB_PATH"
+
+    - name: Validate and generate Xcode workspace
+      shell: bash
+      run: |
+        set -euo pipefail
+        tuist version
+        tuist dump project > /dev/null
+        tuist install
+        tuist generate --no-open
