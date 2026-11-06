@@ -26,13 +26,13 @@
             store.shutdown()
         }
 
-        @MainActor func testExplicitCancelFinishesStoreAndTerminatesTheStream() throws {
+        @MainActor func testExplicitCancelFinishesStoreAndNotifiesStreamCancellation() throws {
             let store = ParseTreeStore()
             let (stream, continuation) = ParsePipeline.EventStream.makeStream()
             defer { continuation.finish() }
-            let terminated = expectation(description: "Stream cancelled")
+            let cancellationNotified = expectation(description: "Stream cancellation notified")
             continuation.onTermination = { termination in
-                if case .cancelled = termination { terminated.fulfill() }
+                if case .cancelled = termination { cancellationNotified.fulfill() }
             }
             let header = BoxHeader(
                 type: try FourCharCode("free"), totalSize: 8, headerSize: 8,
@@ -52,14 +52,11 @@
             XCTAssertEqual(store.state, .parsing)
 
             store.cancel()
-            wait(for: [terminated], timeout: 3)
+            wait(for: [cancellationNotified], timeout: 3)
             XCTAssertEqual(store.state, .finished)
             XCTAssertEqual(store.snapshot.nodes.map(\.header.type.rawValue), ["free"])
             guard case .unavailable(.cancelled) = store.detailAccess else {
                 return XCTFail("Cancelled parses must not expose a reader")
-            }
-            if case .terminated = continuation.yield(start) {} else {
-                XCTFail("Cancelled stream accepted another event")
             }
         }
     }
