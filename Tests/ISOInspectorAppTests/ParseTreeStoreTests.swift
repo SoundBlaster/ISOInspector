@@ -6,6 +6,29 @@
     @testable import ISOInspectorKit
 
     final class ParseTreeStoreTests: XCTestCase {
+        @MainActor func testTrackFinishValidationIssueAppearsInSnapshot() throws {
+            let header = BoxHeader(type: try FourCharCode("trak"), totalSize: 8, headerSize: 8,
+                                   payloadRange: 8..<8, range: 0..<8, uuid: nil)
+            let issue = ValidationIssue(ruleID: "VR-019", message: "Invalid NAL framing", severity: .error)
+            let stream = AsyncThrowingStream<ParseEvent, Error> { continuation in
+                continuation.yield(ParseEvent(kind: .willStartBox(header: header, depth: 0), offset: 0))
+                continuation.yield(ParseEvent(kind: .didFinishBox(header: header, depth: 0), offset: 8,
+                                              validationIssues: [issue]))
+                continuation.finish()
+            }
+            let store = ParseTreeStore()
+            let finished = expectation(description: "Parsing finished")
+            var cancellables: Set<AnyCancellable> = []
+            store.statePublisher.dropFirst().sink { if $0 == .finished { finished.fulfill() } }
+                .store(in: &cancellables)
+            store.start(pipeline: ParsePipeline(buildStream: { _, _ in stream }),
+                        reader: InMemoryRandomAccessReader(data: Data()))
+            wait(for: [finished], timeout: 2)
+            XCTAssertEqual(store.state, .finished)
+            XCTAssertEqual(store.snapshot.nodes.first?.validationIssues, [issue])
+            XCTAssertTrue(store.snapshot.validationIssues.contains(issue))
+        }
+
         @MainActor func testFilteringValidationIssuesUpdatesSnapshot() {
             let filteredIssue = ValidationIssue(
                 ruleID: "VR-006", message: "research", severity: .info)
