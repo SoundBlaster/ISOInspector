@@ -16,6 +16,48 @@ NC='\033[0m' # No Color
 
 FAILED=0
 
+# Optional paths live in the current worktree's Git directory, not in the repository.
+# Environment variables take precedence over this local configuration.
+BUILD_CONFIG="$(git rev-parse --absolute-git-dir)/isoinspector-build.conf"
+if [[ -e "$BUILD_CONFIG" ]] && ! git config --file "$BUILD_CONFIG" --list > /dev/null; then
+    echo "❌ Invalid build path configuration: $BUILD_CONFIG"
+    exit 1
+fi
+build_config_value() {
+    git config --file "$BUILD_CONFIG" --get "$1" 2>/dev/null || :
+}
+ROOT_SCRATCH=${ISOINSPECTOR_SWIFTPM_SCRATCH_PATH:-$(build_config_value build.rootScratch)}
+FOUNDATION_SCRATCH=${ISOINSPECTOR_FOUNDATIONUI_SCRATCH_PATH:-$(build_config_value build.foundationScratch)}
+SWIFTPM_CACHE=${ISOINSPECTOR_SWIFTPM_CACHE_PATH:-$(build_config_value build.cache)}
+BUILD_PREFLIGHT=${ISOINSPECTOR_BUILD_PREFLIGHT:-$(build_config_value build.preflight)}
+
+ROOT_SWIFT_OPTIONS=()
+FOUNDATION_SWIFT_OPTIONS=()
+if [[ -n "$ROOT_SCRATCH$FOUNDATION_SCRATCH$SWIFTPM_CACHE$BUILD_PREFLIGHT" ]]; then
+    if [[ -z "$ROOT_SCRATCH" || -z "$FOUNDATION_SCRATCH" || -z "$SWIFTPM_CACHE" ]]; then
+        echo "❌ Configure root scratch, FoundationUI scratch, and SwiftPM cache together."
+        exit 1
+    fi
+    if [[ "$ROOT_SCRATCH" == "$FOUNDATION_SCRATCH" ]]; then
+        echo "❌ Root and FoundationUI packages require separate scratch paths."
+        exit 1
+    fi
+    if [[ -n "$BUILD_PREFLIGHT" ]]; then
+        if [[ ! -x "$BUILD_PREFLIGHT" ]] || ! "$BUILD_PREFLIGHT" "$(pwd)" || ! "$BUILD_PREFLIGHT" "$(pwd)/FoundationUI"; then
+            echo "❌ Build path preflight failed; refusing to fall back to local artifacts."
+            exit 1
+        fi
+    fi
+    for build_path in "$ROOT_SCRATCH" "$FOUNDATION_SCRATCH" "$SWIFTPM_CACHE"; do
+        if [[ ! -d "$build_path" || ! -w "$build_path" ]]; then
+            echo "❌ Build path is unavailable or not writable: $build_path"
+            exit 1
+        fi
+    done
+    ROOT_SWIFT_OPTIONS=(--scratch-path "$ROOT_SCRATCH" --cache-path "$SWIFTPM_CACHE")
+    FOUNDATION_SWIFT_OPTIONS=(--scratch-path "$FOUNDATION_SCRATCH" --cache-path "$SWIFTPM_CACHE")
+fi
+
 # Check if we're pushing to main
 CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
 PUSH_REMOTE=$(git config --get branch.${CURRENT_BRANCH}.remote 2>/dev/null || echo "origin")
@@ -47,7 +89,7 @@ LOG_DIR="Documentation/Quality"
 mkdir -p "$LOG_DIR"
 BUILD_LOG="$LOG_DIR/strict-concurrency-build-$(date +%Y%m%d-%H%M%S).log"
 
-if swift build --target ISOInspectorKit 2>&1 | tee "$BUILD_LOG"; then
+if swift build --target ISOInspectorKit "${ROOT_SWIFT_OPTIONS[@]}" 2>&1 | tee "$BUILD_LOG"; then
     echo -e "${GREEN}✅ Build with strict concurrency passed${NC}"
     echo "   Log: $BUILD_LOG"
 else
@@ -62,7 +104,7 @@ echo ""
 echo "3️⃣  Verifying strict concurrency compliance (tests)..."
 TEST_LOG="$LOG_DIR/strict-concurrency-test-$(date +%Y%m%d-%H%M%S).log"
 
-if swift test --filter ISOInspectorKitTests 2>&1 | tee "$TEST_LOG"; then
+if swift test --filter ISOInspectorKitTests "${ROOT_SWIFT_OPTIONS[@]}" 2>&1 | tee "$TEST_LOG"; then
     echo -e "${GREEN}✅ Tests with strict concurrency passed${NC}"
     echo "   Log: $TEST_LOG"
 else
@@ -84,7 +126,7 @@ if [[ "$PLATFORM" != "Darwin" ]]; then
     echo -e "${YELLOW}⚠️  FoundationUI coverage requires macOS SwiftUI SDKs; skipping on $PLATFORM${NC}"
 else
     echo "   Running FoundationUI tests with coverage..."
-    if swift test --package-path FoundationUI --enable-code-coverage 2>&1 | tee "$COVERAGE_TEST_LOG"; then
+    if swift test --package-path FoundationUI --enable-code-coverage "${FOUNDATION_SWIFT_OPTIONS[@]}" 2>&1 | tee "$COVERAGE_TEST_LOG"; then
         echo -e "${GREEN}✅ FoundationUI tests with coverage passed${NC}"
         echo "   Log: $COVERAGE_TEST_LOG"
 
