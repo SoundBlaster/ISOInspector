@@ -8,8 +8,11 @@ on:
     paths:
       - 'Sources/**'
       - 'Tests/**'
+      - 'FoundationUI/**'
       - 'scripts/**'
+      - '.github/actions/setup-macos-build/**'
       - '.github/scripts/get-tuist-version.py'
+      - '.github/scripts/macos_artifact_gate.py'
       - 'Package.swift'
       - 'Package.resolved'
       - 'Project.swift'
@@ -24,8 +27,11 @@ on:
     paths:
       - 'Sources/**'
       - 'Tests/**'
+      - 'FoundationUI/**'
       - 'scripts/**'
+      - '.github/actions/setup-macos-build/**'
       - '.github/scripts/get-tuist-version.py'
+      - '.github/scripts/macos_artifact_gate.py'
       - 'Package.swift'
       - 'Package.resolved'
       - 'Project.swift'
@@ -35,9 +41,27 @@ on:
       - 'ISOInspector.xcworkspace/**'
       - '.github/workflows/*.yml'
 
+permissions:
+  contents: read
+
 jobs:
-  macos-builds:
-    name: macOS Archive & CLI Binary
+  changes:
+    name: Determine macOS build scope
+    runs-on: ubuntu-latest
+    outputs:
+      archive: ${{ steps.scope.outputs.archive }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Determine whether artifacts need building
+        id: scope
+        run: python3 .github/scripts/macos_artifact_gate.py
+
+  macos-tests:
+    name: macOS App Tests
     runs-on: xcode-27
     steps:
       - name: Checkout repository
@@ -114,6 +138,20 @@ jobs:
             -skipMacroValidation \
             -destination 'platform=macOS' \
             | tee xcodebuild-test-macos.log
+
+  macos-builds:
+    name: macOS Archive & CLI Binary
+    needs: [changes, macos-tests]
+    if: ${{ needs.changes.outputs.archive == 'true' }}
+    runs-on: xcode-27
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode and Tuist
+        uses: ./.github/actions/setup-macos-build
+        with:
+          token: ${{ github.token }}
 
       - name: Archive ISOInspectorApp (unsigned)
         run: |
