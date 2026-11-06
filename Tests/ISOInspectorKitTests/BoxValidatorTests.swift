@@ -22,7 +22,7 @@ final class BoxValidatorTests: XCTestCase {
     }
 
     func testVersionFlagsRuleReportsMismatchedVersionAndFlags() throws {
-        let header = try makeHeader(type: "tkhd", payloadSize: 32)
+        let header = try makeHeader(type: "mdhd", payloadSize: 32)
         let descriptor = makeDescriptor(for: header, version: 0, flags: 0x000007)
         let event = ParseEvent(
             kind: .willStartBox(header: header, depth: 0), offset: header.startOffset,

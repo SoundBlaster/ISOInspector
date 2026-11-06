@@ -6190,8 +6190,7 @@
       "name" : "Track Header, Overall Information About The Track",
       "specification" : "ISO\/IEC 14496-12",
       "summary" : "Defines the characteristics of a track, including ID, duration, and display parameters.",
-      "type" : "tkhd",
-      "version" : 0
+      "type" : "tkhd"
     },
     {
       "name" : "Track Loudness Base",

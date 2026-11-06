@@ -23,7 +23,8 @@ struct VersionFlagsRule: BoxValidationRule {
     func issues(for event: ParseEvent, reader: RandomAccessReader) throws -> [ValidationIssue] {
         guard case .willStartBox(let header, _) = event.kind else { return [] }
         guard let descriptor = event.metadata else { return [] }
-        guard descriptor.version != nil || descriptor.flags != nil else { return [] }
+        guard descriptor.version != nil || descriptor.flags != nil || header.type.rawValue == "tkhd"
+        else { return [] }
 
         let payloadRange = header.payloadRange
         guard payloadRange.count >= 4 else {
@@ -54,7 +55,17 @@ struct VersionFlagsRule: BoxValidationRule {
             }
 
             var issues: [ValidationIssue] = []
-            if let expectedVersion = descriptor.version, expectedVersion != actualVersion {
+            if header.type.rawValue == "tkhd" {
+                if !TrackHeaderVersionSpecification().isSatisfiedBy(data[0]) {
+                    let supported = TrackHeaderVersionSpecification.supportedVersions
+                        .map(String.init).joined(separator: ", ")
+                    issues.append(
+                        ValidationIssue(
+                            ruleID: "VR-003",
+                            message: "tkhd unsupported version \(actualVersion) (supported: \(supported)).",
+                            severity: .warning))
+                }
+            } else if let expectedVersion = descriptor.version, expectedVersion != actualVersion {
                 issues.append(
                     ValidationIssue(
                         ruleID: "VR-003",
