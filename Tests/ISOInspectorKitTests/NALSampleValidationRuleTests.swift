@@ -12,6 +12,8 @@ import Testing
         #expect(issues[0].message.contains("sample 1"))
         #expect(issues[1].message.contains("sample 3"))
         #expect(issues.allSatisfy { $0.message.contains("65535") })
+        #expect(issues[0].location == .bytes(0..<2))
+        #expect(issues[1].location == .bytes(10..<12))
     }
 
     @Test func doesNotInterpretExternalReferencesAsLocalBytes() throws {

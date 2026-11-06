@@ -144,7 +144,8 @@ final class NALSampleValidationRule: BoxValidationRule, @unchecked Sendable {
                     case .numbered(let id): track = "Track \(id)"
                     }
                     let message = describe(failure, sampleOffset: offset, lengthBytes: description.lengthBytes)
-                    issues.append(ValidationIssue(ruleID: "VR-019", message: "\(track) sample \(sampleIndex + 1): \(message)", severity: .error))
+                    let location = location(of: failure, sampleOffset: offset, lengthBytes: description.lengthBytes)
+                    issues.append(ValidationIssue(ruleID: "VR-019", message: "\(track) sample \(sampleIndex + 1): \(message)", severity: .error, location: location))
                     if issues.count == 100 {
                         issues.append(ValidationIssue(ruleID: "VR-019", message: "NAL framing validation stopped after 100 errors.", severity: .warning))
                         return issues
@@ -169,5 +170,18 @@ final class NALSampleValidationRule: BoxValidationRule, @unchecked Sendable {
             let prefixOffset = sampleOffset + Int64(offset - lengthBytes)
             return "NAL length \(declared) at file offset \(prefixOffset) exceeds \(available) bytes remaining in sample."
         }
+    }
+
+    private func location(of failure: NALUnitFraming.Failure, sampleOffset: Int64, lengthBytes: Int) -> ValidationIssue.Location {
+        let relativeOffset: Int
+        let count: Int
+        switch failure {
+        case .invalidLengthWidth: return .box
+        case .truncatedLength(let offset, _, let available): relativeOffset = offset; count = available
+        case .emptyUnit(let offset): relativeOffset = offset; count = lengthBytes
+        case .truncatedUnit(let offset, _, _): relativeOffset = offset - lengthBytes; count = lengthBytes
+        }
+        let start = sampleOffset + Int64(relativeOffset)
+        return .bytes(start..<(start + Int64(count)))
     }
 }
