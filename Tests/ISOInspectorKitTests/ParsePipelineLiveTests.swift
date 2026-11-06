@@ -692,7 +692,7 @@ final class ParsePipelineLiveTests: XCTestCase {
             cttsIssues.contains { issue in issue.message.contains("composition offset table") })
     }
 
-    func testLivePipelineReportsVersionAndFlagMismatchWarnings() async throws {
+    func testLivePipelineReportsCatalogVersionMismatchWithoutFlagMismatch() async throws {
         let mismatchTkhd = makeBox(
             type: "tkhd", payload: Data([0x01, 0x00, 0x00, 0x00]) + Data(repeating: 0, count: 28))
         let trak = makeBox(type: ContainerTypes.track, payload: mismatchTkhd)
@@ -710,10 +710,10 @@ final class ParsePipelineLiveTests: XCTestCase {
             }))
 
         let mismatches = tkhdEvent.validationIssues.filter { $0.ruleID == "VR-003" }
-        XCTAssertEqual(mismatches.count, 2)
+        XCTAssertEqual(mismatches.count, 1)
         XCTAssertTrue(mismatches.allSatisfy { $0.severity == .warning })
         XCTAssertTrue(mismatches.contains(where: { $0.message.contains("version") }))
-        XCTAssertTrue(mismatches.contains(where: { $0.message.contains("flags") }))
+        XCTAssertFalse(mismatches.contains(where: { $0.message.contains("flags") }))
     }
 
     func testTolerantModeEmitsParseIssuesForValidationWarnings() async throws {
@@ -736,17 +736,17 @@ final class ParsePipelineLiveTests: XCTestCase {
             }))
 
         let mismatches = tkhdEvent.validationIssues.filter { $0.ruleID == "VR-003" }
-        XCTAssertEqual(mismatches.count, 2)
+        XCTAssertEqual(mismatches.count, 1)
 
         let parseIssues = tkhdEvent.issues.filter { $0.code == "VR-003" }
-        XCTAssertEqual(parseIssues.count, 2)
+        XCTAssertEqual(parseIssues.count, 1)
         XCTAssertTrue(parseIssues.allSatisfy { $0.severity == .warning })
         XCTAssertTrue(parseIssues.contains(where: { $0.message.contains("version") }))
-        XCTAssertTrue(parseIssues.contains(where: { $0.message.contains("flags") }))
+        XCTAssertFalse(parseIssues.contains(where: { $0.message.contains("flags") }))
 
         await MainActor.run {}
         let storedIssues = store.issues.filter { $0.code == "VR-003" }
-        XCTAssertEqual(storedIssues.count, 2)
+        XCTAssertEqual(storedIssues.count, 1)
     }
 
     func testLivePipelineLeavesMatchingVersionAndFlagsUnchanged() async throws {

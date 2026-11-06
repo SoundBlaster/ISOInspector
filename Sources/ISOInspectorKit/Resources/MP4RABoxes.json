@@ -6187,7 +6187,6 @@
       "type" : "titl"
     },
     {
-      "flags" : "000007",
       "name" : "Track Header, Overall Information About The Track",
       "specification" : "ISO\/IEC 14496-12",
       "summary" : "Defines the characteristics of a track, including ID, duration, and display parameters.",

@@ -47,4 +47,14 @@ Capture the potential false-positive integrity issue where the `tkhd` atom expec
 - **Technical Approach:** Replace strict equality with bitmask checks referencing MP4 spec.
 
 ## Status
-Awaiting engineering analysis; no code touched.
+Fixed: the bundled catalog no longer treats the default `tkhd` flags value as
+an exact constraint. VR-003 therefore does not report a flags mismatch for
+these tracks; it still checks other catalog-provided exact constraints.
+
+`0x000007` is the default combination, not a requirement that all three bits
+must be set. The regression test exercises combinations `0x000000` through
+`0x000007` using the bundled catalog. This change does not add validation of
+reserved bits or other context-dependent constraints.
+
+References: [ISO/IEC 14496-12:2026](https://www.iso.org/obp/ui?_escaped_fragment_=iso%3Astd%3Aiso-iec%3A14496%3A-12%3Aed-8%3Av1%3Aen),
+[Apple QuickTime track header flags](https://developer.apple.com/documentation/quicktime-file-format/track_header_atom/flags).
