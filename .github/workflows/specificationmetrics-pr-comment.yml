@@ -1,0 +1,156 @@
+name: SpecificationMetrics PR comment
+
+on:
+  workflow_run:
+    workflows: [SpecificationMetrics]
+    types: [completed]
+
+permissions: {}
+
+jobs:
+  report:
+    if: github.event.workflow_run.event == 'pull_request' && github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    permissions:
+      contents: read
+      pull-requests: write
+    concurrency:
+      group: specificationmetrics-report-${{ github.event.workflow_run.head_sha }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout trusted default branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Resolve current PR revisions
+        id: resolve
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          EXPECTED_HEAD: ${{ github.event.workflow_run.head_sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          pulls="$(gh api --paginate "repos/$REPOSITORY/commits/$EXPECTED_HEAD/pulls?per_page=100" \
+            --jq '.[] | select(.state == "open") | .number' | sort -nu)"
+          if [[ $(printf '%s\n' "$pulls" | grep -cE '^[0-9]+$' || true) != 1 ]]; then
+            echo 'current=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          pr="$pulls"
+          data="$(gh api "repos/$REPOSITORY/pulls/$pr")"
+          head="$(jq -r '.head.sha' <<< "$data")"
+          base="$(jq -r '.base.sha' <<< "$data")"
+          if [[ "$head" != "$EXPECTED_HEAD" || ! "$base" =~ ^[a-f0-9]{40}$ ]]; then
+            echo 'current=false' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git fetch --no-tags origin "$base" "+refs/pull/$pr/head:refs/remotes/pull/$pr/head"
+          [[ "$(git rev-parse "refs/remotes/pull/$pr/head")" == "$head" ]]
+          echo 'current=true' >> "$GITHUB_OUTPUT"
+          echo "pr=$pr" >> "$GITHUB_OUTPUT"
+          echo "base=$base" >> "$GITHUB_OUTPUT"
+          echo "head=$head" >> "$GITHUB_OUTPUT"
+
+      - name: Set up Rust
+        if: steps.resolve.outputs.current == 'true'
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Install pinned analyzer
+        if: steps.resolve.outputs.current == 'true'
+        run: |
+          cargo install --locked --git https://github.com/SoundBlaster/SpecificationMetrics.git \
+            --rev 19461c7dd4d91db52df2bd6140cd196e2ce7f2cf \
+            --root "$RUNNER_TEMP/metrics-cli" specification-metrics
+
+      - name: Measure both revisions with the trusted configuration
+        if: steps.resolve.outputs.current == 'true'
+        env:
+          BASE_SHA: ${{ steps.resolve.outputs.base }}
+          HEAD_SHA: ${{ steps.resolve.outputs.head }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/metrics-report"
+          for side in before after; do
+            revision="$BASE_SHA"
+            if [[ "$side" == after ]]; then revision="$HEAD_SHA"; fi
+            tree="$RUNNER_TEMP/metrics-$side"
+            git worktree add --detach "$tree" "$revision"
+            rm -f "$tree/.specificationmetrics.toml"
+            rm -rf "$tree/scopes"
+            mkdir -p "$tree/scopes"
+            cp .specificationmetrics.toml "$tree/.specificationmetrics.toml"
+            cp scopes/specificationmetrics.toml "$tree/scopes/specificationmetrics.toml"
+            "$RUNNER_TEMP/metrics-cli/bin/specification-metrics" collect --candidate-locations \
+              --config "$tree/.specificationmetrics.toml" --output "$RUNNER_TEMP/metrics-report/$side.json"
+          done
+          "$RUNNER_TEMP/metrics-cli/bin/specification-metrics" compare \
+            "$RUNNER_TEMP/metrics-report/before.json" "$RUNNER_TEMP/metrics-report/after.json" \
+            --output "$RUNNER_TEMP/metrics-report/diff.json"
+
+      - name: Retain evidence
+        id: evidence
+        if: always() && steps.resolve.outputs.current == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: specificationmetrics-comment-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/metrics-report/*.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Publish or update PR comment
+        if: success() && steps.resolve.outputs.current == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          PR_NUMBER: ${{ steps.resolve.outputs.pr }}
+          BASE_SHA: ${{ steps.resolve.outputs.base }}
+          HEAD_SHA: ${{ steps.resolve.outputs.head }}
+          ARTIFACT_URL: ${{ steps.evidence.outputs.artifact-url }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          current="$(gh api "repos/$REPOSITORY/pulls/$PR_NUMBER")"
+          if [[ "$(jq -r '.state' <<< "$current")" != open || \
+                "$(jq -r '.head.sha' <<< "$current")" != "$HEAD_SHA" || \
+                "$(jq -r '.base.sha' <<< "$current")" != "$BASE_SHA" ]]; then
+            echo 'PR changed during measurement; skipping stale report.'
+            exit 0
+          fi
+          python3 - <<'PY' > "$RUNNER_TEMP/metrics-comment.json"
+          import json, os
+          from pathlib import Path
+          root = Path(os.environ['RUNNER_TEMP']) / 'metrics-report'
+          before = json.loads((root / 'before.json').read_text())
+          after = json.loads((root / 'after.json').read_text())
+          lines = ['<!-- specificationmetrics-pr-report-v1 -->',
+                   '### SpecificationMetrics · diagnostic measurement', '',
+                   '| Metric | Base | PR head (Δ) |', '|---|---:|---:|']
+          for label, key in [('Specifications (S)', 'specification_definitions'),
+                             ('Remaining opportunities (U)', 'remaining_opportunities'), ('S/U', 'ratio')]:
+              old, new = before['primary'][key], after['primary'][key]
+              delta = f" ({new - old:+.8g})" if old is not None and new is not None else ''
+              lines.append(f"| {label} | {old} | {new}{delta} |")
+          for label, snapshot in [('Base', before), ('Head', after)]:
+              primary = snapshot['primary']
+              lines.append(f"\n{label}: **{snapshot['status']}**; parse issues: {len(primary['parse_issues'])}; "
+                           f"unknown specifications: {primary['unknown_specifications']}.")
+          lines += ['', f"Revisions: `{os.environ['BASE_SHA'][:12]}` → `{os.environ['HEAD_SHA'][:12]}`.",
+                    'Analyzer: `19461c7dd4d9` (counting rule v11).',
+                    'Diagnostic only; U is syntactic discovery, not a refactoring verdict. Swift CC/Cog are not measured.',
+                    f"[Evidence]({os.environ['ARTIFACT_URL']}) · "
+                    f"[Workflow run](https://github.com/{os.environ['REPOSITORY']}/actions/runs/{os.environ['GITHUB_RUN_ID']})"]
+          print(json.dumps({'body': '\n'.join(lines)}))
+          PY
+          existing="$(gh api --paginate "repos/$REPOSITORY/issues/$PR_NUMBER/comments?per_page=100" \
+            --jq '.[] | select(.user.login == "github-actions[bot]" and (.body | contains("<!-- specificationmetrics-pr-report-v1 -->"))) | .id' | head -n 1)"
+          if [[ -n "$existing" ]]; then
+            gh api --method PATCH "repos/$REPOSITORY/issues/comments/$existing" --input "$RUNNER_TEMP/metrics-comment.json" >/dev/null
+          else
+            gh api --method POST "repos/$REPOSITORY/issues/$PR_NUMBER/comments" --input "$RUNNER_TEMP/metrics-comment.json" >/dev/null
+          fi
