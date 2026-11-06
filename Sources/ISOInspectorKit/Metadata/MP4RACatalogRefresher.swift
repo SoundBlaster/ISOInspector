@@ -17,7 +17,7 @@ private final class MP4RAFetchResultBox: @unchecked Sendable {
     var value: Result<(Data, URLResponse), Swift.Error>?
 }
 
-public struct HTTPMP4RARegistryDataProvider: MP4RARegistryDataProvider {
+public struct HTTPMP4RARegistryDataProvider: MP4RARegistryDataProvider, Sendable {
     public enum Error: Swift.Error {
         case invalidResponse
         case httpStatus(Int)
@@ -65,17 +65,43 @@ public struct HTTPMP4RARegistryDataProvider: MP4RARegistryDataProvider {
 
         switch resultBox.value {
         case .success(let payload):
-            guard let httpResponse = payload.1 as? HTTPURLResponse else {
-                throw Error.invalidResponse
-            }
-            guard 200..<300 ~= httpResponse.statusCode else {
-                throw Error.httpStatus(httpResponse.statusCode)
-            }
-            guard !payload.0.isEmpty else { throw Error.emptyResponse }
-            return payload.0
+            return try validate(data: payload.0, response: payload.1)
         case .failure(let error): throw error
         case .none: throw Error.emptyResponse
         }
+    }
+
+    /// Fetches without blocking a cooperative executor thread.
+    public func fetchRegistryPayload() async throws -> Data {
+        do {
+            let payload: (Data, URLResponse)
+            if let timeout {
+                payload = try await withThrowingTaskGroup(of: (Data, URLResponse).self) { group in
+                    group.addTask { try await session.data(from: sourceURL) }
+                    group.addTask {
+                        try await Task.sleep(for: .seconds(timeout))
+                        throw Error.timeout
+                    }
+                    guard let result = try await group.next() else { throw Error.emptyResponse }
+                    group.cancelAll()
+                    return result
+                }
+            } else {
+                payload = try await session.data(from: sourceURL)
+            }
+            try Task.checkCancellation()
+            return try validate(data: payload.0, response: payload.1)
+        } catch {
+            try Task.checkCancellation()
+            throw error
+        }
+    }
+
+    private func validate(data: Data, response: URLResponse) throws -> Data {
+        guard let httpResponse = response as? HTTPURLResponse else { throw Error.invalidResponse }
+        guard 200..<300 ~= httpResponse.statusCode else { throw Error.httpStatus(httpResponse.statusCode) }
+        guard !data.isEmpty else { throw Error.emptyResponse }
+        return data
     }
 }
 
