@@ -3,8 +3,12 @@ import ISOInspectorKit
 
 final class RandomAccessPayloadAnnotationProvider: PayloadAnnotationProvider {
     private let reader: RandomAccessReader
+    private let registry: BoxParserRegistry
 
-    init(reader: RandomAccessReader) { self.reader = reader }
+    init(reader: RandomAccessReader, registry: BoxParserRegistry = .shared) {
+        self.reader = reader
+        self.registry = registry
+    }
 
     func annotations(for header: BoxHeader) async throws -> [PayloadAnnotation] {
         try Task.checkCancellation()
@@ -12,7 +16,7 @@ final class RandomAccessPayloadAnnotationProvider: PayloadAnnotationProvider {
         let payloadEnd = header.payloadRange.upperBound
         guard payloadEnd > payloadStart else { return [] }
 
-        if let payload = try BoxParserRegistry.shared.parse(header: header, reader: reader),
+        if let payload = try registry.parse(header: header, reader: reader),
             let derived = annotations(from: payload)
         {
             return derived
@@ -231,11 +235,12 @@ extension RandomAccessPayloadAnnotationProvider {
     fileprivate func safeRead(at offset: Int64, count: Int, end: Int64) throws -> Data? {
         guard count > 0 else { return Data() }
         guard offset >= 0, offset + Int64(count) <= end else { return nil }
-        do {
-            let data = try reader.read(at: offset, count: count)
-            guard data.count == count else { return nil }
-            return data
-        } catch { return nil }
+        let data = try reader.read(at: offset, count: count)
+        guard data.count == count else {
+            throw RandomAccessReaderValueDecodingError.truncatedRead(
+                expected: count, actual: data.count)
+        }
+        return data
     }
 
     fileprivate func readUInt32(at offset: Int64, end: Int64) throws -> UInt32? {
