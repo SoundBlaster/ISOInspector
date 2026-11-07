@@ -316,6 +316,33 @@
             XCTAssertGreaterThanOrEqual(window.offset + Int64(window.length), issueRange.upperBound)
         }
 
+        func testFocusingIssueOutsideSelectedBoxRequestsActualBytes() async throws {
+            let header = makeHeader(identifier: 9, type: "trak", payloadLength: 256)
+            let issueRange: Range<Int64> = 28_236..<28_240
+            let issue = ParseIssue(
+                severity: .error, code: "VR-019", message: "Invalid NAL length", byteRange: issueRange)
+            let node = ParseTreeNode(
+                header: header, metadata: nil, payload: nil, validationIssues: [], issues: [issue],
+                children: [])
+            let snapshot = ParseTreeSnapshot(nodes: [node], validationIssues: [], lastUpdatedAt: Date())
+            let provider = HexSliceProviderStub(
+                result: HexSlice(offset: 28_236, bytes: Data(repeating: 0, count: 4)))
+            let viewModel = ParseTreeDetailViewModel(
+                hexSliceProvider: provider, annotationProvider: nil, windowSize: 64)
+
+            viewModel.apply(snapshot: snapshot)
+            viewModel.select(nodeID: node.id)
+            await viewModel.hexTask?.value
+            viewModel.focusIssue(on: issueRange)
+            await viewModel.hexTask?.value
+
+            let window = try XCTUnwrap(provider.requests.last?.window)
+            XCTAssertLessThanOrEqual(window.offset, issueRange.lowerBound)
+            XCTAssertGreaterThanOrEqual(window.offset + Int64(window.length), issueRange.upperBound)
+            XCTAssertEqual(window.length, 4)
+            XCTAssertEqual(viewModel.highlightedRange, issueRange)
+        }
+
         // MARK: - Helpers
 
         private func makeHeader(identifier: Int64, type: String, payloadLength: Int64) -> BoxHeader
