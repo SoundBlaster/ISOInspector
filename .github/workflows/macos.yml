@@ -151,6 +151,17 @@ jobs:
             -destination 'platform=macOS' \
             | tee xcodebuild-test-macos.log
 
+      - name: Run macOS UI regression tests
+        timeout-minutes: 8
+        run: |
+          set -eo pipefail
+          xcodebuild test \
+            -workspace ISOInspector.xcworkspace \
+            -scheme ISOInspectorUITests-macOS \
+            -skipMacroValidation \
+            -destination 'platform=macOS' \
+            | tee xcodebuild-uitest-macos.log
+
   macos-builds:
     name: macOS Archive & CLI Binary
     needs: [changes, macos-tests]
