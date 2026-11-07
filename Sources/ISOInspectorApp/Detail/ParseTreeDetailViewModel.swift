@@ -241,6 +241,15 @@
         {
             let payloadStart = header.payloadRange.lowerBound
             let payloadEnd = header.payloadRange.upperBound
+            if let focusRange, focusRange.lowerBound >= 0,
+                focusRange.lowerBound < payloadStart || focusRange.upperBound > payloadEnd {
+                // An issue attached to a box may point to bytes in another box,
+                // such as a sample in mdat. Read only the reported range so the
+                // window does not extend beyond the end of the file.
+                let length = min(
+                    max(0, windowSize), clampToInt(focusRange.upperBound - focusRange.lowerBound))
+                return HexSliceRequest.Window(offset: focusRange.lowerBound, length: length)
+            }
             let payloadLength64 = max(0, payloadEnd - payloadStart)
             let payloadLength = clampToInt(payloadLength64)
             guard payloadLength > 0 else {
