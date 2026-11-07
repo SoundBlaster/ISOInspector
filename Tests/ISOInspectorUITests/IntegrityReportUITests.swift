@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import XCTest
 
@@ -22,9 +23,13 @@ final class IntegrityReportUITests: XCTestCase {
         XCTAssertTrue(window.waitForExistence(timeout: 60))
         app.buttons["Open File…"].firstMatch.click()
         app.typeKey("g", modifierFlags: [.command, .shift])
-        app.typeText(fixture.path)
+        let pathField = app.textFields["PathTextField"]
+        XCTAssertTrue(pathField.waitForExistence(timeout: 10))
+        paste(fixture.path, into: app)
         app.typeKey(.return, modifierFlags: [])
-        app.typeKey(.return, modifierFlags: [])
+        let openButton = app.buttons["Open"]
+        XCTAssertTrue(openButton.waitForExistence(timeout: 10))
+        openButton.click()
 
         let showReport = app.buttons["Show Integrity"]
         XCTAssertTrue(showReport.waitForExistence(timeout: 20))
@@ -40,5 +45,24 @@ final class IntegrityReportUITests: XCTestCase {
         XCTAssertTrue(showReport.waitForExistence(timeout: 5))
         showReport.click()
         XCTAssertTrue(summary.waitForExistence(timeout: 10))
+    }
+
+    private func paste(_ text: String, into app: XCUIApplication) {
+        let pasteboard = NSPasteboard.general
+        let savedItems = (pasteboard.pasteboardItems ?? []).map { item in
+            let copy = NSPasteboardItem()
+            for type in item.types {
+                if let data = item.data(forType: type) { copy.setData(data, forType: type) }
+            }
+            return copy
+        }
+        pasteboard.clearContents()
+        pasteboard.setString(text, forType: .string)
+        let changeCount = pasteboard.changeCount
+        app.typeKey("v", modifierFlags: .command)
+        if pasteboard.changeCount == changeCount {
+            pasteboard.clearContents()
+            if !savedItems.isEmpty { pasteboard.writeObjects(savedItems) }
+        }
     }
 }
