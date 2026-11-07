@@ -27,7 +27,7 @@ final class IntegrityReportUITests: XCTestCase {
         XCTAssertTrue(pathField.waitForExistence(timeout: 10))
         paste(fixture.path, into: app)
         app.typeKey(.return, modifierFlags: [])
-        let openButton = app.buttons["Open"]
+        let openButton = app.sheets["open-panel"].buttons["OKButton"]
         XCTAssertTrue(openButton.waitForExistence(timeout: 10))
         openButton.click()
 
