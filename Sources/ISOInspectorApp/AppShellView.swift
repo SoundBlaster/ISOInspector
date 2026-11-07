@@ -88,13 +88,11 @@
             ) { newValue in if newValue == 0 { isCorruptionRibbonDismissed = false } }
         }
 
-        // Let SwiftUI size the columns together: fixed widths here can cause an
-        // AppKit constraint-update loop when the integrity inspector opens.
         private var defaultNavigationSplit: some View {
             NavigationSplitView(columnVisibility: inspectorColumnVisibilityBinding) {
                 sidebar
             } content: {
-                parseTreeContent
+                parseTreeContent.navigationSplitViewColumnWidth(min: 320, ideal: 420, max: 600)
             } detail: {
                 detail.focused($focusTarget, equals: .detail).toolbar {
                     ToolbarItemGroup(placement: .automatic) {
@@ -144,7 +142,7 @@
                     }
                 }
             }.inspector(isPresented: inspectorPresentedBinding) {
-                integrityInspector
+                integrityInspector.inspectorColumnWidth(min: 300, ideal: 320, max: 400)
             }.overlay(alignment: .top) { overlayContent }
         }
 
