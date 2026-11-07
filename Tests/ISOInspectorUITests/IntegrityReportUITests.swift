@@ -37,7 +37,7 @@ final class IntegrityReportUITests: XCTestCase {
         let summary = app.descendants(matching: .any)["parseTree.integritySummary"]
         XCTAssertTrue(summary.waitForExistence(timeout: 10), app.debugDescription)
         XCTAssertTrue(app.buttons["Hide Integrity"].exists)
-        let issue = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "VR-006")).firstMatch
+        let issue = summary.staticTexts.matching(NSPredicate(format: "value == %@", "VR-006")).firstMatch
         XCTAssertTrue(issue.waitForExistence(timeout: 10), app.debugDescription)
 
         app.buttons["Hide Integrity"].click()
