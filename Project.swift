@@ -323,6 +323,20 @@ func appTestsTarget(for platform: DistributionPlatform) -> Target {
     )
 }
 
+func macOSUITestsTarget() -> Target {
+    Target.target(
+        name: "ISOInspectorUITests-macOS",
+        destinations: [.mac],
+        product: .uiTests,
+        bundleId: "ru.egormerkushev.isoinspector.app.uitests.macos",
+        deploymentTargets: .macOS("26.0"),
+        infoPlist: .default,
+        sources: ["Tests/ISOInspectorUITests/**"],
+        dependencies: [.target(name: "ISOInspectorApp-macOS")],
+        settings: .settings(base: baseSettings, configurations: buildConfigurations)
+    )
+}
+
 let project = Project(
     name: "ISOInspector",
     organizationName: "ISOInspector",
@@ -350,5 +364,6 @@ let project = Project(
         performanceTestsTarget(),
         appTestsTarget(for: .macOS),
         appTestsTarget(for: .iOS),
+        macOSUITestsTarget(),
     ]
 )
