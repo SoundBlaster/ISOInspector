@@ -34,17 +34,16 @@ final class IntegrityReportUITests: XCTestCase {
         let showReport = app.buttons["Show Integrity"]
         XCTAssertTrue(showReport.waitForExistence(timeout: 20))
         showReport.click()
-        let summary = app.staticTexts.matching(
-            NSPredicate(format: "label CONTAINS %@", "Integrity Summary")).firstMatch
-        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        let summary = app.descendants(matching: .any)["parseTree.integritySummary"]
+        XCTAssertTrue(summary.waitForExistence(timeout: 10), app.debugDescription)
         XCTAssertTrue(app.buttons["Hide Integrity"].exists)
         let issue = app.staticTexts.matching(NSPredicate(format: "label CONTAINS %@", "VR-006")).firstMatch
-        XCTAssertTrue(issue.waitForExistence(timeout: 10))
+        XCTAssertTrue(issue.waitForExistence(timeout: 10), app.debugDescription)
 
         app.buttons["Hide Integrity"].click()
         XCTAssertTrue(showReport.waitForExistence(timeout: 5))
         showReport.click()
-        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        XCTAssertTrue(summary.waitForExistence(timeout: 10), app.debugDescription)
     }
 
     private func paste(_ text: String, into app: XCUIApplication) {
