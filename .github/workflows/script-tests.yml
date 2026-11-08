@@ -13,7 +13,7 @@ on:
 jobs:
   test-scripts:
     name: Test Python scripts
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.python-version == '3.10' && 'ubuntu-22.04' || 'ubuntu-latest' }}
     strategy:
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
@@ -25,6 +25,7 @@ jobs:
           fetch-depth: 0
 
       - name: Set up Python ${{ matrix.python-version }}
+        if: matrix.python-version != '3.10'
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
@@ -32,7 +33,7 @@ jobs:
       - name: Run unittest discovery
         run: |
           cd scripts/tests
-          python -m unittest discover -s . -p "test_*.py" -v
+          python${{ matrix.python-version }} -m unittest discover -s . -p "test_*.py" -v
 
       - name: Archive test results
         if: always()
