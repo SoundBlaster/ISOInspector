@@ -66,6 +66,7 @@
         private var currentSessionID: UUID?
         private var lastFailedRecent: DocumentRecent?
         private enum OpenRequest: Equatable { case idle, opening(UUID) }
+        private enum OpenSource { case selected(URL), recent(DocumentRecent) }
         private var openRequest: OpenRequest = .idle
 
         // MARK: - Initialization
@@ -127,15 +128,19 @@
 
         /// Open a document in this window
         @discardableResult func openDocument(at url: URL) -> Task<Void, Never> {
+            open(.selected(url))
+        }
+
+        @discardableResult private func open(_ source: OpenSource) -> Task<Void, Never> {
             let identifier = UUID()
             openRequest = .opening(identifier)
-            return Task { await handleOpenDocument(at: url, request: identifier) }
+            return Task { await handleOpenDocument(source, request: identifier) }
         }
 
         /// Open a recent document in this window
         /// Routes through the standard document loading path to ensure the parseTreeStore
         /// and DocumentViewModel are properly populated for this window.
-        func openRecent(_ recent: DocumentRecent) { openDocument(at: recent.url) }
+        func openRecent(_ recent: DocumentRecent) { open(.recent(recent)) }
 
         // MARK: - Export Operations
 
@@ -155,7 +160,7 @@
 
         /// Retry last failed document load in this window
         func retryLastFailure() {
-            if let failed = lastFailedRecent { openDocument(at: failed.url) }
+            if let failed = lastFailedRecent { openRecent(failed) }
         }
 
         /// Dismiss load failure state for this window
@@ -183,25 +188,42 @@
             let context: ParsePipeline.Context
         }
 
-        private func handleOpenDocument(at url: URL, request: UUID) async {
+        private func handleOpenDocument(_ source: OpenSource, request: UUID) async {
             guard openRequest == .opening(request) else { return }
             if Task.isCancelled {
                 openRequest = .idle
                 return
             }
+            let recent: DocumentRecent
+            switch source {
+            case .selected(let url):
+                recent = DocumentRecent(url: url, bookmarkData: nil, displayName: url.lastPathComponent, lastOpened: Date())
+            case .recent(let saved): recent = saved
+            }
+            let url = recent.url
             logger.info("Opening document: \(url.lastPathComponent, privacy: .public)")
             loadFailure = nil
             exportStatus = nil
 
             do {
                 // Start security-scoped access (on main thread)
-                let scopedURL = try filesystemAccess.adoptSecurityScope(for: url)
+                let scopedURL: SecurityScopedURL
+                let preparedRecent: DocumentRecent
+                switch source {
+                case .selected:
+                    scopedURL = try filesystemAccess.adoptSecurityScope(for: url)
+                    preparedRecent = recent
+                case .recent:
+                    let access = try appSessionController.prepareWindowRecent(recent)
+                    scopedURL = access.scopedURL
+                    preparedRecent = access.recent
+                }
 
                 // Capture dependencies on the main actor before hopping to a detached task.
                 let readerFactory = self.readerFactory
                 let pipelineFactory = self.pipelineFactory
                 let context = ParsePipeline.Context(
-                    source: url, issueStore: parseTreeStore.issueStore)
+                    source: scopedURL.url, issueStore: parseTreeStore.issueStore)
 
                 // Offload heavy parsing work to a detached task to avoid blocking UI while keeping actor boundaries explicit.
                 let resources = try await Task.detached(priority: .userInitiated) {
@@ -229,18 +251,21 @@
                         context: resources.context)
 
                     // Set file URL for annotations
-                    annotations.setFileURL(url)
+                    annotations.setFileURL(scopedURL.url)
 
                     // Create bookmark for security-scoped access
                     let bookmarkData = bookmarkDataProvider(scopedURL)
-                    let recent = DocumentRecent(
-                        url: url, bookmarkIdentifier: nil, bookmarkData: bookmarkData,
-                        displayName: url.lastPathComponent, lastOpened: Date())
-                    currentDocument = recent
+                    var openedRecent = preparedRecent
+                    openedRecent.url = scopedURL.url
+                    if openedRecent.bookmarkIdentifier == nil {
+                        openedRecent.bookmarkData = bookmarkData ?? openedRecent.bookmarkData
+                    }
+                    openedRecent.lastOpened = Date()
+                    currentDocument = openedRecent
 
                     // Mirror the active window into the shared session without re-opening it.
                     appSessionController.synchronizeOpenedWindowSession(
-                        recent: recent, parseTreeStore: parseTreeStore, annotations: annotations)
+                        recent: openedRecent, parseTreeStore: parseTreeStore, annotations: annotations)
                     if openRequest == .opening(request) { openRequest = .idle }
                 }
             } catch {
@@ -249,9 +274,6 @@
                     openRequest = .idle
                     if Task.isCancelled || error is CancellationError { return }
                     logger.error("Failed to open document: \(error, privacy: .public)")
-                    let recent = DocumentRecent(
-                        url: url, bookmarkIdentifier: nil, bookmarkData: nil,
-                        displayName: url.lastPathComponent, lastOpened: Date())
                     lastFailedRecent = recent
                     loadFailure = DocumentSessionController.DocumentLoadFailure(
                         id: UUID(), fileURL: url, fileDisplayName: url.lastPathComponent,

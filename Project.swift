@@ -61,6 +61,7 @@ func loadDistributionMetadata() -> DistributionMetadata {
     return try! JSONDecoder().decode(DistributionMetadata.self, from: data)
 }
 
+// Keep generated app identifiers aligned with the distribution metadata.
 let metadata = loadDistributionMetadata()
 
 let baseSettings: SettingsDictionary = [

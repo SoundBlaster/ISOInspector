@@ -6,7 +6,7 @@
     {
       "platform": "macOS",
       "productName": "ISOInspector",
-      "bundleIdentifier": "ru.egormerkushev.isoinspector.app.mac",
+      "bundleIdentifier": "ru.egormerkushev.isoinspector",
       "entitlementsPath": "Distribution/Entitlements/ISOInspectorApp.macOS.entitlements"
     },
     {

@@ -42,6 +42,7 @@
         private let validationConfigurationService: ValidationConfigurationService
         private let exportService: ExportService
         private let documentOpeningCoordinator: DocumentOpeningCoordinator
+        private let bookmarkService: BookmarkService
 
         // MARK: - Private Properties
 
@@ -107,6 +108,7 @@
             self.validationConfigurationService = dependencies.validationConfigurationService
             self.exportService = dependencies.exportService
             self.documentOpeningCoordinator = dependencies.documentOpeningCoordinator
+            self.bookmarkService = dependencies.bookmarkService
 
             setupCoordinatorCallbacks()
             setupObservers(
@@ -189,6 +191,10 @@
             documentOpeningCoordinator.openDocument(
                 recent: recent, restoredSelection: nil, preResolvedScope: nil, failureRecent: recent
             )
+        }
+
+        func prepareWindowRecent(_ recent: DocumentRecent) throws -> AccessContext {
+            try bookmarkService.prepareAccess(for: recent, preResolvedScope: nil)
         }
 
         func registerRecent(_ recent: DocumentRecent) {
@@ -357,6 +363,7 @@
             let validationConfigurationService: ValidationConfigurationService
             let exportService: ExportService
             let documentOpeningCoordinator: DocumentOpeningCoordinator
+            let bookmarkService: BookmarkService
             let diagnostics: any DiagnosticsLogging
         }
 
@@ -424,6 +431,7 @@
                 validationConfigurationService: validationConfigurationService,
                 exportService: exportService,
                 documentOpeningCoordinator: documentOpeningCoordinator,
+                bookmarkService: bookmarkService,
                 diagnostics: context.diagnostics)
         }
 

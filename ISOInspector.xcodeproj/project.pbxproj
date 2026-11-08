@@ -4124,7 +4124,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector.app.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector;
 				PRODUCT_MODULE_NAME = ISOInspectorApp;
 				PRODUCT_NAME = ISOInspectorApp_macOS;
 				SDKROOT = macosx;
@@ -4195,7 +4195,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector.app.mac;
+				PRODUCT_BUNDLE_IDENTIFIER = ru.egormerkushev.isoinspector;
 				PRODUCT_MODULE_NAME = ISOInspectorApp;
 				PRODUCT_NAME = ISOInspectorApp_macOS;
 				SDKROOT = macosx;
