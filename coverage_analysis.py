@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Code Coverage Analysis Tool for FoundationUI
-Analyzes source files and test files to estimate test coverage.
+FoundationUI test/source line-count analysis.
+This ratio does not measure executed-line or branch coverage.
 
 This tool uses repository-relative paths for cross-environment compatibility.
 It can be executed from any directory and will resolve paths from the
@@ -104,12 +104,12 @@ def find_repo_root():
 def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser(
-        description='Analyze test coverage in the FoundationUI package.',
+        description='Compare test and source LOC in FoundationUI (not code coverage).',
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog='''
 Examples:
   python3 coverage_analysis.py                    # Analyze and report
-  python3 coverage_analysis.py --threshold 0.67   # Check if coverage meets threshold
+  python3 coverage_analysis.py --threshold 0.67   # Check the test/source LOC ratio
   python3 coverage_analysis.py --report coverage.txt  # Write report to file
         '''
     )
@@ -117,7 +117,7 @@ Examples:
         '--threshold',
         type=float,
         default=None,
-        help='Exit with non-zero code if coverage is below this threshold (0.0-1.0)'
+        help='Exit nonzero if the test/source LOC ratio is below this threshold'
     )
     parser.add_argument(
         '--report',
@@ -160,6 +160,7 @@ Examples:
     output_lines = []
 
     for layer_dir, layer_name in layers.items():
+        test_loc = 0
         layer_path = sources_path / layer_dir
 
         if not layer_path.exists():
@@ -225,11 +226,10 @@ Examples:
                 if total_loc > 0:
                     ratio = (test_loc / total_loc) * 100
                     output_lines.append(f"\n  Test/Code Ratio: {ratio:.1f}%")
-                    output_lines.append(f"  Coverage Estimate: {'GOOD' if ratio > 50 else 'NEEDS IMPROVEMENT'}")
 
         results[layer_name] = {
             'source_loc': total_loc,
-            'test_loc': test_loc if 'test_loc' in locals() else 0,
+            'test_loc': test_loc,
             'files': len(source_files)
         }
 
@@ -271,10 +271,10 @@ Examples:
     if args.threshold is not None:
         if overall_ratio >= args.threshold:
             if args.verbose:
-                print(f"\n✅ Coverage {overall_ratio*100:.1f}% meets threshold {args.threshold*100:.1f}%", file=sys.stderr)
+                print(f"\n✅ Test/source LOC ratio {overall_ratio*100:.1f}% meets threshold {args.threshold*100:.1f}%", file=sys.stderr)
             sys.exit(0)
         else:
-            print(f"\n❌ Coverage FAILED: {overall_ratio*100:.1f}% below threshold {args.threshold*100:.1f}%", file=sys.stderr)
+            print(f"\n❌ Test/source LOC ratio {overall_ratio*100:.1f}% is below threshold {args.threshold*100:.1f}%", file=sys.stderr)
             sys.exit(1)
 
 

@@ -1,17 +1,8 @@
 name: Swift Duplication Guard
 
 on:
+  workflow_call:
   workflow_dispatch: {}
-  pull_request:
-    branches:
-      - "**"
-    paths:
-      - 'Sources/**/*.swift'
-      - 'Tests/**/*.swift'
-      - 'FoundationUI/**/*.swift'
-      - 'Examples/**/*.swift'
-      - 'scripts/run_swift_duplication_check.sh'
-      - '.github/workflows/swift-duplication.yml'
   push:
     branches:
       - main
@@ -27,7 +18,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: swift-duplication-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:

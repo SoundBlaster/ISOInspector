@@ -1,10 +1,7 @@
 name: Validate Workflows
 
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/**/*.yml'
-      - '.github/workflows/**/*.yaml'
+  workflow_call:
   push:
     branches:
       - main
@@ -61,16 +58,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download actionlint
-        run: |
-          bash <(curl https://raw.githubusercontent.com/rhysd/actionlint/main/scripts/download-actionlint.bash)
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.25'
+          cache: false
 
       - name: Run actionlint
         run: |
           echo "🔍 Running actionlint on GitHub Actions workflows..."
           # Run actionlint without shellcheck integration to focus on GitHub Actions-specific issues
           # Shellcheck style warnings can be addressed in a separate PR
-          ./actionlint -color -shellcheck=""
+          go run github.com/rhysd/actionlint/cmd/actionlint@v1.7.12 -color -shellcheck=""
 
   report-validation:
     name: Validation Report

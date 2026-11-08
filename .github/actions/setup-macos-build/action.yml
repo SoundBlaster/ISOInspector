@@ -43,7 +43,7 @@ runs:
         mkdir -p "${INSTALL_DIR}"
         if [ ! -x "${INSTALL_DIR}/tuist" ]; then
           tmpdir=$(mktemp -d)
-          curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
+          curl -fL --retry 5 --retry-delay 2 --retry-all-errors -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
           unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
           rsync -a "${tmpdir}/" "${INSTALL_DIR}/"
           chmod +x "${INSTALL_DIR}/tuist"

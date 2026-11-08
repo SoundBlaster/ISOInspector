@@ -1,21 +1,8 @@
 name: FoundationUI CI
 
 on:
+  workflow_call:
   workflow_dispatch: {}
-  pull_request:
-    branches:
-      - "**"
-    paths:
-      - 'FoundationUI/**/*.swift'
-      - 'FoundationUI/Package.swift'
-      - 'FoundationUI/Tests/**/*.swift'
-      - 'FoundationUI/DOCS/**/*.md'
-      - 'FoundationUI/**/Project.swift'
-      - 'FoundationUI/**/Documentation.docc/**/*.md'
-      - 'Examples/ComponentTestApp/**/*.swift'
-      - 'Examples/ComponentTestApp/**/Project.swift'
-      - 'Workspace.swift'
-      - '.github/workflows/foundationui.yml'
   push:
     branches:
       - main
@@ -46,48 +33,7 @@ jobs:
 
       - name: Determine Tuist CLI release
         id: tuist-version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          TOKEN="${GITHUB_TOKEN:-}"
-          AUTH_HEADER=""
-          if [ -n "${TOKEN}" ]; then
-            AUTH_HEADER="Authorization: Bearer ${TOKEN}"
-          fi
-          RESPONSE=$(curl -fsSL \
-            --retry 5 \
-            --retry-delay 2 \
-            --retry-all-errors \
-            ${AUTH_HEADER:+-H "$AUTH_HEADER"} \
-            -H "Accept: application/vnd.github+json" \
-            -H "User-Agent: isoinspector-ci" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/tuist/tuist/releases?per_page=30")
-          TUIST_VERSION=$(jq -r '
-            (
-              [.[]
-                | select(((.name // "") | test("^CLI")) and ((.tag_name // "") != ""))
-                | .tag_name
-              ][0]
-            ) // empty
-          ' <<<"${RESPONSE}")
-          if [ -z "${TUIST_VERSION}" ]; then
-            TUIST_VERSION=$(jq -r '
-              (
-                [.[]
-                  | select(((.tag_name // "") != "") and (((.tag_name // "") | contains("@")) | not))
-                  | .tag_name
-                ][0]
-              ) // empty
-            ' <<<"${RESPONSE}")
-          fi
-          if [ -z "${TUIST_VERSION}" ]; then
-            echo "Failed to determine Tuist CLI release" >&2
-            jq -r '.message // empty' <<<"${RESPONSE}" >&2 || true
-            exit 1
-          fi
-          echo "tuist_version=${TUIST_VERSION}" >> "$GITHUB_OUTPUT"
+        run: python3 .github/scripts/get-tuist-version.py
 
       - name: Cache Tuist binary
         id: cache-tuist
@@ -106,7 +52,7 @@ jobs:
           if [ ! -x "${INSTALL_DIR}/tuist" ]; then
             echo "Downloading Tuist ${TUIST_VERSION}"
             tmpdir=$(mktemp -d)
-            curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
+            curl -fL --retry 5 --retry-delay 2 --retry-all-errors -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
             unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
             rsync -a "${tmpdir}/" "${INSTALL_DIR}/"
             chmod +x "${INSTALL_DIR}/tuist"
@@ -224,48 +170,7 @@ jobs:
 
       - name: Determine Tuist CLI release
         id: tuist-version
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-          TOKEN="${GITHUB_TOKEN:-}" # populated automatically in GitHub Actions
-          AUTH_HEADER=""
-          if [ -n "${TOKEN}" ]; then
-            AUTH_HEADER="Authorization: Bearer ${TOKEN}"
-          fi
-          RESPONSE=$(curl -fsSL \
-            --retry 5 \
-            --retry-delay 2 \
-            --retry-all-errors \
-            ${AUTH_HEADER:+-H "$AUTH_HEADER"} \
-            -H "Accept: application/vnd.github+json" \
-            -H "User-Agent: isoinspector-ci" \
-            -H "X-GitHub-Api-Version: 2022-11-28" \
-            "https://api.github.com/repos/tuist/tuist/releases?per_page=30")
-          TUIST_VERSION=$(jq -r '
-            (
-              [.[]
-                | select(((.name // "") | test("^CLI")) and ((.tag_name // "") != ""))
-                | .tag_name
-              ][0]
-            ) // empty
-          ' <<<"${RESPONSE}")
-          if [ -z "${TUIST_VERSION}" ]; then
-            TUIST_VERSION=$(jq -r '
-              (
-                [.[]
-                  | select(((.tag_name // "") != "") and (((.tag_name // "") | contains("@")) | not))
-                  | .tag_name
-                ][0]
-              ) // empty
-            ' <<<"${RESPONSE}")
-          fi
-          if [ -z "${TUIST_VERSION}" ]; then
-            echo "Failed to determine Tuist CLI release" >&2
-            jq -r '.message // empty' <<<"${RESPONSE}" >&2 || true
-            exit 1
-          fi
-          echo "tuist_version=${TUIST_VERSION}" >> "$GITHUB_OUTPUT"
+        run: python3 .github/scripts/get-tuist-version.py
 
       - name: Cache Tuist binary
         id: cache-tuist
@@ -284,7 +189,7 @@ jobs:
           if [ ! -x "${INSTALL_DIR}/tuist" ]; then
             echo "Downloading Tuist ${TUIST_VERSION}"
             tmpdir=$(mktemp -d)
-            curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
+            curl -fL --retry 5 --retry-delay 2 --retry-all-errors -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
             unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
             rsync -a "${tmpdir}/" "${INSTALL_DIR}/"
             chmod +x "${INSTALL_DIR}/tuist"

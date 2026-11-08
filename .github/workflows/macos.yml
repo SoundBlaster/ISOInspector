@@ -1,32 +1,8 @@
 name: macOS Build
 
 on:
+  workflow_call:
   workflow_dispatch: {}
-  pull_request:
-    branches:
-      - "**"
-    paths:
-      - 'Sources/**'
-      - 'Tests/**'
-      - 'FoundationUI/Sources/**'
-      - 'FoundationUI/Tests/**'
-      - 'FoundationUI/Project.swift'
-      - 'FoundationUI/Package.swift'
-      - 'FoundationUI/Package.resolved'
-      - 'FoundationUI/FoundationUI.xcodeproj/**'
-      - 'FoundationUI/FoundationUI.xcworkspace/**'
-      - 'scripts/**'
-      - '.github/actions/setup-macos-build/**'
-      - '.github/scripts/get-tuist-version.py'
-      - '.github/scripts/macos_artifact_gate.py'
-      - 'Package.swift'
-      - 'Package.resolved'
-      - 'Project.swift'
-      - 'Workspace.swift'
-      - '.tuist-version'
-      - 'ISOInspector.xcodeproj/**'
-      - 'ISOInspector.xcworkspace/**'
-      - '.github/workflows/*.yml'
   push:
     branches:
       - main
@@ -120,7 +96,7 @@ jobs:
           if [ ! -x "${INSTALL_DIR}/tuist" ]; then
             echo "Downloading Tuist ${TUIST_VERSION}"
             tmpdir=$(mktemp -d)
-            curl -fL -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
+            curl -fL --retry 5 --retry-delay 2 --retry-all-errors -o "${tmpdir}/tuist.zip" "https://github.com/tuist/tuist/releases/download/${TUIST_VERSION}/tuist.zip"
             unzip -q "${tmpdir}/tuist.zip" -d "${tmpdir}"
             rsync -a "${tmpdir}/" "${INSTALL_DIR}/"
             chmod +x "${INSTALL_DIR}/tuist"

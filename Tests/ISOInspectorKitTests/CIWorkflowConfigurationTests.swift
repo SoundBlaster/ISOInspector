@@ -10,18 +10,18 @@ final class CIWorkflowConfigurationTests: XCTestCase {
         return url
     }
 
-    func testCIWorkflowFileExistsWithSwiftBuildAndTestSteps() throws {
-        let workflowURL = repositoryRoot.appendingPathComponent(".github", isDirectory: true)
-            .appendingPathComponent("workflows", isDirectory: true).appendingPathComponent(
-                "ci.yml", isDirectory: false)
-        let workflowData = try Data(contentsOf: workflowURL)
-        let workflowContents = String(decoding: workflowData, as: UTF8.self)
+    func testPullRequestsHaveAnAlwaysPresentGateAndLinuxTests() throws {
+        let workflows = repositoryRoot.appendingPathComponent(".github/workflows", isDirectory: true)
+        let gate = try String(contentsOf: workflows.appendingPathComponent("pr-quality-gate.yml"), encoding: .utf8)
+        let linux = try String(contentsOf: workflows.appendingPathComponent("swift-linux.yml"), encoding: .utf8)
 
         XCTAssertTrue(
-            workflowContents.contains("swift build"), "Expected workflow to build the package")
+            linux.contains("swift build"), "Expected Linux workflow to build the package")
         XCTAssertTrue(
-            workflowContents.contains("swift test"), "Expected workflow to run the test suite")
+            linux.contains("swift test"), "Expected Linux workflow to run the test suite")
         XCTAssertTrue(
-            workflowContents.contains("pull_request"), "Workflow should trigger on pull requests")
+            gate.contains("pull_request:"), "Quality gate should trigger on pull requests")
+        XCTAssertTrue(gate.contains("name: PR Quality Gate"))
+        XCTAssertTrue(gate.contains("uses: ./.github/workflows/swift-linux.yml"))
     }
 }

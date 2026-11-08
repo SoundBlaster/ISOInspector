@@ -1,19 +1,8 @@
 name: SwiftLint Code Quality
 
 on:
+  workflow_call:
   workflow_dispatch: {}
-  pull_request:
-    branches:
-      - "**"
-    paths:
-      - 'Sources/**/*.swift'
-      - 'Tests/**/*.swift'
-      - 'FoundationUI/**/*.swift'
-      - 'FoundationUI/.swiftlint.yml'
-      - 'Examples/ComponentTestApp/**/*.swift'
-      - '.swiftlint.yml'
-      - '.github/workflows/swiftlint.yml'
-      - '.github/scripts/swiftlint-linux.sh'
   push:
     branches:
       - main
@@ -33,7 +22,7 @@ permissions:
 
 # Cancel in-progress runs for same branch
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: swiftlint-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -80,6 +69,19 @@ jobs:
               swiftlint lint --strict --baseline .swiftlint.baseline.json --reporter xcode | head -50
             fi
           fi
+
+      - name: Generate main project SARIF report
+        if: always()
+        run: swiftlint lint --strict --baseline .swiftlint.baseline.json --reporter sarif > swiftlint-report.sarif || true
+
+      - name: Upload SwiftLint SARIF report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: swiftlint-sarif-report
+          path: swiftlint-report.sarif
+          if-no-files-found: warn
+          retention-days: 14
 
       - name: Upload SwiftLint Main Project Report
         if: always()
