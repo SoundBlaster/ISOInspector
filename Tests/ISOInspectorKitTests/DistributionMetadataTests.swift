@@ -15,7 +15,7 @@ final class DistributionMetadataTests: XCTestCase {
             metadata.targets.first { $0.platform == .macOS },
             DistributionMetadata.Target(
                 platform: .macOS, productName: "ISOInspector",
-                bundleIdentifier: "ru.egormerkushev.isoinspector.app.mac",
+                bundleIdentifier: "ru.egormerkushev.isoinspector",
                 entitlementsPath: "Distribution/Entitlements/ISOInspectorApp.macOS.entitlements"))
         XCTAssertEqual(
             metadata.targets.first { $0.platform == .iOS },

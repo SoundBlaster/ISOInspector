@@ -8,6 +8,59 @@
     @testable import ISOInspectorApp
 
     @MainActor final class WindowDocumentOpenRaceTests: XCTestCase {
+        func testRecentDocumentResolvesBookmarkBeforeOpening() async {
+            let originalURL = URL(fileURLWithPath: "/tmp/original.mp4")
+            let resolvedURL = URL(fileURLWithPath: "/tmp/resolved.mp4")
+            let bookmark = Data("bookmark".utf8)
+            let opened = expectation(description: "Resolved document opened")
+            let openedURLs = Mutex<[URL]>([])
+            let access = FilesystemAccessStub()
+            access.resolutions[bookmark] = BookmarkResolution(url: resolvedURL, isStale: false)
+            let app = DocumentSessionController(
+                recentsStore: DocumentRecentsStoreStub(initialRecents: []),
+                filesystemAccess: access.makeAccess())
+            let window = WindowSessionController(
+                appSessionController: app,
+                readerFactory: { url in
+                    openedURLs.withLock { $0.append(url) }
+                    opened.fulfill()
+                    return StubRandomAccessReader()
+                }, pipelineFactory: { ParsePipeline(buildStream: { _, _ in .finishedStream }) },
+                filesystemAccess: access.makeAccess())
+            window.openRecent(DocumentRecent(
+                url: originalURL, bookmarkData: bookmark, displayName: "Original", lastOpened: Date()))
+            await fulfillment(of: [opened], timeout: 10)
+            XCTAssertEqual(openedURLs.withLock { $0 }, [resolvedURL])
+        }
+
+        func testRecentDocumentResolvesBookmarkStoredByIdentifier() async throws {
+            let originalURL = URL(fileURLWithPath: "/tmp/stored.mp4")
+            let resolvedURL = URL(fileURLWithPath: "/tmp/stored-resolved.mp4")
+            let bookmark = Data("stored bookmark".utf8)
+            let store = BookmarkPersistenceStoreStub()
+            let record = try store.upsertBookmark(for: originalURL, bookmarkData: bookmark)
+            let opened = expectation(description: "Stored bookmark resolved")
+            let openedURLs = Mutex<[URL]>([])
+            let access = FilesystemAccessStub()
+            access.resolutions[bookmark] = BookmarkResolution(url: resolvedURL, isStale: false)
+            let app = DocumentSessionController(
+                recentsStore: DocumentRecentsStoreStub(initialRecents: []),
+                bookmarkStore: store, filesystemAccess: access.makeAccess())
+            let window = WindowSessionController(
+                appSessionController: app,
+                readerFactory: { url in
+                    openedURLs.withLock { $0.append(url) }
+                    opened.fulfill()
+                    return StubRandomAccessReader()
+                }, pipelineFactory: { ParsePipeline(buildStream: { _, _ in .finishedStream }) },
+                filesystemAccess: access.makeAccess())
+            window.openRecent(DocumentRecent(
+                url: originalURL, bookmarkIdentifier: record.id, bookmarkData: nil,
+                displayName: "Stored", lastOpened: Date()))
+            await fulfillment(of: [opened], timeout: 10)
+            XCTAssertEqual(openedURLs.withLock { $0 }, [resolvedURL])
+        }
+
         func testSupersededRequestDoesNotStartOpening() async {
             let firstURL = URL(fileURLWithPath: "/tmp/not-started.mp4")
             let secondURL = URL(fileURLWithPath: "/tmp/latest.mp4")
