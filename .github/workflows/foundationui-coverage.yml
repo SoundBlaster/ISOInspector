@@ -1,16 +1,10 @@
 name: FoundationUI Code Coverage
 
 on:
-  pull_request:
-    branches:
-      - main
-      - "**"
-    paths:
-      - 'FoundationUI/**/*.swift'
-      - 'FoundationUI/Package.swift'
-      - 'FoundationUI/Tests/**/*.swift'
-      - '.github/workflows/foundationui-coverage.yml'
-      - 'scripts/convert_coverage_to_cobertura.sh'
+  workflow_call:
+    secrets:
+      CODECOV_TOKEN:
+        required: false
   push:
     branches:
       - main
@@ -26,7 +20,7 @@ permissions:
 
 # Cancel in-progress runs for same branch
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: foundationui-coverage-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 env:

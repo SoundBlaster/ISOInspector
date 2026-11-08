@@ -134,7 +134,10 @@ The `SwiftLint Code Quality` workflow uploads JSON reports for each Swift target
 
 ## Test Coverage Gating
 
-The repository enforces a **minimum test coverage threshold of 67%** using a Python-based analysis tool that compares test code lines to source code lines. Coverage is validated at two points:
+CI measures executed-line coverage for ISOInspector and FoundationUI. The
+current per-module thresholds are declared in the relevant workflows. The
+`PR Quality Gate` requires the applicable tests and coverage checks; its
+path-based scope avoids running unrelated jobs.
 
 ### Pre-Push Hook
 
@@ -157,88 +160,17 @@ push stops before running SwiftPM. The `ISOINSPECTOR_SWIFTPM_SCRATCH_PATH`,
 and `ISOINSPECTOR_BUILD_PREFLIGHT` environment variables override those values.
 The configuration file lives in the worktree's Git directory and is not committed.
 
-Before you push code on macOS, the git pre-push hook runs FoundationUI tests and
-checks the source-based coverage estimate:
+Before pushing on macOS, the hook runs FoundationUI tests. It also generates an
+informational test/source line-count ratio using `coverage_analysis.py`. This
+ratio is **not code coverage** and does not enforce a coverage threshold.
 
-```sh
-python3 coverage_analysis.py --threshold 0.67
-```
+### GitHub Actions
 
-If coverage drops below the threshold, the push is blocked:
+- `isoinspector-coverage.yml` measures executed lines for Kit, App, and CLI.
+- `foundationui-coverage.yml` checks Xcode coverage on macOS and iOS.
+- `pr-quality-gate.yml` requires the checks applicable to each pull request.
 
-```
-❌ Test coverage below threshold
-Run: python3 coverage_analysis.py --verbose
-For more details on how to improve test coverage, see:
-Documentation/ISOInspector.docc/Guides/TestingAndCoverage.md
-```
-
-To fix and retry:
-
-```sh
-# Review coverage breakdown
-python3 coverage_analysis.py --verbose
-
-# Add tests for new/modified code
-# Then commit and push again
-git add .
-git commit -m "Add tests to meet coverage threshold"
-git push
-```
-
-### GitHub Actions Workflow
-
-The `coverage-gate.yml` workflow runs on pull requests and pushes to `main`, automatically:
-
-1. Running unit tests with code coverage enabled
-2. Executing the coverage analysis script
-3. Uploading coverage reports as artifacts
-4. Commenting on PRs with coverage results
-5. Failing the workflow if threshold is not met
-
-### Analyzing Coverage
-
-Run the coverage analysis tool locally to understand your coverage:
-
-```sh
-# Basic report
-python3 coverage_analysis.py
-
-# Check if coverage meets threshold (exits with 0 if OK, 1 if below)
-python3 coverage_analysis.py --threshold 0.67
-
-# Save report to file
-python3 coverage_analysis.py --report coverage-report.txt
-
-# Verbose mode with repository detection details
-python3 coverage_analysis.py -v
-```
-
-The report shows:
-
-- **Per-layer analysis** — Coverage breakdown for each FoundationUI layer (DesignTokens, Modifiers, Components, etc.)
-- **Overall ratio** — Total test/code ratio across all layers
-- **Construct count** — Number of functions, structs, classes, enums, etc. per layer
-
-### Updating the Threshold
-
-If project requirements change, update the threshold in three places:
-
-1. **Pre-push hook** — `.githooks/pre-push`:
-   ```bash
-   COVERAGE_THRESHOLD=${ISOINSPECTOR_MIN_TEST_COVERAGE:-0.67}  # Change 0.67
-   ```
-
-2. **GitHub Actions** — `.github/workflows/coverage-gate.yml`:
-   ```yaml
-   python3 coverage_analysis.py --threshold 0.67  # Change 0.67
-   ```
-
-3. **Environment variable** (optional):
-   ```sh
-   export ISOINSPECTOR_MIN_TEST_COVERAGE=0.75
-   git push
-   ```
+See those workflow files for the current thresholds and test commands.
 
 For comprehensive guidance on testing and coverage, see [Testing and Code Coverage Guide](Documentation/ISOInspector.docc/Guides/TestingAndCoverage.md).
 

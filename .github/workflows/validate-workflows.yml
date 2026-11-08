@@ -1,10 +1,7 @@
 name: Validate Workflows
 
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/**/*.yml'
-      - '.github/workflows/**/*.yaml'
+  workflow_call:
   push:
     branches:
       - main

@@ -1,0 +1,241 @@
+name: PR Quality
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, edited]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: pr-quality-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  changes:
+    name: Determine applicable checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      general: ${{ steps.filter.outputs.general }}
+      linux: ${{ steps.filter.outputs.linux }}
+      macos: ${{ steps.filter.outputs.macos }}
+      coverage: ${{ steps.filter.outputs.coverage }}
+      foundationui: ${{ steps.filter.outputs.foundationui }}
+      foundation_coverage: ${{ steps.filter.outputs.foundation_coverage }}
+      lint: ${{ steps.filter.outputs.lint }}
+      duplication: ${{ steps.filter.outputs.duplication }}
+      scripts: ${{ steps.filter.outputs.scripts }}
+      workflows: ${{ steps.filter.outputs.workflows }}
+      mp4ra: ${{ steps.filter.outputs.mp4ra }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            general:
+              - 'Sources/**'
+              - 'Tests/**'
+              - 'FoundationUI/**'
+              - 'scripts/**'
+              - 'coverage_analysis.py'
+              - 'Package.swift'
+              - 'Package.resolved'
+              - 'Project.swift'
+              - 'Workspace.swift'
+              - 'ISOInspector.xcodeproj/**'
+              - 'ISOInspector.xcworkspace/**'
+              - '.github/**'
+            linux:
+              - 'Sources/**'
+              - 'Tests/**'
+              - 'scripts/**'
+              - 'Package.swift'
+              - 'Package.resolved'
+              - 'Project.swift'
+              - 'Workspace.swift'
+              - 'ISOInspector.xcodeproj/**'
+              - 'ISOInspector.xcworkspace/**'
+              - '.github/workflows/**'
+              - '.swiftlint.yml'
+              - '.swiftlint.baseline.json'
+            macos:
+              - 'Sources/**'
+              - 'Tests/**'
+              - 'FoundationUI/Sources/**'
+              - 'FoundationUI/Tests/**'
+              - 'FoundationUI/Project.swift'
+              - 'FoundationUI/Package.swift'
+              - 'FoundationUI/Package.resolved'
+              - 'FoundationUI/FoundationUI.xcodeproj/**'
+              - 'FoundationUI/FoundationUI.xcworkspace/**'
+              - 'scripts/**'
+              - '.github/actions/setup-macos-build/**'
+              - '.github/scripts/get-tuist-version.py'
+              - '.github/scripts/macos_artifact_gate.py'
+              - 'Package.swift'
+              - 'Package.resolved'
+              - 'Project.swift'
+              - 'Workspace.swift'
+              - '.tuist-version'
+              - 'ISOInspector.xcodeproj/**'
+              - 'ISOInspector.xcworkspace/**'
+              - '.github/workflows/**'
+            coverage:
+              - 'Sources/**/*.swift'
+              - 'Tests/**/*.swift'
+              - 'Package.swift'
+              - 'Package.resolved'
+              - 'scripts/isoinspector_coverage.py'
+              - '.github/workflows/isoinspector-coverage.yml'
+              - '.github/workflows/pr-quality-gate.yml'
+            foundationui:
+              - 'FoundationUI/**'
+              - 'Examples/ComponentTestApp/**'
+              - 'Workspace.swift'
+              - '.github/workflows/foundationui.yml'
+              - '.github/workflows/pr-quality-gate.yml'
+            foundation_coverage:
+              - 'FoundationUI/**/*.swift'
+              - 'FoundationUI/Package.swift'
+              - 'FoundationUI/Package.resolved'
+              - 'FoundationUI/Tests/**/*.swift'
+              - 'scripts/convert_coverage_to_cobertura.sh'
+              - 'scripts/check_coverage_threshold.py'
+              - '.github/workflows/foundationui-coverage.yml'
+              - '.github/workflows/pr-quality-gate.yml'
+            lint:
+              - 'Sources/**/*.swift'
+              - 'Tests/**/*.swift'
+              - 'FoundationUI/**/*.swift'
+              - 'FoundationUI/.swiftlint.yml'
+              - 'Examples/ComponentTestApp/**/*.swift'
+              - '.swiftlint.yml'
+              - '.swiftlint.baseline.json'
+              - '.github/workflows/swiftlint.yml'
+              - '.github/scripts/swiftlint-linux.sh'
+              - '.github/workflows/pr-quality-gate.yml'
+            duplication:
+              - 'Sources/**/*.swift'
+              - 'Tests/**/*.swift'
+              - 'FoundationUI/**/*.swift'
+              - 'Examples/ComponentTestApp/**/*.swift'
+              - 'scripts/run_swift_duplication_check.sh'
+              - '.jscpd.json'
+              - '.github/workflows/swift-duplication.yml'
+              - '.github/workflows/pr-quality-gate.yml'
+            scripts:
+              - 'scripts/**'
+              - 'coverage_analysis.py'
+              - '.github/scripts/**'
+              - '.githooks/**'
+              - '.github/workflows/script-tests.yml'
+              - '.github/workflows/pr-quality-gate.yml'
+            workflows:
+              - '.github/workflows/**'
+            mp4ra:
+              - 'Sources/ISOInspectorKit/Resources/MP4RABoxes.json'
+              - 'scripts/validate_mp4ra_minimal.py'
+              - '.github/workflows/validate-mp4ra-minimal.yml'
+              - '.github/workflows/pr-quality-gate.yml'
+
+  general:
+    needs: changes
+    permissions:
+      contents: read
+      pull-requests: read
+    if: ${{ needs.changes.outputs.general == 'true' }}
+    uses: ./.github/workflows/ci.yml
+
+  linux:
+    needs: changes
+    permissions:
+      contents: read
+    if: ${{ needs.changes.outputs.linux == 'true' }}
+    uses: ./.github/workflows/swift-linux.yml
+
+  macos:
+    needs: changes
+    permissions:
+      contents: read
+    if: ${{ needs.changes.outputs.macos == 'true' }}
+    uses: ./.github/workflows/macos.yml
+
+  coverage:
+    needs: changes
+    permissions:
+      contents: read
+    if: ${{ needs.changes.outputs.coverage == 'true' }}
+    uses: ./.github/workflows/isoinspector-coverage.yml
+
+  foundationui:
+    needs: changes
+    permissions:
+      contents: read
+      pull-requests: write
+    if: ${{ needs.changes.outputs.foundationui == 'true' }}
+    uses: ./.github/workflows/foundationui.yml
+
+  foundation_coverage:
+    needs: changes
+    permissions:
+      contents: read
+      pull-requests: write
+    if: ${{ needs.changes.outputs.foundation_coverage == 'true' }}
+    uses: ./.github/workflows/foundationui-coverage.yml
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  lint:
+    needs: changes
+    permissions:
+      contents: read
+      pull-requests: write
+    if: ${{ needs.changes.outputs.lint == 'true' }}
+    uses: ./.github/workflows/swiftlint.yml
+
+  duplication:
+    needs: changes
+    permissions:
+      contents: read
+    if: ${{ needs.changes.outputs.duplication == 'true' }}
+    uses: ./.github/workflows/swift-duplication.yml
+
+  scripts:
+    needs: changes
+    permissions:
+      contents: read
+    if: ${{ needs.changes.outputs.scripts == 'true' }}
+    uses: ./.github/workflows/script-tests.yml
+
+  workflows:
+    needs: changes
+    permissions:
+      contents: read
+    if: ${{ needs.changes.outputs.workflows == 'true' }}
+    uses: ./.github/workflows/validate-workflows.yml
+
+  mp4ra:
+    needs: changes
+    permissions:
+      contents: read
+    if: ${{ needs.changes.outputs.mp4ra == 'true' }}
+    uses: ./.github/workflows/validate-mp4ra-minimal.yml
+
+  quality-gate:
+    name: PR Quality Gate
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    needs: [changes, general, linux, macos, coverage, foundationui, foundation_coverage, lint, duplication, scripts, workflows, mp4ra]
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require all applicable checks
+        env:
+          NEEDS_JSON: ${{ toJSON(needs) }}
+        run: python3 .github/scripts/pr_quality_gate.py

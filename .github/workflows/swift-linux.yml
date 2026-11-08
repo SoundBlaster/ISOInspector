@@ -1,6 +1,7 @@
 name: Swift (Linux)
 
 on:
+  workflow_call:
   push:
     branches:
       - main
@@ -15,21 +16,6 @@ on:
       - 'ISOInspector.xcodeproj/**'
       - 'ISOInspector.xcworkspace/**'
       - '.github/workflows/*.yml'
-  pull_request:
-    branches:
-      - '**'
-    paths:
-      - 'Sources/**'
-      - 'Tests/**'
-      - 'scripts/**'
-      - 'Package.swift'
-      - 'Package.resolved'
-      - 'Project.swift'
-      - 'Workspace.swift'
-      - 'ISOInspector.xcodeproj/**'
-      - 'ISOInspector.xcworkspace/**'
-      - '.github/workflows/*.yml'
-
 jobs:
   lint-build-test:
     name: SwiftLint, Build, Test & Coverage (Linux)
@@ -53,11 +39,6 @@ jobs:
             git --no-pager diff --name-only
             exit 1
           fi
-
-      - name: SwiftLint (verify)
-        run: |
-          docker run --rm -u "$(id -u):$(id -g)" -v "$PWD:/work" -w /work ghcr.io/realm/swiftlint:0.57.0 \
-            swiftlint lint --strict --no-cache --config .swiftlint.yml --baseline .swiftlint.baseline.json
 
       - name: Cache SwiftPM build artifacts
         uses: actions/cache@v4

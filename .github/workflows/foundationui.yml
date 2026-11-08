@@ -1,21 +1,8 @@
 name: FoundationUI CI
 
 on:
+  workflow_call:
   workflow_dispatch: {}
-  pull_request:
-    branches:
-      - "**"
-    paths:
-      - 'FoundationUI/**/*.swift'
-      - 'FoundationUI/Package.swift'
-      - 'FoundationUI/Tests/**/*.swift'
-      - 'FoundationUI/DOCS/**/*.md'
-      - 'FoundationUI/**/Project.swift'
-      - 'FoundationUI/**/Documentation.docc/**/*.md'
-      - 'Examples/ComponentTestApp/**/*.swift'
-      - 'Examples/ComponentTestApp/**/Project.swift'
-      - 'Workspace.swift'
-      - '.github/workflows/foundationui.yml'
   push:
     branches:
       - main
